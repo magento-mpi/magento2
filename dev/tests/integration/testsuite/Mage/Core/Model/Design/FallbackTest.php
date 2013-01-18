@@ -71,13 +71,13 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->getFirstItem();
 
         // Build model
-        $params = array(
+        $designParams = array(
             'area'       => $area,
             'locale'     => $locale,
             'themeModel' => $themeModel,
         );
 
-        return new Mage_Core_Model_Design_Fallback($dirs, $params);
+        return new Mage_Core_Model_Design_Fallback($dirs, $designParams);
     }
 
     /**

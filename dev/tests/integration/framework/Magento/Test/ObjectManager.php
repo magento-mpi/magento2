@@ -9,17 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Test_ObjectManager extends Magento_ObjectManager_Zend
+class Magento_Test_ObjectManager extends Mage_Core_Model_ObjectManager
 {
     /**
-     * @param string $definitionsFile
+     * @param Magento_ObjectManager_Configuration $config
+     * @param string $baseDir
      * @param Zend\Di\Di $diInstance
      */
-    public function __construct($definitionsFile = null, Zend\Di\Di $diInstance = null)
+    public function __construct(Magento_ObjectManager_Configuration $config, $baseDir, Zend\Di\Di $diInstance = null)
     {
         $diInstance = $diInstance ? $diInstance : new Magento_Di();
         $diInstance->setInstanceManager(new Magento_Test_Di_InstanceManager());
-        parent::__construct($definitionsFile, $diInstance);
+        parent::__construct($config, $baseDir, $diInstance);
     }
 
     /**

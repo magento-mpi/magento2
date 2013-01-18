@@ -29,14 +29,12 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
     protected $_runtimeValidation;
 
     /**
-     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Backend_Model_Config_Structure_Converter $structureConverter
      * @param bool $runtimeValidation
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
         Mage_Core_Model_Cache $cache,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Backend_Model_Config_Structure_Converter $structureConverter,

@@ -483,7 +483,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
                 ? ':'. $hostArr[1]
                 : '';
-            $path = $this->_app->getRequest()->getBasePath();
+            $path = Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http')->getBasePath();
 
             return $scheme . $host . $port . rtrim($path, '/') . '/';
         }

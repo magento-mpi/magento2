@@ -43,14 +43,14 @@ class Mage_Core_Model_Event_ManagerStub extends Mage_Core_Model_Event_Manager
      * Stub dispatch event
      *
      * @param string $eventName
-     * @param array $params
+     * @param array $data
      * @return Mage_Core_Model_App|null
      */
-    public function dispatch($eventName, $params)
+    public function dispatch($eventName, array $data = array())
     {
         switch ($eventName) {
             case 'cms_controller_router_match_before' :
-                $params['condition']->setRedirectUrl('http://www.example.com/');
+                $data['condition']->setRedirectUrl('http://www.example.com/');
                 break;
         }
 

@@ -54,8 +54,12 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     protected function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_runOptions[Mage_Core_Model_App::INIT_OPTION_REQUEST]  = $this->getRequest();
-        $this->_runOptions[Mage_Core_Model_App::INIT_OPTION_RESPONSE] = $this->getResponse();
+        $this->_objectManager->configure(array(
+            'preferences' => array(
+                'Mage_Core_Controller_Request_Http' => 'Magento_Test_Request',
+                'Mage_Core_Controller_Response_Http' => 'Magento_Test_Response',
+            )
+        ));
     }
 
     protected function tearDown()

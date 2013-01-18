@@ -179,7 +179,7 @@ class Magento_Test_Bootstrap
         $this->_installEtcDir = "{$installDir}/etc";
 
         $this->_initParams = array(
-            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+            Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::CONFIG => $this->_installEtcDir,
                 Mage_Core_Model_Dir::VAR_DIR => $installDir,
                 Mage_Core_Model_Dir::MEDIA => "{$installDir}/media",
@@ -228,19 +228,17 @@ class Magento_Test_Bootstrap
      */
     protected function _initialize($initParams)
     {
+        $initParams[Mage::PARAM_BASEDIR] = BP;
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
         Mage::$headersSentThrowsException = false;
+        $config = new Mage_Core_Model_ObjectManager_Config(
+            $initParams
+        );
         if (!Mage::getObjectManager()) {
             /** @var $app Mage_Core_Model_App */
-            new Mage_Core_Model_ObjectManager_Http(
-                BP,
-                isset($initParams['MAGE_RUN_CODE']) ? $initParams['MAGE_RUN_CODE'] : '',
-                isset($initParams['MAGE_RUN_TYPE']) ? $initParams['MAGE_RUN_TYPE'] : 'store',
-                isset($initParams['app_dirs']) ? $initParams['app_dirs'] : array(),
-                isset($initParams['app_uris']) ? $initParams['app_uris'] : array(),
-                isset($initParams['cache_options']) ? $initParams['cache_options'] : array(),
-                isset($initParams['global_ban_use_cache']) ? $initParams['global_ban_use_cache'] : false
-            );
+            new Magento_Test_ObjectManager($config, BP);
+        } else {
+            $config->configure(Mage::getObjectManager());
         }
     }
 

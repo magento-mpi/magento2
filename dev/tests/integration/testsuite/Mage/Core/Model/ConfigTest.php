@@ -54,7 +54,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testLoadBaseLocalConfig($etcDir, array $configOptions, $expectedValue,
         $expectedNode = 'global/resources/core_setup/connection/model'
     ) {
-        $configOptions[Mage_Core_Model_App::INIT_OPTION_DIRS] = array(
+        $configOptions[Mage::PARAM_APP_DIRS] = array(
             Mage_Core_Model_Dir::CONFIG => __DIR__ . "/_files/local_config/{$etcDir}",
         );
         $model = $this->_createModelWithApp($configOptions);
@@ -90,12 +90,12 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ),
             'no local config file & custom config file' => array(
                 'no_local_config',
-                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml'),
+                array(Mage::PARAM_CUSTOM_LOCAL_FILE => 'custom/local.xml'),
                 'b',
             ),
             'no local config file & custom config data' => array(
                 'no_local_config',
-                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $extraConfigData),
+                array(Mage::PARAM_CUSTOM_LOCAL_CONFIG => $extraConfigData),
                 'overridden',
             ),
             'local config file & no custom config file' => array(
@@ -105,24 +105,25 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ),
             'local config file & custom config file' => array(
                 'local_config',
-                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml'),
+                array(Mage::PARAM_CUSTOM_LOCAL_FILE => 'custom/local.xml'),
                 'custom',
             ),
             'local config file & prohibited custom config file' => array(
                 'local_config',
-                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/prohibited.filename.xml'),
+                array(Mage::PARAM_CUSTOM_LOCAL_FILE => 'custom/prohibited.filename.xml'),
                 'local',
             ),
             'local config file & custom config data' => array(
                 'local_config',
-                array(Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $extraConfigData),
+                array(
+                    Mage::PARAM_CUSTOM_LOCAL_CONFIG => $extraConfigData),
                 'overridden',
             ),
             'local config file & custom config file & custom config data' => array(
                 'local_config',
                 array(
-                    Mage_Core_Model_Config::INIT_OPTION_EXTRA_FILE => 'custom/local.xml',
-                    Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $extraConfigData,
+                    Mage::PARAM_CUSTOM_LOCAL_FILE => 'custom/local.xml',
+                    Mage::PARAM_CUSTOM_LOCAL_CONFIG => $extraConfigData,
                 ),
                 'overridden',
             ),
@@ -136,8 +137,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         }
 
         $options = array(
-            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
+            Mage::PARAM_CUSTOM_LOCAL_CONFIG
+                => sprintf(Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
         );
         $model = $this->_createModelWithApp($options);
 
@@ -148,8 +149,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testLoadBaseInstallDateInvalid()
     {
         $options = array(
-            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
+            Mage::PARAM_CUSTOM_LOCAL_CONFIG
+                => sprintf(Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
         );
         $model = $this->_createModelWithApp($options);
 
@@ -160,7 +161,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testLoadLocales()
     {
         $options = array(
-            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+            Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::LOCALE => __DIR__ . '/_files/locale',
             )
         );
@@ -177,8 +178,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testLoadModulesCache()
     {
         $options = array(
-            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
-                => sprintf(Mage_Core_Model_Config::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
+            Mage::PARAM_CUSTOM_LOCAL_CONFIG
+                => sprintf(Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
         );
         $model = $this->_createModelWithApp($options);
 
@@ -203,7 +204,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testLoadModulesLocalConfigPrevails()
     {
         $options = array(
-            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA
+            Mage::PARAM_CUSTOM_LOCAL_CONFIG
                 => '<config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>'
         );
         $model = $this->_createModelWithApp($options);
@@ -249,10 +250,10 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testReinitBaseConfig()
     {
-        $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>old_value</test></config>';
+        $options[Mage::PARAM_CUSTOM_LOCAL_CONFIG] = '<config><test>old_value</test></config>';
 
-        $objectManager = new Magento_Test_ObjectManager();
-        $model = $this->_createModelWithApp($options, $objectManager);
+        $objectManager = new Magento_Test_ObjectManager(new Mage_Core_Model_ObjectManager_Config($options), BP);
+        $model = $objectManager->get('Mage_Core_Model_Config');
 
         /** @var $app Mage_Core_Model_App */
         $app = $objectManager->get('Mage_Core_Model_App');
@@ -260,7 +261,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $model->loadBase();
         $this->assertEquals('old_value', $model->getNode('test'));
 
-        $options[Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA] = '<config><test>new_value</test></config>';
+        $options[Mage::PARAM_CUSTOM_LOCAL_CONFIG] = '<config><test>new_value</test></config>';
         $app->init($options);
 
         $model->reinit();
