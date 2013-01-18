@@ -15,14 +15,11 @@
     <!-- Preview printed template layout-->
     <saas_printed_template_preview>
         <reference name="head">
-            <!-- prototype should be replaced by jquery -->
             <action method="addJs"><file>prototype/prototype.js</file></action>
-            <!-- <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action> -->
         </reference>
 
-        <!-- add jquery to preview page -->
         <block type="Saas_PrintedTemplate_Block_Adminhtml_Template_Preview"
-            name="root" output="toHtml" template="Saas_PrintedTemplate::preview.phtml"/>
+            name="root" output="1" template="Saas_PrintedTemplate::preview.phtml"/>
 
     </saas_printed_template_preview>
 

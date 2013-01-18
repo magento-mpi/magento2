@@ -32,11 +32,18 @@ $product->setTypeId('simple')
     ->save();
 
 $addressData = include(__DIR__ . '/address_data.php');
-$billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address', array('data' => $addressData));
-$billingAddress->setAddressType('billing');
+$billingQuoteAddress = Mage::getModel('Mage_Sales_Model_Quote_Address', array('data' => $addressData));
+$billingQuoteAddress->setAddressType('billing');
 
-$shippingAddress = clone $billingAddress;
-$shippingAddress->setId(null)
+$shippingQuoteAddress = clone $billingQuoteAddress;
+$shippingQuoteAddress->setId(null)
+    ->setAddressType('shipping');
+
+$billingOrderAddress = Mage::getModel('Mage_Sales_Model_Order_Address', array('data' => $addressData));
+$billingOrderAddress->setAddressType('billing');
+
+$shippingOrderAddress = clone $billingOrderAddress;
+$shippingOrderAddress->setId(null)
     ->setAddressType('shipping');
 
 $payment = Mage::getModel('Mage_Sales_Model_Order_Payment');
@@ -46,8 +53,8 @@ $quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setCustomerIsGuest(true)
     ->setStoreId(Mage::app()->getStore()->getId())
     ->setReservedOrderId('test01')
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
+    ->setBillingAddress($billingQuoteAddress)
+    ->setShippingAddress($shippingQuoteAddress)
     ->addProduct($product)
     ->setPayment($payment);
 
@@ -61,8 +68,8 @@ $order->setIncrementId('100000001')
     ->setConvertingFromQuote(true)
     ->setAppliedTaxDetailsIsSaved(false)
     ->setCustomerIsGuest(true)
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
+    ->setBillingAddress($billingOrderAddress)
+    ->setShippingAddress($shippingOrderAddress)
     ->setStoreId(Mage::app()->getStore()->getId())
     ->setQuote($quote)
     ->setPayment($payment);
