@@ -9,16 +9,10 @@
  */
 
 require_once __DIR__ . '/../../app/bootstrap.php';
-/** @var $app Mage_Core_Model_App */
-$app = Mage::getObjectManager()->get('Mage_Core_Model_App');
-$app->init(array(
+$params = array(
     Mage::PARAM_RUN_CODE => 'admin',
     Mage::PARAM_RUN_TYPE => 'store',
-));
-
-/** @var $shell Mage_Index_Model_Shell */
-$shell = Mage::getModel('Mage_Index_Model_Shell', array('entryPoint' => basename(__FILE__)));
-$shell->run();
-if ($shell->hasErrors()) {
-    exit(1);
-}
+    'entryPoint' => basename(__FILE__),
+);
+$entryPoint = new Mage_Index_Model_EntryPoint_Shell(BP, $params);
+$entryPoint->processRequest();
