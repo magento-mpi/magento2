@@ -87,6 +87,13 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected $_isObjectNew = null;
 
     /**
+     * Validator for checking the model state before saving it
+     *
+     * @var Zend_Validate|bool|null
+     */
+    protected $_validatorBeforeSave = null;
+
+    /**
      * Application Event Dispatcher
      *
      * @var Mage_Core_Model_Event_Manager
@@ -337,6 +344,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         $this->_getResource()->beginTransaction();
         try {
+            $this->_validateBeforeSave();
             $this->_beforeSave();
             if ($this->_dataSaveAllowed) {
                 $this->_getResource()->save($this);
@@ -397,19 +405,18 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         $this->_eventDispatcher->dispatch('model_save_before', array('object'=>$this));
         $this->_eventDispatcher->dispatch($this->_eventPrefix . '_save_before', $this->_getEventData());
-        $this->validateEntity();
         return $this;
     }
 
     /**
-     * Validate model against the validation rules, declared in it and its resource model
+     * Validate model before saving it
      *
      * @return Mage_Core_Model_Abstract
      * @throws Mage_Core_Exception
      */
-    public function validateEntity()
+    protected function _validateBeforeSave()
     {
-        $validator = $this->_getEntityValidator();
+        $validator = $this->_getValidatorBeforeSave();
         if ($validator && !$validator->isValid($this)) {
             $errors = $validator->getMessages();
             $exception = new Mage_Core_Exception(implode(PHP_EOL, $errors));
@@ -423,19 +430,33 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
 
     /**
      * Returns validator, which contains all rules to validate this model.
-     * Returns NULL, if no validation rules exist.
+     * Returns FALSE, if no validation rules exist.
      *
-     * @return Zend_Validate_Interface|null
+     * @return Zend_Validate|false
      */
-    protected function _getEntityValidator()
+    protected function _getValidatorBeforeSave()
     {
-        $modelRules = $this->_getEntityValidateRules();
-        $resourceRules = $this->_getResource()->getEntityValidateRules();
+        if ($this->_validatorBeforeSave === null) {
+            $this->_validatorBeforeSave = $this->_createValidatorBeforeSave();
+        }
+        return $this->_validatorBeforeSave;
+    }
+
+    /**
+     * Creates validator for the model with all validation rules in it.
+     * Returns FALSE, if no validation rules exist.
+     *
+     * @return Zend_Validate|bool
+     */
+    protected function _createValidatorBeforeSave()
+    {
+        $modelRules = $this->_getValidationRulesBeforeSave();
+        $resourceRules = $this->_getResource()->getValidationRulesBeforeSave();
         if (!$modelRules && !$resourceRules) {
-            return null;
+            return false;
         }
 
-        $validator = new Zend_Validate();
+        $validator = new Zend_Validate;
         if ($modelRules) {
             $validator->addValidator($modelRules);
         }
@@ -450,7 +471,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      *
      * @return Zend_Validate_Interface|null
      */
-    protected function _getEntityValidateRules()
+    protected function _getValidationRulesBeforeSave()
     {
         return null;
     }

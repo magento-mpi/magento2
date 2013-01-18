@@ -9,9 +9,10 @@
  */
 
 /**
- * Entity validator encapsulates validation rules both for individual entity fields and an entity as a whole
+ * Validator encapsulates multiple validation rules for Varien_Object.
+ * Able to validate both individual fields and a whole object.
  */
-class Mage_Core_Model_Validator_Entity implements Zend_Validate_Interface
+class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interface
 {
     /**
      * Validation rules per scope (particular fields or entire entity)
@@ -32,7 +33,7 @@ class Mage_Core_Model_Validator_Entity implements Zend_Validate_Interface
      *
      * @param Zend_Validate_Interface $validator
      * @param string $fieldName Field name to apply validation to, or empty value to validate entity as a whole
-     * @return Mage_Core_Model_Validator_Entity
+     * @return Magento_Validator_Composite_VarienObject
      */
     public function addRule(Zend_Validate_Interface $validator, $fieldName = '')
     {
@@ -51,7 +52,7 @@ class Mage_Core_Model_Validator_Entity implements Zend_Validate_Interface
      *
      * @throws Mage_Core_Exception
      */
-    public function isValid(Varien_Object $entity)
+    public function isValid($entity)
     {
         $this->_messages = array();
         /** @var $validator Zend_Validate */

@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Validator_EntityTest extends PHPUnit_Framework_TestCase
+class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Validator_Entity
+     * @var Magento_Validator_Composite_VarienObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Model_Validator_Entity();
+        $this->_model = new Magento_Validator_Composite_VarienObject();
 
         $fieldOneExactValue = new Zend_Validate_Identical('field_one_value');
         $fieldOneExactValue->setMessage("'field_one' does not match expected value");
@@ -64,23 +64,20 @@ class Mage_Core_Model_Validator_EntityTest extends PHPUnit_Framework_TestCase
      * @param array $expectedErrors
      * @dataProvider validateDataProvider
      */
-    public function testValidate(array $inputEntityData, array $expectedErrors)
+    public function testIsValid(array $inputEntityData, array $expectedErrors)
     {
-        try {
-            $entity = new Varien_Object($inputEntityData);
-            $this->_model->validate($entity);
-            $this->fail('Validation is expected to fail.');
-        } catch (Mage_Core_Exception $e) {
-            $actualMessages = $e->getMessages();
-            $this->assertCount(
-                count($expectedErrors), $actualMessages, 'Number of messages does not meet expectations.'
-            );
-            foreach ($expectedErrors as $errorIndex => $expectedErrorMessage) {
-                /** @var $actualMessage Mage_Core_Model_Message_Abstract */
-                $actualMessage = $actualMessages[$errorIndex];
-                $this->assertInstanceOf('Mage_Core_Model_Message_Error', $actualMessage);
-                $this->assertEquals($expectedErrorMessage, $actualMessage->getText());
-            }
+        $entity = new Varien_Object($inputEntityData);
+        $isValid = $this->_model->isValid($entity);
+        $this->assertFalse($isValid, 'Validation is expected to fail.');
+
+        $actualMessages = $this->_model->getMessages();
+        $this->assertCount(
+            count($expectedErrors), $actualMessages, 'Number of messages does not meet expectations.'
+        );
+        foreach ($expectedErrors as $errorIndex => $expectedErrorMessage) {
+            /** @var $actualMessage Mage_Core_Model_Message_Abstract */
+            $actualMessage = $actualMessages[$errorIndex];
+            $this->assertEquals($expectedErrorMessage, $actualMessage);
         }
     }
 

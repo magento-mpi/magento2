@@ -91,7 +91,7 @@ class Mage_User_Model_User
     protected $_mailer;
 
     /**
-     * @var Mage_Core_Model_Validator_Entity
+     * @var Magento_Validator_Composite_VarienObject
      */
     private $_beforeSaveValidator;
 
@@ -154,7 +154,7 @@ class Mage_User_Model_User
      *
      * @return Zend_Validate_Interface
      */
-    protected function _getEntityValidateRules()
+    protected function _getValidationRulesBeforeSave()
     {
         $userNameNotEmpty = new Zend_Validate_NotEmpty();
         $userNameNotEmpty->setMessage(
@@ -177,8 +177,8 @@ class Mage_User_Model_User
             Zend_Validate_EmailAddress::INVALID
         );
 
-        /** @var $validator Mage_Core_Model_Validator_Entity */
-        $validator = Mage::getModel('Mage_Core_Model_Validator_Entity');
+        /** @var $validator Magento_Validator_Composite_VarienObject */
+        $validator = Mage::getModel('Magento_Validator_Composite_VarienObject');
         $validator
             ->addRule($userNameNotEmpty, 'username')
             ->addRule($firstNameNotEmpty, 'firstname')
@@ -195,9 +195,9 @@ class Mage_User_Model_User
     /**
      * Add validation rules for the password management fields
      *
-     * @param Mage_Core_Model_Validator_Entity $validator
+     * @param Magento_Validator_Composite_VarienObject $validator
      */
-    protected function _addPasswordValidation(Mage_Core_Model_Validator_Entity $validator)
+    protected function _addPasswordValidation(Magento_Validator_Composite_VarienObject $validator)
     {
         $passwordNotEmpty = new Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(

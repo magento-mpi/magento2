@@ -439,7 +439,7 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
      *
      * @return Zend_Validate_Interface $validator
      */
-    public function getEntityValidateRules()
+    public function getValidationRulesBeforeSave()
     {
         $userIdentity = new Zend_Validate_Callback(array($this, 'isUserUnique'));
         $userIdentity->setMessage(
@@ -452,8 +452,8 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
             $this->getMessageUserCreationProhibited(), Zend_Validate_Callback::INVALID_VALUE
         );
 
-        /** @var $validator Mage_Core_Model_Validator_Entity */
-        $validator = Mage::getModel('Mage_Core_Model_Validator_Entity');
+        /** @var $validator Magento_Validator_Composite_VarienObject */
+        $validator = new Magento_Validator_Composite_VarienObject;
         $validator
             ->addRule($userIdentity)
             ->addRule($userSavingAllowance)

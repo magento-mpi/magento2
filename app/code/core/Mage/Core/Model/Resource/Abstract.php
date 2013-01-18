@@ -227,11 +227,11 @@ abstract class Mage_Core_Model_Resource_Abstract
     }
 
     /**
-     * Template method to return validate rules for the entity
+     * Template method to return validate rules to be executed before entity is saved
      *
      * @return Zend_Validate_Interface|null
      */
-    public function getEntityValidateRules()
+    public function getValidationRulesBeforeSave()
     {
         return null;
     }
