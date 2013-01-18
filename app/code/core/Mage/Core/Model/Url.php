@@ -113,6 +113,13 @@ class Mage_Core_Model_Url extends Varien_Object
     protected $_request;
 
     /**
+     * Store object
+     *
+     * @var Mage_Core_Model_Store
+     */
+    protected $_store;
+
+    /**
      * Use Session ID for generate URL
      *
      * @var bool
@@ -121,10 +128,13 @@ class Mage_Core_Model_Url extends Varien_Object
 
     /**
      * Initialize object
+     *
+     * @param array $data
      */
-    protected function _construct()
+    public function __construct(array $data = array())
     {
         $this->setStore(null);
+        $this->_request = Mage::app()->getRequest();
     }
 
     /**
@@ -254,6 +264,7 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function setRequest(Zend_Controller_Request_Http $request)
     {
+        $this->unsetData();
         $this->_request = $request;
         return $this;
     }
@@ -265,9 +276,6 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getRequest()
     {
-        if (!$this->_request) {
-            $this->_request = Mage::app()->getRequest();
-        }
         return $this->_request;
     }
 
@@ -323,7 +331,8 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function setStore($params)
     {
-        $this->setData('store', Mage::app()->getStore($params));
+        $this->unsetData();
+        $this->_store = Mage::app()->getStore($params);
         return $this;
     }
 
@@ -334,10 +343,7 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getStore()
     {
-        if (!$this->hasData('store')) {
-            $this->setStore(null);
-        }
-        return $this->_getData('store');
+        return $this->_store;
     }
 
     /**
@@ -995,7 +1001,7 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->unsetData('query_params');
         }
 
-        if ($fragment !== null) {
+        if (!is_null($fragment)) {
             $url .= '#' . $fragment;
         }
 
@@ -1122,7 +1128,7 @@ class Mage_Core_Model_Url extends Varien_Object
         $key = 'use_session_id_for_url_' . (int) $secure;
         if (is_null($this->getData($key))) {
             $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
-            $urlHost = parse_url(Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure),
+            $urlHost = parse_url($this->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure),
                 PHP_URL_HOST);
 
             if ($httpHost != $urlHost) {
