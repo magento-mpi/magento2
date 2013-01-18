@@ -59,7 +59,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_prepareApp(false);
+        $this->_prepareApp('global_ban_use_cache', false);
         $this->_objectManager = $this->getMock(
             'Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false
         );
@@ -100,14 +100,16 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     /**
      * Create application mock
      *
-     * @param bool $returnInitParam
+     * @param string $initParam
+     * @param mixed $initValue
      */
-    protected function _prepareApp($returnInitParam)
+    protected function _prepareApp($initParam, $initValue)
     {
         $this->_app = $this->getMock('Mage_Core_Model_App', array('getInitParam'), array(), '', false);
         $this->_app->expects($this->any())
             ->method('getInitParam')
-            ->will($this->returnValue($returnInitParam));
+            ->with($initParam)
+            ->will($this->returnValue($initValue));
     }
 
     /**
@@ -350,7 +352,7 @@ XML
 
     public function testCanUseBanCache()
     {
-        $this->_prepareApp(true);
+        $this->_prepareApp('global_ban_use_cache', true);
         $this->_emulateCacheTypeOptions();
         $this->assertEquals(array('config' => false), $this->_model->canUse(''));
         $this->assertFalse($this->_model->canUse('config'));
