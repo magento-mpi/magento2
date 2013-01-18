@@ -53,7 +53,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
             'label'    => $this->__('Select JS Files to Upload'),
             'title'    => $this->__('Select JS Files to Upload'),
             'accept'   => 'application/x-javascript',
-            'multiple' => ''
+            'multiple' => '',
+            'note'     => $this->_getUploadJsFileNote()
         ));
 
         $themeFieldset->addField('js_uploader_button', 'button', array(
@@ -136,5 +137,19 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     public function getJsUploadUrl()
     {
         return $this->getUrl('*/system_design_theme/uploadjs', array('id' => $this->_getCurrentTheme()->getId()));
+    }
+
+    /**
+     * Get note string for js file to Upload
+     *
+     * @return string
+     */
+    protected function _getUploadJsFileNote()
+    {
+        $messages = array(
+            $this->__('Allowed file types *.js.'),
+        );
+
+        return implode('<br />', $messages);
     }
 }
