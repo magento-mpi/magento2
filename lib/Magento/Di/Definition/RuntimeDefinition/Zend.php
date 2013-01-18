@@ -20,16 +20,16 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
     protected $_classGenerator;
 
     /**
-     * @param Zend\Di\Definition\IntrospectionStrategy $introspectionStrategy
+     * @param Zend\Di\Definition\IntrospectionStrategy $strategy
      * @param array $explicitClasses
      * @param Magento_Di_Generator_Class $classGenerator
      */
     public function __construct(
-        IntrospectionStrategy $introspectionStrategy = null,
+        IntrospectionStrategy $strategy = null,
         array $explicitClasses = null,
         Magento_Di_Generator_Class $classGenerator = null
     ) {
-        parent::__construct($introspectionStrategy, $explicitClasses);
+        parent::__construct($strategy, $explicitClasses);
         $this->_classGenerator = $classGenerator ?: new Magento_Di_Generator_Class();
     }
 

@@ -22,13 +22,13 @@ class Magento_Di_Definition_CompilerDefinition_Zend extends Zend\Di\Definition\C
 
     /**
      * @param Magento_Di_Generator_Class $classGenerator
-     * @param Zend\Di\Definition\IntrospectionStrategy $introspectionStrategy
+     * @param Zend\Di\Definition\IntrospectionStrategy $strategy
      */
     public function __construct(
-        IntrospectionStrategy $introspectionStrategy = null,
+        IntrospectionStrategy $strategy = null,
         Magento_Di_Generator_Class $classGenerator = null
     ) {
-        parent::__construct($introspectionStrategy);
+        parent::__construct($strategy);
         $this->_classGenerator = $classGenerator ?: new Magento_Di_Generator_Class();
     }
 
