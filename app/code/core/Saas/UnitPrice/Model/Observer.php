@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
-
+ *
  * @category    Saas
  * @package     Saas_UnitPrice
  * @copyright   {copyright}
@@ -20,10 +20,13 @@ class Saas_UnitPrice_Model_Observer
      * Set the default value on a product in the admin interface
      *
      * @param Varien_Event_Observer $observer
+     * @return Saas_UnitPrice_Model_Observer
      */
     public function catalogProductLoadAfter($observer)
     {
-        if (! $this->_getSaasUnitPriceHelperData()->moduleActive()) return;
+        if (!$this->_getSaasUnitPriceHelperData()->moduleActive()) {
+            return $this;
+        }
 
         $product = $observer->getProduct();
         foreach (array('unit_price_amount', 'unit_price_unit', 'unit_price_base_amount', 'unit_price_base_unit')
@@ -35,6 +38,8 @@ class Saas_UnitPrice_Model_Observer
                 $product->setDataUsingMethod($attributeCode, $attribute->getFrontend()->getValue($product));
             }
         }
+
+        return $this;
     }
 
     /**
