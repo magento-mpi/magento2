@@ -185,15 +185,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
     public function getGroupedFilesProvider()
     {
         $options = Mage::getObjectManager()->get('Mage_Core_Model_Config')->getOptions();
-        $designDir = $options->getDesignDir();
-        $jsDir = $options->getJsDir();
-        $codeDir = $options->getCodeDir();
-
+        $designDir = str_replace($options->getBaseDir(), '', $options->getDesignDir());
+        $jsDir = str_replace($options->getBaseDir(), '', $options->getJsDir());
+        $codeDir = str_replace($options->getBaseDir(), '', $options->getCodeDir());
         return array(
             array(array(), array()),
             array(
                 array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $codeDir . '/pub/lib/mage/calendar.css')),
+                    $options->getCodeDir() . '/pub/lib/mage/calendar.css')),
                 array('Framework files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'mage/calendar.css'),
@@ -203,7 +202,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
             )))),
             array(
                 array('Mage_Page::css/tabs.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $codeDir . '/core/Mage/Page/view/frontend/css/tabs.css')),
+                    $options->getCodeDir() . '/core/Mage/Page/view/frontend/css/tabs.css')),
                 array('Framework files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'Mage_Page::css/tabs.css'),
@@ -213,7 +212,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
                         'delimiter' => '<br />'
             )))),
             array(
-                array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR, $jsDir . '/mage/calendar.css')),
+                array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
+                    $options->getJsDir() . '/mage/calendar.css')),
                 array('Library files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'mage/calendar.css'),
@@ -223,7 +223,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Tab_CssTest extends PHPUnit_Frame
             )))),
             array(
                 array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $designDir . '/frontend/default/demo/css/styles.css'),
+                    $options->getDesignDir() . '/frontend/default/demo/css/styles.css'),
                 ),
                 array('"test title" Theme files' => array(
                     array(
