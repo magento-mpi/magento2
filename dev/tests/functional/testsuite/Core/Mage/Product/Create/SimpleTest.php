@@ -364,7 +364,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function invalidQtyInSimple($invalidQty)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required', array('inventory_qty' => $invalidQty));
+        $productData = $this->loadDataSet('Product', 'simple_product_required', array('general_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying

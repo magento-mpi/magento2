@@ -154,7 +154,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $data['inventory_min_allowed_qty'] = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
         }
         $availability = $this->getControlAttribute('pageelement', 'availability', 'text');
-        $data['inventory_stock_availability'] = str_replace('stock', 'Stock', $availability);
+        $data['general_stock_availability'] = str_replace('stock', 'Stock', $availability);
         $data['custom_options_data'] = $this->getFrontendCustomOptionsInfo();
 
         return $data;

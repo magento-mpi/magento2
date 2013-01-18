@@ -217,12 +217,10 @@ simple_low_qty:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_qty: 2
+    general_stock_availability: In Stock
     prices_price: 54.95
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 2
-    inventory_stock_availability: In Stock
     websites: Main Website
 
 simple_with_increments:
@@ -233,16 +231,14 @@ simple_with_increments:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 54.95
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 120
     inventory_enable_qty_increments_default: No
     inventory_enable_qty_increments: Yes
     inventory_qty_increments_default: No
     inventory_qty_increments: 10
-    inventory_stock_availability: In Stock
     websites: Main Website
 
 simple_out_of_stock:
@@ -253,12 +249,10 @@ simple_out_of_stock:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_qty: 0
+    general_stock_availability: Out of Stock
     prices_price: 54.95
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 0
-    inventory_stock_availability: Out of Stock
     websites: Main Website
 
 simple_min_allowed_qty:
@@ -269,14 +263,12 @@ simple_min_allowed_qty:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 54.95
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 120
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 10
-    inventory_stock_availability: In Stock
     websites: Main Website
 
 simple_max_allowed_qty:
@@ -287,14 +279,12 @@ simple_max_allowed_qty:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 54.95
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 120
     inventory_max_allowed_qty_default: No
     inventory_max_allowed_qty: 10
-    inventory_stock_availability: In Stock
     websites: Main Website
 
 #<------------DOWNLOADABLE------------>
@@ -305,12 +295,10 @@ downloadable_product_for_order:
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku_Order(%randomize%)
     general_status: Enabled
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 14.95
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 120
-    inventory_stock_availability: In Stock
     general_categories: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
@@ -337,9 +325,7 @@ grouped_product_for_order:
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku_Order(%randomize%)
     general_status: Enabled
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_stock_availability: In Stock
+    general_stock_availability: In Stock
     general_categories: %noValue%
     websites: Main Website
     associated_grouped_data:
@@ -361,12 +347,10 @@ fixed_bundle_for_order:
     general_weight_type: Fixed
     general_weight: 0.999
     general_status: Enabled
+    general_stock_availability: In Stock
     prices_price_type: Fixed
     prices_price: 12.55
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_stock_availability: In Stock
     general_categories: %noValue%
     websites: Main Website
     bundle_items_data:
@@ -425,11 +409,9 @@ configurable_product_for_order:
     general_sku: configurable_sku_Order(%randomize%)
     general_status: Enabled
     general_visibility: Catalog, Search
+    general_stock_availability: In Stock
     prices_price: 14.95
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_stock_availability: In Stock
     general_categories: %noValue%
     websites: Main Website
     general_configurable_attributes:

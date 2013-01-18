@@ -327,7 +327,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function invalidQtyInVirtual($invalidQty)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'virtual_product_required', array('inventory_qty' => $invalidQty));
+        $productData = $this->loadDataSet('Product', 'virtual_product_required', array('general_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
