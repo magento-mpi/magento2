@@ -27,11 +27,11 @@ class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAb
     protected $_auth;
 
     /**
-     * Whether admin messages have been already asserted
+     * Whether absence of admin error messages has to be asserted automatically upon a test completion
      *
      * @var bool
      */
-    protected $_adminMessagesAsserted = false;
+    protected $_assertAdminErrors = true;
 
     protected function setUp()
     {
@@ -47,7 +47,7 @@ class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAb
 
     protected function tearDown()
     {
-        $this->_adminMessagesAsserted = false;
+        $this->_assertAdminErrors = true;
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
@@ -62,7 +62,7 @@ class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAb
      */
     protected function assertPostConditions()
     {
-        if (!$this->_request || $this->_adminMessagesAsserted) {
+        if (!$this->_request || !$this->_assertAdminErrors) {
             return;
         }
         // equalTo() is intentionally used instead of isEmpty() to provide the informative diff
@@ -77,7 +77,7 @@ class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAb
      */
     public function assertAdminMessages(PHPUnit_Framework_Constraint $constraint, $messageType = null)
     {
-        $this->_adminMessagesAsserted = true;
+        $this->_assertAdminErrors = false;
         /** @var $session Mage_Backend_Model_Session */
         $session = $this->_objectManager->get('Mage_Backend_Model_Session');
         $actualMessages = array();

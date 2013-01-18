@@ -39,9 +39,10 @@ class Mage_Core_Model_Validator_Entity
     /**
      * Validate an entity according to defined validation rules
      *
+     * @param Varien_Object $entity
      * @throws Mage_Core_Exception
      */
-    public function validate(Mage_Core_Model_Abstract $entity)
+    public function validate(Varien_Object $entity)
     {
         $errors = array();
         /** @var $validator Zend_Validate_Interface */
