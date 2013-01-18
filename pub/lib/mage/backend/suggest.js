@@ -61,7 +61,7 @@
             this.dropdown = $(this.options.dropdownWrapper).hide();
             var wrapper = this.options.className ?
                 $(this.options.inputWrapper).addClass(this.options.className) :
-                $(this.options.inputWrapper)
+                $(this.options.inputWrapper);
             this.element
                 .wrap(wrapper)
                 [this.options.appendMethod](this.dropdown)
@@ -577,10 +577,10 @@
          */
         _showAll: function() {
             this._abortSearch();
-            if(this._allItems && this._renderedContext && !this._renderedContext._allShown) {
-                this._renderDropdown(this._allItems, {_allShown: true});
-            } else {
+            if (!this._allItems) {
                 this._search('', {_allShown: true});
+            } else if (!this._renderedContext || !this._renderedContext._allShown) {
+                this._renderDropdown(this._allItems, {_allShown: true});
             }
         },
 
@@ -592,7 +592,7 @@
          */
         _renderDropdown: function(items, context) {
             this._superApply(arguments);
-            if(context && context._allShown && !this.allItems) {
+            if (context && context._allShown && !this.allItems) {
                 this._allItems = this._items;
             }
         },

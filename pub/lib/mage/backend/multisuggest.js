@@ -80,8 +80,8 @@
          * @override
          */
         _hideDropdown: function() {
+            this._super();
             this.element.val('');
-            this.dropdown.hide().empty();
         }
     });
 

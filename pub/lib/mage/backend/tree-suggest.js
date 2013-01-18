@@ -95,7 +95,6 @@
 
         /**
          * @override
-         * @private
          */
         _prepareDropdownContext: function() {
             var context = this._superApply(arguments),
@@ -116,9 +115,6 @@
 
         /**
          * @override
-         * @param items
-         * @param context
-         * @private
          */
         _renderDropdown: function() {
             var control = this.dropdown.find(this._control.selector);
