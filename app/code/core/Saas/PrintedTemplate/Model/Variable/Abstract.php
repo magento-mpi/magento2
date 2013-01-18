@@ -245,7 +245,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      * @param mixed $name
      * @return mixed
      */
-    public function __get($name)
+    public function _get($name)
     {
         if ($raw = $this->_hasRawDataSuffix($name)) {
             $name = $this->_stripRawDataSuffix($name);
@@ -275,7 +275,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
      */
     public function getData($name = '', $index = null)
     {
-        return $this->__get($name);
+        return $this->_get($name);
     }
 
     /**
