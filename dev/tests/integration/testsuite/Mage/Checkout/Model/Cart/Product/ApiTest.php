@@ -29,7 +29,7 @@ class Mage_Checkout_Model_Cart_Product_ApiTest extends Mage_Checkout_Model_Cart_
             array(
                 'quoteId' => $quote->getId(),
                 'productsData' => array(
-                    array(
+                    (object)array(
                         'sku' => 'simple',
                         'qty' => $qtyToUpdate,
                     )
@@ -63,7 +63,7 @@ class Mage_Checkout_Model_Cart_Product_ApiTest extends Mage_Checkout_Model_Cart_
             array(
                 'quoteId' => $quote->getId(),
                 'productsData' => array(
-                    array(
+                    (object)array(
                         'sku' => 'simple',
                     )
                 )
@@ -75,5 +75,54 @@ class Mage_Checkout_Model_Cart_Product_ApiTest extends Mage_Checkout_Model_Cart_
         $quoteAfterUpdate = Mage::getModel('Mage_Sales_Model_Quote');
         $quoteAfterUpdate->load($quote->getId());
         $this->assertCount(0, $quoteAfterUpdate->getAllItems(), 'Quote item was not deleted.');
+    }
+
+    /**
+     * Test quote item moving from inactive quote to active customer quote.
+     *
+     * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     * @magentoDbIsolation enabled
+     * @magentoConfigIsolation enabled
+     */
+    public function testMoveToCustomerQuote()
+    {
+        $this->markTestIncomplete("MAGETWO-7068");
+        /** Prepare data. */
+        $inactiveQuote = $this->_getQuote();
+        $this->assertCount(1, $inactiveQuote->getAllItems(), 'Quote should have exactly 1 item.');
+        $inactiveQuote->setIsActive(0)->setCustomerId(1)->save();
+
+        $activeQuote = Mage::getModel('Mage_Sales_Model_Quote');
+        $activeQuote->setData(array(
+            'store_id' => 1,
+            'is_active' => 1,
+            'is_multi_shipping' => 0,
+            'customer_id' => 1
+        ));
+        $activeQuote->save();
+
+        /** Move products from inactive quote via API. */
+        $isSuccessful = Magento_Test_Helper_Api::call(
+            $this,
+            'shoppingCartProductMoveToCustomerQuote',
+            array(
+                'quoteId' => $inactiveQuote->getId(),
+                'productsData' => array(
+                    (object)array(
+                        'product_id' => '1'
+                    )
+                )
+            )
+        );
+        $this->assertTrue($isSuccessful, "Product was not moved from inactive quote to active one.");
+
+        /** Ensure that data was saved to DB correctly. */
+        /** @var Mage_Sales_Model_Quote $quoteAfterMove */
+        $quoteAfterMove = Mage::getModel('Mage_Sales_Model_Quote');
+        $quoteAfterMove->load($activeQuote->getId());
+        /** @var Mage_Sales_Model_Resource_Quote_Item_Collection $itemsCollection */
+        $itemsCollection = $quoteAfterMove->getItemsCollection(false);
+        $this->assertCount(1, $itemsCollection->getItems(), 'Product was not moved from inactive quote to active one.');
     }
 }
