@@ -11,7 +11,7 @@
 /**
  * Entity validator encapsulates validation rules both for individual entity fields and an entity as a whole
  */
-class Mage_Core_Model_Validator_Entity
+class Mage_Core_Model_Validator_Entity implements Zend_Validate_Interface
 {
     /**
      * Validation rules per scope (particular fields or entire entity)
@@ -19,6 +19,13 @@ class Mage_Core_Model_Validator_Entity
      * @var Zend_Validate[]
      */
     private $_rules = array();
+
+    /**
+     * Validation error messages
+     *
+     * @var array
+     */
+    private $_messages = array();
 
     /**
      * Add rule to be applied to a validation scope
@@ -37,27 +44,33 @@ class Mage_Core_Model_Validator_Entity
     }
 
     /**
-     * Validate an entity according to defined validation rules
+     * Check whether the entity is valid according to defined validation rules
      *
      * @param Varien_Object $entity
+     * @return bool
+     *
      * @throws Mage_Core_Exception
      */
-    public function validate(Varien_Object $entity)
+    public function isValid(Varien_Object $entity)
     {
-        $errors = array();
-        /** @var $validator Zend_Validate_Interface */
+        $this->_messages = array();
+        /** @var $validator Zend_Validate */
         foreach ($this->_rules as $fieldName => $validator) {
             $value = $fieldName ? $entity->getDataUsingMethod($fieldName) : $entity;
             if (!$validator->isValid($value)) {
-                $errors = array_merge($errors, array_values($validator->getMessages()));
+                $this->_messages = array_merge($this->_messages, array_values($validator->getMessages()));
             }
         }
-        if ($errors) {
-            $exception = new Mage_Core_Exception(implode(PHP_EOL, $errors));
-            foreach ($errors as $errorMessage) {
-                $exception->addMessage(new Mage_Core_Model_Message_Error($errorMessage));
-            }
-            throw $exception;
-        }
+        return empty($this->_messages);
+    }
+
+    /**
+     * Return error messages (if any) after the last validation
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->_messages;
     }
 }

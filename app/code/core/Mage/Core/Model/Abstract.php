@@ -396,8 +396,63 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             $this->isObjectNew(true);
         }
         $this->_eventDispatcher->dispatch('model_save_before', array('object'=>$this));
-        $this->_eventDispatcher->dispatch($this->_eventPrefix.'_save_before', $this->_getEventData());
+        $this->_eventDispatcher->dispatch($this->_eventPrefix . '_save_before', $this->_getEventData());
+        $this->validateEntity();
         return $this;
+    }
+
+    /**
+     * Validate model against the validation rules, declared in it and its resource model
+     *
+     * @return Mage_Core_Model_Abstract
+     * @throws Mage_Core_Exception
+     */
+    public function validateEntity()
+    {
+        $validator = $this->_getEntityValidator();
+        if ($validator && !$validator->isValid($this)) {
+            $errors = $validator->getMessages();
+            $exception = new Mage_Core_Exception(implode(PHP_EOL, $errors));
+            foreach ($errors as $errorMessage) {
+                $exception->addMessage(new Mage_Core_Model_Message_Error($errorMessage));
+            }
+            throw $exception;
+        }
+        return $this;
+    }
+
+    /**
+     * Returns validator, which contains all rules to validate this model.
+     * Returns NULL, if no validation rules exist.
+     *
+     * @return Zend_Validate_Interface|null
+     */
+    protected function _getEntityValidator()
+    {
+        $modelRules = $this->_getEntityValidateRules();
+        $resourceRules = $this->_getResource()->getEntityValidateRules();
+        if (!$modelRules && !$resourceRules) {
+            return null;
+        }
+
+        $validator = new Zend_Validate();
+        if ($modelRules) {
+            $validator->addValidator($modelRules);
+        }
+        if ($resourceRules) {
+            $validator->addValidator($resourceRules);
+        }
+        return $validator;
+    }
+
+    /**
+     * Template method to return validate rules for the entity
+     *
+     * @return Zend_Validate_Interface|null
+     */
+    protected function _getEntityValidateRules()
+    {
+        return null;
     }
 
     /**

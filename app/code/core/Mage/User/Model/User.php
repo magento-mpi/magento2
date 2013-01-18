@@ -110,8 +110,6 @@ class Mage_User_Model_User
      */
     protected function _beforeSave()
     {
-        $this->_getBeforeSaveValidator()->validate($this);
-
         $data = array(
             'firstname' => $this->getFirstname(),
             'lastname'  => $this->getLastname(),
@@ -152,24 +150,11 @@ class Mage_User_Model_User
     }
 
     /**
-     * Retrieve initialized validator instance on the first demand to be applied before saving
-     *
-     * @return Mage_Core_Model_Validator_Entity
-     */
-    protected function _getBeforeSaveValidator()
-    {
-        if (!$this->_beforeSaveValidator) {
-            $this->_beforeSaveValidator = new Mage_Core_Model_Validator_Entity();
-            $this->_addFieldsValidation();
-            $this->_getResource()->addBeforeSaveValidation($this->_beforeSaveValidator);
-        }
-        return $this->_beforeSaveValidator;
-    }
-
-    /**
      * Add validation rules for particular fields
+     *
+     * @return Zend_Validate_Interface
      */
-    protected function _addFieldsValidation()
+    protected function _getEntityValidateRules()
     {
         $userNameNotEmpty = new Zend_Validate_NotEmpty();
         $userNameNotEmpty->setMessage(
@@ -191,7 +176,10 @@ class Mage_User_Model_User
             Mage::helper('Mage_User_Helper_Data')->__('Please enter a valid email.'),
             Zend_Validate_EmailAddress::INVALID
         );
-        $this->_getBeforeSaveValidator()
+
+        /** @var $validator Mage_Core_Model_Validator_Entity */
+        $validator = Mage::getModel('Mage_Core_Model_Validator_Entity');
+        $validator
             ->addRule($userNameNotEmpty, 'username')
             ->addRule($firstNameNotEmpty, 'firstname')
             ->addRule($lastNameNotEmpty, 'lastname')
@@ -199,14 +187,17 @@ class Mage_User_Model_User
         ;
 
         if ($this->_willSavePassword()) {
-            $this->_addPasswordValidation();
+            $this->_addPasswordValidation($validator);
         }
+        return $validator;
     }
 
     /**
      * Add validation rules for the password management fields
+     *
+     * @param Mage_Core_Model_Validator_Entity $validator
      */
-    protected function _addPasswordValidation()
+    protected function _addPasswordValidation(Mage_Core_Model_Validator_Entity $validator)
     {
         $passwordNotEmpty = new Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(
@@ -224,7 +215,7 @@ class Mage_User_Model_User
             Mage::helper('Mage_User_Helper_Data')->__('Password must include both numeric and alphabetic characters.'),
             Zend_Validate_Regex::NOT_MATCH
         );
-        $this->_getBeforeSaveValidator()
+        $validator
             ->addRule($passwordNotEmpty, 'password')
             ->addRule($passwordLength, 'password')
             ->addRule($passwordChars, 'password')
@@ -235,7 +226,7 @@ class Mage_User_Model_User
                 Mage::helper('Mage_User_Helper_Data')->__('Password confirmation must be same as password.'),
                 Zend_Validate_Identical::NOT_SAME
             );
-            $this->_getBeforeSaveValidator()->addRule($passwordConfirmation, 'password');
+            $validator->addRule($passwordConfirmation, 'password');
         }
     }
 

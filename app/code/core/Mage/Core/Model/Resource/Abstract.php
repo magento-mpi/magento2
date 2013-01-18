@@ -225,4 +225,14 @@ abstract class Mage_Core_Model_Resource_Abstract
         }
         return $value;
     }
+
+    /**
+     * Template method to return validate rules for the entity
+     *
+     * @return Zend_Validate_Interface|null
+     */
+    public function getEntityValidateRules()
+    {
+        return null;
+    }
 }
