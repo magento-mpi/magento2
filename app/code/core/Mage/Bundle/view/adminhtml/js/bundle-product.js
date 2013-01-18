@@ -25,8 +25,10 @@ jQuery(function($) {
             $('#weight_and_type_switcher, label[for=weight_and_type_switcher]').hide();
 
             var element = this.element;
-            $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
-                element[$(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide']();
+            this._on('#product_info_tabs', {
+                tabsbeforeactivate: function (event, ui) {
+                    element[$(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide']();
+                }
             });
         },
         _initSortableOptions: function () {
