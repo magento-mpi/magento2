@@ -8,15 +8,8 @@
  * @license     {license_link}
  */
 
-interface Magento_Di_Generator_CodeGenerator_Interface
+interface Magento_Di_Generator_CodeGenerator_Interface extends \Zend\Code\Generator\GeneratorInterface
 {
-    /**
-     * Generates and returns class source code
-     *
-     * @return string
-     */
-    public function generate();
-
     /**
      * @param string $name
      * @return Magento_Di_Generator_CodeGenerator_Interface
