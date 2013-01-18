@@ -45,6 +45,7 @@
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.couplingBetweenObjects)
  */
 class Mage_User_Model_User
     extends Mage_Core_Model_Abstract

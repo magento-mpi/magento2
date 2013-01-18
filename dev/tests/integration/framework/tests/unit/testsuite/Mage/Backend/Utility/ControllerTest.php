@@ -21,7 +21,7 @@ class Mage_Backend_Utility_ControllerTest extends Mage_Backend_Utility_Controlle
             ->add(new Mage_Core_Model_Message_Error('error_two'))
             ->add(new Mage_Core_Model_Message_Notice('some_notice'))
         ;
-        $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager', array('get'));
+        $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager');
         $this->_objectManager
             ->expects($this->once())
             ->method('get')

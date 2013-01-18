@@ -28,13 +28,13 @@ class Mage_Core_Model_Validator_EntityTest extends PHPUnit_Framework_TestCase
         $entityValidity = new Zend_Validate_Callback(array($this, 'isEntityValid'));
         $entityValidity->setMessage('Entity is not valid.');
 
-        $this->assertSame($this->_model, $this->_model->addRule($fieldOneLength, 'field_one'));
-        $this->assertSame($this->_model, $this->_model->addRule($fieldOneExactValue, 'field_one'));
-
-        $this->assertSame($this->_model, $this->_model->addRule($fieldTwoLength, 'field_two'));
-        $this->assertSame($this->_model, $this->_model->addRule($fieldTwoExactValue, 'field_two'));
-
-        $this->assertSame($this->_model, $this->_model->addRule($entityValidity));
+        $this->_model
+            ->addRule($fieldOneLength, 'field_one')
+            ->addRule($fieldOneExactValue, 'field_one')
+            ->addRule($fieldTwoLength, 'field_two')
+            ->addRule($fieldTwoExactValue, 'field_two')
+            ->addRule($entityValidity)
+        ;
     }
 
     protected function tearDown()
