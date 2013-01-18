@@ -22,7 +22,12 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager_Zend
+     * @var Mage_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_ObjectManager_Zend|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -54,51 +59,16 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->_prepareApp(false);
         $this->_objectManager = $this->getMock(
             'Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false
         );
         $this->_objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'getInstance')));
-
-        $config = new Mage_Core_Model_Config($this->_objectManager, <<<XML
-            <config>
-                <global>
-                    <cache>
-                        <types>
-                            <single_tag>
-                                <label>Tag One</label>
-                                <description>This is Tag One</description>
-                                <tags>tag_one</tags>
-                            </single_tag>
-                            <multiple_tags>
-                                <label>Tags One and Two</label>
-                                <description>These are Tags One and Two</description>
-                                <tags>tag_one,tag_two</tags>
-                            </multiple_tags>
-                        </types>
-                    </cache>
-                </global>
-            </config>
-XML
-        );
-        $app = $this->getMock('Mage_Core_Model_App', array('getInitParams', 'getConfig'), array(), '', false);
-        $app->expects($this->any())
-            ->method('getInitParam')
-            ->will($this->returnValue(false));
-
-        $dirs = self::$_dirs;
-        $callback = function ($name) use ($app, $config, $dirs) {
-            switch ($name) {
-                case 'Mage_Core_Model_Config': return $config;
-                case 'Mage_Core_Model_App': return $app;
-                case 'Mage_Core_Model_Dir': return $dirs;
-                default: return null;
-            }
-        };
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback($callback));
+            ->will($this->returnCallback(array($this, 'getObject')));
 
         $this->_helper = $this->getMock('Mage_Core_Helper_Data', array('__'));
         $this->_helper
@@ -125,6 +95,56 @@ XML
         $this->_objectManager = null;
         $this->_cacheFrontend = null;
         $this->_model = null;
+    }
+
+    /**
+     * Create application mock
+     *
+     * @param bool $returnInitParam
+     */
+    protected function _prepareApp($returnInitParam)
+    {
+        $this->_app = $this->getMock('Mage_Core_Model_App', array('getInitParam'), array(), '', false);
+        $this->_app->expects($this->any())
+            ->method('getInitParam')
+            ->will($this->returnValue($returnInitParam));
+    }
+
+    /**
+     * Callback for getter of the object manager
+     *
+     * @param string $className
+     * @return object|null|PHPUnit_Framework_MockObject_MockObject
+     */
+    public function getObject($className)
+    {
+        switch ($className) {
+            case 'Mage_Core_Model_Config':
+                return new Mage_Core_Model_Config($this->_objectManager, <<<XML
+                    <config>
+                        <global>
+                            <cache>
+                                <types>
+                                    <single_tag>
+                                        <label>Tag One</label>
+                                        <description>This is Tag One</description>
+                                        <tags>tag_one</tags>
+                                    </single_tag>
+                                    <multiple_tags>
+                                        <label>Tags One and Two</label>
+                                        <description>These are Tags One and Two</description>
+                                        <tags>tag_one,tag_two</tags>
+                                    </multiple_tags>
+                                </types>
+                            </cache>
+                        </global>
+                    </config>
+XML
+                );
+            case 'Mage_Core_Model_App': return $this->_app;
+            case 'Mage_Core_Model_Dir': return self::$_dirs;
+            default: return null;
+        }
     }
 
     /**
@@ -325,6 +345,15 @@ XML
         $this->_emulateCacheTypeOptions();
         $this->assertEquals(array('config' => true), $this->_model->canUse(''));
         $this->assertTrue($this->_model->canUse('config'));
+        return $this->_model;
+    }
+
+    public function testCanUseBanCache()
+    {
+        $this->_prepareApp(true);
+        $this->_emulateCacheTypeOptions();
+        $this->assertEquals(array('config' => false), $this->_model->canUse(''));
+        $this->assertFalse($this->_model->canUse('config'));
         return $this->_model;
     }
 

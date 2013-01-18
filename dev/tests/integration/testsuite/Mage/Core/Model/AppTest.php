@@ -58,6 +58,17 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      */
+    public function testBaseInit()
+    {
+        $this->assertNull($this->_model->getConfig());
+        $this->_model->baseInit(Magento_Test_Bootstrap::getInstance()->getInitParams());
+        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
+        $this->assertNotEmpty($this->_model->getConfig()->getNode());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testRun()
     {
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
