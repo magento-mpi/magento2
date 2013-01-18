@@ -32,7 +32,7 @@
                     select: ['menuselect', 'select_tree_node']
                 }
             },
-            inputWrapper:'<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
+            inputWrapper: '<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
             dropdownWrapper: '<div class="mage-suggest-dropdown"></div>'
         },
 
@@ -46,13 +46,13 @@
             this._selectedItem = this._nonSelectedItem;
             this._control = this.options.controls || {};
             this._setTemplate();
-            this._render();
             this._prepareValueField();
+            this._render();
             this._bind();
         },
 
         /**
-         *
+         * Render base elemments for suggest component
          * @private
          */
         _render: function() {
@@ -64,10 +64,10 @@
         },
 
         /**
-         *
+         * Define a field for storing value (find in DOM or create a new one)
          * @private
          */
-        _prepareValueField: function(){
+        _prepareValueField: function() {
             if (this.options.valueField) {
                 this.valueField = $(this.options.valueField);
             } else {
@@ -585,7 +585,7 @@
          */
         _renderDropdown: function(items, context) {
             this._superApply(arguments);
-            if(context._allShown && !this.allItems) {
+            if(context && context._allShown && !this.allItems) {
                 this._allItems = this._items;
             }
         },

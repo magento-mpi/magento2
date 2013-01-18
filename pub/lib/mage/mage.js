@@ -74,7 +74,8 @@
      */
     function _onload(args, handler) {
         args = $.grep(args, function(resource) {
-            return !$('script[src="' + resource + '"]').length;
+            var script = $('script[src="' + resource + '"]');
+            return !script.length || typeof script[0].onload === 'function';
         });
 
         if (typeof handler === 'function' && args.length) {
@@ -114,12 +115,10 @@
         }
         // Build an initialization handler
         var handler = $.proxy(function() {
-            try {
+            if (typeof this[init.name] === 'function') {
                 this[init.name].apply(this, init.args);
-            } catch (e) {
-                if ($.mage.isDevMode()) {
-                    console.error('Cannot initialize components "' + init.name + '"');
-                }
+            } else if ($.mage.isDevMode()) {
+                console.error('Cannot initialize components "' + init.name + '"');
             }
         }, $(this));
         _onload(init.resources, handler);

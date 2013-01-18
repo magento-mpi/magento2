@@ -21,6 +21,18 @@
         /**
          * @override
          */
+        _prepareValueField: function() {
+            this._super();
+            if (!this.options.valueField && this.options.selectedItems) {
+                $.each(this.options.selectedItems, $.proxy(function(i, item) {
+                    this._addOption(item);
+                }, this));
+            }
+        },
+
+        /**
+         * @override
+         */
         _createValueField: function() {
             return $('<select/>', {
                 type: 'hidden',
@@ -39,12 +51,29 @@
                 }
                 if (this._selectedItem !== this._nonSelectedItem) {
                     this._term = '';
-                    this.valueField.append(
-                        '<option value="' + this._selectedItem.value + '" selected="selected">' +
-                            this._selectedItem.label + '</option>'
-                    );
+                    this._addOption(this._selectedItem);
                 }
             }
+        },
+
+        /**
+         * Add selected item in to select options
+         * @param item
+         * @private
+         */
+        _addOption: function(item) {
+            this.valueField.append(
+                '<option value="' + item.value + '" selected="selected">' + item.label + '</option>'
+            );
+        },
+
+        /**
+         * Remove item from select options
+         * @param item
+         * @private
+         */
+        _removeOption: function(item) {
+            this.valueField.find('option[value=' + item.value + ']').remove();
         },
 
         /**
@@ -72,7 +101,10 @@
             this._super();
             this.element.wrap(this.options.multiSuggestWrapper);
             this.elementWrapper = this.element.parent();
-
+            this.valueField.find('option').each($.proxy(function(i, option) {
+                option = $(option);
+                this._renderOption({value: option.val(), label: option.text()});
+            }, this));
         },
 
         /**
@@ -96,7 +128,7 @@
                 .insertBefore(this.elementWrapper)
                 .trigger('contentUpdated')
                 .on('removeOption', $.proxy(function(e) {
-                    this.valueField.find('option[value=' + $(e.currentTarget).data().value + ']').remove();
+                    this._removeOption($(e.currentTarget).data());
                     $(e.currentTarget).remove();
                 }, this));
         }
