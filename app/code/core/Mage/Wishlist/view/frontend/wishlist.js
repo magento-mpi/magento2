@@ -102,4 +102,28 @@
             }
         }
     });
+
+    // Extension for mage.wishlist - Select All checkbox
+    $.widget('mage.wishlist', $.mage.wishlist, {
+        options: {
+            selectAllCheckbox: '#select-all',
+            parentContainer: '#wishlist-table'
+        },
+
+        _create: function() {
+            this._super();
+            var selectAllCheckboxParent = $(this.options.selectAllCheckbox).parents(this.options.parentContainer),
+                checkboxCount = selectAllCheckboxParent.find('input:checkbox:not(' + this.options.selectAllCheckbox + ')').length;
+            // If Select all checkbox is checked, check all item checkboxes, if unchecked, uncheck all item checkboxes
+            $(this.options.selectAllCheckbox).on('click', function() {
+                selectAllCheckboxParent.find('input:checkbox').attr('checked', $(this).is(':checked'));
+            });
+            // If all item checkboxes are checked, check select all checkbox,
+            // if not all item checkboxes are checked, uncheck select all checkbox
+            selectAllCheckboxParent.on('click', 'input:checkbox:not(' + this.options.selectAllCheckbox + ')', $.proxy(function() {
+                var checkedCount = selectAllCheckboxParent.find('input:checkbox:checked:not(' + this.options.selectAllCheckbox + ')').length;
+                $(this.options.selectAllCheckbox).attr('checked', checkboxCount === checkedCount);
+            }, this));
+        }
+    });
 })(jQuery, window);

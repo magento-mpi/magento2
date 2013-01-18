@@ -436,4 +436,26 @@
             return url + glue + $.param({'wishlist_id': wishlistId});
         }
     });
+
+    // Extension for mage.wishlist - Add Wishlist item to Gift Registry
+    $.widget('mage.wishlist', $.mage.wishlist, {
+        options: {
+
+        },
+
+        _create: function() {
+            this._super();
+            var _this = this;
+            this.element.on('click', '[data-wishlist-to-giftregistry]', function() {
+                var json = $(this).data('wishlist-to-giftregistry'),
+                    tmplJson = {
+                        item: json['itemId'],
+                        entity: json['entity'],
+                        url: json['url']
+                    };
+                $(_this.options.formTmplSelector).tmpl(tmplJson).appendTo('body');
+                $(_this.options.formTmplId).submit();
+            });
+        }
+    });
 })(jQuery);

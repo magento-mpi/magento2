@@ -13,9 +13,11 @@
 ?>
 <script id="form-tmpl" type="text/x-jQuery-tmpl">
     <form id="wishlist-hidden-form" method="post" action="${url}" class="no-display">
-        <input name="item_id" value="${itemId}"/>
-        <input name="wishlist_id" value="${wishlistId}"/>
-        <input name="qty" value="${qty}"/>
+        {{if itemId}}<input name="item_id" value="${itemId}"/>{{/if}}
+        {{if wishlistId}}<input name="wishlist_id" value="${wishlistId}"/>{{/if}}
+        {{if qty}}<input name="qty" value="${qty}"/>{{/if}}
+        {{if item}}<input name="item" value="${item}"/>{{/if}}
+        {{if entity}}<input name="entity" value="${entity}"/>{{/if}}
     </form>
 </script>
 <script id="popup-tmpl" type="text/x-jQuery-tmpl">
