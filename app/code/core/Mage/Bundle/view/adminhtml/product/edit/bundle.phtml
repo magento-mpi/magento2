@@ -65,8 +65,8 @@ Validation.add('validate-greater-zero-based-on-option', '<?php echo $this->__('P
 });
 
 jQuery(function($) {
-    head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/bundle-product.js') ?>", function() {
-        $('#bundle_product_container').bundleProduct();
+    head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/bundle-product.js') ?>", function () {
+        $('#bundle_product_container').mage('bundleProduct');
     });
 });
 </script>
