@@ -48,7 +48,9 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
     {
         $taxItemData = $this->fixtureDataToArray($taxItemData);
         $this->clickButton('add_' . $type);
-        $this->fillForm($taxItemData);
+        $this->fillFieldset($taxItemData, 'tax_rule_info', false);
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
 
         $rateTitles = (isset($taxItemData['tax_titles'])) ? $taxItemData['tax_titles'] : array();
         if ($rateTitles && $type == 'rate') {
@@ -108,7 +110,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
     public function deleteTaxItem(array $taxSearchData, $type)
     {
         $this->openTaxItem($taxSearchData, $type);
-        $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete_' . $type);
     }
 
     /**
