@@ -9,7 +9,30 @@
  */
 class Mage_Core_Model_Config_Storage extends Mage_Core_Model_Config_StorageAbstract
 {
-     /**
+    /**
+     * Resource configuration
+     *
+     * @var Mage_Core_Model_Config_Resource
+     */
+    protected $_resourcesConfig;
+
+    /**
+     * @param Mage_Core_Model_Config_Cache $cache
+     * @param Mage_Core_Model_Config_LoaderInterface $loader
+     * @param Mage_Core_Model_Config_BaseFactory $factory
+     * @param Mage_Core_Model_Config_Resource $resourcesConfig
+     */
+    public function __construct(
+        Mage_Core_Model_Config_Cache $cache,
+        Mage_Core_Model_Config_LoaderInterface $loader,
+        Mage_Core_Model_Config_BaseFactory $factory,
+        Mage_Core_Model_Config_Resource $resourcesConfig
+    ) {
+        parent::__construct($cache, $loader, $factory);
+        $this->_resourcesConfig = $resourcesConfig;
+    }
+
+    /**
      * Retrieve application configuration
      *
      * @param bool $useCache
@@ -25,6 +48,11 @@ class Mage_Core_Model_Config_Storage extends Mage_Core_Model_Config_StorageAbstr
                 $this->_cache->save($config);
             }
         }
+        /*
+         * Update resource configuration when total configuration is loaded.
+         * Required until resource model is refactored.
+         */
+        $this->_resourcesConfig->setConfig($config);
         return $config;
     }
 
