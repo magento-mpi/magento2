@@ -315,4 +315,82 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($filePath);
         $this->assertEquals(4, $this->_adapter->getFileSize($filePath));
     }
+
+    /**
+     * @dataProvider getNestedKeysDataProvider
+     * @param string $path
+     * @param array $expectedKeys
+     */
+    public function testGetNestedKeys($path, $expectedKeys)
+    {
+        $this->assertEquals($expectedKeys, $this->_adapter->getNestedKeys($path));
+    }
+
+    /**
+     * @return array
+     */
+    public function getNestedKeysDataProvider()
+    {
+        return array(
+            array(
+                $this->_getFixturesPath() . 'foo',
+                array(
+                    $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'baz' . DS . 'file_one.txt',
+                    $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'baz',
+                    $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'file_two.txt',
+                    $this->_getFixturesPath() . 'foo' . DS . 'bar',
+                    $this->_getFixturesPath() . 'foo' . DS . 'file_three.txt',
+                )
+            ),
+            array(
+                $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'baz',
+                array($this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'baz' . DS . 'file_one.txt')
+            )
+        );
+    }
+
+    /**
+     * @expectedException Magento_Filesystem_Exception
+     * @expectedExceptionMessage The directory "/unknown_directory" does not exist.
+     */
+    public function testGetNestedKeysInUnknownDirectory()
+    {
+        $this->_adapter->getNestedKeys('/unknown_directory');
+    }
+
+    /**
+     * @dataProvider getNestedFilesDataProvider
+     * @param string $pattern
+     * @param array $expectedKeys
+     */
+    public function testSearchKeys($pattern, $expectedKeys)
+    {
+        $this->assertEquals($expectedKeys, $this->_adapter->searchKeys($pattern));
+    }
+
+    /**
+     * @return array
+     */
+    public function getNestedFilesDataProvider()
+    {
+        return array(
+            array(
+                $this->_getFixturesPath() . 'foo/*',
+                array(
+                    $this->_getFixturesPath() . 'foo' . DS . 'bar',
+                    $this->_getFixturesPath() . 'foo' . DS . 'file_three.txt',
+                )
+            ),
+            array(
+                $this->_getFixturesPath() . 'foo/*/file_*',
+                array(
+                    $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'file_two.txt',
+                )
+            ),
+            array(
+                '',
+                array()
+            )
+        );
+    }
 }

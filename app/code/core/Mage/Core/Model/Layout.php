@@ -736,9 +736,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $arguments = $this->_argumentProcessor->process($arguments);
 
-        if ($elementName == 'catalog_product_gallery') {
-            $s = 1;
-        }
         $block = $this->_createBlock($className, $elementName, $arguments);
         if (!empty($node['template'])) {
             $block->setTemplate((string)$node['template']);

@@ -97,17 +97,11 @@ class Mage_Core_Model_Translate
     protected $_localeHierarchy = array();
 
     /**
-     * @var Magento_Filesystem
-     */
-    protected $_filesystem;
-
-    /**
      * Initialize translate model
      *
-     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
+    public function __construct(array $data = array())
     {
         if (isset($data['locale_hierarchy']) && is_array($data['locale_hierarchy'])) {
             $this->_localeHierarchy = $data['locale_hierarchy'];
@@ -120,7 +114,6 @@ class Mage_Core_Model_Translate
                 );
             }
         }
-        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -349,7 +342,7 @@ class Mage_Core_Model_Translate
     protected function _getFileData($file)
     {
         $data = array();
-        if ($this->_filesystem->isFile($file)) {
+        if (file_exists($file)) {
             $parser = new Varien_File_Csv();
             $parser->setDelimiter(self::CSV_SEPARATOR);
             $data = $parser->getDataPairs($file);

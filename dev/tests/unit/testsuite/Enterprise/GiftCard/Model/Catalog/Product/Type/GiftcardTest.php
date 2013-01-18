@@ -46,12 +46,13 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $store = $this->getMock('Mage_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
         $store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
 
+        $storageMock = $this->getMockBuilder('Mage_Core_Helper_File_Storage_Database')
+            ->disableOriginalConstructor()->getMock();
         $helpers = array(
             'Enterprise_GiftCard_Helper_Data'        => $this->getMock('Enterprise_GiftCard_Helper_Data'),
             'Mage_Core_Helper_Data'                  => $this->getMock('Mage_Core_Helper_Data'),
             'Mage_Catalog_Helper_Data'               => $this->getMock('Mage_Catalog_Helper_Data'),
-            'Mage_Core_Helper_File_Storage_Database' => $this->getMockBuilder('Mage_Core_Helper_File_Storage_Database')
-                                                            ->disableOriginalConstructor()->getMock()
+            'Mage_Core_Helper_File_Storage_Database' => $storageMock
         );
 
         foreach ($helpers as $helper) {
