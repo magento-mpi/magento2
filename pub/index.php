@@ -9,6 +9,6 @@
  */
 require __DIR__ . '/../app/bootstrap.php';
 $params = $_SERVER;
-$params['app_uris'][Mage_Core_Model_Dir::PUB] = '';
+$params[Mage::PARAM_APP_URIS][Mage_Core_Model_Dir::PUB] = '';
 $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $params);
 $entryPoint->processRequest();

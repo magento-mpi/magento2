@@ -16,7 +16,57 @@ final class Mage
     /**
      * Application initialization option to specify custom product edition label
      */
-    const INIT_OPTION_EDITION = 'edition';
+    const PARAM_EDITION = 'edition';
+
+    /**
+     * Application run code
+     */
+    const PARAM_RUN_CODE = 'MAGE_RUN_CODE';
+
+    /**
+     * Application run type (store|website)
+     */
+    const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
+
+    /**
+     * Base directory
+     */
+    const PARAM_BASEDIR = 'base_dir';
+
+    /**
+     * Custom application dirs
+     */
+    const PARAM_APP_DIRS = 'app_dirs';
+
+    /**
+     * Custom application uris
+     */
+    const PARAM_APP_URIS = 'app_uris';
+
+    /**
+     * Allowed modules
+     */
+    const PARAM_ALLOWED_MODULES = 'allowed_modules';
+
+    /**
+     * Caching params
+     */
+    const PARAM_CACHE_OPTIONS = 'cache_options';
+
+    /**
+     * Disallow cache
+     */
+    const PARAM_BAN_CACHE = 'ban_cache';
+
+    /**
+     * Custom local configuration file name
+     */
+    const PARAM_CUSTOM_LOCAL_FILE = 'custom_local_xml';
+
+    /**
+     * Custom local configuration
+     */
+    const PARAM_CUSTOM_LOCAL_CONFIG = 'custom_local_config';
 
     /**
      * Product edition labels

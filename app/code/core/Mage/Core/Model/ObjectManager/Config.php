@@ -39,6 +39,11 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         ),
     );
 
+    /**
+     * Configure object manager
+     *
+     * @param Magento_ObjectManager $objectManager
+     */
     public function configure(Magento_ObjectManager $objectManager)
     {
         $objectManager->configure(array_merge(
@@ -46,22 +51,31 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
             array(
                 'Mage_Core_Model_Dir' => array(
                     'parameters' => array(
-                        'baseDir' => $this->_baseDir, 'uris' => $this->_customUris, 'dirs' => $this->_customDirs
+                        'baseDir' => $this->_getParam(Mage::PARAM_BASEDIR),
+                        'uris' => $this->_getParam(MAGE::PARAM_APP_URIS, array()),
+                        'dirs' => $this->_getParam(Mage::PARAM_APP_DIRS, array())
                     )
                 ),
                 'Mage_Core_Model_Config_Loader_Local' => array(
                     'parameters' => array(
-                        'extraFile' => $this->_customLocalXmlFile, 'extraData' => $this->_customLocalConfig
+                        'extraFile' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_FILE),
+                        'extraData' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG)
                     )
                 ),
                 'Mage_Core_Model_Config_Loader_Modules' => array(
-                    'parameters' => array('allowedModules' => $this->_allowedModules)
+                    'parameters' => array('allowedModules' => $this->_getParam(Mage::PARAM_ALLOWED_MODULES, array()))
                 ),
                 'Mage_Core_Model_Cache' => array(
-                    'parameters' => array('options' => $this->_cacheOptions, 'banCache' => $this->_banCache),
+                    'parameters' => array(
+                        'options' => $this->_getParam(Mage::PARAM_CACHE_OPTIONS, array()),
+                        'banCache' => $this->_getParam(Mage::PARAM_BAN_CACHE, false),
+                    )
                 ),
                 'Mage_Core_Model_App' => array(
-                    'parameters' => array('scopeCode' => $this->_scopeCode, 'scopeType' => $this->_scopeType)
+                    'parameters' => array(
+                        'scopeCode' => $this->_getParam(Mage::PARAM_RUN_CODE, ''),
+                        'scopeType' => $this->_getParam(Mage::PARAM_RUN_TYPE, 'store')
+                    )
                 )
             )
         ));
@@ -73,18 +87,7 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
             foreach ($configurators->children() as $configuratorClass) {
                 $configuratorClass = (string)$configuratorClass;
                 /** @var $configurator  Magento_ObjectManager_Configuration*/
-                $configurator = new $configuratorClass(
-                    $this->_baseDir,
-                    $this->_scopeCode,
-                    $this->_scopeCode,
-                    $this->_customDirs,
-                    $this->_customUris,
-                    $this->_allowedModules,
-                    $this->_cacheOptions,
-                    $this->_banCache,
-                    $this->_customLocalXmlFile,
-                    $this->_customLocalConfig
-                );
+                $configurator = new $configuratorClass($this->_params);
                 $configurator->configure($objectManager);
             }
         }

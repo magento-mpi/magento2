@@ -17,48 +17,21 @@ abstract class Mage_Core_Model_EntryPointAbstract
     protected $_objectManager;
 
     /**
-     * Configuration params
-     *
-     * @var array
-     */
-    protected $_params;
-
-    /**
      * @param string $baseDir
      * @param array $params
-     * @param string $configClass
      */
     public function __construct(
         $baseDir, array $params = array()
     ) {
-        $this->_params = $params;
+        if (!array_key_exists(Mage::PARAM_BASEDIR, $params)) {
+            $params[Mage::PARAM_BASEDIR] = $baseDir;
+        }
         $this->_objectManager = new Mage_Core_Model_ObjectManager(
             new Mage_Core_Model_ObjectManager_Config(
-                $baseDir,
-                $this->_getParam('MAGE_RUN_CODE', ''),
-                $this->_getParam('MAGE_RUN_TYPE', 'store'),
-                $this->_getParam('app_dirs', array()),
-                $this->_getParam('app_uris', array()),
-                $this->_getParam('allowed_modules', array()),
-                $this->_getParam('cache_options', array()),
-                $this->_getParam('global_ban_use_cache', false),
-                $this->_getParam('custom_local_xml_file', false),
-                $this->_getParam('custom_local_config', false)
+                $params
             ),
             $baseDir
         );
-    }
-
-    /**
-     * Get init param
-     *
-     * @param string $name
-     * @param mixed $defaultValue
-     * @return mixed
-     */
-    protected function _getParam($name, $defaultValue = null)
-    {
-        return isset($this->_params[$name]) ? $this->_params[$name] : $defaultValue;
     }
 
     /**

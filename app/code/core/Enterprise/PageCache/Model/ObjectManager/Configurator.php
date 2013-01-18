@@ -19,7 +19,7 @@ class Enterprise_PageCache_Model_ObjectManager_Configurator extends Mage_Core_Mo
     {
         $objectManager->configure(array(
             'Enterprise_PageCache_Model_Processor' => array(
-                'parameters' => array('scopeCode' => $this->_scopeCode),
+                'parameters' => array('scopeCode' => $this->_getParam(Mage::PARAM_RUN_CODE, '')),
             ),
         ));
     }
