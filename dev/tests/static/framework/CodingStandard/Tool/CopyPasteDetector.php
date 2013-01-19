@@ -65,6 +65,7 @@ class CodingStandard_Tool_CopyPasteDetector implements CodingStandard_ToolInterf
 
         $command =  'phpcpd'
             . ' --log-pmd ' . escapeshellarg($this->_reportFile)
+            . ' --min-lines 7'
             . $blackListStr
             . ' ' .realpath(__DIR__ . '/../../../../../../');
 

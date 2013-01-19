@@ -17,6 +17,7 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.numberOfChildren)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_Template extends Mage_Core_Block_Template
 {

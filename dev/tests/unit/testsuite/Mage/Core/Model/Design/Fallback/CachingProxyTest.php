@@ -75,7 +75,6 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             array($this->_createFilesystem(), $params)
         );
 
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
         $this->_model = $this->getMockBuilder('Mage_Core_Model_Design_Fallback_CachingProxy')
             ->setMethods(array('_getFallback'))
             ->setConstructorArgs(array($this->_createFilesystem(), $params))
