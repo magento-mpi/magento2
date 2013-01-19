@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+return; // MAGETWO-7075
+
 $addressData = include(__DIR__ . '/order.php');
 
 $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')

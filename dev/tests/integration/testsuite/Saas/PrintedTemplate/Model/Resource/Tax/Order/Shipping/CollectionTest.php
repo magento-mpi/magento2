@@ -40,6 +40,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
      */
     public function testFilterByOrder()
     {
+        $this->markTestIncomplete('MAGETWO-7075');
         $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId('100000001');
 
         $items = $this->_collection->addFilterByOrder($order);
@@ -54,6 +55,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
      */
     public function testFilterByInvoice()
     {
+        $this->markTestIncomplete('MAGETWO-7075');
         $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->loadByIncrementId('100000001');
 
         $items = $this->_collection->addFilterByInvoice($invoice);
@@ -67,6 +69,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
      */
     public function testFilterByCreditmemo()
     {
+        $this->markTestIncomplete('MAGETWO-7075');
         $items = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->getResourceCollection()->getItems();
         $creditmemo = Mage::getModel('Mage_Sales_Model_Order')
                 ->loadByIncrementId('100000001')

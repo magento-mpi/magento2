@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+return; // MAGETWO-7075
+
 Mage::app()->getStore()->setConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, 2);
 
 $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')
