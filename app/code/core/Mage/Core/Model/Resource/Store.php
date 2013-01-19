@@ -28,6 +28,17 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
+     * Count number of all entities in the system
+     *
+     * @return int
+     */
+    public function countAll()
+    {
+        $adapter = $this->_getReadAdapter();
+        return (int)$adapter->fetchOne($adapter->select()->from($this->getMainTable(), 'COUNT(*)'));
+    }
+
+    /**
      * Initialize unique fields
      *
      * @return Mage_Core_Model_Resource_Store
