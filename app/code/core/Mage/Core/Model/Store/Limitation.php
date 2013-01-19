@@ -58,10 +58,10 @@ class Mage_Core_Model_Store_Limitation
     /**
      * User notification message about the restriction
      *
-     * @param Mage_Core_Helper_Data $helper
+     * @param Mage_Core_Helper_Abstract $helper
      * @return string
      */
-    public static function getCreateRestrictionMessage(Mage_Core_Helper_Data $helper)
+    public static function getCreateRestrictionMessage(Mage_Core_Helper_Abstract $helper)
     {
         return $helper->__('You are using the maximum number of store views allowed.');
     }
