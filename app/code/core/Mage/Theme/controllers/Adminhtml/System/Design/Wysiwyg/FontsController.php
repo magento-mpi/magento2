@@ -127,7 +127,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Ad
     }
 
     /**
-     * Fire when select image
+     * On image insert action
      */
     public function onInsertAction()
     {
