@@ -29,19 +29,19 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLog($level, $file, $forceLog, $expectedLevel, $expectedKey, $expectsAddLog)
     {
         $message = uniqid();
-        $objectManager = Mage::getObjectManager();
-        /** @var $objectManager Magento_ObjectManager_Zend|PHPUnit_Framework_MockObject_MockObject */
-        $mock = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
         /** @var $logger Mage_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
         $logger = $this->getMock('Mage_Core_Model_Logger', array('log', 'addStreamLog'), array(), '', false);
+        $realLogger = Mage::getObjectManager()->get('Mage_Core_Model_Logger');
+        Mage::getObjectManager()->addSharedInstance($logger, 'Mage_Core_Model_Logger');
         try {
-            $mock->expects($this->any())->method('get')->will($this->returnValue($logger));
             $logger->expects($this->once())->method('log')->with($message, $expectedLevel, $expectedKey);
             if ($expectsAddLog) {
                 $logger->expects($this->once())->method('addStreamLog');
             }
             Mage::log($message, $level, $file, $forceLog);
+            Mage::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
         } catch (Exception $e) {
+            Mage::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
             throw $e;
         }
 
@@ -71,6 +71,7 @@ class MageTest extends PHPUnit_Framework_TestCase
         // @magentoConfigFixture is applied after initialization, so we need to do this again
         Magento_Test_Bootstrap::getInstance()->reinitialize();
         $this->expectOutputRegex('/test/');
+        Mage::app()->init();
         Mage::log('test');
     }
 
@@ -93,6 +94,7 @@ class MageTest extends PHPUnit_Framework_TestCase
         // initialize again, because config fixture is applied after initialization
         Magento_Test_Bootstrap::getInstance()->reinitialize();
         $logEntry = microtime();
+        Mage::app()->init();
         Mage::log($logEntry);
         $logFile = Mage::getBaseDir('log') . '/system.log';
         $this->assertFileExists($logFile);
@@ -108,6 +110,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     {
         // reinitialization is needed here, too
         Magento_Test_Bootstrap::getInstance()->reinitialize();
+        Mage::app()->init();
         $msg = uniqid();
         $exception = new Exception((string)$msg);
         Mage::logException($exception);

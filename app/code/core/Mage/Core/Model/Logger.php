@@ -30,9 +30,14 @@ class Mage_Core_Model_Logger
      */
     protected $_dirs = null;
 
+    /**
+     * @param Mage_Core_Model_Dir $dirs
+     */
     public function __construct(Mage_Core_Model_Dir $dirs)
     {
         $this->_dirs = $dirs;
+        $this->addStreamLog(Mage_Core_Model_Logger::LOGGER_SYSTEM)
+            ->addStreamLog(Mage_Core_Model_Logger::LOGGER_EXCEPTION);
     }
 
     /**

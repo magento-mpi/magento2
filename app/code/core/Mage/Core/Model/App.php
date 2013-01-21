@@ -283,8 +283,6 @@ class Mage_Core_Model_App
         $this->_cache = $cache;
         $this->_log = $log;
         $this->_objectManager = $objectManager;
-        $log->addStreamLog(Mage_Core_Model_Logger::LOGGER_SYSTEM)
-            ->addStreamLog(Mage_Core_Model_Logger::LOGGER_EXCEPTION);
         $this->_initEnvironment();
         $this->_dbUpdater = $dbUpdater;
         $this->_scopeCode = $scopeCode;
@@ -309,12 +307,13 @@ class Mage_Core_Model_App
      * @param  array $params
      * @return Mage_Core_Model_App
      */
-    public function init(array $params)
+    public function init()
     {
         Magento_Profiler::start('self::app::init');
         Magento_Profiler::start('init_config');
         Magento_Profiler::stop('init_config');
 
+        $this->_initializeStore();
         if (Mage::isInstalled()) {
             $this->_initRequest();
         }

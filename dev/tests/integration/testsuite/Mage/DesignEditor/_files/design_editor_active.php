@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+Mage::setCurrentArea('adminhtml');
 /** @var $session Mage_DesignEditor_Model_Session */
 $session = Mage::getModel('Mage_DesignEditor_Model_Session');
 /** @var $auth Mage_Backend_Model_Auth */
