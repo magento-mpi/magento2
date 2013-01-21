@@ -70,6 +70,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
         $form = new Varien_Data_Form();
         $this->setForm($form);
         $this->_addThemeJsFieldset();
+        parent::_prepareForm();
         return $this;
     }
 

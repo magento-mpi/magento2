@@ -108,6 +108,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             $session->unsThemeCustomCssData();
         }
         $form->addValues($formData);
+        parent::_prepareForm();
         return $this;
     }
 
