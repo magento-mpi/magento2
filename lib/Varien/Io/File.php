@@ -867,4 +867,26 @@ class Varien_Io_File extends Varien_Io_Abstract
     {
         return $this->getCleanPath(dirname($file));
     }
+
+    /**
+     * Get directories list by path\
+     *
+     * @param $path
+     * @return array
+     */
+    public function getDirectoriesList($path)
+    {
+        return glob($this->getCleanPath($path) . '*', GLOB_ONLYDIR);
+    }
+
+    /**
+     * Get path info
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getPathInfo($path)
+    {
+        return pathinfo($path);
+    }
 }

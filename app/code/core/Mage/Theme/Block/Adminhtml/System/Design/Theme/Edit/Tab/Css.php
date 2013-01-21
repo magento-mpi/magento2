@@ -185,6 +185,29 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         }
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
 
+        /** @var $fontButton Mage_Backend_Block_Widget_Button */
+        $fontButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->setData(array(
+            'id'        => 'css_fonts_manager',
+            'label'     => $this->__('Manage'),
+            'onclick'   => "MediabrowserUtility.openDialog('"
+                . $this->getUrl('*/system_design_wysiwyg_fonts/index', array(
+                    'target_element_id' => 'custom_css_content',
+                    'theme_id' => $this->_getCurrentTheme()->getId()
+                ))
+                . "', null, null,'"
+                . $this->quoteEscape(
+                    $this->__('Upload fonts...'), true
+                )
+                . "');",
+            'class'     => 'button'
+        ));
+
+        $themeFieldset->addField('css_browse_font_button', 'note', array(
+            'label' => $this->__("Fonts Assets"),
+            'text' => $fontButton->toHtml()
+        ));
+
         $themeFieldset->addField('custom_css_content', 'textarea', array(
             'label'  => $this->__('Edit custom.css'),
             'title'  => $this->__('Edit custom.css'),

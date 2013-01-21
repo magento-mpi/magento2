@@ -26,12 +26,25 @@
 
     <adminhtml_system_design_theme_edit>
         <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadTinyMce"><flag>1</flag></action>
+
+            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+
+            <action method="addJs"><file>mage/adminhtml/browser.js</file></action>
+
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-ui.js</file></action>
             <action method="addJs"><file>Mage_Theme::js/form.js</file></action>
             <action method="addJs"><file>Mage_Theme::js/sortable.js</file></action>
             <action method="addCss"><file>Mage_Theme::css/theme.css</file></action>
+            <action method="addCss"><file>prototype/windows/themes/default.css</file></action>
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit" name="theme_edit"/>
@@ -66,5 +79,24 @@
         <remove name="root"/>
         <block template="Mage_Theme::tabs/fieldset/js_items.phtml" type="Mage_Backend_Block_Template" name="theme_js_file_list" as="js_files" />
     </adminhtml_system_design_theme_uploadjs>
+
+    <adminhtml_system_design_wysiwyg_fonts_index>
+        <remove name="footer" />
+        <remove name="head" />
+        <reference name="left">
+            <block name="wysiwyg_fonts.js" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content" template="Mage_Adminhtml::cms/browser/js.phtml" />
+            <block name="wysiwyg_fonts.tree" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Tree" template="Mage_Adminhtml::cms/browser/tree.phtml" />
+        </reference>
+        <reference name="content">
+            <block name="wysiwyg_fonts.content" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content" template="browser/content.phtml">
+                <block name="wysiwyg_fonts.uploader" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content_Uploader" template="browser/content/uploader.phtml" />
+                <block name="wysiwyg_fonts.newfolder" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content_Newfolder" template="browser/content/newfolder.phtml" />
+            </block>
+        </reference>
+    </adminhtml_system_design_wysiwyg_fonts_index>
+
+    <adminhtml_system_design_wysiwyg_fonts_contents>
+        <block name="wysiwyg_fonts.files" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content_Files" template="browser/content/files.phtml" output="1" />
+    </adminhtml_system_design_wysiwyg_fonts_contents>
 
 </layout>
