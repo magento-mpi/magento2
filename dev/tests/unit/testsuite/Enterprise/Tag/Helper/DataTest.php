@@ -27,7 +27,9 @@ class Enterprise_Tag_Helper_DataTest extends PHPUnit_Framework_TestCase
         $data = array(
             'reward_model' => $rewardModelMock
         );
-        $helper = new Enterprise_Tag_Helper_Data($data);
+        $helper = new Enterprise_Tag_Helper_Data(
+            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false), $data
+        );
         $helper->addActionClassToRewardModel();
     }
 

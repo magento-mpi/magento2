@@ -34,6 +34,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false, false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false, false);
         $this->_model = $this->getMock('Enterprise_PageCache_Model_Processor',

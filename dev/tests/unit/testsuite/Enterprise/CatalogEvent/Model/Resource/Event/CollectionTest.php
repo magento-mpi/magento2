@@ -75,6 +75,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         foreach (array_keys($this->_joinValues) as $key) {
             $this->_joinValues[$key]['condition'] = str_replace(
                 array_keys($this->_joinReplaces),

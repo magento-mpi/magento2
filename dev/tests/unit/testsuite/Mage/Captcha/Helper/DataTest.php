@@ -27,6 +27,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $this->_object = new Mage_Captcha_Helper_Data(new Mage_Core_Model_Dir(TESTS_TEMP_DIR));
         $this->_object->setConfig($this->_getConfigStub());
         $this->_object->setWebsite($this->_getWebsiteStub());

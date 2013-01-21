@@ -19,6 +19,7 @@ class Mage_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $dirs = new Mage_Core_Model_Dir(TESTS_TEMP_DIR);
         $this->_model = new Mage_Core_Model_Logger($dirs);
         $this->_loggersProperty = new ReflectionProperty($this->_model, '_loggers');

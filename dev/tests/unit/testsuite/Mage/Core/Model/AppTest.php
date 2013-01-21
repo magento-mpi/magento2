@@ -18,6 +18,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $objectManager = new Magento_ObjectManager_Zend();
 
         $dirs = new Mage_Core_Model_Dir(__DIR__, array(), array(Mage_Core_Model_Dir::CONFIG => __DIR__));

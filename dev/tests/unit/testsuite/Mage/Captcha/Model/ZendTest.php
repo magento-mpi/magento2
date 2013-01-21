@@ -57,6 +57,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $this->_object = new Mage_Captcha_Model_Zend(
             array(
                 'formId' => 'user_create',

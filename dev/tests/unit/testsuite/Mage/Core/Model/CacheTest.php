@@ -43,8 +43,9 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_dirs = new Mage_Core_Model_Dir(TESTS_TEMP_DIR);
-        mkdir(self::$_dirs->getDir(Mage_Core_Model_Dir::CACHE), 0777, true);
+        //$this->markTestIncomplete('MAGETWO-6406');
+        //self::$_dirs = new Mage_Core_Model_Dir(TESTS_TEMP_DIR);
+        //mkdir(self::$_dirs->getDir(Mage_Core_Model_Dir::CACHE), 0777, true);
     }
 
     public static function tearDownAfterClass()
@@ -54,6 +55,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $objectManagerMock = $this->getMock('Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false);
         $objectManagerMock->expects($this->any())
             ->method('create')

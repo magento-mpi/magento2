@@ -39,11 +39,13 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
     {
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $resource = $this->getMock('Enterprise_GiftRegistry_Model_Resource_Entity', array(), array(), '', false);
-        $helper = $this->getMock('Enterprise_GiftRegistry_Helper_Data', array('__', 'getRegistryLink'));
-        $design = $this->getMock('Mage_Core_Model_Design_Package');
-        $translate = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->setConstructorArgs(array($design, array('locale_hierarchy' => array())))
-            ->getMock();
+        $helper = $this->getMock('Enterprise_GiftRegistry_Helper_Data',
+            array('__', 'getRegistryLink'), array(), '', false, false
+        );
+        $design = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false, false);
+        $loader = $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false);
+        $loader->expects($this->any())->method('load')->will($this->returnValue(array()));
+        $translate = $this->getMock('Mage_Core_Model_Translate', array(), array($design, $loader), '', true, false);
 
         $config = $this->getMock('Mage_Core_Model_Config', array('getModelInstance'), array(), '', false);
         $this->_store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
@@ -74,8 +76,8 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 }
             ));
 
-        $eventDispatcher = $this->getMock('Mage_Core_Model_Event_Manager');
-        $cacheManager = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+        $eventDispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
+        $cacheManager = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false, false);
 
         $this->_model = new Enterprise_GiftRegistry_Model_Entity(
             $app, $this->_store, $config, $translate, $eventDispatcher, $cacheManager, $resource, null, array(

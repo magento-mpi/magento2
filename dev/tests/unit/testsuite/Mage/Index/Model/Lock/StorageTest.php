@@ -19,6 +19,7 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 
     public function testGetFile()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $dirs = new Mage_Core_Model_Dir(__DIR__);
         $fileModel = $this->getMock('Mage_Index_Model_Process_File',
             array(

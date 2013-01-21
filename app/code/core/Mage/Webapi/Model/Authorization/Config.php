@@ -32,10 +32,11 @@ class Mage_Webapi_Model_Authorization_Config implements Mage_Core_Model_Acl_Conf
     protected $_readerFactory;
 
     /**
-     * @param Mage_Core_Model_Config $moduleReader
+     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Webapi_Model_Authorization_Config_Reader_Factory $readerFactory
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader,
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Webapi_Model_Authorization_Config_Reader_Factory $readerFactory
     ) {
         $this->_moduleReader = $moduleReader;

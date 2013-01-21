@@ -29,13 +29,23 @@ class Mage_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
      */
     protected $_factoryMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_blockMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_buttonMock;
+
     protected function setUp()
     {
         $this->_helperMock =
-            $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
+            $this->getMock('Mage_Backend_Helper_Data', array('uniqHash'), array(), '', false, false);
 
         $this->_layoutMock =
-            $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+            $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
         $this->_layoutMock
             ->expects($this->any())
             ->method('helper')
@@ -43,7 +53,7 @@ class Mage_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
 
         $arguments = array(
             'urlBuilder' =>
-                $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+                $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false),
             'layout' => $this->_layoutMock
         );
 

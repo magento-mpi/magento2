@@ -19,6 +19,7 @@ class Mage_Core_Model_App_HandlerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $this->_appMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $this->_model = new Mage_Core_Model_App_Handler($this->_appMock);
     }

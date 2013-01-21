@@ -19,7 +19,9 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         $httpClient = $this->getMock('Varien_Http_Client', array('request'));
         $httpClient->expects($this->once())->method('request')->will($this->returnValue($tunnelResponse));
         /** @var $helper Mage_Adminhtml_Helper_Dashboard_Data|PHPUnit_Framework_MockObject_MockObject */
-        $helper = $this->getMock('Mage_Adminhtml_Helper_Dashboard_Data', array('getChartDataHash'));
+        $helper = $this->getMock('Mage_Adminhtml_Helper_Dashboard_Data',
+            array('getChartDataHash'), array(), '', false, false
+        );
         $helper->expects($this->any())->method('getChartDataHash')->will($this->returnValue($fixture));
 
         $objectManager = $this->getMock('Magento_ObjectManager_Zend', array('create', 'get'));
@@ -53,7 +55,9 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         $request->setParam('h', $fixture);
 
         /** @var $helper Mage_Adminhtml_Helper_Dashboard_Data|PHPUnit_Framework_MockObject_MockObject */
-        $helper = $this->getMock('Mage_Adminhtml_Helper_Dashboard_Data', array('getChartDataHash'));
+        $helper = $this->getMock('Mage_Adminhtml_Helper_Dashboard_Data',
+            array('getChartDataHash'), array(), '', false, false
+        );
         $helper->expects($this->any())->method('getChartDataHash')->will($this->returnValue($fixture));
 
         $objectManager = $this->getMock('Magento_ObjectManager_Zend', array('create', 'get'));

@@ -19,6 +19,7 @@ class Enterprise_PageCache_Model_ObjectManager_ConfiguratorTest extends PHPUnit_
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $this->_model = new Enterprise_PageCache_Model_ObjectManager_Configurator();
     }
 

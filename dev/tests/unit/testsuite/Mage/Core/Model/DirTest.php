@@ -9,6 +9,7 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
 {
     public function testGetWritableDirCodes()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $codes = Mage_Core_Model_Dir::getWritableDirCodes();
         $this->assertInternalType('array', $codes);
         $this->assertNotEmpty($codes);
@@ -26,6 +27,7 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidUri($code, $value)
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         new Mage_Core_Model_Dir(__DIR__, array($code => $value));
     }
 
@@ -49,6 +51,7 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
 
     public function testGetUri()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $dir = new Mage_Core_Model_Dir(__DIR__, array(
             Mage_Core_Model_Dir::PUB   => '',
             Mage_Core_Model_Dir::MEDIA => 'test',
@@ -75,6 +78,7 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
 
     public function testGetDir()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $newRoot = __DIR__ . DIRECTORY_SEPARATOR . 'root';
         $newMedia = __DIR__ . DIRECTORY_SEPARATOR . 'media';
         $dir = new Mage_Core_Model_Dir(__DIR__, array(), array(

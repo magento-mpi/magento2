@@ -18,6 +18,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $xml = '<config>
                     <modules>
                         <Module>
