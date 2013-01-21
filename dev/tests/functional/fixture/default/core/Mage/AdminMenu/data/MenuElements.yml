@@ -110,7 +110,7 @@ menu:
         import_export:
             import:
             export:
-#            manage_import_export_tax_rates:
+            manage_import_export_tax_rates:
         manage_currency:
             system_currency:
             system_currencysymbol:
