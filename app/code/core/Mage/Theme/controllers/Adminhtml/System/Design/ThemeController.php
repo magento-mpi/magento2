@@ -181,6 +181,8 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
 
     /**
      * Upload js file
+     *
+     * @throws Mage_Core_Exception
      */
     public function uploadJsAction()
     {
@@ -190,7 +192,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         try {
             $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException($this->__('Theme with id "%d" is not found.', $themeId));
+                Mage::throwException($this->__('Theme with id "%d" is not found.', $themeId));
             }
             $serviceModel->uploadJsFile('js_files_uploader', $theme);
 
@@ -198,7 +200,6 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             $jsFieldsetRenderer = $this->getLayout()->getBlock('theme_js_file_list');
             $jsFieldsetRenderer->setJsFiles($theme->getCustomJsFiles());
             $result = array('content' => $jsFieldsetRenderer->toHtml());
-
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {

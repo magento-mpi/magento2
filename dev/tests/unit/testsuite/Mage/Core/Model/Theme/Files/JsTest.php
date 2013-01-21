@@ -23,16 +23,16 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
             'Mage_Core_Model_Theme_Files_Js', array('_getThemeFileByName', 'getId'), array(), '', false
         );
 
-        $jsFile->expects($this->any())
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+
+        $jsFile->expects($this->atLeastOnce())
             ->method('_getThemeFileByName')
             ->will($this->returnValue($jsFile));
 
         $jsFile->expects($this->at(1))
             ->method('getId')
-            ->will($this->returnValue(true));
-
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+            ->will($this->returnValue(1));
 
         $prepareFileName = new ReflectionMethod($jsFile, '_prepareFileName');
         $prepareFileName->setAccessible(true);
@@ -230,7 +230,7 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
-    
+
     /**
      * Set items to files collection
      *
