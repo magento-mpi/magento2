@@ -474,3 +474,29 @@ newsletter_queue:
         5: Processed
         6: Recipients
         7: Action
+
+#dataset for ui elements for Themes grid
+theme_list:
+    fieldset:
+        theme_list_grid: tablename
+    button:
+         add_new_theme:
+         reset_filter:
+         search:
+    field:
+        page:
+        theme_title:
+        parent_theme_title:
+        theme_path:
+        theme_version:
+        magento_version_from:
+        magento_version_to:
+    dropdown:
+        view_per_page:
+    headers:
+        0: Theme Title
+        1: Parent Theme
+        2: Theme Path
+        3: Theme Version
+        4: Magento Version From
+        5: Magento Version To
