@@ -231,7 +231,8 @@ create_tax_rule:
             confirmation_for_delete_rule: Are you sure you want to do this?
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
             confirmation_for_delete_class: Do you really want to delete this tax class?
-            delete_error_notice: You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.
+            used_in_rule_error: You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.
+            used_in_product_error: You cannot delete this tax class as it is used for 1 products.
 
 # Edit Tax Rule page
 edit_tax_rule:

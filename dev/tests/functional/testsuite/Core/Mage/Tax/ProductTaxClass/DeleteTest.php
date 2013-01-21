@@ -30,6 +30,7 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->navigate('manage_tax_rule');
     }
 
     protected function tearDownAfterTest()
@@ -44,86 +45,102 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Delete a Product Tax Class</p>
-     *
-     * @test
-     */
-    public function notUsedInRule()
+    * <p>Need verified that admin user will be able to delete any Product Tax Class.</p>
+    *
+    * @test
+    * @testLinkId TL-MAGE-6385
+    */
+    public function deleteProductTaxClass()
     {
-        //Data
-        $productTaxClassData = $this->loadDataSet('Tax', 'new_product_tax_class');
-        //Steps
-        $this->navigate('manage_product_tax_class');
-        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        //Steps
-        $this->taxHelper()->deleteTaxItem($productTaxClassData, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_deleted_tax_class');
+        $taxClass = $this->generate('string', 26);
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->fillCompositeMultiselect('product_tax_class', array($taxClass));
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array($taxClass)),
+            $this->getParsedMessages());
+        $this->deleteCompositeMultiselectOption('product_tax_class', $taxClass, 'confirmation_for_delete_class');
     }
 
-    /**
-     * <p>Delete a Product Tax class Core_Mage_that used in Tax Rule</p>
-     *
-     * @test
-     */
-    public function usedInRule()
+   /**
+    * <p>Need verify that  Product Tax Class should not deleted if it is used in Tax Rule.</p>
+    *
+    * @test
+    * @depends deleteProductTaxClass
+    * @testLinkId TL-MAGE-6386
+    */
+    public function deleteUsedProductTaxClass()
     {
-        //Data
-        $taxRateData = $this->loadDataSet('Tax', 'tax_rate_create_test');
-        $taxClass = $this->loadDataSet('Tax', 'new_product_tax_class');
-        $taxRule = $this->loadDataSet('Tax', 'new_tax_rule_required',
-            array('product_tax_class' => $taxClass['product_class_name'],
-                  'tax_rate'          => $taxRateData['tax_identifier']));
-        $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRule['name']));
-        //Steps
-        $this->navigate('manage_tax_zones_and_rates');
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_rate');
-        $this->navigate('manage_product_tax_class');
-        $this->taxHelper()->createTaxItem($taxClass, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        //Steps
+        $taxClass = $this->generate('string', 26);
+        //Create tax class
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->addCompositeMultiselectValue('product_tax_class', $taxClass);
+
+        //Create tax rule
+        $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required',
+            array('product_tax_class' => $taxClass));
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxItem($taxRule, 'rule');
-        //Verifying
+        $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
-        $this->_ruleToBeDeleted = $searchTaxRuleData;
-        //Steps
-        $this->navigate('manage_product_tax_class');
-        $this->taxHelper()->deleteTaxItem($taxClass, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('error', 'error_delete_tax_class');
-    }
+        $this->_ruleToBeDeleted = $this->loadDataSet('Tax', 'search_tax_rule',
+            array('filter_name' => $taxRuleData['name']));
+        $this->_deleteTaxItem($taxClass, 'used_in_rule_error');
+   }
 
     /**
-     * <p>Delete a Product Tax class Core_Mage_that used in Product</p>
+     * <p>Delete a Product Tax class that used in Product</p>
      *
      * @test
+     * @depends deleteProductTaxClass
      */
     public function usedInProduct()
     {
         //Data
-        $taxClass = $this->loadDataSet('Tax', 'new_product_tax_class');
+        $taxClass = $this->generate('string', 26);
         $product = $this->loadDataSet('Product', 'simple_product_required',
-            array('prices_tax_class' => $taxClass['product_class_name']));
+            array('prices_tax_class' => $taxClass));
         //Steps
-        $this->navigate('manage_product_tax_class');
-        $this->taxHelper()->createTaxItem($taxClass, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
+        $this->navigate('manage_tax_rule');
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->addCompositeMultiselectValue('product_tax_class', $taxClass);
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->navigate('manage_product_tax_class');
-        $this->taxHelper()->deleteTaxItem($taxClass, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('error', 'error_delete_tax_class_product');
+        $this->navigate('manage_tax_rule');
+        $this->_deleteTaxItem($taxClass, 'used_in_product_error');
+    }
+
+    /**
+     * Helper method
+     *
+     * @param $optionLabel
+     * @param $msg
+     */
+    private function _deleteTaxItem($optionLabel, $msg)
+    {
+        //delete tax class
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $containerXpath = $this->_getControlXpath('composite_multiselect', 'product_tax_class');
+        $labelLocator = "//div[normalize-space(label/span)='$optionLabel']";
+        $generalElement = $this->getElement($containerXpath);
+        $optionElement = $this->getChildElement($generalElement, $labelLocator);
+        $optionElement->click();
+        $this->getChildElement($optionElement, "//span[@title='Delete']")->click();
+        //First message
+        $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
+        $alertText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertSame($this->_getMessageXpath('confirmation_for_delete_class'), $alertText,
+            'Confirmation message is incorrect');
+        //Second message
+        $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
+        $alertText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertSame($this->_getMessageXpath($msg), $alertText, 'Confirmation message is incorrect');
     }
 }
