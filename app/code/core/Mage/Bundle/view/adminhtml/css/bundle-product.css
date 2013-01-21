@@ -15,8 +15,9 @@
     margin-bottom: 0;
 }
 
-#bundle_product_container .ui-icon-arrowthick-2-n-s {
+#bundle_product_container .ui-icon-grip-dotted-vertical {
     float: left;
+    cursor: move;
 }
 
 #bundle_product_container .ui-icon-circle-triangle-s,
@@ -28,11 +29,6 @@
 
 #bundle_product_container .option-box {
     padding: 0;
-}
-
-#bundle_product_container .option-box .entry-edit-head,
-#bundle_product_container .option-box .selection {
-    cursor: move;
 }
 
 #bundle_product_container .option-box .entry-edit-head .input-text {

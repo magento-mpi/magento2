@@ -16,7 +16,7 @@ optionTemplate = '<div id="<?php echo $this->getFieldId() ?>_{{index}}" class="o
 <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getOptionDeleteButtonHtml()) ?> +
 '</div>\
 <div class="entry-edit-head">\
-    <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>\
+    <span class="ui-icon ui-icon-grip-dotted-vertical"></span>\
     <h4 class="icon-head head-edit-form fieldset-legend">\
     <?php if ($this->isDefaultStore()): ?>\
         <input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_title" value="{{title}}">\

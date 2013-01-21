@@ -411,4 +411,7 @@ return array(
     $this->_getRule('getPackage', 'Mage_Widget_Model_Widget_Instance'),
     $this->_getRule('getTheme', 'Mage_Widget_Model_Widget_Instance'),
     $this->_getRule('_parsePackageTheme', 'Mage_Widget_Model_Widget_Instance'),
+    $this->_getRule('getHeaderText', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
+    $this->_getRule('getButtonsHtml', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
+    $this->_getRule('getHeaderCssClass', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
 );
