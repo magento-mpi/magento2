@@ -12,8 +12,7 @@
  * Theme form, Js editor tab
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
-    extends Mage_Backend_Block_Widget_Form
-    implements Mage_Backend_Block_Widget_Tab_Interface
+    extends Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
 {
     /**
      * @var Magento_ObjectManager
@@ -123,19 +122,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     protected function _getAdditionalElementTypes()
     {
-        $fileElement = Mage::getConfig()
+        $fileElement = $this->_objectManager->get('Mage_Core_Model_Config')
             ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File');
         return array('js_files' => $fileElement);
-    }
-
-    /**
-     * Get current theme
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _getCurrentTheme()
-    {
-        return Mage::registry('current_theme');
     }
 
     /**
@@ -146,36 +135,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     public function getTabLabel()
     {
         return $this->__('JS Editor');
-    }
-
-    /**
-     * Return Tab title
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return $this->getTabLabel();
-    }
-
-    /**
-     * Can show tab in tabs
-     *
-     * @return boolean
-     */
-    public function canShowTab()
-    {
-        return $this->_getCurrentTheme()->isVirtual() && $this->_getCurrentTheme()->getId();
-    }
-
-    /**
-     * Tab is hidden
-     *
-     * @return boolean
-     */
-    public function isHidden()
-    {
-        return false;
     }
 
     /**
@@ -195,10 +154,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     protected function _getUploadJsFileNote()
     {
-        $messages = array(
-            $this->__('Allowed file types *.js.'),
-        );
-
-        return implode('<br />', $messages);
+        return $this->__('Allowed file types *.js.');
     }
 }
