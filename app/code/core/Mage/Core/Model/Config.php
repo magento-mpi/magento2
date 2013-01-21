@@ -200,7 +200,12 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             }
             $path = $scope . ($scopeCode ? '/' . $scopeCode : '' ) . (empty($path) ? '' : '/' . $path);
         }
-        return $this->_config->getNode($path);
+        try {
+            return $this->_config->getNode($path);
+        } catch (Mage_Core_Model_Config_Cache_Exception $e) {
+            $this->reinit();
+            return $this->_config->getNode($path);
+        }
     }
 
     /**
@@ -483,7 +488,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             $port = isset($hostArr[1]) && (!$secure && $hostArr[1] != 80 || $secure && $hostArr[1] != 443)
                 ? ':'. $hostArr[1]
                 : '';
-            $path = Mage::getObjectManager()->get('Mage_Core_Controller_Request_Http')->getBasePath();
+            $path = Mage::getObjectManager()->get('Magento_Http_Handler_Composite')->getRequest()->getBasePath();
 
             return $scheme . $host . $port . rtrim($path, '/') . '/';
         }

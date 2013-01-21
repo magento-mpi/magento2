@@ -211,6 +211,7 @@ class Mage_Core_Model_Config_Cache
      *
      * @param   string $sectionKey
      * @return  Mage_Core_Model_Config_Base|bool
+     * @throws  Mage_Core_Model_Config_Cache_Exception
      */
     public function getSection($sectionKey)
     {
@@ -220,6 +221,8 @@ class Mage_Core_Model_Config_Cache
             $xmlString = $this->_cache->load($cacheId);
             if ($xmlString) {
                 $result = $this->_baseFactory->create($xmlString);
+            } else {
+                throw new Mage_Core_Model_Config_Cache_Exception();
             }
         }
         return $result;

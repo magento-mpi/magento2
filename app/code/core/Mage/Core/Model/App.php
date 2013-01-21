@@ -256,6 +256,12 @@ class Mage_Core_Model_App
     protected $_dbUpdater;
 
     /**
+     * Flag that checks whether store was initialized
+     * @var bool
+     */
+    protected $_isStoreInitialized;
+
+    /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Logger $log
      * @param Mage_Core_Model_Cache $cache
@@ -283,7 +289,15 @@ class Mage_Core_Model_App
         $this->_dbUpdater = $dbUpdater;
         $this->_scopeCode = $scopeCode;
         $this->_scopeType = $scopeType;
-        if (Mage::isInstalled()) {
+    }
+
+    /**
+     * Initialize application store
+     */
+    protected function _initializeStore()
+    {
+        if (!$this->_isStoreInitialized && Mage::isInstalled()) {
+            $this->_isStoreInitialized = true;
             $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
             $this->_log->initForStore($this->_store, $this->_config);
         }
@@ -317,6 +331,7 @@ class Mage_Core_Model_App
     {
         Magento_Profiler::start('init');
 
+        $this->_initializeStore();
         $this->_initRequest();
         $this->_dbUpdater->updateData();
 
@@ -611,6 +626,7 @@ class Mage_Core_Model_App
      */
     public function isSingleStoreMode()
     {
+        $this->_initializeStore();
         return $this->hasSingleStore() && Mage::helper('Mage_Core_Helper_Data')->isSingleStoreModeEnabled();
     }
 
@@ -624,6 +640,7 @@ class Mage_Core_Model_App
         if (!Mage::isInstalled()) {
             return false;
         }
+        $this->_initializeStore();
         return $this->_hasSingleStore;
     }
 
@@ -785,6 +802,7 @@ class Mage_Core_Model_App
         if (!Mage::isInstalled() || Mage::getUpdateMode()) {
             return $this->_getDefaultStore();
         }
+        $this->_initializeStore();
 
         if ($id === true && $this->hasSingleStore()) {
             return $this->_store;
@@ -851,6 +869,7 @@ class Mage_Core_Model_App
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
+        $this->_initializeStore();
         $stores = array();
         foreach ($this->_stores as $store) {
             if (!$withDefault && $store->getId() == 0) {
@@ -908,6 +927,7 @@ class Mage_Core_Model_App
      */
     public function getWebsite($id = null)
     {
+        $this->_initializeStore();
         if (is_null($id)) {
             $id = $this->getStore()->getWebsiteId();
         } elseif ($id instanceof Mage_Core_Model_Website) {
@@ -964,6 +984,7 @@ class Mage_Core_Model_App
      */
     public function getGroup($id = null)
     {
+        $this->_initializeStore();
         if (is_null($id)) {
             $id = $this->getStore()->getGroupId();
         } elseif ($id instanceof Mage_Core_Model_Store_Group) {
@@ -1301,6 +1322,7 @@ class Mage_Core_Model_App
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
+        $this->_initializeStore();
         $groups = array();
         if (is_array($this->_groups)) {
             foreach ($this->_groups as $group) {

@@ -56,6 +56,7 @@ class Mage_Core_Model_Config_Container implements Mage_Core_Model_ConfigInterfac
      *
      * @param string $path
      * @return Varien_Simplexml_Element
+     * @throws Mage_Core_Model_Config_Cache_Exception
      */
     public function getNode($path = null)
     {
