@@ -36,6 +36,13 @@ class Magento_Filesystem_Stream_Local implements Magento_Filesystem_StreamInterf
     protected $_fileHandle;
 
     /**
+     * Is stream locked
+     *
+     * @var bool
+     */
+    protected $_isLocked = false;
+
+    /**
      * Constructor
      *
      * @param string $path
@@ -48,11 +55,14 @@ class Magento_Filesystem_Stream_Local implements Magento_Filesystem_StreamInterf
     /**
      * Opens the stream in the specified mode
      *
-     * @param Magento_Filesystem_Stream_Mode $mode
+     * @param Magento_Filesystem_Stream_Mode|string $mode
      * @throws Magento_Filesystem_Exception If stream cannot be opened
      */
-    public function open(Magento_Filesystem_Stream_Mode $mode)
+    public function open($mode)
     {
+        if (is_string($mode)) {
+            $mode = new Magento_Filesystem_Stream_Mode($mode);
+        }
         $fileHandle = @fopen($this->_path, $mode->getMode());
         if (false === $fileHandle) {
             throw new Magento_Filesystem_Exception(sprintf('The stream "%s" cannot be opened', $this->_path));
@@ -149,6 +159,9 @@ class Magento_Filesystem_Stream_Local implements Magento_Filesystem_StreamInterf
     public function close()
     {
         $this->_assertOpened();
+        if ($this->_isLocked) {
+            $this->unlock();
+        }
         $result = @fclose($this->_fileHandle);
 
         if (false === $result) {
@@ -252,5 +265,37 @@ class Magento_Filesystem_Stream_Local implements Magento_Filesystem_StreamInterf
         if (!$this->_fileHandle) {
             throw new Magento_Filesystem_Exception(sprintf('The stream "%s" is not opened', $this->_path));
         }
+    }
+
+    /**
+     * Portable advisory file locking
+     *
+     * @param bool $exclusive
+     * @throws Magento_Filesystem_Exception
+     */
+    public function lock($exclusive = true)
+    {
+        $this->_assertOpened();
+        $lock = $exclusive ? LOCK_EX : LOCK_SH;
+        $this->_isLocked = flock($this->_fileHandle, $lock);
+        if (!$this->_isLocked) {
+            throw new Magento_Filesystem_Exception(sprintf('The stream "%s" can not be locked', $this->_path));
+        }
+    }
+
+    /**
+     * File unlocking
+     *
+     * @throws Magento_Filesystem_Exception
+     */
+    public function unlock()
+    {
+        $this->_assertOpened();
+        if ($this->_isLocked) {
+            if (!flock($this->_fileHandle, LOCK_UN)) {
+                throw new Magento_Filesystem_Exception(sprintf('The stream "%s" can not be unlocked', $this->_path));
+            }
+        }
+        $this->_isLocked = false;
     }
 }

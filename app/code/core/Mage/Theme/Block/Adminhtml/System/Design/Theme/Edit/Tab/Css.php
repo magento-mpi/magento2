@@ -46,6 +46,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Theme_Model_Uploader_Service $uploaderService
+     * @param Magento_Filesystem $filesystem
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -64,10 +65,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         Mage_Core_Model_Factory_Helper $helperFactory,
         Magento_ObjectManager $objectManager,
         Mage_Theme_Model_Uploader_Service $uploaderService,
+        Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
         );
         $this->_objectManager = $objectManager;
         $this->_uploaderService = $uploaderService;
@@ -172,16 +174,39 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'disabled' => 'disabled',
         ));
 
-        $cssDownloadButtonConfig = array(
+        $downloadButtonConfig = array(
             'name'  => 'css_download_button',
             'value' => $this->__('Download CSS File'),
             'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
                 'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
         );
         if (!$this->_getCurrentTheme()->getCustomCssFile()->getContent()) {
-            $cssDownloadButtonConfig['disabled'] = 'disabled';
+            $downloadButtonConfig['disabled'] = 'disabled';
         }
-        $themeFieldset->addField('css_download_button', 'button', $cssDownloadButtonConfig);
+        $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
+
+        /** @var $fontButton Mage_Backend_Block_Widget_Button */
+        $fontButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->setData(array(
+            'id'        => 'css_fonts_manager',
+            'label'     => $this->__('Manage'),
+            'onclick'   => "MediabrowserUtility.openDialog('"
+                . $this->getUrl('*/system_design_wysiwyg_fonts/index', array(
+                    'target_element_id' => 'custom_css_content',
+                    'theme_id' => $this->_getCurrentTheme()->getId()
+                ))
+                . "', null, null,'"
+                . $this->quoteEscape(
+                    $this->__('Upload fonts...'), true
+                )
+                . "');",
+            'class'     => 'button'
+        ));
+
+        $themeFieldset->addField('css_browse_font_button', 'note', array(
+            'label' => $this->__("Fonts Assets"),
+            'text' => $fontButton->toHtml()
+        ));
 
         $themeFieldset->addField('custom_css_content', 'textarea', array(
             'label'  => $this->__('Edit custom.css'),
@@ -291,14 +316,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _sortGroupFilesCallback($firstGroup, $secondGroup)
     {
-        $hasModuleContextFirst = strpos($firstGroup['label'], '::') !== false;
-        $hasModuleContextSecond = strpos($secondGroup['label'], '::') !== false;
+        $hasContextFirst = strpos($firstGroup['label'], '::') !== false;
+        $hasContextSecond = strpos($secondGroup['label'], '::') !== false;
 
-        if ($hasModuleContextFirst && $hasModuleContextSecond) {
+        if ($hasContextFirst && $hasContextSecond) {
             $result = strcmp($firstGroup['label'], $secondGroup['label']);
-        } elseif (!$hasModuleContextFirst && !$hasModuleContextSecond) {
+        } elseif (!$hasContextFirst && !$hasContextSecond) {
             $result = strcmp($firstGroup['label'], $secondGroup['label']);
-        } elseif ($hasModuleContextFirst) {
+        } elseif ($hasContextFirst) {
             //case when first item has module context and second item doesn't
             $result = 1;
         } else {
