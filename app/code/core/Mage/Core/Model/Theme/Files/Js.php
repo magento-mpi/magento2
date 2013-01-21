@@ -185,17 +185,11 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
      *
      * @param Mage_Core_Model_Theme $theme
      * @param string $order
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_Files_Collection|Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getCollectionByTheme(Mage_Core_Model_Theme $theme, $order = Varien_Data_Collection::SORT_ORDER_ASC)
     {
-        /** @var $filesCollection Mage_Core_Model_Resource_Theme_Files_Collection */
-        $jsCollection =  parent::getCollectionByTheme($theme);
-
-        /** @var $themeFiles Mage_Core_Model_Resource_Theme_Files_Collection */
-        $themeFiles = $jsCollection->setOrder($jsCollection->getConnection()->quoteIdentifier('order'), $order);
-
-        return $themeFiles;
+        return parent::getCollectionByTheme($theme)->setDefaultOrder($order);
     }
 
     /**
