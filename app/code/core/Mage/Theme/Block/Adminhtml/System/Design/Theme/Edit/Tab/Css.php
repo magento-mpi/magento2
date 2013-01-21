@@ -20,11 +20,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     extends Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
 {
     /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
      * Uploader service
      *
      * @var Mage_Theme_Model_Uploader_Service
@@ -69,15 +64,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Filesystem $filesystem,
         Magento_ObjectManager $objectManager,
         Mage_Theme_Model_Uploader_Service $uploaderService,
-        Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $objectManager, $data
         );
-        $this->_objectManager = $objectManager;
         $this->_uploaderService = $uploaderService;
     }
 

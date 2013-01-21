@@ -159,8 +159,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Validate theme data
      *
-     * @throws Mage_Core_Exception
      * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
      */
     protected function _validate()
     {
@@ -212,26 +212,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function hasChildThemes()
     {
         return (bool)$this->getCollection()->addFieldToFilter('parent_id', array('eq' => $this->getId()))->getSize();
-    }
-
-    /**
-     * Update all child themes relations
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _updateChildRelations()
-    {
-        $parentThemeId = $this->getParentId();
-        /** @var $childThemes Mage_Core_Model_Resource_Theme_Collection */
-        $childThemes = $this->getCollection();
-        $childThemes->addFieldToFilter('parent_id', array('eq' => $this->getId()))->load();
-
-        /** @var $theme Mage_Core_Model_Theme */
-        foreach ($childThemes->getItems() as $theme) {
-            $theme->setParentId($parentThemeId)->save();
-        }
-
-        return $this;
     }
 
     /**
@@ -339,7 +319,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
-        $this->_updateChildRelations();
+        $this->getCollection()->updateChildRelations($this);
         return parent::_afterDelete();
     }
 
