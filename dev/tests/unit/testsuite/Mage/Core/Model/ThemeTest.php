@@ -146,7 +146,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $themeMock Mage_Core_Model_Theme */
         $themeMock = $this->getMock(
             'Mage_Core_Model_Theme',
-            array('_init', '_beforeSave', 'cleanModelCache'),
+            array('_init', '_beforeSave', 'cleanModelCache', '_applyCustomizationFiles'),
             array(
                  $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false),
                 $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
@@ -158,6 +158,8 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             '',
             true
         );
+
+        $themeMock->expects($this->once())->method('_applyCustomizationFiles');
 
         $jsFile = $this->getMock('Mage_Core_Model_Theme_Files_Js', array('saveData'), array(), '', false);
         $jsFile->expects($this->once())->method('saveData');
