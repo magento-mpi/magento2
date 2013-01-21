@@ -20,7 +20,7 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
     /**
      * Css file type customization
      */
-    const TYPE = 'css_file';
+    const TYPE = 'js_file';
 
     /**
      * @var array
