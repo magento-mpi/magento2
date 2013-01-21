@@ -579,7 +579,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getFullPath()
     {
-        return $this->getArea() . '/' . $this->getThemePath();
+        return $this->getArea() . self::PATH_SEPARATOR . $this->getThemePath();
     }
 
     /**
