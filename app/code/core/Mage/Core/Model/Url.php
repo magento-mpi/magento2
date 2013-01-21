@@ -135,6 +135,7 @@ class Mage_Core_Model_Url extends Varien_Object
     {
         $this->setStore(null);
         $this->_request = Mage::app()->getRequest();
+        parent::__construct($data);
     }
 
     /**
