@@ -256,14 +256,15 @@ class Magento_Test_Bootstrap
     /**
      * Run application normally, but with encapsulated initialization options
      *
-     * @param array $additionalParams
+     * @param array $params
      */
-    public function runApp(array $additionalParams)
+    public function runApp(array $params)
     {
         $composer = Mage::getObjectManager();
         $handler = $composer->get('Magento_Http_Handler_Composite');
         $handler->handle(
-            $composer->get('Mage_Core_Controller_Request_Http'), $composer->get('Mage_Core_Controller_Response_Http')
+            isset($params['request']) ? $params['request'] : $composer->get('Mage_Core_Controller_Request_Http'),
+            isset($params['response']) ? $params['response'] : $composer->get('Mage_Core_Controller_Response_Http')
         );
     }
 
@@ -485,6 +486,12 @@ class Magento_Test_Bootstrap
 
         /* Initialize an application in non-installed mode */
         $this->_initialize($this->_initParams);
+
+        /* Run all install and data-install scripts */
+        /** @var $updater Mage_Core_Model_Db_Updater */
+        $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_Updater');
+        $updater->updateScheme();
+        $updater->updateData();
 
         /* Enable configuration cache by default in order to improve tests performance */
         Mage::getObjectManager()->get('Mage_Core_Model_Cache')->saveOptions(array('config' => 1));

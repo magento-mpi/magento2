@@ -54,12 +54,6 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     protected function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_objectManager->configure(array(
-            'preferences' => array(
-                'Mage_Core_Controller_Request_Http' => 'Magento_Test_Request',
-                'Mage_Core_Controller_Response_Http' => 'Magento_Test_Response',
-            )
-        ));
     }
 
     protected function tearDown()
@@ -78,7 +72,10 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function dispatch($uri)
     {
         $this->getRequest()->setRequestUri($uri);
-        $this->_getBootstrap()->runApp($this->_runOptions);
+        $this->_getBootstrap()->runApp(array(
+            'request' => $this->getRequest(),
+            'response' => $this->getResponse()
+        ));
     }
 
     /**
