@@ -147,29 +147,28 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
         return "
             <script>
                 jQuery(function($) {
-                    var qty = $('#$quantityFieldId'),
+                    var qty = $('#{$quantityFieldId}'),
                         productType = $('#type_id').val(),
-                        stockAvailability = $('#$inStockFieldId'),
-                        manageStock = $('#inventory_manage_stock'),
-                        useConfigManageStock = $('#inventory_use_config_manage_stock');
+                        stockAvailabilityField = $('#{$inStockFieldId}'),
+                        manageStockField = $('#inventory_manage_stock'),
+                        useConfigManageStockField = $('#inventory_use_config_manage_stock');
 
                     var disabler = function() {
                         if (productType == 'configurable' || productType == 'grouped') {
                             return;
                         }
-                        var manageStockValue = 0;
-                        if (qty.val() === '') {
-                            stockAvailability.prop('disabled', true).val(0);
+                        var manageStockValue = (qty.val() === '') ? 0 : 1;
+                        if (manageStockValue) {
+                            stockAvailabilityField.prop('disabled', false);
                         } else {
-                            stockAvailability.prop('disabled', false);
-                            manageStockValue = 1;
+                            stockAvailabilityField.prop('disabled', true).val(0);
                         }
-                        if (manageStock.val() != manageStockValue) {
-                            if (useConfigManageStock.val() == 1) {
-                                useConfigManageStock.removeAttr('checked').val(0);
+                        if (manageStockField.val() != manageStockValue) {
+                            if (useConfigManageStockField.val() == 1) {
+                                useConfigManageStockField.removeAttr('checked').val(0);
                             }
-                            manageStock.toggleClass('disabled', false).prop('disabled', false);
-                            manageStock.val(manageStockValue);
+                            manageStockField.toggleClass('disabled', false).prop('disabled', false);
+                            manageStockField.val(manageStockValue);
                         }
                     };
 
