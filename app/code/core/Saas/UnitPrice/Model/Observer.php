@@ -20,25 +20,26 @@ class Saas_UnitPrice_Model_Observer
      * Set the default value on a product in the admin interface
      *
      * @param Varien_Event_Observer $observer
+     * @return Saas_UnitPrice_Model_Observer
      */
     public function catalogProductLoadAfter($observer)
     {
         if (!$this->_getSaasUnitPriceHelperData()->moduleActive()) {
-            return;
+            return $this;
         }
 
         $product = $observer->getProduct();
-        $unitPriceCodes = array(
-            'unit_price_amount', 'unit_price_unit', 'unit_price_base_amount', 'unit_price_base_unit'
-        );
-        foreach ($unitPriceCodes as $attributeCode) {
+        foreach (array('unit_price_amount', 'unit_price_unit', 'unit_price_base_amount', 'unit_price_base_unit')
+            as $attributeCode) {
             $data = $product->getDataUsingMethod($attributeCode);
-            if (!isset($data)) {
+            if (! isset($data)) {
                 $attribute = $this->_getEavEntityAttributeModel();
                 $attribute->loadByCode('catalog_product', $attributeCode);
                 $product->setDataUsingMethod($attributeCode, $attribute->getFrontend()->getValue($product));
             }
         }
+
+        return $this;
     }
 
     /**

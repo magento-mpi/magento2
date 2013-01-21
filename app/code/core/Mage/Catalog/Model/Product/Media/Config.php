@@ -26,7 +26,7 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
      */
     public function getBaseMediaPathAddition()
     {
-        return 'catalog' . DS . 'product';
+        return 'catalog' . DIRECTORY_SEPARATOR . 'product';
     }
 
     /**
@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
      */
     public function getBaseTmpMediaPathAddition()
     {
-        return 'tmp' . DS . $this->getBaseMediaPathAddition();
+        return 'tmp' . DIRECTORY_SEPARATOR . $this->getBaseMediaPathAddition();
     }
 
     /**
@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
 
     public function getBaseMediaPath()
     {
-        return Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product';
+        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'catalog' . DIRECTORY_SEPARATOR . 'product';
     }
 
     public function getBaseMediaUrl()
@@ -74,7 +74,7 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
 
     public function getBaseTmpMediaPath()
     {
-        return Mage::getBaseDir('media') . DS . $this->getBaseTmpMediaPathAddition();
+        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . $this->getBaseTmpMediaPathAddition();
     }
 
     public function getBaseTmpMediaUrl()
@@ -97,11 +97,11 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
     {
         $file = $this->_prepareFileForPath($file);
 
-        if(substr($file, 0, 1) == DS) {
-            return $this->getBaseMediaPath() . DS . substr($file, 1);
+        if(substr($file, 0, 1) == DIRECTORY_SEPARATOR) {
+            return $this->getBaseMediaPath() . DIRECTORY_SEPARATOR . substr($file, 1);
         }
 
-        return $this->getBaseMediaPath() . DS . $file;
+        return $this->getBaseMediaPath() . DIRECTORY_SEPARATOR . $file;
     }
 
     public function getTmpMediaUrl($file)
@@ -152,20 +152,20 @@ class Mage_Catalog_Model_Product_Media_Config implements Mage_Media_Model_Image_
     {
         $file = $this->_prepareFileForPath($file);
 
-        if(substr($file, 0, 1) == DS) {
-            return $this->getBaseTmpMediaPath() . DS . substr($file, 1);
+        if(substr($file, 0, 1) == DIRECTORY_SEPARATOR) {
+            return $this->getBaseTmpMediaPath() . DIRECTORY_SEPARATOR . substr($file, 1);
         }
 
-        return $this->getBaseTmpMediaPath() . DS . $file;
+        return $this->getBaseTmpMediaPath() . DIRECTORY_SEPARATOR . $file;
     }
 
     protected function _prepareFileForUrl($file)
     {
-        return str_replace(DS, '/', $file);
+        return str_replace(DIRECTORY_SEPARATOR, '/', $file);
     }
 
     protected function _prepareFileForPath($file)
     {
-        return str_replace('/', DS, $file);
+        return str_replace('/', DIRECTORY_SEPARATOR, $file);
     }
 }

@@ -57,13 +57,14 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     /**
      * Initialize data
      *
+     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(array $data = array())
+    public function __construct(Magento_Filesystem $filesystem, array $data = array())
     {
         $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
         $this->_locale = isset($data['locale']) ? $data['locale'] : Mage::app()->getLocale();
-        parent::__construct($data);
+        parent::__construct($filesystem, $data);
     }
 
     /**

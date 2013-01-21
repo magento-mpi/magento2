@@ -1300,8 +1300,9 @@ class Mage_Core_Model_App
     public function cleanAllSessions()
     {
         if (session_module_name() == 'files') {
-            $dir = session_save_path();
-            mageDelTree($dir);
+            /** @var Magento_Filesystem $filesystem */
+            $filesystem = $this->_objectManager->create('Magento_Filesystem');
+            $filesystem->delete(session_save_path());
         }
         return $this;
     }

@@ -198,8 +198,12 @@ WysiwygWidget.Widget.prototype = {
     },
 
     insertWidget: function() {
-        var validationResult = jQuery('#' + this.formEl).valid();
+        jQuery('#' + this.formEl).validate({
+            ignore: ".skip-submit",
+            errorClass: 'mage-error'
+        });
 
+        var validationResult = jQuery('#' + this.formEl).valid();
         if (validationResult) {
             var formElements = [];
             var i = 0;

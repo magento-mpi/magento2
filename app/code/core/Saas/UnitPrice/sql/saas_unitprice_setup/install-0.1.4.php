@@ -121,9 +121,10 @@ $attributeCodeToModel = array(
     'unit_price_base_unit'   => 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Reference_Unit',
 );
 
+$adapter = $this->getConnection();
 foreach ($attributeCodeToModel as $code => $model) {
-    $this->getConnection()
-        ->update($this->getTable('eav_attribute'), array('attribute_model' => $model), "`attribute_code` = '$code'");
+    $where = array($adapter->quoteIdentifier('attribute_code') . ' = ?' => $code);
+    $adapter->update($this->getTable('eav_attribute'), array('attribute_model' => $model), $where);
 }
 
 $this->endSetup();
