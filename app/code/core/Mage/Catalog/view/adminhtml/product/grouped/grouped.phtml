@@ -10,9 +10,15 @@
 ?>
 <div id="grouped-products-container">
     <?php
+    /** @var $_gridBlock Mage_Catalog_Block_Product_Tab_Grouped */
     $_gridBlock = $this->getChildBlock('catalog.product.group.grid');
-    /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Grouped */
-    echo $this->getChildHtml('catalog.product.group.grid'); ?>
+    $_gridPopupBlock = $this->getChildBlock('catalog.product.group.grid.popup');
+    $_gridPopupBlock->setRowClickCallback('function(){}');
+    /** @var $_helper Mage_Core_Helper_Data */
+    $_helper = $this->helper('Mage_Core_Helper_Data');
+    echo $this->getChildHtml('catalog.product.group.grid');
+    ?>
+    <input type="hidden" name="<?php echo $_gridBlock->getHiddenInputName();?>"/>
     <div id="grouped-products-popup">
         <?php echo $this->getChildHtml('catalog.product.group.grid.popup');?>
         <button id="grouped-products-select">Select Products</button>
@@ -29,28 +35,68 @@
             resizable: true
         });
         var grid = window.<?php echo $_gridBlock->getJsObjectName() ?>,
-            $groupedGrid = $('#groupedGrid'),
-            $groupedGridPopup = $('#groupedGridPopup'),
-            associatedProductsId = <?php echo $_gridBlock->getAssociatedProductsId()?>;
+            gridPopup = window.<?php echo $_gridPopupBlock->getJsObjectName() ?>,
+            $groupedGrid = $('#grouped_grid'),
+            $groupedGridPopup = $('#grouped_grid_popup'),
+            $hiddenInput = $('#grouped-products-container input[name="<?php echo $_gridBlock->getHiddenInputName()?>"]'),
+            associatedProductsId = <?php echo $_gridBlock->getAssociatedProductsId()?>,
+            fieldsToSave = <?php echo $_helper->jsonEncode($_gridBlock->getFieldsToSave())?>;
+
+        var updateHiddenField = function (ids) {
+            var gridData = {};
+            $.each($groupedGrid.find('td.selected-products'), function () {
+                var $idContainer = $(this),
+                    inArray = $.inArray($idContainer.html().trim(), ids) !== -1;
+                if (inArray) {
+                    var data = {};
+                    $.each(fieldsToSave, function (k, v) {
+                        data[v] = $idContainer.closest('tr').find('input[name="' + v + '"]').val()
+                    });
+                    gridData[$(this).html().trim()] = data;
+                }
+            });
+            $hiddenInput.val(JSON.stringify(gridData));
+        };
         var displayGridRow = function (ids) {
-            $.each($groupedGrid.find('.selected-products input[type="checkbox"]'), function () {
-                var inArray = $.inArray($(this).val(), ids) !== -1;
-                $(this).closest('tr').toggle(inArray).toggleClass('ignore-validate', !inArray);
+            $.each($groupedGrid.find('td.selected-products'), function () {
+                var $idContainer = $(this),
+                    inArray = $.inArray($idContainer.html().trim(), ids) !== -1;
+                $idContainer.closest('tr').toggle(inArray).toggleClass('ignore-validate', !inArray);
+            });
+        };
+        var getSelectedIds = function () {
+            var ids = [];
+            $.each($groupedGridPopup.find('.selected-products input[type="checkbox"]:checked'), function () {
+                ids.push($(this).val());
+            });
+            return ids;
+        };
+        var updatePopupGrid = function () {
+            $.each($groupedGrid.find('td.selected-products'), function () {
+                var id = $(this).html().trim();
+                $groupedGridPopup.find('input[type=checkbox][value="' + id + '"]')
+                    .prop({checked: !$(this).closest('tr').hasClass('ignore-validate')});
             });
         };
         grid.rowClickCallback = function () {};
+        gridPopup.rowClickCallback = function (grid, event) {
+            event.stopPropagation();
+            if (!this.rows || !this.rows.length) {
+                return;
+            }
+            $(event.target).parent().find('td.selected-products input[type="checkbox"]').click();
+            return false;
+        };
         displayGridRow(associatedProductsId);
-        $groupedGrid.find('.column-hidden').hide();
-        $groupedGrid.find('.selected-products input[type="checkbox"]').prop({checked: true});
+        updatePopupGrid();
+        updateHiddenField(associatedProductsId);
         $('#grouped-add-products').on('click', function () {
             $gridDialog.dialog('open');
             return false;
         });
         $('#grouped-products-select').on('click', function () {
-            var ids = [];
-            $.each($groupedGridPopup.find('.selected-products input[type="checkbox"]:checked'), function () {
-                ids.push($(this).val());
-            });
+            var ids = getSelectedIds();
+            updateHiddenField(ids);
             displayGridRow(ids);
             $gridDialog.dialog('close');
             return false;
@@ -60,6 +106,11 @@
             event.stopPropagation();
             var $this = $(this);
             $this.closest('tr').hide().addClass('ignore-validate');
+            updatePopupGrid();
+            updateHiddenField(getSelectedIds());
+        });
+        $groupedGrid.on('change keyup', 'input[type="text"]', function (event) {
+            updateHiddenField(getSelectedIds());
         });
     });
 </script>

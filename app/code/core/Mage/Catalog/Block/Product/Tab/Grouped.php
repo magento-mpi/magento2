@@ -18,6 +18,18 @@
 class Mage_Catalog_Block_Product_Tab_Grouped extends Mage_Backend_Block_Widget_Grid
 {
 
+    protected $_hiddenInputName;
+    protected $_fieldsToSave = array();
+
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setId('super_product_grid');
+        $this->setDefaultSort('entity_id');
+        $this->setSkipGenerateContent(true);
+        $this->setUseAjax(true);
+    }
+
     /**
      * Retrieve grouped products
      *
@@ -51,5 +63,21 @@ class Mage_Catalog_Block_Product_Tab_Grouped extends Mage_Backend_Block_Widget_G
             $ids[] = $product->getId();
         }
         return $this->helper('Mage_Core_Helper_Data')->jsonEncode($ids);
+    }
+
+    public function getHiddenInputName()
+    {
+        return $this->_hiddenInputName;
+    }
+
+    public function getFieldsToSave()
+    {
+        return $this->_fieldsToSave;
+    }
+
+    public function setGridData($hiddenInputName, $fieldsToSave = array())
+    {
+        $this->_hiddenInputName = $hiddenInputName;
+        $this->_fieldsToSave = $fieldsToSave;
     }
 }
