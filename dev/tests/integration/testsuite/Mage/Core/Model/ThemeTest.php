@@ -217,11 +217,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @dataProvider getCustomJsFilesProvider
+     * @dataProvider getJsCustomizationProvider
      * @param array $filesData
      * @param array $expectedData
      */
-    public function testGetCustomJsFiles($filesData, $expectedData)
+    public function testJsCustomization($filesData, $expectedData)
     {
         /** @var $theme Mage_Core_Model_Theme */
         /** @var $themeModel Mage_Core_Model_Theme */
@@ -236,7 +236,10 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 ->save();
         }
 
-        $themeFilesCollection = $themeModel->getCustomJsFiles();
+        /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
+        $filesJs = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Customization_Files_Js');
+        $themeFilesCollection = $themeModel->setCustomization($filesJs)
+            ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
         $this->assertInstanceOf('Mage_Core_Model_Resource_Theme_Files_Collection', $themeFilesCollection);
         $themeFiles = $themeFilesCollection->toArray();
         foreach ($themeFiles['items'] as &$themeFile) {
@@ -250,7 +253,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getCustomJsFilesProvider()
+    public function getJsCustomizationProvider()
     {
         return array(
             array(

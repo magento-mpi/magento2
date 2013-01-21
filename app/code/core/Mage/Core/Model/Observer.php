@@ -119,8 +119,8 @@ class Mage_Core_Model_Observer
         /** @var $layout Mage_Core_Model_Layout */
         $layout = $observer->getEvent()->getLayout();
 
-        /** @var $themeService Mage_Core_Model_Theme_Service */
-        $themeService = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Service');
+        /** @var $themeService Mage_Core_Model_Theme_Customization_Include */
+        $themeService = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Customization_Include');
         $themeService->addThemeCustomization($layout);
 
         return $this;

@@ -53,14 +53,16 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             if ($themeId && !$theme->load($themeId)->getId()) {
                 Mage::throwException($this->__('Theme was not found.'));
             }
+            /** @var $cssFileModel Mage_Core_Model_Theme_Customization_Files_Css */
+            $cssFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
+            /** @var $jsFileModel Mage_Core_Model_Theme_Customization_Files_Js */
+            $jsFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
+            $theme->setCustomization($cssFileModel)->setCustomization($jsFileModel);
+
+            $jsFileModel->removeTemporaryFiles($theme);
             Mage::register('current_theme', $theme);
 
             $this->loadLayout();
-
-            /** @var $jsFileModel Mage_Core_Model_Theme_Files_Js */
-            $jsFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Files_Js');
-            $jsFileModel->removeTemporaryFiles($theme);
-
             /** @var $tab Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css */
             $tab = $this->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
@@ -90,10 +92,10 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         $redirectBack = (bool)$this->getRequest()->getParam('back', false);
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
-        /** @var $themeCss Mage_Core_Model_Theme_Files_Css */
-        $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Files_Css');
-        /** @var $themeJs Mage_Core_Model_Theme_Files_Js */
-        $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Files_Js');
+        /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
+        $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
+        /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
+        $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
         try {
             if ($this->getRequest()->getPost()) {
                 $themeData = $this->getRequest()->getParam('theme');
@@ -103,12 +105,12 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 $reorderJsFiles = array_keys((array)$this->getRequest()->getParam('js_order'));
 
                 $themeCss->setDataForSave($customCssData);
-                $theme->setThemeCustomizationObject($themeCss);
+                $theme->setCustomization($themeCss);
 
                 $themeJs->setDataForSave($uploadJsFiles);
                 $themeJs->setDataForDelete($removeJsFiles);
                 $themeJs->setJsOrderData($reorderJsFiles);
-                $theme->setThemeCustomizationObject($themeJs);
+                $theme->setCustomization($themeJs);
 
                 $theme->saveFormData($themeData);
 
@@ -190,6 +192,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
         $themeId = $this->getRequest()->getParam('id');
         try {
+            /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
             if (!$theme->getId()) {
                 Mage::throwException($this->__('Theme with id "%d" is not found.', $themeId));
@@ -197,9 +200,15 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             $serviceModel->uploadJsFile('js_files_uploader', $theme);
 
             $this->loadLayout();
-            $jsFieldsetRenderer = $this->getLayout()->getBlock('theme_js_file_list');
-            $jsFieldsetRenderer->setJsFiles($theme->getCustomJsFiles());
-            $result = array('content' => $jsFieldsetRenderer->toHtml());
+
+            /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
+            $filesJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
+            $customJsFiles = $theme->setCustomization($filesJs)
+                ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
+
+            $jsItemsBlock = $this->getLayout()->getBlock('theme_js_file_list');
+            $jsItemsBlock->setJsFiles($customJsFiles);
+            $result = array('content' => $jsItemsBlock->toHtml());
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
@@ -222,16 +231,21 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 throw new InvalidArgumentException('Theme with id ' . $themeId . ' is not found.');
             }
 
-            $content = $theme->getCustomCssFile()->getContent();
-            if ($content) {
-                $this->_prepareDownloadResponse(Mage_Core_Model_Theme_Files_Css::FILE_NAME, array(
+            /** @var $filesCss Mage_Core_Model_Theme_Customization_Files_Css */
+            $filesCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
+            /** @var $customCssFile Mage_Core_Model_Theme_Files */
+            $customCssFile = $theme->setCustomization($filesCss)
+                ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
+
+            if ($customCssFile->getContent()) {
+                $this->_prepareDownloadResponse(Mage_Core_Model_Theme_Customization_Files_Css::FILE_NAME, array(
                     'type'  => 'filename',
-                    'value' => $theme->getCustomCssFile()->getFilePath(true)
+                    'value' => $customCssFile->getFilePath(true)
                 ));
             }
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                $this->__('File "%s" is not found.', Mage_Core_Model_Theme_Files_Css::FILE_NAME));
+                $this->__('File "%s" is not found.', Mage_Core_Model_Theme_Customization_Files_Css::FILE_NAME));
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }

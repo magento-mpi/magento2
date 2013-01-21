@@ -11,8 +11,8 @@
 /**
  * Theme files abstract class
  */
-abstract class Mage_Core_Model_Theme_Files_Abstract extends Varien_Object
-    implements Mage_Core_Model_Theme_Customization_Interface
+abstract class Mage_Core_Model_Theme_Customization_Files_FilesAbstract extends Varien_Object
+    implements Mage_Core_Model_Theme_Customization_CustomizationInterface
 {
     /**
      * @var Mage_Core_Model_Theme_Files
@@ -38,7 +38,7 @@ abstract class Mage_Core_Model_Theme_Files_Abstract extends Varien_Object
      * Setter for data for save
      *
      * @param mixed $data
-     * @return Mage_Core_Model_Theme_Files_Abstract
+     * @return Mage_Core_Model_Theme_Customization_Files_FilesAbstract
      */
     public function setDataForSave($data)
     {
@@ -49,10 +49,10 @@ abstract class Mage_Core_Model_Theme_Files_Abstract extends Varien_Object
     /**
      * Save data
      *
-     * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme_Files_Abstract
+     * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
+     * @return Mage_Core_Model_Theme_Customization_Files_FilesAbstract
      */
-    public function saveData(Mage_Core_Model_Theme $theme)
+    public function saveData(Mage_Core_Model_Theme_Customization_CustomizedInterface $theme)
     {
         if (null !== $this->_dataForSave) {
             $this->_save($theme);
@@ -63,10 +63,10 @@ abstract class Mage_Core_Model_Theme_Files_Abstract extends Varien_Object
     /**
      * Save data
      *
-     * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
      * @return Mage_Core_Model_Resource_Theme_Files_Collection
      */
-    public function getCollectionByTheme(Mage_Core_Model_Theme $theme)
+    public function getCollectionByTheme(Mage_Core_Model_Theme_Customization_CustomizedInterface $theme)
     {
         /** @var $filesCollection Mage_Core_Model_Resource_Theme_Files_Collection */
         $filesCollection = $this->_themeFiles->getCollection()->addFilter('theme_id', $theme->getId())

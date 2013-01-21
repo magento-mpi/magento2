@@ -11,12 +11,27 @@
 /**
  * Theme css file model class
  */
-class Mage_Core_Model_Theme_Files_Css extends Mage_Core_Model_Theme_Files_Abstract
+class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Theme_Customization_Files_FilesAbstract
 {
     /**
      * Css file name
      */
     const FILE_NAME = 'custom.css';
+
+    /**
+     * Css file type customization
+     */
+    const TYPE = 'css_file';
+
+    /**
+     * Return css file customization type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE;
+    }
 
     /**
      * Return file type
@@ -32,12 +47,12 @@ class Mage_Core_Model_Theme_Files_Css extends Mage_Core_Model_Theme_Files_Abstra
      * Save data
      *
      * @param $theme Mage_Core_Model_Theme
-     * @return Mage_Core_Model_Theme_Files_Css
+     * @return Mage_Core_Model_Theme_Customization_Files_Css
      */
     protected function _save($theme)
     {
-        /** @var $cssModel Mage_Core_Model_Theme_Files */
-        $cssFile = $this->getFileByTheme($theme);
+        /** @var $cssFile Mage_Core_Model_Theme_Files */
+        $cssFile = $this->getCollectionByTheme($theme)->getFirstItem();
         $cssFile->addData(array(
             'theme_id'  => $theme->getId(),
             'file_name' => self::FILE_NAME,
@@ -46,18 +61,5 @@ class Mage_Core_Model_Theme_Files_Css extends Mage_Core_Model_Theme_Files_Abstra
         ))->save();
 
         return $this;
-    }
-
-    /**
-     * Return theme css file by theme
-     *
-     * @param $theme Mage_Core_Model_Theme
-     * @return Mage_Core_Model_Theme_Files
-     */
-    public function getFileByTheme($theme)
-    {
-        /** @var $cssModel Mage_Core_Model_Theme_Files */
-        $cssFile = $this->getCollectionByTheme($theme)->getFirstItem();
-        return $cssFile;
     }
 }

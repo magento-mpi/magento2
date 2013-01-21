@@ -16,6 +16,51 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_ObjectManager $objectManager
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Filesystem $filesystem,
+        Magento_ObjectManager $objectManager,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
+        );
+        $this->_objectManager = $objectManager;
+    }
+
+    /**
      * Create a form element with necessary controls
      *
      * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
@@ -40,9 +85,12 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
             'legend' => $this->__('Theme Java Script'),
         ));
 
+        $customJsFiles = $this->_getCurrentTheme()
+            ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
+
+        /** @var $jsFieldsetRenderer Mage_Backend_Block_Widget_Form_Renderer_Fieldset */
         $jsFieldsetRenderer = $this->getChildBlock('theme_edit_tabs_tab_js_tab_content');
-        $jsFieldsetRenderer->setJsFiles($this->_getCurrentTheme()->getCustomJsFiles());
-        $this->_getCurrentTheme()->getCustomJsFiles();
+        $jsFieldsetRenderer->setJsFiles($customJsFiles);
 
         $jsFieldset = $themeFieldset->addFieldset('js_fieldset_javascript_content', array('class' => 'fieldset-wide'));
 

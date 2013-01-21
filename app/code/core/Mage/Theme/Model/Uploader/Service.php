@@ -47,7 +47,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     /**
      * Files js model
      *
-     * @var Mage_Core_Model_Theme_Files_Js
+     * @var Mage_Core_Model_Theme_Customization_Files_Js
      */
     protected $_filesJs;
 
@@ -65,7 +65,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param Magento_File_Size $fileSize
-     * @param Mage_Core_Model_Theme_Files_Js $filesJs
+     * @param Mage_Core_Model_Theme_Customization_Files_Js $filesJs
      * @param array $data
      */
     public function __construct(
@@ -73,7 +73,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
         Mage_Core_Model_Cache $cacheManager,
         Varien_Io_File $fileIo,
         Magento_File_Size $fileSize,
-        Mage_Core_Model_Theme_Files_Js $filesJs,
+        Mage_Core_Model_Theme_Customization_Files_Js $filesJs,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()

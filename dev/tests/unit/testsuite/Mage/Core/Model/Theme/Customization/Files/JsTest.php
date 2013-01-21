@@ -12,15 +12,15 @@
 /**
  * Test theme js file model
  */
-class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework_TestCase
 {
     public function testPrepareFileName()
     {
         $fileName = 'js_file.js';
 
-        /** @var $jsFile Mage_Core_Model_Theme_Files_Js */
+        /** @var $jsFile Mage_Core_Model_Theme_Customization_Files_Js */
         $jsFile = $this->getMock(
-            'Mage_Core_Model_Theme_Files_Js', array('_getThemeFileByName', 'getId'), array(), '', false
+            'Mage_Core_Model_Theme_Customization_Files_Js', array('_getThemeFileByName', 'getId'), array(), '', false
         );
 
         /** @var $themeModel Mage_Core_Model_Theme */
@@ -46,7 +46,7 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
         $themeModel = $this->_getMockThemeModel();
 
         $modelJsFile = $this->getMock(
-            'Mage_Core_Model_Theme_Files_Js',
+            'Mage_Core_Model_Theme_Customization_Files_Js',
             array('_delete', '_save'),
             array($filesModel)
         );
@@ -72,9 +72,9 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
             $filesCollection[] = $files;
         }
 
-        /** @var $modelJsFile Mage_Core_Model_Theme_Files_Js  */
+        /** @var $modelJsFile Mage_Core_Model_Theme_Customization_Files_Js  */
         $modelJsFile = $this->getMock(
-            'Mage_Core_Model_Theme_Files_Js',
+            'Mage_Core_Model_Theme_Customization_Files_Js',
             array('getCollectionByTheme', '_save'),
             array($filesModel)
         );
@@ -154,7 +154,7 @@ class Mage_Core_Model_Theme_Files_JsTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($collection));
 
         // 5. Create tested class and set test data
-        $jsFilesManager = new Mage_Core_Model_Theme_Files_Js($themeFiles);
+        $jsFilesManager = new Mage_Core_Model_Theme_Customization_Files_Js($themeFiles);
         $jsFilesManager->setJsOrderData($jsOrderData);
 
         // 6. Run tested functionality
