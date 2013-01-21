@@ -27,7 +27,9 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_cookie = $this->getMock(
             'Enterprise_PageCache_Model_Cookie', array('set', 'delete', 'updateCustomerCookies')
         );
-        $this->_observer = $this->getMock('Enterprise_PageCache_Model_Observer', array('_getCookie'));
+        $this->_observer = $this->getMock(
+            'Enterprise_PageCache_Model_Observer', array('_getCookie'), array(), '', false
+        );
         $this->_observer
             ->expects($this->any())
             ->method('_getCookie')
