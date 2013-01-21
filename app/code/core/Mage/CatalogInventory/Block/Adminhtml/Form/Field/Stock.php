@@ -146,20 +146,30 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
     {
         return "
             <script>
-            //<![CDATA[
                 jQuery(function($) {
                     var qty = $('#$quantityFieldId'),
-                        isInStock = $('#$inStockFieldId'),
-                        manageStock = $('#inventory_manage_stock').removeClass('disabled').removeAttr('disabled'),
+                        productType = $('#type_id').val(),
+                        stockAvailability = $('#$inStockFieldId'),
+                        manageStock = $('#inventory_manage_stock'),
                         useConfigManageStock = $('#inventory_use_config_manage_stock');
 
                     var disabler = function() {
-                        if ('' === qty.val()) {
-                            isInStock.attr('disabled', 'disabled');
-                            manageStock.val(0);
+                        if (productType == 'configurable' || productType == 'grouped') {
+                            return;
+                        }
+                        var manageStockValue = 0;
+                        if (qty.val() === '') {
+                            stockAvailability.prop('disabled', true).val(0);
                         } else {
-                            isInStock.removeAttr('disabled');
-                            manageStock.val(1);
+                            stockAvailability.prop('disabled', false);
+                            manageStockValue = 1;
+                        }
+                        if (manageStock.val() != manageStockValue) {
+                            if (useConfigManageStock.val() == 1) {
+                                useConfigManageStock.removeAttr('checked').val(0);
+                            }
+                            manageStock.toggleClass('disabled', false).prop('disabled', false);
+                            manageStock.val(manageStockValue);
                         }
                     };
 
@@ -196,7 +206,6 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                     });
                     disabler();
                 });
-            //]]>
             </script>
         ";
     }
