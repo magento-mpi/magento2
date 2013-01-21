@@ -59,6 +59,11 @@ class Mage_Core_Model_App
     const ADMIN_STORE_ID = 0;
 
     /**
+     * Dependency injection configuration node name
+     */
+    const CONFIGURATION_DI_NODE = 'di';
+
+    /**
      * Application loaded areas array
      *
      * @var array
@@ -267,7 +272,7 @@ class Mage_Core_Model_App
         $this->_initCache();
         $this->_config->init($options);
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-        $this->_objectManager->loadAreaConfiguration();
+        $this->loadDiConfiguration();
         Magento_Profiler::stop('init_config');
 
         if (Mage::isInstalled($options)) {
@@ -350,7 +355,7 @@ class Mage_Core_Model_App
             $logger = $this->_initLogger();
             $this->_initModules();
             $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-            $this->_objectManager->loadAreaConfiguration();
+            $this->loadDiConfiguration();
 
             if ($this->_config->isLocalConfigLoaded()) {
                 $scopeCode = isset($params['scope_code']) ? $params['scope_code'] : '';
@@ -432,7 +437,8 @@ class Mage_Core_Model_App
             $options = array();
         }
         $options = array_merge($options, $cacheInitOptions);
-        $this->_cache = Mage::getModel('Mage_Core_Model_Cache', array('options' => $options));
+        $this->_cache = $this->_objectManager->create('Mage_Core_Model_Cache', array('options' => $options), false);
+        $this->_objectManager->addSharedInstance($this->_cache, 'Mage_Core_Model_Cache');
         $this->_isCacheLocked = false;
         return $this;
     }
@@ -1589,5 +1595,19 @@ class Mage_Core_Model_App
     public function isDeveloperMode()
     {
         return Mage::getIsDeveloperMode();
+    }
+
+    /**
+     * Load di configuration for given area
+     *
+     * @param string $areaCode
+     */
+    public function loadDiConfiguration($areaCode = Mage_Core_Model_App_Area::AREA_GLOBAL)
+    {
+        $configurationNode = $this->_config->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
+        if ($configurationNode) {
+            $configuration = $configurationNode->asArray();
+            $this->_objectManager->setConfiguration($configuration);
+        }
     }
 }

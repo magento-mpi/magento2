@@ -41,6 +41,14 @@ class Mage_DesignEditor_Model_State
     const MODE_NAVIGATION = 'navigation';
     /**#@-*/
 
+    /**#@+
+     * Session keys
+     */
+    const CURRENT_HANDLE_SESSION_KEY = 'vde_current_handle';
+    const CURRENT_URL_SESSION_KEY    = 'vde_current_url';
+    const CURRENT_MODE_SESSION_KEY   = 'vde_current_mode';
+    /**#@-*/
+
     /**
      * @var Mage_Backend_Model_Session
      */
@@ -130,19 +138,33 @@ class Mage_DesignEditor_Model_State
             $mode = self::MODE_NAVIGATION;
 
             if (!$request->isAjax()) {
-                $this->_backendSession->setData('vde_current_handle', $controller->getFullActionName());
-                $this->_backendSession->setData('vde_current_url', $request->getPathInfo());
+                $this->_backendSession->setData(self::CURRENT_HANDLE_SESSION_KEY, $controller->getFullActionName());
+                $this->_backendSession->setData(self::CURRENT_URL_SESSION_KEY, $request->getPathInfo());
             }
         } else {
             $mode = self::MODE_DESIGN;
         }
 
-        $this->_backendSession->setData('vde_current_mode', $mode);
+        $this->_backendSession->setData(self::CURRENT_MODE_SESSION_KEY, $mode);
         $this->_injectUrlModel($mode);
         $this->_injectLayout($mode, $areaCode);
         $this->_injectLayoutUpdateResourceModel();
         $this->_setTheme();
         $this->_disableCache();
+    }
+
+    /**
+     * Reset VDE state data
+     *
+     * @return Mage_DesignEditor_Model_State
+     */
+    public function reset()
+    {
+        $this->_backendSession->unsetData(self::CURRENT_HANDLE_SESSION_KEY)
+            ->unsetData(self::CURRENT_URL_SESSION_KEY)
+            ->unsetData(self::CURRENT_MODE_SESSION_KEY);
+
+        return $this;
     }
 
     /**
@@ -209,7 +231,7 @@ class Mage_DesignEditor_Model_State
     {
         foreach ($this->_dataHelper->getDisabledCacheTypes() as $cacheCode) {
             if ($this->_cacheManager->canUse($cacheCode)) {
-                $this->_cacheManager->invalidateType($cacheCode);
+                $this->_cacheManager->banUse($cacheCode);
             }
         }
     }

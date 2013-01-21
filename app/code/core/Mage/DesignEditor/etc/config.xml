@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_DesignEditor>
-            <version>1.0.0.0</version>
+            <version>1.0.0.1</version>
             <active>true</active>
             <codePool>core</codePool>
             <depends>
@@ -21,6 +21,16 @@
             </depends>
         </Mage_DesignEditor>
     </modules>
+    <global>
+        <resources>
+            <designeditor_setup>
+                <setup>
+                    <module>Mage_DesignEditor</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </designeditor_setup>
+        </resources>
+    </global>
     <default>
         <web>
             <routers>
@@ -108,16 +118,6 @@
                 </white_list>
             </container>
         </design_editor>
-        <events>
-            <controller_front_send_response_after>
-                <observers>
-                    <design_editor_clear_cache>
-                        <class>Mage_DesignEditor_Model_Observer</class>
-                        <method>clearCache</method>
-                    </design_editor_clear_cache>
-                </observers>
-            </controller_front_send_response_after>
-        </events>
     </vde>
     <admin>
         <routers>

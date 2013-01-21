@@ -24,12 +24,17 @@ menu:
         manage_sales_billing_agreements:
         manage_sales_checkout_terms_conditions:
         manage_gift_wrapping:
+        tax:
+            manage_tax_rule:
+            manage_import_export_tax_rates:
+            manage_customer_tax_class:
+            manage_product_tax_class:
 
     catalog:
         manage_products:
         categories:
             manage_categories:
-            catalog_event:
+            manage_catalog_event:
         attributes:
             manage_attributes:
             manage_attribute_sets:
@@ -46,7 +51,14 @@ menu:
             pending_tags:
         google_content:
             google_content_manage_attributes:
-        xml_sitemap:
+            google_content_manage_items:
+        catalog_google_sitemap:
+
+    mobile:
+        manage_apps:
+        submission_history:
+        message_templates:
+        message_queue:
 
     customers:
        manage_customers:
@@ -77,7 +89,7 @@ menu:
             manage_cms_pages:
             manage_pages_hierarchy:
         manage_cms_static_blocks:
-        manage_cms_banners:
+        manage_banners:
         manage_cms_widgets:
         poll_manager:
 
@@ -94,8 +106,8 @@ menu:
             report_shopcart_product:
             report_shopcart_abandoned:
         invitations:
-            reports_invitations_general:
-            reports_invitations_customers:
+            report_invitations_general:
+            report_invitations_customers:
             invitations_order_conversion_rate:
         products:
             report_sales_bestsellers:
@@ -125,17 +137,18 @@ menu:
            tools:
                system_backup:
            web_services:
-               api_users:
-               api_roles_management:
+               api_user:
+               api_role:
+               oauth_consumer:
+               oauth_authorizedTokens:
+               oauth_admin_token:
            design:
                system_design:
-               design_editor_selector:
-               theme_list:
+               system_design_editor:
            import_export:
                import:
                export:
-               scheduled_import_export:
-               manage_import_export_tax_rates:
+               import_export_scheduled:
            manage_currency:
                system_currency:
                system_currencysymbol:
@@ -155,7 +168,4 @@ menu:
            index_management:
            manage_stores:
            order_statuses:
-           tax:
-              manage_tax_rule:
-              manage_tax_zones_and_rates:
            system_configuration:
