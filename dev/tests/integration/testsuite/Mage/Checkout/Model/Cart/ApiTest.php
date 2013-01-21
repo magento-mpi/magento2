@@ -147,7 +147,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $prefix = '01';
         Magento_Test_Helper_Eav::setIncrementIdPrefix('order', $prefix);
 
-        $quote = Mage::registry('quote');
+        $quote = $this->_getQuoteFixture();
         $orderIncrementId = Magento_Test_Helper_Api::call(
             $this,
             'shoppingCartOrder',
@@ -169,7 +169,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateOrderWithPayment()
     {
-        $quote = Mage::registry('quote');
+        $quote = $this->_getQuoteFixture();
         $paymentMethod = array(
             'method' => 'ccsave',
             'cc_owner' => 'user',
@@ -205,7 +205,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateOrderWithNotAvailablePayment()
     {
-        $quote = Mage::registry('quote');
+        $quote = $this->_getQuoteFixture();
         $paymentMethod = array(
             'method' => 'paypal_direct',
             'cc_owner' => 'user',
@@ -243,7 +243,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateOrderWithEmptyPaymentData()
     {
-        $quote = Mage::registry('quote');
+        $quote = $this->_getQuoteFixture();
         $errorCode = 1071;
         $errorMessage = 'Payment method data is empty.';
         try {
@@ -272,7 +272,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateOrderWithInvalidPaymentData()
     {
-        $quote = Mage::registry('quote');
+        $quote = $this->_getQuoteFixture();
         $paymentMethod = array(
             'method' => 'ccsave',
             'cc_owner' => 'user',
@@ -323,7 +323,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     public function testInfo()
     {
         /** @var Mage_Checkout_Model_Cart $quote */
-        $quote = Mage::registry('quote');
+        $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote info. */
         $quoteInfo = Magento_Test_Helper_Api::call(
@@ -352,7 +352,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     public function testTotals()
     {
         /** @var Mage_Checkout_Model_Cart $quote */
-        $quote = Mage::registry('quote');
+        $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote info. */
         $quoteTotals = Magento_Test_Helper_Api::call(
@@ -392,7 +392,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     public function testLicenseAgreement()
     {
         /** @var Mage_Checkout_Model_Cart $quote */
-        $quote = Mage::registry('quote');
+        $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote license agreement. */
         $licenseAgreement = Magento_Test_Helper_Api::call(
@@ -408,5 +408,19 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $agreementData = $agreement->getData();
         unset($agreementData['store_id']);
         $this->assertEquals($agreementData, reset($licenseAgreement), 'License agreement data is incorrect.');
+    }
+
+    /**
+     * Retrieve the quote object created in fixture.
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _getQuoteFixture()
+    {
+        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        /** @var Mage_Sales_Model_Quote $quote */
+        $quote = $quoteCollection->getFirstItem();
+        return $quote;
     }
 }

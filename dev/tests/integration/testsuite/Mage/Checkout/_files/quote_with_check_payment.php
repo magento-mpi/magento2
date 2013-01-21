@@ -10,6 +10,7 @@
  */
 
 require 'quote_with_address.php';
+/** @var Mage_Sales_Model_Quote $quote */
 
 /** @var $rate Mage_Sales_Model_Quote_Address_Rate */
 $rate = Mage::getModel('Mage_Sales_Model_Quote_Address_Rate');
@@ -22,7 +23,6 @@ $quote->getPayment()->setMethod('checkmo');
 
 $quote->collectTotals();
 $quote->save();
-Mage::register('quote', $quote);
 
 $quoteService = new Mage_Sales_Model_Service_Quote($quote);
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');
