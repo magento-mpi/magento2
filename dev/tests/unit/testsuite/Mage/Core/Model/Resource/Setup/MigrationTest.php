@@ -133,7 +133,6 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
      */
     public function testAppendClassAliasReplace()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
         $setupModel = new Mage_Core_Model_Resource_Setup_Migration(
             $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false, false),
@@ -185,7 +184,6 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
      */
     public function testDoUpdateClassAliases($replaceRules, $tableData, $expected, $aliasesMap = array())
     {
-        $this->markTestIncomplete('MAGETWO-6406');
         $this->_actualUpdateResult = array();
 
         $tableRowsCount = count($tableData);
@@ -196,7 +194,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
             $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
             'core_setup',
-            $this->_getModelDependencies()
+            $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)
         );
         $setupModel->setTable('table', 'table');
 
@@ -239,7 +237,6 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
      */
     public function testGetCompositeModules()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
         $compositeModules = Mage_Core_Model_Resource_Setup_Migration::getCompositeModules();
         $this->assertInternalType('array', $compositeModules);
         $this->assertNotEmpty($compositeModules);

@@ -36,6 +36,11 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     );
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dirMock;
+
+    /**
      * path to fonts
      * @var array
      */
@@ -57,7 +62,8 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
+        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
+
         $this->_object = new Mage_Captcha_Model_Zend(
             array(
                 'formId' => 'user_create',
@@ -219,7 +225,10 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
         $helper = $this->getMock(
             'Mage_Captcha_Helper_Data',
             array('getConfigNode', 'getFonts', '_getWebsiteCode', 'getImgUrl'),
-            array(new Mage_Core_Model_Dir(TESTS_TEMP_DIR))
+            array(
+                $this->_dirMock,
+                $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false)
+            )
         );
 
         $helper->expects($this->any())

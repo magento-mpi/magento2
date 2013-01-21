@@ -13,7 +13,8 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Translate
+class
+Mage_Core_Model_Translate
 {
     const CSV_SEPARATOR     = ',';
     const SCOPE_SEPARATOR   = '::';

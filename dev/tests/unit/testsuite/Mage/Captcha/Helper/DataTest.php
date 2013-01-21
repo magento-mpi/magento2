@@ -22,13 +22,21 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dirMock;
+
+    /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $this->_object = new Mage_Captcha_Helper_Data(new Mage_Core_Model_Dir(TESTS_TEMP_DIR));
+        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_object = new Mage_Captcha_Helper_Data(
+            $this->_dirMock,
+            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false)
+        );
         $this->_object->setConfig($this->_getConfigStub());
         $this->_object->setWebsite($this->_getWebsiteStub());
         $this->_object->setStore($this->_getStoreStub());
@@ -84,6 +92,10 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetFonts()
     {
+        $this->_dirMock->expects($this->once())
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::LIB)
+            ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
         $fonts = $this->_object->getFonts();
         $this->assertArrayHasKey('font_code', $fonts); // fixture
         $this->assertArrayHasKey('label', $fonts['font_code']);
@@ -99,6 +111,11 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetImgDir()
     {
+        $this->_dirMock->expects($this->once())
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::MEDIA)
+            ->will($this->returnValue(TESTS_TEMP_DIR . '/media'));
+
         $this->assertFileNotExists(TESTS_TEMP_DIR . '/captcha');
         $result = $this->_object->getImgDir();
         $this->assertFileExists($result);
@@ -117,7 +134,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create Config Stub
-     * @return Mage_Core_Model_Config
+     * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getConfigStub()
     {
@@ -135,7 +152,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create Website Stub
-     * @return Mage_Core_Model_Website
+     * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getWebsiteStub()
     {
@@ -154,7 +171,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create store stub
-     * @return Mage_Core_Model_Store
+     * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getStoreStub()
     {

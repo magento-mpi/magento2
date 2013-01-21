@@ -45,7 +45,12 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testFetchView($filename, $expectedOutput)
     {
-        $this->markTestIncomplete('MAGETWO-6406');
+        $map = array(
+            array(Mage_Core_Model_Dir::APP, __DIR__),
+            array(Mage_Core_Model_Dir::THEMES, __DIR__ . 'design'),
+        );
+        $dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
+        $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
         $layout = $this->getMock('Mage_Core_Model_Layout', array('isDirectOutput'), array(), '', false);
         $design = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false, false);
         $block = $this->getMock('Mage_Core_Block_Template', array('getShowTemplateHints'), array(
@@ -53,18 +58,19 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $layout,
             $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Url', array(), array(), '', false, false),
-            $this->getMock('Mage_Core_Model_Translate', array(), array($design)),
+            $this->getMock('Mage_Core_Model_Translate', array(),
+                array(
+                    $design,
+                    $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false)
+                )
+            ),
             $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Session', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false, false),
-            new Mage_Core_Model_Dir(
-                __DIR__ . '/_files',
-                array(Mage_Core_Model_Dir::APP => ''),
-                array(Mage_Core_Model_Dir::APP => __DIR__)
-            ),
+            $dirMock,
             $this->getMock('Mage_Core_Model_Logger', array('log'), array(), '', false)
         ));
         $layout->expects($this->once())->method('isDirectOutput')->will($this->returnValue(false));

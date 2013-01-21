@@ -28,12 +28,16 @@ class Mage_Core_Model_Locale_Hierarchy_Loader
     /**
      * Compose locale inheritance hierarchy based on given config
      *
-     * @param array $localeConfig assoc array where key is a code of locale and value is a code of its parent locale
+     * @param array|string $localeConfig assoc array where key is a code of locale and value is a code of its parent locale
      * @return array
      */
-    protected function _composeLocaleHierarchy(array $localeConfig)
+    protected function _composeLocaleHierarchy($localeConfig)
     {
         $localeHierarchy = array();
+        if (!is_array($localeConfig)) {
+            return $localeHierarchy;
+        }
+
         foreach ($localeConfig as $locale => $localeParent) {
             $localeParents = array($localeParent);
             while (isset($localeConfig[$localeParent]) && !in_array($localeConfig[$localeParent], $localeParents)

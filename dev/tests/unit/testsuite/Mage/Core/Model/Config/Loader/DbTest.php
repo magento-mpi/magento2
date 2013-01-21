@@ -32,9 +32,13 @@ class Mage_Core_Model_Config_Loader_DbTest extends PHPUnit_Framework_TestCase
      */
     protected $_resourceMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_factoryMock;
+
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
         $this->_modulesConfigMock = $this->getMock('Mage_Core_Model_Config_Modules',
             array(), array(), '', false, false
         );
@@ -42,10 +46,13 @@ class Mage_Core_Model_Config_Loader_DbTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false
         );
         $this->_resourceMock = $this->getMock('Mage_Core_Model_Resource_Config', array(), array(), '', false, false);
+        $this->_factoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory', array(), array(), '', false, false);
+
         $this->_model = new Mage_Core_Model_Config_Loader_Db(
             $this->_modulesConfigMock,
             $this->_resourceMock,
-            $this->_dbUpdaterMock
+            $this->_dbUpdaterMock,
+            $this->_factoryMock
         );
     }
 
@@ -54,17 +61,58 @@ class Mage_Core_Model_Config_Loader_DbTest extends PHPUnit_Framework_TestCase
         unset($this->_dbUpdaterMock);
         unset($this->_modulesConfigMock);
         unset($this->_resourceMock);
+        unset($this->_factoryMock);
         unset($this->_model);
     }
 
-    public function testLoad()
+    public function testLoadWithReadConnection()
     {
+        $this->_resourceMock->expects($this->once())->method('getReadConnection')->will($this->returnValue(true));
         $this->_dbUpdaterMock->expects($this->once())->method('updateScheme');
 
+        $configData = new Varien_Simplexml_Config();
         $configMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
-        $configMock->expects($this->once())->method('extend') ->with($this->_modulesConfigMock);
+        $this->_modulesConfigMock->expects($this->once())->method('getNode')->will($this->returnValue('config_node'));
+        $this->_factoryMock->expects($this->once())->method('create')
+            ->with('config_node')
+            ->will($this->returnValue($configData));
+
+        $configMock->expects($this->once())->method('extend')->with($configData);
+        $this->_modulesConfigMock->expects($this->never())->method('reinit');
 
         $this->_resourceMock->expects($this->once())->method('loadToXml')->with($configMock);
+
+        $this->_model->load($configMock, true);
+    }
+
+    public function testLoadWithReadConnectionAndWithoutCache()
+    {
+        $this->_resourceMock->expects($this->once())->method('getReadConnection')->will($this->returnValue(true));
+        $this->_dbUpdaterMock->expects($this->once())->method('updateScheme');
+
+        $configData = new Varien_Simplexml_Config();
+        $configMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
+        $this->_modulesConfigMock->expects($this->once())->method('getNode')->will($this->returnValue('config_node'));
+        $this->_factoryMock->expects($this->once())->method('create')
+            ->with('config_node')
+            ->will($this->returnValue($configData));
+
+        $configMock->expects($this->once())->method('extend')->with($configData);
+        $this->_modulesConfigMock->expects($this->once())->method('reinit');
+
+        $this->_resourceMock->expects($this->once())->method('loadToXml')->with($configMock);
+
+        $this->_model->load($configMock, false);
+    }
+
+    public function testLoadWithoutReadConnection()
+    {
+        $this->_resourceMock->expects($this->once())->method('getReadConnection')->will($this->returnValue(false));
+        $this->_dbUpdaterMock->expects($this->never())->method('updateScheme');
+
+        $configMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
+        $configMock->expects($this->never())->method('extend');
+        $this->_resourceMock->expects($this->never())->method('loadToXml');
 
         $this->_model->load($configMock);
     }

@@ -17,17 +17,17 @@ class Mage_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
      */
     protected $_loggersProperty = null;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dirMock;
+
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $dirs = new Mage_Core_Model_Dir(TESTS_TEMP_DIR);
-        $this->_model = new Mage_Core_Model_Logger($dirs);
+        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_model = new Mage_Core_Model_Logger($this->_dirMock);
         $this->_loggersProperty = new ReflectionProperty($this->_model, '_loggers');
         $this->_loggersProperty->setAccessible(true);
-        $logDir = $dirs->getDir(Mage_Core_Model_Dir::LOG);
-        if (!is_dir($logDir)) {
-            mkdir($logDir, 0777, true);
-        }
     }
 
     /**

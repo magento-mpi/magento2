@@ -154,10 +154,11 @@ class Mage_Core_Model_Dir
      * Initialize URIs and paths
      *
      * @param string $baseDir
+     * @param Varien_Io_File $fileSystem
      * @param array $uris custom URIs
      * @param array $dirs custom directories (full system paths)
      */
-    public function __construct($baseDir, array $uris = array(), array $dirs = array())
+    public function __construct($baseDir, Varien_Io_File $fileSystem, array $uris = array(), array $dirs = array())
     {
         // uris
         foreach (array_keys($this->_uris) as $code) {
@@ -180,10 +181,11 @@ class Mage_Core_Model_Dir
         foreach ($this->_getDefaultReplacements($dirs) as $code => $replacement) {
             $this->_setDir($code, $replacement);
         }
+
         foreach (self::getWritableDirCodes() as $code) {
             $path = $this->getDir($code);
-            if ($path && !is_dir($path)) {
-                mkdir($path);
+            if ($path) {
+                $fileSystem->checkAndCreateFolder($path);
             }
         }
     }
