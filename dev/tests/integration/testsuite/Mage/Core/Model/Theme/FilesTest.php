@@ -27,7 +27,7 @@ class Mage_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
         $filesData['theme_id'] = $theme->getId();
         $filesModel->setData($filesData);
 
-        $crud = new Magento_Test_Entity($filesModel, array('file_name' => 'rename.css'));
+        $crud = new Magento_Test_Entity($filesModel, array('file_path' => 'rename.css'));
         $crud->testCrud();
     }
 
