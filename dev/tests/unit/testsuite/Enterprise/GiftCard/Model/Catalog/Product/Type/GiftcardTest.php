@@ -46,11 +46,13 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $store = $this->getMock('Mage_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
         $store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
 
+        $storageMock = $this->getMockBuilder('Mage_Core_Helper_File_Storage_Database')
+            ->disableOriginalConstructor()->getMock();
         $helpers = array(
             'Enterprise_GiftCard_Helper_Data'        => $this->getMock('Enterprise_GiftCard_Helper_Data'),
             'Mage_Core_Helper_Data'                  => $this->getMock('Mage_Core_Helper_Data'),
             'Mage_Catalog_Helper_Data'               => $this->getMock('Mage_Catalog_Helper_Data'),
-            'Mage_Core_Helper_File_Storage_Database' => $this->getMock('Mage_Core_Helper_File_Storage_Database')
+            'Mage_Core_Helper_File_Storage_Database' => $storageMock
         );
 
         foreach ($helpers as $helper) {
@@ -59,14 +61,18 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $locale = new Varien_Object(array('number' => 100));
 
+        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = $this->getMock(
             'Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard',
             array('_isStrictProcessMode'),
-            array(array(
-                'store'     => $store,
-                'helpers'   => $helpers,
-                'locale'    => $locale,
-            ))
+            array(
+                $filesystem,
+                array(
+                    'store'     => $store,
+                    'helpers'   => $helpers,
+                    'locale'    => $locale,
+                )
+            )
         );
     }
 

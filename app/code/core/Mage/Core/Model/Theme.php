@@ -92,11 +92,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_labelsCollection;
 
     /**
-     * @var Varien_Io_File
-     */
-    protected $_ioFile;
-
-    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -110,6 +105,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @var Mage_Core_Helper_Data
      */
     protected $_helper;
+
+    /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
 
     /**
      * Theme customization objects for save
@@ -126,6 +126,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Helper_Data $helper
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Resource_Theme $resource
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
@@ -138,6 +139,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Helper_Data $helper,
+        Magento_Filesystem $filesystem,
         Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
@@ -146,6 +148,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $this->_objectManager = $objectManager;
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -154,19 +157,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('Mage_Core_Model_Resource_Theme');
-    }
-
-    /**
-     * Filesystem client
-     *
-     * @return Varien_Io_File
-     */
-    protected function _getIoFile()
-    {
-        if (!$this->_ioFile) {
-            $this->_ioFile = new Varien_Io_File();
-        }
-        return $this->_ioFile;
     }
 
     /**
@@ -435,7 +425,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         /** @var $design Mage_Core_Model_Design_Package */
         $design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
         $dirPath = $design->getPublicDir();
-        $this->_getIoFile()->checkAndCreateFolder($dirPath);
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->ensureDirectoryExists($dirPath);
+        $this->_filesystem->setWorkingDirectory($dirPath);
         return $dirPath;
     }
 
@@ -527,7 +519,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $fileName = $this->getImagePathOrigin() . DS . $upload->getUploadedFileName();
         $this->removePreviewImage()->createPreviewImage($fileName);
-        $this->_getIoFile()->rm($fileName);
+        $this->_filesystem->delete($fileName);
         return true;
     }
 
@@ -565,7 +557,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $filePath = $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage();
         $destinationFileName = Varien_File_Uploader::getNewFileName($filePath);
-        $this->_getIoFile()->cp(
+        $this->_filesystem->copy(
             $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
             $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $destinationFileName
         );
@@ -583,7 +575,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $previewImage = $this->getPreviewImage();
         $this->setPreviewImage('');
         if ($previewImage) {
-            $this->_getIoFile()->rm($this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $previewImage);
+            $this->_filesystem->delete($this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $previewImage);
         }
         return $this;
     }

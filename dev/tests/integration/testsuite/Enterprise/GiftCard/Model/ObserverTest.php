@@ -18,7 +18,8 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_blockInjections = array(
         'Mage_Core_Model_Event_Manager',
-        'Mage_Core_Model_Cache'
+        'Mage_Core_Model_Cache',
+        'Magento_Filesystem'
     );
 
     /**
@@ -34,8 +35,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $event = new Varien_Event(array('order' => $order));
         $observer = new Varien_Event_Observer(array('event' => $event));
 
-        $zendMailMock = $this->getMock('Zend_Mail', array('send')
-        );
+        $zendMailMock = $this->getMock('Zend_Mail', array('send'));
         $zendMailMock->expects($this->once())
             ->method('send')
             ->will($this->returnValue(true));
@@ -46,11 +46,9 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('_getMail')
             ->will($this->returnValue($zendMailMock));
 
-        $arguments = $this->_prepareConstructorArguments();
-        $arguments[] = null;
-        $arguments[] = null;
-        $arguments[] = array('email_template_model' => $emailTemplateMock);
-        $model = Mage::getModel('Enterprise_GiftCard_Model_Observer', $arguments);
+        $model = Mage::getModel('Enterprise_GiftCard_Model_Observer', array(
+            'data' => array('email_template_model' => $emailTemplateMock)
+        ));
         $model->generateGiftCardAccounts($observer);
         $this->assertEquals(
             array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),

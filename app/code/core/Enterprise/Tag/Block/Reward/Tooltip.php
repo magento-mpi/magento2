@@ -36,6 +36,7 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Filesystem $filesystem
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -52,11 +53,11 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
-        );
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data);
 
         if (isset($data['helpers'])) {
             $this->_helpers = $data['helpers'];
@@ -66,7 +67,6 @@ class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Toolti
         $helper = $this->_helper('Enterprise_Tag_Helper_Data');
         $helper->addActionClassToRewardModel();
     }
-
 
     /**
      * Helper getter
