@@ -19,9 +19,15 @@
 class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resource
 {
 
+    /**
+     * Returns payment data or empty array in case it is not valid
+     *
+     * @param array $data
+     * @return array
+     */
     protected function _preparePaymentData($data)
     {
-        if (!(is_array($data) && is_null($data[0]))) {
+        if (!is_array($data)) {
             return array();
         }
 
@@ -149,13 +155,13 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
 
         $total = $quote->getBaseSubtotal();
         $methods = Mage::helper('Mage_Payment_Helper_Data')->getStoreMethods($store, $quote);
-        foreach ($methods as $key=>$method) {
+
+        foreach ($methods as $method) {
+            /** @var $method Mage_Payment_Model_Method_Abstract */
             if ($method->getCode() == $paymentData['method']) {
-                /** @var $method Mage_Payment_Model_Method_Abstract */
-                if (!($this->_canUsePaymentMethod($method, $quote)
-                        && ($total != 0
-                            || $method->getCode() == 'free'
-                            || ($quote->hasRecurringItems() && $method->canManageRecurringProfiles())))) {
+                $isRecurring = $quote->hasRecurringItems() && $method->canManageRecurringProfiles();
+                $isAllowedMethod = $total != 0 || $method->getCode() == 'free' || $isRecurring;
+                if (!$this->_canUsePaymentMethod($method, $quote) || !$isAllowedMethod) {
                     $this->_fault("method_not_allowed");
                 }
             }
