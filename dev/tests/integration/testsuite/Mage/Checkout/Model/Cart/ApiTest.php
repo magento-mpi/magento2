@@ -319,7 +319,6 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      * Test info method.
      *
      * @magentoDataFixture Mage/Checkout/_files/quote_with_check_payment.php
-     * @magentoAppIsolation enabled
      */
     public function testInfo()
     {
@@ -349,7 +348,6 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      * Test totals method.
      *
      * @magentoDataFixture Mage/Checkout/_files/quote_with_check_payment.php
-     * @magentoAppIsolation enabled
      */
     public function testTotals()
     {
@@ -367,6 +365,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         /** Assert totals titles. */
         $expectedQuotesTitles = array('Subtotal', 'Gift Cards', 'Store Credit', 'Grand Total');
         $actualQuotesTitles = array();
+        $grandTotal = null;
         foreach ($quoteTotals as $quoteTotal) {
             $actualQuotesTitles[] = $quoteTotal['title'];
             if ($quoteTotal['title'] == 'Grand Total') {
