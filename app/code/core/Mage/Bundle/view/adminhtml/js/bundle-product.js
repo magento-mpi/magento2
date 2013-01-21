@@ -20,7 +20,7 @@ jQuery(function($) {
         _initOptionBoxes: function () {
             this.element.sortable({
                 axis: 'y',
-                handle: '.ui-icon-grip-dotted-vertical',
+                handle: '.entry-edit-head > .ui-icon-grip-dotted-vertical',
                 items: '.option-box',
                 update: this._updateOptionBoxPositions,
                 tolerance: 'pointer'
@@ -51,7 +51,7 @@ jQuery(function($) {
         },
         _bindAddSelectionDialog: function () {
             var self = this;
-            $('.add-selection').on('click', function (event) {
+            this._on({'click .add-selection': function (event) {
                 var $optionBox = $(event.target).closest('.option-box'),
                     $selectionGrid = $optionBox.find('.selection-search'),
                     optionIndex = $optionBox.attr('id').replace('bundle_option_', ''),
@@ -87,6 +87,7 @@ jQuery(function($) {
                                 }
                             );
 
+                            self.refreshSortableElements();
                             self._updateSelectionsPositions.apply(self.element);
                             $selectionGrid.dialog('close');
                         }
@@ -106,7 +107,7 @@ jQuery(function($) {
                     context: $('body'),
                     showLoader: true
                 });
-            });
+            }});
         },
         _hideProductTypeSwitcher: function () {
             $('#weight_and_type_switcher, label[for=weight_and_type_switcher]').hide();
@@ -121,7 +122,7 @@ jQuery(function($) {
         },
         _bindCheckboxHandlers: function () {
             this._on({
-                'change [data-mage-role=is-required].is-required': function (event) {
+                'change .is-required': function (event) {
                     var $this = $(event.target);
                     $this.closest('.option-box').find('[name$="[required]"]').val($this.is(':checked') ? 1 : 0);
                 },
