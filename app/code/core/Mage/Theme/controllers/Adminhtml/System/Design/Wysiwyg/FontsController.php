@@ -33,7 +33,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Ad
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (Exception $e) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array()));
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array()));
         }
     }
 
@@ -67,7 +67,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Ad
             $this->_getStorage()->deleteDirectory($path);
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -86,7 +86,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Ad
             );
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -101,7 +101,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Ad
         } catch (Exception $e) {
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
 
     }
 
@@ -114,13 +114,15 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Ad
             if (!$this->getRequest()->isPost()) {
                 throw new Exception ('Wrong request.');
             }
-            $files = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getParam('files'));
+            $files = $this->_objectManager->get('Mage_Core_Helper_Data')->jsonDecode(
+                $this->getRequest()->getParam('files')
+            );
             foreach ($files as $file) {
                 $this->_getStorage()->deleteFile($file);
             }
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
