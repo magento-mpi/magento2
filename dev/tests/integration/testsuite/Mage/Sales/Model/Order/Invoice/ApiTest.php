@@ -289,6 +289,9 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
         }
         $this->assertInternalType('array', $result, "Response has invalid format");
         $this->assertEquals(1, count($result), "Invalid invoices quantity received");
+
+        /** Reload invoice data to ensure it is up to date. */
+        $invoice->load($invoice->getId());
         foreach (reset($result) as $field => $value) {
             if ($field == 'invoice_id') {
                 // process field mapping

@@ -182,6 +182,9 @@ class Mage_Catalog_Model_Product_Api_CustomOptionValueCRUDTest extends PHPUnit_F
      */
     public function testCustomOptionValueRemove()
     {
+        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+            $this->markTestSkipped('Legacy API is expected to support MySQL only.');
+        }
         // Remove
         $removeResult = Magento_Test_Helper_Api::call(
             $this,

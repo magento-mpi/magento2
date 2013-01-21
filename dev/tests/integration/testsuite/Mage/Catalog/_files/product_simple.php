@@ -11,6 +11,7 @@
 
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
+$product->isObjectNew(true);
 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)
@@ -21,7 +22,6 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setWeight(1)
     ->setShortDescription("Short description")
     ->setTaxClassId(0)
-    ->setCreatedAt(date('YYY-MM-DD hh:mm:ss'))
     ->setTierPrice(
         array(
             array(

@@ -8,8 +8,10 @@
 
 /** @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');
-$customer->setId(1);
-$customer->setStoreId(1)
+$customer->isObjectNew(true);
+$customer
+    ->setId(1)
+    ->setStoreId(1)
     ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
@@ -42,7 +44,7 @@ $customerAddress->setData(
         'is_default_shipping' => true
     )
 );
-$customerAddress->setId(1);
+$customerAddress->setId(1)->isObjectNew(true);
 $customerAddress->setCustomer($customer);
 $customerAddress->save();
 
@@ -64,7 +66,7 @@ $customerAddress2->setData(
         'is_default_shipping' => false
     )
 );
-$customerAddress2->setId(2);
+$customerAddress2->setId(2)->isObjectNew(true);
 $customerAddress2->setCustomer($customer);
 $customerAddress2->save();
 
