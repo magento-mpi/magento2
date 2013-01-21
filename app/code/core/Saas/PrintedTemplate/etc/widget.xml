@@ -117,7 +117,7 @@
                 <label>Columns</label>
                 <type>label</type>
                 <helper_block>
-                    <type>Saas_PrintedTemplate_Block_Widget_Field_Columns</type>
+                    <type>Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns</type>
                 </helper_block>
                 <sort_order>210</sort_order>
             </columns_editor>

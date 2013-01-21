@@ -16,6 +16,7 @@ class Saas_PrintedTemplate_Model_Resource_TemplateTest extends PHPUnit_Framework
      */
     public function testSave()
     {
+        $this->markTestIncomplete('MAGETWO-7075');
         $model = Mage::getModel('Saas_PrintedTemplate_Model_Template');
         $data = array(
             'name' => 'Test invoice',

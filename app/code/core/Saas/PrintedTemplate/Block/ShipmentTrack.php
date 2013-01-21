@@ -17,7 +17,7 @@
  *
  * @method Mage_Sales_Model_Resource_Order_Shipment_Track_Collection getTracks() Returns collection or empty array
  */
-class Saas_PrintedTemplate_Block_ShipmentTrack extends Mage_Core_Block_Template
+class Saas_PrintedTemplate_Block_ShipmentTrack extends Mage_Backend_Block_Template
 {
     /**
      * Initializes block

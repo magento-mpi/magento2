@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Widget_Field_Columns
+class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     extends Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
     implements Mage_Widget_Block_Interface
 {
