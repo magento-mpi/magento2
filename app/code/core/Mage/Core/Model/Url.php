@@ -113,13 +113,6 @@ class Mage_Core_Model_Url extends Varien_Object
     protected $_request;
 
     /**
-     * Store object
-     *
-     * @var Mage_Core_Model_Store
-     */
-    protected $_store;
-
-    /**
      * Use Session ID for generate URL
      *
      * @var bool
@@ -128,14 +121,10 @@ class Mage_Core_Model_Url extends Varien_Object
 
     /**
      * Initialize object
-     *
-     * @param array $data
      */
-    public function __construct(array $data = array())
+    protected function _construct()
     {
         $this->setStore(null);
-        $this->_request = Mage::app()->getRequest();
-        parent::__construct($data);
     }
 
     /**
@@ -265,7 +254,6 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function setRequest(Zend_Controller_Request_Http $request)
     {
-        $this->unsetData();
         $this->_request = $request;
         return $this;
     }
@@ -277,6 +265,9 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getRequest()
     {
+        if (!$this->_request) {
+            $this->_request = Mage::app()->getRequest();
+        }
         return $this->_request;
     }
 
@@ -332,8 +323,7 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function setStore($params)
     {
-        $this->unsetData();
-        $this->_store = Mage::app()->getStore($params);
+        $this->setData('store', Mage::app()->getStore($params));
         return $this;
     }
 
@@ -344,7 +334,10 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     public function getStore()
     {
-        return $this->_store;
+        if (!$this->hasData('store')) {
+            $this->setStore(null);
+        }
+        return $this->_getData('store');
     }
 
     /**

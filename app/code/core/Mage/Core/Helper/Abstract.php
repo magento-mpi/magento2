@@ -193,7 +193,7 @@ abstract class Mage_Core_Helper_Abstract
                     $result = htmlspecialchars($result, ENT_COMPAT, 'UTF-8', false);
                     $result = preg_replace('/##([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)##/si', '<$1$2$3>', $result);
                 } else {
-                    $result = htmlspecialchars($data, ENT_COMPAT, 'UTF-8', false);
+                    $result = htmlspecialchars($data, ENT_COMPAT, null, false);
                 }
             } else {
                 $result = $data;

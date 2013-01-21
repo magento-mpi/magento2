@@ -57,7 +57,7 @@ class Mage_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_T
             ->method('getBaseUrl')
             ->will($this->returnValue(self::BASE_URL));
 
-        $this->_model->setStore($store);
+        $this->_model->setData('store', $store);
         $this->_model->setData('type', null);
 
         $sourceUrl   = self::BASE_URL . '/' . self::ROUTE_PATH;
