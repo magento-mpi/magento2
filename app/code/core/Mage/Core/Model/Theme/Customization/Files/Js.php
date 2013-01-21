@@ -12,15 +12,30 @@
  * Theme js file model class
  *
  * @method array getJsOrderData()
- * @method Mage_Core_Model_Theme_Files_Js setJsOrderData(array)
+ * @method Mage_Core_Model_Theme_Customization_Files_Js setJsOrderData(array)
  * @method bool hasJsOrderData()
  */
-class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstract
+class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme_Customization_Files_FilesAbstract
 {
+    /**
+     * Css file type customization
+     */
+    const TYPE = 'css_file';
+
     /**
      * @var array
      */
     protected $_dataForDelete;
+
+    /**
+     * Return js file customization type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return self::TYPE;
+    }
 
     /**
      * Return file type
@@ -36,7 +51,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
      * Sets data for files deletion
      *
      * @param array $data
-     * @return Mage_Core_Model_Theme_Files_Js
+     * @return Mage_Core_Model_Theme_Customization_Files_Js
      */
     public function setDataForDelete(array $data)
     {
@@ -47,10 +62,10 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
     /**
      * Save data
      *
-     * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme_Files_Abstract
+     * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
+     * @return Mage_Core_Model_Theme_Customization_Files_FilesAbstract
      */
-    public function saveData(Mage_Core_Model_Theme $theme)
+    public function saveData(Mage_Core_Model_Theme_Customization_CustomizedInterface $theme)
     {
         if (null !== $this->_dataForDelete) {
             $this->_delete($theme);
@@ -67,7 +82,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
      * Delete js files from theme
      *
      * @param $theme Mage_Core_Model_Theme
-     * @return Mage_Core_Model_Theme_Files_Js
+     * @return Mage_Core_Model_Theme_Customization_Files_Js
      */
     protected function _delete(Mage_Core_Model_Theme $theme)
     {
@@ -87,7 +102,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
      * Remove temporary files
      *
      * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme_Files_Js
+     * @return Mage_Core_Model_Theme_Customization_Files_Js
      */
     public function removeTemporaryFiles($theme)
     {
@@ -109,7 +124,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
      * Save form data
      *
      * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme_Files_Js
+     * @return Mage_Core_Model_Theme_Customization_Files_Js
      */
     protected function _save($theme)
     {
@@ -183,19 +198,15 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
     /**
      * Save data
      *
-     * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
      * @param string $order
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_Files_Collection|Mage_Core_Model_Resource_Db_Collection_Abstract
      */
-    public function getCollectionByTheme(Mage_Core_Model_Theme $theme, $order = Varien_Data_Collection::SORT_ORDER_ASC)
-    {
-        /** @var $filesCollection Mage_Core_Model_Resource_Theme_Files_Collection */
-        $jsCollection =  parent::getCollectionByTheme($theme);
-
-        /** @var $themeFiles Mage_Core_Model_Resource_Theme_Files_Collection */
-        $themeFiles = $jsCollection->setOrder($jsCollection->getConnection()->quoteIdentifier('order'), $order);
-
-        return $themeFiles;
+    public function getCollectionByTheme(
+        Mage_Core_Model_Theme_Customization_CustomizedInterface $theme,
+        $order = Varien_Data_Collection::SORT_ORDER_ASC
+    ) {
+        return parent::getCollectionByTheme($theme)->setDefaultOrder($order);
     }
 
     /**
@@ -203,7 +214,7 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
      *
      * @param Mage_Core_Model_Theme $theme
      * @param array $orderData
-     * @return Mage_Core_Model_Theme_Files_Js
+     * @return Mage_Core_Model_Theme_Customization_Files_Js
      */
     public function _reorder(Mage_Core_Model_Theme $theme, $orderData)
     {
@@ -217,7 +228,6 @@ class Mage_Core_Model_Theme_Files_Js extends Mage_Core_Model_Theme_Files_Abstrac
                 $file->setOrder(0);
             }
             $file->setOrder($position + 1);
-
         }
         $collection->save();
 

@@ -76,8 +76,9 @@
     </adminhtml_system_design_theme_edit>
 
     <adminhtml_system_design_theme_uploadjs>
-        <remove name="root"/>
-        <block template="Mage_Theme::tabs/fieldset/js_items.phtml" type="Mage_Backend_Block_Template" name="theme_js_file_list" as="js_files" />
+        <container name="root" label="Root" output="1">
+            <block template="Mage_Theme::tabs/fieldset/js_items.phtml" type="Mage_Backend_Block_Template" name="theme_js_file_list" as="js_files" />
+        </container>
     </adminhtml_system_design_theme_uploadjs>
 
     <adminhtml_system_design_wysiwyg_fonts_index>

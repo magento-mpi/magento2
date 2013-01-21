@@ -41,17 +41,19 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         );
         /** @var $themeMock Mage_Core_Model_Theme */
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
-        $filesystemMock = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor(true)->getMock();
-        $filesystemMock->expects($this->any())->method('searchKeys')
+
+        $filesystemMock = $this->getMock('Magento_Filesystem', array('searchKeys'), array(), '', false);
+        $filesystemMock->expects($this->any())
+            ->method('searchKeys')
             ->will($this->returnValueMap(array(
                 array(
-                    $designDir, 'frontend/default/iphone/theme.xml',
+                    $designDir, str_replace('/', DIRECTORY_SEPARATOR, 'frontend/default/iphone/theme.xml'),
                     array(
                         str_replace('/', DIRECTORY_SEPARATOR, $designDir . '/frontend/default/iphone/theme.xml')
                     )
                 ),
                 array(
-                    $designDir, 'frontend/default/iphone/theme_invalid.xml',
+                    $designDir, str_replace('/', DIRECTORY_SEPARATOR, 'frontend/default/iphone/theme_invalid.xml'),
                     array(
                         str_replace(
                             '/',
@@ -129,7 +131,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testThemeCustomizationObject()
+    public function testThemeCustomization()
     {
         $themeResource = $this->getMock(
             'Mage_Core_Model_Resource_Theme',
@@ -153,6 +155,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Magento_ObjectManager', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
                 $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
+                $this->getMock('Magento_Filesystem', array(), array(), '', false),
                 $themeResource,
             ),
             '',
@@ -161,10 +164,10 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
         $themeMock->expects($this->once())->method('_applyCustomizationFiles');
 
-        $jsFile = $this->getMock('Mage_Core_Model_Theme_Files_Js', array('saveData'), array(), '', false);
+        $jsFile = $this->getMock('Mage_Core_Model_Theme_Customization_Files_Js', array('saveData'), array(), '', false);
         $jsFile->expects($this->once())->method('saveData');
 
-        $themeMock->setThemeCustomizationObject($jsFile);
+        $themeMock->setCustomization($jsFile);
         $themeMock->save();
     }
 }

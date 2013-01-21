@@ -33,6 +33,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected $_uploaderService;
 
     /**
+     * Theme custom css file
+     *
+     * @var Mage_Core_Model_Theme_Files
+     */
+    protected $_customCssFile;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -85,9 +92,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $form = new Varien_Data_Form();
         $this->setForm($form);
         $this->_addThemeCssFieldset();
+
+        $this->_customCssFile = $this->_getCurrentTheme()
+            ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
+
         $this->_addCustomCssFieldset();
 
-        $formData['custom_css_content'] = $this->_getCurrentTheme()->getCustomCssFile()->getContent();
+        $formData['custom_css_content'] = $this->_customCssFile->getContent();
+
         /** @var $session Mage_Backend_Model_Session */
         $session = $this->_objectManager->get('Mage_Backend_Model_Session');
         $cssFileContent = $session->getThemeCustomCssData();
@@ -180,7 +192,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
                 'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
         );
-        if (!$this->_getCurrentTheme()->getCustomCssFile()->getContent()) {
+        if (!$this->_customCssFile->getContent()) {
             $downloadButtonConfig['disabled'] = 'disabled';
         }
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
