@@ -49,6 +49,7 @@ class Enterprice_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
             array('report_statistics'),
             array('theme_list'),
             array('google_content_manage_attributes'),
+            array('manage_invitations'),
         );
     }
 }

@@ -231,3 +231,44 @@ admin_action_log_archive:
     headers:
         0: Archive File
         1: Date
+
+#dataset for ui elements in Manage Invitations grid
+manage_invitations:
+    fieldset:
+        invitations_grid: tablename
+    button:
+        reset_filter:
+        search:
+        submit:
+        add_invitations:
+    dropdown:
+        grid_massaction_select:
+        massaction:
+        status:
+        valid_on_website:
+        invitee_group:
+        view_per_page:
+    field:
+        id:
+        email:
+        sent_from:
+        sent_to:
+        registered_from:
+        registered_to:
+        page:
+        invitee:
+    link:
+        select_all:
+        unselect_all:
+        select_visible:
+        unselect_visible:
+    headers:
+        0: ' '
+        1: ID
+        2: Email
+        3: Invitee
+        4: Sent
+        5: Registered
+        6: Status
+        7: Valid on Website
+        8: Invitee Group
