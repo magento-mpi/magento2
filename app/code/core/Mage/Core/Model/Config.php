@@ -547,6 +547,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function reinit()
     {
+        $this->removeCache();
         $this->_config = $this->_storage->getConfiguration(false);
     }
 
