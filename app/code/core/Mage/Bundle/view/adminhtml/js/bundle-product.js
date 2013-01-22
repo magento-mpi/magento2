@@ -109,7 +109,12 @@ jQuery(function($) {
                 $.ajax({
                     url: bSelection.selectionSearchUrl,
                     dataType: 'html',
-                    data: {index: optionIndex, 'products[]': productIds, form_key: FORM_KEY},
+                    data: {
+                        index: optionIndex,
+                        products: productIds,
+                        selected_products: productIds,
+                        form_key: FORM_KEY
+                    },
                     success: function(data) {
                         $selectionGrid.html(data).dialog('open');
                     },

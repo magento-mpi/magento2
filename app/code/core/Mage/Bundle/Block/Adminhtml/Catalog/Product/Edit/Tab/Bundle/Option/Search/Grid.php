@@ -50,10 +50,6 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
             ->addFilterByRequiredOptions()
             ->addStoreFilter();
 
-        if ($products = $this->_getProducts()) {
-            $collection->addIdFilter($this->_getProducts(), true);
-        }
-
         if ($this->getFirstShow()) {
             $collection->addIdFilter('-1');
             $this->setEmptyText($this->__('Please enter search conditions to view products.'));
@@ -103,7 +99,10 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
 
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('selected_products', array());
+        $products = $this->getRequest()->getPost(
+            'selected_products',
+            explode(',', $this->getRequest()->getParam('productss'))
+        );
         return $products;
     }
 
