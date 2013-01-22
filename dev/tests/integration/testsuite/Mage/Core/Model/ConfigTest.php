@@ -225,29 +225,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($model->isLocalConfigLoaded());
     }
 
-    public function testLoadDb()
-    {
-        $samplePath = 'general/locale/firstday';
-
-        // emulate a system config value in database
-        $configResource = Mage::getResourceModel('Mage_Core_Model_Resource_Config');
-        $configResource->saveConfig($samplePath, 1, 'default', 0);
-
-        try {
-            $model = $this->_createModel();
-            $model->loadBase();
-            $model->loadModules();
-
-            // load and assert value
-            $model->loadDb();
-            $this->assertEquals('1', (string)$model->getNode("default/{$samplePath}"));
-            $configResource->deleteConfig($samplePath, 'default', 0);
-        } catch (Exception $e) {
-            $configResource->deleteConfig($samplePath, 'default', 0);
-            throw $e;
-        }
-    }
-
     public function testReinitBaseConfig()
     {
         $options[Mage::PARAM_CUSTOM_LOCAL_CONFIG] = '<config><test>old_value</test></config>';
@@ -460,23 +437,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Config_Element',
             $this->_createModel(true)->getEventConfig('global', 'controller_front_init_routers')
         );
-    }
-
-    public function testSaveDeleteConfig()
-    {
-        $model = $this->_createModel(true);
-        $model->saveConfig('web/url/redirect_to_base', 0);
-        try {
-            $model->reinit();
-            $this->assertEquals('0', (string)$model->getNode('default/web/url/redirect_to_base'));
-
-            $model->deleteConfig('web/url/redirect_to_base');
-            $model->reinit();
-            $this->assertEquals('1', (string)$model->getNode('default/web/url/redirect_to_base'));
-        } catch (Exception $e) {
-            $model->deleteConfig('web/url/redirect_to_base');
-            throw $e;
-        }
     }
 
     public function testGetFieldset()
