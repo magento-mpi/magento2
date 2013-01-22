@@ -351,7 +351,7 @@
         <part name="quoteId" type="xsd:int"/>
         <part name="store" type="xsd:string"/>
         <part name="licenses" type="typens:ArrayOfString"/>
-        <part name="method" type="typens:shoppingCartPaymentMethodEntity"/>
+        <part name="paymentData" type="typens:shoppingCartPaymentMethodEntity"/>
     </message>
     <message name="shoppingCartOrderWithPaymentResponse">
         <part name="result" type="xsd:string"/>

@@ -142,7 +142,7 @@ class Magento_Test_Helper_Api
         array $actualData,
         array $fieldsToCompare = array()
     ) {
-        $fieldsToCompare = !empty($fieldsToCompare) ?: array_keys($expectedData);
+        $fieldsToCompare = !empty($fieldsToCompare) ? $fieldsToCompare : array_keys($expectedData);
         foreach ($fieldsToCompare as $entityField => $field) {
             $testCase->assertEquals(
                 $expectedData[is_numeric($entityField) ? $field : $entityField],

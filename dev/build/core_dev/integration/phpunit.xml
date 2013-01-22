@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<phpunit bootstrap="./framework/bootstrap.php" strict="true">
+<phpunit bootstrap="./framework/bootstrap.php">
     <testsuites>
         <testsuite name="Magento Integration Tests">
             <!--<directory suffix="Test.php">testsuite</directory>-->
