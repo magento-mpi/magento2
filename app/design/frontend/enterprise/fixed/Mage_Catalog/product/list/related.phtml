@@ -13,7 +13,7 @@
         <div class="box-title">
             <strong><span><?php echo $this->__('Related Products') ?></span></strong>
         </div>
-        <p class="note"><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" class="select-all-related"><strong><?php echo $this->__('select all') ?></strong></a></p>
+        <p class="note"><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" role="select-all"><strong><?php echo $this->__('select all') ?></strong></a></p>
         <?php $i=0; foreach($this->getItems() as $_item): ?>
         <?php if ($i++%3==0): ?>
         <ul class="block-content">
@@ -41,11 +41,9 @@
         <?php endforeach ?>
         <script type="text/javascript">jQuery('.box-related ul.block-content li').decorate('generic', ['odd','even','first','last']);</script>
         <script>
-            (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/related-products.js'); ?>", function() {
-                    $('a.select-all-related').relatedProducts();
-                });
-            })(jQuery);
+            head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/related-products.js'); ?>", function() {
+                jQuery(".box-related a[role='select-all']").relatedProducts();
+            });
         </script>
 </div>
 <?php endif ?>

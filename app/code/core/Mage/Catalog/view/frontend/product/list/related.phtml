@@ -14,7 +14,7 @@
         <strong><span><?php echo $this->__('Related Products') ?></span></strong>
     </div>
     <div class="block-content">
-        <p class="block-subtitle"><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" class="select-all-related"><?php echo $this->__('select all') ?></a></p>
+        <p class="block-subtitle"><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" role="select-all"><?php echo $this->__('select all') ?></a></p>
         <ol class="mini-products-list" id="block-related">
         <?php foreach($this->getItems() as $_item): ?>
             <li class="item">
@@ -39,11 +39,9 @@
         <script type="text/javascript">jQuery('#block-related').decorate('list', false);</script>
     </div>
     <script type="text/javascript">
-        (function($) {
-            head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/related-products.js');?>", function() {
-                $('a.select-all-related').relatedProducts();
-            });
-        })(jQuery);
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/related-products.js');?>", function() {
+            jQuery(".block-related a[role='select-all']").relatedProducts();
+        });
     </script>
 </div>
 <?php endif ?>
