@@ -59,6 +59,7 @@ jQuery(function($) {
                         return $(this).val();
                     }).get();
 
+                bSelection.gridSelection.set(optionIndex, $H({}));
                 $selectionGrid.dialog({
                     title: 'Select Products to Add',
                     autoOpen: false,
