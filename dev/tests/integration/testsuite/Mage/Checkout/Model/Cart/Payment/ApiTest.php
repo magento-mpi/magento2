@@ -24,7 +24,7 @@ class Mage_Checkout_Model_Cart_Payment_ApiTest extends PHPUnit_Framework_TestCas
             )
         );
 
-        $this->assertCount(1, $paymentMethods, 'Only one payment method was expected.');
+        $this->assertCount(1, $paymentMethods, 'Exactly one payment method was expected.');
         $this->assertEquals('free', $paymentMethods[0]['code'], '"free" method expected');
     }
 
