@@ -118,8 +118,8 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        $storageRoot = $this->_getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR . $this->_getStorageType();
-        return $storageRoot;
+        return Mage::getBaseDir('var') . DIRECTORY_SEPARATOR . 'storage'
+            . DIRECTORY_SEPARATOR . $this->_getStorageType();
     }
 
     /**

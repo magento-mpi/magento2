@@ -108,7 +108,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
             $path = $this->_helper->getStorageRoot();
         }
 
-        $newPath = $path . DS . $name;
+        $newPath = $path . DIRECTORY_SEPARATOR . $name;
 
         if ($this->_fileIo->fileExists($newPath)) {
             throw new Magento_Exception($this->_helper->__('A directory with the same name already exists.'));

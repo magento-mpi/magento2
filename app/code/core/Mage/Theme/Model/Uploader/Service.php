@@ -100,7 +100,9 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getCssUploadMaxSize());
         if (!$isValidFileSize) {
-            Mage::throwException("CSS file size should be less than {$this->getCssUploadMaxSizeInMb()}M.");
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__(
+                'CSS file size should be less than %sM.', $this->getCssUploadMaxSizeInMb()
+            ));
         }
 
         $file = $fileUploader->validateFile();
@@ -125,7 +127,9 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getJsUploadMaxSize());
         if (!$isValidFileSize) {
-            Mage::throwException("JS file size should be less than {$this->getJsUploadMaxSizeInMb()}M.");
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__(
+                'JS file size should be less than %sM.', $this->getJsUploadMaxSizeInMb()
+            ));
         }
 
         $file = $fileUploader->validateFile();
