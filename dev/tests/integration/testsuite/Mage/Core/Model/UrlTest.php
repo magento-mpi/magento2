@@ -386,8 +386,8 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
      * @covers Mage_Core_Model_Url::getUrl
      */
     public function testGetUrlOnConsequentCalls($firstCallUrl, $secondCallUrl, $firstRouteParams, $secondRouteParams,
-        $firstExpectedUrl, $secondExpectedUrl)
-    {
+        $firstExpectedUrl, $secondExpectedUrl
+    ) {
         $result = $this->_model->getUrl($firstCallUrl, $firstRouteParams);
         $this->assertEquals($firstExpectedUrl, $result);
 
@@ -398,6 +398,7 @@ class Mage_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * Data provider for testGetUrlOnConsequentCalls()
      *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @return array
      */
     public function consequentCallsDataProvider()
