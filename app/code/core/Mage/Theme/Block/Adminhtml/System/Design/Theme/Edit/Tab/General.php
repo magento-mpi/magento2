@@ -12,8 +12,7 @@
  * Theme form, general tab
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
-    extends Mage_Backend_Block_Widget_Form
-    implements Mage_Backend_Block_Widget_Tab_Interface
+    extends Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
 {
     /**
      * Whether theme is editable
@@ -223,19 +222,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     protected function _getAdditionalElementTypes()
     {
-        $element = Mage::getConfig()
+        $element = $this->_objectManager->get('Mage_Core_Model_Config')
             ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image');
         return array('image' => $element);
-    }
-
-    /**
-     * Get current theme
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _getCurrentTheme()
-    {
-        return Mage::registry('current_theme');
     }
 
     /**
@@ -249,16 +238,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     }
 
     /**
-     * Prepare title for tab
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return $this->__('General');
-    }
-
-    /**
      * Returns status flag about this tab can be shown or not
      *
      * @return bool
@@ -266,16 +245,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     public function canShowTab()
     {
         return true;
-    }
-
-    /**
-     * Returns status flag about this tab hidden or not
-     *
-     * @return bool
-     */
-    public function isHidden()
-    {
-        return false;
     }
 
     /**
