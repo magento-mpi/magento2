@@ -9,9 +9,9 @@
  */
 
 /**
- * Fonts files block
+ * Files files block
  */
-class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content_Files extends Mage_Backend_Block_Template
+class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files extends Mage_Backend_Block_Template
 {
     /**
      * Files list

@@ -200,9 +200,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
                 . $this->getUrl('*/system_design_wysiwyg_files/index', array(
-                    'target_element_id'                                => 'custom_css_content',
-                    Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $this->_getCurrentTheme()->getId(),
-                    Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
+                    'target_element_id'                           => 'custom_css_content',
+                    Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
@@ -223,10 +223,10 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'label'     => $this->__('Manage'),
             'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
-                . $this->getUrl('*/system_design_wysiwyg_fonts/index', array(
-                    'target_element_id'                                => 'custom_css_content',
-                    Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $this->_getCurrentTheme()->getId(),
-                    Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT
+                . $this->getUrl('*/system_design_wysiwyg_files/index', array(
+                    'target_element_id'                           => 'custom_css_content',
+                    Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(

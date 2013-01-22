@@ -9,10 +9,56 @@
  */
 
 /**
- * Fonts content block
+ * Files content block
  */
-class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content extends Mage_Backend_Block_Widget_Container
+class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Block_Widget_Container
 {
+    /**
+     * @var Mage_Theme_Helper_Storage
+     */
+    protected $_helperStorage;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Filesystem $filesystem
+     * @param Mage_Theme_Helper_Storage $helperStorage
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Filesystem $filesystem,
+        Mage_Theme_Helper_Storage $helperStorage,
+        array $data = array()
+    ) {
+        $this->_helperStorage = $helperStorage;
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data);
+    }
+
     /**
      * Block construction
      */
@@ -60,13 +106,8 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content extends Mage_Backend_Bloc
      */
     public function getContentsUrl()
     {
-        $themeId = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID);
-        $contentType = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE);
-        return $this->getUrl('*/*/contents', array(
-            'type'                                             => $this->getRequest()->getParam('type'),
-            Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $themeId,
-            Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => $contentType
-        ));
+        return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type'))
+            + $this->_helperStorage->getRequestParams());
     }
 
     /**
@@ -101,7 +142,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content extends Mage_Backend_Bloc
      */
     public function getNewfolderUrl()
     {
-        return $this->getUrl('*/*/newFolder');
+        return $this->getUrl('*/*/newFolder', $this->_helperStorage->getRequestParams());
     }
 
     /**
@@ -111,7 +152,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content extends Mage_Backend_Bloc
      */
     protected function getDeletefolderUrl()
     {
-        return $this->getUrl('*/*/deleteFolder');
+        return $this->getUrl('*/*/deleteFolder', $this->_helperStorage->getRequestParams());
     }
 
     /**
@@ -121,7 +162,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content extends Mage_Backend_Bloc
      */
     public function getDeleteFilesUrl()
     {
-        return $this->getUrl('*/*/deleteFiles');
+        return $this->getUrl('*/*/deleteFiles', $this->_helperStorage->getRequestParams());
     }
 
     /**
@@ -131,7 +172,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content extends Mage_Backend_Bloc
      */
     public function getOnInsertUrl()
     {
-        return $this->getUrl('*/*/onInsert');
+        return $this->getUrl('*/*/onInsert', $this->_helperStorage->getRequestParams());
     }
 
     /**

@@ -9,8 +9,8 @@
  */
 
 /**
- * Fonts new folder block
+ * Files new folder block
  */
-class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content_Newfolder extends Mage_Backend_Block_Template
+class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Newfolder extends Mage_Backend_Block_Template
 {
 }
