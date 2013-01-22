@@ -45,9 +45,9 @@ class Mage_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_TestCa
         unset($this->_model);
     }
 
-    public function testLoadModulesConfigurationWithData()
+    public function testLoadModulesConfiguration()
     {
-        $fileName = 'test';
+        $fileName = 'acl.xml';
         $mergeToObjectMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
         $mergeModelMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
         $this->_fileReaderMock->expects($this->once())
@@ -55,40 +55,27 @@ class Mage_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_TestCa
             ->with($this->equalTo($this->_configMock),
                    $this->equalTo($fileName),
                    $this->equalTo($mergeToObjectMock),
-                   $this->equalTo($mergeModelMock)
+                   $this->equalTo($mergeModelMock))
+            ->will($this->returnValue('test_data')
         );
-        $this->_model->loadModulesConfiguration($fileName, $mergeToObjectMock, $mergeModelMock);
+        $result = $this->_model->loadModulesConfiguration($fileName, $mergeToObjectMock, $mergeModelMock);
+        $this->assertEquals('test_data', $result);
     }
 
-    public function testLoadModulesConfigurationWithoutData()
+    public function testGetModuleConfigurationFiles()
     {
-        $fileName = null;
-        $this->_fileReaderMock->expects($this->once())
-            ->method('loadConfigurationFromFile');
-        $this->_model->loadModulesConfiguration($fileName);
-        }
-
-    public function testGetModuleConfigurationFilesWithData()
-    {
-        $fileName = 'test';
+        $fileName = 'acl.xml';
         $this->_fileReaderMock->expects($this->once())
             ->method('getConfigurationFiles')
             ->with($this->equalTo($this->_configMock),
-                   $this->equalTo($fileName)
+                   $this->equalTo($fileName))
+            ->will($this->returnValue('test_data')
         );
-        $this->_model->getModuleConfigurationFiles($fileName);
+        $result = $this->_model->getModuleConfigurationFiles($fileName);
+        $this->assertEquals('test_data', $result);
     }
 
-    public function testGetModuleConfigurationFilesWithoutData()
-    {
-        $fileName = null;
-        $this->_configMock = null;
-        $this->_fileReaderMock->expects($this->once())
-            ->method('getConfigurationFiles');
-        $this->_model->getModuleConfigurationFiles($fileName);
-    }
-
-    public function testGetModuleDirWithData()
+    public function testGetModuleDir()
     {
         $type = 'some_type';
         $moduleName = 'some_module';
@@ -96,17 +83,10 @@ class Mage_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_TestCa
             ->method('getModuleDir')
             ->with($this->equalTo($this->_configMock),
                    $this->equalTo($type),
-                   $this->equalTo($moduleName)
+                   $this->equalTo($moduleName))
+            ->will($this->returnValue('test_data')
         );
-        $this->_model->getModuleDir($type, $moduleName);
-    }
-
-    public function testGetModuleDirWithoutData()
-    {
-        $type = null;
-        $moduleName = null;
-        $this->_fileReaderMock->expects($this->once())
-            ->method('getModuleDir');
-        $this->_model->getModuleDir($type, $moduleName);
+        $result = $this->_model->getModuleDir($type, $moduleName);
+        $this->assertEquals('test_data', $result);
     }
 }
