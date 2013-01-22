@@ -1,7 +1,7 @@
 /**
  * {license_notice}
  *
- * @category    Rma
+ * @category    Page
  * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
@@ -9,22 +9,24 @@
 /*jshint browser:true jquery:true*/
 (function($) {
     "use strict";
-    $.widget('mage.templateBuilder', {
+    $.widget('mage.rowBuilder', {
 
         /**
          * options with default values for setting up the template
          */
         options: {
             //Default template options
-            registrantTemplate: '#template-registrant',
-            registrantContainer: '#registrant-container',
-            //Row count of the template rows
-            liIndex: 0,
-            rowContainer: '<li></li>',
+            rowTemplate: '#template-registrant',
+            rowContainer: '#registrant-container',
+            //Row index used by the template rows.
+            rowIndex: 0,
+            //Row count: Should not be set externally
+            rowCount: 0,
+            rowParentElem: '<li></li>',
             rowContainerClass: 'fields',
-            addRegistrantBtn: 'add-registrant-button',
+            addRowBtn: '#add-registrant-button',
             btnRemoveIdPrefix: 'btn-remove',
-            btnRemoveClass: 'btn-remove',
+            btnRemoveClass: '.btn-remove',
             rowIdPrefix: 'row',
             //This class is added to rows added after the first one. Adds the dotted separator
             additionalRowClass: 'add-row',
@@ -37,13 +39,15 @@
              eg field1-name{index}
              */
             formDataPost: null,
-            //Default selectors for add and remove markup elements of a template
-            clickEventSelectors: 'a, button',
+            //Default selectors for add element of a template
+            addEventSelector: 'button',
+            //Default selectors for remove markup elements of a template
+            remEventSelector: 'a',
             //This option allows adding first row delete option and a row separator
-            hideFirstRowDelAddSeparator: true,
-            //Max registrants - This option should be set when instantiating the widget
-            maxRegistrant: 1000,
-            maxRegistrantsMessage: '#max-registrant-message'
+            hideFirstRowAddSeparator: true,
+            //Max rows - This option should be set when instantiating the widget
+            maxRows: 1000,
+            maxRowsMessage: '#max-registrant-message'
         },
 
         /**
@@ -51,11 +55,13 @@
          * @private
          */
         _create: function() {
+            this.options.rowCount = 0;
             //On document ready related tasks
             $($.proxy(this.ready, this));
 
             //Binding template-wide events handlers for adding and removing rows
-            this.element.on('click', this.options.clickEventSelectors, $.proxy(this.handleClick, this));
+            this.element.on('click', this.options.addEventSelector + this.options.addRowBtn, $.proxy(this.handleAdd, this));
+            this.element.on('click', this.options.remEventSelector + this.options.btnRemoveClass, $.proxy(this.handleRemove, this));
         },
 
         /**
@@ -63,16 +69,16 @@
          * @public
          */
         ready: function() {
-            if (this.options.formDataPost.formData) {
+            if (this.options.formDataPost && this.options.formDataPost.formData) {
                 this.processFormDataArr(this.options.formDataPost);
-            } else if (this.options.liIndex === 0 && this.options.maxRegistrant !== 0) {
+            } else if (this.options.rowIndex === 0 && this.options.maxRows !== 0) {
                 //If no form data , then add default row
-                this.addRegistrant(0);
+                this.addRow(0);
             }
         },
 
         /**
-         * Process and loop through all registrant data to create preselected values. This is used for any error on submit.
+         * Process and loop through all row data to create preselected values. This is used for any error on submit.
          * For complex implementations the inheriting widget can override this behavior
          * @public
          * @param {Object} formDataArr
@@ -80,8 +86,8 @@
         processFormDataArr: function(formDataArr) {
             var formData = formDataArr.formData,
                 templateFields = formDataArr.templateFields;
-            for (var i = 0; i < formData.length; i++) {
-                this.addRegistrant(i);
+            for (var i = this.options.rowIndex = 0; i < formData.length; this.options.rowIndex = i++) {
+                this.addRow(i);
                 var formRow = formData[i];
                 for (var j = 0; j < formRow.length; j++) {
                     this.setFieldById(templateFields[j] + i, formRow[j]);
@@ -98,20 +104,20 @@
          * @param {string} index - current index/count of the created template. This will be used as the id
          * @return {*}
          */
-        addRegistrant: function(index) {
-            var li = $(this.options.rowContainer);
+        addRow: function(index) {
+            var li = $(this.options.rowParentElem);
             li.addClass(this.options.rowContainerClass).attr('id', this.options.rowIdPrefix + index);
-            $(this.options.registrantTemplate).tmpl([
+            $(this.options.rowTemplate).tmpl([
                 {_index_: index}
             ]).appendTo(li);
-            $(this.options.registrantContainer).append(li);
+            $(this.options.rowContainer).append(li);
             li.addClass(this.options.additionalRowClass);
             //Hide 'delete' link and remove additionalRowClass for first row
-            if (this.options.liIndex === 0 && this.options.hideFirstRowDelAddSeparator) {
-                $('#' + this.options.btnRemoveIdPrefix + '0').hide();
+            if (this.options.rowIndex === 0 && this.options.hideFirstRowAddSeparator) {
+                $('#' + this.options.btnRemoveIdPrefix + '0').remove();
                 $('#' + this.options.rowIdPrefix + '0').removeClass(this.options.additionalRowClass);
             }
-            this.maxRegistrantCheck(++this.options.liIndex);
+            this.maxRowCheck(++this.options.rowCount);
             return li;
         },
 
@@ -121,25 +127,25 @@
          * @param {string} liIndex - return item information row index
          * @return {boolean}
          */
-        removeRegistrant: function(liIndex) {
-            $('#' + this.options.rowIdPrefix + liIndex).remove();
-            this.maxRegistrantCheck(--this.options.liIndex);
+        removeRow: function(index) {
+            $('#' + this.options.rowIdPrefix + index).remove();
+            this.maxRowCheck(--this.options.rowCount);
             return false;
         },
 
         /**
-         * Function to check if maximum registrants are exceeded and render/hide maxMsg and Add btn
+         * Function to check if maximum rows are exceeded and render/hide maxMsg and Add btn
          * @public
          * @param liIndex
          */
-        maxRegistrantCheck: function(liIndex) {
-            var addRegBtn = $('#' + this.options.addRegistrantBtn),
-                maxRegMsg = $(this.options.maxRegistrantsMessage);
+        maxRowCheck: function(liIndex) {
+            var addRegBtn = $(this.options.addRowBtn),
+                maxRegMsg = $(this.options.maxRowsMessage);
             //liIndex starts from 0
-            if (liIndex >= this.options.maxRegistrant) {
+            if (liIndex >= this.options.maxRows) {
                 addRegBtn.hide();
                 maxRegMsg.show();
-            } else if (!addRegBtn.is(":visible")) {
+            } else if (addRegBtn.is(":hidden")) {
                 addRegBtn.show();
                 maxRegMsg.hide();
             }
@@ -165,22 +171,26 @@
         },
 
         /**
-         * Delegated handler for click
+         * Delegated handler for adding a row
          * @public
          * @param {Object} e - Native event object
          * @return {(null|boolean)}
          */
-        handleClick: function(e) {
-            var currElem = $(e.currentTarget);
-            if (currElem.attr('id') === this.options.addRegistrantBtn) {
-                this.addRegistrant(this.options.liIndex);
-                return false;
-            } else if (currElem.hasClass(this.options.btnRemoveClass)) {
-                //Extract index of remove element
-                this.removeRegistrant(currElem.closest("[id^='" + this.options.btnRemoveIdPrefix + "']")
-                    .attr('id').replace(this.options.btnRemoveIdPrefix, ''));
-                return false;
-            }
+        handleAdd: function(e) {
+            this.addRow(++this.options.rowIndex);
+            return false;
+        },
+
+        /**
+         * Delegated handler for removing a selected row
+         * @public
+         * @param {Object} e - Native event object
+         * @return {(null|boolean)}
+         */
+        handleRemove: function(e) {
+            this.removeRow($(e.currentTarget).closest("[id^='" + this.options.btnRemoveIdPrefix + "']")
+                .attr('id').replace(this.options.btnRemoveIdPrefix, ''));
+            return false;
         },
 
         /*
@@ -190,11 +200,7 @@
          * @return {string}
          */
         _esc: function(str) {
-            if (str) {
-                return str.replace(/([ ;&,.+*~\':"!\^$\[\]()=>|\/@])/g, '\\$1');
-            } else {
-                return str;
-            }
+            return str ? str.replace(/([ ;&,.+*~\':"!\^$\[\]()=>|\/@])/g, '\\$1') : str;
         }
     });
 

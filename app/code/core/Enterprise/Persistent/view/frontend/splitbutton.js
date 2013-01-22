@@ -26,7 +26,7 @@
          */
         _create: function() {
             $(this.options.splitButton + ' ' + this.options.arrowButton).on('click', $.proxy(this._toggleDropDown, this));
-            $(document).on('click', $.proxy(this._hideDropDown, this));
+            $(':not(' + this.options.splitButton + ' ' + this.options.arrowButton + ')').on('click', $.proxy(this._hideDropDown, this));
         },
 
         /**
@@ -35,6 +35,7 @@
          * @param {Object} e
          */
         _toggleDropDown: function(e) {
+            $(this.options.splitButton + '.' + this.options.activeClass).removeClass(this.options.activeClass);
             $(e.target).closest(this.options.splitButton).toggleClass(this.options.activeClass);
             return false;
         },

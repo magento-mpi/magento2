@@ -88,17 +88,17 @@
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
             "<?php echo $this->getViewFileUrl('Mage_Page::js/registrant-builder.js')?>", function() {
-              var formDataPost;
-              <?php if (is_array($this->getFormData('recipients'))): ?>
-                    formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;
+                var formDataPost;
+                <?php if (is_array($this->getFormData('recipients'))): ?>
+                formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;
                 <?php endif; ?>
-                $('#giftregistry-sharing-form').templateBuilder({
-                    registrantTemplate: '#add-recipient-tmpl',
-                    registrantContainer: '#recipients-options',
-                    maxRegistrant: '<?php echo $this->getRecipientsLimit() ?>',
-                    maxRegistrantsMessage: '#max-recipient-message',
-                    addRegistrantBtn: 'add-recipient-button',
-                    formDataPost: {"formData":formDataPost, "templateFields":['recipients-name','recipients-email']}
+                $('#giftregistry-sharing-form').rowBuilder({
+                    rowTemplate: '#add-recipient-tmpl',
+                    rowContainer: '#recipients-options',
+                    maxRows: '<?php echo $this->getRecipientsLimit() ?>',
+                    maxRowsMessage: '#max-recipient-message',
+                    addRowBtn: '#add-recipient-button',
+                    formDataPost: {"formData": formDataPost, "templateFields": ['recipients-name', 'recipients-email']}
                 }).validation();
             })
     })(jQuery);

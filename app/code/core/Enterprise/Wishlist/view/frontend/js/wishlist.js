@@ -439,10 +439,6 @@
 
     // Extension for mage.wishlist - Add Wishlist item to Gift Registry
     $.widget('mage.wishlist', $.mage.wishlist, {
-        options: {
-
-        },
-
         _create: function() {
             this._super();
             var _this = this;

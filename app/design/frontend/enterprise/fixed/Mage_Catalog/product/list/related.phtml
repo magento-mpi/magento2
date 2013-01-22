@@ -13,7 +13,7 @@
         <div class="box-title">
             <strong><span><?php echo $this->__('Related Products') ?></span></strong>
         </div>
-        <p class="note"><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" onclick="selectAllRelated(this); return false;"><strong><?php echo $this->__('select all') ?></strong></a></p>
+        <p class="note"><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" class="select-all-related"><strong><?php echo $this->__('select all') ?></strong></a></p>
         <?php $i=0; foreach($this->getItems() as $_item): ?>
         <?php if ($i++%3==0): ?>
         <ul class="block-content">
@@ -39,43 +39,13 @@
         </ul>
         <?php endif ?>
         <?php endforeach ?>
-        <script type="text/javascript">(function($) {$('.box-related ul.block-content li').decorate('generic', ['odd','even','first','last'])})(jQuery)</script>
-
-    <script type="text/javascript">
-    //<![CDATA[
-    $$('.related-checkbox').each(function(elem){
-        Event.observe(elem, 'click', addRelatedToProduct)
-    });
-
-    var relatedProductsCheckFlag = false;
-    function selectAllRelated(txt){
-        if (relatedProductsCheckFlag == false) {
-            $$('.related-checkbox').each(function(elem){
-                elem.checked = true;
-            });
-            relatedProductsCheckFlag = true;
-            txt.innerHTML="<strong><?php echo $this->__('unselect all') ?><\/strong>";
-        } else {
-            $$('.related-checkbox').each(function(elem){
-                elem.checked = false;
-            });
-            relatedProductsCheckFlag = false;
-            txt.innerHTML="<strong><?php echo $this->__('select all') ?><\/strong>";
-        }
-        addRelatedToProduct();
-    }
-
-    function addRelatedToProduct(){
-        var checkboxes = $$('.related-checkbox');
-        var values = [];
-        for(var i=0;i<checkboxes.length;i++){
-            if(checkboxes[i].checked) values.push(checkboxes[i].value);
-        }
-        if($('related-products-field')){
-            $('related-products-field').value = values.join(',');
-        }
-    }
-    //]]>
-    </script>
+        <script type="text/javascript">jQuery('.box-related ul.block-content li').decorate('generic', ['odd','even','first','last']);</script>
+        <script>
+            (function($) {
+                head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/related-products.js'); ?>", function() {
+                    $('a.select-all-related').relatedProducts();
+                });
+            })(jQuery);
+        </script>
 </div>
 <?php endif ?>
