@@ -9,6 +9,10 @@
  */
 ?>
 
+<?php
+/** @var $this Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files */
+?>
+
 <?php if ($this->getFilesCount() > 0): ?>
     <?php foreach ($this->getFiles() as $file): ?>
         <div class="filecnt file-font" id="<?php echo $file['id'] ?>">

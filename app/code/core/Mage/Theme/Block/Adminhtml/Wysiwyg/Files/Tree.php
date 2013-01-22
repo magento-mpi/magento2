@@ -14,18 +14,59 @@
 class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree extends Mage_Backend_Block_Template
 {
     /**
+     * @var Mage_Theme_Helper_Storage
+     */
+    protected $_helperStorage;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Filesystem $filesystem
+     * @param Mage_Theme_Helper_Storage $helperStorage
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Filesystem $filesystem,
+        Mage_Theme_Helper_Storage $helperStorage,
+        array $data = array()
+    ) {
+        $this->_helperStorage = $helperStorage;
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data);
+    }
+
+    /**
      * Json source URL
      *
      * @return string
      */
     public function getTreeLoaderUrl()
     {
-        $themeId = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_THEME_ID);
-        $contentType = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE);
-        return $this->getUrl('*/*/treeJson', array(
-            Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $themeId,
-            Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => $contentType
-        ));
+        return $this->getUrl('*/*/treeJson', $this->_helperStorage->getRequestParams());
     }
 
     /**
@@ -57,15 +98,14 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree extends Mage_Backend_Block_T
     public function getTreeCurrentPath()
     {
         $treePath = '/root';
-        $helper = Mage::helper('Mage_Theme_Helper_Storage');
-        $path = $helper->getSession()->getCurrentPath();
+        $path = $this->_helperStorage->getSession()->getCurrentPath();
         if ($path) {
-            $path = str_replace($helper->getStorageRoot(), '', $path);
+            $path = str_replace($this->_helperStorage->getStorageRoot(), '', $path);
             $relative = '';
             foreach (explode(DIRECTORY_SEPARATOR, $path) as $dirName) {
                 if ($dirName) {
                     $relative .= DIRECTORY_SEPARATOR . $dirName;
-                    $treePath .= '/' . $helper->idEncode($relative);
+                    $treePath .= '/' . $this->_helperStorage->urlEncode($relative);
                 }
             }
         }
