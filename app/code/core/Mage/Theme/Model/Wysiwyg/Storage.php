@@ -138,7 +138,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
     public function deleteFile($file)
     {
         $file = $this->_helper->urlDecode($file);
-        $path = $this->_helper->getCurrentPath();
+        $path = $this->_helper->getSession()->getStoragePath();
 
         $_filePath = realpath($path . DS . $file);
         if (strpos($_filePath, realpath($path)) === 0
