@@ -18,6 +18,7 @@ $product = Mage::registry('product_virtual');
 //Create quote
 $quote = Mage::getModel('Mage_Sales_Model_Quote');
 $quote->setStoreId(1)
+    ->setCustomerEmail($customer->getEmail())
     ->setIsActive(false)
     ->setIsMultiShipping(false)
     ->assignCustomerWithAddressChange($customer)
@@ -41,6 +42,7 @@ Mage::register('order', $order);
 //Create order
 $quote2 = Mage::getModel('Mage_Sales_Model_Quote');
 $quote2->setStoreId(1)
+    ->setCustomerEmail($customer->getEmail())
     ->setIsActive(false)
     ->setIsMultiShipping(false)
     ->assignCustomerWithAddressChange($customer)

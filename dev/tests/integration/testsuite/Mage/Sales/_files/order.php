@@ -35,6 +35,7 @@ $order->setIncrementId('100000001')
     ->setCustomerIsGuest(true)
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
+    ->setCustomerEmail('customer@null.com')
     ->setStoreId(Mage::app()->getStore()->getId())
     ->addItem($orderItem)
     ->setPayment($payment);
