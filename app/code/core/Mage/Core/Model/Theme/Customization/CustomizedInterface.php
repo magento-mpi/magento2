@@ -26,4 +26,14 @@ interface Mage_Core_Model_Theme_Customization_CustomizedInterface
      * @param string $type
      */
     public function getCustomizationData($type);
+
+    /**
+     * Save theme customizations
+     */
+    public function saveThemeCustomization();
+
+    /**
+     * Check whether present customization objects
+     */
+    public function isCustomized();
 }

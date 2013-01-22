@@ -170,7 +170,7 @@ class Mage_Core_Model_Theme_Service
 
         /** @var $themeCustomization Mage_Core_Model_Theme */
         $themeCustomization = $this->_themeFactory->create()->setData($themeData);
-        $themeCustomization->createPreviewImageCopy()->save();
+        $themeCustomization->getThemeImage()->createPreviewImageCopy()->save();
         return $themeCustomization;
     }
 

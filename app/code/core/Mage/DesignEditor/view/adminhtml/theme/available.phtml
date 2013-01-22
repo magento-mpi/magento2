@@ -13,7 +13,7 @@
 
 <li class="theme" id="theme-id-<?php echo $this->getTheme()->getId() ?>">
     <div class="theme-content">
-        <img src="<?php echo $this->getTheme()->getPreviewImageUrl() ?>" alt="<?php echo $this->getTheme()->getThemeTitle() ?>" />
+        <img src="<?php echo $this->getTheme()->getThemeImage()->getPreviewImageUrl() ?>" alt="<?php echo $this->getTheme()->getThemeTitle() ?>" />
         <article class="theme-data">
             <h4 class="theme-title" title="<?php echo $this->getTheme()->getThemeTitle() ?>"><?php echo $this->getTheme()->getThemeTitle() ?></h4>
             <!-- TODO: placeholder for theme description -->
