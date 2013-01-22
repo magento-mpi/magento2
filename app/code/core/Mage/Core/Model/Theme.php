@@ -296,8 +296,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _applyCustomizationFiles()
     {
-        /** @var $link Mage_Core_Model_Theme_Customisation_Link */
-        $link = $this->_objectManager->create('Mage_Core_Model_Theme_Customisation_Link');
+        /** @var $link Mage_Core_Model_Theme_Customization_Link */
+        $link = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Link');
         $link->setThemeId($this->getId())->changeCustomFilesUpdate();
         return $this;
     }

@@ -60,7 +60,13 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Content extends Mage_Backend_Bloc
      */
     public function getContentsUrl()
     {
-        return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type')));
+        $themeId = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID);
+        $contentType = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE);
+        return $this->getUrl('*/*/contents', array(
+            'type'                                             => $this->getRequest()->getParam('type'),
+            Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $themeId,
+            Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => $contentType
+        ));
     }
 
     /**

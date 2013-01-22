@@ -14,6 +14,21 @@
 class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
 {
     /**
+     * Parameter name of node
+     */
+    const PARAM_NAME_NODE = 'node';
+
+    /**
+     * Parameter name of content type
+     */
+    const PARAM_NAME_CONTENT_TYPE = 'content_type';
+
+    /**
+     * Parameter name of theme identification number
+     */
+    const PARAM_NAME_THEME_ID = 'theme_id';
+
+    /**
      * Current directory path
      *
      * @var string
@@ -28,25 +43,33 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
+     * @var Mage_Backend_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Mage_Core_Model_Theme_Factory
+     */
+    protected $_themeFactory;
+
+    /**
      * Constructor
      *
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Backend_Model_Session $session
+     * @param Mage_Core_Model_Theme_Factory $themeFactory
      */
-    public function __construct(Magento_Filesystem $filesystem)
-    {
+    public function __construct(
+        Magento_Filesystem $filesystem,
+        Mage_Backend_Model_Session $session,
+        Mage_Core_Model_Theme_Factory $themeFactory
+    ) {
         $this->_filesystem = $filesystem;
+        $this->_session = $session;
+        $this->_themeFactory = $themeFactory;
+
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($this->getStorageRoot());
-    }
-
-    /**
-     * Get wysiwyg helper
-     *
-     * @return Mage_Cms_Helper_Wysiwyg_Images
-     */
-    protected function _getWysiwygHelper()
-    {
-        return Mage::getObjectManager()->get('Mage_Cms_Helper_Wysiwyg_Images');
     }
 
     /**
@@ -58,7 +81,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     public function convertPathToId($path)
     {
         $path = str_replace($this->getStorageRoot(), '', $path);
-        return $this->_getWysiwygHelper()->idEncode($path);
+        return $this->urlEncode($path);
     }
 
     /**
@@ -69,7 +92,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function convertIdToPath($id)
     {
-        $path = $this->_getWysiwygHelper()->idDecode($id);
+        $path = $this->urlDecode($id);
         if (!strstr($path, $this->getStorageRoot())) {
             $path = $this->getStorageRoot() . $path;
         }
@@ -79,12 +102,13 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     /**
      * Get short file name
      *
-     * @param string $fileName
+     * @param string $filename
+     * @param int $maxLength
      * @return string
      */
-    public function getShortFilename($fileName)
+    public function getShortFilename($filename, $maxLength = 20)
     {
-        return $this->_getWysiwygHelper()->getShortFilename($fileName);
+        return strlen($filename) <= $maxLength ? $filename : substr($filename, 0, $maxLength) . '...';
     }
 
     /**
@@ -94,50 +118,37 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        $storageRoot = Mage::getBaseDir('var') . DIRECTORY_SEPARATOR . 'storage'
-            . DIRECTORY_SEPARATOR . $this->_getStorageType();
-
-        if (!is_dir($storageRoot)) {
-            /** create folder */
-        }
-
+        $storageRoot = $this->_getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR . $this->_getStorageType();
         return $storageRoot;
+    }
+
+    /**
+     * Get theme module for custom static files
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _getTheme()
+    {
+        $themeId = $this->_getRequest()->getParam(self::PARAM_NAME_THEME_ID);
+        $theme = $this->_themeFactory->create();
+        if ($themeId && !$theme->load($themeId)->getId()) {
+            Mage::throwException($this->__('Theme was not found.'));
+        }
+        return $theme;
     }
 
     /**
      * Get storage type
      *
-     * @return mixed
+     * @return string
      */
     protected function _getStorageType()
     {
-        return Mage::registry('storage_file_type');
+        return (string)$this->_getRequest()->getParam(self::PARAM_NAME_CONTENT_TYPE);
     }
 
     /**
-     * Id decode
-     *
-     * @param string $string
-     * @return string
-     */
-    public function idDecode($string)
-    {
-        return $this->_getWysiwygHelper()->idDecode($string);
-    }
-
-    /**
-     * Id encode
-     *
-     * @param string $string
-     * @return string
-     */
-    public function idEncode($string)
-    {
-        return $this->_getWysiwygHelper()->idEncode($string);
-    }
-
-    /**
-     * Get curent path
+     * Get current path
      *
      * @return string
      */
@@ -145,7 +156,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     {
         if (!$this->_currentPath) {
             $currentPath = $this->getStorageRoot();
-            $path = $this->_getRequest()->getParam($this->_getWysiwygHelper()->getTreeNodeName());
+            $path = $this->_getRequest()->getParam($this->_getTreeNodeName());
             if ($path) {
                 $path = $this->convertIdToPath($path);
                 if (is_dir($path)) {
@@ -161,6 +172,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      * Get allowed extensions by type
      *
      * @return array
+     * @throws Magento_Exception
      */
     public function getAllowedExtensionsByType()
     {
@@ -172,7 +184,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
                 $extensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
                 break;
             default:
-                Mage::throwException($this->__('Invalid type'));
+                throw new Magento_Exception($this->__('Invalid type'));
         }
 
         return $extensions;
@@ -185,7 +197,16 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getSession()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Session');
+        return $this->_session;
     }
 
+    /**
+     * Return name of parameter node
+     *
+     * @return string
+     */
+    protected function _getTreeNodeName()
+    {
+        return self::PARAM_NAME_NODE;
+    }
 }

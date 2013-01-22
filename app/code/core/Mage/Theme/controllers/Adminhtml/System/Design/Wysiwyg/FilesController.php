@@ -11,7 +11,7 @@
 /**
  * Fonts controller
  */
-class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Adminhtml_Controller_Action
+class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Index action
@@ -102,7 +102,6 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Ad
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
-
     }
 
     /**
@@ -139,7 +138,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FontsController extends Mage_Ad
     /**
      * Get storage
      *
-     * @return Mage_Theme_Model_Storage_Files
+     * @return Mage_Theme_Model_Wysiwyg_Storage
      */
     protected function _getStorage()
     {
