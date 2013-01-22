@@ -44,7 +44,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_App $app
      * @param string $areaCode
      * @param string $baseController
      * @param Mage_Backend_Model_Auth_Session $backendSession
@@ -55,7 +55,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_App $app,
         $areaCode,
         $baseController,
         Mage_Backend_Model_Auth_Session $backendSession,
@@ -63,7 +63,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         Mage_DesignEditor_Model_State $editorState,
         Mage_Core_Model_Config $configuration
     ) {
-        parent::__construct($controllerFactory, $filesystem, $objectManager, $areaCode, $baseController);
+        parent::__construct($controllerFactory, $filesystem, $app, $areaCode, $baseController);
 
         $this->_backendSession = $backendSession;
         $this->_helper         = $helper;

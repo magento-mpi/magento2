@@ -12,7 +12,7 @@
  * Theme selector tab for available themes
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available
-    extends Mage_DesignEditor_Block_Adminhtml_Theme_Selector_TabAbstract
+    extends Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_TabAbstract
 {
     /**
      * Return tab content, available theme list

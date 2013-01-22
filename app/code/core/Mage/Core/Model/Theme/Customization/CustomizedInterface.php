@@ -28,6 +28,16 @@ interface Mage_Core_Model_Theme_Customization_CustomizedInterface
     public function getCustomizationData($type);
 
     /**
+     * Save theme customizations
+     */
+    public function saveThemeCustomization();
+
+    /**
+     * Check whether present customization objects
+     */
+    public function isCustomized();
+
+    /**
      * Return path to customized theme files
      *
      * @return string|null

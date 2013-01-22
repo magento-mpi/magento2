@@ -19,7 +19,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      *
      * @param string $designDir
      * @param string $targetPath
-     * @return mixed
+     * @return Mage_Core_Model_Theme
      */
     protected function _getThemeModel($designDir, $targetPath)
     {
@@ -37,6 +37,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 'resource'           => $objectManager->get('Mage_Core_Model_Resource_Theme'),
                 'resourceCollection' => $themeCollection,
                 'themeFactory'       => $objectManager->get('Mage_Core_Model_Theme_Factory'),
+                'themeImage'         => $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false)
             )
         );
         /** @var $themeMock Mage_Core_Model_Theme */
@@ -150,13 +151,14 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'Mage_Core_Model_Theme',
             array('_init', '_beforeSave', 'cleanModelCache', '_applyCustomizationFiles'),
             array(
-                 $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false),
+                $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false),
                 $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
                 $this->getMock('Magento_ObjectManager', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
                 $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
-                $this->getMock('Magento_Filesystem', array(), array(), '', false),
                 $themeResource,
+                $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false),
+                $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
             ),
             '',
             true

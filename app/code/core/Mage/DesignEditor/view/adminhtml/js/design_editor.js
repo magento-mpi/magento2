@@ -178,9 +178,22 @@
                 self.editorFrame = $(this).contents();
                 self._initPanel();
             });
+            this._bind();
+            this._initFrame();
         },
         _initPanel: function () {
             $(this.options.panelSelector).vde_panel({editorFrameSelector: this.options.frameSelector})
+        },
+        _bind: function() {
+            $(window).on('resize', $.proxy(this._resizeFrame, this));
+        },
+        _resizeFrame: function() {
+            var height = $(window).innerHeight();
+            var offset = $(this.options.frameSelector).offset();
+            $(this.options.frameSelector).height(height - parseInt(offset.top) - 5);
+        },
+        _initFrame: function() {
+            this._resizeFrame();
         }
     });
 
@@ -197,6 +210,7 @@
             }
         },
         _bind: function () {
+            pageBasePrototype._bind.apply(this, arguments);
             var self = this;
             this.element
                 .on('checked.vde_checkbox', function () {

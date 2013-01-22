@@ -32,4 +32,3 @@ class Magento_Di_TestAsset_ConstructorThreeArguments extends Magento_Di_TestAsse
         $this->_three = $three;
     }
 }
-
