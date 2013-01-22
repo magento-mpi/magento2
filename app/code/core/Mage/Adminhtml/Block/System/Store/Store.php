@@ -18,6 +18,9 @@
 
 class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_Grid_Container
 {
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Mage_Adminhtml';
 
     protected function _construct()

@@ -20,9 +20,14 @@ class Mage_Core_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
             $resource->expects($this->once())->method('countAll')->will($this->returnValue($totalCount));
         }
         $config = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
-        $config->expects($this->once())->method('getNode')->will($this->returnValue($configuredCount));
+        $config->expects($this->any())->method('getNode')
+            ->with('global/functional_limitation/max_store_count')
+            ->will($this->returnValue($configuredCount));
         $model = new Mage_Core_Model_Store_Limitation($resource, $config);
         $this->assertEquals($expected, $model->isCreateRestricted());
+
+        // verify that resource model is invoked only when needed (see expectation "once" above)
+        new Mage_Core_Model_Store_Limitation($resource, $config);
     }
 
     /**
@@ -31,17 +36,12 @@ class Mage_Core_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
     public function isCreateRestrictedDataProvider()
     {
         return array(
-            array(0, '', false),
-            array(2, 0, true),
-            array(2, 1, true),
-            array(2, 2, false),
-            array(2, 3, false),
+            'no limit'       => array(0, '', false),
+            'negative limit' => array(2, -1, true),
+            'zero limit'     => array(2, 0, true),
+            'limit < count'  => array(2, 1, true),
+            'limit = count'  => array(2, 2, true),
+            'limit > count'  => array(2, 3, false),
         );
-    }
-
-    public function getCreateRestrictionMessage()
-    {
-        $helper = new Mage_Core_Helper_Data;
-        $this->assertNotEmpty(Mage_Core_Model_Store_Limitation::getCreateRestrictionMessage($helper));
     }
 }

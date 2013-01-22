@@ -7,11 +7,12 @@
  */
 class Mage_Core_Model_Resource_StoreTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * By default out of the box there are 2 store views: one for admin, another for frontend
-     */
     public function testCountAll()
     {
-        $this->assertEquals(2, Mage::getModel('Mage_Core_Model_Resource_Store')->countAll());
+        /** @var $model Mage_Core_Model_Resource_Store */
+        $model = Mage::getModel('Mage_Core_Model_Resource_Store');
+        $this->assertEquals(1, $model->countAll());
+        $this->assertEquals(1, $model->countAll(false));
+        $this->assertEquals(2, $model->countAll(true));
     }
 }

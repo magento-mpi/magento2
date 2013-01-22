@@ -10,9 +10,9 @@
 class Mage_Core_Model_Store_Limitation
 {
     /**
-     * @var int
+     * @var Mage_Core_Model_Resource_Store
      */
-    private $_totalQty = 0;
+    private $_resource;
 
     /**
      * @var int
@@ -32,11 +32,11 @@ class Mage_Core_Model_Store_Limitation
      */
     public function __construct(Mage_Core_Model_Resource_Store $resource, Mage_Core_Model_Config $config)
     {
+        $this->_resource = $resource;
         $allowedQty = (string)$config->getNode('global/functional_limitation/max_store_count');
         if ('' === $allowedQty) {
             return;
         }
-        $this->_totalQty = $resource->countAll();
         $this->_allowedQty = (int)$allowedQty;
         $this->_isRestricted = true;
     }
@@ -49,8 +49,7 @@ class Mage_Core_Model_Store_Limitation
     public function isCreateRestricted()
     {
         if ($this->_isRestricted) {
-            // the store "admin" store is not visible to the user, so it doesn't count
-            return ($this->_totalQty - 1) >= $this->_allowedQty;
+            return $this->_resource->countAll() >= $this->_allowedQty;
         }
         return false;
     }
@@ -58,11 +57,10 @@ class Mage_Core_Model_Store_Limitation
     /**
      * User notification message about the restriction
      *
-     * @param Mage_Core_Helper_Abstract $helper
      * @return string
      */
-    public static function getCreateRestrictionMessage(Mage_Core_Helper_Abstract $helper)
+    public static function getCreateRestrictionMessage()
     {
-        return $helper->__('You are using the maximum number of store views allowed.');
+        return Mage::helper('Mage_Core_Helper_Data')->__('You are using the maximum number of store views allowed.');
     }
 }
