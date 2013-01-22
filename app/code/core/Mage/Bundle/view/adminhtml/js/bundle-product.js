@@ -32,6 +32,9 @@ jQuery(function($) {
                 },
                 'click .toggle': function (event) {
                     $(event.target).closest('.option-box').find('.option-header,.form-list,.selection-search').toggle();
+                },
+                'keyup .option-box input[name$="[title]"]': function (event) {
+                    $(event.target).closest('.option-box').find('.head-edit-form').text($(event.target).val());
                 }
             });
         },

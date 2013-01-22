@@ -35,6 +35,7 @@
                 <th class="opt-input-type"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Input Type') ?></th>
                 <th class="opt-req">&nbsp;</th>
                 <th class="opt-order" style="display:none"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>
+                <th>&nbsp;</th>
             </tr>
             </thead>
             <tbody>
@@ -73,6 +74,7 @@
                     <input class="input-text validate-zero-or-greater" type="text"
                            name="<?php echo $this->getFieldName() ?>[{{index}}][position]" value="{{position}}" />
                 </td>
+                <td>&nbsp;</td>
             </tr>
             </tbody>
             <tfoot>
@@ -107,19 +109,16 @@ function changeInputType(oldObject, oType) {
 Bundle.Option = Class.create();
 Bundle.Option.prototype = {
     idLabel : '<?php echo $this->getFieldId() ?>',
-    top : '',
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     templateText : '',
     itemsCount : 0,
     initialize : function(template) {
         this.templateText = template;
-        this.top = $('product_bundle_container_top');
     },
 
     add : function(data) {
         if(!data){
             data = {};
-            this.top = $('product_bundle_container_top');
         } else {
             data.title = data.title.replace('"', "&quot;");
         }
@@ -128,9 +127,7 @@ Bundle.Option.prototype = {
 
         this.template = new Template(this.templateText, this.templateSyntax);
 
-        Element.insert(this.top, {'after':this.template.evaluate(data)});
-
-        this.top = $(this.idLabel + '_' + data.index);
+        jQuery('#product_bundle_container').append(jQuery(this.template.evaluate(data)));
 
         //set selected type
         if (data.type) {

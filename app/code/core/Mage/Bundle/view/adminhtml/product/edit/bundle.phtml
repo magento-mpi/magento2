@@ -18,11 +18,7 @@ if(typeof Bundle=='undefined') {
 
 <div class="entry-edit" id="bundle_product_container">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend">
-            <?php echo $this->getTabLabel() ?>
-        </h4>
-
-        <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->getTabLabel() ?></h4>
     </div>
     <fieldset>
         <table cellspacing="0" class="form-list">
@@ -37,9 +33,10 @@ if(typeof Bundle=='undefined') {
         </table>
 
         <div class="entry-edit custom-options bundle" id="product_bundle_container">
-            <div id="product_bundle_container_top"></div>
             <?php echo $this->getOptionsBoxHtml() ?>
         </div>
+
+        <div class="a-center"><?php echo $this->getAddButtonHtml() ?></div>
     </fieldset>
 </div>
 

@@ -51,3 +51,11 @@
 #bundle_product_container .option-header .opt-input-type {
     width: 130px;
 }
+
+#bundle_product_container .selection .product-sku {
+    width: 250px;
+}
+
+#add_new_option {
+    font: bold 25px arial, helvetica, sans-serif;
+}
