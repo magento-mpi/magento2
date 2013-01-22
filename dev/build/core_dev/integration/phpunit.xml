@@ -13,12 +13,7 @@
 <phpunit bootstrap="./framework/bootstrap.php">
     <testsuites>
         <testsuite name="Magento Integration Tests">
-            <!--<directory suffix="Test.php">testsuite</directory>-->
-
-            <directory suffix="ApiTest.php">testsuite</directory>
-            <directory suffix="Test.php">testsuite/Mage/Catalog/Model/Product/Api</directory>
-            <directory suffix="Test.php">testsuite/Enterprise/GiftCardAccount/Model/Api</directory>
-
+            <directory suffix="Test.php">testsuite</directory>
             <exclude>testsuite/integrity</exclude>
         </testsuite>
     </testsuites>
