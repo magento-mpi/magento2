@@ -45,7 +45,7 @@
                         <rowUrl>
                             <path>*/*/edit</path>
                             <extraParamsTemplate>
-                                <rid>getId</rid>
+                                <id>getId</id>
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
