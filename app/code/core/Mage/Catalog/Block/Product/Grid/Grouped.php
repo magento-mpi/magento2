@@ -15,10 +15,16 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_Tab_Grouped extends Mage_Backend_Block_Widget_Grid
+class Mage_Catalog_Block_Product_Grid_Grouped extends Mage_Backend_Block_Widget_Grid
 {
-
+    /**
+     * Input name product data will be serialized into
+     */
     protected $_hiddenInputName;
+
+    /**
+     * Names of the inputs to serialize
+     */
     protected $_fieldsToSave = array();
 
     protected function _construct()
@@ -35,7 +41,7 @@ class Mage_Catalog_Block_Product_Tab_Grouped extends Mage_Backend_Block_Widget_G
      *
      * @return array
      */
-    public function getSelectedGroupedProducts()
+    public function getAssociatedProducts()
     {
         $associatedProducts = Mage::registry('current_product')->getTypeInstance()
             ->getAssociatedProducts(Mage::registry('current_product'));
@@ -46,7 +52,7 @@ class Mage_Catalog_Block_Product_Tab_Grouped extends Mage_Backend_Block_Widget_G
                 'position'  => $product->getPosition()
             );
         }
-        return $products;
+        return $this->helper('Mage_Core_Helper_Data')->jsonEncode($products);
     }
 
     /**
@@ -54,7 +60,7 @@ class Mage_Catalog_Block_Product_Tab_Grouped extends Mage_Backend_Block_Widget_G
      *
      * @return array
      */
-    public function getAssociatedProductsId()
+    public function getAssociatedProductsIds()
     {
         $associatedProducts = Mage::registry('current_product')->getTypeInstance()
             ->getAssociatedProducts(Mage::registry('current_product'));
@@ -65,16 +71,32 @@ class Mage_Catalog_Block_Product_Tab_Grouped extends Mage_Backend_Block_Widget_G
         return $this->helper('Mage_Core_Helper_Data')->jsonEncode($ids);
     }
 
+    /**
+     * Get hidden input name
+     *
+     * @return string
+     */
     public function getHiddenInputName()
     {
         return $this->_hiddenInputName;
     }
 
+    /**
+     * Get fields names
+     *
+     * @return array
+     */
     public function getFieldsToSave()
     {
         return $this->_fieldsToSave;
     }
 
+    /**
+     * Init function
+     *
+     * @param string $hiddenInputName
+     * @param array $fieldsToSave
+     */
     public function setGridData($hiddenInputName, $fieldsToSave = array())
     {
         $this->_hiddenInputName = $hiddenInputName;

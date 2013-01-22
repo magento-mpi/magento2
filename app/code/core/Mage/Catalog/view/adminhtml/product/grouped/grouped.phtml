@@ -8,38 +8,43 @@
  * @license     {license_link}
  */
 ?>
-<div id="grouped-products-container">
+<div id="grouped-product-container">
     <?php
-    /** @var $_gridBlock Mage_Catalog_Block_Product_Tab_Grouped */
-    $_gridBlock = $this->getChildBlock('catalog.product.group.grid');
-    $_gridPopupBlock = $this->getChildBlock('catalog.product.group.grid.popup');
+    /** @var $this Mage_Core_Block_Template */
+    /** @var $_gridBlock Mage_Catalog_Block_Product_Grid_Grouped */
+    $_gridBlock = $this->getChildBlock('catalog.product.group.grid.container')
+        ->getChildBlock('catalog.product.group.grid');
+    $_gridPopupBlock = $this->getChildBlock('catalog.product.group.grid.popup.container')
+        ->getChildBlock('catalog.product.group.grid.popup');
     $_gridPopupBlock->setRowClickCallback('function(){}');
     /** @var $_helper Mage_Core_Helper_Data */
     $_helper = $this->helper('Mage_Core_Helper_Data');
-    echo $this->getChildHtml('catalog.product.group.grid');
+    echo $this->getChildBlock('catalog.product.group.grid.container')->getChildHtml('catalog.product.group.grid');
     ?>
     <input type="hidden" name="<?php echo $_gridBlock->getHiddenInputName();?>"/>
-    <div id="grouped-products-popup">
-        <?php echo $this->getChildHtml('catalog.product.group.grid.popup');?>
-        <button id="grouped-products-select">Select Products</button>
+    <div id="grouped-product-popup" style="display:none;">
+        <?php echo $this->getChildBlock('catalog.product.group.grid.popup.container')->getChildHtml('catalog.product.group.grid.popup');?>
+        <button id="grouped-products-select">Add Selected Products</button>
+        <button id="grouped-product-cancel">Cancel</button>
     </div>
 </div>
 <button id="grouped-add-products">Add Products to Group</button>
 <script type="text/javascript">
     jQuery(function ($) {
-        var $gridDialog = $('#grouped-products-popup').dialog({
-            title: 'Select Associated Product',
+        var $gridDialog = $('#grouped-product-popup').dialog({
+            title: 'Select Associated Products',
             autoOpen: false,
             minWidth: 980,
             modal: true,
             resizable: true
         });
         var grid = window.<?php echo $_gridBlock->getJsObjectName() ?>,
+            gridData = <?php echo $_gridBlock->getAssociatedProducts()?>,
             gridPopup = window.<?php echo $_gridPopupBlock->getJsObjectName() ?>,
             $groupedGrid = $('#grouped_grid'),
             $groupedGridPopup = $('#grouped_grid_popup'),
-            $hiddenInput = $('#grouped-products-container input[name="<?php echo $_gridBlock->getHiddenInputName()?>"]'),
-            associatedProductsId = <?php echo $_gridBlock->getAssociatedProductsId()?>,
+            $hiddenInput = $('#grouped-product-container input[name="<?php echo $_gridBlock->getHiddenInputName()?>"]'),
+            associatedProductsId = <?php echo $_gridBlock->getAssociatedProductsIds()?>,
             fieldsToSave = <?php echo $_helper->jsonEncode($_gridBlock->getFieldsToSave())?>;
 
         var updateHiddenField = function (ids) {
@@ -62,6 +67,15 @@
                 var $idContainer = $(this),
                     inArray = $.inArray($idContainer.html().trim(), ids) !== -1;
                 $idContainer.closest('tr').toggle(inArray).toggleClass('ignore-validate', !inArray);
+            });
+        };
+        var initGridWithData = function (gridData) {
+            $.each($groupedGrid.find('td.selected-products'), function () {
+                var $idContainer = $(this),
+                    id = $idContainer.html().trim();
+                $.each(gridData[id], function (fieldName, data) {
+                    $idContainer.closest('tr').find('input[name="' + fieldName + '"]').val(data);
+                });
             });
         };
         var getSelectedIds = function () {
@@ -87,6 +101,7 @@
             $(event.target).parent().find('td.selected-products input[type="checkbox"]').click();
             return false;
         };
+        initGridWithData(gridData);
         displayGridRow(associatedProductsId);
         updatePopupGrid();
         updateHiddenField(associatedProductsId);

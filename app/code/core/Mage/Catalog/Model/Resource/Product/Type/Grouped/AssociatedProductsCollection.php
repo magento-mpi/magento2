@@ -9,13 +9,13 @@
  */
 
 /**
- * Catalog compare item resource model
+ * Associated products collection
  *
  * @category    Mage
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Product_Collection_GroupedProducts
+class Mage_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection
     extends Mage_Catalog_Model_Resource_Product_Link_Product_Collection
 {
 
@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Resource_Product_Collection_GroupedProducts
     {
         $allowProductTypes = array();
         $allowProductTypeNodes = Mage::getConfig()
-            ->getNode('global/catalog/product/type/grouped/allow_product_types')->children();
+            ->getNode(Mage_Catalog_Model_Config::XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES)->children();
         foreach ($allowProductTypeNodes as $type) {
             $allowProductTypes[] = $type->getName();
         }
