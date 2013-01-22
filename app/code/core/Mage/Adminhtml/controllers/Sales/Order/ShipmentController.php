@@ -663,6 +663,8 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
      */
     protected function _createPdfPageFromImageString($imageString)
     {
+        /** @var Magento_Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento_Filesystem');
         $image = imagecreatefromstring($imageString);
         if (!$image) {
             return false;
@@ -678,7 +680,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         imagepng($image, $tmpFileName);
         $pdfImage = Zend_Pdf_Image::imageWithPath($tmpFileName);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
-        unlink($tmpFileName);
+        $filesystem->delete($tmpFileName);
         return $page;
     }
 

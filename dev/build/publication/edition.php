@@ -27,6 +27,8 @@ try {
         case 'ee':
             $lists[] = 'saas.txt';
             break;
+        case 'saas':
+            break;
         default:
             throw new Exception("Specified edition '{$options['e']}' is not implemented.");
     }

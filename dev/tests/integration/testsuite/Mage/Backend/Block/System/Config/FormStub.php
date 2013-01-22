@@ -20,6 +20,11 @@ class Mage_Backend_Block_System_Config_FormStub extends Mage_Backend_Block_Syste
     protected $_configDataStub = array();
 
     /**
+     * @var array
+     */
+    protected $_configRootStub = array();
+
+    /**
      * Sets stub config data
      *
      * @param array $configData
@@ -27,6 +32,17 @@ class Mage_Backend_Block_System_Config_FormStub extends Mage_Backend_Block_Syste
     public function setStubConfigData(array $configData = array())
     {
         $this->_configDataStub = $configData;
+    }
+
+    /**
+     * Sets stub config root
+     *
+     * @param array $configRoot
+     * @return void
+     */
+    public function setStubConfigRoot(array $configRoot = array())
+    {
+        $this->_configRootStub = $configRoot;
     }
 
     /**
@@ -38,6 +54,9 @@ class Mage_Backend_Block_System_Config_FormStub extends Mage_Backend_Block_Syste
     {
         parent::_initObjects();
         $this->_configData = $this->_configDataStub;
+        if ($this->_configRootStub) {
+            $this->_configRoot = $this->_configRootStub;
+        }
         $this->_fieldRenderer = Mage::app()->getLayout()->createBlock(
             'Mage_Backend_Block_System_Config_Form_Field'
         );
