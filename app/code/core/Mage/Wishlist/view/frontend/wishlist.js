@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-/*jshint browser:true jquery:true*/
+/*jshint browser:true jquery:true sub:true*/
 /*global alert*/
 (function($, window) {
     "use strict";
@@ -27,13 +27,14 @@
          * Bind handlers to events.
          */
         _create: function() {
-            if (!this.options.infoList) {
-                this.element
-                    .on('click', this.options.addToCartSelector, $.proxy(this._addItemsToCart, this))
-                    .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
-                    .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
-                    .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
-            }
+            var _this = this;
+            this.element
+                .on('click', this.options.addToCartSelector, function() {
+                    $.proxy(_this._addItemsToCart($(this)), _this);
+                })
+                .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
+                .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
+                .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
         },
 
         /**
@@ -55,20 +56,20 @@
         /**
          * Add wish list items to cart.
          * @private
+         * @param {jQuery object} elem - clicked 'add to cart' button
          */
-        _addItemsToCart: function() {
-            $(this.options.addToCartSelector).each($.proxy(function(index, element) {
-                if ($(element).data(this.options.dataAttribute)) {
-                    var itemId = $(element).data(this.options.dataAttribute),
-                        url = this.options.addToCartUrl.replace('%item%', itemId),
-                        inputName = $.validator.format(this.options.nameFormat, itemId),
-                        inputValue = this.element.find('[name="' + inputName + '"]').val(),
-                        separator = (url.indexOf('?') >= 0) ? '&' : '?';
-                    url += separator + inputName + '=' + encodeURIComponent(inputValue);
-                    this._validateAndRedirect(url);
-                    return;
-                }
-            }, this));
+        _addItemsToCart: function(elem) {
+            if (elem.data(this.options.dataAttribute)) {
+                var itemId = elem.data(this.options.dataAttribute),
+                    url = this.options.addToCartUrl.replace('%item%', itemId),
+                    inputName = $.validator.format(this.options.nameFormat, itemId),
+                    inputValue = elem.parent().find('[name="' + inputName + '"]').val(),
+                    separator = (url.indexOf('?') >= 0) ? '&' : '?';
+                url += separator + inputName + '=' + encodeURIComponent(inputValue);
+                this._validateAndRedirect(url);
+                return;
+            }
+
         },
 
         /**
@@ -132,7 +133,6 @@
     });
 
     // Extension for mage.wishlist info add to cart
-
     $.widget('mage.wishlist', $.mage.wishlist, {
         _create: function() {
             this._super();
@@ -140,6 +140,7 @@
                 this._checkBoxValidate();
             }
         },
+        
         _checkBoxValidate: function() {
             this.element.validation({
                 submitHandler: $.proxy(function(form) {
@@ -149,6 +150,29 @@
                         alert(this.options.checkBoxValidationMessage);
                     }
                 }, this)
+            });
+        }
+    });
+    
+    // Extension for mage.wishlist - Add Wishlist item to Gift Registry
+    $.widget('mage.wishlist', $.mage.wishlist, {
+        options: {
+            formTmplSelector: '#form-tmpl',
+            formTmplId: '#wishlist-hidden-form'
+        },
+
+        _create: function() {
+            this._super();
+            var _this = this;
+            this.element.on('click', '[data-wishlist-to-giftregistry]', function() {
+                var json = $(this).data('wishlist-to-giftregistry'),
+                    tmplJson = {
+                        item: json['itemId'],
+                        entity: json['entity'],
+                        url: json['url']
+                    };
+                $(_this.options.formTmplSelector).tmpl(tmplJson).appendTo('body');
+                $(_this.options.formTmplId).submit();
             });
         }
     });

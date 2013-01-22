@@ -20,7 +20,7 @@ $options = $this->getChildBlock('customer.wishlist.item.options')
     <?php echo $this->getPriceHtml($product, empty($options));?>
     <div class="add-to-cart-alt">
         <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
-            <input type="text" class="input-text qty" data-validate="{'validate-greater-than-zero':true}" name="qty[<?php echo $item->getId() ?>]"
+            <input type="text" class="input-text qty" data-validate="{required:true,'validate-greater-than-zero':true}" name="qty[<?php echo $item->getId() ?>]"
                    value="<?php echo $this->getAddToCartQty($item) * 1 ?>"/>
         <?php endif; ?>
         <?php if ($product->isSaleable()): ?>
@@ -41,19 +41,3 @@ $options = $this->getChildBlock('customer.wishlist.item.options')
     </p>
     <?php endif ?>
 </div>
-<script>
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Mage_Wishlist::wishlist.js')?>", function() {
-                $('#wishlist-view-form').wishlist({
-                    addToCartUrl: '<?php echo $this->getItemAddToCartUrl('%item%');?>' ,
-                    confirmRemoveMessage: '<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>',
-                    addAllToCartUrl : '<?php echo $this->getUrl('*/*/allcart', array('wishlist_id' => $this->getWishlistInstance()->getId())) ?>',
-                    commentString : '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString()?>'
-                });
-            });
-    })(jQuery);
-</script>
