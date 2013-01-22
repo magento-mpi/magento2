@@ -37,24 +37,12 @@
     <?php echo $column->getAdditionalHtml();?>
 <?php endforeach; ?>
 <script type="text/javascript">
+    jQuery('#wishlist-table').decorate('table');
     (function($) {
-        $('#wishlist-table').decorate('table');
-
-        $('#select-all').on('click', function() {
-            if ($(this).is(':checked')) {
-                $(this).parents('#wishlist-table').find('input:checkbox').attr('checked', true);
-            } else {
-                $(this).parents('#wishlist-table').find('input:checkbox').removeAttr('checked');
-            }
-        });
-        var checkboxCount = $('#select-all').parents('#wishlist-table').find('input:checkbox:not(#select-all)').length;
-        $('#select-all').parents('#wishlist-table').on('click', 'input:checkbox:not(#select-all)', function() {
-            var checkedCount = $('#select-all').parents('#wishlist-table').find('input:checkbox:checked:not(#select-all)').length;
-            if (checkboxCount === checkedCount) {
-                $('#select-all').attr('checked', true);
-            } else {
-                $('#select-all').removeAttr('checked');
-            }
-        });
+        head.js(
+            "<?php echo $this->getViewFileUrl('Enterprise_Persistent::splitbutton.js') ?>",
+            function() {
+                $('#wishlist-table').splitButton();
+            });
     })(jQuery);
 </script>
