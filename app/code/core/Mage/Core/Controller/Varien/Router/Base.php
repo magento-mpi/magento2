@@ -42,17 +42,12 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * @var Magento_ObjectManager
      */
-    protected $_objectManager;
-
-    /**
-     * @var Magento_Filesystem
-     */
-    protected $_filesystem;
+    protected $_app;
 
     /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_App $app
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
@@ -60,13 +55,13 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_App $app,
         $areaCode,
         $baseController
     ) {
         parent::__construct($controllerFactory);
 
-        $this->_objectManager  = $objectManager;
+        $this->_app            = $app;
         $this->_filesystem     = $filesystem;
         $this->_areaCode       = $areaCode;
         $this->_baseController = $baseController;
@@ -167,7 +162,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             return null;
         }
 
-        $this->_objectManager->loadAreaConfiguration($this->_areaCode);
+        $this->_app->loadDiConfiguration($this->_areaCode);
 
         return $this->_matchController($request, $params);
     }
@@ -519,7 +514,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     {
         foreach ($modules as $module) {
             if ($moduleName === $module || (is_array($module)
-                    && $this->getModuleByName($moduleName, $module))) {
+                && $this->getModuleByName($moduleName, $module))) {
                 return true;
             }
         }

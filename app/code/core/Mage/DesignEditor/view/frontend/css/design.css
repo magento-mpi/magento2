@@ -14,6 +14,7 @@ a, button {
 }
 .vde_element_wrapper {
     border: 2px solid #69a8cf;
+    position: relative;
 }
 .vde_element_wrapper.vde_draggable {
     cursor: pointer;
@@ -24,21 +25,22 @@ a, button {
 }
 .vde_element_title {
     font-family:Arial, Helvetica, sans-serif;
-    margin: 2px;
-    padding: 0;
+    padding: 2px 0 2px 5px;
     border-width: 2px 5px 6px 7px;
     color: black;
     font-size: 8pt;
     font-weight: bold;
-    max-width: 150px;
     height: 18px;
     overflow: hidden;
     text-align: left;
     line-height: 17px;
+    background-color: #f8f7f5;
 }
 .vde_element_remove {
-    margin: -21px 0px 0px -4px;
-    padding: 0px;
+    position: absolute;
+    right: 0px;
+    margin: 4px 4px 0px 0px;
+    padding: 0;
     border-width: 2px 5px 6px 7px;
     max-width: 20px;
     height: 18px;
@@ -69,7 +71,7 @@ a, button {
     padding-left: 10px;
     padding-right: 10px;
     color: #ffffff;
-    border-radius: 0px 4px 0px 0px;
+    border-radius: 0 4px 0 0;
 }
 .vde_element_wrapper.vde_stub {
     border: 2px solid #92978d;
@@ -78,9 +80,7 @@ a, button {
     background-color: #dadfd4;
 }
 .vde_container.vde_container_hover {
-    border-style: dashed;
-    border-width: 3px;
-    border-color: #7bc361;
+    border: 3px dashed #7bc361;
     min-height: 40px;
 }
 .vde_container.vde_container_hover > .vde_element_title {
@@ -88,6 +88,10 @@ a, button {
 }
 .vde_placeholder {
     background-color: #F5F5DC;
+}
+.vde_placeholder_content {
+    text-align: center;
+    background-color: #a0988d;
 }
 .vde_wrapper_hidden, .vde_wrapper_hidden .vde_element_title {
     display: none;
