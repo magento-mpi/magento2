@@ -113,4 +113,33 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('font1.ttf', $result[0]['text']);
         $this->assertEquals('font2.ttf', $result[1]['text']);
     }
+
+    public function testTreeArray()
+    {
+        $storageModel = $this->_storageModel;
+
+        /** @var $helper Mage_Theme_Helper_Storage */
+        $helper = $this->getMock(
+            'Mage_Theme_Helper_Storage', array('getCurrentPath', 'getStorageRoot'), array(), '', false
+        );
+
+        $helper->expects($this->once())
+            ->method('getCurrentPath')
+            ->will($this->returnValue($this->_storageRoot . DIRECTORY_SEPARATOR . 'dir2'));
+
+        $helper->expects($this->once())
+            ->method('getStorageRoot')
+            ->will($this->returnValue($this->_storageRoot));
+
+        $helperProperty = new ReflectionProperty($storageModel, '_helper');
+        $helperProperty->setAccessible(true);
+        $helperProperty->setValue($storageModel, $helper);
+
+        $result = $storageModel->getTreeArray();
+
+        $this->assertEquals(1, count($result));
+
+        $this->assertEquals('L2RpcjIvTW9yZVRoYW4yMFN5bWJvbHNJbk5hbWU,', $result[0]['id']);
+        $this->assertEquals('MoreThan20SymbolsInN...', $result[0]['text']);
+    }
 }
