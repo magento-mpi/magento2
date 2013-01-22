@@ -30,9 +30,9 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     public function __construct(
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Config_Modules_Reader $configReader,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
-        Mage_Core_Model_Config_Modules_Reader $configReader,
         array $data = array()
     )
     {
