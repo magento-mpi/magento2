@@ -13,9 +13,9 @@
  *
  * @method int getThemeId()
  * @method int getLayoutLinkId()
- * @method Mage_Core_Model_Theme_Customisation_Link setThemeId()
+ * @method Mage_Core_Model_Theme_Customization_Link setThemeId()
  */
-class Mage_Core_Model_Theme_Customisation_Link extends Mage_Core_Model_Abstract
+class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
 {
     /**
      * @var Magento_ObjectManager
@@ -116,7 +116,7 @@ class Mage_Core_Model_Theme_Customisation_Link extends Mage_Core_Model_Abstract
     /**
      * Remove relation and layout update
      *
-     * @return Mage_Core_Model_Theme_Customisation_Link
+     * @return Mage_Core_Model_Theme_Customization_Link
      */
     public function _beforeDelete()
     {
@@ -131,7 +131,7 @@ class Mage_Core_Model_Theme_Customisation_Link extends Mage_Core_Model_Abstract
      * Add custom files to inclusion on frontend page
      *
      * @param string $handle
-     * @return Mage_Core_Model_Theme_Customisation_Link
+     * @return Mage_Core_Model_Theme_Customization_Link
      */
     public function changeCustomFilesUpdate($handle = 'default')
     {
@@ -162,7 +162,7 @@ class Mage_Core_Model_Theme_Customisation_Link extends Mage_Core_Model_Abstract
      *
      * @param Mage_Core_Model_Layout_Update $update
      * @param array $customFiles
-     * @return Mage_Core_Model_Theme_Customisation_Link
+     * @return Mage_Core_Model_Theme_Customization_Link
      */
     public function _prepareUpdate(Mage_Core_Model_Layout_Update $update, array $customFiles)
     {
@@ -205,11 +205,11 @@ class Mage_Core_Model_Theme_Customisation_Link extends Mage_Core_Model_Abstract
     /**
      * Clean cache
      *
-     * @return Mage_Core_Model_Theme_Customisation_Link
+     * @return Mage_Core_Model_Theme_Customization_Link
      */
     public function cleanCache()
     {
-        Mage::app()->cleanCache(Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG);
+        Mage::app()->getCacheInstance()->invalidateType('layout');
         Mage::getDesign()->cleanMergedJsCss();
         return $this;
     }

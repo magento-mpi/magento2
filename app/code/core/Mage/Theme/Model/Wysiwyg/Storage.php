@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
+class Mage_Theme_Model_Wysiwyg_Storage
 {
     /**
      * Type font
@@ -19,6 +19,11 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
      * Type image
      */
     const TYPE_IMAGE = 'image';
+
+    /**
+     * Directory name regular expression
+     */
+    const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
 
     /**
      * File system model
@@ -35,26 +40,25 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
     protected $_helper;
 
     /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * Initialize dependencies
+     *
      * @param Varien_Io_File $fileIo
-     * @param Mage_Theme_Helper_Storage $helper,
-     * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
-     * @param array $data
+     * @param Mage_Theme_Helper_Storage $helper
+     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
         Varien_Io_File $fileIo,
         Mage_Theme_Helper_Storage $helper,
-        Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
+        Magento_ObjectManager $objectManager
     ) {
         $this->_fileIo = $fileIo;
         $this->_helper = $helper;
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -65,14 +69,15 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
      */
     public function uploadFile($targetPath)
     {
-        $uploader = new Mage_Core_Model_File_Uploader('file');
+        /** @var $uploader Mage_Core_Model_File_Uploader */
+        $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader', array('file'));
         $uploader->setAllowedExtensions($this->_helper->getAllowedExtensionsByType());
         $uploader->setAllowRenameFiles(true);
         $uploader->setFilesDispersion(false);
         $result = $uploader->save($targetPath);
 
         if (!$result) {
-            Mage::throwException( Mage::helper('Mage_Cms_Helper_Data')->__('Cannot upload file.') );
+            Mage::throwException($this->_helper->__('Cannot upload file.') );
         }
 
         $result['cookie'] = array(
@@ -92,11 +97,12 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
      * @param string $name
      * @param string $path
      * @return array
+     * @throws Magento_Exception
      */
     public function createFolder($name, $path)
     {
-        if (!preg_match(Mage_Cms_Model_Wysiwyg_Images_Storage::DIRECTORY_NAME_REGEXP, $name)) {
-            Mage::throwException($this->_helper->__('Invalid folder name.'));
+        if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
+            throw new Magento_Exception($this->_helper->__('Invalid folder name.'));
         }
         if (!$this->_fileIo->isWriteable($path)) {
             $path = $this->_helper->getStorageRoot();
@@ -105,11 +111,11 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
         $newPath = $path . DS . $name;
 
         if ($this->_fileIo->fileExists($newPath)) {
-            Mage::throwException($this->_helper->__('A directory with the same name already exists.'));
+            throw new Magento_Exception($this->_helper->__('A directory with the same name already exists.'));
         }
 
         if (!$this->_fileIo->checkAndCreateFolder($newPath)) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('Cannot create new directory.'));
+            throw new Magento_Exception($this->_helper->__('Cannot create new directory.'));
         }
 
         $result = array(
@@ -130,12 +136,12 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
      */
     public function deleteFile($file)
     {
-        $file = $this->_helper->idDecode($file);
+        $file = $this->_helper->urlDecode($file);
         $path = $this->_helper->getCurrentPath();
 
         $_filePath = realpath($path . DS . $file);
-        if (strpos($_filePath, realpath($path)) === 0 &&
-            strpos($_filePath, realpath($this->_helper->getStorageRoot())) === 0
+        if (strpos($_filePath, realpath($path)) === 0
+            && strpos($_filePath, realpath($this->_helper->getStorageRoot())) === 0
         ) {
             $this->_fileIo->rm($_filePath);
         }
@@ -147,11 +153,12 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
      *
      * @param string $path
      * @return array
+     * @throws Magento_Exception
      */
     public function getDirsCollection($path)
     {
         if (!$this->_fileIo->fileExists($path, false)) {
-            Mage::throwException($this->_helper->__('A directory with the same name not exists.'));
+            throw new Magento_Exception($this->_helper->__('A directory with the same name not exists.'));
         }
         return $this->_fileIo->getDirectoriesList($path);
     }
@@ -166,7 +173,7 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
         $this->_fileIo->cd($this->_helper->getCurrentPath());
         $files = $this->_fileIo->ls(Varien_Io_File::GREP_FILES);
         foreach ($files as &$file) {
-            $file['id'] = $this->_helper->idEncode($file['text']);
+            $file['id'] = $this->_helper->urlEncode($file['text']);
         }
         return $files;
     }
@@ -196,6 +203,7 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
      *
      * @param string $path
      * @return bool
+     * @throws Magento_Exception
      */
     public function deleteDirectory($path)
     {
@@ -203,7 +211,7 @@ class Mage_Theme_Model_Wysiwyg_Storage extends Mage_Core_Model_Abstract
         $pathCmp = rtrim($path, DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('Cannot delete root directory %s.', $path));
+            throw new Magento_Exception($this->_helper->__('Cannot delete root directory %s.', $path));
         }
 
         return $this->_fileIo->rmdirRecursive($path);

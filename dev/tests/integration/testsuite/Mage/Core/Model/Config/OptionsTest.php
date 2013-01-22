@@ -34,6 +34,7 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
         'session_dir' => 'session',
         'upload_dir'  => 'upload',
         'export_dir'  => 'export',
+        'theme_dir'   => 'theme'
     );
 
     protected function setUp()

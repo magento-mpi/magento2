@@ -12,7 +12,7 @@
 /**
  * Test theme js file model
  */
-class Mage_Core_Model_Theme_Files_CssTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Theme_Customization_Files_CssTest extends PHPUnit_Framework_TestCase
 {
     public function testSaveDataWithoutData()
     {
@@ -20,7 +20,7 @@ class Mage_Core_Model_Theme_Files_CssTest extends PHPUnit_Framework_TestCase
         $themeModel = $this->_getMockThemeModel();
 
         $modelCssFile = $this->getMock(
-            'Mage_Core_Model_Theme_Files_Css',
+            'Mage_Core_Model_Theme_Customization_Files_Css',
             array('_save'),
             array($filesModel)
         );
@@ -39,7 +39,7 @@ class Mage_Core_Model_Theme_Files_CssTest extends PHPUnit_Framework_TestCase
             ->method('addData')
             ->with(array(
                 'theme_id'  => $themeId,
-                'file_path' => Mage_Core_Model_Theme_Files_Css::FILE_PATH,
+                'file_name' => Mage_Core_Model_Theme_Customization_Files_Css::FILE_PATH,
                 'file_type' => Mage_Core_Model_Theme_Files::TYPE_CSS,
                 'content'   => $cssContent
             ))
@@ -54,25 +54,9 @@ class Mage_Core_Model_Theme_Files_CssTest extends PHPUnit_Framework_TestCase
 
         $themeModel = $this->_getMockThemeModel($themeId);
 
-        $modelCssFile = new Mage_Core_Model_Theme_Files_Css($filesModel);
+        $modelCssFile = new Mage_Core_Model_Theme_Customization_Files_Css($filesModel);
         $modelCssFile->setDataForSave($cssContent);
         $modelCssFile->saveData($themeModel);
-    }
-
-    public function testGetFileByTheme()
-    {
-        $themeId = 3;
-        $cssFile = $this->_getMockThemeFile();
-        $themeModel = $this->_getMockThemeModel($themeId);
-
-        $filesCollection = $this->_getMockFilesCollection($themeId, $cssFile);
-
-        $filesModel = $this->_getMockThemeFile();
-        $filesModel->expects($this->once())->method('getCollection')->will($this->returnValue($filesCollection));
-
-        $modelCssFile = new Mage_Core_Model_Theme_Files_Css($filesModel);
-        $customCss = $modelCssFile->getFileByTheme($themeModel);
-        $this->assertEquals($cssFile, $customCss);
     }
 
     /**

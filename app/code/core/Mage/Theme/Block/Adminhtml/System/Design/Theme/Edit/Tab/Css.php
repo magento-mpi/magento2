@@ -33,6 +33,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected $_uploaderService;
 
     /**
+     * Theme custom css file
+     *
+     * @var Mage_Core_Model_Theme_Files
+     */
+    protected $_customCssFile;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -85,9 +92,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $form = new Varien_Data_Form();
         $this->setForm($form);
         $this->_addThemeCssFieldset();
+
+        $this->_customCssFile = $this->_getCurrentTheme()
+            ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
+
         $this->_addCustomCssFieldset();
 
-        $formData['custom_css_content'] = $this->_getCurrentTheme()->getCustomCssFile()->getContent();
+        $formData['custom_css_content'] = $this->_customCssFile->getContent();
+
         /** @var $session Mage_Backend_Model_Session */
         $session = $this->_objectManager->get('Mage_Backend_Model_Session');
         $cssFileContent = $session->getThemeCustomCssData();
@@ -180,32 +192,57 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
                 'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
         );
-        if (!$this->_getCurrentTheme()->getCustomCssFile()->getContent()) {
+        if (!$this->_customCssFile->getContent()) {
             $downloadButtonConfig['disabled'] = 'disabled';
         }
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
+
+        /** @var $imageButton Mage_Backend_Block_Widget_Button */
+        $imageButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->setData(array(
+            'id'        => 'css_images_manager',
+            'label'     => $this->__('Manage'),
+            'class'     => 'button',
+            'onclick'   => "MediabrowserUtility.openDialog('"
+                . $this->getUrl('*/system_design_wysiwyg_files/index', array(
+                    'target_element_id'                                => 'custom_css_content',
+                    Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
+                ))
+                . "', null, null,'"
+                . $this->quoteEscape(
+                    $this->__('Upload Images...'), true
+                )
+                . "');"
+        ));
+
+        $themeFieldset->addField('css_browse_image_button', 'note', array(
+            'label' => $this->__("Images Assets"),
+            'text'  => $imageButton->toHtml()
+        ));
 
         /** @var $fontButton Mage_Backend_Block_Widget_Button */
         $fontButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
             'id'        => 'css_fonts_manager',
             'label'     => $this->__('Manage'),
+            'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
                 . $this->getUrl('*/system_design_wysiwyg_fonts/index', array(
-                    'target_element_id' => 'custom_css_content',
-                    'theme_id' => $this->_getCurrentTheme()->getId()
+                    'target_element_id'                                => 'custom_css_content',
+                    Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
                     $this->__('Upload fonts...'), true
                 )
                 . "');",
-            'class'     => 'button'
         ));
 
         $themeFieldset->addField('css_browse_font_button', 'note', array(
             'label' => $this->__("Fonts Assets"),
-            'text' => $fontButton->toHtml()
+            'text'  => $fontButton->toHtml()
         ));
 
         $themeFieldset->addField('custom_css_content', 'textarea', array(
