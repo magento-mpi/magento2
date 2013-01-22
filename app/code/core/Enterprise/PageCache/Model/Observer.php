@@ -244,7 +244,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function cleanCache()
     {
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->clean(Enterprise_PageCache_Model_Processor::CACHE_TAG);
+        $this->_cache->clean(Enterprise_PageCache_Model_Processor::CACHE_TAG);
         return $this;
     }
 
@@ -254,7 +254,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function cleanExpiredCache()
     {
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->getFrontend()->clean(Zend_Cache::CLEANING_MODE_OLD);
+        $this->_cache->getFrontend()->clean(Zend_Cache::CLEANING_MODE_OLD);
         return $this;
     }
 
@@ -315,7 +315,7 @@ class Enterprise_PageCache_Model_Observer
         $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_CART, 'quote_' . $quote->getId());
 
         $cacheId = Enterprise_PageCache_Model_Container_Advanced_Quote::getCacheId();
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->remove($cacheId);
+        $this->_cache->remove($cacheId);
 
         return $this;
     }
@@ -495,7 +495,7 @@ class Enterprise_PageCache_Model_Observer
             'Enterprise_PageCache_Model_Container_Wishlists',
             array('placeholder' => 'WISHLISTS')
         );
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->remove($blockContainer->getCacheId());
+        $this->_cache->remove($blockContainer->getCacheId());
 
         return $this;
     }
@@ -532,7 +532,7 @@ class Enterprise_PageCache_Model_Observer
 
         // Customer order sidebar tag
         $cacheId = md5($this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->remove($cacheId);
+        $this->_cache->remove($cacheId);
         return $this;
     }
 
@@ -560,8 +560,7 @@ class Enterprise_PageCache_Model_Observer
     public function registerDesignExceptionsChange(Varien_Event_Observer $observer)
     {
         $object = $observer->getDataObject();
-        Enterprise_PageCache_Model_Cache::getCacheInstance()
-            ->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY,
+        $this->_cache->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY,
                 array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         return $this;
     }
