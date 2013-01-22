@@ -403,6 +403,7 @@ Layout handle for grouped products
                             <index>entity_id</index>
                             <column_css_class>selected-products</column_css_class>
                             <width>60px</width>
+                            <sortable>0</sortable>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
@@ -411,6 +412,7 @@ Layout handle for grouped products
                             <type>text</type>
                             <index>name</index>
                             <editable>1</editable>
+                            <sortable>0</sortable>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku">
@@ -419,6 +421,7 @@ Layout handle for grouped products
                             <type>text</type>
                             <index>sku</index>
                             <width>80px</width>
+                            <sortable>0</sortable>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
@@ -428,6 +431,7 @@ Layout handle for grouped products
                             <index>price</index>
                             <width>110px</width>
                             <align>right</align>
+                            <sortable>0</sortable>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
@@ -438,6 +442,7 @@ Layout handle for grouped products
                             <width>110px</width>
                             <align>right</align>
                             <editable>1</editable>
+                            <sortable>0</sortable>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="delete">
@@ -448,6 +453,7 @@ Layout handle for grouped products
                             <width>60px</width>
                             <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Button</renderer>
                             <align>right</align>
+                            <sortable>0</sortable>
                         </arguments>
                     </block>
                 </block>
