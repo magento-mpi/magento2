@@ -26,7 +26,7 @@
             rowContainerClass: 'fields',
             addRowBtn: '#add-registrant-button',
             btnRemoveIdPrefix: 'btn-remove',
-            btnRemoveClass: '.btn-remove',
+            btnRemoveSelector: '.btn-remove',
             rowIdPrefix: 'row',
             //This class is added to rows added after the first one. Adds the dotted separator
             additionalRowClass: 'add-row',
@@ -61,7 +61,7 @@
 
             //Binding template-wide events handlers for adding and removing rows
             this.element.on('click', this.options.addEventSelector + this.options.addRowBtn, $.proxy(this.handleAdd, this));
-            this.element.on('click', this.options.remEventSelector + this.options.btnRemoveClass, $.proxy(this.handleRemove, this));
+            this.element.on('click', this.options.remEventSelector + this.options.btnRemoveSelector, $.proxy(this.handleRemove, this));
         },
 
         /**
@@ -101,7 +101,7 @@
          * The template processing will substitute row index at all places marked with _index_ in the template
          * using the template
          * @public
-         * @param {integer} index - current index/count of the created template. This will be used as the id
+         * @param {Number} index - current index/count of the created template. This will be used as the id
          * @return {*}
          */
         addRow: function(index) {
@@ -173,10 +173,9 @@
         /**
          * Delegated handler for adding a row
          * @public
-         * @param {Object} e - Native event object
          * @return {boolean}
          */
-        handleAdd: function(e) {
+        handleAdd: function() {
             this.addRow(++this.options.rowIndex);
             return false;
         },
