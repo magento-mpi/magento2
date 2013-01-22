@@ -44,7 +44,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         if ($limitation->isCreateRestricted()) {
             /** @var $session Mage_Adminhtml_Model_Session */
             $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
-            $session->addNotice($limitation->getCreateRestrictionMessage(Mage::helper('Mage_Adminhtml')));
+            $session->addNotice($limitation->getCreateRestrictionMessage());
         }
 
         $this->_initAction()
