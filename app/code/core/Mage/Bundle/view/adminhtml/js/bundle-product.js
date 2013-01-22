@@ -88,7 +88,7 @@ jQuery(function($) {
                                     bSelection.addRow(optionIndex, {
                                         name: pair.value.get('name'),
                                         selection_price_value: 0,
-                                        selection_qty: pair.value.get('qty') == '' ? 1 : pair.value.get('qty'),
+                                        selection_qty: 1,
                                         sku: pair.value.get('sku'),
                                         product_id: pair.key,
                                         option_id: $('bundle_selection_id_' + optionIndex).val()

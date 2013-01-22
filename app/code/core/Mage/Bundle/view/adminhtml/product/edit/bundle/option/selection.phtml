@@ -298,7 +298,6 @@ Bundle.Selection.prototype = {
                 }
                 this.gridSelection.get(id).set(element.value, $H({}));
                 this.gridSelection.get(id).get(element.value).set('name', tr.select('td.name')[0].innerHTML);
-                this.gridSelection.get(id).get(element.value).set('qty', tr.select('input.qty')[0].value);
                 this.gridSelection.get(id).get(element.value).set('sku', tr.select('td.sku')[0].innerHTML);
             } else {
                 this.gridSelection.get(id).unset(element.value);

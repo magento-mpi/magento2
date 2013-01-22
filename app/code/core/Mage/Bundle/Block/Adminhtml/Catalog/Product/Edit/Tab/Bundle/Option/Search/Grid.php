@@ -15,9 +15,9 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid
+    extends Mage_Adminhtml_Block_Widget_Grid
 {
-
     protected function _construct()
     {
         parent::_construct();
@@ -66,32 +66,19 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
 
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('ID'),
-            'sortable'  => true,
-            'width'     => '60px',
-            'index'     => 'entity_id'
+        $this->addColumn('is_selected', array(
+            'header_css_class' => 'a-center',
+            'type'      => 'checkbox',
+            'name'      => 'in_selected',
+            'align'     => 'center',
+            'values'    => $this->_getSelectedProducts(),
+            'index'     => 'entity_id',
         ));
         $this->addColumn('name', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'index'     => 'name',
             'column_css_class'=> 'name'
         ));
-
-        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
-            ->load()
-            ->toOptionHash();
-
-        $this->addColumn('set_name',
-            array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
-                'width' => '100px',
-                'index' => 'attribute_set_id',
-                'type'  => 'options',
-                'options' => $sets,
-        ));
-
         $this->addColumn('sku', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
             'width'     => '80px',
@@ -106,29 +93,6 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
             'index'     => 'price'
         ));
-
-        $this->addColumn('is_selected', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'name'      => 'in_selected',
-            'align'     => 'center',
-            'values'    => $this->_getSelectedProducts(),
-            'index'     => 'entity_id',
-        ));
-
-        $this->addColumn('qty', array(
-            'filter'    => false,
-            'sortable'  => false,
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Qty to Add'),
-            'name'      => 'qty',
-            'inline_css'=> 'qty',
-            'align'     => 'right',
-            'type'      => 'input',
-            'validate_class' => 'validate-number',
-            'index'     => 'qty',
-            'width'     => '130px',
-        ));
-
         return parent::_prepareColumns();
     }
 
