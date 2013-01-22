@@ -8,6 +8,7 @@
  */
 
 /*jshint browser:true jquery:true*/
+/*global alert*/
 (function($, window) {
     "use strict";
     $.widget('mage.wishlist', {
@@ -18,18 +19,21 @@
             qtySelector: '.qty',
             addToCartSelector: '.btn-cart',
             addAllToCartSelector: '.btn-add',
-            commentInputType: 'textarea'
+            commentInputType: 'textarea',
+            infoList: false
         },
 
         /**
          * Bind handlers to events.
          */
         _create: function() {
-            this.element
-                .on('click', this.options.addToCartSelector, $.proxy(this._addItemsToCart, this))
-                .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
-                .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
-                .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
+            if (!this.options.infoList) {
+                this.element
+                    .on('click', this.options.addToCartSelector, $.proxy(this._addItemsToCart, this))
+                    .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
+                    .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
+                    .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
+            }
         },
 
         /**
@@ -124,6 +128,28 @@
                 var checkedCount = selectAllCheckboxParent.find('input:checkbox:checked:not(' + this.options.selectAllCheckbox + ')').length;
                 $(this.options.selectAllCheckbox).attr('checked', checkboxCount === checkedCount);
             }, this));
+        }
+    });
+
+    // Extension for mage.wishlist info add to cart
+
+    $.widget('mage.wishlist', $.mage.wishlist, {
+        _create: function() {
+            this._super();
+            if (this.options.infoList) {
+                this._checkBoxValidate();
+            }
+        },
+        _checkBoxValidate: function() {
+            this.element.validation({
+                submitHandler: $.proxy(function(form) {
+                    if ($(form).find('input:checkbox:checked').length) {
+                        form.submit();
+                    } else {
+                        alert(this.options.checkBoxValidationMessage);
+                    }
+                }, this)
+            });
         }
     });
 })(jQuery, window);
