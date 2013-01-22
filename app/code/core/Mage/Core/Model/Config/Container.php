@@ -72,8 +72,11 @@ class Mage_Core_Model_Config_Container implements Mage_Core_Model_ConfigInterfac
                     Magento_Profiler::stop('init_config_section:' . $sectionKey);
                 }
                 if ($this->_loadedSections[$sectionKey]) {
-                    $path = substr($path, strlen($sectionKey) + 1);
-                    return $this->_loadedSections[$sectionKey]->getNode($path ?: null);
+                    $sectionPath = substr($path, strlen($sectionKey) + 1);
+                    $res = $this->_loadedSections[$sectionKey]->getNode($sectionPath ?: null);
+                    if ($res !== false) {
+                        return $res;
+                    }
                 }
             }
         }
