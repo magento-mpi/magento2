@@ -6,9 +6,8 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- *
- * @magentoDataFixture Mage/Customer/Model/Address/Api/_files/customer_address.php
- *
+ * @magentoDataFixture Mage/Customer/_files/customer.php
+ * @magentoDataFixture Mage/Customer/_files/customer_two_addresses.php
  */
 class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
 {
@@ -29,24 +28,22 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($soapResult, 'Error during customer address list via API call');
         $this->assertCount(2, $soapResult, 'Result did not contain 2 addresses');
 
-        /** @var $customerAddress Mage_Customer_Model_Address */
-        $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
-        $customerAddress->load(1);
-        $this->_verifyAddress($customerAddress, $soapResult[0]);
+        /** @var $firstAddress Mage_Customer_Model_Address */
+        $firstAddress = Mage::getModel('Mage_Customer_Model_Address');
+        $firstAddress->load(1);
+        $this->_verifyAddress($firstAddress->getData(), $soapResult[0]);
 
-        /** @var $customerAddress2 Mage_Customer_Model_Address */
-        $customerAddress2 = Mage::getModel('Mage_Customer_Model_Address');
-        $customerAddress2->load(2);
-        $this->_verifyAddress($customerAddress2, $soapResult[1]);
+        /** @var $secondAddress Mage_Customer_Model_Address */
+        $secondAddress = Mage::getModel('Mage_Customer_Model_Address');
+        $secondAddress->load(2);
+        $this->_verifyAddress($secondAddress->getData(), $soapResult[1]);
     }
 
     /**
      * Test for customer address info
-     *
      */
     public function testCustomerAddressInfo()
     {
-
         /** @var $customerAddress Mage_Customer_Model_Address */
         $customerAddress = Mage::getModel('Mage_Customer_Model_Address');
         $customerAddress->load(1);
@@ -60,9 +57,8 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertNotEmpty($soapResult, 'Error during customer address info via API call');
-        $this->_verifyAddress($customerAddress, $soapResult);
+        $this->_verifyAddress($customerAddress->getData(), $soapResult);
     }
-
 
     /**
      * Test customer address create
@@ -84,7 +80,7 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             'middlename' => 'Kari',
             'postcode' => '77777',
             'prefix' => 'Ms',
-            'region_id'=> 35,
+            'region_id' => 35,
             'region' => 'Mississippi',
             'street' => array('123 FM 101'),
             'suffix' => 'M',
@@ -111,10 +107,8 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         // Verify all field values were correctly set
         $newAddressData['street'] = trim(implode("\n", $newAddressData['street']));
         $newAddressData['customer_address_id'] = $newAddressId;
-        $this->_verifyAddress($newAddressModel, $newAddressData);
-
+        $this->_verifyAddress($newAddressData, $newAddressModel->getData());
     }
-
 
     /**
      * Test customer address delete
@@ -187,13 +181,14 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify fields in a soap address entity match the expected values of a
-     * given address model
+     * Verify fields in an address array
      *
-     * @param $addressModel Mage_Customer_Model_Address containing expected values
-     * @param $addressSoapResult array The customerAddressEntityItem from the SOAP API response
+     * Compare values in a soap entity with the expected values of a given address model.
+     *
+     * @param Mage_Customer_Model_Address $addressModel containing expected values
+     * @param array $addressSoapResult The customerAddressEntityItem from the SOAP API response
      */
-    protected function _verifyAddress($addressModel, $addressSoapResult)
+    protected function _verifyAddress($expectedData, $actualData)
     {
         $fieldsToCompare = array(
             'entity_id' => 'customer_address_id',
@@ -212,10 +207,9 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
 
         Magento_Test_Helper_Api::checkEntityFields(
             $this,
-            $addressModel->getData(),
-            $addressSoapResult,
+            $expectedData,
+            $actualData,
             $fieldsToCompare
         );
     }
-
 }
