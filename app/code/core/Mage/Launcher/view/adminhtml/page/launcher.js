@@ -149,7 +149,6 @@
                             tileCode = $elem.attr('data-drawer').replace('open-drawer-', '');
 
                         var postData = {
-                            form_key: FORM_KEY,
                             tileCode: tileCode
                         };
                         var ajaxOptions = {
@@ -176,7 +175,7 @@
 
             options.btnSaveDrawer
                 .on('click.saveSettings', function () {
-                    var drawerForm = $("#drawer-form").validation(),
+                    var drawerForm = $("#drawer-form"),
                         buttonSave = $('.footer-inner .button-save-settins'),
                         postData;
                     if (!drawerForm.valid()) {

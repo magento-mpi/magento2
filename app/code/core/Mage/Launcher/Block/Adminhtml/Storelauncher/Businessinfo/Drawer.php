@@ -50,6 +50,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Filesystem $filesystem,
      * @param Mage_Launcher_Model_LinkTrackerFactory $linkTrackerFactory
      * @param Mage_Directory_Model_Config_Source_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
@@ -70,6 +71,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Filesystem $filesystem,
         Mage_Launcher_Model_LinkTrackerFactory $linkTrackerFactory,
         Mage_Directory_Model_Config_Source_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,
@@ -77,7 +79,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $linkTrackerFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $linkTrackerFactory, $data
         );
         $this->_countryModel = $countryModel;
         $this->_regionModel = $regionModel;

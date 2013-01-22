@@ -37,13 +37,14 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Filesystem $filesystem,
         Mage_Launcher_Model_LinkTrackerFactory $linkTrackerFactory,
         array $data = array()
     ) {
         $this->_linkTrackerFactory = $linkTrackerFactory;
 
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
         );
     }
 
@@ -134,5 +135,18 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
             $link->save();
         }
         return $link;
+    }
+
+    /**
+     * Render additional content after drawer form
+     *
+     * @param string $html
+     * @return string
+     */
+    protected function _afterToHtml($html)
+    {
+        $html = parent::_afterToHtml($html);
+        $formInit = '<script type="text/javascript">jQuery("#drawer-form").mage("form").mage("validation");</script>';
+        return $html . $formInit;
     }
 }
