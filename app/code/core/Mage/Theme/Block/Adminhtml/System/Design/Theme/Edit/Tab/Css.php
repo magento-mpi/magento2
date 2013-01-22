@@ -15,6 +15,7 @@
  * @method array getFiles()
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     extends Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract

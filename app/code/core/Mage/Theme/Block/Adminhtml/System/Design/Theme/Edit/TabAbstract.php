@@ -10,6 +10,8 @@
 
 /**
  * Theme form tab abstract block
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
     extends Mage_Backend_Block_Widget_Form

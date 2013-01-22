@@ -10,6 +10,8 @@
 
 /**
  * Theme form, Js editor tab
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     extends Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
