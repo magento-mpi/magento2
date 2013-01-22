@@ -75,7 +75,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Mage_Backend_Utility_Contro
     {
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('backend/admin/auth/resetpassword');
-        $this->assertAdminMessages(
+        $this->assertSessionMessages(
             $this->equalTo(array('Your password reset link has expired.')), Mage_Core_Model_Message::ERROR
         );
         $this->assertRedirect();
@@ -124,7 +124,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Mage_Backend_Utility_Contro
     {
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('backend/admin/auth/resetpasswordpost');
-        $this->assertAdminMessages(
+        $this->assertSessionMessages(
             $this->equalTo(array('Your password reset link has expired.')), Mage_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));

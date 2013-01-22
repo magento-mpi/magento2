@@ -53,7 +53,7 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
             ),
         ));
         $this->dispatch('backend/admin/catalog_product/save');
-        $this->assertAdminMessages(
+        $this->assertSessionMessages(
             $this->equalTo(array('Unable to save product')), Mage_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->stringContains('/backend/admin/catalog_product/edit'));
