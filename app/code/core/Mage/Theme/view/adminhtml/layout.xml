@@ -91,7 +91,6 @@
         <reference name="content">
             <block name="wysiwyg_files.content" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content" template="browser/content.phtml">
                 <block name="wysiwyg_files.uploader" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader" template="browser/content/uploader.phtml" />
-                <block name="wysiwyg_files.newfolder" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Newfolder" template="browser/content/newfolder.phtml" />
             </block>
         </reference>
     </adminhtml_system_design_wysiwyg_files_index>

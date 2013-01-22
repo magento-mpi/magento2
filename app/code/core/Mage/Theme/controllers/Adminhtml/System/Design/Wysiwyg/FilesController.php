@@ -33,6 +33,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Ad
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array()));
         }
     }
@@ -142,7 +143,6 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Ad
      */
     protected function _getStorage()
     {
-        Mage::register('storage_file_type', Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT);
         return $this->_objectManager->get('Mage_Theme_Model_Wysiwyg_Storage');
     }
 }

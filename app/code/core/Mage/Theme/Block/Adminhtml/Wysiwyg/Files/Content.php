@@ -132,7 +132,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
             'headerText'      => $this->getHeaderText()
         ));
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);
+        return $this->helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);
     }
 
     /**

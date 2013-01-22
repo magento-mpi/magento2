@@ -118,8 +118,8 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        return Mage::getBaseDir('var') . DIRECTORY_SEPARATOR . 'storage'
-            . DIRECTORY_SEPARATOR . $this->_getStorageType();
+        $storageRoot = $this->_getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR . $this->_getStorageType();
+        return $storageRoot;
     }
 
     /**
@@ -200,7 +200,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
                 $extensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
                 break;
             default:
-                throw new Magento_Exception($this->__('Invalid type'));
+                throw new Magento_Exception('Invalid type');
         }
 
         return $extensions;
@@ -209,7 +209,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     /**
      * Get session model
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Mage_Backend_Model_Session
      */
     public function getSession()
     {

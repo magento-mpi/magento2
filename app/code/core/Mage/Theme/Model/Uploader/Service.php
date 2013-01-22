@@ -59,6 +59,13 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     protected $_uploader;
 
     /**
+     * Object manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Varien_Io_File $fileIo
@@ -66,6 +73,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param Magento_File_Size $fileSize
      * @param Mage_Core_Model_Theme_Customization_Files_Js $filesJs
+     * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
@@ -74,6 +82,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
         Varien_Io_File $fileIo,
         Magento_File_Size $fileSize,
         Mage_Core_Model_Theme_Customization_Files_Js $filesJs,
+        Magento_ObjectManager $objectManager,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -81,6 +90,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
         $this->_fileIo = $fileIo;
         $this->_fileSize = $fileSize;
         $this->_filesJs = $filesJs;
+        $this->_objectManager = $objectManager;
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 
@@ -89,6 +99,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
      *
      * @param string $type
      * @return Mage_Theme_Model_Uploader_Service
+     * @throws Mage_Core_Exception
      */
     public function uploadCssFile($type)
     {
@@ -100,7 +111,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getCssUploadMaxSize());
         if (!$isValidFileSize) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__(
+            Mage::throwException($this->_objectManager->get('Mage_Core_Helper_Data')->__(
                 'CSS file size should be less than %sM.', $this->getCssUploadMaxSizeInMb()
             ));
         }
@@ -113,9 +124,10 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     /**
      * Upload js file
      *
-     * @param string  $type
+     * @param string $type
      * @param Mage_Core_Model_Theme $theme
      * @return Mage_Theme_Model_Uploader_Service
+     * @throws Mage_Core_Exception
      */
     public function uploadJsFile($type, $theme)
     {
@@ -127,7 +139,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getJsUploadMaxSize());
         if (!$isValidFileSize) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__(
+            Mage::throwException($this->_objectManager->get('Mage_Core_Helper_Data')->__(
                 'JS file size should be less than %sM.', $this->getJsUploadMaxSizeInMb()
             ));
         }

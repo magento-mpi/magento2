@@ -10,6 +10,9 @@
 
 /**
  * Files files block
+ *
+ * @method Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files setStorage(Mage_Theme_Model_Wysiwyg_Storage $storage)
+ * @method Mage_Theme_Model_Wysiwyg_Storage getStorage
  */
 class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files extends Mage_Backend_Block_Template
 {
@@ -27,7 +30,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files extends Mage_Backen
      */
     public function getFiles()
     {
-        if (null === $this->_files) {
+        if (null === $this->_files && $this->getStorage()) {
             $this->_files = $this->getStorage()->getFilesCollection();
         }
 

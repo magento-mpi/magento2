@@ -66,6 +66,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
      *
      * @param string $targetPath
      * @return bool
+     * @throws Mage_Core_Exception
      */
     public function uploadFile($targetPath)
     {
@@ -81,7 +82,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         }
 
         $result['cookie'] = array(
-            'name'     => session_name(),
+            'name'     => $this->_helper->getSession()->getSessionName(),
             'value'    => $this->_helper->getSession()->getSessionId(),
             'lifetime' => $this->_helper->getSession()->getCookieLifetime(),
             'path'     => $this->_helper->getSession()->getCookiePath(),
@@ -97,12 +98,12 @@ class Mage_Theme_Model_Wysiwyg_Storage
      * @param string $name
      * @param string $path
      * @return array
-     * @throws Magento_Exception
+     * @throws Mage_Core_Exception
      */
     public function createFolder($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            throw new Magento_Exception($this->_helper->__('Invalid folder name.'));
+            Mage::throwException($this->_helper->__('Invalid folder name.'));
         }
         if (!$this->_fileIo->isWriteable($path)) {
             $path = $this->_helper->getStorageRoot();
@@ -111,11 +112,11 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $newPath = $path . DIRECTORY_SEPARATOR . $name;
 
         if ($this->_fileIo->fileExists($newPath)) {
-            throw new Magento_Exception($this->_helper->__('A directory with the same name already exists.'));
+            Mage::throwException($this->_helper->__('A directory with the same name already exists.'));
         }
 
         if (!$this->_fileIo->checkAndCreateFolder($newPath)) {
-            throw new Magento_Exception($this->_helper->__('Cannot create new directory.'));
+            Mage::throwException($this->_helper->__('Cannot create new directory.'));
         }
 
         $result = array(
@@ -153,12 +154,12 @@ class Mage_Theme_Model_Wysiwyg_Storage
      *
      * @param string $path
      * @return array
-     * @throws Magento_Exception
+     * @throws Mage_Core_Exception
      */
     public function getDirsCollection($path)
     {
         if (!$this->_fileIo->fileExists($path, false)) {
-            throw new Magento_Exception($this->_helper->__('A directory with the same name not exists.'));
+            Mage::throwException($this->_helper->__('A directory with the same name not exists.'));
         }
         return $this->_fileIo->getDirectoriesList($path);
     }
@@ -203,7 +204,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
      *
      * @param string $path
      * @return bool
-     * @throws Magento_Exception
+     * @throws Mage_Core_Exception
      */
     public function deleteDirectory($path)
     {
@@ -211,7 +212,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $pathCmp = rtrim($path, DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
-            throw new Magento_Exception($this->_helper->__('Cannot delete root directory %s.', $path));
+            Mage::throwException($this->_helper->__('Cannot delete root directory %s.', $path));
         }
 
         return $this->_fileIo->rmdirRecursive($path);
