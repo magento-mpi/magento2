@@ -22,9 +22,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image ext
     {
         $url = false;
         if ($this->getValue()) {
-            /** @var $themeModel Mage_Core_Model_Theme */
-            $themeModel = $this->_objectManager->create('Mage_Core_Model_Theme');
-            $url = $themeModel->getThemeImage()->getPreviewImageDirectoryUrl() . $this->getValue();
+            $url = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Image')->getPreviewImageDirectoryUrl()
+                . $this->getValue();
         }
         return $url;
     }

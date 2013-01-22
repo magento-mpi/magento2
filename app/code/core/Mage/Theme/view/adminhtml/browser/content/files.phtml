@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/** @var $this Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files */
+?>
+
+<?php if ($this->getFilesCount() > 0): ?>
+    <?php foreach ($this->getFiles() as $file): ?>
+        <div class="filecnt file-font" id="<?php echo $file['id'] ?>">
+            <p><?php echo $file['text'] ?></p>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <?php echo $this->__('No files found') ?>
+<?php endif; ?>

@@ -102,7 +102,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 $customCssData = $this->getRequest()->getParam('custom_css_content');
                 $uploadJsFiles = (array)$this->getRequest()->getParam('js_uploaded_files');
                 $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
-                $reorderJsFiles = array_keys((array)$this->getRequest()->getParam('js_order'));
+                $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order', array()));
 
                 $themeCss->setDataForSave($customCssData);
                 $theme->setCustomization($themeCss);

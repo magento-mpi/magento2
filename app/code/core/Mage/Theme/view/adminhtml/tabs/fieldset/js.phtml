@@ -10,6 +10,19 @@
 ?>
 <?php /** @var $this Mage_Backend_Block_Widget_Form_Renderer_Fieldset */ ?>
 
+<div id="js-file-uploader" class="uploader">
+    <div class="clear"></div>
+    <div class="no-display" id="js-file-uploader-template">
+        <div id="{{id}}" class="file-row">
+            <span class="file-info">{{name}} ({{size}})</span>
+            <div class="progressbar-container">
+                <div class="progressbar upload-progress" style="width: 0%;"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
 <ul class="js-files-container ui-sortable">
     <?php echo $this->getChildBlock('theme.edit.tabs.tab.js.items')->setJsFiles($this->getJsFiles())->toHtml(); ?>
 </ul>

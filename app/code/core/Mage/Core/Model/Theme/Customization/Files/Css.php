@@ -16,7 +16,7 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
     /**
      * Css file name
      */
-    const FILE_NAME = 'custom.css';
+    const FILE_PATH = 'css/custom.css';
 
     /**
      * Css file type customization
@@ -55,7 +55,7 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
         $cssFile = $this->getCollectionByTheme($theme)->getFirstItem();
         $cssFile->addData(array(
             'theme_id'  => $theme->getId(),
-            'file_name' => self::FILE_NAME,
+            'file_path' => self::FILE_PATH,
             'file_type' => $this->_getFileType(),
             'content'   => $this->_dataForSave
         ))->save();

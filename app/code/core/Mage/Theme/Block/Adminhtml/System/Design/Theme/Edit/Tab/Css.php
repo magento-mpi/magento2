@@ -192,6 +192,54 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         }
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
 
+        /** @var $imageButton Mage_Backend_Block_Widget_Button */
+        $imageButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->setData(array(
+            'id'        => 'css_images_manager',
+            'label'     => $this->__('Manage'),
+            'class'     => 'button',
+            'onclick'   => "MediabrowserUtility.openDialog('"
+                . $this->getUrl('*/system_design_wysiwyg_files/index', array(
+                    'target_element_id'                           => 'custom_css_content',
+                    Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
+                ))
+                . "', null, null,'"
+                . $this->quoteEscape(
+                    $this->__('Upload Images...'), true
+                )
+                . "');"
+        ));
+
+        $themeFieldset->addField('css_browse_image_button', 'note', array(
+            'label' => $this->__("Images Assets"),
+            'text'  => $imageButton->toHtml()
+        ));
+
+        /** @var $fontButton Mage_Backend_Block_Widget_Button */
+        $fontButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
+            ->setData(array(
+            'id'        => 'css_fonts_manager',
+            'label'     => $this->__('Manage'),
+            'class'     => 'button',
+            'onclick'   => "MediabrowserUtility.openDialog('"
+                . $this->getUrl('*/system_design_wysiwyg_files/index', array(
+                    'target_element_id'                           => 'custom_css_content',
+                    Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT
+                ))
+                . "', null, null,'"
+                . $this->quoteEscape(
+                    $this->__('Upload fonts...'), true
+                )
+                . "');",
+        ));
+
+        $themeFieldset->addField('css_browse_font_button', 'note', array(
+            'label' => $this->__("Fonts Assets"),
+            'text'  => $fontButton->toHtml()
+        ));
+
         $themeFieldset->addField('custom_css_content', 'textarea', array(
             'label'  => $this->__('Edit custom.css'),
             'title'  => $this->__('Edit custom.css'),

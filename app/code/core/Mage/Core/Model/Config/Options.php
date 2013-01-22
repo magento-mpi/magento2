@@ -77,6 +77,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         $this->_data['session_dir'] = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'session';
         $this->_data['upload_dir']  = $this->_data['media_dir'] . DIRECTORY_SEPARATOR . 'upload';
         $this->_data['export_dir']  = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'export';
+        $this->_data['theme_dir']   = $this->_data['var_dir'] . DIRECTORY_SEPARATOR . 'theme';
     }
 
     /**
@@ -283,6 +284,18 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     public function getExportDir()
     {
         $dir = $this->_data['export_dir'];
+        $this->createDirIfNotExists($dir);
+        return $dir;
+    }
+
+    /**
+     * Folder paths getter for theme customized files
+     *
+     * @return string
+     */
+    public function getThemeDir()
+    {
+        $dir = $this->_data['theme_dir'];
         $this->createDirIfNotExists($dir);
         return $dir;
     }

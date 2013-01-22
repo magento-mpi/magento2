@@ -223,7 +223,7 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return frontend theme collection by page. Theme customizations are not included, only phisical themes.
+     * Return frontend theme collection by page. Theme customizations are not included, only physical themes.
      *
      * @param int $page
      * @param int $pageSize
