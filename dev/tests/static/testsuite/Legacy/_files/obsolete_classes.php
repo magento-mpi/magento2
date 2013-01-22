@@ -566,6 +566,7 @@ return array(
     $this->_getClassRule('Mage_GiftMessage_Model_Entity_Attribute_Source_Boolean_Config'),
     $this->_getClassRule('Mage_GoogleOptimizer_IndexController',
         'Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController'),
+    $this->_getClassRule('Mage_GoogleShopping_Block_Adminhtml_Types_Grid'),
     $this->_getClassRule('Mage_ImportExport_Model_Import_Adapter_Abstract',
         'Mage_ImportExport_Model_Import_SourceAbstract'),
     $this->_getClassRule('Mage_ImportExport_Model_Import_Adapter_Csv', 'Mage_ImportExport_Model_Import_Source_Csv'),
