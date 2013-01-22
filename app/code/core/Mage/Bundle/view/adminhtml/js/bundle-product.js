@@ -26,6 +26,9 @@ jQuery(function($) {
                 tolerance: 'pointer'
             });
 
+            var syncOptionTitle = function (event) {
+                $(event.target).closest('.option-box').find('.head-edit-form').text($(event.target).val());
+            };
             this._on({
                 'click .remove':  function (event) {
                     $(event.target).closest('.option-box').find('.delete-product-option').trigger('click');
@@ -33,9 +36,8 @@ jQuery(function($) {
                 'click .toggle': function (event) {
                     $(event.target).closest('.option-box').find('.option-header,.form-list,.selection-search').toggle();
                 },
-                'keyup .option-box input[name$="[title]"]': function (event) {
-                    $(event.target).closest('.option-box').find('.head-edit-form').text($(event.target).val());
-                }
+                'change .option-box input[name$="[title]"]': syncOptionTitle,
+                'keyup .option-box input[name$="[title]"]': syncOptionTitle
             });
         },
         _initSortableSelections: function () {

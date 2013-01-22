@@ -117,10 +117,11 @@ Bundle.Option.prototype = {
     },
 
     add : function(data) {
-        if(!data){
+        if (!data) {
             data = {};
         } else {
-            data.title = data.title.replace('"', "&quot;");
+            data.title = data.title.replace(/</g, "&lt;");
+            data.title = data.title.replace(/"/g, "&quot;");
         }
 
         data.index = this.itemsCount++;
