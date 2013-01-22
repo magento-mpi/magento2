@@ -71,6 +71,6 @@ class Mage_Core_Model_Config_Locales implements Mage_Core_Model_ConfigInterface
      */
     public function reinit()
     {
-        $this->_data = $this->_storage->getConfiguration(false);
+        $this->_data = $this->_storage->getConfiguration();
     }
 }

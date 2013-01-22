@@ -57,17 +57,11 @@ class Mage_Core_Model_Config_Loader_Db implements Mage_Core_Model_Config_LoaderI
      * Populate configuration object
      *
      * @param Mage_Core_Model_Config_Base $config
-     * @param bool $useCache
-     * @return void
      */
-    public function load(Mage_Core_Model_Config_Base $config, $useCache = true)
+    public function load(Mage_Core_Model_Config_Base $config)
     {
         if (false == $this->_resource->getReadConnection()) {
             return;
-        }
-
-        if (false == $useCache) {
-            $this->_config->reinit();
         }
 
         //update database scheme

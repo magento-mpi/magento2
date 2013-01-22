@@ -26,7 +26,7 @@ class Mage_Core_Model_Config_Resource
     /**
      * Set application config
      *
-     * @param Mage_Core_Model_Config_Base $config
+     * @param Mage_Core_Model_ConfigInterface $config
      */
     public function setConfig(Mage_Core_Model_ConfigInterface $config)
     {

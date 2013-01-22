@@ -12,10 +12,9 @@ interface Mage_Core_Model_Config_StorageInterface
     /**
      * Get loaded configuration
      *
-     * @param bool $useCache
      * @return Mage_Core_Model_ConfigInterface
      */
-    public function getConfiguration($useCache = true);
+    public function getConfiguration();
 
     /**
      * Remove configuration cache

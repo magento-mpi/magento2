@@ -92,22 +92,30 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_moduleReader;
 
     /**
+     * @var Mage_Core_Model_Config_InvalidatorInterface
+     */
+    protected $_invalidator;
+
+    /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_StorageInterface $storage
      * @param Mage_Core_Model_AppInterface $app
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Mage_Core_Model_Config_InvalidatorInterface $invalidator
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Config_StorageInterface $storage,
         Mage_Core_Model_AppInterface $app,
-        Mage_Core_Model_Config_Modules_Reader $moduleReader
+        Mage_Core_Model_Config_Modules_Reader $moduleReader,
+        Mage_Core_Model_Config_InvalidatorInterface $invalidator
     ) {
         $this->_objectManager = $objectManager;
         $this->_app = $app;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
         $this->_moduleReader = $moduleReader;
+        $this->_invalidator = $invalidator;
     }
 
     /**
@@ -548,7 +556,8 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     public function reinit()
     {
         $this->removeCache();
-        $this->_config = $this->_storage->getConfiguration(false);
+        $this->_invalidator->invalidate();
+        $this->_config = $this->_storage->getConfiguration();
     }
 
     /**

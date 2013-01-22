@@ -48,15 +48,14 @@ abstract class Mage_Core_Model_Config_StorageAbstract implements Mage_Core_Model
     /**
      * Get loaded configuration
      *
-     * @param bool $useCache
      * @return Mage_Core_Model_ConfigInterface
      */
-    public function getConfiguration($useCache = true)
+    public function getConfiguration()
     {
-        $config = $useCache ? $this->_cache->load() : false;
+        $config = $this->_cache->load();
         if (false === $config) {
             $config = $this->_configFactory->create('<config/>');
-            $this->_loader->load($config, $useCache);
+            $this->_loader->load($config);
         }
         return $config;
     }

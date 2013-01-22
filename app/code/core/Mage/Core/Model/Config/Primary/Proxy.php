@@ -1,13 +1,13 @@
 <?php
 /**
- * Modules configuration proxy
+ * Primary configuration proxy
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Modules_Proxy implements Mage_Core_Model_Config_ModulesInterface
+class Mage_Core_Model_Config_Primary_Proxy implements Mage_Core_Model_ConfigInterface
 {
     /**
      * @var Magento_ObjectManager
@@ -15,7 +15,7 @@ class Mage_Core_Model_Config_Modules_Proxy implements Mage_Core_Model_Config_Mod
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Config_Modules
+     * @var Mage_Core_Model_Config_Primary
      */
     protected $_model;
 
@@ -28,12 +28,12 @@ class Mage_Core_Model_Config_Modules_Proxy implements Mage_Core_Model_Config_Mod
     }
 
     /**
-     * @return Mage_Core_Model_Config_Modules
+     * @return Mage_Core_Model_Config_Primary
      */
     protected function _getInstance()
     {
         if (null == $this->_model) {
-            $this->_model = $this->_objectManager->get('Mage_Core_Model_Config_Modules');
+            $this->_model = $this->_objectManager->get('Mage_Core_Model_Config_Primary');
         }
 
         return $this->_model;
@@ -71,17 +71,6 @@ class Mage_Core_Model_Config_Modules_Proxy implements Mage_Core_Model_Config_Mod
     public function getXpath($xpath)
     {
         return $this->_getInstance()->getXpath($xpath);
-    }
-
-    /**
-     * Get module config node
-     *
-     * @param string $moduleName
-     * @return Varien_Simplexml_Element
-     */
-    public function getModuleConfig($moduleName = '')
-    {
-        return $this->_getInstance()->getModuleConfig($moduleName);
     }
 
     /**

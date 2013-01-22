@@ -64,10 +64,8 @@ class Mage_Core_Model_Config_Loader_Local implements Mage_Core_Model_Config_Load
      * Populate configuration object
      *
      * @param Mage_Core_Model_Config_Base $config
-     * @param bool $useCache
-     * @return void
      */
-    public function load(Mage_Core_Model_Config_Base $config, $useCache = true)
+    public function load(Mage_Core_Model_Config_Base $config)
     {
         $etcDir = $this->_dirs->getDir(Mage_Core_Model_Dir::CONFIG);
         $localConfigParts = array();

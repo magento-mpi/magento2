@@ -35,18 +35,15 @@ class Mage_Core_Model_Config_Storage extends Mage_Core_Model_Config_StorageAbstr
     /**
      * Retrieve application configuration
      *
-     * @param bool $useCache
      * @return Mage_Core_Model_ConfigInterface
      */
-    public function getConfiguration($useCache = true)
+    public function getConfiguration()
     {
-        $config = $useCache ? $this->_cache->load() : false;
+        $config = $this->_cache->load();
         if (false === $config) {
             $config = $this->_configFactory->create('<config/>');
-            $this->_loader->load($config, $useCache);
-            if ($useCache) {
-                $this->_cache->save($config);
-            }
+            $this->_loader->load($config);
+            $this->_cache->save($config);
         }
         /*
          * Update resource configuration when total configuration is loaded.

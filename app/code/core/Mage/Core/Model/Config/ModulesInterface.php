@@ -14,9 +14,4 @@ interface Mage_Core_Model_Config_ModulesInterface extends Mage_Core_Model_Config
      * @return Varien_Simplexml_Element
      */
     public function getModuleConfig($moduleName = '');
-
-    /**
-     * Reinitialize primary configuration
-     */
-    public function reinit();
 }

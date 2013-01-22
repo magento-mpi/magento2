@@ -45,11 +45,10 @@ class Mage_Core_Model_Config_Loader_Modules_Proxy implements Mage_Core_Model_Con
      * Populate configuration object
      *
      * @param Mage_Core_Model_Config_Base $config
-     * @param bool $useCache
      * @return void
      */
-    public function load(Mage_Core_Model_Config_Base $config, $useCache = true)
+    public function load(Mage_Core_Model_Config_Base $config)
     {
-        $this->_getLoader()->load($config, $useCache);
+        $this->_getLoader()->load($config);
     }
 }

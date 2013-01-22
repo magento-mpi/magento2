@@ -18,9 +18,12 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         'preference' => array(
             'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Updater',
             'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
+            'Mage_Core_Model_Config_InvalidatorInterface' => 'Mage_Core_Model_Config_Invalidator',
         ),
         'Mage_Core_Model_Config' => array(
-            'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage')
+            'parameters' => array(
+                'storage' => 'Mage_Core_Model_Config_Storage',
+            )
         ),
         'Mage_Core_Model_Config_Locales' => array(
             'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage_Locales')
@@ -39,6 +42,13 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         ),
         'Mage_Install_Model_Installer' => array(
             'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
+        ),
+        'Mage_Core_Model_Config_Invalidator' => array(
+            'parameters' => array(
+                'primaryConfig' => 'Mage_Core_Model_Config_Primary_Proxy',
+                'modulesConfig' => 'Mage_Core_Model_Config_Modules_Proxy',
+                'localesConfig' => 'Mage_Core_Model_Config_Locales_Proxy',
+            )
         ),
     );
 

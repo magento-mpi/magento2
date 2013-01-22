@@ -87,6 +87,6 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      */
     public function reinit()
     {
-        $this->_data = $this->_storage->getConfiguration(false);
+        $this->_data = $this->_storage->getConfiguration();
     }
 }

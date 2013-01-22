@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Loader_Primary
+class Mage_Core_Model_Config_Loader_Primary implements Mage_Core_Model_Config_LoaderInterface
 {
     /**
      * Directory registry
