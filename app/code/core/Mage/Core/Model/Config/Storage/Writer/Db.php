@@ -1,13 +1,13 @@
 <?php
 /**
- * Application config storage writer
+ * Application config db storage writer
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Storage_Writer implements Mage_Core_Model_Config_Storage_WriterInterface
+class Mage_Core_Model_Config_Storage_Writer_Db implements Mage_Core_Model_Config_Storage_WriterInterface
 {
     /**
      * Resource model of config data
