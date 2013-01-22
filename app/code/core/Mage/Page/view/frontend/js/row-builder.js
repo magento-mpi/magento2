@@ -101,7 +101,7 @@
          * The template processing will substitute row index at all places marked with _index_ in the template
          * using the template
          * @public
-         * @param {string} index - current index/count of the created template. This will be used as the id
+         * @param {integer} index - current index/count of the created template. This will be used as the id
          * @return {*}
          */
         addRow: function(index) {
@@ -124,7 +124,7 @@
         /**
          * Remove return item information row
          * @public
-         * @param {string} rowIndex - return item information row index
+         * @param {*} rowIndex - return item information row index
          * @return {boolean}
          */
         removeRow: function(rowIndex) {
@@ -139,15 +139,15 @@
          * @param rowIndex
          */
         maxRowCheck: function(rowIndex) {
-            var addRegBtn = $(this.options.addRowBtn),
-                maxRegMsg = $(this.options.maxRowsMsg);
+            var addRowBtn = $(this.options.addRowBtn),
+                maxRowMsg = $(this.options.maxRowsMsg);
             //liIndex starts from 0
             if (rowIndex >= this.options.maxRows) {
-                addRegBtn.hide();
-                maxRegMsg.show();
-            } else if (addRegBtn.is(":hidden")) {
-                addRegBtn.show();
-                maxRegMsg.hide();
+                addRowBtn.hide();
+                maxRowMsg.show();
+            } else if (addRowBtn.is(":hidden")) {
+                addRowBtn.show();
+                maxRowMsg.hide();
             }
         },
 
