@@ -11,7 +11,7 @@
 /**
  * Theme selector abstract tab
  */
-abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_TabAbstract
+abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_TabAbstract
     extends Mage_Backend_Block_Template
     implements Mage_Backend_Block_Widget_Tab_Interface
 {

@@ -12,7 +12,7 @@
  * Theme selector tab for customized themes
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations
-    extends Mage_DesignEditor_Block_Adminhtml_Theme_Selector_TabAbstract
+    extends Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_TabAbstract
 {
     /**
      * Initialize tab block
