@@ -48,6 +48,9 @@ jQuery(function($) {
                 update: this._updateSelectionsPositions,
                 tolerance: 'pointer'
             });
+            this.element.find('.option-box').each(function () {
+                $(this).find('.add-selection').appendTo($(this));
+            });
         },
         _bindAddSelectionDialog: function () {
             var self = this;

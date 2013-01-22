@@ -35,7 +35,7 @@
     width: 300px;
 }
 
-#bundle_product_container .option-box .entry-edit-head .select-product-option-type {
+#bundle_product_container .option-box .option-header .select-product-option-type {
     margin-left: 4px;
     width: 120px;
 }
@@ -48,11 +48,6 @@
     text-align: center;
 }
 
-#bundle_product_container .option-title,
-#bundle_product_container .option-header .select,
-#bundle_product_container .option-header .opt-req,
-#bundle_product_container .option-header .opt-order,
-#bundle_product_container .form-list .type-order,
-#bundle_product_container .qty-box .select {
-    display: none;
+#bundle_product_container .option-header .opt-input-type {
+    width: 130px;
 }

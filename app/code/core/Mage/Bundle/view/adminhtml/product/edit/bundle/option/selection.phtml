@@ -14,15 +14,17 @@
     <table class="border" cellpadding="0" cellspacing="0">
         <thead>
             <tr class="headings">
+                <th style="width:1px">&nbsp;</th>
+                <th style="width:1px"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default') ?></th>
                 <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Name') ?></th>
+                <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('SKU') ?></th>
             <?php if ($this->getCanReadPrice() !== false): ?>
                 <th class="type-price price-type-box"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?></th>
                 <th class="type-type price-type-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Price Type') ?></th>
             <?php endif; ?>
                 <th class="type-price"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Qty') ?></th>
                 <th class="type-uqty qty-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('User Defined Qty') ?></th>
-                <th class="type-order"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>
-                <th style="width:1px"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default') ?></th>
+                <th class="type-order" style="display:none"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>
                 <th class="last">&nbsp;</th>
             </tr>
         </thead>
@@ -32,6 +34,7 @@
 </script>
 <script id="bundle-option-selection-row-template" type="text/x-jquery-tmpl">
     <td>
+        <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
         <input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}"
                name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][selection_id]"
                value="{{selection_id}}"/>
@@ -42,11 +45,14 @@
                value="{{product_id}}"/>
         <input type="hidden" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][delete]"
                value="" class="delete"/>
-        <span class="ui-icon ui-icon-grip-dotted-vertical"></span> {{name}}<br />
-        <div class="nobr">
-            <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong> {{sku}}
-        </div>
     </td>
+    <td class="a-center">
+        <input onclick="bSelection.checkGroup(event)" type="{{option_type}}" class="default"
+               name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][is_default]"
+               value="1" {{checked}} />
+    </td>
+    <td>{{name}}</td>
+    <td>{{sku}}</td>
 <?php if ($this->getCanReadPrice() !== false): ?>
     <td class="price-type-box">
         <input id="<?php echo $this->getFieldId() ?>_{{index}}_price_value"
@@ -78,17 +84,12 @@
     </td>
     <td class="qty-box">
         <input type="checkbox" class="is-user-defined-qty" checked="checked" />
-        <?php echo $this->getQtyTypeSelectHtml() ?>
+        <span style="display:none"><?php echo $this->getQtyTypeSelectHtml() ?></span>
     </td>
-    <td class="type-order">
+    <td class="type-order" style="display:none">
         <input class="input-text required-entry validate-zero-or-greater" type="text"
                name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][position]"
                value="{{position}}" />
-    </td>
-    <td class="a-center">
-        <input onclick="bSelection.checkGroup(event)" type="{{option_type}}" class="default"
-               name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][is_default]"
-               value="1" {{checked}} />
     </td>
     <td class="last">
         <span title="Delete Row">
