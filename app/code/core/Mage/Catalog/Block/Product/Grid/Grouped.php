@@ -9,7 +9,7 @@
  */
 
 /**
- * Product in category grid
+ * Products in grouped grid
  *
  * @category   Mage
  * @package    Mage_Catalog

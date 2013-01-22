@@ -396,14 +396,13 @@ Layout handle for grouped products
                         <id>grouped_grid</id>
                         <filter_visibility>0</filter_visibility>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="id">
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="info">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">ID</header>
                             <type>text</type>
                             <index>entity_id</index>
-                            <column_css_class>selected-products</column_css_class>
-                            <width>60px</width>
+                            <width>5px</width>
                             <sortable>0</sortable>
+                            <renderer>Mage_Catalog_Block_Widget_Grid_Column_Renderer_GroupedInfo</renderer>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">

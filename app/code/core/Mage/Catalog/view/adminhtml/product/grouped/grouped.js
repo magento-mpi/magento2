@@ -17,7 +17,24 @@ jQuery(function($) {
                 autoOpen: false,
                 minWidth: 980,
                 modal: true,
-                resizable: true
+                resizable: true,
+                buttons: [{
+                    id: 'grouped-products-select',
+                    text: 'Add Selected Products',
+                    click: function () {
+                        var ids = widget._getSelectedIds();
+                        widget._updateHiddenField(ids);
+                        widget._displayGridRow(ids);
+                        $(this).dialog('close');
+                    }
+                }, {
+                    id: 'grouped-product-cancel',
+                    text: 'Cancel',
+                    click: function () {
+                        widget._updatePopupGrid();
+                        $(this).dialog('close');
+                    }
+                }]
             });
 
             this.options.grid.rowClickCallback = function () {};
@@ -39,13 +56,6 @@ jQuery(function($) {
                 widget.$gridDialog.dialog('open');
                 return false;
             });
-            $('#grouped-products-select').on('click', function () {
-                var ids = widget._getSelectedIds();
-                widget._updateHiddenField(ids);
-                widget._displayGridRow(ids);
-                widget.$gridDialog.dialog('close');
-                return false;
-            });
             this.options.$groupedGrid.on('click', '.product-delete button', function (event) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -57,36 +67,61 @@ jQuery(function($) {
             this.options.$groupedGrid.on('change keyup', 'input[type="text"]', function (event) {
                 widget._updateHiddenField(widget._getSelectedIds());
             });
+            this._sortGridByPosition();
+            this.options.$groupedGrid.find('tbody').sortable({
+                axis: 'y',
+                handle: '.ui-icon-grip-dotted-vertical',
+                helper: function(event, ui) {
+                    ui.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return ui;
+                },
+                update: function () {
+                    widget._updateRowsPositions(widget);
+                },
+                tolerance: 'pointer'
+            });
+        },
+
+        _updateRowsPositions: function (widget) {
+            $.each(widget.options.$groupedGrid.find('input[name="position"]'), function (index, value) {
+                $(this).val(index);
+            });
+            widget._updateHiddenField(widget._getSelectedIds());
         },
 
         _updateHiddenField: function (ids) {
             var gridData = {}, widget = this;
-            $.each(this.options.$groupedGrid.find('td.selected-products'), function () {
+            $.each(this.options.$groupedGrid.find('input[name="entity_id"]'), function () {
                 var $idContainer = $(this),
-                    inArray = $.inArray($idContainer.html().trim(), ids) !== -1;
+                    inArray = $.inArray($idContainer.val(), ids) !== -1;
                 if (inArray) {
                     var data = {};
                     $.each(widget.options.fieldsToSave, function (k, v) {
                         data[v] = $idContainer.closest('tr').find('input[name="' + v + '"]').val()
                     });
-                    gridData[$(this).html().trim()] = data;
+                    gridData[$idContainer.val()] = data;
                 }
             });
             widget.options.$hiddenInput.val(JSON.stringify(gridData));
         },
 
         _displayGridRow: function (ids) {
-            $.each(this.options.$groupedGrid.find('td.selected-products'), function () {
+            $.each(this.options.$groupedGrid.find('input[name="entity_id"]'), function () {
                 var $idContainer = $(this),
-                    inArray = $.inArray($idContainer.html().trim(), ids) !== -1;
+                    inArray = $.inArray($idContainer.val(), ids) !== -1;
                 $idContainer.closest('tr').toggle(inArray).toggleClass('ignore-validate', !inArray);
             });
         },
 
         _initGridWithData: function (gridData) {
-            $.each(this.options.$groupedGrid.find('td.selected-products'), function () {
+            $.each(this.options.$groupedGrid.find('input[name="entity_id"]'), function () {
                 var $idContainer = $(this),
-                    id = $idContainer.html().trim();
+                    id = $idContainer.val();
+                if (!gridData[id]) {
+                    return true;
+                }
                 $.each(gridData[id], function (fieldName, data) {
                     $idContainer.closest('tr').find('input[name="' + fieldName + '"]').val(data);
                 });
@@ -105,11 +140,21 @@ jQuery(function($) {
 
         _updatePopupGrid: function () {
             var widget = this;
-            $.each(this.options.$groupedGrid.find('td.selected-products'), function () {
-                var id = $(this).html().trim();
+            $.each(this.options.$groupedGrid.find('input[name="entity_id"]'), function () {
+                var id = $(this).val();
                 widget.options.$groupedGridPopup.find('input[type=checkbox][value="' + id + '"]')
                     .prop({checked: !$(this).closest('tr').hasClass('ignore-validate')});
             });
+        },
+
+        _sortGridByPosition: function () {
+            var rows = this.options.$groupedGrid.find('tbody tr');
+            rows.sort(function (a, b) {
+                var valueA = $(a).find('input[name="position"]').val(),
+                    valueB = $(b).find('input[name="position"]').val();
+                return (valueA < valueB) ? -1 : (valueA > valueB) ? 1 : 0;
+            });
+            this.options.$groupedGrid.find('tbody').html(rows);
         }
     });
 });
