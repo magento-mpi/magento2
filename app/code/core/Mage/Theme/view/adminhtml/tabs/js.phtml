@@ -17,9 +17,8 @@
         $('#js_files_uploader').fileupload({
             dataType: 'json',
             replaceFileInput: false,
-            //sequentialUploads: true,
+            sequentialUploads: true,
             url : '<?php echo $this->getJsUploadUrl(); ?>',
-            acceptFileTypes: /(.|\/)(js)$/i,
 
             /**
              * Add data
@@ -27,6 +26,16 @@
              * @param data
              */
             add: function (e, data) {
+                $.each(data.files, function (index, file) {
+                    data.fileId =  Math.random().toString(36).substr(2,9);
+                    var progressTmpl = $('#js-file-uploader-template').children(':first').clone();
+                    progressTmpl.attr('id', data.fileId);
+                    var fileInfoHtml = progressTmpl.html().replace('{{size}}', byteConvert(file.size))
+                        .replace('{{name}}', file.name);
+                    progressTmpl.html(fileInfoHtml) ;
+                    progressTmpl.appendTo('#js-file-uploader');
+                });
+
                 var uploadButton = $('#js_uploader_button');
                 uploadButton.removeAttr('disabled');
 
@@ -44,14 +53,32 @@
              * @param data
              */
             done: function (e, data) {
+                var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
+                $(progressSelector).css('width','100%');
+
                 var contentArea = $('.js-files-container');
                 $(this).val('');
 
                 if (!data.result.error) {
+                    $(progressSelector).removeClass('upload-progress').addClass('upload-success');
                     contentArea.html(data.result.content);
+                } else {
+                    $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }
 
+
                 $('.ui-sortable').sortable('initButtons');
+            },
+
+            /**
+             * On progress
+             * @param e
+             * @param data
+             */
+            progress: function(e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
+                $(progressSelector).css('width', progress + '%');
             },
 
             /**
@@ -60,6 +87,9 @@
              * @param data
              */
             fail: function(e, data) {
+                var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
+                $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
+
                 $(this).val('');
                 alert($.mage.__('File extension not known or unsupported type.'));
             }
