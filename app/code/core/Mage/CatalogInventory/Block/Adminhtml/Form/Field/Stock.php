@@ -154,7 +154,12 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         useConfigManageStockField = $('#inventory_use_config_manage_stock');
 
                     var disabler = function() {
-                        if (productType == 'configurable' || productType == 'grouped') {
+                        var hasVariation = $('#config_super_product-checkbox').is(':checked');
+                        if (productType == 'configurable'
+                            || productType == 'grouped'
+                            || productType == 'bundle'//@TODO move this check to Mage_Bundle after refactoring as widget
+                            || hasVariation
+                        ) {
                             return;
                         }
                         var manageStockValue = (qty.val() === '') ? 0 : 1;
