@@ -133,4 +133,22 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     {
         return parent::setPageSize($size);
     }
+
+    /**
+     * Update all child themes relations
+     *
+     * @param Mage_Core_Model_Theme $themeModel
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function updateChildRelations(Mage_Core_Model_Theme $themeModel)
+    {
+        $parentThemeId = $themeModel->getParentId();
+        $this->addFieldToFilter('parent_id', array('eq' => $themeModel->getId()))->load();
+
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($this->getItems() as $theme) {
+            $theme->setParentId($parentThemeId)->save();
+        }
+        return $this;
+    }
 }

@@ -9,7 +9,7 @@
  */
 
 /**
- * Fonts controller
+ * Files controller
  */
 class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Adminhtml_Controller_Action
 {
@@ -29,7 +29,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Ad
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Tree')
+                $this->getLayout()->createBlock('Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree')
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (Exception $e) {
@@ -78,7 +78,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Ad
     {
         try {
             $this->loadLayout('empty');
-            $this->getLayout()->getBlock('wysiwyg_fonts.files')->setStorage($this->_getStorage());
+            $this->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
             $this->renderLayout();
 
             $this->_getSession()->setStoragePath(

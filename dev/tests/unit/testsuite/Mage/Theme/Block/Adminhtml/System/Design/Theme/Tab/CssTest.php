@@ -77,9 +77,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
         $uploaderService = $this->getMock('Mage_Theme_Model_Uploader_Service', array(), array(), '', false);
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
 
+        $constructArguments['filesystem'] = $filesystem;
         $constructArguments['objectManager'] = Mage::getObjectManager();
         $constructArguments['uploaderService'] = $uploaderService;
-        $constructArguments['filesystem'] = $filesystem;
         return $constructArguments;
     }
 

@@ -9,9 +9,9 @@
  */
 
 /**
- * Fonts tree block
+ * Files tree block
  */
-class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Tree extends Mage_Backend_Block_Template
+class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree extends Mage_Backend_Block_Template
 {
     /**
      * Json source URL
@@ -20,11 +20,11 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Fonts_Tree extends Mage_Backend_Block_T
      */
     public function getTreeLoaderUrl()
     {
-        $themeId = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID);
-        $contentType = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE);
+        $themeId = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_THEME_ID);
+        $contentType = $this->getRequest()->getParam(Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE);
         return $this->getUrl('*/*/treeJson', array(
-            Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $themeId,
-            Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => $contentType
+            Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $themeId,
+            Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => $contentType
         ));
     }
 

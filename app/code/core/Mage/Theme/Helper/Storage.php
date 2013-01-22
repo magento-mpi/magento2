@@ -16,17 +16,17 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     /**
      * Parameter name of node
      */
-    const PARAM_NAME_NODE = 'node';
+    const PARAM_NODE = 'node';
 
     /**
      * Parameter name of content type
      */
-    const PARAM_NAME_CONTENT_TYPE = 'content_type';
+    const PARAM_CONTENT_TYPE = 'content_type';
 
     /**
      * Parameter name of theme identification number
      */
-    const PARAM_NAME_THEME_ID = 'theme_id';
+    const PARAM_THEME_ID = 'theme_id';
 
     /**
      * Current directory path
@@ -126,13 +126,14 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      * Get theme module for custom static files
      *
      * @return Mage_Core_Model_Theme
+     * @throws Magento_Exception
      */
     protected function _getTheme()
     {
-        $themeId = $this->_getRequest()->getParam(self::PARAM_NAME_THEME_ID);
+        $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
         $theme = $this->_themeFactory->create();
-        if ($themeId && !$theme->load($themeId)->getId()) {
-            Mage::throwException($this->__('Theme was not found.'));
+        if (!$themeId || $themeId && !$theme->load($themeId)->getId()) {
+            throw new Magento_Exception('Theme was not found.');
         }
         return $theme;
     }
@@ -144,7 +145,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     protected function _getStorageType()
     {
-        return (string)$this->_getRequest()->getParam(self::PARAM_NAME_CONTENT_TYPE);
+        return (string)$this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
     }
 
     /**
@@ -166,6 +167,21 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
             $this->_currentPath = $currentPath;
         }
         return $this->_currentPath;
+    }
+
+    /**
+     * Request params for selected theme
+     *
+     * @return array
+     */
+    public function getRequestParams()
+    {
+        $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
+        $contentType = $this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
+        return array(
+            self::PARAM_THEME_ID     => $themeId,
+            self::PARAM_CONTENT_TYPE => $contentType
+        );
     }
 
     /**
@@ -207,6 +223,6 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     protected function _getTreeNodeName()
     {
-        return self::PARAM_NAME_NODE;
+        return self::PARAM_NODE;
     }
 }

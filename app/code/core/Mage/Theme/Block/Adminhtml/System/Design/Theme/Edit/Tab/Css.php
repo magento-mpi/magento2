@@ -15,16 +15,11 @@
  * @method array getFiles()
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
-    extends Mage_Backend_Block_Widget_Form
-    implements Mage_Backend_Block_Widget_Tab_Interface
+    extends Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
 {
-    /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
     /**
      * Uploader service
      *
@@ -70,15 +65,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Filesystem $filesystem,
         Magento_ObjectManager $objectManager,
         Mage_Theme_Model_Uploader_Service $uploaderService,
-        Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
+            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $objectManager, $data
         );
-        $this->_objectManager = $objectManager;
         $this->_uploaderService = $uploaderService;
     }
 
@@ -108,6 +102,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             $session->unsThemeCustomCssData();
         }
         $form->addValues($formData);
+        parent::_prepareForm();
         return $this;
     }
 
@@ -205,9 +200,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
                 . $this->getUrl('*/system_design_wysiwyg_files/index', array(
-                    'target_element_id'                                => 'custom_css_content',
-                    Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $this->_getCurrentTheme()->getId(),
-                    Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
+                    'target_element_id'                           => 'custom_css_content',
+                    Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
@@ -228,10 +223,10 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'label'     => $this->__('Manage'),
             'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
-                . $this->getUrl('*/system_design_wysiwyg_fonts/index', array(
-                    'target_element_id'                                => 'custom_css_content',
-                    Mage_Theme_Helper_Storage::PARAM_NAME_THEME_ID     => $this->_getCurrentTheme()->getId(),
-                    Mage_Theme_Helper_Storage::PARAM_NAME_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT
+                . $this->getUrl('*/system_design_wysiwyg_files/index', array(
+                    'target_element_id'                           => 'custom_css_content',
+                    Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
@@ -273,16 +268,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         }
 
         return implode('<br />', $messages);
-    }
-
-    /**
-     * Get current theme
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _getCurrentTheme()
-    {
-        return Mage::registry('current_theme');
     }
 
     /**
@@ -512,35 +497,5 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     public function getTabLabel()
     {
         return $this->__('CSS Editor');
-    }
-
-    /**
-     * Return Tab title
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return $this->getTabLabel();
-    }
-
-    /**
-     * Can show tab in tabs
-     *
-     * @return boolean
-     */
-    public function canShowTab()
-    {
-        return $this->_getCurrentTheme()->isVirtual() && $this->_getCurrentTheme()->getId();
-    }
-
-    /**
-     * Tab is hidden
-     *
-     * @return boolean
-     */
-    public function isHidden()
-    {
-        return false;
     }
 }
