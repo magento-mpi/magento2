@@ -90,6 +90,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('report_statistics'),
             array('newsletter_queue'),
             array('theme_list'),
+            array('google_content_manage_attributes'),
         );
     }
 
