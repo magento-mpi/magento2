@@ -26,4 +26,11 @@ interface Mage_Core_Model_Theme_Customization_CustomizedInterface
      * @param string $type
      */
     public function getCustomizationData($type);
+
+    /**
+     * Return path to customized theme files
+     *
+     * @return string|null
+     */
+    public function getCustomizationPath();
 }

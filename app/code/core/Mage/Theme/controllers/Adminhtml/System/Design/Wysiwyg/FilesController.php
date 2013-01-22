@@ -132,8 +132,9 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Ad
      */
     public function onInsertAction()
     {
-        /** @todo get real path after font publication */
-        $this->getResponse()->setBody('image_path.jpg');
+        /** @var $helperStorage Mage_Theme_Helper_Storage */
+        $helperStorage = $this->_objectManager->get('Mage_Theme_Helper_Storage');
+        $this->getResponse()->setBody($helperStorage->getRelativeUrl());
     }
 
     /**

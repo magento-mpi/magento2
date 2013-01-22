@@ -29,6 +29,16 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     const PARAM_THEME_ID = 'theme_id';
 
     /**
+     * Parameter name of filename
+     */
+    const PARAM_FILENAME = 'filename';
+
+    /**
+     * Root node value identification number
+     */
+    const NODE_ROOT = 'root';
+
+    /**
      * Current directory path
      *
      * @var string
@@ -118,8 +128,8 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        $storageRoot = $this->_getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR . $this->_getStorageType();
-        return $storageRoot;
+        return $this->_getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR
+            . Mage_Core_Model_Theme_Files::CUSTOMIZATION_PATH_PREFIX . DIRECTORY_SEPARATOR . $this->_getStorageType();
     }
 
     /**
@@ -142,10 +152,35 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      * Get storage type
      *
      * @return string
+     * @throws Magento_Exception
      */
     protected function _getStorageType()
     {
-        return (string)$this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
+        $allowedTypes = array(
+            Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT,
+            Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
+        );
+        $type = (string)$this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
+        if (!in_array($type, $allowedTypes)) {
+            throw new Magento_Exception('Invalid type');
+        }
+        return $type;
+    }
+
+    /**
+     * Relative url to static content
+     *
+     * @return string
+     */
+    public function getRelativeUrl()
+    {
+        $pathPieces = array('..', $this->_getStorageType());
+        $node = $this->_getRequest()->getParam(self::PARAM_NODE);
+        if ($node !== self::NODE_ROOT) {
+            $pathPieces[] = trim($this->urlDecode($node), '/');
+        }
+        $pathPieces[] = $this->urlDecode($this->_getRequest()->getParam(self::PARAM_FILENAME));
+        return implode('/', $pathPieces);
     }
 
     /**
