@@ -47,7 +47,7 @@
             hideFirstRowAddSeparator: true,
             //Max rows - This option should be set when instantiating the widget
             maxRows: 1000,
-            maxRowsMessage: '#max-registrant-message'
+            maxRowsMsg: '#max-registrant-message'
         },
 
         /**
@@ -55,7 +55,7 @@
          * @private
          */
         _create: function() {
-            this.options.rowCount = 0;
+            this.options.rowCount = this.options.rowIndex = 0;
             //On document ready related tasks
             $($.proxy(this.ready, this));
 
@@ -105,30 +105,30 @@
          * @return {*}
          */
         addRow: function(index) {
-            var li = $(this.options.rowParentElem);
-            li.addClass(this.options.rowContainerClass).attr('id', this.options.rowIdPrefix + index);
+            var row = $(this.options.rowParentElem);
+            row.addClass(this.options.rowContainerClass).attr('id', this.options.rowIdPrefix + index);
             $(this.options.rowTemplate).tmpl([
                 {_index_: index}
-            ]).appendTo(li);
-            $(this.options.rowContainer).append(li);
-            li.addClass(this.options.additionalRowClass);
-            //Hide 'delete' link and remove additionalRowClass for first row
+            ]).appendTo(row);
+            $(this.options.rowContainer).append(row);
+            row.addClass(this.options.additionalRowClass);
+            //Remove 'delete' link and additionalRowClass for first row
             if (this.options.rowIndex === 0 && this.options.hideFirstRowAddSeparator) {
                 $('#' + this.options.btnRemoveIdPrefix + '0').remove();
                 $('#' + this.options.rowIdPrefix + '0').removeClass(this.options.additionalRowClass);
             }
             this.maxRowCheck(++this.options.rowCount);
-            return li;
+            return row;
         },
 
         /**
          * Remove return item information row
          * @public
-         * @param {string} liIndex - return item information row index
+         * @param {string} rowIndex - return item information row index
          * @return {boolean}
          */
-        removeRow: function(index) {
-            $('#' + this.options.rowIdPrefix + index).remove();
+        removeRow: function(rowIndex) {
+            $('#' + this.options.rowIdPrefix + rowIndex).remove();
             this.maxRowCheck(--this.options.rowCount);
             return false;
         },
@@ -136,13 +136,13 @@
         /**
          * Function to check if maximum rows are exceeded and render/hide maxMsg and Add btn
          * @public
-         * @param liIndex
+         * @param rowIndex
          */
-        maxRowCheck: function(liIndex) {
+        maxRowCheck: function(rowIndex) {
             var addRegBtn = $(this.options.addRowBtn),
-                maxRegMsg = $(this.options.maxRowsMessage);
+                maxRegMsg = $(this.options.maxRowsMsg);
             //liIndex starts from 0
-            if (liIndex >= this.options.maxRows) {
+            if (rowIndex >= this.options.maxRows) {
                 addRegBtn.hide();
                 maxRegMsg.show();
             } else if (addRegBtn.is(":hidden")) {
@@ -174,7 +174,7 @@
          * Delegated handler for adding a row
          * @public
          * @param {Object} e - Native event object
-         * @return {(null|boolean)}
+         * @return {boolean}
          */
         handleAdd: function(e) {
             this.addRow(++this.options.rowIndex);
@@ -185,7 +185,7 @@
          * Delegated handler for removing a selected row
          * @public
          * @param {Object} e - Native event object
-         * @return {(null|boolean)}
+         * @return {boolean}
          */
         handleRemove: function(e) {
             this.removeRow($(e.currentTarget).closest("[id^='" + this.options.btnRemoveIdPrefix + "']")
