@@ -70,4 +70,14 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Mage_Adm
         $this->getConfig()->setUrl($this->getUrl('*/*/upload', $this->_helperStorage->getRequestParams()));
         return $this;
     }
+
+    /**
+     * Return storage helper
+     *
+     * @return Mage_Theme_Helper_Storage
+     */
+    public function getHelperStorage()
+    {
+        return $this->_helperStorage;
+    }
 }
