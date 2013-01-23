@@ -72,11 +72,11 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
      * @throws InvalidArgumentException
      */
     public function __construct(
-            Mage_Core_Model_Design_Fallback $fallback,
-            Magento_Filesystem $filesystem,
-            $mapDir,
-            $baseDir,
-            $canSaveMap = true
+        Mage_Core_Model_Design_Fallback $fallback,
+        Magento_Filesystem $filesystem,
+        $mapDir,
+        $baseDir,
+        $canSaveMap = true
     ) {
         $this->_fallback = $fallback;
         $this->_filesystem = $filesystem;

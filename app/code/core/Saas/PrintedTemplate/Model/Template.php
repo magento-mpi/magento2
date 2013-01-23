@@ -520,7 +520,7 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
      */
     static public function getDefaultTemplates()
     {
-        if(is_null(self::$_defaultTemplates)) {
+        if (is_null(self::$_defaultTemplates)) {
             self::$_defaultTemplates = Mage::getConfig()->getNode(self::XML_PATH_TEMPLATE_PRINTED)->asArray();
         }
 

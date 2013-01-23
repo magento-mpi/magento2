@@ -59,8 +59,8 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         Mage_Core_Model_Dir $dirs,
         Magento_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
-        $params)
-    {
+        $params
+    ) {
         $this->_dirs = $dirs;
         $this->_objectManager = $objectManager;
         $this->_filesystem = $filesystem;
