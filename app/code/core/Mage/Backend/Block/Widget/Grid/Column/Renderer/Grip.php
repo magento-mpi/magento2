@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Block_Widget_Grid_Column_Renderer_GroupedInfo
+class Mage_Backend_Block_Widget_Grid_Column_Renderer_Grip
     extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Text
 {
     /**
@@ -19,7 +19,7 @@ class Mage_Catalog_Block_Widget_Grid_Column_Renderer_GroupedInfo
      */
     public function render(Varien_Object $row)
     {
-        $html = '<span class="ui-icon ui-icon-grip-dotted-vertical"></span>';
+        $html = '<span class="' . $this->getColumn()->getInlineCss() . '"></span>';
         $html .= '<input type="hidden" name="entity_id" value="' . $row->getData($this->getColumn()->getIndex()) . '"/>';
         $html .= '<input type="hidden" name="position" value=""/>';
         return $html;

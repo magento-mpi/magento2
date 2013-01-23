@@ -34,8 +34,6 @@ jQuery(function($) {
             grid: window.<?php echo $_gridBlock->getJsObjectName() ?>,
             gridData : <?php echo $_gridBlock->getAssociatedProducts()?>,
             gridPopup : window.<?php echo $_gridPopupBlock->getJsObjectName() ?>,
-            $groupedGrid : $('#grouped_grid'),
-            $groupedGridPopup : $('#grouped_grid_popup'),
             $hiddenInput : $('#grouped-product-container input[name="<?php echo $_gridBlock->getHiddenInputName()?>"]'),
             associatedProductsId : <?php echo $_gridBlock->getAssociatedProductsIds()?>,
             fieldsToSave : <?php echo $_helper->jsonEncode($_gridBlock->getFieldsToSave())?>

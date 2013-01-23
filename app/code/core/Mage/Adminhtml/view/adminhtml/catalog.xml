@@ -402,7 +402,8 @@ Layout handle for grouped products
                             <index>entity_id</index>
                             <width>5px</width>
                             <sortable>0</sortable>
-                            <renderer>Mage_Catalog_Block_Widget_Grid_Column_Renderer_GroupedInfo</renderer>
+                            <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Grip</renderer>
+                            <inline_css>ui-icon ui-icon-grip-dotted-vertical</inline_css>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">

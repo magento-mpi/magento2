@@ -102,4 +102,20 @@ class Mage_Catalog_Block_Product_Grid_Grouped extends Mage_Backend_Block_Widget_
         $this->_hiddenInputName = $hiddenInputName;
         $this->_fieldsToSave = $fieldsToSave;
     }
+
+    /**
+     * Callback for jQuery UI sortable update
+     *
+     * @return string
+     */
+    public function getSortableUpdateCallback()
+    {
+        return <<<'SCRIPT'
+function () {
+    if(jQuery && jQuery('#grouped-product-container').data('groupedProduct')) {
+        jQuery('#grouped-product-container').groupedProduct('updateRowsPositions');
+    }
+}
+SCRIPT;
+    }
 }

@@ -11,7 +11,22 @@
 jQuery(function($) {
     $.widget('mage.groupedProduct', {
         _create: function () {
+            this._initGrid();
+            this._bindEvents();
+
+            if (!$.isArray(this.options.gridData) || this.options.gridData.length) {
+                this._initGridWithData(this.options.gridData);
+            }
+            this._displayGridRow(this.options.associatedProductsId);
+            this._updatePopupGrid();
+            this._updateHiddenField(this.options.associatedProductsId);
+            this._sortGridByPosition();
+        },
+
+        _initGrid: function () {
             var widget = this;
+            this.options.$groupedGrid = $('#grouped_grid');
+            this.options.$groupedGridPopup = $('#grouped_grid_popup');
             this.$gridDialog = $('#grouped-product-popup').dialog({
                 title: 'Select Associated Products',
                 autoOpen: false,
@@ -36,22 +51,10 @@ jQuery(function($) {
                     }
                 }]
             });
+        },
 
-            this.options.grid.rowClickCallback = function () {};
-            this.options.gridPopup.rowClickCallback = function (grid, event) {
-                event.stopPropagation();
-                if (!this.rows || !this.rows.length) {
-                    return;
-                }
-                $(event.target).parent().find('td.selected-products input[type="checkbox"]').click();
-                return false;
-            };
-            if (!$.isArray(this.options.gridData) || this.options.gridData.length) {
-                this._initGridWithData(this.options.gridData);
-            }
-            this._displayGridRow(this.options.associatedProductsId);
-            this._updatePopupGrid();
-            this._updateHiddenField(this.options.associatedProductsId);
+        _bindEvents: function () {
+            var widget = this;
             $('#grouped-add-products').on('click', function () {
                 widget.$gridDialog.dialog('open');
                 return false;
@@ -67,28 +70,22 @@ jQuery(function($) {
             this.options.$groupedGrid.on('change keyup', 'input[type="text"]', function (event) {
                 widget._updateHiddenField(widget._getSelectedIds());
             });
-            this._sortGridByPosition();
-            this.options.$groupedGrid.find('tbody').sortable({
-                axis: 'y',
-                handle: '.ui-icon-grip-dotted-vertical',
-                helper: function(event, ui) {
-                    ui.children().each(function() {
-                        $(this).width($(this).width());
-                    });
-                    return ui;
-                },
-                update: function () {
-                    widget._updateRowsPositions(widget);
-                },
-                tolerance: 'pointer'
-            });
+            this.options.grid.rowClickCallback = function () {};
+            this.options.gridPopup.rowClickCallback = function (grid, event) {
+                event.stopPropagation();
+                if (!this.rows || !this.rows.length) {
+                    return;
+                }
+                $(event.target).parent().find('td.selected-products input[type="checkbox"]').click();
+                return false;
+            };
         },
 
-        _updateRowsPositions: function (widget) {
-            $.each(widget.options.$groupedGrid.find('input[name="position"]'), function (index, value) {
+        updateRowsPositions: function () {
+            $.each(this.options.$groupedGrid.find('input[name="position"]'), function (index, value) {
                 $(this).val(index);
             });
-            widget._updateHiddenField(widget._getSelectedIds());
+            this._updateHiddenField(this._getSelectedIds());
         },
 
         _updateHiddenField: function (ids) {
