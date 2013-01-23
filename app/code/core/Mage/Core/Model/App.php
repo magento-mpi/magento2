@@ -957,6 +957,7 @@ class Mage_Core_Model_App
 
     public function getWebsites($withDefault = false, $codeKey = false)
     {
+        $this->_initializeStore();
         $websites = array();
         if (is_array($this->_websites)) {
             foreach ($this->_websites as $website) {

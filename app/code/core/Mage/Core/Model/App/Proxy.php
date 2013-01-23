@@ -190,7 +190,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function getStore($id = null)
     {
-        return $this->_getApp()->getStore($id = null);
+        return $this->_getApp()->getStore($id);
     }
 
     /**
@@ -201,7 +201,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function getSafeStore($id = null)
     {
-        return $this->_getApp()->getSafeStore($id = null);
+        return $this->_getApp()->getSafeStore($id);
     }
 
     /**
@@ -213,7 +213,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
-        return $this->_getApp()->getStores($withDefault = false, $codeKey = false);
+        return $this->_getApp()->getStores($withDefault, $codeKey);
     }
 
     /**
@@ -245,7 +245,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function getWebsite($id = null)
     {
-        return $this->_getApp()->getWebsite($id = null);
+        return $this->_getApp()->getWebsite($id);
     }
 
     /**
@@ -257,7 +257,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
-        return $this->_getApp()->getWebsites($withDefault = false, $codeKey = false);
+        return $this->_getApp()->getWebsites($withDefault, $codeKey);
     }
 
     /**
@@ -269,7 +269,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function getGroup($id = null)
     {
-        return $this->_getApp()->getGroup($id = null);
+        return $this->_getApp()->getGroup($id);
     }
 
     /**
@@ -343,7 +343,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
         return $this->_getApp()->getCacheInstance();
     }
 
-
     /**
      * Retrieve cache object
      *
@@ -376,7 +375,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function saveCache($data, $id, $tags = array(), $lifeTime = false)
     {
-        return $this->_getApp()->saveCache($data, $id, $tags = array(), $lifeTime = false);
+        return $this->_getApp()->saveCache($data, $id, $tags, $lifeTime);
     }
 
     /**
@@ -398,7 +397,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function cleanCache($tags = array())
     {
-        return $this->_getApp()->cleanCache($tags = array());
+        return $this->_getApp()->cleanCache($tags);
     }
 
     /**
@@ -409,7 +408,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function useCache($type = null)
     {
-        return $this->_getApp()->useCache($type = null);
+        return $this->_getApp()->useCache($type);
     }
 
     /**
@@ -522,7 +521,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function setUseSessionInUrl($flag = true)
     {
-        return $this->_getApp()->setUseSessionInUrl($flag = true);
+        return $this->_getApp()->setUseSessionInUrl($flag);
     }
 
     /**
@@ -557,7 +556,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
-        return $this->_getApp()->getGroups($withDefault = false, $codeKey = false);
+        return $this->_getApp()->getGroups($withDefault, $codeKey);
     }
 
     /**
@@ -577,7 +576,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      */
     public function clearWebsiteCache($id = null)
     {
-        $this->_getApp()->clearWebsiteCache($id = null);
+        $this->_getApp()->clearWebsiteCache($id);
     }
 
     /**
