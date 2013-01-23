@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
-
 /**
- * Catalog Events grid bitmask renderer
+ * Manage Invitayions grid invitee email renderer
  *
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Renderer_Invitee
+class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Renderer_InviteeEmail
     extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**

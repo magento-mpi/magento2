@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Invitation grid collection
  *

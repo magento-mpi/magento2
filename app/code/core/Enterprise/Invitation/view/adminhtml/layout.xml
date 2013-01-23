@@ -78,7 +78,7 @@
                             <header translate='true' module='Enterprise_Invitation'>Invitee</header>
                             <type>text</type>
                             <index>invitee_email</index>
-                            <!--<renderer>Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Renderer_InviteeEmail</renderer>-->
+                            <renderer>Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Renderer_InviteeEmail</renderer>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='invitation_date'>
