@@ -20,18 +20,9 @@
 
     <?php if ($this->isFullyPaidAfterApplication()): ?>
         <script type="text/javascript">
-        //<![CDATA[
-            Form.getElements('multishipping-billing-form').each(function(elem){
-                if (elem.name == 'payment[method]' && elem.value == 'free') {
-                    elem.checked = true;
-                    elem.disabled = false;
-                    elem.parentNode.show();
-                } else {
-                    elem.parentNode.disabled = true;
-                    elem.parentNode.hide();
-                }
+            head.js("<?php echo $this->getViewFileUrl('Enterprise_GiftCardAccount::js/payment.js')?>", function() {
+                jQuery('#multishipping-billing-form').payment();
             });
-        //]]>
         </script>
         <input type="hidden" name="payment[method]" value="free" />
     <?php endif; ?>

@@ -8,6 +8,7 @@
  */
 /*jshint browser:true jquery:true*/
 (function($) {
+    "use strict";
     $.widget('mage.giftCard', {
         _create: function() {
             $(this.options.checkStatus).on('click', $.proxy(function() {
