@@ -31,9 +31,8 @@
                 <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.invitation.massactions" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>invitation_id</massaction_id_field>
-                        <form_fild_name>invitations</form_fild_name>
+                        <form_field_name>invitations</form_field_name>
                         <use_select_all>1</use_select_all>
-                        <use_select_visible>1</use_select_visible>
                         <options>
                             <cancel>
                                 <label translate="true" module="Enterprise_Invitation">Discard Selected</label>
@@ -78,7 +77,7 @@
                             <header translate='true' module='Enterprise_Invitation'>Invitee</header>
                             <type>text</type>
                             <index>invitee_email</index>
-                            <renderer>Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Renderer_InviteeEmail</renderer>
+                            <renderer>Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee</renderer>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='invitation_date'>
