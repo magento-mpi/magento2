@@ -43,6 +43,6 @@ class Mage_Core_Model_Resource_Theme_Files_Collection extends Mage_Core_Model_Re
      */
     public function setDefaultOrder($direction)
     {
-        return $this->setOrder('order', $direction);
+        return $this->setOrder('sort_order', $direction);
     }
 }

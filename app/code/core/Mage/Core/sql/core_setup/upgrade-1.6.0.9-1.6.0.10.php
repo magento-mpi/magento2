@@ -21,12 +21,6 @@ $connection->addColumn($installer->getTable('core_theme_files'), 'is_temporary',
     'comment'  => 'Is Temporary File'
 ));
 
-$connection->addColumn($installer->getTable('core_theme_files'), 'updated_at', array(
-    'type'     => Varien_Db_Ddl_Table::TYPE_TIMESTAMP,
-    'nullable' => true,
-    'comment'  => 'Last Update Timestamp'
-));
-
 $connection->changeColumn($installer->getTable('core_theme_files'), 'file_name', 'file_path', array(
     'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'   => 255,
@@ -34,7 +28,7 @@ $connection->changeColumn($installer->getTable('core_theme_files'), 'file_name',
     'comment'  => 'Relative path to file'
 ));
 
-$connection->changeColumn($installer->getTable('core_theme_files'), 'order', 'order', array(
+$connection->changeColumn($installer->getTable('core_theme_files'), 'order', 'sort_order', array(
     'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
 ));
 

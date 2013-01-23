@@ -225,9 +225,9 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
             $position = array_search($file->getFileName(), $orderData);
             if ($position === false) {
                 //uploaded files will be on top
-                $file->setOrder(0);
+                $file->setSortOrder(0);
             }
-            $file->setOrder($position + 1);
+            $file->setSortOrder($position + 1);
         }
         $collection->save();
 
