@@ -109,7 +109,9 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
      */
     protected function _getFilesCollection()
     {
-        $filesCollection = $this->_themeFiles->getCollection()->addFilter('theme_id', $this->getThemeId());
+        $filesCollection = $this->_themeFiles->getCollection()
+            ->setDefaultOrder(Varien_Data_Collection::SORT_ORDER_ASC)
+            ->addFilter('theme_id', $this->getThemeId());
         return $filesCollection;
     }
 

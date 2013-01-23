@@ -17,11 +17,12 @@
  * @method string getContent()
  * @method string getOrder()
  * @method bool getIsTemporary()
+ * @method Mage_Core_Model_Resource_Theme_Files_Collection getCollection()
  * @method setThemeId(int $id)
  * @method setFileName(string $filename)
  * @method setFileType(string $type)
  * @method setContent(string $content)
- * @method setOrder(string $order)
+ * @method setSortOrder(string $order)
  * @method Mage_Core_Model_Theme_Files setUpdatedAt($time)
  * @method Mage_Core_Model_Theme_Files setLayoutLinkId($id)
  * @method string getFilePath() Relative path to file
@@ -110,20 +111,6 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
             throw new Magento_Exception('Theme id should be set');
         }
         return $theme;
-    }
-
-
-    /**
-     * In case if content has changed, update the time field
-     *
-     * @return Mage_Core_Model_Theme_Files
-     */
-    protected function _beforeSave()
-    {
-        if ($this->dataHasChangedFor('content')) {
-            $this->setUpdatedAt($this->getResource()->formatDate(time()));
-        }
-        return parent::_beforeSave();
     }
 
     /**
