@@ -167,8 +167,8 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     public function __wakeup()
     {
         if (Mage::getIsSerializable()) {
-            $this->_eventDispatcher = Mage::getModel('Mage_Core_Model_Event_Manager');
-            $this->_cacheManager    = Mage::getModel('Mage_Core_Model_Cache');
+            $this->_eventDispatcher = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+            $this->_cacheManager    = Mage::getSingleton('Mage_Core_Model_Cache');
         }
     }
 

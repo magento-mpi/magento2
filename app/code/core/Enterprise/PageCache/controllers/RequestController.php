@@ -25,7 +25,7 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
          */
         $containers = Mage::registry('cached_page_containers');
 
-        $cacheInstance = $this->_objectManager->get('Enterprise_PageCache_Model_Cache');
+        $cacheInstance = $this->_objectManager->get('Mage_Core_Model_Cache');
 
         foreach ($containers as $container) {
             $container->applyInApp($content);
