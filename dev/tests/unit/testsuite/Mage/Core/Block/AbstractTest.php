@@ -56,7 +56,8 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetVar()
     {
-        $design = $this->getMock('Mage_Core_Model_Design_Package', array('getViewConfig'));
+        $filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $design = $this->getMock('Mage_Core_Model_Design_Package', array('getViewConfig'), array($filesystemMock));
         /** @var $block Mage_Core_Block_Abstract|PHPUnit_Framework_MockObject_MockObject */
         $block = $this->getMockForAbstractClass('Mage_Core_Block_Abstract', array(
             $this->getMock('Mage_Core_Controller_Request_Http'),
