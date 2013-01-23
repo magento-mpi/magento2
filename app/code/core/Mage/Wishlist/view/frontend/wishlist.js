@@ -131,7 +131,6 @@
             }, this));
         }
     });
-
     // Extension for mage.wishlist info add to cart
     $.widget('mage.wishlist', $.mage.wishlist, {
         _create: function() {
@@ -140,7 +139,11 @@
                 this._checkBoxValidate();
             }
         },
-        
+
+        /**
+         * validate checkbox selection.
+         * @private
+         */
         _checkBoxValidate: function() {
             this.element.validation({
                 submitHandler: $.proxy(function(form) {
