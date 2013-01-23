@@ -79,6 +79,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUnit_
     public function testGetJsUploadUrl()
     {
         $themeId = 2;
+        $uploadUrl = 'upload_url';
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
         $themeMock->expects($this->any())
             ->method('getId')
@@ -91,9 +92,10 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUnit_
         $this->_urlBuilder
             ->expects($this->once())
             ->method('getUrl')
-            ->with('*/system_design_theme/uploadjs', array('id' => $themeId));
+            ->with('*/system_design_theme/uploadjs', array('id' => $themeId))
+            ->will($this->returnValue($uploadUrl));
 
-        $this->_model->getJsUploadUrl();
+        $this->assertEquals($uploadUrl, $this->_model->getJsUploadUrl());
     }
 
     public function testGetUploadJsFileNote()
