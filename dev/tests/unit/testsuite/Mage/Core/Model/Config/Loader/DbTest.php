@@ -78,31 +78,10 @@ class Mage_Core_Model_Config_Loader_DbTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($configData));
 
         $configMock->expects($this->once())->method('extend')->with($configData);
-        $this->_modulesConfigMock->expects($this->never())->method('reinit');
 
         $this->_resourceMock->expects($this->once())->method('loadToXml')->with($configMock);
 
-        $this->_model->load($configMock, true);
-    }
-
-    public function testLoadWithReadConnectionAndWithoutCache()
-    {
-        $this->_resourceMock->expects($this->once())->method('getReadConnection')->will($this->returnValue(true));
-        $this->_dbUpdaterMock->expects($this->once())->method('updateScheme');
-
-        $configData = new Varien_Simplexml_Config();
-        $configMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
-        $this->_modulesConfigMock->expects($this->once())->method('getNode')->will($this->returnValue('config_node'));
-        $this->_factoryMock->expects($this->once())->method('create')
-            ->with('config_node')
-            ->will($this->returnValue($configData));
-
-        $configMock->expects($this->once())->method('extend')->with($configData);
-        $this->_modulesConfigMock->expects($this->once())->method('reinit');
-
-        $this->_resourceMock->expects($this->once())->method('loadToXml')->with($configMock);
-
-        $this->_model->load($configMock, false);
+        $this->_model->load($configMock);
     }
 
     public function testLoadWithoutReadConnection()
