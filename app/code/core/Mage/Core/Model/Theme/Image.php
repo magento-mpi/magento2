@@ -112,16 +112,6 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     }
 
     /**
-     * Get directory path for preview image
-     *
-     * @return string
-     */
-    protected function _getImagePathPreview()
-    {
-        return $this->_getPreviewImagePublishedRootDir() . DIRECTORY_SEPARATOR . self::IMAGE_DIR_PREVIEW;
-    }
-
-    /**
      * Get preview image directory url
      *
      * @return string
@@ -188,6 +178,16 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
         $this->setPreviewImage($imageName);
 
         return $imageName;
+    }
+
+    /**
+     * Get directory path for preview image
+     *
+     * @return string
+     */
+    protected function _getImagePathPreview()
+    {
+        return $this->_getPreviewImagePublishedRootDir() . DIRECTORY_SEPARATOR . self::IMAGE_DIR_PREVIEW;
     }
 
     /**
