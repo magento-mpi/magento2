@@ -20,8 +20,9 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
     /**
      * Initialize attributes map
      */
-    public function __construct()
+    public function __construct(Mage_Api_Helper_Data $apiHelper)
     {
+        parent::__construct($apiHelper);
         $this->_attributesMap = array(
             'order' => array('order_id' => 'entity_id'),
             'order_address' => array('address_id' => 'entity_id'),

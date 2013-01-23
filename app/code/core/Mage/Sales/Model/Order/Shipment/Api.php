@@ -17,8 +17,9 @@
  */
 class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
 {
-    public function __construct()
+    public function __construct(Mage_Api_Helper_Data $apiHelper)
     {
+        parent::__construct($apiHelper);
         $this->_attributesMap['shipment'] = array('shipment_id' => 'entity_id');
 
         $this->_attributesMap['shipment_item'] = array('item_id'    => 'entity_id');

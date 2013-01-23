@@ -317,4 +317,27 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             $conditionValue = explode($delimiter, $conditionValue);
         }
     }
+
+    /**
+     * Check if attribute is allowed to be used.
+     *
+     * @param string $attributeCode
+     * @param string $type
+     * @param array $ignoredAttributes
+     * @param array $attributes
+     * @return bool
+     */
+    public function isAttributeAllowed($attributeCode, $type, $ignoredAttributes, array $attributes = null)
+    {
+        if (!empty($attributes) && !(in_array($attributeCode, $attributes))) {
+            return false;
+        }
+        if (isset($ignoredAttributes['global']) && in_array($attributeCode, $ignoredAttributes['global'])) {
+            return false;
+        }
+        if (isset($ignoredAttributes[$type]) && in_array($attributeCode, $ignoredAttributes[$type])) {
+            return false;
+        }
+        return true;
+    }
 }

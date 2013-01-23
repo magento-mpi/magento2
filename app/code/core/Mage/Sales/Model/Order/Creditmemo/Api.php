@@ -21,8 +21,9 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
     /**
      * Initialize attributes mapping
      */
-    public function __construct()
+    public function __construct(Mage_Api_Helper_Data $apiHelper)
     {
+        parent::__construct($apiHelper);
         $this->_attributesMap = array(
             'creditmemo' => array('creditmemo_id' => 'entity_id'),
             'creditmemo_item' => array('item_id' => 'entity_id'),

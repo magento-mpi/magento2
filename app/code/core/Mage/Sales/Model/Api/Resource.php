@@ -35,6 +35,19 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
         'global'    => array()
     );
 
+    /** @var Mage_Api_Helper_Data */
+    protected $_apiHelper;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Api_Helper_Data $apiHelper
+     */
+    public function __construct(Mage_Api_Helper_Data $apiHelper)
+    {
+        $this->_apiHelper = $apiHelper;
+    }
+
     /**
      * Update attributes for entity
      *
@@ -47,7 +60,7 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     {
 
         foreach ($data as $attribute=>$value) {
-            if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
+            if ($this->_apiHelper->isAttributeAllowed($attribute, $type, $this->_ignoredAttributeCodes, $attributes)) {
                 $object->setData($attribute, $value);
             }
         }
@@ -71,7 +84,7 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
         }
 
         foreach ($object->getData() as $attribute=>$value) {
-            if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
+            if ($this->_apiHelper->isAttributeAllowed($attribute, $type, $this->_ignoredAttributeCodes, $attributes)) {
                 $result[$attribute] = $value;
             }
         }
@@ -89,32 +102,5 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
         }
 
         return $result;
-    }
-
-    /**
-     * Check is attribute allowed to usage
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param string $entityType
-     * @param array $attributes
-     * @return boolean
-     */
-    protected function _isAllowedAttribute($attributeCode, $type, array $attributes = null)
-    {
-        if (!empty($attributes)
-            && !(in_array($attributeCode, $attributes))) {
-            return false;
-        }
-
-        if (in_array($attributeCode, $this->_ignoredAttributeCodes['global'])) {
-            return false;
-        }
-
-        if (isset($this->_ignoredAttributeCodes[$type])
-            && in_array($attributeCode, $this->_ignoredAttributeCodes[$type])) {
-            return false;
-        }
-
-        return true;
     }
 } // Class Mage_Sales_Model_Api_Resource End
