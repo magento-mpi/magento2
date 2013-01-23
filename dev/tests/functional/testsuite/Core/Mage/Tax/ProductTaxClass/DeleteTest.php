@@ -106,6 +106,8 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         $this->addCompositeMultiselectValue('product_tax_class', $taxClass);
         //Steps
         $this->navigate('manage_products');
+        //@TODO: Remove when $this->productHelper()->saveProduct() will work properly with half screen window
+        $this->currentWindow()->maximize();
         $this->productHelper()->createProduct($product);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');

@@ -19,11 +19,6 @@
 class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Save tax class name for clean up</p>
-     */
-    protected $_taxClass = null;
-
-    /**
      * <p>Preconditions:</p>
      * <p>Navigate to Sales->Tax->Product Tax Classes</p>
      */
@@ -34,27 +29,10 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Clean up
-     */
-    protected function tearDownAfterTest()
-    {
-        //Remove Tax class after test
-        if (!empty($this->_taxClass)) {
-            $this->loginAdminUser();
-            $this->navigate('manage_tax_rule');
-            $this->clickButton('add_rule');
-            $this->clickControl('link', 'tax_rule_info_additional_link');
-            $this->deleteCompositeMultiselectOption('product_tax_class', $this->_taxClass,
-                'confirmation_for_delete_class');
-            $this->_taxClass = null;
-        }
-    }
-
-    /**
      * <p>Need to verify that product tax class are created by default and displayed in the field.</p>
      *
-     * @test
-     * @testlinkId TL-MAGE-6380
+     * @ test
+     * @ testlinkId TL-MAGE-6380
      */
     public function productTaxClassByDefault()
     {
@@ -70,7 +48,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @testLinkId TL-MAGE-6381
      */
-    public function creatingCustomerTaxClass()
+    public function creatingProductTaxClass()
     {
         $this->clickButton('add_rule');
         $this->clickControl('link', 'tax_rule_info_additional_link');
@@ -78,15 +56,14 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         $this->fillCompositeMultiselect('product_tax_class', array($taxClass));
         $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array($taxClass)),
             'Failed to add new value');
-        $this->_taxClass = $taxClass;
     }
 
     /**
      * <p>Need verified that admin user will be not able to create any Customer Tax Class with same name.</p>
      *
-     * @test
-     * @depends creatingCustomerTaxClass
-     * @testLinkId TL-MAGE-6389
+     * @ test
+     * @depends creatingProductTaxClass
+     * @ testLinkId TL-MAGE-6389
      */
     public function creatingWithSameName()
     {
@@ -99,54 +76,49 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         $alertText = $this->alertText();
         $this->acceptAlert();
         $this->assertEquals($this->_getMessageXpath('tax_class_exists'), $alertText);
-        $this->_taxClass = $taxClass;
     }
 
     /**
      * <p>Need verified that admin user will be not able to create any Product Tax Class with no name.</p>
      *
-     * @test
-     * @depends creatingCustomerTaxClass
-     * @testLinkId TL-MAGE-6383
+     * @ test
+     * @depends creatingProductTaxClass
+     * @ testLinkId TL-MAGE-6383
      */
     public function creatingWithEmptyName()
     {
         $this->clickButton('add_rule');
         $this->clickControl('link', 'tax_rule_info_additional_link');
         $this->setExpectedException('RuntimeException');
-        $this->addCompositeMultiselectValue('product_tax_class', null, null, false);
+        $this->addCompositeMultiselectValue('product_tax_class', '', null, false);
     }
 
     /**
      * <p>Need verified that admin user will be able to edit any Product Tax Class.</p>
      *
      * @test
-     * @depends creatingCustomerTaxClass
+     * @depends creatingProductTaxClass
      * @testLinkId TL-MAGE-6384
      */
     public function editingProductTaxClass()
     {
-        $this->markTestSkipped('Skip due to bug');
         $this->clickButton('add_rule');
         $this->clickControl('link', 'tax_rule_info_additional_link');
         $taxClass = $this->generate('string', 26);
         $newProductTaxClass = $this->generate('string', 26);
-        $containerXpath = $this->_getControlXpath('composite_multiselect', 'product_tax_class');
-        $this->addCompositeMultiselectValue(null, $taxClass, $containerXpath);
-        $this->editCompositeMultiselectOption(null, $taxClass, $newProductTaxClass, $containerXpath);
+        $this->addCompositeMultiselectValue('product_tax_class', $taxClass);
+        $this->editCompositeMultiselectOption('product_tax_class', $taxClass, $newProductTaxClass);
         $this->addParameter('optionName', $newProductTaxClass);
-        $elementXpath = $this->_getControlXpath('pageelement', 'multiselect_option');
-        $this->clickControl('link', 'tax_rule_info_additional_link');
-        $this->assertTrue((bool)$this->elementIsPresent($containerXpath . $elementXpath),
+        $elementXpath = $this->_getControlXpath('pageelement', 'product_tax_class_option');
+         $this->assertTrue((bool)$this->elementIsPresent($elementXpath),
             'Tax class is not saved');
-        $this->_taxClass = $newProductTaxClass;
     }
 
     /**
      * <p>Fails because of MAGE-5237</p>
      *
      * @test
-     * @depends creatingCustomerTaxClass
+     * @depends creatingProductTaxClass
      * @param string $specialValue
      * @dataProvider withSpecialValuesDataProvider
      */
@@ -157,7 +129,6 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         $this->fillCompositeMultiselect('product_tax_class', array($specialValue));
         $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array($specialValue)),
             'Failed to add new value');
-        $this->_taxClass = $specialValue;
     }
 
     /**
