@@ -34,7 +34,29 @@
                 </div>
             </fieldset>
         </form>
-
+        <script id="form-tmpl" type="text/x-jQuery-tmpl">
+            <form id="wishlist-hidden-form" method="post" action="${url}" class="no-display">
+                {{if item}}<input name="item" value="${item}"/>{{/if}}
+                {{if entity}}<input name="entity" value="${entity}"/>{{/if}}
+            </form>
+        </script>
+        <script>
+            (function($) {
+                head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+                    "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+                    "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+                    "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+                    "<?php echo $this->getViewFileUrl('Enterprise_Persistent::splitbutton.js') ?>",
+                    "<?php echo $this->getViewFileUrl('Mage_Wishlist::wishlist.js')?>", function() {
+                        $('#wishlist-view-form').splitButton().wishlist({
+                            addToCartUrl: '<?php echo $this->getItemAddToCartUrl('%item%');?>' ,
+                            confirmRemoveMessage: '<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>',
+                            addAllToCartUrl : '<?php echo $this->getUrl('*/*/allcart', array('wishlist_id' => $this->getWishlistInstance()->getId())) ?>',
+                            commentString : '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString()?>'
+                        });
+                    });
+            })(jQuery);
+        </script>
     </div>
     <?php echo $this->getChildHtml('bottom'); ?>
     <div class="buttons-set">

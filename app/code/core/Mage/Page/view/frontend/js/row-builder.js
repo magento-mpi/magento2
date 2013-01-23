@@ -26,7 +26,7 @@
             rowContainerClass: 'fields',
             addRowBtn: '#add-registrant-button',
             btnRemoveIdPrefix: 'btn-remove',
-            btnRemoveClass: '.btn-remove',
+            btnRemoveSelector: '.btn-remove',
             rowIdPrefix: 'row',
             //This class is added to rows added after the first one. Adds the dotted separator
             additionalRowClass: 'add-row',
@@ -47,7 +47,7 @@
             hideFirstRowAddSeparator: true,
             //Max rows - This option should be set when instantiating the widget
             maxRows: 1000,
-            maxRowsMessage: '#max-registrant-message'
+            maxRowsMsg: '#max-registrant-message'
         },
 
         /**
@@ -55,13 +55,13 @@
          * @private
          */
         _create: function() {
-            this.options.rowCount = 0;
+            this.options.rowCount = this.options.rowIndex = 0;
             //On document ready related tasks
             $($.proxy(this.ready, this));
 
             //Binding template-wide events handlers for adding and removing rows
             this.element.on('click', this.options.addEventSelector + this.options.addRowBtn, $.proxy(this.handleAdd, this));
-            this.element.on('click', this.options.remEventSelector + this.options.btnRemoveClass, $.proxy(this.handleRemove, this));
+            this.element.on('click', this.options.remEventSelector + this.options.btnRemoveSelector, $.proxy(this.handleRemove, this));
         },
 
         /**
@@ -101,34 +101,34 @@
          * The template processing will substitute row index at all places marked with _index_ in the template
          * using the template
          * @public
-         * @param {string} index - current index/count of the created template. This will be used as the id
+         * @param {Number} index - current index/count of the created template. This will be used as the id
          * @return {*}
          */
         addRow: function(index) {
-            var li = $(this.options.rowParentElem);
-            li.addClass(this.options.rowContainerClass).attr('id', this.options.rowIdPrefix + index);
+            var row = $(this.options.rowParentElem);
+            row.addClass(this.options.rowContainerClass).attr('id', this.options.rowIdPrefix + index);
             $(this.options.rowTemplate).tmpl([
                 {_index_: index}
-            ]).appendTo(li);
-            $(this.options.rowContainer).append(li);
-            li.addClass(this.options.additionalRowClass);
-            //Hide 'delete' link and remove additionalRowClass for first row
+            ]).appendTo(row);
+            $(this.options.rowContainer).append(row);
+            row.addClass(this.options.additionalRowClass);
+            //Remove 'delete' link and additionalRowClass for first row
             if (this.options.rowIndex === 0 && this.options.hideFirstRowAddSeparator) {
                 $('#' + this.options.btnRemoveIdPrefix + '0').remove();
                 $('#' + this.options.rowIdPrefix + '0').removeClass(this.options.additionalRowClass);
             }
             this.maxRowCheck(++this.options.rowCount);
-            return li;
+            return row;
         },
 
         /**
          * Remove return item information row
          * @public
-         * @param {string} liIndex - return item information row index
+         * @param {*} rowIndex - return item information row index
          * @return {boolean}
          */
-        removeRow: function(index) {
-            $('#' + this.options.rowIdPrefix + index).remove();
+        removeRow: function(rowIndex) {
+            $('#' + this.options.rowIdPrefix + rowIndex).remove();
             this.maxRowCheck(--this.options.rowCount);
             return false;
         },
@@ -136,18 +136,18 @@
         /**
          * Function to check if maximum rows are exceeded and render/hide maxMsg and Add btn
          * @public
-         * @param liIndex
+         * @param rowIndex
          */
-        maxRowCheck: function(liIndex) {
-            var addRegBtn = $(this.options.addRowBtn),
-                maxRegMsg = $(this.options.maxRowsMessage);
+        maxRowCheck: function(rowIndex) {
+            var addRowBtn = $(this.options.addRowBtn),
+                maxRowMsg = $(this.options.maxRowsMsg);
             //liIndex starts from 0
-            if (liIndex >= this.options.maxRows) {
-                addRegBtn.hide();
-                maxRegMsg.show();
-            } else if (addRegBtn.is(":hidden")) {
-                addRegBtn.show();
-                maxRegMsg.hide();
+            if (rowIndex >= this.options.maxRows) {
+                addRowBtn.hide();
+                maxRowMsg.show();
+            } else if (addRowBtn.is(":hidden")) {
+                addRowBtn.show();
+                maxRowMsg.hide();
             }
         },
 
@@ -173,10 +173,9 @@
         /**
          * Delegated handler for adding a row
          * @public
-         * @param {Object} e - Native event object
-         * @return {(null|boolean)}
+         * @return {boolean}
          */
-        handleAdd: function(e) {
+        handleAdd: function() {
             this.addRow(++this.options.rowIndex);
             return false;
         },
@@ -185,7 +184,7 @@
          * Delegated handler for removing a selected row
          * @public
          * @param {Object} e - Native event object
-         * @return {(null|boolean)}
+         * @return {boolean}
          */
         handleRemove: function(e) {
             this.removeRow($(e.currentTarget).closest("[id^='" + this.options.btnRemoveIdPrefix + "']")

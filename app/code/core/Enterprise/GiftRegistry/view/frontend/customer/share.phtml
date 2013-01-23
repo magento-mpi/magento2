@@ -87,7 +87,7 @@
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Mage_Page::js/registrant-builder.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('Mage_Page::js/row-builder.js')?>", function() {
                 var formDataPost;
                 <?php if (is_array($this->getFormData('recipients'))): ?>
                 formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;
@@ -96,7 +96,7 @@
                     rowTemplate: '#add-recipient-tmpl',
                     rowContainer: '#recipients-options',
                     maxRows: '<?php echo $this->getRecipientsLimit() ?>',
-                    maxRowsMessage: '#max-recipient-message',
+                    maxRowsMsg: '#max-recipient-message',
                     addRowBtn: '#add-recipient-button',
                     formDataPost: {"formData": formDataPost, "templateFields": ['recipients-name', 'recipients-email']}
                 }).validation();
