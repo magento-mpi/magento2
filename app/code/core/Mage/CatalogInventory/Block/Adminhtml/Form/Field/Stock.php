@@ -155,7 +155,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
 
                     var disabler = function() {
                         var hasVariation = $('#config_super_product-checkbox').is(':checked');
-                        if (productType == 'configurable'
+                        if ((productType == 'configurable' && hasVariation)
                             || productType == 'grouped'
                             || productType == 'bundle'//@TODO move this check to Mage_Bundle after refactoring as widget
                             || hasVariation
