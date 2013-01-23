@@ -25,18 +25,25 @@
          * @private
          */
         _create: function() {
-            $(this.options.splitButton + ' ' + this.options.arrowButton).on('click', $.proxy(this._toggleDropDown, this));
-            $(':not(' + this.options.splitButton + ' ' + this.options.arrowButton + ')').on('click', $.proxy(this._hideDropDown, this));
+            $(document).on('click', this.options.splitButton + '>' + this.options.arrowButton, $.proxy(this._toggleDropDown, this));
+            $(document).on('click', $.proxy(this._hideDropDown, this));
         },
 
         /**
          * Toggle css class for the split button to hide or show drop down menu
+         * Saves current state of the target. Closes all open drop downs and then
+         * depending on the stored state the target drop down is toggled.
          * @private
          * @param {Object} e
          */
         _toggleDropDown: function(e) {
-            $(this.options.splitButton + '.' + this.options.activeClass).removeClass(this.options.activeClass);
-            $(e.target).closest(this.options.splitButton).toggleClass(this.options.activeClass);
+            var state = $(e.target).closest(this.options.splitButton).hasClass(this.options.activeClass);
+            this._hideDropDown();
+            if (state) {
+                this._hideDropDown();
+            } else {
+                $(e.target).closest(this.options.splitButton).addClass(this.options.activeClass);
+            }
             return false;
         },
 
@@ -45,7 +52,7 @@
          * @private
          */
         _hideDropDown: function() {
-            $(this.options.splitButton + '.' + this.options.activeClass).removeClass(this.options.activeClass);
+            $(document).find(this.options.splitButton).removeClass(this.options.activeClass);
         }
     });
 })(jQuery);
