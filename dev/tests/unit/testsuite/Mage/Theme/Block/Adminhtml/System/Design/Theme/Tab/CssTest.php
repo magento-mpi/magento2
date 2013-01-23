@@ -541,56 +541,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
         $this->assertEquals('CSS Editor', $this->_model->getTabLabel());
     }
 
-    public function testGetTabTitle()
-    {
-        $this->assertEquals('CSS Editor', $this->_model->getTabTitle());
-    }
-
-    /**
-     * @dataProvider canShowTabDataProvider
-     * @param bool $isVirtual
-     * @param int $themeId
-     * @param bool $result
-     */
-    public function testCanShowTab($isVirtual, $themeId, $result)
-    {
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
-        $themeMock->expects($this->any())
-            ->method('isVirtual')
-            ->will($this->returnValue($isVirtual));
-
-        $themeMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($themeId));
-
-        $this->_model->expects($this->any())
-            ->method('_getCurrentTheme')
-            ->will($this->returnValue($themeMock));
-
-        if ($result === true) {
-            $this->assertTrue($this->_model->canShowTab());
-        } else {
-            $this->assertFalse($this->_model->canShowTab());
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function canShowTabDataProvider()
-    {
-        return array(
-            array(true, 1, true),
-            array(true, 0, false),
-            array(false, 1, false),
-        );
-    }
-
-    public function testIsHidden()
-    {
-        $this->assertFalse($this->_model->isHidden());
-    }
-
     /**
      * @param string $name
      * @return ReflectionMethod
