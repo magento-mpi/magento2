@@ -234,25 +234,25 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             array(
                 'filesData' => array(
                     array(
-                        'file_name'    => 'test_1.js',
+                        'file_path'    => 'test_1.js',
                         'file_type'    => Mage_Core_Model_Theme_Files::TYPE_JS,
                         'content'      => 'content 1',
                         'order'        => '1'
                     ),
                     array(
-                        'file_name'    => 'test_2.js',
+                        'file_path'    => 'test_2.js',
                         'file_type'    => Mage_Core_Model_Theme_Files::TYPE_JS,
                         'content'      => 'content 2',
                         'order'        => '3'
                     ),
                     array(
-                        'file_name'    => 'test_3.js',
+                        'file_path'    => 'test_3.js',
                         'file_type'    => Mage_Core_Model_Theme_Files::TYPE_JS,
                         'content'      => 'content 3',
                         'order'        => '2'
                     ),
                     array(
-                        'file_name'    => 'test_not_js.js',
+                        'file_path'    => 'test_not_js.js',
                         'file_type'    => Mage_Core_Model_Theme_Files::TYPE_CSS,
                         'content'      => 'content css',
                         'order'        => ''
@@ -260,21 +260,21 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 ),
                 'expectedData' => array(
                     array(
-                        'file_name'    => 'test_1.js',
+                        'file_path'    => 'test_1.js',
                         'file_type'    => Mage_Core_Model_Theme_Files::TYPE_JS,
                         'content'      => 'content 1',
                         'order'        => '1',
                         'is_temporary' => '0'
                     ),
                     array(
-                        'file_name'    => 'test_3.js',
+                        'file_path'    => 'test_3.js',
                         'file_type'    => Mage_Core_Model_Theme_Files::TYPE_JS,
                         'content'      => 'content 3',
                         'order'        => '2',
                         'is_temporary' => '0'
                     ),
                     array(
-                        'file_name'    => 'test_2.js',
+                        'file_path'    => 'test_2.js',
                         'file_type'    => Mage_Core_Model_Theme_Files::TYPE_JS,
                         'content'      => 'content 2',
                         'order'        => '3',

@@ -106,7 +106,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $result = $storageModel->getFilesCollection();
 
-        $this->assertEquals(2, count($result));
+        $this->assertCount(2, $result);
 
         $this->assertEquals('font1.ttf', $result[0]['text']);
         $this->assertEquals('font2.ttf', $result[1]['text']);
@@ -135,7 +135,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $result = $storageModel->getTreeArray();
 
-        $this->assertEquals(1, count($result));
+        $this->assertCount(1, $result);
 
         $this->assertEquals('L2RpcjIvTW9yZVRoYW4yMFN5bWJvbHNJbk5hbWU,', $result[0]['id']);
         $this->assertEquals('MoreThan20SymbolsInN...', $result[0]['text']);

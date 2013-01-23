@@ -1102,7 +1102,7 @@ class Mage_Core_Model_Design_Package
 
         $configFiles = Mage::getConfig()->getModuleConfigurationFiles('view.xml');
         $themeConfigFile = $this->getFilename('view.xml', array());
-        if ($this->_filesystem->has($themeConfigFile)) {
+        if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }
         $config = new Magento_Config_View($configFiles);
