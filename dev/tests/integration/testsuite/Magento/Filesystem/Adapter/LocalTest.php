@@ -153,6 +153,9 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     public function testChangePermissionsDir()
     {
+        if (substr(PHP_OS, 0, 3) == 'WIN') {
+            $this->markTestSkipped("chmod may not work for Windows");
+        }
         $fileName = $this->_getFixturesPath() . 'new_directory2' . DS . 'tempFile3.css';
         $dirName = $this->_getFixturesPath() . 'new_directory2';
         $this->_deleteFiles[] = $fileName;

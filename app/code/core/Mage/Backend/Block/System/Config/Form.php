@@ -347,13 +347,14 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $fieldPrefix = '',
         $labelPrefix = ''
     ) {
-
+        $inherit = true;
         if (array_key_exists($path, $this->_configData)) {
             $data = $this->_configData[$path];
             $inherit = false;
+        } elseif ($field->getConfigPath() !== null) {
+            $data = $this->_configRoot->descend($field->getConfigPath());
         } else {
             $data = $this->_configRoot->descend($path);
-            $inherit = true;
         }
         $fieldRendererClass = $field->getFrontendModel();
         if ($fieldRendererClass) {
