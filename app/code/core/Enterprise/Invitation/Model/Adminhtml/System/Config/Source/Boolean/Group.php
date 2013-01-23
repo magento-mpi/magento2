@@ -12,6 +12,7 @@
  * Invitation source for reffered customer group system configuration
  */
 class Enterprise_Invitation_Model_Adminhtml_System_Config_Source_Boolean_Group
+    implements Mage_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {
