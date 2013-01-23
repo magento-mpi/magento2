@@ -39,7 +39,7 @@ class Mage_Core_Model_Theme_Customization_Files_CssTest extends PHPUnit_Framewor
             ->method('addData')
             ->with(array(
                 'theme_id'  => $themeId,
-                'file_name' => Mage_Core_Model_Theme_Customization_Files_Css::FILE_PATH,
+                'file_path' => Mage_Core_Model_Theme_Customization_Files_Css::FILE_PATH,
                 'file_type' => Mage_Core_Model_Theme_Files::TYPE_CSS,
                 'content'   => $cssContent
             ))
