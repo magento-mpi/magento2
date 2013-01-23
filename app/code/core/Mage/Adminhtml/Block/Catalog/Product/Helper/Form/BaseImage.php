@@ -91,15 +91,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
         /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getForm()->getDataObject();
-        $gallery = $product->getMediaGalleryImages();
         $html = '<input id="' . $htmlId .'-upload" type="file" name="image" '
             . 'data-url="' . $uploadUrl . '" style="display:none" />'
             . '<input id="' . $htmlId . '" type="hidden" name="'. $this->getName() .'" />'
-            . '<div id="' . $htmlId  . '-container" data-main="' .  $this->getEscapedValue() . '" '
-            . 'data-images="' . $this->_coreHelper->escapeHtml(
-                $this->_coreHelper->jsonEncode($gallery ? $gallery->toArray() : array())
-            ) . '">'
+            . '<div id="' . $htmlId  . '-container">'
             . '<span id="' . $htmlId . '-upload-placeholder"></span>'
             . '<script id="' . $htmlId . '-template" type="text/x-jquery-tmpl">'
                 . '<span class="container">'

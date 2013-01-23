@@ -7,103 +7,200 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+ /** @var $this Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
+$elementName = $this->getElement()->getName() . '[images]';
 ?>
-<?php
-/**
- * Template for block Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content
- */
-?>
-<?php
-$_block = $this;
-/* @var $_block Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
-?>
-<div id="<?php echo $_block->getHtmlId() ?>" >
-<ul class="messages">
-    <li class="notice-msg">
-        <ul>
-            <li>
-            <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Image type and information need to be specified for each store view.'); ?>
-            </li>
-        </ul>
-    </li>
-</ul>
-<div class="grid">
-<table cellspacing="0" class="data border" id="<?php echo $_block->getHtmlId() ?>_grid" width="100%">
-    <col width="1" />
-    <col />
-    <col width="70" />
-    <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
-    <col />
-    <?php endforeach; ?>
-    <col width="70" />
-    <col width="70" />
-    <thead>
-        <tr class="headings">
-            <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Image') ?></th>
-            <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Label') ?></th>
-            <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Sort Order') ?></th>
-            <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
-            <th><?php echo $type['label'] ?></th>
-            <?php endforeach; ?>
-            <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Exclude') ?></th>
-            <th class="last"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Remove') ?></th>
-        </tr>
-    </thead>
-    <tbody id="<?php echo $_block->getHtmlId() ?>_list">
-        <tr id="<?php echo $_block->getHtmlId() ?>_template" class="template no-display">
-                <td class="cell-image"><div class="place-holder" onmouseover="<?php echo $_block->getJsObjectName(); ?>.loadImage('__file__')"><span><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Roll Over for preview') ?></span></div><img src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>" width="100" style="display:none;" alt="" /></td>
-                <td class="cell-label"><input type="text" <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> class="input-text" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
-                <td class="cell-position"><input type="text" <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> class="input-text validate-number" onkeyup="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" onchange="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
-                <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
-                <td class="cell-<?php echo $typeId ?> a-center"><input <?php if($_block->getElement()->getAttributeReadonly($typeId)) :?> disabled="disabled" <?php endif;?> type="radio" name="<?php echo $type['field'] ?>" onclick="<?php echo $_block->getJsObjectName(); ?>.setProductImages('__file__')" value="__file__" /></td>
-                <?php endforeach; ?>
-                <td class="cell-disable a-center"><input type="checkbox" <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> onclick="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
-                <td class="cell-remove a-center last"><input type="checkbox" <?php if($_block->getElement()->getReadonly()):?> disabled="disabled"<?php endif;?> onclick="<?php echo $_block->getJsObjectName(); ?>.updateImage('__file__')" /></td>
-        </tr>
-        <?php if($_block->hasUseDefault()): ?>
-        <tr id="<?php echo $_block->getHtmlId() ?>_default">
-                <td><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Use Default Value') ?></td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <?php foreach ($_block->getMediaAttributes() as $_attribute): ?>
-                <td class="a-center">
-                <?php if($_block->getElement()->canDisplayUseDefault($_attribute)): ?>
-                <input class="default-checkbox" name="use_default[]" type="checkbox" <?php if($_block->getElement()->getAttributeReadonly($_attribute->getAttributeCode())):?> disabled="disabled" <?php endif;?>  onclick="<?php echo $_block->getJsObjectName(); ?>.updateUseDefault()"
-<?php if($_block->getElement()->usedDefault($_attribute)): ?>checked<?php endif; ?> value="<?php echo $_attribute->getAttributeCode() ?>" />
-                <?php endif ?>
-                </td>
-                <?php endforeach; ?>
-                <td>&nbsp;</td>
-                <td class="last">&nbsp;</td>
-        </tr>
-    <?php endif ?>
-        <tr id="<?php echo $_block->getHtmlId() ?>-image-0">
-                <td class="cell-image"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('No image') ?></td>
-                <td class="cell-label"><input type="hidden" />&nbsp;</td>
-                <td class="cell-position"><input type="hidden" />&nbsp;</td>
-                <?php foreach ($_block->getImageTypes() as $typeId=>$type): ?>
-                <td class="cell-<?php echo $typeId ?> a-center"><input type="radio" <?php if($_block->getElement()->getAttributeReadonly($typeId)) :?> disabled="disabled" <?php endif;?> name="<?php echo $type['field'] ?>" onclick="<?php echo $_block->getJsObjectName(); ?>.setProductImages('no_selection')" value="no_selection" /></td>
-                <?php endforeach; ?>
-                <td class="cell-disable"><input type="hidden" />&nbsp;</td>
-                <td class="cell-remove last"><input type="hidden" />&nbsp;</td>
-        </tr>
-    </tbody>
-<?php if (!$_block->getElement()->getReadonly()):?>
-    <tfoot>
-        <tr>
-            <td colspan="100" class="last" style="padding:8px">
-                <?php echo $_block->getUploaderHtml() ?>
-            </td>
-        </tr>
-    </tfoot>
-<?php endif;?>
-</table>
+<div id="<?php echo $this->getHtmlId() ?>" >
+    <ul class="messages">
+        <li class="notice-msg">
+            <ul>
+                <li>
+                <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Image type and information need to be specified for each store view.'); ?>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <?php
+    if (!$this->getElement()->getReadonly()) {
+        echo $this->getUploaderHtml();
+    }
+    ?>
+    <div id="<?php echo $this->getHtmlId() ?>-container"
+        data-images="<?php echo $this->escapeHtml($this->getImagesJson()) ?>"
+        data-types="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getImageTypes())) ?>"
+        >
+        <?php foreach ($this->getImageTypes() as $typeData) { ?>
+            <input name="<?php echo $this->escapeHtml($typeData['name']) ?>"
+                class="image-<?php echo $this->escapeHtml($typeData['code']) ?>"
+                type="hidden"
+                value="<?php echo $this->escapeHtml($typeData['value']) ?>" />
+        <?php } ?>
+    </div>
+    <script id="<?php echo $this->getHtmlId() ?>-template" type="text/x-jquery-tmpl">
+        <div class="image-container" id="${file_id}">
+            <input type="hidden" name="<?php echo $elementName ?>[${file_id}][position]" value="${position}"
+                class="position"/>
+            <input type="hidden" name="<?php echo $elementName ?>[${file_id}][file]" value="${file}"/>
+            <input type="hidden" name="<?php echo $elementName ?>[${file_id}][value_id]" value="${value_id}"/>
+            <input type="hidden" name="<?php echo $elementName ?>[${file_id}][removed]" value="" class="is-removed"/>
+
+            <span class="remove">&times;</span>
+            <div>
+                <ul class="type-labels">
+                <?php foreach ($this->getImageTypes() as $typeData) { ?>
+                    <li class="type-<?php echo $this->escapeHtml($typeData['code']) ?>"><?php echo $this->escapeHtml($typeData['label']) ?></li>
+                <?php } ?>
+                </ul>
+                <img src="${url}" alt="${label}"/>
+            </div>
+
+            <div class="drag-zone">
+                <div>
+                    <input type="text" class="label"
+                        placeholder="label"
+                        value="${label}"
+                        name="<?php echo $elementName ?>[${file_id}][label]"/>
+                </div>
+                <div class="buttons-group widget-button-split">
+                    <div class="button-panel"></div>
+                    <div class="main-control button">
+                        <?php echo $this->__('Make main')?>
+                    </div>
+                    <div class="button btn-toggle">
+                        <span>Select</span>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <?php foreach ($this->getMediaAttributes() as $attribute) { ?>
+                            <li class="image-type"
+                                data-type="<?php echo $this->escapeHtml($attribute->getAttributeCode()) ?>">
+                                <span class="item ui-button">
+                                    <?php echo $this->escapeHtml($attribute->getFrontendLabel()) ?>
+                                </span>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+                <label>
+                    <input type="checkbox"
+                        value="1"
+                        name="<?php echo $elementName ?>[${file_id}][disabled]"
+                        {{if disabled == 1 }}checked="checked"{{/if}} />
+                    <span><?php echo $this->__('Hide')?></span>
+                </label>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+    jQuery(function ($) {
+        var containerId = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getHtmlId()) ?>;
+        var imageContainerSelector = '.image-container';
+        var $container = $('#' + containerId + '-container');
+        var $template = $('#' + containerId + '-template');
+        var types = $container.data('types');
+
+        var findElement = function(data) {
+            return $container.find(imageContainerSelector).filter(function () {
+                return $(this).data('imageData').file == data.file;
+            }).first();
+        }
+
+        $container.on('add', function (event, imageData) {
+            var imageData = $.extend({
+                file_id: Math.random().toString(33).substr(2, 18),
+                disabled: 0,
+                position: $container.find(imageContainerSelector).length + 1
+            }, imageData);
+            var $element = $template.tmpl(imageData);
+            $element.appendTo($container);
+            $element.data('imageData', imageData);
+            $.each(types, function() {
+                if (imageData.file == this.value) {
+                    $container.trigger('setImageType', {
+                        type: this.code,
+                        imageData: imageData
+                    });
+                }
+            })
+        });
+
+        $container.on('removeImage', function (event, imageData) {
+            var $imageContainer = findElement(imageData);
+            $imageContainer.hide();
+            $imageContainer.find('.is-removed').val(1);
+        });
+
+        $container.on('setImageType', function (event, data) {
+            types[data.type].value = data.imageData.file;
+            $container.find('.image-' + data.type).val(data.imageData.file);
+            var className = 'image-type-' + data.type;
+            $container.find('.type-' + data.type).hide();
+            findElement(data.imageData).find('.type-' + data.type).show();
+        });
+
+        $container.on('resort', function (event, data) {
+            $(this).find('.position').each(function (index) {
+                var value = $(this).val();
+                if (value != index + 1) {
+                    $container.trigger('move', {
+                        imageData: $(this).closest(imageContainerSelector).data('imageData'),
+                        position: index + 1
+                    });
+                    $(this).val(index + 1);
+                }
+            });
+        });
+
+        $container.on('setPosition',function(event, data) {
+            var $element = findElement(data.imageData);
+            var curIndex = $container.find(imageContainerSelector).index($element);
+            var newPosition = data.position + (curIndex > data.position ? -1 : 0);
+            if (data.position != curIndex) {
+                if (data.position == 0) {
+                    $container.prepend($element);
+                } else {
+                    $element.insertAfter(
+                        $container.find(imageContainerSelector).eq(newPosition)
+                    );
+                }
+                $container.trigger('resort');
+            }
+        });
+
+        $.each($container.data('images'), function (index, imageData) {
+            $container.trigger('add', imageData);
+        });
+
+        $container.sortable({
+            distance: 8,
+            tolerance: "pointer",
+            update: function () {
+                $container.trigger('resort');
+            }
+        }).disableSelection();
+
+        $container.on('click', '.remove', function (event) {
+            var $imageContainer = $(this).closest(imageContainerSelector);
+            $container.trigger('removeImage', $imageContainer.data('imageData'));
+        });
+
+        $container.on('click', '.main-control', function () {
+            $(this).closest(imageContainerSelector).find('.dropdown-menu .image-type').trigger('click');
+        });
+
+        $container.on('click', '.btn-toggle', function (event) {
+            if (!$(event.target).is('.disabled')) {
+                $(this).toggleClass('active');
+            }
+        });
+
+        $container.on('click', '.dropdown-menu .image-type', function (event) {
+            var $imageContainer = $(this).closest(imageContainerSelector);
+            $container.trigger('setImageType', {
+                type: $(this).data('type'),
+                imageData: $imageContainer.data('imageData')
+            });
+            $(this).closest('.widget-button-split').toggleClass('active');
+        });
+    });
+    </script>
 </div>
-</div>
-<input type="hidden" id="<?php echo $_block->getHtmlId() ?>_save" name="<?php echo $_block->getElement()->getName() ?>[images]" value="<?php echo $_block->escapeHtml($_block->getImagesJson()) ?>" />
-<input type="hidden" id="<?php echo $_block->getHtmlId() ?>_save_image" name="<?php echo $_block->getElement()->getName() ?>[values]" value="<?php echo $_block->escapeHtml($_block->getImagesValuesJson()) ?>" />
-<script type="text/javascript">
-//<![CDATA[
-var <?php echo $_block->getJsObjectName(); ?> = new Product.Gallery('<?php echo $_block->getHtmlId() ?>', null, <?php echo $_block->getImageTypesJson() ?>);
-//]]>
-</script>

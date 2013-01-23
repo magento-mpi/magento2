@@ -13,97 +13,93 @@ function BaseImageUploader(id, maxFileSize) {
         var $container = $('#' + id + '-container'),
             $template = $('#' + id + '-template'),
             $dropPlaceholder = $('#' + id + '-upload-placeholder'),
-            images = $container.data('images'),
-            mainImage = $container.data('main'),
+            $galeryContainer = $('#media_gallery_content-container'),
             mainClass = 'base-image',
             currentImageCount = 0,
-            maximumImageCount = 5,
-            isInitialized = false;
+            maximumImageCount = 5;
 
-        $container.on('add', function(event, data) {
-            if (currentImageCount < maximumImageCount) {
-                var $element = $template.tmpl(data);
-                $element.insertBefore($dropPlaceholder)
-                    .data('image', data);
-                if (isInitialized && !currentImageCount) {
-                    $.each('image,small_image,thumbnail'.split(','), function () {
-                        if ($('input[name="product[' + this + ']"][value=no_selection]').is(':checked')) {
-                            media_gallery_contentJsObject.imagesValues[this] = data.file;
-                            if (this == 'image') {
-                                mainImage = data.file;
-                            }
-                        }
-                    });
-                }
-                if (data.file == mainImage) {
-                    $element.addClass(mainClass);
-                }
-                currentImageCount++;
+        var findElement = function (data) {
+            return $container.find('.container').filter(function () {
+                return $(this).data('image').file == data.file;
+            }).first();
+        }
+
+        $galeryContainer.on('setImageType', function (event, data) {
+            if (data.type == 'image') {
+                $container.find('.' + mainClass).removeClass(mainClass);
+                findElement(data.imageData).addClass(mainClass);
             }
-            if (currentImageCount >= maximumImageCount) {
+        });
+
+        $galeryContainer.on('add', function(event, data) {
+            var $element = $template.tmpl(data);
+                $element.insertBefore($dropPlaceholder).data('image', data);
+            currentImageCount++;
+            if (currentImageCount >  maximumImageCount) {
+                $element.hide();
                 $dropPlaceholder.hide();
             }
-            $('input[name="product[name]"]').focus().blur(); // prevent just inserted image selection
         });
+
+        $galeryContainer.on('removeImage', function (event, image) {
+            findElement(image).remove();
+            currentImageCount--;
+            if (currentImageCount < maximumImageCount) {
+                $dropPlaceholder.show();
+            }
+        });
+
+        $galeryContainer.on('move', function (event, data) {
+            var $element = findElement(data.imageData);
+            var index = $container.find('.container').index($element);
+            if (data.position - 1 == 0) {
+                $container.prepend($element);
+            } else {
+                var $after = $container.find('.container').eq(data.position - 1);
+                if (!$element.is($after)) {
+                    $element.insertAfter($after);
+                }
+            }
+            if (data.position - 1 >= maximumImageCount) {
+                $after.show();
+                $element.hide()
+            }
+        });
+
 
         $container.on('click', '.container', function (event) {
             $(this).toggleClass('active').siblings().removeClass('active');
         });
+
         $container.on('click', '.make-main', function (event) {
-            var $imageContainer = $(this).closest('.container'),
-                image = $imageContainer.data('image');
-
-            $container.find('.container').removeClass(mainClass);
-            $imageContainer.addClass(mainClass);
-            mainImage = image.file;
-
-            var $galleryContainer = $('#media_gallery_content_grid'),
-                $currentImage = $galleryContainer.find('input[name="product[image]"]:checked'),
-                $currentSmallImage = $galleryContainer.find('input[name="product[small_image]"]:checked'),
-                $currentThumbnail = $galleryContainer.find('input[name="product[thumbnail]"]:checked'),
-                radiosToSwitch = 'input[name="product[image]"]';
-            if ($currentImage.attr('onclick') == $currentSmallImage.attr('onclick')
-                && $currentImage.attr('onclick') == $currentThumbnail.attr('onclick')
-            ) {
-                radiosToSwitch += ',input[name="product[small_image]"],input[name="product[thumbnail]"]';
-            }
-            _getGalleryRowByImage(image).find(radiosToSwitch).trigger('click');
+            var data = $(this).closest('.container').data('image');
+            $galeryContainer.find('.image-container').filter(function () {
+                return $(this).data('imageData').file == data.file;
+            }).first().find('.main-control').trigger('click');
         });
 
         $container.on('click', '.close', function (event) {
-            var $imageContainer = $(this).closest('.container'),
-                image = $imageContainer.data('image'),
-                $galleryRow = _getGalleryRowByImage(image);
-
-            $galleryRow.find('.cell-remove input[type=checkbox]').prop('checked', true).trigger('click');
-            $.each('image,small_image,thumbnail'.split(','), function () {
-                if ($galleryRow.find('input[name="product[' + this + ']"]').is(':checked')) {
-                    $('input[name="product[' + this + ']"][value=no_selection]').prop('checked', true).trigger('click');
-                }
-            });
-            media_gallery_contentJsObject.updateImages();
-            $imageContainer.remove();
-
-            currentImageCount--;
-            if (currentImageCount < maximumImageCount) {
-                $dropPlaceholder.css('display', 'inline-block');
-            }
+            $galeryContainer.trigger('removeImage', $(this).closest('.container').data('image'));
         });
-
-        function _getGalleryRowByImage(image)
-        {
-            var escapedFileName = image.file.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1');
-            return $('input[onclick*="\'' + escapedFileName + '\'"]').closest('tr');
-        }
 
         $container.sortable({
             axis: 'x',
-            handle: '.container'
-        });
+            items: '.container',
+            distance: 8,
+            tolerance: "pointer",
+            stop: function (event, data) {
+                $galeryContainer.trigger('setPosition', {
+                    imageData: data.item.data('image'),
+                    position: $container.find('.container').index(data.item)
+                });
+                $galeryContainer.trigger('resort');
+            }
+        }).disableSelection();
 
         $dropPlaceholder.on('click', function(e) {
             $('#' + id + '-upload').trigger(e);
         });
+
         $('#' + id + '-upload').fileupload({
             dataType: 'json',
             dropZone: $dropPlaceholder,
@@ -114,13 +110,9 @@ function BaseImageUploader(id, maxFileSize) {
                     return;
                 }
                 if (!data.result.error) {
-                    $container.trigger('add', data.result);
-                    if (typeof media_gallery_contentJsObject != 'undefined') {
-                        media_gallery_contentJsObject.handleUploadComplete(data.result);
-                        media_gallery_contentJsObject.updateImages();
-                    }
+                    $galeryContainer.trigger('add', data.result);
                 } else {
-                    alert(jQuery.mage.__('File extension not known or unsupported type.'));
+                    alert($.mage.__('File extension not known or unsupported type.'));
                 }
             },
             add: function(event, data) {
@@ -129,11 +121,6 @@ function BaseImageUploader(id, maxFileSize) {
                 });
             }
         });
-
-        $.each(images.items || [], function() {
-            $container.trigger('add', this);
-        });
-        isInitialized = true;
 
         if ($('label[for=image]').text() == 'Base Image') {
             $('label[for=image]').text('Images');
