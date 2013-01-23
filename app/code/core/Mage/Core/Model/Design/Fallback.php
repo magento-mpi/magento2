@@ -155,7 +155,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             array_walk($themeDirs, function (&$dir) use ($module) {
                 $dir = "{$dir}/{$module}";
             });
-            $dirs = array_merge($themeDirs, $moduleDirs);
+            $dirs = array_merge($dirs, $themeDirs, $moduleDirs);
         }
         $dirs = array_merge($dirs, $extraDirs);
 
