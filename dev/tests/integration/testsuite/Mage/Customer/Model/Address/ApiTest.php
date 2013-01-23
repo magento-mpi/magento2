@@ -183,10 +183,11 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Verify fields in an address array
      *
-     * Compare values in a soap entity with the expected values of a given address model.
+     * Compares two arrays containing address data.  Throws assertion error if
+     * data does not match.
      *
-     * @param Mage_Customer_Model_Address $addressModel containing expected values
-     * @param array $addressSoapResult The customerAddressEntityItem from the SOAP API response
+     * @param array $expectedData Expected values of address array
+     * @param array $actualData Values that are to be tested
      */
     protected function _verifyAddress($expectedData, $actualData)
     {
