@@ -46,11 +46,11 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     /**
      * Bootstrap instance getter
      *
-     * @return Magento_Test_Bootstrap
+     * @return Magento_Test_Helper_Bootstrap
      */
     protected function _getBootstrap()
     {
-        return Magento_Test_Bootstrap::getInstance();
+        return Magento_Test_Helper_Bootstrap::getInstance();
     }
 
     /**

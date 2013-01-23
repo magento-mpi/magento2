@@ -54,7 +54,7 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
     {
         $model = new Mage_Cms_Model_Wysiwyg_Images_Storage;
         $this->assertStringStartsWith(
-            realpath(Magento_Test_Bootstrap::getInstance()->getInstallDir()),
+            realpath(Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()
         );
     }

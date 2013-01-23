@@ -34,7 +34,7 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
         $this->_deallocateUnusedMemory();
         $actualMemoryUsage = $this->_helper->getRealMemoryUsage();
         for ($i = 0; $i < self::APP_REINITIALIZATION_LOOPS; $i++) {
-            Magento_Test_Bootstrap::getInstance()->reinitialize();
+            Magento_Test_Helper_Bootstrap::getInstance()->reinitialize();
             $this->_deallocateUnusedMemory();
         }
         $actualMemoryUsage = $this->_helper->getRealMemoryUsage() - $actualMemoryUsage;

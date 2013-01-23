@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$designDir = Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change';
+$designDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/media_for_change';
 $themeDir = $designDir . DIRECTORY_SEPARATOR . '/frontend/test/default';
 $sourcePath = dirname(__DIR__) . '/Model/_files/design/frontend/test/publication/';
 
