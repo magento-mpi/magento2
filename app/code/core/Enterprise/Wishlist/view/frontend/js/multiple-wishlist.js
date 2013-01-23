@@ -10,7 +10,7 @@
 /*global alert confirm*/
 (function($) {
     'use strict';
-    $.widget('mage.wishlist', {
+    $.widget('mage.multipleWishlist', {
         options: {
             createTmplSelector: '#popup-tmpl',
             createTmplData: {
@@ -97,7 +97,7 @@
     });
 
     // Extension for mage.wishlist - Move to Wishlist
-    $.widget('mage.wishlist', $.mage.wishlist, {
+    $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         options: {
             wishlistFormSelector: '#wishlist-view-form',
             formTmplSelector: '#form-tmpl',
@@ -210,7 +210,7 @@
     });
 
     // Extension for mage.wishlist - Copy to Wishlist
-    $.widget('mage.wishlist', $.mage.wishlist, {
+    $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         _create: function() {
             this._super();
             this.copyWishlistJson = this.element.find('[data-wishlist-copy]').data('wishlist-copy');
@@ -278,7 +278,7 @@
     });
 
     // Extension for mage.wishlist - Delete Wishlist
-    $.widget('mage.wishlist', $.mage.wishlist, {
+    $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         options: {
             deleteMsg: $.mage.__('You are about to delete your wish list.\nThis action cannot be undone.\nDo you want to proceed?')
         },
@@ -313,7 +313,7 @@
     });
 
     // Extension for mage.wishlist - Edit Wishlist
-    $.widget('mage.wishlist', $.mage.wishlist, {
+    $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         options: {
             editTmplSelector: '#popup-tmpl',
             editTmplData: {
@@ -357,7 +357,7 @@
     });
 
     // Extension for mage.wishlist - Add Wishlist
-    $.widget('mage.wishlist', $.mage.wishlist, {
+    $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         options: {
             wishlistLink: '.link-wishlist',
             splitBtnTmpl: '#split-btn-tmpl'
@@ -438,7 +438,7 @@
     });
 
     // Extension for mage.wishlist - Add Wishlist item to Gift Registry
-    $.widget('mage.wishlist', $.mage.wishlist, {
+    $.widget('mage.multipleWishlist', $.mage.multipleWishlist, {
         _create: function() {
             this._super();
             var _this = this;

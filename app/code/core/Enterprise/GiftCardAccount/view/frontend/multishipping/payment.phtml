@@ -20,8 +20,8 @@
 
     <?php if ($this->isFullyPaidAfterApplication()): ?>
         <script type="text/javascript">
-            head.js("<?php echo $this->getViewFileUrl('Enterprise_GiftCardAccount::js/payment.js')?>", function() {
-                jQuery('#multishipping-billing-form').payment();
+            head.js("<?php echo $this->getViewFileUrl('Enterprise_GiftCardAccount::js/payment-method.js')?>", function() {
+                jQuery('#multishipping-billing-form').paymentMethod();
             });
         </script>
         <input type="hidden" name="payment[method]" value="free" />
