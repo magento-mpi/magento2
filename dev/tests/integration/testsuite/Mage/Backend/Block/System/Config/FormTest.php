@@ -14,7 +14,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     public function testDependenceHtml()
     {
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'adminhtml'));
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
         /** @var $block Mage_Backend_Block_System_Config_Form */
         $block = $layout->createBlock('Mage_Backend_Block_System_Config_Form', 'block');
@@ -86,13 +86,13 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         ));
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
 
-        $configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false);
+        $configMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false);
         $configMock->expects($this->any())->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
-        $configMock->expects($this->any())->method('getAreaConfig')->will($this->returnValue('adminhtml'));
+//        $configMock->expects($this->any())->method('getAreaConfig')->will($this->returnValue('adminhtml'));
 
         $structureReader = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader',
-            array('config' => $configMock)
+            array('moduleReader' => $configMock)
         );
         /** @var Mage_Backend_Model_Config_Structure $structure  */
         $structure = Mage::getSingleton('Mage_Backend_Model_Config_Structure', array(

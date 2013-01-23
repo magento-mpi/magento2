@@ -132,8 +132,8 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
      * @param array $invokeArgs
      */
     public function __construct(
-        Zend_Controller_Request_Abstract $request,
-        Zend_Controller_Response_Abstract $response,
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         array $invokeArgs = array()

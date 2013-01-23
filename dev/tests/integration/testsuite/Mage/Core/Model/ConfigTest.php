@@ -312,17 +312,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', $model->determineOmittedNamespace('nonexistent', true));
     }
 
-    public function testGetModuleConfigurationFiles()
-    {
-        $files = $this->_createModel(true)->getModuleConfigurationFiles('config.xml');
-        $this->assertInternalType('array', $files);
-        $this->assertNotEmpty($files);
-        foreach ($files as $file) {
-            $this->assertStringEndsWith(DIRECTORY_SEPARATOR . 'config.xml', $file);
-            $this->assertFileExists($file);
-        }
-    }
-
     public function testGetDistroBaseUrl()
     {
         $_SERVER['SCRIPT_NAME'] = __FILE__;

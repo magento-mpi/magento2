@@ -209,6 +209,7 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoAppIsolation enabled
      */
     public function testSetStoreIdWithNonNumericValue()
     {
