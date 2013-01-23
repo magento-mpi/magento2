@@ -524,22 +524,38 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Save product using split button
      *
      * @param string $additionalAction continueEdit|new|duplicate|close
-     * @param bool $validate
+     * @param string $saveNewAttributeInSet
      */
-    public function saveProduct($additionalAction = 'close', $validate = true)
+    public function saveProduct($additionalAction = 'close', $saveNewAttributeInSet = 'current')
     {
         if ($this->controlIsVisible('button', 'save_disabled')) {
             $this->fail('Save button is disabled');
         }
         if ($additionalAction != 'continueEdit') {
-            $this->addParameter('additionalAction', $additionalAction);
             $this->waitForControlVisible('button', 'save_split_select');
             $this->clickButton('save_split_select', false);
-            if ($validate) {
-                $this->saveForm('save_product_by_action');
-            } else {
-                $this->clickButton('save_product_by_action', false);
+            $this->addParameter('additionalAction', $additionalAction);
+            $this->waitForControlVisible('button', 'save_product_by_action');
+            $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+            $waitConditions[] = $this->_getControlXpath('fieldset', 'choose_affected_attribute_set');
+            $this->clickButton('save_product_by_action', false);
+            $this->waitForElementVisible($waitConditions);
+            if ($this->controlIsVisible('fieldset', 'choose_affected_attribute_set')) {
+                if (strtolower($saveNewAttributeInSet) == 'current') {
+                    $this->fillRadiobutton('current_attribute_set', 'Yes');
+                } elseif ($saveNewAttributeInSet === null) {
+                    return;
+                } else {
+                    $this->fillRadiobutton('new_attribute_set', 'Yes');
+                    $this->fillField('new_attribute_set_name', $saveNewAttributeInSet);
+                }
+                $this->clickButton('confirm', false);
+                array_pop($waitConditions);
+                $this->waitForElementVisible($waitConditions);
             }
+            $this->addParameter('id', $this->defineIdFromUrl());
+            $this->addParameter('store', $this->defineParameterFromUrl('store'));
+            $this->validatePage();
         } else {
             $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         }
@@ -782,6 +798,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
+            $this->fillCheckbox('is_configurable', 'Yes');
             $attributeTitle = $generalTab['general_configurable_attributes'];
             unset($generalTab['general_configurable_attributes']);
         }
@@ -954,7 +971,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillConfigurableSettings(array $attributes)
     {
-        $this->fillCheckbox('is_configurable', 'Yes');
         foreach ($attributes as $attributeData) {
             if (!isset($attributeData['general_configurable_attribute_title'])) {
                 $this->fail('general_configurable_attribute_title is not set');

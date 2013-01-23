@@ -110,6 +110,8 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $productData['inventory_manage_stock_default'] = 'No';
+        $productData['inventory_manage_stock'] = 'Yes';
         $productData['inventory_qty'] = $productData['general_qty'];
         $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
         $this->productHelper()->verifyProductInfo($productData);
@@ -140,6 +142,8 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
+        $productData['inventory_manage_stock_default'] = 'Yes';
+        $productData['inventory_manage_stock'] = 'Yes';
         $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
         $this->productHelper()->verifyProductInfo($productData);
         $this->openTab('inventory');
@@ -319,8 +323,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->markTestIncomplete('MAGETWO-6268');
         //Data
         $setData = $this->loadDataSet('AttributeSet', 'mini_attribute_set');
-        $productData = $this->loadDataSet('Product', 'simple_product_sync_inventory',
-            array('inventory_qty' => '15', 'inventory_stock_availability' => 'In Stock'));
+        $productData = $this->loadDataSet('Product', 'simple_product_sync_inventory');
         //Steps
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->createAttributeSet($setData);
@@ -332,6 +335,10 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->changeAttributeSet($setData['set_name']);
         //Verifications
+        $productData['inventory_manage_stock_default'] = 'No';
+        $productData['inventory_manage_stock'] = 'Yes';
+        $productData['inventory_qty'] = $productData['general_qty'];
+        $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
         $this->productHelper()->verifyProductInfo($productData);
     }
 
@@ -346,10 +353,14 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $productData = $this->loadDataSet('Product', 'simple_product_sync_inventory');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, false);
+        $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
+        $productData['inventory_manage_stock_default'] = 'No';
+        $productData['inventory_manage_stock'] = 'Yes';
         $productData['inventory_qty'] = $productData['general_qty'];
         $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
         $this->productHelper()->verifyProductInfo($productData);

@@ -2440,6 +2440,8 @@ simple_product_sync_inventory:
     general_stock_availability: Out of Stock
     prices_price: 12.99
     prices_tax_class: None
+    inventory_manage_stock_default: %noValue%
+    inventory_manage_stock: %noValue%
     inventory_qty: %noValue%
     inventory_stock_availability: %noValue%
     websites: Main Website
