@@ -156,9 +156,9 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Magento_ObjectManager', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
                 $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
-                $themeResource,
-                $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
+                $themeResource,
+                $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false)
             ),
             '',
             true

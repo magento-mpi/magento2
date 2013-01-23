@@ -80,7 +80,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * @var Mage_Core_Model_Theme_Image
      */
-    protected $_themImage;
+    protected $_themeImage;
 
     /**
      * Initialize dependencies
@@ -90,9 +90,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Helper_Data $helper
+     * @param Mage_Core_Model_Theme_Image $themeImage
      * @param Mage_Core_Model_Resource_Theme $resource
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
-     * @param Mage_Core_Model_Theme_Image $themeImage
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -103,16 +103,16 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Helper_Data $helper,
+        Mage_Core_Model_Theme_Image $themeImage,
         Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
-        Mage_Core_Model_Theme_Image $themeImage,
         array $data = array()
     ) {
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
         $this->_objectManager = $objectManager;
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
-        $this->_themImage = $themeImage;
+        $this->_themeImage = $themeImage;
     }
 
     /**
@@ -130,7 +130,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getThemeImage()
     {
-        return $this->_themImage;
+        return $this->_themeImage;
     }
 
     /**
