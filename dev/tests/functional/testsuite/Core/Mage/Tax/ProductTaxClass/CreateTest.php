@@ -31,8 +31,8 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Need to verify that product tax class are created by default and displayed in the field.</p>
      *
-     * @ test
-     * @ testlinkId TL-MAGE-6380
+     * @test
+     * @testlinkId TL-MAGE-6380
      */
     public function productTaxClassByDefault()
     {
@@ -61,9 +61,9 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Need verified that admin user will be not able to create any Customer Tax Class with same name.</p>
      *
-     * @ test
+     * @test
      * @depends creatingProductTaxClass
-     * @ testLinkId TL-MAGE-6389
+     * @testLinkId TL-MAGE-6389
      */
     public function creatingWithSameName()
     {
@@ -81,9 +81,9 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Need verified that admin user will be not able to create any Product Tax Class with no name.</p>
      *
-     * @ test
+     * @test
      * @depends creatingProductTaxClass
-     * @ testLinkId TL-MAGE-6383
+     * @testLinkId TL-MAGE-6383
      */
     public function creatingWithEmptyName()
     {
