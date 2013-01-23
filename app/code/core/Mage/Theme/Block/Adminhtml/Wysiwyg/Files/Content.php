@@ -10,6 +10,8 @@
 
 /**
  * Files content block
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Block_Widget_Container
 {
