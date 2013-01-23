@@ -16,7 +16,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPreviewImageUrl()
     {
-        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Image');
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $themeModel->getThemeImage()->setPreviewImage('preview_image.jpg');
         $this->assertEquals('http://localhost/pub/media/theme/preview/preview_image.jpg',
             $themeModel->getThemeImage()->getPreviewImageUrl());
