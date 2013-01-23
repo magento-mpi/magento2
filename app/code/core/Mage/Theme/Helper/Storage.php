@@ -97,12 +97,12 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     /**
      * Convert id to path
      *
-     * @param string $id
+     * @param string $value
      * @return string
      */
-    public function convertIdToPath($id)
+    public function convertIdToPath($value)
     {
-        $path = $this->urlDecode($id);
+        $path = $this->urlDecode($value);
         if (!strstr($path, $this->getStorageRoot())) {
             $path = $this->getStorageRoot() . $path;
         }

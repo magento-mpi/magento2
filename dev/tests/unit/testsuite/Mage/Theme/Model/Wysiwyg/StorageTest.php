@@ -43,8 +43,6 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     public function testCreateFolder()
     {
-        /** @var $options Mage_Core_Model_Config_Options */
-        $options = Mage::getObjectManager()->create('Mage_Core_Model_Config_Options');
         $designDir = $this->_storageRoot;
         $newDirectoryName = 'dir1';
 
