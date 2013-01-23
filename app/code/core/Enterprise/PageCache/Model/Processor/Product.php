@@ -19,7 +19,7 @@ class Enterprise_PageCache_Model_Processor_Product extends Enterprise_PageCache_
     const METADATA_PRODUCT_ID = 'current_product_id';
 
     /**
-     * @var Enterprise_PageCache_Model_Cache
+     * @var Mage_Core_Model_Cache
      */
     protected $_cache;
 
@@ -29,11 +29,11 @@ class Enterprise_PageCache_Model_Processor_Product extends Enterprise_PageCache_
     protected $_processor;
 
     /**
-     * @param Enterprise_PageCache_Model_Cache $cache
+     * @param Mage_Core_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Processor $processor
      */
     public function __construct(
-        Enterprise_PageCache_Model_Cache $cache,
+        Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_Processor $processor
     ) {
         $this->_cache = $cache;

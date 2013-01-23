@@ -44,14 +44,9 @@ class Enterprise_PageCache_Model_Observer
     protected $_isEnabled;
 
     /**
-     * @var Enterprise_PageCache_Model_Cache
-     */
-    protected $_cache;
-
-    /**
      * @var Mage_Core_Model_Cache
      */
-    protected $_appCache;
+    protected $_cache;
 
     /**
      * @var Enterprise_PageCache_Model_CookieFactory
@@ -64,17 +59,14 @@ class Enterprise_PageCache_Model_Observer
     public function __construct(
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Config $config,
-        Enterprise_PageCache_Model_Cache $pageCache,
         Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_CookieFactory $cookieFactory
     ) {
         $this->_processor = $processor;
         $this->_config    = $config;
-        $this->_cache = $pageCache;
-        $this->_appCache = $cache;
+        $this->_cache = $cache;
         $this->_cookieFactory = $cookieFactory;
-
-        $this->_isEnabled = $this->_appCache->canUse('full_page');
+        $this->_isEnabled = $this->_cache->canUse('full_page');
     }
 
     /**
@@ -117,16 +109,14 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        /** @var $action Mage_Core_Controller_Front_Action */
         $action = $observer->getEvent()->getControllerAction();
-
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $action->getRequest();
         /**
          * Check if request will be cached
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
-            $this->_appCache->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
+            $this->_cache->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
             Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
         } else {
             Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);

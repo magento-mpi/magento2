@@ -56,19 +56,19 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Encryption salt value
      *
-     * @var sting
+     * @var string
      */
     protected $_salt = null;
 
     /**
-     * @var Enterprise_PageCache_Model_Cache
+     * @var Mage_Core_Model_Cache
      */
     protected $_cache;
 
     /**
-     * @param Enterprise_PageCache_Model_Cache $cache
+     * @param Mage_Core_Model_Cache $cache
      */
-    public function __construct(Enterprise_PageCache_Model_Cache $cache)
+    public function __construct(Mage_Core_Model_Cache $cache)
     {
         $this->_cache = $cache;
     }
@@ -76,7 +76,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Retrieve encryption salt
      *
-     * @return null|sting
+     * @return null|string
      */
     protected function _getSalt()
     {

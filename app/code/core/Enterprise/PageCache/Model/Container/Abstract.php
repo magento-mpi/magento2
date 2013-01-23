@@ -26,16 +26,16 @@ abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterpri
     protected $_placeholder;
 
     /**
-     * @var Enterprise_PageCache_Model_Cache
+     * @var Mage_Core_Model_Cache
      */
     protected $_cache;
 
     /**
-     * @param Enterprise_PageCache_Model_Cache $cache
+     * @param Mage_Core_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Container_Placeholder $placeholder
      */
     public function __construct(
-        Enterprise_PageCache_Model_Cache $cache,
+        Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_Container_Placeholder $placeholder
     ) {
         $this->_placeholder = $placeholder;
