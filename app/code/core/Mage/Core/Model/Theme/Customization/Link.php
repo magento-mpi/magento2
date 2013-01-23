@@ -203,16 +203,4 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
         }
         return $action;
     }
-
-    /**
-     * Clean cache
-     *
-     * @return Mage_Core_Model_Theme_Customization_Link
-     */
-    public function cleanCache()
-    {
-        Mage::app()->getCacheInstance()->invalidateType('layout');
-        Mage::getDesign()->cleanMergedJsCss();
-        return $this;
-    }
 }

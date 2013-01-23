@@ -300,6 +300,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         if ($this->isCustomized()) {
             $this->_applyCustomizationFiles();
         }
+
+        /** @var $service Mage_Core_Model_Theme_Service */
+        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+        if ($service->isThemeAssignedToStore($this)) {
+            $this->_eventDispatcher->dispatch('assigned_theme_save_after');
+        }
         return parent::_afterSave();
     }
 

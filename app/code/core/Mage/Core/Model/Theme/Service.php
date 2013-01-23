@@ -241,6 +241,18 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
+     * Check if current theme has assigned to any store
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return bool
+     */
+    public function isThemeAssignedToStore(Mage_Core_Model_Theme $theme)
+    {
+        $assignedThemes = $this->getAssignedThemeCustomizations();
+        return isset($assignedThemes[$theme->getId()]);
+    }
+
+    /**
      * Return theme customizations which are assigned to store views
      *
      * @see self::_prepareThemeCustomizations()
@@ -289,9 +301,9 @@ class Mage_Core_Model_Theme_Service
         foreach ($themeCustomizations as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);
-                $this->_assignedThemeCustomizations[] = $theme;
+                $this->_assignedThemeCustomizations[$theme->getId()] = $theme;
             } else {
-                $this->_unassignedThemeCustomizations[] = $theme;
+                $this->_unassignedThemeCustomizations[$theme->getId()] = $theme;
             }
         }
         return $this;
