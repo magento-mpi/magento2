@@ -16,33 +16,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
      */
     protected $_model;
 
-    /**
-     * @var string
-     */
-    protected $_modelName;
-
-    /**
-     * @var string
-     */
-    protected $_title;
-
-    /**
-     * @var array
-     */
-    protected $_mockEntities = array(
-        'request'           => 'Mage_Core_Controller_Request_Http',
-        'layout'            => 'Mage_Core_Model_Layout',
-        'eventManager'      => 'Mage_Core_Model_Event_Manager',
-        'urlBuilder'        => 'Mage_Backend_Model_Url',
-        'translate'         => 'Mage_Core_Model_Translate',
-        'cache'             => 'Mage_Core_Model_Cache',
-        'designPackage'     => 'Mage_Core_Model_Design_Package',
-        'session'           => 'Mage_Core_Model_Session',
-        'storeConfig'       => 'Mage_Core_Model_Store_Config',
-        'frontController'   => 'Mage_Core_Controller_Varien_Front',
-        'helperFactory'     => 'Mage_Core_Model_Factory_Helper',
-    );
-
     protected function setUp()
     {
         $this->_model = $this->getMock(
@@ -54,32 +27,21 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
         );
     }
 
+    /**
+     * @return array
+     */
     protected function _prepareModelArguments()
     {
-        foreach ($this->_mockEntities as $propertyName => $className) {
-            $mockObject = $this->getMock($className, array('translate'), array(), '', false);
-            if ($propertyName === 'translate') {
-                $translateCallback = function ($arguments) {
-                    $result = '';
-                    if (is_array($arguments) && current($arguments) instanceof Mage_Core_Model_Translate_Expr) {
-                        /** @var Mage_Core_Model_Translate_Expr $expression */
-                        $expression = array_shift($arguments);
-                        $result = vsprintf($expression->getText(), $arguments);
-                    }
-                    return $result;
-                };
-                $mockObject->expects($this->any())->method('translate')
-                    ->will($this->returnCallback($translateCallback));
-            }
-            $constructArguments[$propertyName] = $mockObject;
-        }
-
-        $uploaderService = $this->getMock('Mage_Theme_Model_Uploader_Service', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-
-        $constructArguments['filesystem'] = $filesystem;
-        $constructArguments['objectManager'] = Mage::getObjectManager();
-        $constructArguments['uploaderService'] = $uploaderService;
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $constructArguments = $objectManagerHelper->getConstructArguments(
+            Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
+            'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
+            array(
+                 'objectManager'   => Mage::getObjectManager(),
+                 'uploaderService' => $this->getMock('Mage_Theme_Model_Uploader_Service', array(), array(), '', false),
+                 'urlBuilder'      => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
+            )
+        );
         return $constructArguments;
     }
 

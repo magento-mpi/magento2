@@ -13,7 +13,7 @@ require 'Mage/Theme/controllers/Adminhtml/System/Design/ThemeController.php';
 /**
  * Test backend controller for the theme
  */
-class Mage_Theme_Controller_Adminhtml_ThemeControllerTest extends PHPUnit_Framework_TestCase
+class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Theme_Adminhtml_System_Design_ThemeController
