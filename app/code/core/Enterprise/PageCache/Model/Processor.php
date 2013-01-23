@@ -83,6 +83,11 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
     protected $_cache;
 
     /**
+     * @var Mage_Core_Model_Cache
+     */
+    protected $_appCache;
+
+    /**
      * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_designPackage;
@@ -105,6 +110,7 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
     public function __construct(
         $scopeCode,
         Enterprise_PageCache_Model_Cache $cache,
+        Mage_Core_Model_Cache $appCache,
         Mage_Core_Model_Design_Package_Proxy $designPackage,
         Mage_Core_Model_Cache_SubProcessorFactory $subProcessorFactory,
         Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory,
@@ -116,9 +122,9 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
         $this->_designPackage = $designPackage;
         $this->_scopeCode = $scopeCode;
         $this->_cache = $cache;
+        $this->_appCache = $appCache;
         $this->_createRequestIds();
         $this->_requestTags     = array(self::CACHE_TAG);
-
     }
 
     /**
@@ -272,7 +278,7 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
             return false;
         }
 
-        if (!$this->_cache->canUse('full_page')) {
+        if (!$this->_appCache->canUse('full_page')) {
             return false;
         }
 
