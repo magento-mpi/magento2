@@ -40,6 +40,7 @@ class Mage_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyAllDataUpdates()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         /*reset versions*/
         Mage::getResourceModel('Mage_Core_Model_Resource_Resource')->setDbVersion('adminnotification_setup', false);
         Mage::getResourceModel('Mage_Core_Model_Resource_Resource')->setDataVersion('adminnotification_setup', false);

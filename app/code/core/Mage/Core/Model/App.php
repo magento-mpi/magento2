@@ -296,7 +296,11 @@ class Mage_Core_Model_App
     {
         if (!$this->_isStoreInitialized && Mage::isInstalled()) {
             $this->_isStoreInitialized = true;
+            $currentStore = $this->_currentStore;
             $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
+            if ($currentStore) {
+                $this->_currentStore = $currentStore;
+            }
             $this->_log->initForStore($this->_store, $this->_config);
         }
     }
@@ -901,6 +905,7 @@ class Mage_Core_Model_App
      */
     public function getDefaultStoreView()
     {
+        $this->_initializeStore();
         foreach ($this->getWebsites() as $_website) {
             if ($_website->getIsDefault()) {
                 $_defaultStore = $this->getGroup($_website->getDefaultGroupId())->getDefaultStore();

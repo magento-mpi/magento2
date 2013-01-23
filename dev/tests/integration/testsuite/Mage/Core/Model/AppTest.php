@@ -259,16 +259,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento_Test_Request', $this->_model->getRequest());
     }
 
-    public function testSetGetResponse()
-    {
-        if (!Magento_Test_Bootstrap::canTestHeaders()) {
-            $this->markTestSkipped('Can\'t test get response without sending headers');
-        }
-        $this->assertInstanceOf('Mage_Core_Controller_Response_Http', $this->_model->getResponse());
-        $this->_model->setResponse(new Magento_Test_Response());
-        $this->assertInstanceOf('Magento_Test_Response', $this->_model->getResponse());
-    }
-
     /**
      * @expectedException Mage_Core_Model_Store_Exception
      */
