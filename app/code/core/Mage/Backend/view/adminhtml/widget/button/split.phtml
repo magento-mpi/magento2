@@ -47,7 +47,7 @@ $_helper = $this->helper('Mage_Core_Helper_Data');
 </div>
 <script>
 jQuery(function($) {
-    $('.widget-button-split')
+    $('#<?php echo $this->getId(); ?>')
         .on('click.splitToggle', '.btn-toggle', function(event) {
             if (!$(event.target).is('.disabled')) {
                 $(this).toggleClass('active').parent().toggleClass('active');

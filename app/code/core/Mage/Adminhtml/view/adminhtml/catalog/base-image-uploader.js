@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*global media_gallery_contentJsObject*/
 // @todo: refactor as widget
 function BaseImageUploader(id, maxFileSize) {
     (function ($) {
@@ -35,8 +34,10 @@ function BaseImageUploader(id, maxFileSize) {
             var $element = $template.tmpl(data);
                 $element.insertBefore($dropPlaceholder).data('image', data);
             currentImageCount++;
-            if (currentImageCount >  maximumImageCount) {
+            if (currentImageCount > maximumImageCount) {
                 $element.hide();
+            }
+            if (currentImageCount >= maximumImageCount) {
                 $dropPlaceholder.hide();
             }
         });
@@ -49,7 +50,7 @@ function BaseImageUploader(id, maxFileSize) {
             }
         });
 
-        $galeryContainer.on('move', function (event, data) {
+        $galeryContainer.on('moveElement', function (event, data) {
             var $element = findElement(data.imageData);
             var index = $container.find('.container').index($element);
             if (data.position - 1 == 0) {
@@ -60,10 +61,9 @@ function BaseImageUploader(id, maxFileSize) {
                     $element.insertAfter($after);
                 }
             }
-            if (data.position - 1 >= maximumImageCount) {
-                $after.show();
-                $element.hide()
-            }
+            $container.find('.container').each(function (index) {
+                $(this)[index < maximumImageCount ? 'show' : 'hide']();
+            });
         });
 
 
@@ -106,6 +106,8 @@ function BaseImageUploader(id, maxFileSize) {
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: maxFileSize,
             done: function (event, data) {
+                $dropPlaceholder.text('');
+                $dropPlaceholder.removeClass('in-progress');
                 if (!data.result) {
                     return;
                 }
@@ -119,6 +121,11 @@ function BaseImageUploader(id, maxFileSize) {
                 $(this).fileupload('process', data).done(function () {
                     data.submit();
                 });
+            },
+            progress: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $dropPlaceholder.text(progress + '%')
+                $dropPlaceholder.addClass('in-progress');
             }
         });
 

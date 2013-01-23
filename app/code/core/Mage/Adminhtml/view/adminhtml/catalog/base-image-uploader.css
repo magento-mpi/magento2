@@ -162,6 +162,15 @@
     margin: 5px;
 }
 
+#media_gallery_content-container .image-container  .drag-zone {
+    visibility: hidden;
+}
+
+#media_gallery_content-container .image-container:hover .drag-zone,
+#media_gallery_content-container .image-container.active .drag-zone {
+    visibility: visible;
+}
+
 #media_gallery_content-container .image-container img {
     max-height: 120px;
     max-width: 150px;

@@ -114,7 +114,7 @@ $elementName = $this->getElement()->getName() . '[images]';
             $element.appendTo($container);
             $element.data('imageData', imageData);
             $.each(types, function() {
-                if (imageData.file == this.value) {
+                if (!this.value || imageData.file == this.value) {
                     $container.trigger('setImageType', {
                         type: this.code,
                         imageData: imageData
@@ -141,7 +141,7 @@ $elementName = $this->getElement()->getName() . '[images]';
             $(this).find('.position').each(function (index) {
                 var value = $(this).val();
                 if (value != index + 1) {
-                    $container.trigger('move', {
+                    $container.trigger('moveElement', {
                         imageData: $(this).closest(imageContainerSelector).data('imageData'),
                         position: index + 1
                     });
@@ -173,10 +173,13 @@ $elementName = $this->getElement()->getName() . '[images]';
         $container.sortable({
             distance: 8,
             tolerance: "pointer",
+            cancel: 'input, button',
             update: function () {
                 $container.trigger('resort');
             }
-        }).disableSelection();
+        });
+
+        $container.on('click', imageContainerSelector, function() { $(this).toggleClass('active'); });
 
         $container.on('click', '.remove', function (event) {
             var $imageContainer = $(this).closest(imageContainerSelector);
@@ -189,7 +192,7 @@ $elementName = $this->getElement()->getName() . '[images]';
 
         $container.on('click', '.btn-toggle', function (event) {
             if (!$(event.target).is('.disabled')) {
-                $(this).toggleClass('active');
+                $(this).toggleClass('active').parent().toggleClass('active');
             }
         });
 
