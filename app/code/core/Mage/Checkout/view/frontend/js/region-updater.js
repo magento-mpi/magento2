@@ -17,12 +17,13 @@
         },
 
         _create: function() {
-
             this._updateRegion(this.element.find('option:selected').val());
             this.element.on('change', $.proxy(function(e) {
                 this._updateRegion($(e.target).val());
             }, this));
-            this.isCountryRequired && this.element.addClass('required-entry');
+            if (this.isCountryRequired) {
+                this.element.addClass('required-entry');
+            }
             $(this.options.regionListId).on('change', $.proxy(function(e) {
                 this.setOption = false;
                 this.currentRegionOption = $(e.target).val();
@@ -39,7 +40,9 @@
          */
         _removeSelectOptions: function(selectElement) {
             selectElement.find('option').each(function(index) {
-                index && $(this).remove();
+                if (index) {
+                    $(this).remove();
+                }
             });
         },
 
@@ -95,11 +98,17 @@
                 $.each(this.options.regionJson[country], $.proxy(function(key, value) {
                     this._renderSelectOption(regionList, key, value);
                 }, this));
-                this.currentRegionOption && regionList.val(this.currentRegionOption);
-                this.setOption && regionList.find("option").filter(function() {
-                    return this.text === regionInput.val();
-                }).attr('selected', true);
-                this.options.isRegionRequired && regionList.addClass('required-entry');
+                if (this.currentRegionOption) {
+                    regionList.val(this.currentRegionOption);
+                }
+                if (this.setOption) {
+                    regionList.find("option").filter(function() {
+                        return this.text === regionInput.val();
+                    }).attr('selected', true);
+                }
+                if (this.options.isRegionRequired) {
+                    regionList.addClass('required-entry');
+                }
                 regionList.show();
                 regionInput.hide();
                 requiredLabel.show();

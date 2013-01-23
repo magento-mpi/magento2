@@ -8,7 +8,7 @@
  */
 /*jshint browser:true jquery:true expr:true*/
 (function($) {
-    $.widget('mage.giftRegistryAdvancedSearch', {
+    $.widget('mage.advancedSearch', {
         options: {
             ajaxSpinnerSelector: '#gr-please-wait',
             ajaxResultSelector: '#gr-type-specific-options'
@@ -34,6 +34,5 @@
                 $(this.options.ajaxResultSelector).html(data);
             }, this));
         }
-
     });
 })(jQuery);
