@@ -81,10 +81,10 @@
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-            "<?php echo $this->getViewFileUrl('Enterprise_Wishlist::js/wishlist.js') ?>",
             "<?php echo $this->getViewFileUrl('Enterprise_Persistent::splitbutton.js') ?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_Wishlist::js/multiple-wishlist.js') ?>",
             function() {
-                $('body').splitButton().wishlist({
+                $('body').splitButton().multipleWishlist({
                     canCreate: <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
                     createUrl: '<?php echo $this->getCreateUrl();?>',
                     wishlists: <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getWishlistShortList());?>
