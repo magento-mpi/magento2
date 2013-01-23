@@ -24,7 +24,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     protected function tearDown()
     {
         $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
-        $filesystem->delete($this->_model->getPublicDir());
+        $publicDir = $this->_model->getPublicDir();
+        $filesystem->delete($publicDir . '/adminhtml');
+        $filesystem->delete($publicDir . '/frontend');
     }
 
     /**

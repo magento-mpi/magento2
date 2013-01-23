@@ -141,7 +141,6 @@ class Mage_Core_Model_Theme_Service
                 'themeId'            => $themeId,
                 'stores'             => $stores,
                 'scope'              => $scope,
-                'area'               => $area,
                 'theme'              => $theme,
                 'themeCustomization' => $themeCustomization,
             )

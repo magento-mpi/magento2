@@ -21,7 +21,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'Mage_Core_Model_Design_Fallback',
             array(
                 'dirs' => $dirs,
-                'data' => array()
+                'params' => array()
             )
         );
     }
@@ -50,7 +50,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'Mage_Core_Model_Design_Fallback',
             array(
                 'dirs' => $dirs,
-                'data' => $stub
+                'params' => $stub
             )
         );
         $this->assertEquals('a', $model->getArea());
@@ -88,7 +88,8 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'themeModel' => $themeModel,
         );
 
-        return Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback', array('data' => $params));
+        return Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback',
+            array('dirs' => $dirs, 'params' => $params));
     }
 
     /**

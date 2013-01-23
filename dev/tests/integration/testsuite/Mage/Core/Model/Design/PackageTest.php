@@ -21,8 +21,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
+        $themeDir = Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . 'theme';
         $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
-        $filesystem->delete(Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . '/theme');
+        $filesystem->delete($themeDir . '/frontend');
+        $filesystem->delete($themeDir . '/_merged');
 
         $ioAdapter = new Varien_Io_File();
         $ioAdapter->cp(

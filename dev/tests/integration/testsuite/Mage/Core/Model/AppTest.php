@@ -46,7 +46,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Mage_Core_Model_App::_initCache
      *
-     * @magentoConfigFixture global/cache/id_prefix test
      * @magentoAppIsolation enabled
      */
     public function testInit()
@@ -61,7 +60,8 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $objectManager = Mage::getObjectManager();
         /** @var $cache Mage_Core_Model_Cache */
         $cache = $objectManager->get('Mage_Core_Model_Cache');
-        $this->assertAttributeEquals('test', '_idPrefix', $cache);
+        $appCache = $this->_model->getCacheInstance();
+        $this->assertSame($appCache, $cache);
     }
 
     /**

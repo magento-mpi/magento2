@@ -67,7 +67,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
         $this->_serviceModel = $serviceModel;
 
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $app, $filesystem, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $app, $data
         );
     }
 

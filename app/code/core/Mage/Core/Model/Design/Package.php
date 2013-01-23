@@ -423,6 +423,7 @@ class Mage_Core_Model_Design_Package
                 $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
                 $proxy = new Mage_Core_Model_Design_Fallback_CachingProxy(
                     $fallback,
+                    $this->_filesystem,
                     $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . self::FALLBACK_MAP_DIR,
                     $dirs->getDir(Mage_Core_Model_Dir::ROOT),
                     (bool)(string)Mage::app()->getConfig()->getNode(self::XML_PATH_ALLOW_MAP_UPDATE)
