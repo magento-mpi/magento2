@@ -34,8 +34,12 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
         'image/png'  => 'png'
     );
 
-    public function __construct()
+    /** @var Mage_Catalog_Model_Product_Media_Config */
+    protected $_mediaConfig;
+
+    public function __construct(Mage_Catalog_Model_Product_Media_Config $mediaConfig)
     {
+        $this->_mediaConfig = $mediaConfig;
         $this->_storeIdSessionField = 'product_store_id';
     }
 
@@ -120,7 +124,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 
         unset($data['file']['content']);
 
-        $tmpDirectory = Mage::getBaseDir('var') . DS . 'api' . DS . $this->_getSession()->getSessionId();
+        $tmpDirectory = $this->_mediaConfig->getBaseTmpMediaPath() . DS . microtime();
 
         if (isset($data['file']['name']) && $data['file']['name']) {
             $fileName  = $data['file']['name'];
@@ -211,7 +215,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 
             $ioAdapter = new Varien_Io_File();
             try {
-                $fileName = Mage::getBaseDir('media'). DS . 'catalog' . DS . 'product' . $file;
+                $fileName = $this->_mediaConfig->getMediaPath($file);
                 $ioAdapter->open(array('path'=>dirname($fileName)));
                 $ioAdapter->write(basename($fileName), $fileContent, 0666);
 
