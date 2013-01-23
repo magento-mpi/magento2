@@ -7,6 +7,8 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
+/*global FORM_KEY*/
+/*global bSelection*/
 jQuery(function($) {
     $.widget('mage.bundleProduct', {
         _create: function () {
@@ -63,9 +65,13 @@ jQuery(function($) {
                 var $optionBox = $(event.target).closest('.option-box'),
                     $selectionGrid = $optionBox.find('.selection-search'),
                     optionIndex = $optionBox.attr('id').replace('bundle_option_', ''),
-                    productIds = $optionBox.find('[name$="[product_id]"]').map(function () {
-                        return $(this).val();
-                    }).get();
+                    productIds = [];
+
+                $optionBox.find('[name$="[product_id]"]').each(function () {
+                    if (!$(this).closest('tr').find('[name$="[delete]"]').val()) {
+                        productIds.push($(this).val());
+                    }
+                });
 
                 bSelection.gridSelection.set(optionIndex, $H({}));
                 $selectionGrid.dialog({

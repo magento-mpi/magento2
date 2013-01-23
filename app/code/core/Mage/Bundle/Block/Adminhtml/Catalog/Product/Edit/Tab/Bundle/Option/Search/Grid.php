@@ -29,18 +29,31 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         $this->setUseAjax(true);
     }
 
+    /**
+     * Prepare grid filter buttons
+     */
+    protected function _prepareFilterButtons()
+    {
+        $this->getChildBlock('reset_filter_button')->setData(
+            'onclick',
+            $this->getJsObjectName() . '.resetFilter(bSelection.gridUpdateCallback)'
+        );
+        $this->getChildBlock('search_button')->setData(
+            'onclick',
+            $this->getJsObjectName() . '.doFilter(bSelection.gridUpdateCallback)'
+        );
+    }
+
     protected function _beforeToHtml()
     {
-        $this->setId($this->getId().'_'.$this->getIndex());
-        $this->getChildBlock('reset_filter_button')->setData('onclick', $this->getJsObjectName().'.resetFilter()');
-        $this->getChildBlock('search_button')->setData('onclick', $this->getJsObjectName().'.doFilter()');
-
+        $this->setId($this->getId() . '_' . $this->getIndex());
         return parent::_beforeToHtml();
     }
 
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+            ->setOrder('id')
             ->setStore($this->getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')

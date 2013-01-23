@@ -119,6 +119,20 @@ Bundle.Selection.prototype = {
         this.templateRow = '<tr class="selection" id="' + this.idLabel + '_row_{{index}}">' + bundleTemplateRow + '</tr>';
     },
 
+    gridUpdateCallback: function () {
+        (function ($) {
+            $.each(bSelection.gridSelection.values().pop().toArray(), function () {
+                var sku = $.trim(this.pop().get('sku'));
+
+                $('table[id^=bundle_selection_search_grid_]:visible').find('.sku').each(function () {
+                    if ($.trim($(this).text()) == sku) {
+                        $(this).closest('tr').find('.checkbox').prop({checked: true});
+                    }
+                });
+            });
+        })(jQuery);
+    },
+
     addRow : function (parentIndex, data) {
         var box = null;
         if (!(box = $(this.idLabel + '_box_' + parentIndex))) {
@@ -283,8 +297,6 @@ Bundle.Selection.prototype = {
         var inputs = $(row).getElementsByClassName('input-text');
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].checkbox = checkbox;
-            Event.observe(inputs[i], 'keyup', this.productGridRowInputChange.bind(this));
-            Event.observe(inputs[i], 'change', this.productGridRowInputChange.bind(this));
         }
     },
 
@@ -315,15 +327,6 @@ Bundle.Selection.prototype = {
                 grid.setCheckboxChecked(checkbox[0], checked);
             }
         }
-    },
-
-    productGridRowInputChange : function(event) {
-        var element = Event.element(event);
-        if (!element.checkbox.checked) {
-            return;
-        }
-        var id = element.up('table').id.split('_')[4];
-        this.gridSelection.get(id).get(element.checkbox.value).set('qty', element.value);
     }
 };
 
