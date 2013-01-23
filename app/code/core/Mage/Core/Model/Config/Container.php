@@ -89,9 +89,24 @@ class Mage_Core_Model_Config_Container implements Mage_Core_Model_ConfigInterfac
      * @param string $path separated by slashes
      * @param string $value
      * @param boolean $overwrite
+     * @throws Mage_Core_Model_Config_Cache_Exception
      */
     public function setNode($path, $value, $overwrite = true)
     {
+        if ($path !== null) {
+            $sectionKey = $this->_sections->getKey($path);
+            if ($sectionKey !== false) {
+                if (false == array_key_exists($sectionKey, $this->_loadedSections)) {
+                    Magento_Profiler::start('init_config_section:' . $sectionKey);
+                    $this->_loadedSections[$sectionKey] = $this->_configCache->getSection($sectionKey);
+                    Magento_Profiler::stop('init_config_section:' . $sectionKey);
+                }
+                if ($this->_loadedSections[$sectionKey]) {
+                    $sectionPath = substr($path, strlen($sectionKey) + 1);
+                    $this->_loadedSections[$sectionKey]->setNode($sectionPath ?: null, $value, $overwrite);
+                }
+            }
+        }
         $this->_data->setNode($path, $value, $overwrite);
     }
 

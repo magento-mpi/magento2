@@ -18,7 +18,12 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Cms_Controller_Router(new Mage_Core_Model_Event_ManagerStub());
+        $this->_model = new Mage_Cms_Controller_Router(
+            new Mage_Core_Model_Event_ManagerStub(
+                $this->getMock('Mage_Core_Model_Observer_Factory', array(), array(), '', false),
+                $this->getMock('Mage_Core_Model_Event_Config', array(), array(), '', false)
+            )
+        );
     }
 
     /**

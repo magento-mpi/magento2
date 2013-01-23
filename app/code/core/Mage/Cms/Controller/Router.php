@@ -78,13 +78,13 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
         $identifier = $condition->getIdentifier();
 
         if ($condition->getRedirectUrl()) {
-            Mage::app()->getFrontController()->getResponse()
+            Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http')
                 ->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
             $request->setDispatched(true);
             return Mage::getControllerInstance('Mage_Core_Controller_Varien_Action_Redirect',
                 $request,
-                Mage::app()->getFrontController()->getResponse()
+                Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http')
             );
         }
 

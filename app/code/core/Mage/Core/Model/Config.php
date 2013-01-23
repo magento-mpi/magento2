@@ -226,7 +226,12 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function setNode($path, $value, $overwrite = true)
     {
-        return $this->_config->setNode($path, $value, $overwrite);
+        try {
+            return $this->_config->setNode($path, $value, $overwrite);
+        } catch (Mage_Core_Model_Config_Cache_Exception $e) {
+            $this->reinit();
+            $this->_config->setNode($path, $value, $overwrite);
+        }
     }
 
     /**
