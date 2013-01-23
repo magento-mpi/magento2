@@ -720,9 +720,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Returns node found by the $path and scope info
      *
-     * @param   string $path
-     * @param   string $scope
-     * @param   string|int $scopeCode
+     * @param  string $path
+     * @param  string $scope
+     * @param  string|int $scopeCode
      * @return Mage_Core_Model_Config_Element
      */
     public function getNode($path = null, $scope = '', $scopeCode = null)
@@ -733,8 +733,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          * Check path cache loading
          */
         if ($this->_useCache && ($path !== null)) {
-            $path   = explode('/', $path);
-            $section= $path[0];
+            $path    = explode('/', $path);
+            $section = $path[0];
             if (isset($this->_cacheSections[$section])) {
                 $res = $this->getSectionNode($path);
                 if ($res !== false) {
@@ -742,7 +742,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 }
             }
         }
-        return  parent::getNode($path);
+
+        return parent::getNode($path);
     }
 
     /**
@@ -1086,7 +1087,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Get module config node
      *
      * @param string $moduleName
-     * @return Varien_Simplexml_Object
+     * @return Varien_Simplexml_Element
      */
     public function getModuleConfig($moduleName = '')
     {
@@ -1103,7 +1104,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      *
      * Defaults to Mage_Core_Setup
      *
-     * @param string|Varien_Simplexml_Object $module
+     * @param string|Varien_Simplexml_Element $module
      * @return object
      */
     public function getModuleSetup($module = '')
@@ -1300,7 +1301,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      *
      * @param string $modelClass
      * @param array|object $constructArguments
-     * @return Mage_Core_Model_Abstract|false
+     * @return Mage_Core_Model_Abstract|bool
      */
     public function getModelInstance($modelClass = '', $constructArguments = array())
     {
@@ -1331,7 +1332,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Get resource configuration for resource name
      *
      * @param string $name
-     * @return Varien_Simplexml_Object
+     * @return Varien_Simplexml_Element
      */
     public function getResourceConfig($name)
     {
@@ -1364,7 +1365,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Retrieve resource type configuration for resource name
      *
      * @param string $type
-     * @return Varien_Simplexml_Object
+     * @return Varien_Simplexml_Element
      */
     public function getResourceTypeConfig($type)
     {
@@ -1475,7 +1476,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param string $value
      * @param string $scope
      * @param int $scopeId
-     * @return Mage_Core_Store_Config
+     * @return Mage_Core_Model_Store_Config
      */
     public function saveConfig($path, $value, $scope = Mage_Core_Model_Store::DEFAULT_CODE, $scopeId = 0)
     {

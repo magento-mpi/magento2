@@ -8,25 +8,7 @@
  * @license    {license_link}
  */
 
-/**
- * Constants definition
- */
-define('DS', DIRECTORY_SEPARATOR);
-define('BP', realpath(__DIR__ . '/../../..'));
-/**
- * Require necessary files
- */
-require_once BP . '/app/code/core/Mage/Core/functions.php';
-require_once BP . '/app/Mage.php';
-
-require __DIR__ . '/../../../app/autoload.php';
-Magento_Autoload_IncludePath::addIncludePath(array(
-    BP . DS . 'app' . DS . 'code' . DS . 'local',
-    BP . DS . 'app' . DS . 'code' . DS . 'community',
-    BP . DS . 'app' . DS . 'code' . DS . 'core',
-    BP . DS . 'lib',
-));
-$definitions = array();
+require __DIR__ . '/../../../app/bootstrap.php';
 
 class ArrayDefinitionCompiler
 {
@@ -253,6 +235,7 @@ class ArrayDefinitionCompiler
     }
 }
 
+$definitions = array();
 $compiler = new ArrayDefinitionCompiler();
 
 foreach (glob(BP . '/app/code/*') as $codePoolDir) {
@@ -273,6 +256,8 @@ echo "Compiling Magento\n";
 $definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/lib/Magento'));
 echo "Compiling Mage\n";
 $definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/lib/Mage'));
+echo "Compiling generated entities\n";
+$definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/var/generation'));
 
 foreach ($definitions as $key => $definition) {
     $definitions[$key] = json_encode($definition);

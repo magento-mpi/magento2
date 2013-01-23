@@ -30,8 +30,9 @@ class Mage_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framework_T
         'Mage_Core_Model_Factory_Helper',
         'Mage_Core_Model_Dir',
         'Mage_Core_Model_Logger',
+        'Magento_Filesystem'
     );
-    
+
     public function testGetFormHtml()
     {
         /** @var $layout Mage_Core_Model_Layout */

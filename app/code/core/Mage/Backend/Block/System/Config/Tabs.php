@@ -72,6 +72,7 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param array $data
      *
@@ -91,11 +92,12 @@ class Mage_Backend_Block_System_Config_Tabs extends Mage_Backend_Block_Widget
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
         $this->_tabs = $configStructure->getTabs();
 

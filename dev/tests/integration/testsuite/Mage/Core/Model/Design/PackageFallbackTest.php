@@ -27,7 +27,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $this->_model = new Mage_Core_Model_Design_Package;
+        $this->_model = new Mage_Core_Model_Design_Package(Mage::getObjectManager()->create('Magento_Filesystem'));
         $this->_model->setDesignTheme('test/default');
     }
 

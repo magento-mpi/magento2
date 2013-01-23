@@ -100,7 +100,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData'),
+        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData', 'unsetData'),
             array(), '', false
         );
         $this->_layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'),
@@ -109,7 +109,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse', 'invalidateType'),
+        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse'),
             array(), '', false
         );
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
@@ -156,7 +156,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with('type1')
             ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(1))
-            ->method('invalidateType')
+            ->method('banUse')
             ->with('type1')
             ->will($this->returnSelf());
 
@@ -165,7 +165,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with('type2')
             ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(3))
-            ->method('invalidateType')
+            ->method('banUse')
             ->with('type2')
             ->will($this->returnSelf());
     }
@@ -215,6 +215,20 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($store));
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
+    }
+
+    public function testReset()
+    {
+        $this->_backendSession->expects($this->any())
+            ->method('unsetData')
+            ->with($this->logicalOr(
+                Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY,
+                Mage_DesignEditor_Model_State::CURRENT_MODE_SESSION_KEY,
+                Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY
+            ))
+            ->will($this->returnValue($this->_backendSession));
+
+        $this->_model->reset();
     }
 
     public function testUpdateNavigationMode()

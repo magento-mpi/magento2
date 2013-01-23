@@ -48,6 +48,7 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Mage_Core_Model_Registry $registryManager,
      * @param Mage_Catalog_Model_Product_Type_Configurable $productType
@@ -71,6 +72,7 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Mage_Core_Model_Registry $registryManager,
         Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
@@ -79,7 +81,7 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger,
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem,
             $helperFactory->get('Mage_Backend_Helper_Data'), $generatorFactory, $subtotals, $totals, $data);
 
         $this->_registryManager = $registryManager;

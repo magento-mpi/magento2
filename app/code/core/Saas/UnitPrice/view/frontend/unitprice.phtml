@@ -18,7 +18,7 @@ if (
 ?>
 
 <?php $product = $this->getProduct(); ?>
-<?php if ($product->getData('unit_price_use')) : ?>
+<?php if ($product->getData('unit_price_use')): ?>
 <div class="unitprice-box">
     <span class="uint-label-<?php echo $product->getId() ?>">
         <?php echo Mage::helper('Saas_UnitPrice_Helper_Data')->getUnitPriceLabel($product); ?>

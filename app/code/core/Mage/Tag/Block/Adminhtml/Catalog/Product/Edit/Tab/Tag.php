@@ -58,6 +58,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Authorization $authSession
      * @param array $data
      *
@@ -76,11 +77,12 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Core_Model_Authorization $authSession,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
 
         if (isset($data['helpers'])) {

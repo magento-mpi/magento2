@@ -120,6 +120,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Backend_Helper_Data $helper
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Mage_Backend_Model_Widget_Grid_SubTotals $subtotals
@@ -143,6 +144,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Backend_Helper_Data $helper,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
@@ -166,7 +168,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
         );
 
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data);
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
 
         $this->setEmptyText($this->_helper->__(
             isset($data['empty_text'])? $data['empty_text'] : 'No records found.'

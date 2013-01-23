@@ -50,6 +50,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Webapi_Model_Authorization_Config $authorizationConfig
      * @param Mage_Webapi_Model_Resource_Acl_Rule $ruleResource
      * @param array $data
@@ -70,12 +71,13 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Webapi_Model_Authorization_Config $authorizationConfig,
         Mage_Webapi_Model_Resource_Acl_Rule $ruleResource,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
         $this->_authorizationConfig = $authorizationConfig;
         $this->_ruleResource = $ruleResource;

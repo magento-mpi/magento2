@@ -51,13 +51,19 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      *
      * @param Mage_Core_Model_Dir $dirs
      * @param Magento_ObjectManager $objectManager
+     * @param Magento_Filesystem $filesystem
      * @param array $params
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Core_Model_Dir $dirs, Magento_ObjectManager $objectManager, $params)
+    public function __construct(
+        Mage_Core_Model_Dir $dirs,
+        Magento_ObjectManager $objectManager,
+        Magento_Filesystem $filesystem,
+        $params)
     {
         $this->_dirs = $dirs;
         $this->_objectManager = $objectManager;
+        $this->_filesystem = $filesystem;
         if (!array_key_exists('area', $params) || !array_key_exists('themeModel', $params)
             || !array_key_exists('locale', $params)
         ) {
@@ -207,7 +213,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $tryFile = '';
         foreach ($dirs as $dir) {
             $tryFile = str_replace('/', DIRECTORY_SEPARATOR, "{$dir}/{$file}");
-            if (file_exists($tryFile)) {
+            if ($this->_filesystem->has($tryFile)) {
                 break;
             }
         }

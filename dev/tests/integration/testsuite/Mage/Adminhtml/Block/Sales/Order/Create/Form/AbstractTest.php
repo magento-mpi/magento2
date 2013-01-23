@@ -35,6 +35,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             Mage::getObjectManager()->get('Mage_Core_Model_Factory_Helper'),
             Mage::getObjectManager()->get('Mage_Core_Model_Dir'),
             Mage::getObjectManager()->get('Mage_Core_Model_Logger'),
+            Mage::getObjectManager()->get('Magento_Filesystem'),
         );
         /** @var $block Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
         $block = $this->getMockForAbstractClass('Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);

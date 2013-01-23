@@ -21,7 +21,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Varien_Io_File::rmdirRecursive(Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . '/theme');
+        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $filesystem->delete(Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . '/theme');
 
         $ioAdapter = new Varien_Io_File();
         $ioAdapter->cp(
@@ -38,7 +39,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Model_Design_Package();
+        $this->_model = new Mage_Core_Model_Design_Package(Mage::getObjectManager()->create('Magento_Filesystem'));
     }
 
     protected function tearDown()

@@ -26,7 +26,10 @@ class Mage_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
 
-        $helper = $this->getMock('Mage_Core_Helper_File_Storage_Database', array('checkDbUsage'));
+        $helper = $this->getMockBuilder('Mage_Core_Helper_File_Storage_Database')
+            ->setMethods(array('checkDbUsage'))
+            ->disableOriginalConstructor()
+            ->getMock();
         $helper->expects($this->once())
             ->method('checkDbUsage')
             ->will($this->returnValue(false));

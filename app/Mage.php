@@ -645,15 +645,6 @@ final class Mage
 
     /**
      * @static
-     * @param string $areaCode
-     */
-    public static function setCurrentArea($areaCode)
-    {
-        self::getObjectManager()->loadAreaConfiguration($areaCode);
-    }
-
-    /**
-     * @static
      * @param array $params
      * @param string|array $modules
      */

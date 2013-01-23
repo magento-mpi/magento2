@@ -50,6 +50,11 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
     protected $_fallback;
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * Path to Magento base directory
      *
      * @var string
@@ -60,23 +65,30 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
      * Read the class map according to provided fallback model and parameters
      *
      * @param Mage_Core_Model_Design_Fallback $fallback
+     * @param Magento_Filesystem $filesystem
      * @param string $mapDir directory where to look the map files in
      * @param string $baseDir base directory path to prepend to file paths
      * @param bool $canSaveMap whether to update map file in destructor
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Core_Model_Design_Fallback $fallback, $mapDir, $baseDir, $canSaveMap = true)
-    {
-        if (!is_dir($baseDir)) {
+    public function __construct(
+            Mage_Core_Model_Design_Fallback $fallback,
+            Magento_Filesystem $filesystem,
+            $mapDir,
+            $baseDir,
+            $canSaveMap = true
+    ) {
+        $this->_fallback = $fallback;
+        $this->_filesystem = $filesystem;
+        if (!$filesystem->isDirectory($baseDir)) {
             throw new InvalidArgumentException("Wrong base directory specified: '{$baseDir}'");
         }
-        $this->_fallback = $fallback;
         $this->_baseDir = $baseDir;
         $this->_canSaveMap = $canSaveMap;
         $this->_mapFile = $mapDir . DIRECTORY_SEPARATOR
             . "{$fallback->getArea()}_{$fallback->getTheme()}_{$fallback->getLocale()}.ser";
-        if (file_exists($this->_mapFile)) {
-            $this->_map = unserialize(file_get_contents($this->_mapFile));
+        if ($this->_filesystem->isFile($this->_mapFile)) {
+            $this->_map = unserialize($this->_filesystem->read($this->_mapFile));
         }
     }
 
@@ -87,10 +99,10 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
     {
         if ($this->_isMapChanged && $this->_canSaveMap) {
             $dir = dirname($this->_mapFile);
-            if (!is_dir($dir)) {
-                mkdir($dir, 0777, true);
+            if (!$this->_filesystem->isDirectory($dir)) {
+                $this->_filesystem->createDirectory($dir, 0777);
             }
-            file_put_contents($this->_mapFile, serialize($this->_map), LOCK_EX);
+            $this->_filesystem->write($this->_mapFile, serialize($this->_map));
         }
     }
 

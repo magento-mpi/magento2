@@ -20,11 +20,12 @@ class Saas_UnitPrice_Model_Observer
      * Set the default value on a product in the admin interface
      *
      * @param Varien_Event_Observer $observer
+     * @return Saas_UnitPrice_Model_Observer
      */
     public function catalogProductLoadAfter($observer)
     {
         if (!$this->_getSaasUnitPriceHelperData()->moduleActive()) {
-            return;
+            return $this;
         }
 
         $product = $observer->getProduct();
@@ -37,6 +38,8 @@ class Saas_UnitPrice_Model_Observer
                 $product->setDataUsingMethod($attributeCode, $attribute->getFrontend()->getValue($product));
             }
         }
+
+        return $this;
     }
 
     /**

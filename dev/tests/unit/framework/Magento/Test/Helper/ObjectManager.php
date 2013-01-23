@@ -46,12 +46,14 @@ class Magento_Test_Helper_ObjectManager
             'helperFactory'      => 'Mage_Core_Model_Factory_Helper',
             'dirs'               => 'Mage_Core_Model_Dir',
             'logger'             => 'Mage_Core_Model_Logger',
+            'filesystem'         => 'Magento_Filesystem',
         ),
         self::MODEL_ENTITY => array(
             'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',
             'cacheManager'       => 'Mage_Core_Model_Cache',
             'resource'           => '_getResourceModelMock',
             'resourceCollection' => 'Varien_Data_Collection_Db',
+            'filesystem'         => 'Magento_Filesystem',
         )
     );
 
