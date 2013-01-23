@@ -16,7 +16,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPreviewImageUrl()
     {
-        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Image');
         $themeModel->getThemeImage()->setPreviewImage('preview_image.jpg');
         $this->assertEquals('http://localhost/pub/media/theme/preview/preview_image.jpg',
             $themeModel->getThemeImage()->getPreviewImageUrl());
@@ -33,7 +33,9 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     public function testGetPreviewImageDefaultUrl()
     {
         $defPreviewImageUrl = 'default_image_preview_url';
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('_getPreviewImageDefaultUrl'), array(), '', false);
+        $themeModel = $this->getMock(
+            'Mage_Core_Model_Theme_Image', array('_getPreviewImageDefaultUrl'), array(), '', false
+        );
         $themeModel->expects($this->once())
             ->method('_getPreviewImageDefaultUrl')
             ->will($this->returnValue($defPreviewImageUrl));
