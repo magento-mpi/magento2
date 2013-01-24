@@ -22,20 +22,21 @@ class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_tile = Mage::getModel('Mage_Launcher_Model_Tile');
+        $this->_tile = Mage::getModel('Mage_Launcher_Model_TileFactory')->create();
     }
 
-    public function testLoadByCode()
+    public function testLoadByTileCode()
     {
-        $this->_tile->loadByCode('tile_1');
-        $this->assertEquals('tile_1', $this->_tile->getCode());
+        $this->_tile->loadByTileCode('tile_1');
+        $this->assertEquals('tile_1', $this->_tile->getTileCode());
+        $this->assertEquals('landing_page_1', $this->_tile->getPageCode());
     }
 
     public function testIsSkippableFlagSetByDatabaseByDefault()
     {
         // tile_1 was saved by fixture without specifying is_skippable property
         $this->assertFalse($this->_tile->isSkippable());
-        $this->_tile->loadByCode('tile_1');
+        $this->_tile->loadByTileCode('tile_1');
         $this->assertTrue($this->_tile->isSkippable());
     }
 
@@ -43,7 +44,7 @@ class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
     {
         // tile_1 was saved by fixture without specifying is_dismissible property
         $this->assertFalse($this->_tile->isDismissible());
-        $this->_tile->loadByCode('tile_1');
+        $this->_tile->loadByTileCode('tile_1');
         $this->assertTrue($this->_tile->isDismissible());
     }
 
@@ -54,33 +55,7 @@ class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
     {
         // tile tile_1 has been already created by fixture
         $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-        $tile->setCode('tile_1')
+        $tile->setTileCode('tile_1')
             ->save();
-    }
-
-    public function testGetStateResolver()
-    {
-        // tile_1 was saved by fixture
-        $this->assertNull($this->_tile->getStateResolver());
-        $this->_tile->loadByCode('tile_1');
-        $this->assertInstanceOf('Mage_Launcher_Model_Tile_StateResolver', $this->_tile->getStateResolver());
-    }
-
-    public function testGetStateResolverOnUnknownTile()
-    {
-        // state resolver has to be injected only into existing tiles
-        // tile_100 has not been defined by fixture
-        $this->assertNull($this->_tile->getStateResolver());
-        $this->_tile->loadByCode('tile_100');
-        $this->assertNull($this->_tile->getStateResolver());
-    }
-
-    /**
-     * @expectedException Mage_Launcher_Exception
-     */
-    public function testLoadByCodeThrowsExceptionIfStateResolverIsNotSpecifiedForKnownTile()
-    {
-        // tile_50 is provided by fixture but does not have appropriate XML configuration
-        $this->_tile->loadByCode('tile_50');
     }
 }

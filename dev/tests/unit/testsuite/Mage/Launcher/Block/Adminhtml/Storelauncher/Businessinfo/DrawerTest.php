@@ -46,9 +46,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
             'validateVat' => $this->getMock('Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory',
                 array(), array(), '', false
             ),
-            'linkTrackerFactory' => $this->getMock('Mage_Launcher_Model_LinkTrackerFactory',
-                array(), array(), '', false
-            )
+            'linkTracker' => $this->getMock('Mage_Launcher_Model_LinkTracker', array(), array(), '', false)
         );
 
         $this->_drawerBlock = $objectManagerHelper->getBlock(

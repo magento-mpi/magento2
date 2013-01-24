@@ -26,7 +26,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_Shipping_DrawerController
         try {
             $data = $this->getRequest()->getParams();
             /** @var $tileModel Mage_Launcher_Model_Tile */
-            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode('shipping');
+            $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create('shipping');
             $saveHandler = $tileModel->getSaveHandler();
             $saveHandler->saveOriginAddress($data);
 

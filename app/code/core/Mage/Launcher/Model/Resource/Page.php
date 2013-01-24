@@ -59,7 +59,7 @@ class Mage_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abst
         if ($object->getId()) {
             // Add tiles collection to successfully loaded page (load it lazily) sorted by sort_order
             $tileCollection = clone $this->_tileCollectionBase;
-            $tiles = $tileCollection->addFieldToFilter('page_id', array('eq' => $object->getId()))
+            $tiles = $tileCollection->addFieldToFilter('page_code', array('eq' => $object->getPageCode()))
                 ->setOrder('sort_order', Varien_Data_Collection::SORT_ORDER_ASC);
             $object->setTiles($tiles);
         }

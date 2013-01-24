@@ -23,16 +23,12 @@ class Mage_Launcher_Model_Storelauncher_Tax_SystemObserverTest extends PHPUnit_F
         // Mock tax tile
         $tile = $this->getMock(
             'Mage_Launcher_Model_Tile',
-            array('getStateResolver', 'setState', 'save', 'loadByCode'),
+            array('setState', 'save'),
             array(),
             '',
             false
         );
 
-        $tile->expects($this->once())
-            ->method('loadByCode')
-            ->with($this->equalTo('tax'))
-            ->will($this->returnValue($tile));
         // Tax tile must change its state to complete when any tax rule has been saved
         $tile->expects($this->once())
             ->method('setState')
@@ -51,6 +47,10 @@ class Mage_Launcher_Model_Storelauncher_Tax_SystemObserverTest extends PHPUnit_F
         );
         $tileFactory->expects($this->any())
             ->method('create')
+            ->with(
+                $this->equalTo('tax'),
+                $this->equalTo(array())
+            )
             ->will($this->returnValue($tile));
 
         return new Mage_Launcher_Model_Storelauncher_Tax_SystemObserver($tileFactory);

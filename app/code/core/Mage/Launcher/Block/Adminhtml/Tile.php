@@ -32,7 +32,7 @@ class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
         if (!isset($tile)) {
             throw new Mage_Launcher_Exception('Tile was not set.');
         }
-        return $tile->getCode();
+        return $tile->getTileCode();
     }
 
     /**

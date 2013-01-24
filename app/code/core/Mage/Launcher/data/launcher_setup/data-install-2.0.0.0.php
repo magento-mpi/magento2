@@ -12,119 +12,119 @@
 $installer = $this;
 Mage::getModel('Mage_Launcher_Model_Page')
     ->load(1)
-    ->setCode('store_launcher')
+    ->setPageCode('store_launcher')
     ->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('business_info');
-$tile->setPageId(1);
+$tile->setPageCode('store_launcher');
+$tile->setTileCode('business_info');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('tax');
-$tile->setPageId(1);
+$tile->setPageCode('store_launcher');
+$tile->setTileCode('tax');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('payments');
-$tile->setPageId(1);
+$tile->setPageCode('store_launcher');
+$tile->setTileCode('payments');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('shipping');
-$tile->setPageId(1);
-$tile->setState(0);
+$tile->setPageCode('store_launcher');
+$tile->setTileCode('shipping');
+$tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 Mage::getModel('Mage_Launcher_Model_Page')
     ->load(2)
-    ->setCode('promote_store')
+    ->setPageCode('promote_store')
     ->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('home_page');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('home_page');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('content_pages');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('content_pages');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('reports');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('reports');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('seo');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('seo');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('promotion');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('promotion');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('catalog_price_rule');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('catalog_price_rule');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('rss');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('rss');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('wishlist');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('wishlist');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('customer_communication');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('customer_communication');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('ebay');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('ebay');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('related_products');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('related_products');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
 /** @var $tile Mage_Launcher_Model_Tile */
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
-$tile->setCode('google_analytics');
-$tile->setPageId(2);
+$tile->setPageCode('promote_store');
+$tile->setTileCode('google_analytics');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();

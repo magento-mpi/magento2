@@ -115,7 +115,7 @@ class Mage_Launcher_Controller_BaseDrawer
         try {
             $data = $this->getRequest()->getParams();
             /** @var $tileModel Mage_Launcher_Model_Tile */
-            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($data['tileCode']);
+            $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create($data['tileCode']);
             $tileModel->refreshState($data);
 
             $layout = $this->loadLayout();
@@ -148,7 +148,8 @@ class Mage_Launcher_Controller_BaseDrawer
         $responseContent = '';
         try {
             $tileCode = $this->getRequest()->getParam('tileCode');
-            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode($tileCode);
+            /** @var $tileModel Mage_Launcher_Model_Tile */
+            $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create($tileCode);
 
             $layout = $this->loadLayout();
             /** @var $drawerBlock Mage_Launcher_Block_Adminhtml_Drawer */

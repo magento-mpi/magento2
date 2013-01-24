@@ -24,12 +24,15 @@ $table = $installer->getConnection()
         'nullable' => false,
         'primary' => true,
     ), 'Id')
-    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
+    ->addColumn('page_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
     ), 'Page Code')
     // Page code has to be unique within the application
-    ->addIndex($installer->getIdxName('launcher_page', array('code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
+    ->addIndex(
+        $installer->getIdxName('launcher_page', array('page_code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        array('page_code'),
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    )
     ->setComment('Landing Page Data Table');
 $installer->getConnection()->createTable($table);
 
@@ -44,13 +47,12 @@ $table = $installer->getConnection()
         'nullable' => false,
         'primary' => true,
     ), 'Id')
-    ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
+    ->addColumn('page_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
+        'nullable' => false,
+    ), 'Page Code')
+    ->addColumn('tile_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable' => false,
     ), 'Tile Code')
-    ->addColumn('page_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned' => true,
-        'nullable' => false,
-    ), 'Tile Page')
     ->addColumn('state', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned' => true,
         'nullable' => false,
@@ -70,18 +72,32 @@ $table = $installer->getConnection()
         'default' => 0,
     ), 'Sort order of the tile.')
     // Table indexes and constraints
-    ->addIndex($installer->getIdxName('launcher_tile', array('page_id')),
-        array('page_id'))
-    ->addIndex($installer->getIdxName('launcher_tile', array('state')),
-        array('state'))
     ->addIndex($installer->getIdxName('launcher_tile', array('sort_order')),
         array('sort_order'))
-    // Tile code has to be unique within the application
-    ->addIndex($installer->getIdxName('launcher_tile', array('code'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
-        array('code'), array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-    ->addForeignKey($installer->getFkName('launcher_page', 'page_id', 'launcher_tile', 'page_id'),
-        'page_id', $installer->getTable('launcher_page'), 'page_id',
-        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
+    // tile_code has to be unique within the application
+    ->addIndex(
+        $installer->getIdxName(
+            'launcher_tile',
+            array('tile_code'),
+            Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+        ),
+        array('tile_code'),
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE)
+    )
+    ->addIndex(
+        $installer->getIdxName(
+            'launcher_tile',
+            array('page_code', 'tile_code'),
+            Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX
+        ),
+        array('page_code', 'tile_code'),
+        array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX)
+    )
+    ->addForeignKey(
+        $installer->getFkName('launcher_page', 'page_code', 'launcher_tile', 'page_code'),
+        'page_code', $installer->getTable('launcher_page'), 'page_code',
+        Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
+    )
     ->setComment('Tile Data Table');
 $installer->getConnection()->createTable($table);
 

@@ -27,7 +27,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_Payments_DrawerController
         try {
             $data = $this->getRequest()->getParams();
             /** @var $tileModel Mage_Launcher_Model_Tile */
-            $tileModel = Mage::getModel('Mage_Launcher_Model_Tile')->loadByCode('payments');
+            $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create('payments');
             $saveHandler = $tileModel->getSaveHandler();
             $saveHandler->savePaymentMethod($data);
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(

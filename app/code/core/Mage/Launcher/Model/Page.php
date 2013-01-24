@@ -79,9 +79,9 @@ class Mage_Launcher_Model_Page extends Mage_Core_Model_Abstract
      * @param $code
      * @return Mage_Launcher_Model_Page
      */
-    public function loadByCode($code)
+    public function loadByPageCode($code)
     {
-        return $this->load($code, 'code');
+        return $this->load($code, 'page_code');
     }
 
     /**

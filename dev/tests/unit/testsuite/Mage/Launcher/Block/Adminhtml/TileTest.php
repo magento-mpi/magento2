@@ -45,7 +45,7 @@ class Mage_Launcher_Block_Adminhtml_TileTest extends PHPUnit_Framework_TestCase
     public function testGetTileCode()
     {
         $tileCode = 'tax';
-        $this->_tile->setCode($tileCode);
+        $this->_tile->setTileCode($tileCode);
 
         $this->assertEquals($tileCode, $this->_block->getTileCode());
     }

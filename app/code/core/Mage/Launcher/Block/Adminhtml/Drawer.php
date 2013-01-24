@@ -21,10 +21,28 @@
 class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * @var Mage_Launcher_Model_LinkTrackerFactory
+     * @var Mage_Launcher_Model_LinkTracker
      */
-    protected $_linkTrackerFactory;
+    protected $_linkTracker;
 
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Filesystem $filesystem,
+     * @param Mage_Launcher_Model_LinkTracker $linkTracker
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Model_Layout $layout,
@@ -38,14 +56,14 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Magento_Filesystem $filesystem,
-        Mage_Launcher_Model_LinkTrackerFactory $linkTrackerFactory,
+        Mage_Launcher_Model_LinkTracker $linkTracker,
         array $data = array()
     ) {
-        $this->_linkTrackerFactory = $linkTrackerFactory;
-
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
         );
+
+        $this->_linkTracker = $linkTracker;
     }
 
 
@@ -126,15 +144,14 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     public function getTrackerLink($route = '', $params = array())
     {
         $urlCode = md5($route . serialize($params));
-        $link = $this->_linkTrackerFactory->create();
-        $link->load($urlCode, 'code');
-        if (!$link->getId()) {
-            $link->setCode($urlCode);
-            $link->setUrl($route);
-            $link->setParams(serialize($params));
-            $link->save();
+        $this->_linkTracker->load($urlCode, 'code');
+        if (!$this->_linkTracker->getId()) {
+            $this->_linkTracker->setCode($urlCode);
+            $this->_linkTracker->setUrl($route);
+            $this->_linkTracker->setParams(serialize($params));
+            $this->_linkTracker->save();
         }
-        return $link;
+        return $this->_linkTracker;
     }
 
     /**

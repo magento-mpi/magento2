@@ -42,6 +42,6 @@ class Mage_Launcher_Model_Storelauncher_Tax_SystemObserver
     {
         // Successful save of any tax rule has to change the state of tax tile to complete
         // This logic is put directly into observer (without delegation to state resolver) because it is trivial
-        $this->_tileFactory->create()->loadByCode('tax')->setState(Mage_Launcher_Model_Tile::STATE_COMPLETE)->save();
+        $this->_tileFactory->create('tax', array())->setState(Mage_Launcher_Model_Tile::STATE_COMPLETE)->save();
     }
 }

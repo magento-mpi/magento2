@@ -19,7 +19,7 @@ class Mage_Launcher_Block_Adminhtml_PageTest extends PHPUnit_Framework_TestCase
 {
     public function testGetTileBlocks()
     {
-        $page = Mage::getObjectManager()->create('Mage_Launcher_Model_Page')->loadByCode('landing_page_1');
+        $page = Mage::getObjectManager()->create('Mage_Launcher_Model_Page')->loadByPageCode('landing_page_1');
         $block = Mage::getObjectManager()->create('Mage_Launcher_Block_Adminhtml_Page');
         $block->setPage($page);
         $tiles = $block->getTileBlocks();

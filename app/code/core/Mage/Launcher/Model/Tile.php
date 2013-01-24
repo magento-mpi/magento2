@@ -53,6 +53,8 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Mage_Launcher_Model_Tile_StateResolver $resolver
+     * @param Mage_Launcher_Model_Tile_SaveHandler $handler
      * @param array $data
      */
     public function __construct(
@@ -60,21 +62,25 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
         Mage_Core_Model_Cache $cacheManager,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
+        Mage_Launcher_Model_Tile_StateResolver $resolver = null,
+        Mage_Launcher_Model_Tile_SaveHandler $handler = null,
         array $data = array()
     ) {
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
         $this->_init('Mage_Launcher_Model_Resource_Tile');
+        $this->_stateResolver = $resolver;
+        $this->_saveHandler = $handler;
     }
 
     /**
-     * Load landing page tile by its code
+     * Load landing page tile by Tile code
      *
-     * @param $code
+     * @param string $tileCode
      * @return Mage_Launcher_Model_Tile
      */
-    public function loadByCode($code)
+    public function loadByTileCode($tileCode)
     {
-        return $this->load($code, 'code');
+        return $this->load($tileCode, 'tile_code');
     }
 
     /**

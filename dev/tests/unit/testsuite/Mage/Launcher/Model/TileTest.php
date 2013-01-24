@@ -24,7 +24,16 @@ class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
         $resource->expects($this->any())
             ->method('addCommitCallback')
             ->will($this->returnValue($resource));
-        $this->_tile = new Mage_Launcher_Model_Tile($eventManager, $cacheManager, $resource, null, array());
+
+        $this->_tile = new Mage_Launcher_Model_Tile(
+            $eventManager,
+            $cacheManager,
+            $resource,
+            null,
+            null,
+            null,
+            array()
+        );
     }
 
     public function testIsComplete()

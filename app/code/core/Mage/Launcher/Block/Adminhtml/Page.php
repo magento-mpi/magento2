@@ -66,7 +66,7 @@ class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
     public function getPage()
     {
         if (!$this->_page) {
-            $this->_page = $this->_pageFactory->create()->loadByCode($this->_pageCode);
+            $this->_page = $this->_pageFactory->create()->loadByPageCode($this->_pageCode);
         }
         return $this->_page;
     }
@@ -98,11 +98,11 @@ class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
         $tiles = $this->getPage()->getTiles();
 
         foreach($tiles as $item) {
-            $block = $this->getLayout()->getBlock($this->_getTileBlockName($item->getCode()));
+            $block = $this->getLayout()->getBlock($this->_getTileBlockName($item->getTileCode()));
             if (!$block) {
                 /** @var $block Mage_Launcher_Block_Adminhtml_Tile */
                 $block = $this->getLayout()->createBlock('Mage_Launcher_Block_Adminhtml_Tile',
-                    $this->_getTileBlockName($item->getCode()));
+                    $this->_getTileBlockName($item->getTileCode()));
             }
             $block->setTile($item);
             $tilesBlocks[] = $block;
