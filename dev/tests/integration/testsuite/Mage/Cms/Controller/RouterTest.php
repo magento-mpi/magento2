@@ -33,6 +33,8 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
     {
         $request = new Magento_Test_Request();
         //Open Node
+        Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http')
+            ->headersSentThrowsException = Mage::$headersSentThrowsException;
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);
         $this->assertInstanceOf('Mage_Core_Controller_Varien_Action_Redirect', $controller);
