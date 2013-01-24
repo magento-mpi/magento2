@@ -17,32 +17,18 @@
         },
 
         _create: function() {
-            $(this.options.searchType).on('change', $.proxy(this._onChange, this));
-            this._showIdentifyBlock($(this.options.searchType).val());
-        },
-
-        /**
-         * Handle onchange event for the select element when choosing either by zip code or email address.
-         * @private
-         * @param e - Change event.
-         */
-        _onChange: function(e) {
-            this._showIdentifyBlock($(e.target).val());
+            $(this.options.searchType).on('change', $.proxy(this._showIdentifyBlock, this)).trigger('change');
         },
 
         /**
          * Show either the search by zip code option or the search by email address option.
          * @private
-         * @param value - Value chosen in the select element, either 'zip' or 'email'.
+         * @param e - Change event. Event target value is either 'zip' or 'email'.
          */
-        _showIdentifyBlock: function(value) {
-            if (value === 'zip') {
-                $(this.options.zipCode).show();
-                $(this.options.emailAddress).hide();
-            } else {
-                $(this.options.zipCode).hide();
-                $(this.options.emailAddress).show();
-            }
+        _showIdentifyBlock: function(e) {
+            var value = $(e.target).val();
+            $(this.options.zipCode).toggle(value === 'zip');
+            $(this.options.emailAddress).toggle(value === 'email');
         }
     });
 })(jQuery);
