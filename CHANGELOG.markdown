@@ -1,6 +1,6 @@
 2.0.0.0-dev39
 =============
-* Visual design editor improvements
+* Visual design editor improvements:
   * VDE changes can be saved to DB for current store and theme. Layout updates composed by VDE are combined into one record
   * Introduced temporary layout changes which should store non-applied modifications made during VDE functioning. Added new column `updated_at` to `core_layout_update` table for this, added observers and cron jobs to clean outdated layout updates
   * Added `vde/` prefix to all links inside VDE frame
@@ -28,12 +28,12 @@
 * `VarienForm` class is deprecated
 * Improved floating toolbar in backend
 * Refactored the following grids in backend to make them configurable through layout, rather than hard-coded: `Mage_Adminhtml_Block_Newsletter_Queue_Grid`, `Mage_Adminhtml_Block_Report_Refresh_Statistics`
-* Dependency injection improvements
+* Dependency injection improvements:
   * Added ability to generate proxy and factory classes on-the-fly for use with DI implementations. Generators can be managed in DI configuration
   * Implemented tools (shell scripts) that allow generating skeletons of factory and proxy classes for use with DI implementations
   * Added ability to set preferences to object manager and specify them through configuration
 * Refactored the following modules to utilize `Magento_Filesystem` library instead of using built-in PHP core functions directly: `Mage_Adminhtml`, `Mage_Backend`, `Mage_Backup`, `Mage_Captcha`, `Mage_Catalog`, `Mage_Cms`, `Mage_Connect`, `Mage_Core`, `Mage_Install`
-* Bug fixes
+* Bug fixes:
   * Fixed bug with incorrect order processing in `Mage_Authorizenet_Model_Directpost`
   * Fixed bug with unnecessary "loading" image on Category field during product editing in backend
   * Fixed bug in `Mage_Adminhtml_CustomerController` with error message during subscription to newsletter
