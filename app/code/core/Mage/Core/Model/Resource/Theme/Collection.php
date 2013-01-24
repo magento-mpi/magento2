@@ -83,8 +83,11 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($this as $theme) {
             if ($theme->getParentId()) {
-                $theme->setParentId($this->_getParentThemeRecursively($theme->getParentId()));
-                $theme->save();
+                $newParentId = $this->_getParentThemeRecursively($theme->getParentId());
+                if ($newParentId != $theme->getParentId()) {
+                    $theme->setParentId($newParentId);
+                    $theme->save();
+                }
             }
         }
         return $this;
