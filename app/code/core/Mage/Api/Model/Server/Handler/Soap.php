@@ -22,8 +22,9 @@ class Mage_Api_Model_Server_Handler_Soap extends Mage_Api_Model_Server_HandlerAb
     /**
      * Interceptor for all interfaces
      *
-     * @param sttring $function
+     * @param string $function
      * @param array $args
+     * @return mixed
      */
 
     public function __call($function, $args)
@@ -38,6 +39,6 @@ class Mage_Api_Model_Server_Handler_Soap extends Mage_Api_Model_Server_HandlerAb
                 $apiKey = $resource . '.' . strtolower($method[0]) . substr($method, 1);
             }
         }
-        return $this->call($sessionId, $apiKey, $args);
+        return $this->_call($sessionId, $apiKey, $args);
     }
 }
