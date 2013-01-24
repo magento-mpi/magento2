@@ -43,13 +43,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_allowedAreas = null;
 
     /**
-     * Paths to module's directories (etc, sql, locale etc)
-     *
-     * @var array
-     */
-    protected $_moduleDirs = array();
-
-    /**
      * Current area code
      *
      * @var string
@@ -366,10 +359,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function setModuleDir($moduleName, $type, $path)
     {
-        if (!isset($this->_moduleDirs[$moduleName])) {
-            $this->_moduleDirs[$moduleName] = array();
-        }
-        $this->_moduleDirs[$moduleName][$type] = $path;
+       $this->_moduleReader->setModuleDir($moduleName, $type, $path);
         return $this;
     }
 

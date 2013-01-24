@@ -157,4 +157,19 @@ class Mage_Core_Model_Config_Loader_Modules_File
         $dir = str_replace('/', DS, $dir);
         return $dir;
     }
+
+    /**
+     * Set path to the corresponding module directory
+     *
+     * @param string $moduleName
+     * @param string $type directory type (etc, controllers, locale etc)
+     * @param string $path
+     */
+    public function setModuleDir($moduleName, $type, $path)
+    {
+        if (!isset($this->_moduleDirs[$moduleName])) {
+            $this->_moduleDirs[$moduleName] = array();
+        }
+        $this->_moduleDirs[$moduleName][$type] = $path;
+    }
 }

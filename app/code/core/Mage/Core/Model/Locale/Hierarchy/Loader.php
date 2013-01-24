@@ -20,7 +20,7 @@ class Mage_Core_Model_Locale_Hierarchy_Loader
     /**
      * @param Mage_Core_Model_Config_Locales $config
      */
-    public function __construct( Mage_Core_Model_Config_Locales $config)
+    public function __construct(Mage_Core_Model_Config_Locales $config)
     {
         $this->_config = $config;
     }

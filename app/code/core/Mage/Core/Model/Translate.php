@@ -13,8 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class
-Mage_Core_Model_Translate
+class Mage_Core_Model_Translate
 {
     const CSV_SEPARATOR     = ',';
     const SCOPE_SEPARATOR   = '::';
@@ -123,7 +122,7 @@ Mage_Core_Model_Translate
      */
     public function init($area, $forceReload = false)
     {
-        $this->setConfig(array(self::CONFIG_KEY_AREA=>$area));
+        $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
         $this->_translateInline = Mage::getSingleton('Mage_Core_Model_Translate_Inline')
             ->isAllowed($area=='adminhtml' ? 'admin' : null);
@@ -140,7 +139,7 @@ Mage_Core_Model_Translate
 
         $this->_data = array();
 
-        foreach ($this->getModulesConfig() as $moduleName=>$info) {
+        foreach ($this->getModulesConfig() as $moduleName => $info) {
             $info = $info->asArray();
             $this->_loadModuleTranslation($moduleName, $info['files'], $forceReload);
         }

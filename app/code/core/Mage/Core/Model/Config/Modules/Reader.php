@@ -71,4 +71,16 @@ class Mage_Core_Model_Config_Modules_Reader
     {
         return $this->_fileReader->getModuleDir($this->_config, $type, $moduleName);
     }
+
+    /**
+     * Set path to the corresponding module directory
+     *
+     * @param string $moduleName
+     * @param string $type directory type (etc, controllers, locale etc)
+     * @param string $path
+     */
+    public function setModuleDir($moduleName, $type, $path)
+    {
+        $this->_fileReader->setModuleDir($moduleName, $type, $path);
+    }
 }
