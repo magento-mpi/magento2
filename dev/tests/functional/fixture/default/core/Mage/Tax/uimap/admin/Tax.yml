@@ -206,6 +206,7 @@ create_tax_rule:
                             product_tax_class: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-product-class']//section
                         pageelements:
                             product_tax_class_option: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-product-class']//section//div[normalize-space(label/span)='%optionName%']
+                            customer_tax_class_option: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-product-class']//section//div[normalize=space(label/span)='%optionName%']
                 -
                     import_tax_rates:
                         xpath: //form[div/h4='Import Tax Rates']
@@ -235,6 +236,7 @@ create_tax_rule:
             confirmation_for_delete_class: Do you really want to delete this tax class?
             used_in_rule_error: You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.
             used_in_product_error: You cannot delete this tax class as it is used for 1 products.
+            used_in_customer_group_error: You cannot delete this tax class as it is used for 1 customer groups.
 
 # Edit Tax Rule page
 edit_tax_rule:

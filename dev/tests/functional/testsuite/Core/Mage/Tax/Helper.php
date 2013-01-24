@@ -51,7 +51,6 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         $this->fillFieldset($taxItemData, 'tax_rule_info', false);
         $this->clickControl('link', 'tax_rule_info_additional_link');
         $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
-
         $rateTitles = (isset($taxItemData['tax_titles'])) ? $taxItemData['tax_titles'] : array();
         if ($rateTitles && $type == 'rate') {
             $this->assertTrue($this->controlIsPresent('fieldset', 'tax_titles'),
@@ -113,6 +112,36 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete_' . $type);
     }
 
+    /**
+     * Delete Tax Class
+     *
+     * @param string $optionLabel
+     * @param string $multiselect
+     * @param string $msg
+     */
+    public function deleteTaxClass($optionLabel, $multiselect, $msg)
+    {
+        //delete tax class
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $containerXpath = $this->_getControlXpath('composite_multiselect', $multiselect);
+        $labelLocator = "//div[normalize-space(label/span)='$optionLabel']";
+        $generalElement = $this->getElement($containerXpath);
+        $optionElement = $this->getChildElement($generalElement, $labelLocator);
+        $optionElement->click();
+        $this->getChildElement($optionElement, "//span[@title='Delete']")->click();
+        //First message
+        $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
+        $alertText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertSame($this->_getMessageXpath('confirmation_for_delete_class'), $alertText,
+            'Confirmation message is incorrect');
+        //Second message
+        $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
+        $alertText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertSame($this->_getMessageXpath($msg), $alertText, 'Confirmation message is incorrect');
+    }
     /**
      * Delete all Tax Rules except specified in $excludeList
      *

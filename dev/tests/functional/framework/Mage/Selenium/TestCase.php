@@ -3497,6 +3497,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $labelLocator = "//div[normalize-space(label/span)='%s']";
         $generalElement = $this->getElement($locator);
         $optionElement = $this->getChildElement($generalElement, sprintf($labelLocator, $optionName));
+        $this->moveto($optionElement);
         $optionElement->click();
         $this->getChildElement($optionElement, "//span[@title='Edit']")->click();
         $editOptionElement = $this->getChildElements($optionElement, '//input[@name="class_name"]', false);
@@ -3532,6 +3533,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $labelLocator = "//div[normalize-space(label/span)='$optionName']";
         $generalElement = $this->getElement($locator);
         $optionElement = $this->getChildElement($generalElement, $labelLocator);
+//        $this->moveto($optionElement);
         $optionElement->click();
         $this->getChildElement($optionElement, "//span[@title='Delete']")->click();
         $this->assertSame($this->_getMessageXpath($message), $this->alertText(), 'Confirmation massage is incorrect');

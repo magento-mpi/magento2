@@ -25,11 +25,13 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Sales-Tax-Customer Tax Classes</p>
+     * <p>Navigate to Sales-Tax-Manage Tax Rules</p>
+     * <p>Click on the Add New Rule button </p>
      */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->navigate('manage_tax_rule');
     }
 
     protected function tearDownAfterTest()
@@ -44,86 +46,68 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Delete a Customer Tax Class</p>
+     * <p>Delete existing Customer Tax class</p>
      *
      * @test
+     * @TestlinkId TL-MAGE-6392
      */
-    public function notUsedInRule()
+    public function deleteNotUsedInRule()
     {
-        //Data
-        $customerTaxClassData = $this->loadDataSet('Tax', 'new_customer_tax_class');
-        //Steps
-        $this->navigate('manage_customer_tax_class');
-        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        //Steps
-        $this->taxHelper()->deleteTaxItem($customerTaxClassData, 'customer_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_deleted_tax_class');
+        $multiselect = 'customer_tax_class';
+        $taxClassName = $this->generate('string', 20);
+        $this->clickButton('add_rule');
+        $this->clickControl('link','tax_rule_info_additional_link');
+        $this->fillCompositeMultiselect('customer_tax_class', array($taxClassName));
+        $this->assertTrue($this->verifyCompositeMultiselect('customer_tax_class', array($taxClassName)),
+            $this->getParsedMessages());
+        $this->deleteCompositeMultiselectOption($multiselect, $taxClassName, 'confirmation_for_delete_class');
     }
 
     /**
-     * <p>Delete a Customer Tax class Core_Mage_that used</p>
+     * <p>Delete a Customer Tax class that used</p>
      *
      * @test
+     * @depends deleteNotUsedInRule
+     * @TestlinkId TL-MAGE-6393
      */
     public function usedInRule()
     {
-        //Data
-        $taxRateData = $this->loadDataSet('Tax', 'tax_rate_create_test');
-        $customerTaxClassData = $this->loadDataSet('Tax', 'new_customer_tax_class');
+        $taxClass = $this->generate('string', 30);
+        $multiselect = 'customer_tax_class';
+        //Create Tax Class
+        $this->clickButton('add_rule');
+        $this->clickControl('link','tax_rule_info_additional_link');
+        $this->addCompositeMultiselectValue($multiselect, $taxClass);
+        //Create Tax Rule
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required',
-            array('customer_tax_class' => $customerTaxClassData['customer_class_name'],
-                  'tax_rate'           => $taxRateData['tax_identifier']));
-        $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
-        //Steps
-        $this->navigate('manage_tax_zones_and_rates');
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_rate');
-        $this->navigate('manage_customer_tax_class');
-        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        //Steps
+            array('customer_tax_class' => $taxClass));
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
-        //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
-        $this->_ruleToBeDeleted = $searchTaxRuleData; //For Clean Up
-        //Steps
-        $this->navigate('manage_customer_tax_class');
-        $this->taxHelper()->deleteTaxItem($customerTaxClassData, 'customer_class');
-        //Verifying
-        $this->assertMessagePresent('error', 'error_delete_tax_class');
+        $this->_ruleToBeDeleted = $this->loadDataSet('Tax', 'search_tax_rule',
+            array('filter_name' => $taxRuleData['name']));
+        $this->taxHelper()->deleteTaxClass($taxClass, 'customer_tax_class', 'used_in_rule_error');
     }
 
     /**
      * <p>Delete a Customer Tax class Core_Mage_that used in Customer Group</p>
      *
+     * @depends deleteNotUsedInRule
      * @test
      */
     public function usedInCustomerGroup()
     {
-        //Data
-        $customerTaxClassData = $this->loadDataSet('Tax', 'new_customer_tax_class');
+        $taxClass = $this->generate('string', 20);
         $customerGroupData = $this->loadDataSet('CustomerGroup', 'new_customer_group',
-            array('tax_class' => $customerTaxClassData['customer_class_name']));
-        //Steps
-        $this->navigate('manage_customer_tax_class');
-        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        //Steps
+            array('tax_class' => $taxClass));
+        $multiselect = 'customer_tax_class';
+        $this->clickButton('add_rule');
+        $this->clickControl('link','tax_rule_info_additional_link');
+        $this->addCompositeMultiselectValue($multiselect, $taxClass);
         $this->navigate('manage_customer_groups');
         $this->customerGroupsHelper()->createCustomerGroup($customerGroupData);
-        //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer_group');
-        //Steps
-        $this->navigate('manage_customer_tax_class');
-        $this->taxHelper()->deleteTaxItem($customerTaxClassData, 'customer_class');
-        //Verifying
-        $this->assertMessagePresent('error', 'error_delete_tax_class_group');
+        $this->navigate('manage_tax_rule');
+        $this->taxHelper()->deleteTaxClass($taxClass, 'customer_tax_class', 'used_in_customer_group_error');
     }
 }
