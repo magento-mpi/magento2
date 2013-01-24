@@ -94,13 +94,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
             $this->_redirect('*/*/');
             return;
         }
-        if (!isset($data['password']) || $data['password'] === '') {
-            unset($data['password']);
-        }
-        if (!isset($data['password_confirmation']) || $data['password_confirmation'] === '') {
-            unset($data['password_confirmation']);
-        }
-        $model->setData($data);
+        $model->setData($this->_getAdminUserData($data));
         $uRoles = $this->getRequest()->getParam('roles', array());
         if (count($uRoles)) {
             $model->setRoleId($uRoles[0]);
@@ -115,6 +109,23 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
             $this->_getSession()->setUserData($data);
             $this->_redirect('*/*/edit', array('_current' => true));
         }
+    }
+
+    /**
+     * Retrieve well-formed admin user data from the form input
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function _getAdminUserData(array $data)
+    {
+        if (isset($data['password']) && $data['password'] === '') {
+            unset($data['password']);
+        }
+        if (isset($data['password_confirmation']) && $data['password_confirmation'] === '') {
+            unset($data['password_confirmation']);
+        }
+        return $data;
     }
 
     public function deleteAction()
