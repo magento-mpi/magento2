@@ -9,61 +9,17 @@
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Payments_StateResolverTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Model_Storelauncher_Payments_StateResolverTest
+    extends Mage_Launcher_Model_Tile_StateResolver_ConfigBased_TestCaseAbstract
 {
     /**
-     * @dataProvider handleSystemConfigChangeDataProvider
-     * @param int $currentState
+     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Model_Config $config
+     * @return Mage_Launcher_Model_Storelauncher_Payments_StateResolver
      */
-    public function testHandleSystemConfigChange($currentState)
+    protected function _getStateResolverInstance(Mage_Core_Model_App $app, Mage_Core_Model_Config $config)
     {
-        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $stateResolver = new Mage_Launcher_Model_Storelauncher_Payments_StateResolver($app, $config);
-        // Payments tile is not system-config depended, so this method always has to return current tile state
-        $resultState = $stateResolver->handleSystemConfigChange('general', $currentState);
-        $this->assertEquals($currentState, $resultState);
-    }
-
-    public function handleSystemConfigChangeDataProvider()
-    {
-        return array(
-            array(Mage_Launcher_Model_Tile::STATE_COMPLETE),
-            array(Mage_Launcher_Model_Tile::STATE_TODO),
-        );
-    }
-
-    /**
-     * @covers Mage_Launcher_Model_Storelauncher_Payments_StateResolver::isTileComplete
-     * @param array $paymentSettings
-     * @param boolean $expectedResult
-     * @dataProvider isTileCompleteDataProvider
-     */
-    public function testIsTileComplete(array $paymentSettings, $expectedResult)
-    {
-        $stateResolver = $this->_getStateResolverForIsTileCompleteTest($paymentSettings);
-        $this->assertEquals(
-            $expectedResult,
-            $stateResolver->isTileComplete()
-        );
-    }
-
-    /**
-     * @covers Mage_Launcher_Model_Storelauncher_Payments_StateResolver::getPersistentState
-     * @param array $paymentSettings
-     * @param boolean $isTileComplete
-     * @dataProvider isTileCompleteDataProvider
-     */
-    public function testGetPersistentState(array $paymentSettings, $isTileComplete)
-    {
-        $stateResolver = $this->_getStateResolverForIsTileCompleteTest($paymentSettings);
-        $expectedResult = ($isTileComplete)
-            ? Mage_Launcher_Model_Tile::STATE_COMPLETE
-            : Mage_Launcher_Model_Tile::STATE_TODO;
-        $this->assertEquals(
-            $expectedResult,
-            $stateResolver->getPersistentState()
-        );
+        return new Mage_Launcher_Model_Storelauncher_Payments_StateResolver($app, $config);
     }
 
     /**
@@ -183,39 +139,5 @@ class Mage_Launcher_Model_Storelauncher_Payments_StateResolverTest extends PHPUn
                 true,
             ),
         );
-    }
-
-    /**
-     * Retrieve State Resolver instance for isTileComplete test
-     *
-     * @param array $paymentSettings
-     * @return Mage_Launcher_Model_Storelauncher_Payments_StateResolver
-     */
-    protected function _getStateResolverForIsTileCompleteTest(array $paymentSettings)
-    {
-        $store = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
-
-        // Mock getConfig() call
-        $store->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnCallback(
-                function ($configPath) use ($paymentSettings) {
-                    return isset($paymentSettings[$configPath]) ? $paymentSettings[$configPath] : null;
-                }
-            ));
-
-        // Create mock object of Application
-        $app = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
-        $app->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($store));
-
-        // Create mock object of Configuration
-        $config = $this->getMock('Mage_Core_Model_Config', array('reinit'), array(), '', false);
-        $config->expects($this->once())
-            ->method('reinit')
-            ->will($this->returnValue($config));
-
-        return new Mage_Launcher_Model_Storelauncher_Payments_StateResolver($app, $config);
     }
 }
