@@ -59,6 +59,12 @@ class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_Tes
         $this->assertSame($this->_model, $actualResult, 'Methods chaining is broken.');
     }
 
+    public function testGetMessages()
+    {
+        $messages = $this->_model->getMessages();
+        $this->assertInternalType('array', $messages);
+    }
+
     /**
      * @param array $inputEntityData
      * @param array $expectedErrors

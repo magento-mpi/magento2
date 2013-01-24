@@ -47,4 +47,10 @@ class Mage_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->canCreateUser());
     }
+
+    public function testGetValidationRulesBeforeSave()
+    {
+        $rules = $this->_model->getValidationRulesBeforeSave();
+        $this->assertInstanceOf('Zend_Validate_Interface', $rules);
+    }
 }
