@@ -571,7 +571,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
         $this->productHelper()->selectConfigurableAttribute($attributeData['default']['attribute1']['admin_title']);
         $this->clickButton('generate_product_variations', false);
-        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'variations_matrix_header');
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_header');
         $this->productHelper()->assignAllConfigurableVariations();
         $this->productHelper()->saveProduct();
         //Verifying

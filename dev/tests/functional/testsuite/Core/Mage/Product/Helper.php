@@ -971,11 +971,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillConfigurableSettings(array $attributes)
     {
+        $allTitles = array();
         foreach ($attributes as $attributeData) {
             if (!isset($attributeData['general_configurable_attribute_title'])) {
                 $this->fail('general_configurable_attribute_title is not set');
             }
-            $title = $attributeData['general_configurable_attribute_title'];
+            $allTitles[] = $title = $attributeData['general_configurable_attribute_title'];
             unset($attributeData['general_configurable_attribute_title']);
             $this->selectConfigurableAttribute($title);
             $this->selectConfigurableAttributeOptions($attributeData, $title);
@@ -985,8 +986,18 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->unselectConfigurableAttributeOptions(array_diff($optionNames, $selected), $title);
             }
         }
+        $waitLocator = $this->_getControlXpath('fieldset', 'variations_matrix_grid') . '//thead/tr[';
+        $lastTittle = end($allTitles);
+        foreach ($allTitles as $title) {
+            $value = (strpos($title, "'")) ? "concat('" . str_replace('\'', "',\"'\",'", $title) . "')" : "'$title'";
+            $waitLocator .= 'th=' . $value;
+            if ($title != $lastTittle) {
+                $waitLocator .= ' and ';
+            }
+        }
+        $waitLocator .= ']';
         $this->clickButton('generate_product_variations', false);
-        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'variations_matrix_header');
+        $this->waitForElementVisible($waitLocator);
     }
 
     /**
