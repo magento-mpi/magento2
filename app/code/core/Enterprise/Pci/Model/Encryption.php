@@ -29,8 +29,12 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
     protected $_keyVersion;
     protected $_keys = array();
 
-    public function __construct()
+    /**
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(Magento_ObjectManager $objectManager)
     {
+        parent::__construct($objectManager);
         // load all possible keys
         $this->_keys = preg_split('/\s+/s', trim((string)Mage::getConfig()->getNode('global/crypt/key')));
         $this->_keyVersion = count($this->_keys) - 1;

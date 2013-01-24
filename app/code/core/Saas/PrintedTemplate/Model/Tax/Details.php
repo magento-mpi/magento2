@@ -69,7 +69,7 @@ class Saas_PrintedTemplate_Model_Tax_Details
                             $taxRateRequest->setProductClassId($child->getProduct()->getTaxClassId());
                             foreach ($this->_getRatesInfo($taxRateRequest) as $rate) {
                                 $rateInfo[$child->getId()][] = $rate;
-                           }
+                            }
                         }
                     }
                 } else if ($item->getProduct()->getTaxClassId()) {

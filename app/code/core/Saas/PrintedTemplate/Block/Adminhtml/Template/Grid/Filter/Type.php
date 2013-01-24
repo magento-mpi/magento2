@@ -43,7 +43,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Filter_Type extends
      */
     public function getCondition()
     {
-        if(is_null($this->getValue())) {
+        if (is_null($this->getValue())) {
             return null;
         }
 

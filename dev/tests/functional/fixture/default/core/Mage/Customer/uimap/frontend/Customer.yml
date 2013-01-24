@@ -28,14 +28,13 @@ register_account:
                             sign_up_newsletter: //input[@id='is_subscribed']
                             remember_me: //input[@name='persistent_remember_me']
                         links:
-                            back: p[@class='back-link']/a
+                            back: //p[@class='back-link']/a
                         fields:
                             first_name: //input[@id='firstname']
                             last_name: //input[@id='lastname']
                             email: //input[@id='email_address']
                             password: //input[@id='password']
                             password_confirmation: //input[@id='confirmation']
-                        fields:
                             captcha: //*[@id='captcha_user_create']
                         pageelements:
                             captcha: //*[@id='user_create']
@@ -44,9 +43,9 @@ register_account:
             not_valid_length_first_name: //*[@data-ui-id="messages-message-error" and contains(.,'"First Name" length must be equal or less than 255 characters.')]
             not_valid_length_last_name: //*[@data-ui-id="messages-message-error" and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
             not_valid_length_email: //*[@data-ui-id="messages-message-error" and contains(.,'"Email" exceeds the allowed length.')]
-            empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
+            empty_required_field: %fieldXpath%/following-sibling::*[text()='This field is required.']
             invalid_mail: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid email address.')]
-            passwords_not_match: //div[normalize-space(@class)='mage-error' and contains(.,'Please make sure your passwords match.')]
+            passwords_not_match: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter the same value again.')]
             short_passwords: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter 6 or more characters. Leading or trailing spaces will be ignored.')]
             email_exists: //*[@data-ui-id="messages-message-error" and contains(.,'There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.')]
             invalid_login_or_password: //*[@data-ui-id="messages-message-error" and contains(.,'Invalid login or password.')]
@@ -127,7 +126,7 @@ forgot_customer_password:
         messages:
             empty_captcha: //*[@id='advice-required-entry-captcha_user_forgotpassword']
             incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
-            forgot_password_invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
+            forgot_password_invalid_email: //div[@class='mage-error' and text()='Please enter a valid email address. For example johndoe@domain.com.']
 
 #'Success LogOut page
 customer_logout:

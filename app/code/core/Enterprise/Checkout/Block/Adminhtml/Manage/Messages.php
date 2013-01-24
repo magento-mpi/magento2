@@ -15,7 +15,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Messages extends Mage_Adminhtml_Block_Messages
+class Enterprise_Checkout_Block_Adminhtml_Manage_Messages extends Mage_Core_Block_Messages
 {
     /**
      * Prepares layout for current block
