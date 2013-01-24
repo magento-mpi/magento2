@@ -61,13 +61,13 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="attribute_set_name">
                         <arguments>
-                            <header translate="true">Attributes Set</header>
+                            <header translate="true" module="Mage_GoogleShopping">Attributes Set</header>
                             <index>attribute_set_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="target_country">
                         <arguments>
-                            <header translate="true">Target Country</header>
+                            <header translate="true" module="Mage_GoogleShopping">Target Country</header>
                             <index>target_country</index>
                             <width>150px</width>
                             <renderer>Mage_GoogleShopping_Block_Adminhtml_Types_Renderer_Country</renderer>
