@@ -4,6 +4,8 @@
 saas.php
 app/code/core/Saas
 app/etc/modules/XSaas_Enabler.xml.dist
+dev/tests/integration/etc/modules/XSaas_Enabler.xml
+dev/tests/integration/testsuite/Saas
 dev/tests/js/testsuite/saas
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/saas.txt
 dev/tests/unit/testsuite/Magento/Profiler/Driver/PinbaTest.php
