@@ -18,7 +18,11 @@ app/code/core/Mage/Adminhtml/controllers/Report/CustomerController.php
 app/code/core/Mage/Adminhtml/controllers/Report/ProductController.php
 app/code/core/Mage/Adminhtml/controllers/UrlrewriteController.php
 app/code/core/Mage/Backend
+app/code/core/Mage/Bundle/Block/Backend/Items.php
 app/code/core/Mage/Catalog/Block/Product/Configurable
+app/code/core/Mage/Catalog/Block/Product/Grouped/AssociatedProducts.php
+app/code/core/Mage/Catalog/Block/Product/Grid/Grouped.php
+app/code/core/Mage/Catalog/Block/Widget/Grid/Column/Renderer/GroupedInfo.php
 app/code/core/Mage/Catalog/Model/Resource/Product/Collection
 app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/core/Mage/Core/Block/Abstract.php

@@ -1,0 +1,43 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div id="grouped-product-container">
+    <?php
+    /** @var $this Mage_Core_Block_Template */
+    /** @var $_gridBlock Mage_Catalog_Block_Product_Grid_Grouped */
+    $_gridBlock = $this->getChildBlock('catalog.product.group.grid.container')
+        ->getChildBlock('catalog.product.group.grid');
+    $_gridPopupBlock = $this->getChildBlock('catalog.product.group.grid.popup.container')
+        ->getChildBlock('catalog.product.group.grid.popup');
+    $_gridPopupBlock->setRowClickCallback('function(){}');
+    /** @var $_helper Mage_Core_Helper_Data */
+    $_helper = $this->helper('Mage_Core_Helper_Data');
+    echo $this->getChildBlock('catalog.product.group.grid.container')->getChildHtml('catalog.product.group.grid');
+    ?>
+    <input type="hidden" name="<?php echo $_gridBlock->getHiddenInputName();?>"/>
+    <div id="grouped-product-popup" style="display:none;">
+        <?php echo $this->getChildBlock('catalog.product.group.grid.popup.container')->getChildHtml('catalog.product.group.grid.popup');?>
+    </div>
+</div>
+<button id="grouped-add-products">Add Products to Group</button>
+<script type="text/javascript">
+jQuery(function($) {
+    head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::product/grouped/grouped.js') ?>", function () {
+        $('#grouped-product-container').mage('groupedProduct', {
+            grid: window.<?php echo $_gridBlock->getJsObjectName() ?>,
+            gridData : <?php echo $_gridBlock->getAssociatedProducts()?>,
+            gridPopup : window.<?php echo $_gridPopupBlock->getJsObjectName() ?>,
+            $hiddenInput : $('#grouped-product-container input[name="<?php echo $_gridBlock->getHiddenInputName()?>"]'),
+            associatedProductsId : <?php echo $_gridBlock->getAssociatedProductsIds()?>,
+            fieldsToSave : <?php echo $_helper->jsonEncode($_gridBlock->getFieldsToSave())?>
+        });
+    });
+});
+</script>

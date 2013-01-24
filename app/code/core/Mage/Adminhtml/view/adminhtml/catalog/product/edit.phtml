@@ -80,7 +80,8 @@ jQuery(function($) {
     <?php endif; ?>
 
     $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
-        $('#config_super_product')[$(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide']();
+        var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
+        $('#config_super_product,#grouped_product_container,#bundle_product_container')[action]();
     });
 
     var masks = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
