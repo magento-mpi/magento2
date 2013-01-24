@@ -199,10 +199,10 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     protected function _createBundleNotAvailable($simpleProducts)
     {
         $bundleNotAvailable = $this->loadDataSet('Product', 'fixed_bundle_visible');
-        $bundleNotAvailable['bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
-        $bundleNotAvailable['bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
+        $bundleNotAvailable['general_bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
+        $bundleNotAvailable['general_bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
             $simpleProducts['simpleOutOfStock']['general_sku'];
-        $bundleNotAvailable['bundle_items_data']['item_1']['add_product_2']['bundle_items_search_sku'] =
+        $bundleNotAvailable['general_bundle_items_data']['item_1']['add_product_2']['bundle_items_search_sku'] =
             $simpleProducts['simpleDisabled']['general_sku'];
         $this->productHelper()->createProduct($bundleNotAvailable, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -219,10 +219,10 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     protected function _createBundleFixed($simpleProducts)
     {
         $bundleFixed = $this->loadDataSet('Product', 'fixed_bundle_visible');
-        $bundleFixed['bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
-        $bundleFixed['bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
+        $bundleFixed['general_bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
+        $bundleFixed['general_bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
             $simpleProducts['simple']['general_sku'];
-        $bundleFixed['bundle_items_data']['item_1']['add_product_2']['bundle_items_search_sku'] =
+        $bundleFixed['general_bundle_items_data']['item_1']['add_product_2']['bundle_items_search_sku'] =
             $simpleProducts['simpleWithBackorders']['general_sku'];
         $this->productHelper()->createProduct($bundleFixed, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -239,10 +239,10 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     protected function _createBundleDynamic($simpleProducts)
     {
         $bundleDynamic = $this->loadDataSet('Product', 'dynamic_bundle_visible');
-        $bundleDynamic['bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
-        $bundleDynamic['bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
+        $bundleDynamic['general_bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2');
+        $bundleDynamic['general_bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
             $simpleProducts['simple']['general_sku'];
-        $bundleDynamic['bundle_items_data']['item_1']['add_product_2']['bundle_items_search_sku'] =
+        $bundleDynamic['general_bundle_items_data']['item_1']['add_product_2']['bundle_items_search_sku'] =
             $simpleProducts['simpleWithBackorders']['general_sku'];
         $this->productHelper()->createProduct($bundleDynamic, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -396,7 +396,8 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             'Options' => array(
                 'option_1' => array(
                     'parameters' => array(
-                        'title' => $bundleNotAvailable['bundle_items_data']['item_1']['bundle_items_default_title']
+                        'title' =>
+                            $bundleNotAvailable['general_bundle_items_data']['item_1']['bundle_items_default_title']
                     ),
                     'options_to_choose' => array(
                         'custom_option_dropdown' => $simpleProducts['simple']['general_name'])
@@ -419,7 +420,8 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             'Options' => array(
                 'option_1' => array(
                     'parameters' => array(
-                        'title' => $bundleNotAvailable['bundle_items_data']['item_1']['bundle_items_default_title']
+                        'title' =>
+                            $bundleNotAvailable['general_bundle_items_data']['item_1']['bundle_items_default_title']
                     ),
                     'options_to_choose' => array(
                         'custom_option_dropdown' => $simpleProducts['simple']['general_name']

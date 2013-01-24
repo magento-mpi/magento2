@@ -37,7 +37,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function requiredFieldsForDynamicSmoke()
     {
-        $this->markTestIncomplete('MAGETWO-6269');
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
         //Steps
@@ -387,38 +386,15 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] =
+        $productData['general_bundle_items_data']['item_1'] =
             $this->loadDataSet('Product', 'bundle_item_1', array('bundle_items_default_title' => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
+        $this->productHelper()->createProduct($productData, 'bundle', false);
         //Verifying
-        $this->addFieldIdToMessage('field', 'bundle_items_default_title');
-        $this->assertMessagePresent('success', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
-    }
-
-    /**
-     * <p>Creating product with Bundle Items invalid "Position"</p>
-     *
-     * @param $invalidPosition
-     *
-     * @test
-     * @dataProvider invalidNumericFieldDataProvider
-     * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId TL-MAGE-3353
-     */
-    public function invalidPositionForBundleItems($invalidPosition)
-    {
-        //Data
-        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] =
-            $this->loadDataSet('Product', 'bundle_item_1', array('bundle_items_position' => $invalidPosition));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
-        //Verifying
-        $this->addFieldIdToMessage('field', 'bundle_items_position');
-        $this->assertMessagePresent('success', 'enter_zero_or_greater');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', 'bundle_items_default_title');
+//        $this->assertMessagePresent('success', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**

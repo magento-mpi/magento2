@@ -362,6 +362,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function invalidQtyInSimple($invalidQty)
     {
+        $this->markTestIncomplete('MAGETWO-3360');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required', array('general_qty' => $invalidQty));
         //Steps

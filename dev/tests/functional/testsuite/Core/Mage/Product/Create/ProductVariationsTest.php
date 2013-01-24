@@ -687,34 +687,23 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function moveAttributeBlock($attributeData)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
+        $productData = $this->loadDataSet('Product', 'configurable_product_visible', array('attribute_position' => 2),
             array(
                 'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
                 'general_attribute_1' => $attributeData['attribute1']['admin_title']
             )
         );
         $productData['general_configurable_attributes']['attribute_2'] =
-            $this->loadDataSet('Product', 'general_configurable_attribute_without_price', null,
+            $this->loadDataSet('Product', 'general_configurable_attribute_without_price',
+                array('attribute_position' => 1),
                 array(
-                    'general_attribute_1' => $attributeData['attribute2']['admin_title'],
-                    'var1_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name']
+                    'general_attribute_2' => $attributeData['attribute2']['admin_title'],
+                    'var1_attr_value2' => $attributeData['attribute2']['option_1']['admin_option_name']
                 )
             );
         $verifyData = array($attributeData['attribute2']['admin_title'], $attributeData['attribute1']['admin_title']);
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        //Swapping attribute blocks
-        $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
-        $attributeBlock1 = $this->getControlElement('link', 'move_product_variation_attribute');
-        $this->addParameter('attributeTitle', $attributeData['attribute2']['admin_title']);
-        $attributeBlock2 = $this->getControlElement('link', 'move_product_variation_attribute');
-        $this->productHelper()->moveto($attributeBlock2);
-        $this->productHelper()->buttondown();
-        $this->productHelper()->moveto($attributeBlock1);
-        $this->productHelper()->buttonup();
-        $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->frontend();

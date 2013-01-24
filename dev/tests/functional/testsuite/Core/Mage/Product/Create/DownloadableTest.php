@@ -330,6 +330,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      */
     public function invalidQtyInDownloadable($invalidQty)
     {
+        $this->markTestIncomplete('MAGETWO-3360');
         //Data
         $productData =
             $this->loadDataSet('Product', 'downloadable_product_required', array('general_qty' => $invalidQty));

@@ -192,6 +192,7 @@ new_product:
                                         is_configurable: //input[@id='config_super_product-checkbox']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='attribute-selector']
+                                        attribute_blocks_name: //input[@class='store-label required-entry']
                                     links:
                                         configurable_attribute_select: //li[@class='ui-menu-item']//a[text()='%attributeTitle%']
                                     buttons:
@@ -220,9 +221,6 @@ new_product:
                                         expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
                                     pageelements:
                                         option_line: //tbody/tr
-                                        delete_block: //*[@class='ui-icon ui-icon-circle-close remove']
-                                        expand_block: //*[@class='ui-icon ui-icon-circle-triangle-s toggle']
-                                        drag: //*[@class='ui-icon ui-icon-arrowthick-2-n-s']
                                     messages:
                                         required_attribute_label: //*[@class='mage-error' and contains(.,'This field is required.')]
                             -
@@ -297,6 +295,62 @@ new_product:
                                         associated_search_default_qty_from: //input[@id='grouped_grid_filter_qty_from']
                                         associated_search_default_qty_to: //input[@id='grouped_grid_filter_qty_to']
                                         associated_product_default_qty: //tr[contains(.,'%productSku%')]//input[@name='qty']
+                            -
+                                bundle_items:
+                                    xpath: //div[contains(div/h4,'Bundle Items')]
+                                    buttons:
+                                        add_new_option: //button[@id='add_new_option']
+                                    dropdowns:
+                                        ship_bundle_items: //select[@id='shipment_type']
+                                    fields:
+                                        bundle_items_names: //input[@class='input-text required-entry']
+                                    pageelements:
+                                        bundle_item_grid: //div[@class='option-box' and not(contains(@style,'display: none;'))]
+                                        bundle_item_grid_index_product: //div[@id='bundle_option_%optionId%']//tr[@class='selection']/td[text()='%productSku%']
+                                        bundle_item_row: //div[@class='option-box']
+                            -
+                                new_bundle_option:
+                                    xpath: //div[@id='bundle_option_%optionId%']
+                                    buttons:
+                                        delete_option: //*[@class='ui-icon ui-icon-circle-close remove']
+                                        add_selection: //button[@title='Add Selection']
+                                        selection_item_delete: //tr[contains(.,'%productSku%')]//button[span='Delete']
+                                    checkboxes:
+                                        bundle_items_is_required: //*[@class='is-required' and @type='checkbox']
+                                        selection_item_user_defined_qty: //tr[contains(.,'%productSku%')]//*[@class = 'is-user-defined-qty' and @type='checkbox']
+                                    dropdowns:
+                                        bundle_items_input_type: //select[contains(@name,'[type]')]
+                                        selection_item_price_type: //tr[contains(.,'%productSku%')]//select[contains(@name,'selection_price_type')]
+                                    fields:
+                                        bundle_items_default_title: //input[contains(@name,'[title]')]
+                                        selection_item_price: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_price_value')]
+                                        selection_item_default_qty: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_qty')]
+                                    links:
+                                        delete_product_bundle_item: //span[@class='ui-icon ui-icon-circle-close remove']
+                                        move_product_bundle_item: //span[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        expand_product_bundle_item: //span[@class='ui-icon ui-icon-circle-triangle-s']
+                                        move_product_item: //tr[contains(.,'%productSku%')]//span[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                    radiobuttons:
+                                        selection_item_default: //tr[contains(.,'%productSku%')]//input[contains(@name,'[is_default]')]
+                                    pageelements:
+                                        selected_option_product: //tr[contains(.,'%productSku%')]
+                            -
+                                select_product_to_bundle_option:
+                                    xpath: //div[div/span='Select Products to Add']
+                                    buttons:
+                                        add_selected_products: //button[span='Add Selected Product(s) to Option']
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    dropdowns:
+                                        bundle_items_search_massaction: //select[@name='is_selected']
+                                        bundle_items_search_attribute_set: //select[@name='set_name']
+                                    fields:
+                                        bundle_items_search_id: //input[@name='id']
+                                        bundle_items_search_name: //input[@name='name']
+                                        bundle_items_search_sku: //input[@name='sku']
+                                        bundle_items_search_price_from: //input[@name='price[from]']
+                                        bundle_items_search_price_to: //input[@name='price[to]']
+                                        bundle_items_qty_to_add: //input[@name='qty']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -602,63 +656,6 @@ new_product:
                                         product_qty_from: //*[@id='productGrid_product_filter_qty_from']
                                         product_qty_to: //*[@id='productGrid_product_filter_qty_to']
                 -
-                    bundle_items: &bundleItemsTab
-                        xpath: //a[@title='Bundle Items']
-                        fieldsets:
-                            -
-                                shipment:
-                                    xpath: //div[contains(div/h4,'Shipment')]
-                                    dropdowns:
-                                        ship_bundle_items: //select[@id='shipment_type']
-                            -
-                                bundle_items:
-                                    xpath: //div[contains(div/h4,'Bundle Items')]
-                                    buttons:
-                                        add_new_option: //button[@id='add_new_option']
-                                    pageelements:
-                                        bundle_item_grid: //div[@class='option-box']
-                                        bundle_item_grid_index_product: //div[@class='option-box'][%index%]//tr[@class='selection' and contains(.,'%productSku%')]
-                                        bundle_item_row: //div[@class='option-box']
-                            -
-                                new_bundle_option:
-                                    xpath: //div[@id='bundle_option_%optionId%']
-                                    buttons:
-                                        delete_option: //button[span='Delete Option']
-                                        add_selection: //button[span='Add Selection']
-                                        selection_item_delete: //tr[contains(td,'%productSku%')]//button[span='Delete']
-                                    dropdowns:
-                                        bundle_items_input_type: //select[contains(@name,'[type]')]
-                                        bundle_items_is_required: //select[contains(@name,'required')]
-                                        selection_item_price_type: //tr[contains(td,'%productSku%')]//select[contains(@name,'selection_price_type')]
-                                        selection_item_user_defined_qty: //tr[contains(td,'%productSku%')]//select[contains(@name,'selection_can_change_qty')]
-                                    fields:
-                                        bundle_items_default_title: //input[contains(@name,'[title]')]
-                                        bundle_items_position: //input[contains(@name,'position')]
-                                        selection_item_price: //tr[contains(td,'%productSku%')]//input[contains(@name,'selection_price_value')]
-                                        selection_item_default_qty: //tr[contains(td,'%productSku%')]//input[contains(@name,'selection_qty')]
-                                        selection_item_position: //tr[contains(td,'%productSku%')]//input[contains(@name,'[position]')]
-                                    radiobuttons:
-                                        selection_item_default: //tr[contains(td,'%productSku%')]//input[contains(@name,'[is_default]')]
-                                    pageelements:
-                                        selected_option_product: //tr[contains(td,'%productSku%')]
-                            -
-                                select_product_to_bundle_option:
-                                    xpath: //div[@id='bundle_option_%optionId%']//div[contains(div/h4,'Please Select Products to Add')]
-                                    buttons:
-                                        add_selected_products: //button[span='Add Selected Product(s) to Option']
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
-                                    dropdowns:
-                                        bundle_items_search_massaction: //select[@name='is_selected']
-                                        bundle_items_search_attribute_set: //select[@name='set_name']
-                                    fields:
-                                        bundle_items_search_id: //input[@name='id']
-                                        bundle_items_search_name: //input[@name='name']
-                                        bundle_items_search_sku: //input[@name='sku']
-                                        bundle_items_search_price_from: //input[@name='price[from]']
-                                        bundle_items_search_price_to: //input[@name='price[to]']
-                                        bundle_items_qty_to_add: //input[@name='qty']
-                -
                     downloadable_information: &downloadableInformationTab
                         xpath: //a[@title='Downloadable Information']
                         fieldsets:
@@ -760,8 +757,6 @@ edit_product:
                     cross_sells: *crossSellsProductsTab
                 -
                     custom_options: *customOptionsTab
-                -
-                    bundle_items: *bundleItemsTab
                 -
                     downloadable_information: *downloadableInformationTab
                 -
