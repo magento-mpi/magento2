@@ -51,6 +51,7 @@ class Enterprice_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
             array('google_content_manage_attributes'),
             array('manage_invitations'),
             array('customer_segment_report'),
+            array('report_tag_product'),
         );
     }
 }

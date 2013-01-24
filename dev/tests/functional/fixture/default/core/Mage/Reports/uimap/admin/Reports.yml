@@ -370,6 +370,8 @@ report_tag_product:
                             export_to: //select[@id='gridProducts_export']
                         buttons:
                             export: //button[span='Export']
+                        fields:
+                            page: //input[@name='page']
 
 # Tags: Tags Submitted to Product
 tags_submitted_to_product:
