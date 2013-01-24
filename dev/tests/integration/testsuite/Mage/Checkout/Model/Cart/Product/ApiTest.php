@@ -87,12 +87,10 @@ class Mage_Checkout_Model_Cart_Product_ApiTest extends Mage_Checkout_Model_Cart_
      */
     public function testMoveToCustomerQuote()
     {
-        $this->markTestIncomplete("MAGETWO-7068");
         /** Prepare data. */
         $inactiveQuote = $this->_getQuote();
         $this->assertCount(1, $inactiveQuote->getAllItems(), 'Quote should have exactly 1 item.');
         $inactiveQuote->setIsActive(0)->setCustomerId(1)->save();
-
         $activeQuote = Mage::getModel('Mage_Sales_Model_Quote');
         $activeQuote->setData(array(
             'store_id' => 1,
