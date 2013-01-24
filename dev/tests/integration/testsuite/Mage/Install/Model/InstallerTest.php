@@ -50,7 +50,7 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Emulate configuration directory for the installer config model.
-     * Method usage should be accompanied with '@magentoDbIsolation enabled' because of the object manager pollution.
+     * Method usage should be accompanied with '@magentoAppIsolation enabled' because of the object manager pollution.
      *
      * @param string $dir
      */

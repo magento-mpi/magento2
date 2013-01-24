@@ -20,7 +20,7 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
         $user->setUsername('newuser')
             ->setFirstname('first_name')
             ->setLastname('last_name')
-            ->setPassword('password')
+            ->setPassword('password1')
             ->setEmail('newuser@example.com')
             ->setRoleId(1)
             ->save();

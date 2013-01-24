@@ -38,7 +38,7 @@ $user->setData(array(
     'lastname'  => 'lastname',
     'email'     => 'admingws@example.com',
     'username'  => 'admingws_user',
-    'password'  => 'admingws_password',
+    'password'  => 'admingws_password1',
     'is_active' => 1
 ));
 

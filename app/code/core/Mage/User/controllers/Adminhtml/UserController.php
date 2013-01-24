@@ -81,7 +81,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
 
     public function saveAction()
     {
-        $userId = $this->getRequest()->getParam('user_id');
+        $userId = (int)$this->getRequest()->getParam('user_id');
         $data = $this->getRequest()->getPost();
         if (!$data) {
             $this->_redirect('*/*/');
@@ -89,17 +89,23 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
         }
         /** @var $model Mage_User_Model_User */
         $model = $this->_objectManager->create('Mage_User_Model_User')->load($userId);
-        if (!$model->getId() && $userId) {
+        if ($userId && $model->isObjectNew()) {
             $this->_getSession()->addError($this->__('This user no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
+        if (!isset($data['password']) || $data['password'] === '') {
+            unset($data['password']);
+        }
+        if (!isset($data['password_confirmation']) || $data['password_confirmation'] === '') {
+            unset($data['password_confirmation']);
+        }
+        $model->setData($data);
+        $uRoles = $this->getRequest()->getParam('roles', array());
+        if (count($uRoles)) {
+            $model->setRoleId($uRoles[0]);
+        }
         try {
-            $model->setData($data);
-            $uRoles = $this->getRequest()->getParam('roles', array());
-            if (count($uRoles)) {
-                $model->setRoleId($uRoles[0]);
-            }
             $model->save();
             $this->_getSession()->addSuccess($this->__('The user has been saved.'));
             $this->_getSession()->setUserData(false);

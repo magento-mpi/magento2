@@ -274,11 +274,12 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessage First Name is required field.
      * @expectedExceptionMessage Last Name is required field.
      * @expectedExceptionMessage Please enter a valid email.
+     * @expectedExceptionMessage Password is required field.
      * @magentoDbIsolation enabled
      */
     public function testBeforeSaveRequiredFieldsValidation()
     {
-        $this->_model->setSomething('some_value');
+        $this->_model->setSomething('some_value'); // force model change
         $this->_model->save();
     }
 
@@ -289,7 +290,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testBeforeSavePasswordsDoNotMatch()
     {
-        $this->_model->setNewPassword('password');
+        $this->_model->setPassword('password2');
         $this->_model->setPasswordConfirmation('password1');
         $this->_model->save();
     }
@@ -301,7 +302,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testBeforeSavePasswordTooShort()
     {
-        $this->_model->setNewPassword('123456');
+        $this->_model->setPassword('123456');
         $this->_model->save();
     }
 
@@ -314,7 +315,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testBeforeSavePasswordInsecure($password)
     {
-        $this->_model->setNewPassword($password);
+        $this->_model->setPassword($password);
         $this->_model->save();
     }
 
@@ -346,7 +347,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->setFirstname('John')
             ->setLastname('Doe')
             ->setEmail('jdoe@gmail.com')
-            ->setNewPassword('1234abc')
+            ->setPassword('1234abc')
             ->setPasswordConfirmation('1234abc');
         $this->_model->save();
     }

@@ -257,7 +257,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
                 'lastname'          => $options['admin_lastname'],
                 'email'             => $options['admin_email'],
                 'username'          => $options['admin_username'],
-                'new_password'      => $options['admin_password'],
+                'password'          => $options['admin_password'],
             ));
 
             $installer = $this->_getInstaller();
@@ -288,16 +288,12 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
 
             /**
-             * Install encryption key
+             * Create primary administrator user & install encryption key
              */
             $encryptionKey = !empty($options['encryption_key']) ? $options['encryption_key'] : null;
             $encryptionKey = $installer->getValidEncryptionKey($encryptionKey);
-            $installer->installEncryptionKey($encryptionKey);
-
-            /**
-             * Create primary administrator user
-             */
             $installer->createAdministrator($this->_getDataModel()->getAdminData());
+            $installer->installEncryptionKey($encryptionKey);
 
             /**
              * Installation finish

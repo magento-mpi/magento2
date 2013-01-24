@@ -116,15 +116,16 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
 
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
-        $user->setIsNewPasswordRequired(true);
-        $user->setNewPassword($password);
-        $user->setPasswordConfirmation($passwordConfirmation);
-
+        if ($password !== '') {
+            $user->setPassword($password);
+        }
+        if ($passwordConfirmation !== '') {
+            $user->setPasswordConfirmation($passwordConfirmation);
+        }
+        // Empty current reset password token i.e. invalidate it
+        $user->setRpToken(null);
+        $user->setRpTokenCreatedAt(null);
         try {
-            // Empty current reset password token i.e. invalidate it
-            $user->setRpToken(null);
-            $user->setRpTokenCreatedAt(null);
-            $user->setPasswordConfirmation(null);
             $user->save();
             $this->_getSession()->addSuccess(
                 Mage::helper('Mage_User_Helper_Data')->__('Your password has been updated.')

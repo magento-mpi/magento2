@@ -18,7 +18,7 @@ class Magento_Test_Bootstrap
      * Predefined admin user credentials
      */
     const ADMIN_NAME = 'user';
-    const ADMIN_PASSWORD = 'password';
+    const ADMIN_PASSWORD = 'password1';
 
     /**
      * Predefined admin user role name

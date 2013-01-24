@@ -228,6 +228,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     {
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User');
+        $user->loadByUsername($data['username']);
         $user->addData($data)
             ->setForceNewPassword(true) // run-time flag to force saving of the entered password
             ->setRoleId(1)
