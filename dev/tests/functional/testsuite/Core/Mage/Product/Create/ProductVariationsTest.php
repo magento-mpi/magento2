@@ -359,7 +359,6 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             )
         );
         unset($productData['general_configurable_variations']);
-        $productData['general_weight_and_type_switcher'] = 'No';
         $productData['general_weight'] = '12';
         $option = $attributeData['attribute1']['option_1']['admin_option_name'];
         $verifyData = array(

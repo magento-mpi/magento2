@@ -447,6 +447,7 @@ configurable_product_for_order:
             associated_product_name: virtual_variation_%randomize%
             associated_sku: virtual_variation_sku_%randomize%
             associated_quantity: 999
+            associated_weight: ''
             associated_attributes:
                 attribute_1:
                     associated_attribute_name: %general_attribute_1%

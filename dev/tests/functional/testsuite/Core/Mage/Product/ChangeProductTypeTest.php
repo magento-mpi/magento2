@@ -297,13 +297,10 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps and Verifying
         $this->productHelper()->selectTypeProduct($initialType);
-        if ($initialType == 'simple') {
-            $this->fillCheckbox('general_weight_and_type_switcher', 'yes');
-        }
-        $this->assertTrue($this->getControlAttribute('checkbox', 'general_weight_and_type_switcher', 'selectedValue'),
-            'Weight checkbox is not selected');
         $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
+        $this->fillCheckbox('general_weight_and_type_switcher', 'No');
+        $this->waitForControlEditable('field', 'general_weight');
         $this->productHelper()->fillProductInfo($configurable);
         $this->productHelper()->saveProduct();
         //Verifying
@@ -346,7 +343,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->fillCheckbox('is_configurable', 'no');
         $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
-        $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simple);
         $this->productHelper()->saveProduct();
         //Verifying
@@ -382,7 +378,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->fillCheckbox('is_configurable', 'no');
         $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
-        $this->fillCheckbox('general_weight_and_type_switcher', 'no');
         $this->productHelper()->fillProductInfo($simple);
         $this->productHelper()->saveProduct();
         //Verifying
@@ -418,6 +413,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($initialProduct, $initialType);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('sku' => $initialProduct['general_sku']));
+        $this->fillCheckbox('general_weight_and_type_switcher', 'No');
+        $this->waitForControlEditable('field', 'general_weight');
         $this->productHelper()->fillProductInfo($configurable);
         $this->productHelper()->saveProduct();
         //Verifying
