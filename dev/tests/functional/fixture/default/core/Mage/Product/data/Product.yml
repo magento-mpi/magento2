@@ -1068,7 +1068,7 @@ grouped_product_required:
     general_sku: grouped_sku.req_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
-    associated_grouped_data: *associatedProductsGroupedData
+    general_grouped_associated: *associatedProductsGroupedData
 
 # Product that has all needed fields set to be visible in frontend.
 grouped_product_visible:

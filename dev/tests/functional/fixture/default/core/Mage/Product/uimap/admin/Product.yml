@@ -257,6 +257,41 @@ new_product:
                                         associated_quantity: //td[normalize-space(@class)='associated-product-qty']
                                         associated_inventory: //td[6]
                                         associated_weight: //td[normalize-space(@class)='associated-product-weight']
+                            -
+                                select_grouped_associated_product:
+                                    xpath: //div[div/span='Select Associated Products']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        select_products: //button[@id='grouped-products-select']
+                                    links:
+                                        close_associated_product: //a[span='close']
+                                    pageelements:
+                                        associated_grouped_product_id: //td[normalize-space(@class)='associated-product-id']
+                                        associated_grouped_product_name: //td[normalize-space(@class)='associated-product-name']
+                                        associated_grouped_price: //td[contains(@class,'associated-product-price')]
+                                        associated_grouped_sku: //td[normalize-space(@class)='associated-product-sku' and contains(text(), '%productSku%')]
+                                    fields:
+                                        associated_grouped_search_id: //input[@id='grouped_grid_popup_filter_id']
+                                        associated_grouped_search_name: //input[@id='grouped_grid_popup_filter_name']
+                                        associated_grouped_search_sku: //input[@id='grouped_grid_popup_filter_sku']
+                                        associated_grouped_search_price_from: //input[@id='grouped_grid_popup_filter_price_from']
+                                        associated_grouped_search_price_to: //input[@id='grouped_grid_popup_filter_price_to']
+                            -
+                                general_grouped_associated:
+                                    xpath: //*[@id='grouped_product_container']
+                                    buttons:
+                                        add_products_to_group: //button[@id='grouped-add-products']
+                                        remove_product_from_group: //button[contains(.,'Delete')]
+                                    fields:
+                                        associated_search_id: //input[@id='grouped_grid_filter_id']
+                                        associated_search_name: //input[@id='grouped_grid_filter_name']
+                                        associated_search_sku: //input[@id='grouped_grid_filter_sku']
+                                        associated_search_price_from: //input[@id='grouped_grid_filter_price_from']
+                                        associated_search_price_to: //input[@id='grouped_grid_filter_price_to']
+                                        associated_search_default_qty_from: //input[@id='grouped_grid_filter_qty_from']
+                                        associated_search_default_qty_to: //input[@id='grouped_grid_filter_qty_to']
+                                        associated_product_default_qty: //tr[contains(.,'%productSku%')]//input[@name='qty']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -619,35 +654,6 @@ new_product:
                                         bundle_items_search_price_to: //input[@name='price[to]']
                                         bundle_items_qty_to_add: //input[@name='qty']
                 -
-                    associated: &associatedProductsTab
-                        xpath: //a[@title='Associated Products']
-                        fieldsets:
-                            -
-                                associated:
-                                    xpath: //div[@id='super_product_grid']
-                                    buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
-                                    dropdowns:
-                                        associated_search_massaction: //select[@name='in_products']
-                                        associated_search_attribute_set: //select[@name='set_name']
-                                        associated_search_inventory: //select[@name='is_saleable']
-                                        associated_search_by_attribute_value: //select[@name='%attributeCode%']
-                                    fields:
-                                        associated_search_id: //input[@name='entity_id']
-                                        associated_search_name: //input[@name='name']
-                                        associated_search_sku: //input[@name='sku']
-                                        associated_search_price_from: //input[@name='price[from]']
-                                        associated_search_price_to: //input[@name='price[to]']
-                                        associated_search_default_qty_from: //input[@name='qty[from]']
-                                        associated_search_default_qty_to: //input[@name='qty[to]']
-                                        associated_search_position_from: //input[@name='position[from]']
-                                        associated_search_position_to: //input[@name='position[to]']
-                                        associated_product_position: %productXpath%//input[@name='position']
-                                        associated_product_default_qty: %productXpath%//input[@name='qty']
-                                    pageelements:
-                                        associated_table: //table[@id]
-                -
                     downloadable_information: &downloadableInformationTab
                         xpath: //a[@title='Downloadable Information']
                         fieldsets:
@@ -753,8 +759,6 @@ edit_product:
                     bundle_items: *bundleItemsTab
                 -
                     downloadable_information: *downloadableInformationTab
-                -
-                    associated: *associatedProductsTab
                 -
                     product_tags:
                         xpath: //a[@title='Product Tags']
