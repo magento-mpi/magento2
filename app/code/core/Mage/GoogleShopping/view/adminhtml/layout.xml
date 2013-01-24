@@ -33,7 +33,7 @@
 
     <adminhtml_googleshopping_types_block>
         <reference name="googleshopping.types.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.role.grid" as="grid">
+            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.googleshopping.types.grid" as="grid">
                 <arguments>
                     <id>types_grid</id>
                     <dataSource type="object">Mage_GoogleShopping_Model_Resource_Grid_Collection</dataSource>
