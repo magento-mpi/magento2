@@ -84,8 +84,6 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
         $this->_requestMock->expects($this->once())->method('setDispatched')->with(true);
 
         $this->_responseMock->expects($this->once())->method('appendBody')->with('cache');
-        $this->_responseMock->expects($this->once())
-            ->method('setHeader')->with("Content-Type", "text/html; charset=UTF-8");
         $this->_responseMock->expects($this->once())->method('sendResponse');
 
         $this->_model = new Enterprise_PageCache_Model_Http_Handler($this->_configMock, $this->_factoryMock);
@@ -111,8 +109,6 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
         $this->_requestMock->expects($this->never())->method('setDispatched');
 
         $this->_responseMock->expects($this->never())->method('appendBody');
-        $this->_responseMock->expects($this->once())
-            ->method('setHeader')->with("Content-Type", "text/html; charset=UTF-8");
         $this->_responseMock->expects($this->never())->method('sendResponse');
 
         $this->_model = new Enterprise_PageCache_Model_Http_Handler($this->_configMock, $this->_factoryMock);
