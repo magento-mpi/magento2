@@ -143,22 +143,17 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             $this->getName(),
             $this->getHtmlId(),
             $this->_escape($this->getValue()),
-            $this->serialize($this->getHtmlAttributes()),
-            $this->getImage(),
-            $this->getHtmlId(),
-            'Select Date',
-            ($this->getDisabled() ? 'display:none;' : '')
+            $this->serialize($this->getHtmlAttributes())
         );
         $dateFormat = $this->getDateFormat();
         $timeFormat = $this->getTimeFormat();
         if (empty($dateFormat)) {
             throw new Exception('Output format is not specified. '
-                                . 'Please, specify "format" key in constructor, or set it using setFormat().');
+                . 'Please, specify "format" key in constructor, or set it using setFormat().');
         }
 
         $html .= sprintf('
             <script type="text/javascript">
-            //<![CDATA[
             (function($) {
                 $("#%s").calendar({
                     dateFormat: "%s",
@@ -169,7 +164,6 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
                     disabled: %s
                 })
             })(jQuery);
-            //]]>
             </script>',
             $this->getHtmlId(),
             $dateFormat,
