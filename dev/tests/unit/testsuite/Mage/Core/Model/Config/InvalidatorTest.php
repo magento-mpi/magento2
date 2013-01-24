@@ -1,5 +1,7 @@
 <?php
 /**
+ * Test class for Mage_Core_Model_Config_Invalidator
+ *
  * {license_notice}
  *
  *
@@ -7,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * Test class for Mage_Core_Model_Config_Invalidator
- */
 class Mage_Core_Model_Config_InvalidatorTest extends PHPUnit_Framework_TestCase
 {
    public function testInvalidate()
