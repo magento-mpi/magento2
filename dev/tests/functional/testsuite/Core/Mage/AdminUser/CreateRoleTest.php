@@ -41,7 +41,7 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
     {
         $this->assertTrue($this->buttonIsPresent('add_new_role'), 'There is no "Add New Role" button on the page');
         $this->clickButton('add_new_role');
-        $this->assertTrue($this->checkCurrentPage('new_role'), $this->getParsedMessages());
+        $this->assertTrue($this->checkCurrentPage('new_admin_role'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_role'), 'There is no "Save Role" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
@@ -84,8 +84,9 @@ class Core_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
         $roleData = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role', array('role_name' => ''));
         //Steps
         $this->adminUserHelper()->createRole($roleData);
+        $this->addParameter('fieldId', 'role_name');
         //Verifying
-        $this->assertMessagePresent('error', 'error_required_field_role_name');
+        $this->assertMessagePresent('error', 'empty_required_field');
     }
 
     /**

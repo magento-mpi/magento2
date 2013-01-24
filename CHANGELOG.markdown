@@ -1,3 +1,23 @@
+2.0.0.0-dev40
+=============
+* Visual design editor improvements
+  * Disabled caching (layout, blocks HTML, etc) in VDE mode
+  * Reviewed and improved "Quit" action to properly cleanup session, cache and cookies
+  * Layout updates composed by VDE are combined into one record when stored in database
+  * Added ability to set placeholder for a draggable block in VDE canvas
+  * Fixed sorting of items within container
+  * Improved logic of VDE canvas iframe sizing according to window size
+* Dependency injection improvements
+  * Added ability to generate proxy and factory classes on-the-fly for use with DI implementations. Generators can be managed in DI configuration
+  * Implemented tools (shell scripts) that allow generating skeletons of factory and proxy classes for use with DI implementations
+  * Added ability to set preferences to object manager and specify them through configuration
+* Refactored the following modules to utilize `Magento_Filesystem` library instead of using built-in PHP core functions directly: `Mage_Adminhtml`, `Mage_Backend`, `Mage_Backup`, `Mage_Captcha`, `Mage_Catalog`, `Mage_Cms`, `Mage_Connect`, `Mage_Core`, `Mage_Install`
+* Bug fixes
+  * Fixed inability to update values in PayPal system configuration
+  * Fixed "The command line is too long" error triggered by static code analysis CLI tools when the lists become too large
+  * Fixed inability to create shipping label for DHL caused by wrong logo image path
+  * Fixed inactive navigation menu item of "Import/Export Tax Rates" page
+
 2.0.0.0-dev38
 =============
 * Changed application initialization procedure
