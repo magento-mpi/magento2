@@ -13,7 +13,9 @@
  *
  * @category   Mage
  * @package    Mage_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_Abstract extends Mage_Core_Block_Template
 {

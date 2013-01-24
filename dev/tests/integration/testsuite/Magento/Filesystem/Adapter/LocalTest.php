@@ -331,6 +331,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function getNestedKeysDataProvider()
     {
@@ -374,6 +376,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function getNestedFilesDataProvider()
     {
