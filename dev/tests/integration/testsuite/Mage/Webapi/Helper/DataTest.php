@@ -13,6 +13,7 @@
  */
 include_once __DIR__ . '/../_files/data_types/Customer/AddressData.php';
 include_once __DIR__ . '/../_files/data_types/CustomerData.php';
+include_once __DIR__ . '/../_files/autodiscovery/resource_class_fixture.php';
 include_once __DIR__ . '/../_files/autodiscovery/subresource_class_fixture.php';
 /**#@-*/
 
@@ -43,7 +44,12 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             /** Prepare arguments for SUT constructor. */
             $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
             /** @var Mage_Webapi_Model_Config_Reader_Soap $reader */
-            $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap');
+            $reader = $objectManager->get(
+                'Mage_Webapi_Model_Config_Reader_Soap',
+                array(
+                    'cache' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false)
+                )
+            );
             $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToFixtures));
             /** Initialize SUT. */
             self::$_apiConfig = $objectManager->create('Mage_Webapi_Model_Config_Soap', array('reader' => $reader));

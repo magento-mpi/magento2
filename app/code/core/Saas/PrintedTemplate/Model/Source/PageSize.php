@@ -136,7 +136,7 @@ class Saas_PrintedTemplate_Model_Source_PageSize
     protected function _getSource()
     {
         if (!$this->_source) {
-        $this->_source = $this->_getConfigModel()->getConfigSectionArray('page_size');
+            $this->_source = $this->_getConfigModel()->getConfigSectionArray('page_size');
         }
 
         return $this->_source;

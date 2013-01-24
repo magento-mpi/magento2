@@ -19,7 +19,7 @@
 class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Inspection_CodeSniffer_Command
+     * @var CodingStandard_Tool_CodeSniffer
      */
     protected static $_cmd = null;
 

@@ -57,7 +57,7 @@ interface Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface
      * @throws Mage_Core_Exception
      */
     public function renderHtml($bodyHtml, Saas_PrintedTemplate_Model_PageSize $pageSize = null,
-                               $pageOrientation = null);
+        $pageOrientation = null);
 
     /**
      * Can Header and Footer heights be calculated dynamically if their sizes aren't specified
