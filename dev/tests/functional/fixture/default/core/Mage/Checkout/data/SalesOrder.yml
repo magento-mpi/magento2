@@ -407,6 +407,7 @@ configurable_product_for_order:
     general_description: Description for Configurable Product
     general_short_description: Short Description for Configurable Product
     general_sku: configurable_sku_Order(%randomize%)
+    general_weight: 0.1
     general_status: Enabled
     general_visibility: Catalog, Search
     general_stock_availability: In Stock
