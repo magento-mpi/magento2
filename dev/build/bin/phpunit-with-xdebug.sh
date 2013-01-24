@@ -15,5 +15,5 @@ if [ -z "$XDEBUG_INSTALED" ]; then
     $PHP  -d zend_extension=$XDEBUG_LIB -d xdebug.max_nesting_level=200 `which phpunit` $@
 else
     # XDebug is enabled in php.ini
-    /usr/bin/env phpunit $@
+    /usr/bin/env phpunit --debug --verbose $@
 fi
