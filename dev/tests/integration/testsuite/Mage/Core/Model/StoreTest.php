@@ -255,6 +255,74 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $badStoreData
+     *
+     * @dataProvider saveValidationDataProvider
+     * @magentoAppIsolation enabled
+     * @expectedException Mage_Core_Exception
+     */
+    public function testSaveValidation($badStoreData)
+    {
+        $normalStoreData = array(
+            'code'          => 'test',
+            'website_id'    => 1,
+            'group_id'      => 1,
+            'name'          => 'test name',
+            'sort_order'    => 0,
+            'is_active'     => 1
+        );
+        $data = array_merge($normalStoreData, $badStoreData);
+
+        $this->_model->setData($data);
+
+        /* emulate admin store */
+        Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
+        $this->_model->save();
+    }
+
+    /**
+     * @return array
+     */
+    public static function saveValidationDataProvider()
+    {
+        return array(
+            'empty store name' => array(
+                array('name' => '')
+            ),
+            'empty store code' => array(
+                array('code' => '')
+            ),
+            'invalid store code' => array(
+                array('code' => '^_^')
+            ),
+        );
+    }
+
+    /**
+     * @magentoConfigFixture global/functional_limitation/max_store_count 1
+     * @magentoAppIsolation enabled
+     * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage You are using the maximum number of store views allowed.
+     */
+    public function testSaveValidationLimitation()
+    {
+        $this->_model->setData(
+            array(
+                'code'          => 'test',
+                'website_id'    => 1,
+                'group_id'      => 1,
+                'name'          => 'test name',
+                'sort_order'    => 0,
+                'is_active'     => 1
+            )
+        );
+
+        /* emulate admin store */
+        Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
+        $this->_model->save();
+    }
+
+    /**
      *
      * @dataProvider getUrlClassNameDataProvider
      * @param $urlClassName

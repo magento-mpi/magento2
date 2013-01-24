@@ -225,7 +225,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
                 return;
             }
             catch (Mage_Core_Exception $e) {
-                $session->addError($e->getMessage());
+                $this->_getSession()->addMessages($e->getMessages());
                 $session->setPostData($postData);
             }
             catch (Exception $e) {
