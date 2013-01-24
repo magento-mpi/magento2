@@ -15,7 +15,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
     const STATUS_PENDING = 'pending';
 
     /**
-     * Test 'info' method of sales order API.
+     * Test info method of sales order API.
      */
     public function testInfo()
     {
