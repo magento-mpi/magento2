@@ -31,7 +31,7 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
 
         /** Verify received list of shipments. */
         $this->assertCount(1, $shipmentsList, "Exactly 1 shipment is expected to be in the list results.");
-        $fieldsToCompare = array('increment_id', 'created_at', 'total_qty', 'entity_id' => 'shipment_id');
+        $fieldsToCompare = array('increment_id', 'total_qty', 'entity_id' => 'shipment_id');
         Magento_Test_Helper_Api::checkEntityFields(
             $this,
             $shipmentFixture->getData(),
