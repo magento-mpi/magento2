@@ -29,8 +29,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
     protected function _prepareForm()
     {
         $this->setFormExcludedFieldList(array(
-            'tier_price', 'gallery', 'media_gallery', 'recurring_profile', 'group_price',
-            'quantity_and_stock_status'
+            'category_ids', 'gallery', 'group_price', 'image', 'media_gallery',
+            'quantity_and_stock_status','recurring_profile', 'tier_price', 'weight_and_type_switcher'
         ));
         Mage::dispatchEvent('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
 
