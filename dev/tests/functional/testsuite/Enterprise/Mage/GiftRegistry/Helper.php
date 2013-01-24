@@ -96,7 +96,7 @@ class Enterprise_Mage_GiftRegistry_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyGiftRegistry($giftRegistryData)
     {
-        $giftRegistryData = $this->testDataToArray($giftRegistryData);
+        $giftRegistryData = $this->fixtureDataToArray($giftRegistryData);
         $this->verifyForm($giftRegistryData);
         $this->assertEmptyVerificationErrors();
     }

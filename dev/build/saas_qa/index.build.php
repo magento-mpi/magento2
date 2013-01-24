@@ -12,15 +12,15 @@ try {
         throw new Exception('Tenant ID cannot be identified.');
     }
     $tenantId = $matches[1];
-    $configFile = realpath(__DIR__ . "/../local.{$tenantId}.xml");
+    $configFile = __DIR__ . "/dev/build/saas_qa/tenants/local.{$tenantId}.xml";
     if (!$configFile || !file_exists($configFile) || !is_readable($configFile)) {
         throw new Exception("Tenant file '{$configFile}' cannot be found.");
     }
     $localXml = file_get_contents($configFile);
 } catch (Exception $e) {
     header('Content-Type: text/plain;charset=UTF-8');
-    header('HTTP/1.0 400 Bad Request');
-    echo $e;
+    header('HTTP/1.0 404 Not Found');
+    echo $e->getMessage();
     exit(1);
 }
 

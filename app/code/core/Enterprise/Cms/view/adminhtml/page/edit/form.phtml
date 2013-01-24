@@ -28,15 +28,11 @@
 <script type="text/javascript">
 //<![CDATA[
 <?php if ($this->getSelectedTabId()): ?>
-Event.observe(window, 'load', function() {
-    var objName = '<?php echo $this->getSelectedTabId() ?>';
-    if (objName) {
-        obj = $(objName);
-        //IE fix (bubbling event model)
-        page_tabsJsTabs.setSkipDisplayFirstTab();
-        page_tabsJsTabs.showTabContent(obj);
-    }
-});
+    jQuery(function() {
+        if (jQuery('#<?php echo $this->getSelectedTabId() ?>').length) {
+            jQuery('#<?php echo $this->getSelectedTabId() ?>').trigger('click');
+        }
+    });
 <?php endif; ?>
 </script>
 

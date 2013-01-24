@@ -46,17 +46,27 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected $_configData = array();
 
     /**
+    * @var Magento_Filesystem
+    */
+    protected $_filesystem;
+
+    /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_Resource $resourceConfig
+     * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Model_Config $config, Mage_Core_Model_Dir $dirs, Mage_Core_Model_Config_Resource $resourceConfig
+        Mage_Core_Model_Config $config, 
+        Mage_Core_Model_Dir $dirs, 
+        Mage_Core_Model_Config_Resource $resourceConfig,
+        Magento_Filesystem $filesystem
     ) {
         $this->_localConfigFile = $dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
         $this->_config = $config;
         $this->_resourceConfig = $resourceConfig;
+        $this->_filesystem = $filesystem;
     }
 
     public function setConfigData($data)
@@ -120,13 +130,14 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
 
         $this->_getInstaller()->getDataModel()->setConfigData($data);
 
-        $contents = $this->_dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml.template';
-        $contents = file_get_contents($contents);
+        $path = $this->_dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml.template';
+        $contents = $this->_filesystem->read($path);
         foreach ($data as $index => $value) {
             $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
         }
-        file_put_contents($this->_localConfigFile, $contents);
-        chmod($this->_localConfigFile, 0777);
+
+        $this->_filesystem->write($this->_localConfigFile, $contents);
+        $this->_filesystem->changePermissions($this->_localConfigFile, 0777);
     }
 
     public function getFormData()
@@ -222,9 +233,9 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     public function replaceTmpInstallDate($date = null)
     {
         $stamp    = strtotime((string) $date);
-        $localXml = file_get_contents($this->_localConfigFile);
+        $localXml = $this->_filesystem->read($this->_localConfigFile);
         $localXml = str_replace(self::TMP_INSTALL_DATE_VALUE, date('r', $stamp ? $stamp : time()), $localXml);
-        file_put_contents($this->_localConfigFile, $localXml);
+        $this->_filesystem->write($this->_localConfigFile, $localXml);
 
         return $this;
     }
@@ -234,9 +245,9 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         if (!$key) {
             $key = md5(Mage::helper('Mage_Core_Helper_Data')->getRandomString(10));
         }
-        $localXml = file_get_contents($this->_localConfigFile);
+        $localXml = $this->_filesystem->read($this->_localConfigFile);
         $localXml = str_replace(self::TMP_ENCRYPT_KEY_VALUE, $key, $localXml);
-        file_put_contents($this->_localConfigFile, $localXml);
+        $this->_filesystem->write($this->_localConfigFile, $localXml);
 
         return $this;
     }

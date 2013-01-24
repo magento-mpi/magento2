@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-HistoryToolbarTest = TestCase('HistoryToolbarTest');
+HistoryToolbarTest = TestCase('DesignEditor_HistoryToolbarTest');
 HistoryToolbarTest.prototype.testInit = function() {
     /*:DOC += <div class="vde_history_toolbar"></div> */
     var container = jQuery('.vde_history_toolbar').vde_historyToolbar();

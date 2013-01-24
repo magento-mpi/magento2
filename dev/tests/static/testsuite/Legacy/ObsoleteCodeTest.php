@@ -225,7 +225,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _testGetChildSpecialCase($content, $file)
     {
-        if (0 === strpos(str_replace('\\', '/', $file), 'app')) {
+        if (0 === strpos($file, Utility_Files::init()->getPathToSource() . '/app/')) {
             $this->_assertNotRegexp('/[^a-z\d_]getChild\s*\(/iS', $content,
                 'Block method getChild() is obsolete. Replacement suggestion: Mage_Core_Block_Abstract::getChildBlock()'
             );
@@ -240,10 +240,10 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     protected function _testGetOptionsSpecialCase($content)
     {
         $this->_assertNotRegexp(
-            '/getOptions\(\)->get(Base|App|Code|Design|Etc|Lib|Locale|Js|Media'
+            '/getOptions\(\)\s*->get(Base|App|Code|Design|Etc|Lib|Locale|Js|Media'
                 .'|Var|Tmp|Cache|Log|Session|Upload|Export)?Dir\(/S',
             $content,
-            'The class Mage_Core_Model_Config_Options. Replacement suggestion: Mage_Core_Model_Dir'
+            'The class Mage_Core_Model_Config_Options is obsolete. Replacement suggestion: Mage_Core_Model_Dir'
         );
     }
 

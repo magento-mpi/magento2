@@ -25,7 +25,7 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createCmsBanner($pageData)
     {
-        $pageData = $this->testDataToArray($pageData);
+        $pageData = $this->fixtureDataToArray($pageData);
         $bannerProperties = (isset($pageData['banner_properties'])) ? $pageData['banner_properties'] : array();
         $content = (isset($pageData['content'])) ? $pageData['content'] : array();
         $relatedPromotions = (isset($pageData['related_promotions'])) ? $pageData['related_promotions'] : array();

@@ -27,6 +27,8 @@ try {
         case 'ee':
             $lists[] = 'saas.txt';
             break;
+        case 'saas':
+            break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
@@ -34,8 +36,13 @@ try {
     foreach ($lists as $list) {
         $command .= ' -l ' . escapeshellarg(__DIR__ . '/extruder/' . $list);
     }
+
     echo $command . PHP_EOL;
-    passthru($command);
+    passthru($command, $exitCode);
+    if ($exitCode) {
+        throw new Exception('Extruder execution failed');
+    }
+
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);

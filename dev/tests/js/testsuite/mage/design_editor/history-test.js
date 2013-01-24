@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-HistoryTest = TestCase('HistoryTest');
+HistoryTest = TestCase('DesignEditor_HistoryTest');
 HistoryTest.prototype.testInit = function() {
     jQuery(window).vde_history();
     assertEquals(true, jQuery(window).is(':vde-vde_history'));

@@ -20,9 +20,6 @@
 $_helper = $this->helper('Mage_Catalog_Helper_Output');
 $_product = $this->getProduct();
 ?>
-<script type="text/javascript">
-    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
-</script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
 <div id="bundle-product-wrapper">
     <div id="bundleProduct">
@@ -66,28 +63,22 @@ $_product = $this->getProduct();
                 <?php $_description = $this->getChildHtml('description') ?>
                 <?php $_additional = $this->getChildHtml('additional') ?>
                 <?php if($_description || $_additional):?>
-                    <dl id="collateral-tabs" class="collateral-tabs">
-                    <?php if($_description):?>
-                        <dt class="tab"><span><?php echo $this->__('Details') ?></span></dt>
-                        <dd class="tab-container">
-                           <div class="tab-content"><?php echo $_description ?></div>
-                        </dd>
-                    <?php endif;?>
-                    <?php if($_additional):?>
-                        <dt class="tab"><span><?php echo $this->__('Additional Information') ?></span></dt>
-                        <dd class="tab-container">
-                            <div class="tab-content"><?php echo $_additional ?></div>
-                        </dd>
-                    <?php endif;?>
-                    </dl>
-                    <script type="text/javascript">
-                    //<![CDATA[
-                        var collateralTabs = new Enterprise.Tabs('collateral-tabs');
-                        Event.observe(window, 'load', function() {
-                            collateralTabs.select();
-                        });
-                    //]]>
-                    </script>
+                    <div class="c pr" data-mage-init="{tabs: []}">
+                        <ul>
+                            <?php if($_description):?>
+                                <li><a href="#product.details"><?php echo $this->__('Details') ?></a></li>
+                            <?php endif; ?>
+                            <?php if($_description):?>
+                                <li><a href="#product.additional"><?php echo $this->__('Additional Information') ?></a></li>
+                            <?php endif; ?>
+                        </ul>
+                        <?php if($_description):?>
+                           <div id="product.details"><?php echo $_description ?></div>
+                        <?php endif;?>
+                        <?php if($_additional):?>
+                            <div id="product.additional"><?php echo $_additional ?></div>
+                        <?php endif;?>
+                    </div>
                 <?php endif; ?>
                 <?php if ($this->canEmailToFriend()): ?>
                     <p class="emailto-link"><a href="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
@@ -107,7 +98,7 @@ $_product = $this->getProduct();
         <div id="options-container" style="display:none">
             <div id="customizeTitle" class="page-title title-buttons">
                 <h1><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $_product->getName(), 'name')) ?></h1>
-                <a href="#" onclick="Enterprise.Bundle.end(); return false;"><small>&lsaquo;</small> Go back to product detail</a>
+                <a href="#" class="bundle-slide-back"><small>&lsaquo;</small> Go back to product detail</a>
             </div>
             <?php echo $this->getChildHtml('bundleSummary') ?>
             <?php echo $this->getChildChildHtml('options_container') ?>
@@ -117,56 +108,13 @@ $_product = $this->getProduct();
     </div>
 </div>
 <script type="text/javascript">
-        <?php if ($this->isStartCustomization()): ?>
-            Enterprise.Bundle.start();
-        <?php endif;?>
-        var productAddToCartForm = new VarienForm('product_addtocart_form');
-        productAddToCartForm.submit = function(button, url) {
-            if (this.validator.validate()) {
-                var form = this.form;
-                var oldUrl = form.action;
-
-                if (url) {
-                   form.action = url;
-                }
-                var e = null;
-                try {
-                    this.form.submit();
-                } catch (e) {
-                }
-                this.form.action = oldUrl;
-                if (e) {
-                    throw e;
-                }
-
-                if (button && button != 'undefined') {
-                    button.disabled = true;
-                }
-            }
-        }.bind(productAddToCartForm);
-
-        productAddToCartForm.submitLight = function(button, url){
-            if(this.validator) {
-                var nv = Validation.methods;
-                delete Validation.methods['required-entry'];
-                delete Validation.methods['validate-one-required'];
-                delete Validation.methods['validate-one-required-by-name'];
-                // Remove custom datetime validators
-                for (var methodName in Validation.methods) {
-                    if (methodName.match(/^validate-datetime-.*/i)) {
-                        delete Validation.methods[methodName];
-                    }
-                }
-
-                if (this.validator.validate()) {
-                    if (url) {
-                        this.form.action = url;
-                    }
-                    this.form.submit();
-                }
-                Object.extend(Validation.methods, nv);
-            }
-        }.bind(productAddToCartForm);
-
-        Enterprise.Bundle.initialize();
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/slide.js')?>", function() {
+            $('#bundle-product-wrapper').slide(
+                <?php if ($this->isStartCustomization()): ?>
+                    {autostart: true}
+                <?php endif;?>
+            );
+        });
+    })(jQuery);
 </script>

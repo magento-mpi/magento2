@@ -54,6 +54,11 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     protected $_logger;
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * Path to template file in theme.
      *
      * @var string
@@ -62,7 +67,6 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 
     /**
      * Constructor
-     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -76,7 +80,10 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
@@ -92,14 +99,15 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_dirs = $dirs;
         $this->_logger = $logger;
+        $this->_filesystem = $filesystem;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $data);
     }
-
 
     /**
      * Internal constructor, that is called from real constructor
@@ -222,7 +230,8 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      */
     public function fetchView($fileName)
     {
-        Magento_Profiler::start('TEMPLATE:' . $fileName);
+        $viewShortPath = str_replace($this->_dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $fileName);
+        Magento_Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
         // EXTR_SKIP protects from overriding
         // already defined variables
@@ -250,19 +259,19 @@ HTML;
         }
 
         try {
-            $templateFile = realpath($fileName);
-            if ($templateFile && (
-                strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::APP)) === 0
-                || strpos($templateFile, $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES)) === 0
-                || $this->_getAllowSymlinks())
+            if ((Magento_Filesystem::isPathInDirectory($fileName, $this->_dirs->getDir(Mage_Core_Model_Dir::APP))
+                || Magento_Filesystem::isPathInDirectory($fileName, $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES))
+                || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
             ) {
-                include $templateFile;
+                include $fileName;
             } else {
                 $this->_logger->log("Invalid template file: '{$fileName}'", Zend_Log::CRIT);
             }
 
         } catch (Exception $e) {
-            ob_get_clean();
+            if (!$do) {
+                ob_get_clean();
+            }
             throw $e;
         }
 

@@ -48,7 +48,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $this->_fallback->expects($this->any())->method('getTheme')->will($this->returnValue('t'));
         $this->_fallback->expects($this->any())->method('getLocale')->will($this->returnValue('l'));
         $this->_model = new Mage_Core_Model_Design_Fallback_CachingProxy(
-            $this->_fallback, $this->_tmpDir, __DIR__, true
+            $this->_fallback, $this->_createFilesystem(), $this->_tmpDir, __DIR__, true
         );
     }
 
@@ -62,7 +62,8 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
      */
     public function testConstructInvalidDir()
     {
-        new Mage_Core_Model_Design_Fallback_CachingProxy($this->_fallback, $this->_tmpDir, __DIR__ . '/invalid_dir');
+        new Mage_Core_Model_Design_Fallback_CachingProxy($this->_fallback, $this->_createFilesystem(), $this->_tmpDir,
+            __DIR__ . '/invalid_dir');
     }
 
     public function testDestruct()
@@ -73,6 +74,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $suffix = uniqid();
         $model = new Mage_Core_Model_Design_Fallback_CachingProxy(
             $this->_fallback,
+            $this->_createFilesystem(),
             $this->_tmpDir . DIRECTORY_SEPARATOR . $suffix,
             __DIR__,
             true
@@ -127,5 +129,10 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             $this->_model, $this->_model->notifyViewFilePublished($anotherFixture, 'file.txt', $moduleArg)
         );
         $this->assertEquals($anotherFixture, $this->_model->getViewFile('file.txt', $moduleArg));
+    }
+
+    protected function _createFilesystem()
+    {
+        return new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
     }
 }

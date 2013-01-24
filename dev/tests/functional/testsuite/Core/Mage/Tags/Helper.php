@@ -143,7 +143,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillTagSettings($tagData)
     {
-        $tagData = $this->testDataToArray($tagData);
+        $tagData = $this->fixtureDataToArray($tagData);
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
@@ -191,7 +191,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openTag($searchData)
     {
-        $searchData = $this->testDataToArray($searchData);
+        $searchData = $this->fixtureDataToArray($searchData);
         // Check if store views are available
         $key = 'filter_store_view';
         if (array_key_exists($key, $searchData) && !$this->controlIsPresent('dropdown', 'store_view')) {

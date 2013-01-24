@@ -39,7 +39,7 @@ class Enterprise_Mage_CustomerSegment_Helper extends Mage_Selenium_AbstractHelpe
      */
     public function fillTabs($segmentData)
     {
-        $segmentData = $this->testDataToArray($segmentData);
+        $segmentData = $this->fixtureDataToArray($segmentData);
         $generalPropertiesTab =
             (isset($segmentData['general_properties'])) ? $segmentData['general_properties'] : array();
         $this->fillTab($generalPropertiesTab, 'general_properties');

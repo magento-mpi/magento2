@@ -25,7 +25,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createReview($reviewData)
     {
-        $reviewData = $this->testDataToArray($reviewData);
+        $reviewData = $this->fixtureDataToArray($reviewData);
         $this->clickButton('add_new_review');
         $product = (isset($reviewData['product_to_review'])) ? $reviewData['product_to_review'] : array();
         if (!$product) {
@@ -119,7 +119,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyReviewData($reviewData, $skipFields = array())
     {
-        $reviewData = $this->testDataToArray($reviewData);
+        $reviewData = $this->fixtureDataToArray($reviewData);
         if (isset($reviewData['visible_in']) && !$this->controlIsPresent('multiselect', 'visible_in')) {
             $skipFields = array_merge($skipFields, array('visible_in'));
         }
@@ -146,7 +146,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontendAddReview($reviewData, $validateRating = true)
     {
-        $reviewData = $this->testDataToArray($reviewData);
+        $reviewData = $this->fixtureDataToArray($reviewData);
         $linkName = ($this->controlIsPresent('link', 'add_your_review')) ? 'add_your_review' : 'first_review';
         $this->defineCorrectParam($linkName);
         $this->clickControl('link', $linkName);
@@ -165,7 +165,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontendAddRating($ratingData, $validateRating = true)
     {
-        $ratingData = $this->testDataToArray($ratingData);
+        $ratingData = $this->fixtureDataToArray($ratingData);
         foreach ($ratingData as $value) {
             $this->addParameter('rateName', $value['rating_name']);
             $this->addParameter('rateId', $value['stars']);

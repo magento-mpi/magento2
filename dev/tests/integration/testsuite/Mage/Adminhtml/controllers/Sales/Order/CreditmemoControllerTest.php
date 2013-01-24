@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Sales_Order_CreditmemoControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_Sales_Order_CreditmemoControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture current_store cataloginventory/item_options/auto_return 1

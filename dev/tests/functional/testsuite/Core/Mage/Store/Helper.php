@@ -28,7 +28,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createStore($data, $name)
     {
-        $data = $this->testDataToArray($data);
+        $data = $this->fixtureDataToArray($data);
 
         $this->clickButton('create_' . $name);
         $this->fillForm($data);
@@ -136,7 +136,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createStatus($data)
     {
-        $data = $this->testDataToArray($data);
+        $data = $this->fixtureDataToArray($data);
 
         $this->clickButton('create_new_status');
         $this->fillFieldSet($data, 'order_status_info');
@@ -151,7 +151,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
      */
     public function assignStatus($data)
     {
-        $data = $this->testDataToArray($data);
+        $data = $this->fixtureDataToArray($data);
         $this->clickButton('assign_status_to_state');
         $this->fillFieldSet($data, 'assignment_information');
         $this->saveForm('save_status_assignment');

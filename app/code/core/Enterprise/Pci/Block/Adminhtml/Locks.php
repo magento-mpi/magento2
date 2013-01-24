@@ -12,7 +12,7 @@
  * Locked administrators page
  *
  */
-class Enterprise_Pci_Block_Adminhtml_Locks extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Pci_Block_Adminhtml_Locks extends Mage_Backend_Block_Widget_Grid_Container
 {
     /**
      * Header text getter
@@ -25,13 +25,13 @@ class Enterprise_Pci_Block_Adminhtml_Locks extends Mage_Adminhtml_Block_Widget_C
     }
 
     /**
-     * Render grid
+     * Produce buttons HTML
      *
+     * @param string $region
      * @return string
      */
-    public function getGridHtml()
+    public function getButtonsHtml($region = null)
     {
-        return $this->getLayout()->createBlock('Enterprise_Pci_Block_Adminhtml_Locks_Grid')
-            ->toHtml();
+        return '';
     }
 }

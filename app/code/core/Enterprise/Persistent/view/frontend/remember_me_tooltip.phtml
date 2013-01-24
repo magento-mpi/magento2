@@ -16,23 +16,14 @@
 /** @var $this Mage_Core_Block_Template */
 ?>
 <script type="text/javascript">
-//<![CDATA[
-    var showTooltip = function() {
-        this.rememberTip = new Enterprise.Widget.Dialog(
-            '<?php echo $this->__('What is this?');?>',
-            '<p><?php echo $this->__('Checking &quot;Remember Me&quot; will let you access your shopping cart on this computer when you are logged out')?></p>'+
-            '<div class="buttons-set"><button type="button" class="button btn-close"><span><span><?php echo $this->__('Close') ?></span></span></button></div>',
-            'popup-remember-tip'
-        ),
-        $(this.rememberTip.getContent()).select('button.btn-close')[0].onclick = this.rememberTip.hide.bind(this.rememberTip);
-        this.rememberTip.show();
-        return false;
-    }
-
-    document.observe("dom:loaded", function() {
-        $$('#remember-me-box a').each(function(element) {
-            Event.observe(element, 'click', showTooltip);
-        });
-    });
-//]]>
+    (function($) {
+        head.js(
+            "<?php echo $this->getViewFileUrl('Mage_Persistent::remember-me-popup.js') ?>",
+            function() {
+                $('#remember-me-box').rememberMePopup({
+                    title: '<?php echo $this->__('What is this?');?>',
+                    content: '<?php echo $this->__('Checking &quot;Remember Me&quot; will let you access your shopping cart on this computer when you are logged out')?>'
+                });
+            });
+    })(jQuery);
 </script>

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * Base controller URL

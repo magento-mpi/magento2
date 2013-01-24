@@ -350,12 +350,13 @@ Validation.addAllThese([
         return resultFlag;
 }]]);
 
-function bindActiveRegistryTab(event) {
-    if ($('store_switcher') && event.tab && event.tab.name) {
-        $('store_switcher').switchParams = 'active_tab/'+event.tab.name+'/';
+function bindActiveRegistryTab(event, ui) {
+    var anchor = jQuery(ui.newTab).find('a');
+    if ($('store_switcher') && anchor.length && anchor.prop('name')) {
+        $('store_switcher').switchParams = 'active_tab/' + anchor.prop('name') + '/';
     }
 }
-varienGlobalEvents.attachEventHandler('showTab', bindActiveRegistryTab);
+jQuery(document).on('tabsactivate', bindActiveRegistryTab);
 //]]>
 </script>
 </div>

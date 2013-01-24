@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Cms_Adminhtml_Cms_PageControllerTest extends Mage_Adminhtml_Utility_Controller
+class Enterprise_Cms_Adminhtml_Cms_PageControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * Checks if Enterprise_Cms_Block_Adminhtml_Cms_Page::_prepareLayout finds child 'grid' block

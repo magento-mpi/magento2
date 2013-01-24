@@ -46,7 +46,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createTaxItem($taxItemData, $type)
     {
-        $taxItemData = $this->testDataToArray($taxItemData);
+        $taxItemData = $this->fixtureDataToArray($taxItemData);
         $this->clickButton('add_' . $type);
         $this->fillForm($taxItemData);
 

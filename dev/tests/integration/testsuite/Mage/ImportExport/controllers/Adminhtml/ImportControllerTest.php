@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_ImportExport_Adminhtml_ImportControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_ImportExport_Adminhtml_ImportControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testGetFilterAction()
     {

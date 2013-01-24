@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testLoadBlockAction()
     {

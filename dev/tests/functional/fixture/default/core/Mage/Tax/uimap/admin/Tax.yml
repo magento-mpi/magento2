@@ -25,14 +25,18 @@ manage_tax_zones_and_rates:
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
+                            export: //button[span='Export']
                         dropdowns:
                             filter_country: //select[@id='tax_rate_grid_filter_tax_country_id']
+                            view: //select[@name='limit']
+                            export_to: //select[@id='tax_rate_grid_export']
                         fields:
                             filter_tax_id: //input[@id='tax_rate_grid_filter_code']
                             filter_state_region: //input[@id='tax_rate_grid_filter_region_name']
                             filter_zip_code: //input[@id='tax_rate_grid_filter_tax_postcode']
                             filter_rate_from: //input[@id='tax_rate_grid_filter_rate_from']
                             filter_rate_to: //input[@id='tax_rate_grid_filter_rate_to']
+                            page: //input[@name='page']
                         pageelements:
                             grid_head: //*[@id='tax_rate_grid_table']/thead/tr[@class='headings']
         buttons:

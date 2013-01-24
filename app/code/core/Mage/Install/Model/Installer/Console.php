@@ -57,6 +57,11 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     );
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * Installer data model to store data between installations steps
      *
      * @var Mage_Install_Model_Installer_Data|Mage_Install_Model_Session
@@ -83,11 +88,13 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
      */
     public function __construct(
         Mage_Core_Model_Config_Resource $resourceConfig,
-        Mage_Core_Model_Db_UpdaterInterface $daUpdater
+        Mage_Core_Model_Db_UpdaterInterface $daUpdater,
+        Magento_Filesystem $filesystem
     ) {
         $this->_resourceConfig = $resourceConfig;
         $this->_dbUpdater = $daUpdater;
         $this->_getInstaller()->setDataModel($this->_getDataModel());
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -336,10 +343,8 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             /**
              * Change directories mode to be writable by apache user
              */
-            Varien_Io_File::chmodRecursive(Mage::getBaseDir('var'), 0777);
-
+            $this->_filesystem->changePermissions(Mage::getBaseDir('var'), 0777, true);
             return $encryptionKey;
-
         } catch (Exception $e) {
             $this->addError('ERROR: ' . $e->getMessage());
             return false;
@@ -394,9 +399,9 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
 
         /* Remove temporary directories and local.xml */
         foreach (glob(Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
-            Varien_Io_File::rmdirRecursive($dir);
+            $this->_filesystem->delete($dir);
         }
-        unlink(Mage::getBaseDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
+        $this->_filesystem->delete(Mage::getBaseDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
         return true;
     }
 

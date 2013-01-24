@@ -21,7 +21,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Varien_Io_File::rmdirRecursive(Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . '/theme');
+        $themeDir = Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . 'theme';
+        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $filesystem->delete($themeDir . '/frontend');
+        $filesystem->delete($themeDir . '/_merged');
 
         $ioAdapter = new Varien_Io_File();
         $ioAdapter->cp(
@@ -54,7 +57,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     protected function _emulateFixtureTheme($themePath = 'test/default')
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            'app_dirs' => array(
+            Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));

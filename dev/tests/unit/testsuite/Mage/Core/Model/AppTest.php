@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Test class for Mage_Core_Model_App
+ */
 class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 {
     /**

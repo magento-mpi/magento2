@@ -39,18 +39,31 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     protected $_dirs = null;
 
     /**
+     * @var Magento_ObjectManager|null
+     */
+    protected $_objectManager = null;
+
+    /**
      * Constructor.
      * Following entries in $params are required: 'area', 'package', 'theme', 'locale'. The 'appConfig' and
      * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
      * present or null, then they will be retrieved from global application instance.
      *
      * @param Mage_Core_Model_Dir $dirs
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Filesystem $filesystem
      * @param array $params
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Core_Model_Dir $dirs, $params)
-    {
+    public function __construct(
+        Mage_Core_Model_Dir $dirs,
+        Magento_ObjectManager $objectManager,
+        Magento_Filesystem $filesystem,
+        $params
+    ) {
         $this->_dirs = $dirs;
+        $this->_objectManager = $objectManager;
+        $this->_filesystem = $filesystem;
         if (!array_key_exists('area', $params) || !array_key_exists('themeModel', $params)
             || !array_key_exists('locale', $params)
         ) {
@@ -59,7 +72,6 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $this->_area = $params['area'];
         $this->_theme = $params['themeModel'];
         $this->_locale = $params['locale'];
-        $this->_appConfig = isset($params['appConfig']) ? $params['appConfig'] : Mage::getConfig();
     }
 
     /**
@@ -110,7 +122,12 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             $themeModel = $themeModel->getParentTheme();
         }
 
-        $moduleDir = $module ? array($this->_appConfig->getModuleDir('view', $module) . "/{$this->_area}") : array();
+        if ($module) {
+            $moduleDir = array($this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module)
+                . "/{$this->_area}");
+        } else {
+            $moduleDir = array();
+        }
         return $this->_fallback($file, $dirs, $module, $moduleDir);
     }
 
@@ -144,7 +161,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     public function getViewFile($file, $module = null)
     {
         $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $moduleDir = $module ? $this->_appConfig->getModuleDir('view', $module) : '';
+        $moduleDir = $module ? $this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module) : '';
 
         $dirs = array();
         $themeModel = $this->_theme;
@@ -155,12 +172,17 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             $themeModel = $themeModel->getParentTheme();
         }
 
+        $extraDirs = array(
+            $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB),
+            Mage::getDesign()->getCustomizationDir()
+        );
+
         return $this->_fallback(
             $file,
             $dirs,
             $module,
             array("{$moduleDir}/{$this->_area}/locale/{$this->_locale}", "{$moduleDir}/{$this->_area}"),
-            array($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB))
+            $extraDirs
         );
     }
 
@@ -191,7 +213,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $tryFile = '';
         foreach ($dirs as $dir) {
             $tryFile = str_replace('/', DIRECTORY_SEPARATOR, "{$dir}/{$file}");
-            if (file_exists($tryFile)) {
+            if ($this->_filesystem->has($tryFile)) {
                 break;
             }
         }

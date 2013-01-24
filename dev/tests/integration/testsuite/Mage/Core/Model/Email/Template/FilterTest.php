@@ -106,7 +106,9 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
         Mage::app()->getStore()->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $themeId);
 
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getSingleton('Mage_Core_Model_Layout', array('area' => $area));
+        $objectManager = Mage::getObjectManager();
+        $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout', array('area' => $area));
+        $objectManager->addSharedInstance($layout, 'Mage_Core_Model_Layout');
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals($area, Mage::app()->getLayout()->getArea());
         Mage::getDesign()->setDesignTheme('test/default');

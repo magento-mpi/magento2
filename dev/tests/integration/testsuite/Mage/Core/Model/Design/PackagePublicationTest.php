@@ -23,8 +23,10 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     protected function tearDown()
     {
-        Varien_Io_File::rmdirRecursive($this->_model->getPublicDir());
-        $this->_model = null;
+        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $publicDir = $this->_model->getPublicDir();
+        $filesystem->delete($publicDir . '/adminhtml');
+        $filesystem->delete($publicDir . '/frontend');
     }
 
     /**

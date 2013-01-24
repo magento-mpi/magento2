@@ -202,7 +202,7 @@ final class Mage
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '34',
+            'number'    => '39',
         );
     }
 
@@ -438,6 +438,9 @@ final class Mage
     /**
      * Retrieve a config instance
      *
+     * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
+     * to Mage::getConfig() will be removed in favor of config dependency injection.
+     *
      * @return Mage_Core_Model_Config
      */
     public static function getConfig()
@@ -459,11 +462,11 @@ final class Mage
      */
     public static function dispatchEvent($name, array $data = array())
     {
-        Magento_Profiler::start('EVENT:' . $name);
+        Magento_Profiler::start('EVENT:' . $name, array('group' => 'EVENT', 'name' => $name));
         /** @var $eventManager Mage_Core_Model_Event_Manager */
         $eventManager = self::$_objectManager->get('Mage_Core_Model_Event_Manager');
         $eventManager->dispatch($name, $data);
-        Magento_Profiler::stop('EVENT:' . $name);
+        Magento_Profiler::stop('EVENT:' . $name);        
     }
 
     /**
@@ -551,24 +554,6 @@ final class Mage
             self::register($registryKey, self::getObjectManager()->get($modelClass, $arguments));
         }
         return self::registry($registryKey);
-    }
-
-    /**
-     * Retrieve Controller instance by ClassName
-     *
-     * @param string $class
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param array $invokeArgs
-     * @return Mage_Core_Controller_Front_Action
-     */
-    public static function getControllerInstance($class, $request, $response, array $invokeArgs = array())
-    {
-        return self::getObjectManager()->create($class, array(
-            'request' => $request,
-            'response' => $response,
-            'invokeArgs' => $invokeArgs
-        ));
     }
 
     /**
@@ -663,15 +648,6 @@ final class Mage
             self::$_app = self::getObjectManager()->get('Mage_Core_Model_App');
         }
         return self::$_app;
-    }
-
-    /**
-     * @static
-     * @param string $areaCode
-     */
-    public static function setCurrentArea($areaCode)
-    {
-        self::getObjectManager()->loadAreaConfiguration($areaCode);
     }
 
     /**

@@ -214,13 +214,13 @@ system_configuration:
                                         default_price_for_printed_card_use_default: //input[@name='groups[gift_options][fields][printed_card_price][inherit]']
                             -
                                 order_by_sku:
-                                    xpath: //fieldset[@id='sales_product_sku']
+                                    xpath: //*[@id='sales_product_sku']
                                     links:
                                         order_by_sku_link: //parent::div//a[@id='sales_product_sku-head']
                                     dropdowns:
-                                        sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]']
+                                        sku_my_account_enable: //*[@id='sales_product_sku_my_account_enable']
                                     multiselects:
-                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
+                                        sku_allowed_groups: //*[@id='sales_product_sku_allowed_groups']
                             -
                                 orders_invoices_shipments_archiving:
                                     xpath: //fieldset[@id='sales_enterprise_salesarchive']
@@ -235,6 +235,46 @@ system_configuration:
                                         use_store_address: //*[@id='sales_enterprise_rma_use_store_address']
                                     links:
                                         rma_settings_link: //parent::div//a[@id='sales_enterprise_rma-head']
+                -
+                    sales_pdf_print_outs:
+                        xpath: //a[contains(@href, 'edit/section/sales_pdf/')]
+                        fieldsets:
+                            -
+                                general:
+                                    xpath: //div/fieldset[legend='General']
+                                    links:
+                                        general_link: //a[text()='General']
+                                    dropdowns:
+                                        pdf_print_outs_enable: //select[@name='groups[general][fields][enable_printed_templates][value]']
+                            -
+                                invoice:
+                                    xpath: //div/fieldset[legend='Invoice']
+                                    links:
+                                        invoice_link: //a[text()='Invoice']
+                                    dropdowns:
+                                        invoice_display_order_id_in_header: //div/fieldset[legend='Invoice']//select[@name='groups[invoice][fields][put_order_id][value]' and contains(@class, 'select') and not(contains(@class, 'disabled'))]
+                                        invoice_display_order_id_in_header_disabled: //select[@name='groups[invoice][fields][put_order_id][value]' and @disabled]
+                                        invoice_printed_template: //select[@name='groups[invoice][fields][printed_template][value]']
+                            -
+                                shipment:
+                                    xpath: //div/fieldset[legend='Shipment']
+                                    links:
+                                        shipment_link: //a[text()='Shipment']
+                                    dropdowns:
+                                        shipment_display_order_id_in_header: //select[@name='groups[shipment][fields][put_order_id][value]' and contains(@class, 'select') and not(contains(@class, 'disabled'))]
+                                        shipment_display_order_id_in_header_disabled: //select[@name='groups[shipment][fields][put_order_id][value]' and @disabled]
+                                        shipment_printed_template: //select[@name='groups[shipment][fields][printed_template][value]']
+                            -
+                                credit_memo:
+                                    xpath: //div/fieldset[legend='Credit Memo']
+                                    links:
+                                        credit_memo_link: //a[text()='Credit Memo']
+                                    dropdowns:
+                                        credit_memo_display_order_id_in_header: //select[@name='groups[creditmemo][fields][put_order_id][value]']
+                                        credit_memo_display_order_id_in_header_disabled: //select[@name='groups[creditmemo][fields][put_order_id][value]' and @disabled]
+                                        credit_memo_printed_template: //select[@name='groups[creditmemo][fields][printed_template][value]']
+                                    checkboxes:
+                                        credit_memo_display_order_id_in_header_use_default: //input[@name='groups[creditmemo][fields][put_order_id][inherit]']
                 -
                     sales_tax:
                         fieldsets:

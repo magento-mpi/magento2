@@ -1,0 +1,24 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Theme
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Themes creating
+
+#*********************************************
+#*         Backend                           *
+#*********************************************
+
+default_new_theme:
+    theme:
+        theme_parent_id: Magento Blank
+        theme_version: 0.0.0.1
+        theme_title: virtual_%randomize%
+    requirements:
+        magento_version_from: 1.0.0.0
+        magento_version_to: 2.0.0.0

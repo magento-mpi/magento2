@@ -21,7 +21,7 @@ class Magento_Config_Theme extends Magento_Config_XmlAbstract
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/theme.xsd';
+        return __DIR__ . '/etc/theme.xsd';
     }
 
     /**

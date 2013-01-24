@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Centinel_CreateOrderTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Centinel_CreateOrderTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture admin_store payment/ccsave/centinel 1

@@ -97,7 +97,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openInvoice($searchData)
     {
-        $searchData = $this->testDataToArray($searchData);
+        $searchData = $this->fixtureDataToArray($searchData);
         $xpathTR = $this->search($searchData, 'sales_invoice_grid');
         $this->assertNotEquals(null, $xpathTR, 'Invoice is not found');
         $cellId = $this->getColumnIdByName('Invoice #');

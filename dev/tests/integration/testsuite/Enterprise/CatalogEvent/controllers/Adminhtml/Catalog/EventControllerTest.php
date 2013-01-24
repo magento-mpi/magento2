@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_CatalogEvent_Adminhtml_Catalog_EventControllerTest extends Mage_Adminhtml_Utility_Controller
+class Enterprise_CatalogEvent_Adminhtml_Catalog_EventControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testEditActionSingleStore()
     {

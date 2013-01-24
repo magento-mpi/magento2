@@ -16,9 +16,14 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        $ioMock = $this->getMock('Varien_Io_File');
-        $dirs = new Mage_Core_Model_Dir(__DIR__, $ioMock);
-        new Mage_Core_Model_Design_Fallback($dirs, array());
+        $dirs = new Mage_Core_Model_Dir(__DIR__);
+        Mage::getObjectManager()->create(
+            'Mage_Core_Model_Design_Fallback',
+            array(
+                'dirs' => $dirs,
+                'params' => array()
+            )
+        );
     }
 
     /**
@@ -36,13 +41,18 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 
         $dirs = new Mage_Core_Model_Dir(__DIR__, $this->getMock('Varien_Io_File'));
         $stub = array(
-            'appConfig' => 'stub',
             'themeConfig' => 'stub',
             'area' => 'a',
             'themeModel' => $themeModel,
             'locale' => 'l',
         );
-        $model = new Mage_Core_Model_Design_Fallback($dirs, $stub);
+        $model = Mage::getObjectManager()->create(
+            'Mage_Core_Model_Design_Fallback',
+            array(
+                'dirs' => $dirs,
+                'params' => $stub
+            )
+        );
         $this->assertEquals('a', $model->getArea());
         $this->assertEquals($theme, $model->getTheme());
         $this->assertEquals('l', $model->getLocale());
@@ -74,13 +84,14 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->getFirstItem();
 
         // Build model
-        $designParams = array(
+        $params = array(
             'area'       => $area,
             'locale'     => $locale,
             'themeModel' => $themeModel,
         );
 
-        return new Mage_Core_Model_Design_Fallback($dirs, $designParams);
+        return Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback',
+            array('dirs' => $dirs, 'params' => $params));
     }
 
     /**

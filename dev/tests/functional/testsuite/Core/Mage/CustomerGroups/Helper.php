@@ -25,7 +25,7 @@ class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createCustomerGroup($customerGroupData)
     {
-        $customerGroupData = $this->testDataToArray($customerGroupData);
+        $customerGroupData = $this->fixtureDataToArray($customerGroupData);
         $this->clickButton('add_new_customer_group');
         $this->fillForm($customerGroupData);
         $this->saveForm('save_customer_group');
@@ -38,7 +38,7 @@ class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openCustomerGroup($searchData)
     {
-        $searchData = $this->testDataToArray($searchData);
+        $searchData = $this->fixtureDataToArray($searchData);
         $xpathTR = $this->search($searchData, 'customer_group_grid');
         $this->assertNotNull($xpathTR, 'Customer Group is not found');
         $cellId = $this->getColumnIdByName('Group Name');

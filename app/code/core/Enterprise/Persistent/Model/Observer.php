@@ -159,7 +159,7 @@ class Enterprise_Persistent_Model_Observer
      */
     public function removeCartLink($observer)
     {
-        $block =  Mage::getSingleton('Mage_Core_Model_Layout')->getBlock('checkout.links');
+        $block =  Mage::app()->getLayout()->getBlock('checkout.links');
         if ($block) {
             $block->removeLinkByUrl(Mage::getUrl('checkout/cart'));
         }

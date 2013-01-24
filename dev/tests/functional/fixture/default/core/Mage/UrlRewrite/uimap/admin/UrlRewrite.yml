@@ -37,6 +37,7 @@ url_rewrite_management:
                             filter_options: //input[@name='options']
                         pageelements:
                             page_grid_head: //div[@id='urlrewriteGrid']//thead/tr[@class='headings']
+                            page_grid: //table[@id='urlrewriteGrid_table']
         buttons:
             add_new_rewrite: //button[span='Add URL Rewrite']
         messages: &pageMessages
@@ -44,7 +45,7 @@ url_rewrite_management:
             success_deleted_url_rewrite: //li[normalize-space(@class)='success-msg' and contains(.,'The URL Rewrite has been deleted.')]
             id_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'ID Path for Specified Store already exists.')]
             req_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Request Path for Specified Store already exists.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 add_new_urlrewrite_category:
@@ -55,17 +56,23 @@ add_new_urlrewrite_category:
             fieldsets:
                 -
                     category_rewrite:
+                        xpath: //div[@id='base_fieldset']
+                        fields:
+                            request_path: //input[@id='request_path']
+                -
+                    select_category:
                         xpath: //*[@id='page:main-container']/div/fieldset
                         links:
                             root_category: //ul/div/li/div/a[contains(span,'%rootName%')]
-#                            Don't delete this xpath
-#                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+#                           Don't delete this xpath
+#                           sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                             sub_category: //ul[@class='x-tree-node-ct']/li/div/a[contains(span,'%subName%')]
                             expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
         dropdowns:
             create_url_rewrite_dropdown: //select[@class='select']
         buttons:
             back: //button[span='Back']
+            save: //button[@id='save']
         messages: *pageMessages
 
 add_new_urlrewrite_product:
@@ -93,6 +100,7 @@ add_new_urlrewrite_product:
                             page_grid_head: //div[@id='productGrid']//thead/tr[@class='headings']
         buttons:
             back: //button[span='Back']
+            save: //button[@id='save']
         messages: *pageMessages
 
 urlrewrite_product_category_selection:
@@ -131,7 +139,7 @@ urlrewrite_custom:
                             target_path: //input[@name='target_path']
                             description: //textarea[@id='description']
         buttons:
-            save: //button[@data-ui-id='urlrewrite-catalog-category-edit-save-button']
+            save: //button[@id='save']
             back: //button[span='Back']
         messages: *pageMessages
 
@@ -140,6 +148,10 @@ edit_urlrewrite_product:
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form: *new_url_rewrite
+        buttons:
+            save: //button[@id='save']
+            back: //button[span='Back']
+        messages: *pageMessages
 
 edit_urlrewrite_product_skip_category:
     mca: urlrewrite/edit/product/%id%/
@@ -152,9 +164,16 @@ edit_urlrewrite_category:
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form: *new_url_rewrite
+        buttons:
+            save: //button[@id='save']
+            back: //button[span='Back']
 
 edit_urlrewrite_custom:
     mca: urlrewrite/edit/id/%id%/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form: *new_url_rewrite
+        buttons:
+            save: //button[@id='save']
+            back: //button[span='Back']
+        messages: *pageMessages

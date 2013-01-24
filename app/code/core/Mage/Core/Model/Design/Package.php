@@ -86,13 +86,20 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_moduleReader;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @var Magento_Filesystem
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
+    protected $_filesystem;
+
+    /**
+     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Filesystem $filesystem
+     */
+    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader, Magento_Filesystem $filesystem)
     {
         $this->_moduleReader = $moduleReader;
+        $this->_filesystem = $filesystem;
     }
-
+   
     /**
      * Set package area
      *
@@ -331,16 +338,24 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     protected function _getFallback($params)
     {
-        $cacheKey = "{$params['area']}|{$params['themeModel']->getCacheKey()}|{$params['locale']}";
+        $skipProxy = (isset($params['skipProxy']) && $params['skipProxy']) ?: $this->_isDeveloperMode();
+
+        $cacheKey = join('|', array(
+            $params['area'],
+            $params['themeModel']->getCacheKey(),
+            $params['locale'],
+            $skipProxy
+        ));
         if (!isset($this->_fallback[$cacheKey])) {
             $fallback = Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback', array('params' => $params));
-            if ($this->_isDeveloperMode()) {
+            if ($skipProxy) {
                 $this->_fallback[$cacheKey] = $fallback;
             } else {
                 /** @var $dirs Mage_Core_Model_Dir */
                 $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
                 $proxy = new Mage_Core_Model_Design_Fallback_CachingProxy(
                     $fallback,
+                    $this->_filesystem,
                     $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . self::FALLBACK_MAP_DIR,
                     $dirs->getDir(Mage_Core_Model_Dir::ROOT),
                     (bool)(string)Mage::app()->getConfig()->getNode(self::XML_PATH_ALLOW_MAP_UPDATE)
@@ -349,6 +364,27 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         }
         return $this->_fallback[$cacheKey];
+    }
+
+    /**
+     * Create fallback model
+     *
+     * @param array $params
+     * @return Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_CachingProxy
+     */
+    protected function _createFallback($params)
+    {
+        $model = 'Mage_Core_Model_Design_Fallback_CachingProxy';
+        if (isset($params['skipProxy']) && $params['skipProxy']) {
+            $model = 'Mage_Core_Model_Design_Fallback';
+        }
+
+        $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
+            ->getNode('global/dev/design_fallback/allow_map_update');
+        $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
+        $params['baseDir'] = Mage::getBaseDir();
+
+        return Mage::getModel($model, array('data' => $params));
     }
 
     /**
@@ -396,9 +432,13 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     public function cleanMergedJsCss()
     {
         $dir = $this->_buildPublicViewFilename(self::PUBLIC_MERGE_DIR);
-        $result = Varien_Io_File::rmdirRecursive($dir);
-        $result = $result && Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFolder($dir);
-        return $result;
+        try {
+            $this->_filesystem->delete($dir);
+            $deleted = true;
+        } catch (Magento_Filesystem_Exception $e) {
+            $deleted = false;
+        }
+        return $deleted && Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFolder($dir);
     }
 
     /**
@@ -418,7 +458,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $publicFile = $this->_publishViewFile($file, $params);
         /* Build url to public file */
         if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
-            $fileMTime = filemtime($publicFile);
+            $fileMTime = $this->_filesystem->getMTime($publicFile);
             $url = $this->_getPublicFileUrl($publicFile, $isSecure);
             $url .= '?' . $fileMTime;
         } else {
@@ -497,7 +537,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if ($doMerge && count($files) > 1) {
             $file = $this->_mergeFiles($files, $type);
             if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
-                $fileMTime = filemtime($file);
+                $fileMTime = $this->_filesystem->getMTime($file);
                 $urls[] = $this->_getPublicFileUrl($file) . '?' . $fileMTime;
             } else {
                 $urls[] = $this->_getPublicFileUrl($file);
@@ -524,12 +564,12 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $sourcePath = $this->getViewFile($themeFile, $params);
 
         $minifiedSourcePath = $this->_minifiedPathForStaticFiles($sourcePath);
-        if ($minifiedSourcePath && !Mage::getIsDeveloperMode() && file_exists($minifiedSourcePath)) {
+        if ($minifiedSourcePath && !Mage::getIsDeveloperMode() && $this->_filesystem->has($minifiedSourcePath)) {
             $sourcePath = $minifiedSourcePath;
             $themeFile = $this->_minifiedPathForStaticFiles($themeFile);
         }
 
-        if (!file_exists($sourcePath)) {
+        if (!$this->_filesystem->has($sourcePath)) {
             throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
         }
         if (!$this->_needToProcessFile($sourcePath)) {
@@ -550,21 +590,21 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             $cssContent = $this->_getPublicCssContent($sourcePath, dirname($targetPath), $themeFile, $params);
         }
 
-        $fileMTime = filemtime($sourcePath);
-        if (!file_exists($targetPath) || $fileMTime != filemtime($targetPath)) {
+        $fileMTime = $this->_filesystem->getMTime($sourcePath);
+        if (!$this->_filesystem->has($targetPath) || $fileMTime != $this->_filesystem->getMTime($targetPath)) {
             $publicDir = dirname($targetPath);
-            if (!is_dir($publicDir)) {
-                mkdir($publicDir, 0777, true);
+            if (!$this->_filesystem->isDirectory($publicDir)) {
+                $this->_filesystem->createDirectory($publicDir, 0777);
             }
 
             if (isset($cssContent)) {
-                file_put_contents($targetPath, $cssContent);
-                touch($targetPath, $fileMTime);
-            } elseif (is_file($sourcePath)) {
-                copy($sourcePath, $targetPath);
-                touch($targetPath, $fileMTime);
-            } elseif (!is_dir($targetPath)) {
-                mkdir($targetPath, 0777, true);
+                $this->_filesystem->write($targetPath, $cssContent);
+                $this->_filesystem->touch($targetPath, $fileMTime);
+            } elseif ($this->_filesystem->isFile($sourcePath)) {
+                $this->_filesystem->copy($sourcePath, $targetPath);
+                $this->_filesystem->touch($targetPath, $fileMTime);
+            } elseif (!$this->_filesystem->isDirectory($targetPath)) {
+                $this->_filesystem->createDirectory($targetPath, 0777);
             }
         }
 
@@ -598,6 +638,11 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $jsPath = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB) . DS;
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
+            return false;
+        }
+
+        $customizationPath = $this->getCustomizationDir();
+        if (strncmp($filePath, $customizationPath, strlen($customizationPath)) === 0) {
             return false;
         }
 
@@ -644,7 +689,18 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . DS . 'theme';
+        return Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . self::PUBLIC_BASE_THEME_DIR;
+    }
+
+    /**
+     * Get customization directory
+     *
+     * @return string
+     */
+    public function getCustomizationDir()
+    {
+        return Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR
+            . DIRECTORY_SEPARATOR . Mage_Core_Model_Design_Package::PUBLIC_CUSTOMIZATION_THEME_DIR;
     }
 
     /**
@@ -658,7 +714,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         if ($params['themeModel']->getThemePath()) {
             $designPath = str_replace('/', DS, $params['themeModel']->getThemePath());
-        } elseif($params['themeModel']->getId()) {
+        } elseif ($params['themeModel']->getId()) {
             $designPath = self::PUBLIC_THEME_DIR . $params['themeModel']->getId();
         } else {
             $designPath = self::PUBLIC_VIEW_DIR;
@@ -719,7 +775,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     protected function _getPublicCssContent($filePath, $publicDir, $fileName, $params)
     {
-        $content = file_get_contents($filePath);
+        $content = $this->_filesystem->read($filePath);
         $relativeUrls = $this->_extractCssRelativeUrls($content);
         foreach ($relativeUrls as $urlNotation => $fileUrl) {
             $relatedFilePathPublic = $this->_publishRelatedViewFile($fileUrl, $filePath, $fileName, $params);
@@ -829,23 +885,23 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $mergedMTimeFile  = $mergedFile . '.dat';
         $filesMTimeData = '';
         foreach ($filesToMerge as $file) {
-            $filesMTimeData .= filemtime($file);
+            $filesMTimeData .= $this->_filesystem->getMTime($file);
         }
-        if (file_exists($mergedFile) && file_exists($mergedMTimeFile)
-            && ($filesMTimeData == file_get_contents($mergedMTimeFile))
+        if ($this->_filesystem->has($mergedFile) && $this->_filesystem->has($mergedMTimeFile)
+            && ($filesMTimeData == $this->_filesystem->read($mergedMTimeFile))
         ) {
             return $mergedFile;
         }
-        if (!is_dir(dirname($mergedFile))) {
-            mkdir(dirname($mergedFile), 0777, true);
+        if (!$this->_filesystem->isDirectory(dirname($mergedFile))) {
+            $this->_filesystem->createDirectory(dirname($mergedFile), 0777);
         }
 
         $result = array();
         foreach ($filesToMerge as $file) {
-            if (!file_exists($file)) {
+            if (!$this->_filesystem->has($file)) {
                 throw new Magento_Exception("Unable to locate file '{$file}' for merging.");
             }
-            $content = file_get_contents($file);
+            $content = $this->_filesystem->read($file);
             if ($contentType == self::CONTENT_TYPE_CSS) {
                 $offset = $this->_getFilesOffset($file, dirname($mergedFile));
                 $content = $this->_applyCssUrlOffset($content, $offset);
@@ -856,8 +912,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if ($contentType == self::CONTENT_TYPE_CSS) {
             $result = $this->_popCssImportsUp($result);
         }
-        file_put_contents($mergedFile, $result, LOCK_EX);
-        file_put_contents($mergedMTimeFile, $filesMTimeData, LOCK_EX);
+        $this->_filesystem->write($mergedFile, $result);
+        $this->_filesystem->write($mergedMTimeFile, $filesMTimeData);
         return $mergedFile;
     }
 
@@ -1014,7 +1070,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
 
         $configFiles = $this->_moduleReader->getModuleConfigurationFiles('view.xml');
         $themeConfigFile = $this->getFilename('view.xml', array());
-        if (file_exists($themeConfigFile)) {
+        if ($this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }
         $config = new Magento_Config_View($configFiles);

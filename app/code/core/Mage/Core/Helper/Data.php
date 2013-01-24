@@ -742,9 +742,9 @@ XML;
      */
     public function useDbCompatibleMode()
     {
-        $connType = (string) $this->_config->getNode(self::XML_PATH_CONNECTION_TYPE);
+        $connType = (string) Mage::getConfig()->getNode(self::XML_PATH_CONNECTION_TYPE);
         $path = 'global/resource/connection/types/' . $connType . '/compatibleMode';
-        $value = (string) $this->_config->getNode($path);
+        $value = (string) Mage::getConfig()->getNode($path);
         return (bool) $value;
     }
 

@@ -19,6 +19,7 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Cms_Controller_Router(
+            Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Action_Factory'),
             new Mage_Core_Model_Event_ManagerStub(
                 $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Event_Config', array(), array(), '', false)
@@ -31,7 +32,7 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
      */
     public function testMatch()
     {
-        $request = new Magento_Test_Request();
+        $request = new Mage_Core_Controller_Request_Http();
         //Open Node
         Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http')
             ->headersSentThrowsException = Mage::$headersSentThrowsException;
@@ -50,14 +51,14 @@ class Mage_Core_Model_Event_ManagerStub extends Mage_Core_Model_Event_Manager
      * Stub dispatch event
      *
      * @param string $eventName
-     * @param array $data
+     * @param array $params
      * @return Mage_Core_Model_App|null
      */
-    public function dispatch($eventName, array $data = array())
+    public function dispatch($eventName, array $params = array())
     {
         switch ($eventName) {
             case 'cms_controller_router_match_before' :
-                $data['condition']->setRedirectUrl('http://www.example.com/');
+                $params['condition']->setRedirectUrl('http://www.example.com/');
                 break;
         }
 

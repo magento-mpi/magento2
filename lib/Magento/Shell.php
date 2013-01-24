@@ -41,7 +41,8 @@ class Magento_Shell
     public function execute($command, array $arguments = array())
     {
         $arguments = array_map('escapeshellarg', $arguments);
-        $command = vsprintf("$command 2>&1", $arguments); // Output errors to STDOUT instead of STDERR
+        $command = preg_replace('/\s?\||$/', ' 2>&1$0', $command); // Output errors to STDOUT instead of STDERR
+        $command = vsprintf($command, $arguments);
         $this->_log($command);
         exec($command, $output, $exitCode);
         $output = implode(PHP_EOL, $output);

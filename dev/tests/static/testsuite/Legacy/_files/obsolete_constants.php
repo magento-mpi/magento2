@@ -51,4 +51,5 @@ return array(
     array('INSTALLER_HOST_RESPONSE', 'Mage_Install_Model_Installer'),
     array('INIT_OPTION_REQUEST', 'Mage', 'Mage_Core_Model_App::INIT_OPTION_REQUEST'),
     array('INIT_OPTION_RESPONSE', 'Mage', 'Mage_Core_Model_App::INIT_OPTION_RESPONSE'),
+    array('DEFAULT_THEME_NAME', 'Mage_Core_Model_Design_Package'),
 );

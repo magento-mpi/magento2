@@ -37,7 +37,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontCreateCheckout($checkoutData)
     {
-        $checkoutData = $this->testDataToArray($checkoutData);
+        $checkoutData = $this->fixtureDataToArray($checkoutData);
         $this->doOnePageCheckoutSteps($checkoutData);
         $this->frontOrderReview($checkoutData);
         $this->selectTermsAndConditions($checkoutData);

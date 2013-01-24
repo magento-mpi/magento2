@@ -14,7 +14,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     protected function setUp()
     {
         parent::setUp();
-        Mage::setCurrentArea('adminhtml');
+        Mage::app()->loadDiConfiguration(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $auth Mage_Backend_Model_Auth */
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
@@ -76,20 +76,6 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
             $expected,
             $result,
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws block is not rendered'
-        );
-    }
-
-    /**
-     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
-     */
-    public function testBackendUserRoleIndexContainsGwsBlock()
-    {
-        $this->dispatch('backend/admin/user_role/index');
-
-        $this->assertInstanceOf(
-            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
-            Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
-            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );
     }
 

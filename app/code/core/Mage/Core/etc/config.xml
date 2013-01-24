@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.6</version>
+            <version>1.6.0.9</version>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Core>
@@ -96,6 +96,12 @@
             <Magento_Data_Structure>
                 <shared>0</shared>
             </Magento_Data_Structure>
+            <Magento_Filesystem>
+                <parameters>
+                    <adapter>Magento_Filesystem_Adapter_Local</adapter>
+                </parameters>
+                <shared>0</shared>
+            </Magento_Filesystem>
             <Mage_Core_Model_Config_StorageInterface>
                 <parameters>
                     <configStorage>Mage_Core_Model_Config_Storage</configStorage>
@@ -110,6 +116,16 @@
                 <full_name>default/demo</full_name>
             </theme>
         </design>
+        <events>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <add_theme_customization>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>addThemeCustomization</method>
+                    </add_theme_customization>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
+        </events>
         <routers>
             <core>
                 <use>standard</use>
@@ -273,7 +289,8 @@
             <routers>
                 <standard>
                     <area>frontend</area>
-                    <class>Mage_Core_Controller_Varien_Router_Standard</class>
+                    <class>Mage_Core_Controller_Varien_Router_Base</class>
+                    <base_controller>Mage_Core_Controller_Varien_Action</base_controller>
                 </standard>
             </routers>
             <url>
@@ -289,7 +306,7 @@
                 <base_link_url>{{unsecure_base_url}}</base_link_url>
             </unsecure>
             <secure>
-                <base_url>{{base_url}}</base_url>
+                <base_url>{{unsecure_base_url}}</base_url>
                 <base_web_url>{{secure_base_url}}</base_web_url>
                 <base_link_url>{{secure_base_url}}</base_link_url>
                 <use_in_frontend>0</use_in_frontend>
@@ -371,7 +388,8 @@
                 <routers>
                     <standard>
                         <area>frontend</area>
-                        <class>Mage_Core_Controller_Varien_Router_Standard</class>
+                        <class>Mage_Core_Controller_Varien_Router_Base</class>
+                        <base_controller>Mage_Core_Controller_Varien_Action</base_controller>
                     </standard>
                 </routers>
             </web>

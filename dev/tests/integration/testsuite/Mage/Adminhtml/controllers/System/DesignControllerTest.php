@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_System_DesignControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_System_DesignControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @covers Mage_Adminhtml_Controller_Action::_addLeft

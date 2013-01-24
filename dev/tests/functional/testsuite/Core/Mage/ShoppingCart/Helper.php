@@ -196,7 +196,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyPricesDataOnPage($productData, $orderPriceData)
     {
-        $productData = $this->testDataToArray($productData);
+        $productData = $this->fixtureDataToArray($productData);
         //Get Products data and order prices data
         $actualProductData = $this->getProductInfoInTable();
         $actualOrderPriceData = $this->getOrderPriceData();
@@ -278,7 +278,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontEstimateShipping($shippingAddress, $shippingMethod, $validate = true)
     {
-        $shippingAddress = $this->testDataToArray($shippingAddress);
+        $shippingAddress = $this->fixtureDataToArray($shippingAddress);
         $this->fillForm($shippingAddress);
         $this->clickButton('get_quote');
         $this->chooseShipping($shippingMethod, $validate);
@@ -291,7 +291,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
      */
     public function chooseShipping($shippingMethod)
     {
-        $shippingMethod = $this->testDataToArray($shippingMethod);
+        $shippingMethod = $this->fixtureDataToArray($shippingMethod);
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
         if (!$shipService or !$shipMethod) {

@@ -91,6 +91,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Website_Factory $websiteFactory
      * @param Mage_Core_Model_Store_Group_Factory $storeGroupFactory
@@ -112,13 +113,14 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Website_Factory $websiteFactory,
         Mage_Core_Model_Store_Group_Factory $storeGroupFactory,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $data);
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
         $this->_application = $application;
         $this->_websiteFactory = $websiteFactory;
         $this->_storeGroupFactory = $storeGroupFactory;

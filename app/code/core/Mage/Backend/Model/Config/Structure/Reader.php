@@ -29,6 +29,17 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
     protected $_runtimeValidation;
 
     /**
+     * @var Mage_Backend_Model_Config_Structure_Converter
+     */
+    protected $_converter;
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Backend_Model_Config_Structure_Converter $structureConverter
@@ -68,7 +79,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/system.xsd';
+        return $this->_config->getModuleDir('etc', 'Mage_Backend') . DIRECTORY_SEPARATOR . 'system.xsd';
     }
 
     /**
@@ -78,7 +89,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
      */
     public function getPerFileSchemaFile()
     {
-        return __DIR__ . '/system_file.xsd';
+        return $this->_config->getModuleDir('etc', 'Mage_Backend') . DIRECTORY_SEPARATOR . 'system_file.xsd';
     }
 
     /**

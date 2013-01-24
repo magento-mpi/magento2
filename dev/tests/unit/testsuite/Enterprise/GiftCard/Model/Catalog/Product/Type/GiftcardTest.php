@@ -59,14 +59,18 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $locale = new Varien_Object(array('number' => 100));
 
+        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = $this->getMock(
             'Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard',
             array('_isStrictProcessMode'),
-            array(array(
-                'store'     => $store,
-                'helpers'   => $helpers,
-                'locale'    => $locale,
-            ))
+            array(
+                $filesystem,
+                array(
+                    'store'     => $store,
+                    'helpers'   => $helpers,
+                    'locale'    => $locale,
+                )
+            )
         );
     }
 

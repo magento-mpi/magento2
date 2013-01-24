@@ -12,19 +12,32 @@
  * Theme model class
  *
  * @method Mage_Core_Model_Theme save()
- * @method string getThemeCode()
  * @method string getPackageCode()
  * @method string getThemePath()
+ * @method string getThemeTitle() getThemeTitle()
  * @method string getParentThemePath()
  * @method string getPreviewImage()
  * @method string getThemeDirectory()
  * @method string getParentId()
+ * @method string getArea()
+ * @method string getThemeTitle()
+ * @method string getThemeId()
+ * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
+ * @method array getAssignedStores()
  * @method Mage_Core_Model_Theme addData(array $data)
  * @method Mage_Core_Model_Theme setParentId(int $id)
  * @method Mage_Core_Model_Theme setParentTheme($parentTheme)
  * @method Mage_Core_Model_Theme setPackageCode(string $packageCode)
  * @method Mage_Core_Model_Theme setThemeCode(string $themeCode)
  * @method Mage_Core_Model_Theme setPreviewImage(string $previewImage)
+ * @method Mage_Core_Model_Theme setThemePath(string $themePath)
+ * @method Mage_Core_Model_Theme setThemeVersion(string $themeVersion)
+ * @method Mage_Core_Model_Theme setArea(string $area)
+ * @method Mage_Core_Model_Theme setThemeTitle(string $themeTitle)
+ * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
+ * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 {
@@ -37,11 +50,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Separator between theme_path elements
      */
     const PATH_SEPARATOR = '/';
-
-    /**
-     * Theme directory
-     */
-    const THEME_DIR = 'theme';
 
     /**
      * Preview image directory
@@ -71,9 +79,57 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_labelsCollection;
 
     /**
-     * @var Varien_Io_File
+     * @var Magento_ObjectManager
      */
-    protected $_ioFile;
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Theme_Factory
+     */
+    protected $_themeFactory;
+
+    /**
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Helper_Data $helper
+     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Resource_Theme $resource
+     * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Helper_Data $helper,
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_Resource_Theme $resource,
+        Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        $this->_objectManager = $objectManager;
+        $this->_themeFactory = $themeFactory;
+        $this->_helper = $helper;
+        $this->_filesystem = $filesystem;
+    }
 
     /**
      * Theme model initialization
@@ -84,16 +140,15 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Filesystem client
+     * Return custom css file
      *
-     * @return Varien_Io_File
+     * @return Mage_Core_Model_Theme_Files
      */
-    protected function _getIoFile()
+    public function getCustomCssFile()
     {
-        if (!$this->_ioFile) {
-            $this->_ioFile = new Varien_Io_File();
-        }
-        return $this->_ioFile;
+        /** @var $cssFile Mage_Core_Model_Theme_Files_Css */
+        $cssFile = $this->_objectManager->get('Mage_Core_Model_Theme_Files_Css');
+        return $cssFile->getFileByTheme($this);
     }
 
     /**
@@ -103,20 +158,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCollectionFromFilesystem()
     {
-        return Mage::getSingleton('Mage_Core_Model_Theme_Collection');
-    }
-
-    /**
-     * Processing object after load data
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _afterLoad()
-    {
-        if ($this->getId()) {
-            $this->_updateDefaultParams();
-        }
-        return parent::_afterLoad();
+        return $this->_objectManager->get('Mage_Core_Model_Theme_Collection');
     }
 
     /**
@@ -128,7 +170,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _validate()
     {
         /** @var $validator Mage_Core_Model_Theme_Validator */
-        $validator = Mage::getModel('Mage_Core_Model_Theme_Validator');
+        $validator = $this->_objectManager->get('Mage_Core_Model_Theme_Validator');
         if (!$validator->validate($this)) {
             $messages = $validator->getErrorMessages();
             Mage::throwException(implode(PHP_EOL, reset($messages)));
@@ -137,11 +179,21 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check is theme deletable
+     * Check if theme is deletable
      *
      * @return bool
      */
     public function isDeletable()
+    {
+        return $this->isVirtual();
+    }
+
+    /**
+     * Check if theme is editable
+     *
+     * @return bool
+     */
+    public function isEditable()
     {
         return $this->isVirtual();
     }
@@ -208,7 +260,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _beforeDelete()
     {
         if (!$this->isDeletable()) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Current theme isn\'t deletable.'));
+            Mage::throwException($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->removePreviewImage();
         return parent::_beforeDelete();
@@ -238,7 +290,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $theme = null;
         if ($this->getParentId()) {
-            $theme = Mage::getModel('Mage_Core_Model_Theme')->load($this->getParentId());
+            $theme = $this->_themeFactory->create()->load($this->getParentId());
         }
         $this->setParentTheme($theme);
         return $theme;
@@ -276,8 +328,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _getPreviewImagePublishedRootDir()
     {
-        $dirPath = Mage::getBaseDir('media') . DS . self::THEME_DIR;
-        $this->_getIoFile()->checkAndCreateFolder($dirPath);
+        /** @var $design Mage_Core_Model_Design_Package */
+        $design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+        $dirPath = $design->getPublicDir();
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->ensureDirectoryExists($dirPath);
+        $this->_filesystem->setWorkingDirectory($dirPath);
         return $dirPath;
     }
 
@@ -288,7 +344,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getImagePathOrigin()
     {
-        return $this->_getPreviewImagePublishedRootDir() . DS . self::IMAGE_DIR_ORIGIN;
+        return $this->_getPreviewImagePublishedRootDir() . DIRECTORY_SEPARATOR . self::IMAGE_DIR_ORIGIN;
     }
 
     /**
@@ -298,7 +354,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _getImagePathPreview()
     {
-        return $this->_getPreviewImagePublishedRootDir() . DS . self::IMAGE_DIR_PREVIEW;
+        return $this->_getPreviewImagePublishedRootDir() . DIRECTORY_SEPARATOR . self::IMAGE_DIR_PREVIEW;
     }
 
     /**
@@ -308,7 +364,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public static function getPreviewImageDirectoryUrl()
     {
-        return Mage::getBaseUrl('media') . self::THEME_DIR . '/' . self::IMAGE_DIR_PREVIEW . '/';
+        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)
+            . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR . '/' . self::IMAGE_DIR_PREVIEW . '/';
     }
 
     /**
@@ -321,6 +378,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         if (isset($themeData['theme_id'])) {
             $this->load($themeData['theme_id']);
+            if ($this->getId() && !$this->isEditable()) {
+                Mage::throwException($this->_helper->__('Theme isn\'t editable.'));
+            }
         }
         $previewImageData = array();
         if (isset($themeData['preview_image'])) {
@@ -352,7 +412,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             return false;
         }
         if (!$adapter->isValid($scope)) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Uploaded image is not valid'));
+            Mage::throwException($this->_helper->__('Uploaded image is not valid'));
         }
         $upload = new Varien_File_Uploader($scope);
         $upload->setAllowCreateFolders(true);
@@ -361,12 +421,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $upload->setFilesDispersion(false);
 
         if (!$upload->save($this->getImagePathOrigin())) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Image can not be saved.'));
+            Mage::throwException($this->_helper->__('Image can not be saved.'));
         }
 
         $fileName = $this->getImagePathOrigin() . DS . $upload->getUploadedFileName();
         $this->removePreviewImage()->createPreviewImage($fileName);
-        $this->_getIoFile()->rm($fileName);
+        $this->_filesystem->delete($fileName);
         return true;
     }
 
@@ -378,7 +438,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function createPreviewImage($imagePath)
     {
-        $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
+        $adapter = $this->_helper->getImageAdapterType();
         $image = new Varien_Image($imagePath, $adapter);
         $image->keepTransparency(true);
         $image->constrainOnly(true);
@@ -396,6 +456,23 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Create preview image copy
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function createPreviewImageCopy()
+    {
+        $filePath = $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage();
+        $destinationFileName = Varien_File_Uploader::getNewFileName($filePath);
+        $this->_filesystem->copy(
+            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
+            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $destinationFileName
+        );
+        $this->setPreviewImage($destinationFileName);
+        return $this;
+    }
+
+    /**
      * Delete preview image
      *
      * @return Mage_Core_Model_Theme
@@ -405,7 +482,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $previewImage = $this->getPreviewImage();
         $this->setPreviewImage('');
         if ($previewImage) {
-            $this->_getIoFile()->rm($this->_getImagePathPreview() . DS . $previewImage);
+            $this->_filesystem->delete($this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $previewImage);
         }
         return $this;
     }
@@ -461,18 +538,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Update default params (package_code and theme_code)
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _updateDefaultParams()
-    {
-        list($packageCode, $themeCode) = $this->getThemePath() ? explode('/', $this->getThemePath()) : null;
-        $this->setPackageCode($packageCode)->setThemeCode($themeCode);
-        return $this;
-    }
-
-    /**
      * Check if the theme is compatible with Magento version
      *
      * @return bool
@@ -498,9 +563,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function checkThemeCompatible()
     {
         if (!$this->isThemeCompatible()) {
-            $this->setThemeTitle(
-                Mage::helper('Mage_Core_Helper_Data')->__('%s (incompatible version)', $this->getThemeTitle())
-            );
+            $this->setThemeTitle($this->_helper->__('%s (incompatible version)', $this->getThemeTitle()));
         }
         return $this;
     }
@@ -535,7 +598,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getLabelsCollectionForSystemConfiguration()
     {
-        return $this->getLabelsCollection(Mage::helper('Mage_Core_Helper_Data')->__('-- No Theme --'));
+        return $this->getLabelsCollection($this->_helper->__('-- No Theme --'));
     }
 
     /**

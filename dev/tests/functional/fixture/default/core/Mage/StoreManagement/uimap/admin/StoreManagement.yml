@@ -31,6 +31,7 @@ manage_stores:
                             website_name: //input[@name='website_title']
                             store_name: //input[@name='group_title']
                             store_view_name: //input[@name='store_title']
+                            page: //input[@name='page']
                         pageelements:
                             cell_store_link: //table[@id]/tbody/tr[%rowIndex%]/td[%cellIndex%]/a
                             grid_head: //*[@id='storeGrid_table']/thead/tr[@class='headings']
@@ -258,6 +259,6 @@ detele_store_view:
                             create_backup: //select[@id='store_create_backup']
                         buttons:
                             reset: //button[span='Cancel']
-                            delete_store_view: //button[span='Delete Store View']
+                            delete_store_view: //button[@id='delete']
         buttons:
             back: //button[span='Back']

@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-CheckboxTest = TestCase('CheckboxTest');
+CheckboxTest = TestCase('DesignEditor_CheckboxTest');
 CheckboxTest.prototype.testInit = function() {
     /*:DOC += <div id="checkbox"></div> */
     var checkbox = jQuery('#checkbox').vde_checkbox();

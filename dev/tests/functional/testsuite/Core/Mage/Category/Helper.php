@@ -98,8 +98,12 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         }
         $isCategoriesPage = $this->isCategoriesPage();
         list($categoryId) = $correctRoot;
-        $this->focusOnElement($this->getElement('id=' . $categoryId));
-        $this->clickOnElement($categoryId);
+        if (strpos($categoryId, "'") !== false) {
+            $categoryId = "concat('" . str_replace('\'', "',\"'\",'", $categoryId) . "')";
+        }
+        $element = $this->getElement("//*[@id='$categoryId']/span");
+        $this->focusOnElement($element);
+        $element->click();
         if ($isCategoriesPage) {
             $this->pleaseWait();
             $openedPageName = $this->getControlAttribute('pageelement', 'category_name_header', 'text');
@@ -143,7 +147,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createCategory($categoryData)
     {
-        $categoryData = $this->testDataToArray($categoryData);
+        $categoryData = $this->fixtureDataToArray($categoryData);
         if (array_key_exists('parent_category', $categoryData)) {
             $this->selectCategory($categoryData['parent_category']);
             $this->clickButton('add_sub_category', false);
@@ -223,7 +227,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontOpenCategoryAndValidateProduct($productsInfo)
     {
-        $productsInfo = $this->testDataToArray($productsInfo);
+        $productsInfo = $this->fixtureDataToArray($productsInfo);
         $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : null;
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : null;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();

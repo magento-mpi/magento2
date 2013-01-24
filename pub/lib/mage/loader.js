@@ -30,11 +30,21 @@
         },
 
         /**
+         * Loader initialisation
+         * @private
+         */
+        _init: function() {
+            if (this.options.showOnInit) {
+                this.show();
+            }
+        },
+
+        /**
          * Bind on ajax complete event
          * @protected
          */
         _bind: function() {
-            this.element.on('ajaxComplete ajaxError', function(e) {
+            this.element.on('ajaxComplete ajaxError processStop', function(e) {
                 e.stopImmediatePropagation();
                 $($(e.target).is(document) ? 'body' : e.target).loader('hide');
             });
@@ -90,6 +100,7 @@
          */
         destroy: function() {
             this.loader.remove();
+            this.element.off('ajaxComplete ajaxError processStop');
             return $.Widget.prototype.destroy.call(this);
         }
     });

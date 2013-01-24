@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-MenuTest = TestCase('MenuTest');
+MenuTest = TestCase('DesignEditor_MenuTest');
 MenuTest.prototype.testInit = function() {
     /*:DOC += <div id="menu"></div> */
     var menu = jQuery('#menu').vde_menu();

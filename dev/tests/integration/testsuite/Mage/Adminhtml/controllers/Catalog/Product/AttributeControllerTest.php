@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_Catalog_Product_AttributeControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_system.php

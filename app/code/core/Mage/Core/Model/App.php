@@ -19,16 +19,6 @@
  */
 class Mage_Core_Model_App
 {
-    /**
-     * Application initialization option to inject custom request object
-     */
-    const INIT_OPTION_REQUEST  = 'request';
-
-    /**
-     * Application initialization option to inject custom response object
-     */
-    const INIT_OPTION_RESPONSE = 'response';
-
     /**#@+
      * Available scope types
      */
@@ -59,13 +49,18 @@ class Mage_Core_Model_App
      * Default store code (for install)
      *
      */
-    const DISTRO_STORE_CODE     = 'default';
+    const DISTRO_STORE_CODE     = Mage_Core_Model_Store::DEFAULT_CODE;
 
     /**
      * Admin store Id
      *
      */
     const ADMIN_STORE_ID = 0;
+
+    /**
+     * Dependency injection configuration node name
+     */
+    const CONFIGURATION_DI_NODE = 'di';
 
     /**
      * Application loaded areas array
@@ -108,13 +103,6 @@ class Mage_Core_Model_App
      * @var Mage_Core_Model_Design_Package
      */
     protected $_design;
-
-    /**
-     * Application layout object
-     *
-     * @var Mage_Core_Model_Layout
-     */
-    protected $_layout;
 
     /**
      * Initialization parameters
@@ -263,6 +251,7 @@ class Mage_Core_Model_App
 
     /**
      * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Logger $log
      * @param Mage_Core_Model_Cache $cache
      * @param Magento_ObjectManager $objectManager
@@ -272,6 +261,7 @@ class Mage_Core_Model_App
      */
     public function __construct(
         Mage_Core_Model_Config $config,
+        Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Logger $log,
         Mage_Core_Model_Cache $cache,
         Magento_ObjectManager $objectManager,
@@ -287,6 +277,7 @@ class Mage_Core_Model_App
         $this->_dbUpdater = $dbUpdater;
         $this->_scopeCode = $scopeCode;
         $this->_scopeType = $scopeType;
+        $this->_frontController = $frontController;
     }
 
     /**
@@ -1028,14 +1019,7 @@ class Mage_Core_Model_App
      */
     public function getLayout()
     {
-        if (!$this->_layout) {
-            if ($this->getFrontController()->getAction()) {
-                $this->_layout = $this->getFrontController()->getAction()->getLayout();
-            } else {
-                $this->_layout = Mage::getSingleton('Mage_Core_Model_Layout');
-            }
-        }
-        return $this->_layout;
+        return $this->_objectManager->get('Mage_Core_Model_Layout');
     }
 
     /**
@@ -1186,8 +1170,9 @@ class Mage_Core_Model_App
     public function cleanAllSessions()
     {
         if (session_module_name() == 'files') {
-            $dir = session_save_path();
-            mageDelTree($dir);
+            /** @var Magento_Filesystem $filesystem */
+            $filesystem = $this->_objectManager->create('Magento_Filesystem');
+            $filesystem->delete(session_save_path());
         }
         return $this;
     }
@@ -1385,5 +1370,19 @@ class Mage_Core_Model_App
     public function isDeveloperMode()
     {
         return Mage::getIsDeveloperMode();
+    }
+
+    /**
+     * Load di configuration for given area
+     *
+     * @param string $areaCode
+     */
+    public function loadDiConfiguration($areaCode = Mage_Core_Model_App_Area::AREA_GLOBAL)
+    {
+        $configurationNode = $this->_config->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
+        if ($configurationNode) {
+            $configuration = $configurationNode->asArray();
+            $this->_objectManager->setConfiguration($configuration);
+        }
     }
 }

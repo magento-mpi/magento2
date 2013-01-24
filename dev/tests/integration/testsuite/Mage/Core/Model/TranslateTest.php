@@ -152,7 +152,6 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslateWithLocaleInheritance($inputText, $expectedTranslation)
     {
-        /** @var $model Mage_Core_Model_Translate */
         $model = Mage::getModel('Mage_Core_Model_Translate');
         $model->setLocale('en_AU');
         $model->init('frontend');

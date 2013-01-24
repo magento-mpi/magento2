@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_GoogleShopping_Adminhtml_GoogleShopping_ItemsControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_GoogleShopping_Adminhtml_GoogleShopping_ItemsControllerTest extends Mage_Backend_Utility_Controller
 {
     public function testIndexAction()
     {

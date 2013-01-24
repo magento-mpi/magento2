@@ -284,7 +284,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function paypalSandboxLogin($parameters)
     {
-        $parameters = $this->testDataToArray($parameters);
+        $parameters = $this->fixtureDataToArray($parameters);
         if ($this->controlIsPresent('button', 'button_login')) {
             $this->addParameter('elementTitle', $parameters['page_title']);
             $this->validatePage();
@@ -302,7 +302,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function paypalSandboxConfigure($parameters)
     {
-        $parameters = $this->testDataToArray($parameters);
+        $parameters = $this->fixtureDataToArray($parameters);
         $this->addParameter('elementTitle', $parameters['page_title']);
         $this->validatePage();
         $this->fillForm($parameters['credentials']);
@@ -319,7 +319,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function paypalPayOrder($parameters)
     {
-        $parameters = $this->testDataToArray($parameters);
+        $parameters = $this->fixtureDataToArray($parameters);
         if (!$this->controlIsPresent('button', 'button_login')) {
             $this->addParameter('elementTitle', $parameters['page_title_pay_with']);
             $this->validatePage();

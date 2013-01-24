@@ -123,10 +123,16 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected $_compositeModules;
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @param Mage_Core_Model_Config_Resource $resourcesConfig
      * @param Mage_Core_Model_Config_Modules $modulesConfig
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Filesystem $filesystem
      * @param $resourceName
      * @param array $data
      */
@@ -135,9 +141,11 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         Mage_Core_Model_Config_Modules $modulesConfig,
         Mage_Core_Model_Resource $resource,
         Mage_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Filesystem $filesystem,
         $resourceName,
         array $data = array()
     ) {
+        $this->_filesystem = $filesystem;
         if (!isset($data['resource_config'])
             || !isset($data['connection_config'])
             || !isset($data['module_config'])
@@ -154,8 +162,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
 
             $this->_initConfigs($data);
         }
-
-        if (isset($data['core_helper'])) {
+                if (isset($data['core_helper'])) {
             $this->_coreHelper = $data['core_helper'];
         } else {
             $this->_coreHelper = Mage::helper('Mage_Core_Helper_Data');
@@ -673,8 +680,8 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected function _loadMap($pathToMapFile)
     {
         $pathToMapFile = $this->_baseDir . DS . $pathToMapFile;
-        if (file_exists($pathToMapFile)) {
-            return file_get_contents($pathToMapFile);
+        if ($this->_filesystem->isFile($pathToMapFile)) {
+            return $this->_filesystem->read($pathToMapFile);
         }
 
         return '';

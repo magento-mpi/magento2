@@ -57,17 +57,26 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
+     * @var Magento_ObjectManager_Zend
+     */
+    protected $_objectManager;
+
+    /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp()
     {
-        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
+        $this->_objectManager->expects($this->any())
+            ->method('get')
+            ->with('Mage_Captcha_Helper_Data')
+            ->will($this->returnValue($this->_getHelperStub()));
 
         $this->_object = new Mage_Captcha_Model_Zend(
+            $this->_objectManager,
             array(
                 'formId' => 'user_create',
-                'helper' => $this->_getHelperStub(),
                 'session' => $this->_getSessionStub()
             )
         );
@@ -160,9 +169,9 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
         $resourceModel = $this->_getResourceModelStub();
 
         $captcha = new Mage_Captcha_Model_Zend(
+            $this->_objectManager,
             array(
                 'formId' => 'user_create',
-                'helper' => $this->_getHelperStub(),
                 'session' => $this->_getSessionStub(),
                 'resourceModel' => $resourceModel,
             )
@@ -222,14 +231,10 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
      */
     protected function _getHelperStub()
     {
-        $helper = $this->getMock(
-            'Mage_Captcha_Helper_Data',
-            array('getConfigNode', 'getFonts', '_getWebsiteCode', 'getImgUrl'),
-            array(
-                $this->_dirMock,
-                $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false)
-            )
-        );
+        $helper = $this->getMockBuilder('Mage_Captcha_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getConfigNode', 'getFonts', '_getWebsiteCode', 'getImgUrl'))
+            ->getMock();
 
         $helper->expects($this->any())
             ->method('getConfigNode')

@@ -26,12 +26,15 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
     protected $_eventManager;
 
     /**
-     * Class constructor
-     *
+     * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Mage_Core_Model_Event_Manager $eventManager
      */
-    public function  __construct(Mage_Core_Model_Event_Manager $eventManager)
-    {
+    public function __construct(
+        Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
+        Mage_Core_Model_Event_Manager $eventManager
+    ) {
+        parent::__construct($controllerFactory);
+
         $this->_eventManager = $eventManager;
     }
 
@@ -51,12 +54,12 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
     /**
      * Validate and Match Cms Page and modify request
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Request_Http $request
      * @return bool
      *
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function match(Zend_Controller_Request_Http $request)
+    public function match(Mage_Core_Controller_Request_Http $request)
     {
         if (!Mage::isInstalled()) {
             Mage::app()->getFrontController()->getResponse()
@@ -78,13 +81,12 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
         $identifier = $condition->getIdentifier();
 
         if ($condition->getRedirectUrl()) {
-            Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http')
+            Mage::getSingleton('Mage_Core_Controller_Response_Http')
                 ->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
             $request->setDispatched(true);
-            return Mage::getControllerInstance('Mage_Core_Controller_Varien_Action_Redirect',
-                $request,
-                Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http')
+            return $this->_controllerFactory->createController('Mage_Core_Controller_Varien_Action_Redirect',
+                array('request' => $request)
             );
         }
 
@@ -107,9 +109,8 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
             $identifier
         );
 
-        return Mage::getControllerInstance('Mage_Core_Controller_Varien_Action_Forward',
-            $request,
-            Mage::app()->getFrontController()->getResponse()
+        return $this->_controllerFactory->createController('Mage_Core_Controller_Varien_Action_Forward',
+            array('request' => $request)
         );
     }
 }

@@ -30,6 +30,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false),
+            $this->getMock('Magento_Filesystem', array(), array(), '', false),
             array('template' => $template, 'area' => $area)
         );
 
@@ -52,7 +53,8 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
         $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
         $layout = $this->getMock('Mage_Core_Model_Layout', array('isDirectOutput'), array(), '', false);
-        $design = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false, false);
+        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
+        $design = $this->getMock('Mage_Core_Model_Design_Package', array(), array($filesystem));
         $block = $this->getMock('Mage_Core_Block_Template', array('getShowTemplateHints'), array(
             $this->getMock('Mage_Core_Controller_Request_Http'),
             $layout,
@@ -71,7 +73,8 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false, false),
             $dirMock,
-            $this->getMock('Mage_Core_Model_Logger', array('log'), array(), '', false)
+            $this->getMock('Mage_Core_Model_Logger', array('log'), array(), '', false),
+            $filesystem
         ));
         $layout->expects($this->once())->method('isDirectOutput')->will($this->returnValue(false));
 

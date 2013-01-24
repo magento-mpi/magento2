@@ -43,7 +43,7 @@
  * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper                                         orderHelper()
  * @method Core_Mage_Paypal_Helper                                                                     paypalHelper()
  * @method Core_Mage_PriceRules_Helper|Enterprise_Mage_PriceRules_Helper                               priceRulesHelper()
- * @method Core_Mage_ProductAttribute_Helper                                                           productAttributeHelper()
+ * @method Core_Mage_ProductAttribute_Helper|Saas_Mage_ProductAttribute_Helper                         productAttributeHelper()
  * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper                                     productHelper()
  * @method Core_Mage_Rating_Helper                                                                     ratingHelper()
  * @method Core_Mage_Reports_Helper                                                                    reportsHelper()
@@ -71,6 +71,7 @@
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
+ * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -173,7 +174,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected static $_testHelpers = array();
 
     /**
-     * @var    array
+     * Additional prefix for navigation URL
+     * @var string
+     */
+    protected $_urlPrefix = array();
+
+    /**
+     * @var array
      */
     public static $browsers = array();
 
@@ -707,7 +714,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param array|string $testData
      * @return array
      */
-    public function testDataToArray($testData)
+    public function fixtureDataToArray($testData)
     {
         if (is_string($testData)) {
             $elements = explode('/', $testData);
@@ -1230,6 +1237,44 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get additional prefix for navigation
+     *
+     * @return string
+     */
+    public function getUrlPostfix()
+    {
+        if (!is_null($this->_urlPostfix)) {
+            return $this->_urlPostfix;
+        }
+        return '';
+    }
+
+    /**
+     * Set additional prefix for navigation
+     *
+     * @param string $area
+     * @param string $urlPrefix your params to add to URL (exp: /vde/frontPage)
+     */
+    public function setUrlPrefix($area, $urlPrefix)
+    {
+        $this->_urlPrefix[$area] = $urlPrefix;
+    }
+
+    /**
+     * Get additional prefix for navigation
+     *
+     * @param string $area
+     * @return string
+     */
+    public function getUrlPrefix($area = 'frontend')
+    {
+        if (isset($this->_urlPrefix[$area]) && !is_null($this->_urlPrefix[$area])) {
+            return $this->_urlPrefix[$area];
+        }
+        return '';
+    }
+
+    /**
      * Navigates to the specified page in specified area.<br>
      * Page identifier must be described in the UIMap.
      *
@@ -1267,8 +1312,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($availableElement) {
             $this->url($availableElement->attribute('href'));
         } else {
-            $url = $this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper);
-            $url = isset($this->_urlPostfix) ? $url . $this->_urlPostfix : $url;
+            $url = $this->_uimapHelper->getPageMca($area, $page, $this->_paramsHelper);
+            $baseUrl = $this->_configHelper->getBaseUrl();
+            $url = $baseUrl . $this->getUrlPrefix($area) . $url . $this->getUrlPostfix();
             $this->url($url);
         }
         $this->waitForAjax();
@@ -1462,6 +1508,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $areasConfig = $this->_configHelper->getConfigAreas();
         $currentUrl = $this->url();
+        $currentUrl = str_replace($this->getUrlPrefix(), '', $currentUrl);
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $currentUrl);
         $area = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
         return $this->_uimapHelper->getUimapPageByMca($area, $mca, $this->_paramsHelper);
@@ -1504,7 +1551,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function _findCurrentPageFromUrl($url = null)
     {
         if (is_null($url)) {
-            $url = str_replace($this->_urlPostfix, '', $this->url());
+            $url = $this->url();
+            $url = str_replace(
+                array(
+                    $this->getUrlPostfix(),
+                    $this->getUrlPrefix()
+                ), '', $url
+            );
         }
         $areasConfig = $this->_configHelper->getConfigAreas();
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $url);
@@ -1718,15 +1771,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $tabsOnPage = false;
         $tabData = $this->getCurrentUimapPage()->getAllTabs($this->_paramsHelper);
-        /**
-         * @var Mage_Selenium_Uimap_Tab $tabUimap
-         */
+        /** @var Mage_Selenium_Uimap_Tab $tabUimap */
         foreach ($tabData as $tabUimap) {
             $tabsOnPage = true;
             $availableElement = $this->elementIsPresent($tabUimap->getXPath());
             if ($availableElement) {
+                $parentClass = $this->getChildElement($availableElement, '..')->attribute('class');
                 $tabClass = $availableElement->attribute('class');
-                if (preg_match('/active/', $tabClass)) {
+                if (strpos($tabClass, 'active') !== false || strpos($parentClass, 'active') !== false) {
                     return $tabUimap;
                 }
             }
@@ -2296,12 +2348,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function openTab($tabName)
     {
-        $waitAjax = false;
-        $isTabOpened = $this->getControlAttribute('tab', $tabName, 'class');
-        if (!preg_match('/active/', $isTabOpened)) {
-            if (preg_match('/ajax/', $isTabOpened)) {
-                $waitAjax = true;
-            }
+        $tabElement = $this->getControlElement('tab', $tabName);
+        $tabClass = $tabElement->attribute('class');
+        $parentClass = $this->getChildElement($tabElement, '..')->attribute('class');
+        if (strpos($tabClass, 'active') === false && strpos($parentClass, 'active') === false) {
+            $waitAjax = strpos($tabClass, 'ajax') !== false;
             $this->clickControl('tab', $tabName, false);
             if ($waitAjax) {
                 $this->pleaseWait();
@@ -2495,6 +2546,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Wait for control is present
+     *
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControl($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElement($locator, $timeout);
+    }
+
+    /**
      * Waits for the element(alert) to appear
      *
      * @param string|array $locator
@@ -2571,6 +2636,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Wait for control is visible
+     *
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControlVisible($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElementVisible($locator, $timeout);
+    }
+
+    /**
      * Waits for the element(s) to be visible
      *
      * @param string|array $locator XPath locator or array of locator's
@@ -2611,6 +2690,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Wait for control is editable
+     *
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControlEditable($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElementEditable($locator, $timeout);
+    }
+
+    /**
      * Waits for AJAX request to continue.<br>
      * Method works only if AJAX request was sent by Prototype or JQuery framework.
      *
@@ -2621,17 +2714,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
-        $ajax = 'var c = function() {'
-                . 'if (typeof window.Ajax != "undefined") {return window.Ajax.activeRequestCount;};'
-                . 'if (typeof window.jQuery != "undefined") {return window.jQuery.active;};'
-                . 'return 0;}; return c();';
+        $ajax = 'var ajax = 0;var jquery = 0;'
+                . 'if (typeof window.Ajax != "undefined") {ajax = window.Ajax.activeRequestCount;}'
+                . 'if (typeof window.jQuery != "undefined") {jquery = window.jQuery.active;} return ajax + jquery;';
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            $ajaxResult = $this->execute(array('script' => $ajax, 'args' => array()));
-            if ($ajaxResult == 0 || $ajaxResult == null) {
+            if ($this->execute(array('script' => $ajax, 'args' => array())) === 0) {
                 return;
             }
-            usleep(500000);
+            usleep(10000);
         }
     }
 
@@ -2651,6 +2742,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->clickControlAndWaitMessage($controlType, $controlName);
         $this->waitForElement(self::$_maskXpath);
         if (!is_null($tabUimap)) {
+            $this->openTab($tabName); //MAGETWO-6731
             $this->assertSame($tabName, $this->_getActiveTabUimap()->getTabId(),
                 'Opened wrong tab after Save and Continue Edit action');
         }
@@ -2684,7 +2776,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->clickControl($controlType, $controlName, false);
         $this->waitForElementVisible($messagesXpath);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->addParameter('store', $this->defineIdFromUrl());
+        $this->addParameter('store', $this->defineParameterFromUrl('store'));
         if ($validate) {
             $this->validatePage();
         }
@@ -2783,7 +2875,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function _prepareDataForSearch(array $data, $checkFields = array(self::FIELD_TYPE_DROPDOWN => 'website'))
     {
         foreach ($checkFields as $fieldType => $fieldName) {
-            if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
+            if (array_key_exists($fieldName, $data) && !$this->controlIsVisible($fieldType, $fieldName)) {
                 unset($data[$fieldName]);
             }
         }
@@ -2842,12 +2934,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Forming xpath that contains the data to look up
      *
      * @param array $data Array of data to look up
+     * @param string $trLocator
      *
      * @return string
      */
-    public function formSearchXpath(array $data)
+    public function formSearchXpath(array $data, $trLocator = null)
     {
-        $trLocator = "//table[@class='data']/tbody/tr";
+        if (is_null($trLocator)) {
+            $trLocator = $this->_getControlXpath('pageelement', 'default_table_row');
+        }
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
                 if (strpos($value, "'")) {
@@ -3566,17 +3661,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
             $invalided = array('cache_disabled', 'cache_invalided');
             foreach ($invalided as $value) {
-                $elements = $this->getElements($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, $value), false);
-                /**
-                 * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
-                 */
+                $elements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, $value, null, false);
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
                 foreach ($elements as $element) {
-                    $element->element($this->using('xpath')->value('.//input'))->click();
+                    $this->getChildElement($element, '//input')->click();
                 }
             }
             $this->fillDropdown('cache_action', 'Refresh');
-            $selectedItems =
-                $this->getElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'selected_items'))->text();
+            $selectedItems = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'selected_items', 'text');
             if ($selectedItems == 0) {
                 $this->fail('Please select cache items for refresh.');
             }
@@ -3759,6 +3851,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     #                                                                              #
     ################################################################################
     /**
+     * Get Locator Strategy
+     *
      * @param $locator
      *
      * @return string
@@ -3786,6 +3880,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get elements
+     *
      * @param string $locator
      * @param bool $failIfEmpty
      *
@@ -3803,6 +3899,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get element
+     *
      * @param string $locator
      *
      * @return PHPUnit_Extensions_Selenium2TestCase_Element
@@ -3814,6 +3912,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get child elements
+     *
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
      * @param string $childLocator
      * @param bool $failIfEmpty
@@ -3834,6 +3934,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get child element
+     *
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
      * @param string $childLocator
      *
@@ -3846,6 +3948,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get control elements
+     *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
      * @param mixed $uimap
@@ -3860,6 +3964,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Get control element
+     *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
      * @param string $controlName Name of a control from UIMap
      * @param mixed $uimap
@@ -3873,6 +3979,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Verify if element is present on the page
+     *
      * @param string $locator
      *
      * @return bool|PHPUnit_Extensions_Selenium2TestCase_Element
@@ -3881,6 +3989,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $elements = $this->getElements($locator, false);
         return empty($elements) ? false : array_shift($elements);
+    }
+
+    /**
+     * Verify if child element is present on the page
+     *
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
+     * @param string $childLocator
+     *
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element|null
+     */
+    public function getPresentChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    {
+        $childElements = $this->getChildElements($parentElement, $childLocator, false);
+        return $childElements ? array_shift($childElements) : null;
     }
 
     /**
@@ -3911,7 +4033,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @return bool
      * @throws RuntimeException
      */
-    public function waitForPageToLoad($timeout = NULL)
+    public function waitForPageToLoad($timeout = null)
     {
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;

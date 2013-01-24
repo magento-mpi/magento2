@@ -54,7 +54,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillTabs($ruleData)
     {
-        $ruleData = $this->testDataToArray($ruleData);
+        $ruleData = $this->fixtureDataToArray($ruleData);
         $ruleVars = $this->_ruleData($ruleData);
         if (array_key_exists('websites', $ruleVars['ruleInfo'])
             && !$this->controlIsPresent('multiselect', 'websites')) {
@@ -277,7 +277,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyRuleData($ruleData)
     {
-        $ruleData = $this->testDataToArray($ruleData);
+        $ruleData = $this->fixtureDataToArray($ruleData);
         foreach ($ruleData as $tabName => $tabData) {
             switch ($tabName) {
                 case 'info':

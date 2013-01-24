@@ -25,7 +25,7 @@ class Core_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createTermsAndConditions($termsData)
     {
-        $termsData = $this->testDataToArray($termsData);
+        $termsData = $this->fixtureDataToArray($termsData);
         $this->clickButton('create_new_terms_and_conditions');
         if (array_key_exists('store_view', $termsData) && !$this->controlIsPresent('multiselect', 'store_view')) {
             unset($termsData['store_view']);
@@ -91,7 +91,7 @@ class Core_Mage_TermsAndConditions_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyTermsAndConditions($termsData)
     {
-        $termsData = $this->testDataToArray($termsData);
+        $termsData = $this->fixtureDataToArray($termsData);
         if (array_key_exists('store_view', $termsData) && !$this->controlIsPresent('multiselect', 'store_view')) {
             unset($termsData['store_view']);
         }

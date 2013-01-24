@@ -26,7 +26,7 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createGiftWrapping($inputData, $save = true)
     {
-        $inputData = $this->testDataToArray($inputData);
+        $inputData = $this->fixtureDataToArray($inputData);
         $this->clickButton('add_gift_wrapping');
         $this->fillGiftWrappingForm($inputData, $save);
     }
@@ -70,7 +70,7 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openGiftWrapping($wrappingSearch)
     {
-        $wrappingSearch = $this->testDataToArray($wrappingSearch);
+        $wrappingSearch = $this->fixtureDataToArray($wrappingSearch);
         if (array_key_exists('filter_websites', $wrappingSearch)
             && !$this->controlIsPresent('dropdown', 'filter_websites')
         ) {

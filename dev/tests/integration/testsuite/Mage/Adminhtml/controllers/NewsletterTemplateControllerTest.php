@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Newsletter_TemplateControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Adminhtml_Newsletter_TemplateControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @var Mage_Newsletter_Model_Template

@@ -184,7 +184,6 @@ Product view
                 <block type="Mage_Core_Block_Template" name="product.info.container" as="options_container">
                     <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml" translate="label">
                         <label>Info Column Options Wrapper</label>
-                        <block type="Mage_Core_Block_Template" name="options_js" template="Mage_Catalog::product/view/options/js.phtml"/>
                         <block type="Mage_Catalog_Block_Product_View_Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
                             <action method="addOptionRenderer"><type>text</type><block>Mage_Catalog_Block_Product_View_Options_Type_Text</block><template>product/view/options/type/text.phtml</template></action>
                             <action method="addOptionRenderer"><type>file</type><block>Mage_Catalog_Block_Product_View_Options_Type_File</block><template>product/view/options/type/file.phtml</template></action>
@@ -201,13 +200,6 @@ Product view
                         <block type="Mage_Catalog_Block_Product_View" name="product.tierprices.additional" as="product.tierprices" template="product/view/tierprices.phtml"/>
                     </block>
                 </block>
-            </block>
-        </reference>
-        <reference name="before_body_end">
-            <block type="Mage_Core_Block_Text" name="product_view_js_tabs">
-                <action method="addText">
-                    <text><![CDATA[<script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>]]></text>
-                </action>
             </block>
         </reference>
     </catalog_product_view>
