@@ -32,15 +32,28 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      * @var array
      */
     protected $_ignoredAttributeCodes = array(
-        'global'    =>  array('entity_id', 'attribute_set_id', 'entity_type_id')
+        'global' => array('entity_id', 'attribute_set_id', 'entity_type_id')
     );
 
     /**
      * Field name in session for saving store id
+     *
      * @var string
      */
-    protected $_storeIdSessionField   = 'store_id';
+    protected $_storeIdSessionField = 'store_id';
 
+    /** @var Mage_Api_Helper_Data */
+    protected $_apiHelper;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Api_Helper_Data $apiHelper
+     */
+    public function __construct(Mage_Api_Helper_Data $apiHelper)
+    {
+        $this->_apiHelper = $apiHelper;
+    }
 
     /**
      * Check if quote already exist with provided quoteId for creating
@@ -78,7 +91,7 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     {
         if (is_null($store)) {
             $store = ($this->_getSession()->hasData($this->_storeIdSessionField)
-                        ? $this->_getSession()->getData($this->_storeIdSessionField) : 0);
+                ? $this->_getSession()->getData($this->_storeIdSessionField) : 0);
         }
 
         try {
@@ -109,7 +122,7 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
             $storeId = $this->_getStoreId($store);
 
             $quote->setStoreId($storeId)
-                    ->load($quoteId);
+                ->load($quoteId);
         }
         if (is_null($quote->getId())) {
             $this->_fault('quote_not_exists');
@@ -128,7 +141,7 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     {
         /** @var $quote Mage_Sales_Model_Quote */
         $quote = Mage::getModel('Mage_Sales_Model_Quote')
-                ->loadByIdWithoutStore($quoteId);
+            ->loadByIdWithoutStore($quoteId);
 
         return $quote->getStoreId();
     }
@@ -142,10 +155,10 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      * @param array|null $attributes
      * @return Mage_Checkout_Model_Api_Resource
      */
-    protected function _updateAttributes($data, $object, $type,  array $attributes = null)
+    protected function _updateAttributes($data, $object, $type, array $attributes = null)
     {
-        foreach ($data as $attribute=>$value) {
-            if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
+        foreach ($data as $attribute => $value) {
+            if ($this->_apiHelper->isAttributeAllowed($attribute, $type, $this->_ignoredAttributeCodes, $attributes)) {
                 $object->setData($attribute, $value);
             }
         }
@@ -164,59 +177,26 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     protected function _getAttributes($object, $type, array $attributes = null)
     {
         $result = array();
-
         if (!is_object($object)) {
             return $result;
         }
-
-        foreach ($object->getData() as $attribute=>$value) {
+        foreach ($object->getData() as $attribute => $value) {
             if (is_object($value)) {
                 continue;
             }
 
-            if ($this->_isAllowedAttribute($attribute, $type, $attributes)) {
+            if ($this->_apiHelper->isAttributeAllowed($attribute, $type, $this->_ignoredAttributeCodes, $attributes)) {
                 $result[$attribute] = $value;
             }
         }
-
-        foreach ($this->_attributesMap['global'] as $alias=>$attributeCode) {
-            $result[$alias] = $object->getData($attributeCode);
-        }
-
         if (isset($this->_attributesMap[$type])) {
-            foreach ($this->_attributesMap[$type] as $alias=>$attributeCode) {
+            foreach ($this->_attributesMap[$type] as $alias => $attributeCode) {
                 $result[$alias] = $object->getData($attributeCode);
             }
         }
-
+        foreach ($this->_attributesMap['global'] as $alias => $attributeCode) {
+            $result[$alias] = $object->getData($attributeCode);
+        }
         return $result;
     }
-
-    /**
-     * Check is attribute allowed to usage
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param string $type
-     * @param array $attributes
-     * @return bool
-     */
-    protected function _isAllowedAttribute($attributeCode, $type, array $attributes = null)
-    {
-        if (!empty($attributes)
-            && !(in_array($attributeCode, $attributes))) {
-            return false;
-        }
-
-        if (in_array($attributeCode, $this->_ignoredAttributeCodes['global'])) {
-            return false;
-        }
-
-        if (isset($this->_ignoredAttributeCodes[$type])
-            && in_array($attributeCode, $this->_ignoredAttributeCodes[$type])) {
-            return false;
-        }
-
-        return true;
-    }
-
 }

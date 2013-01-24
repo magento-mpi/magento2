@@ -144,28 +144,4 @@ class Mage_Customer_Model_Address_Api_V2 extends Mage_Customer_Model_Address_Api
 
         return true;
     }
-
-    /**
-     * Delete address
-     *
-     * @param int $addressId
-     * @return boolean
-     */
-    public function delete($addressId)
-    {
-        $address = Mage::getModel('Mage_Customer_Model_Address')
-            ->load($addressId);
-
-        if (!$address->getId()) {
-            $this->_fault('not_exists');
-        }
-
-        try {
-            $address->delete();
-        } catch (Mage_Core_Exception $e) {
-            $this->_fault('not_deleted', $e->getMessage());
-        }
-
-        return true;
-    }
 } // Class Mage_Customer_Model_Address_Api End
