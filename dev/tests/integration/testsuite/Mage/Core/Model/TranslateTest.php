@@ -24,7 +24,11 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test', 'default', 'locale', 'en_US',
             'translate.csv');
 
-        $design = $this->getMock('Mage_Core_Model_Design_Package', array('getLocaleFileName'));
+        $design = $this->getMock(
+            'Mage_Core_Model_Design_Package',
+            array('getLocaleFileName'),
+            array(Mage::getObjectManager()->create('Mage_Core_Model_Config_Modules_Reader'))
+        );
         $design->expects($this->any())
             ->method('getLocaleFileName')
             ->will($this->returnValue(implode(DS, $pathChunks)));
