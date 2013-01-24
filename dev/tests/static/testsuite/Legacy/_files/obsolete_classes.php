@@ -656,6 +656,7 @@ return array(
     $this->_getClassRule('Mage_Sales_Model_Entity_Sale_Collection'),
     $this->_getClassRule('Mage_Sales_Model_Entity_Setup'),
     $this->_getClassRule('Mage_Shipping_ShippingController'),
+    $this->_getClassRule('Mage_Tag_Block_Adminhtml_Report_Product_Grid'),
     $this->_getClassRule('Mage_Tag_Block_Customer_Edit'),
     $this->_getClassRule('Mage_Theme_Block_Adminhtml_System_Design_Theme_Grid'),
     $this->_getClassRule('Mage_User_Block_Role_Grid'),
