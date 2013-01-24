@@ -78,6 +78,26 @@ class Mage_Core_Model_Resource
     }
 
     /**
+     * Set resource configuration
+     *
+     * @param Mage_Core_Model_Config_Resource $resourceConfig
+     */
+    public function setResourceConfig(Mage_Core_Model_Config_Resource $resourceConfig)
+    {
+        $this->_resourceConfig = $resourceConfig;
+    }
+
+    /**
+     * Set cache instance
+     *
+     * @param Mage_Core_Model_CacheInterface $cache
+     */
+    public function setCache(Mage_Core_Model_CacheInterface $cache)
+    {
+        $this->_cache = $cache;
+    }
+
+    /**
      * Creates a connection to resource whenever needed
      *
      * @param string $name
