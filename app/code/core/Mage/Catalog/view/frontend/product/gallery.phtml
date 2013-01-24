@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php $_width=$this->getImageWidth(); ?>
+<?php $_width = $this->getImageWidth(); ?>
 <div class="product-image-popup" style="width:<?php echo $_width; ?>px;">
     <div class="buttons-set"><a href="#" class="button" role="close-window"><span><?php echo $this->__('Close Window') ?></span></a></div>
     <?php if($this->getPreviusImageUrl() || $this->getNextImageUrl()): ?>
@@ -38,11 +38,9 @@
     <?php endif; ?>
 </div>
 <script type="text/javascript">
-    (function($) {
-        window.onload = function() {
-            head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/gallery.js');?>", function() {
-                $('#product-gallery-image').gallery();
-            });
-        };
-    })(jQuery);
+    window.onload = function() {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/gallery.js');?>", function() {
+            jQuery('#product-gallery-image').gallery();
+        });
+    };
 </script>

@@ -23,14 +23,14 @@
          */
         _create: function() {
             $(this.options.closeWindow).on('click', function() { window.close(); });
-            this.resizeWindow();
+            this._resizeWindow();
         },
 
         /**
          * Resize the gallery image popup window based on the image's dimensions.
-         * @public
+         * @private
          */
-        resizeWindow: function() {
+        _resizeWindow: function() {
             var img = this.element,
                 width = img.width() < this.options.minWidth ? this.options.minWidth : img.width();
             window.resizeTo(width + this.options.widthOffset, img.height() + this.options.heightOffset);
