@@ -9,7 +9,7 @@
  */
 
 class Mage_Backend_Block_Catalog_Product_Tab_Container extends Mage_Backend_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    implements Mage_Backend_Block_Widget_Tab_Interface
 {
 
     /**
@@ -19,7 +19,7 @@ class Mage_Backend_Block_Catalog_Product_Tab_Container extends Mage_Backend_Bloc
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products');
+        return '';
     }
 
     /**
