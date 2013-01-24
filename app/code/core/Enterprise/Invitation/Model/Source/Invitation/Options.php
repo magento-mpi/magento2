@@ -25,10 +25,7 @@ class Enterprise_Invitation_Model_Source_Invitation_Options
      */
     public function toOptionArray()
     {
-
         return Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')->getOptions();
 
     }
-
-
 }

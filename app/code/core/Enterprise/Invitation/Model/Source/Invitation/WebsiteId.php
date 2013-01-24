@@ -9,7 +9,7 @@
  */
 
 /**
- * Invitation websites option source
+ * Invitation websites options source
  *
  * @category   Enterprise
  * @package    Enterprise_Invitation
@@ -26,6 +26,4 @@ class Enterprise_Invitation_Model_Source_Invitation_WebsiteId implements Mage_Co
     {
         return  Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash();
     }
-
-
 }
