@@ -69,7 +69,7 @@
          * @public
          */
         ready: function() {
-            if (this.options.formDataPost && this.options.formDataPost.formData) {
+            if (this.options.formDataPost && this.options.formDataPost.formData && this.options.formDataPost.formData.length) {
                 this.processFormDataArr(this.options.formDataPost);
             } else if (this.options.rowIndex === 0 && this.options.maxRows !== 0) {
                 //If no form data , then add default row
@@ -114,8 +114,8 @@
             row.addClass(this.options.additionalRowClass);
             //Remove 'delete' link and additionalRowClass for first row
             if (this.options.rowIndex === 0 && this.options.hideFirstRowAddSeparator) {
-                $('#' + this.options.btnRemoveIdPrefix + '0').remove();
-                $('#' + this.options.rowIdPrefix + '0').removeClass(this.options.additionalRowClass);
+                $('#' + this._esc(this.options.btnRemoveIdPrefix) + '0').remove();
+                $('#' + this._esc(this.options.rowIdPrefix) + '0').removeClass(this.options.additionalRowClass);
             }
             this.maxRowCheck(++this.options.rowCount);
             return row;
@@ -128,7 +128,7 @@
          * @return {boolean}
          */
         removeRow: function(rowIndex) {
-            $('#' + this.options.rowIdPrefix + rowIndex).remove();
+            $('#' + this._esc(this.options.rowIdPrefix) + rowIndex).remove();
             this.maxRowCheck(--this.options.rowCount);
             return false;
         },

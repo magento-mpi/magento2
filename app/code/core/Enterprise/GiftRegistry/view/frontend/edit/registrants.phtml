@@ -9,28 +9,27 @@
  */
 ?>
 
-<div id="template_container" class="template" style="display:none;">
-    <div id="template_registrant">
-    <input name="registrant[_index_][person_id]" value="" id="registrant:person_id_index_" type="hidden" />
-        <p class="btn-remove" id="btn-remove_index_"><a href="#" onclick="removeRegistrant(_index_); return false" class="btn-remove">
+<script id="template-registrant" type="text/x-jQuery-tmpl">
+    <input name="registrant[${_index_}][person_id]" value="" id="registrant:person_id${_index_}" type="hidden" />
+    <p class="btn-remove" id="btn-remove${_index_}"><a href="#" class="btn-remove">
         <img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove') ?>" /></a>
     </p>
     <div class="field">
-        <label for="registrant:firstname_index_" class="required"><em>*</em><?php echo $this->__('First Name:') ?></label>
+        <label for="registrant:firstname${_index_}" class="required"><em>*</em><?php echo $this->__('First Name:') ?></label>
         <div class="input-box">
-            <input name="registrant[_index_][firstname]" value="" type="text" class="input-text required-entry" id="registrant:firstname_index_" />
+            <input name="registrant[${_index_}][firstname]" value="" type="text" class="input-text" data-validate="{required:true}" id="registrant:firstname${_index_}" />
         </div>
     </div>
     <div class="field">
-        <label for="registrant:lastname_index_" class="required"><em>*</em><?php echo $this->__('Last Name:') ?></label>
+        <label for="registrant:lastname${_index_}" class="required"><em>*</em><?php echo $this->__('Last Name:') ?></label>
         <div class="input-box">
-            <input name="registrant[_index_][lastname]" value="" type="text" class="input-text required-entry" id="registrant:lastname_index_" />
+            <input name="registrant[${_index_}][lastname]" value="" type="text" class="input-text" data-validate="{required:true}" id="registrant:lastname${_index_}" />
         </div>
     </div>
     <div class="field">
-        <label for="registrant:email_index_" class="required"><em>*</em><?php echo $this->__('Email Address:') ?></label>
+        <label for="registrant:email${_index_}" class="required"><em>*</em><?php echo $this->__('Email Address:') ?></label>
         <div class="input-box">
-            <input name="registrant[_index_][email]" value="" title="<?php echo $this->__('Email Address') ?>" id="registrant:email_index_" type="text" class="input-text required-entry validate-email" />
+            <input name="registrant[${_index_}][email]" value="" title="<?php echo $this->__('Email Address') ?>" id="registrant:email${_index_}" type="text" class="input-text" data-validate="{required:true,'validate-email':true}"  />
         </div>
     </div>
 
@@ -38,7 +37,7 @@
     <?php $isRequired = $this->isAttributeRequired($data); ?>
     <?php $isStatic = $this->isAttributeStatic($field); ?>
         <div class="field">
-            <label for="registrant:<?php if (!$isStatic):?>custom:<?php endif;?><?php echo $field ?>_index_" <?php echo ($isRequired ? 'class="required"' : '') ?>>
+            <label for="registrant:<?php if (!$isStatic):?>custom:<?php endif;?><?php echo $field ?>${_index_}" <?php echo ($isRequired ? 'class="required"' : '') ?>>
                 <?php echo ($isRequired ? '<em>*</em>' : '') . $this->__("%s", $data['label']) ?>
             </label>
             <div class="input-box">
@@ -46,100 +45,39 @@
             </div>
         </div>
     <?php endforeach; ?>
+</script>
+<div class="fieldset">
+    <h2 class="legend"><?php echo $this->__('Recipients Information') ?></h2>
+    <ul class="form-list" id="registrant-container">
+        <li class="no-display">&nbsp;</li>
+    </ul>
+    <div class="buttons-set form-buttons">
+        <p class="back-link">
+            <span id="max-registrant-message" style="display:none;">
+                <?php if ($this->getMaxRegistrant()): ?>
+                    <?php echo $this->__('Maximum %d recipients allowed.', $this->getMaxRegistrant()) ?>
+                <?php endif; ?>
+            </span>&nbsp;
+        </p>
+        <?php if (1 < $this->getMaxRegistrant()): ?>
+            <button type="button" id="add-registrant-button" class="button"><span><span><?php echo $this->__('Add Recipient') ?></span></span></button>
+        <?php endif; ?>
     </div>
 </div>
 
 <script type="text/javascript">
-//<![CDATA[
-    var liIndex=0;
-    var regCount  = 0;
-    var maxRegistrant = '<?php echo $this->getMaxRegistrant() ?>';
-    var myTemplate = new Template($('template_registrant').innerHTML, /(^|.|\r|\n)({{(\w+)}})/);
-    $('template_registrant').remove();
-
-    function removeRegistrant(liIndex){
-        $('registrant:firstname'+liIndex).up(2).remove();
-        regCount--;
-        if(regCount<maxRegistrant && maxRegistrant != 0) {
-            $('add_registrant_button').show();
-            $('max_registrant_message').hide();
-        }
-        return false;
-    }
-    function addRegistrant(){
-        ul = $('registrant_options');
-        var li_registrant = Element.extend(document.createElement("li"));
-        // skipping first row
-        if (liIndex != 0) {
-            li_registrant.addClassName('add-row');
-        }
-        li_registrant.addClassName('fields');
-        date_template = myTemplate.evaluate({});
-        li_registrant.innerHTML = date_template.gsub('_index_', liIndex);
-        liIndex++;
-        regCount++;
-
-        if(regCount>=maxRegistrant && maxRegistrant != 0) {
-            $('add_registrant_button').hide();
-            $('max_registrant_message').show();
-        }
-
-        ul.appendChild(li_registrant);
-
-        // skipping first row
-        if (liIndex == 1) {
-            $('btn-remove0').hide();
-        }
-    }
-//]]>
-</script>
-    <div class="fieldset">
-        <h2 class="legend"><?php echo $this->__('Recipients Information') ?></h2>
-        <ul class="form-list" id="registrant_options">
-            <li class="no-display">&nbsp;</li>
-        </ul>
-        <div class="buttons-set form-buttons">
-            <p class="back-link">
-                <span id="max_registrant_message" style="display:none;">
-                    <?php if ($this->getMaxRegistrant()): ?>
-                        <?php echo $this->__('Maximum %d recipients allowed.', $this->getMaxRegistrant()) ?>
-                    <?php endif; ?>
-                </span>&nbsp;
-            </p>
-            <?php if (1 < $this->getMaxRegistrant()): ?>
-                <button type="button" id="add_registrant_button" onclick="addRegistrant();" class="button"><span><span><?php echo $this->__('Add Recipient') ?></span></span></button>
-            <?php endif; ?>
-        </div>
-    </div>
-
-<script type="text/javascript">
-//<![CDATA[
-//drawing first registrant
-
-document.observe("dom:loaded", function() {
-<?php
-/* @var $this Enterprise_GiftRegistry_Block_Customer_Edit*/
-$registrantsData = $this->getRegistrantPresets($this->getEntity()->getId());
-$i = 0;
-?>
-<?php foreach ($registrantsData as $registrant) : ?>
-    addRegistrant();
-    <?php foreach ($registrant as $field => $value) : ?>
-        <?php if (!is_array($value)) : ?>
-            setFieldById(<?php echo '"registrant:'.$field.$i.'", "'.addslashes($value).'"' ?>);
-        <?php else : ?>
-            <?php foreach ($value as $customId => $customValue) : ?>
-                setFieldById(<?php echo '"registrant:custom:'.$customId.$i.'", "'.addslashes($customValue).'"' ?>);
-            <?php endforeach;?>
-        <?php endif; ?>
-    <?php endforeach; ?>
-
-    <?php $i++; ?>
-<?php endforeach; ?>
-<?php echo "liIndex = $i;\n"; ?>
-    if (liIndex == 0) {
-        addRegistrant();
-    }
-});
-//]]>
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('Mage_Page::js/row-builder.js')?>",
+            "<?php echo $this->getViewFileUrl('Enterprise_GiftRegistry::giftregistry-create.js')?>", function() {
+                $('#form-validate').giftRegistryCreate({
+                    maxRows: '<?php echo $this->getMaxRegistrant() ?>',
+                    formDataPost: {"formData": <?php echo json_encode($this->getRegistrantPresets($this->getEntity()->getId())); ?>}
+                });
+            });
+    })(jQuery);
 </script>

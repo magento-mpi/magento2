@@ -132,7 +132,7 @@ function changeShippingAddressType(event) {
 if ($('address_type_or_id')) {
     $('address_type_or_id').observe('change', changeShippingAddressType);
 }
-
+regionJSON = <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>;
 new RegionUpdater('address:country_id', 'address:region', 'address:region_id', regionJSON, undefined, 'zip');
 
 <?php if ($this->getEntity()->getShippingAddress()): ?>

@@ -21,13 +21,13 @@
         <li>
             <label for="title" class="required"><em>*</em><?php echo $this->__('Event') ?></label>
             <div class="input-box">
-                <input type="text" name="title" id="title" value="<?php echo $this->escapeHtml($this->getEntity()->getTitle());?>" title="<?php echo $this->__('Event') ?>" class="input-text required-entry" />
+                <input type="text" name="title" id="title" value="<?php echo $this->escapeHtml($this->getEntity()->getTitle());?>" title="<?php echo $this->__('Event') ?>" class="input-text" data-validate="{required:true}" />
             </div>
         </li>
         <li>
             <label for="message" class="required"><em>*</em><?php echo $this->__('Message') ?></label>
             <div class="input-box">
-                <textarea name="message" id="message" cols="5" rows="3" title="<?php echo $this->__('Message') ?>" class="required-entry" ><?php echo $this->escapeHtml($this->getEntity()->getMessage());?></textarea>
+                <textarea name="message" id="message" cols="5" rows="3" title="<?php echo $this->__('Message') ?>" data-validate="{required:true}" ><?php echo $this->escapeHtml($this->getEntity()->getMessage());?></textarea>
             </div>
         </li>
         <li>
