@@ -42,7 +42,6 @@ class Enterprise_PageCache_Model_Http_Handler implements Magento_Http_HandlerInt
         }
 
         $response->headersSentThrowsException = Mage::$headersSentThrowsException;
-        $response->setHeader("Content-Type", "text/html; charset=UTF-8");
 
         $content = false;
         foreach ($this->_processors as $processor) {

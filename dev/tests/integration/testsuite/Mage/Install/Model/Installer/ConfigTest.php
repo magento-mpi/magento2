@@ -31,10 +31,12 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
         $config = $this->getMock('Mage_Core_Model_Config', array('getDistroBaseUrl'), array(), '', false);
         $config->expects($this->once())->method('getDistroBaseUrl')->will($this->returnValue('http://example.com/'));
         $expectedContents = "test; <![CDATA[d-d-d-d-d]]>; <![CDATA[http://example.com/]]>; {{unknown}}";
-        $dirs = new Mage_Core_Model_Dir(self::$_tmpDir, array(), array(Mage_Core_Model_Dir::CONFIG => self::$_tmpDir));
+        $dirs = new Mage_Core_Model_Dir(
+            self::$_tmpDir, new Varien_Io_File(), array(), array(Mage_Core_Model_Dir::CONFIG => self::$_tmpDir)
+        );
 
         $this->assertFileNotExists($expectedFile);
-        $model = new Mage_Install_Model_Installer_Config($config, $dirs);
+        $model = Mage::getModel('Mage_Install_Model_Installer_Config', array('config' => $config, 'dirs' => $dirs));
         $model->install();
         $this->assertFileExists($expectedFile);
         $this->assertStringEqualsFile($expectedFile, $expectedContents);

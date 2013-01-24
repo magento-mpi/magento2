@@ -71,8 +71,8 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 ),
                 'Mage_Core_Model_Config_Loader_Local' => array(
                     'parameters' => array(
-                        'extraFile' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_FILE),
-                        'extraData' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG)
+                        'customFile' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_FILE),
+                        'customConfig' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG)
                     )
                 ),
                 'Mage_Core_Model_Config_Loader_Modules' => array(

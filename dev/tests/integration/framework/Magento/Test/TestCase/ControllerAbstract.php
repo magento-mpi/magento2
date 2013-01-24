@@ -19,7 +19,6 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
 {
     protected $_runCode     = '';
     protected $_runScope    = 'store';
-    protected $_runOptions  = array();
 
     /**
      * @var Magento_Test_Request
@@ -61,7 +60,6 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
         $this->_request = null;
         $this->_response = null;
         $this->_objectManager = null;
-        $this->_runOptions = array();
     }
 
     /**

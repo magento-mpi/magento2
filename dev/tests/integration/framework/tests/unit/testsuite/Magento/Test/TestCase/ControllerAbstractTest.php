@@ -27,15 +27,6 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
         return $this->_bootstrap;
     }
 
-    public function testSetUp()
-    {
-        $this->assertInternalType('array', $this->_runOptions);
-        $this->assertArrayHasKey('request', $this->_runOptions);
-        $this->assertInstanceOf('Magento_Test_Request', $this->_runOptions['request']);
-        $this->assertArrayHasKey('response', $this->_runOptions);
-        $this->assertInstanceOf('Magento_Test_Response', $this->_runOptions['response']);
-    }
-
     public function testGetRequest()
     {
         $request = $this->getRequest();
