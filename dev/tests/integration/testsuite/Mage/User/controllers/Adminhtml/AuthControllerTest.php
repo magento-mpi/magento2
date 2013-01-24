@@ -46,14 +46,12 @@ class Mage_User_Adminhtml_AuthControllerTest extends Mage_Backend_Utility_Contro
      */
     public function testResetPasswordAction()
     {
+        /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
-        $resetPasswordToken = null;
-        if ($user->getId()) {
-            $resetPasswordToken = Mage::helper('Mage_User_Helper_Data')
-                ->generateResetPasswordLinkToken();
-            $user->changeResetPasswordLinkToken($resetPasswordToken);
-            $user->save();
-        }
+        $this->assertNotEmpty($user->getId(), 'Broken fixture');
+        $resetPasswordToken = Mage::helper('Mage_User_Helper_Data')->generateResetPasswordLinkToken();
+        $user->changeResetPasswordLinkToken($resetPasswordToken);
+        $user->save();
 
         $this->getRequest()
             ->setQuery('token', $resetPasswordToken)
@@ -88,14 +86,12 @@ class Mage_User_Adminhtml_AuthControllerTest extends Mage_Backend_Utility_Contro
      */
     public function testResetPasswordPostAction()
     {
+        /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
-        $resetPasswordToken = null;
-        if ($user->getId()) {
-            $resetPasswordToken = Mage::helper('Mage_User_Helper_Data')
-                ->generateResetPasswordLinkToken();
-            $user->changeResetPasswordLinkToken($resetPasswordToken);
-            $user->save();
-        }
+        $this->assertNotEmpty($user->getId(), 'Broken fixture');
+        $resetPasswordToken = Mage::helper('Mage_User_Helper_Data')->generateResetPasswordLinkToken();
+        $user->changeResetPasswordLinkToken($resetPasswordToken);
+        $user->save();
 
         $newDummyPassword = 'new_dummy_password2';
 
@@ -109,9 +105,8 @@ class Mage_User_Adminhtml_AuthControllerTest extends Mage_Backend_Utility_Contro
 
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
 
-        $user = Mage::getModel('Mage_User_Model_User')
-            ->loadByUsername('dummy_username');
-
+        /** @var $user Mage_User_Model_User */
+        $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
         $this->assertTrue(Mage::helper('Mage_Core_Helper_Data')->validateHash($newDummyPassword, $user->getPassword()));
     }
 
