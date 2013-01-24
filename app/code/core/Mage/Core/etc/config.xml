@@ -97,6 +97,9 @@
                 </parameters>
                 <shared>0</shared>
             </Magento_Filesystem>
+            <Mage_Core_Model_Theme_Image>
+                <shared>0</shared>
+            </Mage_Core_Model_Theme_Image>
         </di>
     </global>
     <frontend>
