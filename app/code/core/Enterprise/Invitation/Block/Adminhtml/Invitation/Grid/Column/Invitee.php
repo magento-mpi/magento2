@@ -23,10 +23,15 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
      */
     protected function _getValue(Varien_Object $row)
     {
-        if (!$row->getReferralId()) {
-            return '';
+        if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Customer::manage')) {
+            if (!$row->getReferralId()) {
+                return '';
+            }
+            return '<a href="' . Mage::getSingleton('Mage_Backend_Model_Url')
+                ->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
+                   . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
+        } else {
+            return parent::_getValue($row);
         }
-        return '<a href="' . Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
-            . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
     }
 }
