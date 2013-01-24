@@ -4,12 +4,12 @@
   * VDE changes can be saved to DB for current store and theme. Layout updates composed by VDE are combined into one record
   * Introduced temporary layout changes which should store non-applied modifications made during VDE functioning. Added new column `updated_at` to `core_layout_update` table for this, added observers and cron jobs to clean outdated layout updates
   * Added `vde/` prefix to all links inside VDE frame
-  * Disabled caching (layout, blocks HTML, etc) in VDE mode
+  * Disabled caching (layout, blocks HTML, etc) in Design mode
   * Reviewed and improved "Quit" action to properly cleanup session, cache and cookies
   * Visual enhancements added when block is being dragged (block display, highlighting, cursor shape)
   * Added ability to set placeholder for a draggable block in VDE canvas
   * Fixed sorting of items within container
-  * Improved logic of VDE canvas iframe sizing according to window size
+  * Improved logic of VDE canvas iframe sizing according to window size to have one scroll bar and static toolbar at the bottom of the page
 * Improved themes management:
   * New separate tab on theme edit page which allows to view and download CSS files used on frontend. Files are divided to framework files, library files and theme files
   * Added an ability to upload and store custom CSS file which can be applied on frontend
