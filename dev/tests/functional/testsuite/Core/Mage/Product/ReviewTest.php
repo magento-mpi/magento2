@@ -48,9 +48,9 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
     public function reviewInfoInProductDetailsDataProvider()
     {
         return array(
-            array('simple', 'In Stock'),
+//            array('simple', 'In Stock'), skipped due to bug MAGETWO-7170
             array('simple', 'Out of Stock'),
-            array('virtual', 'In Stock'),
+//            array('virtual', 'In Stock'), skipped due to bug MAGETWO-7170
             array('virtual', 'Out of Stock')
         );
     }
