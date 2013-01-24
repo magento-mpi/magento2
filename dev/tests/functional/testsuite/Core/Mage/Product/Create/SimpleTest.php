@@ -63,7 +63,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInSimple()
     {
-        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product');
         $productSearch =
