@@ -56,7 +56,7 @@ abstract class Mage_Core_Model_Config_StorageAbstract implements Mage_Core_Model
         $config = $useCache ? $this->_cache->load() : false;
         if (false === $config) {
             $config = $this->_configFactory->create('<config/>');
-            $this->_loader->load($config);
+            $this->_loader->load($config, $useCache);
         }
         return $config;
     }

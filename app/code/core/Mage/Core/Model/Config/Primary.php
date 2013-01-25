@@ -27,12 +27,18 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base
     protected $_installDate;
 
     /**
+     * @var Mage_Core_Model_Config_Loader_Primary
+     */
+    protected $_loader;
+
+    /**
      * @param Mage_Core_Model_Config_Loader_Primary $loader
      */
     public function __construct(Mage_Core_Model_Config_Loader_Primary $loader)
     {
         parent::__construct('<config/>');
-        $loader->load($this);
+        $this->_loader = $loader;
+        $this->_loader->load($this);
         $this->_loadInstallDate();
     }
 
@@ -55,5 +61,15 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base
     public function getInstallDate()
     {
         return $this->_installDate;
+    }
+
+    /**
+     * Reinitialize primary configuration
+     */
+    public function reinit()
+    {
+        $this->loadString('<config/>');
+        $this->_loader->load($this);
+        $this->_loadInstallDate();
     }
 }

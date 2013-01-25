@@ -79,15 +79,22 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     }
 
     /**
-     * Populate configuration object with modules configuration
+     * Populate configuration object
      *
      * @param Mage_Core_Model_Config_Base $config
+     * @param bool $useCache
+     * @return void
      */
-    public function load(Mage_Core_Model_Config_Base $config)
+    public function load(Mage_Core_Model_Config_Base $config, $useCache = true)
     {
         if (!$config->getNode()) {
             $config->loadString('<config><modules></modules></config>');
         }
+
+        if (false == $useCache) {
+            $this->_primaryConfig->reinit();
+        }
+
         $config->extend($this->_primaryConfig);
         Magento_Profiler::start('config');
         Magento_Profiler::start('load_modules');

@@ -30,4 +30,12 @@ class Mage_Core_Model_Config_Base extends Varien_Simplexml_Config implements Mag
         $this->_elementClass = 'Mage_Core_Model_Config_Element';
         parent::__construct($sourceData);
     }
+
+    /**
+     * Reinitialize config object
+     */
+    public function reinit()
+    {
+
+    }
 }

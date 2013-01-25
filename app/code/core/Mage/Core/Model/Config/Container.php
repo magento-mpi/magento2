@@ -101,4 +101,12 @@ class Mage_Core_Model_Config_Container implements Mage_Core_Model_ConfigInterfac
     {
         return $this->_data->getXpath($xpath);
     }
+
+    /**
+     * Reinitialize config object
+     */
+    public function reinit()
+    {
+
+    }
 }

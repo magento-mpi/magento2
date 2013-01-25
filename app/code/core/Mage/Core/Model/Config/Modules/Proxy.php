@@ -7,29 +7,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
+class Mage_Core_Model_Config_Modules_Proxy implements Mage_Core_Model_Config_ModulesInterface
 {
     /**
-     * Configuration data container
-     *
-     * @var Mage_Core_Model_ConfigInterface
+     * @var Magento_ObjectManager
      */
-    protected $_data;
+    protected $_objectManager;
 
     /**
-     * Configuration storage
-     *
-     * @var Mage_Core_Model_Config_StorageInterface
+     * @var Mage_Core_Model_Config_Modules
      */
-    protected $_storage;
+    protected $_model;
 
     /**
-     * @param Mage_Core_Model_Config_StorageInterface $storage
+     * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(Mage_Core_Model_Config_StorageInterface $storage)
+    public function __construct(Magento_ObjectManager $objectManager)
     {
-        $this->_storage = $storage;
-        $this->_data = $this->_storage->getConfiguration();
+        $this->_objectManager = $objectManager;
+    }
+
+    /**
+     * @return Mage_Core_Model_Config_Modules
+     */
+    protected function _getInstance()
+    {
+        if (null == $this->_model) {
+            $this->_model = $this->_objectManager->get('Mage_Core_Model_Config_Modules');
+        }
+
+        return $this->_model;
     }
 
     /**
@@ -40,7 +47,7 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      */
     public function getNode($path = null)
     {
-        return $this->_data->getNode($path);
+        return $this->_getInstance()->getNode($path);
     }
 
     /**
@@ -52,7 +59,7 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      */
     public function setNode($path, $value, $overwrite = true)
     {
-        $this->_data->setNode($path, $value, $overwrite);
+        $this->_getInstance()->setNode($path, $value, $overwrite);
     }
 
     /**
@@ -63,7 +70,7 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      */
     public function getXpath($xpath)
     {
-        return $this->_data->getXpath($xpath);
+        return $this->_getInstance()->getXpath($xpath);
     }
 
     /**
@@ -74,12 +81,7 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      */
     public function getModuleConfig($moduleName = '')
     {
-        $modules = $this->getNode('modules');
-        if ('' === $moduleName) {
-            return $modules;
-        } else {
-            return $modules->$moduleName;
-        }
+        return $this->_getInstance()->getModuleConfig($moduleName);
     }
 
     /**
@@ -87,6 +89,6 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      */
     public function reinit()
     {
-        $this->_data = $this->_storage->getConfiguration(false);
+        $this->_getInstance()->reinit();
     }
 }

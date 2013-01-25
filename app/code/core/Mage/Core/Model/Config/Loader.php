@@ -57,11 +57,17 @@ class Mage_Core_Model_Config_Loader implements Mage_Core_Model_Config_LoaderInte
      * Populate configuration object
      *
      * @param Mage_Core_Model_Config_Base $config
+     * @param bool $useCache
+     * @return void
      */
-    public function load(Mage_Core_Model_Config_Base $config)
+    public function load(Mage_Core_Model_Config_Base $config, $useCache = true)
     {
+        if (false == $useCache) {
+            $this->_modulesConfig->reinit();
+            $this->_localesConfig->reinit();
+        }
         $config->extend($this->_configFactory->create($this->_modulesConfig->getNode()));
-        $this->_dbLoader->load($config);
+        $this->_dbLoader->load($config, true);
         $config->extend($this->_configFactory->create($this->_localesConfig->getNode()));
     }
 }

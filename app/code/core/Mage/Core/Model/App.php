@@ -196,7 +196,7 @@ class Mage_Core_Model_App
      *
      * @var string
      */
-    protected $_currentStore;
+    protected $_currentStore = null;
 
     /**
      * Request object
@@ -791,6 +791,10 @@ class Mage_Core_Model_App
         }
 
         if (!isset($id) || '' === $id || $id === true) {
+            if (null === $this->_currentStore) {
+                $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
+                $this->_log->initForStore($this->_store, $this->_config);
+            }
             $id = $this->_currentStore;
         }
         if ($id instanceof Mage_Core_Model_Store) {

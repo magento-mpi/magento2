@@ -34,4 +34,9 @@ interface Mage_Core_Model_ConfigInterface
      * @return array
      */
     public function getXpath($xpath);
+
+    /**
+     * Reinitialize config object
+     */
+    public function reinit();
 }

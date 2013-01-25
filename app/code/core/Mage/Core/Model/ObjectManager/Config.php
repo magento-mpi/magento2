@@ -37,6 +37,9 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         'Mage_Core_Model_Config_Storage_Locales' => array(
             'parameters' => array('loader' => 'Mage_Core_Model_Config_Loader_Locales_Proxy')
         ),
+        'Mage_Install_Model_Installer' => array(
+            'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
+        ),
     );
 
     /**

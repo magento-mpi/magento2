@@ -71,35 +71,23 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     protected $_resourceConfig;
 
     /**
-     * Initialize application and "data model"
+     * DB updater
      *
-     * @param array $installArgs
+     * @var Mage_Core_Model_Db_UpdaterInterface
      */
-    public function __construct(
-        Mage_Core_Model_App $app, Mage_Core_Model_Config_Resource $resourceConfig, array $installArgs
-    ) {
-        $params = $this->_buildInitParams($installArgs);
-        $this->_resourceConfig = $resourceConfig;
-        $app->init($params);
-        $this->_getInstaller()->setDataModel($this->_getDataModel());
-    }
+    protected $_dbUpdater;
 
     /**
-     * Customize application init parameters
-     *
-     * @param array $args
-     * @return array
+     * @param Mage_Core_Model_Config_Resource $resourceConfig
+     * @param Mage_Core_Model_Db_UpdaterInterface $daUpdater
      */
-    protected function _buildInitParams(array $args)
-    {
-        $result = array();
-        if (!empty($args[self::OPTION_URIS])) {
-            $result[Mage::PARAM_APP_URIS] = unserialize(base64_decode($args[self::OPTION_URIS]));
-        }
-        if (!empty($args[self::OPTION_DIRS])) {
-            $result[Mage::PARAM_APP_DIRS] = unserialize(base64_decode($args[self::OPTION_DIRS]));
-        }
-        return $result;
+    public function __construct(
+        Mage_Core_Model_Config_Resource $resourceConfig,
+        Mage_Core_Model_Db_UpdaterInterface $daUpdater
+    ) {
+        $this->_resourceConfig = $resourceConfig;
+        $this->_dbUpdater = $daUpdater;
+        $this->_getInstaller()->setDataModel($this->_getDataModel());
     }
 
     /**
@@ -294,9 +282,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             }
 
             // apply data updates
-            /** @var $updater Mage_Core_Model_Db_UpdaterInterface*/
-            $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_UpdaterInterface');
-            $updater->updateData();
+            $this->_dbUpdater->updateData();
 
             /**
              * Validate entered data for administrator user

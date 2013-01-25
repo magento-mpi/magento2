@@ -19,26 +19,44 @@
 class Mage_Install_Model_Installer extends Varien_Object
 {
     /**
-     * @var Mage_Core_Model_Db_UpdaterInterface
-     */
-    protected $_dbUpdater;
-
-    /**
-     * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
-     * @param array $data
-     */
-    public function __construct(Mage_Core_Model_Db_UpdaterInterface $dbUpdater, array $data = array())
-    {
-        $this->_dbUpdater = $dbUpdater;
-        parent::__construct($data);
-    }
-
-    /**
      * Installer data model used to store data between installation steps
      *
      * @var Varien_Object
      */
     protected $_dataModel;
+
+    /**
+     * @var Mage_Core_Model_Db_UpdaterInterface
+     */
+    protected $_dbUpdater;
+
+    /**
+     * @var Mage_Core_Model_Cache
+     */
+    protected $_cache;
+
+    /**
+     * @var Mage_Core_Model_ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * @param Mage_Core_Model_ConfigInterface $config
+     * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
+     * @param Mage_Core_Model_Cache $cache
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_ConfigInterface $config,
+        Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
+        Mage_Core_Model_Cache $cache,
+        array $data = array()
+    ) {
+        $this->_dbUpdater = $dbUpdater;
+        $this->_config = $config;
+        $this->_cache = $cache;
+        parent::__construct($data);
+    }
 
     /**
      * Checking install status of application
@@ -341,7 +359,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type => $label) {
             $cacheData[$type] = 1;
         }
-        Mage::app()->saveUseCache($cacheData);
+        $this->_cache->saveOptions($cacheData);
         return $this;
     }
 
@@ -350,7 +368,7 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     protected function _refreshConfig()
     {
-        Mage::app()->cleanCache();
-        Mage::app()->getConfig()->reinit();
+        $this->_cache->clean();
+        $this->_config->reinit();
     }
 }

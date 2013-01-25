@@ -43,7 +43,7 @@ class Mage_Core_Model_Config_Storage extends Mage_Core_Model_Config_StorageAbstr
         $config = $useCache ? $this->_cache->load() : false;
         if (false === $config) {
             $config = $this->_configFactory->create('<config/>');
-            $this->_loader->load($config);
+            $this->_loader->load($config, $useCache);
             if ($useCache) {
                 $this->_cache->save($config);
             }

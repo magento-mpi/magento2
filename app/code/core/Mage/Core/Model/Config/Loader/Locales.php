@@ -38,8 +38,10 @@ class Mage_Core_Model_Config_Loader_Locales implements Mage_Core_Model_Config_Lo
      * Load locale configuration from locale configuration files
      *
      * @param Mage_Core_Model_Config_Base $config
+     * @param bool $useCache
+     * @return void
      */
-    public function load(Mage_Core_Model_Config_Base $config)
+    public function load(Mage_Core_Model_Config_Base $config, $useCache = true)
     {
         $localeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LOCALE);
         $files = glob($localeDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'config.xml');

@@ -17,11 +17,19 @@ class Mage_Core_Model_Config_Locales implements Mage_Core_Model_ConfigInterface
     protected $_data;
 
     /**
+     * Configuration storage
+     *
+     * @var Mage_Core_Model_Config_StorageInterface
+     */
+    protected $_storage;
+
+    /**
      * @param Mage_Core_Model_Config_StorageInterface $storage
      */
     public function __construct(Mage_Core_Model_Config_StorageInterface $storage)
     {
-        $this->_data = $storage->getConfiguration();
+        $this->_storage = $storage;
+        $this->_data = $this->_storage->getConfiguration();
     }
 
     /**
@@ -56,5 +64,13 @@ class Mage_Core_Model_Config_Locales implements Mage_Core_Model_ConfigInterface
     public function getXpath($xpath)
     {
         return $this->_data->getXpath($xpath);
+    }
+
+    /**
+     * Reinitialize locales configuration
+     */
+    public function reinit()
+    {
+        $this->_data = $this->_storage->getConfiguration(false);
     }
 }
