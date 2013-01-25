@@ -53,7 +53,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $themeService->assignThemeToStores($physicalTheme->getId(), array($storeView));
         $this->assertEquals($originalCount + 1, $this->_getThemeCollection()->count());
 
-        $configItem = Mage::app()->getConfig()->getConfigDataModel()->getCollection()
+        $configItem = Mage::getSingleton('Mage_Core_Model_Config_Data')->getCollection()
             ->addFieldToSelect(array('value'))
             ->addFieldToFilter('scope', Mage_Core_Model_Config::SCOPE_STORES)
             ->addFieldToFilter('scope_id', $storeView)

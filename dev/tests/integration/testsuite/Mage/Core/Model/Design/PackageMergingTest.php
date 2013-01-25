@@ -46,8 +46,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
-        $this->_model = new Mage_Core_Model_Design_Package($filesystem);
+        $this->_model = Mage::getSingleton('Mage_Core_Model_Design_Package');
         $this->_model->setDesignTheme('package/default');
     }
 

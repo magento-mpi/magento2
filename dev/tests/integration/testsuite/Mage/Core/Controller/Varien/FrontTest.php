@@ -44,6 +44,7 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
 
     public function testGetResponse()
     {
+        Mage::app()->setResponse(Mage::getSingleton('Mage_Core_Controller_Response_Http'));
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
@@ -76,6 +77,7 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
 
     public function testDispatch()
     {
+        Mage::app()->setResponse(Mage::getSingleton('Mage_Core_Controller_Response_Http'));
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Cant\'t test dispatch process without sending headers');
         }

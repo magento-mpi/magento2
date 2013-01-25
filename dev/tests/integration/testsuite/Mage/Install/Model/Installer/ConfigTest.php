@@ -37,7 +37,9 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->assertFileNotExists($expectedFile);
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $model = new Mage_Install_Model_Installer_Config($config, $dirs, $filesystem);
+        $model = Mage::getModel('Mage_Install_Model_Installer_Config', array(
+            'config' => $config, 'dirs' => $dirs, 'filesystem' => $filesystem
+        ));
         $model->install();
         $this->assertFileExists($expectedFile);
         $this->assertStringEqualsFile($expectedFile, $expectedContents);

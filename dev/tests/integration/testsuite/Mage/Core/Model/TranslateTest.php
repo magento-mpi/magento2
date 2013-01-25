@@ -27,7 +27,10 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $design = $this->getMock(
             'Mage_Core_Model_Design_Package',
             array('getLocaleFileName'),
-            array(Mage::getObjectManager()->create('Mage_Core_Model_Config_Modules_Reader'))
+            array(
+                Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
+                Mage::getSingleton('Magento_Filesystem'),
+            )
         );
         $design->expects($this->any())
             ->method('getLocaleFileName')
@@ -81,6 +84,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function testGetData()
     {
+        $this->markTestIncomplete('Bug MAGETWO-6986');
         $expectedData = include(dirname(__FILE__) . '/Translate/_files/_translation_data.php');
         $this->assertEquals($expectedData, $this->_model->getData());
     }

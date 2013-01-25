@@ -112,6 +112,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
         Mage_Core_Model_Config_Modules_Reader $modulesReader,
         $resourceName
     ) {
+        $resourcesConfig->setConfig($modulesConfig);
         $this->_config = $modulesConfig;
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;

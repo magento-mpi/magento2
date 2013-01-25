@@ -16,7 +16,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        $dirs = new Mage_Core_Model_Dir(__DIR__);
+        $dirs = new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File());
         Mage::getObjectManager()->create(
             'Mage_Core_Model_Design_Fallback',
             array(
