@@ -145,7 +145,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getThemeCss($fileTitle, $filePath)
     {
-        $appPath = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions()->getBaseDir();
+        $appPath = $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT);
         $shownFilePath = str_ireplace($appPath, '', $filePath);
         return array(
             'href'      => $this->getUrl('*/*/downloadCss', array(

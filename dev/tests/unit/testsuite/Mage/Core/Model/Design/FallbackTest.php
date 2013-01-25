@@ -24,36 +24,42 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFile($theme, $file, $targetFile, $expectedFileName)
     {
-        // 1. Set initial data
         $designDir = 'design_dir';
         $moduleDir = 'module_view_dir';
         $module = 'Mage_Core11';
 
-        // 2. Get mocks
-        $options = array('designDir' => $designDir);
-        $appConfig = $this->_getAppConfigMock($options, array('getOptions', 'getModuleDir'));
-        $appConfig->expects($this->any())
-            ->method('getModuleDir')
-            ->with('view', $module)
-            ->will($this->returnValue($moduleDir));
         $filesystem = $this->_getFileSystemMock($targetFile);
+        $objectManager = $this->_getObjectManagerMock();
+        $dirs = $this->_getDirsMock();
 
+        $configModel = $this->getMock('Mage_Core_Model_Config', array('getModuleDir'), array(), '', false);
+
+        $configModel->expects($this->any())
+            ->method('getModuleDir')
+            ->will($this->returnValue($moduleDir));
+
+        $objectManager->expects($this->any())
+            ->method('get')
+            ->with('Mage_Core_Model_Config')
+            ->will($this->returnValue($configModel));
+
+        $dirs->expects($this->any())
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::THEMES)
+            ->will($this->returnValue($designDir));
 
         $data = array(
             'area'       => 'area51',
             'locale'     => 'en_EN',
             'themeModel' => $theme,
-            'appConfig'  => $appConfig
         );
 
-        // 3. Run tested function
-        $fallback = new Mage_Core_Model_Design_Fallback($filesystem, $data);
+        $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getFile($file, $module);
 
-        // 4. Check results
         $this->assertEquals($expectedFileName, $filename);
     }
-
+    
     public function getFileDataProvider()
     {
         $file = 'test.txt';
@@ -106,45 +112,45 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($parentTheme));
 
         return array(
-            array($themeSimple, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeSimple, $file, null, 'module_view_dir\area51\test.txt'),
-            array($themeCustomized, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeCustomized, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeCustomized, $file, null, 'module_view_dir\area51\test.txt'),
-            array($customizedPhysical, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($customizedPhysical, $file, 'design_dir\area51\theme_path\test.txt',
-                'design_dir\area51\theme_path\test.txt'
+            array($themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeSimple, $file, null, 'module_view_dir/area51/test.txt'),
+            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeCustomized, $file, null, 'module_view_dir/area51/test.txt'),
+            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($customizedPhysical, $file, 'design_dir/area51/theme_path/test.txt',
+                'design_dir/area51/theme_path/test.txt'
             ),
-            array($customizedPhysical, $file, 'design_dir\area51\theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\theme_path\Mage_Core11\test.txt'
+            array($customizedPhysical, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
-            array($customizedPhysical, $file, 'module_view_dir\area51\test.txt',
-                'module_view_dir\area51\test.txt'
+            array($customizedPhysical, $file, 'module_view_dir/area51/test.txt',
+                'module_view_dir/area51/test.txt'
             ),
-            array($customizedPhysical, $file, null, 'module_view_dir\area51\test.txt'),
-            array($themeInherited, $file, 'design_dir\area51\parent_theme_path\test.txt',
-                'design_dir\area51\parent_theme_path\test.txt'
+            array($customizedPhysical, $file, null, 'module_view_dir/area51/test.txt'),
+            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
+                'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeInherited, $file, 'design_dir\area51\parent_theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\parent_theme_path\Mage_Core11\test.txt'
+            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeInherited, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeInherited, $file, null, 'module_view_dir\area51\test.txt'),
-            array($themeComplicated, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeComplicated, $file, 'design_dir\area51\theme_path\test.txt',
-                'design_dir\area51\theme_path\test.txt'
+            array($themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeInherited, $file, null, 'module_view_dir/area51/test.txt'),
+            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
+                'design_dir/area51/theme_path/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\parent_theme_path\test.txt',
-                'design_dir\area51\parent_theme_path\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/test.txt',
+                'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\theme_path\Mage_Core11\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\parent_theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\parent_theme_path\Mage_Core11\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeComplicated, $file, null, 'module_view_dir\area51\test.txt'),
+            array($themeComplicated, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeComplicated, $file, null, 'module_view_dir/area51/test.txt'),
         );
     }
 
@@ -158,26 +164,26 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocaleFile($theme, $file, $targetFile, $expectedFileName)
     {
-        // 1. Set initial data
         $designDir = 'design_dir';
 
-        // 2. Get mocks
-        $options = array('designDir' => $designDir);
-        $appConfig = $this->_getAppConfigMock($options);
         $filesystem = $this->_getFileSystemMock($targetFile);
+        $objectManager = $this->_getObjectManagerMock();
+        $dirs = $this->_getDirsMock();
+
+        $dirs->expects($this->any())
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::THEMES)
+            ->will($this->returnValue($designDir));
 
         $data = array(
             'area'       => 'area51',
             'locale'     => 'en_EN',
             'themeModel' => $theme,
-            'appConfig'  => $appConfig
         );
 
-        // 3. Run tested function
-        $fallback = new Mage_Core_Model_Design_Fallback($filesystem, $data);
+        $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getLocaleFile($file);
 
-        // 4. Check results
         $this->assertEquals($expectedFileName, $filename);
     }
 
@@ -259,32 +265,32 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 
         return array(
             array($themeSimple, $file, null, ''),
-            array($themeCustomized, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeCustomized, $file, null, 'custom\test.txt'),
-            array($themeCustomizedPhysical, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeCustomizedPhysical, $file, 'design_dir\area51\theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\theme_path\locale\en_EN\test.txt'
+            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($themeCustomized, $file, null, 'custom/test.txt'),
+            array($themeCustomizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, null, 'design_dir\area51\theme_path\locale\en_EN\test.txt'),
-            array($themeInherited, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\test.txt'
+            array($themeCustomizedPhysical, $file, null, 'design_dir/area51/theme_path/locale/en_EN/test.txt'),
+            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInherited, $file, null, 'design_dir\area51\parent_theme_path\locale\en_EN\test.txt'),
-            array($themeComplicated, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeComplicated, $file, 'design_dir\area51\theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\theme_path\locale\en_EN\test.txt'
+            array($themeInherited, $file, null, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'),
+            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, null, 'design_dir\area51\parent_theme_path\locale\en_EN\test.txt'),
-            array($themeInheritedTwice, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\test.txt'
+            array($themeComplicated, $file, null, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'),
+            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir\area51\grand_parent_theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\grand_parent_theme_path\locale\en_EN\test.txt'
+            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, null, 'design_dir\area51\grand_parent_theme_path\locale\en_EN\test.txt'),
+            array($themeInheritedTwice, $file, null, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'),
         );
     }
 
@@ -298,37 +304,45 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewFile($theme, $file, $targetFile, $expectedFileName)
     {
-        // 1. Set initial data
         $designDir = 'design_dir';
         $moduleDir = 'module_view_dir';
         $jsDir = 'js_dir';
         $module = 'Mage_Core11';
 
-        // 2. Get mocks
-        $options = array(
-            'designDir' => $designDir,
-            'jsDir'     => $jsDir,
-        );
-        $appConfig = $this->_getAppConfigMock($options, array('getOptions', 'getModuleDir'));
-        $appConfig->expects($this->any())
-            ->method('getModuleDir')
-            ->with('view', $module)
-            ->will($this->returnValue($moduleDir));
         $filesystem = $this->_getFileSystemMock($targetFile);
+        $objectManager = $this->_getObjectManagerMock();
+        $dirs = $this->_getDirsMock();
 
+        $configModel = $this->getMock('Mage_Core_Model_Config', array('getModuleDir'), array(), '', false);
+
+        $configModel->expects($this->any())
+            ->method('getModuleDir')
+            ->will($this->returnValue($moduleDir));
+
+        $objectManager->expects($this->any())
+            ->method('get')
+            ->with('Mage_Core_Model_Config')
+            ->will($this->returnValue($configModel));
+
+        $dirs->expects($this->at(0))
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::THEMES)
+            ->will($this->returnValue($designDir));
+
+        $dirs->expects($this->at(1))
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::PUB_LIB)
+            ->will($this->returnValue($jsDir));
 
         $data = array(
             'area'       => 'area51',
             'locale'     => 'en_EN',
             'themeModel' => $theme,
-            'appConfig'  => $appConfig
         );
 
-        // 3. Run tested function
-        $fallback = new Mage_Core_Model_Design_Fallback($filesystem, $data);
+        $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getViewFile($file, $module);
 
-        // 4. Check results
         $this->assertEquals($expectedFileName, $filename);
     }
 
@@ -418,119 +432,119 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($parentThemeInherited));
 
         return array(
-            array($themeSimple, $file, 'module_view_dir\area51\locale\en_EN\test.txt',
-                'module_view_dir\area51\locale\en_EN\test.txt'
+            array($themeSimple, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+                'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeSimple, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeSimple, $file, 'js_dir\test.txt', 'js_dir\test.txt'),
-            array($themeSimple, $file, null, 'js_dir\test.txt'),
-            array($themeCustomized, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeCustomized, $file, 'module_view_dir\area51\locale\en_EN\test.txt',
-                'module_view_dir\area51\locale\en_EN\test.txt'
+            array($themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeSimple, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            array($themeSimple, $file, null, 'js_dir/test.txt'),
+            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($themeCustomized, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+                'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeCustomized, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeCustomized, $file, 'js_dir\test.txt', 'js_dir\test.txt'),
-            array($themeCustomized, $file, null, 'js_dir\test.txt'),
-            array($themeCustomizedPhysical, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeCustomizedPhysical, $file, 'design_dir\area51\theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\theme_path\locale\en_EN\test.txt'
+            array($themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeCustomized, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            array($themeCustomized, $file, null, 'js_dir/test.txt'),
+            array($themeCustomizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'design_dir\area51\theme_path\test.txt',
-                'design_dir\area51\theme_path\test.txt'
+            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/test.txt',
+                'design_dir/area51/theme_path/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'design_dir\area51\theme_path\locale\en_EN\Mage_Core11\test.txt',
-                'design_dir\area51\theme_path\locale\en_EN\Mage_Core11\test.txt'
+            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
+                'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'design_dir\area51\theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\theme_path\Mage_Core11\test.txt'
+            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'module_view_dir\area51\locale\en_EN\test.txt',
-                'module_view_dir\area51\locale\en_EN\test.txt'
+            array($themeCustomizedPhysical, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+                'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'module_view_dir\area51\test.txt',
-                'module_view_dir\area51\test.txt'
+            array($themeCustomizedPhysical, $file, 'module_view_dir/area51/test.txt',
+                'module_view_dir/area51/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'js_dir\test.txt', 'js_dir\test.txt'),
-            array($themeCustomizedPhysical, $file, null, 'js_dir\test.txt'),
-            array($themeInherited, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\test.txt'
+            array($themeCustomizedPhysical, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            array($themeCustomizedPhysical, $file, null, 'js_dir/test.txt'),
+            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInherited, $file, 'design_dir\area51\parent_theme_path\test.txt',
-                'design_dir\area51\parent_theme_path\test.txt'
+            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
+                'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeInherited, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\Mage_Core11\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\Mage_Core11\test.txt'
+            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeInherited, $file, 'design_dir\area51\parent_theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\parent_theme_path\Mage_Core11\test.txt'
+            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeInherited, $file, 'module_view_dir\area51\locale\en_EN\test.txt',
-                'module_view_dir\area51\locale\en_EN\test.txt'
+            array($themeInherited, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+                'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeInherited, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeInherited, $file, 'js_dir\test.txt', 'js_dir\test.txt'),
-            array($themeInherited, $file, null, 'js_dir\test.txt'),
-            array($themeComplicated, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeComplicated, $file, 'design_dir\area51\theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\theme_path\locale\en_EN\test.txt'
+            array($themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeInherited, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            array($themeInherited, $file, null, 'js_dir/test.txt'),
+            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\theme_path\test.txt',
-                'design_dir\area51\theme_path\test.txt'),
-            array($themeComplicated, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
+                'design_dir/area51/theme_path/test.txt'),
+            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\parent_theme_path\test.txt',
-                'design_dir\area51\parent_theme_path\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/test.txt',
+                'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\theme_path\locale\en_EN\Mage_Core11\test.txt',
-                'design_dir\area51\theme_path\locale\en_EN\Mage_Core11\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
+                'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\theme_path\Mage_Core11\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\Mage_Core11\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\Mage_Core11\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir\area51\parent_theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\parent_theme_path\Mage_Core11\test.txt'
+            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'module_view_dir\area51\locale\en_EN\test.txt',
-                'module_view_dir\area51\locale\en_EN\test.txt'
+            array($themeComplicated, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+                'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeComplicated, $file, 'js_dir\test.txt', 'js_dir\test.txt'),
-            array($themeComplicated, $file, null, 'js_dir\test.txt'),
-            array($themeInheritedTwice, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\test.txt'
+            array($themeComplicated, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeComplicated, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            array($themeComplicated, $file, null, 'js_dir/test.txt'),
+            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir\area51\parent_theme_path\test.txt',
-                'design_dir\area51\parent_theme_path\test.txt'
+            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/test.txt',
+                'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir\area51\grand_parent_theme_path\locale\en_EN\test.txt',
-                'design_dir\area51\grand_parent_theme_path\locale\en_EN\test.txt'
+            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir\area51\grand_parent_theme_path\test.txt',
-                'design_dir\area51\grand_parent_theme_path\test.txt'
+            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/test.txt',
+                'design_dir/area51/grand_parent_theme_path/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir\area51\parent_theme_path\locale\en_EN\Mage_Core11\test.txt',
-                'design_dir\area51\parent_theme_path\locale\en_EN\Mage_Core11\test.txt'
+            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir\area51\parent_theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\parent_theme_path\Mage_Core11\test.txt'
+            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
             array($themeInheritedTwice, $file,
-                'design_dir\area51\grand_parent_theme_path\locale\en_EN\Mage_Core11\test.txt',
-                'design_dir\area51\grand_parent_theme_path\locale\en_EN\Mage_Core11\test.txt'
+                'design_dir/area51/grand_parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
+                'design_dir/area51/grand_parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir\area51\grand_parent_theme_path\Mage_Core11\test.txt',
-                'design_dir\area51\grand_parent_theme_path\Mage_Core11\test.txt'
+            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt',
+                'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'module_view_dir\area51\locale\en_EN\test.txt',
-                'module_view_dir\area51\locale\en_EN\test.txt'
+            array($themeInheritedTwice, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+                'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
-            array($themeInheritedTwice, $file, 'js_dir\test.txt', 'js_dir\test.txt'),
-            array($themeInheritedTwice, $file, null, 'js_dir\test.txt'),
+            array($themeInheritedTwice, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            array($themeInheritedTwice, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            array($themeInheritedTwice, $file, null, 'js_dir/test.txt'),
         );
     }
 
@@ -592,5 +606,19 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         ));
 
         return $filesystem;
+    }
+
+    protected function _getObjectManagerMock()
+    {
+        /** @var $objectManager Magento_ObjectManager_Zend */
+        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
+        return $objectManager;
+    }
+
+    protected function _getDirsMock()
+    {
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = $this->getMock('Mage_Core_Model_Dir', array('getDir'), array(), '', false);
+        return $dirs;
     }
 }
