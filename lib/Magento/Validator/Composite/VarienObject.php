@@ -17,7 +17,7 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
     /**
      * Validation rules per scope (particular fields or entire entity)
      *
-     * @var Zend_Validate[]
+     * @var Zend_Validate_Interface[]
      */
     private $_rules = array();
 
@@ -62,7 +62,7 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
     public function isValid($entity)
     {
         $this->_messages = array();
-        /** @var $validator Zend_Validate */
+        /** @var $validator Zend_Validate_Interface */
         foreach ($this->_rules as $fieldName => $validator) {
             $value = $fieldName ? $entity->getDataUsingMethod($fieldName) : $entity;
             if (!$validator->isValid($value)) {

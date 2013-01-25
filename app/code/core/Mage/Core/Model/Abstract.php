@@ -89,7 +89,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Validator for checking the model state before saving it
      *
-     * @var Zend_Validate|bool|null
+     * @var Zend_Validate_Interface|bool|null
      */
     protected $_validatorBeforeSave = null;
 
@@ -432,7 +432,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * Returns validator, which contains all rules to validate this model.
      * Returns FALSE, if no validation rules exist.
      *
-     * @return Zend_Validate|false
+     * @return Zend_Validate_Interface|false
      */
     protected function _getValidatorBeforeSave()
     {
@@ -446,7 +446,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * Creates validator for the model with all validation rules in it.
      * Returns FALSE, if no validation rules exist.
      *
-     * @return Zend_Validate|bool
+     * @return Zend_Validate_Interface|bool
      */
     protected function _createValidatorBeforeSave()
     {
