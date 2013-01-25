@@ -11,14 +11,14 @@
 (function($) {
     "use strict";
     /**
-     * Main namespace for Magento extansions
+     * Main namespace for Magento extensions
      * @type {Object}
      */
     $.mage = {};
 })(jQuery);
 
 /**
- * Plugin mage and group of heplers for it
+ * Plugin mage and group of helpers for it
  */
 (function($) {
     "use strict";
@@ -28,9 +28,8 @@
      * @param {}
      * @return {Object}
      */
-    $.fn.mage = function() {
-        var name = arguments[0],
-            args = Array.prototype.slice.call(arguments, 1);
+    $.fn.mage = function(name) {
+        var args = Array.prototype.slice.call(arguments, 1);
         return this.each(function(){
             var inits = _getInitData(this);
             if (name) {
@@ -60,12 +59,12 @@
 
     /**
      * Run initialization of a component
-     * @param {Object} init - setting for a component in format
-     *      {name: {string}[, options: {Object}][, args: {Array}][, resources: {Array}]}
+     * @param {String} name
+     * @param {Array} args
      * @private
      */
     function _initComponent(name, args) {
-        /*jshint validthis: true */
+        /*jshint valid this: true */
         // create a complete copy of arguments
         args = $.map($.makeArray(args), function(arg) {
             return $.isArray(arg) ? [arg.slice()] :
@@ -159,9 +158,9 @@
         /**
          * Declare a new component or several components at a time in the mage widget
          * @param {(string|Object)} component - name of component
-         *      or several componets with lists of required resources
+         *      or several components with lists of required resources
          *      {component1: {Array}, component2: {Array}}
-         * @param {(string|Array)} resources - URL of one resource or list of URLs
+         * @param {(string|Array)} component - URL of one resource or list of URLs
          * @return {Object} $.mage
          */
         component: function(component) {
@@ -176,7 +175,7 @@
         /**
          * Helper allows easily bind handler with component's initialisation
          * @param {string} component - name of a component
-         *      which initialization shold be customized
+         *      which initialization should be customized
          * @param {(string|Function)} selector [optional]- filter of component's elements
          *      or a handler function if selector is not defined
          * @param {Function} handler - handler function
@@ -197,11 +196,11 @@
 
         /**
          * Load all resource for certain component or several components
-         * @param {string} component - name of a component
+         * @param {String} component - name of a component
          *     (several components may be passed also as separate arguments)
          * @return {Object} $.mage
          */
-        load: function() {
+        load: function(component) {
             $.each(arguments, function(i, component) {
                 if (_resources[component] && _resources[component].length) {
                     head.js.apply(head, _resources[component]);

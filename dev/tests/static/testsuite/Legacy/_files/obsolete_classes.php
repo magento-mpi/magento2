@@ -45,6 +45,7 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid'),
+    $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Catalog_Search_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Newsletter_Problem_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Newsletter_Queue_Grid'),

@@ -20,7 +20,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
     public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
                                 'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'bundle_items', 'associated', 'downloadable_information', 'general');
+                                'bundle_items', 'downloadable_information', 'general');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -712,7 +712,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'related':
             case 'up_sells':
             case 'cross_sells':
-            case 'associated':
                 $this->openTab($tabName);
                 foreach (array_pop($tabData) as $value) {
                     $this->assignProduct($value, $tabName);
@@ -805,6 +804,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (isset($generalTab['general_configurable_variations'])) {
             $configurableData = $generalTab['general_configurable_variations'];
             unset($generalTab['general_configurable_variations']);
+        }
+        if (isset($generalTab['general_grouped_associated'])) {
+            $this->assignProductToGrouped($generalTab['general_grouped_associated']);
+            unset($generalTab['general_grouped_associated']);
         }
         $this->fillTab($generalTab, 'general');
         if (isset($attributeTitle)) {
@@ -1603,6 +1606,28 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
     }
 
+    /**
+     * Assign grouped product.
+     *
+     * @param array $data
+     */
+    public function assignProductToGrouped(array $data)
+    {
+        //select associated products
+        foreach ($data as $value) {
+            $productTable = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'select_grouped_associated_product');
+            $this->clickButton('add_products_to_group', false);
+            $this->waitForElementVisible($productTable);
+            $this->searchAndChoose(array('associated_grouped_search_sku' => $value['associated_search_sku']), 'select_grouped_associated_product');
+            $this->clickButton('select_products', false);
+            $this->waitForControlVisible('fieldset', 'general_grouped_associated');
+            //Fill in additional data
+            if (!empty($value['associated_product_default_qty'])) {
+                $this->addParameter('productSku', $value['associated_search_sku']);
+                $this->fillField('associated_product_default_qty', $value['associated_product_default_qty']);
+            }
+        }
+    }
     /**
      * Verify that product is assigned
      *
