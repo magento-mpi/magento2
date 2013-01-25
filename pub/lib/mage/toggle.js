@@ -10,6 +10,13 @@
 (function($){
     $.widget("mage.toggle", {
         /**
+         * baseToggleClass - class used to be toggled on clicked element
+         */
+        options: {
+            baseToggleClass: "active"
+        },
+
+        /**
          * Toggle creation
          * @private
          */
@@ -33,7 +40,7 @@
             if (this.element.data('toggle-selectors')) {
                 this._toggleSelectors();
             } else {
-                this.element.toggle();
+                this.element.toggleClass(this.baseToggleClass);
             }
             return false;
         },
