@@ -12,7 +12,7 @@ class Mage_Adminhtml_System_AccountControllerTest extends Mage_Backend_Utility_C
      */
     public function testSaveAction()
     {
-        $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = $this->_session->getUser()->getId();
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
         $oldPassword = $user->getPassword();

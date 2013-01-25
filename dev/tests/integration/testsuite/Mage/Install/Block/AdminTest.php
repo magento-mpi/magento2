@@ -38,6 +38,7 @@ class Mage_Install_Block_AdminTest extends PHPUnit_Framework_TestCase
         // form elements must be present without values
         foreach (array_keys($omit) as $key) {
             $this->assertRegExp(sprintf('/<input[^>]+name="admin\[%s\]"[^>]+>/s', $key), $output);
+            $this->assertNotRegExp(sprintf('/<input[^>]+name="admin\[%s\]"[^>]+value="[^"]+"[^>]+>/s', $key), $output);
         }
     }
 }

@@ -46,7 +46,7 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
         $userId = $user->getId();
         $this->assertNotEmpty($userId, 'Broken fixture');
         $user->delete();
-        $this->getRequest()->setPost('user_id', $userId); //->setParam();
+        $this->getRequest()->setPost('user_id', $userId);
         $this->dispatch('backend/admin/user/save');
         $this->assertSessionMessages(
             $this->equalTo(array('This user no longer exists.')), Mage_Core_Model_Message::ERROR
