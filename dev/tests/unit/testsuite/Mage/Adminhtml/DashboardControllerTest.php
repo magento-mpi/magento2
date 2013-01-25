@@ -107,8 +107,8 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false);
 
         return $this->getMock('Mage_Adminhtml_DashboardController', array('__'), array(
-            $request, $response, null, $objectManager,
-            $varienFront, $layoutFactory,
+            $request, $response, $objectManager,
+            $varienFront, $layoutFactory, null,
             array('helper' => 1, 'session' => 1, 'translator' => 1)
         ));
     }

@@ -54,7 +54,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
         $layout = $this->getMock('Mage_Core_Model_Layout', array('isDirectOutput'), array(), '', false);
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $design = $this->getMock('Mage_Core_Model_Design_Package', array(), array($filesystem));
+        $design = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
         $block = $this->getMock('Mage_Core_Block_Template', array('getShowTemplateHints'), array(
             $this->getMock('Mage_Core_Controller_Request_Http'),
             $layout,
