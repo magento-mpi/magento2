@@ -98,20 +98,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
             . '<input id="' . $htmlId . '" type="hidden" name="'. $this->getName() .'" />'
             . '<div id="' . $htmlId  . '-container" data-main="' .  $this->getEscapedValue() . '" '
             . 'data-images="' . $this->_coreHelper->escapeHtml(
-                $this->_coreHelper->jsonEncode($gallery ? $gallery->toArray() : array())
-            ) . '">'
+            $this->_coreHelper->jsonEncode($gallery ? $gallery->toArray() : array())
+        ) . '">'
             . '<span id="' . $htmlId . '-upload-placeholder"></span>'
             . '<script id="' . $htmlId . '-template" type="text/x-jquery-tmpl">'
-                . '<span class="container">'
-                . '<span class="main-sticker">' . $this->helper('Mage_Catalog_Helper_Data')->__('Main') . '</span>'
-                    . '<span class="close">&times;</span>'
-                    . '<img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />'
-                    . '<div class="drag-zone">'
-                        . '<button class="make-main" type="button">'
-                            . $this->helper('Mage_Catalog_Helper_Data')->__('Make Main')
-                        . '</button>'
-                    . '</div>'
-                . '</span>'
+            . '<span class="container">'
+            . '<span class="main-sticker">' . $this->helper('Mage_Catalog_Helper_Data')->__('Main') . '</span>'
+            . '<span class="close">&times;</span>'
+            . '<img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />'
+            . '<div class="drag-zone">'
+            . '<button class="make-main" type="button">'
+            . $this->helper('Mage_Catalog_Helper_Data')->__('Make Main')
+            . '</button>'
+            . '</div>'
+            . '</span>'
             . '</script>'
             . '</div>';
         $html .= $this->_getJs();
