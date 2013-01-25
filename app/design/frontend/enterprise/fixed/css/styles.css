@@ -13,8 +13,9 @@ body          { background:#fff; font:11px/1.35 Arial, Helvetica, sans-serif; co
 
 img           { border:0; vertical-align:top; }
 
-a             { color:#444; text-decoration:underline; }
-a:hover       { text-decoration:none; }
+a,.l          { color:#444; text-decoration:underline; display: inline; border: 0; background: transparent;}
+a:hover,
+.l:hover      { text-decoration:none; cursor: pointer;}
 :focus        { outline:0; }
 
 /* Headings */
@@ -67,6 +68,7 @@ ul,ol         { list-style:none; }
 .no-margin    { margin:0 !important; }
 .no-padding   { padding:0 !important; }
 .no-bg        { background:none !important; }
+.clear        { clear: both; }
 /* ======================================================================================= */
 
 /* Layout ================================================================================ */
@@ -905,6 +907,10 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 
 /* Block: Compare Products */
 .block-compare li {}
+
+/* Block: RMA */
+[id^="sh_"] > td { background:#F5F5F5; }
+table.data-table button.l {font-size: 0.9em;}
 
 /* Block: List */
 .block-list .block-content ol { margin:-5px -13px; }

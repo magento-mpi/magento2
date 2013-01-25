@@ -155,6 +155,16 @@
     </thead>
     <tbody>
         <?php foreach ($this->getItems() as $key=>$item): ?>
+            <?php foreach($this->getRealValueAttributes($item->getId()) as $code=>$attribute) {
+                $_qna = NULL;
+                if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)) {
+                    $_qna = '
+                        <div class="col-1"><li>' .$this->getAttributeLabel($item->getId(), $code) . '</li></div>
+                        <div class="col-2"><li>' . $this->getAttributeValue($item->getId(), $code) . '</li></div>
+                        <div class="clear"></div>
+                    ';
+                }
+            } ?>
         <tr>
             <td>
                 <?php echo $this->escapeHtml($item->getProductName()) ?>
@@ -174,33 +184,22 @@
             <td><?php echo $this->escapeHtml($this->helper('Enterprise_Rma_Helper_Data')->getQty($item));?></td>
             <td><span class="nobr"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></span></td>
             <td>
-                <a id="as_<?php echo $key ?>" href="javascript:void(0)" onclick="showHiddenForm(<?php echo $key ?>)"><?php echo $this->__('Show Details') ?></a>
-                <a id="ah_<?php echo $key ?>" style="display:none" href="javascript:void(0)" onclick="hideHiddenForm(<?php echo $key ?>)"><?php echo $this->__('Hide Details') ?></a>
+                <?php if ($_qna) : ?>
+                    <button class="l" data-mage-init="{toggle: []}" data-toggle-label="<?php echo $this->__('Hide Details') ?>" data-toggle-selectors="#shf_<?php echo $key; ?>"><?php echo $this->__('Show Details') ?></button>
+                <?php endif; ?>
             </td>
         </tr>
-        <tr id="shf_<?php echo $key ?>" style="display:none">
-            <td colspan="8" style="background:#F5F5F5;">
-                <div style="display:inline; float:left;width:40%;"><?php echo $this->__('Questions') ?>:</div>
-                <div style="display:inline; float:left;width:40%;"><?php echo $this->__('Answers') ?>:</div>
-                <div style="clear: both;"></div>
-                <?php $i = 0; ?>
-                <?php foreach($this->getRealValueAttributes($item->getId()) as $code=>$attribute): ?>
-                    <?php if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)): $i++;?>
-                        <div style="display:inline; float:left;width:40%;padding-left:20px"><li><?php echo $this->getAttributeLabel($item->getId(), $code) ?></li></div>
-                        <div style="display:inline; float:left;width:40%;"><li><?php echo $this->getAttributeValue($item->getId(), $code) ?></li></div>
-                        <div style="clear: both;"></div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </td>
-        </tr>
-        <?php if (!$i): ?>
-            <script type="text/javascript">
-            //<![CDATA[
-                $('shf_'+<?php echo $key?>).remove();
-                $('as_'+<?php echo $key?>).remove();
-                $('ah_'+<?php echo $key?>).remove();
-            //]]>
-            </script>
+        <?php if ($_qna) : ?>
+            <tr id="shf_<?php echo $key ?>" class="hidden">
+                <td colspan="8">
+                    <div class="col2-set">
+                        <div class="col-1"><?php echo $this->__('Questions') ?>:</div>
+                        <div class="col-2"><?php echo $this->__('Answers') ?>:</div>
+                        <div class="clear"></div>
+                        <?php echo $_qna; ?>
+                    </div>
+                </td>
+            </tr>
         <?php endif; ?>
         <?php endforeach; ?>
         <tr><td colspan="8"></td></tr>
@@ -208,20 +207,12 @@
 </table>
 <script type="text/javascript">
 //<![CDATA[
-    decorateTable('my-returns-items-table');
-
-    function showHiddenForm(key)
-    {
-        $('shf_'+key).show();
-        $('as_'+key).hide();
-        $('ah_'+key).show();
-    }
-    function hideHiddenForm(key)
-    {
-        $('shf_'+key).hide();
-        $('as_'+key).show();
-        $('ah_'+key).hide();
-    }
+/**
+ * @deprecated
+ */
+(function($){
+    $($('#my-returns-items-table').decorate('table'));
+})(jQuery);
 //]]>
 </script>
 <div class="wrapper"></div>
