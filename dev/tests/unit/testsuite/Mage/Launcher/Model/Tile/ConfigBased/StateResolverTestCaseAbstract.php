@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-abstract class Mage_Launcher_Model_Tile_StateResolver_ConfigBased_TestCaseAbstract
+abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
     extends PHPUnit_Framework_TestCase
 {
     /**

@@ -10,7 +10,7 @@
  */
 
 class Mage_Launcher_Model_Storelauncher_Payments_StateResolverTest
-    extends Mage_Launcher_Model_Tile_StateResolver_ConfigBased_TestCaseAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
 {
     /**
      * @param Mage_Core_Model_App $app
