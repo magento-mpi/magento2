@@ -116,4 +116,76 @@
             </block>
         </reference>
     </adminhtml_report_tag_product_block>
+
+    <adminhtml_report_tag_productdetail>
+        <update handle="formkey"/>
+        <update handle="adminhtml_report_tag_productdetail_block"/>
+        <reference name="content">
+            <block type="Mage_Tag_Block_Adminhtml_Report_Product_Detail" name="report.tag.product.productdetail.container" />
+        </reference>
+    </adminhtml_report_tag_productdetail>
+
+    <adminhtml_report_tag_exportproductdetailcsv>
+        <update handle="formkey"/>
+        <update handle="adminhtml_report_tag_productdetail_block"/>
+        <container name="report.tag.product.productdetail.container" label="Report Tag Product Detail Container"/>
+    </adminhtml_report_tag_exportproductdetailcsv>
+
+    <adminhtml_report_tag_exportproductdetailexcel>
+        <update handle="formkey"/>
+        <update handle="adminhtml_report_tag_productdetail_block"/>
+        <container name="report.tag.product.productdetail.container" label="Report Tag Product Detail Container"/>
+    </adminhtml_report_tag_exportproductdetailexcel>
+
+    <adminhtml_report_tag_productdetail_block>
+        <reference name="report.tag.product.productdetail.container">
+            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.report.tag.product.productdetail.grid" as="grid">
+                <arguments>
+                    <id>grid</id>
+                    <dataSource type="object">Mage_Tag_Model_Resource_Reports_Product_Detail_Collection</dataSource>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_Export" name="adminhtml.report.tag.productdetail.grid.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportProductDetailCsv</urlPath>
+                                <label translate="true" module="Mage_Tag">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportProductDetailExcel</urlPath>
+                                <label translate="true" module="Mage_Tag">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.tag.product.productdetail.grid.columnSet">
+                    <arguments>
+                        <filter_visibility>0</filter_visibility>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="tag_name">
+                        <arguments>
+                            <header translate="true" module="Mage_Tag">Tag Name</header>
+                            <index>tag_name</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="taged">
+                        <arguments>
+                            <header translate="true" module="Mage_Tag">Tag Use</header>
+                            <index>taged</index>
+                            <align>right</align>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="visible">
+                        <arguments>
+                            <header translate="true" module="Mage_Tag">Visible In</header>
+                            <sortable>0</sortable>
+                            <index>stores</index>
+                            <type>store</type>
+                            <store_view>1</store_view>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_tag_productdetail_block>
 </layout>
