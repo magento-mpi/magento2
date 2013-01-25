@@ -8,6 +8,7 @@
  * @license     {license_link}
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
 {
