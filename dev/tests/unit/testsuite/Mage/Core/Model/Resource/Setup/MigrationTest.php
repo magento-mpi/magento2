@@ -138,6 +138,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
             $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
+            $this->getMock('Magento_Filesystem', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies()
         );
@@ -193,10 +194,11 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
             $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
             $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
+            $this->getMock('Magento_Filesystem', array(), array(), '', false),
             'core_setup',
-            $this->_getFilesystemMock(),
             $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)
         );
+
         $setupModel->setTable('table', 'table');
 
         foreach ($replaceRules as $replaceRule) {

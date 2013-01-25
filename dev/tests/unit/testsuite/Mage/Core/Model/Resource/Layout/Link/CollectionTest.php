@@ -38,7 +38,7 @@ class Mage_Core_Model_Resource_Layout_Link_CollectionTest extends Mage_Core_Mode
      */
     public function testAddTemporaryFilter($flag)
     {
-        $select = $this->getMock('Zend_Db_Select');
+        $select = $this->getMock('Zend_Db_Select', array(), array('where'), '', false);
         $select->expects($this->once())
             ->method('where')
             ->with(self::TEST_WHERE_CONDITION);
