@@ -331,6 +331,8 @@ report_tag_customer:
                             export_to: //select[@id='grid_export']
                         buttons:
                             export: //button[span='Export']
+                        fields:
+                            page: //input[@name='page']
 
 # Tags: Tags Submitted by Customer
 tags_submitted_by_customer:

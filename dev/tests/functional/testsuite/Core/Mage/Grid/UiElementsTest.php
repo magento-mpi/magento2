@@ -92,6 +92,7 @@ class Core_Mage_Grid_UiElementsTest extends Mage_Selenium_TestCase
             array('theme_list'),
             array('google_content_manage_attributes'),
             array('report_tag_product'),
+            array('report_tag_customer')
         );
     }
 

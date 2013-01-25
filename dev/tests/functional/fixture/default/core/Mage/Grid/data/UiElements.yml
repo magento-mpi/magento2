@@ -537,3 +537,20 @@ report_tag_product:
         3: Number of Total Tags
         4: Action
 
+#dataset for ui elements for Customer Tags grid
+report_tag_customer:
+    fieldset:
+        report_tag_customer_grid: tablename
+    button:
+         export:
+    field:
+        page:
+    dropdown:
+        view_limit:
+        export_to:
+    headers:
+        0: ID
+        1: First Name
+        2: Last Name
+        3: Total Tags
+        4: Action
