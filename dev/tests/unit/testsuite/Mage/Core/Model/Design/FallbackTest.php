@@ -53,11 +53,11 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         // 4. Check results
         $this->assertEquals($expectedFileName, $filename);
     }
-    
+
     public function getFileDataProvider()
     {
         $file = 'test.txt';
-        $themeCustomizationPath = 'custom';
+        $customizationPath = 'custom';
         $themePath = 'theme_path';
         $parentThemePath = 'parent_theme_path';
 
@@ -74,15 +74,15 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $themeCustomized = $this->getMock('Mage_Core_Model_Theme', array('getCustomizationPath'), array(), '', false);
         $themeCustomized->expects($this->any())
             ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
+            ->will($this->returnValue($customizationPath));
 
-        /** @var $themeCustomizedPhysical Mage_Core_Model_Theme */
-        $themeCustomizedPhysical = $this->getMock('Mage_Core_Model_Theme',
+        /** @var $customizedPhysical Mage_Core_Model_Theme */
+        $customizedPhysical = $this->getMock('Mage_Core_Model_Theme',
             array('getCustomizationPath', 'getThemePath'), array(), '', false);
-        $themeCustomizedPhysical->expects($this->any())
+        $customizedPhysical->expects($this->any())
             ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
-        $themeCustomizedPhysical->expects($this->any())
+            ->will($this->returnValue($customizationPath));
+        $customizedPhysical->expects($this->any())
             ->method('getThemePath')
             ->will($this->returnValue($themePath));
 
@@ -97,7 +97,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             array('getCustomizationPath', 'getThemePath', 'getParentTheme'), array(), '', false);
         $themeComplicated->expects($this->any())
             ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
+            ->will($this->returnValue($customizationPath));
         $themeComplicated->expects($this->any())
             ->method('getThemePath')
             ->will($this->returnValue($themePath));
@@ -111,17 +111,17 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             array($themeCustomized, $file, 'custom\test.txt', 'custom\test.txt'),
             array($themeCustomized, $file, 'module_view_dir\area51\test.txt', 'module_view_dir\area51\test.txt'),
             array($themeCustomized, $file, null, 'module_view_dir\area51\test.txt'),
-            array($themeCustomizedPhysical, $file, 'custom\test.txt', 'custom\test.txt'),
-            array($themeCustomizedPhysical, $file, 'design_dir\area51\theme_path\test.txt',
+            array($customizedPhysical, $file, 'custom\test.txt', 'custom\test.txt'),
+            array($customizedPhysical, $file, 'design_dir\area51\theme_path\test.txt',
                 'design_dir\area51\theme_path\test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'design_dir\area51\theme_path\Mage_Core11\test.txt',
+            array($customizedPhysical, $file, 'design_dir\area51\theme_path\Mage_Core11\test.txt',
                 'design_dir\area51\theme_path\Mage_Core11\test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'module_view_dir\area51\test.txt',
+            array($customizedPhysical, $file, 'module_view_dir\area51\test.txt',
                 'module_view_dir\area51\test.txt'
             ),
-            array($themeCustomizedPhysical, $file, null, 'module_view_dir\area51\test.txt'),
+            array($customizedPhysical, $file, null, 'module_view_dir\area51\test.txt'),
             array($themeInherited, $file, 'design_dir\area51\parent_theme_path\test.txt',
                 'design_dir\area51\parent_theme_path\test.txt'
             ),
@@ -181,35 +181,33 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedFileName, $filename);
     }
 
+    /**
+     * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function getLocaleFileDataProvider()
     {
-        $themeCustomizationPath = 'custom';
+        $customizationPath = 'custom';
         $themePath = 'theme_path';
         $parentThemePath = 'parent_theme_path';
-        $grandParentThemePath = 'grand_parent_theme_path';
+        $grandParentPath = 'grand_parent_theme_path';
         $file = 'test.txt';
 
         // 0. Parent and grand parent themes
         /** @var $parentTheme Mage_Core_Model_Theme */
         $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
-        $parentTheme->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($parentThemePath));
+        $parentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue($parentThemePath));
 
         /** @var $grandParentTheme Mage_Core_Model_Theme */
         $grandParentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
-        $grandParentTheme->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($grandParentThemePath));
+        $grandParentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue($grandParentPath));
 
         /** @var $parentThemeInherited Mage_Core_Model_Theme */
         $parentThemeInherited = $this->getMock('Mage_Core_Model_Theme',
             array('getThemePath', 'getParentTheme'), array(), '', false);
-        $parentThemeInherited->expects($this->any())
-            ->method('getThemePath')
+        $parentThemeInherited->expects($this->any())->method('getThemePath')
             ->will($this->returnValue($parentThemePath));
-        $parentThemeInherited->expects($this->any())
-            ->method('getParentTheme')
+        $parentThemeInherited->expects($this->any())->method('getParentTheme')
             ->will($this->returnValue($grandParentTheme));
 
         // 1.
@@ -219,9 +217,8 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         // 2.
         /** @var $themeCustomized Mage_Core_Model_Theme */
         $themeCustomized = $this->getMock('Mage_Core_Model_Theme', array('getCustomizationPath'), array(), '', false);
-        $themeCustomized->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
+        $themeCustomized->expects($this->any())->method('getCustomizationPath')
+            ->will($this->returnValue($customizationPath));
 
         // 3.
         /** @var $themeCustomizedPhysical Mage_Core_Model_Theme */
@@ -229,7 +226,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             array('getCustomizationPath', 'getThemePath'), array(), '', false);
         $themeCustomizedPhysical->expects($this->any())
             ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
+            ->will($this->returnValue($customizationPath));
         $themeCustomizedPhysical->expects($this->any())
             ->method('getThemePath')
             ->will($this->returnValue($themePath));
@@ -237,9 +234,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         // 4.
         /** @var $themeInherited Mage_Core_Model_Theme */
         $themeInherited = $this->getMock('Mage_Core_Model_Theme', array('getParentTheme'), array(), '', false);
-        $themeInherited->expects($this->any())
-            ->method('getParentTheme')
-            ->will($this->returnValue($parentTheme));
+        $themeInherited->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
         // 5.
         /** @var $themeComplicated Mage_Core_Model_Theme */
@@ -247,7 +242,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             array('getCustomizationPath', 'getThemePath', 'getParentTheme'), array(), '', false);
         $themeComplicated->expects($this->any())
             ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
+            ->will($this->returnValue($customizationPath));
         $themeComplicated->expects($this->any())
             ->method('getThemePath')
             ->will($this->returnValue($themePath));
@@ -337,6 +332,10 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedFileName, $filename);
     }
 
+    /**
+     * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function getViewFileDataProvider()
     {
         $themeCustomizationPath = 'custom';
@@ -568,7 +567,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $options = $this->_getOptionsMock($data);
 
         /** @var $appConfig Mage_Core_Model_Config */
-        $appConfig = $filesystem = $this->getMock('Mage_Core_Model_Config', $methods, array(), '', false);
+        $appConfig = $this->getMock('Mage_Core_Model_Config', $methods, array(), '', false);
         $appConfig->expects($this->any())
             ->method('getOptions')
             ->will($this->returnValue($options));
@@ -586,9 +585,11 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento_Filesystem', array('has'), array(), '', false);
         $filesystem->expects($this->any())
             ->method('has')
-            ->will($this->returnCallback(function($tryFile, $workingDirectory = null) use ($targetFile) {
-            return ($tryFile == $targetFile);
-        }));
+            ->will($this->returnCallback(
+                function ($tryFile) use ($targetFile) {
+                    return ($tryFile == $targetFile);
+                }
+        ));
 
         return $filesystem;
     }
