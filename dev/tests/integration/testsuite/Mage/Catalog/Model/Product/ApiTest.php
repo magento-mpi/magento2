@@ -33,9 +33,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'attribute_set_id' => 'set',
             'type_id' => 'type',
             'category_ids' => 'categories',
-            'special_price',
-            'special_from_date',
-            'special_to_date'
+            'special_price'
         );
         /** Assert response product equals to actual product data. */
         Magento_Test_Helper_Api::checkEntityFields(

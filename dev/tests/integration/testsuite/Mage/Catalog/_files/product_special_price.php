@@ -31,6 +31,4 @@ $product->setTypeId('simple')
     ))
     ->setStockData()
     ->setSpecialPrice('5.99')
-    ->setSpecialFromDate('01-01-2012')
-    ->setSpecialToDate('02-02-2013')
     ->save();

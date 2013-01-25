@@ -114,19 +114,20 @@ class Mage_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_TestCa
     {
         $updateCounter = 0;
         foreach (self::$_createdOptionAfter as $option) {
+            $option = (array)$option;
             $optionInfo = Magento_Test_Helper_Api::call(
                 $this,
                 'catalogProductCustomOptionInfo',
                 array(
-                    'optionId' => $option->option_id
+                    'optionId' => $option['option_id']
                 )
             );
 
             $this->assertTrue(is_array($optionInfo));
             $this->assertGreaterThan(3, count($optionInfo));
 
-            if (isset($optionsToUpdate[$option->type])) {
-                $toUpdateValues = $optionsToUpdate[$option->type];
+            if (isset($optionsToUpdate[$option['type']])) {
+                $toUpdateValues = $optionsToUpdate[$option['type']];
                 if (isset($toUpdateValues['additional_fields'])
                     and !is_array(reset($toUpdateValues['additional_fields']))
                 ) {
@@ -137,14 +138,14 @@ class Mage_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_TestCa
                     $this,
                     'catalogProductCustomOptionUpdate',
                     array(
-                        'optionId' => $option->option_id,
+                        'optionId' => $option['option_id'],
                         'data' => $toUpdateValues
                     )
                 );
                 $this->assertTrue((bool)$updateOptionResult);
                 $updateCounter++;
 
-                $this->_testOptionsAfterUpdate($option->option_id, $toUpdateValues);
+                $this->_testOptionsAfterUpdate($option['option_id'], $toUpdateValues);
             }
         }
 

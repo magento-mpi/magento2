@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-Mage::init('base', 'website');
 //Set up customer fixture
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */

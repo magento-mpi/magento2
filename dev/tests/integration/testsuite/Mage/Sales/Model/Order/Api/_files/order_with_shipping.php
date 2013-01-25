@@ -5,11 +5,10 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-Mage::init('base', 'website');
 //Set up customer fixture
-//Set up customer address fixture
 require 'customer.php';
 /** @var $customer Mage_Customer_Model_Customer */
+//Set up customer address fixture
 $customer = Mage::registry('customer');
 /** @var $customerAddress Mage_Customer_Model_Address */
 $customerAddress = Mage::registry('customer_address');
