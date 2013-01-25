@@ -317,7 +317,7 @@ grouped_product_website:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    associated_grouped_data:
+    general_grouped_data:
         associated_grouped_1:
             # Data to search
             associated_search_id: %noValue%
@@ -325,10 +325,6 @@ grouped_product_website:
             associated_search_sku: %noValue%
             associated_search_price_from: %noValue%
             associated_search_price_to: %noValue%
-            associated_search_default_qty_from: %noValue%
-            associated_search_default_qty_to: %noValue%
-            associated_search_position_from: %noValue%
-            associated_search_position_to: %noValue%
             # Data to fill in
             associated_product_position: %noValue%
             associated_product_default_qty: %noValue%

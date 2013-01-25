@@ -328,7 +328,7 @@ grouped_product_for_order:
     general_stock_availability: In Stock
     general_categories: %noValue%
     websites: Main Website
-    associated_grouped_data:
+    general_grouped_data:
         associated_grouped_1:
             associated_search_sku: %associated_1%
         associated_grouped_2:
@@ -361,10 +361,10 @@ fixed_bundle_for_order:
             bundle_items_is_required: Yes
             bundle_items_position: 1
             add_product_1:
-                bundle_items_search_sku: %add_product_1%
+                associated_search_sku: %add_product_1%
                 selection_item_price: %price_product_1%
             add_product_2:
-                bundle_items_search_sku: %add_product_2%
+                associated_search_sku: %add_product_2%
                 selection_item_price: %price_product_2%
         item_2:
             bundle_items_default_title: Drop-down
@@ -372,10 +372,10 @@ fixed_bundle_for_order:
             bundle_items_is_required: Yes
             bundle_items_position: 2
             add_product_1:
-                bundle_items_search_sku: %add_product_1%
+                associated_search_sku: %add_product_1%
                 selection_item_price: %price_product_1%
             add_product_2:
-                bundle_items_search_sku: %add_product_2%
+                associated_search_sku: %add_product_2%
                 selection_item_price: %price_product_2%
         item_3:
             bundle_items_default_title: Radio Buttons
@@ -383,10 +383,10 @@ fixed_bundle_for_order:
             bundle_items_is_required: Yes
             bundle_items_position: 3
             add_product_1:
-                bundle_items_search_sku: %add_product_1%
+                associated_search_sku: %add_product_1%
                 selection_item_price: %price_product_1%
             add_product_2:
-                bundle_items_search_sku: %add_product_2%
+                associated_search_sku: %add_product_2%
                 selection_item_price: %price_product_2%
         item_4:
             bundle_items_default_title: Checkbox
@@ -394,10 +394,10 @@ fixed_bundle_for_order:
             bundle_items_is_required: Yes
             bundle_items_position: 4
             add_product_1:
-                bundle_items_search_sku: %add_product_1%
+                associated_search_sku: %add_product_1%
                 selection_item_price: %price_product_1%
             add_product_2:
-                bundle_items_search_sku: %add_product_2%
+                associated_search_sku: %add_product_2%
                 selection_item_price: %price_product_2%
 
 #<------------CONFIGURABLE------------>

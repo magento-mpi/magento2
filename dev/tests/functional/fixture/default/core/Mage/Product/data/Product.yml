@@ -256,15 +256,11 @@ associated_grouped: &groupedAssociatedProduct1
     associated_search_sku: %noValue%
     associated_search_price_from: %noValue%
     associated_search_price_to: %noValue%
-    associated_search_default_qty_from: %noValue%
-    associated_search_default_qty_to: %noValue%
-    associated_search_position_from: %noValue%
-    associated_search_position_to: %noValue%
     # Data to fill in
     associated_product_position: %noValue%
     associated_product_default_qty: %noValue%
 
-associated_grouped_data: &associatedProductsGroupedData
+general_grouped_data: &associatedProductsGroupedData
     associated_grouped_1: *groupedAssociatedProduct1
     associated_grouped_2: %noValue%
 
@@ -358,34 +354,18 @@ bundle_item_1: &itemMultipleSelect
     bundle_items_position: 1
     add_product_1: &bundleProduct
         # Data to search
-        bundle_items_search_id: %noValue%
-        bundle_items_search_name: %noValue%
-        bundle_items_search_attribute_set: %noValue%
-        bundle_items_search_sku: %noValue%
-        bundle_items_search_price_from: %noValue%
-        bundle_items_search_price_to: %noValue%
+        associated_search_id: %noValue%
+        associated_search_name: %noValue%
+        associated_search_sku: %noValue%
+        associated_search_price_from: %noValue%
+        associated_search_price_to: %noValue%
         # Data to fill in
-        bundle_items_qty_to_add: %noValue%
         selection_item_price: %noValue%
         selection_item_price_type: %noValue%
         selection_item_default_qty: %noValue%
         selection_item_position: %noValue%
         selection_item_default: %noValue%
-    add_product_2:
-    # Data to search
-        bundle_items_search_id: %noValue%
-        bundle_items_search_name: %noValue%
-        bundle_items_search_attribute_set: %noValue%
-        bundle_items_search_sku: %noValue%
-        bundle_items_search_price_from: %noValue%
-        bundle_items_search_price_to: %noValue%
-        # Data to fill in
-        bundle_items_qty_to_add: %noValue%
-        selection_item_price: %noValue%
-        selection_item_price_type: %noValue%
-        selection_item_default_qty: %noValue%
-        selection_item_position: %noValue%
-        selection_item_default: %noValue%
+    add_product_2: *bundleProduct
 
 bundle_item_2: &itemDropdown
     bundle_items_default_title: Drop-down
@@ -986,11 +966,11 @@ duplicate_fixed_bundle:
             bundle_items_is_required: Yes
             bundle_items_position: 1
             add_product_1:
-                bundle_items_search_sku: %product_1%
+                associated_search_sku: %product_1%
                 selection_item_price: 10
                 selection_item_price_type: Fixed
                 selection_item_default_qty: 10
-                selection_item_position: 10
+                selection_item_position: 2
                 selection_item_default: Yes
         item_2:
             bundle_items_default_title: Drop-down
@@ -998,13 +978,12 @@ duplicate_fixed_bundle:
             bundle_items_is_required: No
             bundle_items_position: 2
             add_product_1:
-                bundle_items_search_sku: %product_2%
+                associated_search_sku: %product_2%
                 selection_item_price: 20
                 selection_item_price_type: Percent
                 selection_item_default_qty: 20
-                selection_item_user_defined_qty: No
-                selection_item_position: 20
-                selection_item_default: Yes
+                selection_item_position: 1
+                selection_item_default: No
 
 duplicate_dynamic_bundle:
     product_attribute_set: Default
@@ -1049,21 +1028,20 @@ duplicate_dynamic_bundle:
             bundle_items_is_required: Yes
             bundle_items_position: 1
             add_product_1:
-                bundle_items_search_sku: %product_1%
+                associated_search_sku: %product_1%
                 selection_item_default_qty: 10
-                selection_item_position: 10
-                selection_item_default: Yes
+                selection_item_position: 2
+                selection_item_default: No
         item_2:
             bundle_items_default_title: Radio Buttons
             bundle_items_input_type: Radio Buttons
             bundle_items_is_required: No
             bundle_items_position: 2
             add_product_1:
-                bundle_items_search_sku: %product_2%
+                associated_search_sku: %product_2%
                 selection_item_default_qty: 20
-                selection_item_user_defined_qty: No
-                selection_item_position: 20
-                selection_item_default: Yes
+                selection_item_position: 1
+                selection_item_default: No
 
 #*********************************************
 #*         Grouped Product Data              *
@@ -1077,7 +1055,7 @@ grouped_product_required:
     general_sku: grouped_sku.req_%randomize%
     general_status: Enabled
     general_visibility: Catalog, Search
-    general_grouped_associated: *associatedProductsGroupedData
+    general_grouped_data: *associatedProductsGroupedData
 
 # Product that has all needed fields set to be visible in frontend.
 grouped_product_visible:
@@ -1091,7 +1069,7 @@ grouped_product_visible:
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    associated_grouped_data: *associatedProductsGroupedData
+    general_grouped_data: *associatedProductsGroupedData
 
 grouped_product:
     product_attribute_set: Default
@@ -1129,7 +1107,7 @@ grouped_product:
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
-    associated_grouped_data: *associatedProductsGroupedData
+    general_grouped_data: *associatedProductsGroupedData
 
 duplicate_grouped:
     product_attribute_set: Default
@@ -1160,7 +1138,7 @@ duplicate_grouped:
     related_data: *relatedDuplicate
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
-    associated_grouped_data:
+    general_grouped_data:
         associated_grouped_1:
             associated_search_sku: %product_1%
             associated_product_position: 3
@@ -1580,8 +1558,9 @@ bundle_product_related: &bundle_product_related
             bundle_items_is_required: No
             bundle_items_position: 2
             add_product_1:
-                bundle_items_search_sku: %noValue%
-                bundle_items_qty_to_add: 1
+                associated_search_sku: %noValue%
+                selection_item_default_qty: 1
+                selection_item_position: 1
                 selection_item_price: 10
                 selection_item_price_type: Fixed
                 selection_item_default: Yes
@@ -1614,7 +1593,7 @@ grouped_product_related: &grouped_product_related
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    associated_grouped_data:
+    general_grouped_data:
         associated_grouped_1:
             associated_search_sku: %noValue%
             associated_product_default_qty: 1
@@ -2016,7 +1995,7 @@ grouped_multi_checkout_options:
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    associated_grouped_data: *associatedProductsGroupedData
+    general_grouped_data: *associatedProductsGroupedData
 
 ###################################################
 #         Bundle Items Data for Multi Checkout    #
@@ -2027,50 +2006,36 @@ bundle_item_11: &itemMultipleSelectMultiCheckout
     bundle_items_input_type: Multiple Select
     bundle_items_is_required: Yes
     bundle_items_position: 1
-    add_product_1: &bundleProductMultiCheckout
-        # Data to search
-        bundle_items_search_id: %noValue%
-        bundle_items_search_name: %noValue%
-        bundle_items_search_attribute_set: %noValue%
-        bundle_items_search_sku: %noValue%
-        bundle_items_search_price_from: %noValue%
-        bundle_items_search_price_to: %noValue%
-        # Data to fill in
-        bundle_items_qty_to_add: %noValue%
-        selection_item_price: %noValue%
-        selection_item_price_type: %noValue%
-        selection_item_default_qty: %noValue%
-        selection_item_position: %noValue%
-        selection_item_default: %noValue%
-    add_product_2: *bundleProductMultiCheckout
-    add_product_3: *bundleProductMultiCheckout
+    add_product_1: *bundleProduct
+    add_product_2: *bundleProduct
+    add_product_3: *bundleProduct
 
 bundle_item_21: &itemDropdownMultiCheckout
     bundle_items_default_title: Drop-down
     bundle_items_input_type: Drop-down
     bundle_items_is_required: No
     bundle_items_position: 2
-    add_product_1: *bundleProductMultiCheckout
-    add_product_2: *bundleProductMultiCheckout
-    add_product_3: *bundleProductMultiCheckout
+    add_product_1: *bundleProduct
+    add_product_2: *bundleProduct
+    add_product_3: *bundleProduct
 
 bundle_item_31: &itemRadioButtonsMultiCheckout
     bundle_items_default_title: Radio Buttons
     bundle_items_input_type: Radio Buttons
     bundle_items_is_required: Yes
     bundle_items_position: 3
-    add_product_1: *bundleProductMultiCheckout
-    add_product_2: *bundleProductMultiCheckout
-    add_product_3: *bundleProductMultiCheckout
+    add_product_1: *bundleProduct
+    add_product_2: *bundleProduct
+    add_product_3: *bundleProduct
 
 bundle_item_41: &itemCheckboxMultiCheckout
     bundle_items_default_title: Checkbox
     bundle_items_input_type: Checkbox
     bundle_items_is_required: Yes
     bundle_items_position: 4
-    add_product_1: *bundleProductMultiCheckout
-    add_product_2: *bundleProductMultiCheckout
-    add_product_3: *bundleProductMultiCheckout
+    add_product_1: *bundleProduct
+    add_product_2: *bundleProduct
+    add_product_3: *bundleProduct
 
 general_bundle_items_data123: &bundleDataMultiCheckout
     ship_bundle_items: Separately
@@ -2365,7 +2330,7 @@ grouped_product_minimal:
     general_status: Enabled
     general_visibility: Catalog, Search
     general_categories: Default Category
-    associated_grouped_data:
+    general_grouped_data:
         associated_grouped_1:
             associated_search_sku: %associated_1%
 

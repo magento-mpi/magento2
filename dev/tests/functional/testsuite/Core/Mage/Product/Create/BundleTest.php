@@ -412,7 +412,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Data
         $simpleData = $this->loadDataSet('Product', 'simple_product_required');
         $option = $this->loadDataSet('Product', 'bundle_item_2',
-            array('bundle_items_search_sku' => $simpleData['general_sku']));
+            array('associated_search_sku' => $simpleData['general_sku']));
         $bundleData = $this->loadDataSet('Product', $dataBundleType, array('item_1'=> $option));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundleData['general_sku']));
@@ -445,7 +445,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Data
         $virtualData = $this->loadDataSet('Product', 'virtual_product_required');
         $option = $this->loadDataSet('Product', 'bundle_item_2',
-            array('bundle_items_search_sku' => $virtualData['general_sku']));
+            array('associated_search_sku' => $virtualData['general_sku']));
         $bundleData = $this->loadDataSet('Product', $dataBundleType, array('item_1'=> $option));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundleData['general_sku']));

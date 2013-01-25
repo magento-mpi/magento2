@@ -41,7 +41,7 @@ class Core_Mage_Various_AddToShoppingCartTest extends Mage_Selenium_TestCase
         $simpleData = $this->loadDataSet('Product', 'simple_product_visible');
         $bundleData = $this->loadDataSet('Product', 'fixed_bundle_visible');
         $bundleData['general_bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2',
-            array('bundle_items_search_sku'   => $simpleData['general_sku'],
+            array('associated_search_sku'   => $simpleData['general_sku'],
                   'selection_item_price'      => '10',
                   'selection_item_price_type' => 'Percent',));
         $productSearch =

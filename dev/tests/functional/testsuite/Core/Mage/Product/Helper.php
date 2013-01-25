@@ -799,9 +799,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $configurableData = $generalTab['general_configurable_variations'];
             unset($generalTab['general_configurable_variations']);
         }
-        if (isset($generalTab['general_grouped_associated'])) {
-            $this->assignProductToGrouped($generalTab['general_grouped_associated']);
-            unset($generalTab['general_grouped_associated']);
+        if (isset($generalTab['general_grouped_data'])) {
+            $this->assignProductToGrouped($generalTab['general_grouped_data']);
+            unset($generalTab['general_grouped_data']);
         }
         if (isset($generalTab['general_bundle_items_data'])) {
             $this->fillBundleItems($generalTab['general_bundle_items_data']);
@@ -1756,19 +1756,23 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         //select associated products
         foreach ($data as $value) {
-            $productTable = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'select_grouped_associated_product');
+            if (array_key_exists('associated_product_default_qty', $value)) {
+                $defaultQty = $value['associated_product_default_qty'];
+                unset($value['associated_product_default_qty']);
+            }
             $this->clickButton('add_products_to_group', false);
-            $this->waitForElementVisible($productTable);
-            $this->searchAndChoose(array('associated_grouped_search_sku' => $value['associated_search_sku']), 'select_grouped_associated_product');
-            $this->clickButton('select_products', false);
-            $this->waitForControlVisible('fieldset', 'general_grouped_associated');
+            $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
+            $this->searchAndChoose($value, 'select_associated_product_option');
+            $this->clickButton('add_selected_products', false);
+            $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'grouped_associated_products');
             //Fill in additional data
-            if (!empty($value['associated_product_default_qty'])) {
+            if (isset($defaultQty)) {
                 $this->addParameter('productSku', $value['associated_search_sku']);
-                $this->fillField('associated_product_default_qty', $value['associated_product_default_qty']);
+                $this->fillField('associated_product_default_qty', $defaultQty);
             }
         }
     }
+
     /**
      * Verify that product is assigned
      *
@@ -2125,13 +2129,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         foreach ($itemData as $key => $dataValue) {
             if (is_array($dataValue)) {
                 foreach ($dataValue as $itemKey => $itemData) {
-                    if ($itemKey == 'bundle_items_search_name' || $itemKey == 'bundle_items_search_sku') {
+                    if ($itemKey == 'associated_search_name' || $itemKey == 'associated_search_sku') {
                         $data['items'][$key]['param'] = $itemData;
                     }
-                    if (preg_match('/^bundle_items_search_/', $itemKey)) {
+                    if (preg_match('/^associated_search_/', $itemKey)) {
                         $data['items'][$key]['search'][$itemKey] = $itemData;
-                    } elseif ($itemKey == 'bundle_items_qty_to_add') {
-                        $data['items'][$key]['fill']['selection_item_default_qty'] = $itemData;
                     } elseif (preg_match('/^selection_item_/', $itemKey)) {
                         $data['items'][$key]['fill'][$itemKey] = $itemData;
                     }
@@ -2163,8 +2165,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 continue;
             }
             $this->clickButton('add_selection', false);
-            $this->waitForControlVisible('fieldset', 'select_product_to_bundle_option');
-            $this->searchAndChoose($item['search'], 'select_product_to_bundle_option');
+            $this->waitForControlVisible('fieldset', 'select_associated_product_option');
+            $this->searchAndChoose($item['search'], 'select_associated_product_option');
             $this->clickButton('add_selected_products', false);
             if (isset($item['param'])) {
                 $this->addParameter('productSku', $item['param']);

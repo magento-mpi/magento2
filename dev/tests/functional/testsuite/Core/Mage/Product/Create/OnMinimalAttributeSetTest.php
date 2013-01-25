@@ -100,7 +100,7 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
             case 'dynamic_bundle':
                 $productData = $this->loadDataSet('Product', $productType . '_minimal',
                     array('item_1' => $this->loadDataSet('Product', 'bundle_item_2')));
-                $productData['general_bundle_items_data']['item_1']['add_product_1']['bundle_items_search_sku'] =
+                $productData['general_bundle_items_data']['item_1']['add_product_1']['associated_search_sku'] =
                     $testData['simple_sku'];
                 $productType = 'bundle';
                 break;
