@@ -230,7 +230,7 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.tag.product.productdetail.grid.columnSet">
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.tag.customer.grid.columnSet">
                     <arguments>
                         <filter_visibility>0</filter_visibility>
                         <rowUrl>
