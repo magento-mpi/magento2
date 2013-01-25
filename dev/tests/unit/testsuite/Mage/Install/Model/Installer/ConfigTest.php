@@ -37,7 +37,8 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_model = new Mage_Install_Model_Installer_Config(
             $this->getMock('Mage_Core_Model_Config', array(), array(), '', false),
-            new Mage_Core_Model_Dir(__DIR__, array(), array(Mage_Core_Model_Dir::CONFIG => TESTS_TEMP_DIR))
+            new Mage_Core_Model_Dir(__DIR__, array(), array(Mage_Core_Model_Dir::CONFIG => TESTS_TEMP_DIR)),
+            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())
         );
     }
 

@@ -51,7 +51,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testInit()
     {
         $this->assertNull($this->_model->getConfig());
-        $this->_model->init(Magento_Test_Bootstrap::getInstance()->getInitParams());
+        $this->_model->init(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
         $this->assertContains(Mage_Core_Model_App::ADMIN_STORE_ID, array_keys($this->_model->getStores(true)));
@@ -70,7 +70,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testBaseInit()
     {
         $this->assertNull($this->_model->getConfig());
-        $this->_model->baseInit(Magento_Test_Bootstrap::getInstance()->getInitParams());
+        $this->_model->baseInit(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
     }
@@ -86,7 +86,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $request = new Magento_Test_Request();
         $request->setRequestUri('core/index/index');
         $this->_mageModel->setRequest($request);
-        $this->_mageModel->run(Magento_Test_Bootstrap::getInstance()->getInitParams());
+        $this->_mageModel->run(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertTrue($request->isDispatched());
     }
 
