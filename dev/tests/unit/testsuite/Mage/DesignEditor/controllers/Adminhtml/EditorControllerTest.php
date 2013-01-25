@@ -35,10 +35,10 @@ class Mage_Core_Model_Theme_EditorControllerTest extends PHPUnit_Framework_TestC
             array(
                 $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
                 $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false),
-                null,
                 $this->_objectManagerMock,
                 $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false),
+                null,
                 array(
                     'translator' => 'translator',
                     'helper'     => 'helper',

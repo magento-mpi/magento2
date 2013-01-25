@@ -343,17 +343,4 @@ class Magento_ObjectManager_ZendTest extends PHPUnit_Framework_TestCase
 
         $this->_objectManager->getClassFromAlias($alias);
     }
-
-    public function testConfigure()
-    {
-        $configuration = array('some_string');
-        $instanceManager = $this->getMock('Zend\Di\InstanceManager', array(), array(), '', false);
-        $diMock = $this->getMock('Zend\Di\Di', array(), array(), '', false);
-        $diMock->expects($this->once())->method('instanceManager')->will($this->returnValue($instanceManager));
-        $diMock->expects($this->once())
-            ->method('configure')
-            ->with($this->anything());
-        $object = new Magento_ObjectManager_Zend(null, $diMock);
-        $object->configure($configuration);
-    }
 }
