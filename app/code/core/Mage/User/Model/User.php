@@ -91,11 +91,6 @@ class Mage_User_Model_User
     protected $_mailer;
 
     /**
-     * @var Magento_Validator_Composite_VarienObject
-     */
-    private $_beforeSaveValidator;
-
-    /**
      * Initialize user model
      */
     protected function _construct()
