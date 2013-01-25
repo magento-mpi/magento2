@@ -13,8 +13,7 @@ class Mage_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Framewor
 {
     public function testPrepareForm()
     {
-        $userId = 1;
-        $user = Mage::getModel('Mage_User_Model_User')->load($userId);
+        $user = Mage::getModel('Mage_User_Model_User')->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
 
         /** @var $session Mage_Backend_Model_Auth_Session */
         $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
@@ -73,27 +72,17 @@ class Mage_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Framewor
         );
 
         foreach ($expectedResultFieldset as $fieldId => $field) {
-            $this->assertEquals(
-                $field['name'],
-                $form->getElement($fieldId)->getName(),
-                'Wrong \'' . $fieldId . '\' field name'
-            );
-            $this->assertEquals(
-                $field['type'],
-                $form->getElement($fieldId)->getType(),
-                'Wrong \'' . $fieldId . ' field type'
-            );
+            $element = $form->getElement($fieldId);
+            $this->assertInstanceOf('Varien_Data_Form_Element_Abstract', $element);
+            $this->assertEquals($field['name'], $element->getName(), 'Wrong \'' . $fieldId . '\' field name');
+            $this->assertEquals($field['type'], $element->getType(), 'Wrong \'' . $fieldId . ' field type');
             $this->assertEquals(
                 $field['required'],
-                $form->getElement($fieldId)->getData('required'),
+                $element->getData('required'),
                 'Wrong \'' . $fieldId . '\' requirement state'
             );
             if (array_key_exists('value', $field)) {
-                $this->assertEquals(
-                    $field['value'],
-                    $form->getElement($fieldId)->getData('value'),
-                    'Wrong \'' . $fieldId . '\' value'
-                );
+                $this->assertEquals($field['value'], $element->getData('value'), 'Wrong \'' . $fieldId . '\' value');
             }
         }
     }
