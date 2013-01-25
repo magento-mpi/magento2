@@ -12,16 +12,16 @@
 var id = 0;
 var authorTemplate =
     '<tr>'+
-        '<td style="margin-bottom:5px;">'+
-            '<input class="input-text required-entry" style="width:160px;" name="authors[name][]" id="authors_name_{{id}}" value="{{name}}"/>'+
+        '<td>'+
+            '<input class="input-text required-entry" name="authors[name][]" id="authors_name_{{id}}" value="{{name}}"/>'+
         '</td>'+
-        '<td style="margin-bottom:5px;">'+
-            '<input class="input-text required-entry" style="width:140px;" name="authors[user][]" id="authors_user_{{id}}" value="{{user}}"/>'+
+        '<td>'+
+            '<input class="input-text required-entry" name="authors[user][]" id="authors_user_{{id}}" value="{{user}}"/>'+
         '</td>'+
-        '<td style="margin-bottom:5px;">'+
-            '<input class="input-text required-entry validate-email" style="width:160px;" name="authors[email][]" id="authors_email_{{id}}" value="{{email}}"/>'+
+        '<td>'+
+            '<input class="input-text required-entry validate-email" name="authors[email][]" id="authors_email_{{id}}" value="{{email}}"/>'+
         '</td>'+
-        '<td style="margin-bottom:5px;">'+
+        '<td>'+
             <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getRemoveRowButtonHtml('tr')) ?> +
         '</td>'+
     '</tr>';
@@ -38,19 +38,17 @@ function addAuthor(data)
 }
 </script>
 
-<div class="entry-edit">
+<fieldset class="fieldset">
     <?php echo $this->getFormHtml() ?>
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Authors") ?></h4>
-    </div>
-    <fieldset id="authors_fieldset" class="grid">
-        <legend><?php echo $this->__("Authors") ?></legend>
+    <legend class="legend"><span><?php echo $this->__("Authors") ?></span></legend>
+    <br>
+    <div id="authors_fieldset" class="grid">
         <table class="data" cellspacing="0">
             <thead>
                 <tr class="headings">
-                    <th><?php echo $this->__("Name") ?> <span class="required">*</span></th>
-                    <th><?php echo $this->__("User") ?> <span class="required">*</span></th>
-                    <th><?php echo $this->__("Email") ?> <span class="required">*</span></th>
+                    <th class="required"><?php echo $this->__("Name") ?></th>
+                    <th class="required"><?php echo $this->__("User") ?></th>
+                    <th class="required"><?php echo $this->__("Email") ?></th>
                     <th><?php echo $this->__("Remove") ?></th>
                 </tr>
             </thead>
@@ -71,5 +69,5 @@ function addAuthor(data)
                 </tr>
             </tfoot>
         </table>
-    </fieldset>
-</div>
+    </div>
+</fieldset>

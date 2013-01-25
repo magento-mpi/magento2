@@ -170,13 +170,9 @@
             }
         }
     }
-
-    function displayLoadingMask()
-    {
-       var loaderArea = $$('#html-body .wrapper')[0]; // Blocks all page
-        Position.clone($(loaderArea), $('loading-mask'), {offsetLeft:-2});
-        toggleSelectsUnderBlock($('loading-mask'), false);
-        Element.show('loading-mask');
+    /* TODO: Convert to jQuery all js in this file  */
+    function displayLoadingMask() {
+        $('body').loadingPopup();
     }
 //]]>
 </script>

@@ -14,9 +14,20 @@
  */
 ?>
 
-<div class="content-header">
+<!--
     <h3 class="icon-head head-products"><?php echo $this->getHeader() ?></h3>
-    <div class="content-buttons form-buttons"><?php echo $this->getBackButtonHtml() ?>
+-->
+
+<div class="page-actions">
+    <div class="switcher hidden" onselectstart='return false;'>
+        <label class="switcher-label" for="product-online-switcher" title="Product online status">
+            <strong>Product online</strong>
+            <input type="checkbox" id="product-online-switcher" checked />
+            <span></span>
+        </label>
+    </div>
+
+    <?php echo $this->getBackButtonHtml() ?>
     <?php echo $this->getCancelButtonHtml() ?>
     <?php if($this->getProductId()): ?>
         <?php echo $this->getDeleteButtonHtml() ?>
@@ -28,8 +39,8 @@
         <?php echo $this->getChangeAttributeSetButtonHtml() ?>
         <?php echo $this->getSaveSplitButtonHtml(); ?>
     <?php endif; ?>
-    </div>
 </div>
+
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
     <div id="product-edit-form-tabs"></div>

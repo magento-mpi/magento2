@@ -14,13 +14,8 @@
 <?php else: ?>
 <?php $_readonly = '';?>
 <?php endif; ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory') ?></h4>
-    </div>
-    <fieldset>
-
-        <legend><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory') ?></legend>
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory') ?></span></legend>
         <table cellspacing="0" class="form-list" id="table_cataloginventory">
         <tr>
             <td class="label"><label for="inventory_manage_stock"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Stock') ?></label></td>
@@ -194,7 +189,7 @@
         </tr>
         </table>
     </fieldset>
-</div>
+
 <script type="text/javascript">
 //<![CDATA[
     function changeManageStockOption()

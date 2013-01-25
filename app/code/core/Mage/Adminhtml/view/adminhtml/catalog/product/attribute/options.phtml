@@ -15,14 +15,10 @@
  * @var $this Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options
  */
 ?>
-<div>
-<ul class="messages">
-    <li class="notice-msg">
-        <ul>
-            <li><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('If you do not specify an option value for a specific store view then the default (Admin) value will be used.') ?></li>
-        </ul>
-    </li>
-</ul>
+<div class="message message-info">
+    <div class="message-inner">
+        <div class="message-content"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('If you do not specify an option value for a specific store view then the default (Admin) value will be used.') ?></div>
+    </div>
 </div>
 
 <div class="entity-edit">

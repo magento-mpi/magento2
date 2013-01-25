@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * {license_notice}
  *
@@ -18,9 +18,9 @@ $_priceValueValidation = $this->getPriceValidation('validate-zero-or-greater');
 
 $_showWebsite= $this->isMultiWebsites();
 ?>
-<tr id="attribute-<?php echo $_htmlId?>-container">
-    <td class="label"><?php echo $this->getElement()->getLabel(); ?></td>
-    <td colspan="10" class="grid tier">
+<div class="field" id="attribute-<?php echo $_htmlId?>-container">
+    <label class="label"><span><?php echo $this->getElement()->getLabel(); ?></span></label>
+    <div class="control">
     <table cellspacing="0" class="data border" id="group_prices_table">
         <?php if ($_showWebsite) : ?>
         <col width="135" />
@@ -150,4 +150,4 @@ $('<?php echo $_htmlId; ?>_container').up('table').select('button')
 <?php endif; ?>
 //]]>
 </script>
-</td></tr>
+</div></div>
