@@ -198,14 +198,7 @@
          * @return {Boolean}
          */
         _itemsSelected: function() {
-            var selected = false;
-            $(this.options.wishlistFormSelector).find('input.select').each(function() {
-                if ($(this).is(':checked')) {
-                    selected = true;
-                    return;
-                }
-            });
-            return selected;
+            return $(this.options.wishlistFormSelector).find('input.select:checked').length ? true : false;
         }
     });
 
@@ -296,16 +289,13 @@
         _deleteWishlist: function(e)  {
             e.preventDefault();
             if (confirm(this.options.deleteMsg)) {
-                var json = $(e.target).data('wishlist-delete'),
-                    wishlistId = json['wishlistId'],
-                    deleteUrl = json['deleteUrl'].replace('%item%', wishlistId),
-                    redirectUrl = json['redirectUrl'];
+                var json = $(e.target).data('wishlist-delete');
                 $.ajax({
-                    url: deleteUrl,
+                    url: json['deleteUrl'].replace('%item%', json['wishlistId']),
                     type: 'post',
                     cache: false,
                     success: function() {
-                        window.location.href = redirectUrl;
+                        window.location.href = json['redirectUrl'];
                     }
                 });
             }
@@ -369,11 +359,9 @@
                 window.location.href = $(e.target).data('wishlist-add').url;
             }, this));
             this.element.on('click', '[data-wishlist-add-to]', $.proxy(function(e) {
-                var json = $(e.target).data('wishlist-add-to'),
-                    url = json.url,
-                    isNew = json.isNew;
-                if (isNew) {
-                    this._addToNew(url);
+                var json = $(e.target).data('wishlist-add-to');
+                if (json.isNew) {
+                    this._addToNew(json.url);
                 } else {
                     window.location.href = json.url;
                 }
