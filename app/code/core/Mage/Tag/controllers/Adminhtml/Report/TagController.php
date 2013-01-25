@@ -199,10 +199,11 @@ class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_
     public function productDetailAction()
     {
         $this->_initAction();
-
+        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($this->getRequest()->getParam('id'));
         $this->_title($this->__('Reports'))
              ->_title($this->__('Tags'))
-             ->_title($this->__('Products'));
+             ->_title($this->__('Products'))
+             ->_title($this->__('Tags submitted to %s', $product->getName()));
 
         $this->_setActiveMenu('Mage_Tag::report_tags')
             ->_addBreadcrumb(
