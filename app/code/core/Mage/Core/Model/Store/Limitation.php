@@ -42,16 +42,16 @@ class Mage_Core_Model_Store_Limitation
     }
 
     /**
-     * Whether restriction of creating new items is effective
+     * Whether it is permitted to create new items
      *
      * @return bool
      */
-    public function isCreateRestricted()
+    public function canCreate()
     {
         if ($this->_isRestricted) {
-            return $this->_resource->countAll() >= $this->_allowedQty;
+            return $this->_resource->countAll() < $this->_allowedQty;
         }
-        return false;
+        return true;
     }
 
     /**

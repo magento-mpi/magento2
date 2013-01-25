@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
 
         /** @var $limitation Mage_Core_Model_Store_Limitation */
         $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Limitation');
-        if (!$limitation->isCreateRestricted()) {
+        if ($limitation->canCreate()) {
             $this->_addButton('add_store', array(
                 'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Create Store View'),
                 'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newStore') .'\')',
