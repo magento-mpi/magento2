@@ -188,4 +188,109 @@
             </block>
         </reference>
     </adminhtml_report_tag_productdetail_block>
+
+    <adminhtml_report_tag_customer>
+        <update handle="formkey"/>
+        <update handle="adminhtml_report_tag_customer_block"/>
+        <reference name="content">
+            <block type="Mage_Tag_Block_Adminhtml_Report_Customer" name="report.tag.customer.container" />
+        </reference>
+    </adminhtml_report_tag_customer>
+
+    <adminhtml_report_tag_exportcustomercsv>
+        <update handle="formkey"/>
+        <update handle="adminhtml_report_tag_customer_block"/>
+        <container name="report.tag.customer.container" label="Report Tag Customer Container"/>
+    </adminhtml_report_tag_exportcustomercsv>
+
+    <adminhtml_report_tag_exportcustomerexcel>
+        <update handle="formkey"/>
+        <update handle="adminhtml_report_tag_customer_block"/>
+        <container name="report.tag.customer.container" label="Report Tag Customer Container"/>
+    </adminhtml_report_tag_exportcustomerexcel>
+
+    <adminhtml_report_tag_customer_block>
+        <reference name="report.tag.customer.container">
+            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.report.tag.customer.grid" as="grid">
+                <arguments>
+                    <id>grid</id>
+                    <dataSource type="object">Mage_Tag_Model_Resource_Reports_Customer_Grid_Collection</dataSource>
+                </arguments>
+                <block type="Mage_Backend_Block_Widget_Grid_Export" name="adminhtml.report.tag.customer.grid.export" as="grid.export">
+                    <arguments>
+                        <exportTypes>
+                            <csv>
+                                <urlPath>*/*/exportCustomerCsv</urlPath>
+                                <label translate="true" module="Mage_Tag">CSV</label>
+                            </csv>
+                            <excel>
+                                <urlPath>*/*/exportCustomerExcel</urlPath>
+                                <label translate="true" module="Mage_Tag">Excel XML</label>
+                            </excel>
+                        </exportTypes>
+                    </arguments>
+                </block>
+                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.tag.product.productdetail.grid.columnSet">
+                    <arguments>
+                        <filter_visibility>0</filter_visibility>
+                        <rowUrl>
+                            <path>*/*/customerDetail</path>
+                            <extraParamsTemplate>
+                                <id>getId</id>
+                            </extraParamsTemplate>
+                        </rowUrl>
+                    </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="entity_id">
+                        <arguments>
+                            <header translate="true" module="Mage_Tag">ID</header>
+                            <index>entity_id</index>
+                            <align>right</align>
+                            <width>50px</width>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="firstname">
+                        <arguments>
+                            <header translate="true" module="Mage_Tag">First Name</header>
+                            <index>firstname</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="lastname">
+                        <arguments>
+                            <header translate="true" module="Mage_Tag">Last Name</header>
+                            <index>lastname</index>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="taged">
+                        <arguments>
+                            <header translate="true" module="Mage_Tag">Total Tags</header>
+                            <index>taged</index>
+                            <width>50px</width>
+                            <align>right</align>
+                        </arguments>
+                    </block>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
+                        <arguments>
+                            <header translate="true" module="Mage_Tag">Action</header>
+                            <width>100%</width>
+                            <type>action</type>
+                            <getter>getId</getter>
+                            <index>stores</index>
+                            <is_system>1</is_system>
+                            <filter>0</filter>
+                            <sortable>0</sortable>
+                            <actions>
+                                <show_tag>
+                                    <caption translate="true" module="Mage_Tag">Show Tags</caption>
+                                    <url>
+                                        <base>*/*/customerDetail</base>
+                                    </url>
+                                    <field>id</field>
+                                </show_tag>
+                            </actions>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_report_tag_customer_block>
 </layout>
