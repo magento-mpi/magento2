@@ -48,4 +48,17 @@ class Mage_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAb
 
         parent::tearDown();
     }
+
+    /**
+     * Utilize backend session model by default
+     *
+     * @param PHPUnit_Framework_Constraint $constraint
+     * @param string|null $messageType
+     * @param string $sessionModel
+     */
+    public function assertSessionMessages(
+        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Mage_Backend_Model_Session'
+    ) {
+        parent::assertSessionMessages($constraint, $messageType, $sessionModel);
+    }
 }

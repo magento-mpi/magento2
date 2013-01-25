@@ -80,7 +80,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testRun()
     {
-        if (!Magento_Test_Bootstrap::canTestHeaders()) {
+        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test application run without sending headers');
         }
         $request = new Magento_Test_Request();
@@ -320,7 +320,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetResponse()
     {
-        if (!Magento_Test_Bootstrap::canTestHeaders()) {
+        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
         $this->assertInstanceOf('Mage_Core_Controller_Response_Http', $this->_model->getResponse());

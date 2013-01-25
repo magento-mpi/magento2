@@ -415,4 +415,13 @@ return array(
     array('isVerbose', 'Magento_Shell'),
     array('setVerbose', 'Magento_Shell'),
     array('output', 'Magento_Shell'),
+    array('getInstance', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::getInstance'),
+    array('setInstance', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::setInstance'),
+    array('canTestHeaders', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::canTestHeaders'),
+    array('getInstallDir', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::getAppInstallDir'),
+    array('getInitParams', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::getAppInitParams'),
+    array('getDbVendorName', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::getDbVendorName'),
+    array('reinitialize', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::reinitialize'),
+    array('runApp', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::runApp'),
+    array('getTestsDir', 'Magento_Test_Bootstrap'),
 );

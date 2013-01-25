@@ -99,8 +99,8 @@ class Mage_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAb
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $this->getRequest()->setPost(array('email'   => 'dummy@dummy.com', 'captcha' => '1234'));
         $this->dispatch('backend/admin/auth/forgotpassword');
-        $errorMessage = Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)->getErrors();
-        $this->assertCount(1, $errorMessage);
-        $this->assertEquals('Incorrect CAPTCHA.', current($errorMessage)->getCode());
+        $this->assertSessionMessages(
+            $this->equalTo(array('Incorrect CAPTCHA.')), Mage_Core_Model_Message::ERROR, 'Mage_Backend_Model_Session'
+        );
     }
 }

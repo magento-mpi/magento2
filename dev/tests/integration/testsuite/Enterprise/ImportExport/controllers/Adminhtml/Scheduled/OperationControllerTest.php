@@ -122,9 +122,8 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extend
         // Restore current working directory
         chdir($cwd);
 
-        $session = Mage::getModel('Mage_Adminhtml_Model_Session');
-        $this->assertCount(0, $session->getMessages()->getErrors());
-        $this->assertGreaterThan(0, count($session->getMessages()->getItemsByType('success')));
+        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::SUCCESS);
     }
 
     /**
