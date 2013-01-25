@@ -27,9 +27,7 @@ abstract class Mage_Core_Model_EntryPointAbstract
             $params[Mage::PARAM_BASEDIR] = $baseDir;
         }
         $this->_objectManager = new Mage_Core_Model_ObjectManager(
-            new Mage_Core_Model_ObjectManager_Config(
-                $params
-            ),
+            new Mage_Core_Model_ObjectManager_Config($params),
             $baseDir
         );
     }

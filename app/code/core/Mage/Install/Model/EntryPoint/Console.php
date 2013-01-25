@@ -50,20 +50,20 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
             'Mage_Install_Model_Installer_Console',
             array('installArgs' => $this->_params)
         );
-        if (false !== $this->_getParam('show_locales', false)) {
+        if (isset($this->_params['show_locales'])) {
             var_export($installer->getAvailableLocales());
-        } else if (false !== $this->_getParam('show_currencies', false)) {
+        } else if (isset($this->_params['show_currencies'])) {
             var_export($installer->getAvailableCurrencies());
-        } else if (false !== $this->_getParam('show_timezones', false)) {
+        } else if (isset($this->_params['show_timezones'])) {
             var_export($installer->getAvailableTimezones());
-        } else if (false !== $this->_getParam('show_install_options', false)) {
+        } else if (isset($this->_params['show_install_options'])) {
             var_export($installer->getAvailableInstallOptions());
         } else {
-            if (false !== $this->_getParam('config', false) && file_exists($this->_params['config'])) {
+            if (isset($this->_params['config']) && file_exists($this->_params['config'])) {
                 $config = (array) include($this->_params['config']);
                 $this->_params = array_merge((array)$config, $this->_params);
             }
-            $isUninstallMode = $this->_getParam('uninstall', false);
+            $isUninstallMode = isset($args['uninstall']);
             if ($isUninstallMode) {
                 $result = $installer->uninstall();
             } else {
