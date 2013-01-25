@@ -59,7 +59,7 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
      */
     public function configure(Magento_ObjectManager $objectManager)
     {
-        $objectManager->configure(array_merge(
+        $objectManager->setConfiguration(array_merge(
             $this->_initialConfig,
             array(
                 'Mage_Core_Model_Dir' => array(
@@ -104,6 +104,8 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 $configurator->configure($objectManager);
             }
         }
-        $objectManager->loadAreaConfiguration();
+        $objectManager->setConfiguration($config->getNode('global/di')->asArray());
+        $modulesConfig = $objectManager->get('Mage_Core_Model_Config_Modules');
+        $objectManager->setConfiguration($modulesConfig->getNode('global/di')->asArray());
     }
 }

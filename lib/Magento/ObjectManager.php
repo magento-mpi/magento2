@@ -80,11 +80,4 @@ interface Magento_ObjectManager
      * @return string|bool
      */
     public function getClassFromAlias($alias);
-
-    /**
-     * Configure di instance
-     *
-     * @param array $configuration
-     */
-    public function configure(array $configuration);
 }

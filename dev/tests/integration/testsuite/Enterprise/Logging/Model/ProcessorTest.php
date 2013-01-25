@@ -39,7 +39,7 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        Mage::setCurrentArea('adminhtml');
+        Mage::app()->loadDiConfiguration('adminhtml');
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
         $eventCount = count($collection);
 

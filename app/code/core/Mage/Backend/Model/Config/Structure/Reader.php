@@ -39,6 +39,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
     protected $_modulesReader;
 
     /**
+     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Backend_Model_Config_Structure_Converter $structureConverter

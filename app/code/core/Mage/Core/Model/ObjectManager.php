@@ -12,14 +12,16 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_Zend
     /**
      * @param Mage_Core_Model_ObjectManager_Config $configuration
      * @param string $baseDir
-     * @param Zend\Di\Di $diInstance
+     * @param Magento_Di $diInstance
+     * @param Magento_Di_InstanceManager $instanceManager
      */
     public function __construct(
         Mage_Core_Model_ObjectManager_Config $configuration,
         $baseDir,
-        Zend\Di\Di $diInstance = null
+        Magento_Di $diInstance = null,
+        Magento_Di_InstanceManager $instanceManager = null
     ) {
-        parent::__construct($baseDir . '/var/di/definitions.php', $diInstance);
+        parent::__construct($baseDir . '/var/di/definitions.php', $diInstance, $instanceManager);
         Mage::setObjectManager($this);
         $configuration->configure($this);
     }

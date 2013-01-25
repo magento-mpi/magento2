@@ -23,26 +23,26 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
     /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
-     * @param string $areaCode
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_Theme_Model_Uploader_Service $service
+     * @param string $areaCode
      * @param array $invokeArgs
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Controller_Response_Http $response,
-        $areaCode = null,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_Theme_Model_Uploader_Service $service,
+        $areaCode = null,
         array $invokeArgs = array()
     ) {
         $this->_serviceModel = $service;
 
-        parent::__construct($request, $response, $areaCode, $objectManager, $frontController, $layoutFactory,
+        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
             $invokeArgs
         );
     }

@@ -29,7 +29,7 @@ class Enterprise_PageCache_Model_ObjectManager_Configurator extends Mage_Core_Mo
         $model = $factory->get($arguments);
         $objectManager->addSharedInstance($model, 'Mage_Core_Model_Cache');
         $objectManager->addSharedInstance($model, 'Enterprise_PageCache_Model_Cache');
-        $objectManager->configure(array(
+        $objectManager->setConfiguration(array(
             'Enterprise_PageCache_Model_Processor' => array(
                 'parameters' => array('scopeCode' => $this->_getParam(Mage::PARAM_RUN_CODE, '')),
             ),

@@ -29,6 +29,17 @@ interface Mage_Core_Model_Design_PackageInterface
     const PUBLIC_THEME_DIR  = '_theme';
     /**#@-*/
 
+    /**
+     * Public directory which contain theme files
+     */
+    const PUBLIC_BASE_THEME_DIR = 'theme';
+
+    /**
+     * Public directory which contain virtual themes files
+     */
+    const PUBLIC_CUSTOMIZATION_THEME_DIR = 'customization';
+
+
     /**#@+
      * Extensions group for static files
      */

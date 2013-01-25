@@ -25,8 +25,12 @@ class Mage_Connect_Helper_Data extends Mage_Core_Helper_Data
     /**
      * @param Magento_Filesystem $filesystem
      */
-    public function __construct(Magento_Filesystem $filesystem)
-    {
+    public function __construct(
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Config_Modules $modulesConfig,
+        Magento_Filesystem $filesystem
+    ) {
+        parent::__construct($translator, $modulesConfig);
         $this->_filesystem = $filesystem;
     }
 
