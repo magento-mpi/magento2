@@ -38,9 +38,16 @@ class Magento_Validator_Composite_VarienObject implements Zend_Validate_Interfac
     public function addRule(Zend_Validate_Interface $validator, $fieldName = '')
     {
         if (!array_key_exists($fieldName, $this->_rules)) {
-            $this->_rules[$fieldName] = new Zend_Validate();
+            $this->_rules[$fieldName] = $validator;
+        } else {
+            $existingValidator = $this->_rules[$fieldName];
+            if (!($existingValidator instanceof Zend_Validate)) {
+                $compositeValidator = new Zend_Validate();
+                $compositeValidator->addValidator($existingValidator);
+                $this->_rules[$fieldName] = $compositeValidator;
+            }
+            $this->_rules[$fieldName]->addValidator($validator);
         }
-        $this->_rules[$fieldName]->addValidator($validator);
         return $this;
     }
 

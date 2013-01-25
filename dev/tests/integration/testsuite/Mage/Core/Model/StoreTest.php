@@ -259,6 +259,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider saveValidationDataProvider
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      * @expectedException Mage_Core_Exception
      */
     public function testSaveValidation($badStoreData)
@@ -301,6 +302,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoConfigFixture global/functional_limitation/max_store_count 1
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      * @expectedException Mage_Core_Exception
      * @expectedExceptionMessage You are using the maximum number of store views allowed.
      */

@@ -456,13 +456,16 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             return false;
         }
 
-        $validator = new Zend_Validate;
-        if ($modelRules) {
+        if ($modelRules && $resourceRules) {
+            $validator = new Zend_Validate();
             $validator->addValidator($modelRules);
-        }
-        if ($resourceRules) {
             $validator->addValidator($resourceRules);
+        } else if ($modelRules) {
+            $validator = $modelRules;
+        } else {
+            $validator = $resourceRules;
         }
+
         return $validator;
     }
 
