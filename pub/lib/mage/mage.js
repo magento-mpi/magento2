@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+(function($, window) {
     "use strict";
     $.extend(true, $, {
         mage: {
@@ -25,7 +25,18 @@
                 KEY_END: 35,
                 KEY_PAGEUP: 33,
                 KEY_PAGEDOWN: 34
+            },
+
+            /**
+             * Url redirection
+             * @param {string} url
+             * @param {Integer} time
+             */
+            urlRedirectTimeout: function(url, time) {
+                setTimeout(function() {
+                    window.location.href = url;
+                }, time);
             }
         }
     });
-})(jQuery);
+})(jQuery, window);

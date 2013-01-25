@@ -14,6 +14,6 @@
 <p><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('You have logged out and will be redirected to our homepage in 5 seconds.') ?></p>
 <script type="text/javascript">
 //<![CDATA[
-    setTimeout(function(){ location.href = '<?php echo $this->getUrl() ?>'},5000);
+jQuery.mage.urlRedirectTimeout('<?php echo $this->getUrl() ?>',5000);
 //]]>
 </script>
