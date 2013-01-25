@@ -243,14 +243,4 @@ class Magento_Test_Bootstrap
         }
         return $dbVendorMap[$dbVendorAlias];
     }
-
-    /**
-     * Get application initialization parameters
-     *
-     * @return array
-     */
-    public function getInitParams()
-    {
-        return $this->_initParams;
-    }
 }
