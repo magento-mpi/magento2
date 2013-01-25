@@ -67,7 +67,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
             array('product_attribute_multiselect_with_options'),
             array('product_attribute_dropdown_with_options'),
             array('product_attribute_price'),
-            array('product_attribute_fpt')
+//            array('product_attribute_fpt') due to bug MAGETWO-7180
         );
     }
 }

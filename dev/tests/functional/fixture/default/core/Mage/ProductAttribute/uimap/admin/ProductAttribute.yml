@@ -40,14 +40,14 @@ manage_attributes:
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &productAttributeMessages
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             attribute_used_in_configurable: //li[normalize-space(@class)='error-msg' and contains(.,'This attribute is used in configurable products.')]
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been deleted.')]
             exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists')]
             success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The product attribute has been saved.')]
             wrong_length_attribute_code: //div[@id='advice-validate-length-attribute_code']
-            invalid_attribute_code: //div[@id='advice-validate-code-attribute_code']
-            error_invalid_position: //div[@id='advice-validate-digits-position']
+            invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
+            error_invalid_position: //*[@class='mage-error' and @for='position' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
             delete_confirm_message: Are you sure you want to do this?
 
 # Add New Product Attribute page
@@ -188,6 +188,12 @@ edit_product_attribute_save_and_continue:
     title: %elementTitle% / Manage Attributes / Attributes / Catalog / Magento Admin
     uimap: *edit_product_attribute
 
+new_product_attribute_save_and_continue:
+    mca: catalog_product_attribute/edit/back/edit/tab/%tab%
+    title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
+    uimap:
+        form: &newProductAttributeForm
+
 product_attribute:
     mca: catalog_product_attribute/edit/
     title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
@@ -202,7 +208,7 @@ product_attribute:
 
 # Add New Product Attribute page from Product page
 new_product_attribute_from_product_page:
-    mca: catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
+    mca: catalog_product_attribute/new/group/%tabId%/product_tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
     title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
     uimap:
         form: *newProductAttributeForm
@@ -215,7 +221,7 @@ new_product_attribute_from_product_page:
 
 # Add New Product Attribute from Product page and save it in new attribute set
 new_product_attribute_from_saved_product_page:
-    mca: catalog_product_attribute/new/group/%tabId%/tab/group_%tabId%/store/0/product/%productId%/set/%setId%/type/%productType%/popup/1/
+    mca: catalog_product_attribute/new/group/%tabId%/product_tab/group_%tabId%/store/0/product/%productId%/set/%setId%/type/%productType%/popup/1/
     title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
     uimap:
         form: *newProductAttributeForm
@@ -227,7 +233,7 @@ new_product_attribute_from_saved_product_page:
         messages: *productAttributeMessages
 
 saved_product_attribute_from_product_page:
-    mca: catalog_product/addAttribute/attribute/%attributeId%/group/%tabId%/tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
+    mca: catalog_product/addAttribute/attribute/%attributeId%/group/%tabId%/product_tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
     title: Manage Products / Catalog / Magento Admin
     uimap:
         form:

@@ -76,6 +76,7 @@ class Core_Mage_ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestC
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
+        $this->markTestIncomplete('MAGETWO-5787');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
