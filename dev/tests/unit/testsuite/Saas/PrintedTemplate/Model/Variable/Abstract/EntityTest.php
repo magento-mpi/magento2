@@ -338,9 +338,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
 
         $entity->expects($this->any())
             ->method('_getTaxCompoundIdModel')
-            ->will($this->returnValue(
-            $this->getMock('Saas_PrintedTemplate_Model_Tax_CompoundId', array(), array(), '', false)
-        ));
+            ->will($this->returnValue(new Saas_PrintedTemplate_Model_Tax_CompoundId()));
 
         $entity->__construct($valueModel);
 
