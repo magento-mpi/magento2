@@ -31,7 +31,15 @@
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('#form-validate').validation();
+                $('#form-validate').validation({
+                    errorPlacement: function (error, element) {
+                        if (element.attr('id') === 'event_date') {
+                            element.siblings('img').after(error);
+                        } else {
+                            element.after(error);
+                        }
+                    }
+                });
             });
     })(jQuery);
 </script>
