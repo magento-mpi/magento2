@@ -33,12 +33,12 @@ class Mage_Install_Block_AdminTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($session->getAdminData());
         // form elements must be present with values
         foreach ($preserve as $key => $value) {
-            $this->assertRegExp(sprintf('/<input[^>]+name="admin\[%s\]"[^>]+value="%s"/s', $key, $value), $output);
+            $this->assertSelectCount(sprintf('input[name=admin[%s]][value=%s]', $key, $value), 1, $output);
         }
         // form elements must be present without values
-        foreach (array_keys($omit) as $key) {
-            $this->assertRegExp(sprintf('/<input[^>]+name="admin\[%s\]"[^>]+>/s', $key), $output);
-            $this->assertNotRegExp(sprintf('/<input[^>]+name="admin\[%s\]"[^>]+value="[^"]+"[^>]+>/s', $key), $output);
+        foreach ($omit as $key => $value) {
+            $this->assertSelectCount(sprintf('input[name=admin[%s]]', $key), 1, $output);
+            $this->assertSelectCount(sprintf('input[name=admin[%s]][value=%s]', $key, $value), 0, $output);
         }
     }
 }
