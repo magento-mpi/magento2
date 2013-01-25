@@ -225,7 +225,8 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
 
         /** @var $model Mage_Eav_Model_Entity_Abstract */
-        $model = $this->getMock('Mage_Eav_Model_Entity_Abstract', null, array(array(
+        $model = $this->getMock('Mage_Eav_Model_Entity_Abstract', array(),
+            array(array(
             'type' => $entityType,
             'entityTable' => 'entityTable',
             'attributesByCode' => $attributes,

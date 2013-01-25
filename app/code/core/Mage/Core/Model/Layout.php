@@ -182,7 +182,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_structure = $structure;
         $this->_argumentProcessor = $argumentProcessor;
         $this->_translator = $translator;
-        $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
+        $this->_elementClass = 'Mage_Core_Model_Layout_Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new Varien_Object;
         $this->_scheduledStructure = $scheduledStructure;

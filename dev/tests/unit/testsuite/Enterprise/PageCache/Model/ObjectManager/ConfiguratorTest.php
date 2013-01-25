@@ -28,7 +28,7 @@ class Enterprise_PageCache_Model_ObjectManager_ConfiguratorTest extends PHPUnit_
     public function testConfigure()
     {
         $objectManager = $this->getMock('Magento_ObjectManager',
-            array('addSharedInstance', 'get', 'create', 'loadAreaConfiguration', 'configure'),
+            array(),
             array(), '', false, false
         );
         $factoryMock = $this->getMock('Enterprise_PageCache_Model_CacheFactory', array(), array(), '', false, false);

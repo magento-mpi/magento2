@@ -34,12 +34,11 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
     protected $_converter;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Core_Model_Config_Modules_Reader
      */
-    protected $_config;
+    protected $_modulesReader;
 
     /**
-     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Backend_Model_Config_Structure_Converter $structureConverter
@@ -51,6 +50,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
         Mage_Backend_Model_Config_Structure_Converter $structureConverter,
         $runtimeValidation = true
     ) {
+        $this->_modulesReader = $moduleReader;
         $this->_runtimeValidation = $runtimeValidation;
         $this->_converter = $structureConverter;
 
@@ -58,8 +58,9 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
             && ($cachedData = $cache->load(self::CACHE_SYSTEM_CONFIGURATION_STRUCTURE))) {
             $this->_data = unserialize($cachedData);
         } else {
-            $fileNames = $moduleReader
-                ->getModuleConfigurationFiles('adminhtml' . DIRECTORY_SEPARATOR . 'system.xml');
+            $fileNames = $this->_modulesReader->getModuleConfigurationFiles(
+                'adminhtml' . DIRECTORY_SEPARATOR . 'system.xml'
+            );
             parent::__construct($fileNames);
 
             if ($cache->canUse('config')) {
@@ -79,7 +80,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
      */
     public function getSchemaFile()
     {
-        return $this->_config->getModuleDir('etc', 'Mage_Backend') . DIRECTORY_SEPARATOR . 'system.xsd';
+        return $this->_modulesReader->getModuleDir('etc', 'Mage_Backend') . DIRECTORY_SEPARATOR . 'system.xsd';
     }
 
     /**
@@ -89,7 +90,7 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
      */
     public function getPerFileSchemaFile()
     {
-        return $this->_config->getModuleDir('etc', 'Mage_Backend') . DIRECTORY_SEPARATOR . 'system_file.xsd';
+        return $this->_modulesReader->getModuleDir('etc', 'Mage_Backend') . DIRECTORY_SEPARATOR . 'system_file.xsd';
     }
 
     /**

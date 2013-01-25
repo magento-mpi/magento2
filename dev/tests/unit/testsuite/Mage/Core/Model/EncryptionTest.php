@@ -17,7 +17,7 @@ class Mage_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
         $objectManager->expects($this->once())
             ->method('get')
             ->with('Mage_Core_Helper_Data')
-            ->will($this->returnValue(new Mage_Core_Helper_Data()));
+            ->will($this->returnValue($this->getMock('Mage_Core_Helper_Data', array(), array(), '', false, false)));
 
         /**
          * @var Mage_Core_Model_Encryption
@@ -34,7 +34,9 @@ class Mage_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'string' => array('Mage_Core_Helper_Data'),
-            'object' => array(new Mage_Core_Helper_Data()),
+            'object' => array(
+                $this->returnValue($this->getMock('Mage_Core_Helper_Data', array(), array(), '', false, false))
+            ),
         );
     }
 

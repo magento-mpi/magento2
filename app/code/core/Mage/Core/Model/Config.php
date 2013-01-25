@@ -15,6 +15,16 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     const CACHE_TAG = 'CONFIG';
 
     /**
+     * Stores configuration scope
+     */
+    const SCOPE_STORES = 'stores';
+
+    /**
+     * Websites configuration scope
+     */
+    const SCOPE_WEBSITES = 'websites';
+
+    /**
      * Storage for generated class names
      *
      * @var array

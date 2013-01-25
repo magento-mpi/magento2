@@ -58,7 +58,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     /**
      * Fields to select changed flag
      *
-     * @var booleam
+     * @var boolean
      */
     protected $_fieldsToSelectChanged  = false;
 
@@ -406,7 +406,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     {
         if (is_string($model)) {
             $this->_model = $model;
-            $this->setItemObjectClass(Mage::getConfig()->getModelClassName($model));
+            $this->setItemObjectClass($model);
         }
         return $this;
     }
