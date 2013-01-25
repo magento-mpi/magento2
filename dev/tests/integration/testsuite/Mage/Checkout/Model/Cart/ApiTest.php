@@ -366,7 +366,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         /** Assert quote totals retrieving were successful. */
         $this->assertNotEmpty($quoteTotals, 'Quote totals retrieving were unsuccessful.');
         /** Assert totals titles. */
-        $expectedQuotesTitles = array('Subtotal', 'Gift Cards', 'Store Credit', 'Grand Total');
+        $expectedQuotesTitles = array('Subtotal', 'Grand Total');
         $actualQuotesTitles = array();
         $grandTotal = null;
         foreach ($quoteTotals as $quoteTotal) {

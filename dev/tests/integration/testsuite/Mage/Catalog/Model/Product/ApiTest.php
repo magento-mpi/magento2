@@ -86,7 +86,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'catalogProductListOfAdditionalAttributes',
             array('simple', 4)
         );
-        $this->assertGreaterThan(40, count($attributesList), "Attributes quantity seems to be incorrect.");
+        $this->assertGreaterThan(20, count($attributesList), "Attributes quantity seems to be incorrect.");
         $oldIdAttributeData = reset($attributesList);
         $oldIdExpectedData = array(
             'attribute_id' => '89',
