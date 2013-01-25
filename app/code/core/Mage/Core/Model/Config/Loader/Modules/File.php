@@ -66,10 +66,10 @@ class Mage_Core_Model_Config_Loader_Modules_File
         $configCache = array()
     ) {
         if ($mergeToObject === null) {
-            $mergeToObject = clone $this->_prototypeFactory->create('<config/>');
+            $mergeToObject = $this->_prototypeFactory->create('<config/>');
         }
         if ($mergeModel === null) {
-            $mergeModel = clone $this->_prototypeFactory->create('<config/>');
+            $mergeModel = $this->_prototypeFactory->create('<config/>');
         }
         $modules = $modulesConfig->getNode('modules')->children();
         /** @var $module Varien_Simplexml_Element */

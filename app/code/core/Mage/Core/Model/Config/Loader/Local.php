@@ -78,7 +78,7 @@ class Mage_Core_Model_Config_Loader_Local implements Mage_Core_Model_Config_Load
             $localConfigParts[] = $localConfig;
 
             // 2. app/etc/<dir>/<file>.xml
-            if (preg_match('/^[a-z\d_-]+\/[a-z\d_-]+\.xml$/', $this->_customFile)) {
+            if (preg_match('/^[a-z\d_-]+(\/|\\\)+[a-z\d_-]+\.xml$/', $this->_customFile)) {
                 $localConfigExtraFile = $etcDir . DIRECTORY_SEPARATOR . $this->_customFile;
                 $localConfig = $this->_prototypeFactory->create('<config/>');
                 $localConfig->loadFile($localConfigExtraFile);
