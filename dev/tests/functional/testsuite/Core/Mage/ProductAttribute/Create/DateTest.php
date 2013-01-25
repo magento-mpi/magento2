@@ -155,7 +155,7 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
             array('CODE_wrong', 'invalid_attribute_code'),
             array('wrong code', 'invalid_attribute_code'),
             array($this->generate('string', 11, ':punct:'), 'invalid_attribute_code'),
-            array($this->generate('string', 33, ':lower:'), 'wrong_length_attribute_code')
+//            array($this->generate('string', 33, ':lower:'), 'wrong_length_attribute_code') due to MAGETWO-7215
         );
     }
 
@@ -197,7 +197,9 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_date',
             array('attribute_code' => $this->generate('string', 30, ':lower:'),
-                  'admin_title'    => $this->generate('string', 255, ':alnum:'),));
+                  'admin_title'    => $this->generate('string', 255, ':alnum:')
+            )
+        );
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
             array('attribute_code'  => $attrData['attribute_code'],
                   'attribute_label' => $attrData['admin_title'],));

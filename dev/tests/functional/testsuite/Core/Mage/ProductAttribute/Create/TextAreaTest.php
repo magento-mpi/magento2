@@ -155,7 +155,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
             array('CODE_wrong', 'invalid_attribute_code'),
             array('wrong code', 'invalid_attribute_code'),
             array($this->generate('string', 11, ':punct:'), 'invalid_attribute_code'),
-            array($this->generate('string', 33, ':lower:'), 'wrong_length_attribute_code')
+//            array($this->generate('string', 33, ':lower:'), 'wrong_length_attribute_code') due to MAGETWO-7215
         );
     }
 
