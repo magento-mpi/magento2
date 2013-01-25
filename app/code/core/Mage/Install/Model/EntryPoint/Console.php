@@ -28,11 +28,11 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
     protected function _buildInitParams(array $args)
     {
         if (!empty($args[Mage_Install_Model_Installer_Console::OPTION_URIS])) {
-            $args[Mage_Core_Model_App::INIT_OPTION_URIS] =
+            $args[MAGE::PARAM_APP_URIS] =
                 unserialize(base64_decode($args[Mage_Install_Model_Installer_Console::OPTION_URIS]));
         }
         if (!empty($args[Mage_Install_Model_Installer_Console::OPTION_DIRS])) {
-            $args[Mage_Core_Model_App::INIT_OPTION_DIRS] =
+            $args[Mage::PARAM_APP_DIRS] =
                 unserialize(base64_decode($args[Mage_Install_Model_Installer_Console::OPTION_DIRS]));
         }
         return $args;
