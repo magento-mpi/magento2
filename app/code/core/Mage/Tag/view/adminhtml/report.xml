@@ -65,7 +65,7 @@
                         <arguments>
                             <header translate="true" module="Mage_Tag">ID</header>
                             <width>50px</width>
-                            <align>left</align>
+                            <align>right</align>
                             <index>entity_id</index>
                         </arguments>
                     </block>
