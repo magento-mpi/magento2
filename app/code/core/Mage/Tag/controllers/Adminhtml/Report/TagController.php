@@ -235,7 +235,7 @@ class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_
         $this->_initAction();
 
         /** @var $detailBlock Mage_Tag_Block_Adminhtml_Report_Popular_Detail */
-        $detailBlock = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular_Detail');
+        $detailBlock = $this->getLayout()->getBlock('report.tag.detail.container');
 
         $this->_title($this->__('Reports'))
              ->_title($this->__('Tags'))
@@ -249,9 +249,7 @@ class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_
             )
             ->_addBreadcrumb(
                 Mage::helper('Mage_Tag_Helper_Data')->__('Tag Detail'),
-                Mage::helper('Mage_Tag_Helper_Data')->__('Tag Detail')
-            )
-            ->_addContent($detailBlock)
+                Mage::helper('Mage_Tag_Helper_Data')->__('Tag Detail'))
             ->renderLayout();
     }
 
@@ -260,11 +258,9 @@ class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_
      */
     public function exportTagDetailCsvAction()
     {
-        $fileName   = 'tag_detail.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular_Detail_Grid')
-            ->getCsvFile();
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout(false);
+        $content = $this->getLayout()->getChildBlock('adminhtml.report.tag.detail.grid','grid.export');
+        $this->_prepareDownloadResponse('tag_detail.csv', $content->getCsvFile());
     }
 
     /**
@@ -272,11 +268,9 @@ class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_
      */
     public function exportTagDetailExcelAction()
     {
-        $fileName   = 'tag_detail.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular_Detail_Grid')
-            ->getExcelFile($fileName);
-
-        $this->_prepareDownloadResponse($fileName, $content);
+        $this->loadLayout(false);
+        $content = $this->getLayout()->getChildBlock('adminhtml.report.tag.detail.grid','grid.export');
+        $this->_prepareDownloadResponse('tag_detail.xml', $content->getExcelFile());
     }
 
     protected function _isAllowed()
