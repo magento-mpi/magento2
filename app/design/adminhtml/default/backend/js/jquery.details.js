@@ -1,3 +1,10 @@
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
 /*! http://mths.be/details v0.0.6 by @mathias | includes http://mths.be/noselect v1.0.3 */
 Modernizr.addTest('details', function() {
     var doc = document,

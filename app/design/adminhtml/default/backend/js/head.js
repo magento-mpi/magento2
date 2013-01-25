@@ -1,3 +1,10 @@
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
 (function (a, w) {
     function f(a) {
         p[p.length] = a
