@@ -223,9 +223,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     protected function _getAdditionalElementTypes()
     {
-        $element = Mage::getConfig()
-            ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image');
-        return array('image' => $element);
+        return array('image' => 'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image');
     }
 
     /**

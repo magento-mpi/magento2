@@ -143,9 +143,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
      */
     protected function _getAdditionalElementTypes()
     {
-        return array(
-            'image' => Mage::getConfig()
-                ->getBlockClassName('Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image')
-        );
+        return array('image' => 'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image');
     }
 }

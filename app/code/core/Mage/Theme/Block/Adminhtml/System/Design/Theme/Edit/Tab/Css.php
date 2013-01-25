@@ -201,9 +201,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getAdditionalElementTypes()
     {
-        $element = Mage::getConfig()
-            ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links');
-        return array('links' => $element);
+        return array('links' => 'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links');
     }
 
     /**

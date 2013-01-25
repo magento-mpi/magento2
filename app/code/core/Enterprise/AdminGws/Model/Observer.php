@@ -483,17 +483,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             $this->_callbacks[$callbackGroup] = array();
             $callbacks = (array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
             foreach ($callbacks as $className => $callback) {
-                $factoryClassName = uc_words($className);
-                switch ($callbackGroup) {
-                    case 'collection_load_before':
-                        $className = Mage::getConfig()->getResourceModelClassName($factoryClassName);
-                        break;
-                    case 'block_html_before':
-                        $className = Mage::getConfig()->getBlockClassName($factoryClassName);
-                        break;
-                    default:
-                        $className = Mage::getConfig()->getModelClassName($factoryClassName);
-                }
+                $className = uc_words($className);
 
                 /*
                  * Second parameter passed as FALSE to prevent usage of __autoload function

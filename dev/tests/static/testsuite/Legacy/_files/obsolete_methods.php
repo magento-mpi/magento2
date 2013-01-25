@@ -431,4 +431,8 @@ return array(
     array('loadEventObservers', 'Mage_Core_Model_Config'),
     array('getEvents', 'Mage'),
     array('addObserver', 'Mage'),
+    array('getModelClassName', 'Mage_Core_Model_Config'),
+    array('getBlockClassName', 'Mage_Core_Model_Config'),
+    array('getHelperClassName', 'Mage_Core_Model_Config'),
+    array('getResourceModelClassName', 'Mage_Core_Model_Config'),
 );

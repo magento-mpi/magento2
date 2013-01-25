@@ -1321,7 +1321,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _getBlockInstance($block, array $attributes = array())
     {
         if ($block && is_string($block)) {
-            $block = Mage::getConfig()->getBlockClassName($block);
             if (class_exists($block)) {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             }
@@ -1447,8 +1446,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getBlockSingleton($type)
     {
         if (!isset($this->_helpers[$type])) {
-            $className = Mage::getConfig()->getBlockClassName($type);
-            if (!$className) {
+            if (!$type) {
                 Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $type));
             }
 

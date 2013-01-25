@@ -566,39 +566,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Retrieve module class name
-     *
-     * @param   string $modelClass
-     * @return  string
-     */
-    public function getModelClassName($modelClass)
-    {
-        return $this->_applyClassRewrites($modelClass);
-    }
-
-    /**
-     * Retrieve block class name
-     *
-     * @param   string $blockClass
-     * @return  string
-     */
-    public function getBlockClassName($blockClass)
-    {
-        return $this->getModelClassName($blockClass);
-    }
-
-    /**
-     * Retrieve helper class name
-     *
-     * @param   string $helperClass
-     * @return  string
-     */
-    public function getHelperClassName($helperClass)
-    {
-        return $this->getModelClassName($helperClass);
-    }
-
-    /**
      * Get model class instance.
      *
      * Example:
@@ -612,11 +579,10 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function getModelInstance($modelClass = '', $constructArguments = array())
     {
-        $className = $this->getModelClassName($modelClass);
-        if (class_exists($className)) {
-            Magento_Profiler::start('FACTORY:' . $className);
-            $obj = $this->_objectManager->create($className, $constructArguments);
-            Magento_Profiler::stop('FACTORY:' . $className);
+        if (class_exists($modelClass)) {
+            Magento_Profiler::start('FACTORY:' . $modelClass);
+            $obj = $this->_objectManager->create($modelClass, $constructArguments);
+            Magento_Profiler::stop('FACTORY:' . $modelClass);
             return $obj;
         } else {
             return false;
@@ -633,17 +599,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
         return $this->getModelInstance($modelClass, $constructArguments);
-    }
-
-    /**
-     * Get a resource model class name
-     *
-     * @param string $modelClass
-     * @return string
-     */
-    public function getResourceModelClassName($modelClass)
-    {
-        return $this->getModelClassName($modelClass);
     }
 
     /**

@@ -55,8 +55,6 @@ class Mage_Core_Model_Config_Element extends Varien_Simplexml_Element
         } else {
             return false;
         }
-        //return Mage::getConfig()->getModelClassName($model);
-        //TODO:: need to be implemented as a part of ObjectManager configuration
         return $model;
     }
 

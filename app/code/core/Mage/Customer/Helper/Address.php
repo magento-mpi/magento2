@@ -88,8 +88,8 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
 
     public function getRenderer($renderer)
     {
-        if (is_string($renderer) && $className = Mage::getConfig()->getBlockClassName($renderer)) {
-            return $this->_blockFactory->createBlock($className, array());
+        if (is_string($renderer) && $renderer) {
+            return $this->_blockFactory->createBlock($renderer, array());
         } else {
             return $renderer;
         }
