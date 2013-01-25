@@ -65,8 +65,8 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-       $element->setRenderer($this);
-       return $element;
+        $element->setRenderer($this);
+        return $element;
     }
 
     /**

@@ -331,23 +331,26 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function getNestedKeysDataProvider()
     {
+        $ds = Magento_Filesystem::DIRECTORY_SEPARATOR;
         return array(
             array(
                 $this->_getFixturesPath() . 'foo',
                 array(
-                    $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'baz' . DS . 'file_one.txt',
-                    $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'baz',
-                    $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'file_two.txt',
-                    $this->_getFixturesPath() . 'foo' . DS . 'bar',
-                    $this->_getFixturesPath() . 'foo' . DS . 'file_three.txt',
+                    $this->_getFixturesPath() . 'foo' . $ds . 'bar' . $ds . 'baz' . $ds . 'file_one.txt',
+                    $this->_getFixturesPath() . 'foo' . $ds . 'bar' . $ds . 'baz',
+                    $this->_getFixturesPath() . 'foo' . $ds . 'bar' . $ds . 'file_two.txt',
+                    $this->_getFixturesPath() . 'foo' . $ds . 'bar',
+                    $this->_getFixturesPath() . 'foo' . $ds . 'file_three.txt',
                 )
             ),
             array(
-                $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'baz',
-                array($this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'baz' . DS . 'file_one.txt')
+                $this->_getFixturesPath() . 'foo' . $ds . 'bar' . $ds . 'baz',
+                array($this->_getFixturesPath() . 'foo' . $ds . 'bar' . $ds . 'baz' . $ds . 'file_one.txt')
             )
         );
     }
@@ -373,21 +376,24 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     /**
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function getNestedFilesDataProvider()
     {
+        $ds = Magento_Filesystem::DIRECTORY_SEPARATOR;
         return array(
             array(
                 $this->_getFixturesPath() . 'foo/*',
                 array(
-                    $this->_getFixturesPath() . 'foo' . DS . 'bar',
-                    $this->_getFixturesPath() . 'foo' . DS . 'file_three.txt',
+                    $this->_getFixturesPath() . 'foo' . $ds . 'bar',
+                    $this->_getFixturesPath() . 'foo' . $ds . 'file_three.txt',
                 )
             ),
             array(
                 $this->_getFixturesPath() . 'foo/*/file_*',
                 array(
-                    $this->_getFixturesPath() . 'foo' . DS . 'bar' . DS . 'file_two.txt',
+                    $this->_getFixturesPath() . 'foo' . $ds . 'bar' . $ds . 'file_two.txt',
                 )
             )
         );
