@@ -39,11 +39,12 @@
         /**
          * Delete the address whose id is specified in a data attribute after confirmation from the user.
          * @private
+         * @param {Event}
          * @return {Boolean}
          */
-        _deleteAddress: function() {
+        _deleteAddress: function(e) {
             if (confirm(this.options.deleteConfirmMessage)) {
-                window.location = this.options.deleteUrlPrefix + $(this.options.deleteAddress).data('address');
+                window.location = this.options.deleteUrlPrefix + $(e.target).data('address');
             }
             return false;
         }
