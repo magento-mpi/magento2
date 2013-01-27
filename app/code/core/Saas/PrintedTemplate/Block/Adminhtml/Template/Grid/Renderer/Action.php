@@ -54,7 +54,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Action extends
     protected function _actionsToHtml(array $actions, Varien_Object $row)
     {
         $links = array();
-        foreach ($actions as $action){
+        foreach ($actions as $action) {
             if ( is_array($action) ) {
                 $links[] = $this->_toLinkHtml($action, $row);
             }

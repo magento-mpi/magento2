@@ -44,6 +44,11 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     protected $_filesystem;
 
     /**
+     * @var Mage_Core_Model_Theme
+     */
+    protected $_theme;
+
+    /**
      * Initialize dependencies
      *
      * @param Magento_ObjectManager $objectManager
@@ -61,22 +66,70 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     }
 
     /**
+     * Setter for theme object
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return Mage_Core_Model_Theme_Image
+     */
+    public function setTheme($theme)
+    {
+        $this->_theme = $theme;
+        return $this;
+    }
+
+    /**
+     * Getter for theme object
+     *
+     * @return Mage_Core_Model_Theme
+     * @throws BadMethodCallException
+     */
+    public function getTheme()
+    {
+        if (null === $this->_theme) {
+            throw new BadMethodCallException('Theme was not set');
+        }
+        return $this->_theme;
+    }
+
+    /**
+     * Getter for theme preview image
+     *
+     * @return string
+     */
+    public function getPreviewImage()
+    {
+        return $this->getTheme()->getPreviewImage();
+    }
+
+    /**
+     * Setter for theme preview image
+     *
+     * @param string $imageName
+     * @return Mage_Core_Model_Theme_Image
+     */
+    public function setPreviewImage($imageName)
+    {
+        $this->getTheme()->setPreviewImage($imageName);
+        return $this;
+    }
+
+    /**
      * Save preview image
      *
      * @return Mage_Core_Model_Theme_Image
      */
     public function savePreviewImage()
     {
-        if (!$this->getPreviewImage() || !$this->getThemeDirectory()) {
+        if (!$this->getPreviewImage() || !$this->getTheme()->getThemeDirectory()) {
             return $this;
         }
         $currentWorkingDir = getcwd();
 
-        chdir($this->getThemeDirectory());
+        chdir($this->getTheme()->getThemeDirectory());
 
         $imagePath = realpath($this->getPreviewImage());
 
-        if (0 === strpos($imagePath, $this->getThemeDirectory())) {
+        if (0 === strpos($imagePath, $this->getTheme()->getThemeDirectory())) {
             $this->createPreviewImage($imagePath);
         }
 
@@ -118,9 +171,8 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     public function getPreviewImageDirectoryUrl()
     {
-        return $this->_objectManager->get('Mage_Core_Model_App')->getStore()->getBaseUrl(
-            Mage_Core_Model_Store::URL_TYPE_THEME
-        ) . self::IMAGE_DIR_PREVIEW . '/';
+        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)
+            . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR . '/' . self::IMAGE_DIR_PREVIEW . '/';
     }
 
     /**

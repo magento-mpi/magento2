@@ -62,6 +62,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     protected $_app;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -73,6 +75,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Mage_Core_Model_Registry $registry
@@ -94,6 +98,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Mage_Core_Model_Registry $registry,
@@ -108,7 +114,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         $this->_app = $app;
 
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
     }
 

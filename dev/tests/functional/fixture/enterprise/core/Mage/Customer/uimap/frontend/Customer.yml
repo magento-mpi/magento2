@@ -33,3 +33,14 @@ customer_login:
 #'Success LogOut page
 customer_logout:
     title: Magento Enterprise Edition
+
+#forgot password page
+forgot_customer_password:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    forgot_password:
+                        xpath: //form[@id='form-validate']
+                        links:
+                            back_to_login: //a[text()='Go back']

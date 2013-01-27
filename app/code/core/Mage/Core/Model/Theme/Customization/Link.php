@@ -11,7 +11,6 @@
 /**
  * Theme customization link model
  *
- * @method int getThemeId()
  * @method int getLayoutLinkId()
  * @method Mage_Core_Model_Theme_Customization_Link setThemeId()
  */
@@ -53,9 +52,9 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get theme with customized files
+     * Get theme id
      *
-     * @return Mage_Core_Model_Theme
+     * @return int
      * @throws Magento_Exception
      */
     public function getThemeId()

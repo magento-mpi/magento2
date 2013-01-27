@@ -46,9 +46,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Theme_Model_Uploader_Service $uploaderService
-     * @param Magento_Filesystem $filesystem
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -65,14 +67,17 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Magento_ObjectManager $objectManager,
         Mage_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $objectManager, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
+        $this->_objectManager = $objectManager;
         $this->_uploaderService = $uploaderService;
     }
 
@@ -140,7 +145,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getThemeCss($fileTitle, $filePath)
     {
-        $appPath = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions()->getBaseDir();
+        $appPath = $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT);
         $shownFilePath = str_ireplace($appPath, '', $filePath);
         return array(
             'href'      => $this->getUrl('*/*/downloadCss', array(
@@ -291,9 +296,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getGroupedFiles()
     {
-        $options = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions();
-        $jsDir = $options->getJsDir();
-        $codeDir = $options->getCodeDir();
+        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
 
         $groups = array();
         $themes = array();
@@ -364,10 +368,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getGroup($filename)
     {
-        $options = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions();
-        $designDir = $options->getDesignDir();
-        $jsDir = $options->getJsDir();
-        $codeDir = $options->getCodeDir();
+        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
 
         $group = null;
         $theme = null;
@@ -446,10 +449,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected function _getGroupLabels($themes)
     {
         $labels = array(
-            $this->_objectManager->get('Mage_Core_Model_Config')->getOptions()->getJsDir()
-                => $this->__('Library files'),
-            $this->_objectManager->get('Mage_Core_Model_Config')->getOptions()->getCodeDir()
-                => $this->__('Framework files')
+            $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB)   => $this->__('Library files'),
+            $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES)   => $this->__('Framework files')
         );
         foreach ($themes as $theme) {
             /** @var $theme Mage_Core_Model_Theme */

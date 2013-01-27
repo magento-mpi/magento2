@@ -113,6 +113,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
         $this->_themeImage = $themeImage;
+        $this->_themeImage->setTheme($this);
     }
 
     /**

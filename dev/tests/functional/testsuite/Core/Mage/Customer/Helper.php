@@ -139,7 +139,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'customers_grid');
         $this->assertNotNull($xpathTR, 'Customer is not found');
-        $cellId = $this->getColumnIdByName('Name');
+        $cellId = $this->getColumnIdByName('ID');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));

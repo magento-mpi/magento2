@@ -27,9 +27,9 @@ class Saas_PrintedTemplate_Block_Widget_Field_Heading
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-       $element->setRenderer($this->_getRenderer());
+        $element->setRenderer($this->_getRenderer());
 
-       return $element;
+        return $element;
     }
 
     /**
