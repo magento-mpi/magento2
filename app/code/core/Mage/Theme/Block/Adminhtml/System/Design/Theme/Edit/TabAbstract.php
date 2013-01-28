@@ -34,6 +34,8 @@ abstract class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Magento_ObjectManager $objectManager
      * @param array $data
@@ -52,12 +54,14 @@ abstract class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
         $this->_objectManager = $objectManager;
     }

@@ -75,9 +75,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $objectManager, $data
         );
-        $this->_objectManager = $objectManager;
         $this->_uploaderService = $uploaderService;
     }
 

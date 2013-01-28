@@ -83,6 +83,11 @@ class Mage_Core_Model_Dir
     const LOG = 'log';
 
     /**
+     * Theme customization files
+     */
+    const THEME = 'theme';
+
+    /**
      * File system session directory (if file system session storage is used)
      */
     const SESSION = 'session';
@@ -111,6 +116,7 @@ class Mage_Core_Model_Dir
         self::TMP     => 'var/tmp',
         self::CACHE   => 'var/cache',
         self::LOG     => 'var/log',
+        self::THEME   => 'var/theme',
         self::SESSION => 'var/session',
         self::PUB     => 'pub',
         self::PUB_LIB => 'pub/lib',

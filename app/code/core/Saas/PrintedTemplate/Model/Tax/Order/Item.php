@@ -29,6 +29,7 @@ class Saas_PrintedTemplate_Model_Tax_Order_Item extends Mage_Core_Model_Abstract
      * Return true if tax is applied after discount
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsTaxAfterDiscount()
     {
@@ -39,6 +40,7 @@ class Saas_PrintedTemplate_Model_Tax_Order_Item extends Mage_Core_Model_Abstract
      * Return true if discount is applied on price including taxes
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsDiscountOnInclTax()
     {
