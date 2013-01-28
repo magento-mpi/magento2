@@ -77,7 +77,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage
     /**
      * Get Address
      *
-     * @return string
+     * @return array
      */
     public function getAddress()
     {

@@ -19,9 +19,16 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
     extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Countries
+     * Country Source Model
      *
      * @var Mage_Directory_Model_Config_Source_Country
+     */
+    protected $_countryConfigModel;
+
+    /**
+     * Country Model
+     *
+     * @var Mage_Directory_Model_Country
      */
     protected $_countryModel;
 
@@ -45,7 +52,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Directory_Model_Config_Source_Country $countryModel
+     * @param Mage_Directory_Model_Config_Source_Country $countryConfigModel
+     * @param Mage_Directory_Model_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
      * @param array $data
      *
@@ -64,13 +72,15 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Magento_Filesystem $filesystem,
-        Mage_Directory_Model_Config_Source_Country $countryModel,
+        Mage_Directory_Model_Config_Source_Country $countryConfigModel,
+        Mage_Directory_Model_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data
         );
+        $this->_countryConfigModel = $countryConfigModel;
         $this->_countryModel = $countryModel;
         $this->_regionModel = $regionModel;
     }
@@ -120,7 +130,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
             'value' => $addressData['postcode']
         ));
 
-        $countries = $this->_countryModel->toOptionArray();
+        $countries = $this->_countryConfigModel->toOptionArray();
         $fieldset->addField('country_id', 'select', array(
             'name' => 'country_id',
             'label' => $helper->__('Country'),
@@ -172,5 +182,31 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
 
         return $addressData;
     }
+
+    /**
+     * Get Address
+     *
+     * @return array
+     */
+    public function getAddress()
+    {
+        $addressData = $this->getAddressData();
+        $showForm = empty($addressData['street_line1'])
+            || empty($addressData['city']) || empty($addressData['postcode']);
+
+        $countryName = $this->_countryModel->loadByCode($addressData['country_id'])->getName();
+
+        $regionName = $addressData['region_id'];
+        $this->_regionModel->load($regionName);
+        if ($this->_regionModel->getName()) {
+            $regionName = $this->_regionModel->getName();
+        }
+        unset($addressData['country_id']);
+        unset($addressData['region_id']);
+        $addressData['country'] = $countryName;
+        $addressData['region'] = $regionName;
+        return array('show_form' => $showForm, 'data' => $addressData);
+    }
+
 
 }

@@ -1262,6 +1262,26 @@
     display: block;
 }
 
+.shipping-method-config-form fieldset {
+    border: 1px solid #CCCCCC;
+    margin: 0;
+    padding: 20px;
+}
+
+
+.shipping-method-config-form .legend {
+    float: none;
+    margin: 0 -10px;
+    padding: 0 10px;
+    color: #676056;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.4;
+    height: auto;
+    width: auto;
+    visibility: visible;
+}
+
 .action-grant-permissions {
     margin-left: 20px;
 }
