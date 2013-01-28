@@ -27,7 +27,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     private $_arrayRowsCache;
 
     /**
-     * Constructor - initialize colums.
+     * Constructor - initialize columns
      */
     public function _construct()
     {
@@ -74,6 +74,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
      *
      * @param string $columnName
      * @return string
+     * @throws Exception
      */
     public function renderCellTemplate($columnName)
     {
@@ -102,6 +103,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
      *
      * @param string $type
      * @return string
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function renderOptionSelect($type)
     {

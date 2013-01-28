@@ -883,8 +883,10 @@ Fonts
 }
 
 .vde-tab-data .action-download,
-.vde-tab-data .action-delete {
+.vde-tab-data .action-delete,
+.vde-tab-data .action-edit {
     display: inline-block;
+    margin-left: 10px;
     float: right;
     color: #9f978b;
     background: none;
@@ -899,12 +901,15 @@ Fonts
 .vde-tab-data .action-download:hover,
 .vde-tab-data .action-download:focus,
 .vde-tab-data .action-delete:hover,
-.vde-tab-data .action-delete:focus {
+.vde-tab-data .action-delete:focus,
+.vde-tab-data .action-edit:hover,
+.vde-tab-data .action-edit:focus {
     color: #fff;
 }
 
 .vde-tab-data .action-download:before,
-.vde-tab-data .action-delete:before {
+.vde-tab-data .action-delete:before,
+.vde-tab-data .action-edit:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -915,12 +920,17 @@ Fonts
 }
 
 .vde-tab-data .action-download span,
-.vde-tab-data .action-delete span {
+.vde-tab-data .action-delete span,
+.vde-tab-data .action-edit span {
     display: none;
 }
 
 .vde-tab-data .action-delete:before {
     content: '\e07f'; /* trash icon */
+}
+
+.vde-tab-data .action-edit:before {
+    content: '\e05b'; /* edit icon */
 }
 
 .vde-tab-content-header .vde-tab-controls {
@@ -964,7 +974,7 @@ Fonts
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     width: 21.914893614%;
-    min-height: 250px;
+    min-height: 280px;
 }
 
 .files-wrapper .files-list:first-child,

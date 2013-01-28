@@ -158,6 +158,15 @@
                                                     <span><?php echo $this->__('Download file'); ?></span>
                                                 </a>
                                             </li>
+                                            <li class="item">
+                                                <span class="filename">custom.css</span>
+                                                <a href="#" class="action-download" title="<?php echo $this->__('Download file'); ?>">
+                                                    <span><?php echo $this->__('Download file'); ?></span>
+                                                </a>
+                                                <a href="#vde-tab-custom" class="action-edit" title="<?php echo $this->__('Edit Custom CSS'); ?>">
+                                                    <span><?php echo $this->__('Edit Custom CSS'); ?></span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -486,6 +495,8 @@
                 this.resizableArea
                     .resizable({
                         handles: 'n',
+                        minHeight: 100,
+                        maxHeight: 700,
                         resize: function(event, ui) {
                             self._recalcDataHeight(ui.size.height);
                         }
@@ -559,9 +570,14 @@
         /* Activate "Scripts" tab */
         $('.vde-tools-footer .item-code > a').tab('show');
 
-        $('.action-add[href="#vde-tab-custom"]')
+        $('[class^="action-"][href="#vde-tab-custom"]')
             .on('click.activateCustomCodeTab', function() {
                 $('.vde-tab-controls a[href="#vde-tab-custom"]').trigger('click');
+            });
+
+        $('.action-edit[href="#vde-tab-custom"]')
+            .on('click.focusOnCustomCodeTextarea', function() {
+                $('#custom_code').focus();
             });
 
     })(window.jQuery);
