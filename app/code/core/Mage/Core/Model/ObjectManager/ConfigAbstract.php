@@ -35,5 +35,4 @@ abstract class Mage_Core_Model_ObjectManager_ConfigAbstract implements Magento_O
     {
         return isset($this->_params[$name]) ? $this->_params[$name] : $defaultValue;
     }
-
 }

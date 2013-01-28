@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Mage_Webapi_Model_Resource_Acl_Rule
+ * Test for Mage_Webapi_Model_Resource_Acl_Rule.
  *
  * {license_notice}
  *
@@ -33,7 +33,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesIds()
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::getRolesIds().
      */
     public function testGetRuleList()
     {
@@ -47,7 +47,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for Mage_Webapi_Model_Resource_Acl_Role::getResourceIdsByRole()
+     * Test for Mage_Webapi_Model_Resource_Acl_Role::getResourceIdsByRole().
      */
     public function testGetResourceIdsByRole()
     {

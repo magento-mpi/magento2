@@ -7,6 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
 {
     /**
@@ -23,13 +31,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * Websites configuration scope
      */
     const SCOPE_WEBSITES = 'websites';
-
-    /**
-     * Storage for generated class names
-     *
-     * @var array
-     */
-    protected $_classNameCache = array();
 
     /**
      * Storage of validated secure urls
@@ -122,25 +123,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Check rewrite section and apply rewrites to $className, if any
-     *
-     * @param   string $className
-     * @return  string
-     */
-    protected function _applyClassRewrites($className)
-    {
-        if (!isset($this->_classNameCache[$className])) {
-            $rewrites = (string) $this->getNode('global/rewrites/' . $className);
-            if (!empty($rewrites)) {
-                $className = $rewrites;
-            }
-            $this->_classNameCache[$className] = $className;
-        }
-
-        return $this->_classNameCache[$className];
-    }
-
-    /**
      * Load allowed areas from config
      *
      * @return Mage_Core_Model_Config
@@ -225,12 +207,11 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param string $path separated by slashes
      * @param string $value
      * @param bool $overwrite
-     * @return Varien_Simplexml_Config
      */
     public function setNode($path, $value, $overwrite = true)
     {
         try {
-            return $this->_config->setNode($path, $value, $overwrite);
+            $this->_config->setNode($path, $value, $overwrite);
         } catch (Mage_Core_Model_Config_Cache_Exception $e) {
             $this->reinit();
             $this->_config->setNode($path, $value, $overwrite);
@@ -286,6 +267,26 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             throw new InvalidArgumentException('Requested area (' . $areaCode . ') doesn\'t exist');
         }
         return $areas[$areaCode];
+    }
+
+    /**
+     * Identify front name of the requested area. Return current area front name if area code is not specified.
+     *
+     * @param string|null $areaCode
+     * @return string
+     * @throws LogicException If front name is not defined.
+     */
+    public function getAreaFrontName($areaCode = null)
+    {
+        $areaCode = empty($areaCode) ? $this->getCurrentAreaCode() : $areaCode;
+        $areaConfig = $this->getAreaConfig($areaCode);
+        if (!isset($areaConfig['frontName'])) {
+            throw new LogicException(sprintf(
+                'Area "%s" must have front name defined in the application config.',
+                $areaCode
+            ));
+        }
+        return $areaConfig['frontName'];
     }
 
     /**
@@ -569,7 +570,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * Get model class instance.
      *
      * Example:
-     * $config->getModelInstance('catalog/product')
+     * $config->getModelInstance('Mage_Catalog_Model_Resource_Product')
      *
      * Will instantiate Mage_Catalog_Model_Resource_Product
      *
