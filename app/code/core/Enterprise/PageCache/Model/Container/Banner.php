@@ -71,7 +71,7 @@ class Enterprise_PageCache_Model_Container_Banner
             $lifetime = false;
         }
 
-        $this->_cache->save($data, $id, $tags, $lifetime);
+        $this->_fpcCache->save($data, $id, $tags, $lifetime);
         return $this;
     }
 

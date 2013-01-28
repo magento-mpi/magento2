@@ -34,7 +34,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const COOKIE_CUSTOMER_LOGGED_IN = 'CUSTOMER_AUTH';
 
     /**
-     * Subprocessors cookie names
+     * Sub-processors cookie names
      */
     const COOKIE_CATEGORY_PROCESSOR = 'CATEGORY_INFO';
 
@@ -61,16 +61,16 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     protected $_salt = null;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Enterprise_PageCache_Model_Cache
      */
-    protected $_cache;
+    protected $_fpcCache;
 
     /**
-     * @param Mage_Core_Model_Cache $cache
+     * @param Enterprise_PageCache_Model_Cache $_fpcCache
      */
-    public function __construct(Mage_Core_Model_Cache $cache)
+    public function __construct(Enterprise_PageCache_Model_Cache $_fpcCache)
     {
-        $this->_cache = $cache;
+        $this->_fpcCache = $_fpcCache;
     }
 
     /**
@@ -82,10 +82,10 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     {
         if ($this->_salt === null) {
             $saltCacheId = 'full_page_cache_key';
-            $this->_salt = $this->_cache->load($saltCacheId);
+            $this->_salt = $this->_fpcCache->load($saltCacheId);
             if (!$this->_salt) {
                 $this->_salt = md5(microtime() . rand());
-                $this->_cache->save($this->_salt, $saltCacheId,
+                $this->_fpcCache->save($this->_salt, $saltCacheId,
                     array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
             }
         }

@@ -17,18 +17,6 @@ class Enterprise_PageCache_Model_ObjectManager_Configurator extends Mage_Core_Mo
      */
     public function configure(Magento_ObjectManager $objectManager)
     {
-        /** @var $factory Enterprise_PageCache_Model_CacheFactory */
-        $factory = $objectManager->get('Enterprise_PageCache_Model_CacheFactory');
-        $arguments = array(
-            'config' => $objectManager->get('Mage_Core_Model_Config_Primary'),
-            'dirs' => $objectManager->get('Mage_Core_Model_Dir'),
-            'helperFactory' => $objectManager->get('Mage_Core_Model_Factory_Helper'),
-            'banCache' => $this->_getParam(Mage::PARAM_BAN_CACHE, false),
-            'options' => $this->_getParam(Mage::PARAM_CACHE_OPTIONS, array())
-        );
-        $model = $factory->get($arguments);
-        $objectManager->addSharedInstance($model, 'Mage_Core_Model_Cache');
-        $objectManager->addSharedInstance($model, 'Enterprise_PageCache_Model_Cache');
         $objectManager->setConfiguration(array(
             'Enterprise_PageCache_Model_Processor' => array(
                 'parameters' => array('scopeCode' => $this->_getParam(Mage::PARAM_RUN_CODE, '')),
