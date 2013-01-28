@@ -19,8 +19,8 @@
 class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System -> Manage Attributes.</p>
+     * Preconditions:
+     * Navigate to System -> Manage Attributes.
      */
     protected function assertPreConditions()
     {
@@ -34,7 +34,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
     }
 
     /**
-     * <p>Checking of attributes creation functionality during product creation process</p>
+     * Checking of attributes creation functionality during product creation process
      *
      * @param $attributeType
      *
@@ -47,6 +47,9 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', $attributeType);
         //Steps
+        if ($attributeType== 'product_attribute_fpt') {
+            $this->markTestIncomplete('MAGETWO-7180');
+        }
         $this->productHelper()->selectTypeProduct('simple');
         $this->productAttributeHelper()->createAttributeOnProductTab($attrData);
         //Verifying
@@ -67,7 +70,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
             array('product_attribute_multiselect_with_options'),
             array('product_attribute_dropdown_with_options'),
             array('product_attribute_price'),
-//            array('product_attribute_fpt') due to bug MAGETWO-7180
+            array('product_attribute_fpt')
         );
     }
 }

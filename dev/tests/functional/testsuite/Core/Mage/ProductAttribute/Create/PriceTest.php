@@ -19,8 +19,8 @@
 class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System -> Manage Attributes.</p>
+     * Preconditions:
+     * Navigate to System -> Manage Attributes.
      */
     protected function assertPreConditions()
     {
@@ -65,8 +65,8 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking of verification for duplicate of Product Attributes with similar code</p>
-     * <p>Creation of new attribute with existing code.</p>
+     * Checking of verification for duplicate of Product Attributes with similar code
+     * Creation of new attribute with existing code.
      *
      * @param array $attrData
      *
@@ -142,6 +142,9 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
             array('attribute_code' => $wrongAttributeCode));
         //Steps
+        if ($validationMessage == 'wrong_length_attribute_code') {
+            $this->markTestIncomplete('MAGETWO-7215');
+        }
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
@@ -155,7 +158,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
             array('CODE_wrong', 'invalid_attribute_code'),
             array('wrong code', 'invalid_attribute_code'),
             array($this->generate('string', 11, ':punct:'), 'invalid_attribute_code'),
-//            array($this->generate('string', 33, ':lower:'), 'wrong_length_attribute_code') due to MAGETWO-7215
+            array($this->generate('string', 33, ':lower:'), 'wrong_length_attribute_code')
         );
     }
 
@@ -194,8 +197,8 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking of correct validate of submitting form by using special</p>
-     * <p>characters for all fields exclude 'Attribute Code' field.</p>
+     * Checking of correct validate of submitting form by using special
+     * characters for all fields exclude 'Attribute Code' field.
      *
      * @test
      * @depends withRequiredFieldsOnly

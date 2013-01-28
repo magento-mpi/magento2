@@ -17,8 +17,8 @@
 class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System - Manage Attributes.</p>
+     * Preconditions:
+     * Navigate to System - Manage Attributes.
      */
     protected function assertPreConditions()
     {
