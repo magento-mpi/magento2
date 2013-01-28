@@ -105,8 +105,7 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
 
     /**
      * <p>Change selected default value for tax_class_id to '-- Please Select --'</p>
-     * <p>Preconditions:</p>
-     * <p>1. Default value is specified for system attribute 'tax_class_id'.</p>
+     * <p>and verify impossibility to save product in this case</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6082
@@ -129,10 +128,11 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
             'Option with value "' . $attribute['default_value'] . '" is not set as default for attribute');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
         //Verifying
-        $this->addFieldIdToMessage('dropdown', 'prices_tax_class');
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+//        $this->addFieldIdToMessage('dropdown', 'prices_tax_class');
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 }

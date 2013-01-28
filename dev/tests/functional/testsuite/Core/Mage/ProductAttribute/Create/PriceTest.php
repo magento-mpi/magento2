@@ -45,7 +45,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create "Price" type Product Attribute (required fields only)</p>
+     * Create "Price" type Product Attribute (required fields only)
      *
      * @return array
      * @test
@@ -66,7 +66,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Checking of verification for duplicate of Product Attributes with similar code</p>
-     * ,p>Creation of new attribute with existing code.</p>
+     * <p>Creation of new attribute with existing code.</p>
      *
      * @param array $attrData
      *
@@ -84,7 +84,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking validation for required fields are EMPTY</p>
+     * Checking validation for required fields are EMPTY
      *
      * @param $emptyField
      *
@@ -126,7 +126,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking validation for valid data in the 'Attribute Code' field</p>
+     * Checking validation for valid data in the 'Attribute Code' field
      *
      * @param $wrongAttributeCode
      * @param $validationMessage
@@ -160,7 +160,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking validation for not valid data in the 'Position' field</p>
+     * Checking validation for not valid data in the 'Position' field
      *
      * @param $invalidPosition
      *
@@ -195,7 +195,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Checking of correct validate of submitting form by using special</p>
-     * <p>pcharacters for all fields exclude 'Attribute Code' field.</p>
+     * <p>characters for all fields exclude 'Attribute Code' field.</p>
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -220,7 +220,7 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking of correct work of submitting form by using long values for fields filling</p>
+     * Checking of correct work of submitting form by using long values for fields filling
      *
      * @test
      * @depends withRequiredFieldsOnly

@@ -27,7 +27,7 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
     }
 
     /**
-     * <p>Values of Apply To dropdown and multiselect are defined and can't be changed for all system attributes</p>
+     * Values of Apply To dropdown and multiselect are defined and can't be changed for all system attributes
      *
      * @param string $attributeCode
      * @param string $applyTo
@@ -44,11 +44,15 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
         switch ($attributeCode) {
             case 'price':
                 $search = array('attribute_code' => 'price',
+                    'required' => 'Yes',
                     'use_in_layered_navigation' => 'Filterable (with results)'
                 );
                 break;
             case 'status':
                 $search = array('attribute_label' => 'Status');
+                break;
+            case 'image':
+                $search = array('attribute_label' => 'Base Image');
                 break;
             default:
                 $search = array('attribute_code' => $attributeCode);
@@ -69,7 +73,7 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
     }
 
     /**
-     * <p>Data Provider with system attributes list and defined product types' applying</p>
+     * Data Provider with system attributes list and defined product types' applying
      *
      * @return array
      */

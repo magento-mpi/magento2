@@ -45,7 +45,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
     }
 
     /**
-     * <p>Create "Text Area" type Product Attribute (required fields only)</p>
+     * Create "Text Area" type Product Attribute (required fields only)
      *
      * @return array
      * @test
@@ -84,7 +84,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
     }
 
     /**
-     * <p>Checking validation for required fields are EMPTY</p>
+     * Checking validation for required fields are EMPTY
      *
      * @param $emptyField
      *
@@ -126,7 +126,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
     }
 
     /**
-     * <p>Checking validation for valid data in the 'Attribute Code' field</p>
+     * Checking validation for valid data in the 'Attribute Code' field
      *
      * @param $wrongAttributeCode
      * @param $validationMessage
@@ -186,7 +186,7 @@ class Core_Mage_ProductAttribute_Create_TextAreaTest extends Mage_Selenium_TestC
     }
 
     /**
-     * <p>Checking of correct work of submitting form by using long values for fields filling</p>
+     * Checking of correct work of submitting form by using long values for fields filling
      *
      * @test
      * @depends withRequiredFieldsOnly
