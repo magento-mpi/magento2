@@ -85,7 +85,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                 . $this->getVariablesWysiwygActionUrl()
                 . '\', \'{{html_id}}\');'
         );
-        $variableWysiwygPlugin = array(array(
+        $wysiwygPlugin = array(array(
             'name' => 'magentovariable',
             'src' => $this->getWysiwygJsPluginSrc(),
             'options' => array(
@@ -94,7 +94,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                 'onclick' => $onclickParts,
                 'class'   => 'add-variable plugin'
         )));
-        $variableConfig['plugins'] = array_merge($variableWysiwygPlugin, $this->getHeaderFooterPlugin());
+        $variableConfig['plugins'] = array_merge($wysiwygPlugin, $this->getHeaderFooterPlugin());
 
         return $variableConfig;
     }
