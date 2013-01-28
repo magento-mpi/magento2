@@ -482,3 +482,38 @@ th.required:before {
 .tier {
     margin: 20px 0 0;
 }
+
+/*
+    Edit attribute set
+-------------------------------------- */
+.attribute-set-col {
+    display: block;
+    float: left;
+    width: 100%;
+    margin-left: 2.127659574%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 31.9149%;
+}
+
+.attribute-set-col:first-child {
+    margin-left: 0;
+}
+
+.attribute-set-tree {
+    margin-top: 5px;
+    overflow: auto;
+    height: 400px;
+    width: 100%;
+}
+
+.attribute-set:before,
+.attribute-set:after {
+    content: "";
+    display: table;
+}
+.attribute-set:after {
+    clear: both;
+}
