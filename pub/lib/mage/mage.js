@@ -6,36 +6,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint jquery:true*/
+/*jshint browser:true jquery:true*/
 (function($, window) {
     "use strict";
     $.extend(true, $, {
         mage: {
-            constant: {
-                KEY_BACKSPACE: 8,
-                KEY_TAB: 9,
-                KEY_RETURN: 13,
-                KEY_ESC: 27,
-                KEY_LEFT: 37,
-                KEY_UP: 38,
-                KEY_RIGHT: 39,
-                KEY_DOWN: 40,
-                KEY_DELETE: 46,
-                KEY_HOME: 36,
-                KEY_END: 35,
-                KEY_PAGEUP: 33,
-                KEY_PAGEDOWN: 34
-            },
-
             /**
-             * Url redirection
+             * Url redirection after a specified timeout.
              * @param {string} url
-             * @param {Integer} time
+             * @param {Integer} timeout
              */
-            urlRedirectTimeout: function(url, time) {
+            urlRedirectTimeout: function(url, timeout) {
                 setTimeout(function() {
                     window.location.href = url;
-                }, time);
+                }, timeout);
             }
         }
     });
