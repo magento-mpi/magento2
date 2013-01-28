@@ -47,5 +47,5 @@ default_tax_config:
                 oic_include_tax_in_grand_total: No
                 oic_display_full_tax_summary: No
                 oic_display_zero_tax_subtotal: No
-            enable_fpt:
+            fixed_product_taxes:
                 enable_fpt: No

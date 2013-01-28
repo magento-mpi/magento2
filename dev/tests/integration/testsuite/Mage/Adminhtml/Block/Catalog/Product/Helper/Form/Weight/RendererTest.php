@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
     public function testIsVirtualChecked($type)
     {
         $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
-        $currentProduct->setTypeInstance(new $type);
+        $currentProduct->setTypeInstance(Mage::getObjectManager()->create($type));
 
         $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer();
 
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
     public function testIsVirtualUnchecked($type)
     {
         $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
-        $currentProduct->setTypeInstance(new $type);
+        $currentProduct->setTypeInstance(Mage::getObjectManager()->create($type));
 
         $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer();
 

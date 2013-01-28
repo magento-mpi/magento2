@@ -277,7 +277,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_WithProductsTest extends Mage
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($search);
         $this->productHelper()->fillProductTab($customOptionsData, 'custom_options');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $orderNumbers = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkout);
         $this->assertMessagePresent('success', 'success_checkout');

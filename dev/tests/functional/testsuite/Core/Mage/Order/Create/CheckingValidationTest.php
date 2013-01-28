@@ -60,13 +60,14 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      *
      * @param string $emptyField
      * @param string $simpleSku
+     * @param $fieldId
      *
      * @test
      * @dataProvider emptyRequiredFieldsInBillingAddressDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3253
      */
-    public function emptyRequiredFieldsInBillingAddress($emptyField, $simpleSku)
+    public function emptyRequiredFieldsInBillingAddress($emptyField, $fieldId, $simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku' => $simpleSku));
@@ -81,18 +82,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
-        $fieldSet = $page->findFieldset('order_billing_address');
-        if ($emptyField != 'billing_country' and $emptyField != 'billing_state') {
-            $fieldXpath = $fieldSet->findField($emptyField);
-        } else {
-            $fieldXpath = $fieldSet->findDropdown($emptyField);
-        }
-        if ($emptyField == 'billing_street_address_1') {
-            $fieldXpath .= "/ancestor::div[@class='multi-input']";
-        }
-        $this->addParameter('fieldXpath', $fieldXpath);
-
+        $this->addParameter('field_id', $fieldId);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -100,14 +90,14 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyRequiredFieldsInBillingAddressDataProvider()
     {
         return array(
-            array('billing_first_name'),
-            array('billing_last_name'),
-            array('billing_street_address_1'),
-            array('billing_city'),
-            array('billing_country'),
-            array('billing_state'),
-            array('billing_zip_code'),
-            array('billing_telephone')
+            array('billing_first_name', 'order-billing_address_firstname'),
+            array('billing_last_name', 'order-billing_address_lastname'),
+            array('billing_street_address_1', 'order-billing_address_street0'),
+            array('billing_city', 'order-billing_address_city'),
+            array('billing_country', 'order-billing_address_country_id'),
+            array('billing_state', 'order-billing_address_region_id'),
+            array('billing_zip_code', 'order-billing_address_postcode'),
+            array('billing_telephone', 'order-billing_address_telephone')
         );
     }
 
@@ -116,6 +106,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * <p>Create customer via 'Create order' form (required fields are not filled).</p>
      *
      * @param string $emptyField
+     * @param $fieldId
      * @param string $simpleSku
      *
      * @test
@@ -123,7 +114,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3254
      */
-    public function emptyRequiredFieldsInShippingAddress($emptyField, $simpleSku)
+    public function emptyRequiredFieldsInShippingAddress($emptyField, $fieldId, $simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical', array('filter_sku' => $simpleSku));
@@ -138,18 +129,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $page = $this->getUimapPage('admin', 'create_order_for_new_customer');
-        $fieldSet = $page->findFieldset('order_shipping_address');
-        if ($emptyField != 'shipping_country' and $emptyField != 'shipping_state') {
-            $fieldXpath = $fieldSet->findField($emptyField);
-        } else {
-            $fieldXpath = $fieldSet->findDropdown($emptyField);
-        }
-        if ($emptyField == 'shipping_street_address_1') {
-            $fieldXpath .= "/ancestor::div[@class='multi-input']";
-        }
-        $this->addParameter('fieldXpath', $fieldXpath);
-
+        $this->addParameter('field_id', $fieldId);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -157,14 +137,14 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     public function emptyRequiredFieldsInShippingAddressDataProvider()
     {
         return array(
-            array('shipping_first_name'),
-            array('shipping_last_name'),
-            array('shipping_street_address_1'),
-            array('shipping_city'),
-            array('shipping_country'),
-            array('shipping_state'),
-            array('shipping_zip_code'),
-            array('shipping_telephone')
+            array('shipping_first_name' , 'order-shipping_address_firstname'),
+            array('shipping_last_name', 'order-shipping_address_lastname'),
+            array('shipping_street_address_1', 'order-shipping_address_street0'),
+            array('shipping_city', 'order-shipping_address_city'),
+            array('shipping_country', 'order-shipping_address_country_id'),
+            array('shipping_state', 'order-shipping_address_region_id' ),
+            array('shipping_zip_code', 'order-shipping_address_postcode'),
+            array('shipping_telephone', 'order-shipping_address_telephone')
         );
     }
 
@@ -187,8 +167,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $fieldXpath = $this->_getControlXpath('link', 'get_shipping_methods_and_rates');
-        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->addParameter('field_id', 'order[has_shipping]');
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -279,15 +258,14 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array('payment_info' => $paymentInfo));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
             array('filter_sku' => $simpleSku, 'payment_data' => $paymentData));
-        $emptyFields = array('card_verification_number' => 'field', 'expiration_year' => 'dropdown',
-                             'name_on_card'             => 'field', 'card_type'       => 'dropdown');
+        $emptyFields = array('ccsave_cc_cid' => 'field', 'ccsave_expiration_yr' => 'dropdown',
+                             'ccsave_cc_owner'             => 'field', 'ccsave_cc_type'       => 'dropdown');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         foreach ($emptyFields as $fieldName => $fieldType) {
-            $xpath = $this->_getControlXpath($fieldType, $fieldName);
-            $this->addParameter('fieldXpath', $xpath);
+            $this->addParameter('field_id', $fieldName);
             $this->assertMessagePresent('validation', 'empty_required_field');
         }
         $this->assertTrue($this->verifyMessagesCount(4), $this->getParsedMessages());
@@ -311,8 +289,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', 'name_on_card');
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addParameter('field_id', 'ccsave_cc_owner');
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -335,13 +312,8 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $xpath = $this->_getControlXpath('dropdown', 'card_type');
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addParameter('field_id', 'ccsave_cc_type');
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $xpath = $this->_getControlXpath('field', 'card_verification_number');
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('validation', 'invalid_cvv');
-        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     /**
@@ -365,7 +337,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
         $this->assertMessagePresent('validation', 'card_type_doesnt_match');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertEquals(1, count($this->getParsedMessages('error')));
     }
 
     /**
@@ -386,8 +358,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $xpath = $this->_getControlXpath('dropdown', 'expiration_year');
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addParameter('field_id', 'ccsave_expiration_yr');
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -411,8 +382,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', 'card_verification_number');
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addParameter('field_id', 'ccsave_cc_cid');
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }

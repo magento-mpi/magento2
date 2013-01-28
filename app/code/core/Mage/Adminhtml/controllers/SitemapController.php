@@ -106,6 +106,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
+            /** @var Mage_Sitemap_Model_Sitemap $model */
             $model = Mage::getModel('Mage_Sitemap_Model_Sitemap');
 
             //validate path to generate
@@ -129,12 +130,15 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                     return;
                 }
             }
+            /** @var Magento_Filesystem $filesystem */
+            $filesystem = $this->_objectManager->get('Magento_Filesystem');
+            $filesystem->setWorkingDirectory($model->getSitemapPath());
 
             if ($this->getRequest()->getParam('sitemap_id')) {
                 $model ->load($this->getRequest()->getParam('sitemap_id'));
-
-                if ($model->getSitemapFilename() && file_exists($model->getPreparedFilename())){
-                    unlink($model->getPreparedFilename());
+                $fileName = $model->getSitemapFilename();
+                if ($fileName && $filesystem->isFile($fileName)) {
+                    $filesystem->delete($fileName);
                 }
             }
 
@@ -184,6 +188,8 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
      */
     public function deleteAction()
     {
+        /** @var Magento_Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento_Filesystem');
         // check if we know what should be deleted
         if ($id = $this->getRequest()->getParam('sitemap_id')) {
             try {
@@ -195,8 +201,8 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                 /* @var $sitemap Mage_Sitemap_Model_Sitemap */
                 $model->load($id);
                 // delete file
-                if ($model->getSitemapFilename() && file_exists($model->getPreparedFilename())){
-                    unlink($model->getPreparedFilename());
+                if ($model->getSitemapFilename() && $filesystem->isFile($model->getPreparedFilename())) {
+                    $filesystem->delete($model->getPreparedFilename());
                 }
                 $model->delete();
                 // display success message

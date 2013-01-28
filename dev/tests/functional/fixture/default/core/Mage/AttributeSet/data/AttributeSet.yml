@@ -44,6 +44,7 @@ system_attributes_general_minimal:
     tax_class_id: tax_class_id
     weight: weight
     price_view: price_view
+    image: image
 
 system_attributes_unassigned_minimal:
     color: color
@@ -57,7 +58,6 @@ system_attributes_unassigned_minimal:
     gallery: gallery
     gift_message_available: gift_message_available
     group_price: group_price
-    image: image
     is_recurring: is_recurring
     manufacturer: manufacturer
     media_gallery: media_gallery

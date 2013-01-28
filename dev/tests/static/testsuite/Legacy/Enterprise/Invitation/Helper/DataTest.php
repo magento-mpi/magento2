@@ -30,11 +30,10 @@ class Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_Framework_Tes
         );
         $content = file_get_contents($file);
         foreach ($obsoleteMethods as $method => $suggestion) {
-            $suggestion = sprintf(Legacy_ObsoleteCodeTest::SUGGESTION_MESSAGE, $suggestion);
             $this->assertNotRegExp(
                 '/Enterprise_Invitation_Helper_Data[^;(]+?' . preg_quote($method, '/') . '\s*\(/i',
                 $content,
-                "Method 'Enterprise_Invitation_Helper_Data::$method' is obsolete. $suggestion"
+                "Method 'Enterprise_Invitation_Helper_Data::$method' is obsolete. Use $suggestion instead"
             );
         }
     }

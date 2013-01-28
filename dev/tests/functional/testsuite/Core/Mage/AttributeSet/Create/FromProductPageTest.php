@@ -92,7 +92,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->addParameter('attributeSet', $attributeSetName);
         $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'Attribute set was not changed in product name');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct($productSkuDefault);
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
@@ -128,7 +128,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->addParameter('attributeSet', $attributeSetName);
         $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'Attribute set was not changed in product name');
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct($productSkuDefault);
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
@@ -162,7 +162,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
             'Attribute set was not changed in product name');
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
-        $this->saveForm('save');
+        $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 }

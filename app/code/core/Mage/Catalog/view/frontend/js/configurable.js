@@ -45,6 +45,7 @@
                 $(this.options.spConfig.containerId).find(this.options.superSelector) :
                 $(this.options.superSelector);
             this.options.values = this.options.spConfig.defaultValues || {};
+            this.options.parentImage = $('#image').attr('src');
         },
 
         /**
@@ -184,6 +185,65 @@
                 this._resetChildren(element);
             }
             this._reloadPrice();
+            this._changeProductImage();
+        },
+
+        /**
+         * Change displayed product image according to chosen options of configurable product
+         * @private
+         */
+        _changeProductImage: function () {
+            var images = this.options.spConfig.images,
+                imagesArray = null;
+            $.each(this.options.settings, function (k, v) {
+                var selectValue = parseInt(v.value, 10),
+                    attributeId = v.id.replace(/[a-z]*/, '');
+                if (selectValue > 0 && attributeId) {
+                    if (!imagesArray) {
+                        imagesArray = images[attributeId][selectValue];
+                    } else {
+                        var intersectedArray = {};
+                        $.each(imagesArray, function (productId) {
+                            if (images[attributeId][selectValue][productId]) {
+                                intersectedArray[productId] = images[attributeId][selectValue][productId];
+                            }
+                        });
+                        imagesArray = intersectedArray;
+                    }
+                }
+            });
+
+            var result = [];
+            $.each(imagesArray || {}, function() {
+                result.push(this);
+            });
+            $('#image').attr('src', (result.length === 1  ? result.pop() : null) || this.options.parentImage);
+
+            this._fitImageToContainer();
+        },
+
+        /**
+         * Fit image to container when changing displayed product image according to chosen options
+         * @private
+         */
+        _fitImageToContainer: function () {
+            var $image = $('#image'),
+                width = $image.width(),
+                height = $image.height(),
+                parentWidth = $image.parent().width(),
+                parentHeight = $image.parent().height();
+
+            // Image is smaller than parent container, no need to see full picture or zoom slider
+            if (width < parentWidth && height < parentHeight) {
+                return;
+            }
+            // Resize Image to fit parent container
+            $image.css({
+                width:  width > height ? parentWidth : '',
+                height: width > height ? '' : parentHeight,
+                top:    width > height ? ((parentHeight - height) / 2) + 'px' : '',
+                left:   width > height ? '' : ((parentWidth - width) / 2) + 'px'
+            });
         },
 
         /**
