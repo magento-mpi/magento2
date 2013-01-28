@@ -386,7 +386,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
-        $productData['general_bundle_items_data']['item_1'] =
+        $productData['general_bundle_items']['item_1'] =
             $this->loadDataSet('Product', 'bundle_item_1', array('bundle_items_default_title' => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle', false);

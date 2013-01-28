@@ -173,7 +173,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
                 array('associated_search_sku' => $associatedData['general_sku']));
         } else {
             $productData = $this->loadDataSet('Product', $type . '_product_required');
-            $productData['general_bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2',
+            $productData['general_bundle_items']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2',
                 array('associated_search_sku' => $associatedData['general_sku']));
         }
         $search =

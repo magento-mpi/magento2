@@ -300,7 +300,7 @@ bundle_product_website:
     general_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
-    general_bundle_items_data:
+    general_bundle_items:
         item_1: %noValue%
 #*********************************************
 #*         Grouped Product Data              *

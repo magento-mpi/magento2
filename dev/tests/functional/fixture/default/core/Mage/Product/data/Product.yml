@@ -391,7 +391,7 @@ bundle_item_4: &itemCheckbox
     add_product_1: *bundleProduct
     add_product_2: %noValue%
 
-general_bundle_items_data: &bundleData
+general_bundle_items: &bundleData
     ship_bundle_items: Separately
     item_1: *itemMultipleSelect
     item_2: *itemDropdown
@@ -768,7 +768,7 @@ dynamic_bundle_required:
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_special_price: %noValue%
-    general_bundle_items_data:
+    general_bundle_items:
         item_1: %noValue%
 
 # Product that has all needed fields set to be visible in frontend.
@@ -785,7 +785,7 @@ dynamic_bundle_visible:
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    general_bundle_items_data:
+    general_bundle_items:
         item_1: %noValue%
 
 fixed_bundle_required: &bundle
@@ -803,7 +803,7 @@ fixed_bundle_required: &bundle
     prices_price: 12.55
     prices_special_price: %noValue%
     prices_tax_class: None
-    general_bundle_items_data:
+    general_bundle_items:
         item_1: %noValue%
 
 bundle_product_required: *bundle
@@ -826,7 +826,7 @@ fixed_bundle_visible:
     prices_tax_class: None
     websites: Main Website
     general_categories: Default Category
-    general_bundle_items_data:
+    general_bundle_items:
         item_1: %noValue%
 
 dynamic_bundle:
@@ -871,7 +871,7 @@ dynamic_bundle:
     related_data: *relatedProductsData
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
-    general_bundle_items_data: *bundleData
+    general_bundle_items: *bundleData
 
 fixed_bundle:
     product_attribute_set: Default
@@ -918,7 +918,7 @@ fixed_bundle:
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
-    general_bundle_items_data: *bundleData
+    general_bundle_items: *bundleData
 
 duplicate_fixed_bundle:
     product_attribute_set: Default
@@ -958,7 +958,7 @@ duplicate_fixed_bundle:
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
     custom_options_data: *customOptionsData
-    general_bundle_items_data:
+    general_bundle_items:
         ship_bundle_items: Separately
         item_1:
             bundle_items_default_title: Multiple Select
@@ -1020,7 +1020,7 @@ duplicate_dynamic_bundle:
     related_data: *relatedDuplicate
     up_sells_data: *upSellsDuplicate
     cross_sells_data: *crossSellsDuplicate
-    general_bundle_items_data:
+    general_bundle_items:
         ship_bundle_items: Separately
         item_1:
             bundle_items_default_title: Checkbox
@@ -1550,7 +1550,7 @@ bundle_product_related: &bundle_product_related
     prices_price: 66.32
     websites: Main Website
     general_categories: Default Category
-    general_bundle_items_data:
+    general_bundle_items:
         ship_bundle_items: Separately
         item_1:
             bundle_items_default_title: Drop-down
@@ -2037,7 +2037,7 @@ bundle_item_41: &itemCheckboxMultiCheckout
     add_product_2: *bundleProduct
     add_product_3: *bundleProduct
 
-general_bundle_items_data123: &bundleDataMultiCheckout
+general_bundle_items123: &bundleDataMultiCheckout
     ship_bundle_items: Separately
     item_1: *itemMultipleSelectMultiCheckout
     item_2: *itemDropdownMultiCheckout
@@ -2065,7 +2065,7 @@ fixed_bundle_multi_checkout:
     prices_tax_class: None
     websites: Main Website
     general_categories: Default Category
-    general_bundle_items_data: *bundleDataMultiCheckout
+    general_bundle_items: *bundleDataMultiCheckout
 
 dynamic_bundle_multi_checkout:
     product_attribute_set: Default
@@ -2080,7 +2080,7 @@ dynamic_bundle_multi_checkout:
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    general_bundle_items_data: *bundleDataMultiCheckout
+    general_bundle_items: *bundleDataMultiCheckout
 
 fixed_bundle_multi_checkout_options:
     product_attribute_set: Default
@@ -2100,7 +2100,7 @@ fixed_bundle_multi_checkout_options:
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
-    general_bundle_items_data: *bundleDataMultiCheckout
+    general_bundle_items: *bundleDataMultiCheckout
 
 dynamic_bundle_multi_checkout_options:
     product_attribute_set: Default
@@ -2116,7 +2116,7 @@ dynamic_bundle_multi_checkout_options:
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
-    general_bundle_items_data: *bundleDataMultiCheckout
+    general_bundle_items: *bundleDataMultiCheckout
 
 ###############################################
 #           Configurable Product Data         #
@@ -2350,7 +2350,7 @@ fixed_bundle_minimal:
     general_min_tax_class: None
     websites: Main Website
     general_categories: Default Category
-    general_bundle_items_data:
+    general_bundle_items:
         item_1: %noValue%
 
 dynamic_bundle_minimal:
@@ -2366,7 +2366,7 @@ dynamic_bundle_minimal:
     general_min_price_type: Dynamic
     websites: Main Website
     general_categories: Default Category
-    general_bundle_items_data:
+    general_bundle_items:
         item_1: %noValue%
 
 simple_product_zero_price:
@@ -2437,7 +2437,7 @@ bundle_product_visible:
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    general_bundle_items_data:
+    general_bundle_items:
         item_1: %noValue%
 
 simple_product_url_rewrite:

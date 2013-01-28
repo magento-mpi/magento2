@@ -12,6 +12,7 @@
             this.element.sortable({
                 axis: 'y',
                 handle: '.entry-edit-head',
+                tolerance: 'pointer',
                 update: function () {
                     $(this).find('[name$="[position]"]').each(function (index) {
                         $(this).val(index);

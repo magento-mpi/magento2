@@ -277,6 +277,10 @@ new_product:
                                         ship_bundle_items: //select[@id='shipment_type']
                                     fields:
                                         bundle_items_names: //input[@class='input-text required-entry']
+                                    links:
+                                        delete_product_bundle_item: //h4[text()='%itemTitle%']/..//span[@class='ui-icon ui-icon-circle-close remove']
+                                        move_product_bundle_item: //h4[text()='%itemTitle%']/..//span[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        expand_product_bundle_item: //h4[text()='%itemTitle%']/..//span[@class='ui-icon ui-icon-circle-triangle-s']
                                     pageelements:
                                         bundle_item_grid: //div[@class='option-box' and not(contains(@style,'display: none;'))]
                                         bundle_item_grid_index_product: //div[@id='bundle_option_%optionId%']//tr[@class='selection']/td[text()='%productSku%']
@@ -299,14 +303,12 @@ new_product:
                                         selection_item_price: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_price_value')]
                                         selection_item_default_qty: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_qty')]
                                     links:
-                                        delete_product_bundle_item: //span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_bundle_item: //span[@class='ui-icon ui-icon-grip-dotted-vertical']
-                                        expand_product_bundle_item: //span[@class='ui-icon ui-icon-circle-triangle-s']
                                         move_product_item: //tr[contains(.,'%productSku%')]//span[@class='ui-icon ui-icon-grip-dotted-vertical']
                                     radiobuttons:
                                         selection_item_default: //tr[contains(.,'%productSku%')]//input[contains(@name,'[is_default]')]
                                     pageelements:
                                         selected_option_product: //tr[contains(.,'%productSku%')]
+                                        assigned_products: //td[@class='product-sku']
                             #Select product grid for bundle and grouped
                             -
                                 select_associated_product_option:

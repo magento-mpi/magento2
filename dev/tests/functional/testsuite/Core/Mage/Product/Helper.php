@@ -803,9 +803,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->assignProductToGrouped($generalTab['general_grouped_data']);
             unset($generalTab['general_grouped_data']);
         }
-        if (isset($generalTab['general_bundle_items_data'])) {
-            $this->fillBundleItems($generalTab['general_bundle_items_data']);
-            unset($generalTab['general_bundle_items_data']);
+        if (isset($generalTab['general_bundle_items'])) {
+            $this->fillBundleItems($generalTab['general_bundle_items']);
+            unset($generalTab['general_bundle_items']);
         }
         $this->fillTab($generalTab, 'general');
         if (isset($attributeTitle)) {
@@ -836,9 +836,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->verifyConfigurableVariations($generalTab['general_configurable_variations'], true);
             unset($generalTab['general_configurable_variations']);
         }
-        if (isset($generalTab['general_bundle_items_data'])) {
-            $this->verifyBundleItems($generalTab['general_bundle_items_data']);
-            unset($generalTab['general_bundle_items_data']);
+        if (isset($generalTab['general_bundle_items'])) {
+            $this->verifyBundleItems($generalTab['general_bundle_items']);
+            unset($generalTab['general_bundle_items']);
         }
         $this->verifyForm($generalTab, 'general');
         $this->assertEmptyVerificationErrors();
@@ -977,11 +977,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function fillConfigurableSettings(array $attributes)
     {
         $allTitles = array();
+        $attributeOrder = array();
         foreach ($attributes as $attributeData) {
             if (!isset($attributeData['general_configurable_attribute_title'])) {
                 $this->fail('general_configurable_attribute_title is not set');
             }
             $allTitles[] = $title = $attributeData['general_configurable_attribute_title'];
+            $attributeOrder[$attributeData['general_configurable_attribute_title']] =
+                isset($attributeData['attribute_position'])
+                    ? $attributeData['attribute_position'] - 1
+                    : 'noValue';
             unset($attributeData['general_configurable_attribute_title']);
             unset($attributeData['attribute_position']);
             $this->selectConfigurableAttribute($title);
@@ -1003,8 +1008,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $waitLocator .= ']';
         if (count($attributes) > 1) {
-            $orderedAttributes = $this->_formBlockOrder($attributes, 'configurable');
-            $this->orderBlocks($orderedAttributes, 'attributeTitle', 'move_product_variation_attribute');
+            $this->orderBlocks($attributeOrder, 'attributeTitle', 'move_product_variation_attribute',
+                'attribute_blocks_name');
         }
         $this->clickButton('generate_product_variations', false);
         $this->waitForElementVisible($waitLocator);
@@ -1066,10 +1071,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->verifyForm($optionData, 'general');
             }
         }
-        if (count($attributes) > 1) {
-            if ($this->verifyBlocksOrder($attributes, 'configurable')){
-                $this->addVerificationMessage('Invalid configurable attribute blocks order.');
-            }
+        if (count($attributes) > 1 && !$this->verifyBlocksOrder($attributes, 'attribute_blocks_name',
+            'general_configurable_attribute_title', 'attribute_position')
+        ) {
+            $this->addVerificationMessage('Invalid configurable attribute blocks order.');
         }
     }
 
@@ -1400,33 +1405,22 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Form block order which will be used in block reordering
+     * Get actual item order position
      *
-     * @param array $blocks
-     * @param string $productType
+     * @param $fieldType
+     * @param $fieldName
      *
      * @return array
      */
-    protected function _formBlockOrder(array $blocks, $productType)
+    protected function _getActualItemOrder($fieldType, $fieldName)
     {
-        $orderedBlocks = array();
-        $productTypes = array('configurable', 'bundle');
-
-        if (in_array($productType, $productTypes)) {
-            $positionName = $productType == 'bundle' ? 'bundle_items_position' : 'attribute_position';
-            $i = 0;
-            foreach ($blocks as $block) {
-                $key = $productType == 'configurable' ? $block['general_configurable_attribute_title'] : $i ;
-                $orderedBlocks[] = array(
-                    $key => isset($block[$positionName]) ? $block[$positionName]: null
-                );
-                $i++;
-            }
-        } else {
-            $this->fail('An invalid product type');
+        $actualOrder = array();
+        $blocks = $this->getControlElements($fieldType, $fieldName, null, true);
+        foreach ($blocks as $item) {
+            $actualOrder[] = $fieldType == self::FIELD_TYPE_INPUT ? $item->value() : $item->text();
         }
 
-        return $orderedBlocks;
+        return $actualOrder;
     }
 
     /**
@@ -1435,34 +1429,41 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * @param array $orderedBlocks
      * @param string $blockId
      * @param string $draggableElement
+     * @param string $fieldName
      */
-    public function orderBlocks(array $orderedBlocks, $blockId, $draggableElement)
+    public function orderBlocks(array $orderedBlocks, $blockId, $draggableElement, $fieldName)
     {
-        $itemCount = count($orderedBlocks) - 1;
-        for ($i = $itemCount; $i >= 0; $i--) {
-            for ($j = 0; $j <= $i - 1; $j++) {
-                if ($orderedBlocks[$j][key($orderedBlocks[$j])] > $orderedBlocks[$j + 1][key($orderedBlocks[$j + 1])]) {
-                    $this->addParameter($blockId, key($orderedBlocks[$j]));
-                    $attributeBlock1 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
-                    $this->addParameter($blockId, key($orderedBlocks[$j + 1]));
-                    $attributeBlock2 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
-                    $location1 = $attributeBlock2->location();
-                    $this->moveto($attributeBlock2);
-                    $this->buttondown();
+        $fieldType = $fieldName == 'assigned_products' ? self::FIELD_TYPE_PAGEELEMENT : self::FIELD_TYPE_INPUT;
+        $actualOrder = $this->_getActualItemOrder($fieldType, $fieldName);
+        asort($orderedBlocks, SORT_STRING);
+        $i = 0;
+        foreach ($orderedBlocks as $key => $value) {
+            if ($value !== 'noValue' && $value != array_search($key, $actualOrder)) {
+                $this->addParameter($blockId, $key);
+                $attributeBlock1 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
+                $this->addParameter($blockId, $actualOrder[$i]);
+                $attributeBlock2 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
+                $locationBeforeMove = $attributeBlock2->location();
+                $attempts = 2;
+                while ($attempts > 0) {
                     $this->moveto($attributeBlock1);
+                    $this->buttondown();
+                    $this->moveto($attributeBlock2);
                     $this->buttonup();
-                    //Try once more if by some reason first swapping have failed.
-                    $location2 = $attributeBlock2->location();
-                    if ($location1['y'] == $location2['y']) {
-                        $this->moveto($attributeBlock2);
-                        $this->buttondown();
-                        $this->moveto($attributeBlock1);
-                        $this->buttonup();
+                    $locationAfterMove = $attributeBlock2->location();
+                    $attempts--;
+                    if ($locationBeforeMove['y'] != $locationAfterMove['y']) {
+                        break;
+                    } else {
+                        if ($attempts <= 0) {
+                            $this->fail('Block position was not changed.');
+                        }
                     }
-                    list($orderedBlocks[$j], $orderedBlocks[$j + 1]) =
-                        array($orderedBlocks[$j + 1], $orderedBlocks[$j]);
                 }
+                list($actualOrder[$i], $actualOrder[array_search($key, $actualOrder)]) =
+                    array($actualOrder[array_search($key, $actualOrder)], $actualOrder[$i]);
             }
+            $i++;
         }
     }
 
@@ -1470,33 +1471,21 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Verify sort order for bundle/configurable blocks
      *
      * @param array $blocksData
-     * @param string $productType bundle|configurable
+     * @param string $fieldName
+     * @param string $itemTitle
+     * @param string $positionField
      *
      * @return bool
      */
-    public function verifyBlocksOrder(array $blocksData, $productType)
+    public function verifyBlocksOrder(array $blocksData, $fieldName, $itemTitle, $positionField)
     {
         $expectedOrder = array();
-        $actualOrder = array();
-        $productTypes = array('configurable', 'bundle');
-
-        if (in_array($productType, $productTypes)) {
-            $fieldName = $productType == 'bundle' ? 'bundle_items_names' : 'attribute_blocks_name';
-            $positionField = $productType == 'bundle' ? 'bundle_items_position' : 'attribute_position';
-            $title = $productType == 'bundle' ? 'bundle_items_default_title' : 'general_configurable_attribute_title';
-            //Get blocks order
-            $blocks = $this->getControlElements(self::FIELD_TYPE_INPUT, $fieldName, null, true);
-            foreach($blocks as $item) {
-                $actualOrder[] = $item->value();
-            }
-            foreach ($blocksData as $block) {
-                $expectedOrder[$block[$title]] = $block[$positionField];
-            }
-        } else {
-            $this->fail('An invalid product type');
+        $actualOrder = $this->_getActualItemOrder(self::FIELD_TYPE_INPUT, $fieldName);
+        foreach ($blocksData as $block) {
+            $expectedOrder[$block[$itemTitle]] = isset($block[$positionField]) ? $block[$positionField] : 'noValue';
         }
         //Compare actual and expected blocks order
-        asort($expectedOrder);
+        asort($expectedOrder, SORT_STRING);
         $result = array_diff($actualOrder, array_keys($expectedOrder));
 
         return empty($result);
@@ -2085,16 +2074,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillBundleItems(array $bundleItems)
     {
+        $orderedBlocks = array();
         if (isset($bundleItems['ship_bundle_items'])) {
             $this->fillDropdown('ship_bundle_items', $bundleItems['ship_bundle_items']);
             unset($bundleItems['ship_bundle_items']);
         }
-        foreach ($bundleItems as $value) {
-            unset($value['bundle_items_position']);
-            $this->addBundleOption($value);
+        foreach ($bundleItems as $item) {
+            $orderedBlocks[$item['bundle_items_default_title']] = isset($item['bundle_items_position'])
+                ? $item['bundle_items_position'] - 1
+                : 'noValue';
+            unset($item['bundle_items_position']);
+            $this->addBundleOption($item);
         }
         if (count($bundleItems) > 1) {
-            $this->orderBlocks($this->_formBlockOrder($bundleItems, 'bundle'), 'optionId', 'move_product_bundle_item');
+            $this->orderBlocks($orderedBlocks, 'itemTitle', 'move_product_bundle_item', 'bundle_items_names');
         }
     }
 
@@ -2173,15 +2166,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
             $this->waitForControlVisible('pageelement', 'selected_option_product');
             if (isset($item['fill'])) {
-                $productPosition[] = isset($item['fill']['selection_item_position'])
-                    ? array($item['param'] => $item['fill']['selection_item_position'])
-                    : array($item['param'] => null);
+                $productPosition[$item['param']] = isset($item['fill']['selection_item_position'])
+                    ? $item['fill']['selection_item_position'] - 1
+                    : 'noValue';
                 unset($item['fill']['selection_item_position']);
                 $this->fillFieldset($item['fill'], 'new_bundle_option');
             }
         }
         if (count($productPosition) > 1) {
-            $this->orderBlocks($productPosition, 'productSku', 'move_product_item');
+            $this->orderBlocks($productPosition, 'productSku', 'move_product_item', 'assigned_products');
         }
     }
 
@@ -2202,18 +2195,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 
             return false;
         }
-        if (!$this->verifyBlocksOrder($bundleItemsData, 'bundle')) {
+        if (!$this->verifyBlocksOrder($bundleItemsData, 'bundle_items_names', 'bundle_items_default_title',
+            'bundle_items_position')
+        ) {
             $this->addVerificationMessage('Invalid bundle item blocks order.');
 
             return false;
         }
-        $itemPositionOrder = array();
-        foreach ($bundleItemsData as $item) {
-            $itemPositionOrder[$item['bundle_items_default_title']] = $item['bundle_items_position'];
-        }
-        asort($itemPositionOrder);
-        $itemDataOrder = array_keys($itemPositionOrder);
-
+        $itemDataOrder = $this->_getActualItemOrder(self::FIELD_TYPE_INPUT, 'bundle_items_names');
         foreach ($bundleItemsData as $option) {
             $optionData = $this->formBundleItemData($option);
             $orderedProducts = array();
