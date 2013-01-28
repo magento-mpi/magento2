@@ -92,6 +92,7 @@ return array(
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Customer_Orders_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Product_Ordered'),
     $this->_getClassRule('Mage_Adminhtml_Block_Report_Product_Ordered_Grid'),
+    $this->_getClassRule('Mage_Adminhtml_Block_Report_Search_Grid'),
     $this->_getClassRule('Mage_Adminhtml_Block_Sales'),
     $this->_getClassRule('Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Giftmessage'),
     $this->_getClassRule('Mage_Adminhtml_Block_System_Config_Edit', 'Mage_Backend_Block_System_Config_Edit'),

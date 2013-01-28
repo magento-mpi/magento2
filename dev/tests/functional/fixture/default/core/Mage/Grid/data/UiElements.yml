@@ -554,3 +554,29 @@ report_tag_customer:
         2: Last Name
         3: Total Tags
         4: Action
+
+#dataset for ui elements for Report Search Terms grid
+report_search:
+    fieldset:
+        search_terms_grid: tablename
+    button:
+        export:
+        reset_filter:
+        search:
+    field:
+        page:
+        search_query_filter:
+        results_from_filter:
+        results_to_filter:
+        hits_from_filter:
+        hits_to_filter:
+    dropdown:
+        view_limit:
+        export_to:
+        store_filter:
+    headers:
+        0: ID
+        1: Search Query
+        2: Store
+        3: Results
+        4: Hits

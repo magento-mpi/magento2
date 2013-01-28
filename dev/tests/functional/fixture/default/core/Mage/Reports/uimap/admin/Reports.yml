@@ -463,6 +463,27 @@ report_search:
     mca: report/search/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report/search/')]
     title: Search Terms / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    search_terms_grid:
+                        xpath: //div[@id='searchReportGrid']
+                        buttons:
+                            export: //button[span='Export']
+                            reset_filter: //button[span="Reset Filter"]
+                            search: //button[span="Search"]
+                        dropdowns:
+                            view_limit: //select[@name='limit']
+                            export_to: //select[@id='searchReportGrid_export']
+                            store_filter: //select[@name='store_id']
+                        fields:
+                            page: //input[@name='page']
+                            search_query_filter: //input[@id='searchReportGrid_filter_query_text']
+                            results_from_filter: //input[@id='searchReportGrid_filter_num_results_from']
+                            results_to_filter: //input[@id='searchReportGrid_filter_num_results_to']
+                            hits_from_filter: //input[@id='searchReportGrid_filter_popularity_from']
+                            hits_to_filter: //input[@id='searchReportGrid_filter_popularity_to']
 
 # Refresh Statistics page
 report_statistics:
