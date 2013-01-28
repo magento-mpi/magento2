@@ -171,8 +171,9 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     public function getPreviewImageDirectoryUrl()
     {
-        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)
-            . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR . '/' . self::IMAGE_DIR_PREVIEW . '/';
+        return $this->_objectManager->get('Mage_Core_Model_App')->getStore()->getBaseUrl(
+            Mage_Core_Model_Store::URL_TYPE_MEDIA
+        ) . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR . '/' . self::IMAGE_DIR_PREVIEW . '/';
     }
 
     /**

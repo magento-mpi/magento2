@@ -40,11 +40,8 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
             array(), '', false);
         $this->_helper = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_model = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Image', array(
-             'objectManager' => $this->_objectManager,
-             'helper'   => $this->_helper,
-             'filesystem' => $this->_filesystem,
-        ));
+        $this->_model = new Mage_Core_Model_Theme_Image($this->_objectManager, $this->_helper, $this->_filesystem);
+        $this->_model->setTheme($this->getMock('Mage_Core_Model_Theme', array(), array(), '', false));
     }
 
     /**
@@ -52,8 +49,11 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
      */
     protected function _getDesignMock()
     {
-        $designMock = $this->getMock('Mage_Core_Model_Design_Package', array('getViewFileUrl'), array(), '', false);
-
+        $designMock = $this->getMock('Mage_Core_Model_Design_Package', array('getViewFileUrl', 'getPublicDir'),
+            array(), '', false);
+        $designMock->expects($this->any())
+            ->method('getPublicDir')
+            ->will($this->returnValue('pub/media/theme'));
         $this->_objectManager->expects($this->any())
             ->method('get')
             ->with($this->equalTo('Mage_Core_Model_Design_Package'))
@@ -63,7 +63,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
 
     public function testSavePreviewImage()
     {
-        $this->_model = $this->getMock('Mage_Core_Model_Theme_Image', array('createPreviewImage'), array(), '', false);
+        $this->_model->setTheme($this->getMock('Mage_Core_Model_Theme', array(), array(), '', false));
         $this->assertInstanceOf('Mage_Core_Model_Theme_Image', $this->_model->savePreviewImage());
     }
 
@@ -88,7 +88,13 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($fileName), $this->equalTo($fileName))
             ->will($this->returnValue(true));
 
-        $this->_model->setPreviewImage('image.jpg');
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getPreviewImage'), array(), '', false);
+        $themeMock->expects($this->any())
+            ->method('getPreviewImage')
+            ->will($this->returnValue('image.jpg'));
+
+        $this->_model->setTheme($themeMock);
+
         $this->assertInstanceOf('Mage_Core_Model_Theme_Image', $this->_model->createPreviewImageCopy());
         $this->assertEquals('image.jpg', $this->_model->getPreviewImage());
     }
@@ -111,7 +117,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
             $storeMock = $this->getMock('Mage_Core_Model_Store', array('getBaseUrl'), array(), '', false);
             $storeMock->expects($this->atLeastOnce())
                 ->method('getBaseUrl')
-                ->with($this->equalTo(Mage_Core_Model_Store::URL_TYPE_THEME))
+                ->with($this->equalTo(Mage_Core_Model_Store::URL_TYPE_MEDIA))
                 ->will($this->returnArgument(0));
 
             $appMock = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
@@ -124,9 +130,12 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
                 ->with($this->equalTo('Mage_Core_Model_App'))
                 ->will($this->returnValue($appMock));
 
-            $this->_model->setPreviewImage($previewImage);
+            $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getPreviewImage'), array(), '', false);
+            $themeMock->expects($this->any())
+                ->method('getPreviewImage')
+                ->will($this->returnValue($previewImage));
+            $this->_model->setTheme($themeMock);
         }
-
         $this->assertEquals($expectedResult, $this->_model->getPreviewImageUrl());
     }
 
@@ -144,7 +153,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
             array(
                 'Mage_Core::theme/default_preview.jpg',
                 null,
-                'themepreview/Mage_Core::theme/default_preview.jpg',
+                'mediatheme/preview/Mage_Core::theme/default_preview.jpg',
             ),
         );
     }
