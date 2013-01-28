@@ -34,7 +34,7 @@
                 $(this.options.addrTypeSelector).val(this.options.newAddrTypeVal);
                 $(this.options.newShipAddrFormSelector).show();
             }
-            this.element.on('change', this.options.addrTypeSelector, $.proxy(this._handleShipAddrChange,this));
+            this.element.on('change', this.options.addrTypeSelector, $.proxy(this._handleShipAddrChange, this));
         },
 
         /**
