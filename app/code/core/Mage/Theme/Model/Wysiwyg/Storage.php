@@ -21,16 +21,29 @@ class Mage_Theme_Model_Wysiwyg_Storage
     const TYPE_IMAGE = 'image';
 
     /**
+     * Directory for image thumbnail
+     */
+    const THUMBNAIL_DIRECTORY = '.thumbnail';
+
+    /**
+     * Image thumbnail width
+     */
+    const THUMBNAIL_WIDTH = 100;
+
+    /**
+     * Image thumbnail height
+     */
+    const THUMBNAIL_HEIGHT = 100;
+
+    /**
      * Directory name regular expression
      */
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
 
     /**
-     * File system model
-     *
-     * @var Varien_Io_File
+     * @var Magento_Filesystem
      */
-    protected $_fileIo;
+    protected $_filesystem;
 
     /**
      * Storage helper
@@ -47,16 +60,17 @@ class Mage_Theme_Model_Wysiwyg_Storage
     /**
      * Initialize dependencies
      *
-     * @param Varien_Io_File $fileIo
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Theme_Helper_Storage $helper
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Varien_Io_File $fileIo,
+        Magento_Filesystem $filesystem,
         Mage_Theme_Helper_Storage $helper,
         Magento_ObjectManager $objectManager
     ) {
-        $this->_fileIo = $fileIo;
+        $this->_filesystem = $filesystem;
+        $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_helper = $helper;
         $this->_objectManager = $objectManager;
     }
@@ -81,6 +95,8 @@ class Mage_Theme_Model_Wysiwyg_Storage
             Mage::throwException($this->_helper->__('Cannot upload file.') );
         }
 
+        $this->_createThumbnail($targetPath . DIRECTORY_SEPARATOR . $uploader->getUploadedFileName());
+
         $result['cookie'] = array(
             'name'     => $this->_helper->getSession()->getSessionName(),
             'value'    => $this->_helper->getSession()->getSessionId(),
@@ -90,6 +106,40 @@ class Mage_Theme_Model_Wysiwyg_Storage
         );
 
         return $result;
+    }
+
+    /**
+     * Create thumbnail for image and save it to thumbnails directory
+     *
+     * @param string $source
+     * @return bool|string Resized filepath or false if errors were occurred
+     */
+    public function _createThumbnail($source)
+    {
+        if (self::TYPE_IMAGE != $this->_helper->getStorageType() || !$this->_filesystem->isFile($source)
+            || !$this->_filesystem->isReadable($source)
+        ) {
+            return false;
+        }
+        $thumbnailDir = $this->_helper->getThumbnailDirectory($source);
+        $thumbnailPath = $thumbnailDir . DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
+        try {
+            $this->_filesystem->ensureDirectoryExists($thumbnailDir);
+            $adapter = $this->_objectManager->get('Mage_Core_Helper_Data')->getImageAdapterType();
+            $image = Varien_Image_Adapter::factory($adapter);
+            $image->open($source);
+            $image->keepAspectRatio(true);
+            $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
+            $image->save($thumbnailPath);
+        } catch (Magento_Filesystem_Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            return false;
+        }
+
+        if ($this->_filesystem->isFile($thumbnailPath)) {
+            return $thumbnailPath;
+        }
+        return false;
     }
 
     /**
@@ -105,24 +155,22 @@ class Mage_Theme_Model_Wysiwyg_Storage
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
             Mage::throwException($this->_helper->__('Invalid folder name.'));
         }
-        if (!$this->_fileIo->isWriteable($path)) {
+        if (!$this->_filesystem->isWritable($path)) {
             $path = $this->_helper->getStorageRoot();
         }
 
         $newPath = $path . DIRECTORY_SEPARATOR . $name;
 
-        if ($this->_fileIo->fileExists($newPath)) {
+        if ($this->_filesystem->has($newPath)) {
             Mage::throwException($this->_helper->__('A directory with the same name already exists.'));
         }
 
-        if (!$this->_fileIo->checkAndCreateFolder($newPath)) {
-            Mage::throwException($this->_helper->__('Cannot create new directory.'));
-        }
+        $this->_filesystem->ensureDirectoryExists($newPath);
 
         $result = array(
             'name'       => $name,
             'short_name' => $this->_helper->getShortFilename($name),
-            'path'       => $newPath,
+            'path'       => $path = str_replace($this->_helper->getStorageRoot(), '', $newPath),
             'id'         => $this->_helper->convertPathToId($newPath)
         );
 
@@ -140,11 +188,14 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $file = $this->_helper->urlDecode($file);
         $path = $this->_helper->getSession()->getStoragePath();
 
-        $_filePath = realpath($path . DS . $file);
-        if (strpos($_filePath, realpath($path)) === 0
-            && strpos($_filePath, realpath($this->_helper->getStorageRoot())) === 0
+        $_filePath = realpath($path . DIRECTORY_SEPARATOR . $file);
+        $_thumbnailPath = $this->_helper->getThumbnailDirectory($_filePath) . DIRECTORY_SEPARATOR . $file;
+
+        if ($this->_filesystem->isPathInDirectory($_filePath, $path)
+            && $this->_filesystem->isPathInDirectory($_filePath, $this->_helper->getStorageRoot())
         ) {
-            $this->_fileIo->rm($_filePath);
+            $this->_filesystem->delete($_filePath);
+            $this->_filesystem->delete($_thumbnailPath);
         }
         return $this;
     }
@@ -158,10 +209,18 @@ class Mage_Theme_Model_Wysiwyg_Storage
      */
     public function getDirsCollection($path)
     {
-        if (!$this->_fileIo->fileExists($path, false)) {
+        if (!$this->_filesystem->has($path)) {
             Mage::throwException($this->_helper->__('A directory with the same name not exists.'));
         }
-        return $this->_fileIo->getDirectoriesList($path);
+
+        $paths = $this->_filesystem->searchKeys($path, '*');
+        $directories = array();
+        foreach ($paths as $path) {
+            if ($this->_filesystem->isDirectory($path)) {
+                $directories[] = $path;
+            }
+        }
+        return $directories;
     }
 
     /**
@@ -171,10 +230,24 @@ class Mage_Theme_Model_Wysiwyg_Storage
      */
     public function getFilesCollection()
     {
-        $this->_fileIo->cd($this->_helper->getCurrentPath());
-        $files = $this->_fileIo->ls(Varien_Io_File::GREP_FILES);
-        foreach ($files as &$file) {
-            $file['id'] = $this->_helper->urlEncode($file['text']);
+        $paths = $this->_filesystem->searchKeys($this->_helper->getCurrentPath(), '*');
+        $files = array();
+        $requestParams = $this->_helper->getRequestParams();
+        $storageType = $this->_helper->getStorageType();
+        foreach ($paths as $path) {
+            if (!$this->_filesystem->isFile($path)) {
+                continue;
+            }
+            $fileName = pathinfo($path, PATHINFO_BASENAME);
+            $file = array(
+                'text' => $fileName,
+                'id'   => $this->_helper->urlEncode($fileName)
+            );
+            if (self::TYPE_IMAGE == $storageType) {
+                $requestParams['file'] = $fileName;
+                $file['thumbnailParams'] = $requestParams;
+            }
+            $files[] = $file;
         }
         return $files;
     }
@@ -189,9 +262,8 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $directories = $this->getDirsCollection($this->_helper->getCurrentPath());
         $resultArray = array();
         foreach ($directories as $path) {
-            $item = $this->_fileIo->getPathInfo($path);
             $resultArray[] = array(
-                'text'  => $this->_helper->getShortFilename($item['basename'], 20),
+                'text'  => $this->_helper->getShortFilename(pathinfo($path, PATHINFO_BASENAME), 20),
                 'id'    => $this->_helper->convertPathToId($path),
                 'cls'   => 'folder'
             );
@@ -215,6 +287,6 @@ class Mage_Theme_Model_Wysiwyg_Storage
             Mage::throwException($this->_helper->__('Cannot delete root directory %s.', $path));
         }
 
-        return $this->_fileIo->rmdirRecursive($path);
+        return $this->_filesystem->delete($path);
     }
 }

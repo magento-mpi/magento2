@@ -106,6 +106,24 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Ad
     }
 
     /**
+     * Preview image action
+     */
+    public function previewImageAction()
+    {
+        $file = $this->getRequest()->getParam('file');
+        /** @var $helper Mage_Theme_Helper_Storage */
+        $helper = $this->_objectManager->get('Mage_Theme_Helper_Storage');
+        try {
+            $this->_prepareDownloadResponse($file, array(
+                'type'  => 'filename',
+                'value' => $helper->getThumbnailPath($file)
+            ));
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+    }
+
+    /**
      * Delete file from media storage
      * @throws Exception
      */

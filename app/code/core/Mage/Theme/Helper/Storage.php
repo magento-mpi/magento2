@@ -129,7 +129,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     public function getStorageRoot()
     {
         return $this->_getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR
-            . Mage_Core_Model_Theme_Files::CUSTOMIZATION_PATH_PREFIX . DIRECTORY_SEPARATOR . $this->_getStorageType();
+            . Mage_Core_Model_Theme_Files::CUSTOMIZATION_PATH_PREFIX . DIRECTORY_SEPARATOR . $this->getStorageType();
     }
 
     /**
@@ -154,7 +154,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      * @return string
      * @throws Magento_Exception
      */
-    protected function _getStorageType()
+    public function getStorageType()
     {
         $allowedTypes = array(
             Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT,
@@ -174,7 +174,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getRelativeUrl()
     {
-        $pathPieces = array('..', $this->_getStorageType());
+        $pathPieces = array('..', $this->getStorageType());
         $node = $this->_getRequest()->getParam(self::PARAM_NODE);
         if ($node !== self::NODE_ROOT) {
             $pathPieces[] = trim($this->urlDecode($node), '/');
@@ -205,6 +205,29 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get thumbnail directory for path
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getThumbnailDirectory($path)
+    {
+        return pathinfo($path, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR
+            . Mage_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY;
+    }
+
+    /**
+     * Get thumbnail path in current directory by image name
+     *
+     * @param $imageName
+     * @return string
+     */
+    public function getThumbnailPath($imageName)
+    {
+        return $this->getThumbnailDirectory($this->getCurrentPath()) . pathinfo($imageName, PATHINFO_BASENAME);
+    }
+
+    /**
      * Request params for selected theme
      *
      * @return array
@@ -213,9 +236,11 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     {
         $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
         $contentType = $this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
+        $node = $this->_getRequest()->getParam(self::PARAM_NODE);
         return array(
             self::PARAM_THEME_ID     => $themeId,
-            self::PARAM_CONTENT_TYPE => $contentType
+            self::PARAM_CONTENT_TYPE => $contentType,
+            self::PARAM_NODE         => $node
         );
     }
 
@@ -227,7 +252,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getAllowedExtensionsByType()
     {
-        switch ($this->_getStorageType()) {
+        switch ($this->getStorageType()) {
             case Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT:
                 $extensions = array('ttf', 'otf', 'eot', 'svg', 'woff');
                 break;
