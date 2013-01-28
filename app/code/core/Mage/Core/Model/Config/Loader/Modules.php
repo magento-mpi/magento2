@@ -55,11 +55,19 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected $_fileReader;
 
     /**
+     * Application object manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
      * @param Mage_Core_Model_Config_Resource $resourceConfig
      * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
+     * @param Magento_ObjectManager
      * @param array $allowedModules
      */
     public function __construct(
@@ -68,6 +76,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Mage_Core_Model_Config_BaseFactory $prototypeFactory,
         Mage_Core_Model_Config_Resource $resourceConfig,
         Mage_Core_Model_Config_Loader_Modules_File $fileReader,
+        Magento_ObjectManager $objectManager,
         array $allowedModules = array()
     ) {
         $this->_dirs = $dirs;
@@ -76,6 +85,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         $this->_prototypeFactory = $prototypeFactory;
         $this->_resourceConfig = $resourceConfig;
         $this->_fileReader = $fileReader;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -111,6 +121,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Magento_Profiler::stop('load_modules');
         Magento_Profiler::stop('config');
         $this->_resourceConfig->setConfig($config);
+        $this->_objectManager->setConfiguration($config->getNode('global/di')->asArray());
     }
 
     /**

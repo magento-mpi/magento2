@@ -10,13 +10,13 @@
 class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_Zend
 {
     /**
-     * @param Mage_Core_Model_ObjectManager_Config $configuration
+     * @param Magento_ObjectManager_Configuration $configuration
      * @param string $baseDir
      * @param Magento_Di $diInstance
      * @param Magento_Di_InstanceManager $instanceManager
      */
     public function __construct(
-        Mage_Core_Model_ObjectManager_Config $configuration,
+        Magento_ObjectManager_Configuration $configuration,
         $baseDir,
         Magento_Di $diInstance = null,
         Magento_Di_InstanceManager $instanceManager = null

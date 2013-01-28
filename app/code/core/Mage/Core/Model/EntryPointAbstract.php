@@ -21,12 +21,12 @@ abstract class Mage_Core_Model_EntryPointAbstract
      * @param array $params
      */
     public function __construct(
-        $baseDir, array $params = array()
+        $baseDir, array $params = array(), Magento_ObjectManager $objectManager = null
     ) {
         if (!array_key_exists(Mage::PARAM_BASEDIR, $params)) {
             $params[Mage::PARAM_BASEDIR] = $baseDir;
         }
-        $this->_objectManager = new Mage_Core_Model_ObjectManager(
+        $this->_objectManager = $objectManager ?: new Mage_Core_Model_ObjectManager(
             new Mage_Core_Model_ObjectManager_Config($params),
             $baseDir
         );
