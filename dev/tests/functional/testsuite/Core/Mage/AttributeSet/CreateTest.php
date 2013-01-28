@@ -80,7 +80,8 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->attributeSetHelper()->createAttributeSet($setData);
         //Verifying
-        $this->addFieldIdToMessage('field', 'set_name');
+        $fieldXpath = $this->_getControlXpath('field', 'set_name');
+        $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }

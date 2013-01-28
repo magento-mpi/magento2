@@ -82,18 +82,17 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield');
         $attributeSetName = $this->generate('string', 10, ':alnum:');
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->openTab('general');
         $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
         //Verifying
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
-        $this->addParameter('productName', 'New Product');
-        $this->addParameter('attributeSet', $attributeSetName);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
-            'Attribute set was not changed in product name');
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
+            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
         $this->assertFalse($this->controlIsPresent('field', 'general_user_attr_field'),
@@ -115,6 +114,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $attributeSetName = $this->generate('string', 10, ':alnum:');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield');
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productSkuDefault));
         //Preconditions
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -124,12 +124,10 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
         //Verifying
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
-        $this->addParameter('productName', $productData['general_name']);
-        $this->addParameter('attributeSet', $attributeSetName);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
-            'Attribute set was not changed in product name');
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
+            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
         $this->assertFalse($this->controlIsPresent('field', 'general_user_attr_field'),
