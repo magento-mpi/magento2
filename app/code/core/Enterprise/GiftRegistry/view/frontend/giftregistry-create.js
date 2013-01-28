@@ -16,7 +16,25 @@
 
         options: {
             rowIdPrefix: 'registrant:',
-            rowCustomIdPrefix: 'registrant:custom:'
+            rowCustomIdPrefix: 'registrant:custom:',
+            addrTypeSelector: '#address_type_or_id',
+            newShipAddrFormSelector: '#shipping-new-address-form',
+            shipAddrDataSelector: 'div[data-shipping-address]',
+            shipAddrDataAttr: 'shipping-address',
+            newAddrTypeVal: 'new'
+        },
+
+        /**
+         *
+         * @private
+         */
+        _create: function() {
+            this._super();
+            if ($(this.options.shipAddrDataSelector).data(this.options.shipAddrDataAttr)) {
+                $(this.options.addrTypeSelector).val(this.options.newAddrTypeVal);
+                $(this.options.newShipAddrFormSelector).show();
+            }
+            this.element.on('change', this.options.addrTypeSelector, $.proxy(this._handleShipAddrChange,this));
         },
 
         /**
@@ -30,8 +48,7 @@
             var formData = formDataArr.formData;
             for (var i = this.options.rowIndex = 0; i < formData.length; this.options.rowIndex = i++) {
                 this.addRow(i);
-                var formRow = formData[i];
-                this._processFormDataArrKey(i, formRow, false);
+                this._processFormDataArrKey(i, formData[i], false);
             }
 
         },
@@ -56,6 +73,15 @@
                     }
                 }
             }
+        },
+
+        /**
+         * Function to handle shipping address change
+         * @private
+         * @param {Object} e - native event object
+         */
+        _handleShipAddrChange: function(e) {
+            $(this.options.newShipAddrFormSelector).toggle(e.target.value === this.options.newAddrTypeVal);
         }
     });
 })(jQuery);
