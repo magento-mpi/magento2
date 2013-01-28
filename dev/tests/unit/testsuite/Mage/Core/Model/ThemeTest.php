@@ -17,30 +17,36 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * Return Mock of Theme Model loaded from configuration
      *
+     * @param bool $fromCollection
      * @param string $designDir
      * @param string $targetPath
      * @return Mage_Core_Model_Theme
      */
-    protected function _getThemeModel($designDir, $targetPath)
+    protected function _getThemeModel($fromCollection = false, $designDir = '', $targetPath = '')
     {
-        $objectManager = Mage::getObjectManager();
-
         /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
         $themeCollection = $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false);
+
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             Magento_Test_Helper_ObjectManager::MODEL_ENTITY, 'Mage_Core_Model_Theme',
             array(
-                'objectManager'      => $objectManager,
-                'helper'             => $objectManager->get('Mage_Core_Helper_Data'),
-                'resource'           => $objectManager->get('Mage_Core_Model_Resource_Theme'),
-                'resourceCollection' => $themeCollection,
-                'themeFactory'       => $objectManager->get('Mage_Core_Model_Theme_Factory'),
-                'themeImage'         => $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false)
+                 'objectManager' => $this->getMock('Magento_ObjectManager', array(), array(), '', false),
+                 'themeFactory' => $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
+                 'helper' => $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
+                 'themeImage' => $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
+                 'resource' => $this->getMock('Mage_Core_Model_Resource_Theme', array(), array(), '', false),
+                 'resourceCollection' => $themeCollection
             )
         );
-        /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('_init'), $arguments, '', true);
+
+        $reflection = new \ReflectionClass('Mage_Core_Model_Theme');
+        $themeMock = $reflection->newInstanceArgs($arguments);
+
+        if (!$fromCollection) {
+            return $themeMock;
+        }
+
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
 
         /** @var $collectionMock Mage_Core_Model_Theme_Collection|PHPUnit_Framework_MockObject_MockObject */
@@ -65,7 +71,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $this->_expectedThemeDataFromConfiguration(),
-            $this->_getThemeModel($designDir, $targetPath)->getData()
+            $this->_getThemeModel(true, $designDir, $targetPath)->getData()
         );
     }
 
@@ -82,7 +88,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $this->_expectedThemeDataFromConfiguration(),
-            $this->_getThemeModel($designDir, $targetPath)->getData()
+            $this->_getThemeModel(true, $designDir, $targetPath)->getData()
         );
     }
 
@@ -109,44 +115,13 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testThemeCustomization()
+    public function testSaveThemeCustomization()
     {
-        $themeResource = $this->getMock(
-            'Mage_Core_Model_Resource_Theme',
-            array('beginTransaction', 'save', 'addCommitCallback', 'commit', 'getIdFieldName'),
-            array(),
-            '',
-            false
-        );
-        $themeResource->expects($this->once())->method('beginTransaction')->will($this->returnValue($themeResource));
-        $themeResource->expects($this->once())->method('save')->will($this->returnValue($themeResource));
-        $themeResource->expects($this->once())->method('addCommitCallback')->will($this->returnValue($themeResource));
-        $themeResource->expects($this->once())->method('commit')->will($this->returnValue($themeResource));
-
-        /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock(
-            'Mage_Core_Model_Theme',
-            array('_init', '_beforeSave', 'cleanModelCache', '_applyCustomizationFiles'),
-            array(
-                $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false),
-                $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
-                $this->getMock('Magento_ObjectManager', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
-                $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
-                $themeResource,
-                $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false)
-            ),
-            '',
-            true
-        );
-
-        $themeMock->expects($this->once())->method('_applyCustomizationFiles');
-
+        $themeMock = $this->_getThemeModel();
         $jsFile = $this->getMock('Mage_Core_Model_Theme_Customization_Files_Js', array('saveData'), array(), '', false);
-        $jsFile->expects($this->once())->method('saveData');
+        $jsFile->expects($this->atLeastOnce())->method('saveData');
 
         $themeMock->setCustomization($jsFile);
-        $themeMock->save();
+        $this->assertInstanceOf('Mage_Core_Model_Theme', $themeMock->saveThemeCustomization());
     }
 }
