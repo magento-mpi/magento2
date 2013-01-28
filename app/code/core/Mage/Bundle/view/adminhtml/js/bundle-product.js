@@ -9,7 +9,7 @@
 /*jshint browser:true jquery:true*/
 /*global FORM_KEY*/
 /*global bSelection*/
-jQuery(function($) {
+(function($) {
     $.widget('mage.bundleProduct', {
         _create: function () {
             this._initOptionBoxes();
@@ -60,22 +60,28 @@ jQuery(function($) {
             });
         },
         _bindAddSelectionDialog: function () {
-            var self = this;
+            var widget = this;
             this._on({'click .add-selection': function (event) {
                 var $optionBox = $(event.target).closest('.option-box'),
                     $selectionGrid = $optionBox.find('.selection-search'),
                     optionIndex = $optionBox.attr('id').replace('bundle_option_', ''),
-                    productIds = [];
+                    productIds = [],
+                    productSkus = [];
 
                 $optionBox.find('[name$="[product_id]"]').each(function () {
                     if (!$(this).closest('tr').find('[name$="[delete]"]').val()) {
                         productIds.push($(this).val());
+                        productSkus.push($(this).closest('tr').find('.product-sku').text());
                     }
                 });
 
                 bSelection.gridSelection.set(optionIndex, $H({}));
+                bSelection.gridRemoval = $H({});
+                bSelection.gridSelectedProductSkus = productSkus;
                 $selectionGrid.dialog({
-                    title: 'Select Products to Add',
+                    title: $optionBox.find('input[name$="[title]"]').val() == '' ?
+                        'Add Products to New Option' :
+                        'Add Products to Option "' + $optionBox.find('input[name$="[title]"]').val() + '"',
                     autoOpen: false,
                     minWidth: 980,
                     modal: true,
@@ -86,7 +92,7 @@ jQuery(function($) {
                             $selectionGrid.dialog('close');
                         }
                     }, {
-                        text: 'Add Selected Product(s) to Option',
+                        text: 'Apply Changes',
                         'class': 'add',
                         click: function() {
                             bSelection.gridSelection.get(optionIndex).each(
@@ -101,9 +107,15 @@ jQuery(function($) {
                                     });
                                 }
                             );
-
-                            self.refreshSortableElements();
-                            self._updateSelectionsPositions.apply(self.element);
+                            bSelection.gridRemoval.each(
+                                function(pair) {
+                                    $optionBox.find('.product-sku').filter(function () {
+                                        return $.trim($(this).text()) == pair.key; // find row by SKU
+                                    }).closest('tr').find('button.delete').trigger('click');
+                                }
+                            );
+                            widget.refreshSortableElements();
+                            widget._updateSelectionsPositions.apply(widget.element);
                             $selectionGrid.dialog('close');
                         }
                     }],
@@ -175,4 +187,4 @@ jQuery(function($) {
             return this;
         }
     });
-});
+})(jQuery);

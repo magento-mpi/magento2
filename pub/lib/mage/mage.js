@@ -64,7 +64,7 @@
      * @private
      */
     function _initComponent(name, args) {
-        /*jshint valid this: true */
+        /*jshint validthis: true */
         // create a complete copy of arguments
         args = $.map($.makeArray(args), function(arg) {
             return $.isArray(arg) ? [arg.slice()] :

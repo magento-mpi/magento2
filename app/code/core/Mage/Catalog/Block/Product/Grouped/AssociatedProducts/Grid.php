@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_Grid_Grouped extends Mage_Backend_Block_Widget_Grid
+class Mage_Catalog_Block_Product_Grouped_AssociatedProducts_Grid extends Mage_Backend_Block_Widget_Grid
 {
     /**
      * Input name product data will be serialized into
@@ -60,7 +60,7 @@ class Mage_Catalog_Block_Product_Grid_Grouped extends Mage_Backend_Block_Widget_
      *
      * @return array
      */
-    public function getAssociatedProductsIds()
+    public function getAssociatedProductIds()
     {
         $associatedProducts = Mage::registry('current_product')->getTypeInstance()
             ->getAssociatedProducts(Mage::registry('current_product'));

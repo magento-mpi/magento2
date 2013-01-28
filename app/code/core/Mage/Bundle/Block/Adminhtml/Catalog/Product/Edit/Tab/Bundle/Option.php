@@ -110,7 +110,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
     {
         $this->addChild('add_selection_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'id'    => $this->getFieldId() . '_{{index}}_add_button',
-            'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Add Selection'),
+            'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Add Products to Option'),
             'class' => 'add add-selection'
         ));
 

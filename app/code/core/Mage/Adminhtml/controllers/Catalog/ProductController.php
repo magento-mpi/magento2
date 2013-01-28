@@ -441,20 +441,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function superGroupPopupAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    /**
-     * Get associated grouped products grid only
-     *
-     */
-    public function superGroupGridOnlyAction()
-    {
         $this->_initProduct();
-        $this->loadLayout();
-        $this->getLayout()->getBlock('catalog.product.edit.tab.super.group')
-            ->setProductsGrouped($this->getRequest()->getPost('products_grouped', null));
+        $this->loadLayout(false);
         $this->renderLayout();
     }
 

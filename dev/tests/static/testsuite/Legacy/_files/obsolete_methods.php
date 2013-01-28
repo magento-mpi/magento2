@@ -414,4 +414,5 @@ return array(
     $this->_getRule('getHeaderText', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
     $this->_getRule('getButtonsHtml', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
     $this->_getRule('getHeaderCssClass', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
+    $this->_getRule('superGroupGridOnlyAction', 'Mage_Adminhtml_Catalog_ProductController'),
 );

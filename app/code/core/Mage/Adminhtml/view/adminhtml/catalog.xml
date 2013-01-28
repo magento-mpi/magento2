@@ -375,7 +375,7 @@ Layout handle for grouped products
 
     <adminhtml_catalog_product_grouped_grid>
         <reference name="catalog.product.edit.tab.super.grid.container">
-            <block type="Mage_Catalog_Block_Product_Grid_Grouped" name="catalog.product.edit.tab.super.group" as="catalog.product.group.grid">
+            <block type="Mage_Catalog_Block_Product_Grouped_AssociatedProducts_Grid" name="catalog.product.edit.tab.super.group" as="catalog.product.group.grid">
                 <arguments>
                     <id>grouped_grid</id>
                     <dataSource type="object">Mage_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection</dataSource>
@@ -398,11 +398,10 @@ Layout handle for grouped products
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="info">
                         <arguments>
-                            <type>text</type>
+                            <type>grip</type>
                             <index>entity_id</index>
                             <width>5px</width>
                             <sortable>0</sortable>
-                            <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Grip</renderer>
                             <inline_css>ui-icon ui-icon-grip-dotted-vertical</inline_css>
                         </arguments>
                     </block>
@@ -448,7 +447,8 @@ Layout handle for grouped products
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="delete">
                         <arguments>
                             <header translate="true" module="Mage_Sales">Delete</header>
-                            <type>input</type>
+                            <type>button</type>
+                            <button_type>button</button_type>
                             <column_css_class>product-delete</column_css_class>
                             <width>60px</width>
                             <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Button</renderer>
@@ -457,7 +457,6 @@ Layout handle for grouped products
                         </arguments>
                     </block>
                 </block>
-                <block type="Mage_Core_Block_Template" template="Mage_Backend::catalog/product/tab/js.phtml"/>
                 <action method="setGridData">
                     <hidden_input_name>links[grouped]</hidden_input_name>
                     <fields_to_save>
@@ -498,15 +497,6 @@ Layout handle for grouped products
                             <width>60px</width>
                             <align>center</align>
                             <index>entity_id</index>
-                        </arguments>
-                    </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="id">
-                        <arguments>
-                            <header translate="true" module="Mage_Sales">ID</header>
-                            <column_css_class>associated-product-id</column_css_class>
-                            <type>text</type>
-                            <index>entity_id</index>
-                            <width>60px</width>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
@@ -551,12 +541,6 @@ Layout handle for grouped products
         <update handle="adminhtml_catalog_product_grouped"/>
         <container output="1" name="catalog.product.edit.tab.super.grid.popup.container" label="grid"></container>
     </adminhtml_catalog_product_supergrouppopup>
-
-    <adminhtml_catalog_product_supergroupgridonly>
-        <container name="root" label="Root" output="1">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group" name="catalog.product.edit.tab.super.group" />
-        </container>
-    </adminhtml_catalog_product_supergroupgridonly>
 
     <adminhtml_catalog_product_variationsmatrix>
         <container name="root" label="Root" output="1">

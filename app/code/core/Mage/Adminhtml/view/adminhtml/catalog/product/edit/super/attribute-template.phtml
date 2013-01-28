@@ -32,8 +32,8 @@ $id = $this->escapeHtml($attribute['attribute_id']);
     <input value="<?php echo $this->escapeHtml($attribute['position']); ?>" type="hidden"
         name="product[configurable_attributes_data][<?php echo $id ?>][position]"/>
 
-    <div class="entry-edit-head" style="cursor: move;">
-        <span class="ui-icon ui-icon-arrowthick-2-n-s" style="float:left;"></span>
+    <div class="entry-edit-head">
+        <span class="ui-icon ui-icon-grip-dotted-vertical" style="float:left"></span>
         <h4 class="icon-head head-edit-form fieldset-legend">
             <input value="<?php echo $this->escapeHtml($attribute['label']); ?>"
                 name="product[configurable_attributes_data][<?php echo $id ?>][label]"
