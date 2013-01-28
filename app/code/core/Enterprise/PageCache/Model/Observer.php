@@ -54,17 +54,24 @@ class Enterprise_PageCache_Model_Observer
     protected $_cookieFactory;
 
     /**
+     * @var Enterprise_PageCache_Model_Cache
+     */
+    protected $_fpcCache;
+
+    /**
      * Class constructor
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Config $config,
         Mage_Core_Model_Cache $cache,
+        Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_CookieFactory $cookieFactory
     ) {
         $this->_processor = $processor;
         $this->_config    = $config;
         $this->_cache = $cache;
+        $this->_fpcCache = $fpcCache;
         $this->_cookieFactory = $cookieFactory;
         $this->_isEnabled = $this->_cache->canUse('full_page');
     }
@@ -138,10 +145,10 @@ class Enterprise_PageCache_Model_Observer
         }
         $cacheId = Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY;
 
-        $exception = $this->_cache->load($cacheId);
+        $exception = $this->_fpcCache->load($cacheId);
         if (!$exception) {
             $exception = Mage::getStoreConfig(self::XML_PATH_DESIGN_EXCEPTION);
-            $this->_cache->save($exception, $cacheId);
+            $this->_fpcCache->save($exception, $cacheId);
             $this->_processor->refreshRequestIds();
         }
         return $this;
@@ -251,7 +258,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function cleanCache()
     {
-        $this->_cache->clean(Enterprise_PageCache_Model_Processor::CACHE_TAG);
+        $this->_fpcCache->clean(Enterprise_PageCache_Model_Processor::CACHE_TAG);
         return $this;
     }
 
@@ -261,7 +268,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function cleanExpiredCache()
     {
-        $this->_cache->getFrontend()->clean(Zend_Cache::CLEANING_MODE_OLD);
+        $this->_fpcCache->getFrontend()->clean(Zend_Cache::CLEANING_MODE_OLD);
         return $this;
     }
 
@@ -322,7 +329,7 @@ class Enterprise_PageCache_Model_Observer
         $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_CART, 'quote_' . $quote->getId());
 
         $cacheId = Enterprise_PageCache_Model_Container_Advanced_Quote::getCacheId();
-        $this->_cache->remove($cacheId);
+        $this->_fpcCache->remove($cacheId);
 
         return $this;
     }
@@ -502,7 +509,7 @@ class Enterprise_PageCache_Model_Observer
             'Enterprise_PageCache_Model_Container_Wishlists',
             array('placeholder' => 'WISHLISTS')
         );
-        $this->_cache->remove($blockContainer->getCacheId());
+        $this->_fpcCache->remove($blockContainer->getCacheId());
 
         return $this;
     }
@@ -539,7 +546,7 @@ class Enterprise_PageCache_Model_Observer
 
         // Customer order sidebar tag
         $cacheId = md5($this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
-        $this->_cache->remove($cacheId);
+        $this->_fpcCache->remove($cacheId);
         return $this;
     }
 
@@ -567,7 +574,7 @@ class Enterprise_PageCache_Model_Observer
     public function registerDesignExceptionsChange(Varien_Event_Observer $observer)
     {
         $object = $observer->getDataObject();
-        $this->_cache->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY,
+        $this->_fpcCache->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY,
                 array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         return $this;
     }

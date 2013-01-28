@@ -26,26 +26,26 @@ abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterpri
     protected $_placeholder;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Enterprise_PageCache_Model_Cache
      */
-    protected $_cache;
+    protected $_fpcCache;
 
     /**
-     * @param Mage_Core_Model_Cache $cache
+     * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Container_Placeholder $placeholder
      */
     public function __construct(
-        Mage_Core_Model_Cache $cache,
+        Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_Container_Placeholder $placeholder
     ) {
         $this->_placeholder = $placeholder;
-        $this->_cache = $cache;
+        $this->_fpcCache = $fpcCache;
     }
 
     /**
      * Get container individual cache id
      *
-     * @return string|false
+     * @return string|bool
      */
     protected function _getCacheId()
     {
@@ -152,7 +152,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterpri
      */
     protected function _loadCache($id)
     {
-        return $this->_cache->load($id);
+        return $this->_fpcCache->load($id);
     }
 
     /**
@@ -177,7 +177,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterpri
          */
         Enterprise_PageCache_Helper_Url::replaceSid($data);
 
-        $this->_cache->save($data, $id, $tags, $lifetime);
+        $this->_fpcCache->save($data, $id, $tags, $lifetime);
         return $this;
     }
 
