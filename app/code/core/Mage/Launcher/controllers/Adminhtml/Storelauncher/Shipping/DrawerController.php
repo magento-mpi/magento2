@@ -19,7 +19,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_Shipping_DrawerController
     extends Mage_Launcher_Controller_BaseDrawer
 {
     /**
-     * Drawer Save Action
+     * Save Origin Address Action
      */
     public function saveOriginAddressAction()
     {
@@ -38,6 +38,31 @@ class Mage_Launcher_Adminhtml_Storelauncher_Shipping_DrawerController
             $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => Mage::helper('Mage_Launcher_Helper_Data')->__($e->getMessage())
+            ));
+        }
+        $this->getResponse()->setBody($responseContent);
+    }
+
+    /**
+     * Save Shipping Method Action
+     */
+    public function saveShippingAction()
+    {
+        $responseContent = '';
+        try {
+            $data = $this->getRequest()->getParams();
+            /** @var $tileModel Mage_Launcher_Model_Tile */
+            $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create('shipping');
+            $saveHandler = $tileModel->getSaveHandler();
+            $saveHandler->saveShippingMethod($data);
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
+                'success' => true,
+                'message' => Mage::helper('Mage_Launcher_Helper_Data')->__('Configuration has been successfully saved.'),
+            ));
+        } catch (Exception $e) {
+            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
+                'success' => false,
+                'error_message' => Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage()),
             ));
         }
         $this->getResponse()->setBody($responseContent);
