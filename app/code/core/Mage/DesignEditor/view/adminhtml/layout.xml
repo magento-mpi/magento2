@@ -12,7 +12,7 @@
 <layout>
     <adminhtml_system_design_editor_index>
         <reference name="head">
-            <action method="addJs"><file>Mage_DesignEditor::js/jquery.tabs.js</file></action>
+            <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
@@ -41,7 +41,7 @@
 
     <adminhtml_system_design_editor_firstentrance>
         <reference name="head">
-            <action method="addJs"><file>Mage_DesignEditor::js/jquery.tabs.js</file></action>
+            <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
@@ -69,7 +69,7 @@
             <action method="setTemplate"><file>Mage_DesignEditor::editor.phtml</file></action>
         </reference>
         <reference name="head">
-            <action method="addJs"><file>Mage_DesignEditor::js/jquery.tabs.js</file></action>
+            <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/base.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
