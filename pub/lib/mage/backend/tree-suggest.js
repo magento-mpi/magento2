@@ -9,6 +9,27 @@
 /*jshint jquery:true browser:true*/
 (function($) {
     'use strict';
+    $.extend(true, $, {
+        // @TODO: Move method 'treeToList' in file with utility functions
+        mage: {
+            treeToList: function(list, nodes, level, path) {
+                $.each(nodes, function() {
+                    list.push({
+                        label: this.label,
+                        value: this.value,
+                        level: level,
+                        item: this,
+                        path: path + this.label
+                    });
+                    if ('children' in this) {
+                        $.mage.treeToList(list, this.children, level + 1, path + this.label + ' / ' );
+                    }
+                });
+                return list;
+            }
+        }
+    });
+
     var hover_node = $.jstree._instance.prototype.hover_node;
     var dehover_node = $.jstree._instance.prototype.dehover_node;
     var select_node = $.jstree._instance.prototype.select_node;
@@ -18,10 +39,12 @@
          * @override
          */
         init: function() {
-            this.get_container().on('keydown', $.proxy(function(e) {
+            this.get_container()
+                .show()
+                .on('keydown', $.proxy(function(e) {
                 if (e.keyCode === $.ui.keyCode.ENTER) {
                     var o = this.data.ui.hovered || this.data.ui.last_selected || -1;
-                    this.select_node(o);
+                    this.select_node(o, true);
                 }
             }, this));
             init.call(this);
@@ -50,9 +73,9 @@
         /**
          * @override
          */
-        select_node: function() {
+        select_node: function(o) {
             select_node.apply(this, arguments);
-            this.data.ui.last_selected.trigger('select_tree_node');
+            (o ? $(o) : this.data.ui.last_selected).trigger('select_tree_node');
         }
     });
 
@@ -116,12 +139,15 @@
         /**
          * @override
          */
-        _renderDropdown: function() {
+        _renderDropdown: function(items, context) {
+            if(!context._allShown) {
+                items = this.filter($.mage.treeToList([], items, 0, ''), this._term);
+            }
             var control = this.dropdown.find(this._control.selector);
             if (control.length && control.hasClass('jstree')) {
                 control.jstree("destroy");
             }
-            this._superApply(arguments);
+            this._superApply([items, context]);
         }
     });
 })(jQuery);
