@@ -59,7 +59,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedFileName, $filename);
     }
-    
+
     public function getFileDataProvider()
     {
         $file = 'test.txt';
@@ -227,13 +227,13 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($customizationPath));
 
         // 3.
-        /** @var $themeCustomizedPhysical Mage_Core_Model_Theme */
-        $themeCustomizedPhysical = $this->getMock('Mage_Core_Model_Theme',
+        /** @var $customizedPhysical Mage_Core_Model_Theme */
+        $customizedPhysical = $this->getMock('Mage_Core_Model_Theme',
             array('getCustomizationPath', 'getThemePath'), array(), '', false);
-        $themeCustomizedPhysical->expects($this->any())
+        $customizedPhysical->expects($this->any())
             ->method('getCustomizationPath')
             ->will($this->returnValue($customizationPath));
-        $themeCustomizedPhysical->expects($this->any())
+        $customizedPhysical->expects($this->any())
             ->method('getThemePath')
             ->will($this->returnValue($themePath));
 
@@ -267,11 +267,11 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             array($themeSimple, $file, null, ''),
             array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
             array($themeCustomized, $file, null, 'custom/test.txt'),
-            array($themeCustomizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, null, 'design_dir/area51/theme_path/locale/en_EN/test.txt'),
+            array($customizedPhysical, $file, null, 'design_dir/area51/theme_path/locale/en_EN/test.txt'),
             array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
@@ -352,7 +352,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function getViewFileDataProvider()
     {
-        $themeCustomizationPath = 'custom';
+        $customizationPath = 'custom';
         $themePath = 'theme_path';
         $parentThemePath = 'parent_theme_path';
         $grandParentThemePath = 'grand_parent_theme_path';
@@ -390,16 +390,16 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $themeCustomized = $this->getMock('Mage_Core_Model_Theme', array('getCustomizationPath'), array(), '', false);
         $themeCustomized->expects($this->any())
             ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
+            ->will($this->returnValue($customizationPath));
 
         // 3.
-        /** @var $themeCustomizedPhysical Mage_Core_Model_Theme */
-        $themeCustomizedPhysical = $this->getMock('Mage_Core_Model_Theme',
+        /** @var $customizedPhysical Mage_Core_Model_Theme */
+        $customizedPhysical = $this->getMock('Mage_Core_Model_Theme',
             array('getCustomizationPath', 'getThemePath'), array(), '', false);
-        $themeCustomizedPhysical->expects($this->any())
+        $customizedPhysical->expects($this->any())
             ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
-        $themeCustomizedPhysical->expects($this->any())
+            ->will($this->returnValue($customizationPath));
+        $customizedPhysical->expects($this->any())
             ->method('getThemePath')
             ->will($this->returnValue($themePath));
 
@@ -416,7 +416,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             array('getCustomizationPath', 'getThemePath', 'getParentTheme'), array(), '', false);
         $themeComplicated->expects($this->any())
             ->method('getCustomizationPath')
-            ->will($this->returnValue($themeCustomizationPath));
+            ->will($this->returnValue($customizationPath));
         $themeComplicated->expects($this->any())
             ->method('getThemePath')
             ->will($this->returnValue($themePath));
@@ -445,27 +445,27 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             array($themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
             array($themeCustomized, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
             array($themeCustomized, $file, null, 'js_dir/test.txt'),
-            array($themeCustomizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
+            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/test.txt',
+            array($customizedPhysical, $file, 'design_dir/area51/theme_path/test.txt',
                 'design_dir/area51/theme_path/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
+            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
+            array($customizedPhysical, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            array($customizedPhysical, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'module_view_dir/area51/test.txt',
+            array($customizedPhysical, $file, 'module_view_dir/area51/test.txt',
                 'module_view_dir/area51/test.txt'
             ),
-            array($themeCustomizedPhysical, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeCustomizedPhysical, $file, null, 'js_dir/test.txt'),
+            array($customizedPhysical, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            array($customizedPhysical, $file, null, 'js_dir/test.txt'),
             array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
