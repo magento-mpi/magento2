@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($){
+(function($) {
+    "use strict";
+
     $.widget("mage.toggle", {
-        /**
-         * baseToggleClass - class used to be toggled on clicked element
-         */
+
         options: {
-            baseToggleClass: "active"
+            baseToggleClass: "active"      // Class used to be toggled on clicked element
         },
 
         /**
@@ -21,28 +21,82 @@
          * @private
          */
         _create: function() {
+            this._beforeCreate();
             this.element.on('click', $.proxy(this._onClick, this));
+            this._afterCreate();
         },
 
         /**
          * Binding Click event
-         * Click relies on following data attributes for customization:
-         *  'data-toggle-selectors' - contains a comma separated list of CSS selectors which will be revealed or hidden
-         *                            when click event occurs
-         *  'data-current-label-el' - contains CSS selector for the element containing current label
-         *  'data-toggle-label'     - contains label which will be used instead of current label upon click
-         * @protected
+         *
+         * @private
+         * @param {Object} event
+         */
+        _onClick: function(event) {
+            this._toggleSelectors();
+            return false;               //Prevent default click for links and submit buttons
+        },
+
+        /**
+         * Method responsible for hiding and revealing specified DOM elements
+         * Toggle the class on clicked element
+         *
+         * @private
+         */
+        _toggleSelectors: function () {
+            this.element.toggleClass(this.options.baseToggleClass);
+        },
+
+        /**
+         * Method used to inject 3rd party functionality before create
+         * @private
+         */
+        _beforeCreate: function() {},
+
+        /**
+         * Method used to inject 3rd party functionality after create
+         * @private
+         */
+        _afterCreate: function() {},
+    });
+
+    // Extension for mage.toggle - Adding selectors support for other DOM elements we wish to toggle
+    $.widget('mage.toggle', $.mage.toggle, {
+
+        options: {
+            selectorsToggleClass: "hidden"    // Class used to be toggled on selectors DOM elements
+        },
+
+        /**
+         * Method responsible for hiding and revealing specified DOM elements
+         * If data-toggle-selectors attribute is present - toggle will be done on these selectors
+         * Otherwise we toggle the class on clicked element
+         *
+         * @private
+         * @override
+         */
+        _toggleSelectors: function () {
+            if (this.element.data('toggle-selectors')) {
+                $(this.element.data('toggle-selectors')).toggleClass(this.options.selectorsToggleClass);
+            } else {
+                this.element.toggleClass(this.options.baseToggleClass);
+            }
+        }
+
+    });
+
+    // Extension for mage.toggle - Adding label toggle
+    $.widget('mage.toggle', $.mage.toggle, {
+
+        /**
+         * Binding Click event
+         *
+         * @private
+         * @override
          */
         _onClick: function() {
-            if (this.element.data('toggle-label')) {
-                this._toggleLabel();
-            }
-            if (this.element.data('toggle-selectors')) {
-                this._toggleSelectors();
-            } else {
-                this.element.toggleClass(this.baseToggleClass);
-            }
-            return false;
+            this._toggleLabel();
+            this._super();
         },
 
         /**
@@ -50,18 +104,14 @@
          * @protected
          */
         _toggleLabel: function() {
-            var _currentLabelSelector = (this.element.data('current-label-el')) ? $(this.element.data('current-label-el')) : this.element;
-            var _newLabel = this.element.data('toggle-label');
-            this.element.data('toggle-label', _currentLabelSelector.html());
-            _currentLabelSelector.html(_newLabel);
-        },
-
-        /**
-         * Method responsible for hiding and revealing specified DOM elements
-         * @protected
-         */
-        _toggleSelectors: function () {
-            $(this.element.data('toggle-selectors')).toggleClass('hidden');
+            if (this.element.data('toggle-label')) {
+                var currentLabelSelector = (this.element.data('current-label-el')) ?
+                        $(this.element.data('current-label-el')) : this.element,
+                    newLabel = this.element.data('toggle-label');
+                this.element.data('toggle-label', currentLabelSelector.html());
+                currentLabelSelector.html(newLabel);
+            }
         }
     });
+
 })(jQuery);
