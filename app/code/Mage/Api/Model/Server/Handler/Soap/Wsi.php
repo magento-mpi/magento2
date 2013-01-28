@@ -59,7 +59,7 @@ class Mage_Api_Model_Server_Handler_Soap_Wsi extends Mage_Api_Model_Server_Handl
 
         $args = $this->prepareArgs($methodParams, $args);
 
-        $res = $this->call($sessionId, $apiKey, $args);
+        $res = $this->_call($sessionId, $apiKey, $args);
 
         $obj = $helper->wsiArrayPacker($res);
         $stdObj = new stdClass();

@@ -281,12 +281,14 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
      */
     public function getSpecialPrice($productId, $store = null)
     {
-        $attributes = new stdClass();
-        $attributes->attributes = array(
-            'special_price',
-            'special_from_date',
-            'special_to_date'
+        $product = $this->_getProduct($productId, $store);
+
+        $result = array(
+            'special_price'     => $product->getSpecialPrice(),
+            'special_from_date' => $product->getSpecialFromDate(),
+            'special_to_date'   => $product->getSpecialToDate(),
         );
-        return $this->info($productId, $store, $attributes);
+
+        return $result;
     }
 }
