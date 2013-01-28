@@ -25,13 +25,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     const SCOPE_WEBSITES = 'websites';
 
     /**
-     * Storage for generated class names
-     *
-     * @var array
-     */
-    protected $_classNameCache = array();
-
-    /**
      * Storage of validated secure urls
      *
      * @var array
@@ -122,25 +115,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Check rewrite section and apply rewrites to $className, if any
-     *
-     * @param   string $className
-     * @return  string
-     */
-    protected function _applyClassRewrites($className)
-    {
-        if (!isset($this->_classNameCache[$className])) {
-            $rewrites = (string) $this->getNode('global/rewrites/' . $className);
-            if (!empty($rewrites)) {
-                $className = $rewrites;
-            }
-            $this->_classNameCache[$className] = $className;
-        }
-
-        return $this->_classNameCache[$className];
-    }
-
-    /**
      * Load allowed areas from config
      *
      * @return Mage_Core_Model_Config
@@ -225,12 +199,11 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param string $path separated by slashes
      * @param string $value
      * @param bool $overwrite
-     * @return Varien_Simplexml_Config
      */
     public function setNode($path, $value, $overwrite = true)
     {
         try {
-            return $this->_config->setNode($path, $value, $overwrite);
+            $this->_config->setNode($path, $value, $overwrite);
         } catch (Mage_Core_Model_Config_Cache_Exception $e) {
             $this->reinit();
             $this->_config->setNode($path, $value, $overwrite);
@@ -569,7 +542,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * Get model class instance.
      *
      * Example:
-     * $config->getModelInstance('catalog/product')
+     * $config->getModelInstance('Mage_Catalog_Model_Resource_Product')
      *
      * Will instantiate Mage_Catalog_Model_Resource_Product
      *
