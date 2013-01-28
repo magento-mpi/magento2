@@ -104,16 +104,14 @@
     </ul>
 </div>
 <script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
-            function() {
-                $('#address\\:country_id').regionUpdater({
-                    regionListId: '#address\\:region_id',
-                    regionInputId: '#address\\:region',
-                    postcodeId: '#address\\:postcode',
-                    regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>
-                });
+    head.js(
+        "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+        function() {
+            jQuery('#address\\:country_id').regionUpdater({
+                regionListId: '#address\\:region_id',
+                regionInputId: '#address\\:region',
+                postcodeId: '#address\\:postcode',
+                regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>
             });
-    })(jQuery);
+        });
 </script>

@@ -12,7 +12,7 @@
     /**
      * Extending the rowBuilder widget and adding custom formProcessing for rendering recipients
      */
-    $.widget('mage.giftRegistryCreate', $.mage.rowBuilder, {
+    $.widget('mage.giftRegistry', $.mage.rowBuilder, {
 
         options: {
             rowIdPrefix: 'registrant:',

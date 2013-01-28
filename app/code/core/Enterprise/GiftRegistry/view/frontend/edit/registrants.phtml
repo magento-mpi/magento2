@@ -66,18 +66,16 @@
 </div>
 
 <script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Mage_Page::js/row-builder.js')?>",
-            "<?php echo $this->getViewFileUrl('Enterprise_GiftRegistry::giftregistry-create.js')?>", function() {
-                $('#form-validate').giftRegistryCreate({
-                    maxRows: '<?php echo $this->getMaxRegistrant() ?>',
-                    formDataPost: {"formData": <?php echo json_encode($this->getRegistrantPresets($this->getEntity()->getId())); ?>}
-                });
+    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
+        "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('Mage_Page::js/row-builder.js')?>",
+        "<?php echo $this->getViewFileUrl('Enterprise_GiftRegistry::gift-registry.js')?>", function() {
+            jQuery('#form-validate').giftRegistry({
+                maxRows: '<?php echo $this->getMaxRegistrant() ?>',
+                formDataPost: {"formData": <?php echo json_encode($this->getRegistrantPresets($this->getEntity()->getId())); ?>}
             });
-    })(jQuery);
+        });
 </script>
