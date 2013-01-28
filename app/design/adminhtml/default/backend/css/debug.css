@@ -108,100 +108,6 @@ label.mage-error {
 }
 
 /*
-    Forms temp styles
--------------------------------------- */
-.page-content-inner {
-    position: relative;
-    background: #f5f2ed;
-    border: 1px solid #b7b2a6;
-    border-radius: 5px;
-    padding: 20px;
-}
-
-.fieldset-wrapper,
-.fieldset {
-    background: #fff;
-    border: 1px solid #eae6e0;
-    border-radius: 5px;
-    margin: 0 0 8px;
-    padding: 5px 18px 18px;
-    position: relative;
-}
-
-.fieldset-wrapper > .fieldset-wrapper-title,
-.fieldset > .legend {
-    position: static;
-    float: left;
-    width: 100%;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 10px;
-    border-bottom: 1px solid #EDEDED;
-    margin-bottom: 18px;
-}
-
-.fieldset-wrapper > .fieldset-wrapper-title {
-    float: none;
-}
-
-.fieldset-wrapper > .fieldset-wrapper-title .title,
-.fieldset > .legend span {
-    font-family: 'CallunaSans', Arial, sans-serif;
-    font-size: 18px;
-    color: #666;
-    font-weight: normal;
-}
-
-.fieldset-wrapper-title > .actions {
-    float: right;
-}
-
-.fieldset > .legend + br {
-    display: block;
-    height: 0px;
-    overflow: hidden;
-    clear: left;
-}
-
-.fieldset-wrapper .fieldset,
-.fieldset .fieldset {
-    background: transparent;
-    padding: 9px 0;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    margin: 0 0 29px;
-}
-
-.fieldset .legend > span {
-}
-
-.fieldset .field {
-    margin: 0 0 29px;
-}
-
-.fieldset .field:last-child {
-    margin-bottom: 0;
-}
-
-.fieldset .label {
-    color: #666;
-}
-
-.with-addon .textarea {
-    margin: 0 0 6px;
-}
-
-.fieldset .control .textarea {
-    width: 100%;
-}
-
-.fieldset > .field > input[type="checkbox"] {
-    margin-top: 10px;
-}
-
-/*
     Accordion
 ------------------------*/
 .accordion {
@@ -568,4 +474,11 @@ th.required:before {
 
 .sidebar-actions button {
     margin: 0 0 5px;
+}
+
+/*
+    Product
+-------------------------------------- */
+.tier {
+    margin: 20px 0 0;
 }

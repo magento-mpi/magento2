@@ -170,3 +170,41 @@
 .mselect-list-item form {
     display: block;
 }
+
+.mselect-button-add,
+.mselect-button-add-disabled {
+    font: 14px/18px 'CallunaSans', Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    color: #322e2a;
+    background: #dbd6ce;
+    display: inline-block;
+    padding: 5px 14px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: top;
+    cursor: pointer;
+    border: transparent;
+    border-radius: 5px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.mselect-button-add:hover {
+    background: #cac2b5;
+    color: #322e2a;
+}
+
+.mselect-button-add:active {
+    box-shadow: 0 1px 5px #aaa59b inset;
+}
+
+.mselect-button-add-disabled,
+.mselect-button-add-disabled:hover {
+    cursor: not-allowed;
+    opacity: 0.65;
+    background: #d9d6cf;
+    box-shadow: none;
+    text-shadow: none;
+}
