@@ -289,7 +289,7 @@ class Mage_Core_Model_App
             $this->_isStoreInitialized = true;
             $currentStore = $this->_currentStore;
             $this->_initCurrentStore($this->_scopeCode, $this->_scopeType ?: self::SCOPE_TYPE_STORE);
-            if ($currentStore) {
+            if ($currentStore !== null) {
                 $this->_currentStore = $currentStore;
             }
             $this->_log->initForStore($this->_store, $this->_config);

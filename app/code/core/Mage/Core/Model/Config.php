@@ -7,6 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
 {
     /**
@@ -286,6 +294,26 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
             throw new InvalidArgumentException('Requested area (' . $areaCode . ') doesn\'t exist');
         }
         return $areas[$areaCode];
+    }
+
+    /**
+     * Identify front name of the requested area. Return current area front name if area code is not specified.
+     *
+     * @param string|null $areaCode
+     * @return string
+     * @throws LogicException If front name is not defined.
+     */
+    public function getAreaFrontName($areaCode = null)
+    {
+        $areaCode = empty($areaCode) ? $this->getCurrentAreaCode() : $areaCode;
+        $areaConfig = $this->getAreaConfig($areaCode);
+        if (!isset($areaConfig['frontName'])) {
+            throw new LogicException(sprintf(
+                'Area "%s" must have front name defined in the application config.',
+                $areaCode
+            ));
+        }
+        return $areaConfig['frontName'];
     }
 
     /**

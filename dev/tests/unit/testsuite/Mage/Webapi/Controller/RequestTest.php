@@ -10,7 +10,7 @@
 class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Request object
+     * Request object.
      *
      * @var Mage_Webapi_Controller_Request
      */
@@ -24,7 +24,7 @@ class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getFilter() method
+     * Test for getFilter() method.
      */
     public function testGetFilter()
     {
@@ -39,7 +39,7 @@ class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getOrderDirection() method
+     * Test for getOrderDirection() method.
      */
     public function testGetOrderDirection()
     {
@@ -54,7 +54,7 @@ class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getOrderField() method
+     * Test for getOrderField() method.
      */
     public function testGetOrderField()
     {
@@ -69,7 +69,7 @@ class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getPageNumber() method
+     * Test for getPageNumber() method.
      */
     public function testGetPageNumber()
     {
@@ -84,7 +84,7 @@ class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getPageSize() method
+     * Test for getPageSize() method.
      */
     public function testGetPageSize()
     {
@@ -97,7 +97,7 @@ class Mage_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getRequestedAttributes() method
+     * Test for getRequestedAttributes() method.
      */
     public function testGetRequestedAttributes()
     {
