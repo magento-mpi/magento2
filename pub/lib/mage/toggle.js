@@ -57,7 +57,7 @@
          * Method used to inject 3rd party functionality after create
          * @private
          */
-        _afterCreate: function() {},
+        _afterCreate: function() {}
     });
 
     // Extension for mage.toggle - Adding selectors support for other DOM elements we wish to toggle
