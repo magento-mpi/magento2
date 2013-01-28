@@ -343,7 +343,7 @@ tags_submitted_by_customer:
             fieldsets:
                 -
                     report_tag_grid:
-                        xpath: //div[@id='grid']
+                        xpath: //div[@id='customers_grid']
         buttons:
             back: //button[span='Back']
         dropdowns:
@@ -380,10 +380,15 @@ tags_submitted_to_product:
     mca: report_tag/productDetail/id/%id%/
     title: Tags submitted to %elementTitle% / Products / Tags / Reports / Magento Admin
     uimap:
-        buttons:
-            back: //button[span='Back']
-        dropdowns:
-            export_to: //select[@id='grid_export']
+        form:
+            fieldsets:
+                -
+                    report_tag_grid:
+                        xpath: //div[@id='grid']
+                        buttons:
+                            back: //button[span='Back']
+                        dropdowns:
+                            export_to: //select[@id='grid_export']
 
 # Tags: Popular Tags page
 report_tag_popular:
@@ -417,10 +422,15 @@ tag_details:
     mca: report_tag/tagDetail/id/%id%/
     title: Tag "%elementTitle%" details / Popular / Tags / Reports / Magento Admin
     uimap:
-        buttons:
-            back: //button[span='Back']
-        dropdowns:
-            export_to: //select[@id='tag_grid_export']
+            form:
+                fieldsets:
+                    -
+                        report_tag_grid:
+                            xpath: //div[@id='tag_grid']
+                            buttons:
+                                back: //button[span='Back']
+                            dropdowns:
+                                export_to: //select[@id='tag_grid_export']
 
 # Reviews: Customers Reviews page
 report_review_customer:
