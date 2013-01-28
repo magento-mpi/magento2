@@ -70,7 +70,7 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      */
     public function setDesignTheme($theme, $area = null)
     {
-        return $this->_getInstance()->setDesignTheme($theme, $area = null);
+        return $this->_getInstance()->setDesignTheme($theme, $area);
     }
 
 
@@ -83,7 +83,7 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
      */
     public function getConfigurationDesignTheme($area = null, array $params = array())
     {
-        return $this->_getInstance()->getConfigurationDesignTheme($area = null, $params);
+        return $this->_getInstance()->getConfigurationDesignTheme($area, $params);
     }
 
     /**
