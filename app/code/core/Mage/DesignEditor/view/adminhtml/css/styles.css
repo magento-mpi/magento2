@@ -702,7 +702,7 @@ Fonts
     z-index: 1;
 }
 
-.vde-tools-footer-inner:before,
+.vde-tools.opened .vde-tools-footer-inner:before,
 .custom-code .textarea-container:after {
     top: -10px;
     background-position: 0 -10px;
