@@ -97,6 +97,7 @@
          * @override
          */
         _toggleSelectors: function () {
+            this._super();
             if (this.element.data('toggle-selectors')) {
                 $(this.element.data('toggle-selectors')).toggleClass(this.options.selectorsToggleClass);
             } else {
