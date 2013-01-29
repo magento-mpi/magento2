@@ -69,7 +69,15 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testCssWithWrongImage()
     {
-        Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        $dirPath = __DIR__ . DIRECTORY_SEPARATOR . '_files';
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
+
+        $prepareFileName = new ReflectionMethod($dirs, '_setDir');
+        $prepareFileName->setAccessible(true);
+        $prepareFileName->invoke($dirs, Mage_Core_Model_Dir::ROOT, $dirPath);
+        $prepareFileName->invoke($dirs, Mage_Core_Model_Dir::THEMES, $dirPath);
+
         $cssUrl = $this->_block->getViewFileUrl('css/wrong.css', array(
             'area'    => 'frontend',
             'package' => 'default',
