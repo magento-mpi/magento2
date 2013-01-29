@@ -291,7 +291,8 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     {
         $total = count($items);
         foreach ($items as $item) {
-            if($item->hasChildren()) {
+            /** @var $item Mage_Backend_Model_Menu_Item */
+            if ($item->hasChildren()) {
                 $total += $this->_countItems($item->getChildren());
             }
         }
@@ -352,16 +353,16 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
         $itemPosition = 1;
         $output = '<ul ' . (0 == $level ? 'id="nav"' : '') . ' >';
 
-        if(count($colBrakes) && $limit) {
+        if (count($colBrakes) && $limit) {
             $output .= '<li class="column"><ul>';
         }
 
         /** @var $menuItem Mage_Backend_Model_Menu_Item  */
         foreach ($this->_getMenuIterator($menu) as $menuItem) {
             $menuId = $menuItem->getId();
-            $itemClass = str_replace('_' , '-' , strtolower(substr($menuId, strrpos($menuId, '::') + 2)));
+            $itemClass = str_replace('_', '-', strtolower(substr($menuId, strrpos($menuId, '::') + 2)));
 
-            if(count($colBrakes) && $colBrakes[$itemPosition]['colbrake']) {
+            if (count($colBrakes) && $colBrakes[$itemPosition]['colbrake']) {
                 $output .= '</ul></li><li class="column"><ul>';
             }
 
@@ -383,7 +384,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
             $itemPosition++;
         }
 
-        if(count($colBrakes) && $limit) {
+        if (count($colBrakes) && $limit) {
             $output .= '</ul></li>';
         }
 
