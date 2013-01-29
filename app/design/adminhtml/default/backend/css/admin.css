@@ -2815,53 +2815,6 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
-    Sales
--------------------------------------- */
-
-.customer-current-activity {
-    float: left;
-    width: 20%;
-}
-
-.customer-current-activity-inner,
-.order-details-inner {
-    background: #fff;
-    border: 1px solid #EAE6E0;
-    padding: 18px;
-    border-radius: 5px;
-}
-
-.order-details-existing-customer {
-    padding: 0 1% 1%;
-    position: relative;
-    width: 78%;
-    float: right;
-}
-
-.order-billing-address,
-.order-billing-method,
-.order-history {
-    width: 49%;
-    float: left;
-}
-
-.order-shipping-address,
-.order-shipping-method,
-.order-totals {
-    width: 49%;
-    float: right;
-}
-
-.create-order-sidebar-container > div {
-    border-bottom: 1px solid #ccc;
-}
-
-.customer-current-activity .actions {
-    border-bottom: none;
-    margin-top: 20px;
-}
-
-/*
     Website store views tree
 -------------------------------------- */
 .store-tree .website-name {
