@@ -886,7 +886,15 @@
             onclick: false,
             ignoreTitle: true,
             errorClass: 'mage-error',
-            errorElement: 'div'
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                // logic for date-picker error placement
+                if (element.hasClass('hasDatepicker')) {
+                    element.siblings('img').after(error);
+                } else {
+                    element.after(error);
+                }
+            }
         },
         /**
          * Validation creation
