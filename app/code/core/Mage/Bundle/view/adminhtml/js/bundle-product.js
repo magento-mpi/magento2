@@ -79,7 +79,7 @@
                 bSelection.gridRemoval = $H({});
                 bSelection.gridSelectedProductSkus = productSkus;
                 $selectionGrid.dialog({
-                    title: $optionBox.find('input[name$="[title]"]').val() == '' ?
+                    title: $optionBox.find('input[name$="[title]"]').val() === '' ?
                         'Add Products to New Option' :
                         'Add Products to Option "' + $optionBox.find('input[name$="[title]"]').val() + '"',
                     autoOpen: false,
