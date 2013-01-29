@@ -40,6 +40,12 @@ $tile->setTileCode('shipping');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
 
+$tile = Mage::getModel('Mage_Launcher_Model_Tile');
+$tile->setPageCode('store_launcher');
+$tile->setTileCode('product');
+$tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
+$tile->save();
+
 Mage::getModel('Mage_Launcher_Model_Page')
     ->load(2)
     ->setPageCode('promote_store')

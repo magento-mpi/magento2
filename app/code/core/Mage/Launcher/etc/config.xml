@@ -93,6 +93,10 @@
                             <state_resolver>Mage_Launcher_Model_Storelauncher_Shipping_StateResolver</state_resolver>
                             <save_handler>Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler</save_handler>
                         </shipping>
+                        <product>
+                            <state_resolver>Mage_Launcher_Model_Storelauncher_Product_StateResolver</state_resolver>
+                            <save_handler>Mage_Launcher_Model_Storelauncher_Product_SaveHandler</save_handler>
+                        </product>
                     </tiles>
                 </store_launcher>
                 <promote_store>

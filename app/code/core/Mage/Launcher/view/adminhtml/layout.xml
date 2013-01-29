@@ -27,6 +27,7 @@
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile" name="payments.tile" template="page/storelauncher/payments/tile.phtml"/>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Tile" name="shipping.tile" template="page/storelauncher/shipping/tile.phtml"/>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile" name="tax.tile" template="page/storelauncher/tax/tile.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Tile" name="product.tile" template="page/storelauncher/product/tile.phtml"/>
     </launcher_index>
 
     <launcher_storelauncher_index_index>
@@ -96,6 +97,14 @@
     <launcher_storelauncher_shipping_drawer_save>
         <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Tile" name="shipping.tile" template="page/storelauncher/shipping/tile.phtml"/>
     </launcher_storelauncher_shipping_drawer_save>
+
+    <launcher_storelauncher_product_drawer_load>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer" name="product.drawer"  template="page/storelauncher/product/drawer.phtml"/>
+    </launcher_storelauncher_product_drawer_load>
+
+    <launcher_storelauncher_product_drawer_save>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Tile" name="product.tile" template="page/storelauncher/product/tile.phtml"/>
+    </launcher_storelauncher_product_drawer_save>
 
     <promotestore_index>
         <block type="Mage_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Tile" name="google_analytics.tile" template="page/promotestore/googleanalytics/tile.phtml"/>
