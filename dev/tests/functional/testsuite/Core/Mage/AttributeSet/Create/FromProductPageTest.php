@@ -15,7 +15,7 @@
 class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
+     * Preconditions:
      */
     protected function assertPreConditions()
     {
@@ -42,8 +42,8 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Create New Attribute Set from Product page with help Create New Attribute button while create new product</p>
-     * <p>without saving this product</p>
+     * Create New Attribute Set from Product page with help Create New Attribute button while create new product
+     * without saving this product
      *
      * @test
      * @TestlinkId TL-MAGE-5920
@@ -68,7 +68,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Create New Attribute Set from Product page with help Create New Attribute button while create new product</p>
+     * Create New Attribute Set from Product page with help Create New Attribute button while create new product
      *
      * @param array $productSkuDefault
      *
@@ -100,7 +100,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Create New Attribute Set from Product page with help Create New Attribute button while editing product</p>
+     * Create New Attribute Set from Product page with help Create New Attribute button while editing product
      *
      * @param array $productSkuDefault
      *
@@ -114,7 +114,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $attributeSetName = $this->generate('string', 10, ':alnum:');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield');
-        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productSkuDefault));
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Preconditions
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -135,17 +135,19 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>New Attribute created from Product page to new set, assigned to General tab only</p>
+     * New Attribute created from Product page to new set from Meta Information tab
      *
      * @test
+     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-5917
      */
-    public function editProductMetaTab()
+    public function editProductMetaTab($productSkuDefault)
     {
         //Data
         $attributeSetName = $this->generate('string', 10, ':alnum:');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield');
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Preconditions
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -153,14 +155,15 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->openTab('meta_information');
         $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
-        $this->openTab('meta_information');
-        //Verifying
-        $this->addParameter('productName', $productData['general_name']);
-        $this->addParameter('attributeSet', $attributeSetName);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'),
-            'Attribute set was not changed in product name');
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
+            'Attrib. Set Name'), 'Attribute Set of product has not been changed');
+        $this->productHelper()->openProduct($productSkuDefault);
+        $this->openTab('meta_information');
+        $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
+        $this->assertFalse($this->controlIsPresent('field', 'general_user_attr_field'),
+            'Created attribute was added to Default attribute set');
     }
 }

@@ -19,8 +19,8 @@
 class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
+     * Preconditions:
+     * Navigate to Catalog -> Manage Products
      */
     protected function assertPreConditions()
     {
@@ -29,7 +29,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Attribute Set creation - based on Default</p>
+     * Attribute Set creation - based on Default
      *
      * @return string
      * @test
@@ -47,7 +47,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Attribute Set creation - existing name</p>
+     * Attribute Set creation - existing name
      *
      * @param string $attributeSetName
      *
@@ -67,7 +67,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Attribute Set creation - empty name</p>
+     * Attribute Set creation - empty name
      *
      * @test
      * @depends basedOnDefault
@@ -87,7 +87,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Attribute Set with long values in required fields</p>
+     * Creating Attribute Set with long values in required fields
      *
      * @test
      * @depends basedOnDefault
@@ -109,7 +109,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Attribute Set using special characters for set name</p>
+     * Creating Attribute Set using special characters for set name
      *
      * @test
      * @depends basedOnDefault
@@ -132,7 +132,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Add user product attributes</p>
+     * Add user product attributes
      *
      * @return array
      * @test
@@ -168,7 +168,7 @@ class Core_Mage_AttributeSet_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Attribute Set creation - based on Custom</p>
+     * Attribute Set creation - based on Custom
      *
      * @param array $setData
      *
