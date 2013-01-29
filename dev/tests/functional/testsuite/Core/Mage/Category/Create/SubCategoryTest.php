@@ -19,7 +19,7 @@
 class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
+     * Preconditions:
      */
     protected function assertPreConditions()
     {
@@ -29,7 +29,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Subcategory with required fields</p>
+     * Creating Subcategory with required fields
      *
      * @return string
      * @test
@@ -49,7 +49,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Subcategory with all fields filling</p>
+     * Creating Subcategory with all fields filling
      *
      * @param string $rooCat
      *
@@ -69,7 +69,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Subcategory with required fields empty</p>
+     * Creating Subcategory with required fields empty
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -86,7 +86,12 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createCategory($categoryData);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $emptyField);
+        if ($emptyField == 'name') {
+            $fieldXpath = $this->_getControlXpath('field', $emptyField);
+        } else {
+            $fieldXpath = $this->_getControlXpath('multiselect', $emptyField);
+        }
+        $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -100,7 +105,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Subcategory with special characters</p>
+     * Creating Subcategory with special characters
      *
      * @param string $rooCat
      *
@@ -122,7 +127,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Subcategory with long values in required fields</p>
+     * Creating Subcategory with long values in required fields
      *
      * @param string $rooCat
      *
@@ -144,7 +149,7 @@ class Core_Mage_Category_Create_SubCategoryTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating nested Subcategory with required fields</p>
+     * Creating nested Subcategory with required fields
      *
      * @param string $rooCat
      *
