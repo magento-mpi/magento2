@@ -580,3 +580,25 @@ report_search:
         2: Store
         3: Results
         4: Hits
+
+#dataset for ui elements for Manage Rating grid
+manage_ratings:
+    fieldset:
+        manage_ratings_grid: tablename
+    button:
+        add_new_rating:
+        reset_filter:
+        search:
+    field:
+        page:
+        filter_id:
+        filter_rating_name:
+        sort_order:
+    dropdown:
+        view_per_page:
+        is_active:
+    headers:
+        0: ID
+        1: Rating Name
+        2: Sort Order
+        3: Is Active

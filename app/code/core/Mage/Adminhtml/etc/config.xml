@@ -123,6 +123,9 @@
                 <promo module="Mage_Adminhtml">
                     <file>promo.xml</file>
                 </promo>
+                <rating module="Mage_Adminhtml">
+                    <file>rating.xml</file>
+                </rating>
                 <report module="Mage_Adminhtml">
                     <file>report.xml</file>
                 </report>
