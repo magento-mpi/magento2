@@ -25,7 +25,7 @@
          * @private
          */
         _create: function() {
-            $(document).on('click', this.options.splitButton + '>' + this.options.arrowButton, $.proxy(this._toggleDropDown, this));
+            $(document).on('click', this.options.splitButton + ' > ' + this.options.arrowButton, $.proxy(this._toggleDropDown, this));
             $(document).on('click', $.proxy(this._hideDropDown, this));
         },
 
@@ -48,7 +48,7 @@
         },
 
         /**
-         * Hide drop down menu when clicked any where on the page
+         * Hide all the drop down menus when clicked any where on the page
          * @private
          */
         _hideDropDown: function() {

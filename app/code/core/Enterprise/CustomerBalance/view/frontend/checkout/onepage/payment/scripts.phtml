@@ -14,20 +14,3 @@
  * @see Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional
  */
 ?>
-<?php if ($this->isAllowed()): ?>
-isFullyPaidAfterCustomerBalanceApplication = <?php echo ($this->isFullyPaidAfterApplication() ? 'true' : 'false'); ?>;
-quoteBaseGrandTotal = <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>;
-    (function($, balance, formattedBalance) {
-        $(function() {
-            if (balance) {
-                $('#use_customer_balance').removeAttr('disabled')
-                $('#customerbalance_placer').show();
-            } else {
-                $('#customerbalance_placer').hide();
-                $('#use_customer_balance').attr({checked: false, disabled: true});
-                $('#customerbalance_placer').hide();
-            }
-            $('#customerbalance_available_amount').html(formattedBalance);
-        });
-    })(jQuery, <?php echo $this->getBalance(); ?>, '<?php echo Mage::helper('Mage_Core_Helper_Data')->currency($this->getBalance()); ?>');
-<?php endif;?>
