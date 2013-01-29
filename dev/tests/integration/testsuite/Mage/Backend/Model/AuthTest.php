@@ -21,6 +21,7 @@ class Mage_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        Mage::app()->loadDiConfiguration(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_model = Mage::getModel('Mage_Backend_Model_Auth');
     }
 
