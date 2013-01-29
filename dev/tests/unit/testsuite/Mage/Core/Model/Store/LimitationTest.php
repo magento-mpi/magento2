@@ -21,7 +21,7 @@ class Mage_Core_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
         }
         $config = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
         $config->expects($this->any())->method('getNode')
-            ->with('global/functional_limitation/max_store_count')
+            ->with('limitations/store')
             ->will($this->returnValue($configuredCount));
         $model = new Mage_Core_Model_Store_Limitation($resource, $config);
         $this->assertEquals($expected, $model->canCreate());

@@ -20,7 +20,7 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
     }
 
     /**
-     * @magentoConfigFixture global/functional_limitation/max_admin_user_count 1
+     * @magentoConfigFixture limitations/admin_account 1
      */
     public function testIndexActionLimitedUsers()
     {
@@ -85,7 +85,7 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
 
     /**
      * @magentoDbIsolation enabled
-     * @magentoConfigFixture global/functional_limitation/max_admin_user_count 1
+     * @magentoConfigFixture limitations/admin_account 1
      */
     public function testSaveActionLimitedUsers()
     {
