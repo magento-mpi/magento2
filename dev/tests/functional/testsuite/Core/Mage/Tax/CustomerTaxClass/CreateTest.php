@@ -39,15 +39,8 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     {
         $multiselect = 'customer_tax_class';
         $this->clickButton('add_rule');
-        if (!$this->controlIsVisible('composite_multiselect', $multiselect)) {
-            $this->clickControl('link','tax_rule_info_additional_link');
-            if (!$this->controlIsVisible('composite_multiselect', $multiselect)){
-                $this->addVerificationMessage("Multiselect $multiselect is not present on the page");
-            }
-            else {
-                $this->assertTrue($this->verifyCompositeMultiselect($multiselect,array('Retail Customer')));
-            }
-        }
+        $this->clickControl('link','tax_rule_info_additional_link');
+        $this->assertTrue($this->verifyCompositeMultiselect($multiselect, array('Retail Customer')));
     }
 
     /**
@@ -93,7 +86,7 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Creating Customer Tax class with empty name</p>
      *
      * @test
-     * @ depends checkDefaultValues
+     * @depends checkDefaultValues
      * @TestlinkId TL-MAGE-6390
      */
     public function withEmptyName()
@@ -106,7 +99,7 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Customer Tax class with empty name</p>
+     * <p>Edit existing Customer tax Class</p>
      *
      * @test
      * @depends checkDefaultValues
@@ -125,7 +118,6 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyCompositeMultiselect($multiselect, $newTaxName));
     }
 
-
     /**
      * <p>Creating a new Customer Tax class with special values (long, special chars).</p>
      *
@@ -139,10 +131,15 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         $multiselect = 'customer_tax_class';
         $this->clickButton('add_rule');
         $this->clickControl('link','tax_rule_info_additional_link');
-        $this->addCompositeMultiselectValue($multiselect, $specialValue);
+        $this->fillCompositeMultiselect($multiselect, $specialValue);
         $this->assertTrue($this->verifyCompositeMultiselect($multiselect, $specialValue), 'Failed to add new value');
     }
 
+    /**
+     * Data provider for special values for Tax Class
+     *
+     * @return array
+     */
     public function withSpecialValuesDataProvider()
     {
         return array(

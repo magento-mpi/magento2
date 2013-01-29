@@ -10,7 +10,7 @@
  */
 
 /**
- * Customer Tax class Core_Mage_deletion tests
+ * Customer Tax class deletion tests
  *
  * @package     selenium
  * @subpackage  tests
@@ -26,7 +26,6 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to Sales-Tax-Manage Tax Rules</p>
-     * <p>Click on the Add New Rule button </p>
      */
     protected function assertPreConditions()
     {
@@ -90,7 +89,7 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Delete a Customer Tax class Core_Mage_that used in Customer Group</p>
+     * <p>Delete a Customer Tax class that used in Customer Group</p>
      *
      * @depends deleteNotUsedInRule
      * @test
