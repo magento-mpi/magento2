@@ -1477,7 +1477,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $fieldType = $fieldName == 'assigned_products' ? self::FIELD_TYPE_PAGEELEMENT : self::FIELD_TYPE_INPUT;
         $actualOrder = $this->_getActualItemOrder($fieldType, $fieldName);
         foreach ($blocksData as $block) {
-            if (isset($block[$positionField])) {
+            if (isset($block[$positionField]) && isset($block[$itemTitle])) {
                 $expectedOrder[$block[$itemTitle]] = $block[$positionField];
             }
         }
@@ -2092,7 +2092,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($bundleItems['ship_bundle_items']);
         }
         foreach ($bundleItems as $item) {
-            if(isset($item['bundle_items_position'])) {
+            if(isset($item['bundle_items_position']) && $item['bundle_items_default_title']) {
                 $orderedBlocks[$item['bundle_items_default_title']] =  $item['bundle_items_position'];
             }
             unset($item['bundle_items_position']);
