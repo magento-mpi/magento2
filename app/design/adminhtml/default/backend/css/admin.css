@@ -451,11 +451,11 @@ option.placeholder {
 }
 
 .form-inline .label {
-    width: 20%;
+    width: 30%;
 }
 
 .form-inline .control {
-    width: 60%;
+    width: 50%;
 }
 
 .form-inline .field-service {
@@ -498,6 +498,17 @@ option.placeholder {
     width: 100%;
 }
 
+/*
+    Forms styles
+-------------------------------------- */
+.page-content-inner {
+    position: relative;
+    background: #f5f2ed;
+    border: 1px solid #b7b2a6;
+    border-radius: 5px;
+    padding: 20px;
+}
+
 .fieldset-wrapper,
 .fieldset {
     background: #fff;
@@ -516,14 +527,13 @@ option.placeholder {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 7px 10px 5px;
+    padding: 10px 0 10px 10px;
     border-bottom: 1px solid #EDEDED;
     margin-bottom: 18px;
 }
 
 .fieldset-wrapper > .fieldset-wrapper-title {
     float: none;
-    padding-right: 20%;
 }
 
 .fieldset-wrapper > .fieldset-wrapper-title .title,
@@ -540,7 +550,7 @@ option.placeholder {
 
 .fieldset > .legend + br {
     display: block;
-    height: 0;
+    height: 0px;
     overflow: hidden;
     clear: left;
 }
@@ -580,6 +590,22 @@ option.placeholder {
 
 .fieldset > .field > input[type="checkbox"] {
     margin-top: 10px;
+}
+
+/*
+    Form item with table
+-------------------------------------- */
+
+.with-table .label {
+    float: none;
+    text-align: left;
+    width: 100%;
+}
+
+.with-table .control {
+    clear: left;
+    float: none;
+    width: 100%;
 }
 
 /*
@@ -1600,8 +1626,7 @@ table tbody tr:nth-child(odd):hover th {
     box-sizing: border-box;
 }
 .page-login .actions {
-    margin:0 18px 0 20%;
-    padding-left: 4px;
+    margin:0 18px 0 30%;
 }
 .page-login .actions,
 .page-login .links {
@@ -2163,10 +2188,6 @@ table tbody tr:nth-child(odd):hover th {
     user-select: none;
 }
 
-.switcher > label {
-    cursor: pointer;
-}
-
 .switcher strong {
     vertical-align: top;
     font-family: "CallunaSans", Arial, sans-serif;
@@ -2648,6 +2669,230 @@ tr.dynamic-grid input.input-text {
 
 .categories-side-col {
     padding: 0 3%;
+}
+
+/*
+    Data table
+-------------------------------------- */
+.data-table {
+    border-collapse: inherit; /* do not remove this! without this rule in FF when table has only 1 row bottom and side borders disappear*/
+    width: 100%;
+}
+
+.data-table thead,
+.data-table tfoot,
+.data-table th {
+    background: #fff;
+    color: #666;
+}
+
+.data-table th {
+    border-color: #c9c2b8;
+    border-width: 0 0 1px;
+    padding: 7px;
+}
+
+.data-table td,
+.data-table tbody tr:not(:last-child) td,
+.data-table tbody tr td {
+    background: #fff;
+    padding: 3px 7px;
+    font-size: 12px;
+    vertical-align: top;
+    border: solid #eae8e4;
+    border-width: 0 0 1px;
+}
+
+.data-table tbody tr.selected td,
+.data-table tbody tr.selected th,
+.data-table tbody tr:hover td,
+.data-table tbody tr:hover th,
+.data-table tbody tr:nth-child(odd) th,
+.data-table tbody tr:nth-child(odd):hover th {
+    background: #fff;
+}
+
+.data-table tbody tr:nth-child(odd) td,
+.data-table tbody tr:nth-child(odd):hover td {
+    background: #fbfaf6;
+}
+
+.data-table tfoot td:last-child {
+    border: 0;
+}
+
+.data-table input[type="text"] {
+    width: 98%;
+    padding-left: 1%;
+    padding-right: 1%;
+    height: 24px;
+}
+
+.data-table select {
+    margin: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/*
+    Attribute Information
+-------------------------------------- */
+.data-table .col-default {
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.data-table .col-delete {
+    text-align: center;
+    width: 32px;
+}
+
+.data-table .col-price input {
+    width: 60px;
+}
+
+.data-table .col-qty input {
+    width: 50px;
+}
+
+.data-table .col-file {
+    white-space: nowrap;
+}
+
+.data-table .col-file input {
+    margin: 0 5px;
+    width: 40%;
+}
+.data-table .col-file input:first-child {
+    margin-left: 0;
+}
+
+/*
+    Action delete icon
+-------------------------------------- */
+/* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
+.data-table .action-.delete span {
+    display: none;
+}
+.data-table .action-.delete:before {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    content: '\e07f'; /* delete icon */
+    color: #b7b3ad;
+}
+
+.data-table input.action-.delete[type="button"],
+.data-table input.action-.delete[type="submit"],
+.data-table input.action-.delete[type="reset"],
+.data-table button.action-.delete,
+.data-table input.action-.delete[type="button"]:visited,
+.data-table input.action-.delete[type="submit"]:visited,
+.data-table input.action-.delete[type="reset"]:visited,
+.data-table button.action-.delete:visited {
+    background: transparent;
+    padding: 3px 7px 0;
+}
+
+.data-table input.action-.delete[type=button]:hover:before,
+.data-table input.action-.delete[type=submit]:hover:before,
+.data-table input.action-.delete[type=reset]:hover:before,
+.data-table button.action-.delete:hover:before,
+.data-table input.action-.delete[type=button]:focus:before,
+.data-table input.action-.delete[type=submit]:focus:before,
+.data-table input.action-.delete[type=reset]:focus:before,
+.data-table button.action-.delete:focus:before {
+    background: transparent;
+    color: #a5a29d;
+}
+
+/*
+    Sales
+-------------------------------------- */
+
+.customer-current-activity {
+    float: left;
+    width: 20%;
+}
+
+.customer-current-activity-inner,
+.order-details-inner {
+    background: #fff;
+    border: 1px solid #EAE6E0;
+    padding: 18px;
+    border-radius: 5px;
+}
+
+.order-details-existing-customer {
+    padding: 0 1% 1%;
+    position: relative;
+    width: 78%;
+    float: right;
+}
+
+.order-billing-address,
+.order-billing-method,
+.order-history {
+    width: 49%;
+    float: left;
+}
+
+.order-shipping-address,
+.order-shipping-method,
+.order-totals {
+    width: 49%;
+    float: right;
+}
+
+.create-order-sidebar-container > div {
+    border-bottom: 1px solid #ccc;
+}
+
+.customer-current-activity .actions {
+    border-bottom: none;
+    margin-top: 20px;
+}
+
+/*
+    Website store views tree
+-------------------------------------- */
+.store-tree .website-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.store-tree .webiste-groups {
+    margin: 5px 0 20px 18px;
+}
+
+.store-tree .webiste-groups dt {
+    font-weight: bold;
+}
+
+.store-tree .webiste-groups dd {
+    margin: 5px 0 15px 15px;
+}
+
+.store-tree .webiste-groups dd > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.store-tree .webiste-groups dd > ul > li {
+    margin: 0 0 5px;
+}
+
+.no-display {
+    display: none;
 }
 
 /*

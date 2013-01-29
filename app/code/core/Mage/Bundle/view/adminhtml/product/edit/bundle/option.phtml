@@ -9,17 +9,19 @@
  */
 ?>
 <script type="text/javascript">
-optionTemplate = '<div id="<?php echo $this->getFieldId() ?>_{{index}}"  class="option-box"> ' +
-'<div class="option-title"> ' +
-    '<label for="<?php echo $this->getFieldName() ?>[{{index}}][title]"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Title') ?> <span class="required">*</span></label>' +
+optionTemplate =
+'<div id="<?php echo $this->getFieldId() ?>_{{index}}" class="field"> ' +
+    '<label for="<?php echo $this->getFieldName() ?>[{{index}}][title]" class="label"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Title') ?> <span class="required">*</span></label>' +
+    '<div class="control">' +
     <?php if ($this->isDefaultStore()): ?>
     '<input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_title" value="{{title}}">' +
     <?php else: ?>
     '<input class="input-text required-entry" type="text" name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]" id="id_<?php echo $this->getFieldName() ?>_{{index}}_default_title" value="{{default_title}}">' +
     <?php endif; ?>
-<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getOptionDeleteButtonHtml()) ?> +
-'</div>' +
-    '<table class="option-header" cellpadding="0" cellspacing="0">' +
+    '</div><div class="field-service"> ' +
+    <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getOptionDeleteButtonHtml()) ?> +
+    '</div>' +
+    '<table class="data-table" cellpadding="0" cellspacing="0">' +
         '<thead>' +
             '<tr>' +
                 <?php if (!$this->isDefaultStore()): ?>
@@ -46,7 +48,7 @@ optionTemplate = '<div id="<?php echo $this->getFieldId() ?>_{{index}}"  class="
         '</tbody>' +
     '</table>' +
     '<div id="<?php echo $this->getFieldId() ?>_search_{{index}}">' +
-    '</div>' +
+
 '</div>';
 </script>
 

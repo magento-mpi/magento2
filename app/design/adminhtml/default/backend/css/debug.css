@@ -108,17 +108,6 @@ label.mage-error {
 }
 
 /*
-    Forms temp styles
--------------------------------------- */
-.page-content-inner {
-    position: relative;
-    background: #f5f2ed;
-    border: 1px solid #b7b2a6;
-    border-radius: 5px;
-    padding: 20px;
-}
-
-/*
     Accordion
 ------------------------*/
 .accordion {
@@ -485,4 +474,46 @@ th.required:before {
 
 .sidebar-actions button {
     margin: 0 0 5px;
+}
+
+/*
+    Product
+-------------------------------------- */
+.tier {
+    margin: 20px 0 0;
+}
+
+/*
+    Edit attribute set
+-------------------------------------- */
+.attribute-set-col {
+    display: block;
+    float: left;
+    width: 100%;
+    margin-left: 2.127659574%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 31.9149%;
+}
+
+.attribute-set-col:first-child {
+    margin-left: 0;
+}
+
+.attribute-set-tree {
+    margin-top: 5px;
+    overflow: auto;
+    height: 400px;
+    width: 100%;
+}
+
+.attribute-set:before,
+.attribute-set:after {
+    content: "";
+    display: table;
+}
+.attribute-set:after {
+    clear: both;
 }

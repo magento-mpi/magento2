@@ -11,17 +11,17 @@
 
 <?php echo $this->getFormHtml() ?>
 
-<fieldset id="depends_packages_fieldset" class="fieldset grid">
+<fieldset id="depends_packages_fieldset" class="fieldset">
     <legend class="legend"><span><?php echo $this->__("Packages") ?></span></legend>
-    <table class="data" cellspacing="0">
+    <table class="data-table" cellspacing="0">
         <thead>
-            <tr class="headings">
-                <th><span><?php echo $this->__("Package") ?></span></th>
-                <th><span><?php echo $this->__("Channel") ?></span></th>
-                <th><span><?php echo $this->__("Min") ?></span></th>
-                <th><span><?php echo $this->__("Max") ?></span></th>
-                <th><span><?php echo $this->__("Files") ?></span></th>
-                <th><span><?php echo $this->__("Action") ?></span></th>
+            <tr>
+                <th><?php echo $this->__("Package") ?></th>
+                <th><?php echo $this->__("Channel") ?></th>
+                <th><?php echo $this->__("Min") ?></th>
+                <th><?php echo $this->__("Max") ?></th>
+                <th><?php echo $this->__("Files") ?></th>
+                <th class="col-delete"><?php echo $this->__("Action") ?></th>
             </tr>
             <tr id="depends_packages_template" style="display:none">
             <?php function showDependsPackageTemplate($self, $_i = 0)
@@ -29,22 +29,22 @@
                 $filesClass = "files";
             ?>
                 <td>
-                    <input class="input-text" name="depends[package][name][]"  value="<?php echo $self->getValue('depends/package/name/' . $_i) ?>"/>
+                    <input type="text" class="input-text" name="depends[package][name][]"  value="<?php echo $self->getValue('depends/package/name/' . $_i) ?>"/>
                 </td>
                 <td>
-                    <input class="input-text" name="depends[package][channel][]" value="<?php echo $self->getValue('depends/package/channel/' . $_i) ?>"/>
+                    <input type="text" class="input-text" name="depends[package][channel][]" value="<?php echo $self->getValue('depends/package/channel/' . $_i) ?>"/>
                 </td>
                 <td>
-                    <input class="input-text" name="depends[package][min][]" value="<?php echo $self->getValue('depends/package/min/' . $_i) ?>"/>
+                    <input type="text" class="input-text" name="depends[package][min][]" value="<?php echo $self->getValue('depends/package/min/' . $_i) ?>"/>
                 </td>
                 <td>
-                    <input class="input-text" name="depends[package][max][]" value="<?php echo $self->getValue('depends/package/max/' . $_i) ?>"/>
+                    <input type="text" class="input-text" name="depends[package][max][]" value="<?php echo $self->getValue('depends/package/max/' . $_i) ?>"/>
                 </td>
                 <td>
                     <textarea class="<?php echo $filesClass ?>" style="display:none" name="depends[package][files][]"><?php echo $self->getValue('depends/package/files/' . $_i)?> </textarea>
                     <?php echo $self->getAddFileDepsRowButtonHtml("tr", $filesClass) ?>
                 </td>
-                <td>
+                <td class="col-delete">
                     <?php echo $self->getRemoveRowButtonHtml('tr') ?>
                 </td>
             <?php } ?>
@@ -69,15 +69,15 @@
     </table>
 </fieldset>
 
-<fieldset id="depends_extensions_fieldset" class="fieldset grid">
+<fieldset id="depends_extensions_fieldset" class="fieldset">
     <legend class="legend"><span><?php echo $this->__("Extensions") ?></span></legend>
-    <table class="data" cellspacing="0">
+    <table class="data-table" cellspacing="0">
         <thead>
-            <tr class="headings">
-                <th><span><?php echo $this->__("Extension") ?></span></th>
-                <th><span><?php echo $this->__("Min") ?></span></th>
-                <th><span><?php echo $this->__("Max") ?></span></th>
-                <th><span><?php echo $this->__("Action") ?></span></th>
+            <tr>
+                <th><?php echo $this->__("Extension") ?></th>
+                <th><?php echo $this->__("Min") ?></th>
+                <th><?php echo $this->__("Max") ?></th>
+                <th><?php echo $this->__("Action") ?></th>
             </tr>
             <tr id="depends_extensions_template" style="display:none">
             <?php function showDependsExtensionsTemplate($self, $_i=0) { ?>
@@ -89,12 +89,12 @@
                     </select>
                 </td>
                 <td>
-                    <input class="input-text" name="depends[extension][min][]" value="<?php echo $self->getValue('depends/extension/min/' . $_i) ?>"/>
+                    <input type="text" class="input-text" name="depends[extension][min][]" value="<?php echo $self->getValue('depends/extension/min/' . $_i) ?>"/>
                 </td>
                 <td>
-                    <input class="input-text" name="depends[extension][max][]" value="<?php echo $self->getValue('depends/extension/max/' . $_i) ?>"/>
+                    <input type="text" class="input-text" name="depends[extension][max][]" value="<?php echo $self->getValue('depends/extension/max/' . $_i) ?>"/>
                 </td>
-                <td>
+                <td class="col-delete">
                     <?php echo $self->getRemoveRowButtonHtml('tr') ?>
                 </td>
             <?php } ?>
