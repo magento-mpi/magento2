@@ -93,6 +93,3 @@ HTML;
         Magento_Profiler::applyConfig($profilerConfig);
     }
 }
-
-$definitionsFile = BP . DS . 'var/di/definitions.php';
-
