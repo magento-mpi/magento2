@@ -47,7 +47,6 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 
-
     /**
      * Load config from giftregistry.xml files and try to cache it
      *
@@ -62,7 +61,6 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
                 $xmlConfig = new Varien_Simplexml_Config();
                 $xmlConfig->loadString('<?xml version="1.0"?><prototype></prototype>');
                 $this->_configReader->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
-
 
                 if (Mage::app()->useCache('config')) {
                     Mage::app()->saveCache($xmlConfig->getXmlString(), 'giftregistry_config',
