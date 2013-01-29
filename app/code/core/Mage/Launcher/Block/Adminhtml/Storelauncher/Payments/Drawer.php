@@ -18,6 +18,11 @@
 class Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
 {
     /**
+     * Field obscured value
+     */
+    const FIELD_OBSCURED_VALUE = '******';
+
+    /**
      * Get Translated Tile Header
      *
      * @return string
@@ -30,10 +35,24 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Mage_L
     /**
      * Retrieve Store Config
      *
-     * @return Mage_Core_Model_Store_Config
+     * @param string $path
+     * @return mixed
      */
-    public function getStoreConfig()
+    public function getConfigValue($path)
     {
-        return $this->_storeConfig;
+        return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
+     * @param string $configPath
+     * @return string
+     */
+    public function getObscuredValue($configPath)
+    {
+        $value = $this->getConfigValue($configPath);
+        if (!empty($value)) {
+            return self::FIELD_OBSCURED_VALUE;
+        }
+        return $value;
     }
 }

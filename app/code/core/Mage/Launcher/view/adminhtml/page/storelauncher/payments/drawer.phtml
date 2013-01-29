@@ -132,7 +132,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <label for="store-paypal-express-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal payments will be sent to your email address at:'); ?></span></label>
                         <div class="control">
                             <div class="addon">
-                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getStoreConfig()->getConfig('paypal/general/business_account'); ?>" id="store-paypal-express-email">
+                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-express-email">
                                 <div class="addafter">
                                     <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Update'); ?></button>
                                 </div>
@@ -150,7 +150,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <label for="store-paypal-standard-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email address associated with the PayPal account'); ?></span></label>
                         <div class="control">
                             <div class="addon">
-                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getStoreConfig()->getConfig('paypal/general/business_account'); ?>" id="store-paypal-standard-email">
+                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-standard-email">
                                 <div class="addafter">
                                     <button class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></button>
                                 </div>
@@ -168,13 +168,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <div class="field grid-6" id="field-pm-21">
                             <label for="pm-21" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
                             <div class="control">
-                                <input type="text" name="groups[payflow_advanced][fields][partner][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/payflow_advanced/partner'); ?>" class="input-text" id="pm-21">
+                                <input type="text" name="groups[payflow_advanced][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/partner'); ?>" class="input-text" id="pm-21">
                             </div>
                         </div>
                         <div class="field grid-6" id="field-pm-22">
                             <label for="pm-22" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span></label>
                             <div class="control">
-                                <input type="text" name="groups[payflow_advanced][fields][vendor][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/payflow_advanced/vendor'); ?>" class="input-text" id="pm-22">
+                                <input type="text" name="groups[payflow_advanced][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/vendor'); ?>" class="input-text" id="pm-22">
                             </div>
                         </div>
                     </div>
@@ -182,13 +182,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <div class="field grid-6" id="field-pm-23">
                             <label for="pm-23" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span></label>
                             <div class="control">
-                                <input type="text" name="groups[payflow_advanced][fields][user][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/payflow_advanced/user'); ?>" class="input-text" id="pm-23">
+                                <input type="text" name="groups[payflow_advanced][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/user'); ?>" class="input-text" id="pm-23">
                             </div>
                         </div>
                         <div class="field grid-6" id="field-pm-24">
                             <label for="pm-24" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
                             <div class="control">
-                                <input type="password" name="groups[payflow_advanced][fields][pwd][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/payflow_advanced/pwd'); ?>" class="input-text" id="pm-24">
+                                <input type="password" name="groups[payflow_advanced][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/payflow_advanced/pwd'); ?>" class="input-text" id="pm-24">
                             </div>
                         </div>
                     </div>
@@ -207,7 +207,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <div class="field grid-6" id="field-pm-31">
                             <label for="store-paypal-payments-pro-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email address associated with the PayPal account'); ?></span></label>
                             <div class="control">
-                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getStoreConfig()->getConfig('paypal/general/business_account'); ?>" id="store-paypal-payments-pro-email">
+                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-payments-pro-email">
                             </div>
                         </div>
                     </div>
@@ -225,13 +225,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <div class="field grid-6" id="field-pm-41">
                             <label for="pm-41" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
                             <div class="control">
-                                <input type="text" class="input-text" id="pm-41" name="groups[payflow_link][fields][partner][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/payflow_link/partner'); ?>">
+                                <input type="text" class="input-text" id="pm-41" name="groups[payflow_link][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/partner'); ?>">
                             </div>
                         </div>
                         <div class="field grid-6" id="field-pm-42">
                             <label for="pm-42" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span></label>
                             <div class="control">
-                                <input type="text" class="input-text" id="pm-42" name="groups[payflow_link][fields][vendor][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/payflow_link/vendor'); ?>">
+                                <input type="text" class="input-text" id="pm-42" name="groups[payflow_link][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/vendor'); ?>">
                             </div>
                         </div>
                     </div>
@@ -239,13 +239,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <div class="field grid-6" id="field-pm-43">
                             <label for="pm-43" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span></label>
                             <div class="control">
-                                <input type="text" class="input-text" id="pm-43" name="groups[payflow_link][fields][user][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/payflow_link/user'); ?>">
+                                <input type="text" class="input-text" id="pm-43" name="groups[payflow_link][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/user'); ?>">
                             </div>
                         </div>
                         <div class="field grid-6" id="field-pm-44">
                             <label for="pm-44" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
                             <div class="control">
-                                <input type="password" class="input-text" id="pm-44" name="groups[payflow_link][fields][pwd][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/payflow_link/pwd'); ?>">
+                                <input type="password" class="input-text" id="pm-44" name="groups[payflow_link][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/payflow_link/pwd'); ?>">
                             </div>
                         </div>
                     </div>
@@ -257,19 +257,19 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
             <div style="display: none;" class="payment-method-data-fields">
                 <fieldset>
                     <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Pro'); ?></legend>
-                    <input type="hidden" name="groups[global][fields][payflow_link][value]" value="1">
+                    <input type="hidden" name="groups[global][fields][verisign][value]" value="1">
                     <input type="hidden" name="payment_method" value="paypal_payflow_pro">
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-51">
                             <label for="pm-51" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
                             <div class="control">
-                                <input type="text" class="input-text" id="pm-51" name="groups[verisign][fields][partner][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/verisign/partner'); ?>">
+                                <input type="text" class="input-text" id="pm-51" name="groups[verisign][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/verisign/partner'); ?>">
                             </div>
                         </div>
                         <div class="field grid-6" id="field-pm-52">
                             <label for="pm-52" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span></label>
                             <div class="control">
-                                <input type="text" class="input-text" id="pm-52" name="groups[verisign][fields][vendor][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/verisign/vendor'); ?>">
+                                <input type="text" class="input-text" id="pm-52" name="groups[verisign][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/verisign/vendor'); ?>">
                             </div>
                         </div>
                     </div>
@@ -277,13 +277,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <div class="field grid-6" id="field-pm-53">
                             <label for="pm-53" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span></label>
                             <div class="control">
-                                <input type="text" class="input-text" id="pm-53" name="groups[verisign][fields][user][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/verisign/user'); ?>">
+                                <input type="password" class="input-text" id="pm-53" name="groups[verisign][fields][user][value]" value="<?php echo $this->getObscuredValue('payment/verisign/user'); ?>">
                             </div>
                         </div>
                         <div class="field grid-6" id="field-pm-54">
                             <label for="pm-54" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
                             <div class="control">
-                                <input type="password" class="input-text" id="pm-54" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/verisign/pwd'); ?>">
+                                <input type="password" class="input-text" id="pm-54" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/verisign/pwd'); ?>">
                             </div>
                         </div>
                     </div>
@@ -301,13 +301,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <div class="field grid-6" id="field-pm-61">
                             <label for="pm-61" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('API Login ID'); ?></span></label>
                             <div class="control">
-                                <input type="password" class="input-text" id="pm-61" name="groups[authorizenet][fields][login][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/authorizenet/login'); ?>">
+                                <input type="password" class="input-text" id="pm-61" name="groups[authorizenet][fields][login][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/login'); ?>">
                             </div>
                         </div>
                         <div class="field grid-6" id="field-pm-62">
                             <label for="pm-62" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Transaction Key'); ?></span></label>
                             <div class="control">
-                                <input type="password" class="input-text" id="pm-62" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getStoreConfig()->getConfig('payment/authorizenet/trans_key'); ?>">
+                                <input type="password" class="input-text" id="pm-62" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/trans_key'); ?>">
                             </div>
                         </div>
                     </div>
