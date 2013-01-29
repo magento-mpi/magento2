@@ -314,7 +314,9 @@
                     },
 
                     save : function() {
-                        $('messages').update();
+                        if ($('messages')) {
+                            $('messages').update();
+                        }
                         TreePanels.rebuildTrees();
                         if(!jQuery('#set-prop-form').valid()) {
                             return;

@@ -180,6 +180,12 @@ button.primary.disabled,
 /*
     Reset 'button view' for actions
 -------------------------------------- */
+
+.adminhtml-catalog-product-new .page-actions .action-back,
+.adminhtml-catalog-product-new .page-actions .action-back:hover,
+.adminhtml-catalog-product-new .page-actions .action-back:active,
+.adminhtml-catalog-product-new .page-actions .action-back.active,
+.adminhtml-catalog-product-new .page-actions .action-back:disabled,
 .notifications [class^="action-"],
 .notifications [class^="action-"]:hover,
 .notifications [class^="action-"]:active,
@@ -445,11 +451,11 @@ option.placeholder {
 }
 
 .form-inline .label {
-    width: 30%;
+    width: 20%;
 }
 
 .form-inline .control {
-    width: 50%;
+    width: 60%;
 }
 
 .form-inline .field-service {
@@ -490,6 +496,90 @@ option.placeholder {
 
 .multi-input > input {
     width: 100%;
+}
+
+.fieldset-wrapper,
+.fieldset {
+    background: #fff;
+    border: 1px solid #eae6e0;
+    border-radius: 5px;
+    margin: 0 0 8px;
+    padding: 5px 18px 18px;
+    position: relative;
+}
+
+.fieldset-wrapper > .fieldset-wrapper-title,
+.fieldset > .legend {
+    position: static;
+    float: left;
+    width: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 7px 10px 5px;
+    border-bottom: 1px solid #EDEDED;
+    margin-bottom: 18px;
+}
+
+.fieldset-wrapper > .fieldset-wrapper-title {
+    float: none;
+    padding-right: 20%;
+}
+
+.fieldset-wrapper > .fieldset-wrapper-title .title,
+.fieldset > .legend span {
+    font-family: 'CallunaSans', Arial, sans-serif;
+    font-size: 18px;
+    color: #666;
+    font-weight: normal;
+}
+
+.fieldset-wrapper-title > .actions {
+    float: right;
+}
+
+.fieldset > .legend + br {
+    display: block;
+    height: 0;
+    overflow: hidden;
+    clear: left;
+}
+
+.fieldset-wrapper .fieldset,
+.fieldset .fieldset {
+    background: transparent;
+    padding: 9px 0;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0 0 29px;
+}
+
+.fieldset .legend > span {
+}
+
+.fieldset .field {
+    margin: 0 0 29px;
+}
+
+.fieldset .field:last-child {
+    margin-bottom: 0;
+}
+
+.fieldset .label {
+    color: #666;
+}
+
+.with-addon .textarea {
+    margin: 0 0 6px;
+}
+
+.fieldset .control .textarea {
+    width: 100%;
+}
+
+.fieldset > .field > input[type="checkbox"] {
+    margin-top: 10px;
 }
 
 /*
@@ -1510,7 +1600,8 @@ table tbody tr:nth-child(odd):hover th {
     box-sizing: border-box;
 }
 .page-login .actions {
-    margin:0 18px 0 30%;
+    margin:0 18px 0 20%;
+    padding-left: 4px;
 }
 .page-login .actions,
 .page-login .links {
@@ -2072,6 +2163,10 @@ table tbody tr:nth-child(odd):hover th {
     user-select: none;
 }
 
+.switcher > label {
+    cursor: pointer;
+}
+
 .switcher strong {
     vertical-align: top;
     font-family: "CallunaSans", Arial, sans-serif;
@@ -2556,53 +2651,6 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
-    Sales
--------------------------------------- */
-
-.customer-current-activity {
-    float: left;
-    width: 20%;
-}
-
-.customer-current-activity-inner,
-.order-details-inner {
-    background: #fff;
-    border: 1px solid #EAE6E0;
-    padding: 18px;
-    border-radius: 5px;
-}
-
-.order-details-existing-customer {
-    padding: 0 1% 1%;
-    position: relative;
-    width: 78%;
-    float: right;
-}
-
-.order-billing-address,
-.order-billing-method,
-.order-history {
-    width: 49%;
-    float: left;
-}
-
-.order-shipping-address,
-.order-shipping-method,
-.order-totals {
-    width: 49%;
-    float: right;
-}
-
-.create-order-sidebar-container > div {
-    border-bottom: 1px solid #ccc;
-}
-
-.customer-current-activity .actions {
-    border-bottom: none;
-    margin-top: 20px;
-}
-
-/*
     Clearfix
 -------------------------------------- */
 .clearfix:before,
@@ -2629,7 +2677,9 @@ tr.dynamic-grid input.input-text {
 .order-methods:before,
 .order-methods:after,
 .grid-actions:before,
-.grid-actions:after {
+.grid-actions:after,
+.fieldset-wrapper-title:before,
+.fieldset-wrapper-title:after {
     content: "";
     display: table;
 }
@@ -2646,6 +2696,7 @@ tr.dynamic-grid input.input-text {
 .order-methods:after,
 .order-summary:after,
 .order-methods:after,
-.grid-actions:after {
+.grid-actions:after,
+.fieldset-wrapper-title:after {
     clear: both;
 }

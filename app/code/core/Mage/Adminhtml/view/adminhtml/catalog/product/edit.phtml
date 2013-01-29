@@ -19,7 +19,7 @@
 -->
 
 <div class="page-actions">
-    <div class="switcher hidden" onselectstart='return false;'>
+    <div class="switcher" onselectstart='return false;'>
         <label class="switcher-label" for="product-online-switcher" title="Product online status">
             <strong>Product online</strong>
             <input type="checkbox" id="product-online-switcher" checked />
@@ -27,8 +27,6 @@
         </label>
     </div>
 
-    <?php echo $this->getBackButtonHtml() ?>
-    <?php echo $this->getCancelButtonHtml() ?>
     <?php if($this->getProductId()): ?>
         <?php echo $this->getDeleteButtonHtml() ?>
         <?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
@@ -39,6 +37,7 @@
         <?php echo $this->getChangeAttributeSetButtonHtml() ?>
         <?php echo $this->getSaveSplitButtonHtml(); ?>
     <?php endif; ?>
+    <?php echo $this->getBackButtonHtml() ?>
 </div>
 
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">

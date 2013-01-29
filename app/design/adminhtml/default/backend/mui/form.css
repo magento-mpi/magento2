@@ -61,7 +61,6 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0 0 12px 0;
-    padding-right: 20px;
 }
 
 .field > .label {
@@ -69,6 +68,11 @@
 }
 
 .field > .control {}
+
+/* TODO: remove after all templates refactoring */
+span.required {
+    display: none;
+}
 
 .field.required > .label:after {
     content: '*';
@@ -163,7 +167,7 @@
 .addon > * {direction: ltr; }*/
 
 .addon *:focus ~ .addafter {
-    background: red;
+
 }
 
 .addon .addafter {
@@ -171,6 +175,47 @@
 }
 .choice .addafter,
 .choice .addbefore { display: inline; }
+
+/* Addon left aligned */
+.field-price .addon {
+    direction: rtl;
+}
+.field-price .addon > * {
+    direction: ltr;
+}
+.field-price .addon .addafter {
+    border-width: 1px 0 1px 1px;
+    border-radius: 4px 0 0 4px;
+}
+
+.field-price .addon textarea:first-child,
+.field-price .addon select:first-child,
+.field-price .addon input:first-child {
+    border-radius: 0 4px 4px 0;
+}
+
+
+.field-price .addon input:focus {
+
+}
+.field-price .addon .addafter {
+    background: none;
+}
+.field-price .addon .addafter:after {
+
+}
+
+.field-price .addon .addafter strong {
+
+}
+
+.field-price .addon input {
+    border-left: none;
+}
+
+.field-price .addon input:focus + .addafter {
+
+}
 
 
 /*
@@ -204,6 +249,9 @@
 /*
     Form tooltip
 -------------------------------------- */
+.with-tooltip.choice {
+    padding-right: 20px;
+}
 .with-tooltip.choice,
 .with-tooltip > .control {
     position: relative;
@@ -253,7 +301,7 @@
 .form-inline .label {
     width: 45%;
     text-align: right;
-    padding: 8px 15px 0 0;
+    padding: 5px 15px 0 0;
 }
 .form-inline .choice {
     position: relative;

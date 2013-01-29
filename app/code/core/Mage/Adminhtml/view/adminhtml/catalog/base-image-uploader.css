@@ -13,8 +13,6 @@
     position: relative;
 }
 
-
-
 #product-edit-form-tabs #qty {
     width: 50px;
     margin-right: 16px;
@@ -35,8 +33,6 @@
     border: 2px dotted #CCC;
     border-radius: 5px;
     padding: 6px 15px;
-    margin-right: 8px;
-    height: 140px;
 }
 
 #product-edit-form-tabs #image-container > span.container {
