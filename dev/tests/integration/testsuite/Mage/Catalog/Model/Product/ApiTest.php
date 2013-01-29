@@ -28,12 +28,9 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $expectedProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $expectedProduct->load($productId);
         $fieldsToCompare = array(
-            'entity_id' => 'product_id',
-            'sku',
-            'attribute_set_id' => 'set',
-            'type_id' => 'type',
-            'category_ids' => 'categories',
-            'special_price'
+            'special_price',
+            'special_price_to',
+            'special_price_from'
         );
         /** Assert response product equals to actual product data. */
         Magento_Test_Helper_Api::checkEntityFields(
