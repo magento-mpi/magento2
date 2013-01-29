@@ -81,6 +81,12 @@
                     </handlers>
                 </parameters>
             </Magento_Http_Handler_Composite>
+            <Magento_Filesystem>
+                <parameters>
+                    <adapter>Magento_Filesystem_Adapter_Local</adapter>
+                </parameters>
+                <shared>0</shared>
+            </Magento_Filesystem>
         </di>
     </global>
     <default>

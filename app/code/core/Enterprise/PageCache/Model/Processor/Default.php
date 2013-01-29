@@ -98,7 +98,7 @@ class Enterprise_PageCache_Model_Processor_Default implements Mage_Core_Model_Ca
          * This should simplify debugging _renderBlock()
          */
         if ($container && !Mage::getIsDeveloperMode()) {
-            $container = new $container($this->_placeholder);
+            $container = Mage::getModel($container, array('placeholder' => $this->_placeholder));
             $container->setProcessor(Mage::getSingleton('Enterprise_PageCache_Model_Processor'));
             $blockContent = $matches[1];
             $container->saveCache($blockContent);
