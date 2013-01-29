@@ -18,7 +18,9 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Mage_Catalog_Model_Product_Type_Abstract');
+        $this->_model = $this->getMockBuilder('Mage_Catalog_Model_Product_Type_Abstract')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
     }
 
     protected function tearDown()

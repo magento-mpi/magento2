@@ -39,6 +39,13 @@
             </aliases>
         </di>
     </global>
+    <frontend>
+        <design>
+            <theme>
+                <full_name>enterprise/fixed</full_name>
+            </theme>
+        </design>
+    </frontend>
     <adminhtml>
         <events>
             <backend_auth_user_login_success>
@@ -83,9 +90,6 @@
     </install>
     <default>
         <design>
-            <theme>
-                <full_name>enterprise/fixed</full_name>
-            </theme>
             <head>
                 <default_title>Magento Enterprise Edition</default_title>
                 <default_keywords>Magento, Varien, E-commerce</default_keywords>

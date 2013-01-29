@@ -26,10 +26,10 @@ class Saas_UnitPrice_Model_Config_Source_Unitprice_Unit extends Mage_Eav_Model_E
     public function toOptionArray()
     {
         $options = array();
-        $h = $this->_getHelper();
+        $helper = $this->_getHelper();
 
-        foreach (explode(',', $h->getConfig('units')) as $unit) {
-            $options[] = array('value' => $unit, 'label' => $h->__($unit));
+        foreach (explode(',', $helper->getConfig('units')) as $unit) {
+            $options[] = array('value' => $unit, 'label' => $helper->__($unit));
         }
 
         return $options;

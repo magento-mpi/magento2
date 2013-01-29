@@ -40,6 +40,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_app;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -51,6 +53,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem,
      * @param Mage_Core_Model_App $application
      * @param array $data
      *
@@ -68,12 +73,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Core_Model_App $application,
         array $data = array()
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
 
         $this->setTemplate('hierarchy/edit.phtml');

@@ -116,11 +116,11 @@ class Saas_UnitPrice_Model_Unitprice
         }
 
         $rate = $this->_getHelper()->getConfig("convert/$fromUnit/to/$toUnit");
-        $h = $this->_getHelper();
+        $helper = $this->_getHelper();
 
         if (!$rate) {
             $this->_throwMageException(
-                $h->__('Conversion rate not found for %s to %s', $h->__($fromUnit), $h->__($toUnit))
+                $helper->__('Conversion rate not found for %s to %s', $helper->__($fromUnit), $helper->__($toUnit))
             );
         }
 

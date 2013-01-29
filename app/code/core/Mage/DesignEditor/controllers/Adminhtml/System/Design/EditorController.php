@@ -101,7 +101,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => $this->_helper->__('Theme list can not be loaded')))
+                    array('error' => $this->_helper->__('Theme list can not be loaded')))
             );
         }
     }
@@ -125,8 +125,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$theme->isVirtual()) {
                 $themeCustomization = $this->_getThemeCustomization($theme);
                 $this->_redirect('*/*/*/', array(
-                     'theme_id' => $themeCustomization->getId(),
-                     'mode'     => $mode
+                    'theme_id' => $themeCustomization->getId(),
+                    'mode'     => $mode
                 ));
                 return;
             }
@@ -188,6 +188,22 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
+     * VDE quit action
+     */
+    public function quitAction()
+    {
+        /** @var $state Mage_DesignEditor_Model_State */
+        $state = $this->_objectManager->get('Mage_DesignEditor_Model_State');
+        $state->reset();
+
+        /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
+        $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventDispatcher->dispatch('design_editor_deactivate');
+
+        $this->_redirect('*/*/');
+    }
+
+    /**
      * Get current handle
      *
      * @return string
@@ -196,7 +212,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
         $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_Handle');
-        $handle = $this->_getSession()->getData('vde_current_handle');
+        $handle = $this->_getSession()->getData(Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY);
         if (empty($handle)) {
             $handle = 'default';
         }
@@ -213,7 +229,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
         $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_NavigationMode');
-        $url = $this->_getSession()->getData('vde_current_url');
+        $url = $this->_getSession()->getData(Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
         if (empty($url)) {
             $url = '';
         }
@@ -251,10 +267,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 throw new InvalidArgumentException('Param "stores" is not valid');
             }
 
+            $this->_saveLayoutUpdate(
+                $this->getRequest()->getParam('layoutUpdate', array()),
+                $this->getRequest()->getParam('handle'),
+                $themeId
+            );
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             /** @var $themeCustomization Mage_Core_Model_Theme */
             $themeCustomization = $themeService->assignThemeToStores($themeId, $stores);
+            
             $message = $coreHelper->__('Theme successfully assigned');
             $response = array(
                 'success' => $message,
@@ -264,7 +286,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => $this->_helper->__('Theme is not assigned')))
+                    array('error' => $this->_helper->__('Theme is not assigned')))
             );
             $response = array(
                 'error'   => true,
@@ -323,59 +345,87 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     /**
      * Compact history
      *
-     * @param array $historyData
-     * @return Mage_DesignEditor_Model_History
+     * @param array $layoutUpdate
+     * @param string|null $xml
+     * @return string
      */
-    protected function _compactHistory($historyData)
+    protected function _compactHistory($layoutUpdate, $xml = null)
     {
         /** @var $historyModel Mage_DesignEditor_Model_History */
-        $historyModel = Mage::getModel('Mage_DesignEditor_Model_History');
+        $historyModel = $this->_objectManager->create('Mage_DesignEditor_Model_History');
         /** @var $historyCompactModel Mage_DesignEditor_Model_History_Compact */
-        $historyCompactModel = Mage::getModel('Mage_DesignEditor_Model_History_Compact');
+        $historyCompactModel = $this->_objectManager->create('Mage_DesignEditor_Model_History_Compact');
+        /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
+        $layoutRenderer = $this->_objectManager->create('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
         /** @var $collection Mage_DesignEditor_Model_Change_Collection */
-        $collection = $historyModel->setChanges($historyData)->getChanges();
+        $collection = $historyModel->addXmlChanges($xml)
+            ->addChanges($layoutUpdate)
+            ->getChanges();
         $historyCompactModel->compact($collection);
-        return $historyModel;
+        $layoutUpdate = $historyModel->output($layoutRenderer,
+            Mage_DesignEditor_Model_History_Renderer_LayoutUpdate::DEFAULT_HANDLE
+        );
+
+        return $layoutUpdate;
     }
 
     /**
      * Save layout update
      *
+     * @param array $layoutUpdate
+     * @param string $handle
      * @param int $themeId
      * @param bool $isTemporary
      */
-    protected function _saveLayoutUpdate($themeId, $isTemporary = false)
+    protected function _saveLayoutUpdate($layoutUpdate, $handle, $themeId, $isTemporary = false)
     {
-        $layoutUpdate = $this->getRequest()->getParam('layoutUpdate', '');
-        if (!empty($layoutUpdate)) {
-            $historyModel = $this->_compactHistory($layoutUpdate);
+        /** @var $layoutCollection Mage_DesignEditor_Model_Resource_Layout_Update_Collection */
+        $layoutCollection = $this->_objectManager
+            ->create('Mage_DesignEditor_Model_Resource_Layout_Update_Collection');
+        $layoutCollection->addStoreFilter(Mage_Core_Model_App::ADMIN_STORE_ID)
+            ->addThemeFilter($themeId)
+            ->addFieldToFilter('handle', $handle)
+            ->addFieldToFilter('is_vde', true)
+            ->setOrder('sort_order', Varien_Data_Collection_Db::SORT_ORDER_ASC);
 
-            /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
-            $layoutRenderer = $this->_objectManager->get('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
-            $layoutUpdate = $historyModel->output($layoutRenderer, 'current_handle');
-
-            /** @var $updateCollection Mage_Core_Model_Resource_Layout_Update_Collection */
-            $updateCollection = $this->_objectManager->get('Mage_Core_Model_Resource_Layout_Update_Collection');
-            $updateCollection->addStoreFilter(Mage_Core_Model_App::ADMIN_STORE_ID)
-                ->addThemeFilter($themeId)
-                ->addFieldToFilter('handle', $this->getRequest()->getParam('handle'))
-                ->setOrder('sort_order');
-            /** @var $layoutUpdateModel Mage_Core_Model_Layout_Update */
-            $layoutUpdateModel = $updateCollection->getFirstItem();
-
-            $sortOrder = 0;
-            if ($layoutUpdateModel->getId()) {
-                $sortOrder = $layoutUpdateModel->getSortOrder() + 1;
+        $xml = '';
+        if (!$isTemporary) {
+            /** @var $item Mage_DesignEditor_Model_Layout_Update */
+            foreach ($layoutCollection as $item) {
+                $xml .= $item->getXml();
             }
+        }
 
-            $layoutUpdateModel->setData(array(
+        if ($xml || $layoutUpdate) {
+            $layoutUpdateData = array(
                 'store_id'     => Mage_Core_Model_App::ADMIN_STORE_ID,
                 'theme_id'     => $themeId,
-                'handle'       => $this->getRequest()->getParam('handle'),
-                'xml'          => $layoutUpdate,
-                'sort_order'   => $sortOrder,
+                'handle'       => $handle,
+                'xml'          => $this->_compactHistory($layoutUpdate, $xml),
                 'is_temporary' => $isTemporary
-            ));
+            );
+
+            if ($isTemporary) {
+                /** @var $layoutUpdateModel Mage_DesignEditor_Model_Layout_Update */
+                $layoutUpdateModel = $layoutCollection->getLastItem();
+                $sortOrder = 0;
+                if ($layoutUpdateModel->getId()) {
+                    $sortOrder = $layoutUpdateModel->getSortOrder() + 1;
+                }
+                $layoutUpdateData['sort_order'] = $sortOrder;
+                $layoutUpdateModel->setData($layoutUpdateData);
+            } else {
+                /** @var $layoutUpdateModel Mage_DesignEditor_Model_Layout_Update */
+                $layoutUpdateModel = $layoutCollection->getFirstItem();
+                $layoutUpdateModel->addData($layoutUpdateData);
+
+                /** @var @item Mage_DesignEditor_Model_Layout_Update */
+                foreach ($layoutCollection as $item) {
+                    if ($item->getId() != $layoutUpdateModel->getId()) {
+                        $item->delete();
+                    }
+                }
+            }
             $layoutUpdateModel->save();
         }
     }
@@ -394,10 +444,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         }
 
         try {
-            $historyModel = $this->_compactHistory($historyData);
-            /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
-            $layoutRenderer = Mage::getModel('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
-            $layoutUpdate = $historyModel->output($layoutRenderer);
+            $layoutUpdate = $this->_compactHistory($historyData);
             $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 Mage_Core_Model_Message::SUCCESS => array($layoutUpdate)
             )));
@@ -424,16 +471,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             }
 
             if ($this->getRequest()->has('layoutUpdate')) {
-                $this->_saveLayoutUpdate($themeId, true);
+                $this->_saveLayoutUpdate(
+                    $this->getRequest()->getParam('layoutUpdate'),
+                    $this->getRequest()->getParam('handle'),
+                    $themeId,
+                    true
+                );
             }
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                    array('success' => $this->__('Temporary layout update saved'))
-                ));
+                array('success' => $this->__('Temporary layout update saved'))
+            ));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                    array('error' => $this->__('Temporary layout update not saved'))
-                ));
+                array('error' => $this->__('Temporary layout update not saved'))
+            ));
         }
     }
 

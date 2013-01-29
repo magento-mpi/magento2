@@ -7,14 +7,33 @@
  * @license     {license_link}
  */
 /*jshint eqnull:true browser:true jquery:true*/
-/*global head:true */
+/*global head:true console:true*/
 (function($) {
     "use strict";
+    /**
+     * Store developer mode flag value
+     * @type {boolean}
+     * @private
+     */
+    var _isDevMode = false;
+
     /**
      * Main namespace for Magento extensions
      * @type {Object}
      */
-    $.mage = {};
+    $.mage = {
+        /**
+         * Setter and getter for developer mode flag
+         * @param {(undefined|boolean)} flag
+         * @return {boolean}
+         */
+        isDevMode: function(flag) {
+            if (typeof flag !== 'undefined') {
+                _isDevMode = !!flag;
+            }
+            return _isDevMode && typeof console !== 'undefined';
+        }
+    };
 })(jQuery);
 
 /**
@@ -49,12 +68,24 @@
     /**
      * Execute initialization callback when all resources are loaded
      * @param {Array} args - list of resources
-     * @param {Function} handler - initialization callback
+     * @param {(Function|undefined)} handler - initialization callback
      * @private
      */
     function _onload(args, handler) {
-        args.push(handler);
-        head.js.apply(head, args);
+        args = $.grep(args, function(resource) {
+            var script = $('script[src="' + resource + '"]');
+            return !script.length || typeof script[0].onload === 'function';
+        });
+
+        if (typeof handler === 'function' && args.length) {
+            args.push(handler);
+        }
+
+        if (args.length) {
+            head.js.apply(head, args);
+        } else {
+            handler();
+        }
     }
 
     /**
@@ -83,13 +114,13 @@
         }
         // Build an initialization handler
         var handler = $.proxy(function() {
-            this[init.name].apply(this, init.args);
+            if (typeof this[init.name] === 'function') {
+                this[init.name].apply(this, init.args);
+            } else if ($.mage.isDevMode()) {
+                console.error('Cannot initialize components "' + init.name + '"');
+            }
         }, $(this));
-        if (init.resources.length) {
-            _onload(init.resources, handler);
-        } else {
-            handler();
-        }
+        _onload(init.resources, handler);
     }
 
     /**
@@ -203,7 +234,7 @@
         load: function(component) {
             $.each(arguments, function(i, component) {
                 if (_resources[component] && _resources[component].length) {
-                    head.js.apply(head, _resources[component]);
+                    _onload(_resources[component]);
                 }
             });
             return this;
