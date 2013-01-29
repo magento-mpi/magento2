@@ -85,13 +85,13 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     }
 
     /**
-     * Get theme code
+     * Get theme identification code
      *
      * @return string
      */
     public function getTheme()
     {
-        return $this->_theme->getThemeCode();
+        return $this->_theme->getId() ?: $this->_theme->getThemePath();
     }
 
     /**
