@@ -38,14 +38,12 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Blo
     {
         $this->addChild('deleteButton', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Delete'),
-            'onclick'   => 'answer.del(this)',
-            'class' => 'delete'
+            'class' => 'action-delete'
         ));
 
         $this->addChild('addButton', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Add New Answer'),
-            'onclick'   => 'answer.add(this)',
-            'class' => 'add'
+            'class' => 'action-add'
         ));
         return parent::_prepareLayout();
     }
