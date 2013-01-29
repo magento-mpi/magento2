@@ -818,15 +818,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
         }
         if (preg_match('/%currentDate%/', $value)) {
-            $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
-            switch (end($fallbackOrderHelper)) {
-                case 'default':
-                    $value = preg_replace('/%currentDate%/', date("n/j/y"), $value);
-                    break;
-                default:
-                    $value = preg_replace('/%currentDate%/', date("n/j/Y"), $value);
-                    break;
-            }
+            $value = preg_replace('/%currentDate%/', date("n/j/Y"), $value);
         }
         if (preg_match('/^%next(\w)+%$/', $value)) {
             $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
