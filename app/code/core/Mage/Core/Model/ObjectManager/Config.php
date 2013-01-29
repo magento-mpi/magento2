@@ -25,6 +25,11 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 'storage' => 'Mage_Core_Model_Config_Storage',
             )
         ),
+        'Mage_Core_Model_Config_Resource' => array(
+            'parameters' => array(
+                'config' => 'Mage_Core_Model_Config_Primary',
+            )
+        ),
         'Mage_Core_Model_Config_Locales' => array(
             'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage_Locales')
         ),

@@ -18,7 +18,7 @@ class Mage_Core_Model_Config_Resource
     /**
      * @param Mage_Core_Model_Config_Primary $config
      */
-    public function __construct(Mage_Core_Model_Config_Primary $config)
+    public function __construct(Mage_Core_Model_ConfigInterface $config)
     {
         $this->_config = $config;
     }
