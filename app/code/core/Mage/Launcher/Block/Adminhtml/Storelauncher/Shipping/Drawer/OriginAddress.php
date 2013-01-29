@@ -194,17 +194,12 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
         $showForm = empty($addressData['street_line1'])
             || empty($addressData['city']) || empty($addressData['postcode']);
 
-        $countryName = $this->_countryModel->loadByCode($addressData['country_id'])->getName();
+        $addressData['country_id'] = $this->_countryModel->loadByCode($addressData['country_id'])->getName();
 
-        $regionName = $addressData['region_id'];
-        $this->_regionModel->load($regionName);
+        $this->_regionModel->load($addressData['region_id']);
         if ($this->_regionModel->getName()) {
-            $regionName = $this->_regionModel->getName();
+            $addressData['region_id'] = $this->_regionModel->getName();
         }
-        unset($addressData['country_id']);
-        unset($addressData['region_id']);
-        $addressData['country'] = $countryName;
-        $addressData['region'] = $regionName;
         return array('show_form' => $showForm, 'data' => $addressData);
     }
 

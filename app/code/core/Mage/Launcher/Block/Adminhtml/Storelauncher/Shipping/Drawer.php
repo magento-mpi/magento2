@@ -27,8 +27,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer extends Mage_L
         return $this->helper('Mage_Launcher_Helper_Data')->__('Configure Shipping');
     }
 
-    public function getStoreConfig()
+    /**
+     * Retrieve Store Config value
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfigValue($path)
     {
-        return $this->_storeConfig;
+        return $this->_storeConfig->getConfig($path);
     }
 }

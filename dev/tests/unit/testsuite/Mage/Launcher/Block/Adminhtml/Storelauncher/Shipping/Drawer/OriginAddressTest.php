@@ -173,8 +173,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddressT
                 'street_line2' => 'Suite 200',
                 'city' => 'Culver City',
                 'postcode' => '90232',
-                'region' => 'California',
-                'country' => 'United States'
+                'region_id' => 'California',
+                'country_id' => 'United States'
             )
         );
 
