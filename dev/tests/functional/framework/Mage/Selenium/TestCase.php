@@ -1830,7 +1830,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     $elementValue = $this->select($element)->selectedValue();
                 } elseif ($controlType == self::FIELD_TYPE_MULTISELECT) {
                     $elementValue = $this->select($element)->selectedValues();
-                } elseif ($controlType == self::FIELD_TYPE_CHECKBOX || $controlType == self::FIELD_TYPE_CHECKBOX) {
+                } elseif ($controlType == self::FIELD_TYPE_RADIOBUTTON || $controlType == self::FIELD_TYPE_CHECKBOX) {
                     $elementValue = $element->selected();
                 } else {
                     $elementValue = $element->attribute('value');
