@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Theme wysiwyg storage model
+ */
 class Mage_Theme_Model_Wysiwyg_Storage
 {
     /**
@@ -170,7 +173,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $result = array(
             'name'       => $name,
             'short_name' => $this->_helper->getShortFilename($name),
-            'path'       => $path = str_replace($this->_helper->getStorageRoot(), '', $newPath),
+            'path'       => str_replace($this->_helper->getStorageRoot(), '', $newPath),
             'id'         => $this->_helper->convertPathToId($newPath)
         );
 
@@ -188,7 +191,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $file = $this->_helper->urlDecode($file);
         $path = $this->_helper->getSession()->getStoragePath();
 
-        $_filePath = realpath($path . DIRECTORY_SEPARATOR . $file);
+        $_filePath = $this->_filesystem->getAbsolutePath($path . DIRECTORY_SEPARATOR . $file);
         $_thumbnailPath = $this->_helper->getThumbnailDirectory($_filePath) . DIRECTORY_SEPARATOR . $file;
 
         if ($this->_filesystem->isPathInDirectory($_filePath, $path)
@@ -203,17 +206,17 @@ class Mage_Theme_Model_Wysiwyg_Storage
     /**
      * Get directory collection
      *
-     * @param string $path
+     * @param string $currentPath
      * @return array
      * @throws Mage_Core_Exception
      */
-    public function getDirsCollection($path)
+    public function getDirsCollection($currentPath)
     {
-        if (!$this->_filesystem->has($path)) {
-            Mage::throwException($this->_helper->__('A directory with the same name not exists.'));
+        if (!$this->_filesystem->has($currentPath)) {
+            Mage::throwException($this->_helper->__('A directory with the name not exists.'));
         }
 
-        $paths = $this->_filesystem->searchKeys($path, '*');
+        $paths = $this->_filesystem->searchKeys($currentPath, '*');
         $directories = array();
         foreach ($paths as $path) {
             if ($this->_filesystem->isDirectory($path)) {

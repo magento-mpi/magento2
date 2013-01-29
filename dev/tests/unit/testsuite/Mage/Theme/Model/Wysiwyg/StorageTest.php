@@ -19,9 +19,19 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_storageRoot;
 
     /**
-     * @var null|Varien_Io_File
+     * @var null|Magento_Filesystem
      */
-    protected $_fileIo;
+    protected $_filesystem;
+
+    /**
+     * @var null|Mage_Theme_Helper_Storage
+     */
+    protected $_helperStorage;
+
+    /**
+     * @var null|Magento_ObjectManager
+     */
+    protected $_objectManager;
 
     /**
      * @var null|Mage_Theme_Model_Wysiwyg_Storage
@@ -30,114 +40,186 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storageModel = $this->getMock('Mage_Theme_Model_Wysiwyg_Storage', null, array(), '', false);
+        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_helperStorage = $this->getMock('Mage_Theme_Helper_Storage', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
 
-        $this->_fileIo = $this->getMock('Varien_Io_File', null, array(), '', false);
+        $this->_storageModel = new Mage_Theme_Model_Wysiwyg_Storage(
+            $this->_filesystem,
+            $this->_helperStorage,
+            $this->_objectManager
+        );
 
-        $fileIoProperty = new ReflectionProperty($this->_storageModel, '_fileIo');
-        $fileIoProperty->setAccessible(true);
-        $fileIoProperty->setValue($this->_storageModel, $this->_fileIo);
-
-        $this->_storageRoot = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'root';
+        $this->_storageRoot = DIRECTORY_SEPARATOR . 'root';
     }
 
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::createFolder
+     */
     public function testCreateFolder()
     {
-        $designDir = $this->_storageRoot;
         $newDirectoryName = 'dir1';
+        $fullNewPath = $this->_storageRoot . DIRECTORY_SEPARATOR . $newDirectoryName;
 
-        $storageModel = $this->_storageModel;
+        $this->_filesystem->expects($this->once())
+            ->method('isWritable')
+            ->with($this->_storageRoot)
+            ->will($this->returnValue(true));
 
-        /** @var $helper Mage_Theme_Helper_Storage */
-        $helper = $this->getMock(
-            'Mage_Theme_Helper_Storage', array('getShortFilename', 'convertPathToId'), array(), '', false
-        );
+        $this->_filesystem->expects($this->once())
+            ->method('has')
+            ->with($fullNewPath)
+            ->will($this->returnValue(false));
 
-        $helper->expects($this->once())
+        $this->_filesystem->expects($this->once())
+            ->method('ensureDirectoryExists')
+            ->with($fullNewPath);
+
+
+        $this->_helperStorage->expects($this->once())
             ->method('getShortFilename')
+            ->with($newDirectoryName)
             ->will($this->returnValue($newDirectoryName));
 
-        $helper->expects($this->once())
+        $this->_helperStorage->expects($this->once())
             ->method('convertPathToId')
+            ->with($fullNewPath)
             ->will($this->returnValue($newDirectoryName));
 
-        $helperProperty = new ReflectionProperty($storageModel, '_helper');
-        $helperProperty->setAccessible(true);
-        $helperProperty->setValue($storageModel, $helper);
+        $this->_helperStorage->expects($this->once())
+            ->method('getStorageRoot')
+            ->will($this->returnValue($this->_storageRoot));
 
         $expectedResult = array(
-            'name'       => 'dir1',
-            'short_name' => 'dir1',
-            'path'       => $designDir . DIRECTORY_SEPARATOR . $newDirectoryName,
-            'id'         => 'dir1'
+            'name'       => $newDirectoryName,
+            'short_name' => $newDirectoryName,
+            'path'       => DIRECTORY_SEPARATOR . $newDirectoryName,
+            'id'         => $newDirectoryName
         );
 
-        $this->assertEquals($expectedResult, $storageModel->createFolder($newDirectoryName, $designDir));
+        $this->assertEquals(
+            $expectedResult,
+            $this->_storageModel->createFolder($newDirectoryName, $this->_storageRoot)
+        );
     }
 
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::getDirsCollection
+     */
     public function testGetDirsCollection()
     {
-        $storageModel = $this->_storageModel;
-
-        $expectedResult = array(
+        $dirs = array(
             $this->_storageRoot . DIRECTORY_SEPARATOR . 'dir1',
             $this->_storageRoot . DIRECTORY_SEPARATOR . 'dir2'
         );
 
-        $this->assertEquals($expectedResult, $storageModel->getDirsCollection($this->_storageRoot));
+        $this->_filesystem->expects($this->once())
+            ->method('has')
+            ->with($this->_storageRoot)
+            ->will($this->returnValue(true));
+
+        $this->_filesystem->expects($this->once())
+            ->method('searchKeys')
+            ->with($this->_storageRoot, '*')
+            ->will($this->returnValue($dirs));
+
+        $this->_filesystem->expects($this->any())
+            ->method('isDirectory')
+            ->will($this->returnValue(true));
+
+        $this->assertEquals($dirs, $this->_storageModel->getDirsCollection($this->_storageRoot));
     }
 
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::getFilesCollection
+     */
     public function testGetFilesCollection()
     {
-        $storageModel = $this->_storageModel;
-
-        /** @var $helper Mage_Theme_Helper_Storage */
-        $helper = $this->getMock(
-            'Mage_Theme_Helper_Storage', array('getCurrentPath'), array(), '', false
-        );
-
-        $helper->expects($this->once())
+        $this->_helperStorage->expects($this->once())
             ->method('getCurrentPath')
             ->will($this->returnValue($this->_storageRoot));
 
-        $helperProperty = new ReflectionProperty($storageModel, '_helper');
-        $helperProperty->setAccessible(true);
-        $helperProperty->setValue($storageModel, $helper);
+        $this->_helperStorage->expects($this->once())
+            ->method('getStorageType')
+            ->will($this->returnValue(Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT));
 
-        $result = $storageModel->getFilesCollection();
+        $this->_helperStorage->expects($this->any())
+            ->method('urlEncode')
+            ->will($this->returnArgument(0));
+
+
+        $paths = array(
+            $this->_storageRoot . DIRECTORY_SEPARATOR . 'font1.ttf',
+            $this->_storageRoot . DIRECTORY_SEPARATOR . 'font2.ttf'
+        );
+
+        $this->_filesystem->expects($this->once())
+            ->method('searchKeys')
+            ->with($this->_storageRoot, '*')
+            ->will($this->returnValue($paths));
+
+        $this->_filesystem->expects($this->any())
+            ->method('isFile')
+            ->will($this->returnValue(true));
+
+        $result = $this->_storageModel->getFilesCollection();
 
         $this->assertCount(2, $result);
-
         $this->assertEquals('font1.ttf', $result[0]['text']);
         $this->assertEquals('font2.ttf', $result[1]['text']);
     }
 
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::getTreeArray
+     */
     public function testTreeArray()
     {
-        $storageModel = $this->_storageModel;
-
-        /** @var $helper Mage_Theme_Helper_Storage */
-        $helper = $this->getMock(
-            'Mage_Theme_Helper_Storage', array('getCurrentPath', 'getStorageRoot'), array(), '', false
+        $currentPath = $this->_storageRoot . DIRECTORY_SEPARATOR . 'dir';
+        $dirs = array(
+            $currentPath . DIRECTORY_SEPARATOR . 'dir_one',
+            $currentPath . DIRECTORY_SEPARATOR . 'dir_two'
         );
 
-        $helper->expects($this->once())
+        $expectedResult = array(
+            array(
+                'text' => pathinfo($dirs[0], PATHINFO_BASENAME),
+                'id'   => $dirs[0],
+                'cls'  => 'folder'
+            ),
+            array(
+                'text' => pathinfo($dirs[1], PATHINFO_BASENAME),
+                'id'   => $dirs[1],
+                'cls'  => 'folder'
+        ));
+
+        $this->_filesystem->expects($this->once())
+            ->method('has')
+            ->with($currentPath)
+            ->will($this->returnValue(true));
+
+        $this->_filesystem->expects($this->once())
+            ->method('searchKeys')
+            ->with($currentPath, '*')
+            ->will($this->returnValue($dirs));
+
+        $this->_filesystem->expects($this->any())
+            ->method('isDirectory')
+            ->will($this->returnValue(true));
+
+
+        $this->_helperStorage->expects($this->once())
             ->method('getCurrentPath')
-            ->will($this->returnValue($this->_storageRoot . DIRECTORY_SEPARATOR . 'dir2'));
+            ->will($this->returnValue($currentPath));
 
-        $helper->expects($this->once())
-            ->method('getStorageRoot')
-            ->will($this->returnValue($this->_storageRoot));
+        $this->_helperStorage->expects($this->any())
+            ->method('getShortFilename')
+            ->will($this->returnArgument(0));
 
-        $helperProperty = new ReflectionProperty($storageModel, '_helper');
-        $helperProperty->setAccessible(true);
-        $helperProperty->setValue($storageModel, $helper);
+        $this->_helperStorage->expects($this->any())
+            ->method('convertPathToId')
+            ->will($this->returnArgument(0));
 
-        $result = $storageModel->getTreeArray();
-
-        $this->assertCount(1, $result);
-
-        $this->assertEquals('L2RpcjIvTW9yZVRoYW4yMFN5bWJvbHNJbk5hbWU,', $result[0]['id']);
-        $this->assertEquals('MoreThan20SymbolsInN...', $result[0]['text']);
+        $result = $this->_storageModel->getTreeArray();
+        $this->assertEquals($expectedResult, $result);
     }
 }

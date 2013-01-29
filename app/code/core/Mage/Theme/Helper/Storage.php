@@ -9,7 +9,7 @@
  */
 
 /**
- * Theme data helper
+ * Theme storage helper
  */
 class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
 {
@@ -136,14 +136,14 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      * Get theme module for custom static files
      *
      * @return Mage_Core_Model_Theme
-     * @throws Magento_Exception
+     * @throws InvalidArgumentException
      */
     protected function _getTheme()
     {
         $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
         $theme = $this->_themeFactory->create();
         if (!$themeId || $themeId && !$theme->load($themeId)->getId()) {
-            throw new Magento_Exception('Theme was not found.');
+            throw new InvalidArgumentException('Theme was not found.');
         }
         return $theme;
     }
@@ -221,10 +221,18 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      *
      * @param $imageName
      * @return string
+     * @throws InvalidArgumentException
      */
     public function getThumbnailPath($imageName)
     {
-        return $this->getThumbnailDirectory($this->getCurrentPath()) . pathinfo($imageName, PATHINFO_BASENAME);
+        $imagePath = $this->getCurrentPath() . DIRECTORY_SEPARATOR . $imageName;
+        if (!$this->_filesystem->has($imagePath)
+            || !$this->_filesystem->isPathInDirectory($imagePath, $this->getStorageRoot())
+        ) {
+            throw new InvalidArgumentException('The image not found.');
+        }
+        return $this->getThumbnailDirectory($imagePath) . DIRECTORY_SEPARATOR
+            . pathinfo($imageName, PATHINFO_BASENAME);
     }
 
     /**
