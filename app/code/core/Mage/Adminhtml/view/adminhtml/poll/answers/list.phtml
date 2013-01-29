@@ -85,58 +85,54 @@
 
 <script type="text/javascript">
 (function($) {
-	'use strict';
+    'use strict';
 
-	$.widget('mage.xxx', {
-		options: {
-			btnAdd: '.action-add',
-			btnDelete: '.action-delete'
-		},
-		
-		lastId: 0,
-	
-		_init: function() {
-			this.templatePollAnswer = new Template($('#templatePollAnswer').html());
-			this.templatePollHidden = new Template($('#templatePollHidden').html());
-			this.container = $('#answers_container');
-		},
-	
-		_create: function() {
-			this.btnAdd = $(this.options.btnAdd, this.element);
-			this.btnDelete = $(this.options.btnDelete, this.element);
+    $.widget('mage.xxx', {
+        options: {
+        },
+        
+        lastId: 0,
+    
+        _init: function() {
+            this.templatePollAnswer = new Template($('#templatePollAnswer').html());
+            this.templatePollHidden = new Template($('#templatePollHidden').html());
+            this.container = $('#answers_container');
+        },
+    
+        _create: function() {
+            this._bind();
+        },
 
-			this._bind();
-		},
-	
-		_bind: function() {
-			var self = this;
+        _bind: function() {
+            var self = this;
 
-			this.btnAdd.bind("click", function() {
-				self.addAnswer();
-			});
-			this.btnDelete.bind("click", function() {
-				self.deleteAnswer(this);
-			});
-		},
-		
-		addAnswer: function() {
-			this.container.append(this.templatePollAnswer.evaluate({
-				id: --this.lastId
-			}));
-		},
+            $('body')
+                .on('click.btnPollAddAnswer', '.action-add', function() {
+                    self.addAnswer();
+                })
+                .on('click.btnPollDeleteAnswer', '.action-delete', function() {
+                    self.deleteAnswer(this);
+                });
+        },
 
-		deleteAnswer: function(el) {
-			if(confirm('<?php echo Mage::helper('Mage_Poll_Helper_Data')->__('Are you sure you want to delete it?') ?>')) {
-				var fieldset = $(el).closest('.fieldset');
-				var id = $('#id_' + fieldset.attr("id")).attr("value");
-				this.container.append(this.templatePollHidden.evaluate({
-					id: id
-				}));
-				fieldset.remove();
-			}
-		}
-	});
+        addAnswer: function() {
+            this.container.append(this.templatePollAnswer.evaluate({
+                id: --this.lastId
+            }));
+        },
 
-	$('#poll_tabs_answers_section_content').xxx();
+        deleteAnswer: function(el) {
+            if(confirm('<?php echo Mage::helper('Mage_Poll_Helper_Data')->__('Are you sure you want to delete it?') ?>')) {
+                var fieldset = $(el).closest('.fieldset');
+                var id = $('#id_' + fieldset.attr("id")).attr("value");
+                this.container.append(this.templatePollHidden.evaluate({
+                    id: id
+                }));
+                fieldset.remove();
+            }
+        }
+    });
+
+    $('#poll_tabs_answers_section_content').xxx();
 })(jQuery);
 </script>
