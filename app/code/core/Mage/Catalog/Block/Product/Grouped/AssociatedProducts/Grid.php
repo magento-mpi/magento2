@@ -110,7 +110,7 @@ class Mage_Catalog_Block_Product_Grouped_AssociatedProducts_Grid extends Mage_Ba
      */
     public function getSortableUpdateCallback()
     {
-        return <<<'SCRIPT'
+        return <<<SCRIPT
 function () {
     if(jQuery && jQuery('#grouped-product-container').data('groupedProduct')) {
         jQuery('#grouped-product-container').groupedProduct('updateRowsPositions');
