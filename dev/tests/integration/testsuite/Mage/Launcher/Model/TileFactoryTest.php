@@ -99,4 +99,26 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
         // tile_100 configuration has not been defined by fixture
         $this->_tileFactory->getSaveHandlerClassName('landing_page_1', 'tile_100');
     }
+
+    public function testSetStateResolverAndSaveHandler()
+    {
+        $tile = Mage::getModel('Mage_Launcher_Model_Tile');
+        $tile->loadByTileCode('tile_1');
+        $this->_tileFactory->setStateResolverAndSaveHandler($tile);
+
+        $this->assertInstanceOf('Mage_Launcher_Model_Tile_StateResolverStub', $tile->getStateResolver());
+        $this->assertInstanceOf('Mage_Launcher_Model_Tile_SaveHandlerStub', $tile->getSaveHandler());
+    }
+
+    /**
+     * @covers Mage_Launcher_Model_TileFactory::setStateResolverAndSaveHandler
+     * @expectedException Mage_Launcher_Exception
+     * @expectedExceptionMessage State Resolver is not defined for tile with code "tile_50".
+     */
+    public function testSetStateResolverAndSaveHandlerThrowsException()
+    {
+        $tile = Mage::getModel('Mage_Launcher_Model_Tile');
+        $tile->loadByTileCode('tile_50');
+        $this->_tileFactory->setStateResolverAndSaveHandler($tile);
+    }
 }

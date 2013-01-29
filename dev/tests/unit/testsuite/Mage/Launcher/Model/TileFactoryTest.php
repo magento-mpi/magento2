@@ -63,7 +63,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
 
         $tile = $this->getMock(
             'Mage_Launcher_Model_Tile',
-            array('loadByTileCode', 'getId', 'getPageCode'),
+            array('loadByTileCode', 'getId', 'getPageCode', 'getTileCode'),
             array(),
             '',
             false
@@ -81,6 +81,10 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
         $tile->expects($this->once())
             ->method('getPageCode')
             ->will($this->returnValue('page1'));
+
+        $tile->expects($this->once())
+            ->method('getTileCode')
+            ->will($this->returnValue('tile1'));
 
         $applicationConfig->expects($this->at(0))
             ->method('getNode')

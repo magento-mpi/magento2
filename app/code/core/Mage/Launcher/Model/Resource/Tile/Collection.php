@@ -58,14 +58,16 @@ class Mage_Launcher_Model_Resource_Tile_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Redeclare after load method for specifying collection items original data
+     * Redeclare after load method for specifying collection items StateResolvers and SaveHandlers
      *
      * @return Mage_Launcher_Model_Resource_Tile_Collection
      */
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        $this->walk('afterLoad');
+        foreach ($this->getItems() as $item) {
+            $this->_tileFactory->setStateResolverAndSaveHandler($item);
+        }
         return $this;
     }
 }

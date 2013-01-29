@@ -63,15 +63,7 @@ class Mage_Launcher_Model_TileFactory
         if (isset($tileCode)) {
             $tile->loadByTileCode($tileCode);
             if ($tile->getId()) {
-                $pageCode = $tile->getPageCode();
-                // Add corresponding state resolver and save handler to successfully loaded tile
-                $resolverClassName = $this->getStateResolverClassName($pageCode, $tileCode);
-                $stateResolver = $this->_objectManager->create($resolverClassName, array(), false);
-                $tile->setStateResolver($stateResolver);
-
-                $handlerClassName = $this->getSaveHandlerClassName($pageCode, $tileCode);
-                $saveHandler = $this->_objectManager->create($handlerClassName, array(), false);
-                $tile->setSaveHandler($saveHandler);
+                $this->setStateResolverAndSaveHandler($tile);
             } else {
                 throw new Mage_Launcher_Exception('Tile is not defined for specified tile code: "' . $tileCode . '".');
             }
@@ -134,5 +126,24 @@ class Mage_Launcher_Model_TileFactory
         }
 
         return $className;
+    }
+
+    /**
+     * Add corresponding state resolver and save handler to successfully loaded tile
+     *
+     * @param Mage_Launcher_Model_Tile $tile
+     */
+    public function setStateResolverAndSaveHandler(Mage_Launcher_Model_Tile $tile)
+    {
+        $pageCode = $tile->getPageCode();
+        $tileCode = $tile->getTileCode();
+
+        $resolverClassName = $this->getStateResolverClassName($pageCode, $tileCode);
+        $stateResolver = $this->_objectManager->create($resolverClassName, array(), false);
+        $tile->setStateResolver($stateResolver);
+
+        $handlerClassName = $this->getSaveHandlerClassName($pageCode, $tileCode);
+        $saveHandler = $this->_objectManager->create($handlerClassName, array(), false);
+        $tile->setSaveHandler($saveHandler);
     }
 }
