@@ -65,6 +65,22 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
             ->method('getParam')
             ->will($this->returnValue($encodedExpectedPath));
 
+        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystemProperty = new ReflectionProperty($storageHelper, '_filesystem');
+        $filesystemProperty->setAccessible(true);
+        $filesystemProperty->setValue($storageHelper, $filesystem);
+
+        $filesystem->expects($this->atLeastOnce())
+            ->method('isDirectory')
+            ->with($expectedPath)
+            ->will($this->returnValue(true));
+        $filesystem::staticExpects($this->atLeastOnce())
+            ->method('isPathInDirectory')->with($expectedPath, $currentDir)
+            ->will($this->returnValue(true));
+        $filesystem::staticExpects($this->atLeastOnce())
+            ->method('getAbsolutePath')
+            ->will($this->returnArgument(0));
+
         $this->assertEquals($expectedPath, $storageHelper->getCurrentPath());
     }
 

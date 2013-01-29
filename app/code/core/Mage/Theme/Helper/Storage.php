@@ -195,8 +195,10 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
             $path = $this->_getRequest()->getParam($this->_getTreeNodeName());
             if ($path) {
                 $path = $this->convertIdToPath($path);
-                if (is_dir($path)) {
-                    $currentPath = $path;
+                if ($this->_filesystem->isDirectory($path)
+                    && $this->_filesystem->isPathInDirectory($path, $currentPath)
+                ) {
+                    $currentPath = $this->_filesystem->getAbsolutePath($path);
                 }
             }
             $this->_currentPath = $currentPath;

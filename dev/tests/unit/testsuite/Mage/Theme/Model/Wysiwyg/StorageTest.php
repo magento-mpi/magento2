@@ -284,4 +284,22 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Mage_Theme_Model_Wysiwyg_Storage', $this->_storageModel->deleteFile($image));
     }
+
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::deleteDirectory
+     */
+    public function testDeleteDirectory()
+    {
+        $directoryPath = $this->_storageRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'root';
+
+        $this->_helperStorage->expects($this->atLeastOnce())
+            ->method('getStorageRoot')
+            ->will($this->returnValue($this->_storageRoot));
+
+        $this->_filesystem->expects($this->once())
+            ->method('delete')
+            ->with($directoryPath);
+
+        $this->_storageModel->deleteDirectory($directoryPath);
+    }
 }
