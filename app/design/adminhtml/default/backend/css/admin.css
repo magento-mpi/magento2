@@ -184,11 +184,21 @@ button.primary.disabled,
 .pager .action-previous,
 .pager .action-next:hover,
 .pager .action-previous:hover,
-.adminhtml-catalog-product-new .page-actions .action-back,
-.adminhtml-catalog-product-new .page-actions .action-back:hover,
-.adminhtml-catalog-product-new .page-actions .action-back:active,
-.adminhtml-catalog-product-new .page-actions .action-back.active,
-.adminhtml-catalog-product-new .page-actions .action-back:disabled,
+.action-.delete,
+.action-.delete:hover,
+.action-.delete:active,
+.action-.delete.active,
+.action-.delete:disabled,
+.action-delete,
+.action-delete:hover,
+.action-delete:active,
+.action-delete.active,
+.action-delete:disabled,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:disabled,
 .notifications [class^="action-"],
 .notifications [class^="action-"]:hover,
 .notifications [class^="action-"]:active,
@@ -309,11 +319,13 @@ button.primary.disabled,
     Action delete icon
 -------------------------------------- */
 /* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
-.action-.delete span {
+.action-.delete span,
+.action-delete span {
     display: none;
 }
 
-.action-.delete:before {
+.action-.delete:before,
+.action-delete:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -331,7 +343,15 @@ button.action-.delete,
 input.action-.delete[type="button"]:visited,
 input.action-.delete[type="submit"]:visited,
 input.action-.delete[type="reset"]:visited,
-button.action-.delete:visited {
+button.action-.delete:visited,
+input.action-.delete[type="button"]:hover,
+input.action-.delete[type="submit"]:hover,
+input.action-.delete[type="reset"]:hover,
+button.action-.delete:hover,
+input.action-.delete[type="button"]:active,
+input.action-.delete[type="submit"]:active,
+input.action-.delete[type="reset"]:active,
+button.action-.delete:active {
     background: transparent;
     padding: 3px 7px 0;
 }
@@ -497,11 +517,11 @@ option.placeholder {
 }
 
 .form-inline .label {
-    width: 30%;
+    width: 20%;
 }
 
 .form-inline .control {
-    width: 50%;
+    width: 60%;
 }
 
 .form-inline .field-service {

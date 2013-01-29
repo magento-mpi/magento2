@@ -57,24 +57,25 @@
 -------------------------------------- */
 
 /* Action "Back" as cross  */
-.adminhtml-catalog-product-new .page-actions .action-back,
-.adminhtml-catalog-product-new .page-actions .action-back:hover,
-.adminhtml-catalog-product-new .page-actions .action-back:active {
+
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:active {
     overflow: hidden;
     padding: 5px 6px 3px;
     margin-left: 12px;
-    color: #7a7976;
+    color: #7a7976;;
 }
 
-.adminhtml-catalog-product-new .page-actions .action-back:hover {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover {
     color: #000;
 }
 
-.adminhtml-catalog-product-new .page-actions .action-back.mage-error {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back.mage-error {
     color: #b57c72;
 }
 
-.adminhtml-catalog-product-new .page-actions .action-back:before {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:before {
     display: inline-block;
     font-family: 'MUI-Icons';
     font-style: normal;
@@ -85,7 +86,7 @@
     font-size: 16px;
 }
 
-.adminhtml-catalog-product-new .page-actions .action-back span {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back span {
     display: inline-block;
     overflow: hidden;
     text-indent: -999em;
@@ -106,10 +107,14 @@
     overflow: hidden;
 }
 
-.image > img {}
+.image > img {
+    width: 120px;
+    height: 120px;
+}
 
 .image[data-image-label]:before {
     position: absolute;
+    top: 5px;
     left: 0;
     right: 0;
     padding: 5px 0;
@@ -125,9 +130,7 @@
     -moz-transform: rotate(-45deg) translate3d(0,0,0);
     -webkit-transform: rotate(-45deg) translate3d(0,0,0);
     transform: rotate(-45deg) translate3d(0,0,0);
-
     margin-left: -90px;
-    margin-top: 10px;
 }
 
 .image[data-image-hidden]:after {
@@ -165,24 +168,29 @@
 .image[data-image-hidden]:hover .actions [class^="action-"] {
     visibility: hidden;
 }
-.image:hover .actions [class^="action-"] {
+.image:hover .actions [class^="action-"],
+.image[data-image-hidden]:hover .actions .action-delete {
     visibility: visible;
 }
 .image .action-delete {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 2px;
+    right: 2px;
+    z-index: 2;
 }
 .image .action-make-main {
     margin-bottom: 10px;
 }
 
 .draggable-handle {
+    position: relative;
     display: block;
     width: 14px;
     height: 8px;
-    background: red;
+    cursor: move;
     margin: 0 auto;
+    background: url(Mage_Backend::images/draggable-handle-bg.gif) no-repeat;
+    z-index: 2;
 }
 
 
