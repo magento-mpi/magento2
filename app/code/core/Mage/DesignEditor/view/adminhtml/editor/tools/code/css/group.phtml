@@ -1,0 +1,36 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Editor_Tools_Code_Group */ ?>
+
+<div class="files-list">
+    <div class="files-list-header">
+        <h5 class="title"><?php echo $this->getTitle() ?></h5>
+        <?php if ($this->hasAddButton()): ?>
+            <a href="#vde-tab-custom" class="action-add" data-toggle="tab" title="<?php echo $this->__('Add Custom'); ?>">
+                <span><?php echo $this->__('Add Custom'); ?></span>
+            </a>
+        <?php endif ?>
+    </div>
+    <div class="files-list-content">
+        <ul class="items">
+            <?php foreach ($this->getFiles() as $file): ?>
+                <li class="item">
+                    <span class="filename" title="<?php echo $file['safePath'] ?>"><?php echo $file['id'] ?></span>
+                    <?php if ($this->hasDownloadButton()): ?>
+                        <a href="<?php echo $this->getDownloadUrl($file['id'], $this->getThemeId()) ?>" class="action-download" title="<?php echo $this->__('Download file'); ?>">
+                            <span><?php echo $this->__('Download file'); ?></span>
+                        </a>
+                    <?php endif ?>
+                </li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+</div>

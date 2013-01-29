@@ -63,7 +63,7 @@ abstract class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
     }
 
     /**
-     * Get current theme
+     * Get theme that is edited currently
      *
      * @return Mage_Core_Model_Theme
      */

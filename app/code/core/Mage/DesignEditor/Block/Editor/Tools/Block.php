@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Block that renders Block tab
+ */
+class Mage_DesignEditor_Block_Editor_Tools_Block extends Mage_Core_Block_Template
+{
+}

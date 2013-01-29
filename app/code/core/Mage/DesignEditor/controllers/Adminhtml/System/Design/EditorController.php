@@ -148,6 +148,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
             $this->loadLayout();
 
+            $this->_setCssFiles();
+
             /** @var $toolbarBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */
             $toolbarBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons');
             $toolbarBlock->setThemeId($themeId)
@@ -500,5 +502,25 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $service Mage_Core_Model_Theme_Service */
         $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
         return $service->createThemeCustomization($theme);
+    }
+
+    /**
+     * Pass CSS files data to the block who need it for rendering
+     *
+     * @return Mage_DesignEditor_Adminhtml_System_Design_EditorController
+     */
+    protected function _setCssFiles()
+    {
+        /** @var $cssTabBlock Mage_DesignEditor_Block_Editor_Tools_Code_Css */
+        $cssTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_css');
+        if ($cssTabBlock) {
+            /** @var $helper Mage_Core_Helper_Theme */
+            $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
+            $cssFiles = $helper->getGroupedCssFiles($theme, $options);
+            $cssTabBlock->setCssFiles($cssFiles)
+                ->setThemeId($themeId);
+        }
+
+        return $this;
     }
 }
