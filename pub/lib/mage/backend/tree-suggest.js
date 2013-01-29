@@ -16,7 +16,7 @@
                 $.each(nodes, function() {
                     list.push({
                         label: this.label,
-                        value: this.value,
+                        id: this.id,
                         level: level,
                         item: this,
                         path: path + this.label

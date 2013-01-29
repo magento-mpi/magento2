@@ -43,7 +43,7 @@
          */
         _create: function() {
             this._term = '';
-            this._nonSelectedItem = {value: '', label: ''};
+            this._nonSelectedItem = {id: '', label: ''};
             this._renderedContext = null;
             this._selectedItem = this._nonSelectedItem;
             this._control = this.options.controls || {};
@@ -69,7 +69,7 @@
         },
 
         /**
-         * Define a field for storing value (find in DOM or create a new one)
+         * Define a field for storing item id (find in DOM or create a new one)
          * @private
          */
         _prepareValueField: function() {
@@ -84,7 +84,7 @@
         },
 
         /**
-         * Create value field which keeps a value for selected option
+         * Create value field which keeps a id for selected option
          * can be overridden in descendants
          * @return {jQuery}
          * @private
@@ -263,7 +263,7 @@
                 this._selectedItem = this._readItemData(this._focused);
                 if (this._selectedItem !== this._nonSelectedItem) {
                     this._term = this._selectedItem.label;
-                    this.valueField.val(this._selectedItem.value);
+                    this.valueField.val(this._selectedItem.id);
                     this._hideDropdown();
                 }
             }
@@ -332,7 +332,7 @@
                     this._search(term);
                 } else {
                     this._selectedItem = this._nonSelectedItem;
-                    this.valueField.val(this._selectedItem.value);
+                    this.valueField.val(this._selectedItem.id);
                 }
             }
         },
@@ -376,7 +376,7 @@
 
         /**
          * Render content of suggest's dropdown
-         * @param {Array} items - list of label+value objects
+         * @param {Array} items - list of label+id objects
          * @param {Object} context - template's context
          * @private
          */
@@ -432,7 +432,7 @@
         filter: function(items, term) {
             var matcher = new RegExp(term, 'i');
             return $.grep(items, function(value) {
-                return matcher.test(value.label || value.value || value);
+                return matcher.test(value.label || value.id || value);
             });
         }
     });
@@ -536,19 +536,19 @@
          */
         _selectItem: function() {
             this._superApply(arguments);
-            if (this._selectedItem.value && this.options.showRecent) {
+            if (this._selectedItem.id && this.options.showRecent) {
                 this._addRecent(this._selectedItem);
             }
         },
 
         /**
          * Add selected item of search result into storage of recents
-         * @param {Object} item - label+value object
+         * @param {Object} item - label+id object
          * @private
          */
         _addRecent: function(item) {
             this._recentItems = $.grep(this._recentItems, function(obj){
-                return obj.value !== item.value;
+                return obj.id !== item.id;
             });
             this._recentItems.unshift(item);
             this._recentItems = this._recentItems.slice(0, this.options.storageLimit);

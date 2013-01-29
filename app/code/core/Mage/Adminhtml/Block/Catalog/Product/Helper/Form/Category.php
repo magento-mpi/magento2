@@ -75,7 +75,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
             . '<input id="' . $this->getHtmlId() . '-suggest" />' . "\n"
             . '<script id="' . $this->getHtmlId() . '-template" type="text/x-jquery-tmpl">'
             . '{{if $data.allShown()}}'
-                . '{{if typeof nested === "undefined"}}<div style="display:none;" data-mage-init="' . $treeOptions . '">{{/if}}'
+                . '{{if typeof nested === "undefined"}}'
+                . '<div style="display:none;" data-mage-init="' . $treeOptions . '">{{/if}}'
                 . '<ul>{{each items}}'
                 . '<li><a href="#" {{html optionData($value)}}>${$value.label}</a>'
                 . '{{if $value.children && $value.children.length}}'
@@ -86,7 +87,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
             . '{{else}}'
                 . '<ul data-mage-init="{&quot;menu&quot;:[]}">'
                 . '{{each items}}'
-                . '<li {{html optionData($value)}}><a href="#"><span class="category-label">${$value.label}<span><span class="category-path">${$value.path}<span></a></li>'
+                . '<li {{html optionData($value)}}><a href="#"><span class="category-label">${$value.label}<span>'
+                . '<span class="category-path">${$value.path}<span></a></li>'
                 . '{{/each}}</ul>'
             . '{{/if}}'
             . '</script>' . "\n"

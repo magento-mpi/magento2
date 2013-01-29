@@ -129,7 +129,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         foreach ($collection as $category) {
             foreach (array($category->getId(), $category->getParentId()) as $categoryId) {
                 if (!isset($categoryById[$categoryId])) {
-                    $categoryById[$categoryId] = array('value' => $categoryId, 'children' => array());
+                    $categoryById[$categoryId] = array('id' => $categoryId, 'children' => array());
                 }
             }
             $categoryById[$category->getId()]['is_active'] = $category->getIsActive();

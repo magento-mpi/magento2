@@ -46,7 +46,7 @@
         _selectItem: function() {
             if (this.isDropdownShown() && this._focused) {
                 this._selectedItem = this._readItemData(this._focused);
-                if (this.valueField.find('option[value=' + this._selectedItem.value + ']').length) {
+                if (this.valueField.find('option[value=' + this._selectedItem.id + ']').length) {
                     this._selectedItem = this._nonSelectedItem;
                 }
                 if (this._selectedItem !== this._nonSelectedItem) {
@@ -63,7 +63,7 @@
          */
         _addOption: function(item) {
             this.valueField.append(
-                '<option value="' + item.value + '" selected="selected">' + item.label + '</option>'
+                '<option value="' + item.id + '" selected="selected">' + item.label + '</option>'
             );
         },
 
@@ -73,7 +73,7 @@
          * @private
          */
         _removeOption: function(item) {
-            this.valueField.find('option[value=' + item.value + ']').remove();
+            this.valueField.find('option[value=' + item.id + ']').remove();
         },
 
         /**
@@ -103,7 +103,7 @@
             this.elementWrapper = this.element.parent();
             this.valueField.find('option').each($.proxy(function(i, option) {
                 option = $(option);
-                this._renderOption({value: option.val(), label: option.text()});
+                this._renderOption({id: option.val(), label: option.text()});
             }, this));
         },
 
