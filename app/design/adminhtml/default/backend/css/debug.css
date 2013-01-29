@@ -128,10 +128,11 @@ label.mage-error {
 .accordion .collapseable > a {
     color: #666;
     display: block;
-    padding: 14px 17px;
+    padding: 15px 17px 10px 10px;
     font-family: 'CallunaSans', Arial, sans-serif;
     font-size: 18px;
     text-decoration: none;
+    margin: 0 8px;
 }
 
 .accordion .collapseable a.open {

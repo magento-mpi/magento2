@@ -306,6 +306,49 @@ button.primary.disabled,
 }
 
 /*
+    Action delete icon
+-------------------------------------- */
+/* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
+.action-.delete span {
+    display: none;
+}
+
+.action-.delete:before {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    content: '\e07f'; /* delete icon */
+    color: #b7b3ad;
+}
+
+input.action-.delete[type="button"],
+input.action-.delete[type="submit"],
+input.action-.delete[type="reset"],
+button.action-.delete,
+input.action-.delete[type="button"]:visited,
+input.action-.delete[type="submit"]:visited,
+input.action-.delete[type="reset"]:visited,
+button.action-.delete:visited {
+    background: transparent;
+    padding: 3px 7px 0;
+}
+
+input.action-.delete[type=button]:hover:before,
+input.action-.delete[type=submit]:hover:before,
+input.action-.delete[type=reset]:hover:before,
+button.action-.delete:hover:before,
+input.action-.delete[type=button]:focus:before,
+input.action-.delete[type=submit]:focus:before,
+input.action-.delete[type=reset]:focus:before,
+button.action-.delete:focus:before {
+    background: transparent;
+    color: #a5a29d;
+}
+
+/*
     Forms
 -------------------------------------- */
 
@@ -522,6 +565,10 @@ option.placeholder {
     position: relative;
 }
 
+.eq-ie8 .fieldset {
+    border-width: 0 0 1px;
+}
+
 .fieldset-wrapper > .fieldset-wrapper-title,
 .fieldset > .legend {
     position: static;
@@ -530,9 +577,9 @@ option.placeholder {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    padding: 10px 0 10px 10px;
-    border-bottom: 1px solid #EDEDED;
-    margin-bottom: 18px;
+    padding: 0;
+    border-bottom: 1px solid #ededed;
+    margin: 0 0 18px;
 }
 
 .fieldset-wrapper > .fieldset-wrapper-title {
@@ -545,6 +592,8 @@ option.placeholder {
     font-size: 18px;
     color: #666;
     font-weight: normal;
+    padding: 10px 0 10px 10px;
+    display: inline-block;
 }
 
 .fieldset-wrapper-title > .actions {
@@ -1554,23 +1603,29 @@ table tbody tr:nth-child(odd):hover th {
     border-radius: 0;
 }
 
-
 /*
     Login page
 -------------------------------------- */
 
-.page-login { padding-top: 50px; }
-.page-login .fieldset { border-color:#B5DCD6; }
+.page-login {
+    padding-top: 50px;
+}
+
+.page-login .fieldset {
+    border-color: #B5DCD6;
+}
+
 .page-login .footer,
-.page-login .form-login { 
+.page-login .form-login {
     width: 600px;
-    margin:0 auto; 
+    margin: 0 auto;
     position: static;
 }
+
 .page-login .header {
-    width:564px;
-    margin:0 auto;
-    padding:18px;
+    width: 564px;
+    margin: 0 auto;
+    padding: 18px;
 }
 
 .page-login .logo {
@@ -1623,14 +1678,16 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .page-login .form-actions {
-    padding:0 20px 0 0;
+    padding: 0 20px 0 0;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+
 .page-login .actions {
-    margin:0 18px 0 30%;
+    margin: 0 18px 0 30%;
 }
+
 .page-login .actions,
 .page-login .links {
     display: inline-block;
@@ -2770,6 +2827,7 @@ tr.dynamic-grid input.input-text {
     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+
 /*
     Attribute Information
 -------------------------------------- */
@@ -2800,50 +2858,9 @@ tr.dynamic-grid input.input-text {
     margin: 0 5px;
     width: 40%;
 }
+
 .data-table .col-file input:first-child {
     margin-left: 0;
-}
-
-/*
-    Action delete icon
--------------------------------------- */
-/* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
-.data-table .action-.delete span {
-    display: none;
-}
-.data-table .action-.delete:before {
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    font-size: 18px;
-    -webkit-font-smoothing: antialiased;
-    content: '\e07f'; /* delete icon */
-    color: #b7b3ad;
-}
-
-.data-table input.action-.delete[type="button"],
-.data-table input.action-.delete[type="submit"],
-.data-table input.action-.delete[type="reset"],
-.data-table button.action-.delete,
-.data-table input.action-.delete[type="button"]:visited,
-.data-table input.action-.delete[type="submit"]:visited,
-.data-table input.action-.delete[type="reset"]:visited,
-.data-table button.action-.delete:visited {
-    background: transparent;
-    padding: 3px 7px 0;
-}
-
-.data-table input.action-.delete[type=button]:hover:before,
-.data-table input.action-.delete[type=submit]:hover:before,
-.data-table input.action-.delete[type=reset]:hover:before,
-.data-table button.action-.delete:hover:before,
-.data-table input.action-.delete[type=button]:focus:before,
-.data-table input.action-.delete[type=submit]:focus:before,
-.data-table input.action-.delete[type=reset]:focus:before,
-.data-table button.action-.delete:focus:before {
-    background: transparent;
-    color: #a5a29d;
 }
 
 /*
