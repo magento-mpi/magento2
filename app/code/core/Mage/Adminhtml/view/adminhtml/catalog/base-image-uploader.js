@@ -12,7 +12,7 @@ function BaseImageUploader(id, maxFileSize) {
         var $container = $('#' + id + '-container'),
             $template = $('#' + id + '-template'),
             $dropPlaceholder = $('#' + id + '-upload-placeholder'),
-            $galeryContainer = $('#media_gallery_content-container'),
+            $galeryContainer = $('#media_gallery_content'),
             mainClass = 'base-image',
             currentImageCount = 0,
             maximumImageCount = 5;
@@ -30,7 +30,7 @@ function BaseImageUploader(id, maxFileSize) {
             }
         });
 
-        $galeryContainer.on('add', function(event, data) {
+        $galeryContainer.on('addItem', function(event, data) {
             var $element = $template.tmpl(data);
                 $element.insertBefore($dropPlaceholder).data('image', data);
             currentImageCount++;
@@ -42,7 +42,7 @@ function BaseImageUploader(id, maxFileSize) {
             }
         });
 
-        $galeryContainer.on('removeImage', function (event, image) {
+        $galeryContainer.on('removeItem', function (event, image) {
             findElement(image).remove();
             currentImageCount--;
             if (currentImageCount < maximumImageCount) {
@@ -52,7 +52,6 @@ function BaseImageUploader(id, maxFileSize) {
 
         $galeryContainer.on('moveElement', function (event, data) {
             var $element = findElement(data.imageData);
-            var index = $container.find('.container').index($element);
             if (data.position - 1 == 0) {
                 $container.prepend($element);
             } else {
@@ -79,7 +78,7 @@ function BaseImageUploader(id, maxFileSize) {
         });
 
         $container.on('click', '.close', function (event) {
-            $galeryContainer.trigger('removeImage', $(this).closest('.container').data('image'));
+            $galeryContainer.trigger('removeItem', $(this).closest('.container').data('image'));
         });
 
         $container.sortable({
@@ -96,18 +95,13 @@ function BaseImageUploader(id, maxFileSize) {
             }
         }).disableSelection();
 
-        $dropPlaceholder.on('click', function(e) {
-            $('#' + id + '-upload').trigger(e);
-        });
-
         $('#' + id + '-upload').fileupload({
             dataType: 'json',
             dropZone: $dropPlaceholder,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: maxFileSize,
             done: function (event, data) {
-                $dropPlaceholder.text('');
-                $dropPlaceholder.removeClass('in-progress');
+                $dropPlaceholder.find('.progress-bar').text('').removeClass('in-progress');
                 if (!data.result) {
                     return;
                 }
@@ -124,13 +118,9 @@ function BaseImageUploader(id, maxFileSize) {
             },
             progress: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
-                $dropPlaceholder.text(progress + '%')
-                $dropPlaceholder.addClass('in-progress');
+                $dropPlaceholder.find('.progress-bar').addClass('in-progress').text(progress + '%');
             }
         });
 
-        if ($('label[for=image]').text() == 'Base Image') {
-            $('label[for=image]').text('Images');
-        }
     })(jQuery);
 }

@@ -10,200 +10,88 @@
  /** @var $this Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
 $elementName = $this->getElement()->getName() . '[images]';
 ?>
-<div id="<?php echo $this->getHtmlId() ?>" >
-    <ul class="messages">
-        <li class="notice-msg">
-            <ul>
-                <li>
-                <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Image type and information need to be specified for each store view.'); ?>
-                </li>
-            </ul>
-        </li>
-    </ul>
+<div id="<?php echo $this->getHtmlId() ?>"
+     data-mage-init="{'productGallery':{template:'#<?php echo $this->getHtmlId() ?>-template'}}"
+     data-images="<?php echo $this->escapeHtml($this->getImagesJson()) ?>"
+     data-types="<?php echo $this->escapeHtml(
+         $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getImageTypes())
+     ) ?>"
+     >
+    <?php foreach ($this->getImageTypes() as $typeData) { ?>
+        <input name="<?php echo $this->escapeHtml($typeData['name']) ?>"
+               class="image-<?php echo $this->escapeHtml($typeData['code']) ?>"
+               type="hidden"
+               value="<?php echo $this->escapeHtml($typeData['value']) ?>"/>
+    <?php } ?>
     <?php
     if (!$this->getElement()->getReadonly()) {
         echo $this->getUploaderHtml();
     }
     ?>
-    <div id="<?php echo $this->getHtmlId() ?>-container"
-        data-images="<?php echo $this->escapeHtml($this->getImagesJson()) ?>"
-        data-types="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getImageTypes())) ?>"
-        >
-        <?php foreach ($this->getImageTypes() as $typeData) { ?>
-            <input name="<?php echo $this->escapeHtml($typeData['name']) ?>"
-                class="image-<?php echo $this->escapeHtml($typeData['code']) ?>"
-                type="hidden"
-                value="<?php echo $this->escapeHtml($typeData['value']) ?>" />
-        <?php } ?>
-    </div>
     <script id="<?php echo $this->getHtmlId() ?>-template" type="text/x-jquery-tmpl">
-        <div class="image-container" id="${file_id}">
-            <input type="hidden" name="<?php echo $elementName ?>[${file_id}][position]" value="${position}"
-                class="position"/>
+        <div class="item {{if disabled == 1 }}disabled{{/if}}" id="${file_id}" data-role="image">
+            <input type="hidden" name="<?php echo $elementName ?>[${file_id}][position]" value="${position}" class="position"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][file]" value="${file}"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][value_id]" value="${value_id}"/>
+            <input type="hidden" name="<?php echo $elementName ?>[${file_id}][label]" value="${label}"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][removed]" value="" class="is-removed"/>
 
             <span class="remove">&times;</span>
+
             <div>
                 <ul class="type-labels">
-                <?php foreach ($this->getImageTypes() as $typeData) { ?>
-                    <li class="type-<?php echo $this->escapeHtml($typeData['code']) ?>"><?php echo $this->escapeHtml($typeData['label']) ?></li>
-                <?php } ?>
+                    <?php foreach ($this->getImageTypes() as $typeData) { ?>
+                        <li class="type-<?php echo $this->escapeHtml(
+                            $typeData['code']
+                        ) ?>"><?php echo $this->escapeHtml($typeData['label']) ?></li>
+                    <?php } ?>
                 </ul>
                 <img src="${url}" alt="${label}"/>
             </div>
 
             <div class="drag-zone">
-                <div>
-                    <input type="text" class="label"
-                        placeholder="label"
-                        value="${label}"
-                        name="<?php echo $elementName ?>[${file_id}][label]"/>
+                <div class="main-control button">
+                    <?php echo $this->__('Make main')?>
                 </div>
-                <div class="buttons-group widget-button-split">
-                    <div class="button-panel"></div>
-                    <div class="main-control button">
-                        <?php echo $this->__('Make main')?>
-                    </div>
-                    <div class="button btn-toggle">
-                        <span>Select</span>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <?php foreach ($this->getMediaAttributes() as $attribute) { ?>
-                            <li class="image-type"
-                                data-type="<?php echo $this->escapeHtml($attribute->getAttributeCode()) ?>">
-                                <span class="item ui-button">
-                                    <?php echo $this->escapeHtml($attribute->getFrontendLabel()) ?>
-                                </span>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                </div>
-                <label>
-                    <input type="checkbox"
-                        value="1"
-                        name="<?php echo $elementName ?>[${file_id}][disabled]"
-                        {{if disabled == 1 }}checked="checked"{{/if}} />
-                    <span><?php echo $this->__('Hide')?></span>
-                </label>
             </div>
         </div>
     </script>
-    <script type="text/javascript">
-    jQuery(function ($) {
-        var containerId = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getHtmlId()) ?>;
-        var imageContainerSelector = '.image-container';
-        var $container = $('#' + containerId + '-container');
-        var $template = $('#' + containerId + '-template');
-        var types = $container.data('types');
+    <script id="<?php echo $this->getHtmlId() ?>-dialog-template"
+        type="text/x-jquery-tmpl"
+        data-title="Image Options">
+        <div>
+            <div style="width: 50%; float:right">
+                <div>
+                    <label><?php echo $this->__('Description')?></label>
+                    <textarea placeholder="label"
+                              name="<?php echo $elementName ?>[${file_id}][label]">${label}</textarea>
+                </div>
+                <div class="buttons-group widget-button-split">
+                    <label><?php echo $this->__('Role')?></label>
+                    <select size="4" multiple="multiple" data-role="type-selector">
+                        <?php foreach ($this->getMediaAttributes() as $attribute) { ?>
+                            <option class="image-type"
+                                value="<?php echo $this->escapeHtml($attribute->getAttributeCode()) ?>">
+                                <?php echo $this->escapeHtml($attribute->getFrontendLabel()) ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox"
+                               value="1"
+                               name="<?php echo $elementName ?>[${file_id}][disabled]"
+                        {{if disabled == 1 }}checked="checked"{{/if}} />
+                        <span><?php echo $this->__('Hide from product page')?></span>
+                    </label>
+                </div>
+            </div>
+            <div style="width: 50%;">
+                <img src="${url}" alt="${label}" style="max-width:90%; max-height:500px" />
+                <span class="remove">&times;</span>
+            </div>
 
-        var findElement = function(data) {
-            return $container.find(imageContainerSelector).filter(function () {
-                return $(this).data('imageData').file == data.file;
-            }).first();
-        }
-
-        $container.on('add', function (event, imageData) {
-            var imageData = $.extend({
-                file_id: Math.random().toString(33).substr(2, 18),
-                disabled: 0,
-                position: $container.find(imageContainerSelector).length + 1
-            }, imageData);
-            var $element = $template.tmpl(imageData);
-            $element.appendTo($container);
-            $element.data('imageData', imageData);
-            $.each(types, function() {
-                if (!this.value || imageData.file == this.value) {
-                    $container.trigger('setImageType', {
-                        type: this.code,
-                        imageData: imageData
-                    });
-                }
-            })
-        });
-
-        $container.on('removeImage', function (event, imageData) {
-            var $imageContainer = findElement(imageData);
-            $imageContainer.hide();
-            $imageContainer.find('.is-removed').val(1);
-        });
-
-        $container.on('setImageType', function (event, data) {
-            types[data.type].value = data.imageData.file;
-            $container.find('.image-' + data.type).val(data.imageData.file);
-            var className = 'image-type-' + data.type;
-            $container.find('.type-' + data.type).hide();
-            findElement(data.imageData).find('.type-' + data.type).show();
-        });
-
-        $container.on('resort', function (event, data) {
-            $(this).find('.position').each(function (index) {
-                var value = $(this).val();
-                if (value != index + 1) {
-                    $container.trigger('moveElement', {
-                        imageData: $(this).closest(imageContainerSelector).data('imageData'),
-                        position: index + 1
-                    });
-                    $(this).val(index + 1);
-                }
-            });
-        });
-
-        $container.on('setPosition',function(event, data) {
-            var $element = findElement(data.imageData);
-            var curIndex = $container.find(imageContainerSelector).index($element);
-            var newPosition = data.position + (curIndex > data.position ? -1 : 0);
-            if (data.position != curIndex) {
-                if (data.position == 0) {
-                    $container.prepend($element);
-                } else {
-                    $element.insertAfter(
-                        $container.find(imageContainerSelector).eq(newPosition)
-                    );
-                }
-                $container.trigger('resort');
-            }
-        });
-
-        $.each($container.data('images'), function (index, imageData) {
-            $container.trigger('add', imageData);
-        });
-
-        $container.sortable({
-            distance: 8,
-            tolerance: "pointer",
-            cancel: 'input, button',
-            update: function () {
-                $container.trigger('resort');
-            }
-        });
-
-        $container.on('click', imageContainerSelector, function() { $(this).toggleClass('active'); });
-
-        $container.on('click', '.remove', function (event) {
-            var $imageContainer = $(this).closest(imageContainerSelector);
-            $container.trigger('removeImage', $imageContainer.data('imageData'));
-        });
-
-        $container.on('click', '.main-control', function () {
-            $(this).closest(imageContainerSelector).find('.dropdown-menu .image-type').trigger('click');
-        });
-
-        $container.on('click', '.btn-toggle', function (event) {
-            if (!$(event.target).is('.disabled')) {
-                $(this).toggleClass('active').parent().toggleClass('active');
-            }
-        });
-
-        $container.on('click', '.dropdown-menu .image-type', function (event) {
-            var $imageContainer = $(this).closest(imageContainerSelector);
-            $container.trigger('setImageType', {
-                type: $(this).data('type'),
-                imageData: $imageContainer.data('imageData')
-            });
-            $(this).closest('.widget-button-split').toggleClass('active');
-        });
-    });
+        </div>
     </script>
 </div>

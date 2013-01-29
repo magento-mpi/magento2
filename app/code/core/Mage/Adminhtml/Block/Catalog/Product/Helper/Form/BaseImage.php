@@ -82,6 +82,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     }
 
     /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->helper('Mage_Catalog_Helper_Data')->__('Images');
+    }
+
+    /**
      * Return element html code
      *
      * @return string
@@ -91,13 +99,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
         /** @var $product Mage_Catalog_Model_Product */
-        $html = '<input id="' . $htmlId .'-upload" type="file" name="image" '
-            . 'data-url="' . $uploadUrl . '" style="display:none" />'
-            . '<input id="' . $htmlId . '" type="hidden" name="'. $this->getName() .'" />'
-            . '<div id="' . $htmlId  . '-container">'
-            . '<span id="' . $htmlId . '-upload-placeholder"></span>'
+        $html = '<div id="' . $htmlId  . '-container">'
+            . '<div id="' . $htmlId . '-upload-placeholder">'
+                .   '<div class="plogress-bar"></div>'
+                . '<input id="' . $htmlId . '-upload" type="file" name="image" multiple="multiple" data-url="'
+                    . $uploadUrl
+                    . '" />'
+
+            . '</div>'
             . '<script id="' . $htmlId . '-template" type="text/x-jquery-tmpl">'
-                . '<span class="container">'
+                . '<div class="container">'
                 . '<span class="main-sticker">' . $this->helper('Mage_Catalog_Helper_Data')->__('Main') . '</span>'
                     . '<span class="close">&times;</span>'
                     . '<img class="base-image-uploader" src="${url}" data-position="${position}" alt="${label}" />'
@@ -106,7 +117,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
                             . $this->helper('Mage_Catalog_Helper_Data')->__('Make Main')
                         . '</button>'
                     . '</div>'
-                . '</span>'
+                . '</div>'
             . '</script>'
             . '</div>';
         $html .= $this->_getJs();

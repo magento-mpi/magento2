@@ -35,6 +35,7 @@
     $(function () {
         $('#fileupload').fileupload({
             dataType: 'json',
+            dropZone: '#media_gallery_content',
             sequentialUploads: true,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: <?php echo Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSize() ?>,
@@ -60,7 +61,7 @@
                 if (data.result && !data.result.hasOwnProperty('errorcode')) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
                     $('#' + data.fileId).animate({opacity: 0}, function(){ $(this).remove(); });
-                    $('#<?php echo $this->getParentBlock()->getHtmlId() ?>-container').trigger('add', data.result);
+                    $('#<?php echo $this->getParentBlock()->getHtmlId() ?>').trigger('addItem', data.result);
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }
