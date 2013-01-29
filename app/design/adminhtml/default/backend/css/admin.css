@@ -180,7 +180,10 @@ button.primary.disabled,
 /*
     Reset 'button view' for actions
 -------------------------------------- */
-
+.pager .action-next,
+.pager .action-previous,
+.pager .action-next:hover,
+.pager .action-previous:hover,
 .adminhtml-catalog-product-new .page-actions .action-back,
 .adminhtml-catalog-product-new .page-actions .action-back:hover,
 .adminhtml-catalog-product-new .page-actions .action-back:active,
@@ -2467,9 +2470,38 @@ table tbody tr:nth-child(odd):hover th {
     width: 2em;
 }
 
-.grid-actions .pager .arrow {
-    margin: 0 3px;
+.pager .action-next,
+.pager .action-previous {
+    display: inline-block;
+    position: relative;
+    text-indent: 100%;
+    overflow: hidden;
+    height: 16px;
+    width: 16px;
     vertical-align: middle;
+    text-decoration: none;
+}
+
+.pager .action-next:after,
+.pager .action-previous:after {
+    font-family: 'MUI-Icons';
+    content: "\e02a";
+    font-size: 16px;
+    color: #333;
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 1;
+    text-indent: 0;
+}
+
+.pager .action-previous:after {
+    content: "\e02b";
+}
+
+.pager span.action-next:after,
+.pager span.action-previous:after {
+    color: #7f7f7f;
 }
 
 /* Grid - Headings */
