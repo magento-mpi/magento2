@@ -21,27 +21,48 @@
          * @private
          */
         _create: function() {
-            this._beforeCreate();
-            this.element.on('click', $.proxy(this._onClick, this));
-            this._afterCreate();
+            this.beforeCreate();
+            this._bindCore();
+            this.afterCreate();
+        },
+
+        /**
+         *  Core bound events & setup
+         * @protected
+         */
+        _bindCore: function() {
+            var widget = this;
+            this.element.on('click', $.proxy(function(e) {
+                widget._onClick();
+                e.preventDefault();
+            }, this));
         },
 
         /**
          * Binding Click event
          *
-         * @private
-         * @param {Object} event
+         * @protected
          */
-        _onClick: function(event) {
+        _onClick: function() {
+            this._prepareOptions();
             this._toggleSelectors();
-            return false;               //Prevent default click for links and submit buttons
+        },
+
+        /**
+         * Method used to look for data attributes to override default options
+         *
+         * @protected
+         */
+        _prepareOptions: function() {
+            this.options.baseToggleClass = (this.element.data('base-toggle-class')) ?
+                this.element.data('base-toggle-class') :this.options.baseToggleClass;
         },
 
         /**
          * Method responsible for hiding and revealing specified DOM elements
          * Toggle the class on clicked element
          *
-         * @private
+         * @protected
          */
         _toggleSelectors: function () {
             this.element.toggleClass(this.options.baseToggleClass);
@@ -49,15 +70,15 @@
 
         /**
          * Method used to inject 3rd party functionality before create
-         * @private
+         * @public
          */
-        _beforeCreate: function() {},
+        beforeCreate: function() {},
 
         /**
          * Method used to inject 3rd party functionality after create
-         * @private
+         * @public
          */
-        _afterCreate: function() {}
+        afterCreate: function() {}
     });
 
     // Extension for mage.toggle - Adding selectors support for other DOM elements we wish to toggle
@@ -72,7 +93,7 @@
          * If data-toggle-selectors attribute is present - toggle will be done on these selectors
          * Otherwise we toggle the class on clicked element
          *
-         * @private
+         * @protected
          * @override
          */
         _toggleSelectors: function () {
@@ -81,22 +102,39 @@
             } else {
                 this.element.toggleClass(this.options.baseToggleClass);
             }
-        }
+        },
 
+        /**
+         * Method used to look for data attributes to override default options
+         *
+         * @protected
+         * @override
+         */
+        _prepareOptions: function() {
+            this.options.selectorsToggleClass = (this.element.data('selectors-toggle-class')) ?
+                this.element.data('selectors-toggle-class') :this.options.selectorsToggleClass;
+            this._super();
+        }
     });
 
     // Extension for mage.toggle - Adding label toggle
     $.widget('mage.toggle', $.mage.toggle, {
 
+        options: {
+            newLabel: null,             // Text of the new label to be used on toggle
+            curLabel: null,             // Text of the old label to be used on toggle
+            currentLabelElement: null   // Current label container
+        },
+
         /**
          * Binding Click event
          *
-         * @private
+         * @protected
          * @override
          */
         _onClick: function() {
-            this._toggleLabel();
             this._super();
+            this._toggleLabel();
         },
 
         /**
@@ -104,13 +142,39 @@
          * @protected
          */
         _toggleLabel: function() {
-            if (this.element.data('toggle-label')) {
-                var currentLabelSelector = (this.element.data('current-label-el')) ?
-                        $(this.element.data('current-label-el')) : this.element,
-                    newLabel = this.element.data('toggle-label');
-                this.element.data('toggle-label', currentLabelSelector.html());
-                currentLabelSelector.html(newLabel);
+            if (this.options.newLabel) {
+                var cachedLabel = this.options.newLabel,
+                    currentLabelSelector = (this.options.currentLabelElement) ?
+                        $(this.options.currentLabelElement) : this.element;
+
+                this.element.data('toggle-label', this.options.curLabel);
+                currentLabelSelector.html(this.options.newLabel);
+
+                this.options.curLabel = this.options.newLabel;
+                this.options.newLabel = cachedLabel;
             }
+        },
+
+        /**
+         * Method used to look for data attributes to override default options
+         *
+         * @protected
+         * @override
+         */
+        _prepareOptions: function() {
+            this.options.newLabel = (this.element.data('toggle-label')) ?
+                this.element.data('toggle-label') : this.options.newLabel;
+
+            this.options.currentLabelElement = (this.element.data('current-label-el')) ?
+                this.element.data('current-label-el') : this.options.currentLabelElement;
+
+            if(!this.options.currentLabelElement) {
+                this.options.currentLabelElement = this.element;
+            }
+
+            this.options.curLabel = $(this.options.currentLabelElement).html();
+
+            this._super();
         }
     });
 
