@@ -19,7 +19,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_storageRoot;
 
     /**
-     * @var null|Magento_Filesystem
+     * @var null|Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -221,5 +221,67 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $result = $this->_storageModel->getTreeArray();
         $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::deleteFile
+     */
+    public function testDeleteFile()
+    {
+        $image = 'image.jpg';
+        $storagePath = $this->_storageRoot;
+        $imagePath = $storagePath . DIRECTORY_SEPARATOR . $image;
+        $thumbnailDir = $this->_storageRoot . DIRECTORY_SEPARATOR
+            . Mage_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY;
+
+        $session = $this->getMock('Mage_Backend_Model_Session', array('getStoragePath'), array(), '', false);
+        $session->expects($this->atLeastOnce())
+            ->method('getStoragePath')
+            ->will($this->returnValue($storagePath));
+
+        $this->_helperStorage->expects($this->atLeastOnce())
+            ->method('getSession')
+            ->will($this->returnValue($session));
+
+        $this->_helperStorage->expects($this->atLeastOnce())
+            ->method('urlDecode')
+            ->with($image)
+            ->will($this->returnArgument(0));
+
+        $this->_helperStorage->expects($this->atLeastOnce())
+            ->method('getThumbnailDirectory')
+            ->with($imagePath)
+            ->will($this->returnValue($thumbnailDir));
+
+        $this->_helperStorage->expects($this->atLeastOnce())
+            ->method('getStorageRoot')
+            ->will($this->returnValue($this->_storageRoot));
+
+
+        $filesystem = $this->_filesystem;
+        $filesystem::staticExpects($this->once())
+            ->method('getAbsolutePath')
+            ->with($imagePath)
+            ->will($this->returnValue($imagePath));
+
+        $filesystem::staticExpects($this->any())
+            ->method('isPathInDirectory')
+            ->with($imagePath, $storagePath)
+            ->will($this->returnValue(true));
+
+        $filesystem::staticExpects($this->any())
+            ->method('isPathInDirectory')
+            ->with($imagePath, $this->_storageRoot)
+            ->will($this->returnValue(true));
+
+        $this->_filesystem->expects($this->at(0))
+            ->method('delete')
+            ->with($imagePath);
+
+        $this->_filesystem->expects($this->at(1))
+            ->method('delete')
+            ->with($thumbnailDir . DIRECTORY_SEPARATOR . $image);
+
+        $this->assertInstanceOf('Mage_Theme_Model_Wysiwyg_Storage', $this->_storageModel->deleteFile($image));
     }
 }
