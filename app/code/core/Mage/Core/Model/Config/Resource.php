@@ -11,7 +11,7 @@
 class Mage_Core_Model_Config_Resource
 {
     /**
-     * @var Mage_Core_Model_Config_Base
+     * @var Mage_Core_Model_ConfigInterface
      */
     protected $_config;
 
