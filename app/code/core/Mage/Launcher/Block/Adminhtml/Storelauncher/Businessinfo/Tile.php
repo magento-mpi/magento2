@@ -87,17 +87,19 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage
         $addressValues[] = $this->_storeConfig->getConfig('general/store_information/city');
         $addressValues[] = $this->_storeConfig->getConfig('general/store_information/postcode');
         $countryCode = $this->_storeConfig->getConfig('general/store_information/country_id');
-        $countryName = $this->_countryModel->loadByCode($countryCode)->getName();
+        if (!empty($countryCode)) {
+            $countryName = $this->_countryModel->loadByCode($countryCode)->getName();
 
-        $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($countryCode);
-        $regions = $regionCollection->toOptionArray();
-        $regionName = $this->_storeConfig->getConfig('general/store_information/region_id');
-        if (!empty($regions)) {
-            $this->_regionModel->load($regionName);
-            $regionName = $this->_regionModel->getName();
+            $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($countryCode);
+            $regions = $regionCollection->toOptionArray();
+            $regionName = $this->_storeConfig->getConfig('general/store_information/region_id');
+            if (!empty($regions)) {
+                $this->_regionModel->load($regionName);
+                $regionName = $this->_regionModel->getName();
+            }
+            $addressValues[] = $regionName;
+            $addressValues[] = $countryName;
         }
-        $addressValues[] = $regionName;
-        $addressValues[] = $countryName;
         $addressValues[] = $this->_storeConfig->getConfig('trans_email/ident_general/email');
         return $addressValues;
     }

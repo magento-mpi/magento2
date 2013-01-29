@@ -21,6 +21,13 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
      */
     protected $_data;
 
+    /**
+     * Store Config Mock object
+     *
+     * @var Mage_Core_Model_Store_Config
+     */
+    protected $_config;
+
     public function setUp()
     {
         $this->_data = array(
@@ -32,6 +39,11 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             'country_id' => 'US',
             'email' => 'test@example.com',
         );
+
+        $this->_config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $this->_config->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnCallback(array($this, 'configCallback')));
     }
 
     /**
@@ -42,10 +54,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
     public function testGetAddress($expectedData, $regions)
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
-        $config->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnCallback(array($this, 'configCallback')));
 
         $countryModel = $this->getMock('Mage_Directory_Model_Country',
             array('loadByCode', 'getName'), array(), '', false
@@ -93,7 +101,39 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
         }
 
         $arguments = array(
-            'storeConfig' => $config,
+            'storeConfig' => $this->_config,
+            'countryModel' => $countryModel,
+            'regionModel' => $regionModel,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+        );
+
+        $tileBlock = $objectManagerHelper->getBlock(
+            'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
+            $arguments
+        );
+
+        $result = $tileBlock->getAddress();
+        $this->assertEquals($expectedData, $result);
+    }
+
+    /**
+     * @dataProvider testGetAddressWithoutCountryDataProvider
+     * @param array $expectedData
+     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile::getAddress
+     */
+    public function testGetAddressEmptyCountry(array $expectedData)
+    {
+        //Remove country dependent data
+        unset($this->_data['country_id']);
+        unset($this->_data['region_id']);
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
+        $countryModel = $this->getMock('Mage_Directory_Model_Country', array(), array(), '', false);
+        $regionModel = $this->getMock('Mage_Directory_Model_Region', array(), array(), '', false);
+
+        $arguments = array(
+            'storeConfig' => $this->_config,
             'countryModel' => $countryModel,
             'regionModel' => $regionModel,
             'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
@@ -118,7 +158,30 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
     {
         $configPath = explode('/', $param);
         $configElement = $configPath[2];
+        if (!isset($this->_data[$configElement])) {
+            return '';
+        }
         return $this->_data[$configElement];
+    }
+
+    /**
+     * Data provider for testGetAddressEmptyCountry method
+     *
+     * @return array
+     */
+    public function testGetAddressWithoutCountryDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'Zoologichna',
+                    '5 A',
+                    'Kiev',
+                    '03344',
+                    'test@example.com'
+                )
+            )
+        );
     }
 
     /**
