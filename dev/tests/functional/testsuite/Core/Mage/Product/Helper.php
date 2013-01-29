@@ -629,7 +629,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function updateThroughMassAction(array $forAttributesTab, array $forInventoryTab, array $forWebsitesTab)
     {
         $this->fillFieldset($forAttributesTab, 'attributes');
+        $this->openTab('inventory');
         $this->fillFieldset($forInventoryTab, 'inventory');
+        $this->openTab('websites');
         $this->fillFieldset($forWebsitesTab, 'add_product');
     }
 
