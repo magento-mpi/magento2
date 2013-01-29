@@ -278,9 +278,9 @@ new_product:
                                     fields:
                                         bundle_items_names: //input[@class='input-text required-entry']
                                     links:
-                                        delete_product_bundle_item: //h4[text()='%itemTitle%']/..//span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_bundle_item: //h4[text()='%itemTitle%']/..//span[@class='ui-icon ui-icon-grip-dotted-vertical']
-                                        expand_product_bundle_item: //h4[text()='%itemTitle%']/..//span[@class='ui-icon ui-icon-circle-triangle-s']
+                                        delete_product_bundle_item://div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-close remove']
+                                        move_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        expand_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-triangle-s']
                                     pageelements:
                                         bundle_item_grid: //div[@class='option-box' and not(contains(@style,'display: none;'))]
                                         bundle_item_grid_index_product: //div[@id='bundle_option_%optionId%']//tr[@class='selection']/td[text()='%productSku%']
