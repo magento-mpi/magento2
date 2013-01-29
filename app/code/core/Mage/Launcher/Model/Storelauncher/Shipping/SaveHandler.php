@@ -15,7 +15,7 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler implements Mage_Launcher_Model_Tile_SaveHandler
+class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler extends Mage_Launcher_Model_Tile_MinimalSaveHandler
 {
     /**
      * @var Mage_Backend_Model_Config
@@ -23,46 +23,66 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler implements Mage_Lau
     protected $_config;
 
     /**
-     * Constructor
+     * Shipping information save handler factory
      *
+     * @var Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory
+     */
+    protected $_saveHandlerFactory;
+
+    /**
      * @param Mage_Backend_Model_Config $config
+     * @param Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory $saveHandlerFactory
      */
-    function __construct(Mage_Backend_Model_Config $config)
-    {
+    public function __construct(
+        Mage_Backend_Model_Config $config,
+        Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory $saveHandlerFactory
+    ) {
         $this->_config = $config;
+        $this->_saveHandlerFactory = $saveHandlerFactory;
     }
 
     /**
-     * Save function handle the whole Tile save process
+     * Save data related to shipping method
      *
-     * @param array $data Request data
+     * @param array $data request data
+     * @throws Mage_Launcher_Exception
      */
-    public function save($data)
+    public function saveShippingMethod(array $data)
     {
-
+        $shippingMethodId = isset($data['shipping_method']) ? (string)$data['shipping_method'] : null;
+        if (!in_array($shippingMethodId, $this->getRelatedShippingMethods())) {
+            throw new Mage_Launcher_Exception('Illegal shipping method ID specified.');
+        }
+        $this->_saveHandlerFactory->create($shippingMethodId)->save($data);
     }
 
     /**
-     * Prepare Data
+     * Retrieve a list of shipping method IDs related to 'Shipping' tile
      *
-     * @param array $data
      * @return array
      */
-    public function prepareData($data)
+    public function getRelatedShippingMethods()
     {
-
+        return array(
+            'carriers_flatrate',
+            'carriers_ups',
+            'carriers_usps',
+            'carriers_fedex',
+            'carriers_dhlint',
+        );
     }
 
     /**
-     * Save function handle the origin address process
+     * Save origin shipping address data
      *
-     * @param array $data Request data
+     * @param array $data request data
      */
     public function saveOriginAddress($data)
     {
         $this->_config->setSection('shipping')
             ->setGroups($this->prepareOriginAddressData($data))
             ->save();
+        $this->_config->reinit();
     }
 
     /**
@@ -83,6 +103,4 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler implements Mage_Lau
         );
         return $originAddressData;
     }
-
 }
-
