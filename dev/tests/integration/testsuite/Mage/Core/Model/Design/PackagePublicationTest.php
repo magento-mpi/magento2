@@ -548,7 +548,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     public function testCssWithBase64Data()
     {
-        $publishedPath = self::$_themePublicDir . '/frontend/package/default/en_US';
+        $publishedPath = $this->_model->getPublicDir() . '/frontend/package/default/en_US';
         $params =  array(
             'area'    => 'frontend',
             'package' => 'package',
