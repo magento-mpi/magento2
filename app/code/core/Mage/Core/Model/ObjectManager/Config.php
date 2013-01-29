@@ -99,7 +99,7 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         if (count($configurators)) {
             foreach ($configurators as $configuratorClass) {
                 /** @var $configurator  Magento_ObjectManager_Configuration*/
-                $configurator = $objectManager->create($configuratorClass, $this->_params);
+                $configurator = $objectManager->create($configuratorClass, array('params' => $this->_params));
                 $configurator->configure($objectManager);
             }
         }
