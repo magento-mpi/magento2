@@ -278,7 +278,7 @@ new_product:
                                     fields:
                                         bundle_items_names: //input[@class='input-text required-entry']
                                     links:
-                                        delete_product_bundle_item://div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-close remove']
+                                        delete_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-close remove']
                                         move_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-grip-dotted-vertical']
                                         expand_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-triangle-s']
                                     pageelements:
