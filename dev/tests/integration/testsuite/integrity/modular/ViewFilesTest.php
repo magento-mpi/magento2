@@ -32,6 +32,10 @@ class Integrity_Modular_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbs
     {
         $files = array();
         foreach ($this->_getEnabledModules() as $moduleName) {
+            $excludeModulesTmp = array('Mage_User', 'Mage_Backend');
+            if (in_array($moduleName, $excludeModulesTmp)) {
+                continue;
+            }
             $moduleViewDir = Mage::getConfig()->getModuleDir('view', $moduleName);
             if (!is_dir($moduleViewDir)) {
                 continue;
