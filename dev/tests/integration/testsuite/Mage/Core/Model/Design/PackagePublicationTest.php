@@ -545,21 +545,42 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
 
     /**
      * Check that the mechanism of publication not affected data content on css files
+     *
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testCssWithBase64Data()
     {
-        $publishedPath = self::$_themePublicDir . '/frontend/package/default/en_US';
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
+            )
+        ));
+
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $themePath = implode(DS, array('frontend', 'package', 'default', 'theme.xml'));
+
+        $theme = $themeModel->getCollectionFromFilesystem()
+            ->setBaseDir(dirname(__DIR__) . '/_files/design/')
+            ->addTargetPattern($themePath)
+            ->getFirstItem()
+            ->save();
+
+        $publishedPath = $this->_model->getPublicDir() . '/frontend/package/default/en_US';
         $params =  array(
             'area'    => 'frontend',
             'package' => 'package',
             'theme'   => 'default',
-            'locale'  => 'en_US'
+            'locale'  => 'en_US',
+            'themeModel' => $theme
         );
         $filePath = $this->_model->getViewFile('css/base64.css', $params);
 
         // publicate static content
         $this->_model->getViewFileUrl('css/base64.css', $params);
-
         $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
+
+        $this->_model->setDesignTheme(Mage::getModel('Mage_Core_Model_Theme'));
     }
 }

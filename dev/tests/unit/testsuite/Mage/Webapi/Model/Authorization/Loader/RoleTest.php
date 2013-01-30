@@ -30,7 +30,7 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
     protected $_acl;
 
     /**
-     * Set up before test
+     * Set up before test.
      */
     protected function setUp()
     {
@@ -52,9 +52,9 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Loader_Role::populateAcl
+     * Test for Mage_Webapi_Model_Authorization_Loader_Role::populateAcl.
      *
-     * Test with existing role Ids
+     * Test with existing role IDs.
      */
     public function testPopulateAclWithRoles()
     {
@@ -85,9 +85,9 @@ class Mage_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_
     }
 
     /**
-     * Test for Mage_Webapi_Model_Authorization_Loader_Role::populateAcl
+     * Test for Mage_Webapi_Model_Authorization_Loader_Role::populateAcl.
      *
-     * Test with No existing role Ids
+     * Test with No existing role IDs.
      */
     public function testPopulateAclWithNoRoles()
     {
