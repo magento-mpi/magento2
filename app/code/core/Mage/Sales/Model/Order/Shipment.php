@@ -243,6 +243,11 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     }
 
 
+    /**
+     * Retrieve tracks collection.
+     *
+     * @return Mage_Sales_Model_Resource_Order_Shipment_Track_Collection
+     */
     public function getTracksCollection()
     {
         if (empty($this->_tracks)) {
@@ -325,6 +330,12 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         return $this;
     }
 
+    /**
+     * Retrieve comments collection.
+     *
+     * @param bool $reload
+     * @return Mage_Sales_Model_Resource_Order_Shipment_Comment_Collection
+     */
     public function getCommentsCollection($reload=false)
     {
         if (is_null($this->_comments) || $reload) {

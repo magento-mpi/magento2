@@ -1,15 +1,16 @@
 <?php
 /**
- * Core configuration class
- *
  * {license_notice}
  *
+ * @category    Mage
+ * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
+ * Core configuration class
+ *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
@@ -17,6 +18,11 @@
  */
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
+    /**
+     * Dependency injection configuration node name
+     */
+    const CONFIGURATION_DI_NODE = 'di';
+
     /**
      * Configuration cache tag
      */
@@ -269,7 +275,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Initialization of core configuration
      *
-     * @param array $options
      * @return Mage_Core_Model_Config
      */
     public function init()
@@ -422,6 +427,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 Magento_Profiler::stop('init_modules_config_cache');
                 if ($loaded) {
                     $this->_useCache = true;
+                    $this->loadDiConfiguration();
                     return true;
                 }
             }
@@ -449,9 +455,24 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $this->_loadLocalConfig();
 
         $this->applyExtends();
+        $this->loadDiConfiguration();
         Magento_Profiler::stop('load_modules');
         Magento_Profiler::stop('config');
         return $this;
+    }
+
+    /**
+     * Load di configuration for given area
+     *
+     * @param string $areaCode
+     */
+    public function loadDiConfiguration($areaCode = Mage_Core_Model_App_Area::AREA_GLOBAL)
+    {
+        $configurationNode = $this->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
+        if ($configurationNode) {
+            $configuration = $configurationNode->asArray();
+            $this->_objectManager->setConfiguration($configuration);
+        }
     }
 
     /**
@@ -531,7 +552,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param   array $tags cache tags
      * @return  Mage_Core_Model_Config
      */
-    public function saveCache($tags=array())
+    public function saveCache($tags = array())
     {
         if (!Mage::app()->useCache('config')) {
             return $this;
@@ -1583,6 +1604,26 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Identify front name of the requested area. Return current area front name if area code is not specified.
+     *
+     * @param string|null $areaCode
+     * @return string
+     * @throws LogicException If front name is not defined.
+     */
+    public function getAreaFrontName($areaCode = null)
+    {
+        $areaCode = empty($areaCode) ? $this->getCurrentAreaCode() : $areaCode;
+        $areaConfig = $this->getAreaConfig($areaCode);
+        if (!isset($areaConfig['frontName'])) {
+            throw new LogicException(sprintf(
+                'Area "%s" must have front name defined in the application config.',
+                $areaCode
+            ));
+        }
+        return $areaConfig['frontName'];
+    }
+
+    /**
      * Load allowed areas from config
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -1600,7 +1641,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                     continue;
                 }
                 /**
-                 * TODO: Check of 'routers' nodes existance is excessive:
+                 * TODO: Check of 'routers' nodes existence is excessive:
                  * TODO: 'routers' check is moved Mage_Core_Model_Config::getRouters()
                  */
 

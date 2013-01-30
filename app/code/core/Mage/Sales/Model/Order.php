@@ -1817,7 +1817,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     /**
      * Retrieve order invoices collection
      *
-     * @return unknown
+     * @return Mage_Sales_Model_Resource_Order_Invoice_Collection
      */
     public function getInvoiceCollection()
     {
@@ -1834,10 +1834,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         return $this->_invoices;
     }
 
-     /**
+    /**
      * Retrieve order shipments collection
      *
-     * @return unknown
+     * @return Mage_Sales_Model_Resource_Order_Shipment_Collection|bool
      */
     public function getShipmentsCollection()
     {
@@ -1856,7 +1856,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     /**
      * Retrieve order creditmemos collection
      *
-     * @return unknown
+     * @return Mage_Sales_Model_Resource_Order_Creditmemo_Collection|bool
      */
     public function getCreditmemosCollection()
     {
@@ -1875,7 +1875,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     /**
      * Retrieve order tracking numbers collection
      *
-     * @return unknown
+     * @return Mage_Sales_Model_Resource_Order_Shipment_Track_Collection
      */
     public function getTracksCollection()
     {
