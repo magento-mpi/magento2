@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 ?>
+<div class="category-edit-title">
+    <h3 class="title"><?php echo $this->escapeHtml($this->getHeader()) . ($this->getCategoryId() ? ' (' . Mage::helper('Mage_Catalog_Helper_Data')->__('ID: %s', $this->getCategoryId()) . ')' : '') ?></h3>
+</div>
 <div class="page-actions">
     <?php echo $this->getResetButtonHtml() ?>
     <?php if ($this->getCategoryId()): ?>

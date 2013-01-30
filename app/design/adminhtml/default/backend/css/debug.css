@@ -518,3 +518,10 @@ th.required:before {
 .attribute-set:after {
     clear: both;
 }
+
+/*
+    Manage Categories
+-------------------------------------- */
+.adminhtml-catalog-category-edit .category-edit-title {
+    float: left;
+}

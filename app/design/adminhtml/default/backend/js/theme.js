@@ -276,5 +276,8 @@
                     toggleCheckboxState(checkboxSwitcher);
                 });
         }
+
+        $('.page-actions').floatingHeader();
+
     });
 })(window.jQuery);
