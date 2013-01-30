@@ -2489,6 +2489,7 @@ compare_simple_product:
     general_sku: simple_sku_compare_%randomize%
     general_weight: 1.13
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 2155
@@ -2504,6 +2505,7 @@ compare_virtual_product:
     general_short_description: Short Description for Virtual Product Compare
     general_sku: virtual_sku_compare_%randomize%
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 99.99

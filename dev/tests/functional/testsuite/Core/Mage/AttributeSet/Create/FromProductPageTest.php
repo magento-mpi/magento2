@@ -163,7 +163,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->productHelper()->openProduct($productSkuDefault);
         $this->openTab('meta_information');
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
-        $this->assertFalse($this->controlIsPresent('field', 'general_user_attr_field'),
+        $this->assertFalse($this->controlIsPresent('field', 'meta_information_user_attr_field'),
             'Created attribute was added to Default attribute set');
     }
 }

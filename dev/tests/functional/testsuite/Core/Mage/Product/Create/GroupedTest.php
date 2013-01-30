@@ -57,6 +57,9 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInGrouped()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-7272');
+        }
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product');
         $productSearch =

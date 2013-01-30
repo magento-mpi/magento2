@@ -57,6 +57,9 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInDownloadable()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-7272');
+        }
         //Data
         $productData = $this->loadDataSet('Product', 'downloadable_product');
         $productSearch =

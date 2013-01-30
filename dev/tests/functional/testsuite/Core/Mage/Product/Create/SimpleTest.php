@@ -63,6 +63,9 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInSimple()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-7272');
+        }
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product');
         $productSearch =
