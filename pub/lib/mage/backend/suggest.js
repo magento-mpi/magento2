@@ -410,7 +410,7 @@
                     url: this.options.source,
                     type: 'POST',
                     dataType: 'json',
-                    data: {name_part: term},
+                    data: $.extend({name_part: term}, this.options.ajaxData || {}),
                     success: renderer
                 }, this.options.ajaxOptions || {}));
             }

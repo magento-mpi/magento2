@@ -58,18 +58,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            if (!$this->getProduct()->isConfigurable() || !$this->getIsConfigured()) {
-                $this->addChild(
-                    'change_attribute_set_button',
-                    'Mage_Backend_Block_Widget_Button',
-                    array(
-                        'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Change Attribute Set'),
-                        'onclick' => "jQuery('#attribute-set-info').dialog('open');",
-                        'id' => 'change-attribute-set-button'
-                    )
-                );
-            }
-
             $this->addChild('reset_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Reset'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('_current' => true)) . '\')'
@@ -112,16 +100,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('save_button');
-    }
-
-    /**
-     * Get Change AttributeSet Button html
-     *
-     * @return string
-     */
-    public function getChangeAttributeSetButtonHtml()
-    {
-        return $this->getChildHtml('change_attribute_set_button');
     }
 
     public function getSaveAndEditButtonHtml()
@@ -204,9 +182,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             $header = $this->escapeHtml($this->getProduct()->getName());
         } else {
             $header = Mage::helper('Mage_Catalog_Helper_Data')->__('New Product');
-        }
-        if ($setName = $this->getAttributeSetName()) {
-            $header.= ' (' . $setName . ')';
         }
         return $header;
     }

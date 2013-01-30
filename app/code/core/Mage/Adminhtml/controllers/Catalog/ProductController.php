@@ -1024,6 +1024,36 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->loadLayout();
         $this->renderLayout();
     }
+
+    /**
+     * Action for product template selector
+     */
+    public function suggestAttributeSetAction()
+    {
+        $this->_initProduct();
+        $product = Mage::registry('product');
+        $entityType = $product->getResource()->getEntityType();
+        $searchTerm = $this->getRequest()->getParam('name_part');
+        $rawResult = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+            ->setEntityTypeFilter($entityType->getId())
+            ->load()
+            ->toOptionArray();
+        if ($searchTerm === '') {
+            $result = $rawResult;
+        } else {
+            $result = array();
+            foreach ($rawResult as $set) {
+                if (strpos(strtolower($set['label']), strtolower($searchTerm)) !== false) {
+                    $result[] = $set;
+                }
+            }
+        }
+        foreach ($result as $key => $set) {
+            if ($set['value'] == $this->getRequest()->getParam('current_template_id')) {
+                unset($result[$key]);
+                break;
+            }
+        }
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(sort($result)));
+    }
 }
-
-
