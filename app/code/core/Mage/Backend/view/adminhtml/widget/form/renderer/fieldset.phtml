@@ -12,9 +12,10 @@
 /** @var $element Varien_Data_Form_Element_Fieldset */
 $element = $this->getElement();
 $containerId = $element->getFieldsetContainerId();
-$isWrapped = $containerId || $element->getHeaderBar();
-$titleActions = $element->getHeaderBar() ? '<div class="actions">' . $element->getHeaderBar() . '</div>' : '';
 $id = $element->getHtmlId();
+$isCollapsable = $element->getCollapsable();
+$isWrapped = $containerId || $element->getHeaderBar() || $isCollapsable;
+$titleActions = $element->getHeaderBar() ? '<div class="actions">' . $element->getHeaderBar() . '</div>' : '';
 $isField = $element->getFieldsetType() == 'field';
 $advancedAfter = $element->getAdvancedPosition() == 'after'; // To place advanced options inside or after fieldset
 
@@ -36,9 +37,12 @@ if ($isField) {
 <?php if ($isWrapped): ?>
     <div class="fieldset-wrapper" id="<?php echo $containerId ? $containerId : $id . '-wrapper';?>">
         <div class="fieldset-wrapper-title">
-            <strong class="title"><span><?php echo $element->getLegend() ?></span></strong>
+            <strong class="title"<?php echo ($isCollapsable) ? ' data-toggle="collapse" data-target="#' . $id . '-content"' : ''; ?>>
+                <span><?php echo $element->getLegend() ?></span>
+            </strong>
             <?php echo $titleActions; ?>
         </div>
+        <div class="fieldset-wrapper-content<?php echo ($isCollapsable) ? ' collapse' : ''; ?>" id="<?php echo $id ?>-content">
 <?php endif; ?>
 
     <?php if (!$element->getNoContainer()): ?>
@@ -98,5 +102,6 @@ if ($isField) {
     <?php endif; ?>
 
 <?php if ($isWrapped): ?>
+        </div>
     </div>
 <?php endif; ?>

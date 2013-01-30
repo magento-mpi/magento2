@@ -8,8 +8,8 @@
 /*
     Forms
 -------------------------------------- */
-.form {}
-
+.form {
+}
 
 /*
     Fieldset
@@ -28,8 +28,8 @@
 /*
     Legend
 -------------------------------------- */
-.legend {}
-
+.legend {
+}
 
 /*
     Label
@@ -67,7 +67,8 @@
     margin: 0 0 6px 6px;
 }
 
-.field > .control {}
+.field > .control {
+}
 
 /* TODO: remove after all templates refactoring */
 span.required {
@@ -78,8 +79,9 @@ span.required {
     content: '*';
     color: red;
 }
-.field.alternative {}
 
+.field.alternative {
+}
 
 /*
     Radios and Checkboxes
@@ -107,7 +109,8 @@ span.required {
 /*
     Control with added before and after content
 -------------------------------------- */
-.with-addon {}
+.with-addon {
+}
 
 .addon {
     padding: 0;
@@ -173,16 +176,21 @@ span.required {
 .addon .addafter {
     border-width: 1px 1px 1px 0;
 }
+
 .choice .addafter,
-.choice .addbefore { display: inline; }
+.choice .addbefore {
+    display: inline;
+}
 
 /* Addon left aligned */
 .field-price .addon {
     direction: rtl;
 }
+
 .field-price .addon > * {
     direction: ltr;
 }
+
 .field-price .addon .addafter {
     border-width: 1px 0 1px 1px;
     border-radius: 4px 0 0 4px;
@@ -194,13 +202,14 @@ span.required {
     border-radius: 0 4px 4px 0;
 }
 
-
 .field-price .addon input:focus {
 
 }
+
 .field-price .addon .addafter {
-    background: none;
+    /*background: none;*/
 }
+
 .field-price .addon .addafter:after {
 
 }
@@ -210,18 +219,18 @@ span.required {
 }
 
 .field-price .addon input {
-    border-left: none;
+    /*border-left: none;*/
 }
 
 .field-price .addon input:focus + .addafter {
 
 }
 
-
 /*
     Field with note
 -------------------------------------- */
-.with-note {}
+.with-note {
+}
 
 .with-note .note,
 .field .note {
@@ -252,6 +261,7 @@ span.required {
 .with-tooltip.choice {
     padding-right: 20px;
 }
+
 .with-tooltip.choice,
 .with-tooltip > .control {
     position: relative;
@@ -275,7 +285,6 @@ span.required {
     width: 12px;
     overflow: hidden;
 }
-
 
 /*
     Form actions
@@ -303,6 +312,7 @@ span.required {
     text-align: right;
     padding: 5px 15px 0 0;
 }
+
 .form-inline .choice {
     position: relative;
     z-index: 1;
@@ -339,7 +349,7 @@ span.required {
 [class^="fields-group-"] .field {
     vertical-align: top;
     margin: 0;
-    display: table-cell;
+    display: inline-block;
 }
 
 [class^="fields-group-"] .field .label {
@@ -389,7 +399,6 @@ span.required {
 [class^="fields-group-"] {
     letter-spacing: -0.31em; /* webkit */
     word-spacing: -0.43em; /* IE < 8 && gecko */
-    margin-right: -20px;
 }
 
 [class^="fields-group-"] > * {
@@ -400,7 +409,8 @@ span.required {
 /*
     Form field with nested controls inside
 -------------------------------------- */
-.complex {}
+.complex {
+}
 
 .nested {
     padding: 6px 0 0;
@@ -470,7 +480,6 @@ span.required {
     margin-top: 10px;
 }
 
-
 .qty .control,
 .qty .label {
     display: inline-block;
@@ -497,6 +506,7 @@ span.required {
     content: "";
     display: table;
 }
+
 .buttons-set:after,
 .form-inline .field:after,
 .form-actions:after,

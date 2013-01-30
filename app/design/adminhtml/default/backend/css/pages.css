@@ -57,7 +57,6 @@
 -------------------------------------- */
 
 /* Action "Back" as cross  */
-
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active {
@@ -95,16 +94,21 @@
 /* Image Management */
 .images {
     position: relative;
+    border: 2px dotted #CCC;
+    border-radius: 5px;
+    padding: 5px;
 }
+
 .image {
     position: relative;
     width: 120px;
     height: 120px;
     border: 1px solid #ccc;
-    border-radius: 2px;
+    border-radius: 4px;
     float: left;
     margin: 0 10px 10px 0;
     overflow: hidden;
+    background: #fff;
 }
 
 .image > img {
@@ -112,7 +116,7 @@
     height: 120px;
 }
 
-.image[data-image-label]:before {
+.image.base-image:before {
     position: absolute;
     top: 5px;
     left: 0;
@@ -127,9 +131,9 @@
     color: #fff;
     content: attr(data-image-label);
     letter-spacing: 1px;
-    -moz-transform: rotate(-45deg) translate3d(0,0,0);
-    -webkit-transform: rotate(-45deg) translate3d(0,0,0);
-    transform: rotate(-45deg) translate3d(0,0,0);
+    -moz-transform: rotate(-45deg) translate3d(0, 0, 0);
+    -webkit-transform: rotate(-45deg) translate3d(0, 0, 0);
+    transform: rotate(-45deg) translate3d(0, 0, 0);
     margin-left: -90px;
 }
 
@@ -164,20 +168,24 @@
     -ms-user-select: none;
     user-select: none;
 }
+
 .image .actions [class^="action-"],
 .image[data-image-hidden]:hover .actions [class^="action-"] {
     visibility: hidden;
 }
+
 .image:hover .actions [class^="action-"],
 .image[data-image-hidden]:hover .actions .action-delete {
     visibility: visible;
 }
+
 .image .action-delete {
     position: absolute;
     top: 2px;
     right: 2px;
     z-index: 2;
 }
+
 .image .action-make-main {
     margin-bottom: 10px;
 }
@@ -193,6 +201,63 @@
     z-index: 2;
 }
 
+.image-placeholder {
+    background: #fff url('Mage_Adminhtml::images/image-placeholder.png') no-repeat 50% 0%;
+}
+
+.image-placeholder-text {
+    padding: 72px 5px 0;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1.333;
+    text-align: center;
+    color: #cac8c4;
+}
+
+/* action in fieldset wrapper */
+.fieldset-wrapper-title .action-add,
+.fieldset-wrapper-title .action-add:hover,
+.fieldset-wrapper-title .action-add:focus,
+.fieldset-wrapper-title .action-add:active,
+.fieldset-wrapper-title .action-add:hover {
+    font-size: 12px;
+    color: #a29c94;
+    text-decoration: underline;
+    margin: 8px 20px 0 0;
+}
+
+.fieldset-wrapper-title .action-add:hover {
+    color: #000;
+}
+
+.fieldset-wrapper-title .action-add span {
+}
+
+/* Quantity filed on product */
+.field-quantity_and_stock_status {
+}
+
+.field-quantity_and_stock_status input[type="text"] {
+    width: 36%;
+    margin-right: 15px;
+}
+
+.field-quantity_and_stock_status select {
+    vertical-align: middle;
+}
+
+/* Weight field */
+.field-weight {
+}
+
+.field-weight .field:first-child {
+    width: 36%;
+    margin-right: 15px;
+}
+
+.field-weight .choice input {
+    margin-right: 5px;
+}
 
 .images:before,
 .images:after,
@@ -201,6 +266,7 @@
     content: "";
     display: table;
 }
+
 .images:after,
 .clearfix:after {
     clear: both;

@@ -29,6 +29,7 @@
             <action method="addJs"><file>lib/modernizr.js</file></action>
             <action method="addJs"><file>js/head.js</file></action>
             <action method="addJs"><file>jquery/jquery.dropdowns.js</file></action>
+            <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
             <action method="addJs"><file>js/theme.js</file></action>
             <action method="addJs"><file>js/jquery.details.js</file></action>
         </reference>

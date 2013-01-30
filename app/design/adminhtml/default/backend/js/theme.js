@@ -242,6 +242,25 @@
         $('.header-panel .search').globalSearch();
         $('.navigation').globalNavigation();
         $('.fade').modalPopup();
+        $('details').details();
+
+        /* Listen events on "Collapsable" events */
+        $('.collapse')
+            .on('show', function () {
+                var fieldsetWrapper = $(this).closest('.fieldset-wrapper');
+
+                fieldsetWrapper.addClass('opened');
+            })
+            .on('hide', function () {
+                var fieldsetWrapper = $(this).closest('.fieldset-wrapper');
+
+                fieldsetWrapper.removeClass('opened');
+            });
+
+        $.each($('.entry-edit'), function(i, entry) {
+            $('.collapse:first', entry).collapse('show');
+        });
+
 
         /* Switcher for IE8 */
         if ($.browser.msie && $.browser.version == '8.0') {
@@ -257,6 +276,5 @@
                     toggleCheckboxState(checkboxSwitcher);
                 });
         }
-        $('details').details();
     });
 })(window.jQuery);

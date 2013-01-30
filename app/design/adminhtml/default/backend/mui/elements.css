@@ -1316,7 +1316,7 @@ table.loading:after {
 
 .collapse.in,
 .no-js .collapse {
-    height: auto;
+    height: auto !important;
 }
 
 .no-js .tabs-nav > li,
