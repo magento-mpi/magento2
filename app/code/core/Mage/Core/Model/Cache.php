@@ -467,7 +467,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
          * Add global magento cache tag to all cached data exclude config cache
          */
         if (!in_array(Mage_Core_Model_Config::CACHE_TAG, $tags)) {
-            $tags[] = Mage_Core_Model_App::CACHE_TAG;
+            $tags[] = Mage_Core_Model_AppInterface::CACHE_TAG;
         }
         if ($this->_disallowSave) {
             return true;
@@ -512,7 +512,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
             }
             $res = $this->_frontend->clean($mode, $this->_tags($tags));
         } else {
-            $res = $this->_frontend->clean($mode, array(Mage_Core_Model_App::CACHE_TAG));
+            $res = $this->_frontend->clean($mode, array(Mage_Core_Model_AppInterface::CACHE_TAG));
             $res = $res && $this->_frontend->clean($mode, array(Mage_Core_Model_Config::CACHE_TAG));
         }
 

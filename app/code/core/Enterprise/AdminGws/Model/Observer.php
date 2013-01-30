@@ -285,7 +285,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         }
 
         $request = Mage::app()->getRequest();
-        $storeId = $request->getParam('store', Mage_Core_Model_App::ADMIN_STORE_ID);
+        $storeId = $request->getParam('store', Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }

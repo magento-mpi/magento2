@@ -13,11 +13,13 @@
  *
  * @method Mage_Core_Model_Resource_Store _getResource()
  * @method Mage_Core_Model_Resource_Store getResource()
+ * @method Mage_Core_Model_Store setId(string $value)
  * @method Mage_Core_Model_Store setCode(string $value)
  * @method Mage_Core_Model_Store setWebsiteId(int $value)
  * @method Mage_Core_Model_Store setGroupId(int $value)
  * @method Mage_Core_Model_Store setName(string $value)
  * @method int getSortOrder()
+ * @method int getStoreId()
  * @method Mage_Core_Model_Store setSortOrder(int $value)
  * @method Mage_Core_Model_Store setIsActive(int $value)
  *
@@ -649,7 +651,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function isAdmin()
     {
-        return $this->getId() == Mage_Core_Model_App::ADMIN_STORE_ID;
+        return $this->getId() == Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
     }
 
 

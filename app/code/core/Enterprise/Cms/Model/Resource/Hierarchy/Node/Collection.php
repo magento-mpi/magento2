@@ -62,7 +62,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
         }
 
         if ($withAdmin) {
-            $storeIds = array(Mage_Core_Model_App::ADMIN_STORE_ID, $store);
+            $storeIds = array(Mage_Core_Model_AppInterface::ADMIN_STORE_ID, $store);
         } else {
             $storeIds = array($store);
         }

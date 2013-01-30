@@ -72,10 +72,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             </config>
 XML
         );
-        $this->_app = $this->getMock('Mage_Core_Model_App', array('getInitParams', 'getConfig'), array(), '', false);
-        $this->_app->expects($this->any())
-            ->method('getInitParam')
-            ->will($this->returnValue(false));
+        $this->_app = $this->getMock('Mage_Core_Model_App', array('getConfig'), array(), '', false);
         $this->_app->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue($config));
@@ -187,7 +184,7 @@ XML
     public function saveDataProvider()
     {
         $configTag = Mage_Core_Model_Config::CACHE_TAG;
-        $appTag = Mage_Core_Model_App::CACHE_TAG;
+        $appTag = Mage_Core_Model_AppInterface::CACHE_TAG;
         return array(
             'default tags' => array(
                 'test_data', 'test_id', array(), 'test_data', 'TEST_ID', array($appTag)
@@ -199,7 +196,7 @@ XML
                 'test_data', 'test_id', array('test_tag'), 'test_data', 'TEST_ID', array('TEST_TAG', $appTag)
             ),
             'non-string data' => array(
-                1234567890, 'test_id', array(), '1234567890', 'TEST_ID', array(Mage_Core_Model_App::CACHE_TAG)
+                1234567890, 'test_id', array(), '1234567890', 'TEST_ID', array(Mage_Core_Model_AppInterface::CACHE_TAG)
             ),
         );
     }
@@ -261,7 +258,7 @@ XML
     public function cleanDataProvider()
     {
         return array(
-            'default tags' => array(array(), array(Mage_Core_Model_App::CACHE_TAG)),
+            'default tags' => array(array(), array(Mage_Core_Model_AppInterface::CACHE_TAG)),
             'custom tags'  => array(array('test_tag'), array('TEST_TAG')),
         );
     }
@@ -271,7 +268,7 @@ XML
         $this->_cacheFrontend
             ->expects($this->at(0))
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array(Mage_Core_Model_App::CACHE_TAG))
+            ->with(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array(Mage_Core_Model_AppInterface::CACHE_TAG))
             ->will($this->returnValue(true))
         ;
         $this->_cacheFrontend

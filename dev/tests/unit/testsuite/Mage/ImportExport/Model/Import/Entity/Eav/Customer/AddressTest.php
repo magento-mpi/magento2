@@ -290,7 +290,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_App::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(

@@ -205,7 +205,7 @@ class Mage_Core_Model_Theme_Service
     protected function _makeTemporaryLayoutUpdatesPermanent($themeId, array $storeIds)
     {
         // currently all layout updates are related to theme only
-        $storeIds = array_merge($storeIds, array(Mage_Core_Model_App::ADMIN_STORE_ID));
+        $storeIds = array_merge($storeIds, array(Mage_Core_Model_AppInterface::ADMIN_STORE_ID));
 
         $this->_layoutUpdate->makeTemporaryLayoutUpdatesPermanent($themeId, $storeIds);
     }
