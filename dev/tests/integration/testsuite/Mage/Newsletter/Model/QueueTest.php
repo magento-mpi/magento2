@@ -13,6 +13,7 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Mage/Newsletter/_files/queue.php
+     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @magentoConfigFixture frontend/design/theme/full_name default/demo_blue
      * @magentoConfigFixture fixturestore_store general/locale/code  de_DE
      * @magentoAppIsolation enabled
@@ -46,6 +47,7 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @magentoDataFixture Mage/Newsletter/_files/queue.php
      * @magentoAppIsolation enabled
      */

@@ -67,6 +67,9 @@ class Mage_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(100, $this->_block->getProductsCount());
     }
 
+    /**
+     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
+     */
     public function testToHtml()
     {
         $this->assertEmpty($this->_block->getProductCollection());

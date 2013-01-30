@@ -92,6 +92,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
      * Test adding comment to invoice via API.
      *
      * @magentoDataFixture Mage/Sales/_files/invoice.php
+     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @magentoDbIsolation enabled
      */
     public function testAddComment()
