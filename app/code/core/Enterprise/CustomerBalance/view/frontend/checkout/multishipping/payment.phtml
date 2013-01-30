@@ -28,16 +28,11 @@
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
             "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/storecredit.js') ?>",
             function() {
-                $('body').storeCredit({
-                    customerBalanceCheckBoxSelector: '#use-customer-balance',
+                $('#multishipping-billing-form').storeCredit({
                     customerBalanceSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
                     baseCustomerBalAmountUsed: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
                     balance: <?php echo (float)$this->getBalance(); ?>,
-                    quoteBaseGrandTotal: <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>,
-                    customerBalancePaymentSelector: '#customerbalance-hidden-payment',
-                    customerBalanceBlockSelector: '#customerbalance-block',
-                    paymentMethodsSelector: '#payment-methods',
-                    paymentForm: '#multishipping-billing-form'
+                    quoteBaseGrandTotal: <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>
                 });
             });
     })(jQuery);

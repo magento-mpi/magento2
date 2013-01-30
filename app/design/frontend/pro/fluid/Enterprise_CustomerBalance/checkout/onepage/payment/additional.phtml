@@ -56,13 +56,11 @@
             "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/storecredit.js') ?>",
             "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/onepagestorecredit.js') ?>",
             function() {
-                $('body').onepageStoreCredit({
-                    customerBalanceCheckBoxSelector: '#use-customer-balance',
-                customerBalanceSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
+                $('#opc-payment').onepageStoreCredit({
+                    customerBalanceSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
                     baseCustomerBalAmountUsed: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
                     balance: <?php echo (float)$this->getBalance(); ?>,
                     quoteBaseGrandTotal: <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>,
-                    customerBalancePaymentSelector: '#customerbalance-hidden-payment',
                     customerBalanceBlockSelector: '#customerbalance-placer',
                     paymentMethodsSelector: '#checkout-payment-method-load',
                     customerBalanceAmountSelector: "#customerbalance-available-amount",

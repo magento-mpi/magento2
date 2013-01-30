@@ -17,7 +17,12 @@
          */
         options: {
             minBalance: 0.0001,
-            customerBalanceSubstracted: true
+            customerBalanceSubstracted: true,
+            customerBalanceCheckBoxSelector: '#use-customer-balance',
+            customerBalancePaymentSelector: '#customerbalance-hidden-payment',
+            customerBalanceBlockSelector: '#customerbalance-block',
+            paymentMethodsSelector: '#payment-methods',
+            paymentForm: '#multishipping-billing-form'
         },
 
         /**
@@ -39,12 +44,12 @@
          * @private
          */
         _switchCustomerBalanceCheckbox: function() {
-
-            if (!this.options.customerBalanceSubstracted && $(this.options.customerBalanceCheckBoxSelector).is(':checked')) {
+            this.isCustomerBalanceChecked = $(this.options.customerBalanceCheckBoxSelector).is(':checked');
+            if (!this.options.customerBalanceSubstracted && this.isCustomerBalanceChecked) {
                 this.options.quoteBaseGrandTotal -= this.options.balance;
                 this.options.customerBalanceSubstracted = true;
             }
-            if (this.options.customerBalanceSubstracted && !$(this.options.customerBalanceCheckBoxSelector).is(':checked')) {
+            if (this.options.customerBalanceSubstracted && !this.isCustomerBalanceChecked) {
                 this.options.quoteBaseGrandTotal += this.options.balance;
                 this.options.customerBalanceSubstracted = false;
             }
@@ -58,13 +63,15 @@
             }
         },
 
+        /**
+         * Toggle element visibility based on the checkbox state
+         * @private
+         */
         _switchElement: function(element) {
-            if ($(this.options.customerBalanceCheckBoxSelector).is(':checked')) {
+            if (this.isCustomerBalanceChecked) {
                 if (element.attr('name') === 'payment[method]') {
                     if (element.val() === 'free' && element.is(':radio')) {
-                        element.attr('checked', 'checked');
-                        element.removeAttr('disabled');
-                        element.parent().hide();
+                        element.attr('checked', 'checked').removeAttr('disabled').parent().hide();
                     }
                 }
             } else {
@@ -75,18 +82,26 @@
         },
 
         /**
+         * Append a hidden element to the block.
+         * @private
+         */
+        _appendHiddenElement: function() {
+             $('<input>').attr({
+                 type: 'hidden',
+                 id: this.options.customerBalancePaymentSelector,
+                 name: 'payment[method]',
+                 value: 'free'
+             }).appendTo(this.options.customerBalanceBlockSelector);
+        },
+
+        /**
          * Create and set the hidden element if it does not exist and show or hide the payment methods element.
          * @private
          */
         _setHiddenElement: function() {
-            if ($(this.options.customerBalanceCheckBoxSelector).is(':checked')) {
+            if (this.isCustomerBalanceChecked) {
+                this._appendHiddenElement();
                 $(this.options.paymentMethodsSelector).hide();
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: this.options.customerBalancePaymentSelector,
-                    name: 'payment[method]',
-                    value: 'free'
-                }).appendTo(this.options.customerBalanceBlockSelector);
             } else {
                 if ($(this.options.customerBalancePaymentSelector).length > 0) {
                     $(this.options.customerBalanceBlockSelector).find(this.options.customerBalancePaymentSelector).hide();

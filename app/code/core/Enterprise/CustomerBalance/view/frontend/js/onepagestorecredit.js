@@ -15,11 +15,9 @@
         _switchElement: function(element) {
             this.checkFree = false;
             if (element.attr('name') === "payment[method]" && element.val() === "free") {
-                if ($(this.options.customerBalanceCheckBoxSelector).is(':checked')) {
+                if (this.isCustomerBalanceChecked) {
                     this.checkFree = true;
-                    element.attr('checked', 'checked');
-                    element.removeAttr('disabled');
-                    element.parent().hide();
+                    element.attr('checked', 'checked').removeAttr('disabled').parent().hide();
                 } else {
                     element.removeAttr('disabled');
                 }
@@ -31,14 +29,9 @@
          * @private
          */
         _setHiddenElement: function() {
-            if ($(this.options.customerBalanceCheckBoxSelector).is(':checked')) {
+            if (this.isCustomerBalanceChecked) {
                 if (!this.checkFree) {
-                    $('<input>').attr({
-                        type: 'hidden',
-                        id: this.options.customerBalancePaymentSelector,
-                        name: 'payment[method]',
-                        value: 'free'
-                    }).appendTo(this.options.customerBalanceBlockSelector);
+                    this._appendHiddenElement();
                 }
                 $(this.options.paymentMethodsSelector).hide();
                 this.options.payment.switchMethod();
@@ -50,10 +43,7 @@
          * @private
          */
         _showPaymentMethod: function() {
-            $("input[name='payment[method]']").each($.proxy(function(index, element) {
-                element = $(element);
-                element.removeAttr('disabled');
-            }, this));
+            $("input[name='payment[method]']").removeAttr('disabled');
             $(this.options.paymentMethodsSelector).show();
             this.options.payment.switchMethod(this.options.payment.lastUsedMethod);
         }
