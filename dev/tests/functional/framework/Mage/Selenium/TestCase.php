@@ -3186,6 +3186,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                         $resultFlag = false;
                     }
                     break;
+                case self::FIELD_TYPE_COMPOSITE_MULTISELECT:
+                    $result = $this->verifyCompositeMultiselect($formFieldName, array($formField['value']));
+                    $resultFlag = ($result) ? $resultFlag : false;
+                    break;
                 case self::FIELD_TYPE_PAGEELEMENT:
                     $actualValue = trim($availableElement->text());
                     if ($actualValue != $formField['value']) {
@@ -3429,7 +3433,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         //Add new Options
         if ($isNeedAdd) {
             foreach ($isNeedAdd as $key => $label) {
-                $this->addCompositeMultiselectValue(null, $label, $locator);
+                if (!empty($label)) {
+                    $this->addCompositeMultiselectValue(null, $label, $locator);
+                }
             }
         }
     }

@@ -30,6 +30,7 @@ class Core_Mage_Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Create Tax Rate for tests<p>
+     *
      * @return array $taxRateData
      * @test
      */
@@ -39,7 +40,7 @@ class Core_Mage_Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
         $taxRateData = $this->loadDataSet('Tax', 'tax_rate_create_test');
         //Steps
         $this->navigate('manage_tax_zones_and_rates');
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->taxHelper()->createTaxRate($taxRateData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         return $taxRateData;
@@ -49,7 +50,6 @@ class Core_Mage_Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
      * <p>Delete a Tax Rule</p>
      *
      * @param array $taxRateData
-     *
      * @test
      * @depends preconditionsForTests
      */

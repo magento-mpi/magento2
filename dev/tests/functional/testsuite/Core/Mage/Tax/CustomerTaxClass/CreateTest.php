@@ -91,11 +91,10 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function withEmptyName()
     {
-        $multiselect = 'customer_tax_class';
         $this->clickButton('add_rule');
         $this->clickControl('link','tax_rule_info_additional_link');
         $this->setExpectedException('RuntimeException');
-        $this->fillCompositeMultiselect($multiselect, '');
+        $this->addCompositeMultiselectValue('customer_tax_class', '', null, false);
     }
 
     /**

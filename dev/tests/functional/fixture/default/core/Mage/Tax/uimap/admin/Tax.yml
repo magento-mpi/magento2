@@ -227,8 +227,8 @@ create_tax_rule:
             save_and_continue_edit: //button[@data-ui-id='content-schedule-block-save-and-continue-button']
         messages: &newTaxRuleMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
-            empty_required_field:  "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field:  //tr/td/label[(@class)='mage-error' and contains(.,'This field is required.')]
+            enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             tax_class_exists: An error occurred while saving this tax class. A class with the same name already exists.
             confirmation_for_delete_rule: Are you sure you want to do this?

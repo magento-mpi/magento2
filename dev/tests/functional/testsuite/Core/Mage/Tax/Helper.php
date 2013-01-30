@@ -51,8 +51,21 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         $this->fillFieldset($taxItemData, 'tax_rule_info', false);
         $this->clickControl('link', 'tax_rule_info_additional_link');
         $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
+        $this->saveForm('save_' . $type);
+    }
+
+    /**
+     * Create Tax Rate
+     *
+     * @param $taxRateData
+     */
+    public function createTaxRate($taxRateData)
+    {
+        $taxItemData = $this->fixtureDataToArray($taxRateData);
+        $this->clickButton('add_rate');
+        $this->fillFieldset($taxItemData, 'tax_rate_info');
         $rateTitles = (isset($taxItemData['tax_titles'])) ? $taxItemData['tax_titles'] : array();
-        if ($rateTitles && $type == 'rate') {
+        if ($rateTitles) {
             $this->assertTrue($this->controlIsPresent('fieldset', 'tax_titles'),
                 'Tax Titles for store views are defined, but cannot be set.');
             foreach ($rateTitles as $key => $value) {
@@ -60,7 +73,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
                 $this->fillField('tax_title', $value);
             }
         }
-        $this->saveForm('save_' . $type);
+        $this->saveForm('save_rate');
     }
 
     /**
@@ -142,6 +155,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         $this->acceptAlert();
         $this->assertSame($this->_getMessageXpath($msg), $alertText, 'Confirmation message is incorrect');
     }
+
     /**
      * Delete all Tax Rules except specified in $excludeList
      *
