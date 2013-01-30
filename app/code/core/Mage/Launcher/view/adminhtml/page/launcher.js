@@ -53,14 +53,19 @@
                 },
 
                 drawerOpen: function(tileCode) {
-                    var bodyHeight = $('body').outerHeight() + 500;
+                    var bodyHeight = $('body').outerHeight() + 500,
+                        offsetNavBar = $('.nav-bar').offset(),
+                        offsetDrawer = '57';
                     methods.drawerMinHeight();
+                    if (offsetNavBar && offsetNavBar.top) {
+                        offsetDrawer = offsetNavBar.top
+                    }
 
                     options.drawer
                         .css('top', '' + bodyHeight + 'px')
                         .show(1, function () {
                             options.drawer.animate({
-                                top: '57px'
+                                top: offsetDrawer + 'px'
                             }, 1000, function () {
                                 methods.drawerFixedHeader();
                                 options.storeLauncher.hide();

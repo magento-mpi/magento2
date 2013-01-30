@@ -47,6 +47,13 @@
             </launcher_setup>
         </resources>
     </global>
+    <default>
+        <design>
+            <head>
+                <demonotice>1</demonotice>
+            </head>
+        </design>
+    </default>
     <adminhtml>
         <events>
             <admin_system_config_section_save_after>
