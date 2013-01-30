@@ -16,14 +16,14 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
     public function testGetAllowedExtensionsByType()
     {
         /** @var $storageHelper Mage_Theme_Helper_Storage */
-        $storageHelper = $this->getMock('Mage_Theme_Helper_Storage', array('_getStorageType'), array(), '', false);
+        $storageHelper = $this->getMock('Mage_Theme_Helper_Storage', array('getStorageType'), array(), '', false);
 
         $storageHelper->expects($this->at(0))
-            ->method('_getStorageType')
+            ->method('getStorageType')
             ->will($this->returnValue('font'));
 
         $storageHelper->expects($this->at(1))
-            ->method('_getStorageType')
+            ->method('getStorageType')
             ->will($this->returnValue('image'));
 
         $fontTypes = $storageHelper->getAllowedExtensionsByType();
@@ -65,6 +65,83 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
             ->method('getParam')
             ->will($this->returnValue($encodedExpectedPath));
 
+        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystemProperty = new ReflectionProperty($storageHelper, '_filesystem');
+        $filesystemProperty->setAccessible(true);
+        $filesystemProperty->setValue($storageHelper, $filesystem);
+
+        $filesystem->expects($this->atLeastOnce())
+            ->method('isDirectory')
+            ->with($expectedPath)
+            ->will($this->returnValue(true));
+        $filesystem::staticExpects($this->atLeastOnce())
+            ->method('isPathInDirectory')->with($expectedPath, $currentDir)
+            ->will($this->returnValue(true));
+        $filesystem::staticExpects($this->atLeastOnce())
+            ->method('getAbsolutePath')
+            ->will($this->returnArgument(0));
+
         $this->assertEquals($expectedPath, $storageHelper->getCurrentPath());
+    }
+
+    /**
+     * @covers Mage_Theme_Helper_Storage::getThumbnailDirectory
+     */
+    public function testGetThumbnailDirectory()
+    {
+        $imagePath = implode(DIRECTORY_SEPARATOR, array('root', 'image', 'image_name.jpg'));
+        $thumbnailDir = implode(
+            DIRECTORY_SEPARATOR,
+            array('root', 'image', Mage_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY)
+        );
+
+        /** @var $storageHelper Mage_Theme_Helper_Storage */
+        $storageHelper = $this->getMock('Mage_Theme_Helper_Storage', null, array(), '', false);
+        $this->assertEquals($thumbnailDir, $storageHelper->getThumbnailDirectory($imagePath));
+    }
+
+    /**
+     * @covers Mage_Theme_Helper_Storage::getThumbnailPath
+     */
+    public function testGetThumbnailPath()
+    {
+        $image       = 'image_name.jpg';
+        $storageRoot = 'root' . DIRECTORY_SEPARATOR . 'image';
+        $currentPath = $storageRoot . DIRECTORY_SEPARATOR . 'some_dir';
+        $imagePath   = $currentPath . DIRECTORY_SEPARATOR . $image;
+        $thumbnailPath = implode(
+            DIRECTORY_SEPARATOR,
+            array($currentPath, Mage_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY, $image)
+        );
+
+        $filesystem = $this->getMock('Magento_Filesystem', array('has', 'isPathInDirectory'), array(), '', false);
+        $filesystem->expects($this->atLeastOnce())
+            ->method('has')
+            ->with($imagePath)
+            ->will($this->returnValue(true));
+
+        $filesystem::staticExpects($this->atLeastOnce())
+            ->method('isPathInDirectory')
+            ->with($imagePath, $storageRoot)
+            ->will($this->returnValue(true));
+
+        /** @var $storageHelper Mage_Theme_Helper_Storage */
+        $storageHelper = $this->getMock(
+            'Mage_Theme_Helper_Storage',
+            array('getCurrentPath', 'getStorageRoot'),
+            array(), '', false
+        );
+        $storageHelper->expects($this->once())
+            ->method('getCurrentPath')
+            ->will($this->returnValue($currentPath));
+        $storageHelper->expects($this->atLeastOnce())
+            ->method('getStorageRoot')
+            ->will($this->returnValue($storageRoot));
+
+        $filesystemProperty = new ReflectionProperty($storageHelper, '_filesystem');
+        $filesystemProperty->setAccessible(true);
+        $filesystemProperty->setValue($storageHelper, $filesystem);
+
+        $this->assertEquals($thumbnailPath, $storageHelper->getThumbnailPath($image));
     }
 }
