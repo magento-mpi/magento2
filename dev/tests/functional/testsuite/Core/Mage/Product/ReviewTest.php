@@ -25,7 +25,7 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Review product on frontend.</p>
+     * Review product on frontend.
      *
      * @param string $productType
      * @param string $availability
@@ -38,6 +38,9 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
     {
         $productData = $this->loadDataSet('Product', 'frontend_' . $productType . '_product_details_validation',
                                           array('general_stock_availability' => $availability));
+        if ($availability == 'In Stock') {
+            $this->markTestIncomplete('MAGETWO-7170');
+        }
         $this->productHelper()->createProduct($productData, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->reindexInvalidedData();
@@ -48,9 +51,9 @@ class Core_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
     public function reviewInfoInProductDetailsDataProvider()
     {
         return array(
-//            array('simple', 'In Stock'), skipped due to bug MAGETWO-7170
+            array('simple', 'In Stock'),
             array('simple', 'Out of Stock'),
-//            array('virtual', 'In Stock'), skipped due to bug MAGETWO-7170
+            array('virtual', 'In Stock'),
             array('virtual', 'Out of Stock')
         );
     }
