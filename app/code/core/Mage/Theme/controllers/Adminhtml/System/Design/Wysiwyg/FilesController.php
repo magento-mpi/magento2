@@ -120,6 +120,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Ad
             ));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_redirect('core/index/notfound');
         }
     }
 
