@@ -310,33 +310,32 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     protected function _columnBrake($items, $limit)
     {
         $total = $this->_countItems($items);
-        if ($total > $limit) {
-            $result[0] = array(
+        if ($total <= $limit) {
+            return;
+        }
+        $result[] = array(
                 'total' => $total,
                 'max'   => ceil($total / ceil($total / $limit))
             );
-            $i = 1;
-            $count = 0;
-            foreach ($items as $item) {
-                $place = $this->_countItems($item->getChildren()) + 1;
-                $count += $place;
-                if ($place - $result[0]['max'] > $limit - $result[0]['max']) {
-                    $colbrake = true;
-                    $count = 0;
-                } elseif ($count - $result[0]['max'] > $limit - $result[0]['max']) {
-                    $colbrake = true;
-                    $count = $place;
-                } else {
-                    $colbrake = false;
-                }
-                $result[$i] = array(
-                    'place' => $place,
-                    'colbrake' => $colbrake
-                );
-                $i++;
+        $count = 0;
+        foreach ($items as $item) {
+            $place = $this->_countItems($item->getChildren()) + 1;
+            $count += $place;
+            if ($place - $result[0]['max'] > $limit - $result[0]['max']) {
+                $colbrake = true;
+                $count = 0;
+            } elseif ($count - $result[0]['max'] > $limit - $result[0]['max']) {
+                $colbrake = true;
+                $count = $place;
+            } else {
+                $colbrake = false;
             }
-            return $result;
+            $result[] = array(
+                'place' => $place,
+                'colbrake' => $colbrake
+            );
         }
+        return $result;
     }
 
     /**
