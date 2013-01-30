@@ -40,7 +40,7 @@ class Enterprise_Mage_Product_ReviewTest extends Mage_Selenium_TestCase
     public function reviewGiftCardFrontend($availability)
     {
         $productData = $this->loadDataSet('Product', 'frontend_gift_card_validation',
-            array('inventory_stock_availability' => $availability));
+            array('general_stock_availability' => $availability));
         $this->productHelper()->createProduct($productData, 'giftcard');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->reindexInvalidedData();
