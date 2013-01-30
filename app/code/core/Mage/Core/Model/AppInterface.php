@@ -8,15 +8,49 @@
  * @license     {license_link}
  */
 
-interface Mage_Core_Model_AppInterface
+interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInterface
 {
+    const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
+
+    /**
+     * Default application locale
+     */
+    const DISTRO_LOCALE_CODE = 'en_US';
+
+    /**
+     * Cache tag for all cache data exclude config cache
+     *
+     */
+    const CACHE_TAG = 'MAGE';
+
+    /**
+     * Default store Id (for install)
+     */
+    const DISTRO_STORE_ID       = 1;
+
+    /**
+     * Default store code (for install)
+     *
+     */
+    const DISTRO_STORE_CODE     = Mage_Core_Model_Store::DEFAULT_CODE;
+
+    /**
+     * Admin store Id
+     *
+     */
+    const ADMIN_STORE_ID = 0;
+
+    /**
+     * Dependency injection configuration node name
+     */
+    const CONFIGURATION_DI_NODE = 'di';
+
     /**
      * Initialize application without request processing
      *
-     * @param  array $params
      * @return Mage_Core_Model_AppInterface
      */
-    public function init(array $params);
+    public function init();
 
     /**
      * Run application. Run process responsible for request processing and sending response.
@@ -24,16 +58,6 @@ interface Mage_Core_Model_AppInterface
      * @return Mage_Core_Model_AppInterface
      */
     public function run();
-
-    /**
-     * Get initialization parameter
-     *
-     * Returns false if key does not exist in array or the value is null
-     *
-     * @param string $key
-     * @return mixed|bool
-     */
-    public function getInitParam($key);
 
     /**
      * Throw an exception, if the application has not been installed yet
@@ -48,35 +72,6 @@ interface Mage_Core_Model_AppInterface
      * @return Mage_Core_Model_Cookie
      */
     public function getCookie();
-
-    /**
-     * Reinitialize stores
-     *
-     * @return void
-     */
-    public function reinitStores();
-
-    /**
-     * Check if system is run in the single store mode
-     *
-     * @return bool
-     */
-    public function isSingleStoreMode();
-
-    /**
-     * Check if store has only one store view
-     *
-     * @return bool
-     */
-    public function hasSingleStore();
-
-      /**
-     * Set current default store
-     *
-     * @param string $store
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function setCurrentStore($store);
 
    /**
      * Re-declare custom error handler
@@ -112,71 +107,11 @@ interface Mage_Core_Model_AppInterface
     public function getArea($code);
 
     /**
-     * Retrieve application store object
-     *
-     * @param null|string|bool|int|Mage_Core_Model_Store $id
-     * @return Mage_Core_Model_Store
-     * @throws Mage_Core_Model_Store_Exception
-     */
-    public function getStore($id = null);
-
-    /**
-     * Retrieve application store object without Store_Exception
-     *
-     * @param string|int|Mage_Core_Model_Store $id
-     * @return Mage_Core_Model_Store
-     */
-    public function getSafeStore($id = null);
-
-    /**
-     * Retrieve stores array
-     *
-     * @param bool $withDefault
-     * @param bool $codeKey
-     * @return array
-     */
-    public function getStores($withDefault = false, $codeKey = false);
-
-    /**
-     * Retrieve default store for default group and website
-     *
-     * @return Mage_Core_Model_Store
-     */
-    public function getDefaultStoreView();
-
-    /**
      * Get distributive locale code
      *
      * @return string
      */
     public function getDistroLocaleCode();
-
-    /**
-     * Retrieve application website object
-     *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
-     * @return Mage_Core_Model_Website
-     * @throws Mage_Core_Exception
-     */
-    public function getWebsite($id = null);
-
-    /**
-     * Get websites
-     *
-     * @param bool $withDefault
-     * @param bool $codeKey
-     * @return array
-     */
-    public function getWebsites($withDefault = false, $codeKey = false);
-
-    /**
-     * Retrieve application store group object
-     *
-     * @param null|Mage_Core_Model_Store_Group|string $id
-     * @return Mage_Core_Model_Store_Group
-     * @throws Mage_Core_Exception
-     */
-    public function getGroup($id = null);
 
     /**
      * Retrieve application locale object
@@ -325,11 +260,6 @@ interface Mage_Core_Model_AppInterface
     public function setResponse(Mage_Core_Controller_Response_Http $response);
 
     /**
-     * @throws Mage_Core_Model_Store_Exception
-     */
-    public function throwStoreException();
-
-    /**
      * Set use session var instead of SID for URL
      *
      * @param bool $var
@@ -345,13 +275,6 @@ interface Mage_Core_Model_AppInterface
     public function getUseSessionVar();
 
     /**
-     * Get either default or any store view
-     *
-     * @return Mage_Core_Model_Store
-     */
-    public function getAnyStoreView();
-
-    /**
      * Set Use session in URL flag
      *
      * @param bool $flag
@@ -365,39 +288,6 @@ interface Mage_Core_Model_AppInterface
      * @return bool
      */
     public function getUseSessionInUrl();
-
-    /**
-     * Allow or disallow single store mode
-     *
-     * @param bool $value
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function setIsSingleStoreModeAllowed($value);
-
-    /**
-     * Prepare array of store groups
-     * can be filtered to contain default store group or not by $withDefault flag
-     * depending on flag $codeKey array keys can be group id or group code
-     *
-     * @param bool $withDefault
-     * @param bool $codeKey
-     * @return array
-     */
-    public function getGroups($withDefault = false, $codeKey = false);
-
-    /**
-     * Get is cache locked
-     *
-     * @return bool
-     */
-    public function getIsCacheLocked();
-
-    /**
-     *  Unset website by id from app cache
-     *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
-     */
-    public function clearWebsiteCache($id = null);
 
     /**
      * Check if developer mode is enabled.

@@ -89,10 +89,10 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                         'banCache' => $this->_getParam(Mage::PARAM_BAN_CACHE, false),
                     )
                 ),
-                'Mage_Core_Model_App' => array(
+                'Mage_Core_Model_StoreManager' => array(
                     'parameters' => array(
                         'scopeCode' => $this->_getParam(Mage::PARAM_RUN_CODE, ''),
-                        'scopeType' => $this->_getParam(Mage::PARAM_RUN_TYPE, 'store')
+                        'scopeType' => $this->_getParam(Mage::PARAM_RUN_TYPE, 'store'),
                     )
                 )
             )

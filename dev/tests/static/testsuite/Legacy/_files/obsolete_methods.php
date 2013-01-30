@@ -435,4 +435,5 @@ return array(
     array('getBlockClassName', 'Mage_Core_Model_Config'),
     array('getHelperClassName', 'Mage_Core_Model_Config'),
     array('getResourceModelClassName', 'Mage_Core_Model_Config'),
+    array('getInitParam', 'Mage_Core_Model_App'),
 );

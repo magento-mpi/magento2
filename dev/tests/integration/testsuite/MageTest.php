@@ -71,7 +71,7 @@ class MageTest extends PHPUnit_Framework_TestCase
         // @magentoConfigFixture is applied after initialization, so we need to do this again
         Magento_Test_Bootstrap::getInstance()->reinitialize();
         $this->expectOutputRegex('/test/');
-        Mage::app()->init();
+        Mage::app()->getStore(true);
         Mage::log('test');
     }
 
@@ -94,7 +94,6 @@ class MageTest extends PHPUnit_Framework_TestCase
         // initialize again, because config fixture is applied after initialization
         Magento_Test_Bootstrap::getInstance()->reinitialize();
         $logEntry = microtime();
-        Mage::app()->init();
         Mage::log($logEntry);
         $logFile = Mage::getBaseDir('log') . '/system.log';
         $this->assertFileExists($logFile);
@@ -110,7 +109,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     {
         // reinitialization is needed here, too
         Magento_Test_Bootstrap::getInstance()->reinitialize();
-        Mage::app()->init();
+        Mage::app()->getStore(true);
         $msg = uniqid();
         $exception = new Exception((string)$msg);
         Mage::logException($exception);

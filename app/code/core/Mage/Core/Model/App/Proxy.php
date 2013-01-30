@@ -44,12 +44,11 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     /**
      * Initialize application without request processing
      *
-     * @param  array $params
      * @return Mage_Core_Model_AppInterface
      */
-    public function init(array $params)
+    public function init()
     {
-        return $this->_getApp()->init($params);
+        return $this->_getApp()->init();
     }
 
     /**
@@ -60,19 +59,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     public function run()
     {
         return $this->_getApp()->run();
-    }
-
-    /**
-     * Get initialization parameter
-     *
-     * Returns false if key does not exist in array or the value is null
-     *
-     * @param string $key
-     * @return mixed|bool
-     */
-    public function getInitParam($key)
-    {
-        return $this->_getApp()->getInitParam($key);
     }
 
     /**
@@ -129,11 +115,20 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      * Set current default store
      *
      * @param string $store
-     * @return Mage_Core_Model_AppInterface
      */
     public function setCurrentStore($store)
     {
-        return $this->_getApp()->setCurrentStore($store);
+        $this->_getApp()->setCurrentStore($store);
+    }
+
+    /**
+     * Get current store code
+     *
+     * @return string
+     */
+    public function getCurrentStore()
+    {
+        return $this->_getApp()->getCurrentStore();
     }
 
     /**
@@ -538,11 +533,10 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
      * Allow or disallow single store mode
      *
      * @param bool $value
-     * @return Mage_Core_Model_AppInterface
      */
     public function setIsSingleStoreModeAllowed($value)
     {
-        return $this->_getApp()->setIsSingleStoreModeAllowed($value);
+        $this->_getApp()->setIsSingleStoreModeAllowed($value);
     }
 
     /**
@@ -557,16 +551,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     public function getGroups($withDefault = false, $codeKey = false)
     {
         return $this->_getApp()->getGroups($withDefault, $codeKey);
-    }
-
-    /**
-     * Get is cache locked
-     *
-     * @return bool
-     */
-    public function getIsCacheLocked()
-    {
-        return $this->_getApp()->getIsCacheLocked();
     }
 
     /**
