@@ -419,25 +419,27 @@ Layout handle for grouped products
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">Name</header>
+                            <header translate="true" module="Mage_Catalog">Name</header>
                             <type>text</type>
                             <index>name</index>
                             <editable>1</editable>
                             <sortable>0</sortable>
+                            <escape>1</escape>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">SKU</header>
+                            <header translate="true" module="Mage_Catalog">SKU</header>
                             <type>text</type>
                             <index>sku</index>
                             <width>80px</width>
                             <sortable>0</sortable>
+                            <escape>1</escape>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">Price</header>
+                            <header translate="true" module="Mage_Catalog">Price</header>
                             <type>currency</type>
                             <index>price</index>
                             <width>110px</width>
@@ -447,7 +449,7 @@ Layout handle for grouped products
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">Default Qty</header>
+                            <header translate="true" module="Mage_Catalog">Default Qty</header>
                             <type>number</type>
                             <index>qty</index>
                             <width>110px</width>
@@ -458,7 +460,7 @@ Layout handle for grouped products
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="delete">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">Delete</header>
+                            <header translate="true" module="Mage_Catalog">Delete</header>
                             <type>button</type>
                             <button_type>button</button_type>
                             <column_css_class>product-delete</column_css_class>
@@ -513,25 +515,27 @@ Layout handle for grouped products
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">Name</header>
+                            <header translate="true" module="Mage_Catalog">Name</header>
                             <column_css_class>associated-product-name</column_css_class>
                             <type>text</type>
                             <index>name</index>
                             <editable>1</editable>
+                            <escape>1</escape>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">SKU</header>
+                            <header translate="true" module="Mage_Catalog">SKU</header>
                             <column_css_class>associated-product-sku</column_css_class>
                             <type>text</type>
                             <index>sku</index>
                             <width>80px</width>
+                            <escape>1</escape>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">Price</header>
+                            <header translate="true" module="Mage_Catalog">Price</header>
                             <column_css_class>associated-product-price</column_css_class>
                             <type>currency</type>
                             <index>price</index>
@@ -546,12 +550,12 @@ Layout handle for grouped products
 
     <adminhtml_catalog_product_supergroup>
         <update handle="adminhtml_catalog_product_grouped"/>
-        <container output="1" name="catalog.product.edit.tab.super.grid.container" label="grid"></container>
+        <container output="1" name="catalog.product.edit.tab.super.grid.container" label="grid"/>
     </adminhtml_catalog_product_supergroup>
 
     <adminhtml_catalog_product_supergrouppopup>
         <update handle="adminhtml_catalog_product_grouped"/>
-        <container output="1" name="catalog.product.edit.tab.super.grid.popup.container" label="grid"></container>
+        <container output="1" name="catalog.product.edit.tab.super.grid.popup.container" label="grid"/>
     </adminhtml_catalog_product_supergrouppopup>
 
     <adminhtml_catalog_product_variationsmatrix>
