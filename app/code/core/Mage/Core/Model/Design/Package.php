@@ -1092,7 +1092,8 @@ class Mage_Core_Model_Design_Package
     protected function _loadPublicCache($cacheKey)
     {
         if (!isset($this->_publicCache[$cacheKey])) {
-            if ($cache = Mage::app()->loadCache($cacheKey)) {
+            $cache = Mage::app()->loadCache($cacheKey);
+            if ($cache) {
                 $this->_publicCache[$cacheKey] = unserialize($cache);
             } else {
                 $this->_publicCache[$cacheKey] = array();
