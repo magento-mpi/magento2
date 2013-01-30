@@ -29,8 +29,8 @@ class Saas_PrintedTemplate_Block_Widget_Field_Heading_Renderer
      */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-       return sprintf('<tr class="system-fieldset-sub-head" id="row_%s"><td colspan="2"><h4 id="%s">%s</h4></td></tr>',
-           $element->getHtmlId(), $element->getHtmlId(), $this->escapeHtml($element->getLabel())
-       );
+        return sprintf('<tr class="system-fieldset-sub-head" id="row_%s"><td colspan="2"><h4 id="%s">%s</h4></td></tr>',
+            $element->getHtmlId(), $element->getHtmlId(), $this->escapeHtml($element->getLabel())
+        );
     }
 }

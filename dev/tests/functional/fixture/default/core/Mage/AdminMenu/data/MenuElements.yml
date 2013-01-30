@@ -20,7 +20,7 @@ menu:
         manage_sales_recurring_profile:
         manage_sales_billing_agreements:
         manage_sales_checkout_terms_conditions:
-
+        
     catalog:
         manage_products:
         manage_categories:
@@ -110,7 +110,7 @@ menu:
         import_export:
             import:
             export:
-#            manage_import_export_tax_rates:
+            manage_import_export_tax_rates:
         manage_currency:
             system_currency:
             system_currencysymbol:

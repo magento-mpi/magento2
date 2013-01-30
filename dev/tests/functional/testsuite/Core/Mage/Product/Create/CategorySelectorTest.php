@@ -334,7 +334,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function createNewCategorySuccessfully($newCategoryName, $categories)
     {
         //Data
-        $path = array_shift(explode('/', $categories['default']));
+        $explodePath = explode('/', $categories['default']);
+        $path = array_shift($explodePath);
         $expectedNameAfterSave = $this->_getExpectedCategoryNameAfterSave($newCategoryName);
         $product = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $path . '/' . $newCategoryName)

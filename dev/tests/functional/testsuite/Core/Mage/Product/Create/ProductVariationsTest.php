@@ -219,6 +219,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $verifyVirtual = $configurable;
         unset($verifyVirtual['general_configurable_attributes']);
         unset($verifyVirtual['general_configurable_variations']);
+        unset($verifyVirtual['general_weight']);
         $verifyVirtual = array_replace($verifyVirtual,
             array(
                 'general_name' => $associated['associated_product_name'],
@@ -358,7 +359,6 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             )
         );
         unset($productData['general_configurable_variations']);
-        $productData['general_weight_and_type_switcher'] = 'No';
         $productData['general_weight'] = '12';
         $option = $attributeData['attribute1']['option_1']['admin_option_name'];
         $verifyData = array(
@@ -549,7 +549,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->editAttribute($attributeData['attribute1']['attribute_code'], $newOption);
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        //Steps.
+        //Steps
         $this->navigate('manage_products');
         $this->productHelper()->openProduct(array('product_sku' => $configurable['general_sku']));
         $this->productHelper()->changeAttributeValueSelection($attributeData['attribute1']['admin_title'],
@@ -710,11 +710,11 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $attributeBlock1 = $this->getControlElement('link', 'move_product_variation_attribute');
         $this->addParameter('attributeTitle', $attributeData['attribute2']['admin_title']);
         $attributeBlock2 = $this->getControlElement('link', 'move_product_variation_attribute');
-        $this->moveto($attributeBlock2);
-        $this->buttondown();
-        $this->moveto($attributeBlock1);
-        $this->buttonup();
-        $this->productHelper()->saveProduct();
+        $this->productHelper()->moveto($attributeBlock2);
+        $this->productHelper()->buttondown();
+        $this->productHelper()->moveto($attributeBlock1);
+        $this->productHelper()->buttonup();
+        $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->frontend();
@@ -789,7 +789,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->frontOpenProduct($productData['general_name']);
         $this->addParameter('title', $value);
-        $this->assertTrue($this->controlIsVisible('fieldset', 'product_custom_option_head'));
+        $this->assertTrue($this->controlIsVisible('fieldset', 'product_custom_option_head'),
+            "Attribute with $value is not displayed on this page");
     }
 
     public function withFilledAttributeLabelDataProvider()

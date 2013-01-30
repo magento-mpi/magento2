@@ -130,7 +130,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
             array('user_name', 'user_username'),
             array('first_name', 'user_firstname'),
             array('last_name', 'user_lastname'),
-            array('email','user_email'),
+            array('email', 'user_email'),
             array('password', 'user_password'),
             array('password_confirmation', 'user_confirmation')
         );

@@ -56,7 +56,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
     /**
      *  Print Logo URL (Conf -> Sales -> Invoice and Packing Slip Design)
      *
-     *  @return	  string
+     *  @return string
      */
     public function getPrintLogoUrl ()
     {
@@ -82,7 +82,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
 
         // buld url
         if (!empty($logo)) {
-            $logo = $this->_storeConfig->getConfig('web/unsecure/base_media_url') . $logo;
+            $logo = $this->_urlBuilder->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_MEDIA)) . $logo;
         }
         else {
             $logo = '';

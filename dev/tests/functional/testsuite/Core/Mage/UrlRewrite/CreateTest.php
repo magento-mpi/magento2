@@ -528,13 +528,13 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $uri = $urlKeyReplace . '.html';
         $this->addParameter('url_key', $uri);
         $this->addParameter('page_title', $productData['general_name']);
-        $this->frontend('test_page',false);
+        $this->frontend('test_page', false);
         $this->assertSame($this->title(), $productData['general_name'], 'Wrong page is opened');
         //Select other store
         $this->frontend();
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->clickControl('link','select_store',false);
+        $this->clickControl('link', 'select_store', false);
         $this->waitForPageToLoad();
         $this->frontend('test_page', false);
 
@@ -626,7 +626,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->clickControl('link','select_store',false);
+        $this->clickControl('link', 'select_store', false);
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
         //Opening URL rewrite on selected store
         $this->url($rewriteUrl);
@@ -817,7 +817,7 @@ class Core_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->clickControl('link','select_store',false);
+        $this->clickControl('link', 'select_store', false);
         $this->waitForPageToLoad();
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($uri);

@@ -82,7 +82,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->addParameter('field_id',$fieldId);
+        $this->addParameter('field_id', $fieldId);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -129,7 +129,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $this->addParameter('field_id',$fieldId);
+        $this->addParameter('field_id', $fieldId);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -167,7 +167,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $this->addParameter('field_id','order[has_shipping]');
+        $this->addParameter('field_id', 'order[has_shipping]');
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -314,7 +314,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $this->addParameter('field_id', 'ccsave_cc_type');
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->getParsedMessages('required');
     }
 
     /**

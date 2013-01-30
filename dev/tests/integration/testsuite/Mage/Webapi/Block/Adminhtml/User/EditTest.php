@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Mage_Webapi_Block_Adminhtml_User_Edit block
+ * Test for Mage_Webapi_Block_Adminhtml_User_Edit block.
  *
  * {license_notice}
  *
@@ -25,7 +25,7 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
     protected $_block;
 
     /**
-     * Initialize block
+     * Initialize block.
      */
     protected function setUp()
     {
@@ -35,7 +35,7 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * Clear clock
+     * Clear block.
      */
     protected function tearDown()
     {
@@ -43,11 +43,11 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * Test _beforeToHtml method
+     * Test _beforeToHtml method.
      */
     public function testBeforeToHtml()
     {
-        // TODO Move to unit tests after MAGETWO-4015 complete
+        // TODO: Move to unit tests after MAGETWO-4015 complete.
         $apiUser = new Varien_Object();
         $this->_block->setApiUser($apiUser);
         $this->_block->toHtml();

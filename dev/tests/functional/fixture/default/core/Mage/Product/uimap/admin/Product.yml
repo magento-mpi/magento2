@@ -193,13 +193,15 @@ new_product:
                                     fields:
                                         general_configurable_attribute_title: //input[@id='attribute-selector']
                                     links:
-                                        configurable_attribute_select: //ul[contains(@class, 'ui-autocomplete')]//a[text()='%attributeTitle%']
+                                        configurable_attribute_select: //li[@class='ui-menu-item']//a[text()='%attributeTitle%']
                                     buttons:
                                         generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and not(@disabled)]
                                         generate_product_variations_disabled: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and @disabled]
                                     pageelements:
                                         product_variations_fieldset: /fieldset
-                                        configurable_attributes_list: //ul[contains(@class, 'ui-autocomplete')]
+                                        configurable_attributes_list: "//ul[contains(@class,'ui-autocomplete')][not(contains(@style,'display: none;'))]"
+                                        attribute_search_result: //span[@role='status'][string-length(text())>1]
+                                        attribute_search_specific_result: //span[@role='status'][not(text()='%searchResult%')]
                             -
                                 product_variation_attribute:
                                     xpath: //div[div/h4//@data-store-label='%attributeTitle%']
@@ -214,13 +216,13 @@ new_product:
                                         variation_attribute_price_type: //tr[td='%attributeOption%']//select[contains(@name,'[is_percent]')]
                                     links:
                                         delete_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_variation_attribute: //span[@class='ui-icon ui-icon-arrowthick-2-n-s']
+                                        move_product_variation_attribute: //span[@class='ui-icon ui-icon-grip-dotted-vertical']
                                         expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
                                     pageelements:
                                         option_line: //tbody/tr
                                         delete_block: //*[@class='ui-icon ui-icon-circle-close remove']
                                         expand_block: //*[@class='ui-icon ui-icon-circle-triangle-s toggle']
-                                        drag: //*[@class='ui-icon ui-icon-arrowthick-2-n-s']
+                                        drag: //*[@class='ui-icon ui-icon-grip-dotted-vertical']
                                     messages:
                                         required_attribute_label: //*[@class='mage-error' and contains(.,'This field is required.')]
                             -
@@ -232,7 +234,7 @@ new_product:
                                     pageelements:
                                         variations_matrix_header: //tr[normalize-space(@class)='headings']
                                         variation_line: //tbody/tr
-                                        attribute_header: //thead//th[text()='%attributeTitle%')]
+                                        attribute_header: //thead//th[text()='%attributeTitle%']
                                         variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']
                                     buttons:
                                         choose: //tbody/tr[%attributeSearch%]//button[@class='choose-product']
@@ -249,6 +251,8 @@ new_product:
                                     xpath: //div[div/span='Select Associated Product']
                                     links:
                                         close_select_associated_product: //a[span='close']
+                                        next_page: //a[@data-ui-id='admin-product-edit-tab-super-config-grid-next']
+                                        product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page']
                                     pageelements:
                                         associated_product_id: //td[normalize-space(@class)='associated-product-id']
                                         associated_product_name: //td[normalize-space(@class)='associated-product-name']
@@ -257,6 +261,42 @@ new_product:
                                         associated_quantity: //td[normalize-space(@class)='associated-product-qty']
                                         associated_inventory: //td[6]
                                         associated_weight: //td[normalize-space(@class)='associated-product-weight']
+                                        opened_product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page'][@value='%pageIndex%']
+                            -
+                                select_grouped_associated_product:
+                                    xpath: //div[div/span='Select Associated Products']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        select_products: //button[@id='grouped-products-select']
+                                    links:
+                                        close_associated_product: //a[span='close']
+                                    pageelements:
+                                        associated_grouped_product_id: //td[normalize-space(@class)='associated-product-id']
+                                        associated_grouped_product_name: //td[normalize-space(@class)='associated-product-name']
+                                        associated_grouped_price: //td[contains(@class,'associated-product-price')]
+                                        associated_grouped_sku: //td[normalize-space(@class)='associated-product-sku' and contains(text(), '%productSku%')]
+                                    fields:
+                                        associated_grouped_search_id: //input[@id='grouped_grid_popup_filter_id']
+                                        associated_grouped_search_name: //input[@id='grouped_grid_popup_filter_name']
+                                        associated_grouped_search_sku: //input[@id='grouped_grid_popup_filter_sku']
+                                        associated_grouped_search_price_from: //input[@id='grouped_grid_popup_filter_price_from']
+                                        associated_grouped_search_price_to: //input[@id='grouped_grid_popup_filter_price_to']
+                            -
+                                general_grouped_associated:
+                                    xpath: //*[@id='grouped_product_container']
+                                    buttons:
+                                        add_products_to_group: //button[@id='grouped-add-products']
+                                        remove_product_from_group: //button[contains(.,'Delete')]
+                                    fields:
+                                        associated_search_id: //input[@id='grouped_grid_filter_id']
+                                        associated_search_name: //input[@id='grouped_grid_filter_name']
+                                        associated_search_sku: //input[@id='grouped_grid_filter_sku']
+                                        associated_search_price_from: //input[@id='grouped_grid_filter_price_from']
+                                        associated_search_price_to: //input[@id='grouped_grid_filter_price_to']
+                                        associated_search_default_qty_from: //input[@id='grouped_grid_filter_qty_from']
+                                        associated_search_default_qty_to: //input[@id='grouped_grid_filter_qty_to']
+                                        associated_product_default_qty: //tr[contains(.,'%productSku%')]//input[@name='qty']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']
@@ -584,7 +624,7 @@ new_product:
                                     xpath: //div[@id='bundle_option_%optionId%']
                                     buttons:
                                         delete_option: //button[span='Delete Option']
-                                        add_selection: //button[span='Add Selection']
+                                        add_selection: //button[span='Add Products to Option']
                                         selection_item_delete: //tr[contains(td,'%productSku%')]//button[span='Delete']
                                     dropdowns:
                                         bundle_items_input_type: //select[contains(@name,'[type]')]
@@ -618,35 +658,6 @@ new_product:
                                         bundle_items_search_price_from: //input[@name='price[from]']
                                         bundle_items_search_price_to: //input[@name='price[to]']
                                         bundle_items_qty_to_add: //input[@name='qty']
-                -
-                    associated: &associatedProductsTab
-                        xpath: //a[@title='Associated Products']
-                        fieldsets:
-                            -
-                                associated:
-                                    xpath: //div[@id='super_product_grid']
-                                    buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
-                                    dropdowns:
-                                        associated_search_massaction: //select[@name='in_products']
-                                        associated_search_attribute_set: //select[@name='set_name']
-                                        associated_search_inventory: //select[@name='is_saleable']
-                                        associated_search_by_attribute_value: //select[@name='%attributeCode%']
-                                    fields:
-                                        associated_search_id: //input[@name='entity_id']
-                                        associated_search_name: //input[@name='name']
-                                        associated_search_sku: //input[@name='sku']
-                                        associated_search_price_from: //input[@name='price[from]']
-                                        associated_search_price_to: //input[@name='price[to]']
-                                        associated_search_default_qty_from: //input[@name='qty[from]']
-                                        associated_search_default_qty_to: //input[@name='qty[to]']
-                                        associated_search_position_from: //input[@name='position[from]']
-                                        associated_search_position_to: //input[@name='position[to]']
-                                        associated_product_position: %productXpath%//input[@name='position']
-                                        associated_product_default_qty: %productXpath%//input[@name='qty']
-                                    pageelements:
-                                        associated_table: //table[@id]
                 -
                     downloadable_information: &downloadableInformationTab
                         xpath: //a[@title='Downloadable Information']
@@ -753,8 +764,6 @@ edit_product:
                     bundle_items: *bundleItemsTab
                 -
                     downloadable_information: *downloadableInformationTab
-                -
-                    associated: *associatedProductsTab
                 -
                     product_tags:
                         xpath: //a[@title='Product Tags']

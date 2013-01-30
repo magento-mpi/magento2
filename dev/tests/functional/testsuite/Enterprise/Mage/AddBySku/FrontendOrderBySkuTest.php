@@ -56,7 +56,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
     {
         $this->loginAdminUser();
         //Create simple products
-        $simpleProduct = $this->loadDataSet('SkuProducts', 'simple_sku');
+        $simpleProduct = $this->loadDataSet('Product', 'simple_sku');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simpleProduct);
         $this->assertMessagePresent('success', 'success_saved_product');

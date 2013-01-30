@@ -9,7 +9,6 @@
 # @license     {license_link}
 #
 ---
-#Test data for Admin User and Admin Role
 url_cms_page_req:
     page_information:
         page_title: new cms page(%randomize%)
