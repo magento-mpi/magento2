@@ -18,7 +18,14 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      *
      * @var Magento_ObjectManager
      */
-    private $_objectManager;
+    protected $_objectManager;
+
+    /**
+     * Directories
+     *
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirs;
 
     /**
      * Constructor
@@ -28,6 +35,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     public function __construct(Magento_ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
+        $this->_dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
     }
 
     /**
@@ -65,10 +73,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
             'skipProxy'  => true
         );
 
-        /** @var $options Mage_Core_Model_Config_Options */
-        $options = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions();
-        $basePath = $options->getBaseDir();
-
+        $basePath = $this->_dirs->getDir(Mage_Core_Model_Dir::APP);
         $files = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
@@ -94,19 +99,16 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      */
     public function getGroupedCssFiles($theme)
     {
-        /** @var $options Mage_Core_Model_Config_Options */
-        $options = $this->_objectManager->get('Mage_Core_Model_Config')->getOptions();
-
-        $jsDir = $options->getJsDir();
-        $codeDir = $options->getCodeDir();
-        $designDir = $options->getDesignDir();
-        $basePath = $options->getBaseDir();
+        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
+        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+        $basePath = $this->_dirs->getDir(Mage_Core_Model_Dir::APP);
 
         $groups = array();
         $themes = array();
         foreach ($this->getCssFiles($theme) as $file) {
             $this->_detectTheme($file, $designDir);
-            $this->_detectGroup($file, $options);
+            $this->_detectGroup($file);
 
             if (isset($file['theme']) && $file['theme']->getId()) {
                 $themes[$file['theme']->getId()] = $file['theme'];
@@ -189,16 +191,15 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      * Detect group where file should be placed and set it to file data under "group" key
      *
      * @param array $file
-     * @param Mage_Core_Model_Config_Options $options
      * @return Mage_Theme_Helper_Data
      * @throws Mage_Core_Exception
      */
-    protected function _detectGroup(&$file, $options)
+    protected function _detectGroup(&$file)
     {
-        $jsDir = $options->getJsDir();
-        $codeDir = $options->getCodeDir();
-        $designDir = $options->getDesignDir();
-        $basePath = $options->getBaseDir();
+        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
+        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+        $basePath = $this->_dirs->getDir(Mage_Core_Model_Dir::APP);
 
         $group = null;
         if (substr($file['path'], 0, strlen($designDir)) == $designDir) {
