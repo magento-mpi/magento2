@@ -80,6 +80,7 @@
     });
 
     $.widget('mage.treeSuggest', $.mage.multisuggest, {
+        widgetEventPrefix: "suggest",
         /**
          * @override
          */

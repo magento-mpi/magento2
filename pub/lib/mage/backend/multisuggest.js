@@ -10,6 +10,7 @@
 (function($) {
     'use strict';
     $.widget('mage.multisuggest', $.mage.suggest, {
+        widgetEventPrefix: "suggest",
         /**
          * @override
          */
