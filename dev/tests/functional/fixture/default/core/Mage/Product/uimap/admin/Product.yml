@@ -217,7 +217,7 @@ new_product:
                                         variation_attribute_price_type: //tr[td='%attributeOption%']//select[contains(@name,'[is_percent]')]
                                     links:
                                         delete_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_variation_attribute: //span[@class='ui-icon ui-icon-arrowthick-2-n-s']
+                                        move_product_variation_attribute: //span[@class='ui-icon ui-icon-grip-dotted-vertical']
                                         expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
                                     pageelements:
                                         option_line: //tbody/tr
@@ -290,7 +290,7 @@ new_product:
                                     xpath: //div[@id='bundle_option_%optionId%']
                                     buttons:
                                         delete_option: //*[@class='ui-icon ui-icon-circle-close remove']
-                                        add_selection: //button[@title='Add Selection']
+                                        add_selection: //button[@id='bundle_option_%optionId%_add_button']
                                         selection_item_delete: //tr[contains(.,'%productSku%')]//button[span='Delete']
                                     checkboxes:
                                         bundle_items_is_required: //*[@class='is-required' and @type='checkbox']
@@ -312,11 +312,11 @@ new_product:
                             #Select product grid for bundle and grouped
                             -
                                 select_associated_product_option:
-                                    xpath: //div[div/span='Select Products to Add' or div/span='Select Associated Products']
+                                    xpath: //div[div/span='Add Products to Group' or div/span='Add Products to %optionName%']
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        add_selected_products: //button[span='Add Selected Product(s) to Option' or @id='grouped-products-select']
+                                        add_selected_products: //button[span='Apply Changes']
                                         cancel_select_products: //button[span='Cancel']
                                     links:
                                         close_select_product_grid: //a[span='close']
