@@ -517,7 +517,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         if ($cssTabBlock) {
             /** @var $helper Mage_Core_Helper_Theme */
             $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
-            $cssFiles = $helper->getGroupedCssFiles($theme, $options);
+            $cssFiles = $helper->getGroupedCssFiles($theme);
             $cssTabBlock->setCssFiles($cssFiles)
                 ->setThemeId($theme->getId());
         }
