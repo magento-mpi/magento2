@@ -58,21 +58,6 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
     protected $_helperFactory;
 
     /**
-     * @var Mage_Core_Model_Logger
-     */
-    protected $_log;
-
-    /**
-     * @var Mage_Core_Model_ConfigInterface
-     */
-    protected $_config;
-
-    /**
-     * @var Mage_Core_Model_App_Proxy
-     */
-    protected $_app;
-
-    /**
      * @param Mage_Core_Model_Store_StorageFactory $factory
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Factory_Helper $helperFactory

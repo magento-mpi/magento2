@@ -22,11 +22,17 @@ class Mage_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
      */
     protected $_dirMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_filesystemMock;
+
     protected function setUp()
     {
         $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
-        $filesystemMock = $this->getMock('Varien_Io_File', array(), array(), '', false, false);
-        $this->_model = new Mage_Core_Model_Logger($this->_dirMock, $filesystemMock);
+        $this->_filesystemMock = $this->getMock('Varien_Io_File', array(), array(), '', false, false);
+
+        $this->_model = new Mage_Core_Model_Logger($this->_dirMock, $this->_filesystemMock);
         $this->_loggersProperty = new ReflectionProperty($this->_model, '_loggers');
         $this->_loggersProperty->setAccessible(true);
     }
@@ -100,6 +106,7 @@ class Mage_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
      */
     public function testAddStoreLog()
     {
+        $this->_filesystemMock->expects($this->once())->method('checkAndCreateFolder');
         $store = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
         $store->expects($this->at(0))->method('getConfig')->with('dev/log/active')->will($this->returnValue(false));
         $store->expects($this->at(1))->method('getConfig')->with('dev/log/active')->will($this->returnValue(true));
