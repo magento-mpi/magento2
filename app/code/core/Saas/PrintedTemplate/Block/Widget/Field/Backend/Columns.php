@@ -27,7 +27,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     private $_arrayRowsCache;
 
     /**
-     * Constructor - initialize colums.
+     * Constructor - initialize columns
      */
     public function _construct()
     {
@@ -65,8 +65,8 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-       $element->setRenderer($this);
-       return $element;
+        $element->setRenderer($this);
+        return $element;
     }
 
     /**
@@ -74,6 +74,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
      *
      * @param string $columnName
      * @return string
+     * @throws Exception
      */
     public function renderCellTemplate($columnName)
     {
@@ -102,15 +103,18 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
      *
      * @param string $type
      * @return string
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function renderOptionSelect($type)
     {
         $column = $this->_columns['option'];
         $inputName = $this->getElement()->getName() . '[#{_id}][property]';
+        $columnSize = $column['size'] ? 'size="' . $column['size'] . '"' : '';
+        $columnClass = isset($column['class']) ? $column['class'] : 'select';
+        $columnStyle = isset($column['style']) ? ' style="'.$column['style'] . '"' : '';
+
         $html = '<select name="'. $inputName .'" id="printedtemplate_property_#{_id}"' .
-        ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' .
-            (isset($column['class']) ? $column['class'] : 'select') . ' skip-submit items-grid-field"'.
-            (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '>';
+            $columnSize . ' class="' . $columnClass . ' skip-submit items-grid-field"'. $columnStyle . '>';
 
         $options = Mage::getSingleton('Saas_PrintedTemplate_Model_Config')->getItemPropertiesArray($type);
         foreach ($options as $name => $params) {
@@ -169,13 +173,13 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
      */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $id = $element->getHtmlId();
-        $html = '<tr id="row_' . $id . '">';
-        $html.= '<td colspan="2">';
+        $elementId = $element->getHtmlId();
+        $html = '<tr id="row_' . $elementId . '">';
+        $html .= '<td colspan="2">';
 
-        $html.= $this->_getElementHtml($element);
+        $html .= $this->_getElementHtml($element);
 
-        $html.= '</td></tr>';
+        $html .= '</td></tr>';
 
         return $html;
     }

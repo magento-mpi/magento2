@@ -41,14 +41,14 @@ class Saas_PrintedTemplate_Model_Tax_CompoundId
     protected $_value = array();
 
     /**
-     * Add tax applied after previosnus tax
+     * Add tax applied after previous tax
      *
-     * @param mixed $id
+     * @param mixed $taxId
      * @return Saas_PrintedTemplate_Model_Tax_CompoundId Self
      */
-    public function addAfter($id)
+    public function addAfter($taxId)
     {
-        $this->_value[] = $id;
+        $this->_value[] = $taxId;
 
         return $this;
     }
@@ -56,17 +56,17 @@ class Saas_PrintedTemplate_Model_Tax_CompoundId
     /**
      * Add tax applied with previous tax
      *
-     * @param mixed $id
+     * @param mixed $taxId
      * @return Saas_PrintedTemplate_Model_Tax_CompoundId Self
      */
-    public function addAnd($id)
+    public function addAnd($taxId)
     {
         if (empty($this->_value)) {
-            $this->_value[] = $id;
+            $this->_value[] = $taxId;
         } else if (is_array(end($this->_value))) {
-            $this->_value[count($this->_value) - 1][] = $id;
+            $this->_value[count($this->_value) - 1][] = $taxId;
         } else {
-            $this->_value[count($this->_value) - 1] = array(end($this->_value), $id);
+            $this->_value[count($this->_value) - 1] = array(end($this->_value), $taxId);
         }
 
         return $this;
@@ -95,18 +95,18 @@ class Saas_PrintedTemplate_Model_Tax_CompoundId
     }
 
     /**
-     * Convers ID to string
+     * Converts ID to string
      * 5 and 3 after 10 => 5+3,10
      *
      * @return string
      */
     public function toString()
     {
-        $s = '';
-        foreach ($this->_value as $id) {
-            $s .= (is_array($id) ? join(self::AND_SEPARATOR, $id) : $id) . self::AFTER_SEPARATOR;
+        $string = '';
+        foreach ($this->_value as $taxId) {
+            $string .= (is_array($taxId) ? join(self::AND_SEPARATOR, $taxId) : $taxId) . self::AFTER_SEPARATOR;
         }
 
-        return trim($s, self::AFTER_SEPARATOR);
+        return trim($string, self::AFTER_SEPARATOR);
     }
 }

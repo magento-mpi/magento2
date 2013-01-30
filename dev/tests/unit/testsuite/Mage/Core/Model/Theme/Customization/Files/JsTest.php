@@ -162,7 +162,7 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
 
         // 7. Check results
         $result = $collection->toArray();
-        $this->assertEquals(count($result['items']), count($expectedResult['items']));
+        $this->assertCount(count($result['items']), $expectedResult['items']);
         foreach ($result['items'] as $item) {
             $this->assertContains($item, $expectedResult['items']);
         }
@@ -179,9 +179,9 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
             // case 1
             array(
                 array(
-                    array('file_name' => '1.js', 'order' => '123'),
-                    array('file_name' => '2.js', 'order' => '0'),
-                    array('file_name' => '3.js', 'order' => '456')
+                    array('file_name' => '1.js', 'sort_order' => '123'),
+                    array('file_name' => '2.js', 'sort_order' => '0'),
+                    array('file_name' => '3.js', 'sort_order' => '456')
                 ),
                 array('1.js', '2.js', '3.js'),
                 array(
@@ -189,15 +189,15 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
                     'items'        => array(
                         array(
                          'file_name' => '1.js',
-                         'order'     => 1
+                         'sort_order'     => 1
                         ),
                         array(
                          'file_name' => '2.js',
-                         'order'     => 2
+                         'sort_order'     => 2
                         ),
                         array(
                          'file_name' => '3.js',
-                         'order'     => 3
+                         'sort_order'     => 3
                         ),
                     )
                 )
@@ -205,9 +205,9 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
             // case 2
             array(
                 array(
-                    array('file_name' => '3.js', 'order' => '0'),
-                    array('file_name' => '2.js', 'order' => '0'),
-                    array('file_name' => '1.js', 'order' => '0')
+                    array('file_name' => '3.js', 'sort_order' => '0'),
+                    array('file_name' => '2.js', 'sort_order' => '0'),
+                    array('file_name' => '1.js', 'sort_order' => '0')
                 ),
                 array('1.js', '2.js', '3.js'),
                 array(
@@ -215,15 +215,15 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
                     'items'        => array(
                         array(
                          'file_name' => '1.js',
-                         'order'     => 1
+                         'sort_order'     => 1
                         ),
                         array(
                          'file_name' => '2.js',
-                         'order'     => 2
+                         'sort_order'     => 2
                         ),
                         array(
                          'file_name' => '3.js',
-                         'order'     => 3
+                         'sort_order'     => 3
                         ),
                     )
                 )

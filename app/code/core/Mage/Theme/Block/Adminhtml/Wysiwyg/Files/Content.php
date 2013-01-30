@@ -34,6 +34,8 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Mage_Theme_Helper_Storage $helperStorage
      * @param array $data
@@ -52,13 +54,15 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Mage_Theme_Helper_Storage $helperStorage,
         array $data = array()
     ) {
         $this->_helperStorage = $helperStorage;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $filesystem, $data);
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
     }
 
     /**

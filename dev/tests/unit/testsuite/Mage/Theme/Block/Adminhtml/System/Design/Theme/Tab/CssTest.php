@@ -16,6 +16,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
      */
     protected $_model;
 
+    /**
+     * @var Magento_ObjectManager_Zend
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
         $this->_model = $this->getMock(
@@ -33,11 +38,17 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
     protected function _prepareModelArguments()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
+        $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = new Mage_Core_Model_Dir(__DIR__);
+
         $constructArguments = $objectManagerHelper->getConstructArguments(
             Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
             'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
             array(
-                 'objectManager'   => Mage::getObjectManager(),
+                 'objectManager'   => $this->_objectManager,
+                 'dirs'            => $dirs,
                  'uploaderService' => $this->getMock('Mage_Theme_Model_Uploader_Service', array(), array(), '', false),
                  'urlBuilder'      => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
             )
@@ -53,12 +64,20 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
     public function testGetUploadCssFileNote()
     {
         $method = self::getMethod('_getUploadCssFileNote');
+        /** @var $sizeModel Magento_File_Size */
+        $sizeModel = $this->getMock('Magento_File_Size', null, array(), '', false);
+
+        $this->_objectManager->expects($this->any())
+            ->method('get')
+            ->with('Magento_File_Size')
+            ->will($this->returnValue($sizeModel));
+
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = 'Allowed file types *.css.<br />';
         $expectedResult .= 'The file you upload will replace the existing custom.css file (shown below).<br />';
         $expectedResult .= sprintf(
             'Max file size to upload %sM',
-            Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSizeInMb()
+            $sizeModel->getMaxFileSizeInMb()
         );
         $this->assertEquals($expectedResult, $result);
     }
@@ -66,6 +85,15 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
     public function testGetAdditionalElementTypes()
     {
         $method = self::getMethod('_getAdditionalElementTypes');
+
+        /** @var $configModel Mage_Core_Model_Config */
+        $configModel = $this->getMock('Mage_Core_Model_Config', null, array(), '', false);
+
+        $this->_objectManager->expects($this->any())
+            ->method('get')
+            ->with('Mage_Core_Model_Config')
+            ->will($this->returnValue($configModel));
+
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = array(
             'links' => 'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links',
@@ -113,9 +141,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
         $configMock = $this->getMock('Mage_Core_Model_Config', get_class_methods('Mage_Core_Model_Config'),
             array(), '', false);
 
-        $configMock->expects($this->any())->method('getOptions')
-            ->will($this->returnValue(Mage::getObjectManager()->create('Mage_Core_Model_Config_Options')));
-
         $objectManagerMock->expects($this->any())->method('create')
             ->with($this->equalTo('Mage_Core_Model_Resource_Theme_Collection'))
             ->will($this->returnValue($collectionMock));
@@ -140,15 +165,21 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
      */
     public function getGroupedFilesProvider()
     {
-        $options = Mage::getObjectManager()->create('Mage_Core_Model_Config_Options');
-        $designDir = str_replace($options->getBaseDir(), '', $options->getDesignDir());
-        $jsDir = str_replace($options->getBaseDir(), '', $options->getJsDir());
-        $codeDir = str_replace($options->getBaseDir(), '', $options->getCodeDir());
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = new Mage_Core_Model_Dir(__DIR__);
+
+        $designDir = str_replace(
+            $dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $dirs->getDir(Mage_Core_Model_Dir::THEMES)
+        );
+        $jsDir = str_replace($dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB));
+        $codeDir = str_replace(
+            $dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $dirs->getDir(Mage_Core_Model_Dir::MODULES)
+        );
         return array(
             array(array(), array()),
             array(
                 array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $options->getCodeDir() . '/pub/lib/mage/calendar.css')),
+                    $dirs->getDir(Mage_Core_Model_Dir::MODULES) . '/pub/lib/mage/calendar.css')),
                 array('Framework files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'mage/calendar.css'),
@@ -158,7 +189,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
             )))),
             array(
                 array('Mage_Page::css/tabs.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $options->getCodeDir() . '/core/Mage/Page/view/frontend/css/tabs.css')),
+                    $dirs->getDir(Mage_Core_Model_Dir::MODULES) . '/core/Mage/Page/view/frontend/css/tabs.css')),
                 array('Framework files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'Mage_Page::css/tabs.css'),
@@ -169,7 +200,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
             )))),
             array(
                 array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $options->getJsDir() . '/mage/calendar.css')),
+                    $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB) . '/mage/calendar.css')),
                 array('Library files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'mage/calendar.css'),
@@ -179,7 +210,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
             )))),
             array(
                 array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $options->getDesignDir() . '/frontend/default/demo/css/styles.css'),
+                    $dirs->getDir(Mage_Core_Model_Dir::THEMES) . '/frontend/default/demo/css/styles.css'),
                 ),
                 array('"test title" Theme files' => array(
                     array(
@@ -278,9 +309,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
         $configMock = $this->getMock('Mage_Core_Model_Config', get_class_methods('Mage_Core_Model_Config'),
             array(), '', false);
 
-        $configMock->expects($this->any())->method('getOptions')
-            ->will($this->returnValue(Mage::getObjectManager()->create('Mage_Core_Model_Config_Options')));
-
         $objectManagerMock->expects($this->any())->method('get')->with($this->equalTo('Mage_Core_Model_Config'))
             ->will($this->returnValue($configMock));
 
@@ -320,10 +348,12 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
      */
     public function getGroupProvider()
     {
-        $options = Mage::getObjectManager()->create('Mage_Core_Model_Config_Options');
-        $designDir = $options->getDesignDir();
-        $jsDir = $options->getJsDir();
-        $codeDir = $options->getCodeDir();
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = new Mage_Core_Model_Dir(__DIR__);
+
+        $designDir = $dirs->getDir(Mage_Core_Model_Dir::THEMES);
+        $jsDir = $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+        $codeDir = $dirs->getDir(Mage_Core_Model_Dir::MODULES);
 
         return array(
             array(

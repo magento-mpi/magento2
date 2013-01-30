@@ -10,7 +10,7 @@
 class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource_Acl_TestAbstract
 {
     /**
-     * Create resource model
+     * Create resource model.
      *
      * @param Varien_Db_Select $selectMock
      * @return Mage_Webapi_Model_Resource_Acl_Rule
@@ -70,7 +70,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
     }
 
     /**
-     * Test constructor
+     * Test constructor.
      */
     public function testConstructor()
     {
@@ -81,7 +81,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
     }
 
     /**
-     * Test getRuleList()
+     * Test getRuleList().
      */
     public function testGetRuleList()
     {
@@ -101,7 +101,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
     }
 
     /**
-     * Test getResourceIdsByRole()
+     * Test getResourceIdsByRole().
      */
     public function testGetResourceIdsByRole()
     {
@@ -126,11 +126,11 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
     }
 
     /**
-     * Test saveResources()
+     * Test saveResources().
      */
     public function testSaveResources()
     {
-        // init rule resource
+        // Init rule resource.
         $ruleResource = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_Rule')
             ->disableOriginalConstructor()
             ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection', 'getResources'))
@@ -146,7 +146,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
             ->withAnyParameters()
             ->will($this->returnValue($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)));
 
-        // init rule
+        // Init rule.
         $rule = $this->getMockBuilder('Mage_Webapi_Model_Acl_Rule')
             ->setConstructorArgs(array(
                 'eventDispatcher' => $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
@@ -163,7 +163,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
 
         $model = $this->_createModel();
 
-        // init adapter
+        // Init adapter.
         $this->_adapter->expects($this->any())
             ->method('delete')
             ->withAnyParameters()
@@ -178,7 +178,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
         $rule->setRoleId(1);
         $model->saveResources($rule);
 
-        // init adapter
+        // Init adapter.
         $this->_adapter->expects($this->any())
             ->method('delete')
             ->withAnyParameters()

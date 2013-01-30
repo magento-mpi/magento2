@@ -15,7 +15,7 @@
 class Mage_Webapi_Model_Source_Acl_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Check output format
+     * Check output format.
      *
      * @dataProvider toOptionsHashDataProvider
      *
@@ -42,7 +42,7 @@ class Mage_Webapi_Model_Source_Acl_RoleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for testing toOptionHash
+     * Data provider for testing toOptionHash.
      *
      * @return array
      */

@@ -210,7 +210,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function getCustomizationPath()
     {
         if ($this->getId() && !$this->hasData('customization_path')) {
-            $customPath = Mage::getConfig()->getOptions()->getThemeDir() . DIRECTORY_SEPARATOR . $this->getId();
+            /** @var $modelDir Mage_Core_Model_Dir */
+            $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
+            $customPath = $modelDir->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
         return $this->getData('customization_path');

@@ -50,6 +50,7 @@ class Saas_PrintedTemplate_Model_Tax_Details
      *
      * @param Mage_Sales_Model_Quote $quote
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function calculateItemsTaxInfo(Mage_Sales_Model_Quote $quote)
     {
@@ -69,7 +70,7 @@ class Saas_PrintedTemplate_Model_Tax_Details
                             $taxRateRequest->setProductClassId($child->getProduct()->getTaxClassId());
                             foreach ($this->_getRatesInfo($taxRateRequest) as $rate) {
                                 $rateInfo[$child->getId()][] = $rate;
-                           }
+                            }
                         }
                     }
                 } else if ($item->getProduct()->getTaxClassId()) {
@@ -130,8 +131,8 @@ class Saas_PrintedTemplate_Model_Tax_Details
      */
     protected function _getRatesInfo($taxRateRequest)
     {
-        $isTaxAppliedAfterDiscount = $this->_config->applyTaxAfterDiscount($taxRateRequest->getStore());
-        $isDiscountAppliedOnPriceIncludingTax = $this->_config->discountTax($taxRateRequest->getStore());
+        $isAfterDiscount = $this->_config->applyTaxAfterDiscount($taxRateRequest->getStore());
+        $isIncludingTax = $this->_config->discountTax($taxRateRequest->getStore());
 
         $rateInfo = array();
         foreach ($this->_calculator->getAppliedRates($taxRateRequest) as $process) {
@@ -148,15 +149,15 @@ class Saas_PrintedTemplate_Model_Tax_Details
                 $realRateRatio = $process['percent'] / $totalRealPercent;
                 foreach ($process['rates'] as $rate) {
                     $rate['real_percent'] = $rate['percent'] * $realRateRatio;
-                    $rate['is_tax_after_discount'] = $isTaxAppliedAfterDiscount;
-                    $rate['is_discount_on_incl_tax'] = $isDiscountAppliedOnPriceIncludingTax;
+                    $rate['is_tax_after_discount'] = $isAfterDiscount;
+                    $rate['is_discount_on_incl_tax'] = $isIncludingTax;
                     $rateInfo[] = $rate;
                 }
             } else {
                 $rate = $process['rates'][0];
                 $rate['real_percent'] = $process['percent'];
-                $rate['is_tax_after_discount'] = $isTaxAppliedAfterDiscount;
-                $rate['is_discount_on_incl_tax'] = $isDiscountAppliedOnPriceIncludingTax;
+                $rate['is_tax_after_discount'] = $isAfterDiscount;
+                $rate['is_discount_on_incl_tax'] = $isIncludingTax;
                 $rateInfo[] = $rate;
             }
         }

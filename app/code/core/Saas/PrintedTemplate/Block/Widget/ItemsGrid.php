@@ -117,19 +117,19 @@ class Saas_PrintedTemplate_Block_Widget_ItemsGrid extends Saas_PrintedTemplate_B
     /**
      * Callback function for sorting columns
      *
-     * @param array $a Array with sort_order key
-     * @param array $b Array with sort_order key
+     * @param array $firstColumn Array with sort_order key
+     * @param array $secondColumn Array with sort_order key
      * @return boolean Compare by sort_order and returns either 1 or 0 or -1 ($a > $b, $a = $b, $a < $b)
      */
-    protected function _compareColumns(array $a, array $b)
+    protected function _compareColumns(array $firstColumn, array $secondColumn)
     {
-        if (!isset($a['sort_order'], $b['sort_order'])) {
+        if (!isset($firstColumn['sort_order'], $secondColumn['sort_order'])) {
             return 0;
         }
-        if ($a['sort_order'] > $b['sort_order']) {
+        if ($firstColumn['sort_order'] > $secondColumn['sort_order']) {
             return 1;
         }
-        if ($a['sort_order'] < $b['sort_order']) {
+        if ($firstColumn['sort_order'] < $secondColumn['sort_order']) {
             return -1;
         } else {
             return 0;
