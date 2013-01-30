@@ -371,7 +371,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function getHelper($name)
     {
-        return $this->_objectManager->get($name);
+        return Mage::helper($name);
     }
 
     /**
