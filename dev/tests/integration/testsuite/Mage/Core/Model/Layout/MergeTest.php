@@ -61,14 +61,13 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getHandles());
     }
 
-    /**
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
-     */
     public function testAddPageHandles()
     {
         /* add a non-page handle to verify that it won't be affected during page handles manipulation */
         $nonPageHandles = array('non_page_handle');
         $this->_model->addHandle($nonPageHandles);
+
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
 
         $this->assertFalse($this->_model->addPageHandles(array('non_existing_handle')));
         $this->assertEmpty($this->_model->getPageHandles());
