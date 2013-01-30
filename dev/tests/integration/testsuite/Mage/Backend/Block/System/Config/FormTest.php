@@ -114,7 +114,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     public function initFieldsInheritCheckboxDataProvider()
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            'global_ban_use_cache' => true,
+            Mage::PARAM_BAN_CACHE => true,
         ));
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
 

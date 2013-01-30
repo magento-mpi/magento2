@@ -42,9 +42,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     protected function _setFixtureTheme()
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            'MAGE_RUN_CODE' => 'admin',
-            'MAGE_RUN_TYPE' => 'store',
-            'app_dirs' => array(
+            Mage::PARAM_RUN_CODE => 'admin',
+            Mage::PARAM_RUN_TYPE => 'store',
+            Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::THEMES => __DIR__ . '/../../_files/design'
             ),
         ));
