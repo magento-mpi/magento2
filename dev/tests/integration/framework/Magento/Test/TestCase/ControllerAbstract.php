@@ -48,8 +48,6 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
 
     /**
      * Bootstrap application before eny test
-     *
-     * @return void
      */
     protected function setUp()
     {

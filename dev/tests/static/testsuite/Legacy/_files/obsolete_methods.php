@@ -415,4 +415,8 @@ return array(
     array('isVerbose', 'Magento_Shell'),
     array('setVerbose', 'Magento_Shell'),
     array('output', 'Magento_Shell'),
+    array('getHeaderText', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
+    array('getButtonsHtml', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
+    array('getHeaderCssClass', 'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
+    array('superGroupGridOnlyAction', 'Mage_Adminhtml_Catalog_ProductController'),
 );

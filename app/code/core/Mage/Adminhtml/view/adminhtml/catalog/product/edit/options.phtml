@@ -12,7 +12,7 @@
     <div class="fieldset">
         <legend class="legend"><span><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Custom Options') ?></span></legend>
         <br>
-        <div class="message message-error" id="dynamic-price-warrning" style="display:none">
+        <div class="message message-error" id="dynamic-price-warning" style="display:none">
             <div class="message-inner">
                 <div class="message-content"><?php echo $this->__('Bundle with dynamic pricing cannot include custom defined options. Options will not be saved.') ?></div>
             </div>
@@ -34,8 +34,8 @@
 varienWindowOnload(true);
 //show error message
 if ($('price_type')) {
-    if ($('price_type').value == '0' && $('dynamic-price-warrning')) {
-        $('dynamic-price-warrning').show();
+    if ($('price_type').value == '0' && $('dynamic-price-warning')) {
+        $('dynamic-price-warning').show();
     }
 }
 </script>

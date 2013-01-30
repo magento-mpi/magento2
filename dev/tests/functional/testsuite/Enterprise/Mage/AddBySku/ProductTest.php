@@ -131,35 +131,35 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
     protected function _createSimpleProduct($customOptionsReq, $customOptionsNReq, $website, $category, $attrData)
     {
         $simpleProducts = array();
-        $simpleProducts['simple'] = $this->loadDataSet('SkuProducts', 'simple_sku');
+        $simpleProducts['simple'] = $this->loadDataSet('Product', 'simple_sku');
         $simpleProducts['simple']['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
-        $simpleProducts['simpleWithBackorders'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simpleWithBackorders'] = $this->loadDataSet('Product', 'simple_sku',
             array('inventory_backorders_default' => 'No', 'inventory_backorders' => 'Allow Qty Below 0'));
         $simpleProducts['simpleWithBackorders']['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_2']['admin_option_name'];
-        $simpleProducts['simpleDisabled'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simpleDisabled'] = $this->loadDataSet('Product', 'simple_sku',
             array('general_status' => 'Disabled'));
-        $simpleProducts['simpleCategory'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simpleCategory'] = $this->loadDataSet('Product', 'simple_sku',
             array('general_categories' => $category));
-        $simpleProducts['simpleWebsite'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simpleWebsite'] = $this->loadDataSet('Product', 'simple_sku',
             array('websites' => $website));
-        $simpleProducts['simpleOutOfStock'] = $this->loadDataSet('SkuProducts', 'simple_sku',
-            array('inventory_stock_availability' => 'Out of Stock'));
-        $simpleProducts['simple_not_visible'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simpleOutOfStock'] = $this->loadDataSet('Product', 'simple_sku',
+            array('general_stock_availability' => 'Out of Stock'));
+        $simpleProducts['simple_not_visible'] = $this->loadDataSet('Product', 'simple_sku',
             array('general_visibility' => 'Not Visible Individually'));
-        $simpleProducts['simpleNotVisibleCustom'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simpleNotVisibleCustom'] = $this->loadDataSet('Product', 'simple_sku',
             array('general_visibility' => 'Not Visible Individually'));
         $simpleProducts['simpleNotVisibleCustom']['custom_options_data'][] = $customOptionsReq;
-        $simpleProducts['simpleNotRequiredCustom'] = $this->loadDataSet('SkuProducts', 'simple_sku');
+        $simpleProducts['simpleNotRequiredCustom'] = $this->loadDataSet('Product', 'simple_sku');
         $simpleProducts['simpleNotRequiredCustom']['custom_options_data'][] = $customOptionsNReq;
-        $simpleProducts['simpleRequiredCustom'] = $this->loadDataSet('SkuProducts', 'simple_sku');
+        $simpleProducts['simpleRequiredCustom'] = $this->loadDataSet('Product', 'simple_sku');
         $simpleProducts['simpleRequiredCustom']['custom_options_data'][] = $customOptionsReq;
-        $simpleProducts['simple_min'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simple_min'] = $this->loadDataSet('Product', 'simple_sku',
             array('inventory_min_allowed_qty_default' => 'No', 'inventory_min_allowed_qty' => '5'));
-        $simpleProducts['simple_max'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simple_max'] = $this->loadDataSet('Product', 'simple_sku',
             array('inventory_max_allowed_qty_default' => 'No', 'inventory_max_allowed_qty' => '5'));
-        $simpleProducts['simple_increment'] = $this->loadDataSet('SkuProducts', 'simple_sku',
+        $simpleProducts['simple_increment'] = $this->loadDataSet('Product', 'simple_sku',
             array('inventory_enable_qty_increments_default' => 'No', 'inventory_enable_qty_increments' => 'Yes',
                 'inventory_qty_increments_default' => 'No', 'inventory_qty_increments' => '5'));
 

@@ -90,7 +90,7 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_products');
         //Data
-        $productData = $this->loadDataSet('AdvancedSearch', 'product_create');
+        $productData = $this->loadDataSet('Product', 'advanced_search_product');
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying

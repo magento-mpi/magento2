@@ -47,7 +47,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
-     * Test positive authenticate with text password type.
+     * Test positive authentication with text password type.
      */
     public function testAuthenticatePasswordText()
     {
@@ -64,7 +64,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     }
 
     /**
-     * Test positive authenticate with digest password type
+     * Test positive authentication with digest password type.
      */
     public function testAuthenticatePasswordDigest()
     {

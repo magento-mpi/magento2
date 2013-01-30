@@ -56,7 +56,9 @@ interface Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface
      * @return string
      * @throws Mage_Core_Exception
      */
-    public function renderHtml($bodyHtml, Saas_PrintedTemplate_Model_PageSize $pageSize = null,
+    public function renderHtml(
+        $bodyHtml,
+        Saas_PrintedTemplate_Model_PageSize $pageSize = null,
         $pageOrientation = null
     );
 
