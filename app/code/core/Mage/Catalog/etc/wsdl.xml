@@ -839,7 +839,7 @@
         <part name="data" type="typens:catalogProductAttributeEntityToUpdate"/>
     </message>
     <message name="catalogProductAttributeUpdateResponse">
-        <part name="result" type="xsd:boolean" />
+        <part name="result" type="xsd:boolean"/>
     </message>
     <message name="catalogProductAttributeAddOptionRequest">
         <part name="sessionId" type="xsd:string"/>
