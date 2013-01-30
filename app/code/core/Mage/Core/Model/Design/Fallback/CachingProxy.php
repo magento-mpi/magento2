@@ -119,7 +119,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
         $mapKey = "$prefix|$file|$module";
         if (isset($this->_map[$mapKey])) {
             $value =  $this->_map[$mapKey];
-            if ((string) $value !== '') {
+            if ('' !== (string)$value) {
                 return $this->_baseDir . DIRECTORY_SEPARATOR . $value;
             } else {
                 return $value;

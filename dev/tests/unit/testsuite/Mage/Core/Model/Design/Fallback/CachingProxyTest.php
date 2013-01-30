@@ -131,6 +131,9 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $this->assertEquals($anotherFixture, $this->_model->getViewFile('file.txt', $moduleArg));
     }
 
+    /**
+     * @return Magento_Filesystem
+     */
     protected function _createFilesystem()
     {
         return new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
