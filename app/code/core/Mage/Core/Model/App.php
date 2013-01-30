@@ -160,8 +160,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     public function init()
     {
         Magento_Profiler::start('self::app::init');
-        Magento_Profiler::start('init_config');
-        Magento_Profiler::stop('init_config');
 
         if ($this->_appState->isInstalled()) {
             $this->_initRequest();
@@ -639,6 +637,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      *
      * @param string|int|Mage_Core_Model_Store $id
      * @return Mage_Core_Model_Store
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getSafeStore()
      */
     public function getSafeStore($id = null)
     {
@@ -649,6 +649,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * Allow or disallow single store mode
      *
      * @param bool $value
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::setIsSingleStoreModeAllowed()
      */
     public function setIsSingleStoreModeAllowed($value)
     {
@@ -659,6 +661,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * Check if store has only one store view
      *
      * @return bool
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::hasSingleStore()
      */
     public function hasSingleStore()
     {
@@ -669,6 +673,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * Check if system is run in the single store mode
      *
      * @return bool
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::isSingleStoreMode()
      */
     public function isSingleStoreMode()
     {
@@ -677,6 +683,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 
     /**
      * @throws Mage_Core_Model_Store_Exception
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::throwStoreException()
      */
     public function throwStoreException()
     {
@@ -689,6 +697,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param null|string|bool|int|Mage_Core_Model_Store $id
      * @return Mage_Core_Model_Store
      * @throws Mage_Core_Model_Store_Exception
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getStore()
      */
     public function getStore($id = null)
     {
@@ -701,6 +711,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param bool $withDefault
      * @param bool $codeKey
      * @return Mage_Core_Model_Store[]
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getStores()
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
@@ -713,6 +725,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param null|bool|int|string|Mage_Core_Model_Website $id
      * @return Mage_Core_Model_Website
      * @throws Mage_Core_Exception
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getWebsite()
      */
     public function getWebsite($id = null)
     {
@@ -725,6 +739,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param bool $withDefault
      * @param bool|string $codeKey
      * @return Mage_Core_Model_Website[]
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getWebsites()
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
@@ -733,6 +749,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 
     /**
      * Reinitialize store list
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::reinitStores()
      */
     public function reinitStores()
     {
@@ -743,6 +761,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * Set current default store
      *
      * @param string $store
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::setCurrentStore()
      */
     public function setCurrentStore($store)
     {
@@ -753,6 +773,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * Get current store code
      *
      * @return string
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getCurrentStore()
      */
     public function getCurrentStore()
     {
@@ -764,6 +786,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * Retrieve default store for default group and website
      *
      * @return Mage_Core_Model_Store
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getDefaultStoreView()
      */
     public function getDefaultStoreView()
     {
@@ -776,6 +800,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param null|Mage_Core_Model_Store_Group|string $id
      * @return Mage_Core_Model_Store_Group
      * @throws Mage_Core_Exception
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getGroup()
      */
     public function getGroup($id = null)
     {
@@ -790,6 +816,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param bool $withDefault
      * @param bool $codeKey
      * @return Mage_Core_Model_Store_Group[]
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getGroups()
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
@@ -800,6 +828,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      *  Unset website by id from app cache
      *
      * @param null|bool|int|string|Mage_Core_Model_Website $id
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::clearWebsiteCache()
      */
     public function clearWebsiteCache($id = null)
     {
@@ -810,6 +840,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * Get either default or any store view
      *
      * @return Mage_Core_Model_Store|null
+     *
+     * @deprecated use Mage_Core_Model_StoreManager::getAnyStoreView()
      */
     public function getAnyStoreView()
     {
