@@ -79,12 +79,7 @@ class Core_Mage_Category_Create_RootCategoryTest extends Mage_Selenium_TestCase
         //Steps
         $this->categoryHelper()->createCategory($categoryData);
         //Verifying
-        if ($emptyField == 'name') {
-            $fieldXpath = $this->_getControlXpath('field', $emptyField);
-        } else {
-            $fieldXpath = $this->_getControlXpath('multiselect', $emptyField);
-        }
-        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
