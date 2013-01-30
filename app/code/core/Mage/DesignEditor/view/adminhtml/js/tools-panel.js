@@ -75,11 +75,7 @@
                 .on('click.hideVDEToolsPanel', $.proxy(this._hide, this));
 
             this.btnCloseMsg.on('click.hideVDEMessage', $.proxy(function(e) {
-                var button = $(e.target);
-                var message = button.parent('.vde-message');
-                console.log(button);
-                console.log(message);
-                message.remove();
+                $(e.target).parents('.vde-message')[0].remove();
             }, this));
         },
 
