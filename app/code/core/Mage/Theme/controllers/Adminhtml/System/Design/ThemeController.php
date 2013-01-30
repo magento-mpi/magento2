@@ -68,7 +68,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             if ($tab && $tab->canShowTab()) {
                 /** @var $helper Mage_Core_Helper_Theme */
                 $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
-                $files = $helper->getGroupedCssFiles($theme, $options);
+                $files = $helper->getGroupedCssFiles($theme);
                 $tab->setFiles($files);
             }
             $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');

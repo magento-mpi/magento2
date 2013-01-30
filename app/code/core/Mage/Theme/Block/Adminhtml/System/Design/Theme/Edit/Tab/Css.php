@@ -150,7 +150,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         return array(
             'href'      => $this->getDownloadUrl($file['id'], $this->_getCurrentTheme()->getId()),
             'label'     => $file['id'],
-            'title'     => $file['safepath'],
+            'title'     => $file['safePath'],
             'delimiter' => '<br />'
         );
     }
