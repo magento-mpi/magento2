@@ -339,6 +339,30 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     }
 
     /**
+     * Add sub menu HTML code for current menu item
+     *
+     * @param $menuItem Mage_Backend_Model_Menu_Item
+     * @param $level int
+     * @param $limit int
+     * @return string HTML code
+     */
+    protected function _addSubMenu($menuItem, $level, $limit)
+    {
+        $output = '';
+        if (!$menuItem->hasChildren()) {
+            return $output;
+        }
+        $output .= '<div class="submenu">';
+        $colStops = null;
+        if ($level == 0 && $limit) {
+            $colStops = $this->_columnBrake($menuItem->getChildren(), $limit);
+        }
+        $output .= $this->renderNavigation($menuItem->getChildren(), $level + 1, $limit, $colStops);
+        $output .= '</div>';
+        return $output;
+    }
+
+    /**
      * Render Navigation
      *
      * @param Mage_Backend_Model_Menu $menu
@@ -350,45 +374,33 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     public function renderNavigation($menu, $level = 0, $limit = 0, $colBrakes = array())
     {
         $itemPosition = 1;
-        $output = '<ul ' . (0 == $level ? 'id="nav"' : '') . ' >';
-
-        if (count($colBrakes) && $limit) {
-            $output .= '<li class="column"><ul>';
-        }
+        $outputStart = '<ul ' . (0 == $level ? 'id="nav"' : '') . ' >';
+        $output = '';
 
         /** @var $menuItem Mage_Backend_Model_Menu_Item  */
         foreach ($this->_getMenuIterator($menu) as $menuItem) {
             $menuId = $menuItem->getId();
-            $itemClass = str_replace('_', '-', strtolower(substr($menuId, strrpos($menuId, '::') + 2)));
+            $itemName = substr($menuId, strrpos($menuId, '::') + 2);
+            $itemClass = str_replace('_', '-', strtolower($itemName));
 
             if (count($colBrakes) && $colBrakes[$itemPosition]['colbrake']) {
                 $output .= '</ul></li><li class="column"><ul>';
             }
 
             $output .= '<li ' . $this->getUiId($menuItem->getId())
-                . ' class="item-' . $itemClass
-                . ' ' . $this->_renderItemCssClass($menuItem, $level) . '">';
-
-            $output .= $this->_renderAnchor($menuItem, $level);
-            if ($menuItem->hasChildren()) {
-                $output .= '<div class="submenu">';
-                $colStops = null;
-                if ($level == 0 && $limit) {
-                    $colStops = $this->_columnBrake($menuItem->getChildren(), $limit);
-                }
-                $output .= $this->renderNavigation($menuItem->getChildren(), $level + 1, $limit, $colStops);
-                $output .= '</div>';
-            }
-            $output .= '</li>';
+                . ' class="item-' . $itemClass . ' '
+                . $this->_renderItemCssClass($menuItem, $level) . '">'
+                . $this->_renderAnchor($menuItem, $level)
+                . $this->_addSubMenu($menuItem, $level, $limit)
+                . '</li>';
             $itemPosition++;
         }
 
         if (count($colBrakes) && $limit) {
-            $output .= '</ul></li>';
+            $output = '<li class="column"><ul>' . $output . '</ul></li>';
         }
 
-        $output .= '</ul>';
-        return $output;
+        return $outputStart . $output . '</ul>';;
     }
 
     /**
