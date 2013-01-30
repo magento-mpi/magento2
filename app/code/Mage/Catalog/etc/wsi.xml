@@ -526,6 +526,24 @@
                     <xsd:element name="sort_order" type="xsd:string" minOccurs="0" maxOccurs="1" />
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="catalogProductAttributeOptionLabelEntity">
+                <xsd:sequence>
+                    <xsd:element minOccurs="1" maxOccurs="1" name="store_id" type="typens:ArrayOfString" />
+                    <xsd:element minOccurs="1" maxOccurs="1" name="value" type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="catalogProductAttributeOptionLabelArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="1" maxOccurs="unbounded" name="complexObjectArray" type="typens:catalogProductAttributeOptionLabelEntity" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="catalogProductAttributeOptionEntityToAdd">
+                <xsd:sequence>
+                    <xsd:element minOccurs="1" maxOccurs="1" name="label" type="typens:catalogProductAttributeOptionLabelArray" />
+                    <xsd:element minOccurs="1" maxOccurs="1" name="order" type="xsd:int" />
+                    <xsd:element minOccurs="1" maxOccurs="1" name="is_default" type="xsd:int" />
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:element name="catalogProductCurrentStoreRequestParam">
                 <xsd:complexType>
                     <xsd:sequence>
@@ -962,6 +980,22 @@
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:int" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="catalogProductAttributeAddOptionRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="attribute" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="data" type="typens:catalogProductAttributeOptionEntityToAdd" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="catalogProductAttributeAddOptionResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:boolean" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -1735,6 +1769,12 @@
     <wsdl:message name="catalogProductAttributeSetAttributeAddResponse">
         <wsdl:part name="parameters" element="typens:catalogProductAttributeSetAttributeAddResponseParam" />
     </wsdl:message>
+    <wsdl:message name="catalogProductAttributeAddOptionRequest">
+        <wsdl:part name="parameters" element="typens:catalogProductAttributeAddOptionRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeAddOptionResponse">
+        <wsdl:part name="parameters" element="typens:catalogProductAttributeAddOptionResponseParam" />
+    </wsdl:message>
     <wsdl:message name="catalogProductAttributeSetAttributeRemoveRequest">
         <wsdl:part name="parameters" element="typens:catalogProductAttributeSetAttributeRemoveRequestParam" />
     </wsdl:message>
@@ -2167,6 +2207,11 @@
             <wsdl:documentation>Add attribute into attribute set</wsdl:documentation>
             <wsdl:input message="typens:catalogProductAttributeSetAttributeAddRequest" />
             <wsdl:output message="typens:catalogProductAttributeSetAttributeAddResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeAddOption">
+            <wsdl:documentation>Add option to attribute</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeAddOptionRequest" />
+            <wsdl:output message="typens:catalogProductAttributeAddOptionResponse" />
         </wsdl:operation>
         <wsdl:operation name="catalogProductAttributeSetAttributeRemove">
             <wsdl:documentation>Remove attribute from attribute set</wsdl:documentation>
@@ -2633,6 +2678,15 @@
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="catalogProductAttributeSetAttributeRemove">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeAddOption">
             <soap:operation soapAction="" />
             <wsdl:input>
                 <soap:body use="literal" />
