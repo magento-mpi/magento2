@@ -153,33 +153,41 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
      * <p>Verifying product type switcher, base image control, category selector are absent using Batch Updates</p>
      *
      * @test
+     * @dataProvider excludedAttributesDataProvider
      * @Testlink MAGETWO-5854
      */
-    public function verifyAttribute()
+    public function verifyExcludedAttributesAreAbsent($ExcludedAttribute)
     {
         $productQty = 2;
+        $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
             //Data
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            ${'searchData' . $i} =
-                $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
             //Steps
             $this->productHelper()->createProduct($productData);
             //Verifying
             $this->assertMessagePresent('success', 'success_saved_product');
-
         }
         for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i}, 'product_grid');
+            $this->searchAndChoose($searchData[$i], 'product_grid');
         }
         $this->addParameter('qtyUpdatedAtrProducts', $productQty);
         $this->fillDropdown('product_massaction', 'Update Attributes');
         $this->addParameter('storeId', '0');
         $this->clickButton('submit');
         //Verifying
-        $this->assertFalse($this->controlIsPresent(self::FIELD_TYPE_INPUT, 'attributes_image'));
-        $this->assertFalse($this->controlIsPresent(self::FIELD_TYPE_INPUT, 'attributes_category'));
-        $this->assertFalse($this->controlIsPresent(self::FIELD_TYPE_CHECKBOX, 'attributes_change_category'));
-        $this->assertFalse($this->controlIsVisible(self::FIELD_TYPE_CHECKBOX, 'attributes_weight_and_type_switcher'));
+        foreach($ExcludedAttribute as $key => $value) {
+            $this->assertFalse($this->controlIsVisible($value, $key));
+        }
+    }
+    public static function excludedAttributesDataProvider()
+    {
+        return array(array(array(
+            'attributes_image' => self::FIELD_TYPE_INPUT,
+            'attributes_category' => self::FIELD_TYPE_INPUT,
+            'attributes_change_category' => self::FIELD_TYPE_CHECKBOX,
+            'attributes_weight_and_type_switcher' => self::FIELD_TYPE_CHECKBOX,
+        )));
     }
 }
