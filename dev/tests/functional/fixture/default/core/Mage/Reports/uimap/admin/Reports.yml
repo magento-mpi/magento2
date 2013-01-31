@@ -422,15 +422,15 @@ tag_details:
     mca: report_tag/tagDetail/id/%id%/
     title: Tag "%elementTitle%" details / Popular / Tags / Reports / Magento Admin
     uimap:
-            form:
-                fieldsets:
-                    -
-                        report_tag_grid:
-                            xpath: //div[@id='tag_grid']
-                            buttons:
-                                back: //button[span='Back']
-                            dropdowns:
-                                export_to: //select[@id='tag_grid_export']
+        form:
+            fieldsets:
+                -
+                    report_tag_grid:
+                        xpath: //div[@id='tag_grid']
+                        buttons:
+                            back: //button[span='Back']
+                        dropdowns:
+                            export_to: //select[@id='tag_grid_export']
 
 # Reviews: Customers Reviews page
 report_review_customer:

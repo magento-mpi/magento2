@@ -27,7 +27,7 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return string|array|null
      */
-    public function searchDataInReport(array $data , $gridXpath ='report_tag_grid')
+    public function searchDataInReport(array $data , $gridXpath = 'report_tag_grid')
     {
         $rowNumbers = array();
         $fieldsetLocator = $this->_getControlXpath('fieldset', $gridXpath);
