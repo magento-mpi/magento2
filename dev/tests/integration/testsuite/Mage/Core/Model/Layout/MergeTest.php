@@ -287,6 +287,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     public function testGetFileLayoutUpdatesXmlFromModule()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
         $this->_replaceConfigLayoutUpdates('
             <page module="Mage_Page">
                 <file>layout.xml</file>
