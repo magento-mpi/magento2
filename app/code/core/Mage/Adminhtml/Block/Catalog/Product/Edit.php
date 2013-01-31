@@ -312,27 +312,33 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                 'default' => true,
             );
         }
-        $options[] = array(
-            'id' => 'new-button',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & New'),
-            'data_attribute' => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndNew', 'target' => '#product-edit-form'),
-                ),
-            ),
-        );
-        if (!$this->getRequest()->getParam('popup') && $this->getProduct()->isDuplicable()) {
+
+        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
+        if ($this->getRequest()->getActionName() == 'new' && !$limitation->isNewRestricted()
+            || $this->getRequest()->getActionName() != 'new' && !$limitation->isCreateRestricted()) {
             $options[] = array(
-                'id' => 'duplicate-button',
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Duplicate'),
+                'id' => 'new-button',
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & New'),
                 'data_attribute' => array(
                     'mage-init' => array(
-                        'button' => array('event' => '', 'target' => '#product-edit-form'),
+                        'button' => array('event' => 'saveAndNew', 'target' => '#product-edit-form'),
                     ),
                 ),
-                'onclick' => $this->getRequest()->getActionName() == 'new' ? ''
-                    : 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
             );
+            if (!$this->getRequest()->getParam('popup') && $this->getProduct()->isDuplicable()) {
+                $options[] = array(
+                    'id' => 'duplicate-button',
+                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Duplicate'),
+                    'data_attribute' => array(
+                        'mage-init' => array(
+                            'button' => array('event' => '', 'target' => '#product-edit-form'),
+                        ),
+                    ),
+                    'onclick' => $this->getRequest()->getActionName() == 'new' ? ''
+                        : 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
+                );
+            }
         }
         $options[] = array(
             'id' => 'close-button',
