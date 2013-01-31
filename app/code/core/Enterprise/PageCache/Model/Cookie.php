@@ -61,6 +61,8 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     protected $_salt = null;
 
     /**
+     * FPC cache model
+     *
      * @var Enterprise_PageCache_Model_Cache
      */
     protected $_fpcCache;

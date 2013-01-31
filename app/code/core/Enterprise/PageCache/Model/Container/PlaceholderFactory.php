@@ -1,5 +1,7 @@
 <?php
 /**
+ * Container placeholder factory
+ *
  * {license_notice}
  *
  * @category    Enterprise
@@ -24,7 +26,9 @@ class Enterprise_PageCache_Model_Container_PlaceholderFactory
     }
 
     /**
-     * @param $definition
+     * Create container placeholder instance
+     *
+     * @param string $definition
      * @return Enterprise_PageCache_Model_Container_Placeholder
      */
     public function create($definition)

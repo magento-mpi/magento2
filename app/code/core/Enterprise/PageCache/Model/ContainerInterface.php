@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * FPC container interface
  *
  * {license_notice}
  *

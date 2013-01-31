@@ -20,13 +20,6 @@ class Enterprise_PageCache_Model_Cache extends Mage_Core_Model_Cache
     const REQUEST_MESSAGE_GET_PARAM = 'frontend_message';
 
     /**
-     * FPC cache instance
-     *
-     * @var Mage_Core_Model_Cache
-     */
-    protected $_cache;
-
-    /**
      * @param Mage_Core_Model_Config_Primary $config
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Factory_Helper $helperFactory

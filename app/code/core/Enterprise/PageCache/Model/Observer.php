@@ -44,35 +44,43 @@ class Enterprise_PageCache_Model_Observer
     protected $_isEnabled;
 
     /**
+     * Application cache model
+     *
      * @var Mage_Core_Model_Cache
      */
     protected $_cache;
 
     /**
-     * @var Enterprise_PageCache_Model_CookieFactory
+     * @var Enterprise_PageCache_Model_Cookie
      */
-    protected $_cookieFactory;
+    protected $_cookie;
 
     /**
+     * FPC cache model
+     *
      * @var Enterprise_PageCache_Model_Cache
      */
     protected $_fpcCache;
 
     /**
-     * Class constructor
+     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Enterprise_PageCache_Model_Config $config
+     * @param Mage_Core_Model_Cache $cache
+     * @param Enterprise_PageCache_Model_Cache $fpcCache
+     * @param Enterprise_PageCache_Model_Cookie $cookie
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Config $config,
         Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_Cache $fpcCache,
-        Enterprise_PageCache_Model_CookieFactory $cookieFactory
+        Enterprise_PageCache_Model_Cookie $cookie
     ) {
         $this->_processor = $processor;
         $this->_config    = $config;
         $this->_cache = $cache;
         $this->_fpcCache = $fpcCache;
-        $this->_cookieFactory = $cookieFactory;
+        $this->_cookie = $cookie;
         $this->_isEnabled = $this->_cache->canUse('full_page');
     }
 
@@ -128,7 +136,7 @@ class Enterprise_PageCache_Model_Observer
         } else {
             Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
         }
-        $this->_getCookie()->updateCustomerCookies();
+        $this->_cookie->updateCustomerCookies();
         return $this;
     }
 
@@ -326,7 +334,7 @@ class Enterprise_PageCache_Model_Observer
         /** @var Mage_Sales_Model_Quote */
         $quote = ($observer->getEvent()->getQuote()) ? $observer->getEvent()->getQuote() :
             $observer->getEvent()->getQuoteItem()->getQuote();
-        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_CART, 'quote_' . $quote->getId());
+        $this->_cookie->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_CART, 'quote_' . $quote->getId());
 
         $cacheId = Enterprise_PageCache_Model_Container_Advanced_Quote::getCacheId();
         $this->_fpcCache->remove($cacheId);
@@ -347,7 +355,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $listItems = Mage::helper('Mage_Catalog_Helper_Product_Compare')->getItemCollection();
-        $previouseList = $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
+        $previouseList = $this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
         $previouseList = (empty($previouseList)) ? array() : explode(',', $previouseList);
 
         $ids = array();
@@ -355,10 +363,10 @@ class Enterprise_PageCache_Model_Observer
             $ids[] = $item->getId();
         }
         sort($ids);
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST, implode(',', $ids));
+        $this->_cookie->set(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST, implode(',', $ids));
 
         //Recenlty compared products processing
-        $recentlyComparedProducts = $this->_getCookie()
+        $recentlyComparedProducts = $this->_cookie
             ->get(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
         $recentlyComparedProducts = (empty($recentlyComparedProducts)) ? array()
             : explode(',', $recentlyComparedProducts);
@@ -374,7 +382,7 @@ class Enterprise_PageCache_Model_Observer
         $recentlyComparedProducts = array_unique($recentlyComparedProducts);
         sort($recentlyComparedProducts);
 
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED,
+        $this->_cookie->set(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED,
             implode(',', $recentlyComparedProducts));
 
        return $this;
@@ -391,7 +399,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE, '1');
+        $this->_cookie->set(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE, '1');
         return $this;
     }
 
@@ -404,7 +412,7 @@ class Enterprise_PageCache_Model_Observer
     public function updateCustomerProductIndex()
     {
         try {
-            $productIds = $this->_getCookie()->get(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME);
+            $productIds = $this->_cookie->get(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME);
             if ($productIds) {
                 $productIds = explode(',', $productIds);
                 Mage::getModel('Mage_Reports_Model_Product_Index_Viewed')->registerIds($productIds);
@@ -424,7 +432,7 @@ class Enterprise_PageCache_Model_Observer
 
         $productIds = $collection->load()->getLoadedIds();
         $productIds = implode(',', $productIds);
-        $this->_getCookie()->registerViewedProducts($productIds, $countLimit, false);
+        $this->_cookie->registerViewedProducts($productIds, $countLimit, false);
         return $this;
     }
 
@@ -439,7 +447,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->updateCustomerCookies();
+        $this->_cookie->updateCustomerCookies();
         $this->updateCustomerProductIndex();
         return $this;
     }
@@ -455,11 +463,11 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->updateCustomerCookies();
+        $this->_cookie->updateCustomerCookies();
 
-        if (!$this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER)) {
-            $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
-            $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
+        if (!$this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER)) {
+            $this->_cookie->delete(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
+            $this->_cookie->delete(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
             Enterprise_PageCache_Model_Cookie::registerViewedProducts(array(), 0, false);
         }
 
@@ -484,10 +492,10 @@ class Enterprise_PageCache_Model_Observer
         }
 
         // Wishlist sidebar hash
-        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST, $cookieValue);
+        $this->_cookie->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST, $cookieValue);
 
         // Wishlist items count hash for top link
-        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS,
+        $this->_cookie->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS,
             'wishlist_item_count_' . Mage::helper('Mage_Wishlist_Helper_Data')->getItemCount());
 
         return $this;
@@ -527,7 +535,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $cookieValue = $observer->getEvent()->getPoll()->getId();
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_POLL, $cookieValue);
+        $this->_cookie->set(Enterprise_PageCache_Model_Cookie::COOKIE_POLL, $cookieValue);
 
         return $this;
     }
@@ -545,7 +553,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         // Customer order sidebar tag
-        $cacheId = md5($this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
+        $cacheId = md5($this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
         $this->_fpcCache->remove($cacheId);
         return $this;
     }
@@ -561,7 +569,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
+        $this->_cookie->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
         return $this;
     }
 
@@ -577,16 +585,6 @@ class Enterprise_PageCache_Model_Observer
         $this->_fpcCache->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY,
                 array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         return $this;
-    }
-
-    /**
-     * Retrieve cookie instance
-     *
-     * @return Enterprise_PageCache_Model_Cookie
-     */
-    protected function _getCookie()
-    {
-        return $this->_cookieFactory->get();
     }
 
     /**
@@ -647,7 +645,7 @@ class Enterprise_PageCache_Model_Observer
         }
         $segmentIds = is_array($observer->getSegmentIds()) ? $observer->getSegmentIds() : array();
         $segmentsIdsString = implode(',', $segmentIds);
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, $segmentsIdsString);
+        $this->_cookie->set(Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS, $segmentsIdsString);
     }
 
     /**
@@ -661,7 +659,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE, '1', 0);
+        $this->_cookie->set(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE, '1', 0);
         return $this;
     }
 
@@ -676,7 +674,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->delete(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
+        $this->_cookie->delete(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
         return $this;
     }
 }

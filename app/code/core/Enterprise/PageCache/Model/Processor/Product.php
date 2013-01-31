@@ -19,11 +19,15 @@ class Enterprise_PageCache_Model_Processor_Product extends Enterprise_PageCache_
     const METADATA_PRODUCT_ID = 'current_product_id';
 
     /**
+     * FPC cache instance
+     *
      * @var Enterprise_PageCache_Model_Cache
      */
     protected $_fpcCache;
 
     /**
+     * Cache processor
+     *
      * @var Mage_Core_Model_Cache_ProcessorInterface
      */
     protected $_processor;

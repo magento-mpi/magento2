@@ -78,37 +78,48 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
     protected $_scopeCode;
 
     /**
+     * Application cache model
+     *
      * @var Mage_Core_Model_Cache
      */
     protected $_cache;
 
     /**
+     * Design package model
+     *
      * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_designPackage;
 
     /**
+     * SubProcessor factory
+     *
      * @var Mage_Core_Model_Cache_SubProcessorFactory
      */
     protected $_subProcessorFactory;
 
     /**
+     * Placeholder factory
+     *
      * @var Enterprise_PageCache_Model_Container_PlaceholderFactory
      */
     protected $_placeholderFactory;
 
     /**
+     * Container factory
+     *
      * @var Enterprise_PageCache_Model_ContainerFactory
      */
     protected $_containerFactory;
 
     /**
+     * FPC cache model
      * @var Enterprise_PageCache_Model_Cache
      */
     protected $_fpcCache;
 
     /**
-     * @param $scopeCode
+     * @param string $scopeCode
      * @param Mage_Core_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Mage_Core_Model_Design_Package_Proxy $designPackage
@@ -468,7 +479,7 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
             if (!$container) {
                 continue;
             }
-            $arguments = array('fpcCache' => $this->_fpcCache, 'placeholder' => $placeholder);
+            $arguments = array('placeholder' => $placeholder);
             $container = $this->_containerFactory->create($container, $arguments);
             $container->setProcessor($this);
             if (!$container->applyWithoutApp($content)) {

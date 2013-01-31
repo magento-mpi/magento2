@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * FPC container factory
  *
  * {license_notice}
  *
@@ -25,9 +25,11 @@ class Enterprise_PageCache_Model_ContainerFactory
 
     /**
      * Create container instance
-     * @param $className
+     *
+     * @param string $className
      * @param array $arguments
      * @return Enterprise_PageCache_Model_ContainerInterface
+     *
      * @throws LogicException
      */
     public function create($className, array $arguments = array())
@@ -35,7 +37,7 @@ class Enterprise_PageCache_Model_ContainerFactory
         $processor = $this->_objectManager->create($className, $arguments);
 
         if (false === ($processor instanceof Enterprise_PageCache_Model_ContainerInterface)) {
-            throw new LogicException($className . ' doesn\'t implements Enterprise_PageCache_Model_ContainerInterface');
+            throw new LogicException($className . ' doesn\'t implement Enterprise_PageCache_Model_ContainerInterface');
         }
 
         return $processor;

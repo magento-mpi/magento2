@@ -33,11 +33,8 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
             false
         );
 
-        $factory = $this->getMock('Enterprise_PageCache_Model_CookieFactory', array(), array(), '', false, false);
-        $factory->expects($this->any())->method('get')->will($this->returnValue($this->_cookie));
-
         $this->_observer = Mage::getObjectManager()
-            ->create('Enterprise_PageCache_Model_Observer', array('cookieFactory' => $factory));
+            ->create('Enterprise_PageCache_Model_Observer', array('cookie' => $this->_cookie));
     }
 
     protected function tearDown()

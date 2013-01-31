@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * FPC http handler
  *
  * {license_notice}
  *
@@ -11,6 +11,8 @@
 class Enterprise_PageCache_Model_Http_Handler implements Magento_Http_HandlerInterface
 {
     /**
+     * List of available processors
+     *
      * @var Mage_Core_Model_Cache_ProcessorInterface[]
      */
     protected $_processors = array();

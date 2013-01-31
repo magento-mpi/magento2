@@ -48,4 +48,5 @@ return array(
      array('searchSuggestions', 'Enterprise_Search_Model_Client_Solr'),
      array('_registerProductsView', 'Enterprise_PageCache_Model_Container_Viewedproducts'),
      array('_getForeignKeyName', 'Varien_Db_Adapter_Oracle'),
+     array('getCacheInstance', 'Enterprise_PageCache_Model_Cache'),
 );
