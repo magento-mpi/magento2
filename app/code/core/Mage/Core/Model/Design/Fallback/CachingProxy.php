@@ -211,6 +211,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
      */
     public function notifyViewFilePublished($publicFilePath, $file, $module = null)
     {
+        $this->_setToMap('view', $file, $module, $publicFilePath);
         return $this;
     }
 }
