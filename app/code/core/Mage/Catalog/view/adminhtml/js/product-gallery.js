@@ -9,12 +9,16 @@
 /*jshint jquery:true*/
 (function($) {
     "use strict";
+    /**
+     * Product gallery widget
+     */
     $.widget('mage.productGallery', {
         options: {
             item: '[data-role="image"]',
             template: '.image-template',
             types: null
         },
+
         /**
          * Gallery creation
          * @protected
@@ -22,7 +26,7 @@
         _create: function() {
             this.options.types = this.options.types || this.element.data('types');
             this.options.images = this.options.images || this.element.data('images');
-            this.$template = $(this.options.template);
+            this.$template = this.element.find(this.options.template);
             this._bind();
             $.each(this.options.images, $.proxy(function(index, imageData) {
                 this.element.trigger('addItem', imageData);
@@ -42,21 +46,12 @@
                 resort: '_resort',
                 'click .remove': function(event) {
                     var $imageContainer = $(event.currentTarget).closest(this.options.item);
-                    var dialog = $imageContainer.data('dialog');
-                    if (dialog) {
-                        dialog.dialog('close');
-                    }
                     this.element.trigger('removeItem', $imageContainer.data('imageData'));
                 },
                 'click .main-control': function(event) {
                     var $imageContainer = $(event.currentTarget).closest(this.options.item);
                     var imageData = $imageContainer.data('imageData');
-                    $.each(this.options.types, $.proxy(function(index, image) {
-                        this.element.trigger('setImageType', {
-                            type: index,
-                            imageData: imageData
-                        });
-                    }, this));
+                    this._setMain(imageData);
                 },
                 'change [data-role="type-selector"]': '_changeType'
             };
@@ -77,40 +72,66 @@
                 }, this)
             });
         },
-        _changeType: function(event) {
-            var $imageContainer = $(event.currentTarget).closest(this.options.item);
-            $.each($(event.currentTarget).val() || {}, $.proxy(function(index, type) {
+
+        /**
+         * Set image as main
+         * @param {Object} imageData
+         * @private
+         */
+        _setMain: function(imageData) {
+            var imageForTypes = $.map(this.options.types, function(el) {
+                return el.value
+            });
+            var isAllSame = $.grep(imageForTypes,function(el, index) {
+                return index == imageForTypes.indexOf(el);
+            }).length == 1;
+
+            if (isAllSame) {
+                $.each(this.options.types, $.proxy(function(index, image) {
+                    this.element.trigger('setImageType', {
+                        type: index,
+                        imageData: imageData
+                    });
+                }, this));
+            } else {
                 this.element.trigger('setImageType', {
-                    type: type,
-                    imageData: $imageContainer.data('imageData')
+                    type: 'image',
+                    imageData: imageData
                 });
-            }, this));
-        },
-        _showDialog: function(imageData) {
-            var $imageContainer = this.findElement(imageData);
-            var dialogElement = $imageContainer.data('dialog');
-            if (!dialogElement) {
-                var $template = $('#media_gallery_content-dialog-template');
-                dialogElement = $template.tmpl(imageData).dialog($.extend({
-                    id: this.element.attr('id') + '-dialog',
-                    minWidth: 560,
-                    autoOpen: false,
-                    modal: true,
-                    resizable: false,
-                    open: function() {
-                        // move to the form
-                        $(this).closest('.ui-dialog').appendTo($imageContainer)
-                    }
-                }, $template.data(), this.options.dialog || {}));
-                $imageContainer.data('dialog', dialogElement)
             }
-            dialogElement.dialog('open');
         },
+
+        /**
+         * Set image
+         * @param event
+         * @private
+         */
+        _changeType: function(event) {
+            var $checkbox = $(event.currentTarget);
+            var $imageContainer = $checkbox.closest(this.options.item);
+            this.element.trigger('setImageType', {
+                type: $checkbox.val(),
+                imageData: $checkbox.is(':checked') ? $imageContainer.data('imageData') : null
+            });
+        },
+
+        /**
+         * Find element by fileName
+         * @param {Object} data
+         * @returns {Element}
+         */
         findElement: function(data) {
             return this.element.find(this.options.item).filter(function() {
                 return $(this).data('imageData').file == data.file;
             }).first();
         },
+
+        /**
+         * Add image
+         * @param event
+         * @param imageData
+         * @private
+         */
         _addItem: function(event, imageData) {
             var count = this.element.find(this.options.item).length;
             var imageData = $.extend({
@@ -126,25 +147,41 @@
                 element.insertAfter(this.element.find(this.options.item + ':last'));
             }
 
-            $.each(this.options.types, $.proxy(function(index, image) {
-                if (!image.value || imageData.file == image.value) {
-                    this.element.trigger('setImageType', {
-                        type: image.code,
-                        imageData: imageData
-                    });
-                }
-            }, this));
+            this._setMain(imageData);
         },
+
+        /**
+         * Remove Image
+         * @param {jQuery.Event} event
+         * @param imageData
+         * @private
+         */
         _removeItem: function(event, imageData) {
             var $imageContainer = this.findElement(imageData);
             $imageContainer.hide().find('.is-removed').val(1);;
         },
+
+        /**
+         * Set image type
+         * @param event
+         * @param data
+         * @private
+         */
         _setImageType: function(event, data){
-            this.options.types[data.type].value = data.imageData.file;
-            this.element.find('.image-' + data.type).val(data.imageData.file);
             this.element.find('.type-' + data.type).hide();
-            this.findElement(data.imageData).find('.type-' + data.type).show();
+            if (data.imageData) {
+                this.options.types[data.type].value = data.imageData.file;
+                this.findElement(data.imageData).find('.type-' + data.type).show();
+            } else {
+                this.options.types[data.type].value = null;
+            }
+            this.element.find('.image-' + data.type).val(this.options.types[data.type].value || 'no_selection');
         },
+
+        /**
+         * Resort images
+         * @private
+         */
         _resort: function() {
             $(this).find('.position').each(function(index) {
                 var value = $(this).val();
@@ -157,6 +194,13 @@
                 }
             });
         },
+
+        /**
+         * Set image position
+         * @param event
+         * @param data
+         * @private
+         */
         _setPosition: function(event, data) {
             var $element = this.element.findElement(data.imageData);
             var curIndex = this.element.find(this.options.item).index($element);
@@ -171,6 +215,62 @@
                 }
                 this.element.trigger('resort');
             }
+        }
+    });
+
+    // Extension for mage.productGallery - Add advanced settings dialog
+    $.widget('mage.productGallery', $.mage.productGallery, {
+        options: {
+            dialogTemplate: '.dialog-template'
+        },
+
+        /**
+         * Bind handler to elements
+         * @protected
+         */
+        _bind: function() {
+            this._super();
+            this._on({
+                'click .remove': function(event) {
+                    var $imageContainer = $(event.currentTarget).closest(this.options.item);
+                    var dialog = $imageContainer.data('dialog');
+                    if (dialog) {
+                        dialog.dialog('close');
+                    }
+                }
+            });
+        },
+
+        /**
+         * Show dialog
+         * @param imageData
+         * @private
+         */
+        _showDialog: function(imageData) {
+            var $imageContainer = this.findElement(imageData);
+            var dialogElement = $imageContainer.data('dialog');
+            if (!dialogElement) {
+                var $template = this.element.find(this.options.dialogTemplate);
+                dialogElement = $template.tmpl(imageData).dialog($.extend({
+                    id: this.element.attr('id') + '-dialog',
+                    minWidth: 560,
+                    autoOpen: false,
+                    modal: true,
+                    resizable: false
+                }, $template.data(), this.options.dialog || {}));
+
+                dialogElement.on("dialogopen", $.proxy(function() {
+                    dialogElement.closest('.ui-dialog').appendTo($imageContainer);
+                    $imageContainer.find('[data-role="type-selector"]').each($.proxy(function(index, checkbox) {
+                        var $checkbox = $(checkbox);
+                        $checkbox.prop('checked', this.options.types[$checkbox.val()].value == imageData.file)
+                    }, this));
+
+                }, this));
+
+                $imageContainer.data('dialog', dialogElement)
+            }
+            dialogElement.dialog('open');
         }
     });
 })(jQuery);

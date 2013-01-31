@@ -56,9 +56,7 @@ $elementName = $this->getElement()->getName() . '[images]';
             </div>
         </div>
     </script>
-    <script id="<?php echo $this->getHtmlId() ?>-dialog-template"
-        type="text/x-jquery-tmpl"
-        data-title="Image Options">
+    <script class="dialog-template" type="text/x-jquery-tmpl"  data-title="Image Options">
         <div>
             <div style="width: 50%; float:right">
                 <div>
@@ -68,20 +66,26 @@ $elementName = $this->getElement()->getName() . '[images]';
                 </div>
                 <div class="buttons-group widget-button-split">
                     <label><?php echo $this->__('Role')?></label>
-                    <select size="4" multiple="multiple" data-role="type-selector">
+                    <ul style="float:right; background-color:white; border: 1px solid #666">
                         <?php foreach ($this->getMediaAttributes() as $attribute) { ?>
-                            <option class="image-type"
-                                value="<?php echo $this->escapeHtml($attribute->getAttributeCode()) ?>">
-                                <?php echo $this->escapeHtml($attribute->getFrontendLabel()) ?>
-                            </option>
+                        <li>
+                            <label>
+                            <?php echo $this->escapeHtml($attribute->getFrontendLabel()) ?>
+                            <input class="image-type"
+                                data-role="type-selector"
+                                type="checkbox"
+                                value="<?php echo $this->escapeHtml($attribute->getAttributeCode()) ?>"
+                            />
+                            </label>
+                        </li>
                         <?php } ?>
-                    </select>
+                    </ul>
                 </div>
                 <div>
                     <label>
                         <input type="checkbox"
-                               value="1"
-                               name="<?php echo $elementName ?>[${file_id}][disabled]"
+                           value="1"
+                           name="<?php echo $elementName ?>[${file_id}][disabled]"
                         {{if disabled == 1 }}checked="checked"{{/if}} />
                         <span><?php echo $this->__('Hide from product page')?></span>
                     </label>
@@ -90,8 +94,7 @@ $elementName = $this->getElement()->getName() . '[images]';
             <div style="width: 50%;">
                 <img src="${url}" alt="${label}" style="max-width:90%; max-height:500px" />
                 <span class="remove">&times;</span>
-            </div>
-
+             </div>
         </div>
     </script>
 </div>

@@ -106,7 +106,7 @@ function BaseImageUploader(id, maxFileSize) {
                     return;
                 }
                 if (!data.result.error) {
-                    $galeryContainer.trigger('add', data.result);
+                    $galeryContainer.trigger('addItem', data.result);
                 } else {
                     alert($.mage.__('File extension not known or unsupported type.'));
                 }
