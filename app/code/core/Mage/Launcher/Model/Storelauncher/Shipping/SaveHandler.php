@@ -18,9 +18,14 @@
 class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler extends Mage_Launcher_Model_Tile_MinimalSaveHandler
 {
     /**
-     * @var Mage_Backend_Model_Config
+     * @var Mage_Core_Model_Config
      */
     protected $_config;
+
+    /**
+     * @var Mage_Backend_Model_Config
+     */
+    protected $_backendConfigModel;
 
     /**
      * Shipping information save handler factory
@@ -30,14 +35,17 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler extends Mage_Launch
     protected $_saveHandlerFactory;
 
     /**
-     * @param Mage_Backend_Model_Config $config
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Backend_Model_Config $backendConfigModel
      * @param Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory $saveHandlerFactory
      */
     public function __construct(
-        Mage_Backend_Model_Config $config,
+        Mage_Core_Model_Config $config,
+        Mage_Backend_Model_Config $backendConfigModel,
         Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory $saveHandlerFactory
     ) {
         $this->_config = $config;
+        $this->_backendConfigModel = $backendConfigModel;
         $this->_saveHandlerFactory = $saveHandlerFactory;
     }
 
@@ -79,7 +87,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler extends Mage_Launch
      */
     public function saveOriginAddress($data)
     {
-        $this->_config->setSection('shipping')
+        $this->_backendConfigModel->setSection('shipping')
             ->setGroups($this->prepareOriginAddressData($data))
             ->save();
         $this->_config->reinit();
