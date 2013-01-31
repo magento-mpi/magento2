@@ -46,6 +46,7 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
+     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      */
     public function testImage()
     {
