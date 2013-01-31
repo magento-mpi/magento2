@@ -377,7 +377,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Mage::getObjectManager();
         $this->_model  = $objectManager->get('Mage_Core_Model_App');
-        $this->_model->loadDiConfiguration('frontend');
+        $this->_model->getConfig()->loadDiConfiguration('frontend');
         $testInstance  = $objectManager->create('Mage_Backend_Block_Widget_Grid_ColumnSet');
         $this->assertAttributeInstanceOf('Mage_DesignEditor_Model_Url_NavigationMode', '_urlBuilder', $testInstance);
     }

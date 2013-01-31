@@ -121,7 +121,7 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
         $this->getRequest()->setParam('name_part', 'Default');
         $this->dispatch('backend/admin/catalog_category/suggestCategories');
         $this->assertEquals(
-            '[{"id":"2","children":[],"is_active":"1","name":"Default Category"}]',
+            '[{"id":"2","children":[],"is_active":"1","label":"Default Category"}]',
             $this->getResponse()->getBody()
         );
     }

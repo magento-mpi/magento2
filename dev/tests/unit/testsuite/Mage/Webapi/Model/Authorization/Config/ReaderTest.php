@@ -38,7 +38,7 @@ class Mage_Webapi_Model_Authorization_Config_ReaderTest extends PHPUnit_Framewor
     }
 
     /**
-     * Unset reader instance
+     * Unset reader instance.
      */
     protected function tearDown()
     {
@@ -47,7 +47,7 @@ class Mage_Webapi_Model_Authorization_Config_ReaderTest extends PHPUnit_Framewor
     }
 
     /**
-     * Check that correct xsd file is provided
+     * Check that correct XSD file is provided.
      */
     public function testGetSchemaFile()
     {
