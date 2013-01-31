@@ -112,7 +112,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
 
     /**
      * @covers Mage_Backend_Block_Widget_Grid_Column::getFilter
-     * @covers Mage_Backend_Block_Widget_Grid_Column::_getFilterType
      */
     public function testGetFilterWithInvalidFilterTypeWhenUseDefaultFilter()
     {
@@ -128,7 +127,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
 
     /**
      * @covers Mage_Backend_Block_Widget_Grid_Column::getFilter
-     * @covers Mage_Backend_Block_Widget_Grid_Column::_getFilterType
      */
     public function testGetFilterWhenUseCustomFilter()
     {
@@ -198,7 +196,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
 
     /**
      * @covers Mage_Backend_Block_Widget_Grid_Column::getRenderer
-     * @covers Mage_Backend_Block_Widget_Grid_Column::_getRendererType
      */
     public function testGetRendererWheRendererSetFalse()
     {
@@ -218,7 +215,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
 
     /**
      * @covers Mage_Backend_Block_Widget_Grid_Column::getRenderer
-     * @covers Mage_Backend_Block_Widget_Grid_Column::_getRendererType
      * @covers Mage_Backend_Block_Widget_Grid_Column::setRendererType
      */
     public function testGetRendererWhenUseCustomRenderer()
