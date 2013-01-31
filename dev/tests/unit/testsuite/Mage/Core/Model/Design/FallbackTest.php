@@ -57,9 +57,12 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getFile($file, $module);
 
-        $this->assertEquals($expectedFileName, $filename);
+        $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
     }
 
+    /**
+     * @return array
+     */
     public function getFileDataProvider()
     {
         $file = 'test.txt';
@@ -184,7 +187,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getLocaleFile($file);
 
-        $this->assertEquals($expectedFileName, $filename);
+        $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
     }
 
     /**
@@ -317,6 +320,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 
         $configModel->expects($this->any())
             ->method('getModuleDir')
+            ->with($this->equalTo('view'), $this->equalTo($module))
             ->will($this->returnValue($moduleDir));
 
         $objectManager->expects($this->any())
@@ -343,7 +347,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getViewFile($file, $module);
 
-        $this->assertEquals($expectedFileName, $filename);
+        $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
     }
 
     /**
@@ -595,7 +599,8 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     protected function _getFileSystemMock($targetFile)
     {
-        /** @var $filesystem Magento_Filesystem */
+        $targetFile = str_replace('/', DIRECTORY_SEPARATOR, $targetFile);
+            /** @var $filesystem Magento_Filesystem */
         $filesystem = $this->getMock('Magento_Filesystem', array('has'), array(), '', false);
         $filesystem->expects($this->any())
             ->method('has')
@@ -608,6 +613,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         return $filesystem;
     }
 
+    /**
+     * @return Magento_ObjectManager_Zend
+     */
     protected function _getObjectManagerMock()
     {
         /** @var $objectManager Magento_ObjectManager_Zend */
@@ -615,6 +623,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         return $objectManager;
     }
 
+    /**
+     * @return Mage_Core_Model_Dir
+     */
     protected function _getDirsMock()
     {
         /** @var $dirs Mage_Core_Model_Dir */

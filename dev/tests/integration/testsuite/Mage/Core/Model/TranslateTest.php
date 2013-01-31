@@ -147,6 +147,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture global/locale/inheritance/en_AU en_UK
      * @magentoConfigFixture global/locale/inheritance/en_UK en_US
      * @dataProvider translateWithLocaleInheritanceDataProvider
+     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      */
     public function testTranslateWithLocaleInheritance($inputText, $expectedTranslation)
     {

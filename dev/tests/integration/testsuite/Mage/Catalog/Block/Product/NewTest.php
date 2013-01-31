@@ -13,6 +13,7 @@
  * Test class for Mage_Catalog_Block_Product_New.
  *
  * @magentoDataFixture Mage/Catalog/_files/products_new.php
+ * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
  */
 class Mage_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 {

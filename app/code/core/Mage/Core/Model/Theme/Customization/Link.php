@@ -27,9 +27,15 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
     protected $_themeFiles;
 
     /**
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_designPackage;
+
+    /**
      * Initialize dependencies
      *
      * @param Mage_Core_Model_Theme_Files $themeFiles
+     * @param Mage_Core_Model_Design_Package $designPackage
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Magento_ObjectManager $objectManager
@@ -39,6 +45,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
      */
     public function __construct(
         Mage_Core_Model_Theme_Files $themeFiles,
+        Mage_Core_Model_Design_Package $designPackage,
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
         Magento_ObjectManager $objectManager,
@@ -49,6 +56,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
         $this->_objectManager = $objectManager;
         $this->_themeFiles = $themeFiles;
+        $this->_designPackage = $designPackage;
     }
 
     /**
@@ -172,6 +180,15 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
         foreach ($customFiles as $customFile) {
             if ($customFile->hasContent()) {
                 $xmlActions .= $this->_getInclusionAction($customFile);
+                $params = array(
+                    'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
+                    'themeModel' => $customFile->getTheme()
+                );
+                $this->_designPackage->updateFilePathInMap(
+                    $customFile->getFullPath(),
+                    $customFile->getRelativePath(),
+                    $params
+                );
             }
         }
         if (!empty($xmlActions)) {

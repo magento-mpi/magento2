@@ -16,7 +16,12 @@
 <?php if ($this->getFilesCount() > 0): ?>
     <?php foreach ($this->getFiles() as $file): ?>
         <div class="filecnt file-font" id="<?php echo $file['id'] ?>">
-            <p><?php echo $file['text'] ?></p>
+            <p class="nm">
+                <?php echo $file['text'] ?>
+                <?php if (isset($file['thumbnailParams'])): ?>
+                    <img src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
+                <?php endif; ?>
+            </p>
         </div>
     <?php endforeach; ?>
 <?php else: ?>

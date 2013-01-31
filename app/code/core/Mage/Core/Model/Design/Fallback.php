@@ -227,18 +227,4 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         }
         return $tryFile;
     }
-
-    /**
-     * Object notified, that theme file was published, thus it can return published file name on next calls
-     *
-     * @param string $publicFilePath
-     * @param string $file
-     * @param string|null $module
-     * @return Mage_Core_Model_Design_FallbackInterface
-     */
-    public function notifyViewFilePublished($publicFilePath, $file, $module = null)
-    {
-        // Do nothing - we don't cache file paths in real fallback
-        return $this;
-    }
 }
