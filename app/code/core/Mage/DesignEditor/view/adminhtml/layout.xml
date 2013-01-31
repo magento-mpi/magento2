@@ -74,6 +74,8 @@
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>jquery/slimScroll/slimScroll.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="content">
@@ -84,17 +86,17 @@
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml" />
                 </block>
                 <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Mage_DesignEditor::theme/selector/storeview.phtml" />
-                <block type="Mage_DesignEditor_Block_Editor_Tools" name="design_editor_tools" template="Mage_DesignEditor::editor/tools.phtml">
-                    <block type="Mage_DesignEditor_Block_Editor_Tools_Design" name="design_editor_tools_design" template="Mage_DesignEditor::editor/tools/design.phtml" />
-                    <block type="Mage_DesignEditor_Block_Editor_Tools_Block" name="design_editor_tools_block" template="Mage_DesignEditor::editor/tools/block.phtml" />
-                    <block type="Mage_DesignEditor_Block_Editor_Tools_Settings" name="design_editor_tools_settings" template="Mage_DesignEditor::editor/tools/settings.phtml" />
-                    <block type="Mage_DesignEditor_Block_Editor_Tools_Code" name="design_editor_tools_code" template="Mage_DesignEditor::editor/tools/code.phtml">
-                        <block type="Mage_DesignEditor_Block_Editor_Tools_Code_Css" name="design_editor_tools_code_css" template="Mage_DesignEditor::editor/tools/code/css.phtml">
-                            <block type="Mage_DesignEditor_Block_Editor_Tools_Code_Css_Group" name="design_editor_tools_code_css_group" template="Mage_DesignEditor::editor/tools/code/css/group.phtml" />
-                            <block type="Mage_DesignEditor_Block_Editor_Tools_Code_Css_Message" name="design_editor_tools_code_css_message" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
+                <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools" name="design_editor_tools" template="Mage_DesignEditor::editor/tools.phtml">
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Design" name="design_editor_tools_design" template="Mage_DesignEditor::editor/tools/design.phtml" />
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Block" name="design_editor_tools_block" template="Mage_DesignEditor::editor/tools/block.phtml" />
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Settings" name="design_editor_tools_settings" template="Mage_DesignEditor::editor/tools/settings.phtml" />
+                    <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code" name="design_editor_tools_code" template="Mage_DesignEditor::editor/tools/code.phtml">
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css" name="design_editor_tools_code_css" template="Mage_DesignEditor::editor/tools/code/css.phtml">
+                            <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group" name="design_editor_tools_code_css_group" template="Mage_DesignEditor::editor/tools/code/css/group.phtml" />
+                            <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Message" name="design_editor_tools_code_css_message" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
                         </block>
-                        <block type="Mage_DesignEditor_Block_Editor_Tools_Code_Js" name="design_editor_tools_code_js" template="Mage_DesignEditor::editor/tools/code/js.phtml" />
-                        <block type="Mage_DesignEditor_Block_Editor_Tools_Code_Custom" name="design_editor_tools_code_custom" template="Mage_DesignEditor::editor/tools/code/custom.phtml" />
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js" name="design_editor_tools_code_js" template="Mage_DesignEditor::editor/tools/code/js.phtml" />
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom" name="design_editor_tools_code_custom" template="Mage_DesignEditor::editor/tools/code/custom.phtml" />
                     </block>
                 </block>
             </block>

@@ -11,7 +11,7 @@
 /**
  * Block that renders VDE message
  */
-class Mage_DesignEditor_Block_Editor_Tools_Code_Css_Message extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Message extends Mage_Core_Block_Template
 {
 
 }

@@ -9,9 +9,8 @@
  */
 
 /**
- * Block that renders Design tab
+ * Block that renders Block tab
  */
-class Mage_DesignEditor_Block_Editor_Tools_Design extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Block extends Mage_Core_Block_Template
 {
-
 }

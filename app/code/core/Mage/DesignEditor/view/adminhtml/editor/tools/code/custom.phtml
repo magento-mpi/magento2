@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Mage_DesignEditor_Block_Editor_Tools_Code_Custom */ ?>
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */ ?>
 <div class="tab-panel" id="vde-tab-custom">
     <div class="custom-code-description">
-        <h5 class="title">Custom CSS</h5>
-        <p>Update the custom.css file to right in order to overwrite the default styles.</p>
-        <p>Or, replace, delete or download the file:</p>
+        <h5 class="title"><?php echo $this->__('Custom CSS'); ?></h5>
+        <p><?php echo $this->__('Update the custom.css file to right in order to overwrite the default styles.'); ?></p>
+        <p><?php echo $this->__('Or, replace, delete or download the file:'); ?></p>
         <div class="custom-file">
-            <span class="filename">custom.css</span>
+            <span class="filename"><?php echo $this->getCustomFileName() ?></span>
 
             <button class="action-download" title="<?php echo $this->__('Download file'); ?>">
                 <span><?php echo $this->__('Download file'); ?></span>
@@ -24,9 +24,7 @@
                 <span><?php echo $this->__('Delete file'); ?></span>
             </button>
 
-            <form action="#" method="post">
-                <input type="file" class="action-add" />
-            </form>
+            <?php echo $this->getFormHtml() ?>
         </div>
     </div>
     <div class="custom-code">
@@ -38,3 +36,52 @@
         </form>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    (function ($) {
+        $( '#' + '<?php echo $this->getFileElementName() ?>' ).fileupload({
+            dataType: 'json',
+            replaceFileInput: false,
+            url : '<?php echo $this->getUrl('*/system_design_editor_tools/upload', array('theme' => $this->getThemeId())) ?>',
+            acceptFileTypes: /(.|\/)(css)$/i,
+
+            /**
+             * Handler of "file selected" event
+             * @param e
+             * @param data
+             */
+            add: function (e, data) {
+                data.submit();
+            },
+
+            /**
+             * Handler on "upload ajax request done" event
+             * @param e
+             * @param data
+             */
+            done: function (e, data) {
+                var contentArea = $('#custom_css_content');
+                $(this).val('');
+
+                $('#css_uploader_button').attr('disabled', 'disabled');
+
+                if (!data.result.error) {
+                    contentArea.trigger('focusin');
+                    contentArea.val(data.result.content);
+                    contentArea.trigger('focusout');
+                }
+            },
+
+            /**
+             * Handler on "upload ajax request fail" event
+             * @param e
+             * @param data
+             */
+            fail: function(e, data) {
+                $(this).val('');
+                alert($.mage.__('File extension not known or unsupported type.'));
+            }
+        });
+    })(jQuery);
+</script>

@@ -9,9 +9,9 @@
  */
 
 /**
- * Block that renders JS tab
+ * Block that renders VDE tools panel
  */
-class Mage_DesignEditor_Block_Editor_Tools_Code_Js extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Template
 {
 
 }
