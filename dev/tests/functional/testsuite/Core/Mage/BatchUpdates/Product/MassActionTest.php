@@ -119,7 +119,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
      */
     public function updateAllProductsFields()
     {
-        $this->markTestIncomplete('MAGETWO-3250');
+        $this->markTestIncomplete('MAGETWO-5854');
         $productQty = 2;
         for ($i = 1; $i <= $productQty; $i++) {
             //Data

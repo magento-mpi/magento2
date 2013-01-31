@@ -30,14 +30,19 @@ try {
         case 'saas':
             break;
         default:
-            throw new Exception("Specified edition '{$options['e']}' is not implemented.");
+            throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
     $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($options['dir']);
     foreach ($lists as $list) {
         $command .= ' -l ' . escapeshellarg(__DIR__ . '/extruder/' . $list);
     }
+
     echo $command . PHP_EOL;
-    passthru($command);
+    passthru($command, $exitCode);
+    if ($exitCode) {
+        throw new Exception('Extruder execution failed');
+    }
+
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);

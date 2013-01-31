@@ -120,9 +120,9 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
      */
     public function getChildren()
     {
-       $items = $this->getItem()->getChildren();
-       $groupedChilds = array();
-       foreach ($items as $item) {
+        $items = $this->getItem()->getChildren();
+        $groupedChilds = array();
+        foreach ($items as $item) {
             $attribute = $this->getSelectionAttributes($item);
             $optionId = (is_array($attribute)) ? $attribute['option_id'] : 0;
             if (!isset($groupedChilds[$optionId])) {
@@ -131,8 +131,8 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
             }
 
             $groupedChilds[$optionId]['items'][] = $item;
-       }
+        }
 
-       return $groupedChilds;
+        return $groupedChilds;
     }
 }

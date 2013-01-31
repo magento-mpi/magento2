@@ -170,9 +170,9 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
     }
 
     /**
-     * Get list of availabled default templates for current type
+     * Get list of available default templates for current type
      *
-     *  @return array
+     * @return array
      */
     public function getTemplateOptions()
     {
@@ -379,7 +379,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
         $str = $this->__('Unknown');
         $types = Mage::getSingleton('Saas_PrintedTemplate_Model_Source_Type')->getAllOptions();
         $currentType = $this->getPrintedTemplate()->getEntityType();
-        if(isset($types[$currentType])) {
+        if (isset($types[$currentType])) {
             $str = $types[$currentType];
         }
 

@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
- class Saas_PrintedTemplate_Model_Variable_Pagination extends Saas_PrintedTemplate_Model_Variable_Abstract
+class Saas_PrintedTemplate_Model_Variable_Pagination extends Saas_PrintedTemplate_Model_Variable_Abstract
 {
     /**
      * Constructor
@@ -34,7 +34,8 @@
      *
      * @return string
      */
-    public function getPageNumber() {
+    public function getPageNumber()
+    {
         // use long class name to avoid class name duplicates in document
         return '<span class="printed_template_page_number"></span>';
     }
@@ -44,7 +45,8 @@
      *
      * @return string
      */
-    public function getPageTotal() {
+    public function getPageTotal()
+    {
         // use long class name to avoid class name duplicates in document
         return '<span class="printed_template_page_total"></span>';
     }
