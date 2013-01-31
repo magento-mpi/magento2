@@ -34,10 +34,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region
 
         $regionId = $element->getForm()->getElement('region_id')->getValue();
 
-        $html = '<tr>';
+        $html = '<div class="field field-state required">';
         $element->setClass('input-text');
         $element->setRequired(true);
-        $html .= '<td class="label">' . $element->getLabelHtml() . '</td><td class="value">';
+        $html .=  $element->getLabelHtml() . '<div class="control">';
         $html .= $element->getElementHtml();
 
         $selectName = str_replace('region', 'region_id', $element->getName());
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region
             . '", "' . $selectId . '", ' . $this->helper('Mage_Directory_Helper_Data')->getRegionJson() . ');' . "\n";
         $html .= '</script>' . "\n";
 
-        $html .= '</td></tr>' . "\n";
+        $html .= '</div></div>' . "\n";
 
         return $html;
     }
