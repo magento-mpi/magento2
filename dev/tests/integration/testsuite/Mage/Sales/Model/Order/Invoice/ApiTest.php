@@ -14,9 +14,11 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Mage/Sales/_files/order.php
      * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      */
     public function testCreate()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
         /** Prepare data. */
         $order = $this->_getFixtureOrder();
         $this->assertCount(
