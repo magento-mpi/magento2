@@ -20,6 +20,16 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
+     * Setting values required to be specified
+     *
+     * @var array
+     */
+    protected $_requiredSettings = array(
+        'TESTS_LOCAL_CONFIG_FILE'       => 'etc/local-mysql.xml',
+        'TESTS_LOCAL_CONFIG_EXTRA_FILE' => 'etc/integration-tests-config.xml',
+    );
+
+    /**
      * @var Magento_Test_Bootstrap_Settings
      */
     protected $_settings;
@@ -57,7 +67,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_integrationTestsDir = realpath(__DIR__ . '/../../../../../../');
-        $this->_settings = new Magento_Test_Bootstrap_Settings($this->_integrationTestsDir, array());
+        $this->_settings = new Magento_Test_Bootstrap_Settings($this->_integrationTestsDir, $this->_requiredSettings);
         $this->_envBootstrap = $this->getMock(
             'Magento_Test_Bootstrap_Environment', array('emulateHttpRequest', 'emulateSession')
         );
@@ -97,6 +107,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
      */
     protected function _injectApplicationMock(array $fixtureSettings = array())
     {
+        $fixtureSettings += $this->_requiredSettings;
         $application = $this->getMock(
             'Magento_Test_Application', array('cleanup', 'isInstalled', 'initialize', 'install'), array(), '', false
         );

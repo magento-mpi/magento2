@@ -33,106 +33,106 @@ class Magento_Test_Bootstrap_Settings
      *
      * @param string $baseDir
      * @param array $settings
+     * @throws InvalidArgumentException
      */
     public function __construct($baseDir, array $settings)
     {
-        $this->_baseDir = $baseDir;
+        if (!is_dir($baseDir)) {
+            throw new InvalidArgumentException("Base path '$baseDir' has to be an existing directory.");
+        }
+        $this->_baseDir = realpath($baseDir);
         $this->_settings = $settings;
     }
 
     /**
-     * Retrieve a setting interpreting it as a scalar value
+     * Retrieve a setting value as is
      *
      * @param string $settingName
      * @param mixed $defaultValue
      * @return mixed
      */
-    public function getScalarValue($settingName, $defaultValue = null)
+    public function get($settingName, $defaultValue = null)
     {
-        return (!empty($this->_settings[$settingName]) ? $this->_settings[$settingName] : $defaultValue);
+        return (array_key_exists($settingName, $this->_settings) ? $this->_settings[$settingName] : $defaultValue);
     }
 
     /**
-     * Whether a setting is enabled or not, if interpreted as a boolean value
+     * Interpret a setting value as a switch and return TRUE when it equals to the string "enabled" or FALSE otherwise
      *
      * @param string $settingName
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
-    public function isEnabled($settingName)
+    public function getAsBoolean($settingName)
     {
-        return ($this->getScalarValue($settingName) === 'enabled');
+        return ($this->get($settingName) === 'enabled');
     }
 
     /**
-     * Retrieve a setting interpreting it as a relative file name value
-     *
-     * @param string $settingName
-     * @param mixed $defaultValue
-     * @return mixed|string
-     */
-    public function getFileValue($settingName, $defaultValue = null)
-    {
-        $result = $this->getScalarValue($settingName, $defaultValue);
-        if ($result) {
-            $result = $this->_getAbsolutePath($result);
-        }
-        return $result;
-    }
-
-    /**
-     * Retrieve a setting interpreting it as a semicolon-separated glob patterns
+     * Interpret a setting value as a relative file name and return absolute path to it
      *
      * @param string $settingName
      * @param string $defaultValue
-     * @return array
-     */
-    public function getPathPatternValue($settingName, $defaultValue)
-    {
-        $result = $this->getScalarValue($settingName, $defaultValue);
-        if ($result) {
-            $result = $this->_resolvePathPattern($result);
-        }
-        return $result;
-    }
-
-    /**
-     * Retrieve array of absolute config file names
-     *
-     * @param string $settingName
-     * @param mixed $defaultValue
-     * @param array $extraConfigFiles
-     * @return array
-     */
-    public function getConfigFiles($settingName, $defaultValue, array $extraConfigFiles = array())
-    {
-        $result = array();
-        $primaryConfigFile = $this->getFileValue($settingName, $defaultValue);
-        if (!is_file($primaryConfigFile) && substr($primaryConfigFile, -5) != '.dist') {
-            $primaryConfigFile .= '.dist';
-        }
-        $result[] = $primaryConfigFile;
-        foreach ($extraConfigFiles as $extraConfigFile) {
-            $extraConfigFile = $this->_getAbsolutePath($extraConfigFile);
-            if (is_file($extraConfigFile)) {
-                $result[] = $extraConfigFile;
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Retrieve absolute path based on the relative one
-     *
-     * @param string $path
      * @return string
      */
-    protected function _getAbsolutePath($path)
+    public function getAsFile($settingName, $defaultValue = '')
     {
-        return $this->_baseDir . DIRECTORY_SEPARATOR . $path;
+        $result = $this->get($settingName, $defaultValue);
+        if ($result !== '') {
+            $result = $this->_resolvePath($result);
+        }
+        return $result;
     }
 
     /**
-     * Resolve semicolon-separated glob pattern(s) to the absolute paths
+     * Interpret a setting value as a file optionally falling back to the '.dist' file and return absolute path to it
+     *
+     * @param string $settingName
+     * @return string
+     * @throws Magento_Exception
+     */
+    public function getAsConfigFile($settingName)
+    {
+        $result = $this->getAsFile($settingName);
+        if ($result !== '') {
+            if (!is_file($result) && substr($result, -5) != '.dist') {
+                $result .= '.dist';
+            }
+            if (is_file($result)) {
+                return $result;
+            }
+        }
+        throw new Magento_Exception("Setting '$settingName' specifies the non-existing file '$result'.");
+    }
+
+    /**
+     * Interpret a setting value as a semicolon-separated relative glob pattern(s) and return matched absolute paths
+     *
+     * @param string $settingName
+     * @return array
+     */
+    public function getAsMatchingPaths($settingName)
+    {
+        $settingValue = $this->get($settingName, '');
+        if ($settingValue !== '') {
+            return $this->_resolvePathPattern($settingValue);
+        }
+        return array();
+    }
+
+    /**
+     * Return an absolute path by a relative one without checking its validity
+     *
+     * @param string $relativePath
+     * @return string
+     */
+    protected function _resolvePath($relativePath)
+    {
+        return $this->_baseDir . DIRECTORY_SEPARATOR . $relativePath;
+    }
+
+    /**
+     * Resolve semicolon-separated relative glob pattern(s) to matched absolute paths
      *
      * @param string $pattern
      * @return array
@@ -142,7 +142,7 @@ class Magento_Test_Bootstrap_Settings
         $result = array();
         $allPatterns = preg_split('/\s*;\s*/', trim($pattern), -1, PREG_SPLIT_NO_EMPTY);
         foreach ($allPatterns as $onePattern) {
-            $onePattern = $this->_getAbsolutePath($onePattern);
+            $onePattern = $this->_resolvePath($onePattern);
             $files = glob($onePattern, GLOB_BRACE);
             $result = array_merge($result, $files);
         }
