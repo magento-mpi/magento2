@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Product_LimitationTest extends PHPUnit_Framework_TestCa
 
     /**
      * @param int $totalCount
-     * @param int $configuredCount
+     * @param string|int $configuredCount
      * @param bool $expected
      * @dataProvider isNewRestrictedDataProvider
      */
@@ -71,10 +71,10 @@ class Mage_Catalog_Model_Product_LimitationTest extends PHPUnit_Framework_TestCa
             'no limit'            => array(0, '', false),
             'negative limit'      => array(2, -1, false),
             'zero limit'          => array(2, 0, false),
-            'limit < count'       => array(2, 1, true),
-            'limit = count'       => array(2, 2, true),
-            'limit > count'       => array(2, 3, true),
-            'limit much > count'  => array(1, 3, false),
+            'count > limit'       => array(2, 1, true),
+            'count = limit'       => array(2, 2, true),
+            'count < limit'       => array(2, 3, true),
+            'count much < limit'  => array(1, 3, false),
         );
     }
 }
