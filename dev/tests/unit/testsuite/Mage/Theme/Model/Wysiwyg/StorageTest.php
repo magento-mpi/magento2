@@ -14,22 +14,22 @@
 class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var null|string
+     * @var string
      */
     protected $_storageRoot;
 
     /**
-     * @var null|Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var null|Mage_Theme_Helper_Storage
+     * @var Mage_Theme_Helper_Storage
      */
     protected $_helperStorage;
 
     /**
-     * @var null|Magento_ObjectManager
+     * @var Magento_ObjectManager
      */
     protected $_objectManager;
 
@@ -50,7 +50,16 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             $this->_objectManager
         );
 
-        $this->_storageRoot = DIRECTORY_SEPARATOR . 'root';
+        $this->_storageRoot = Magento_Filesystem::DIRECTORY_SEPARATOR . 'root';
+    }
+
+    public function tearDown()
+    {
+        $this->_filesystem = null;
+        $this->_helperStorage = null;
+        $this->_objectManager = null;
+        $this->_storageModel = null;
+        $this->_storageRoot = null;
     }
 
     /**
@@ -59,7 +68,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     public function testCreateFolder()
     {
         $newDirectoryName = 'dir1';
-        $fullNewPath = $this->_storageRoot . DIRECTORY_SEPARATOR . $newDirectoryName;
+        $fullNewPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
 
         $this->_filesystem->expects($this->once())
             ->method('isWritable')
@@ -93,7 +102,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $expectedResult = array(
             'name'       => $newDirectoryName,
             'short_name' => $newDirectoryName,
-            'path'       => DIRECTORY_SEPARATOR . $newDirectoryName,
+            'path'       => Magento_Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName,
             'id'         => $newDirectoryName
         );
 
@@ -109,8 +118,8 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     public function testGetDirsCollection()
     {
         $dirs = array(
-            $this->_storageRoot . DIRECTORY_SEPARATOR . 'dir1',
-            $this->_storageRoot . DIRECTORY_SEPARATOR . 'dir2'
+            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir1',
+            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir2'
         );
 
         $this->_filesystem->expects($this->once())
@@ -149,8 +158,8 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
 
         $paths = array(
-            $this->_storageRoot . DIRECTORY_SEPARATOR . 'font1.ttf',
-            $this->_storageRoot . DIRECTORY_SEPARATOR . 'font2.ttf'
+            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'font1.ttf',
+            $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'font2.ttf'
         );
 
         $this->_filesystem->expects($this->once())
@@ -174,10 +183,10 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testTreeArray()
     {
-        $currentPath = $this->_storageRoot . DIRECTORY_SEPARATOR . 'dir';
+        $currentPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir';
         $dirs = array(
-            $currentPath . DIRECTORY_SEPARATOR . 'dir_one',
-            $currentPath . DIRECTORY_SEPARATOR . 'dir_two'
+            $currentPath . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir_one',
+            $currentPath . Magento_Filesystem::DIRECTORY_SEPARATOR . 'dir_two'
         );
 
         $expectedResult = array(
@@ -230,8 +239,8 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     {
         $image = 'image.jpg';
         $storagePath = $this->_storageRoot;
-        $imagePath = $storagePath . DIRECTORY_SEPARATOR . $image;
-        $thumbnailDir = $this->_storageRoot . DIRECTORY_SEPARATOR
+        $imagePath = $storagePath . Magento_Filesystem::DIRECTORY_SEPARATOR . $image;
+        $thumbnailDir = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR
             . Mage_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY;
 
         $session = $this->getMock('Mage_Backend_Model_Session', array('getStoragePath'), array(), '', false);
@@ -280,7 +289,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $this->_filesystem->expects($this->at(1))
             ->method('delete')
-            ->with($thumbnailDir . DIRECTORY_SEPARATOR . $image);
+            ->with($thumbnailDir . Magento_Filesystem::DIRECTORY_SEPARATOR . $image);
 
         $this->assertInstanceOf('Mage_Theme_Model_Wysiwyg_Storage', $this->_storageModel->deleteFile($image));
     }
@@ -290,7 +299,8 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testDeleteDirectory()
     {
-        $directoryPath = $this->_storageRoot . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'root';
+        $directoryPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . '..'
+            . Magento_Filesystem::DIRECTORY_SEPARATOR . 'root';
 
         $this->_helperStorage->expects($this->atLeastOnce())
             ->method('getStorageRoot')

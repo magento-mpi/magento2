@@ -98,7 +98,9 @@ class Mage_Theme_Model_Wysiwyg_Storage
             Mage::throwException($this->_helper->__('Cannot upload file.') );
         }
 
-        $this->_createThumbnail($targetPath . DIRECTORY_SEPARATOR . $uploader->getUploadedFileName());
+        $this->_createThumbnail(
+            $targetPath . Magento_Filesystem::DIRECTORY_SEPARATOR . $uploader->getUploadedFileName()
+        );
 
         $result['cookie'] = array(
             'name'     => $this->_helper->getSession()->getSessionName(),
@@ -125,7 +127,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
             return false;
         }
         $thumbnailDir = $this->_helper->getThumbnailDirectory($source);
-        $thumbnailPath = $thumbnailDir . DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
+        $thumbnailPath = $thumbnailDir . Magento_Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
         try {
             $this->_filesystem->ensureDirectoryExists($thumbnailDir);
             $adapter = $this->_objectManager->get('Mage_Core_Helper_Data')->getImageAdapterType();
@@ -162,7 +164,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
             $path = $this->_helper->getStorageRoot();
         }
 
-        $newPath = $path . DIRECTORY_SEPARATOR . $name;
+        $newPath = $path . Magento_Filesystem::DIRECTORY_SEPARATOR . $name;
 
         if ($this->_filesystem->has($newPath)) {
             Mage::throwException($this->_helper->__('A directory with the same name already exists.'));
@@ -191,8 +193,10 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $file = $this->_helper->urlDecode($file);
         $path = $this->_helper->getSession()->getStoragePath();
 
-        $_filePath = $this->_filesystem->getAbsolutePath($path . DIRECTORY_SEPARATOR . $file);
-        $_thumbnailPath = $this->_helper->getThumbnailDirectory($_filePath) . DIRECTORY_SEPARATOR . $file;
+        $_filePath = $this->_filesystem->getAbsolutePath($path . Magento_Filesystem::DIRECTORY_SEPARATOR . $file);
+        $_thumbnailPath = $this->_helper->getThumbnailDirectory($_filePath)
+            . Magento_Filesystem::DIRECTORY_SEPARATOR
+            . $file;
 
         if ($this->_filesystem->isPathInDirectory($_filePath, $path)
             && $this->_filesystem->isPathInDirectory($_filePath, $this->_helper->getStorageRoot())
@@ -283,8 +287,8 @@ class Mage_Theme_Model_Wysiwyg_Storage
      */
     public function deleteDirectory($path)
     {
-        $rootCmp = rtrim($this->_helper->getStorageRoot(), DIRECTORY_SEPARATOR);
-        $pathCmp = rtrim($path, DIRECTORY_SEPARATOR);
+        $rootCmp = rtrim($this->_helper->getStorageRoot(), Magento_Filesystem::DIRECTORY_SEPARATOR);
+        $pathCmp = rtrim($path, Magento_Filesystem::DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
             Mage::throwException($this->_helper->__('Cannot delete root directory %s.', $path));

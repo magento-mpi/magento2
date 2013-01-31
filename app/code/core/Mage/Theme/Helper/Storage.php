@@ -46,6 +46,14 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     protected $_currentPath;
 
     /**
+     * Current storage root path
+     *
+     * @var string
+     */
+    protected $_storageRoot;
+
+
+    /**
      * Magento filesystem
      *
      * @var Magento_Filesystem
@@ -128,8 +136,14 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        return $this->_getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR
-            . Mage_Core_Model_Theme_Files::PATH_PREFIX_CUSTOMIZED . DIRECTORY_SEPARATOR . $this->_getStorageType();
+        if (null === $this->_storageRoot) {
+            $this->_storageRoot = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
+                $this->_getTheme()->getCustomizationPath(),
+                Mage_Core_Model_Theme_Files::PATH_PREFIX_CUSTOMIZED,
+                $this->getStorageType()
+            ));
+        }
+        return $this->_storageRoot;
     }
 
     /**
@@ -177,7 +191,12 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
         $pathPieces = array('..', $this->getStorageType());
         $node = $this->_getRequest()->getParam(self::PARAM_NODE);
         if ($node !== self::NODE_ROOT) {
-            $pathPieces[] = trim($this->urlDecode($node), '/');
+            $node = $this->urlDecode($node);
+            $nodes = explode(
+                Magento_Filesystem::DIRECTORY_SEPARATOR,
+                trim($node, Magento_Filesystem::DIRECTORY_SEPARATOR)
+            );
+            $pathPieces = array_merge($pathPieces, $nodes);
         }
         $pathPieces[] = $this->urlDecode($this->_getRequest()->getParam(self::PARAM_FILENAME));
         return implode('/', $pathPieces);
@@ -192,8 +211,8 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     {
         if (!$this->_currentPath) {
             $currentPath = $this->getStorageRoot();
-            $path = $this->_getRequest()->getParam($this->_getTreeNodeName());
-            if ($path) {
+            $path = $this->_getRequest()->getParam(self::PARAM_NODE);
+            if ($path && $path !== self::NODE_ROOT) {
                 $path = $this->convertIdToPath($path);
                 if ($this->_filesystem->isDirectory($path)
                     && $this->_filesystem->isPathInDirectory($path, $currentPath)
@@ -214,7 +233,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getThumbnailDirectory($path)
     {
-        return pathinfo($path, PATHINFO_DIRNAME) . DIRECTORY_SEPARATOR
+        return pathinfo($path, PATHINFO_DIRNAME) . Magento_Filesystem::DIRECTORY_SEPARATOR
             . Mage_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY;
     }
 
@@ -227,13 +246,13 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     public function getThumbnailPath($imageName)
     {
-        $imagePath = $this->getCurrentPath() . DIRECTORY_SEPARATOR . $imageName;
+        $imagePath = $this->getCurrentPath() . Magento_Filesystem::DIRECTORY_SEPARATOR . $imageName;
         if (!$this->_filesystem->has($imagePath)
             || !$this->_filesystem->isPathInDirectory($imagePath, $this->getStorageRoot())
         ) {
             throw new InvalidArgumentException('The image not found.');
         }
-        return $this->getThumbnailDirectory($imagePath) . DIRECTORY_SEPARATOR
+        return $this->getThumbnailDirectory($imagePath) . Magento_Filesystem::DIRECTORY_SEPARATOR
             . pathinfo($imageName, PATHINFO_BASENAME);
     }
 
@@ -284,15 +303,5 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     public function getSession()
     {
         return $this->_session;
-    }
-
-    /**
-     * Return name of parameter node
-     *
-     * @return string
-     */
-    protected function _getTreeNodeName()
-    {
-        return self::PARAM_NODE;
     }
 }
