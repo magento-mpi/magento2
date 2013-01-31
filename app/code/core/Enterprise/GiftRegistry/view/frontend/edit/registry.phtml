@@ -73,12 +73,6 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
                             $('#<?php echo $field ?>').regionUpdater({
                                 regionListId: '#<?php echo $field ?>_region',
                                 regionInputId: '#<?php echo $field ?>_region_text',
-                                clearError: function() {
-                                    var selectorArr = ['<?php echo $field ?>', '<?php echo $field ?>_region', '<?php echo $field ?>_region_text'];
-                                    for (var i = 0; i < selectorArr.length; i++) {
-                                        $('#' + selectorArr[i]).removeClass('validation-failed').next("div.validation-advice").remove();
-                                    }
-                                },
                                 isRegionRequired: false,
                                 isZipRequired: false,
                                 isCountryRequired: true,
