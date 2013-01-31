@@ -95,6 +95,9 @@
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
             "<?php echo $this->getViewFileUrl('Mage_Customer::set-password.js') ?>",
+            <?php if ($userDefinedAttributes->hasUserDefinedAttributes()): ?>
+                "<?php echo $this->getViewFileUrl('Enterprise_Customer::file-element.js')?>",
+            <?php endif ?>
             <?php if ($_dob->isEnabled()): ?>
                 "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
             <?php endif ?>
@@ -106,7 +109,15 @@
                     passwordContainer: 'div.fieldset',
                     showOnDefault: <?php echo $this->getCustomer()->getChangePassword() ? 'true' : 'false' ?>
                 });
-                $('#form-validate').validation({
+                var dataForm = $('#form-validate'), ignore;
+                <?php if ($_dob->isEnabled()): ?>
+                    ignore = '#full';
+                <?php endif ?>
+                <?php if ($userDefinedAttributes->hasUserDefinedAttributes()): ?>
+                    dataForm = dataForm.fileElement();
+                    ignore = ignore ? ignore + ', ' + 'input[id$="_value"]' : 'input[id$="_value"]';
+                <?php endif ?>
+                dataForm.validation({
                 <?php if ($_dob->isEnabled()): ?>
                     errorPlacement: function(error, element) {
                         if (element.prop('id') === 'full') {
@@ -120,8 +131,10 @@
                             error.insertAfter(element);
                         }
                     },
-                    ignore: ':hidden:not(#full)'
-                    <?php endif ?>
+                    ignore: ':hidden:not(' + ignore + ')'
+                <?php else: ?>
+                    ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+                <?php endif ?>
                 });
             });
     })(jQuery);
