@@ -55,7 +55,7 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
 
         $size = $this->_block->getImageSize();
         $this->assertGreaterThan(1, $size);
-        $this->assertContains('/'.$size, $this->_block->getImageUrl($product));
+        $this->assertContains('/' . $size, $this->_block->getImageUrl($product));
         $this->assertStringEndsWith('magento_image.jpg', $this->_block->getImageUrl($product));
     }
 }
