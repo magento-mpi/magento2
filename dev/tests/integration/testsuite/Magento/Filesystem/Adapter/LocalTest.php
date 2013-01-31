@@ -326,7 +326,8 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
      */
     public function testGetNestedKeys($path, $expectedKeys)
     {
-        $this->assertEquals($expectedKeys, $this->_adapter->getNestedKeys($path));
+        $actualKeys = $this->_adapter->getNestedKeys($path);
+        $this->assertEquals(sort($expectedKeys), sort($actualKeys));
     }
 
     /**

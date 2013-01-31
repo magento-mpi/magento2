@@ -81,7 +81,8 @@
                 $selectionGrid.dialog({
                     title: $optionBox.find('input[name$="[title]"]').val() === '' ?
                         'Add Products to New Option' :
-                        'Add Products to Option "' + $optionBox.find('input[name$="[title]"]').val() + '"',
+                        'Add Products to Option "' +
+                            $('<div>').text($optionBox.find('input[name$="[title]"]').val()).html() + '"',
                     autoOpen: false,
                     minWidth: 980,
                     modal: true,
