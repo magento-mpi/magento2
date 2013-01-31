@@ -24,7 +24,7 @@ class Mage_Core_Model_Design_Package
     /**
      * Public directory which contains theme files
      */
-    const PUBLIC_BASE_THEME_DIR = 'theme';
+    const PUBLIC_BASE_THEME_DIR = 'static';
 
     /**#@+
      * Public directories prefix group
@@ -387,6 +387,26 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
+     * Update file path in map while we use caching mechanism
+     *
+     * @param string $targetPath
+     * @param string $themeFile
+     * @param array $params
+     * @return Mage_Core_Model_Design_Package
+     */
+    public function updateFilePathInMap($targetPath, $themeFile, $params)
+    {
+        $themeFile = $this->_extractScope($themeFile, $params);
+        $this->_updateParamDefaults($params);
+        $fallback = $this->_getFallback($params);
+        /** @var $fallback Mage_Core_Model_Design_Fallback_CachingProxy */
+        if ($fallback instanceof Mage_Core_Model_Design_Fallback_CachingProxy) {
+            $fallback->setFilePathToMap($targetPath, $themeFile, $params['module']);
+        }
+        return $this;
+    }
+
+    /**
      * Return most appropriate model to perform fallback
      *
      * @param array $params
@@ -664,7 +684,7 @@ class Mage_Core_Model_Design_Package
             }
         }
 
-        $this->_getFallback($params)->notifyViewFilePublished($targetPath, $themeFile, $params['module']);
+        $this->updateFilePathInMap($targetPath, $themeFile, $params);
         return $targetPath;
     }
 
@@ -740,7 +760,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . self::PUBLIC_BASE_THEME_DIR;
+        return Mage::getBaseDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR . self::PUBLIC_BASE_THEME_DIR;
     }
 
     /**

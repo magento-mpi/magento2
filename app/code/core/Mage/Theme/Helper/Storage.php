@@ -129,7 +129,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     public function getStorageRoot()
     {
         return $this->_getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR
-            . Mage_Core_Model_Theme_Files::CUSTOMIZATION_PATH_PREFIX . DIRECTORY_SEPARATOR . $this->getStorageType();
+            . Mage_Core_Model_Theme_Files::PATH_PREFIX_CUSTOMIZED . DIRECTORY_SEPARATOR . $this->_getStorageType();
     }
 
     /**

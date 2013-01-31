@@ -339,10 +339,14 @@ class Mage_Core_Model_Translate
      */
     protected function _loadThemeTranslation($forceReload = false)
     {
+        if (!$this->_designPackage->getDesignTheme()->getId()) {
+            return $this;
+        }
+
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-                $file = $this->_designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
-                $this->_addData($this->_getFileData($file), false, $forceReload);
+            $file = $this->_designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
+            $this->_addData($this->_getFileData($file), false, $forceReload);
         }
         return $this;
     }

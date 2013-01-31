@@ -116,12 +116,12 @@ class Mage_Core_Model_Dir
         self::TMP     => 'var/tmp',
         self::CACHE   => 'var/cache',
         self::LOG     => 'var/log',
-        self::THEME   => 'var/theme',
         self::SESSION => 'var/session',
         self::PUB     => 'pub',
         self::PUB_LIB => 'pub/lib',
         self::MEDIA   => 'pub/media',
         self::UPLOAD  => 'pub/media/upload',
+        self::THEME   => 'pub/media/theme'
     );
 
     /**

@@ -44,7 +44,7 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     /**
      * Path prefix to customized static files
      */
-    const CUSTOMIZATION_PATH_PREFIX = '_Customization';
+    const PATH_PREFIX_CUSTOMIZED = '_Customized';
 
     /**
      * @var Varien_Io_File
@@ -181,7 +181,7 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
      */
     public function getRelativePath()
     {
-        return self::CUSTOMIZATION_PATH_PREFIX . '/' . $this->getFilePath();
+        return self::PATH_PREFIX_CUSTOMIZED . '/' . $this->getFilePath();
     }
 
     /**

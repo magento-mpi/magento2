@@ -496,7 +496,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrl()
     {
-        $this->assertStringStartsWith('http://localhost/pub/media/theme/frontend/', $this->_block->getViewFileUrl());
+        $this->assertStringStartsWith('http://localhost/pub/media/theme/static/frontend/', $this->_block->getViewFileUrl());
         $this->assertStringEndsWith('css/styles.css', $this->_block->getViewFileUrl('css/styles.css'));
 
         /**
