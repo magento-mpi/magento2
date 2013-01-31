@@ -13,16 +13,18 @@ class Enterprise_PageCache_Model_Http_Handler implements Magento_Http_HandlerInt
     /**
      * List of available processors
      *
-     * @var Mage_Core_Model_Cache_ProcessorInterface[]
+     * @var Enterprise_PageCache_Model_Cache_ProcessorInterface[]
      */
     protected $_processors = array();
 
     /**
      * @param Mage_Core_Model_Config_Primary $config
-     * @param Mage_Core_Model_Cache_ProcessorFactory $factory
+     * @param Enterprise_PageCache_Model_Cache_ProcessorFactory $factory
      */
-    public function __construct(Mage_Core_Model_Config_Primary $config, Mage_Core_Model_Cache_ProcessorFactory $factory)
-    {
+    public function __construct(
+        Mage_Core_Model_Config_Primary $config,
+        Enterprise_PageCache_Model_Cache_ProcessorFactory $factory
+    ) {
         $processors = $config->getNode('global/cache/request_processors');
         if ($processors) {
             foreach($processors->asArray() as $className) {

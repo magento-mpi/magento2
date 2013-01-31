@@ -133,7 +133,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Filesystem $filesystem
-     * @param $resourceName
+     * @param string $resourceName
      * @param array $data
      */
     public function __construct(

@@ -19,27 +19,29 @@
 class Mage_Backend_Model_Config_Backend_Admin_Usecustom extends Mage_Core_Model_Config_Data
 {
     /**
+     * Writer of configuration storage
+     *
      * @var Mage_Core_Model_Config_Storage_WriterInterface
      */
-    protected $_storageWriter;
+    protected $_configWriter;
 
     /**
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
-     * @param Mage_Core_Model_Config_Storage_WriterInterface $storageWriter
+     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
-        Mage_Core_Model_Config_Storage_WriterInterface $storageWriter,
+        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storageWriter = $storageWriter;
+        $this->_configWriter = $configWriter;
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 
@@ -74,12 +76,12 @@ class Mage_Backend_Model_Config_Backend_Admin_Usecustom extends Mage_Core_Model_
         $value = $this->getValue();
 
         if (!$value) {
-            $this->_storageWriter->delete(
+            $this->_configWriter->delete(
                 Mage_Backend_Model_Config_Backend_Admin_Custom::XML_PATH_SECURE_BASE_URL,
                 Mage_Backend_Model_Config_Backend_Admin_Custom::CONFIG_SCOPE,
                 Mage_Backend_Model_Config_Backend_Admin_Custom::CONFIG_SCOPE_ID
             );
-            $this->_storageWriter->delete(
+            $this->_configWriter->delete(
                 Mage_Backend_Model_Config_Backend_Admin_Custom::XML_PATH_UNSECURE_BASE_URL,
                 Mage_Backend_Model_Config_Backend_Admin_Custom::CONFIG_SCOPE,
                 Mage_Backend_Model_Config_Backend_Admin_Custom::CONFIG_SCOPE_ID

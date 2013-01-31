@@ -51,6 +51,8 @@ class Mage_Core_Model_Config_Storage extends Mage_Core_Model_Config_StorageAbstr
          */
         $this->_resourcesConfig->setConfig($config);
         return $config;
+
+
     }
 
     /**

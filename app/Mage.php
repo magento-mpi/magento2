@@ -654,6 +654,7 @@ final class Mage
      * Check if application is installed
      *
      * @return bool
+     * @deprecated use Mage_Core_Model_App_State::isInstalled()
      */
     public static function isInstalled()
     {
@@ -714,6 +715,7 @@ final class Mage
      * Retrieve enabled developer mode
      *
      * @return bool
+     * @deprecated use Mage_Core_Model_App_State::getIsDeveloperMode()
      */
     public static function getIsDeveloperMode()
     {
@@ -822,6 +824,8 @@ final class Mage
      * Set is downloader flag
      *
      * @param bool $flag
+     *
+     * @deprecated use Mage_Core_Model_App_State::setIsDownloader()
      */
     public static function setIsDownloader($flag = true)
     {
@@ -833,6 +837,8 @@ final class Mage
      *
      * @static
      * @param bool $value
+     *
+     * @deprecated use Mage_Core_Model_App_State::setIsSerializable()
      */
     public static function setIsSerializable($value = true)
     {
@@ -844,6 +850,8 @@ final class Mage
      *
      * @static
      * @return bool
+     *
+     * @deprecated use Mage_Core_Model_App_State::getIsSerializable()
      */
     public static function getIsSerializable()
     {
@@ -854,6 +862,8 @@ final class Mage
      * Set update mode flag
      *
      * @param bool $value
+     *
+     * @deprecated use Mage_Core_Model_App_State::setUpdateMode()
      */
     public static function setUpdateMode($value)
     {
@@ -864,6 +874,8 @@ final class Mage
     /**
      * Get update mode flag
      * @return bool
+     *
+     * @deprecated use Mage_Core_Model_App_State::setUpdateMode()
      */
     public static function getUpdateMode()
     {

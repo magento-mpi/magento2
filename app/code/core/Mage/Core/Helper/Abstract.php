@@ -37,6 +37,8 @@ abstract class Mage_Core_Helper_Abstract
     protected $_layout;
 
     /**
+     * Translator model
+     *
      * @var Mage_Core_Model_Translate
      */
     protected $_translator;

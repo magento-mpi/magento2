@@ -37,8 +37,8 @@ interface Enterprise_PageCache_Model_ContainerInterface
     /**
      * Set processor for container needs
      *
-     * @param Mage_Core_Model_Cache_ProcessorInterface $processor
+     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
      * @return Enterprise_PageCache_Model_ContainerInterface
      */
-    public function setProcessor(Mage_Core_Model_Cache_ProcessorInterface $processor);
+    public function setProcessor(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor);
 }

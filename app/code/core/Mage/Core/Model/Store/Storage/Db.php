@@ -73,11 +73,15 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
     protected $_groups = array();
 
     /**
+     * Application cache model
+     *
      * @var Mage_Core_Model_Cache
      */
     protected $_cache;
 
     /**
+     * Config model
+     *
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -90,26 +94,36 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
     protected $_currentStore = null;
 
     /**
+     * Store factory
+     *
      * @var Mage_Core_Model_StoreFactory
      */
     protected $_storeFactory;
 
     /**
+     * Website factory
+     *
      * @var Mage_Core_Model_Website_Factory
      */
     protected $_websiteFactory;
 
     /**
+     * Group factory
+     *
      * @var Mage_Core_Model_Store_Group_Factory
      */
     protected $_groupFactory;
 
     /**
+     * Cookie model
+     *
      * @var Mage_Core_Model_Cookie
      */
     protected $_cookie;
 
     /**
+     * Application state model
+     *
      * @var Mage_Core_Model_App_State
      */
     protected $_appState;

@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * FPC processor interface
  *
  * {license_notice}
  *
@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-interface Mage_Core_Model_Cache_ProcessorInterface
+interface Enterprise_PageCache_Model_Cache_ProcessorInterface
 {
     /**
      * Refresh values of request ids
@@ -146,14 +146,14 @@ interface Mage_Core_Model_Cache_ProcessorInterface
     /**
      * Set subprocessor
      *
-     * @param Mage_Core_Model_Cache_SubProcessorInterface $subProcessor
+     * @param Enterprise_PageCache_Model_Cache_SubProcessorInterface $subProcessor
      */
-    public function setSubprocessor(Mage_Core_Model_Cache_SubProcessorInterface $subProcessor);
+    public function setSubprocessor(Enterprise_PageCache_Model_Cache_SubProcessorInterface $subProcessor);
 
     /**
      * Get subprocessor
      *
-     * @return Mage_Core_Model_Cache_SubProcessorInterface
+     * @return Enterprise_PageCache_Model_Cache_SubProcessorInterface
      */
     public function getSubprocessor();
 }

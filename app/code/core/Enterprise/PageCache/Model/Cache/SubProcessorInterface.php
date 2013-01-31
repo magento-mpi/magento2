@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * FPC sub-processor interface
  *
  * {license_notice}
  *
@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-interface Mage_Core_Model_Cache_SubProcessorInterface
+interface Enterprise_PageCache_Model_Cache_SubProcessorInterface
 {
     /**
      * Check if request can be cached
@@ -37,16 +37,16 @@ interface Mage_Core_Model_Cache_SubProcessorInterface
     /**
      * Return cache page id with application. Depends on GET super global array.
      *
-     * @param Mage_Core_Model_Cache_ProcessorInterface $processor
+     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdInApp(Mage_Core_Model_Cache_ProcessorInterface $processor);
+    public function getPageIdInApp(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor);
 
     /**
      * Return cache page id without application. Depends on GET super global array.
      *
-     * @param Mage_Core_Model_Cache_ProcessorInterface $processor
+     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdWithoutApp(Mage_Core_Model_Cache_ProcessorInterface $processor);
+    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor);
 }

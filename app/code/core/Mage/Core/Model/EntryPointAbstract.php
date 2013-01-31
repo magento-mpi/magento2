@@ -19,6 +19,7 @@ abstract class Mage_Core_Model_EntryPointAbstract
     /**
      * @param string $baseDir
      * @param array $params
+     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         $baseDir, array $params = array(), Magento_ObjectManager $objectManager = null

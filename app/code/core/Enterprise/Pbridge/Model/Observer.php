@@ -19,16 +19,18 @@
 class Enterprise_Pbridge_Model_Observer
 {
     /**
+     * Writer of configuration storage
+     *
      * @var Mage_Core_Model_Config_Storage_WriterInterface
      */
-    protected $_storageWriter;
+    protected $_configWriter;
 
     /**
-     * @param Mage_Core_Model_Config_Storage_WriterInterface $storageWriter
+     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      */
-    public function __construct(Mage_Core_Model_Config_Storage_WriterInterface $storageWriter)
+    public function __construct(Mage_Core_Model_Config_Storage_WriterInterface $configWriter)
     {
-        $this->_storageWriter = $storageWriter;
+        $this->_configWriter = $configWriter;
     }
 
     /**
@@ -89,7 +91,7 @@ class Enterprise_Pbridge_Model_Observer
 
         if ($profileStatus !== null) {
             $scope = $observer->getEvent()->getData('website') ? 'websites' : 'default';
-            $this->_storageWriter->save('payment/pbridge/profilestatus', $profileStatus, $scope, $website->getId());
+            $this->_configWriter->save('payment/pbridge/profilestatus', $profileStatus, $scope, $website->getId());
             Mage::app()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
         }
         return $this;

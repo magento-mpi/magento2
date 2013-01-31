@@ -11,6 +11,8 @@
 class Mage_Core_Model_Event_Config
 {
     /**
+     * Modules configuration model
+     *
      * @var Mage_Core_Model_Config_Modules
      */
     protected $_config;

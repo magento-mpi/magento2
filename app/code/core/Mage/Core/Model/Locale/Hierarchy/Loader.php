@@ -18,6 +18,8 @@ class Mage_Core_Model_Locale_Hierarchy_Loader
     protected $_config;
 
     /**
+     * Locales configuration model
+     *
      * @param Mage_Core_Model_Config_Locales $config
      */
     public function __construct(Mage_Core_Model_Config_Locales $config)

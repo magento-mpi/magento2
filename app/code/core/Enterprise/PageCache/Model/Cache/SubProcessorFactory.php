@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * FPC sub-processor factory
  *
  * {license_notice}
  *
@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Cache_ProcessorFactory
+class Enterprise_PageCache_Model_Cache_SubProcessorFactory
 {
     /**
      * @var Magento_ObjectManager
@@ -24,21 +24,24 @@ class Mage_Core_Model_Cache_ProcessorFactory
     }
 
     /**
-     * Get processor instance
+     * Get subprocessor instance
      *
      * @param string $className
      * @param array $arguments
-     * @return Mage_Core_Model_Cache_ProcessorInterface
+     * @return Enterprise_PageCache_Model_Cache_SubProcessorInterface
      * @throws LogicException
      */
     public function create($className, array $arguments = array())
     {
         $processor = $this->_objectManager->create($className, $arguments);
 
-        if (false === ($processor instanceof Mage_Core_Model_Cache_ProcessorInterface)) {
-            throw new LogicException($className . ' doesn\'t implements Mage_Core_Model_Cache_ProcessorInterface');
+        if (false === ($processor instanceof Enterprise_PageCache_Model_Cache_SubProcessorInterface)) {
+            throw new LogicException(
+                $className . ' doesn\'t implements Enterprise_PageCache_Model_Cache_SubProcessorInterface'
+            );
         }
 
         return $processor;
     }
+
 }

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_ProcessorInterface
+class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model_Cache_ProcessorInterface
 {
     const NO_CACHE_COOKIE               = 'NO_CACHE';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
@@ -66,7 +66,7 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
     /**
      * subProcessor model
      *
-     * @var Mage_Core_Model_Cache_SubProcessorInterface
+     * @var Enterprise_PageCache_Model_Cache_SubProcessorInterface
      */
     protected $_subProcessor;
 
@@ -94,7 +94,7 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
     /**
      * SubProcessor factory
      *
-     * @var Mage_Core_Model_Cache_SubProcessorFactory
+     * @var Enterprise_PageCache_Model_Cache_SubProcessorFactory
      */
     protected $_subProcessorFactory;
 
@@ -123,7 +123,7 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
      * @param Mage_Core_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Mage_Core_Model_Design_Package_Proxy $designPackage
-     * @param Mage_Core_Model_Cache_SubProcessorFactory $subProcessorFactory
+     * @param Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
      * @param Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory
      * @param Enterprise_PageCache_Model_ContainerFactory $containerFactory
      */
@@ -132,7 +132,7 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
         Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Mage_Core_Model_Design_Package_Proxy $designPackage,
-        Mage_Core_Model_Cache_SubProcessorFactory $subProcessorFactory,
+        Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory,
         Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory,
         Enterprise_PageCache_Model_ContainerFactory $containerFactory
     ) {
@@ -763,9 +763,9 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
     /**
      * Set subprocessor
      *
-     * @param Mage_Core_Model_Cache_SubProcessorInterface $subProcessor
+     * @param Enterprise_PageCache_Model_Cache_SubProcessorInterface $subProcessor
      */
-    public function setSubprocessor(Mage_Core_Model_Cache_SubProcessorInterface $subProcessor)
+    public function setSubprocessor(Enterprise_PageCache_Model_Cache_SubProcessorInterface $subProcessor)
     {
         $this->_subProcessor = $subProcessor;
     }
@@ -773,7 +773,7 @@ class Enterprise_PageCache_Model_Processor implements Mage_Core_Model_Cache_Proc
     /**
      * Get subprocessor
      *
-     * @return Mage_Core_Model_Cache_SubProcessorInterface
+     * @return Enterprise_PageCache_Model_Cache_SubProcessorInterface
      */
     public function getSubprocessor()
     {
