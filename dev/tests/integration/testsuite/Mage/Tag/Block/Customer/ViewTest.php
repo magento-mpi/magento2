@@ -43,10 +43,13 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
      */
     public function testImage()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 
