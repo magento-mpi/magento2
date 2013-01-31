@@ -53,6 +53,8 @@
             this.resizableArea
                 .resizable({
                     handles: 'n',
+                    minHeight: 100,
+                    maxHeight: 700,
                     resize: function(event, ui) {
                         self._recalcDataHeight(ui.size.height);
                     }

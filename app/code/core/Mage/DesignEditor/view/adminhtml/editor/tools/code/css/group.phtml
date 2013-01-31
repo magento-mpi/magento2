@@ -12,7 +12,7 @@
 
 <div class="files-list">
     <div class="files-list-header">
-        <h5 class="title"><?php echo $this->getTitle() ?></h5>
+        <h5 class="title" title="<?php echo $this->escapeHtml($this->getTitle()) ?>"><?php echo $this->getTitle() ?></h5>
         <?php if ($this->hasAddButton()): ?>
             <a href="#vde-tab-custom" class="action-add" data-toggle="tab" title="<?php echo $this->__('Add Custom'); ?>">
                 <span><?php echo $this->__('Add Custom'); ?></span>
@@ -29,6 +29,12 @@
                             <span><?php echo $this->__('Download file'); ?></span>
                         </a>
                     <?php endif ?>
+                    <!--
+                    placeholder for "Edit button"
+                    <a href="#vde-tab-custom" class="action-edit" title="<?php echo $this->__('Edit Custom CSS'); ?>">
+                        <span><?php echo $this->__('Edit Custom CSS'); ?></span>
+                    </a>
+                    -->
                 </li>
             <?php endforeach ?>
         </ul>

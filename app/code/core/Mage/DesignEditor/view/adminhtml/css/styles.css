@@ -711,7 +711,7 @@ Fonts
 .vde-tools-header .action-close {
     position: absolute;
     top: 17px;
-    right: 0;
+    right: -7px;
     background: none;
     border: none;
     font-weight: normal;
@@ -874,17 +874,20 @@ Fonts
 .vde-tab-data {
     position: relative;
     padding: 50px 0;
+    color: #f2ebde;
 }
 
 .vde-tab-data .title {
-    font: 24px/1 "CallunaSans", Arial, sans-serif;
+    font: 24px/1.333 "CallunaSans", Arial, sans-serif;
     font-weight: 500;
     color: #f2ebde;
 }
 
 .vde-tab-data .action-download,
-.vde-tab-data .action-delete {
+.vde-tab-data .action-delete,
+.vde-tab-data .action-edit {
     display: inline-block;
+    margin-left: 10px;
     float: right;
     color: #9f978b;
     background: none;
@@ -899,12 +902,15 @@ Fonts
 .vde-tab-data .action-download:hover,
 .vde-tab-data .action-download:focus,
 .vde-tab-data .action-delete:hover,
-.vde-tab-data .action-delete:focus {
+.vde-tab-data .action-delete:focus,
+.vde-tab-data .action-edit:hover,
+.vde-tab-data .action-edit:focus {
     color: #fff;
 }
 
 .vde-tab-data .action-download:before,
-.vde-tab-data .action-delete:before {
+.vde-tab-data .action-delete:before,
+.vde-tab-data .action-edit:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -915,12 +921,17 @@ Fonts
 }
 
 .vde-tab-data .action-download span,
-.vde-tab-data .action-delete span {
+.vde-tab-data .action-delete span,
+.vde-tab-data .action-edit span {
     display: none;
 }
 
 .vde-tab-data .action-delete:before {
     content: '\e07f'; /* trash icon */
+}
+
+.vde-tab-data .action-edit:before {
+    content: '\e05b'; /* edit icon */
 }
 
 .vde-tab-content-header .vde-tab-controls {
@@ -958,12 +969,12 @@ Fonts
 .files-list {
     display: block;
     float: left;
-    margin-left: 12.127659574%;
+    margin-left: 14.127659574%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
-    width: 21.914893614%;
+    width: 23.914893614%;
     min-height: 250px;
 }
 
@@ -973,16 +984,23 @@ Fonts
 }
 
 .files-list-header {
+    position: relative;
     margin: 0 0 13px;
+    padding-right: 20px;
+    white-space: nowrap;
 }
 
 .files-list-header > .title {
-    float: left;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .files-list-header > .action-add {
     display: inline-block;
-    float: right;
+    position: absolute;
+    top:3px;
+    right:0;
     margin: 6px 0 0 0;
     width: 16px;
     height: 16px;
@@ -1017,16 +1035,32 @@ Fonts
 }
 
 .files-list-content .item {
-    padding: 10px 0 8px;
+    position: relative;
+    padding: 10px 50px 8px 0;
     border-bottom: 1px solid #31302b;
+    white-space: nowrap;
 }
 
-.files-list-content .item:last-child {
-    border-bottom: none;
+.files-list-content .item [class^="action-"] {
+    position: absolute;
+    top: 10px;
+    right: 0;
 }
+.files-list-content .item .action-edit {
+    right: 30px;
+}
+
+.files-list-content .item .filename {
+    display: block;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 
 .vde-tab-content-inner .filename {
-    font: bold 16px/1 "Helvetica", Arial, sans-serif;
+    font: bold 16px/1.333 "Helvetica", Arial, sans-serif;
+    vertical-align: middle;
 }
 
 /*
@@ -1126,7 +1160,7 @@ Fonts
 
 .custom-code-description [class^="action-"] {
     float: right;
-    margin: 0 0 0 15px;
+    margin: 0 0 0 10px;
 }
 
 .custom-code-description [class^="action-"]:before {
@@ -1167,6 +1201,12 @@ Fonts
     font: 14px/18px Helvetica, Arial, sans-serif;
     color: #f2ebde;
     padding: 20px 0;
+}
+
+@-moz-document url-prefix() {
+    .custom-code textarea {
+        padding-bottom: 3px;
+    }
 }
 
 .custom-code .action-update {
