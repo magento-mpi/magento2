@@ -268,6 +268,11 @@ new_product:
                                         remove_product_from_group: //tr[td[normalize-space(text())='%productSku%']]//button[text()='Delete']
                                     fields:
                                         associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//input[@name='qty']
+                                    links:
+                                        move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                    pageelements:
+                                        selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
+                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[contains(@class, 'grouped-product-sku')]
                             -
                                 bundle_items:
                                     xpath: //div[contains(div/h4,'Bundle Items')]
@@ -303,12 +308,12 @@ new_product:
                                         selection_item_price: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_price_value')]
                                         selection_item_default_qty: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_qty')]
                                     links:
-                                        move_product_item: //tr[contains(.,'%productSku%')]//span[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        move_bundle_product: //tr[contains(.,'%productSku%')]//span[@class='ui-icon ui-icon-grip-dotted-vertical']
                                     radiobuttons:
                                         selection_item_default: //tr[contains(.,'%productSku%')]//input[contains(@name,'[is_default]')]
                                     pageelements:
                                         selected_option_product: //tr[contains(.,'%productSku%')]
-                                        assigned_products: //td[@class='product-sku']
+                                        bundle_assigned_products: //td[@class='product-sku']
                             #Select product grid for bundle and grouped
                             -
                                 select_associated_product_option:
