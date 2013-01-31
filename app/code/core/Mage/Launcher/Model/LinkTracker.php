@@ -55,9 +55,14 @@ class Mage_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
         $this->_init('Mage_Launcher_Model_Resource_LinkTracker');
     }
 
+    /**
+     * Render URL, which points to launcher redirect controller
+     *
+     * @return  string
+     */
     public function renderUrl()
     {
-        echo $this->_urlBuilder->getUrl('launcher/redirect',  array('id' => $this->getId()));
+        return $this->_urlBuilder->getUrl('launcher/redirect',  array('id' => $this->getId()));
     }
 
 }

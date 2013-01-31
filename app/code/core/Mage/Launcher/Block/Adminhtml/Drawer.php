@@ -148,6 +148,7 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     public function getTrackerLink($route = '', $params = array())
     {
         $urlCode = md5($route . serialize($params));
+        $this->_linkTracker->unsetData();
         $this->_linkTracker->load($urlCode, 'code');
         if (!$this->_linkTracker->getId()) {
             $this->_linkTracker->setCode($urlCode);
