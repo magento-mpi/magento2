@@ -38,7 +38,6 @@
             <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::json2.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/suggest.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::mage/backend/multisuggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.hotkeys.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/tree-suggest.js</file></action>
@@ -92,7 +91,6 @@
             <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::json2.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/suggest.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::mage/backend/multisuggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.hotkeys.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/tree-suggest.js</file></action>
