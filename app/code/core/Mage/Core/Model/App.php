@@ -86,10 +86,6 @@ class Mage_Core_Model_App
      */
     const ADMIN_STORE_ID = 0;
 
-    /**
-     * Dependency injection configuration node name
-     */
-    const CONFIGURATION_DI_NODE = 'di';
 
     /**
      * Application loaded areas array
@@ -304,7 +300,6 @@ class Mage_Core_Model_App
         $this->_initCache();
         $this->_config->init();
         $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-        $this->loadDiConfiguration();
         Magento_Profiler::stop('init_config');
 
         if (Mage::isInstalled()) {
@@ -386,7 +381,6 @@ class Mage_Core_Model_App
 
             $this->_initModules();
             $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-            $this->loadDiConfiguration();
 
             if ($this->_config->isLocalConfigLoaded()) {
                 $this->_initCurrentStore(
@@ -1659,19 +1653,5 @@ class Mage_Core_Model_App
     public function isDeveloperMode()
     {
         return Mage::getIsDeveloperMode();
-    }
-
-    /**
-     * Load di configuration for given area
-     *
-     * @param string $areaCode
-     */
-    public function loadDiConfiguration($areaCode = Mage_Core_Model_App_Area::AREA_GLOBAL)
-    {
-        $configurationNode = $this->_config->getNode($areaCode . '/' . self::CONFIGURATION_DI_NODE);
-        if ($configurationNode) {
-            $configuration = $configurationNode->asArray();
-            $this->_objectManager->setConfiguration($configuration);
-        }
     }
 }
