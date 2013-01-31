@@ -68,6 +68,16 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $crud->testCrud();
     }
 
+    /**
+     * @magentoConfigFixture limitations/catalog_product 1
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     */
+    public function testSaveRestricted()
+    {
+        $this->setExpectedException('Mage_Core_Exception', 'Maximum allowed number of products is reached.');
+        require __DIR__ . '/../_files/multiple_products.php';
+    }
+
     public function testCleanCache()
     {
         Mage::app()->saveCache('test', 'catalog_product_999', array('catalog_product_999'));

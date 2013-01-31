@@ -39,9 +39,9 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
             'is_qty_decimal'            => 0,
             'is_in_stock'               => 1,
         )
-    )
-
-    ->save();
+    );
+$product->isObjectNew(true); // hack to make it not think that record is being updated if there is ID
+$product->save();
 
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)

@@ -99,9 +99,9 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_Cache $cacheManager
-     * @param array $data
      * @param Mage_Catalog_Model_Resource_Product $resource
      * @param Mage_Catalog_Model_Resource_Product_Collection $resourceCollection
+     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Event_Manager $eventDispatcher,
@@ -459,6 +459,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         }
 
         parent::_beforeSave();
+
+        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
+        if ($this->_isObjectNew && $limitation->isCreateRestricted()) {
+            throw new Mage_Core_Exception($limitation->getCreateRestrictedMessage());
+        }
     }
 
     /**
