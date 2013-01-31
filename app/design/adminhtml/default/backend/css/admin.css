@@ -822,6 +822,13 @@ blockquote small:before {
 }
 
 /*
+    Addresses
+-------------------------------------- */
+address {
+    font-style: normal;
+}
+
+/*
     Tables
 -------------------------------------- */
 table > caption {
@@ -2938,7 +2945,7 @@ tr.dynamic-grid input.input-text {
     background: #fbfaf6;
 }
 
-.data-table tfoot td:last-child {
+.data-table tfoot tr:last-child td {
     border: 0;
 }
 
