@@ -80,7 +80,6 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         $this->_config = $config;
     }
 
-
     /**
      * @return Mage_Core_Model_Encryption
      */

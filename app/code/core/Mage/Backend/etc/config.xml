@@ -117,11 +117,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <di>
-            <preferences>
-                <Mage_Core_Model_Config_Storage_WriterInterface>Mage_Core_Model_Config_Storage_Writer_Db</Mage_Core_Model_Config_Storage_WriterInterface>
-            </preferences>
-        </di>
         <layout>
             <updates>
                 <backend module='Mage_Backend'>

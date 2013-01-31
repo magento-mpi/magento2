@@ -40,7 +40,7 @@ class Mage_Core_Model_App_Area
     protected $_code;
 
     /**
-     * Area code
+     * Event Manager
      *
      * @var Mage_Core_Model_Event_Manager
      */

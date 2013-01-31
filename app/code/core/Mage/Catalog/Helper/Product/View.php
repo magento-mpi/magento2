@@ -41,8 +41,8 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
     public function __construct(
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_Config $config,
-        array $data = array())
-    {
+        array $data = array()
+    ) {
         parent::__construct($translator);
         $this->_config = $config;
     }

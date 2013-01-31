@@ -44,6 +44,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
+     * @param Mage_Core_Model_Translate $translator
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(Mage_Core_Model_Translate $translator, Magento_Filesystem $filesystem)

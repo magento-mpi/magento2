@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstraction of ACL Resource Loader
+ * Application request handler. Launches front controller, request routing and dispatching process.
  *
  * {license_notice}
  *
