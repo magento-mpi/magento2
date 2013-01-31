@@ -14,7 +14,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateControllerTest extends Magento_Test
     protected function setUp()
     {
         parent::setUp();
-        Mage::app()->loadDiConfiguration('adminhtml');
+        Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $auth Mage_Backend_Model_Auth */
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');

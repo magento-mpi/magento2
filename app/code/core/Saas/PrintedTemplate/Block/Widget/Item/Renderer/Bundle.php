@@ -133,6 +133,6 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
             $groupedChilds[$optionId]['items'][] = $item;
         }
 
-       return $groupedChilds;
+        return $groupedChilds;
     }
 }

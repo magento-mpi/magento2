@@ -617,22 +617,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Load di configuration for given area
-     *
-     * @param string $areaCode
-     */
-    public function loadDiConfiguration($areaCode = Mage_Core_Model_App_Area::AREA_GLOBAL)
-    {
-        $configurationNode = $this->_config->getNode(
-            $areaCode . '/' . Mage_Core_Model_AppInterface::CONFIGURATION_DI_NODE
-        );
-        if ($configurationNode) {
-            $configuration = $configurationNode->asArray();
-            $this->_objectManager->setConfiguration($configuration);
-        }
-    }
-
-    /**
      * Retrieve application store object without Store_Exception
      *
      * @param string|int|Mage_Core_Model_Store $id

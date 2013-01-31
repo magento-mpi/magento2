@@ -21,7 +21,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        Mage::app()->loadDiConfiguration(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_model = Mage::getModel('Mage_Backend_Model_Auth');
         Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
     }
@@ -29,7 +29,6 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_model = null;
-        Mage::app()->loadDiConfiguration(null);
     }
 
     public function testMenuItemManipulation()

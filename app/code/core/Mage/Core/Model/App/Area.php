@@ -47,21 +47,43 @@ class Mage_Core_Model_App_Area
     protected $_eventManager;
 
     /**
+     * Translator
+     *
      * @var Mage_Core_Model_Translate
      */
     protected $_translator;
 
     /**
+     * Application config
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Object manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Translate $translator
-     * @param $areaCode
+     * @param Mage_Core_Model_Config $config
+     * @param Magento_ObjectManager $objectManager
+     * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Config $config,
+        Magento_ObjectManager $objectManager,
         $areaCode
     ) {
         $this->_code = $areaCode;
+        $this->_config = $config;
+        $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
         $this->_translator = $translator;
     }
@@ -180,8 +202,16 @@ class Mage_Core_Model_App_Area
         return $this;
     }
 
+    /**
+     * Load area configuration
+     */
     protected function _initConfig()
     {
+        $configurationNode = $this->_config->getNode($this->_code . '/di');
+        if ($configurationNode) {
+            $configuration = $configurationNode->asArray();
+            $this->_objectManager->setConfiguration($configuration);
+        }
 
     }
 

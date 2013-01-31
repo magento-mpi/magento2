@@ -165,6 +165,9 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
     {
         //Data
         $associatedData = $this->loadDataSet('Product', $associatedType . '_product_required');
+        if ($associatedType == 'downloadable') {
+            $associatedData['downloadable_information_data']['downloadable_links_purchased_separately'] = 'No';
+        }
         if ($type == 'grouped') {
             $productData = $this->loadDataSet('Product', $type . '_product_required',
                 array('associated_search_sku' => $associatedData['general_sku']));

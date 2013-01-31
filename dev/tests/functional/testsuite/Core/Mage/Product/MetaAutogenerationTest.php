@@ -64,8 +64,8 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
     {
         //System settings
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
-            array('meta_title_mask'   => '{{name}}', 'meta_description_mask' => '{{name}} {{description}}',
-                  'meta_keyword_mask' => '{{name}}, {{sku}}', 'sku_mask'   => '{{name}}'));
+            array('meta_title_mask' => '{{name}}', 'meta_description_mask' => '{{name}} {{description}}',
+                  'meta_keyword_mask' => '{{name}},{{sku}}', 'sku_mask' => '{{name}}'));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($systemConfig);
         //System attributes
@@ -85,7 +85,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
      * <p>Meta Tab auto-generation verification</p>
      * <p>Preconditions:</p>
      *  <p>1a. Mask for Meta Title auto-generation = {{name}}</p>
-     *  <p>1b. Mask for Meta Keyword auto-generation = {{name}}, {{sku}}</p>
+     *  <p>1b. Mask for Meta Keyword auto-generation = {{name}},{{sku}}</p>
      *  <p>1c. Mask for Meta Description auto-generation = {{name}} {{description}}</p>
      *
      * @param $metaCode
@@ -131,10 +131,9 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Verifying, that autogeneration of meta fields does't work for product duplication</p>
+     * <p>Verifying, that autogeneration of meta fields doesn't work for product duplication</p>
      *
      * @test
-     * @depends verifyDefaultMask
      * @TestLinkId TL-MAGE-6165
      */
     public function duplicateSimple()
@@ -152,6 +151,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
+        $this->waitForControlEditable('field', 'general_name');
         $this->fillField('general_name', 'Name#2');
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -241,6 +241,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
      */
     public function afterChangeAttributeSet($metaCode, $metaField, $metaMask, $attributeSet)
     {
+        $this->markTestIncomplete('MAGETWO-7054');
         //Data
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask' => $metaMask, 'sku_mask' => '{{name}}'));
@@ -303,7 +304,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         return array(
             array('meta_title', 'meta_information_meta_title', 'text_field', '{{name}}'),
             array('meta_description', 'meta_information_meta_description', 'text_area', '{{name}} {{description}}'),
-            array('meta_keyword', 'meta_information_meta_keywords', 'text_area', '{{name}}, {{sku}}')
+            array('meta_keyword', 'meta_information_meta_keywords', 'text_area', '{{name}},{{sku}}')
         );
     }
 
@@ -352,7 +353,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
     {
         //Data
         $metaAttributes = array('meta_title', 'meta_keyword', 'meta_description');
-        $editedElement = array('values_required' => 'Yes',);
+        $editedElement = array('values_required' => 'Yes');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_attributes');
