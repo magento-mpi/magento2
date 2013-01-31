@@ -11,7 +11,7 @@
 
 (function($, undefined) {
     "use strict";
-    $.widget('mage.onepageStoreCredit', $.mage.storeCredit, {
+    $.widget('mage.onePageStoreCredit', $.mage.storeCredit, {
         _switchElement: function(element) {
             this.checkFree = false;
             if (element.attr('name') === "payment[method]" && element.val() === "free") {
