@@ -143,7 +143,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $options = array(
             Mage::PARAM_CUSTOM_LOCAL_CONFIG
-                => sprintf(Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000')
+                => sprintf(
+                    Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000'
+                )
         );
         $model = $this->_createModelWithApp($options);
 
@@ -187,7 +189,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('MAGETWO-6406');
         $options = array(
             Mage::PARAM_CUSTOM_LOCAL_CONFIG
-                => sprintf(Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000')
+                => sprintf(
+                    Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000'
+            )
         );
         $model = $this->_createModelWithApp($options);
 

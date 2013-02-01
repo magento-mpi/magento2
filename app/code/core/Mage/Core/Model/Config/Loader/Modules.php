@@ -18,7 +18,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
 
     /**
      * Load modules configuration
-    /**
+     *
      * @var Mage_Core_Model_Dir
      */
     protected $_dirs;

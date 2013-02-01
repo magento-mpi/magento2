@@ -162,7 +162,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
 
             $this->_initConfigs($data);
         }
-                if (isset($data['core_helper'])) {
+        if (isset($data['core_helper'])) {
             $this->_coreHelper = $data['core_helper'];
         } else {
             $this->_coreHelper = Mage::helper('Mage_Core_Helper_Data');

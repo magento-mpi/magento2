@@ -15,7 +15,7 @@ class Mage_Core_Model_Config_Invalidator_Proxy implements Mage_Core_Model_Config
     /**
      * @param Magento_ObjectManager $objectManager
      */
-    function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(Magento_ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

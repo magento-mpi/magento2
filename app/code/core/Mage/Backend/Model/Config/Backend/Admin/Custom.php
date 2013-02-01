@@ -48,8 +48,7 @@ class Mage_Backend_Model_Config_Backend_Admin_Custom extends Mage_Core_Model_Con
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
-    )
-    {
+    ) {
         $this->_configWriter = $configWriter;
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }

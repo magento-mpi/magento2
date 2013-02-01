@@ -141,8 +141,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testGetStores()
     {
         $this->assertNotEmpty($this->_mageModel->getStores());
-        $this->assertNotContains(Mage_Core_Model_AppInterface::ADMIN_STORE_ID, array_keys($this->_mageModel->getStores()));
-        $this->assertContains(Mage_Core_Model_AppInterface::ADMIN_STORE_ID, array_keys($this->_mageModel->getStores(true)));
+        $this->assertNotContains(
+            Mage_Core_Model_AppInterface::ADMIN_STORE_ID, array_keys($this->_mageModel->getStores())
+        );
+        $this->assertContains(
+            Mage_Core_Model_AppInterface::ADMIN_STORE_ID, array_keys($this->_mageModel->getStores(true))
+        );
     }
 
     public function testGetDefaultStoreView()
