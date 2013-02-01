@@ -1027,7 +1027,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                         array_unshift($this->_titles, $title);
                     }
                 }
-                $titleBlock->setTitle(implode(' / ', array_reverse($this->_titles)));
+                $titleBlock->setTitle(array_reverse($this->_titles));
             }
         }
     }
