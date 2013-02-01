@@ -16,6 +16,9 @@
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Backend_Block_Widget_Form
 {
+    /**
+     * Upload file element html id
+     */
     const FILE_ELEMENT_NAME = 'css_file_uploader';
 
     /**
@@ -40,7 +43,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Config $config
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -120,6 +123,19 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
         }
 
         return implode('<br />', $messages);
+    }
+
+    /**
+     * Get url to download custom CSS file
+     *
+     * @param $themeId
+     * @return string
+     */
+    public function getDownloadCustomCssUrl($themeId)
+    {
+        return $this->getUrl('*/system_design_theme/downloadCustomCss', array(
+            'theme_id' => $themeId
+        ));
     }
 
     /**
