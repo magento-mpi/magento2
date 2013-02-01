@@ -42,9 +42,16 @@ class Mage_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_TestCa
      */
     protected $_websiteMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_groupMock;
+
     protected function setUp()
     {
         $this->_websiteMock = $this->getMock('Mage_Core_Model_Website',
+            array('getCode', 'getId'), array(), '', false, false);
+        $this->_groupMock = $this->getMock('Mage_Core_Model_Store_Group',
             array('getCode', 'getId'), array(), '', false, false);
         $this->_storeFactoryMock = $this->getMock('Mage_Core_Model_StoreFactory',
             array('create'), array(), '', false, false);
@@ -55,8 +62,12 @@ class Mage_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_TestCa
             ->method('create')
             ->will($this->returnValue($this->_websiteMock));
         $this->_groupFactoryMock = $this->getMock('Mage_Core_Model_Store_Group_Factory',
-            array(), array(), '', false, false);
-        $this->_storeMock = $this->getMock('Mage_Core_Model_Store', array('setId', 'setCode'),
+            array('createFromArray'), array(), '', false, false);
+        $this->_groupFactoryMock
+            ->expects($this->once())
+            ->method('createFromArray')
+            ->will($this->returnValue($this->_groupMock));
+        $this->_storeMock = $this->getMock('Mage_Core_Model_Store', array('setId', 'setCode', 'getCode'),
             array(), '', false, false);
         $this->_storeFactoryMock->expects($this->once())
             ->method('create')
@@ -119,5 +130,45 @@ class Mage_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_TestCa
         $this->_websiteMock->expects($this->never())->method('getId');
         $result = $this->_model->getWebsites($withDefault, $codeKey);
         $this->assertEquals(array(), $result);
+    }
+
+    public function testGetGroup()
+    {
+        $groupId = 'testGroup';
+        $this->assertInstanceOf('Mage_Core_Model_Store_Group', $this->_model->getGroup($groupId));
+    }
+
+    public function testGetGroupsWithDefault()
+    {
+        $withDefault = true;
+        $codeKey = 'someKey';
+        $this->_groupMock->expects($this->once())->method('getCode')->will($this->returnValue(0));
+        $this->_groupMock->expects($this->never())->method('getId');
+        $result = $this->_model->getGroups($withDefault, $codeKey);
+        $this->assertInstanceOf('Mage_Core_Model_Store_Group', $result[0]);
+    }
+
+    public function testGetGroupsWithoutDefault()
+    {
+        $withDefault = false;
+        $codeKey = 'someKey';
+        $this->_groupMock->expects($this->never())->method('getCode');
+        $this->_groupMock->expects($this->never())->method('getId');
+        $result = $this->_model->getGroups($withDefault, $codeKey);
+        $this->assertEquals(array(), $result);
+    }
+
+    public function testGetDefaultStoreView()
+    {
+        $this->assertNull($this->_model->getDefaultStoreView());
+    }
+
+    public function testGetCurrentStore()
+    {
+        $this->_storeMock->expects($this->once())
+            ->method('getCode')
+            ->will($this->returnValue('result'));
+        $result = $this->_model->getCurrentStore();
+        $this->assertEquals('result', $result);
     }
 }
