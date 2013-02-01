@@ -10,6 +10,8 @@
 
 /**
  * Form element renderer to display link element
+ *
+ * @method array getValues()
  */
 class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links extends Varien_Data_Form_Element_Abstract
 {
@@ -34,15 +36,21 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links ext
         $html = '<div id="'.$this->getHtmlId().'" ' . $this->serialize($this->getHtmlAttributes()) . '>'."\n";
 
         $values = $this->getValues();
-
+        $links = array();
         if ($values) {
             foreach ($values as $option) {
-                $html .= $this->_optionToHtml($option);
+                $links[] = $this->_optionToHtml($option);
             }
         }
 
-        $html.= '</div><br />'."\n";
-        $html.= $this->getAfterElementHtml();
+        $html = sprintf('<div id="%s" %s>%s%s</div><br />%s%s',
+            $this->getHtmlId(),
+            $this->serialize($this->getHtmlAttributes()),
+            PHP_EOL,
+            join('', $links),
+            PHP_EOL,
+            $this->getAfterElementHtml()
+        );
         return $html;
     }
 
@@ -62,10 +70,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links ext
             }
             $attributes[] = $title . '="' . $this->_escape($value) . '"';
         }
-        $html = '<a ' . implode(' ', $attributes) . '>';
-        $html .= $this->_escape($option['label']);
-        $html .= '</a>';
-        $html .= isset($option['delimiter']) ? $option['delimiter'] : '';
+
+        $html = sprintf('<a %s>%s</a>%s',
+            join(' ', $attributes),
+            $this->_escape($option['label']),
+            isset($option['delimiter']) ? $option['delimiter'] : ''
+        );
+
         return $html;
     }
 

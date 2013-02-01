@@ -23,9 +23,7 @@
     </div>
     <div class="vde-tab-content-inner">
         <div class="vde-tab-data">
-            <?php echo $this->getChildHtml('design_editor_tools_code_css') ?>
-            <?php echo $this->getChildHtml('design_editor_tools_code_js') ?>
-            <?php echo $this->getChildHtml('design_editor_tools_code_custom') ?>
+            <?php echo join('', $this->getTabs()) ?>
         </div>
     </div>
 </div>

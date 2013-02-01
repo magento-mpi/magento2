@@ -21,10 +21,7 @@
     <div class="vde-tools-content">
         <div class="vde-tools-content-inner">
             <div class="vde-tools-handler-container"></div>
-            <?php echo $this->getChildHtml('design_editor_tools_design') ?>
-            <?php echo $this->getChildHtml('design_editor_tools_block') ?>
-            <?php echo $this->getChildHtml('design_editor_tools_settings') ?>
-            <?php echo $this->getChildHtml('design_editor_tools_code') ?>
+            <?php echo join('', $this->getTabs()) ?>
         </div>
     </div>
     <footer class="vde-tools-footer">

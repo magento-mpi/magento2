@@ -13,4 +13,17 @@
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code extends Mage_Core_Block_Template
 {
+    /**
+     * Get tabs html
+     *
+     * @return array
+     */
+    public function getTabs()
+    {
+        return array(
+            $this->getChildHtml('design_editor_tools_code_css'),
+            $this->getChildHtml('design_editor_tools_code_js'),
+            $this->getChildHtml('design_editor_tools_code_custom')
+        );
+    }
 }
