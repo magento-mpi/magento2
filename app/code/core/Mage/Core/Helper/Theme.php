@@ -14,13 +14,6 @@
 class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
 {
     /**
-     * Object manager
-     *
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
      * Directories
      *
      * @var Mage_Core_Model_Dir
@@ -28,14 +21,32 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     protected $_dirs;
 
     /**
+     * Layout merge factory
+     *
+     * @var Mage_Core_Model_Layout_Merge_Factory
+     */
+    protected $_layoutMergeFactory;
+
+    /**
+     * Theme collection model
+     *
+     * @var Mage_Core_Model_Resource_Theme_Collection
+     */
+    protected $_themeCollection;
+
+
+    /**
      * Constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Layout_Merge_Factory $layoutMergeFactory
+     * @param Mage_Core_Model_Resource_Theme_Collection $themeCollection
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(Mage_Core_Model_Dir $dirs, Mage_Core_Model_Layout_Merge_Factory $layoutMergeFactory, Mage_Core_Model_Resource_Theme_Collection $themeCollection)
     {
-        $this->_objectManager = $objectManager;
-        $this->_dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $this->_dirs = $dirs;
+        $this->_layoutMergeFactory = $layoutMergeFactory;
+        $this->_themeCollection = $themeCollection;
     }
 
     /**
@@ -56,7 +67,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
             'theme' => $theme->getId()
         );
         /** @var $layoutMerge Mage_Core_Model_Layout_Merge */
-        $layoutMerge = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => $arguments));
+        $layoutMerge = $this->_layoutMergeFactory->create(array('arguments' => $arguments));
         $layoutElement = $layoutMerge->getFileLayoutUpdatesXml();
 
         $xpathRefs = '//reference[@name="head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
@@ -153,8 +164,8 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      *
      * @param array $file
      * @param string $designDir
-     * @throws InvalidArgumentException
      * @return Mage_Theme_Helper_Data
+     * @throws Mage_Core_Exception
      */
     protected function _detectTheme(&$file, $designDir)
     {
@@ -174,9 +185,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         if ($area === false || $package === false || $theme === false) {
             Mage::throwException($this->__('Theme path "%s/%s/%s" is incorrect', $area, $package, $theme));
         }
-        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_objectManager->create('Mage_Core_Model_Resource_Theme_Collection');
-        $themeModel = $collection->getThemeByFullPath($area . '/' . $package . '/' . $theme);
+        $themeModel = $this->_themeCollection->getThemeByFullPath($area . '/' . $package . '/' . $theme);
 
         if (!$themeModel || !$themeModel->getId()) {
             Mage::throwException($this->__('Invalid theme loaded by theme path "%s/%s/%s"', $area, $package, $theme));
@@ -339,6 +348,8 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      *
      * Path is considered from the base Magento directory
      *
+     * @param string $filePath
+     * @param string $basePath
      * @return string
      */
     public function getSafePath($filePath, $basePath)
