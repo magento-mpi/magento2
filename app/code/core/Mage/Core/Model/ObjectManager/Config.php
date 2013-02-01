@@ -20,15 +20,14 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
             'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
             'Mage_Core_Model_Config_InvalidatorInterface' => 'Mage_Core_Model_Config_Invalidator_Proxy',
         ),
+        'Mage_Core_Model_Cache' => array(
+            'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
+        ),
         'Mage_Core_Model_Config' => array(
-            'parameters' => array(
-                'storage' => 'Mage_Core_Model_Config_Storage',
-            )
+            'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage')
         ),
         'Mage_Core_Model_Config_Resource' => array(
-            'parameters' => array(
-                'config' => 'Mage_Core_Model_Config_Primary',
-            )
+            'parameters' => array('config' => 'Mage_Core_Model_Config_Primary')
         ),
         'Mage_Core_Model_Config_Locales' => array(
             'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage_Locales')

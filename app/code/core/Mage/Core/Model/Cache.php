@@ -102,23 +102,22 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     protected $_globalBanUseCache = false;
 
     /**
-     * Initialize cache instance based on options
-     *
-     * @param Mage_Core_Model_Config_Primary $config
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Config_Primary $cacheConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param bool $banCache
      * @param array $options
      */
     public function __construct(
-        Mage_Core_Model_Config_Primary $config,
+        Mage_Core_Model_ConfigInterface $config,
+        Mage_Core_Model_Config_Primary $cacheConfig,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Factory_Helper $helperFactory,
         $banCache = false,
         array $options = array()
     ) {
-        $this->_config = $config;
-        $configOptions = $this->_config->getNode('global/cache');
+        $configOptions = $cacheConfig->getNode('global/cache');
         if ($configOptions) {
             $configOptions = $configOptions->asArray();
         } else {
@@ -126,6 +125,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
         }
         $options = array_merge($configOptions, $options);
 
+        $this->_config = $config;
         $this->_helperFactory = $helperFactory;
         $this->_globalBanUseCache = $banCache;
 
@@ -671,7 +671,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     public function getTypes()
     {
         $types = array();
-        $config = Mage::getConfig()->getNode(self::XML_PATH_TYPES);
+        $config = $this->_config->getNode(self::XML_PATH_TYPES);
         if ($config) {
             /** @var $helper Mage_Core_Helper_Data*/
             $helper = $this->_helperFactory->get('Mage_Core_Helper_Data');

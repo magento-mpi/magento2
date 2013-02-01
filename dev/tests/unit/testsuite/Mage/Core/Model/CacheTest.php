@@ -8,50 +8,58 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Mage_Core_Model_Dir
-     */
-    protected static $_dirs;
-
     /**
      * @var Mage_Core_Model_Cache
      */
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Config_Primary
      */
-    protected $_app;
+    protected $_primaryConfigMock;
 
     /**
-     * @var Mage_Core_Helper_Abstract
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helper;
+    protected $_configMock;
 
     /**
-     * @var Zend_Cache_Backend|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dirsMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperFactoryMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject;
      */
     protected $_cacheFrontend;
 
-    /**
-     * @var stdClass|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_requestProcessor;
-
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $objectManagerMock = $this->getMock('Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false);
-        $objectManagerMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnCallback(array($this, 'getInstance')));
+        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Mage_Core_Helper_Data', array('__'), array(), '', false);
+        $this->_helperMock
+            ->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+        $this->_helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
 
-        $cacheInterfaceMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
+        $this->_dirsMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
 
-        $config = new Mage_Core_Model_Config($objectManagerMock, $cacheInterfaceMock, <<<XML
+        $this->_primaryConfigMock = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
+
+        $this->_configMock = new Mage_Core_Model_Config_Base(<<<XML
             <config>
                 <global>
                     <cache>
@@ -72,34 +80,25 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             </config>
 XML
         );
-        $this->_app = $this->getMock('Mage_Core_Model_App', array('getConfig'), array(), '', false);
-        $this->_app->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnValue($config));
-        $this->_helper = $this->getMock('Mage_Core_Helper_Data', array('__'));
-        $this->_helper
-            ->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0))
-        ;
+
         $this->_cacheFrontend = $this->getMock(
             'Zend_Cache_Core', array('load', 'test', 'save', 'remove', 'clean', '_getHelper')
         );
-        $this->_requestProcessor = $this->getMock('stdClass', array('extractContent'));
         $this->_model = new Mage_Core_Model_Cache(
-            $this->_app, self::$_dirs,
-            array(
-                'helper'   => $this->_helper,
+            $this->_configMock, $this->_primaryConfigMock, $this->_dirsMock, $this->_helperFactoryMock, false, array(
                 'frontend' => $this->_cacheFrontend,
                 'backend'  => 'BlackHole',
-                'request_processors' => array($this->_requestProcessor),
-        ));
-
+            )
+        );
     }
 
     protected function tearDown()
     {
-        $this->_app = null;
+        $this->_primaryConfigMock = null;
+        $this->_configMock = null;
+        $this->_dirsMock = null;
+        $this->_helperFactoryMock = null;
+        $this->_helperMock = null;
         $this->_cacheFrontend = null;
         $this->_model = null;
     }
@@ -126,8 +125,11 @@ XML
      */
     public function testConstructor(array $options, $expectedBackendClass)
     {
-        $options += array('helper' => $this->_helper);
-        $model = new Mage_Core_Model_Cache($this->_app, self::$_dirs, $options);
+        $options += array('helper' => $this->_helperMock);
+        $model = new Mage_Core_Model_Cache(
+            $this->_configMock, $this->_primaryConfigMock, $this->_dirsMock,
+            $this->_helperFactoryMock, false, $options
+        );
 
         $backend = $model->getFrontend()->getBackend();
         $this->assertInstanceOf($expectedBackendClass, $backend);
@@ -203,8 +205,8 @@ XML
 
     public function testSaveDisallowed()
     {
-        $model = new Mage_Core_Model_Cache($this->_app, self::$_dirs, array(
-            'helper'   => $this->_helper,
+        $model = new Mage_Core_Model_Cache(
+            $this->_configMock, $this->_primaryConfigMock, $this->_dirsMock, $this->_helperFactoryMock, array(
             'frontend' => $this->_cacheFrontend,
             'backend'  => 'BlackHole',
             'disallow_save' => true
@@ -424,41 +426,5 @@ XML
             ->with(serialize(array('single_tag' => 1)), strtoupper(Mage_Core_Model_Cache::INVALIDATED_TYPES))
         ;
         $this->_model->cleanType('multiple_tags');
-    }
-
-    public function testProcessRequestFalse()
-    {
-        $response = new Zend_Controller_Response_Http();
-        $this->_model = new Mage_Core_Model_Cache($this->_app, self::$_dirs, array(
-            'helper'   => $this->_helper,
-            'frontend' => $this->_cacheFrontend,
-            'backend'  => 'BlackHole',
-        ));
-        $this->assertFalse($this->_model->processRequest($response));
-    }
-
-    public function testProcessRequestTrue()
-    {
-        $response = new Zend_Controller_Response_Http();
-        $response->setBody('Initial response body.');
-        $this->_requestProcessor
-            ->expects($this->any())
-            ->method('extractContent')
-            ->will($this->returnValue('Additional response text.'))
-        ;
-        $this->assertTrue($this->_model->processRequest($response));
-        $this->assertEquals('Initial response body.Additional response text.', $response->getBody());
-    }
-
-    /**
-     * Callback to use instead Magento_ObjectManager_Zend::create
-     *
-     * @param string $className
-     * @param array $params
-     * @return string
-     */
-    public function getInstance($className, $params = array())
-    {
-        return new $className($params);
     }
 }
