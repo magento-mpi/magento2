@@ -29,6 +29,9 @@ class Enterprise_PageCache_Model_ObjectManager_ConfiguratorTest extends PHPUnit_
         $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false, false);
 
         $expectedParams = array(
+            'Enterprise_PageCache_Model_Cache' => array(
+                'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
+            ),
             'Enterprise_PageCache_Model_Processor' => array(
                 'parameters' => array('scopeCode' => 'run_code'),
             ));

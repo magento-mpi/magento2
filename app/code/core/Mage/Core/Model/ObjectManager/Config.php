@@ -63,7 +63,7 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
      */
     public function configure(Magento_ObjectManager $objectManager)
     {
-        $objectManager->setConfiguration(array_merge(
+        $objectManager->setConfiguration(array_replace_recursive(
             $this->_initialConfig,
             array(
                 'Mage_Core_Model_Dir' => array(

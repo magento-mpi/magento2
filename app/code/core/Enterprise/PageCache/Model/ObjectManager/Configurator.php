@@ -18,6 +18,9 @@ class Enterprise_PageCache_Model_ObjectManager_Configurator extends Mage_Core_Mo
     public function configure(Magento_ObjectManager $objectManager)
     {
         $objectManager->setConfiguration(array(
+            'Enterprise_PageCache_Model_Cache' => array(
+                'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
+            ),
             'Enterprise_PageCache_Model_Processor' => array(
                 'parameters' => array('scopeCode' => $this->_getParam(Mage::PARAM_RUN_CODE, '')),
             ),
