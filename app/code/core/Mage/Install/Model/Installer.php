@@ -26,16 +26,22 @@ class Mage_Install_Model_Installer extends Varien_Object
     protected $_dataModel;
 
     /**
+     * DB updated model
+     *
      * @var Mage_Core_Model_Db_UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
+     * Application chache model
+     *
      * @var Mage_Core_Model_Cache
      */
     protected $_cache;
 
     /**
+     * Application config model
+     *
      * @var Mage_Core_Model_ConfigInterface
      */
     protected $_config;

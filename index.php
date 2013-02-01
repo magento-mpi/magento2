@@ -8,7 +8,7 @@
  * $params['MAGE_RUN_CODE'] = 'website2';
  * $params['MAGE_RUN_TYPE'] = 'website';
  * ...
- * new Mage_Core_Model_EntryPoint_Http($params)
+ * new Mage_Core_Model_EntryPoint_Http(BP, $params)
  * --------------------------------------------
  *
  * {license_notice}

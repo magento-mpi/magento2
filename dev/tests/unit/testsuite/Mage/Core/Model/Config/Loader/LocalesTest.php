@@ -1,15 +1,13 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     *
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * Test class for Mage_Core_Model_Config_Loader_Locales
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * Test class for Mage_Core_Model_Config_Loader_Locales
-     */
 class Mage_Core_Model_Config_Loader_LocalesTest extends PHPUnit_Framework_TestCase
 {
     /**

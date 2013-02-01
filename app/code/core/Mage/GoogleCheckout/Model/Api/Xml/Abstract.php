@@ -20,6 +20,10 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
      */
     protected $_translator;
 
+    /**
+     * @param Mage_Core_Model_Translate $translator
+     * @param array $data
+     */
     public function __construct(Mage_Core_Model_Translate $translator, array $data = array())
     {
         parent::__construct($data);

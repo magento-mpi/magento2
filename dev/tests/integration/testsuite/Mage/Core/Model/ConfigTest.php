@@ -23,299 +23,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         Mage::app()->getCacheInstance()->banUse('config');
     }
 
-    public function testGetResourceModel()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $this->assertInstanceOf('Mage_Core_Model_Resource_Config', $this->_createModel(true)->getResourceModel());
-    }
-
-    public function testInit()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $model = $this->_createModel();
-        $this->assertFalse($model->getNode());
-        $model->init();
-        $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode());
-    }
-
-    public function testLoadBase()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $model = $this->_createModel();
-        $this->assertFalse($model->getNode());
-        $model->loadBase();
-        $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode('global'));
-    }
-
-    /**
-     * @param string $etcDir
-     * @param array $configOptions
-     * @param string $expectedValue
-     * @param string $expectedNode
-     * @dataProvider loadBaseLocalConfigDataProvider
-     */
-    public function testLoadBaseLocalConfig($etcDir, array $configOptions, $expectedValue,
-        $expectedNode = 'global/resources/core_setup/connection/model'
-    ) {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $configOptions[Mage::PARAM_APP_DIRS] = array(
-            Mage_Core_Model_Dir::CONFIG => __DIR__ . "/_files/local_config/{$etcDir}",
-        );
-        $model = $this->_createModelWithApp($configOptions);
-
-        $model->loadBase();
-        $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
-        $this->assertEquals($expectedValue, (string)$model->getNode($expectedNode));
-    }
-
-    /**
-     * @return array
-     */
-    public function loadBaseLocalConfigDataProvider()
-    {
-        $extraConfigData = '
-            <root>
-                <global>
-                    <resources>
-                        <core_setup>
-                            <connection>
-                                <model>overridden</model>
-                            </connection>
-                        </core_setup>
-                    </resources>
-                </global>
-            </root>
-        ';
-        return array(
-            'no local config file & no custom config file' => array(
-                'no_local_config',
-                array(),
-                'b',
-            ),
-            'no local config file & custom config file' => array(
-                'no_local_config',
-                array(Mage::PARAM_CUSTOM_LOCAL_FILE => 'custom/local.xml'),
-                'b',
-            ),
-            'no local config file & custom config data' => array(
-                'no_local_config',
-                array(Mage::PARAM_CUSTOM_LOCAL_CONFIG => $extraConfigData),
-                'overridden',
-            ),
-            'local config file & no custom config file' => array(
-                'local_config',
-                array(),
-                'local',
-            ),
-            'local config file & custom config file' => array(
-                'local_config',
-                array(Mage::PARAM_CUSTOM_LOCAL_FILE => 'custom/local.xml'),
-                'custom',
-            ),
-            'local config file & prohibited custom config file' => array(
-                'local_config',
-                array(Mage::PARAM_CUSTOM_LOCAL_FILE => 'custom/prohibited.filename.xml'),
-                'local',
-            ),
-            'local config file & custom config data' => array(
-                'local_config',
-                array(
-                    Mage::PARAM_CUSTOM_LOCAL_CONFIG => $extraConfigData),
-                'overridden',
-            ),
-            'local config file & custom config file & custom config data' => array(
-                'local_config',
-                array(
-                    Mage::PARAM_CUSTOM_LOCAL_FILE => 'custom/local.xml',
-                    Mage::PARAM_CUSTOM_LOCAL_CONFIG => $extraConfigData,
-                ),
-                'overridden',
-            ),
-        );
-    }
-
-    public function testLoadBaseInstallDate()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        if (date_default_timezone_get() != 'UTC') {
-            $this->markTestSkipped('Test requires "UTC" to be the default timezone.');
-        }
-
-        $options = array(
-            Mage::PARAM_CUSTOM_LOCAL_CONFIG
-                => sprintf(
-                    Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'Fri, 21 Dec 2012 00:00:00 +0000'
-                )
-        );
-        $model = $this->_createModelWithApp($options);
-
-        $model->loadBase();
-        $this->assertEquals(1356048000, $model->getInstallDate());
-    }
-
-    public function testLoadBaseInstallDateInvalid()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $options = array(
-            Mage::PARAM_CUSTOM_LOCAL_CONFIG
-                => sprintf(Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
-        );
-        $model = $this->_createModelWithApp($options);
-
-        $model->loadBase();
-        $this->assertEmpty($model->getInstallDate());
-    }
-
-    public function testLoadLocales()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $options = array(
-            Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::LOCALE => __DIR__ . '/_files/locale',
-            )
-        );
-        $model = $this->_createModelWithApp($options);
-
-        $model->loadBase();
-        $model->loadLocales();
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode('global/locale'));
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testLoadModulesCache()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $options = array(
-            Mage::PARAM_CUSTOM_LOCAL_CONFIG
-                => sprintf(
-                    Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'Wed, 21 Nov 2012 03:26:00 +0000'
-            )
-        );
-        $model = $this->_createModelWithApp($options);
-
-        Mage::app()->getCacheInstance()->allowUse('config');
-
-        $model->loadBase();
-        $this->assertTrue($model->loadModulesCache());
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode());
-    }
-
-    public function testLoadModules()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $model = $this->_createModel();
-        $model->loadBase();
-        $this->assertFalse($model->getNode('modules'));
-        $model->loadModules();
-        $moduleNode = $model->getNode('modules/Mage_Core');
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $moduleNode);
-        $this->assertTrue($moduleNode->is('active'));
-    }
-
-    public function testLoadModulesLocalConfigPrevails()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $options = array(
-            Mage::PARAM_CUSTOM_LOCAL_CONFIG
-                => '<config><modules><Mage_Core><active>false</active></Mage_Core></modules></config>'
-        );
-        $model = $this->_createModelWithApp($options);
-
-        $model->loadBase();
-        $model->loadModules();
-
-        $moduleNode = $model->getNode('modules/Mage_Core');
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $moduleNode);
-        $this->assertFalse($moduleNode->is('active'), 'Local configuration must prevail over modules configuration.');
-    }
-
-    public function testIsLocalConfigLoaded()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $model = $this->_createModel();
-        $this->assertFalse($model->isLocalConfigLoaded());
-        $model->loadBase();
-        $this->assertTrue($model->isLocalConfigLoaded());
-    }
-
-    public function testReinitBaseConfig()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $options[Mage::PARAM_CUSTOM_LOCAL_CONFIG] = '<config><test>old_value</test></config>';
-
-        $objectManager = new Magento_Test_ObjectManager(new Mage_Core_Model_ObjectManager_Config($options), BP);
-        $model = $objectManager->get('Mage_Core_Model_Config');
-
-        /** @var $app Mage_Core_Model_App */
-        $app = $objectManager->get('Mage_Core_Model_App');
-
-        $model->loadBase();
-        $this->assertEquals('old_value', $model->getNode('test'));
-
-        $model->reinit();
-        $this->assertEquals('new_value', $model->getNode('test'));
-    }
-
-    public function testGetCache()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $this->assertInstanceOf('Varien_Cache_Core', $this->_createModel()->getCache());
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testSaveCache()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        Mage::app()->getCacheInstance()->allowUse('config');
-
-        $model = $this->_createModel();
-        $model->removeCache();
-        $this->assertFalse($model->loadCache());
-
-        $model->saveCache(array(Mage_Core_Model_Cache::OPTIONS_CACHE_ID));
-        $this->assertTrue($model->loadCache());
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode());
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testRemoveCache()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        Mage::app()->getCacheInstance()->allowUse('config');
-
-        $model = $this->_createModel();
-        $model->removeCache();
-        $this->assertFalse($model->loadCache());
-    }
-
-    public function testGetSectionNode()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $this->assertInstanceOf(
-            'Mage_Core_Model_Config_Element', $this->_createModel()->getSectionNode(array('admin'))
-        );
-    }
-
-    public function testGetNode()
-    {
-        $this->markTestIncomplete('MAGETWO-6406');
-        $model = $this->_createModel();
-        $this->assertFalse($model->getNode());
-        $model->init();
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode());
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode(null, 'store', 1));
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode(null, 'website', 1));
-    }
-
     public function testSetNode()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
         $model = $this->_createModel(true);
         /* some existing node should be used */
         $model->setNode('admin/routers/adminhtml/use', 'test');
@@ -324,8 +33,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testDetermineOmittedNamespace()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
-
         $model = $this->_createModel(true);
         $this->assertEquals('cms', $model->determineOmittedNamespace('cms'));
         $this->assertEquals('Mage_Cms', $model->determineOmittedNamespace('cms', true));
@@ -413,8 +120,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($model->shouldUrlBeSecure('/checkout/onepage'));
     }
 
-
-
     /**
      * Instantiate Mage_Core_Model_Config and initialize (load configuration) if needed
      *
@@ -443,7 +148,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAreas()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
         $model = $this->_createModel(true, array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
 
         $allowedAreas = $model->getAreas();
@@ -476,7 +180,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRouters()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
         $model = $this->_createModel(true, array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
 
         $loadedRouters = $model->getRouters();

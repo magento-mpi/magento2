@@ -8,6 +8,10 @@
 
 class Mage_Index_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstract
 {
+    /**
+     * @param string $baseDir
+     * @param array $params
+     */
     public function __construct($baseDir, array $params = array())
     {
         $entryPoint = $params['entryPoint'];

@@ -19,6 +19,8 @@
 class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
 {
     /**
+     * Application cache model
+     *
      * @var Mage_Core_Model_Cache
      */
     protected $_cache;
@@ -29,7 +31,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
      * @param Mage_Core_Model_Cache $cache
-     * @param $resourceName
+     * @param string $resourceName
      */
     public function __construct(
         Mage_Core_Model_Config_Resource $resourcesConfig,

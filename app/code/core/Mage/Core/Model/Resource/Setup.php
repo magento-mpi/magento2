@@ -103,7 +103,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
      * @param Mage_Core_Model_Config_Modules $modulesConfig
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
-     * @param $resourceName
+     * @param string $resourceName
      */
     public function __construct(
         Mage_Core_Model_Config_Resource $resourcesConfig,
