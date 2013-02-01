@@ -13,8 +13,10 @@
 $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
 ?>
 <form action="" id="drawer-form" method="post">
-    <?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
+    <input type="checkbox" value="1" name="shipping_enabled" checked="checked" id="shipping_enabled" />
+    <label for="shipping_enabled" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping Enabled'); ?></span></label>
 
+    <?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
     <div class="shipping-method-config-form">
         <div class="shipping-method-data">
             <div style="display: block;" class="shipping-method-data-fields">
