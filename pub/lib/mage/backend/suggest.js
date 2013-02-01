@@ -323,8 +323,9 @@
          */
         _setTemplate: function() {
             this.templateName = 'suggest' + Math.random().toString(36).substr(2);
-            if ($(this.options.template).length && $(this.options.template).prop('type')=== 'text/x-jquery-tmpl') {
-                $(this.options.template).template(this.templateName);
+            var template = $(this.options.template);
+            if (template.length && template.prop('type')=== 'text/x-jquery-tmpl') {
+                template.template(this.templateName);
             } else {
                 $.template(this.templateName, this.options.template);
             }
