@@ -467,7 +467,8 @@ class Mage_Core_Model_App
      */
     protected function _ensureDirWritable($path)
     {
-        if (!is_dir($path)) {
+        // create a directory, if no directory or file with the same path already exists
+        if (!file_exists($path)) {
             mkdir($path, 0777);
         }
         if (!is_dir($path) || !is_writable($path)) {
