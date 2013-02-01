@@ -32,7 +32,7 @@ class Mage_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
         $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
         $this->_filesystemMock = $this->getMock('Varien_Io_File', array(), array(), '', false, false);
 
-        $this->_model = new Mage_Core_Model_Logger($this->_dirMock, $this->_filesystemMock);
+        $this->_model = new Mage_Core_Model_Logger($this->_dirMock, $this->_filesystemMock, 'php://output');
         $this->_loggersProperty = new ReflectionProperty($this->_model, '_loggers');
         $this->_loggersProperty->setAccessible(true);
     }

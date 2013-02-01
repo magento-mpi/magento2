@@ -99,20 +99,6 @@ class Mage_Core_Model_Config_Loader_Modules_FileTest extends PHPUnit_Framework_T
             $configCache);
     }
 
-    public function testGetModuleDirWithoutData()
-    {
-        $moduleName = '';
-        $type = '';
-        $expectedValue = '\\\\';
-        $this->_modulesConfigMock->expects($this->once())
-            ->method('getNode');
-        $this->_dirsMock->expects($this->once())
-            ->method('getDir')
-            ->with($this->equalTo(Mage_Core_Model_Dir::MODULES));
-        $actualValue = $this->_model->getModuleDir($this->_modulesConfigMock, $type, $moduleName);
-        $this->assertEquals($expectedValue, $actualValue);
-    }
-
     public function testGetModuleDirWithData()
     {
         $moduleName = 'test';
