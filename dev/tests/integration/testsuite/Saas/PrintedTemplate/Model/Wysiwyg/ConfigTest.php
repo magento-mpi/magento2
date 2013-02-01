@@ -14,7 +14,6 @@ class Saas_PrintedTemplate_Model_Wysiwyg_ConfigTest extends Magento_Test_TestCas
     protected function setUp()
     {
         parent::setUp();
-        Mage::app()->getConfig()->loadDiConfiguration('adminhtml');
         /** @var $auth Mage_Backend_Model_Auth */
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');

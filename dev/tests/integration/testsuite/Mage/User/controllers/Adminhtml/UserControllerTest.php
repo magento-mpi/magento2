@@ -97,9 +97,6 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
         $this->assertRedirect($this->stringContains('backend/admin/user/edit/'));
     }
 
-    /**
-     * @covers Mage_User_Adminhtml_UserController::rolesGridAction
-     */
     public function testRoleGridAction()
     {
         $this->getRequest()

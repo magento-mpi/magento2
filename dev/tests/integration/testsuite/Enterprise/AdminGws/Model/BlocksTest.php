@@ -14,7 +14,6 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     protected function setUp()
     {
         parent::setUp();
-        Mage::app()->getConfig()->loadDiConfiguration(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $auth Mage_Backend_Model_Auth */
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
