@@ -17,7 +17,7 @@ abstract class Mage_Core_Model_ObjectManager_ConfigAbstract implements Magento_O
     protected $_params = array();
 
     /**
-     * @param $params
+     * @param array $params
      */
     public function __construct($params)
     {

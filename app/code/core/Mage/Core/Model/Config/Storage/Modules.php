@@ -1,7 +1,5 @@
 <?php
 /**
- *
- *
  * {license_notice}
  *
  * @copyright   {copyright}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Configuration model factory
+ * Base config model factory
  *
  * {license_notice}
  *

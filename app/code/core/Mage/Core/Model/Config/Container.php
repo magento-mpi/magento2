@@ -1,7 +1,5 @@
 <?php
 /**
- *
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,11 +9,15 @@
 class Mage_Core_Model_Config_Container implements Mage_Core_Model_ConfigInterface
 {
     /**
+     * Configuration data
+     *
      * @var Mage_Core_Model_Config_Base
      */
     protected $_data;
 
     /**
+     * Configuration cache model
+     *
      * @var Mage_Core_Model_Config_Cache
      */
     protected $_configCache;
@@ -52,6 +54,40 @@ class Mage_Core_Model_Config_Container implements Mage_Core_Model_ConfigInterfac
     }
 
     /**
+     * Get section path
+     *
+     * @param string $path
+     * @param string $sectionKey
+     * @return string|null
+     */
+    protected function _getSectionPath($path, $sectionKey)
+    {
+        $sectionPath = substr($path, strlen($sectionKey) + 1);
+        return $sectionPath ?: null;
+    }
+
+    /**
+     * Get config section
+     *
+     * @param string $sectionKey
+     * @return Mage_Core_Model_Config_Base|null
+     */
+    protected function _getSection($sectionKey)
+    {
+        if (false === $sectionKey) {
+            return null;
+        }
+
+        if (false == array_key_exists($sectionKey, $this->_loadedSections)) {
+            Magento_Profiler::start('init_config_section:' . $sectionKey);
+            $this->_loadedSections[$sectionKey] = $this->_configCache->getSection($sectionKey);
+            Magento_Profiler::stop('init_config_section:' . $sectionKey);
+        }
+
+        return $this->_loadedSections[$sectionKey] ?: null;
+    }
+
+    /**
      * Get configuration node
      *
      * @param string $path
@@ -60,23 +96,13 @@ class Mage_Core_Model_Config_Container implements Mage_Core_Model_ConfigInterfac
      */
     public function getNode($path = null)
     {
-        /**
-         * Check path cache loading
-         */
         if ($path !== null) {
             $sectionKey = $this->_sections->getKey($path);
-            if ($sectionKey !== false) {
-                if (false == array_key_exists($sectionKey, $this->_loadedSections)) {
-                    Magento_Profiler::start('init_config_section:' . $sectionKey);
-                    $this->_loadedSections[$sectionKey] = $this->_configCache->getSection($sectionKey);
-                    Magento_Profiler::stop('init_config_section:' . $sectionKey);
-                }
-                if ($this->_loadedSections[$sectionKey]) {
-                    $sectionPath = substr($path, strlen($sectionKey) + 1);
-                    $res = $this->_loadedSections[$sectionKey]->getNode($sectionPath ?: null);
-                    if ($res !== false) {
-                        return $res;
-                    }
+            $section = $this->_getSection($sectionKey);
+            if ($section) {
+                $res = $section->getNode($this->_getSectionPath($path, $sectionKey));
+                if ($res !== false) {
+                    return $res;
                 }
             }
         }
@@ -95,16 +121,9 @@ class Mage_Core_Model_Config_Container implements Mage_Core_Model_ConfigInterfac
     {
         if ($path !== null) {
             $sectionKey = $this->_sections->getKey($path);
-            if ($sectionKey !== false) {
-                if (false == array_key_exists($sectionKey, $this->_loadedSections)) {
-                    Magento_Profiler::start('init_config_section:' . $sectionKey);
-                    $this->_loadedSections[$sectionKey] = $this->_configCache->getSection($sectionKey);
-                    Magento_Profiler::stop('init_config_section:' . $sectionKey);
-                }
-                if ($this->_loadedSections[$sectionKey]) {
-                    $sectionPath = substr($path, strlen($sectionKey) + 1);
-                    $this->_loadedSections[$sectionKey]->setNode($sectionPath ?: null, $value, $overwrite);
-                }
+            $section = $this->_getSection($sectionKey);
+            if ($section) {
+                $section->setNode($this->_getSectionPath($path, $sectionKey), $value, $overwrite);
             }
         }
         $this->_data->setNode($path, $value, $overwrite);

@@ -1,6 +1,6 @@
 <?php
 /**
- * Media downloader application object manager
+ * Media downloader entry point
  *
  * {license_notice}
  *

@@ -1,7 +1,5 @@
 <?php
 /**
- *
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -39,15 +37,25 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
     protected static $_schemaUpdatesChecked;
 
     /**
+     * Application state model
+     *
+     * @var Mage_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
      * @param Mage_Core_Model_Config_Modules $modulesConfig
      * @param Mage_Core_Model_Resource_SetupFactory $factory
+     * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
         Mage_Core_Model_Config_Modules $modulesConfig,
-        Mage_Core_Model_Resource_SetupFactory $factory
+        Mage_Core_Model_Resource_SetupFactory $factory,
+        Mage_Core_Model_App_State $appState
     ) {
         $this->_config = $modulesConfig;
         $this->_factory = $factory;
+        $this->_appState = $appState;
     }
 
     /**
@@ -57,12 +65,12 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
      */
     protected function _shouldSkipProcessModulesUpdates()
     {
-        if (!Mage::isInstalled()) {
+        if (!$this->_appState->isInstalled()) {
             return false;
         }
 
         $ignoreDevelopmentMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
-        if (Mage::getIsDeveloperMode() && false == $ignoreDevelopmentMode) {
+        if ($this->_appState->isDeveloperMode() && false == $ignoreDevelopmentMode) {
             return false;
         }
 
@@ -79,7 +87,7 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
         }
 
         Magento_Profiler::start('apply_db_schema_updates');
-        Mage::setUpdateMode(true);
+        $this->_appState->setUpdateMode(true);
 
         $resources = $this->_config->getNode('global/resources')->children();
         $afterApplyUpdates = array();
@@ -105,7 +113,7 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
             $setupClass->afterApplyAllUpdates();
         }
 
-        Mage::setUpdateMode(false);
+        $this->_appState->setUpdateMode(false);
         self::$_schemaUpdatesChecked = true;
         Magento_Profiler::stop('apply_db_schema_updates');
     }

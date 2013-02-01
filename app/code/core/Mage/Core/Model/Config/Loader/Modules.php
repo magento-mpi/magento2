@@ -126,6 +126,8 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
 
     /**
      * Load declared modules configuration
+     *
+     * @param Mage_Core_Model_Config_Base $mergeToConfig
      */
     protected function _loadDeclaredModules(Mage_Core_Model_Config_Base $mergeToConfig)
     {

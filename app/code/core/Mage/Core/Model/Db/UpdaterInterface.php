@@ -1,6 +1,6 @@
 <?php
 /**
- * DB scheme updater interface
+ * DB updater interface
  *
  * {license_notice}
  *

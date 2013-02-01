@@ -1,7 +1,5 @@
 <?php
 /**
- *
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -25,11 +23,15 @@ class Mage_Core_Model_Config_Cache
     protected $_cacheLockId;
 
     /**
+     * Container factory model
+     *
      * @var Mage_Core_Model_Config_ContainerFactory
      */
     protected $_containerFactory;
 
     /**
+     * Base config factory model
+     *
      * @var Mage_Core_Model_Config_BaseFactory
      */
     protected $_baseFactory;
@@ -49,6 +51,8 @@ class Mage_Core_Model_Config_Cache
     protected $_configSections;
 
     /**
+     * List of configuration parts for save in cache
+     *
      * @var array
      */
     protected $_cachePartsForSave;
@@ -172,7 +176,7 @@ class Mage_Core_Model_Config_Cache
     public function save(Mage_Core_Model_Config_Base $config)
     {
         if ($this->_cache->canUse('config') && false == $this->_isLocked()) {
-            $this->_cache->clean(Mage_Core_Model_Config::CACHE_TAG);
+            $this->clean();
             $cacheSections = $this->_configSections->getSections();
             $xml = clone $config->getNode();
             if (!empty($cacheSections)) {
