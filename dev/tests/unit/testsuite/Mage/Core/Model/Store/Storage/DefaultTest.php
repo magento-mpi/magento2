@@ -73,8 +73,8 @@ class Mage_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_TestCa
 
     public function testGetStore()
     {
-        $id = 'testStore';
-        $this->assertInstanceOf('Mage_Core_Model_Store', $this->_model->getStore($id));
+        $storeId = 'testStore';
+        $this->assertInstanceOf('Mage_Core_Model_Store', $this->_model->getStore($storeId));
     }
 
     public function testGetStores()

@@ -54,6 +54,12 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 'localesConfig' => 'Mage_Core_Model_Config_Locales',
             )
         ),
+        'Magento_Filesystem' => array(
+            'parameters' => array(
+                'adapter' => 'Magento_Filesystem_Adapter_Local'
+            ),
+            'shared' => 0
+        )
     );
 
     /**
@@ -110,6 +116,9 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 }
             }
         }
-        $objectManager->setConfiguration($config->getNode('global/di')->asArray());
+        $diConfig = $config->getNode('global/di');
+        if ($diConfig) {
+            $objectManager->setConfiguration($diConfig->asArray());
+        }
     }
 }

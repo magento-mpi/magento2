@@ -14,6 +14,8 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
 {
