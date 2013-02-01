@@ -510,8 +510,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
             if ($productId = $this->getRequest()->getParam('id')) {
                 $product->load($productId);
-            } else {
-                $product->isObjectNew(true);
             }
 
             $dateFields = array();
