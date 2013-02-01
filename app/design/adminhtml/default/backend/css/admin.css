@@ -456,8 +456,6 @@ textarea,
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border-radius: 3px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-transition: border linear 0.5s, box-shadow linear 0.2s;
     -moz-transition: border linear 0.5s, box-shadow linear 0.2s;
@@ -475,6 +473,11 @@ select {
     padding: 4px;
     margin: 0 0 8px;
     border: 1px solid #ccc;
+    -webkit-transition: border linear 0.5s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.5s, box-shadow linear 0.2s;
+    -ms-transition: border linear 0.5s, box-shadow linear 0.2s;
+    -o-transition: border linear 0.5s, box-shadow linear 0.2s;
+    transition: border linear 0.5s, box-shadow linear 0.2s;
 }
 
 select[multiple],
@@ -497,11 +500,10 @@ input[type=url]:focus,
 input[type=search]:focus,
 input[type=tel]:focus,
 input[type=color]:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
     outline: 0;
-    border-color: rgba(82, 168, 236, 0.8);
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    border-color: #75b9f0;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
@@ -817,7 +819,9 @@ option.placeholder {
     margin: 0 0 6px;
 }
 
-.fieldset .control .textarea {
+.fieldset .control .textarea,
+.fieldset .control .addon .textarea {
+    border-radius: 4px;
     width: 100%;
 }
 
@@ -856,6 +860,104 @@ option.placeholder {
     clear: left;
     float: none;
     width: 100%;
+}
+
+/*
+    Form currency label
+-------------------------------------- */
+
+.addon input {
+    border-width: 1px 0 1px 1px;
+}
+
+.addon input:focus + label {
+    border-color: #75b9f0;
+    box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+    -webkit-transition: border linear 0.5s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.5s, box-shadow linear 0.2s;
+    -ms-transition: border linear 0.5s, box-shadow linear 0.2s;
+    -o-transition: border linear 0.5s, box-shadow linear 0.2s;
+    transition: border linear 0.5s, box-shadow linear 0.2s;
+}
+
+.addon input + label strong {
+    background: #fff;
+    display: block;
+    line-height: 25px;
+    margin: 1px 3px 0 -2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    position: relative;
+}
+
+.addon input:focus + label strong {
+    margin-top: 0;
+}
+
+.addon .addafter {
+    background: none;
+    color: #a6a6a6;
+    border-width: 1px 1px 1px 0;
+    border-radius: 4px 4px 0 0;
+    padding: 0;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
+}
+
+.field-price .addon,
+.field-special_price .addon,
+.field-msrp .addon {
+    direction: rtl;
+}
+
+.field-price .addon > *,
+.field-special_price .addon > *,
+.field-msrp .addon > * {
+    direction: ltr;
+}
+
+.field-price .addon .addafter,
+.field-special_price .addon .addafter,
+.field-msrp .addon .addafter {
+    border-width: 1px 0 1px 1px;
+    border-radius: 4px 0 0 4px;
+}
+
+.field-price .addon input:first-child,
+.field-special_price .addon input:first-child,
+.field-msrp .addon input:first-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.eq-ie8 .field-price .addon .addafter,
+.eq-ie8 .field-special_price .addon .addafter,
+.eq-ie8 .field-msrp .addon .addafter {
+    border-width: 1px 1px 1px 0;
+}
+
+.field-price input,
+.field-special_price input,
+.field-msrp input {
+    border-width: 1px 1px 1px 0;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
+}
+
+.field-price input:focus,
+.field-special_price input:focus,
+.field-msrp input:focus {
+    box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.field-price input:focus + label,
+.field-special_price input:focus + label,
+.field-msrp input:focus + label {
+    box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.field-price input + label strong,
+.field-special_price input + label strong,
+.field-msrp input + label strong {
+    margin-left: 3px;
+    margin-right: -2px;
 }
 
 /*
@@ -923,6 +1025,13 @@ blockquote {
 
 blockquote small:before {
     content: '\2014 \00A0';
+}
+
+/*
+    Addresses
+-------------------------------------- */
+address {
+    font-style: normal;
 }
 
 /*
@@ -2171,8 +2280,6 @@ table tbody tr:nth-child(odd):hover th {
     bottom: 0;
     width: 1px;
     content: '';
-    -webkit-box-shadow: -2px 0 7px #777;
-    -moz-box-shadow: -2px 0 7px #777;
     box-shadow: -2px 0 7px #777;
     z-index: 2;
 }
@@ -3042,7 +3149,7 @@ tr.dynamic-grid input.input-text {
     background: #fbfaf6;
 }
 
-.data-table tfoot td:last-child {
+.data-table tfoot tr:last-child td {
     border: 0;
 }
 
@@ -3059,8 +3166,6 @@ tr.dynamic-grid input.input-text {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border-radius: 3px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
