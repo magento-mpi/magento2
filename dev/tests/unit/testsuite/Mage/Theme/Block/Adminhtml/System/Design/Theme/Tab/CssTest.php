@@ -169,11 +169,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
         $dirs = new Mage_Core_Model_Dir(__DIR__);
 
         $designDir = str_replace(
-            $dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $dirs->getDir(Mage_Core_Model_Dir::THEMES)
+            $dirs->getDir(Mage_Core_Model_Dir::APP), '', $dirs->getDir(Mage_Core_Model_Dir::THEMES)
         );
-        $jsDir = str_replace($dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB));
+        $jsDir = str_replace($dirs->getDir(Mage_Core_Model_Dir::APP), '', $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB));
         $codeDir = str_replace(
-            $dirs->getDir(Mage_Core_Model_Dir::ROOT), '', $dirs->getDir(Mage_Core_Model_Dir::MODULES)
+            $dirs->getDir(Mage_Core_Model_Dir::APP), '', $dirs->getDir(Mage_Core_Model_Dir::MODULES)
         );
         return array(
             array(array(), array()),

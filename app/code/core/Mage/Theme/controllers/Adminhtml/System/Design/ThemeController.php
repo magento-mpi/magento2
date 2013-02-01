@@ -66,9 +66,10 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             /** @var $tab Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css */
             $tab = $this->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
-                /** @var $helper Mage_Core_Helper_Theme */
-                $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
-                $files = $helper->getGroupedCssFiles($theme, $options);
+                /** @var $helper Mage_Theme_Helper_Data */
+                $helper = $this->_objectManager->get('Mage_Theme_Helper_Data');
+
+                $files = $helper->getCssFiles($theme);
                 $tab->setFiles($files);
             }
             $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
@@ -258,8 +259,8 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         $themeId = $this->getRequest()->getParam('theme_id');
         $file = $this->getRequest()->getParam('file');
 
-        /** @var $helper Mage_Core_Helper_Theme */
-        $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
+        /** @var $helper Mage_Theme_Helper_Data */
+        $helper = $this->_objectManager->get('Mage_Theme_Helper_Data');
         $fileName = $helper->urlDecode($file);
         try {
             /** @var $theme Mage_Core_Model_Theme */
@@ -277,7 +278,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
 
             $this->_prepareDownloadResponse($fileName, array(
                 'type'  => 'filename',
-                'value' => $themeCss[$fileName]['path']
+                'value' => $themeCss[$fileName]
             ));
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('File "%s" is not found.', $fileName));
