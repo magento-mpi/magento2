@@ -11,7 +11,7 @@
         _create: function () {
             this.element.sortable({
                 axis: 'y',
-                handle: '.ui-icon-grip-dotted-vertical',
+                handle: '.draggable-handle',
                 update: function () {
                     $(this).find('[name$="[position]"]').each(function (index) {
                         $(this).val(index);
@@ -42,7 +42,7 @@
             this._on({
                 'click input.price-variation': havePriceVariationsCheckboxHandler,
                 'change input.price-variation': havePriceVariationsCheckboxHandler,
-                'click .remove':  function (event) {
+                'click .action-delete':  function (event) {
                     var $entity = $(event.target).closest('.entry-edit');
                     $('#attribute-' + $entity.find('[name$="[code]"]').val() + '-container select').removeAttr('disabled');
                     $entity.remove();
