@@ -23,6 +23,6 @@ class Mage_Catalog_Block_Product_Grouped_AssociatedProducts extends Mage_Backend
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products');
+        return Mage::helper('Mage_Catalog_Helper_Data')->__('Grouped Products');
     }
 }

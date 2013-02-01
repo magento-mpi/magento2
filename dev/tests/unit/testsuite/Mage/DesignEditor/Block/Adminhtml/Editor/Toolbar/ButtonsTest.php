@@ -56,12 +56,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
         $this->assertEquals('*/*/getLayoutUpdate', $this->_block->getViewLayoutUrl());
     }
 
-    public function testGetBackUrl()
+    public function testGetQuitUrl()
     {
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
             ->will($this->returnArgument(0));
-        $this->assertEquals('*/*/', $this->_block->getBackUrl());
+        $this->assertEquals('*/*/quit', $this->_block->getQuitUrl());
     }
 
     public function testGetNavigationModeUrl()

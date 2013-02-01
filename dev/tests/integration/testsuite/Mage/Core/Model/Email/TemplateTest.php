@@ -23,12 +23,17 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage_Core_Utility_Theme::registerDesignMock();
-        Mage::getDesign()->setDefaultDesignTheme();
         $this->_mail = $this->getMock(
             'Zend_Mail', array('send', 'addTo', 'addBcc', 'setReturnPath', 'setReplyTo'), array('utf-8')
         );
-        $this->_model = $this->getMock('Mage_Core_Model_Email_Template', array('_getMail'), array(), '', false);
+        $this->_model = $this->getMockBuilder('Mage_Core_Model_Email_Template')
+            ->setMethods(array('_getMail'))
+            ->setConstructorArgs(array(
+                $this->getMockBuilder('Mage_Core_Model_Event_Manager')->disableOriginalConstructor()->getMock(),
+                $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
+                Mage::getObjectManager()->create('Magento_Filesystem')
+            ))
+            ->getMock();
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
         $this->_model->setSenderName('sender')->setSenderEmail('sender@example.com')->setTemplateSubject('Subject');
     }
@@ -60,14 +65,8 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->assertSame($filter, $this->_model->getTemplateFilter());
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testLoadDefault()
     {
-        Mage::app()->getConfig()->getOptions()
-            ->setLocaleDir(dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'locale');
-
         $this->_model->loadDefault('customer_create_account_email_template');
         $this->assertNotEmpty($this->_model->getTemplateText());
         $this->assertNotEmpty($this->_model->getTemplateSubject());
@@ -91,18 +90,29 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store design/theme/full_name test/default
-     * @magentoDataFixture Mage/Core/Model/Email/_files/theme_registration.php
      */
     public function testGetProcessedTemplate()
     {
-        $expectedViewUrl = 'theme/frontend/test/default/en_US/Mage_Page/favicon.ico';
+        $this->_setBlueThemeForFixtureStore();
+        $expectedViewUrl = 'theme/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
             'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
         ));
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplate());
+    }
+
+    /**
+     * Set 'default/demo_blue' for the 'fixturestore' store.
+     * Application isolation is required, if a test uses this method.
+     */
+    protected function _setBlueThemeForFixtureStore()
+    {
+        $theme = Mage::getModel('Mage_Core_Model_Theme');
+        $theme->load('default/demo_blue', 'theme_path');
+        Mage::app()->getStore('fixturestore')
+            ->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $theme->getId());
     }
 
     /**
@@ -121,12 +131,11 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
-     * @magentoConfigFixture fixturestore_store design/theme/full_name test/default
-     * @magentoDataFixture Mage/Core/Model/Email/_files/theme_registration.php
      */
     public function testGetProcessedTemplateSubject()
     {
-        $expectedViewUrl = 'theme/frontend/test/default/en_US/Mage_Page/favicon.ico';
+        $this->_setBlueThemeForFixtureStore();
+        $expectedViewUrl = 'theme/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(

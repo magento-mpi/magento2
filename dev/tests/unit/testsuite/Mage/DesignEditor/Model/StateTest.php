@@ -43,12 +43,10 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
      */
     const AREA_CODE = 'front';
 
-    /**#@+
-     * Test theme data
+    /**
+     * Test theme id
      */
     const THEME_ID = 1;
-    const THEME_CONFIGURATION = 'test_config';
-    /**#@-*/
 
     /**
      * @var Mage_DesignEditor_Model_State
@@ -102,7 +100,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData'),
+        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData', 'unsetData'),
             array(), '', false
         );
         $this->_layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'),
@@ -111,7 +109,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse', 'invalidateType'),
+        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse'),
             array(), '', false
         );
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
@@ -120,9 +118,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('addAlias'),
             array(), '', false
         );
-        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array('getConfigPathByArea'),
-            array(), '', false
-        );
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
         $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore'),
             array(), '', false
         );
@@ -160,7 +156,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with('type1')
             ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(1))
-            ->method('invalidateType')
+            ->method('banUse')
             ->with('type1')
             ->will($this->returnSelf());
 
@@ -169,7 +165,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with('type2')
             ->will($this->returnValue(true));
         $this->_cacheManager->expects($this->at(3))
-            ->method('invalidateType')
+            ->method('banUse')
             ->with('type2')
             ->will($this->returnSelf());
     }
@@ -209,21 +205,30 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
             self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME);
 
-        $this->_designPackage->expects($this->once())
-            ->method('getConfigPathByArea')
-            ->with(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->will($this->returnValue(self::THEME_CONFIGURATION));
-
         $store = $this->getMock('Mage_Core_Model_Store', array('setConfig'), array(), '', false);
         $store->expects($this->once())
             ->method('setConfig')
-            ->with(self::THEME_CONFIGURATION, self::THEME_ID);
+            ->with(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, self::THEME_ID);
 
         $this->_application->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($store));
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
+    }
+
+    public function testReset()
+    {
+        $this->_backendSession->expects($this->any())
+            ->method('unsetData')
+            ->with($this->logicalOr(
+                Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY,
+                Mage_DesignEditor_Model_State::CURRENT_MODE_SESSION_KEY,
+                Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY
+            ))
+            ->will($this->returnValue($this->_backendSession));
+
+        $this->_model->reset();
     }
 
     public function testUpdateNavigationMode()

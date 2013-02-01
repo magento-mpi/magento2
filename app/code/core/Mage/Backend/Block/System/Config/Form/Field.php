@@ -18,7 +18,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Backend_Block_System_Config_Form_Field
-    extends Mage_Backend_Block_Abstract
+    extends Mage_Core_Block_Template
     implements Varien_Data_Form_Element_Renderer_Interface
 {
     /**
@@ -29,6 +29,8 @@ class Mage_Backend_Block_System_Config_Form_Field
     protected $_application;
 
     /**
+     * Constructor
+     *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -40,6 +42,9 @@ class Mage_Backend_Block_System_Config_Form_Field
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_App $application
      * @param array $data
      *
@@ -57,12 +62,15 @@ class Mage_Backend_Block_System_Config_Form_Field
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Core_Model_App $application,
         array $data = array()
     ) {
         $this->_application = $application;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
     }
 

@@ -37,15 +37,16 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
      */
     protected  function _verifyTheme()
     {
+        /** @var Magento_Filesystem $filesystem */
         $pubTheme = Mage::getDesign()->getPublicDir();
 
-        if (is_dir($pubTheme)) {
-            $isWritable = is_writable($pubTheme);
-        } else {
-            $isWritable = @mkdir($pubTheme, 0777, true);
-            if ($isWritable) {
-                rmdir($pubTheme);
-            }
+        try {
+            $filesystem = $this->_objectManager->get('Magento_Filesystem');
+            $filesystem->setIsAllowCreateDirectories(true);
+            $filesystem->ensureDirectoryExists($pubTheme, 0777);
+            $isWritable = $filesystem->isWritable($pubTheme);
+        } catch (Magento_Filesystem_Exception $e) {
+            $isWritable = false;
         }
 
         if (!$isWritable) {
@@ -448,23 +449,5 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->getLayout()->addBlock('Mage_Install_Block_End', 'install.end', 'content');
         $this->renderLayout();
         Mage::getSingleton('Mage_Install_Model_Session')->clear();
-    }
-
-    /**
-     * Host validation response
-     */
-    public function checkHostAction()
-    {
-        $this->getResponse()->setHeader('Transfer-encoding', '', true);
-        $this->getResponse()->setBody(Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE);
-    }
-
-    /**
-     * Host validation response
-     */
-    public function checkSecureHostAction()
-    {
-        $this->getResponse()->setHeader('Transfer-encoding', '', true);
-        $this->getResponse()->setBody(Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE);
     }
 }

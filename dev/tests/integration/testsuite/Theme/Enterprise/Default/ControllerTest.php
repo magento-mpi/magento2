@@ -27,7 +27,7 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/full_name enterprise/fixed
+     * @magentoConfigFixture frontend/design/theme/full_name enterprise/fixed
      */
     public function testCatalogProductView()
     {
@@ -36,7 +36,7 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @magentoConfigFixture current_store design/theme/full_name enterprise/fixed
+     * @magentoConfigFixture frontend/design/theme/full_name enterprise/fixed
      */
     public function testReviewProductList()
     {

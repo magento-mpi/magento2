@@ -83,20 +83,20 @@ manage_sales_orders:
             invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'"%code%" coupon code is not valid.')]
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
             no_payment: //label[text()='No Payment Information Required']
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //label[(@for)='%field_id%' and contains(., 'This field is required.')]
             required_field_empty: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
-            empty_payment_method: "//following-sibling::*[text()='Please select one of the options.' and not(contains(@style,'display: none;'))]"
-            invalid_cvv: "%fieldXpath%/following-sibling::*[text()='Please enter a valid credit card verification number.' and not(contains(@style,'display: none;'))]"
-            card_type_doesnt_match: "%fieldXpath%/following-sibling::*[text()='Card type does not match credit card number.' and not(contains(@style,'display: none;'))]"
+            empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not available.')]
+            invalid_cvv: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a valid credit card verification number.')]
+            card_type_doesnt_match: //li[normalize-space(@class)='error-msg' and contains(.,'Credit card number mismatch with credit card type.')]
             invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect credit card expiration date.')]
             out_of_stock_product: //tr[td/@class='first'][contains(.,'%sku%')][.//div='This product is currently out of stock.']
             requested_quantity_not_available: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The requested quantity for "%sku%" is not available.']
             min_allowed_quantity_error: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The minimum quantity allowed for purchase is %qty%.']
             max_allowed_quantity_error: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The maximum quantity allowed for purchase is %qty%.']
             wrong_increments_qty: //tr[td/@class='first'][contains(.,'%sku%')][.//div='This product is available for purchase in increments of %qty% only.']
-            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'This customer email already exists')]
+            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]

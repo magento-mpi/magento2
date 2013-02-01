@@ -17,7 +17,6 @@
 
 #bundle_product_container .ui-icon-grip-dotted-vertical {
     float: left;
-    cursor: move;
 }
 
 #bundle_product_container .ui-icon-circle-triangle-s,
@@ -36,7 +35,6 @@
 }
 
 #bundle_product_container .option-box .option-header .select-product-option-type {
-    margin-left: 4px;
     width: 120px;
 }
 
@@ -58,4 +56,13 @@
 
 #add_new_option {
     font-size: 18px;
+}
+
+#bundle_product_container .no-products-message {
+    border: #dadfe0 1px solid;
+    background: #fff;
+    margin: 10px 30px 0;
+    padding: 20px 40px;
+    text-align: center;
+    vertical-align: middle;
 }

@@ -14,6 +14,7 @@
  * @method int getIsTemporary() getIsTemporary()
  * @method int getLayoutLinkId() getLayoutLinkId()
  * @method string getUpdatedAt() getUpdatedAt()
+ * @method string getXml() getXml()
  * @method Mage_Core_Model_Layout_Update setIsTemporary() setIsTemporary(int $isTemporary)
  * @method Mage_Core_Model_Layout_Update setHandle() setHandle(string $handle)
  * @method Mage_Core_Model_Layout_Update setXml() setXml(string $xml)

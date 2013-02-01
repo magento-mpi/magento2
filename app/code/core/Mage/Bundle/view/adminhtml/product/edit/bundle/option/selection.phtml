@@ -110,7 +110,9 @@ Bundle.Selection.prototype = {
     templateRow : '',
     itemsCount : 0,
     row : null,
-    gridSelection : new Hash(),
+    gridSelection: new Hash(),
+    gridRemoval: new Hash(),
+    gridSelectedProductSkus: [],
     selectionSearchUrl: '<?php echo $this->getSelectionSearchUrl() ?>',
 
     initialize : function() {
@@ -121,14 +123,23 @@ Bundle.Selection.prototype = {
 
     gridUpdateCallback: function () {
         (function ($) {
-            $.each(bSelection.gridSelection.values().pop().toArray(), function () {
-                var sku = $.trim(this.pop().get('sku'));
+            var $grid = $('table[id^=bundle_selection_search_grid_]:visible');
+            $grid.find('.checkbox').prop({checked: false});
 
-                $('table[id^=bundle_selection_search_grid_]:visible').find('.sku').each(function () {
-                    if ($.trim($(this).text()) == sku) {
-                        $(this).closest('tr').find('.checkbox').prop({checked: true});
-                    }
-                });
+            var checkRowBySku = function (sku) {
+                sku = $.trim(sku);
+                $grid('.sku').filter(function () {
+                    return $.trim($(this).text()) == sku;
+                }).closest('tr').find('.checkbox').prop({checked: true});
+            };
+            $.each(bSelection.gridSelection.values().pop().toArray(), function () {
+                checkRowBySku(this.pop().get('sku'));
+            });
+
+            $.each(bSelection.gridSelectedProductSkus, function () {
+                if (!bSelection.gridRemoval.get(this)) {
+                    checkRowBySku(this);
+                }
             });
         })(jQuery);
     },
@@ -221,6 +232,8 @@ Bundle.Selection.prototype = {
                 }
             );
         }
+
+        jQuery('#bundle_option_' + parentIndex + ' .no-products-message').closest('tr').hide();
     },
 
     bindScopeCheckbox : function(){
@@ -250,7 +263,7 @@ Bundle.Selection.prototype = {
     },
 
     addBox : function (parentIndex) {
-        var div = $(bOption.idLabel + '_' + parentIndex)
+        var div = $(bOption.idLabel + '_' + parentIndex);
         this.template = new Template(this.templateBox, this.templateSyntax);
         var data = {'parentIndex' : parentIndex};
         Element.insert(div, {'bottom':this.template.evaluate(data)});
@@ -266,12 +279,10 @@ Bundle.Selection.prototype = {
             Element.removeClassName(element, 'selection');
             Element.hide(element);
 
-            if (container) {
-                if ($$('#' + container.id + ' tr.selection')) {
-                    if (!$$('#' + container.id + ' tr.selection').length) {
-                        container.hide();
-                    }
-                }
+            var selection = $$('#' + container.id + ' tr.selection');
+            if (container && selection && !selection.length) {
+                container.hide();
+                jQuery(element).closest('.option-box').find('.no-products-message').closest('tr').show();
             }
         }
     },
@@ -303,16 +314,19 @@ Bundle.Selection.prototype = {
     productGridCheckboxCheck : function(grid, element, checked) {
         var id = element.up('table').id.split('_')[4];
         if (element.value > 0) {
+            var tr = element.parentNode.parentNode,
+                sku = jQuery.trim(tr.select('td.sku')[0].innerHTML);
             if (element.checked) {
-                var tr = element.parentNode.parentNode;
                 if (!this.gridSelection.get(id)) {
-                    this.gridSelection.set(id, new Hash());
+                    this.gridSelection.set(id, $H({}));
                 }
                 this.gridSelection.get(id).set(element.value, $H({}));
                 this.gridSelection.get(id).get(element.value).set('name', tr.select('td.name')[0].innerHTML);
-                this.gridSelection.get(id).get(element.value).set('sku', tr.select('td.sku')[0].innerHTML);
+                this.gridSelection.get(id).get(element.value).set('sku', sku);
+                this.gridRemoval.unset(sku);
             } else {
                 this.gridSelection.get(id).unset(element.value);
+                this.gridRemoval.set(sku, 1);
             }
         }
     },

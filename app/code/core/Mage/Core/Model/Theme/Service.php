@@ -62,6 +62,11 @@ class Mage_Core_Model_Theme_Service
     protected $_layoutUpdate;
 
     /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * Initialize service model
      *
      * @param Mage_Core_Model_Theme_Factory $themeFactory
@@ -69,19 +74,22 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
+     * @param Mage_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_App $app,
         Mage_Core_Helper_Data $helper,
-        Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
+        Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate,
+        Mage_Core_Model_Event_Manager $eventManager
     ) {
         $this->_themeFactory = $themeFactory;
         $this->_design       = $design;
         $this->_app          = $app;
         $this->_helper       = $helper;
         $this->_layoutUpdate = $layoutUpdate;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -97,8 +105,7 @@ class Mage_Core_Model_Theme_Service
     public function assignThemeToStores(
         $themeId,
         array $stores = array(),
-        $scope = Mage_Core_Model_Config::SCOPE_STORES,
-        $area = Mage_Core_Model_App_Area::AREA_FRONTEND
+        $scope = Mage_Core_Model_Config::SCOPE_STORES
     ) {
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_themeFactory->create()->load($themeId);
@@ -108,7 +115,7 @@ class Mage_Core_Model_Theme_Service
 
         $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);
 
-        $configPath = $this->_design->getConfigPathByArea($area);
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
 
         // Unassign given theme from stores that were unchecked
         /** @var $config Mage_Core_Model_Config_Data */
@@ -126,6 +133,18 @@ class Mage_Core_Model_Theme_Service
             $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
         }
         $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
+        $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
+
+        $this->_eventManager->dispatch('assign_theme_to_stores_after',
+            array(
+                'themeService'       => $this,
+                'themeId'            => $themeId,
+                'stores'             => $stores,
+                'scope'              => $scope,
+                'theme'              => $theme,
+                'themeCustomization' => $themeCustomization,
+            )
+        );
 
         return $themeCustomization;
     }
