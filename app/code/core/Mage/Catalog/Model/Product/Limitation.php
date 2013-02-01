@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Product_Limitation
     }
 
     /**
-     * Explain why creation is restricted
+     * Get message with the the restriction explanation
      *
      * @return string
      */

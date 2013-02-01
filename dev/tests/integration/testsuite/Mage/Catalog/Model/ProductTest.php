@@ -75,7 +75,8 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     public function testSaveRestricted()
     {
         $this->setExpectedException('Mage_Core_Exception', 'Maximum allowed number of products is reached.');
-        require __DIR__ . '/../_files/multiple_products.php';
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->setName('test')->save();
     }
 
     /**
