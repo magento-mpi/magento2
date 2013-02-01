@@ -79,25 +79,43 @@ class Mage_Core_Model_Config_Loader_Modules_File
                     $fileName = array($fileName);
                 }
                 foreach ($fileName as $configFile) {
-                    if ($configFile == 'config.xml' && isset($configCache[$modName])) {
-                        $mergeToObject->extend($configCache[$modName], true);
-                        //Prevent overriding <active> node of module if it was redefined in etc/modules
-                        $mergeToObject->extend(
-                            $this->_prototypeFactory->create(
-                                "<config><modules><{$modName}><active>true</active></{$modName}></modules></config>"
-                            ),
-                            true
-                        );
-                    } else {
-                        $configFilePath = $this->getModuleDir($modulesConfig, 'etc', $modName) . DS . $configFile;
-                        if ($mergeModel->loadFile($configFilePath)) {
-                            $mergeToObject->extend($mergeModel, true);
-                        }
-                    }
+                    $this->_loadFileConfig(
+                        $configFile, $configCache, $modName, $mergeToObject, $modulesConfig, $mergeModel
+                    );
                 }
             }
         }
         return $mergeToObject;
+    }
+
+    /**
+     * Load configuration from single file
+     *
+     * @param string $configFile
+     * @param array $configCache
+     * @param string $modName
+     * @param Mage_Core_Model_Config_Base $mergeToObject
+     * @param Mage_Core_Model_ConfigInterface $modulesConfig
+     * @param Mage_Core_Model_Config_Base $mergeModel
+     */
+    public function _loadFileConfig(
+        $configFile, $configCache, $modName, $mergeToObject, Mage_Core_Model_ConfigInterface $modulesConfig, $mergeModel
+    ) {
+        if ($configFile == 'config.xml' && isset($configCache[$modName])) {
+            $mergeToObject->extend($configCache[$modName], true);
+            //Prevent overriding <active> node of module if it was redefined in etc/modules
+            $mergeToObject->extend(
+                $this->_prototypeFactory->create(
+                    "<config><modules><{$modName}><active>true</active></{$modName}></modules></config>"
+                ),
+                true
+            );
+        } else {
+            $configFilePath = $this->getModuleDir($modulesConfig, 'etc', $modName) . DS . $configFile;
+            if ($mergeModel->loadFile($configFilePath)) {
+                $mergeToObject->extend($mergeModel, true);
+            }
+        }
     }
 
     /**

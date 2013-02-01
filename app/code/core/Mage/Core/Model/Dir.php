@@ -182,6 +182,16 @@ class Mage_Core_Model_Dir
             $this->_setDir($code, $replacement);
         }
 
+        $this->_createFolders($fileSystem);
+    }
+
+    /**
+     * Create application folders if they don't exist
+     *
+     * @param Varien_Io_File $fileSystem
+     */
+    protected function _createFolders(Varien_Io_File $fileSystem)
+    {
         foreach (self::getWritableDirCodes() as $code) {
             $path = $this->getDir($code);
             if ($path) {

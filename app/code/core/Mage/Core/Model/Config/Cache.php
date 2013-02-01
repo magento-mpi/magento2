@@ -91,13 +91,14 @@ class Mage_Core_Model_Config_Cache
      * @param   Varien_Simplexml_Element $source
      * @param   int $recursionLevel
      * @param   array $tags
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _saveSectionCache($idPrefix, $sectionName, $source, $recursionLevel = 0, $tags = array())
     {
         if ($source && $source->$sectionName) {
             $cacheId = $idPrefix . '_' . $sectionName;
             if ($recursionLevel > 0) {
-                foreach (array_keys($source->$sectionName->children()) as $subSectionName) {
+                foreach ($source->$sectionName->children() as $subSectionName) {
                     $this->_saveSectionCache(
                         $cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1, $tags
                     );
