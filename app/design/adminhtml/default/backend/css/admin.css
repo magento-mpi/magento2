@@ -732,7 +732,9 @@ option.placeholder {
     margin: 0 0 6px;
 }
 
-.fieldset .control .textarea {
+.fieldset .control .textarea,
+.fieldset .control .addon .textarea {
+    border-radius: 4px;
     width: 100%;
 }
 
