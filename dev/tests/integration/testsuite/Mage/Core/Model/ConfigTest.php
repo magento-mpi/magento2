@@ -25,7 +25,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testSetNode()
     {
-        $model = $this->_createModel(true);
+        $model = $this->_createModel();
         /* some existing node should be used */
         $model->setNode('admin/routers/adminhtml/use', 'test');
         $this->assertEquals('test', (string) $model->getNode('admin/routers/adminhtml/use'));
@@ -33,7 +33,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testDetermineOmittedNamespace()
     {
-        $model = $this->_createModel(true);
+        $model = $this->_createModel();
         $this->assertEquals('cms', $model->determineOmittedNamespace('cms'));
         $this->assertEquals('Mage_Cms', $model->determineOmittedNamespace('cms', true));
         $this->assertEquals('', $model->determineOmittedNamespace('nonexistent'));
@@ -49,14 +49,14 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetModuleConfig()
     {
-        $model = $this->_createModel(true);
+        $model = $this->_createModel();
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getModuleConfig());
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getModuleConfig('Mage_Core'));
     }
 
     public function testGetModuleDir()
     {
-        $model = $this->_createModel(true);
+        $model = $this->_createModel();
         foreach (array('etc', 'controllers', 'sql', 'data', 'locale') as $type) {
             $dir = $model->getModuleDir($type, 'Mage_Core');
             $this->assertStringEndsWith($type, $dir);
@@ -74,7 +74,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetStoresConfigByPath()
     {
-        $model = $this->_createModel(true);
+        $model = $this->_createModel();
 
         // default
         $baseUrl = $model->getStoresConfigByPath('web/unsecure/base_url');
@@ -103,7 +103,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testShouldUrlBeSecureWhenSecureUsedInFrontend()
     {
-        $model = $this->_createModel(true);
+        $model = $this->_createModel();
         $this->assertFalse($model->shouldUrlBeSecure('/'));
         $this->assertTrue($model->shouldUrlBeSecure('/checkout/onepage'));
     }
@@ -115,7 +115,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testShouldUrlBeSecureWhenSecureNotUsedInFrontend()
     {
-        $model = $this->_createModel(true);
+        $model = $this->_createModel();
         $this->assertFalse($model->shouldUrlBeSecure('/'));
         $this->assertFalse($model->shouldUrlBeSecure('/checkout/onepage'));
     }
@@ -125,11 +125,10 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * Instantiate Mage_Core_Model_Config and initialize (load configuration) if needed
      *
-     * @param bool $initialize
      * @param array $arguments
      * @return Mage_Core_Model_Config
      */
-    protected function _createModel($initialize = false, array $arguments = array())
+    protected function _createModel(array $arguments = array())
     {
         /** @var $model Mage_Core_Model_Config */
         $model = Mage::getModel('Mage_Core_Model_Config', $arguments);
