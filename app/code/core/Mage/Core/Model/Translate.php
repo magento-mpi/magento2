@@ -348,7 +348,7 @@ class Mage_Core_Model_Translate
             $file = $this->_designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
             $this->_addData(
                 $this->_getFileData($file),
-                CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
+                self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
                 $forceReload
             );
         }
@@ -487,9 +487,9 @@ class Mage_Core_Model_Translate
             $translated = $this->_getTranslatedString($text, $code);
         } else {
             if (!empty($_REQUEST['theme'])) {
-                $module = CONFIG_KEY_DESIGN_THEME . $_REQUEST['theme'];
+                $module = self::CONFIG_KEY_DESIGN_THEME . $_REQUEST['theme'];
             } else {
-                $module = CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME];
+                $module = self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME];
             }
             $code = $module . self::SCOPE_SEPARATOR . $text;
             $translated = $this->_getTranslatedString($text, $code);
