@@ -37,12 +37,23 @@ class Mage_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_TestCa
      */
     protected $_storeMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_websiteMock;
+
     protected function setUp()
     {
+        $this->_websiteMock = $this->getMock('Mage_Core_Model_Website',
+            array('getCode', 'getId'), array(), '', false, false);
         $this->_storeFactoryMock = $this->getMock('Mage_Core_Model_StoreFactory',
             array('create'), array(), '', false, false);
         $this->_websiteFactoryMock = $this->getMock('Mage_Core_Model_Website_Factory',
-            array(), array(), '', false, false);
+            array('create'), array(), '', false, false);
+        $this->_websiteFactoryMock
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->_websiteMock));
         $this->_groupFactoryMock = $this->getMock('Mage_Core_Model_Store_Group_Factory',
             array(), array(), '', false, false);
         $this->_storeMock = $this->getMock('Mage_Core_Model_Store', array('setId', 'setCode'),
@@ -88,5 +99,27 @@ class Mage_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_TestCa
     {
         $websiteId = 'testWebsite';
         $this->assertEquals(null, $this->_model->getWebsite($websiteId));
+        $data = 'testWebsite';
+        $this->assertInstanceOf('Mage_Core_Model_Website', $this->_model->getWebsite($data));
+    }
+
+    public function testGetWebsitesWithDefault()
+    {
+        $withDefault = true;
+        $codeKey = 'someKey';
+        $this->_websiteMock->expects($this->once())->method('getCode')->will($this->returnValue(0));
+        $this->_websiteMock->expects($this->never())->method('getId');
+        $result = $this->_model->getWebsites($withDefault, $codeKey);
+        $this->assertInstanceOf('Mage_Core_Model_Website', $result[0]);
+    }
+
+    public function testGetWebsitesWithoutDefault()
+    {
+        $withDefault = false;
+        $codeKey = 'someKey';
+        $this->_websiteMock->expects($this->never())->method('getCode');
+        $this->_websiteMock->expects($this->never())->method('getId');
+        $result = $this->_model->getWebsites($withDefault, $codeKey);
+        $this->assertEquals(array(), $result);
     }
 }
