@@ -536,7 +536,6 @@ return array(
         'Mage_Backend_Model_Config_Source_Yesnocustom'
     ),
     array('Mage_Adminhtml_Model_System_Store', 'Mage_Core_Model_System_Store'),
-    array('Mage_Adminhtml_Block_System_Store_Grid'),
     array('Mage_Adminhtml_Model_Url', 'Mage_Backend_Model_Url'),
     array('Mage_Adminhtml_Rss_CatalogController'),
     array('Mage_Adminhtml_Rss_OrderController'),
