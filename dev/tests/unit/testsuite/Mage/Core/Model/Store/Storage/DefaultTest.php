@@ -86,7 +86,7 @@ class Mage_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_TestCa
 
     public function testGetWebsite()
     {
-        $id = 'testWebsite';
-        $this->assertEquals(null, $this->_model->getWebsite($id));
+        $websiteId = 'testWebsite';
+        $this->assertEquals(null, $this->_model->getWebsite($websiteId));
     }
 }

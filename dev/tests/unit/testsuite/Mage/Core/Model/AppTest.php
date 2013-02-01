@@ -99,12 +99,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testGetSafeStore()
     {
-        $id = 'test';
+        $storeId = 'test';
         $this->_storeManagerMock->expects($this->once())
             ->method('getSafeStore')
-            ->with($this->equalTo($id))
+            ->with($this->equalTo($storeId))
             ->will($this->returnValue('proxy_result'));
-        $this->assertEquals('proxy_result', $this->_model->getSafeStore($id));
+        $this->assertEquals('proxy_result', $this->_model->getSafeStore($storeId));
     }
 
     public function testSetIsSingleStoreModeAllowed()
@@ -141,12 +141,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testGetStore()
     {
-        $id = 'some_value';
+        $storeId = 'some_value';
         $this->_storeManagerMock->expects($this->once())
             ->method('getStore')
-            ->with($this->equalTo($id))
+            ->with($this->equalTo($storeId))
             ->will($this->returnValue('proxy_result'));
-        $this->assertEquals('proxy_result', $this->_model->getStore($id));
+        $this->assertEquals('proxy_result', $this->_model->getStore($storeId));
     }
 
     public function testGetStores()
@@ -163,12 +163,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testGetWebsite()
     {
-        $id = 'some_value';
+        $websiteId = 'some_value';
         $this->_storeManagerMock->expects($this->once())
             ->method('getWebsite')
-            ->with($this->equalTo($id))
+            ->with($this->equalTo($websiteId))
             ->will($this->returnValue('proxy_result'));
-        $this->assertEquals('proxy_result', $this->_model->getWebsite($id));
+        $this->assertEquals('proxy_result', $this->_model->getWebsite($websiteId));
     }
 
     public function testGetWebsites()
@@ -209,12 +209,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testGetGroup()
     {
-        $id = 'test';
+        $groupId = 'test';
         $this->_storeManagerMock->expects($this->once())
             ->method('getGroup')
             ->will($this->returnValue('proxy_result'))
-            ->with($this->equalTo($id));
-        $this->assertEquals('proxy_result', $this->_model->getGroup($id));
+            ->with($this->equalTo($groupId));
+        $this->assertEquals('proxy_result', $this->_model->getGroup($groupId));
     }
 
     public function testGetGroups()
@@ -231,11 +231,11 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testClearWebsiteCache()
     {
-        $id = 'Test';
+        $websiteId = 'Test';
         $this->_storeManagerMock->expects($this->once())
             ->method('clearWebsiteCache')
-            ->with($this->equalTo($id));
-        $this->_model->clearWebsiteCache($id);
+            ->with($this->equalTo($websiteId));
+        $this->_model->clearWebsiteCache($websiteId);
     }
 
     public function testGetAnyStoreView()

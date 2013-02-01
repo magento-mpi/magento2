@@ -157,29 +157,23 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
 
         $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
         if ($addData) {
-            $dataSourceModel->expects($this->exactly(2))
-                ->method('getNextBunch')
+            $dataSourceModel->expects($this->exactly(2))->method('getNextBunch')
                 ->will($this->returnCallback(array($this, 'getNextBunch')));
         }
 
         $connection = $this->getMock('stdClass');
 
         $websiteManager = $this->getMock('stdClass', array('getWebsites'));
-        $websiteManager->expects($this->once())
-            ->method('getWebsites')
+        $websiteManager->expects($this->once())->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
 
         $mageHelper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'), array(), '', false, false);
-        $mageHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $mageHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $enterpriseHelper = $this->getMock('Enterprise_ImportExport_Helper_Data', array('__'),
             array(), '', false, false
         );
-        $enterpriseHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $enterpriseHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         /** @var $customerStorage Mage_ImportExport_Model_Resource_Customer_Storage */
         $customerStorage = $this->getMock('Mage_ImportExport_Model_Resource_Customer_Storage', array('load'),
@@ -196,16 +190,11 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         }
 
         $moduleHelper = $this->getMock('stdClass', array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'));
-        $moduleHelper->expects($this->any())
-            ->method('isRewardPointsEnabled')
-            ->will($this->returnValue(true));
-        $moduleHelper->expects($this->any())
-            ->method('isCustomerBalanceEnabled')
-            ->will($this->returnValue(true));
+        $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
+        $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
 
         $objectFactory = $this->getMock('stdClass', array('getModelInstance'));
-        $objectFactory->expects($this->any())
-            ->method('getModelInstance')
+        $objectFactory->expects($this->any())->method('getModelInstance')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
 
         /** @var $attributeCollection Varien_Data_Collection */

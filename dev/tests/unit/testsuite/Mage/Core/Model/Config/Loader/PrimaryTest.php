@@ -25,7 +25,7 @@ class Mage_Core_Model_Config_Loader_PrimaryTest extends PHPUnit_Framework_TestCa
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_prototypeFactoryMock;
+    protected $_protFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -46,14 +46,14 @@ class Mage_Core_Model_Config_Loader_PrimaryTest extends PHPUnit_Framework_TestCa
     {
         $this->_simpleXmlConfig = $this->getMock('Varien_Simplexml_Config',
             array('getNode'), array(), '', false, false);
-        $this->_prototypeFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
+        $this->_protFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
         $this->_dirsMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
         $this->_localLoaderMock = $this->getMock('Mage_Core_Model_Config_Loader_Local',
             array(), array(), '', false, false);
         $this->_baseConfigMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
         $this->_model = new Mage_Core_Model_Config_Loader_Primary(
-            $this->_prototypeFactoryMock,
+            $this->_protFactoryMock,
             $this->_dirsMock,
             $this->_localLoaderMock
         );
@@ -61,7 +61,7 @@ class Mage_Core_Model_Config_Loader_PrimaryTest extends PHPUnit_Framework_TestCa
 
     protected function tearDown()
     {
-        unset($this->_prototypeFactoryMock);
+        unset($this->_protFactoryMock);
         unset($this->_dirsMock);
         unset($this->_localLoaderMock);
         unset($this->_baseConfigMock);
@@ -77,7 +77,7 @@ class Mage_Core_Model_Config_Loader_PrimaryTest extends PHPUnit_Framework_TestCa
         $this->_baseConfigMock->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue($this->getMockBuilder('Varien_Simplexml_Config')));
-        $this->_prototypeFactoryMock->expects($this->once())
+        $this->_protFactoryMock->expects($this->once())
             ->method('create')
             ->with('<config/>')
             ->will($this->returnValue($this->_baseConfigMock));
@@ -104,7 +104,7 @@ class Mage_Core_Model_Config_Loader_PrimaryTest extends PHPUnit_Framework_TestCa
         $this->_baseConfigMock->expects($this->any())
             ->method('getNode')
             ->will($this->returnValue($this->getMockBuilder('Varien_Simplexml_Config')));
-        $this->_prototypeFactoryMock->expects($this->never())
+        $this->_protFactoryMock->expects($this->never())
             ->method('create');
         $this->_baseConfigMock->expects($this->never())
             ->method('loadFile');

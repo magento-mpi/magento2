@@ -275,7 +275,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->markTestIncomplete('MAGETWO-6406');
         Mage::app()->getCacheInstance()->allowUse('config');
 
-        $model = $this->_createModel(true);
+        $model = $this->_createModel();
         $model->removeCache();
         $this->assertFalse($model->loadCache());
 
@@ -301,7 +301,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-6406');
         $this->assertInstanceOf(
-            'Mage_Core_Model_Config_Element', $this->_createModel(true)->getSectionNode(array('admin'))
+            'Mage_Core_Model_Config_Element', $this->_createModel()->getSectionNode(array('admin'))
         );
     }
 

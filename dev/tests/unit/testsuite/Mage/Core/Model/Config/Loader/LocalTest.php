@@ -25,7 +25,7 @@ class Mage_Core_Model_Config_Loader_LocalTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_prototypeFactoryMock;
+    protected $_protFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -47,7 +47,7 @@ class Mage_Core_Model_Config_Loader_LocalTest extends PHPUnit_Framework_TestCase
         $this->_customConfig = null;
         $this->_customFile = null;
         $this->_dirsMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
-        $this->_prototypeFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
+        $this->_protFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
         $this->_baseConfigMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
     }
@@ -55,7 +55,7 @@ class Mage_Core_Model_Config_Loader_LocalTest extends PHPUnit_Framework_TestCase
     protected function createModel()
     {
         return new Mage_Core_Model_Config_Loader_Local(
-            $this->_prototypeFactoryMock,
+            $this->_protFactoryMock,
             $this->_dirsMock,
             $this->_customConfig,
             $this->_customFile
@@ -64,7 +64,7 @@ class Mage_Core_Model_Config_Loader_LocalTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        unset($this->_prototypeFactoryMock);
+        unset($this->_protFactoryMock);
         unset($this->_dirsMock);
         unset($this->_baseConfigMock);
         unset($this->_model);
@@ -76,7 +76,7 @@ class Mage_Core_Model_Config_Loader_LocalTest extends PHPUnit_Framework_TestCase
             ->method('getDir')
             ->with($this->equalTo(Mage_Core_Model_Dir::CONFIG))
             ->will($this->returnValue('testdir\etc'));
-        $this->_prototypeFactoryMock->expects($this->never())
+        $this->_protFactoryMock->expects($this->never())
             ->method('create');
         $this->_baseConfigMock->expects($this->never())
             ->method('loadFile');
@@ -94,7 +94,7 @@ class Mage_Core_Model_Config_Loader_LocalTest extends PHPUnit_Framework_TestCase
             ->method('getDir')
             ->with($this->equalTo(Mage_Core_Model_Dir::CONFIG))
             ->will($this->returnValue(realpath(__DIR__. '/../_files/testdir/etc')));
-        $this->_prototypeFactoryMock->expects($this->exactly(1))
+        $this->_protFactoryMock->expects($this->exactly(1))
             ->method('create')
             ->with('<config/>')
             ->will($this->returnValue($this->_baseConfigMock));
@@ -120,7 +120,7 @@ class Mage_Core_Model_Config_Loader_LocalTest extends PHPUnit_Framework_TestCase
             ->method('getDir')
             ->with($this->equalTo(Mage_Core_Model_Dir::CONFIG))
             ->will($this->returnValue(realpath(__DIR__. '/../_files/testdir/etc/')));
-        $this->_prototypeFactoryMock->expects($this->exactly(2))
+        $this->_protFactoryMock->expects($this->exactly(2))
             ->method('create')
             ->with('<config/>')
             ->will($this->returnValue($this->_baseConfigMock));
@@ -148,7 +148,7 @@ class Mage_Core_Model_Config_Loader_LocalTest extends PHPUnit_Framework_TestCase
             ->method('getDir')
             ->with($this->equalTo(Mage_Core_Model_Dir::CONFIG))
             ->will($this->returnValue(realpath(__DIR__. '/../_files/testdir/etc/testdirectory')));
-        $this->_prototypeFactoryMock->expects($this->exactly(1))
+        $this->_protFactoryMock->expects($this->exactly(1))
             ->method('create')
             ->with('<config/>')
             ->will($this->returnValue($this->_baseConfigMock));
