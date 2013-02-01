@@ -35,7 +35,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_model = $this->getMock(
             'Mage_Core_Model_App',
             array('_initEnvironment', '_initFilesystem', '_initLogger', '_initCache'),
-            array($frontController, $this->_objectManager)
+            array($this->_objectManager->create('Mage_Core_Model_Config'), $frontController, $this->_objectManager)
         );
         $this->_objectManager->addSharedInstance($this->_model, 'Mage_Core_Model_App');
     }

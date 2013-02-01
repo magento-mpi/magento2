@@ -50,9 +50,8 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testInit()
     {
-        $this->assertNull($this->_model->getConfig());
-        $this->_model->init(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
+        $this->_model->init(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
         $this->assertContains(Mage_Core_Model_App::ADMIN_STORE_ID, array_keys($this->_model->getStores(true)));
 
@@ -69,9 +68,8 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testBaseInit()
     {
-        $this->assertNull($this->_model->getConfig());
-        $this->_model->baseInit(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
+        $this->_model->baseInit(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
     }
 
@@ -80,9 +78,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testRun()
     {
-        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
-            $this->markTestSkipped('Can\'t test application run without sending headers');
-        }
         $request = new Magento_Test_Request();
         $request->setRequestUri('core/index/index');
         $this->_mageModel->setRequest($request);
@@ -262,9 +257,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('USD', $this->_model->getBaseCurrencyCode());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetConfig()
     {
-        $this->assertNull($this->_model->getConfig());
+        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_mageModel->getConfig());
     }
 
@@ -314,18 +312,17 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Mage_Core_Controller_Request_Http', $this->_model->getRequest());
-        $this->_model->setRequest(new Magento_Test_Request());
-        $this->assertInstanceOf('Magento_Test_Request', $this->_model->getRequest());
+        $request = new Magento_Test_Request();
+        $this->_model->setRequest($request);
+        $this->assertSame($request, $this->_model->getRequest());
     }
 
     public function testSetGetResponse()
     {
-        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
-            $this->markTestSkipped('Can\'t test get response without sending headers');
-        }
         $this->assertInstanceOf('Mage_Core_Controller_Response_Http', $this->_model->getResponse());
-        $this->_model->setResponse(new Magento_Test_Response());
-        $this->assertInstanceOf('Magento_Test_Response', $this->_model->getResponse());
+        $response = new Magento_Test_Response();
+        $this->_model->setResponse($response);
+        $this->assertSame($response, $this->_model->getResponse());
     }
 
     public function testSetGetUpdateMode()
