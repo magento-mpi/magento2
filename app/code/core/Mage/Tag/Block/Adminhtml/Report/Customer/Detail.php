@@ -15,8 +15,9 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Block_Adminhtml_Report_Customer_Detail extends Mage_Backend_Block_Widget_Grid_Container
+class Mage_Tag_Block_Adminhtml_Report_Customer_Detail extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
+
     protected function _construct()
     {
         $this->_blockGroup = 'Mage_Tag';
@@ -30,4 +31,5 @@ class Mage_Tag_Block_Adminhtml_Report_Customer_Detail extends Mage_Backend_Block
         $this->setBackUrl($this->getUrl('*/report_tag/customer/'));
         $this->_addBackButton();
     }
+
 }

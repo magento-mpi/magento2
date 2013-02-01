@@ -87,7 +87,6 @@
  * @method array                    getControlElements($controlType, $controlName, $uimap = null, $failIfEmpty = true)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element getChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
  * @method array                    getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator, $failIfEmpty = true)
- * @method int                      getChildElementsCount(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
  * @method string                   getCurrentLocationArea()
  * @method Mage_Selenium_Uimap_Page getCurrentLocationUimapPage()
  * @method string                   getCurrentPage()

@@ -74,6 +74,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'), Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'))
+            ->_addContent($this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types'))
             ->renderLayout();
     }
 
@@ -82,8 +83,9 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
      */
     public function gridAction()
     {
-        $this->loadLayout('false');
-        $this->renderLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Types_Grid')->toHtml()
+        );
     }
 
     /**

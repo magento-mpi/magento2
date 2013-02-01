@@ -2651,10 +2651,10 @@ system_configuration:
                                         btp_payment_from_applicable_countries_use_default: //input[@name='groups[banktransfer][fields][allowspecific][inherit]']
                                         btp_payment_from_specific_countries_use_default: //input[@name='groups[banktransfer][fields][specificcountry][inherit]']
                             -
-                                cashondelivery:
+                                cash_on_delivery_payment:
                                     xpath: //fieldset[@id='payment_cashondelivery']
                                     links:
-                                        cashondelivery_link: //parent::div//a[@id='payment_cashondelivery-head']
+                                        cash_on_delivery_payment_link: //parent::div//a[@id='payment_cashondelivery-head']
                                     fields:
                                         cod_title: //input[@name='groups[cashondelivery][fields][title][value]']
                                         cod_instruction: //textarea[@name='groups[cashondelivery][fields][instructions][value]']

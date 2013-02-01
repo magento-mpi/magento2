@@ -48,7 +48,6 @@ Autocompleter.Base = Class.create({
     this.hasFocus    = false;
     this.changed     = false;
     this.active      = false;
-    this.parent      = false;
     this.index       = 0;
     this.entryCount  = 0;
     this.oldElementValue = this.element.value;
@@ -96,7 +95,6 @@ Autocompleter.Base = Class.create({
     if(Element.getStyle(this.update, 'display')=='none') this.options.onShow(this.element, this.update);
     if(!this.iefix &&
       (Prototype.Browser.IE) &&
-      (parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("MSIE")+5)) == 6) &&
       (Element.getStyle(this.update, 'position')=='absolute')) {
       new Insertion.After(this.update,
        '<iframe id="' + this.update.id + '_iefix" '+
@@ -121,17 +119,11 @@ Autocompleter.Base = Class.create({
   },
 
   startIndicator: function() {
-    if(this.options.indicator) {
-        Element.show(this.options.indicator);
-    }
-    this.options.parent && $(this.options.parent).addClassName('ajax-loading');
+    if(this.options.indicator) Element.show(this.options.indicator);
   },
 
   stopIndicator: function() {
-    if(this.options.indicator) {
-        Element.hide(this.options.indicator);
-    }
-    this.options.parent && $(this.options.parent).removeClassName('ajax-loading');
+    if(this.options.indicator) Element.hide(this.options.indicator);
   },
 
   onKeyPress: function(event) {

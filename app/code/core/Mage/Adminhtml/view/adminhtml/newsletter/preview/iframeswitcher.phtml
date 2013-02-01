@@ -32,10 +32,14 @@
     <iframe name="preview_iframe" id="preview_iframe" frameborder="0"></iframe>
     <?php echo $this->getChildHtml('preview_form'); ?>
 </div>
+<div id="loading-mask" style="display:none">
+    <p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Loading...') ?>"/><br/><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please wait...') ?></p>
+</div>
 
 <script type="text/javascript">
 //<![CDATA[
 var previewForm = $('preview_form');
+var loadingMask = $('loading-mask');
 var previewIframe = $('preview_iframe');
 
 function preview() {
@@ -45,13 +49,22 @@ function preview() {
 }
 
 function blockPreview() {
-    $('body').loadingPopup({
-        timeout: false
+    var cumulativeOffset = $('preview').cumulativeOffset();
+    $('loading-mask').setStyle({
+        top:  ( cumulativeOffset.top ) + 'px',
+        left: ( cumulativeOffset.left ) + 'px',
+        width: $('preview').getWidth() + 'px',
+        height: $('preview').getHeight() + 'px'
     });
+
+    toggleSelectsUnderBlock($('loading-mask'), false);
+    Element.show('loading-mask');
+    setLoaderPosition();
 }
 
 function unBlockPreview() {
-    jQuery('body').trigger('hideLoadingPopup');
+    toggleSelectsUnderBlock(loadingMask, true);
+    Element.hide(loadingMask);
 }
 
 Event.observe(window, 'load', preview);

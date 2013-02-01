@@ -79,8 +79,7 @@
         }
     });
 
-    $.widget('mage.treeSuggest', $.mage.suggest, {
-        widgetEventPrefix: "suggest",
+    $.widget('mage.treeSuggest', $.mage.multisuggest, {
         /**
          * @override
          */

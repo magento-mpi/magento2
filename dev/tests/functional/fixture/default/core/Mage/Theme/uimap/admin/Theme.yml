@@ -23,8 +23,6 @@ theme_list:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                             submit: //button[span='Submit']
-                        dropdowns:
-                            view_per_page: //select[@name='limit']
                         fields:
                             theme_title: //input[@id='theme_grid_filter_theme_title']
                             parent_theme_title: //input[@id='theme_grid_filter_parent_theme_title']
@@ -32,7 +30,6 @@ theme_list:
                             theme_version: //input[@id='theme_grid_filter_theme_version']
                             magento_version_from: //input[@id='theme_grid_filter_magento_version_from']
                             magento_version_to: //input[@id='theme_grid_filter_magento_version_to']
-                            page: //input[@name='page']
                         pageelements:
                             theme_grid: //table[@id='theme_grid_table']
                             theme_grid_theme_path_empty_column: //table[@id='theme_grid_table']/tbody/tr/td[normalize-space(@class)='theme-path' and not(contains(., '/'))]

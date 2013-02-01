@@ -1830,7 +1830,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     $elementValue = $this->select($element)->selectedValue();
                 } elseif ($controlType == self::FIELD_TYPE_MULTISELECT) {
                     $elementValue = $this->select($element)->selectedValues();
-                } elseif ($controlType == self::FIELD_TYPE_RADIOBUTTON || $controlType == self::FIELD_TYPE_CHECKBOX) {
+                } elseif ($controlType == self::FIELD_TYPE_CHECKBOX || $controlType == self::FIELD_TYPE_CHECKBOX) {
                     $elementValue = $element->selected();
                 } else {
                     $elementValue = $element->attribute('value');
@@ -2352,7 +2352,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $tabClass = $tabElement->attribute('class');
         $parentClass = $this->getChildElement($tabElement, '..')->attribute('class');
         if (strpos($tabClass, 'active') === false && strpos($parentClass, 'active') === false) {
-            $waitAjax = preg_match('/ajax/', $tabClass);
+            $waitAjax = strpos($tabClass, 'ajax') !== false;
             $this->clickControl('tab', $tabName, false);
             if ($waitAjax) {
                 $this->pleaseWait();
@@ -2722,7 +2722,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($this->execute(array('script' => $ajax, 'args' => array())) === 0) {
                 return;
             }
-            usleep(500000);
+            usleep(10000);
         }
     }
 
@@ -3997,12 +3997,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
      * @param string $childLocator
      *
-     * @return PHPUnit_Extensions_Selenium2TestCase_Element|bool
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element|null
      */
-    public function childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+    public function getPresentChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
     {
         $childElements = $this->getChildElements($parentElement, $childLocator, false);
-        return empty($childElements) ? false : array_shift($childElements);
+        return $childElements ? array_shift($childElements) : null;
     }
 
     /**
@@ -4023,20 +4023,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $elementsValue[] = $element->$getCommand($getParameter);
         }
         return $elementsValue;
-    }
-
-    /**
-     * Get child elements count
-     *
-     * @param PHPUnit_Extensions_Selenium2TestCase_Element $parentElement
-     * @param string $childLocator
-     *
-     * @return int
-     */
-    public function getChildElementsCount(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
-    {
-        $childElements = $this->getChildElements($parentElement, $childLocator, false);
-        return count($childElements);
     }
 
     /**

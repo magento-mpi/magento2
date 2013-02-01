@@ -33,8 +33,8 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_search')
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')
-            ->__('Search Terms'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'))
+            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'))
+            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Search'))
             ->renderLayout();
     }
 
@@ -43,9 +43,11 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
      */
     public function exportSearchCsvAction()
     {
-        $this->loadLayout(false);
-        $content = $this->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
-        $this->_prepareDownloadResponse('search.csv', $content->getCsvFile());
+        $fileName   = 'search.csv';
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Search_Grid')
+            ->getCsvFile();
+
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     /**
@@ -53,9 +55,11 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
      */
     public function exportSearchExcelAction()
     {
-        $this->loadLayout(false);
-        $content = $this->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
-        $this->_prepareDownloadResponse('search.xml', $content->getExcelFile());
+        $fileName   = 'search.xml';
+        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Search_Grid')
+            ->getExcelFile($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
     }
 
     protected function _isAllowed()

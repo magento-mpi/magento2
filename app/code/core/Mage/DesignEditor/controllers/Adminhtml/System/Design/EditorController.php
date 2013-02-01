@@ -316,9 +316,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$theme->isVirtual()) {
                 throw new Mage_Core_Exception($this->__('This theme is not editable.'));
             }
-            if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception('Only virtual theme is possible to edit.');
-            }
             $theme->setThemeTitle($themeTitle);
             $theme->save();
             $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => true)));
@@ -331,81 +328,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
                     array('error' => true, 'message' => $this->__('Theme is not saved')))
-            );
-        }
-    }
-
-    /**
-     * Rename title action
-     */
-    public function quickEditAction()
-    {
-        $themeId = (int)$this->getRequest()->getParam('theme_id');
-        $themeTitle = (string)$this->getRequest()->getParam('theme_title');
-
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-
-        try {
-            /** @var $theme Mage_Core_Model_Theme */
-            $theme = $this->_objectManager->get('Mage_Core_Model_Theme');
-            if (!($themeId && $theme->load($themeId)->getId())) {
-                throw new Mage_Core_Exception($this->__('The theme was not found.'));
-            }
-            if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception($this->__('This theme is not editable.'));
-            }
-            if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception('Only virtual theme is possible to edit.');
-            }
-            $theme->setThemeTitle($themeTitle);
-            $theme->save();
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => true)));
-        } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array(
-                'error' => true,
-                'message' => $e->getMessage()
-            )));
-        } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => true, 'message' => $this->__('Theme is not saved')))
-            );
-        }
-    }
-
-    /**
-     * Rename title action
-     */
-    public function quickEditAction()
-    {
-        $themeId = (int)$this->getRequest()->getParam('theme_id');
-        $themeTitle = (string)$this->getRequest()->getParam('theme_title');
-
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-
-        try {
-            /** @var $theme Mage_Core_Model_Theme */
-            $theme = $this->_objectManager->get('Mage_Core_Model_Theme');
-            if (!($themeId && $theme->load($themeId)->getId())) {
-                throw new Mage_Core_Exception($this->__('The theme was not found.'));
-            }
-            if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception($this->__('This theme is not editable.'));
-            }
-            $theme->setThemeTitle($themeTitle);
-            $theme->save();
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array('success' => true)));
-        } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody($coreHelper->jsonEncode(array(
-                'error' => true,
-                'message' => $e->getMessage()
-            )));
-        } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => true, 'message' => $this->__('Theme is not saved')))
             );
         }
     }

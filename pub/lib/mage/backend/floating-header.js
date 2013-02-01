@@ -12,10 +12,9 @@
     $.widget('mage.floatingHeader', {
         options: {
             placeholderAttrs: {
-                'class': 'page-actions-placeholder'
+                'class': 'content-header-placeholder'
             },
-            fixedClass: 'fixed',
-            title: '.page-title .title'
+            fixedClass: 'fixed'
         },
 
         /**
@@ -23,10 +22,8 @@
          * @private
          */
         _create: function() {
-            var title = $(this.options.title).text();
             this._setVars();
             this._bind();
-            this.element.wrapInner($('<div/>', {'class': 'page-actions-inner', 'data-title': title}));
         },
 
         /**

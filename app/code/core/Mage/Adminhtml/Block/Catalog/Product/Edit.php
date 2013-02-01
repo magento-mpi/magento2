@@ -45,10 +45,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         if (!$this->getRequest()->getParam('popup')) {
             $this->addChild('back_button', 'Mage_Adminhtml_Block_Widget_Button', array(
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
-                'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
                 'onclick' => 'setLocation(\''
                     . $this->getUrl('*/*/', array('store' => $this->getRequest()->getParam('store', 0))) . '\')',
-                'class' => 'action-back'
+                'class' => 'back'
             ));
         } else {
             $this->addChild('back_button', 'Mage_Adminhtml_Block_Widget_Button', array(

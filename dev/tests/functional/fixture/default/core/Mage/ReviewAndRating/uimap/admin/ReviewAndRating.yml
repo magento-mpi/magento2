@@ -24,12 +24,10 @@ manage_ratings:
                             search: //button[span='Search']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-                            is_active: //select[@id='ratingsGrid_filter_is_active']
                         fields:
                             page: //input[@name='page']
                             filter_id: //input[@name='rating_id']
                             filter_rating_name: //input[@name='rating_code']
-                            sort_order: //input[@id='ratingsGrid_filter_position']
                         pageelements:
                             grid_head: //table[@id='ratingsGrid_table']//tr[@class='headings']
         buttons:
