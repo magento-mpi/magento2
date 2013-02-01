@@ -13,6 +13,27 @@
  */
 class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
 {
+    //TODO what if block name "head" or block class "Mage_Page_Block_Html_Head" will be changed?
+
+    /**
+     * XPath selector to get CSS files from layout added for HEAD block directly
+     */
+    const XPATH_SELECTOR_BLOCKS =
+        '//block[@type="Mage_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
+
+    /**
+     * XPath selector to get CSS files from layout added for HEAD block using reference
+     */
+    const XPATH_SELECTOR_REFS =
+        '//reference[@name="head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
+
+    /**
+     * Design model
+     *
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_design;
+
     /**
      * Directories
      *
@@ -38,12 +59,15 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     /**
      * Constructor
      *
+     * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Layout_Merge_Factory $layoutMergeFactory
      * @param Mage_Core_Model_Resource_Theme_Collection $themeCollection
      */
-    public function __construct(Mage_Core_Model_Dir $dirs, Mage_Core_Model_Layout_Merge_Factory $layoutMergeFactory, Mage_Core_Model_Resource_Theme_Collection $themeCollection)
+    public function __construct(Mage_Core_Model_Design_Package $design, Mage_Core_Model_Dir $dirs, Mage_Core_Model_Layout_Merge_Factory $layoutMergeFactory,
+        Mage_Core_Model_Resource_Theme_Collection $themeCollection)
     {
+        $this->_design = $design;
         $this->_dirs = $dirs;
         $this->_layoutMergeFactory = $layoutMergeFactory;
         $this->_themeCollection = $themeCollection;
@@ -70,14 +94,11 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $layoutMerge = $this->_layoutMergeFactory->create(array('arguments' => $arguments));
         $layoutElement = $layoutMerge->getFileLayoutUpdatesXml();
 
-        $xpathRefs = '//reference[@name="head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
-        $xpathBlocks = '//block[@type="Mage_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
         $elements = array_merge(
-            $layoutElement->xpath($xpathRefs),
-            $layoutElement->xpath($xpathBlocks)
+            $layoutElement->xpath(self::XPATH_SELECTOR_REFS),
+            $layoutElement->xpath(self::XPATH_SELECTOR_BLOCKS)
         );
 
-        $design = Mage::getDesign();
         $params = array(
             'area'       => $theme->getArea(),
             'themeModel' => $theme,
@@ -88,9 +109,10 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $files = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
+            $path = $this->_design->getViewFile($fileId, $params);
             $file = array(
                 'id'       => $fileId,
-                'path'     => $design->getViewFile($fileId, $params),
+                'path'     => $path,
              );
             $file['safePath'] = $this->getSafePath($file['path'], $basePath);
 
@@ -354,6 +376,6 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      */
     public function getSafePath($filePath, $basePath)
     {
-        return str_ireplace($basePath, '', $filePath);
+        return ltrim(str_ireplace($basePath, '', $filePath), '\\/');
     }
 }
