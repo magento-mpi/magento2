@@ -20,14 +20,8 @@ return function ($appConfigString) {
     try {
         $params = array_merge($_SERVER, unserialize($appConfigString));
         require __DIR__ . '/app/bootstrap.php';
-        $objectManager = new Mage_Core_Model_ObjectManager_Http(
-            BP, $params['MAGE_RUN_CODE'], $params['MAGE_RUN_TYPE'], $params['CUSTOM_LOCAL_XML']
-        );
-        $request = $objectManager->get('Mage_Core_Controller_Request_Http');
-        $response = $objectManager->get('Mage_Core_Controller_Response_Http');
-        $handler = $objectManager->get('Magento_Http_Handler_Composite');
-        $handler->handle($request, $response);
-        $response->send();
+        $entryPoint = new Mage_Core_Model_EntryPoint_Http($params);
+        $entryPoint->processRequest();
     } catch (Exception $e) {
         Mage::printException($e);
     }
