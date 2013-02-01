@@ -126,10 +126,10 @@
                 var item = $(el).closest('tr');
                 var hidden = $('#id_' + item.attr("id"));
                 var id = hidden.attr("value");
-                hidden.after(this.templatePollAnswerId.evaluate({
+                this.container.closest('table').after(this.templatePollAnswerId.evaluate({
                     id: id
                 }));
-                item.hide();
+                item.remove();
             }
         }
     });
