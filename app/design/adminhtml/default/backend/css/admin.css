@@ -3184,18 +3184,3 @@ tr.dynamic-grid input.input-text {
 .fieldset-wrapper-title:after {
     clear: both;
 }
-
-/*
-    CMS -> Polls TODO: move to right place
--------------------------------------- */
-
-/* Poll Answers */
-.field-poll_answers_container .control {
-    width: 600px;
-}
-.field-poll_answers_container .col-poll_votes_count {
-    width: 90px;
-}
-.field-poll_answers_container .action-add {
-    margin-top: 7px;
-}
