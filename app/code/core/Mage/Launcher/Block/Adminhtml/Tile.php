@@ -60,19 +60,19 @@ class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
         $tileStyle = '';
         switch ($this->getTileState()) {
             case Mage_Launcher_Model_Tile::STATE_TODO :
-                $tileStyle = 'sl-step-todo';
+                $tileStyle = 'tile-todo';
                 break;
             case Mage_Launcher_Model_Tile::STATE_COMPLETE :
-                $tileStyle = 'sl-step-complete';
+                $tileStyle = 'tile-complete';
                 break;
             case Mage_Launcher_Model_Tile::STATE_SKIPPED :
-                $tileStyle = 'sl-step-skipped';
+                $tileStyle = 'tile-skipped';
                 break;
             case Mage_Launcher_Model_Tile::STATE_DISMISSED :
-                $tileStyle = 'sl-step-dismissed';
+                $tileStyle = 'tile-dismissed';
                 break;
             default:
-                $tileStyle = 'sl-step-todo';
+                $tileStyle = 'tile-todo';
         }
         return $tileStyle;
     }

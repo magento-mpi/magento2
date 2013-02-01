@@ -169,16 +169,20 @@
                 id: '<?php echo $this->getJsId() ?>',
                 minWidth: 560,
                 modal: true,
+                zIndex: 1003,
+                dialogClass: 'tax-rate-popup',
                 resizable: false,
                 buttons: [{
                     text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Cancel'); ?>',
                     id: '<?php echo $this->getJsId('close-button') ?>',
+                    'class' :'action-cancel',
                     click: function() {
                         $(this).dialogRates("close");
                     }
                 }, {
                     text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Save'); ?>',
                     id: '<?php echo $this->getJsId('apply-button') ?>',
+                    'class' :'action-save primary',
                     click: function() {
                         $(this).dialogRates('updateItemRate');
                         var itemRate = $(this).dialogRates('option').itemRate,
@@ -224,5 +228,29 @@
             });
         }
     }
+
+    $(document).ready(function () {
+        'use strict';
+      
+        $('#zip_is_range').on('change.zipRange', function(){
+
+            var elem = $(this),
+                zipFrom =$('.ui-dialog .field-zip_from'),
+                zipTo =$('.ui-dialog .field-zip_to'),
+                zipCode =$('.ui-dialog .field-tax_postcode');
+
+            if (elem.is(':checked')) {
+                zipCode.addClass('hidden');
+                zipFrom.removeClass('hidden');
+                zipTo.removeClass('hidden');
+
+            } else {
+                zipCode.removeClass('hidden');
+                zipFrom.addClass('hidden');
+                zipTo.addClass('hidden');
+            }
+
+        });
+    });
 })(jQuery);
 </script>

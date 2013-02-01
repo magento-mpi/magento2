@@ -11,47 +11,48 @@
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Page */
 ?>
 
-<div class="page-title">
-    <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
-    <div class="buttons buttons-store-action">
-        <a class="button" target="_blank" href="<?php echo Mage::getBaseUrl(); ?>"><?php echo $this->__('Preview My Store'); ?></a>
-        <button class="button button-special btn-launch-store <?php if (!$this->getPage()->isComplete()): ?>hidden<?php endif; ?>"><?php echo $this->__('Launch My Store'); ?></button>
+<section class="store-launcher">
+
+    <div class="page-title">
+        <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
+        <div class="actions">
+            <a class="action-preview-store" target="_blank" href="<?php echo Mage::getBaseUrl(); ?>"><?php echo $this->__('Preview My Store'); ?></a>
+            <button class="action-launch-store <?php if (!$this->getPage()->isComplete()): ?>hidden<?php endif; ?>"><?php echo $this->__('Launch My Store'); ?></button>
+        </div>
     </div>
-</div>
+
+    <div id="store-launcher-content" class="store-launcher-content">
+
+        <?php foreach($this->getTileBlocks() as $tile):?>
+        <?php echo $tile->toHtml() ?>
+        <?php endforeach;?>
+
+    </div>
 
 
-<section id="store-launcher" class="store-launcher store-launcher-alternative">
+    <div id="drawer" class="drawer">
 
-<?php foreach($this->getTileBlocks() as $tile):?>
-    <?php echo $tile->toHtml() ?>
-<?php endforeach;?>
-
-</section>
-
-
-<div id="drawer" class="drawer">
-    <section class="drawer-content">
-        <header>
-            <div class="header-inner">
-                <div class="drawer-header-content">
-                    <h1 id="drawer-item-header"></h1>
+        <header class="drawer-header">
+            <div class="drawer-header-inner">
+                <h1 class="title"></h1>
+                <div class="actions">
+                    <button type="submit" class="action-save-settings primary" data-save-url=""><?php echo $this->__('Save'); ?></button>
+                    <button type="button" class="action-close-drawer" title="<?php echo $this->__('Close'); ?>"></button>
                 </div>
-                <span class="btn-close"><?php echo $this->__('Back to Store Launcher'); ?></span>
             </div>
         </header>
-        <div class="content">
-        </div>
+
+        <section class="drawer-content">
+            <div class="drawer-content-inner"></div>
+        </section>
+
         <footer class="drawer-footer">
-            <div class="footer-inner">
-                <div id="drawer-item-footer">
-                    <button class="button button-special button-save-settins" save-url=""><?php echo $this->__('Save My Settings'); ?></button>
-                </div>
-            </div>
+            <div class="drawer-footer-inner"></div>
         </footer>
-    </section>
-</div>
 
+    </div>
 
+</section>
 
 <div class="fade">
     <div class="store-launcher-popup store-launcher-popup-ready">
@@ -105,7 +106,7 @@
                 event.preventDefault();
             }
         });
-        $('.btn-launch-store').on('click.showConfirmDialog',function(){
+        $('.action-launch-store ').on('click.showConfirmDialog',function(){
             $('.store-launcher-popup-ready')
                 .show()
                 .siblings()

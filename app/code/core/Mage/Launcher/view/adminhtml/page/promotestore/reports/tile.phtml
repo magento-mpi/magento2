@@ -10,23 +10,23 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Reports_Tile */
 ?>
-<article class="sl-step <?php echo $this->getTileStateStyle(); ?>" id="article-<?php echo $this->getTileCode()?>">
+<article class="tile-store-settings <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>" tabindex="0">
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Reports') ?></h2>
-    <div class="create">
+    <div class="tile-teaser">
         <p>
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?>
         </p>
-        <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_reports_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_reports_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm Info') ?>
         </button>
     </div>
 
-    <div class="completed">
+    <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?></p>
-        <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_reports_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_reports_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Content Pages') ?>

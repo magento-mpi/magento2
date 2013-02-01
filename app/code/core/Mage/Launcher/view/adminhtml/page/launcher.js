@@ -6,238 +6,269 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 (function ($) {
-    $(document).ready(function () {
-        'use strict';
 
-        var Drawer = (function(opts) {
+    'use strict';
+    $.widget("storeCreation.drawer", {
+        options: {
+            drawer: '#drawer',
+            drawerHeader : '.drawer-header',
+            drawerHeaderInner : '.drawer-header-inner',
+            drawerContent : '.drawer-content',
+            drawerFooter : '.drawer-footer',
+            btnOpenDrawer: '.action-open-drawer',
+            btnCloseDrawer: '.action-close-drawer',
+            btnSaveDrawer: '.action-save-settings',
+            drawerTopPosition: '.navigation',
+            stickyHeaderClass: 'fixed'
 
-            var options = $.extend({
-                drawer: $('#drawer'),
-                drawerHeader: $('.drawer-content > header'),
-                drawerContent: $('.drawer-content > .content'),
-                drawerFooter: $('.drawer-content > footer'),
-                storeLauncher: $('#store-launcher'),
-                btnOpenDrawer: $('.drawer-open'),
-                btnCloseDrawer: $('.header-inner .btn-close'),
-                btnSaveDrawer: $('.footer-inner .button-save-settins')
-            }, opts || {});
+        },
 
-            var methods = {
-                drawerMinHeight: function () {
-                    delay && clearTimeout(delay);
+        _create: function() {
+            this.drawerHeader = $(this.options.drawerHeader);
+            this.drawerHeaderInner = $(this.options.drawerHeaderInner);
+            this.drawerContent = $(this.options.drawerContent);
+            this.drawerFooter = $(this.options.drawerFooter);
+            this.btnOpenDrawer = $(this.options.btnOpenDrawer);
+            this.btnCloseDrawer = $(this.options.btnCloseDrawer);
+            this.btnSaveDrawer = $(this.options.btnSaveDrawer);
+            this.drawerTopPosition = $(this.options.drawerTopPosition);
+            this._bind();
+            this._handleHash();
+        },
 
-                    var delay = setTimeout(function () {
-                        var bodyHeight = $('body').outerHeight(),
-                            editFormHeight = $('#drawer').outerHeight(),
-                            windowOffsetTop = $(window).scrollTop(),
-                            newMinHeight = bodyHeight + windowOffsetTop - 200;
-                        if (editFormHeight < newMinHeight) {
-                            options.drawer.css({
-                                'min-height': newMinHeight + 'px'
-                            });
-                        }
-                    }, 1);
-                },
+        _bind: function() {
+            this.btnOpenDrawer
+                .on('click.openDrawer', this._setButtonHandler);
 
-                drawerFixedHeader: function() {
-                    var headerOffsetTop = options.drawerContent.offset().top,
-                        windowOffsetTop = $(window).scrollTop(),
-                        headerPositionTop = headerOffsetTop - windowOffsetTop;
+            this.btnCloseDrawer
+                .on('click.closeDrawer', $.proxy(this.drawerClose, this));
 
-                    if (headerPositionTop < 50 && options.drawerHeader.is(":visible")) {
-                        options.drawer.addClass('fixed');
-                    } else {
-                        options.drawer.removeClass('fixed');
-                    }
-                },
-
-                drawerOpen: function(tileCode) {
-                    var bodyHeight = $('body').outerHeight() + 500,
-                        offsetNavBar = $('.nav-bar').offset(),
-                        offsetDrawer = '57';
-                    methods.drawerMinHeight();
-                    if (offsetNavBar && offsetNavBar.top) {
-                        offsetDrawer = offsetNavBar.top
-                    }
-
-                    options.drawer
-                        .css('top', '' + bodyHeight + 'px')
-                        .show(1, function () {
-                            options.drawer.animate({
-                                top: offsetDrawer + 'px'
-                            }, 1000, function () {
-                                methods.drawerFixedHeader();
-                                options.storeLauncher.hide();
-                                options.drawerFooter.animate({
-                                    bottom: 0
-                                }, 100);
-                            })
-                        });
-                },
-
-                drawerClose: function() {
-                    window.location.hash = '';
-                    var bodyHeight = $('body').outerHeight();
-
-                    options.drawerFooter.animate({
-                        bottom: '-51px'
-                    }, 100);
-
-                    options.storeLauncher.show();
-
-                    if (options.drawer.hasClass('fixed')) {
-                        window.scrollTo(0, 0);
-                        options.drawer.css({
-                            top: '0'
-                        });
-                        options.drawer.removeClass('fixed');
-                        options.drawer.animate({
-                            top: bodyHeight + 'px'
-                        }, 1000, function () {
-                            options.drawer.hide();
-                        });
-                    } else {
-                        var deltaTop = $(window).scrollTop();
-                        options.drawer.animate({
-                            top: deltaTop + bodyHeight + 'px'
-                        }, 1000, function () {
-                            options.drawer.hide();
-                        });
-                    }
-                },
-
-                drawerAfterLoad: function(result, status) {
-                    if (result.success) {
-                        $('#drawer-item-header').text(result.tile_header);
-                        methods.drawerOpen(result.tile_code);
-                        $('.drawer-content > .content').html(result.tile_content);
-                    } else {
-                        alert(result.error_message);
-                    }
-                },
-
-                drawerAfterSave: function(result, status) {
-                    window.location.hash = '';
-                    if (result.success) {
-                        //Complete class should be added by condition for specified tile
-                        $('#article-' + result.tile_code).before(result.tile_content).remove();
-                        $('.drawer-open').on('click', methods.setButtonHandler);
-                        handleLaunchStoreButton();
-                        methods.drawerClose();
-                    } else {
-                        if (result && result.error_message) {
-                            alert(result.error_message);
-                        }
-                    }
-                },
-
-                setButtonHandler: function() {
-                    try {
-                        var hashString = $(this).parent().parent().attr('id');
-                        window.location.hash = hashString.replace('article-', '');
-                    } catch(err) {
-                        return false;
-                    }
-                    return true;
-                },
-
-                handleHash: function() {
-                    if (window.location.hash == '') {
-                        methods.drawerClose();
-                        return false;
-                    }
-                    try {
-                        var hashString = window.location.hash;
-                        hashString = hashString.replace('#', '');
-                        var $elem = $('#article-' + hashString + ' .drawer-open'),
-                            tileCode = $elem.attr('data-drawer').replace('open-drawer-', '');
-
-                        var postData = {
-                            tileCode: tileCode
-                        };
-                        var ajaxOptions = {
-                            type: 'POST',
-                            showLoader: true,
-                            data: postData,
-                            dataType: 'json',
-                            url: $elem.attr('data-load-url'),
-                            success: methods.drawerAfterLoad
-                        };
-                        $.ajax(ajaxOptions);
-
-                        $('.footer-inner .button-save-settins').attr('tile-code', tileCode);
-                        $('.footer-inner .button-save-settins').attr('data-save-url', $elem.attr('data-save-url'));
-                    } catch(err) {
-                        return false;
-                    }
-                }
-            };
-
-            options.btnOpenDrawer.on('click.openDrawer', methods.setButtonHandler);
-
-            options.btnCloseDrawer.on('click.closeDrawer', methods.drawerClose);
-
-            options.btnSaveDrawer
-                .on('click.saveSettings', function () {
-                    var drawerForm = $("#drawer-form"),
-                        buttonSave = $('.footer-inner .button-save-settins'),
+            this.btnSaveDrawer
+                .on('click.saveSettings', $.proxy(function(e) {
+                    var elem = $(e.currentTarget),
+                        drawerForm = $("#drawer-form"),
                         postData;
+
                     if (!drawerForm.valid()) {
                         return false;
                     }
 
-                    postData = drawerForm.serialize();
-                    postData += '&tileCode=' + buttonSave.attr('tile-code');
+                    postData = drawerForm.serialize() + '&' + $.param({tileCode: elem.attr('tile-code')});
                     var ajaxOptions = {
                         type: 'POST',
                         showLoader: true,
                         data: postData,
                         dataType: 'json',
-                        url: buttonSave.attr('data-save-url'),
-                        success: methods.drawerAfterSave
+                        url: elem.attr('data-save-url'),
+                        success: $.proxy(this._drawerAfterSave,this)
                     };
                     $.ajax(ajaxOptions);
 
                     return true;
-                });
+                }, this));
 
-            $(window).scroll(function () {
-                methods.drawerFixedHeader();
+            $(window)
+                .scroll($.proxy(this._drawerFixedHeader, this))
+                .hashchange($.proxy(this._handleHash, this))
+                .resize($.proxy(function(){
+                    delay && clearTimeout(delay);
+                    var delay = setTimeout($.proxy(this._drawerMinHeight, this), 100);
+            }, this));
+        },
+
+        _drawerMinHeight: function() {
+            var bodyHeight = $('body').outerHeight(),
+                windowOffsetTop = $(window).scrollTop(),
+                headerHeight = this.drawerTopPosition.offset().top,
+                newMinHeight = bodyHeight + windowOffsetTop - headerHeight;
+
+            this.element.css({
+                'min-height': newMinHeight
             });
-
-            $(window).hashchange( methods.handleHash );
-
-            methods.handleHash();
-
-            return {
-                options: options,
-                open: methods.drawerOpen,
-                close: methods.drawerClose
-            }
-
-        })();
+        },
 
         /**
          * Check if page has been completed (i.e. all related tiles are complete)
          *
          * @return boolean
          */
-        var isPageComplete = function () {
-            var completeSteps = $('#store-launcher').eq(0).find('.sl-step-complete').length;
-            return completeSteps == $('#store-launcher article').size();
-        }
+
+        _isPageComplete: function() {
+            var completeSteps = $('#store-launcher').eq(0).find('.tile-complete').length;
+            return completeSteps == $('#store-launcher-content article').size();
+        },
 
         /**
          * Show 'Launch Store' button if needed
          */
-        var handleLaunchStoreButton = function () {
-            var launchStoreButton = $('.btn-launch-store');
-            if (isPageComplete()) {
+         _handleLaunchStoreButton: function() {
+            var launchStoreButton = $('.action-launch-store');
+            if (this._isPageComplete()) {
                 launchStoreButton.removeClass('hidden');
             } else {
                 launchStoreButton.addClass('hidden');
             }
+        },
+
+        _drawerFixedHeader: function() {
+            var windowOffsetTop = $(window).scrollTop(),
+                headerHeight = this.drawerTopPosition.offset().top;
+
+            if (windowOffsetTop >=  headerHeight && this.drawerHeader.is(":visible")) {
+                this.element.addClass(this.options.stickyHeaderClass);
+            } else {
+                this.element.removeClass(this.options.stickyHeaderClass);
+            }
+        },
+
+        drawerOpen: function(tileCode) {
+            var elem = this.element,
+                headerHeight = this.drawerTopPosition.offset().top,
+                bodyHeight = $('body').outerHeight() + 500;
+
+            this._drawerMinHeight();
+
+            elem
+                .css('top', bodyHeight)
+                .show()
+                .animate({
+                    top: headerHeight
+                }, 1000, 'easeOutExpo', $.proxy(function () {
+                    this._drawerFixedHeader();
+                    this.drawerFooter.animate({
+                        bottom: 0
+                    }, 100);
+                }, this));
+        },
+
+        drawerClose: function() {
+            var elem = this.element,
+                drawerFooter = this.drawerFooter,
+                drawerFooterHeight = drawerFooter.height(),
+                bodyHeight = $('body').outerHeight(),
+                drawerSwitcher = this.drawerHeaderInner.find('.drawer-switcher');
+
+            window.location.hash = '';
+
+            var hideDrawer = function() {
+                elem.hide();
+                drawerSwitcher ? drawerSwitcher.remove() : '';
+            };
+
+            drawerFooter.animate({
+                bottom: -drawerFooterHeight - 10
+            }, 100);
+
+            if (elem.hasClass(this.options.stickyHeaderClass)) {
+                window.scrollTo(0, 0);
+                elem.css({
+                    top: 0
+                });
+                elem.removeClass(this.options.stickyHeaderClass)
+                .animate({
+                    top: bodyHeight
+                }, 1000, function() {
+                   hideDrawer();
+                });
+            } else {
+                var deltaTop = $(window).scrollTop();
+                elem.animate({
+                    top: deltaTop + bodyHeight
+                }, 1000, function() {
+                    hideDrawer();
+                });
+            }
+        },
+
+        _drawerAfterLoad: function(result, status) {
+            if (result.success) {
+                $('.title', this.drawerHeader).text(result.tile_header);
+                this.drawerOpen(result.tile_code);
+                $('.drawer-content-inner', this.drawerContent).html(result.tile_content);
+                var drawerSwitcher = $('.drawer-content-inner').find('.drawer-switcher');
+                drawerSwitcher ? this.drawerHeaderInner.append(drawerSwitcher) : '';
+                $('body').trigger('hideLoadingPopup');
+            } else if(result && result.error_message) {
+                alert(result.error_message);
+            }
+        },
+
+        _drawerAfterSave: function(result, status) {
+            window.location.hash = '';
+
+            if (result.success) {
+                //Complete class should be added by condition for specified tile
+                $('#tile-' + result.tile_code).before(result.tile_content).remove();
+                this._handleLaunchStoreButton();
+                this.drawerClose();
+            } else if(result && result.error_message) {
+                alert(result.error_message);
+            }
+        },
+
+        _setButtonHandler: function() {
+            try {
+                var hashString = $(this).closest('.tile-store-settings').attr('id');
+                window.location.hash = hashString.replace('tile-', '');
+                $('body').loadingPopup();
+            } catch(err) {
+                return false;
+            }
+            return true;
+        },
+
+        _handleHash: function() {
+            if (window.location.hash == '') {
+                this.drawerClose();
+                return false;
+            }
+            try {
+                var hashString = window.location.hash.replace('#', ''),
+                    elem = $('#tile-' + hashString).find(this.btnOpenDrawer),
+                    tileCode = elem.attr('data-drawer').replace('open-drawer-', ''),
+                    postData = {
+                        tileCode: tileCode
+                    },
+                    ajaxOptions = {
+                        type: 'POST',
+                        showLoader: true,
+                        data: postData,
+                        dataType: 'json',
+                        url: elem.attr('data-load-url'),
+                        success: $.proxy(this._drawerAfterLoad, this)
+                    };
+
+                $.ajax(ajaxOptions);
+
+                this.btnSaveDrawer
+                    .attr('tile-code', tileCode)
+                    .attr('data-save-url', elem.attr('data-save-url'));
+            } catch(err) {
+                return false;
+            }
         }
+    });
+
+    $(document).ready(function() {
+
+        /////////////////////////////////////////////////////
+        // Keyboard navigation
+        /////////////////////////////////////////////////////
+
+        $('.action-open-drawer')
+            .on('focus', function() {
+                $(this).closest('.tile-store-settings')
+                    .addClass('focus');
+            })
+            .on('blur', function() {
+                $(this).closest('.tile-store-settings')
+                    .removeClass('focus');
+            });
+
+
+        $('#drawer').drawer();
+
     });
 })(window.jQuery);
