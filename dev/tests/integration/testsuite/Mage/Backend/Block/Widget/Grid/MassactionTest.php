@@ -26,6 +26,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $this->_setFixtureTheme();
 
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'adminhtml'));

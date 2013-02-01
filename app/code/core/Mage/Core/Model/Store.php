@@ -322,7 +322,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return $this->_configCache[$path];
         }
 
-        $config = Mage::getConfig();
+        if (!Mage::isInstalled()) {
+            /** @var $config Mage_Core_Model_ConfigInterface */
+            $config = Mage::getSingleton('Mage_Core_Model_Config_Modules');
+        } else {
+            /** @var $config Mage_Core_Model_ConfigInterface */
+            $config = Mage::getSingleton('Mage_Core_Model_Config');
+        }
 
         $fullPath = 'stores/' . $this->getCode() . '/' . $path;
         $data = $config->getNode($fullPath);
