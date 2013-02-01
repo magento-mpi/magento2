@@ -75,7 +75,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         $prepareFileName = new ReflectionMethod($dirs, '_setDir');
         $prepareFileName->setAccessible(true);
-        $prepareFileName->invoke($dirs, Mage_Core_Model_Dir::ROOT, $dirPath);
         $prepareFileName->invoke($dirs, Mage_Core_Model_Dir::THEMES, $dirPath);
 
         $cssUrl = $this->_block->getViewFileUrl('css/wrong.css', array(
