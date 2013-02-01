@@ -49,6 +49,14 @@ class Mage_Core_Model_Store_Storage_Default implements Mage_Core_Model_Store_Sto
     }
 
     /**
+     * Initialize current applicaition store
+     */
+    public function initCurrentStore()
+    {
+        //not applicable for default storage
+    }
+
+    /**
      * Allow or disallow single store mode
      *
      * @param bool $value

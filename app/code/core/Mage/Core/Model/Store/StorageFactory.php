@@ -109,9 +109,8 @@ class Mage_Core_Model_Store_StorageFactory
                 );
             }
             $this->_cache[$className] = $instance;
-
+            $instance->initCurrentStore();
             if ($className === $this->_installedStoreClassName) {
-
                 $useSid = $instance->getStore()->getConfig(Mage_Core_Model_Session_Abstract::XML_PATH_USE_FRONTEND_SID);
                 $this->_app->setUseSessionInUrl($useSid);
 

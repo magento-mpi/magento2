@@ -164,7 +164,6 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
         $this->_cookie = $cookie;
-        $this->_initCurrentStore();
         if ($currentStore) {
             $this->_currentStore = $currentStore;
         }
@@ -190,7 +189,7 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
      *
      * @throws Mage_Core_Model_Store_Exception
      */
-    protected function _initCurrentStore()
+    public function initCurrentStore()
     {
         Magento_Profiler::start('init_stores');
         $this->_initStores();

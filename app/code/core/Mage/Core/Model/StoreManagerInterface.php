@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Mage_Core_Model_StoreManagerInterface extends Mage_Core_Model_Store_StorageInterface
+interface Mage_Core_Model_StoreManagerInterface extends Mage_Core_Model_Store_ListInterface
 {
 
     /**#@+
