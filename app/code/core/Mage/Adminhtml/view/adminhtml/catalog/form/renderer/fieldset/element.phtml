@@ -56,7 +56,7 @@ $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
             <?php if ($this->canDisplayUseDefault()): ?>
                 <label for="<?php echo $element->getHtmlId() ?>_default" class="choice action-default">
                     <input <?php if($element->getReadonly()):?> disabled="disabled"<?php endif; ?> type="checkbox" name="use_default[]" id="<?php echo $element->getHtmlId() ?>_default"<?php if($this->usedDefault()): ?> checked="checked"<?php endif; ?> onclick="<?php echo $elementToggleCode; ?>" value="<?php echo $this->getAttributeCode() ?>"/>
-                    <?php echo $this->__('Use Default Value') ?>
+                    <span><?php echo $this->__('Use Default Value') ?></span>
                 </label>
             <?php endif; ?>
         </div>
