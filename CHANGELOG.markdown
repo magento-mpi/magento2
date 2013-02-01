@@ -6,10 +6,12 @@
   * Added SOAP V2 API coverage from Magento 1.x
   * Improved integration testing framework to develop Web API tests. Covered SOAP V2 API with positive integration tests.
   * Changed `Mage_Webapi` module front name from `api` to `webapi`
-* Implemented convenient choice of sub-products for Grouped and Bundle products in admin backend. Improved several controls for those products.
-* Improved assignment of a category to a product by implementing popup AJAX search suggestions and categories tree
+* Improvements for product creation UI:
+  * Implemented AJAX suggestions popup and categories tree popup for convenient assignment of categories
+  * Moved selection of Bundle and Grouped sub-products to the "General" tab, implemented popup grids for them
+  * Made "Weight" checkbox to be selected by default for a Configurable product
 * Implemented integration test to measure and control PHP memory leak on application reinitialization
-* Made "Weight" checkbox to be selected by default for a Configurable product
+* Changed format of configuration files for static tests that search for obsolete Magento 1.x code
 * Bug fixes:
   * Fixed Web API WSDL incompatibility with C# and Java
   * Fixed issue, that Magento duplicated custom options field for a product, if creating them via a multi-call to API
