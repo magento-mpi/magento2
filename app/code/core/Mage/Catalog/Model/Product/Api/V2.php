@@ -23,10 +23,17 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
      * @param int|string $productId
      * @param string|int $store
      * @param stdClass $attributes
+     * @param string $identifierType if set to sku, then consider the productId to be a SKU even if it is numeric
      * @return array
      */
     public function info($productId, $store = null, $attributes = null, $identifierType = null)
     {
+        // make sku flag case-insensitive
+        $type_sku = 'sku';
+        if (!strcasecmp($type_sku, $identifierType)) {
+            $identifierType = $type_sku;
+        }
+
         $product = $this->_getProduct($productId, $store, $identifierType);
 
         $result = array( // Basic product data
