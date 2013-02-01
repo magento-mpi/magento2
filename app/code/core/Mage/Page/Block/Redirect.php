@@ -65,8 +65,11 @@ class Mage_Page_Block_Redirect extends Mage_Core_Block_Template
      */
     public function getRedirect ()
     {
-        $string  = '<span class="hidden" role="redirect" data-redirect-url="' . $this->getTargetURL() . '"></span>';
-        return $string;
+        return '<script type="text/javascript">
+            (function($){
+                $($.mage.redirect("' . $this->getTargetURL() . '"));
+            })(jQuery);
+        </script>';
     }
 
     /**
@@ -80,18 +83,13 @@ class Mage_Page_Block_Redirect extends Mage_Core_Block_Template
         $form->setAction($this->getTargetURL())
             ->setId($this->getFormId())
             ->setName($this->getFormId())
+            ->setAttr('data-auto-submit', 'true')
             ->setMethod($this->getMethod())
             ->setUseContainer(true);
         foreach ($this->_getFormFields() as $field => $value) {
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
-        $html = $form->toHtml();
-        $html.= '<script type="text/javascript">
-            (function($){
-                $($("' . $this->getFormId() . '").submit());
-            })(jQuery);
-        </script>';
-        return $html;
+        return $form->toHtml();
     }
 
     /**
