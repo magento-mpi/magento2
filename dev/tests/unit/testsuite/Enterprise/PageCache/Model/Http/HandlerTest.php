@@ -67,7 +67,9 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
 
     public function testHandleWithProcessorsContent()
     {
-        $processorMock = $this->getMock('Enterprise_PageCache_Model_Cache_ProcessorInterface', array(), array(), '', false, false);
+        $processorMock = $this->getMock(
+            'Enterprise_PageCache_Model_Cache_ProcessorInterface', array(), array(), '', false, false
+        );
         $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false, false);
         $nodeMock->expects($this->once())->method('asArray')->will($this->returnValue(array('processor_class')));
         $this->_factoryMock->expects($this->once())
@@ -92,7 +94,9 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
 
     public function testHandleWithoutProcessorsContent()
     {
-        $processorMock = $this->getMock('Enterprise_PageCache_Model_Cache_ProcessorInterface', array(), array(), '', false, false);
+        $processorMock = $this->getMock(
+            'Enterprise_PageCache_Model_Cache_ProcessorInterface', array(), array(), '', false, false
+        );
         $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false, false);
         $nodeMock->expects($this->once())->method('asArray')->will($this->returnValue(array('processor_class')));
         $this->_factoryMock->expects($this->once())

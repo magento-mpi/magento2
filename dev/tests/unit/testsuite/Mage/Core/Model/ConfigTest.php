@@ -100,7 +100,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testSetNodeData()
     {
-        $this->_model->setNode('modules/Module/active','true');
+        $this->_model->setNode('modules/Module/active', 'true');
 
         /** @var Mage_Core_Model_Config_Element $tmp */
         $node = 'true';
@@ -179,7 +179,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testIsModuleEnabled()
     {
-        $this->_model->setNode('modules/Module/active','true');
+        $this->_model->setNode('modules/Module/active', 'true');
         $this->assertEquals(true, $this->_model->isModuleEnabled('Module'));
     }
 }

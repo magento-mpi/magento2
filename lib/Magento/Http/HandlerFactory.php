@@ -7,7 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */ 
-class Magento_Http_HandlerFactory {
+class Magento_Http_HandlerFactory
+{
 
     /**
      * Application object manager

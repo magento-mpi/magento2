@@ -53,7 +53,9 @@ class Mage_Core_Model_Config_Loader_LocalesTest extends PHPUnit_Framework_TestCa
 
     public function testLoad()
     {
-        $this->_dirsMock->expects($this->once())->method('getDir')->will($this->returnValue( __DIR__ . '/../_files/locale'));
+        $this->_dirsMock->expects(
+            $this->once())->method('getDir')->will($this->returnValue( __DIR__ . '/../_files/locale')
+        );
         $mergeMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
         $mergeMock->expects($this->exactly(4))->method('loadFile')->with($this->stringEndsWith('config.xml'));
         $this->_factoryMock->expects($this->exactly(4))->method('create')->will($this->returnValue($mergeMock));

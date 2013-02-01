@@ -7,8 +7,8 @@
  */
 class Mage_Core_Model_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
-    public function testConstructConfiguresObjectManager(){
-
+    public function testConstructConfiguresObjectManager()
+    {
         $this->assertNull(Mage::getObjectManager());
         $configMock = $this->getMock('Magento_ObjectManager_Configuration');
         $configMock->expects($this->once())

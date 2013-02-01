@@ -182,8 +182,8 @@ class Mage_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
             ->method('getStore')
             ->with(10)
             ->will($this->returnCallback(function(){
-            throw new Exception('test');
-        }));
+                throw new Exception('test');
+            }));
 
         $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue('current'));
         $this->_requestMock->expects($this->once())->method('setActionName')->with('noRoute');
@@ -201,8 +201,8 @@ class Mage_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
             ->method('getStore')
             ->with(10)
             ->will($this->returnCallback(function(){
-            throw new Exception('test');
-        }));
+                throw new Exception('test');
+            }));
 
         $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue(false));
         $this->_requestMock->expects($this->never())->method('setActionName');
