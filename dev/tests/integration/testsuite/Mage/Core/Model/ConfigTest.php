@@ -120,6 +120,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($model->shouldUrlBeSecure('/checkout/onepage'));
     }
 
+
+
     /**
      * Instantiate Mage_Core_Model_Config and initialize (load configuration) if needed
      *
