@@ -8,16 +8,22 @@
 class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterface
 {
     /**
+     * Store storage factory model
+     *
      * @var Mage_Core_Model_Store_StorageFactory
      */
     protected $_factory;
 
     /**
+     * Event manager
+     *
      * @var Mage_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
     /**
+     * Request model
+     *
      * @var Mage_Core_Controller_Request_Http
      */
     protected $_request;
@@ -61,8 +67,8 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
      * @param Mage_Core_Model_Store_StorageFactory $factory
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param $scopeCode
-     * @param $scopeType
+     * @param string $scopeCode
+     * @param string $scopeType
      */
     public function __construct(
         Mage_Core_Model_Store_StorageFactory $factory,

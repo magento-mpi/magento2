@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Web application object manager. Configures and composes application application to serve http requests.
+ * Magento application object manager. Configures and application application
  *
  * {license_notice}
  *

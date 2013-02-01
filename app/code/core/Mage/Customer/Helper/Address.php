@@ -104,11 +104,14 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
      */
     public function getConfig($key, $store = null)
     {
-        return null;
-        $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+        /** @var $storeManager Mage_Core_Model_StoreManager */
+        $storeManager = Mage::getObjectManager()->get('Mage_Core_Model_StoreManager');
+        /** @var $store Mage_Core_Model_Store */
+        $store = $storeManager->getStore($store);
 
+        $websiteId = $store->getWebsiteId();
         if (!isset($this->_config[$websiteId])) {
-            $this->_config[$websiteId] = Mage::getStoreConfig('customer/address', $store);
+            $this->_config[$websiteId] = $store->getConfig('customer/address', $store);
         }
         return isset($this->_config[$websiteId][$key]) ? (string)$this->_config[$websiteId][$key] : null;
     }

@@ -496,12 +496,7 @@ final class Maged_Controller
                     include_once self::getBootstrapPath();
                     Mage::setIsDownloader();
                 }
-                $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
-                $app->init(array(
-                    Mage::PARAM_RUN_CODE => '',
-                    Mage::PARAM_RUN_TYPE => 'store',
-                    Mage::PARAM_BAN_CACHE => true
-                ));
+                Mage::getObjectManager()->get('Mage_Core_Model_App');
                 if (self::isInstalled()) {
                     Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
                 }

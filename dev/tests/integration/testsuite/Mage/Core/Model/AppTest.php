@@ -84,21 +84,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertSame($store, $this->_model->getStore());
     }
 
-    public function testSetErrorHandler()
-    {
-        $this->_model->setErrorHandler(array($this, 'errorHandler'));
-        try {
-            trigger_error('test', E_USER_NOTICE);
-            if (!$this->_errorCatchFlag) {
-                $this->fail('Error handler is not working');
-            }
-            restore_error_handler();
-        } catch (Exception $e) {
-            restore_error_handler();
-            throw $e;
-        }
-    }
-
     public function errorHandler()
     {
         $this->_errorCatchFlag = true;

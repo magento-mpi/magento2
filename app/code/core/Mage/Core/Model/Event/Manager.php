@@ -77,6 +77,7 @@ class Mage_Core_Model_Event_Manager
      */
     public function dispatch($eventName, array $data = array())
     {
+        Magento_Profiler::start('EVENT:' . $eventName, array('group' => 'EVENT', 'name' => $eventName));
         foreach ($this->_events as $area => $events) {
             if (false == isset($events[$eventName])) {
                 continue;
@@ -109,6 +110,8 @@ class Mage_Core_Model_Event_Manager
                 Magento_Profiler::stop('OBSERVER:' . $obsName);
             }
         }
+
+        Magento_Profiler::stop('EVENT:' . $eventName);
     }
 
     /**

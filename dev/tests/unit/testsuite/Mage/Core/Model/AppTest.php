@@ -69,18 +69,15 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false, false);
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
         $this->_appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false, false);
-        $this->_model = $this->getMock('Mage_Core_Model_App',
-            array('_initEnvironment'),
-            array(
-                $this->_configMock,
-                $this->_frontControllerMock,
-                $this->_cacheMock,
-                $this->_objectManagerMock,
-                $this->_dbUpdaterMock,
-                $this->_storeManagerMock,
-                $this->_eventManagerMock,
-                $this->_appStateMock
-            )
+        $this->_model = new Mage_Core_Model_App(
+            $this->_configMock,
+            $this->_frontControllerMock,
+            $this->_cacheMock,
+            $this->_objectManagerMock,
+            $this->_dbUpdaterMock,
+            $this->_storeManagerMock,
+            $this->_eventManagerMock,
+            $this->_appStateMock
         );
     }
 

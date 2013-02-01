@@ -254,9 +254,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $model->loadBase();
         $this->assertEquals('old_value', $model->getNode('test'));
 
-        $options[Mage::PARAM_CUSTOM_LOCAL_CONFIG] = '<config><test>new_value</test></config>';
-        $app->init($options);
-
         $model->reinit();
         $this->assertEquals('new_value', $model->getNode('test'));
     }

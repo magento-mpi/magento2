@@ -10,8 +10,6 @@
 
 interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInterface
 {
-    const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
-
     /**
      * Default application locale
      */
@@ -44,13 +42,6 @@ interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInter
      * Dependency injection configuration node name
      */
     const CONFIGURATION_DI_NODE = 'di';
-
-    /**
-     * Initialize application without request processing
-     *
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function init();
 
     /**
      * Run application. Run process responsible for request processing and sending response.

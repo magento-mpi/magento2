@@ -180,8 +180,7 @@ class Magento_Application
     protected function _bootstrap()
     {
         /** @var $app Mage_Core_Model_App */
-        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
-        $app->init(array());
+        Mage::getObjectManager()->get('Mage_Core_Model_App');
         return $this;
     }
 

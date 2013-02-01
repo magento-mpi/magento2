@@ -42,16 +42,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Initialize application without request processing
-     *
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function init()
-    {
-        return $this->_getApp()->init();
-    }
-
-    /**
      * Run application. Run process responsible for request processing and sending response.
      *
      * @return Mage_Core_Model_AppInterface

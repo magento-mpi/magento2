@@ -13,6 +13,8 @@
  */
 final class Mage
 {
+    const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
+
     /**
      * Application initialization option to specify custom product edition label
      */
@@ -266,6 +268,8 @@ final class Mage
      * @param mixed $value
      * @param bool $graceful
      * @throws Mage_Core_Exception
+     *
+     * @deprecated use Mage_Core_Model_Registry::register
      */
     public static function register($key, $value, $graceful = false)
     {
@@ -282,6 +286,8 @@ final class Mage
      * Unregister a variable from register by key
      *
      * @param string $key
+     *
+     * @deprecated use Mage_Core_Model_Registry::unregister
      */
     public static function unregister($key)
     {
@@ -298,6 +304,8 @@ final class Mage
      *
      * @param string $key
      * @return mixed
+     *
+     * @deprecated use Mage_Core_Model_Registry::registry
      */
     public static function registry($key)
     {
@@ -459,14 +467,14 @@ final class Mage
      *
      * @param string $name
      * @param array $data
+     *
+     * @deprecated use Mage_Core_Model_Event_Manager::dispatch
      */
     public static function dispatchEvent($name, array $data = array())
     {
-        Magento_Profiler::start('EVENT:' . $name, array('group' => 'EVENT', 'name' => $name));
         /** @var $eventManager Mage_Core_Model_Event_Manager */
         $eventManager = self::$_objectManager->get('Mage_Core_Model_Event_Manager');
         $eventManager->dispatch($name, $data);
-        Magento_Profiler::stop('EVENT:' . $name);        
     }
 
     /**

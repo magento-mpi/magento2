@@ -149,23 +149,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
         $this->_frontController = $frontController;
         $this->_appState = $appState;
         $this->_eventManager = $eventManager;
-        $this->_initEnvironment();
-    }
-
-    /**
-     * Initialize application without request processing
-     *
-     * @return Mage_Core_Model_App
-     */
-    public function init()
-    {
-        Magento_Profiler::start('self::app::init');
-
-        if ($this->_appState->isInstalled()) {
-            $this->_initRequest();
-        }
-        Magento_Profiler::stop('self::app::init');
-        return $this;
     }
 
     /**
@@ -198,18 +181,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
         if (false == $this->_appState->isInstalled()) {
             throw new Magento_Exception('Application is not installed yet, please complete the installation first.');
         }
-    }
-
-    /**
-     * Initialize PHP environment
-     *
-     * @return Mage_Core_Model_App
-     */
-    protected function _initEnvironment()
-    {
-        $this->setErrorHandler(self::DEFAULT_ERROR_HANDLER);
-        date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
-        return $this;
     }
 
     /**
