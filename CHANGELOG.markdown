@@ -1,3 +1,26 @@
+2.0.0.0-dev40
+=============
+* Implemented ability to customize all the main directory paths for the application, i.e. locations of `var`, `etc`, `media` and other directories
+* Implemented ability to pass application configuration data from the environment
+* Magento Web API changes:
+  * Added SOAP V2 API coverage from Magento 1.x
+  * Improved integration testing framework to develop Web API tests. Covered SOAP V2 API with positive integration tests.
+  * Changed `Mage_Webapi` module front name from `api` to `webapi`
+* Implemented convenient choice of sub-products for Grouped and Bundle products in admin backend. Improved several controls for those products.
+* Improved assignment of a category to a product by implementing popup AJAX search suggestions and categories tree
+* Implemented integration test to measure and control PHP memory leak on application reinitialization
+* Made "Weight" checkbox to be selected by default for a Configurable product
+* Bug fixes:
+  * Fixed Web API WSDL incompatibility with C# and Java
+  * Fixed issue, that Magento duplicated custom options field for a product, if creating them via a multi-call to API
+  * Fixed `shoppingCartPaymentList` method in Web API, which was throwing exception "Object has no 'code' property"
+  * Fixed invalid Wishlist link and several invalid links in Checkout on frontend store view
+  * Made Stock Status in 'quantity_and_stock_status' attribute editable again for a Configurable product
+  * Fixed issue, that it was not possible to save Customer after first save, because "Date Of Birth" format was reported by Magento to be incorrect
+  * Fixed fatal error in Code Sniffer exemplar test
+  * Fixed wrong failures of `Varien_Db_Adapter_Pdo_MysqlTest::testWaitTimeout()` integration test in developer mode
+  * Fixed issue, that mass-action column in backend grids moved to another position in single store mode
+
 2.0.0.0-dev39
 =============
 * Visual design editor improvements:
