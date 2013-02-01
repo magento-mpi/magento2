@@ -18,7 +18,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-6406');
         $xml = '<config>
                     <modules>
                         <Module>
@@ -52,20 +51,30 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                                 </setup>
                             </module_setup>
                         </resources>
+                        <di>
+                            <Mage_Core_Model_Cache>
+                                <parameters><one>two</one></parameters>
+                            </Mage_Core_Model_Cache>
+                        </di>
                     </global>
                 </config>';
 
         $configBase = new Mage_Core_Model_Config_Base($xml);
-        $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        $dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
-        $appMock = $this->getMock('Mage_Core_Model_AppInterface', array(), array(), '', false);
-        $configStorageMock = $this->getMock('Mage_Core_Model_Config_StorageInterface', array(), array(), '', false);
-
-        $configFactoryMock = $this->getMock('Mage_Core_Model_Config_Base_Factory', array(), array(), '', false);
-        $configFactoryMock->expects($this->any())->method('create')->will($this->returnValue($configBase));
+        $objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $objectManagerMock->expects($this->once())->method('setConfiguration')->with(array(
+            'Mage_Core_Model_Cache' => array(
+                'parameters' => array('one' => 'two')
+            )
+        ));
+        $appMock = $this->getMock('Mage_Core_Model_AppInterface');
+        $configStorageMock = $this->getMock('Mage_Core_Model_Config_StorageInterface');
+        $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
+        $modulesReaderMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
+        $invalidatorMock = $this->getMock('Mage_Core_Model_Config_InvalidatorInterface');
 
         $this->_model = new Mage_Core_Model_Config(
-            $objectManagerMock, $dirMock, $configStorageMock, $configFactoryMock, $appMock);
+            $objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $invalidatorMock
+        );
     }
 
     public function tearDown()
@@ -87,12 +96,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $xpath = $this->_model->getXpath('global/resources/module_setup/setup/module');
         $this->assertEquals($expected, $xpath);
-    }
-
-    public function testSetNode()
-    {
-        $this->assertInstanceOf('Varien_Simplexml_Config', $this->_model->setNode(
-        'modules/Module/active','true'));
     }
 
     public function testSetNodeData()
