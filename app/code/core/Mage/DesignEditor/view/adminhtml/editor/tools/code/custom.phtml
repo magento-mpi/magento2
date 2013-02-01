@@ -17,7 +17,7 @@
         <div class="custom-file">
             <span class="filename"><?php echo $this->getCustomFileName() ?></span>
 
-            <button class="action-download" title="<?php echo $this->__('Download file'); ?>">
+            <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getThemeId()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
                 <span><?php echo $this->__('Download file'); ?></span>
             </button>
             <button class="action-delete" title="<?php echo $this->__('Delete file'); ?>">

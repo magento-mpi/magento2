@@ -14,9 +14,10 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group extends Mage_Core_Block_Template
 {
     /**
-     * Get url to downlaod CSS file
+     * Get url to download CSS file
      *
      * @param string $fileId
+     * @param $themeId
      * @return string
      */
     public function getDownloadUrl($fileId, $themeId)
