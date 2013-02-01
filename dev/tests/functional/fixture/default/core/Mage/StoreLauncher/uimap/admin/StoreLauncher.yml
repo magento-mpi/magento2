@@ -1,0 +1,75 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_StoreManagement
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+
+# 'Store Launcher' page
+store_launcher:
+    mca: launcher/storelauncher_index/#
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'launcher/storelauncher')]
+    title: Magento Admin
+    uimap: &store_launcher
+        form:
+            fieldsets:
+                -
+                    store_launcher:
+                        xpath: //section[@id='store-launcher']
+                -
+                    common_tile:
+                        xpath:
+                        buttons:
+                            open_drawer: //button[@class='button drawer-open']
+                -
+                    bussines_info_tile:
+                        xpath: //article[@id='article-business_info']
+                        buttons:
+                            confirm_info: //button[normalize-space()='Confirm Info']
+                            edit_store_info: //button[normalize-space()='Edit Store Info']
+                        pageelements:
+                            title: //h2
+                            text: //div[@class='create']//p
+                            complete_state_text: //div[@class='completed']//p[text()='%addressData%']
+                -
+                    common_drawer:
+                        xpath: //div[@id='drawer']
+                        buttons:
+                            close_drawer: //span[@class='btn-close']
+                            save_my_settings: //button[@class='button button-special button-save-settins']
+                        pageelements:
+                            drawer_footer: //footer[@class='drawer-footer']
+                -
+                    bussines_info_drawer_form:
+                        xpath: //div[@class='content']//form[normalize-space(div/h4)='Store Info']
+                        fields:
+                            store_name: //input[@id='store_name']
+                            store_contact_email: //input[@id='store_email']
+                            store_contact_telephone: //input[@id='store_phone']
+                            store_street_address:  //input[@id='street_line1']
+                            store_street_address2:  //input[@id='street_line2']
+                            store_city:  //input[@id='city']
+                            store_zip:  //input[@id='postcode']
+                            billing_vat_number: //input[@id='vat_number']
+                            store_state_region_field: //input[@id='region_id']
+                            sender_email_general: //input[@id='sender_email_general']
+                            sales_sender_email: //input[@id='sender_email_representative']
+                            customer_support_sender_email: //input[@id='sender_email_support']
+                            custom1_sender_email: //input[@id='sender_email_custom1']
+                            custom2_sender_email: //input[@id='sender_email_custom2']
+                        dropdowns:
+                            store_country: //select[@id='country_id']
+                            store_state_region: //select[@name='region_id']
+                        buttons:
+                            validate_vat_number: //button[@id='validate_vat_number']
+                            vat_number_is_valid: //button[span='VAT Number is Valid']
+                            vat_number_is_invalid: //button[span='VAT Number is Invalid']
+                        pageelements:
+                            add_store_email_addressess: //h3[@id='advanced_block_title']
+                            additional_content: //div[@id='advanced_block_content']
+
+
+
