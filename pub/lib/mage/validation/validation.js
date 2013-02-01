@@ -63,6 +63,25 @@
         'Please select one of the options.'
     );
 
+    $.validator.addMethod(
+        "validate-date-between",
+        function(value, element, params) {
+            this.dateBetweenErrorMessage = $.mage.__('Please enter a date between %min and %max.').replace('%min', params[0]).replace('%max', params[1]);
+            var minDate = new Date(params[0]),
+                maxDate = new Date(params[1]),
+                inputDate = new Date(element.value);
+            minDate.setHours(0);
+            maxDate.setHours(0);
+            if (inputDate >= minDate && inputDate <= maxDate) {
+                return true;
+            }
+            return false;
+        },
+        function(){
+            return this.dateBetweenErrorMessage;
+        }
+    );
+
     $.widget("mage.validation", $.mage.validation, {
         /**
          * Check if form pass validation rules without submit

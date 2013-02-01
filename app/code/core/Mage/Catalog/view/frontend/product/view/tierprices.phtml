@@ -182,28 +182,6 @@ if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2,4)
                 : '';
             ?>
             <a href="#" id="<?php echo($popupId);?>" data-tier-price='{addToCartUrl:"<?php echo $addToCartUrl; ?>", name:"<?php echo $_product->getName() ?>", price:<?php echo json_encode($_price['real_price_html']) ?>, msrp:"<?php echo $this->helper('Mage_Core_Helper_Data')->currency($_product->getMsrp(),true,false) ?>"<?php if (!$this->getInGrouped()): ?>, qty:"<?php echo $_price['price_qty']?>"<?php endif ?>}'><?php echo $this->__('Click for price'); ?></a>
-
-            <script type="text/javascript">
-            <?php if (!$this->getInGrouped()): ?>
-                var newLink = {
-                    url: "<?php echo $addToCartUrl; ?>",
-                    qty: "<?php echo $_price['price_qty']?>"
-                };
-            <?php else: ?>
-                var newLink = {
-                    url: "<?php echo $addToCartUrl; ?>",
-                    notUseForm: true
-                };
-            <?php endif ?>
-                /*
-                Catalog.Map.addHelpLink(
-                    $('<?php echo $popupId ?>'),
-                    "<?php echo $_product->getName() ?>",
-                    <?php echo json_encode($_price['real_price_html']) ?>,
-                    "<?php echo $this->helper('Mage_Core_Helper_Data')->currency($_product->getMsrp(),true,false) ?>",
-                    newLink
-                );*/
-            </script>
         <?php else: ?>
             <span class="msrp-price-hide-message">
                 <?php echo $_catalogHelper->getMsrpPriceMessage($_product) ?>
