@@ -150,6 +150,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAreas()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $model = $this->_createModel(true, array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
 
         $allowedAreas = $model->getAreas();
@@ -182,6 +183,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRouters()
     {
+        $this->markTestIncomplete('MAGETWO-6406');
         $model = $this->_createModel(true, array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
 
         $loadedRouters = $model->getRouters();
