@@ -248,8 +248,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $objectManager = new Magento_Test_ObjectManager(new Mage_Core_Model_ObjectManager_Config($options), BP);
         $model = $objectManager->get('Mage_Core_Model_Config');
 
-        /** @var $app Mage_Core_Model_App */
-        $app = $objectManager->get('Mage_Core_Model_App');
+        $objectManager->get('Mage_Core_Model_App');
 
         $model->loadBase();
         $this->assertEquals('old_value', $model->getNode('test'));
@@ -421,6 +420,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      * @param bool $initialize
      * @param array $arguments
      * @return Mage_Core_Model_Config
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _createModel($initialize = false, array $arguments = array())
     {
