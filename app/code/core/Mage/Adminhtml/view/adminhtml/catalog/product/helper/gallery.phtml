@@ -38,7 +38,7 @@ $elementName = $this->getElement()->getName() . '[images]';
 
             <span class="remove">&times;</span>
 
-            <div>
+            <div class="image">
                 <ul class="type-labels">
                     <?php foreach ($this->getImageTypes() as $typeData) { ?>
                         <li class="type-<?php echo $this->escapeHtml(
@@ -84,6 +84,7 @@ $elementName = $this->getElement()->getName() . '[images]';
                 <div>
                     <label>
                         <input type="checkbox"
+                           data-role="hide-trigger"
                            value="1"
                            name="<?php echo $elementName ?>[${file_id}][disabled]"
                         {{if disabled == 1 }}checked="checked"{{/if}} />

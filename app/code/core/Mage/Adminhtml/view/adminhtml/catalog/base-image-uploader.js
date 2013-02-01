@@ -32,7 +32,7 @@ function BaseImageUploader(id, maxFileSize) {
 
         $galeryContainer.on('addItem', function(event, data) {
             var $element = $template.tmpl(data);
-                $element.insertBefore($dropPlaceholder).data('image', data);
+                $element.data('image', data).insertBefore($dropPlaceholder);
             currentImageCount++;
             if (currentImageCount > maximumImageCount) {
                 $element.hide();
@@ -52,10 +52,10 @@ function BaseImageUploader(id, maxFileSize) {
 
         $galeryContainer.on('moveElement', function (event, data) {
             var $element = findElement(data.imageData);
-            if (data.position - 1 == 0) {
+            if (data.position == 0) {
                 $container.prepend($element);
             } else {
-                var $after = $container.find('.container').eq(data.position - 1);
+                var $after = $container.find('.container').eq(data.position);
                 if (!$element.is($after)) {
                     $element.insertAfter($after);
                 }
@@ -72,9 +72,7 @@ function BaseImageUploader(id, maxFileSize) {
 
         $container.on('click', '.make-main', function (event) {
             var data = $(this).closest('.container').data('image');
-            $galeryContainer.find('.image-container').filter(function () {
-                return $(this).data('imageData').file == data.file;
-            }).first().find('.main-control').trigger('click');
+            $galeryContainer.productGallery('setMain', data);
         });
 
         $container.on('click', '.close', function (event) {

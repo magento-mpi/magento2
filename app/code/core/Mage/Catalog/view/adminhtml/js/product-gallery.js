@@ -51,9 +51,10 @@
                 'click .main-control': function(event) {
                     var $imageContainer = $(event.currentTarget).closest(this.options.item);
                     var imageData = $imageContainer.data('imageData');
-                    this._setMain(imageData);
+                    this.setMain(imageData);
                 },
-                'change [data-role="type-selector"]': '_changeType'
+                'change [data-role="type-selector"]': '_changeType',
+                'change [data-role="hide-trigger"]': '_changeVisibility'
             };
             events['click ' + this.options.item] = function() {
                 $(event.currentTarget).toggleClass('active');
@@ -65,8 +66,9 @@
 
             this.element.sortable({
                 distance: 8,
+                item: this.options.item,
                 tolerance: "pointer",
-                cancel: 'input, button, .ui-dialog',
+                cancel: 'input, button, .ui-dialog, .uploader',
                 update: $.proxy(function() {
                     this.element.trigger('resort');
                 }, this)
@@ -74,31 +76,44 @@
         },
 
         /**
+         * Change visibility
+         *
+         * @param event
+         * @private
+         */
+        _changeVisibility: function(event) {
+            var $checkbox = $(event.currentTarget);
+            var $imageContainer = $checkbox.closest(this.options.item);
+
+            if ($checkbox.is(':checked')) {
+                $imageContainer.addClass('disabled');
+            } else {
+                $imageContainer.removeClass('disabled');
+            }
+        },
+
+        /**
          * Set image as main
          * @param {Object} imageData
          * @private
          */
-        _setMain: function(imageData) {
-            var imageForTypes = $.map(this.options.types, function(el) {
-                return el.value
-            });
-            var isAllSame = $.grep(imageForTypes,function(el, index) {
-                return index == imageForTypes.indexOf(el);
-            }).length == 1;
+        setMain: function(imageData) {
+            var baseImage = this.options.types.image;
+            var sameImages = $.grep(
+                $.map(this.options.types, function(el) {
+                    return el
+                }),
+                function(el, index) {
+                    return el.value == baseImage.value;
+                }
+            );
 
-            if (isAllSame) {
-                $.each(this.options.types, $.proxy(function(index, image) {
-                    this.element.trigger('setImageType', {
-                        type: index,
-                        imageData: imageData
-                    });
-                }, this));
-            } else {
+            $.each(sameImages, $.proxy(function(index, image) {
                 this.element.trigger('setImageType', {
-                    type: 'image',
+                    type: image.code,
                     imageData: imageData
                 });
-            }
+            }, this));
         },
 
         /**
@@ -146,8 +161,17 @@
             } else {
                 element.insertAfter(this.element.find(this.options.item + ':last'));
             }
-
-            this._setMain(imageData);
+            if (this.options.images.length == 0) {
+                this.setMain(imageData);
+            }
+            $.each(this.options.types, $.proxy(function(index, image) {
+                if (imageData.file == image.value) {
+                    this.element.trigger('setImageType', {
+                        type: image.code,
+                        imageData: imageData
+                    });
+                }
+            }, this));
         },
 
         /**
@@ -183,16 +207,16 @@
          * @private
          */
         _resort: function() {
-            $(this).find('.position').each(function(index) {
-                var value = $(this).val();
-                if (value != index + 1) {
+            this.element.find('.position').each($.proxy(function(index, element) {
+                var value = $(element).val();
+                if (value != index) {
                     this.element.trigger('moveElement', {
-                        imageData: $(this).closest(this.options.item).data('imageData'),
-                        position: index + 1
+                        imageData: $(element).closest(this.options.item).data('imageData'),
+                        position: index
                     });
-                    $(this).val(index + 1);
+                    $(element).val(index);
                 }
-            });
+            }, this));
         },
 
         /**
@@ -202,7 +226,7 @@
          * @private
          */
         _setPosition: function(event, data) {
-            var $element = this.element.findElement(data.imageData);
+            var $element = this.findElement(data.imageData);
             var curIndex = this.element.find(this.options.item).index($element);
             var newPosition = data.position + (curIndex > data.position ? -1 : 0);
             if (data.position != curIndex) {
@@ -249,6 +273,10 @@
         _showDialog: function(imageData) {
             var $imageContainer = this.findElement(imageData);
             var dialogElement = $imageContainer.data('dialog');
+            if (!$imageContainer.is(':visible')) {
+                return;
+            }
+
             if (!dialogElement) {
                 var $template = this.element.find(this.options.dialogTemplate);
                 dialogElement = $template.tmpl(imageData).dialog($.extend({

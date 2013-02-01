@@ -162,7 +162,8 @@
     height: 0;
     overflow: hidden;
 }
-#media_gallery_content .item, #media_gallery_content .uploader {
+#media_gallery_content .item,
+#media_gallery_content .uploader {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -171,10 +172,13 @@
     width: 176px;
     padding: 5px;
     margin: 5px;
+    border: 1px solid rgba(128, 128, 128, .1);
 }
 
 #media_gallery_content .item  .drag-zone {
     visibility: hidden;
+    margin-top: -30px;
+    text-align: center;
 }
 
 #media_gallery_content .item:hover .drag-zone,
@@ -182,11 +186,27 @@
     visibility: visible;
 }
 
+#media_gallery_content .item.disabled .image {
+    opacity: 0.6;
+}
 #media_gallery_content .item img {
     max-height: 120px;
     max-width: 150px;
     padding: 0 10px;
-    border: 1px solid rgba(128, 128, 128, .1);
+}
+
+
+#media_gallery_content .item .image,
+#media_gallery_content .uploader .button {
+    min-height: 130px;
+    text-align: center;
+}
+
+#media_gallery_content .uploader {
+    background: #fff url('Mage_Adminhtml::images/image-placeholder.png') 44px no-repeat;
+}
+#media_gallery_content .uploader .button {
+    opacity: 0;
 }
 
 #media_gallery_content .remove {
