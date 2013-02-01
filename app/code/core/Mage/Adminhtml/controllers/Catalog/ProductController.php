@@ -1051,9 +1051,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         foreach ($result as $key => $set) {
             if ($set['value'] == $this->getRequest()->getParam('current_template_id')) {
                 unset($result[$key]);
-                break;
+                continue;
             }
+            $result[$key]['id'] = $result[$key]['value'];
         }
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(sort($result)));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 }

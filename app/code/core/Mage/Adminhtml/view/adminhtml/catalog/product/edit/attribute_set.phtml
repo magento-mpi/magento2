@@ -24,29 +24,20 @@
 </script>
 <script>
     jQuery(function ($) {
-        $.widget('mage.productTemplateSuggest', $.mage.suggest, {
-            _selectItem: function () {
-                this._superApply(arguments);
-                this._hideDropdown();
-                if (this._focused) {
-                    var templateId = this._readItemData(this._focused).value;
-                    if (!templateId) {
-                        return false;
-                    }
-                    var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace('#', '');
-                    uri += /\?/.test(uri) ? '&' : '?';
-                    uri += 'set=' + window.encodeURIComponent(templateId);
-                    var $form = $('#product-edit-form');
-                    $form.attr('action', uri).addClass('ignore-validate').submit();
-                }
-            }
-        });
         $('#attribute-set-suggest-container .current-set-container').toggle(function () {
-            $('#attribute-set-suggest').productTemplateSuggest('search');
             $(this).next('div').show();
         }, function () {
             $(this).next('div').hide();
         });
-        $('#attribute-set-suggest').mage('productTemplateSuggest', <?php echo $this->getSelectorOptions()?>);
+        $('#attribute-set-suggest').suggest(<?php echo $this->getSelectorOptions()?>)
+            .on('suggestselect', function (e, selectedItem) {
+                if (selectedItem.id) {
+                    var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace('#', '');
+                    uri += /\?/.test(uri) ? '&' : '?';
+                    uri += 'set=' + window.encodeURIComponent(selectedItem.id);
+                    var $form = $('#product-edit-form');
+                    $form.attr('action', uri).addClass('ignore-validate').submit();
+                }
+            });
     });
 </script>
