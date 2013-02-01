@@ -13,6 +13,7 @@ return array(
     array('Enterprise_GiftCard_Block_Email_Generated'),
     array('Enterprise_GiftRegistry_Block_Adminhtml_Customer_View'),
     array('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Grid'),
+    array('Enterprise_Invitation_Block_Adminhtml_Invitation_Grid'),
     array('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid'),
     array('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid'),
     array('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid'),
