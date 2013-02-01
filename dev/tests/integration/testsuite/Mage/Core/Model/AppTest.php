@@ -365,17 +365,4 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $groups);
         $this->assertGreaterThanOrEqual(1, count($groups));
     }
-
-    /**
-     * @magentoConfigFixture global/di/preferences/Mage_Core_Model_Url Mage_Backend_Model_Url
-     * @magentoConfigFixture frontend/di/preferences/Mage_Core_Model_Url Mage_DesignEditor_Model_Url_NavigationMode
-     */
-    public function testLoadDiConfiguration()
-    {
-        $objectManager = Mage::getObjectManager();
-        $this->_model  = $objectManager->get('Mage_Core_Model_App');
-        $this->_model->loadDiConfiguration('frontend');
-        $testInstance  = $objectManager->create('Mage_Backend_Block_Widget_Grid_ColumnSet');
-        $this->assertAttributeInstanceOf('Mage_DesignEditor_Model_Url_NavigationMode', '_urlBuilder', $testInstance);
-    }
 }

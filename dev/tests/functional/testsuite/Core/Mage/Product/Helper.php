@@ -20,7 +20,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
     public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
                                 'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'bundle_items', 'associated', 'downloadable_information', 'general');
+                                'bundle_items', 'downloadable_information', 'general');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -154,7 +154,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $data['inventory_min_allowed_qty'] = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
         }
         $availability = $this->getControlAttribute('pageelement', 'availability', 'text');
-        $data['inventory_stock_availability'] = str_replace('stock', 'Stock', $availability);
+        $data['general_stock_availability'] = str_replace('stock', 'Stock', $availability);
         $data['custom_options_data'] = $this->getFrontendCustomOptionsInfo();
 
         return $data;
@@ -524,21 +524,38 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Save product using split button
      *
      * @param string $additionalAction continueEdit|new|duplicate|close
-     * @param bool $validate
+     * @param string $saveNewAttributeInSet
      */
-    public function saveProduct($additionalAction = 'close', $validate = true)
+    public function saveProduct($additionalAction = 'close', $saveNewAttributeInSet = 'current')
     {
         if ($this->controlIsVisible('button', 'save_disabled')) {
             $this->fail('Save button is disabled');
         }
         if ($additionalAction != 'continueEdit') {
-            $this->addParameter('additionalAction', $additionalAction);
+            $this->waitForControlVisible('button', 'save_split_select');
             $this->clickButton('save_split_select', false);
-            if ($validate) {
-                $this->saveForm('save_product_by_action');
-            } else {
-                $this->clickButton('save_product_by_action', false);
+            $this->addParameter('additionalAction', $additionalAction);
+            $this->waitForControlVisible('button', 'save_product_by_action');
+            $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+            $waitConditions[] = $this->_getControlXpath('fieldset', 'choose_affected_attribute_set');
+            $this->clickButton('save_product_by_action', false);
+            $this->waitForElementVisible($waitConditions);
+            if ($this->controlIsVisible('fieldset', 'choose_affected_attribute_set')) {
+                if (strtolower($saveNewAttributeInSet) == 'current') {
+                    $this->fillRadiobutton('current_attribute_set', 'Yes');
+                } elseif ($saveNewAttributeInSet === null) {
+                    return;
+                } else {
+                    $this->fillRadiobutton('new_attribute_set', 'Yes');
+                    $this->fillField('new_attribute_set_name', $saveNewAttributeInSet);
+                }
+                $this->clickButton('confirm', false);
+                array_pop($waitConditions);
+                $this->waitForElementVisible($waitConditions);
             }
+            $this->addParameter('id', $this->defineIdFromUrl());
+            $this->addParameter('store', $this->defineParameterFromUrl('store'));
+            $this->validatePage();
         } else {
             $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         }
@@ -629,9 +646,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $param = $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'choose_attribute_set', 'selectedValue');
         $this->addParameter('setId', $param);
         $this->clickButton('apply');
+        $this->waitForElementVisible("//*[@id='product-edit-form-tabs']");
         $this->addParameter('attributeSet', $newAttributeSet);
-        $this->waitForNewPage();
         $this->waitForElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set'));
+        $this->validatePage();
     }
 
     /**
@@ -694,7 +712,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'related':
             case 'up_sells':
             case 'cross_sells':
-            case 'associated':
                 $this->openTab($tabName);
                 foreach (array_pop($tabData) as $value) {
                     $this->assignProduct($value, $tabName);
@@ -780,12 +797,17 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
+            $this->fillCheckbox('is_configurable', 'Yes');
             $attributeTitle = $generalTab['general_configurable_attributes'];
             unset($generalTab['general_configurable_attributes']);
         }
         if (isset($generalTab['general_configurable_variations'])) {
             $configurableData = $generalTab['general_configurable_variations'];
             unset($generalTab['general_configurable_variations']);
+        }
+        if (isset($generalTab['general_grouped_associated'])) {
+            $this->assignProductToGrouped($generalTab['general_grouped_associated']);
+            unset($generalTab['general_grouped_associated']);
         }
         $this->fillTab($generalTab, 'general');
         if (isset($attributeTitle)) {
@@ -844,8 +866,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $categoryName = end($explodeCategory);
             $this->addParameter('categoryPath', $categoryPath);
             $element->value($categoryName);
-            $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
-            $searchResult = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result', 'text');
+            $resultElement = $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
+            $searchResult = trim($resultElement->text());
             if ($searchResult != 'No search results.') {
                 $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
                 $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
@@ -891,14 +913,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         //Fill and verify parent category field
         $this->getElement($parentLocator)->value($parentName);
-        $this->waitForElement($parentLocator);
-        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'parent_category_search_result');
-        $this->addParameter('categoryPath', $parentPath);
-        $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category',
-            $this->getUimapPage('admin', 'new_product')->findTab('general'));
-        if (empty($elements)) {
+        $resultElement = $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'parent_category_search_result');
+        $searchResult = trim($resultElement->text());
+        if ($searchResult == 'No search results.') {
             $this->fail('It is impossible to create category with path - ' . $parentPath);
         }
+        $this->addParameter('categoryPath', $parentPath);
+        $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category');
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
         foreach ($elements as $element) {
             if ($element->enabled() && $element->displayed()) {
@@ -953,7 +974,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillConfigurableSettings(array $attributes)
     {
-        $this->fillCheckbox('is_configurable', 'Yes');
         foreach ($attributes as $attributeData) {
             if (!isset($attributeData['general_configurable_attribute_title'])) {
                 $this->fail('general_configurable_attribute_title is not set');
@@ -1037,20 +1057,29 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function selectConfigurableAttribute($attributeTitle)
     {
         $this->addParameter('attributeTitle', $attributeTitle);
-        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
-            $this->clickControl(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', false);
-            if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
-                $element = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
-                $element->value($attributeTitle);
-                $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
-                if (!$this->controlIsPresent(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
-                    $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
-                }
-            }
-            $selectAttribute = $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select');
-            $selectAttribute->click();
-            $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
+        if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
+            return;
         }
+        $this->clickControl(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', false);
+        $resultElement = $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_search_result');
+        $searchResult = trim($resultElement->text());
+        if ($searchResult == 'No search results.') {
+            $this->fail('There is no any attribute for creation configurable product');
+        }
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+        if (!$this->controlIsVisible(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
+            $this->addParameter('searchResult', $searchResult);
+            $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title')
+                ->value($attributeTitle);
+            $resultElement =
+                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_search_specific_result');
+            $searchResult = trim($resultElement->text());
+            if ($searchResult == 'No search results.') {
+                $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
+            }
+        }
+        $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select')->click();
+        $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
     }
 
     /**
@@ -1074,15 +1103,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->fillCheckbox('have_price_variation', $optionsData['have_price_variation']);
             unset($optionsData['have_price_variation']);
         }
-        $number = 0;
         foreach ($optionsData as $optionData) {
             if (isset($optionData['associated_attribute_value'])) {
                 $this->addParameter('attributeOption', $optionData['associated_attribute_value']);
                 unset($optionData['associated_attribute_value']);
-            } else {
-                $this->addParameter('attributeOption', $optionNames[$number++]);
             }
-            $this->fillFieldset($optionData, 'product_variation_attribute');
+            if (!empty($optionData)) {
+                $this->fillFieldset($optionData, 'product_variation_attribute');
+            }
         }
     }
 
@@ -1140,10 +1168,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             if (!isset($assignProduct['associated_attributes'])) {
                 $this->fail('Associated attributes data is required for product selection');
             }
-            $attributeData = $assignProduct['associated_attributes'];
+            $attributes = $assignProduct['associated_attributes'];
             unset($assignProduct['associated_attributes']);
             //Define and add param that clarifies what a line in table will be use
-            $param = $this->formAssignConfigurableParam($attributeData, $headRowNames);
+            $param = $this->formAssignConfigurableParam($attributes, $headRowNames);
             $this->addParameter('attributeSearch', $param);
             $this->fillCheckbox('include_variation', 'Yes');
             $trLocator = $this->formSearchXpath($assignProduct, "//tbody/tr");
@@ -1154,16 +1182,30 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             //If product is not selected
             $productTable = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'select_associated_product');
             $this->clickButton('choose', false);
+            $this->pleaseWait();
             $this->waitForElementVisible($productTable);
-            $selectParam =
-                $this->formAssignConfigurableParam($attributeData, $this->getTableHeadRowNames($productTable));
-            $isProductExist = $this->elementIsPresent($productTable . $trLocator . "[$selectParam]");
-            if ($isProductExist) {
-                //if product created
-                $isProductExist->click();
+            //Define if product created.
+            $selectParam = $this->formAssignConfigurableParam($attributes, $this->getTableHeadRowNames($productTable));
+            $select = false;
+            for (; ;) {
+                if ($this->elementIsPresent($productTable . $trLocator . "[$selectParam]")) {
+                    $select = true;
+                    break;
+                } elseif ($this->controlIsVisible('link', 'next_page')) {
+                    $pageIndex = $this->getControlAttribute('link', 'product_page', 'value') + 1;
+                    $this->addParameter('pageIndex', $pageIndex);
+                    $this->clickControl('link', 'next_page', false);
+                    $this->waitForControlEditable('pageelement', 'opened_product_page');
+                } else {
+                    break;
+                }
+            }
+            if ($select) {
+                //Select created product
+                $this->getElement($productTable . $trLocator . "[$selectParam]")->click();
                 $this->waitForElementVisible($variationTable . $trLocator . "[$param]");
             } else {
-                //fill data for new product
+                //Fill in data for new product
                 $this->clickControl(self::FIELD_TYPE_LINK, 'close_select_associated_product', false);
                 if (!$this->controlIsPresent(self::FIELD_TYPE_INPUT, 'associated_product_name')) {
                     $this->fail('Product is not exist and you can not create it(already another product is selected)');
@@ -1553,6 +1595,28 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
     }
 
+    /**
+     * Assign grouped product.
+     *
+     * @param array $data
+     */
+    public function assignProductToGrouped(array $data)
+    {
+        //select associated products
+        foreach ($data as $value) {
+            $productTable = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'select_grouped_associated_product');
+            $this->clickButton('add_products_to_group', false);
+            $this->waitForElementVisible($productTable);
+            $this->searchAndChoose(array('associated_grouped_search_sku' => $value['associated_search_sku']), 'select_grouped_associated_product');
+            $this->clickButton('select_products', false);
+            $this->waitForControlVisible('fieldset', 'general_grouped_associated');
+            //Fill in additional data
+            if (!empty($value['associated_product_default_qty'])) {
+                $this->addParameter('productSku', $value['associated_search_sku']);
+                $this->fillField('associated_product_default_qty', $value['associated_product_default_qty']);
+            }
+        }
+    }
     /**
      * Verify that product is assigned
      *

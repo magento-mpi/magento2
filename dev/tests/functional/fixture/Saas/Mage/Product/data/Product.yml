@@ -19,11 +19,9 @@ simple_product_with_param_for_configurable:
     general_weight: 100
     general_status: Enabled
     general_dropdown_goext: goext
+    general_qty: 999
+    general_stock_availability: In Stock
     prices_price: 100
     prices_tax_class: None
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 20000
-    inventory_stock_availability: In Stock
     websites: Main Website
     custom_options_data: %noValue%

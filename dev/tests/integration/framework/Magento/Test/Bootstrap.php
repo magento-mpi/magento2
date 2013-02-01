@@ -92,13 +92,13 @@ class Magento_Test_Bootstrap
         $this->_shell = $shell;
         $this->_tmpDir = $tmpDir;
         $this->_application = $this->_createApplication(
-            $this->_settings->getConfigFiles(
-                'TESTS_LOCAL_CONFIG_FILE', 'etc/local-mysql.xml', array('etc/integration-tests-config.xml')
+            array(
+                $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_FILE'),
+                $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_EXTRA_FILE'),
             ),
-            $this->_settings->getPathPatternValue('TESTS_GLOBAL_CONFIG_FILES', '../../../app/etc/*.xml'),
-            $this->_settings->getPathPatternValue('TESTS_MODULE_CONFIG_FILES', '../../../app/etc/modules/*.xml'),
-            $this->_settings->isEnabled('TESTS_MAGENTO_DEVELOPER_MODE'),
-            $this->_shell
+            $this->_settings->getAsMatchingPaths('TESTS_GLOBAL_CONFIG_FILES'),
+            $this->_settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
+            $this->_settings->getAsBoolean('TESTS_MAGENTO_DEVELOPER_MODE')
         );
     }
 
@@ -130,27 +130,26 @@ class Magento_Test_Bootstrap
         $this->_envBootstrap->emulateHttpRequest($_SERVER);
         $this->_envBootstrap->emulateSession($_SESSION);
 
-        $profilerOutputFile = $this->_settings->getFileValue('TESTS_PROFILER_FILE');
+        $profilerOutputFile = $this->_settings->getAsFile('TESTS_PROFILER_FILE');
         if ($profilerOutputFile) {
             $this->_profilerBootstrap->registerFileProfiler($profilerOutputFile);
         }
 
-        $profilerOutputFile = $this->_settings->getFileValue('TESTS_BAMBOO_PROFILER_FILE');
-        $profilerMetricsFile = $this->_settings->getFileValue('TESTS_BAMBOO_PROFILER_METRICS_FILE');
+        $profilerOutputFile = $this->_settings->getAsFile('TESTS_BAMBOO_PROFILER_FILE');
+        $profilerMetricsFile = $this->_settings->getAsFile('TESTS_BAMBOO_PROFILER_METRICS_FILE');
         if ($profilerOutputFile && $profilerMetricsFile) {
             $this->_profilerBootstrap->registerBambooProfiler($profilerOutputFile, $profilerMetricsFile);
         }
 
         $memoryBootstrap = $this->_createMemoryBootstrap(
-            $this->_settings->getScalarValue('TESTS_MEM_USAGE_LIMIT', 0),
-            $this->_settings->getScalarValue('TESTS_MEM_LEAK_LIMIT', 0)
+            $this->_settings->get('TESTS_MEM_USAGE_LIMIT', 0), $this->_settings->get('TESTS_MEM_LEAK_LIMIT', 0)
         );
         $memoryBootstrap->activateStatsDisplaying();
         $memoryBootstrap->activateLimitValidation();
 
         $this->_docBlockBootstrap->registerAnnotations($this->_application);
 
-        if ($this->_settings->isEnabled('TESTS_CLEANUP')) {
+        if ($this->_settings->getAsBoolean('TESTS_CLEANUP')) {
             $this->_application->cleanup();
         }
         if ($this->_application->isInstalled()) {
@@ -180,7 +179,7 @@ class Magento_Test_Bootstrap
      * @param array $localConfigFiles
      * @param array $globalConfigFiles
      * @param array $moduleConfigFiles
-     * @param $isDeveloperMode
+     * @param bool $isDeveloperMode
      * @return Magento_Test_Application
      */
     protected function _createApplication(
@@ -189,9 +188,7 @@ class Magento_Test_Bootstrap
         $localConfigXml = $this->_loadConfigFiles($localConfigFiles);
         $dbConfig = $localConfigXml->global->resources->default_setup->connection;
         $this->_dbVendorName = $this->_determineDbVendorName($dbConfig);
-        $sandboxUniqueId = $this->_calcConfigFilesHash(array_merge(
-            $localConfigFiles, $globalConfigFiles, $moduleConfigFiles
-        ));
+        $sandboxUniqueId = $this->_calcConfigFilesHash($localConfigFiles);
         $installDir = "{$this->_tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
         $dbClass = 'Magento_Test_Db_' . ucfirst($this->_dbVendorName);
         /** @var $dbInstance Magento_Test_Db_DbAbstract */
@@ -208,6 +205,12 @@ class Magento_Test_Bootstrap
         );
     }
 
+    /**
+     * Calculate and return hash of config files' contents
+     *
+     * @param array $configFiles
+     * @return string
+     */
     protected function _calcConfigFilesHash($configFiles)
     {
         $result = array();
@@ -234,6 +237,13 @@ class Magento_Test_Bootstrap
         return $result;
     }
 
+    /**
+     * Retrieve database vendor name from the database connection XML configuration
+     *
+     * @param SimpleXMLElement $dbConfig
+     * @return string
+     * @throws Magento_Exception
+     */
     protected function _determineDbVendorName(SimpleXMLElement $dbConfig)
     {
         $dbVendorAlias = (string)$dbConfig->model;

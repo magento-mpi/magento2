@@ -197,12 +197,12 @@ class Magento_Test_Application
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'theme');
 
-        /* Copy *.xml configuration files */
-        $dirs = array(
+        /* Copy configuration files */
+        $etcDirsToFilesMap = array(
             $this->_installEtcDir              => $this->_globalEtcFiles,
             $this->_installEtcDir . '/modules' => $this->_moduleEtcFiles,
         );
-        foreach ($dirs as $targetEtcDir => $sourceEtcFiles) {
+        foreach ($etcDirsToFilesMap as $targetEtcDir => $sourceEtcFiles) {
             $this->_ensureDirExists($targetEtcDir);
             foreach ($sourceEtcFiles as $sourceEtcFile) {
                 $targetEtcFile = $targetEtcDir . '/' . basename($sourceEtcFile);

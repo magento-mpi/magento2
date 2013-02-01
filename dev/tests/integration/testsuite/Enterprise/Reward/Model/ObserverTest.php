@@ -49,7 +49,6 @@ class Enterprise_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @param Mage_Customer_Model_Customer $customer
      * @param mixed $pointsDelta
-     * @return void
      */
     protected function _saveRewardPoints(Mage_Customer_Model_Customer $customer, $pointsDelta = '')
     {

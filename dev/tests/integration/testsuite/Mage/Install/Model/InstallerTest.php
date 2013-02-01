@@ -119,16 +119,19 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @expectedException Magento_Exception
-     * @expectedExceptionMessage Key must not exceed 32 bytes.
+     * @expectedExceptionMessage Key must not exceed
      */
     public function testInstallEncryptionKeySizeViolation()
     {
         // isolate the application from the configuration pollution, if the test fails
         $this->_emulateInstallerConfigDir(self::$_tmpDir);
 
-        $this->_model->installEncryptionKey(str_repeat('a', 33));
+        $this->_model->installEncryptionKey(str_repeat('a', 57));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetValidEncryptionKey()
     {
         $validKey = 'abcdef1234567890';
@@ -136,14 +139,18 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @expectedException Magento_Exception
-     * @expectedExceptionMessage Key must not exceed 32 bytes.
+     * @expectedExceptionMessage Key must not exceed
      */
     public function testGetValidEncryptionKeySizeViolation()
     {
-        $this->_model->getValidEncryptionKey(str_repeat('1', 33));
+        $this->_model->getValidEncryptionKey(str_repeat('1', 57));
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetValidEncryptionKeyRandom()
     {
         $actualKey = $this->_model->getValidEncryptionKey();
