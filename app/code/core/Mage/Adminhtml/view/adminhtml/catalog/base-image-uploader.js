@@ -46,14 +46,14 @@ function BaseImageUploader(id, maxFileSize) {
             $('input[name="product[name]"]').focus().blur(); // prevent just inserted image selection
         });
 
-        $container.on('click', '.image', function (event) {
+        $container.on('click', '.container', function (event) {
             $(this).toggleClass('active').siblings().removeClass('active');
         });
-        $container.on('click', '.action-make-main', function (event) {
-            var $imageContainer = $(this).closest('.image'),
+        $container.on('click', '.make-main', function (event) {
+            var $imageContainer = $(this).closest('.container'),
                 image = $imageContainer.data('image');
 
-            $container.find('.image').removeClass(mainClass);
+            $container.find('.container').removeClass(mainClass);
             $imageContainer.addClass(mainClass);
             mainImage = image.file;
 
@@ -70,8 +70,8 @@ function BaseImageUploader(id, maxFileSize) {
             _getGalleryRowByImage(image).find(radiosToSwitch).trigger('click');
         });
 
-        $container.on('click', '.action-delete', function (event) {
-            var $imageContainer = $(this).closest('.image'),
+        $container.on('click', '.close', function (event) {
+            var $imageContainer = $(this).closest('.container'),
                 image = $imageContainer.data('image'),
                 $galleryRow = _getGalleryRowByImage(image);
 
@@ -98,7 +98,7 @@ function BaseImageUploader(id, maxFileSize) {
 
         $container.sortable({
             axis: 'x',
-            handle: '.image'
+            handle: '.container'
         });
 
         $dropPlaceholder.on('click', function(e) {

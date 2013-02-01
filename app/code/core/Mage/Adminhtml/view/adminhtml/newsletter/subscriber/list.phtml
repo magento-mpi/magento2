@@ -8,7 +8,16 @@
  * @license     {license_link}
  */
 ?>
-<?php echo $this->getChildHtml('grid') ?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="width:50%;"><h3><?php echo Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Subscribers') ?></h3></td>
+        </tr>
+    </table>
+</div>
+<div>
+    <?php echo $this->getChildHtml('grid') ?>
+</div>
 <?php if(count($this->getQueueAsOptions())>0 && $this->getShowQueueAdd()): ?>
 <div class="form-buttons">
     <select id="queueList" name="queue">

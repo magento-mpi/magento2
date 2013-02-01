@@ -87,32 +87,6 @@ customer_segment_report:
     mca: report_customer_customersegment/segment/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_customersegment/segment/')]
     title: Customer Segments / Customers / Reports / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    customer_segment_report_grid:
-                        xpath: //div[@id='gridReportCustomersegments']
-                        buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
-                            submit: //button[span='Submit']
-                        fields:
-                            filter_segment_report_id: //input[@id='gridReportCustomersegments_filter_segment_id']
-                            filter_segment_report_name: //input[@id='gridReportCustomersegments_filter_name']
-                            filter_segment_report_number_customers: //input[@id='gridReportCustomersegments_filter_customer_count']
-                            page: //input[@name='page']
-                        dropdowns:
-                            view_per_page: //select[@name='limit']
-                            filter_massaction_actions: //select[@id='gridReportCustomersegments_massaction-select']
-                            filter_massaction: //select[@id='gridReportCustomersegments_filter_massaction']
-                            filter_status: //select[@id='gridReportCustomersegments_filter_is_active']
-                            filter_website: //select[@id='gridReportCustomersegments_filter_website']
-                        links:
-                            select_all: //a[text()='Select All']
-                            unselect_all: //a[text()='Unselect All']
-                            select_visible: //a[text()='Select Visible']
-                            unselect_visible: //a[text()='Unselect Visible']
 
 # Customer's Wishlist Report page
 customer_wishlist_report:

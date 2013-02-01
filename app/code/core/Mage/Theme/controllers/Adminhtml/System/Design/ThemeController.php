@@ -29,7 +29,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
+        $this->loadLayout();
         $this->renderLayout();
     }
 

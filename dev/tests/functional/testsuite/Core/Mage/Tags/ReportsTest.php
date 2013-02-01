@@ -78,7 +78,7 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         $this->assertNotNull($this->reportsHelper()
                 ->searchDataInReport(array('first_name' => $testData['customer']['first_name'],
                                            'last_name'  => $testData['customer']['last_name'],
-                                           'total_tags' => count($tags)), 'report_tag_customer_grid'),
+                                           'total_tags' => count($tags))),
             'Customer who submitted tag is not shown in report');
         //Step 10
         $this->addParameter('firstName', $testData['customer']['first_name']);
@@ -95,13 +95,12 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         //Step 11
         $this->navigate('report_tag_product');
         //Verifying
-        $this->assertNotNull($this->reportsHelper()->searchDataInReport(array('product_name' => $testData['product'],
-                                                                              'unique_tags_number' => count($tags),
-                                                                              'total_tags_number' => count($tags)),
-            'report_tag_product_grid'), 'Product with submitted tag is not shown in report');
+        $this->assertNotNull($this->reportsHelper()
+                ->searchDataInReport(array('product_name'       => $testData['product'],
+                                           'unique_tags_number' => count($tags), 'total_tags_number' => count($tags))),
+            'Product with submitted tag is not shown in report');
         //Step 12
         $this->addParameter('productName', $testData['product']);
-        $this->addParameter('elementTitle', $testData['product']);
         $this->clickControl('link', 'show_tags');
         //Verifying
         foreach ($tags as $tag) {
@@ -114,20 +113,19 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
         //Verifying
         foreach ($tags as $tag) {
             $this->assertNotNull($this->reportsHelper()->searchDataInReport(array('tag_name'   => $tag,
-                                                                                  'popularity' => '1'),
-                'report_tag_popular_grid'), 'Tag is not shown in report');
+                                                                                  'popularity' => '1')),
+                'Tag is not shown in report');
         }
         //Step 14
         foreach ($tags as $tag) {
             $this->navigate('report_tag_popular');
             $this->addParameter('tagName', $tag);
-            $this->addParameter('elementTitle', $tag);
             $this->clickControl('link', 'show_details');
             //Verifying
             $this->assertNotNull($this->reportsHelper()
                     ->searchDataInReport(array('first_name'   => $testData['customer']['first_name'],
                                                'last_name'    => $testData['customer']['last_name'],
-                                               'product_name' => $testData['product']), 'report_tag_grid'),
+                                               'product_name' => $testData['product'])),
                 'Tag is not shown in Tag Details');
         }
     }
@@ -169,7 +167,7 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
                                      'total_tags' => count($testData[1]['tags'])));
 
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow, 'report_tag_customer_grid'),
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow),
                 'Customer who submitted tag is not shown in report');
         }
         //Verifying columns sorting
@@ -208,7 +206,7 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
                                      'total_tags_number'  => count($testData[1]['tags'])));
 
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow, 'report_tag_product_grid'),
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow),
                 'Product with submitted tag is not shown in report');
         }
         //Verifying columns sorting
@@ -244,8 +242,7 @@ class Core_Mage_Tags_ReportsTest extends Core_Mage_Tags_TagsFixtureAbstract
                                array('tag_name' => $testData[1]['tags'][1], 'popularity' => '1'));
 
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow, 'report_tag_popular_grid'),
-                'Tag is not shown in report');
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow), 'Tag is not shown in report');
         }
         //Verifying columns sorting
         $sortedColumns = array('tag_name');

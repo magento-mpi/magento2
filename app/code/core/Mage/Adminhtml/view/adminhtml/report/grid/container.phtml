@@ -8,7 +8,14 @@
  * @license     {license_link}
  */
 ?>
-<div class="page-actions"><?php echo $this->getButtonsHtml() ?></div>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
 <div>
     <?php echo $this->getChildHtml('store.switcher') ?>
 </div>

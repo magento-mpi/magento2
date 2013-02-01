@@ -112,7 +112,6 @@ manage_invitations:
                             status: //select[@id='invitationGrid_filter_status']
                             valid_on_website: //select[@id='invitationGrid_filter_website_id']
                             invitee_group: //select[@id='invitationGrid_filter_group_id']
-                            view_per_page: //select[@name='limit']
                         fields:
                             id: //input[@id='invitationGrid_filter_enterprise_invitation_id']
                             email: //input[@id='invitationGrid_filter_email']
@@ -120,13 +119,6 @@ manage_invitations:
                             sent_to: //input[@name='invitation_date[to]']
                             registered_from: //input[@name='signup_date[from]']
                             registered_to: //input[@name='signup_date[to]']
-                            page: //input[@name='page']
-                            invitee: //input[@id='invitationGrid_filter_invitee']
-                        links:
-                            select_all: //a[text()='Select All']
-                            unselect_all: //a[text()='Unselect All']
-                            select_visible: //a[text()='Select Visible']
-                            unselect_visible: //a[text()='Unselect Visible']
                         pageelements:
                             invitations_grid_head: //table[@id='invitationGrid_table']/thead/tr[@class='headings']
         buttons:

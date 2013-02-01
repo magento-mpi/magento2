@@ -30,7 +30,7 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
 
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $html = '<div class="field field-region">'."\n";
+        $html = '<tr>'."\n";
 
         $countryId = false;
         if ($country = $element->getForm()->getElement('country_id')) {
@@ -69,8 +69,8 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
 
         if ($regionCollection && count($regionCollection) > 0) {
             $elementClass = $element->getClass();
-            $html.= '<label class="label" for="' . $regionIdHtmlId . '"><span>'.$element->getLabelHtml().'</span><span class="required" style="display:none">*</span></label>';
-            $html.= '<div class="control">';
+            $html.= '<td class="label">'.$element->getLabelHtml().'</td>';
+            $html.= '<td class="value">';
 
             $html .= '<select id="' . $regionIdHtmlId . '" name="' . $regionIdHtmlName . '" '
                  . $element->serialize($htmlAttributes) .'>' . "\n";
@@ -84,23 +84,23 @@ class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_
 
             $html .= '<input type="hidden" name="' . $regionHtmlName . '" id="' . $regionHtmlId . '" value=""/>';
 
-            $html.= '</div>';
+            $html.= '</td>';
             $element->setClass($elementClass);
         } else {
             $element->setClass('input-text');
-            $html.= '<label class="label" for="' . $regionHtmlId . '"><label for="'.$element->getHtmlId().'">'
+            $html.= '<td class="label"><label for="'.$element->getHtmlId().'">'
                 . $element->getLabel()
-                . '</span><span class="required" style="display:none">*</span></label>';
+                . ' <span class="required" style="display:none">*</span></label></td>';
 
             $element->setRequired(false);
-            $html.= '<div class="control">';
+            $html.= '<td class="value">';
             $html .= '<input id="' . $regionHtmlId . '" name="' . $regionHtmlName
                 . '" value="' . $element->getEscapedValue() . '" '
                 . $element->serialize($htmlAttributes) . "/>" . "\n";
             $html .= '<input type="hidden" name="' . $regionIdHtmlName . '" id="' . $regionIdHtmlId . '" value=""/>';
-            $html .= '</div>'."\n";
+            $html .= '</td>'."\n";
         }
-        $html.= '</div>'."\n";
+        $html.= '</tr>'."\n";
         return $html;
     }
 }

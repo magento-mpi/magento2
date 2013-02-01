@@ -8,9 +8,16 @@
  * @license     {license_link}
  */
 ?>
-<div class="page-actions">
-    <?php echo $this->getBackButtonHtml() ?>
-    <?php echo $this->getSaveButtonHtml() ?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="width:50%;"><h3 class="icon-head head-product-attribute-sets"><?php echo $this->_getHeader() ?></h3></td>
+            <td class="form-buttons">
+                <?php echo $this->getBackButtonHtml() ?>
+                <?php echo $this->getSaveButtonHtml() ?>
+            </td>
+        </tr>
+    </table>
 </div>
 <?php echo $this->getFormHtml() ?>
 <script type="text/javascript">

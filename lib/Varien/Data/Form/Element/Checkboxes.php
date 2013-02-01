@@ -26,7 +26,7 @@ class Varien_Data_Form_Element_Checkboxes extends Varien_Data_Form_Element_Abstr
     {
         parent::__construct($attributes);
         $this->setType('checkbox');
-        $this->setExtType('checkboxes');
+        $this->setExtType('checkbox');
     }
 
     /**
@@ -93,11 +93,11 @@ class Varien_Data_Form_Element_Checkboxes extends Varien_Data_Form_Element_Abstr
             return '';
         }
 
-        $html  = '<div class=nested>';
+        $html  = '<ul class="checkboxes">';
         foreach ($values as $value) {
             $html.= $this->_optionToHtml($value);
         }
-        $html .= '</div>'
+        $html .= '</ul>'
             . $this->getAfterElementHtml();
 
         return $html;
@@ -172,14 +172,14 @@ class Varien_Data_Form_Element_Checkboxes extends Varien_Data_Form_Element_Abstr
     {
         $id = $this->getHtmlId().'_'.$this->_escape($option['value']);
 
-        $html = '<div class="field choice"><input id="'.$id.'"';
+        $html = '<li><input id="'.$id.'"';
         foreach ($this->getHtmlAttributes() as $attribute) {
             if ($value = $this->getDataUsingMethod($attribute, $option['value'])) {
                 $html .= ' '.$attribute.'="'.$value.'"';
             }
         }
         $html .= ' value="'.$option['value'].'" />'
-            . ' <label for="'.$id.'">' . $option['label'] . '</label></div>'
+            . ' <label for="'.$id.'">' . $option['label'] . '</label></li>'
             . "\n";
         return $html;
     }

@@ -14,7 +14,10 @@
  */
  ?>
 <?php echo $this->getFormInitScripts() ?>
-<div class="page-actions" <?php echo $this->getUiId('content-header') ?>><?php echo $this->getButtonsHtml('header') ?></div>
+<div class="content-header" <?php echo $this->getUiId('content-header') ?>>
+    <?php echo $this->getHeaderHtml() ?>
+    <p class="form-buttons"><?php echo $this->getButtonsHtml('header') ?></p>
+</div>
 <?php echo $this->getFormHtml() ?>
 <?php if ($this->hasFooterButtons()): ?>
     <div class="content-footer">

@@ -13,22 +13,6 @@ google_content_manage_attributes:
     mca: googleshopping_types/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'googleshopping_types/')]
     title: Manage Attributes / Google Content / Catalog / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    googleshopping_types_grid:
-                        xpath: //div[@id='types_grid']
-                        buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
-                        dropdowns:
-                            view_per_page: //select[@name="limit"]
-                        fields:
-                            attribute_set_filter: //input[@id='types_grid_filter_attribute_set_name']
-                            page: //input[@name="page"]
-            buttons:
-                add_attribute_mapping: //button[@id='add']
 
 google_content_manage_items:
     mca: googleshopping_items/index/store/1/

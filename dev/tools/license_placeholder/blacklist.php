@@ -38,7 +38,6 @@ return array(
     'pub/lib/lib/ccard.js',
     'pub/lib/lib/ds-sleight.js',
     'pub/lib/lib/FABridge.js',
-    'pub/lib/lib/modernizr.js',
     'pub/lib/mage/adminhtml/hash.js',
     'pub/lib/prototype',
     'pub/lib/scriptaculous',

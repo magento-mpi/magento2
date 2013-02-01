@@ -35,9 +35,9 @@ class Varien_Data_Form_Element_Label extends Varien_Data_Form_Element_Abstract
      */
     public function getElementHtml()
     {
-        $html = $this->getBold() ? '<strong class="control-value">' : '<span class="control-value">';
+        $html = $this->getBold() ? '<strong>' : '';
         $html.= $this->getEscapedValue();
-        $html.= $this->getBold() ? '</strong>' : '</span>';
+        $html.= $this->getBold() ? '</strong>' : '';
         $html.= $this->getAfterElementHtml();
         return $html;
     }

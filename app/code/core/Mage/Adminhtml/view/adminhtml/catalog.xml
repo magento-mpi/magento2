@@ -27,6 +27,7 @@
     <adminhtml_catalog_product_new>
         <update handle="editor"/>
         <reference name="head">
+            <action method="addCss"><file>Mage_Catalog::product/product.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
@@ -44,6 +45,7 @@
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/product-variation.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::catalog/base-image-uploader.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>
         </reference>
         <reference name="content">
@@ -79,6 +81,7 @@
     <adminhtml_catalog_product_edit>
         <update handle="editor"/>
         <reference name="head">
+            <action method="addCss"><file>Mage_Catalog::product/product.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
@@ -96,6 +99,7 @@
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/product-variation.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
+            <action method="addCss"><file>Mage_Adminhtml::catalog/base-image-uploader.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>
         </reference>
         <reference name="content">

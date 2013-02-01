@@ -26,19 +26,6 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     protected $_template = 'html/head.phtml';
 
     /**
-     * Chunks of title (necessary for backend)
-     *
-     * @var array
-     */
-    protected $_titleChunks;
-
-    /**
-     * Page title without prefix and suffix when not chunked
-     *
-     * @var string
-     */
-    protected $_pureTitle;
-    /**
      * Add CSS file to HEAD entity
      *
      * @param string $name
@@ -290,17 +277,11 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     /**
      * Set title element text
      *
-     * @param string|array $title
+     * @param string $title
      * @return Mage_Page_Block_Html_Head
      */
     public function setTitle($title)
     {
-        if (is_array($title)) {
-            $this->_titleChunks = $title;
-            $title = implode(' / ', $title);
-        } else {
-            $this->_pureTitle = $title;
-        }
         $this->_data['title'] = Mage::getStoreConfig('design/head/title_prefix') . ' ' . $title
             . ' ' . Mage::getStoreConfig('design/head/title_suffix');
         return $this;
@@ -317,20 +298,6 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             $this->_data['title'] = $this->getDefaultTitle();
         }
         return htmlspecialchars(html_entity_decode(trim($this->_data['title']), ENT_QUOTES, 'UTF-8'));
-    }
-
-    /**
-     * Same as getTitle(), but return only first item from chunk for backend pages
-     *
-     * @return mixed|string
-     */
-    public function getShortTitle()
-    {
-        if (!empty($this->_titleChunks)) {
-            return reset($this->_titleChunks);
-        } else {
-            return $this->_pureTitle;
-        }
     }
 
     /**
