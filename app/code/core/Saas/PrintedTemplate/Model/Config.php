@@ -9,7 +9,7 @@
  */
 
 /**
- * Retrives variables for printed templates from config
+ * Retrieves variables for printed templates from config
  *
  * @category    Saas
  * @package     Saas_PrintedTemplate
@@ -27,6 +27,7 @@ class Saas_PrintedTemplate_Model_Config
      *
      * @param string $templateType
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getVariablesArray($templateType = null)
     {
@@ -42,7 +43,8 @@ class Saas_PrintedTemplate_Model_Config
                 if (isset($options['fields'])) {
                     foreach ($options['fields'] as $fieldId => $fieldOptions) {
                         if (isset($fieldOptions['template_type'])
-                            && !isset($fieldOptions['template_type'][$templateType])) {
+                            && !isset($fieldOptions['template_type'][$templateType])
+                        ) {
                             unset($options['fields'][$fieldId]);
                         }
                     }
@@ -76,7 +78,6 @@ class Saas_PrintedTemplate_Model_Config
     /**
      * Returns array of avaliable font sizes
      *
-     * @param string $type
      * @return array
      */
     public function getFontSizesArray()
@@ -100,6 +101,7 @@ class Saas_PrintedTemplate_Model_Config
      *
      * @param string $templateType Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_*
      * @param int $storeId
+     * @return string|null
      */
     public function getTemplateIdByType($templateType, $storeId = null)
     {

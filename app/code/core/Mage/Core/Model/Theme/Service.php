@@ -168,7 +168,8 @@ class Mage_Core_Model_Theme_Service
 
         /** @var $themeCustomization Mage_Core_Model_Theme */
         $themeCustomization = $this->_themeFactory->create()->setData($themeData);
-        $themeCustomization->createPreviewImageCopy()->save();
+        $themeCustomization->getThemeImage()->createPreviewImageCopy();
+        $themeCustomization->save();
         return $themeCustomization;
     }
 
@@ -221,7 +222,7 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return frontend theme collection by page. Theme customizations are not included, only phisical themes.
+     * Return frontend theme collection by page. Theme customizations are not included, only physical themes.
      *
      * @param int $page
      * @param int $pageSize
@@ -235,6 +236,18 @@ class Mage_Core_Model_Theme_Service
             ->addFilter('theme_path', 'theme_path IS NOT NULL', 'string')
             ->setPageSize($pageSize);
         return $collection->setCurPage($page);
+    }
+
+    /**
+     * Check if current theme has assigned to any store
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return bool
+     */
+    public function isThemeAssignedToStore(Mage_Core_Model_Theme $theme)
+    {
+        $assignedThemes = $this->getAssignedThemeCustomizations();
+        return isset($assignedThemes[$theme->getId()]);
     }
 
     /**
@@ -286,9 +299,9 @@ class Mage_Core_Model_Theme_Service
         foreach ($themeCustomizations as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);
-                $this->_assignedThemeCustomizations[] = $theme;
+                $this->_assignedThemeCustomizations[$theme->getId()] = $theme;
             } else {
-                $this->_unassignedThemeCustomizations[] = $theme;
+                $this->_unassignedThemeCustomizations[$theme->getId()] = $theme;
             }
         }
         return $this;
@@ -330,33 +343,5 @@ class Mage_Core_Model_Theme_Service
         }
 
         return $storesByThemes;
-    }
-
-    /**
-     * Add theme customization
-     *
-     * @param Mage_Core_Model_Layout $layout
-     * @return Mage_Core_Model_Theme_Service
-     */
-    public function addThemeCustomization($layout)
-    {
-        $this->_addCssCustomization($layout);
-        return $this;
-    }
-
-    /**
-     * Add css customization
-     *
-     * @param Mage_Core_Model_Layout $layout
-     * @return Mage_Core_Model_Theme_Service
-     */
-    protected function _addCssCustomization($layout)
-    {
-        /** @var $theme Mage_Core_Model_Theme_Files */
-        $customCssFile = $this->_design->getDesignTheme()->getCustomCssFile();
-        if ($customCssFile->getContent()) {
-            $layout->getBlock('head')->addCss($customCssFile->getFilePath());
-        }
-        return $this;
     }
 }
