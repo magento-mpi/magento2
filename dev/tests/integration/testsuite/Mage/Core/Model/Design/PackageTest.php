@@ -61,6 +61,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 Mage_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package');
         $this->_model->setDesignTheme($themePath);
     }
 

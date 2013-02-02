@@ -98,7 +98,7 @@ class Mage_Core_Model_Config_Cache
         if ($source && $source->$sectionName) {
             $cacheId = $idPrefix . '_' . $sectionName;
             if ($recursionLevel > 0) {
-                foreach ($source->$sectionName->children() as $subSectionName) {
+                foreach ($source->$sectionName->children() as $subSectionName => $node) {
                     $this->_saveSectionCache(
                         $cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1, $tags
                     );
@@ -177,7 +177,6 @@ class Mage_Core_Model_Config_Cache
     public function save(Mage_Core_Model_Config_Base $config)
     {
         if ($this->_cache->canUse('config') && false == $this->_isLocked()) {
-            $this->clean();
             $cacheSections = $this->_configSections->getSections();
             $xml = clone $config->getNode();
             if (!empty($cacheSections)) {
