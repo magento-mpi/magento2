@@ -51,6 +51,9 @@
             <target name="_integration_tests_magento"/>
             <target name="_integration_integrity_tests_magento"/>
         </antcall>
+        <exec dir="${publication_target_dir}" executable="git" failonerror="true">
+            <arg line="push origin ${env.bamboo_target_branch}"/>
+        </exec>
     </target>
 
 </project>
