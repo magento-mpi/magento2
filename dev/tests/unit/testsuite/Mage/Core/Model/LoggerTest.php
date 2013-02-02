@@ -29,10 +29,14 @@ class Mage_Core_Model_LoggerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
         $this->_filesystemMock = $this->getMock('Varien_Io_File', array(), array(), '', false, false);
+        $dirs = new Mage_Core_Model_Dir(TESTS_TEMP_DIR, $this->_filesystemMock);
+        $logDir = $dirs->getDir(Mage_Core_Model_Dir::LOG);
+        if (!is_dir($logDir)) {
+            mkdir($logDir, 0777, true);
+        }
 
-        $this->_model = new Mage_Core_Model_Logger($this->_dirMock, $this->_filesystemMock, 'php://output');
+        $this->_model = new Mage_Core_Model_Logger($dirs, $this->_filesystemMock);
         $this->_loggersProperty = new ReflectionProperty($this->_model, '_loggers');
         $this->_loggersProperty->setAccessible(true);
     }
