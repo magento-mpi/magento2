@@ -350,7 +350,7 @@
         <part name="sessionId" type="xsd:string"/>
         <part name="quoteId" type="xsd:int"/>
         <part name="store" type="xsd:string"/>
-        <part name="licenses" type="typens:ArrayOfString"/>
+        <part name="agreements" type="typens:ArrayOfString"/>
         <part name="paymentData" type="typens:shoppingCartPaymentMethodEntity"/>
     </message>
     <message name="shoppingCartOrderWithPaymentResponse">
