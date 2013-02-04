@@ -712,6 +712,8 @@ final class Mage
      *
      * @param bool $mode
      * @return bool
+     *
+     * @deprecated use Mage_Core_Model_App_State::setIsDeveloperMode()
      */
     public static function setIsDeveloperMode($mode)
     {
@@ -723,7 +725,7 @@ final class Mage
      * Retrieve enabled developer mode
      *
      * @return bool
-     * @deprecated use Mage_Core_Model_App_State::getIsDeveloperMode()
+     * @deprecated use Mage_Core_Model_App_State::isDeveloperMode()
      */
     public static function getIsDeveloperMode()
     {

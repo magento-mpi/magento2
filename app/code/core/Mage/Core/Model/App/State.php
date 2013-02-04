@@ -31,6 +31,17 @@ class Mage_Core_Model_App_State
     }
 
     /**
+     * Set enabled developer mode
+     *
+     * @param bool $mode
+     * @return bool
+     */
+    public function setIsDeveloperMode($mode)
+    {
+        return Mage::setIsDeveloperMode($mode);
+    }
+
+    /**
      * Set update mode flag
      *
      * @param bool $value
