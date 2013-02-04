@@ -137,7 +137,6 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInConfigurable($attrData)
     {
-        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required', null,
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
@@ -571,8 +570,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
         $this->productHelper()->selectConfigurableAttribute($attributeData['default']['attribute1']['admin_title']);
         $this->clickButton('generate_product_variations', false);
-        $this->addParameter('attributeTitle', $attributeData['default']['attribute1']['admin_title']);
-        $this->waitForControlVisible('pageelement', 'attribute_header');
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'variations_matrix_header');
         $this->productHelper()->assignAllConfigurableVariations();
         $this->productHelper()->saveProduct();
         //Verifying
@@ -612,11 +610,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $searchVirtual =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['associated_sku']));
         //Steps
-        $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->saveProduct('close', false);
-        $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
-        $this->assertFalse($this->controlIsVisible('field', 'new_attribute_set_name'));
-        $this->saveForm('confirm');
+        $this->productHelper()->createProduct($configurable, 'configurable');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals(
@@ -665,11 +659,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $attributeSetName = $this->generate('string', 30, ':alnum:');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->saveProduct('close', false);
-        $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
-        $this->fillRadiobutton('new_attribute_set', 'Yes');
-        $this->fillField('new_attribute_set_name', $attributeSetName);
-        $this->saveForm('confirm');
+        $this->productHelper()->saveProduct('close', $attributeSetName);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertEquals(
@@ -755,7 +745,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                   'var1_attr_value1'    => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->saveProduct('close', false);
+        $this->productHelper()->saveProduct('close', null);
         $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
         $this->clickButton('cancel');
         //Verifying
@@ -784,8 +774,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                   'var1_attr_value1'    => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->productHelper()->saveProduct('close', false);
-        $this->waitForElementEditable($this->_getControlXpath('radiobutton', 'current_attribute_set'));
+        $this->productHelper()->saveProduct('close', null);
         $this->fillRadiobutton('new_attribute_set', 'Yes');
         //Verifying empty attribute set name
         $this->fillField('new_attribute_set_name', '');
