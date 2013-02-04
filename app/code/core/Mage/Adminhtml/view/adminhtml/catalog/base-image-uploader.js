@@ -14,40 +14,39 @@ function BaseImageUploader(id, maxFileSize) {
             $dropPlaceholder = $('#' + id + '-upload-placeholder'),
             $galeryContainer = $('#media_gallery_content'),
             mainClass = 'base-image',
-            currentImageCount = 0,
             maximumImageCount = 5;
 
         var findElement = function (data) {
             return $container.find('.container').filter(function () {
                 return $(this).data('image').file == data.file;
             }).first();
-        }
+        };
+        var updateVisability = function() {
+            var elementsList = $container.find('.container:not(.removed-item)');
+            elementsList.each(function(index) {
+                $(this)[index < maximumImageCount ? 'show' : 'hide']();
+            });
+            $dropPlaceholder[elementsList.length >= maximumImageCount ? 'hide' : 'show']();
+        };
 
         $galeryContainer.on('setImageType', function (event, data) {
             if (data.type == 'image') {
                 $container.find('.' + mainClass).removeClass(mainClass);
-                findElement(data.imageData).addClass(mainClass);
+                if (data.imageData) {
+                    findElement(data.imageData).addClass(mainClass);
+                }
             }
         });
 
         $galeryContainer.on('addItem', function(event, data) {
             var $element = $template.tmpl(data);
                 $element.data('image', data).insertBefore($dropPlaceholder);
-            currentImageCount++;
-            if (currentImageCount > maximumImageCount) {
-                $element.hide();
-            }
-            if (currentImageCount >= maximumImageCount) {
-                $dropPlaceholder.hide();
-            }
+            updateVisability();
         });
 
         $galeryContainer.on('removeItem', function (event, image) {
-            findElement(image).remove();
-            currentImageCount--;
-            if (currentImageCount < maximumImageCount) {
-                $dropPlaceholder.show();
-            }
+            findElement(image).addClass('removed-item').hide();
+            updateVisability();
         });
 
         $galeryContainer.on('moveElement', function (event, data) {
@@ -60,9 +59,7 @@ function BaseImageUploader(id, maxFileSize) {
                     $element.insertAfter($after);
                 }
             }
-            $container.find('.container').each(function (index) {
-                $(this)[index < maximumImageCount ? 'show' : 'hide']();
-            });
+            updateVisability();
         });
 
 

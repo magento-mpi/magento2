@@ -161,7 +161,7 @@
             } else {
                 element.insertAfter(this.element.find(this.options.item + ':last'));
             }
-            if (this.options.images.length == 0) {
+            if (this.options.images.length == 0 && count == 0) {
                 this.setMain(imageData);
             }
             $.each(this.options.types, $.proxy(function(index, image) {

@@ -175,6 +175,13 @@
     border: 1px solid rgba(128, 128, 128, .1);
 }
 
+#media_gallery_content .uploader .file-row {
+    width: auto;
+    padding: 0;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
 #media_gallery_content .item  .drag-zone {
     visibility: hidden;
     margin-top: -30px;

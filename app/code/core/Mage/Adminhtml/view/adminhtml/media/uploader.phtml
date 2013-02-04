@@ -56,15 +56,14 @@
                 });
             },
             done: function(e, data) {
-                var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
-                $(progressSelector).css('width','100%');
-                if (data.result && !data.result.hasOwnProperty('errorcode')) {
-                    $(progressSelector).removeClass('upload-progress').addClass('upload-success');
-                    $('#' + data.fileId).animate({opacity: 0}, function(){ $(this).remove(); });
+                if (data.result && !data.result.error) {
                     $('#<?php echo $this->getParentBlock()->getHtmlId() ?>').trigger('addItem', data.result);
                 } else {
-                    $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
+                    $('#' + data.fileId)
+                        .delay(2000)
+                        .hide('highlight');
                 }
+                $('#' + data.fileId).remove();
             },
             progress: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -72,8 +71,11 @@
                 $(progressSelector).css('width', progress + '%');
             },
             fail: function(e, data) {
-                var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
-                $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
+                var progressSelector = '#' + data.fileId;
+                $(progressSelector).removeClass('upload-progress').addClass('upload-failure')
+                    .delay(2000)
+                    .hide('highlight')
+                    .remove();
             }
         });
         $('#fileupload').fileupload('option', {
