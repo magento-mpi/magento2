@@ -63,6 +63,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Backend
     public function launchAction()
     {
         $this->_configModel->saveConfig('design/head/demonotice', 0);
+        $this->_configModel->reinit();
         $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
             'success' => true,
         ));
