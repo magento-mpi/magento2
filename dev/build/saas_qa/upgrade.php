@@ -39,6 +39,5 @@ $configurations = array(
         Mage_Core_Model_Dir::VAR_DIR => $params['var-dir'],
     ),
 );
-$configurations = array();
 $entryPoint = new \Magento\MultiTenant\Upgrade\EntryPoint(BP, $configurations);
 $entryPoint->processRequest();
