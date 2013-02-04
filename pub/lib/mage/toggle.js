@@ -10,7 +10,7 @@
 (function($) {
     "use strict";
 
-    $.widget("mage.toggle", {
+    $.widget("mage.advancedToggle", {
 
         options: {
             baseToggleClass: "active"      // Class used to be toggled on clicked element
