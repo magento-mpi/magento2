@@ -16,7 +16,7 @@
 ?>
 <script id="add-recipient-tmpl" type="text/x-jQuery-tmpl">
     <p id="btn-remove${_index_}">
-        <a href="delete_email" class="btn-remove"><img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" title="<?php echo $this->jsQuoteEscape($this->__('Remove Email')) ?>" alt="<?php echo $this->__('Remove Email') ?>"/></a>
+        <a href="delete_email" class="btn-remove" title="<?php echo $this->jsQuoteEscape($this->__('Remove Email')) ?>"><?php echo $this->jsQuoteEscape($this->__('Remove Email')) ?>"</a>
     </p>
     <div class="field">
         <label for="recipients-name${_index_}" class="required"><em>*</em> <?php echo $this->__('Name:')?></label>
