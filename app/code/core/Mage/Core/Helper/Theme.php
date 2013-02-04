@@ -88,7 +88,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     {
         $arguments = array(
             'area'  => $theme->getArea(),
-            'theme' => $theme->getId()
+            'theme' => $theme->getThemeId()
         );
         /** @var $layoutMerge Mage_Core_Model_Layout_Merge */
         $layoutMerge = $this->_layoutMergeFactory->create(array('arguments' => $arguments));
@@ -135,7 +135,6 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
         $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
         $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $basePath = $this->_dirs->getDir(Mage_Core_Model_Dir::APP);
 
         $groups = array();
         $themes = array();
@@ -143,8 +142,8 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
             $this->_detectTheme($file, $designDir);
             $this->_detectGroup($file);
 
-            if (isset($file['theme']) && $file['theme']->getId()) {
-                $themes[$file['theme']->getId()] = $file['theme'];
+            if (isset($file['theme']) && $file['theme']->getThemeId()) {
+                $themes[$file['theme']->getThemeId()] = $file['theme'];
             }
 
             if (!isset($file['group'])) {
@@ -200,16 +199,16 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
 
         $relativePath = substr($file['path'], strlen($designDir));
 
-        $area = strtok($relativePath, DIRECTORY_SEPARATOR);
-        $package = strtok(DIRECTORY_SEPARATOR);
-        $theme = strtok(DIRECTORY_SEPARATOR);
+        $area = strtok($relativePath, Magento_Filesystem::DIRECTORY_SEPARATOR);
+        $package = strtok(Magento_Filesystem::DIRECTORY_SEPARATOR);
+        $theme = strtok(Magento_Filesystem::DIRECTORY_SEPARATOR);
 
         if ($area === false || $package === false || $theme === false) {
             Mage::throwException($this->__('Theme path "%s/%s/%s" is incorrect', $area, $package, $theme));
         }
         $themeModel = $this->_themeCollection->getThemeByFullPath($area . '/' . $package . '/' . $theme);
 
-        if (!$themeModel || !$themeModel->getId()) {
+        if (!$themeModel || !$themeModel->getThemeId()) {
             Mage::throwException($this->__('Invalid theme loaded by theme path "%s/%s/%s"', $area, $package, $theme));
         }
 
@@ -230,11 +229,10 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
         $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
         $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $basePath = $this->_dirs->getDir(Mage_Core_Model_Dir::APP);
 
         $group = null;
         if (substr($file['path'], 0, strlen($designDir)) == $designDir) {
-            if (!isset($file['theme']) || !$file['theme']->getId()) {
+            if (!isset($file['theme']) || !$file['theme']->getThemeId()) {
                 Mage::throwException(
                     $this->__('Theme is missed for file "%s"', $file['safePath'])
                 );
@@ -357,7 +355,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     {
         $parentTheme = $firstTheme->getParentTheme();
         while ($parentTheme) {
-            if ($parentTheme->getId() == $secondTheme->getId()) {
+            if ($parentTheme->getThemeId() == $secondTheme->getThemeId()) {
                 return -1;
             }
             $parentTheme = $parentTheme->getParentTheme();
