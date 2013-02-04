@@ -123,8 +123,10 @@ class Mage_Core_Model_Event_Manager
     public function addEventArea($area)
     {
         if (!isset($this->_events[$area])) {
+            Magento_Profiler::start('config_event_' . $area);
             $this->_events[$area] = array();
             $this->_eventConfig->populate($this, $area);
+            Magento_Profiler::stop('config_event_' . $area);
         }
         return $this;
     }

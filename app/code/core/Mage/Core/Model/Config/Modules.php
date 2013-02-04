@@ -28,8 +28,10 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      */
     public function __construct(Mage_Core_Model_Config_StorageInterface $storage)
     {
+        Magento_Profiler::start('config_modules');
         $this->_storage = $storage;
         $this->_data = $this->_storage->getConfiguration();
+        Magento_Profiler::stop('config_modules');
     }
 
     /**
