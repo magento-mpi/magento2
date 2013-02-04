@@ -194,7 +194,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
      */
     public function getHtml($type = null)
     {
-        $html = '<' . $this->_messagesFirstLevelTagName . ' id="messages" class="messages">';
+        $html = '<' . $this->_messagesFirstLevelTagName . ' id="admin_messages">';
         foreach ($this->getMessages($type) as $message) {
             $html .= '<' . $this->_messagesSecondLevelTagName . ' class="' . $message->getType() . '-msg" '
                 . $this->getUiId('message') . '>'
@@ -222,7 +222,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
         foreach ($types as $type) {
             if ( $messages = $this->getMessages($type) ) {
                 if ( !$html ) {
-                    $html .= '<' . $this->_messagesFirstLevelTagName . ' id="messages" class="messages">';
+                    $html .= '<' . $this->_messagesFirstLevelTagName . ' class="messages">';
                 }
                 $html .= '<' . $this->_messagesSecondLevelTagName . ' class="' . $type . '-msg">';
                 $html .= '<' . $this->_messagesFirstLevelTagName . '>';
