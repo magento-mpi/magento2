@@ -11,23 +11,17 @@
     "use strict";
     var location = window.location;
 
-    /**
-     * @depricated
-     */
-    $.extend(true, $, {
-        mage: {
-            urlRedirect: function(url, history, timeout) {
-                return  setTimeout(history ? location.replace : location.assign, timeout, url);
-            },
-            reloadPage: function(timeout) {
-                return setTimeout(this.reloadPage, timeout);
-            }
-        }
-    });
-
     /* Redirect Utility */
     $.extend(true, $, {
         mage: {
+
+            /**
+             * Method handling redirects and page refresh
+             * @param url       - redirect URL
+             * @param type      - 'assign','reload','replace'
+             * @param timeout   - timeout in milliseconds before processing the redirect or reload
+             * @param forced    - true|false used for 'reload' only
+             */
             redirect: function(url, type, timeout, forced) {
                 forced = forced ? true : false;
                 timeout = timeout ? timeout : 0;
@@ -35,7 +29,7 @@
                 var _redirect = function() {
                     location[type](type === 'reload' ? forced : url);
                 }
-                if(timeout) {
+                if (timeout) {
                     setTimeout(_redirect, timeout);
                 } else {
                     _redirect();
