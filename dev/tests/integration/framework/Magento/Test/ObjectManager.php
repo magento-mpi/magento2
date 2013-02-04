@@ -25,8 +25,7 @@ class Magento_Test_ObjectManager extends Mage_Core_Model_ObjectManager
      */
     public function clearCache()
     {
-
-       foreach ($this->_classesToDestruct as $className) {
+        foreach ($this->_classesToDestruct as $className) {
             if ($this->_di->instanceManager()->hasSharedInstance($className)) {
                 $object = $this->_di->instanceManager()->getSharedInstance($className);
                 if ($object) {
