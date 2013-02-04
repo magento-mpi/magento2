@@ -710,7 +710,7 @@ final class Mage
     }
 
     /**
-     * Present an end-user to the base URL
+     * Redirect to the application base URL
      */
     private static function _handleSessionException()
     {

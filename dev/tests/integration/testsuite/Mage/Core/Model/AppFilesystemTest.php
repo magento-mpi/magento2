@@ -22,22 +22,37 @@ class Mage_Core_Model_AppFilesystemTest extends PHPUnit_Framework_TestCase
     protected static $_tmpReadonlyDir;
 
     /**
+     * Temporary directory with write permissions
+     *
+     * @var string
+     */
+    protected static $_tmpWritableDir;
+
+    /**
      * @var Mage_Core_Model_App
      */
     protected $_model;
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpReadonlyDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/' . __CLASS__;
-        if (!is_dir(self::$_tmpReadonlyDir)) {
-            mkdir(self::$_tmpReadonlyDir);
+        $appInstallDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir();
+        self::$_tmpReadonlyDir = $appInstallDir . DIRECTORY_SEPARATOR . __CLASS__ . '-readonly';
+        self::$_tmpWritableDir = $appInstallDir . DIRECTORY_SEPARATOR . __CLASS__ . '-writable';
+
+        foreach (array(self::$_tmpReadonlyDir => 0444, self::$_tmpWritableDir => 0777) as $tmpDir => $dirMode) {
+            if (!is_dir($tmpDir)) {
+                mkdir($tmpDir);
+            }
+            chmod($tmpDir, $dirMode);
         }
-        chmod(self::$_tmpReadonlyDir, 0444); // readonly permissions
     }
 
     public static function tearDownAfterClass()
     {
-        rmdir(self::$_tmpReadonlyDir);
+        foreach (array(self::$_tmpReadonlyDir, self::$_tmpWritableDir) as $tmpDir) {
+            Varien_Io_File::chmodRecursive($tmpDir, 0777);
+            Varien_Io_File::rmdirRecursive($tmpDir);
+        }
     }
 
     protected function setUp()
@@ -50,7 +65,10 @@ class Mage_Core_Model_AppFilesystemTest extends PHPUnit_Framework_TestCase
         $this->_model = null;
     }
 
-    protected function assertPreConditions()
+    /**
+     * Require the temporary fixture directory to be readonly, or skip the current test otherwise
+     */
+    protected function _requireReadonlyDir()
     {
         if (is_writable(self::$_tmpReadonlyDir)) {
             $this->markTestSkipped('Environment does not allow changing access permissions for files/directories.');
@@ -58,27 +76,26 @@ class Mage_Core_Model_AppFilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that application recognizes a provide path as a writable directory
+     * Initialize the application passing a custom directory path
      *
      * @param string $dirCode
      * @param string $path
      */
-    protected function _testPathIsWritableDir($dirCode, $path)
+    protected function _initAppWithCustomDir($dirCode, $path)
     {
-        $this->setExpectedException('Magento_BootstrapException', "Path '$path' has to be a writable directory.");
         $initParams = Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams();
         $initParams[Mage_Core_Model_App::INIT_OPTION_DIRS][$dirCode] = $path;
         $this->_model->baseInit($initParams);
     }
 
     /**
-     * @param string $dirCode
-     * @dataProvider writableDirCodeDataProvider
-     * @magentoAppIsolation enabled
+     * Setup expectation of the directory bootstrap exception
+     *
+     * @param string $path
      */
-    public function testInitFilesystemPathIsReadonlyDir($dirCode)
+    protected function _expectDirBootstrapException($path)
     {
-        $this->_testPathIsWritableDir($dirCode, self::$_tmpReadonlyDir);
+        $this->setExpectedException('Magento_BootstrapException', "Path '$path' has to be a writable directory.");
     }
 
     /**
@@ -86,9 +103,48 @@ class Mage_Core_Model_AppFilesystemTest extends PHPUnit_Framework_TestCase
      * @dataProvider writableDirCodeDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testInitFilesystemPathIsExistingFile($dirCode)
+    public function testInitFilesystemExistingReadonlyDir($dirCode)
     {
-        $this->_testPathIsWritableDir($dirCode, __FILE__);
+        $this->_requireReadonlyDir();
+        $this->_expectDirBootstrapException(self::$_tmpReadonlyDir);
+        $this->_initAppWithCustomDir($dirCode, self::$_tmpReadonlyDir);
+    }
+
+    /**
+     * @param string $dirCode
+     * @dataProvider writableDirCodeDataProvider
+     * @magentoAppIsolation enabled
+     */
+    public function testInitFilesystemExistingFile($dirCode)
+    {
+        $this->_expectDirBootstrapException(__FILE__);
+        $this->_initAppWithCustomDir($dirCode, __FILE__);
+    }
+
+    /**
+     * @param string $dirCode
+     * @dataProvider writableDirCodeDataProvider
+     * @magentoAppIsolation enabled
+     */
+    public function testInitFilesystemNewDirInReadonlyDir($dirCode)
+    {
+        $this->_requireReadonlyDir();
+        $path = self::$_tmpReadonlyDir . DIRECTORY_SEPARATOR . 'non_existing_dir';
+        $this->_expectDirBootstrapException($path);
+        $this->_initAppWithCustomDir($dirCode, $path);
+    }
+
+    /**
+     * @param string $dirCode
+     * @dataProvider writableDirCodeDataProvider
+     * @magentoAppIsolation enabled
+     */
+    public function testInitFilesystemNewDirInWritableDir($dirCode)
+    {
+        $path = self::$_tmpWritableDir . DIRECTORY_SEPARATOR . $dirCode;
+        $this->assertFileNotExists($path);
+        $this->_initAppWithCustomDir($dirCode, $path);
+        $this->assertFileExists($path);
     }
 
     public function writableDirCodeDataProvider()

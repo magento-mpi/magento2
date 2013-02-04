@@ -468,10 +468,15 @@ class Mage_Core_Model_App
     protected function _ensureDirWritable($path)
     {
         // create a directory, if no directory or file with the same path already exists
+        $hasFilesystemError = false;
         if (!file_exists($path)) {
-            mkdir($path, 0777);
+            try {
+                $hasFilesystemError = !mkdir($path, 0777);
+            } catch (Exception $e) {
+                $hasFilesystemError = true;
+            }
         }
-        if (!is_dir($path) || !is_writable($path)) {
+        if ($hasFilesystemError || !is_dir($path) || !is_writable($path)) {
             throw new Magento_BootstrapException("Path '$path' has to be a writable directory.");
         }
     }
