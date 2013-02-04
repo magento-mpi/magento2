@@ -31,7 +31,7 @@ class Mage_Core_Model_Config_Loader_Modules_Proxy implements Mage_Core_Model_Con
      *
      * @return Mage_Core_Model_Config_Loader_Modules
      */
-    protected function _getLoader()
+    protected function _getSubject()
     {
         if (null === $this->_loader) {
             $this->_loader = $this->_objectManager->get('Mage_Core_Model_Config_Loader_Modules');
@@ -47,6 +47,6 @@ class Mage_Core_Model_Config_Loader_Modules_Proxy implements Mage_Core_Model_Con
      */
     public function load(Mage_Core_Model_Config_Base $config)
     {
-        $this->_getLoader()->load($config);
+        $this->_getSubject()->load($config);
     }
 }

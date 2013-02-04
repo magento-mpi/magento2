@@ -39,12 +39,12 @@ class Mage_Core_Model_Logger
      * @param Mage_Core_Model_Dir $dirs
      * @param Varien_Io_File $fileSystem
      */
-    public function __construct(Mage_Core_Model_Dir $dirs, Varien_Io_File $fileSystem)
+    public function __construct(Mage_Core_Model_Dir $dirs, Varien_Io_File $fileSystem, $defaultFile = '')
     {
         $this->_dirs = $dirs;
         $this->_fileSystem = $fileSystem;
-        $this->addStreamLog(Mage_Core_Model_Logger::LOGGER_SYSTEM)
-            ->addStreamLog(Mage_Core_Model_Logger::LOGGER_EXCEPTION);
+        $this->addStreamLog(Mage_Core_Model_Logger::LOGGER_SYSTEM, $defaultFile)
+            ->addStreamLog(Mage_Core_Model_Logger::LOGGER_EXCEPTION, $defaultFile);
     }
 
     /**

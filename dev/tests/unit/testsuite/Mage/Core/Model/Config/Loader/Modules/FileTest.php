@@ -25,7 +25,7 @@ class Mage_Core_Model_Config_Loader_Modules_FileTest extends PHPUnit_Framework_T
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_prototypeFactoryMock;
+    protected $_protFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -41,20 +41,20 @@ class Mage_Core_Model_Config_Loader_Modules_FileTest extends PHPUnit_Framework_T
     {
         $this->_modulesConfigMock = $this->getMock('Mage_Core_Model_Config_Modules',
             array(), array(), '', false, false);
-        $this->_prototypeFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
+        $this->_protFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
         $this->_dirsMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
         $this->_baseConfigMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
         $this->_model = new Mage_Core_Model_Config_Loader_Modules_File(
             $this->_dirsMock,
-            $this->_prototypeFactoryMock
+            $this->_protFactoryMock
         );
     }
 
     protected function tearDown()
     {
         unset($this->_modulesConfigMock);
-        unset($this->_prototypeFactoryMock);
+        unset($this->_protFactoryMock);
         unset($this->_dirsMock);
         unset($this->_baseConfigMock);
         unset($this->_model);
@@ -64,7 +64,7 @@ class Mage_Core_Model_Config_Loader_Modules_FileTest extends PHPUnit_Framework_T
     {
         $nodes = new Mage_Core_Model_Config_Element('<modules><mod1><active>1</active></mod1></modules>');
         $fileName = 'acl.xml';
-        $this->_prototypeFactoryMock->expects($this->exactly(2))
+        $this->_protFactoryMock->expects($this->exactly(2))
             ->method('create')
             ->with($this->equalTo('<config/>'))
             ->will($this->returnValue($this->_baseConfigMock));
@@ -90,27 +90,13 @@ class Mage_Core_Model_Config_Loader_Modules_FileTest extends PHPUnit_Framework_T
             ->method('getNode')
             ->will($this->returnValue($nodes)
         );
-        $this->_prototypeFactoryMock->expects($this->exactly(1))
+        $this->_protFactoryMock->expects($this->exactly(1))
             ->method('create')
             ->with($this->equalTo('<config/>'))
             ->will($this->returnValue($mergeToObject)
         );
         $this->_model->loadConfigurationFromFile($modulesConfigMock, $fileName, $mergeToObject, $mergeModel,
             $configCache);
-    }
-
-    public function testGetModuleDirWithoutData()
-    {
-        $moduleName = '';
-        $type = '';
-        $expectedValue = '\\\\';
-        $this->_modulesConfigMock->expects($this->once())
-            ->method('getNode');
-        $this->_dirsMock->expects($this->once())
-            ->method('getDir')
-            ->with($this->equalTo(Mage_Core_Model_Dir::MODULES));
-        $actualValue = $this->_model->getModuleDir($this->_modulesConfigMock, $type, $moduleName);
-        $this->assertEquals($expectedValue, $actualValue);
     }
 
     public function testGetModuleDirWithData()

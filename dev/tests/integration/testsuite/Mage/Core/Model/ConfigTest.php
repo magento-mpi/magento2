@@ -62,7 +62,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $this->assertStringEndsWith($type, $dir);
             $this->assertContains('Mage' . DIRECTORY_SEPARATOR . 'Core', $dir);
         }
-        $this->assertTrue(is_dir($this->_createModel(true)->getModuleDir('etc', 'Mage_Core')));
+        $this->assertTrue(is_dir($this->_createModel()->getModuleDir('etc', 'Mage_Core')));
     }
 
     public function testGetPathVars()
@@ -150,7 +150,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetAreas()
     {
         $this->markTestIncomplete('MAGETWO-6406');
-        $model = $this->_createModel(true, array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
+        $model = $this->_createModel(array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
 
         $allowedAreas = $model->getAreas();
         $this->assertNotEmpty($allowedAreas, 'Areas are not initialized');
@@ -183,7 +183,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetRouters()
     {
         $this->markTestIncomplete('MAGETWO-6406');
-        $model = $this->_createModel(true, array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
+        $model = $this->_createModel(array('sourceData' => __DIR__ . '/../_files/etc/config.xml'));
 
         $loadedRouters = $model->getRouters();
         $this->assertArrayHasKey('test_router1', $loadedRouters, 'Test router #1 is not initialized in test area.');
