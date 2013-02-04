@@ -10,7 +10,7 @@
 (function($) {
     "use strict";
 
-    $.widget("mage.advancedToggle", {
+    $.widget("mage.toggleAdvanced", {
 
         options: {
             baseToggleClass: "active"      // Class used to be toggled on clicked element
@@ -82,7 +82,7 @@
     });
 
     // Extension for mage.toggle - Adding selectors support for other DOM elements we wish to toggle
-    $.widget('mage.toggle', $.mage.toggle, {
+    $.widget('mage.toggleAdvanced', $.mage.toggleAdvanced, {
 
         options: {
             selectorsToggleClass: "hidden"    // Class used to be toggled on selectors DOM elements
@@ -119,7 +119,7 @@
     });
 
     // Extension for mage.toggle - Adding label toggle
-    $.widget('mage.toggle', $.mage.toggle, {
+    $.widget('mage.toggleAdvanced', $.mage.toggleAdvanced, {
 
         options: {
             newLabel: null,             // Text of the new label to be used on toggle

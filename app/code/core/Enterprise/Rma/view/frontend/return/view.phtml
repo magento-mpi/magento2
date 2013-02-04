@@ -157,7 +157,7 @@
         <?php foreach ($this->getItems() as $key=>$item): ?>
             <?php foreach($this->getRealValueAttributes($item->getId()) as $code=>$attribute) {
                 $_qna = NULL;
-                if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)) {
+                if (in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)) {
                     $_qna = '
                         <div class="col-1"><li>' .$this->getAttributeLabel($item->getId(), $code) . '</li></div>
                         <div class="col-2"><li>' . $this->getAttributeValue($item->getId(), $code) . '</li></div>
@@ -185,7 +185,7 @@
             <td><span class="nobr"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></span></td>
             <td>
                 <?php if ($_qna) : ?>
-                    <button class="l" data-mage-init="{advancedToggle: []}" data-toggle-label="<?php echo $this->__('Hide Details') ?>" data-toggle-selectors="#shf_<?php echo $key; ?>"><?php echo $this->__('Show Details') ?></button>
+                    <button class="l" data-mage-init="{toggleAdvanced: []}" data-toggle-label="<?php echo $this->__('Hide Details') ?>" data-toggle-selectors="#shf_<?php echo $key; ?>"><?php echo $this->__('Show Details') ?></button>
                 <?php endif; ?>
             </td>
         </tr>
