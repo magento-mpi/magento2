@@ -173,7 +173,7 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     {
         return $this->_objectManager->get('Mage_Core_Model_App')->getStore()->getBaseUrl(
             Mage_Core_Model_Store::URL_TYPE_MEDIA
-        ) . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR . '/' . self::IMAGE_DIR_PREVIEW . '/';
+        ) . Mage_Core_Model_Dir::THEME . '/' . self::IMAGE_DIR_PREVIEW . '/';
     }
 
     /**

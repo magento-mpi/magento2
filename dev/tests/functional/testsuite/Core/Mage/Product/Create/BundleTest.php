@@ -72,7 +72,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForDynamic()
     {
-        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle');
         $productSearch =
@@ -96,7 +95,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForFixed()
     {
-        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle');
         $productSearch =

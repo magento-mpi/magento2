@@ -19,7 +19,9 @@ app/code/core/Mage/Adminhtml/controllers/Report/ProductController.php
 app/code/core/Mage/Adminhtml/controllers/UrlrewriteController.php
 app/code/core/Mage/Backend
 app/code/core/Mage/Catalog/Block/Product/Configurable
+app/code/core/Mage/Catalog/Block/Product/Grouped
 app/code/core/Mage/Catalog/Model/Resource/Product/Collection
+app/code/core/Mage/Catalog/Model/Product/Type.php
 app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/core/Mage/Centinel/Model/State/Jcb.php
 app/code/core/Mage/Cms/Controller/Router.php
@@ -49,6 +51,8 @@ app/code/core/Mage/Core/Model/Resource/Theme.php
 app/code/core/Mage/Core/Model/ShellAbstract.php
 app/code/core/Mage/Core/Model/Theme/Validator.php
 app/code/core/Mage/Core/Model/Theme.php
+app/code/core/Mage/Core/Model/Translate.php
+app/code/core/Mage/Core/Model/Translate/Expr.php
 app/code/core/Mage/Core/Helper/Abstract.php
 app/code/core/Mage/Core/sql/core_setup/upgrade-1.6.0.3-1.6.0.4.php
 app/code/core/Mage/Directory/Model/Currency/DefaultLocator.php

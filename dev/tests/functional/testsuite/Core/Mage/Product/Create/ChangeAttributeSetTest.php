@@ -64,6 +64,9 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         if ($productType == 'bundle' || $productType == 'grouped') {
             $this->markTestIncomplete('MAGETWO-6340');
         }
+        if ($productType == 'downloadable') {
+            $this->markTestIncomplete('MAGETWO-6988');
+        }
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible');
         $assignedAttribute = $customSetData['assigned_attribute'];
@@ -95,6 +98,9 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     {
         if ($productType == 'bundle' || $productType == 'grouped') {
             $this->markTestIncomplete('MAGETWO-6340');
+        }
+        if ($productType == 'downloadable') {
+            $this->markTestIncomplete('MAGETWO-6988');
         }
         //Data
         $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible',

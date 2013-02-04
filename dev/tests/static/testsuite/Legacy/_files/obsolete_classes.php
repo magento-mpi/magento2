@@ -47,6 +47,7 @@ return array(
     array('Mage_Adminhtml_Block_Catalog'),
     array('Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Grid'),
     array('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid'),
+    array('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group_Grid'),
     array('Mage_Adminhtml_Block_Catalog_Search_Grid'),
     array('Mage_Adminhtml_Block_Html_Date', 'Mage_Core_Block_Html_Date'),
     array('Mage_Adminhtml_Block_Html_Select', 'Mage_Core_Block_Html_Select'),

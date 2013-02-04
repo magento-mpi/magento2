@@ -577,7 +577,6 @@ Fonts
     text-overflow: ellipsis;
 }
 
-
 /*
     Unassigned Themes
 -------------------------------------- */
@@ -1267,7 +1266,6 @@ Fonts
 /*
     VDE
 -------------------------------------- */
-
 #vde_toolbar {
     position: fixed;
     margin-top: -54pt;

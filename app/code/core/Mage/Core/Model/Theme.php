@@ -49,6 +49,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
+     * Path prefix to customized theme files
+     */
+    const PATH_PREFIX_CUSTOMIZATION = 'customization';
+
+    /**
      * Labels collection array
      *
      * @var array
@@ -209,13 +214,15 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getCustomizationPath()
     {
-        if ($this->getId() && !$this->hasData('customization_path')) {
+        $customPath = $this->getData('customization_path');
+        if ($this->getId() && empty($customPath)) {
             /** @var $modelDir Mage_Core_Model_Dir */
             $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
-            $customPath = $modelDir->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR . $this->getId();
+            $customPath = $modelDir->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
+                . self::PATH_PREFIX_CUSTOMIZATION . DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
-        return $this->getData('customization_path');
+        return $customPath;
     }
 
     /**
