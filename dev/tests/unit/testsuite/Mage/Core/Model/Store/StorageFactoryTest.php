@@ -74,7 +74,7 @@ class Mage_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_TestCas
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
         $this->_logMock = $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false);
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config_Proxy', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Mage_Core_Model_ConfigInterface', array(), array(), '', false);
         $this->_appMock = $this->getMock('Mage_Core_Model_App_Proxy', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false);
         $this->_storage = $this->getMock('Mage_Core_Model_Store_StorageInterface');
