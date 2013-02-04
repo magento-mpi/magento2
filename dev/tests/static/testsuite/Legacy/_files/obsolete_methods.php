@@ -466,7 +466,6 @@ return array(
     array('setConfig', 'Mage_Captcha_Helper_Data'),
     array('setCustomerId', 'Mage_Customer_Model_Resource_Address'),
     array('setCurrentArea', 'Mage'),
-    array('setErrorHandler', 'Mage_Core_Model_App'),
     array('setIsAjaxRequest', 'Mage_Core_Model_Translate_Inline'),
     array('setJoinFlag', 'Mage_Tag_Model_Resource_Customer_Collection'),
     array('setJoinFlag', 'Mage_Tag_Model_Resource_Product_Collection'),
