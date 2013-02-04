@@ -160,6 +160,18 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     }
 
     /**
+     * Retrieve Store Config Flag
+     *
+     * @param string $path
+     * @param mixed $store
+     * @return boolean
+     */
+    public function getConfigFlag($path, $store = null)
+    {
+        return $this->_storeConfig->getConfigFlag($path);
+    }
+
+    /**
      * Render additional content after drawer form
      *
      * @param string $html

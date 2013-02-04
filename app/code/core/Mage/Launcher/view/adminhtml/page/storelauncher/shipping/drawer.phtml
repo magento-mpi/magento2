@@ -26,7 +26,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-150">
                             <div class="control">
-                                <input type="checkbox" name="groups[flatrate][fields][active][value]" value="1" id="pm-150">
+                                <input type="checkbox" name="groups[flatrate][fields][active][value]" value="1" id="pm-150" <?php if ($this->getConfigFlag('carriers/flatrate/active')) : ?> checked="checked" <?php endif; ?>>
                             </div>
                             <label for="pm-150" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
                         </div>
@@ -68,7 +68,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-100">
                             <div class="control">
-                                <input type="checkbox" name="groups[fedex][fields][active][value]" value="1" id="pm-100">
+                                <input type="checkbox" name="groups[fedex][fields][active][value]" value="1" id="pm-100" <?php if ($this->getConfigFlag('carriers/fedex/active')) : ?> checked="checked" <?php endif; ?>>
                             </div>
                             <label for="pm-100" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
                         </div>
@@ -113,7 +113,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-110">
                             <div class="control">
-                                <input type="checkbox" name="groups[usps][fields][active][value]" value="1" id="pm-110">
+                                <input type="checkbox" name="groups[usps][fields][active][value]" value="1" id="pm-110" <?php if ($this->getConfigFlag('carriers/usps/active')) : ?> checked="checked" <?php endif; ?>>
                             </div>
                             <label for="pm-110" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
                         </div>
@@ -144,7 +144,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-120">
                             <div class="control">
-                                <input type="checkbox" name="groups[dhlint][fields][active][value]" value="1" id="pm-120">
+                                <input type="checkbox" name="groups[dhlint][fields][active][value]" value="1" id="pm-120" <?php if ($this->getConfigFlag('carriers/dhlint/active')) : ?> checked="checked" <?php endif; ?>>
                             </div>
                             <label for="pm-120" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
                         </div>
@@ -183,7 +183,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                     <div class="grid-row">
                         <div class="field grid-6" id="field-pm-130">
                             <div class="control">
-                                <input type="checkbox" name="groups[ups][fields][active][value]" value="1" id="pm-130">
+                                <input type="checkbox" name="groups[ups][fields][active][value]" value="1" id="pm-130" <?php if ($this->getConfigFlag('carriers/ups/active')) : ?> checked="checked" <?php endif; ?>>
                             </div>
                             <label for="pm-130" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
                         </div>
