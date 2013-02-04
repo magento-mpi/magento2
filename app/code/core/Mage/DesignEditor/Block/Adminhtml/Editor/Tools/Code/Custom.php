@@ -11,8 +11,8 @@
 /**
  * Block that renders Custom tab
  *
- * @method int getThemeId()
- * @method setThemeId($themeId)
+ * @method Mage_Core_Model_Theme getTheme()
+ * @method setTheme($theme)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Backend_Block_Widget_Form
 {
@@ -128,14 +128,36 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
     /**
      * Get url to download custom CSS file
      *
-     * @param $themeId
+     * @param Mage_Core_Model_Theme $theme
      * @return string
      */
-    public function getDownloadCustomCssUrl($themeId)
+    public function getDownloadCustomCssUrl($theme)
     {
-        return $this->getUrl('*/system_design_theme/downloadCustomCss', array(
-            'theme_id' => $themeId
-        ));
+        return $this->getUrl('*/system_design_theme/downloadCustomCss', array('theme_id' => $theme->getThemeId()));
+    }
+
+    /**
+     * Get url to save custom CSS file
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return string
+     */
+    public function getSaveCustomCssUrl($theme)
+    {
+        return $this->getUrl('*/system_design_editor_tools/saveCssContent', array('theme_id' => $theme->getThemeId()));
+    }
+
+    /**
+     * Get theme custom css content
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return string
+     */
+    public function getCustomCssContent($theme)
+    {
+        /** @var $cssFile Mage_Core_Model_Theme_Files */
+        $cssFile = $theme->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
+        return $cssFile->getContent();
     }
 
     /**

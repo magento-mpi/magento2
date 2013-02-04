@@ -46,13 +46,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
     public function testGetDownloadCustomCssUrl()
     {
         $themeId = 15;
+        $theme = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+        $theme->setThemeId($themeId);
+
         $expectedUrl = 'some_url';
 
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/system_design_theme/downloadCustomCss', array('theme_id' => $themeId))
+            ->with('*/system_design_theme/downloadCustomCss', array('theme_id' => $theme->getThemeId()))
             ->will($this->returnValue($expectedUrl));
 
-        $this->assertEquals($expectedUrl, $this->_model->getDownloadCustomCssUrl($themeId));
+        $this->assertEquals($expectedUrl, $this->_model->getDownloadCustomCssUrl($theme));
     }
 }

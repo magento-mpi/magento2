@@ -17,7 +17,7 @@
         <div class="custom-file">
             <span class="filename"><?php echo $this->getCustomFileName() ?></span>
 
-            <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getThemeId()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
+            <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
                 <span><?php echo $this->__('Download file'); ?></span>
             </button>
             <button class="action-delete" title="<?php echo $this->__('Delete file'); ?>">
@@ -28,12 +28,10 @@
         </div>
     </div>
     <div class="custom-code">
-        <form action="#" method="post">
-            <div class="textarea-container">
-                <textarea name="custom_code" id="custom_code" cols="30" rows="10">.files-list-header > .action-add { display: inline-block; float: right; margin: 6px 0 0 0; width: 16px; height: 16px; line-height: 16px; text-align: center; color: #000; background: #9f978b; border-radius: 4px; text-decoration: none; -moz-transition: background .5s ease; -webkit-transition: background .5s ease; transition: background .5s ease; }</textarea>
-            </div>
-            <button class="action-update" title="<?php echo $this->__('Update'); ?>"><?php echo $this->__('Update'); ?></button>
-        </form>
+        <div class="textarea-container">
+            <textarea name="custom_code" id="custom_code" cols="30" rows="10"><?php echo $this->getCustomCssContent($this->getTheme()) ?></textarea>
+        </div>
+        <button class="action-update" title="<?php echo $this->__('Update'); ?>"><?php echo $this->__('Update'); ?></button>
     </div>
 </div>
 
@@ -43,7 +41,7 @@
         $( '#' + '<?php echo $this->getFileElementName() ?>' ).fileupload({
             dataType: 'json',
             replaceFileInput: false,
-            url : '<?php echo $this->getUrl('*/system_design_editor_tools/upload', array('theme' => $this->getThemeId())) ?>',
+            url : '<?php echo $this->getUrl('*/system_design_editor_tools/upload', array('theme' => $this->getTheme()->getThemeId())) ?>',
             acceptFileTypes: /(.|\/)(css)$/i,
 
             /**
@@ -82,6 +80,10 @@
                 $(this).val('');
                 alert($.mage.__('File extension not known or unsupported type.'));
             }
+        });
+
+        $('#vde-tab-custom').customCssPanel({
+            saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
         });
     })(jQuery);
 </script>

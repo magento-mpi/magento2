@@ -45,6 +45,34 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     }
 
     /**
+     * Save custom css file
+     */
+    public function saveCssContentAction()
+    {
+        $themeId = $this->getRequest()->getParam('theme_id', false);
+        $customCssContent = $this->getRequest()->getParam('custom_css_content', false);
+        try {
+            if (!$themeId || !$customCssContent) {
+                throw new InvalidArgumentException('Param "stores" is not valid');
+            }
+
+            $theme = $this->_loadTheme($themeId);
+
+            /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
+            $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
+            $themeCss->setDataForSave($customCssContent);
+            $theme->setCustomization($themeCss)->save();
+            $response = array('error' => false);
+        } catch (Mage_Core_Exception $e) {
+            $response = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $response = array('error' => true, 'message' => $this->__('Cannot upload css file'));
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+    }
+
+    /**
      * Load theme by theme id
      *
      * Method also checks if theme actually loaded and if theme is virtual or not

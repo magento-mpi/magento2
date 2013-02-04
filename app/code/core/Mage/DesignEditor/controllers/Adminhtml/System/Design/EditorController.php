@@ -427,7 +427,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $customTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */
         $customTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_custom');
         if ($customTabBlock) {
-            $customTabBlock->setThemeId($theme->getId());
+            $theme->setCustomization($this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css'));
+            $customTabBlock->setTheme($theme);
         }
 
         /** @var $cssTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css */
