@@ -16,7 +16,8 @@
         options: {
             item: '[data-role="image"]',
             template: '.image-template',
-            types: null
+            types: null,
+            initialized: false
         },
 
         /**
@@ -31,6 +32,7 @@
             $.each(this.options.images, $.proxy(function(index, imageData) {
                 this.element.trigger('addItem', imageData);
             }, this));
+            this.options.initialized = true;
         },
 
         /**
@@ -59,9 +61,6 @@
             events['click ' + this.options.item] = function() {
                 $(event.currentTarget).toggleClass('active');
             };
-            events['dblclick ' + this.options.item] = function(event) {
-                this._showDialog($(event.currentTarget).data('imageData'));
-            }
             this._on(events);
 
             this.element.sortable({
@@ -161,7 +160,10 @@
             } else {
                 element.insertAfter(this.element.find(this.options.item + ':last'));
             }
-            if (this.options.images.length == 0 && count == 0) {
+
+            if ((!this.options.initialized && this.options.images.length == 0)
+                || (this.options.initialized && this.element.find(this.options.item + ':visible').length == 1)
+            ) {
                 this.setMain(imageData);
             }
             $.each(this.options.types, $.proxy(function(index, image) {
@@ -254,7 +256,7 @@
          */
         _bind: function() {
             this._super();
-            this._on({
+            var events = {
                 'click .remove': function(event) {
                     var $imageContainer = $(event.currentTarget).closest(this.options.item);
                     var dialog = $imageContainer.data('dialog');
@@ -262,7 +264,11 @@
                         dialog.dialog('close');
                     }
                 }
-            });
+            };
+            events['dblclick ' + this.options.item] = function(event) {
+                this._showDialog($(event.currentTarget).data('imageData'));
+            }
+            this._on(events);
         },
 
         /**
