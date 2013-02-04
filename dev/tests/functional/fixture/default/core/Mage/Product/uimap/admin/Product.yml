@@ -11,7 +11,7 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_product/')]
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: &manageProductsUimap
         form:
@@ -147,7 +147,7 @@ new_product:
                                         general_news_from: //input[@id='news_from_date']
                                         general_news_to: //input[@id='news_to_date']
                                         general_url_key: //input[@id='url_key']
-                                        general_categories: //input[@data-ui-id='category-selector-input']
+                                        general_categories: //input[@id='category_ids-suggest']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_min_price: //input[@id='price' and not(@disabled)]
@@ -156,13 +156,11 @@ new_product:
                                         general_weight_and_type_switcher: //input[@id='weight_and_type_switcher']
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
-                                    pageelements:
-                                        category_search_result: //li[@class='category-selector-search-field']/span[text()]
                             -
                                 category_search:
-                                    xpath: //*[@id='html-body']/ul[contains(@class, 'ui-autocomplete')]
+                                    xpath: //div[@class='mage-suggest-dropdown']/ul[@role='menu']
                                     links:
-                                        category: //*[@class='ui-menu-item']/*[@title='%categoryPath%']
+                                        category: //*[@role='menuitem']//span[text()='%categoryPath%']
                                         selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
                                     pageelements:
                                         category_list: //*[@class='ui-menu-item']
@@ -172,7 +170,7 @@ new_product:
                                     links:
                                         delete_category: "[div='%categoryName%']//*[@class='category-selector-search-choice-close']"
                                     pageelements:
-                                        category_name: /div
+                                        category_name: /*[text()='%categoryName%']
                             -
                                 new_category_form:
                                     xpath: //div[div/span='Create New Category']

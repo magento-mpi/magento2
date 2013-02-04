@@ -869,12 +869,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         foreach ($categoryData as $categoryPath) {
             $explodeCategory = explode('/', $categoryPath);
             $categoryName = end($explodeCategory);
-            $this->addParameter('categoryPath', $categoryPath);
+            $this->addParameter('categoryPath', str_replace('/', ' / ', $categoryPath));
             $element->value($categoryName);
-            $resultElement = $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
-            $searchResult = trim($resultElement->text());
-            if ($searchResult != 'No search results.') {
-                $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
+            $resultElement = $this->waitForControl(self::UIMAP_TYPE_FIELDSET, 'category_search');
+            if ($this->getChildElements($resultElement, 'li', false)) {
                 $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
                 if ($selectCategory) {
                     $this->moveto($selectCategory);
@@ -889,6 +887,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('categoryName', substr($categoryName, 0, 255));
             $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_LINK, 'delete_category'),
                 'Category is not selected');
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'category_name');
         }
     }
 
