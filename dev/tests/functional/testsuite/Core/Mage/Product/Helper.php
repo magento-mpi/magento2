@@ -1793,19 +1793,23 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $productOrder = array();
         foreach ($data as $value) {
-            $this->addParameter('productSku', $value['associated_search_sku']);
-            $xpathTR = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product');
-            if (is_null($xpathTR)) {
-                $this->addVerificationMessage(
-                    'general' . " tab: Product is not assigned with data: \n" . print_r($value, true));
-            } elseif ($value) {
+            if (isset($value['associated_search_sku'])) {
+                $this->addParameter('productSku', $value['associated_search_sku']);
                 $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product');
-            }
-            if (isset($value['associated_product_position'])) {
-                $productOrder[$value['associated_search_sku']] = $value['associated_product_position'];
-                unset($value['associated_product_position']);
+                if (isset($value['associated_product_position'])) {
+                    $productOrder[$value['associated_search_sku']] = $value['associated_product_position'];
+                    unset($value['associated_product_position']);
+                } else {
+                    $productOrder[$value['associated_search_sku']] = 'noValue';
+                }
+                unset($value['associated_search_sku']);
+                if (!empty($value)) {
+                    $this->verifyForm($value, 'general');
+                }
             } else {
-                $productOrder[$value['associated_search_sku']] = 'noValue';
+                $this->addVerificationMessage(
+                    'general' . " tab: Product is not assigned with data: \n"
+                    . print_r($value['associated_search_sku'], true));
             }
         }
         $this->verifyBlocksOrder($productOrder, 'grouped_assigned_products');
