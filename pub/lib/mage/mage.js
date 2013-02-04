@@ -28,7 +28,7 @@
                 type = type ? type : "assign";
                 var _redirect = function() {
                     location[type](type === 'reload' ? forced : url);
-                }
+                };
                 if (timeout) {
                     setTimeout(_redirect, timeout);
                 } else {
