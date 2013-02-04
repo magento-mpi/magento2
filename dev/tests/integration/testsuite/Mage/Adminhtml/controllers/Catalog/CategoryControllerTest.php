@@ -100,7 +100,7 @@ class Mage_Adminhtml_Catalog_CategoryControllerTest extends Mage_Backend_Utility
      */
     public static function categoryCreatedFromProductCreationPageDataProvider()
     {
-        /* Keep in sync with /app/code/core/Mage/Adminhtml/view/adminhtml/catalog/product/edit/category/new/js.phtml */
+        /* Keep in sync with new-category-dialog.js */
         $postData = array(
             'general' => array (
                 'name' => 'Category Created From Product Creation Page',

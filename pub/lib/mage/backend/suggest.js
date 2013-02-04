@@ -55,7 +55,7 @@
         },
 
         /**
-         * Render base elemments for suggest component
+         * Render base elements for suggest component
          * @private
          */
         _render: function() {
@@ -403,7 +403,7 @@
         },
 
         /**
-         * Implement search process via spesific source
+         * Implement search process via specific source
          * @param {string} term - search phrase
          * @param {Function} renderer - search results handler, display search result
          * @private
@@ -552,7 +552,7 @@
         },
 
         /**
-         * Add selected item of search result into storage of recents
+         * Add selected item of search result into storage of recent items
          * @param {Object} item - label+id object
          * @private
          */

@@ -72,7 +72,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         )));
 
         return parent::getElementHtml() . "\n"
-            . '<input id="' . $this->getHtmlId() . '-suggest" />' . "\n"
+            . '<input id="' . $this->getHtmlId() . '-suggest" placeholder="'
+            . Mage::helper('Mage_Catalog_Helper_Data')->__('start typing to search category') . '" />' . "\n"
             . '<script id="' . $this->getHtmlId() . '-template" type="text/x-jquery-tmpl">'
             . '{{if $data.allShown()}}'
                 . '{{if typeof nested === "undefined"}}'

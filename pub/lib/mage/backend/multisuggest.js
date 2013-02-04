@@ -145,6 +145,17 @@
                     this._removeOption($(e.currentTarget).data());
                     $(e.currentTarget).remove();
                 }, this));
-        }
+        },
+
+        /**
+         * Select item
+         * @todo Refactor widget to make this possible via event triggering
+         */
+        selectItem: function(item) {
+            this._term = item.label;
+            this.valueField.val(item.id);
+            this._addOption(item);
+            this._renderOption(item);
+        },
     });
 })(jQuery);

@@ -180,9 +180,9 @@ new_product:
                                         name: //input[@id='new_category_name']
                                         parent_category: //input[@id='new_category_parent'][not(contains(@class, 'ui-autocomplete-loading'))]
                                     buttons:
-                                        new_category_close: //a[span='close']
-                                        new_category_save: //button[@id='new-category-js-save-button']
-                                        new_category_cancel: //button[@id='new-category-js-close-button']
+                                        new_category_close: //a[@class='ui-icon ui-icon-closethick']
+                                        new_category_save: //button[@id='mage-new-category-dialog-save-button']
+                                        new_category_cancel: //button[@id='mage-new-category-dialog-close-button']
                                     pageelements:
                                         parent_category_search_result: //td[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-fieldset-element-cell-new-category-parent-value']/span[text()]
                             -
