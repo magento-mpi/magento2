@@ -1593,6 +1593,20 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="catalogProductAttributeTypesRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="catalogProductAttributeTypesResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:catalogAttributeOptionEntityArray" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
             <xsd:element name="catalogProductAttributeCreateRequestParam">
                 <xsd:complexType>
                     <xsd:sequence>
@@ -2019,6 +2033,12 @@
     <wsdl:message name="catalogCategoryAttributeOptionsResponse">
         <wsdl:part name="parameters" element="typens:catalogCategoryAttributeOptionsResponseParam" />
     </wsdl:message>
+    <wsdl:message name="catalogProductAttributeTypesRequest">
+        <wsdl:part name="parameters" element="typens:catalogProductAttributeTypesRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeTypesResponse">
+        <wsdl:part name="parameters" element="typens:catalogProductAttributeTypesResponseParam" />
+    </wsdl:message>
     <wsdl:message name="catalogProductAttributeCreateRequest">
         <wsdl:part name="parameters" element="typens:catalogProductAttributeCreateRequestParam" />
     </wsdl:message>
@@ -2352,6 +2372,11 @@
             <wsdl:documentation>Retrieve product link type attributes</wsdl:documentation>
             <wsdl:input message="typens:catalogProductLinkAttributesRequest" />
             <wsdl:output message="typens:catalogProductLinkAttributesResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeTypes">
+            <wsdl:documentation>Get list of possible attribute types</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductAttributeTypesRequest" />
+            <wsdl:output message="typens:catalogProductAttributeTypesResponse" />
         </wsdl:operation>
         <wsdl:operation name="catalogProductAttributeCreate">
             <wsdl:documentation>Create new attribute</wsdl:documentation>
@@ -2930,6 +2955,15 @@
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="catalogProductLinkAttributes">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductAttributeTypes">
             <soap:operation soapAction="" />
             <wsdl:input>
                 <soap:body use="literal" />
