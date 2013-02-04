@@ -98,11 +98,27 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
     {
         $html = '';
         foreach ($this->getSortedElements() as $element) {
-            if ($element->getType() != 'fieldset' && !$element->isAdvanced()) {
+            if (!$element->isAdvanced()) {
                 $html.= $element->toHtml();
             }
         }
         return $html;
+    }
+
+    /**
+     * Get Number of Bacic Children
+     *
+     * @return int
+     */
+    public function getCountBasicChildren()
+    {
+        $count = 0;
+        foreach ($this->getElements() as $element) {
+            if (!$element->isAdvanced()) {
+                $count += 1;
+            }
+        }
+        return $count;
     }
 
     /**
@@ -114,7 +130,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
     {
         $html = '';
         foreach ($this->getSortedElements() as $element) {
-            if ($element->getType() != 'fieldset' && $element->isAdvanced()) {
+            if ($element->isAdvanced()) {
                 $html.= $element->toHtml();
             }
         }
@@ -167,7 +183,7 @@ class Varien_Data_Form_Element_Fieldset extends Varien_Data_Form_Element_Abstrac
     {
         $html = '';
         foreach ($this->getSortedElements() as $element) {
-            if ($element->getType() == 'fieldset') {
+            if ($element->getType() == 'fieldset' && !$element->isAdvanced()) {
                 $html.= $element->toHtml();
             }
         }

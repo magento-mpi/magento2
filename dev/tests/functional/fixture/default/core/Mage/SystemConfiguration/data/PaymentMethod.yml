@@ -387,7 +387,7 @@ cashondelivery:
     tab_1:
         tab_name: sales_payment_methods
         configuration:
-            cash_on_delivery_payment:
+            cashondelivery:
                 cod_enabled: Yes
                 cod_title: Cash On Delivery
                 cod_instruction: Cash On Delivery Instruction Data
@@ -491,3 +491,33 @@ zerosubtotal_disable:
                 zsc_title: No Payment Information Required
                 zsc_enabled: No
                 zsc_new_order_status: Pending
+
+#<-------------purchaseorder_without_3Dsecure------------------------>
+purchaseorder_without_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: &purshuaseOrderWithout3Dsecure
+        tab_name: sales_payment_methods
+        configuration:
+            purchase_order:
+                po_title: Purchase Order
+                po_enabled: Yes
+
+#<-------------banktransfer_without_3Dsecure------------------------>
+banktransfer_without_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: &banktransferOrderWithout3Dsecure
+        tab_name: sales_payment_methods
+        configuration:
+            banktransfer_payment:
+                btp_title: Bank Transfer Payment
+                btp_enabled: Yes
+
+#<-------------banktransfer_without_3Dsecure------------------------>
+cashondelivery_without_3Dsecure:
+    configuration_scope: Default Config
+    tab_1: &cashondeliveryOrderWithout3Dsecure
+        tab_name: sales_payment_methods
+        configuration:
+            cashondelivery:
+                cod_title: Cash On Delivery
+                cod_enabled: Yes

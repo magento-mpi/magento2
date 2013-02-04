@@ -17,7 +17,9 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
     public function testIndexAction()
     {
         $this->dispatch('backend/admin/user/index');
-        $this->assertStringMatchesFormat('%a<div class="content-header">%aUsers%a', $this->getResponse()->getBody());
+        $response = $this->getResponse()->getBody();
+        $this->assertContains('Users', $response);
+        $this->assertSelectCount('#permissionsUserGrid_table', 1, $response);
     }
 
     /**
@@ -54,7 +56,10 @@ class Mage_User_Adminhtml_UserControllerTest extends Mage_Backend_Utility_Contro
     {
         $this->getRequest()->setParam('user_id', 1);
         $this->dispatch('backend/admin/user/edit');
-        $expected = '%a<h3 class="icon-head head-user">Edit User%a';
-        $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
+        $response = $this->getResponse()->getBody();
+        //check "User Information" header and fieldset
+        $this->assertContains('data-ui-id="adminhtml-user-edit-tabs-title"', $response);
+        $this->assertContains('User Information', $response);
+        $this->assertSelectCount('#user_base_fieldset', 1, $response);
     }
 }
