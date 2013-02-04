@@ -2,3 +2,4 @@ app/code/core/Enterprise/Cms/view/adminhtml/cms.js
 app/code/core/Enterprise/Rma/view/adminhtml/rma.js
 app/code/core/Enterprise/Persistent/view/frontend/widget.js
 app/code/core/Enterprise/Wishlist/view/frontend/wishlist.js
+app/design/frontend/enterprise/fixed/js/jqzoom/js/jquery.jqzoom-core-pack.js

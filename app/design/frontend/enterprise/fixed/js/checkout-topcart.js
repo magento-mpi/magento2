@@ -8,6 +8,7 @@
  */
 /*jshint browser:true jquery:true*/
 (function ($) {
+    "use strict";
     $.widget('mage.topCart', {
         options: {
             intervalDuration: 4000
