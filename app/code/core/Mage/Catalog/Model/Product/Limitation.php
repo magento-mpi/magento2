@@ -39,13 +39,14 @@ class Mage_Catalog_Model_Product_Limitation
     /**
      * Whether creation is restricted
      *
+     * @param int $num Number of products to create
      * @return bool
      */
-    public function isCreateRestricted()
+    public function isCreateRestricted($num = 1)
     {
         $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
         if ($limit > 0) {
-            return $this->_resource->countAll() >= $limit;
+            return $this->_resource->countAll() + $num > $limit;
         }
         return false;
     }

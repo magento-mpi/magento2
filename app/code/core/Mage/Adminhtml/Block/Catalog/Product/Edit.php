@@ -316,8 +316,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
 
         /** @var $limitation Mage_Catalog_Model_Product_Limitation */
         $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
-        if ($this->getRequest()->getActionName() == 'new' && !$limitation->isNewRestricted()
-            || $this->getRequest()->getActionName() != 'new' && !$limitation->isCreateRestricted()) {
+        if ($this->_isProductNew()) {
+            $showAddNewButtons = !$limitation->isCreateRestricted(2);
+        } else {
+            $showAddNewButtons = !$limitation->isCreateRestricted();
+        }
+        if ($showAddNewButtons) {
             $options[] = array(
                 'id' => 'new-button',
                 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & New'),
@@ -336,8 +340,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                             'button' => array('event' => '', 'target' => '#product-edit-form'),
                         ),
                     ),
-                    'onclick' => $this->getRequest()->getActionName() == 'new' ? ''
-                        : 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
+                    'onclick' => $this->_isProductNew() ? '' : 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
                 );
             }
         }
@@ -351,5 +354,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             ),
         );
         return $options;
+    }
+
+    /**
+     * Check whether new product is being created
+     *
+     * @return bool
+     */
+    protected function _isProductNew()
+    {
+        $product = $this->getProduct();
+        return !$product || !$product->getId();
     }
 }
