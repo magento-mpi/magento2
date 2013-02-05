@@ -62,7 +62,7 @@ jQuery(function($) {
             qtyField = $('#qty');
         if ($(this).is(':checked')) {
             $fieldset.show();
-            $('#change-attribute-set-button').attr('disabled', true).addClass('disabled');
+            $('#attribute-set-suggest-container .current-set-container').off('click.attribute_set');
             $variationsContainer.find("input[name='attributes[]']").removeAttr('disabled');
             qtyField.prop('disabled', true).trigger('change');
             stockAvailabilityField.prop('disabled', false);
@@ -70,7 +70,9 @@ jQuery(function($) {
                 $('#attribute-' + this.code + '-container select').attr('disabled', true);
             })
         } else {
-            $('#change-attribute-set-button').removeAttr('disabled').removeClass('disabled');
+            $('#attribute-set-suggest-container .current-set-container').on('click.attribute_set', function () {
+                $(this).next('div').toggle();
+            });
             qtyField.prop('disabled', false).trigger('change');
             if (qtyField.val() == '') {
                 stockAvailabilityField.val(0).trigger('change');

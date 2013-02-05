@@ -24,12 +24,10 @@
 </script>
 <script>
     jQuery(function ($) {
-        $('#attribute-set-suggest-container .current-set-container').toggle(function () {
-            $(this).next('div').show();
-        }, function () {
-            $(this).next('div').hide();
+        $('#attribute-set-suggest-container .current-set-container').on('click.attribute_set', function () {
+            $(this).next('div').toggle();
         });
-        $('#attribute-set-suggest').suggest(<?php echo $this->getSelectorOptions()?>)
+        $('#attribute-set-suggest').suggest(<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
             .on('suggestselect', function (e, selectedItem) {
                 if (selectedItem.id) {
                     var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace('#', '');
