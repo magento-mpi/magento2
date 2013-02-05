@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Saas
- * @package     Mage_Saas
+ * @package     Saas_Saas
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
