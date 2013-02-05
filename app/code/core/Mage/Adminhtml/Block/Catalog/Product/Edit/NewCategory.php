@@ -46,47 +46,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
     }
 
     /**
-     * Category save action URL
-     *
-     * @return string
-     */
-    public function getSaveCategoryUrl()
-    {
-        return $this->getUrl('*/catalog_category/save');
-    }
-
-    /**
-     * Category suggestion action URL
-     *
-     * @return string
-     */
-    public function getSuggestCategoryUrl()
-    {
-        return $this->getUrl('*/catalog_category/suggestCategories');
-    }
-
-    /**
      * Attach new category dialog widget initialization
      *
      * @return string
      */
-    public function getFormHtml()
+    public function getAfterElementHtml()
     {
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         $widgetUrl = $coreHelper->jsonEncode($this->getViewFileUrl('Mage_Catalog::js/new-category-dialog.js'));
         $widgetOptions = $coreHelper->jsonEncode(array(
             'suggestOptions' => array(
-                'source' => $this->getSuggestCategoryUrl(),
+                'source' => $this->getUrl('*/catalog_category/suggestCategories'),
                 'valueField' => '#new_category_parent',
                 'template' => '#category_ids-template',
                 'control' => 'jstree',
                 'multiselect' => true,
                 'className' => 'category-select',
             ),
-            'saveCategoryUrl' => $this->getSaveCategoryUrl(),
+            'saveCategoryUrl' => $this->getUrl('*/catalog_category/save'),
         ));
-        return parent::getFormHtml() . <<<HTML
+        return <<<HTML
 <script>
     head.js($widgetUrl, function () {
         jQuery('#new-category').mage('newCategoryDialog', $widgetOptions);
