@@ -46,12 +46,15 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
     public function testGetDownloadCustomCssUrl()
     {
         $themeId = 15;
-        $this->_model->setThemeId($themeId);
+        $theme = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        $theme->expects($this->once())->method('getId')->will($this->returnValue($themeId));
+
+        $this->_model->setTheme($theme);
         $expectedUrl = 'some_url';
 
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
-            ->with('*/system_design_theme/uploadjs', array('id' => $themeId))
+            ->with('*/system_design_editor_tools/uploadjs', array('id' => $themeId))
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_model->getJsUploadUrl());
