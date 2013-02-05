@@ -12,17 +12,13 @@
 
     $(document).on("login:setMethod", function() {
         $("[role='guest_checkout'], [role='register_during_checkout']").hide();
-        var type = (jQuery("#login\\:guest").is(':checked')) ? 'guest_checkout' : 'register_during_checkout';
+        var type = ($("#login\\:guest").is(':checked')) ? 'guest_checkout' : 'register_during_checkout';
         $("[role='" + type + "']").show();
     });
 
     $(document).on('billing-request:completed', function() {
         if (typeof window.checkout !== 'undefined') {
-            $(".captcha-reload").each(function() {
-                if ($(this).is(":visible")) {
-                    $(this).trigger("click");
-                }
-            });
+            $(".captcha-reload:visible").trigger("click");
         }
     });
 })(jQuery, window, document);
