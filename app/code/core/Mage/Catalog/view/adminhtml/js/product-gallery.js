@@ -274,7 +274,7 @@
         _showDialog: function(imageData) {
             var $imageContainer = this.findElement(imageData);
             var dialogElement = $imageContainer.data('dialog');
-            if (!$imageContainer.is('.removed')) {
+            if ($imageContainer.is('.removed')) {
                 return;
             }
 
