@@ -6,38 +6,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-(function ($, undefined) {
+(function($, window, document, undefined) {
     "use strict";
+
     $(document).on("login:setMethod", function() {
-        var inputPrefix = 'captcha-input-box-',
-            imagePrefix = 'captcha-image-box-';
-
-        $("[id^='" + inputPrefix + "'], [id^='" + imagePrefix + "']").addClass("hidden");
-
-        if ($("#login\\:guest").is(':checked')) {
-            $("#" + inputPrefix + "guest_checkout").removeClass("hidden");
-            $("#" + imagePrefix + "guest_checkout").removeClass("hidden");
-        }
-        if ($("#login\\:register").is(':checked')) {
-            $("#" + inputPrefix + "register_during_checkout").removeClass("hidden");
-            $("#" + imagePrefix + "register_during_checkout").removeClass("hidden");
-        }
+        $("[role='guest_checkout'], [role='register_during_checkout']").hide();
+        var type = (jQuery("#login\\:guest").is(':checked')) ? 'guest_checkout' : 'register_during_checkout';
+        $("[role='" + type + "']").show();
     });
+
     $(document).on('billing-request:completed', function() {
-        if (typeof window.checkout != 'undefined') {
-            $("#guest_checkout, #register_during_checkout").captcha.refresh();
+        if (typeof window.checkout !== 'undefined') {
+            $(".captcha-reload").trigger("click");
         }
     });
-    $("#captcha-reload").on("click", function() {
-        $(this).captcha.refresh();
-    });
-})(jQuery);
+})(jQuery, window, document);
 
 /**
  * Need to remove when we refactor onepage checkout
  * @deprecated
  */
-document.observe('login:setMethod', function(event) {
+document.observe('login:setMethod', function() {
+    "use strict";
     jQuery(document).trigger('login:setMethod');
 });
 
@@ -45,6 +35,7 @@ document.observe('login:setMethod', function(event) {
  * Need to remove when we refactor onepage checkout
  * @deprecated
  */
-document.observe('billing-request:completed', function(event) {
+document.observe('billing-request:completed', function() {
+    "use strict";
     jQuery(document).trigger('billing-request:completed');
 });

@@ -15,7 +15,7 @@
  * @package    Mage_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha_Model_Interface
+class Mage_Captcha_Model_Default extends Zend_Captcha_Image implements Mage_Captcha_Model_Interface
 {
     /**
      * Key in session for captcha code
@@ -103,7 +103,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      */
     public function getBlockName()
     {
-        return 'Mage_Captcha_Block_Captcha_Zend';
+        return 'Mage_Captcha_Block_Captcha_Default';
     }
 
 
@@ -319,7 +319,7 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
      * log Attempt
      *
      * @param string $login
-     * @return Mage_Captcha_Model_Zend
+     * @return Mage_Captcha_Model_Default
      */
     public function logAttempt($login)
     {
