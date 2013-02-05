@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Backen
     public function getSelectorOptions()
     {
         return array(
-            'source' => $this->getUrl('*/catalog_product/suggestAttributeSet'),
+            'source' => $this->getUrl('*/catalog_product/suggestProductTemplates'),
             'className' => 'category-select',
             'template' => '#product-template-selector-template',
             'showRecent' => true,

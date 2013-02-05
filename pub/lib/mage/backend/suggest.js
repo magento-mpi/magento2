@@ -409,20 +409,26 @@
          * @private
          */
         _source: function(term, renderer) {
-            if ($.isArray(this.options.source)) {
-                renderer(this.filter(this.options.source, term));
-
-            } else if ($.type(this.options.source) === 'string') {
+            var o = this.options;
+            if ($.isArray(o.source)) {
+                renderer(this.filter(o.source, term));
+            } else if ($.type(o.source) === 'string') {
                 if (this._xhr) {
                     this._xhr.abort();
                 }
                 this._xhr = $.ajax($.extend({
-                    url: this.options.source,
+                    url: o.source,
                     type: 'POST',
                     dataType: 'json',
-                    data: $.extend({name_part: term}, this.options.ajaxData || {}),
-                    success: renderer
-                }, this.options.ajaxOptions || {}));
+                    data: $.extend({label_part: term}, o.ajaxData || {}),
+                    /* @todo refactor this to use 'response' event instead of o.response */
+                    success: function(data) {
+                        if ($.type(o.response) === 'function') {
+                            data = o.response(data);
+                        }
+                        renderer(data);
+                    }
+                }, o.ajaxOptions || {}));
             }
         },
 

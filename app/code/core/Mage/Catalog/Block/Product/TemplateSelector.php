@@ -20,18 +20,17 @@ class Mage_Catalog_Block_Product_TemplateSelector extends Mage_Core_Block_Templa
     /**
      * Retrieve list of product templates with search part contained in label
      *
-     * @param string $searchPart
+     * @param string $labelPart
      * @return array
      */
-    public function getSuggestedTemplates($searchPart)
+    public function getSuggestedTemplates($labelPart)
     {
         $product = Mage::registry('product');
         $entityType = $product->getResource()->getEntityType();
-        $searchPart = Mage::getResourceHelper('Mage_Core')
-            ->addLikeEscape($searchPart, array('position' => 'any'));
+        $labelPart = Mage::getResourceHelper('Mage_Core')->addLikeEscape($labelPart, array('position' => 'any'));
         $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityType->getId())
-            ->addFieldToFilter('attribute_set_name', array('like' => $searchPart))
+            ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))
             ->addFieldToSelect('attribute_set_id', 'id')
             ->addFieldToSelect('attribute_set_name', 'label');
         $result = $collection->getData();
