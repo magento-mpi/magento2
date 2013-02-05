@@ -41,7 +41,7 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
     /**
      * Run http application
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         /**
          * @var $installer Mage_Install_Model_Installer_Console

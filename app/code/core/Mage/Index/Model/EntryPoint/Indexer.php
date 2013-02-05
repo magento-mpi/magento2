@@ -27,7 +27,7 @@ class Mage_Index_Model_EntryPoint_Indexer extends Mage_Core_Model_EntryPointAbst
     /**
      * Process request to application
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         /* Clean reports */
         Varien_Io_File::rmdirRecursive($this->_params['reportDir']);

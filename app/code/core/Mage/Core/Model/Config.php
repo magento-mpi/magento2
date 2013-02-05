@@ -114,6 +114,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Core_Model_Config_InvalidatorInterface $invalidator
     ) {
+        Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
         $this->_app = $app;
         $this->_storage = $storage;
@@ -121,6 +122,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $this->_moduleReader = $moduleReader;
         $this->_invalidator = $invalidator;
         $this->_objectManager->setConfiguration($this->getNode('global/di')->asArray());
+        Magento_Profiler::stop('config_load');
     }
 
     /**

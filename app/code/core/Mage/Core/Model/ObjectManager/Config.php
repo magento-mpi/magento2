@@ -69,6 +69,7 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
      */
     public function configure(Magento_ObjectManager $objectManager)
     {
+        Magento_Profiler::start('initial');
         $objectManager->setConfiguration(array_replace_recursive(
             $this->_initialConfig,
             array(
@@ -103,8 +104,10 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
             )
         ));
 
+        Magento_Profiler::start('primary_load');
         /** @var $config Mage_Core_Model_Config_Primary*/
         $config = $objectManager->get('Mage_Core_Model_Config_Primary');
+        Magento_Profiler::stop('primary_load');
         $configurators = $config->getNode('global/configurators');
         if ($configurators) {
             $configurators = $configurators->asArray();
@@ -116,9 +119,12 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 }
             }
         }
+        Magento_Profiler::stop('initial');
+        Magento_Profiler::start('global_primary');
         $diConfig = $config->getNode('global/di');
         if ($diConfig) {
             $objectManager->setConfiguration($diConfig->asArray());
         }
+        Magento_Profiler::stop('global_primary');
     }
 }
