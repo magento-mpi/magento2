@@ -81,8 +81,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
     {
         $form = new Varien_Data_Form(array(
             'action'   => '#',
-            //'action' => $this->getUrl('*/*/upload'),
-            'method' => 'post'
+            'method'   => 'post'
         ));
         $this->setForm($form);
         $form->setUseContainer(true);
@@ -94,35 +93,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
         $form->addField($this->getFileElementName(), 'css_file', array(
             'name'     => $this->getFileElementName(),
             'accept'   => 'text/css',
-            //'note'     => $this->_getUploadCssFileNote(),
-            'no_span' => true,
-            'class'  => 'action-add'
+            'no_span'  => true,
+            'class'    => 'action-add'
         ));
 
-        //$form->addValues($formData);
         parent::_prepareForm();
         return $this;
-    }
-
-    /**
-     * Get note string for css file to Upload
-     *
-     * @return string
-     */
-    protected function _getUploadCssFileNote()
-    {
-        $messages = array(
-            $this->__('Allowed file types *.css.'),
-            $this->__('The file you upload will replace the existing custom.css file (shown below).')
-        );
-        $maxFileSize = $this->_objectManager->get('Magento_File_Size')->getMaxFileSizeInMb();
-        if ($maxFileSize) {
-            $messages[] = $this->__('Max file size to upload %sM', $maxFileSize);
-        } else {
-            $messages[] = $this->__('System doesn\'t allow to get file upload settings');
-        }
-
-        return implode('<br />', $messages);
     }
 
     /**
@@ -167,7 +143,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      */
     public function getCustomFileName()
     {
-        return 'custom.css';
+        return pathinfo(Mage_Core_Model_Theme_Customization_Files_Css::FILE_PATH, PATHINFO_BASENAME);
     }
 
     /**
