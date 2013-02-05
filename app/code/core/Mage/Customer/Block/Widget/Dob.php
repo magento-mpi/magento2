@@ -117,10 +117,7 @@ class Mage_Customer_Block_Widget_Dob extends Mage_Customer_Block_Widget_Abstract
     public function getMinDateRange()
     {
         $rules = $this->_getAttribute('dob')->getValidateRules();
-        if (isset($rules[self::MIN_DATE_RANGE_KEY])) {
-            return date("Y/m/d", $rules[self::MIN_DATE_RANGE_KEY]);
-        }
-        return '';
+        return isset($rules[self::MIN_DATE_RANGE_KEY]) ? date("Y/m/d", $rules[self::MIN_DATE_RANGE_KEY]) : null;
     }
 
     /**
@@ -131,9 +128,6 @@ class Mage_Customer_Block_Widget_Dob extends Mage_Customer_Block_Widget_Abstract
     public function getMaxDateRange()
     {
         $rules = $this->_getAttribute('dob')->getValidateRules();
-        if (isset($rules[self::MAX_DATE_RANGE_KEY])) {
-            return date("Y/m/d", $rules[self::MAX_DATE_RANGE_KEY]);
-        }
-        return '';
+        return isset($rules[self::MAX_DATE_RANGE_KEY]) ? date("Y/m/d", $rules[self::MAX_DATE_RANGE_KEY]) : null;
     }
 }

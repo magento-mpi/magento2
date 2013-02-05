@@ -28,13 +28,15 @@
          */
         _create: function() {
             var _this = this;
-            this.element
-                .on('click', this.options.addToCartSelector, function() {
-                    $.proxy(_this._addItemsToCart($(this)), _this);
-                })
-                .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
-                .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
-                .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
+            if (!this.options.infoList) {
+                this.element
+                    .on('click', this.options.addToCartSelector, function() {
+                        $.proxy(_this._addItemsToCart($(this)), _this);
+                    })
+                    .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
+                    .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
+                    .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
+            }
         },
 
         /**
