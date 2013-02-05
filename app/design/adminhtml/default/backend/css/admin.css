@@ -847,6 +847,8 @@ option.placeholder {
     margin-bottom: 0;
 }
 
+.fieldset-wrapper .fieldset:last-child,
+.fieldset .fieldset:last-child,
 .fieldset .field:last-child {
     margin-bottom: 0;
 }
@@ -2668,7 +2670,7 @@ table tbody tr:nth-child(odd):hover th {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 998;
 }
 
 .page-actions.fixed .page-actions-inner {
@@ -3170,7 +3172,7 @@ tr.dynamic-grid input.input-text {
 .data-table tbody tr:not(:last-child) td,
 .data-table tbody tr td {
     background: #fff;
-    padding: 3px 7px;
+    padding: 5px 7px;
     font-size: 12px;
     vertical-align: top;
     border: solid #eae8e4;
@@ -3211,6 +3213,32 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    Content alignments in tables
+-------------------------------------- */
+
+/* left */
+.col-name,
+.col-sku,
+.col-color,
+.col-size {
+    text-align: left;
+}
+
+/* center */
+.col-include,
+.col-price {
+    text-align: center;
+}
+
+/* right */
+.col-qty,
+.col-weight,
+.col-actions {
+    text-align: right;
+}
+
+
+/*
     Attribute Information
 -------------------------------------- */
 .data-table .col-default {
@@ -3222,14 +3250,6 @@ tr.dynamic-grid input.input-text {
 .data-table .col-delete {
     text-align: center;
     width: 32px;
-}
-
-.data-table .col-price input {
-    width: 60px;
-}
-
-.data-table .col-qty input {
-    width: 50px;
 }
 
 .data-table .col-file {
