@@ -82,7 +82,9 @@
                 </parameters>
             </Magento_Http_Handler_Composite>
             <Mage_Core_Helper_Url>
-                <translate>Mage_Core_Model_Translate_Proxy</translate>
+                <parameters>
+                    <translate>Mage_Core_Model_Translate_Proxy</translate>
+                </parameters>
             </Mage_Core_Helper_Url>
         </di>
     </global>
