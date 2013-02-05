@@ -12,7 +12,7 @@ function BaseImageUploader(id, maxFileSize) {
         var $container = $('#' + id + '-container'),
             $template = $('#' + id + '-template'),
             $dropPlaceholder = $('#' + id + '-upload-placeholder'),
-            $galeryContainer = $('#media_gallery_content'),
+            $galleryContainer = $('#media_gallery_content'),
             mainClass = 'base-image',
             maximumImageCount = 5;
 
@@ -21,7 +21,7 @@ function BaseImageUploader(id, maxFileSize) {
                 return $(this).data('image').file == data.file;
             }).first();
         };
-        var updateVisability = function() {
+        var updateVisibility = function() {
             var elementsList = $container.find('.container:not(.removed-item)');
             elementsList.each(function(index) {
                 $(this)[index < maximumImageCount ? 'show' : 'hide']();
@@ -29,7 +29,7 @@ function BaseImageUploader(id, maxFileSize) {
             $dropPlaceholder[elementsList.length >= maximumImageCount ? 'hide' : 'show']();
         };
 
-        $galeryContainer.on('setImageType', function (event, data) {
+        $galleryContainer.on('setImageType', function (event, data) {
             if (data.type == 'image') {
                 $container.find('.' + mainClass).removeClass(mainClass);
                 if (data.imageData) {
@@ -38,18 +38,18 @@ function BaseImageUploader(id, maxFileSize) {
             }
         });
 
-        $galeryContainer.on('addItem', function(event, data) {
+        $galleryContainer.on('addItem', function(event, data) {
             var $element = $template.tmpl(data);
                 $element.data('image', data).insertBefore($dropPlaceholder);
-            updateVisability();
+            updateVisibility();
         });
 
-        $galeryContainer.on('removeItem', function (event, image) {
+        $galleryContainer.on('removeItem', function (event, image) {
             findElement(image).addClass('removed-item').hide();
-            updateVisability();
+            updateVisibility();
         });
 
-        $galeryContainer.on('moveElement', function (event, data) {
+        $galleryContainer.on('moveElement', function (event, data) {
             var $element = findElement(data.imageData);
             if (data.position == 0) {
                 $container.prepend($element);
@@ -59,7 +59,7 @@ function BaseImageUploader(id, maxFileSize) {
                     $element.insertAfter($after);
                 }
             }
-            updateVisability();
+            updateVisibility();
         });
 
 
@@ -69,24 +69,24 @@ function BaseImageUploader(id, maxFileSize) {
 
         $container.on('click', '.make-main', function (event) {
             var data = $(this).closest('.container').data('image');
-            $galeryContainer.productGallery('setMain', data);
+            $galleryContainer.productGallery('setMain', data);
         });
 
         $container.on('click', '.close', function (event) {
-            $galeryContainer.trigger('removeItem', $(this).closest('.container').data('image'));
+            $galleryContainer.trigger('removeItem', $(this).closest('.container').data('image'));
         });
 
         $container.sortable({
             axis: 'x',
             items: '.container',
             distance: 8,
-            tolerance: "pointer",
+            tolerance: 'pointer',
             stop: function (event, data) {
-                $galeryContainer.trigger('setPosition', {
+                $galleryContainer.trigger('setPosition', {
                     imageData: data.item.data('image'),
                     position: $container.find('.container').index(data.item)
                 });
-                $galeryContainer.trigger('resort');
+                $galleryContainer.trigger('resort');
             }
         }).disableSelection();
 
@@ -101,7 +101,7 @@ function BaseImageUploader(id, maxFileSize) {
                     return;
                 }
                 if (!data.result.error) {
-                    $galeryContainer.trigger('addItem', data.result);
+                    $galleryContainer.trigger('addItem', data.result);
                 } else {
                     alert($.mage.__('File extension not known or unsupported type.'));
                 }

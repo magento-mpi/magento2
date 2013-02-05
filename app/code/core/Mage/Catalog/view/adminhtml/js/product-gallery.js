@@ -56,7 +56,7 @@
                     this.setMain(imageData);
                 },
                 'change [data-role="type-selector"]': '_changeType',
-                'change [data-role="hide-trigger"]': '_changeVisibility'
+                'change [data-role="visibility-trigger"]': '_changeVisibility'
             };
             events['click ' + this.options.item] = function() {
                 $(event.currentTarget).toggleClass('active');
@@ -65,7 +65,7 @@
 
             this.element.sortable({
                 distance: 8,
-                item: this.options.item,
+                items: this.options.item,
                 tolerance: "pointer",
                 cancel: 'input, button, .ui-dialog, .uploader',
                 update: $.proxy(function() {
@@ -83,12 +83,7 @@
         _changeVisibility: function(event) {
             var $checkbox = $(event.currentTarget);
             var $imageContainer = $checkbox.closest(this.options.item);
-
-            if ($checkbox.is(':checked')) {
-                $imageContainer.addClass('disabled');
-            } else {
-                $imageContainer.removeClass('disabled');
-            }
+            $imageContainer.toggleClass('disabled', $checkbox.is(':checked'));
         },
 
         /**
@@ -100,9 +95,9 @@
             var baseImage = this.options.types.image;
             var sameImages = $.grep(
                 $.map(this.options.types, function(el) {
-                    return el
+                    return el;
                 }),
-                function(el, index) {
+                function(el) {
                     return el.value == baseImage.value;
                 }
             );
@@ -161,8 +156,8 @@
                 element.insertAfter(this.element.find(this.options.item + ':last'));
             }
 
-            if ((!this.options.initialized && this.options.images.length == 0)
-                || (this.options.initialized && this.element.find(this.options.item + ':visible').length == 1)
+            if ((!this.options.initialized && this.options.images.length == 0) ||
+                (this.options.initialized && this.element.find(this.options.item + ':not(.removed)').length == 1)
             ) {
                 this.setMain(imageData);
             }
@@ -184,7 +179,7 @@
          */
         _removeItem: function(event, imageData) {
             var $imageContainer = this.findElement(imageData);
-            $imageContainer.hide().find('.is-removed').val(1);;
+            $imageContainer.addClass('removed').hide().find('.is-removed').val(1);;
         },
 
         /**
@@ -279,7 +274,7 @@
         _showDialog: function(imageData) {
             var $imageContainer = this.findElement(imageData);
             var dialogElement = $imageContainer.data('dialog');
-            if (!$imageContainer.is(':visible')) {
+            if (!$imageContainer.is('.removed')) {
                 return;
             }
 
@@ -299,7 +294,6 @@
                         var $checkbox = $(checkbox);
                         $checkbox.prop('checked', this.options.types[$checkbox.val()].value == imageData.file)
                     }, this));
-
                 }, this));
 
                 $imageContainer.data('dialog', dialogElement)

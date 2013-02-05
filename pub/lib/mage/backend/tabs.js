@@ -152,6 +152,7 @@
              */
             load: function(event, ui) {
                 $(ui.tab).prop('href', '#' + $(ui.panel).prop('id'));
+                $(document.body).trigger('contentUpdated', event);
             }
         }
     });
