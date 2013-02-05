@@ -30,7 +30,7 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
             ->method('_getThemeFileByName')
             ->will($this->returnValue($jsFile));
 
-        $jsFile->expects($this->atLeastOnce())
+        $jsFile->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(1));
 
