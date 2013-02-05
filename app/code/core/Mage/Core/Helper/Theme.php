@@ -116,7 +116,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
             $path = $this->_design->getViewFile($fileId, $params);
             $file = array(
                 'id'       => $fileId,
-                'path'     => $path,
+                'path'     => Magento_Filesystem::fixSeparator($path),
              );
             $file['safePath'] = $this->getSafePath($file['path'], $basePath);
 

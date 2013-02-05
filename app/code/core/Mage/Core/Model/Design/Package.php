@@ -646,14 +646,6 @@ class Mage_Core_Model_Design_Package
         }
 
         if (!$this->_filesystem->has($sourcePath)) {
-            
-            echo __FILE__.':'.__LINE__;
-            echo '<pre>';
-            var_dump($sourcePath);
-            echo '</pre>';
-            exit;
-            
-             
             throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
         }
         if (!$this->_needToProcessFile($sourcePath)) {
