@@ -17,7 +17,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group extends Mage
      * Get url to download CSS file
      *
      * @param string $fileId
-     * @param $themeId
+     * @param int $themeId
      * @return string
      */
     public function getDownloadUrl($fileId, $themeId)
