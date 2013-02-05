@@ -43,7 +43,7 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
             $this->assertInstanceOf('Varien_Object', $item);
             $this->assertStringEndsWith('/1.swf', $item->getUrl());
             $this->assertStringMatchesFormat(
-                'http://%s/media/theme/adminhtml/%s/%s/%s/Mage_Cms/images/placeholder_thumbnail.jpg',
+                'http://%s/media/theme/static/adminhtml/%s/%s/%s/Mage_Cms/images/placeholder_thumbnail.jpg',
                 $item->getThumbUrl()
             );
             return;

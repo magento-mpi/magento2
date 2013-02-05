@@ -31,6 +31,8 @@ class Saas_PrintedTemplate_Model_Variable_Item_Invoice extends Saas_PrintedTempl
      * Set additional data to invoice item object
      *
      * @return Saas_PrintedTemplate_Model_Variable_Item_Invoice
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _initVariable()
     {
@@ -47,11 +49,11 @@ class Saas_PrintedTemplate_Model_Variable_Item_Invoice extends Saas_PrintedTempl
 
         // calculate discount amount without taxes (only if discount is applied on price including tax)
         if (!$value->hasDiscountAmountExclTax()) {
-            $discountAmountExclTax = $value->getDiscountAmount();
+            $discountExclTax = $value->getDiscountAmount();
             if ($this->_isApplyDiscountOnPrinceInclTax()) {
-                $discountAmountExclTax /= (1 + $this->_getItemTaxRealPercent() / 100.);
+                $discountExclTax /= (1 + $this->_getItemTaxRealPercent() / 100.);
             }
-            $value->setDiscountAmountExclTax($discountAmountExclTax);
+            $value->setDiscountAmountExclTax($discountExclTax);
         }
         if (!$value->hasDiscountExclTax() && !$this->_isFloatEqualToZero($value->getQty())) {
             $value->setDiscountExclTax($value->getDiscountAmountExclTax()/$value->getQty());

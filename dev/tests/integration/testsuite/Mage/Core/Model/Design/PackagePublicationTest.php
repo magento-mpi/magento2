@@ -36,7 +36,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
-        $expectedPublicDir = $dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR . 'theme';
+        $expectedPublicDir = $dirs->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
+            . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR;
         $this->assertEquals($expectedPublicDir, $this->_model->getPublicDir());
     }
 
@@ -77,16 +78,16 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         return array(
             'theme file' => array(
                 'css/styles.css',
-                'theme/frontend/test/default/en_US/css/styles.css',
+                'theme/static/frontend/test/default/en_US/css/styles.css',
             ),
             'theme localized file' => array(
                 'logo.gif',
-                'theme/frontend/test/default/fr_FR/logo.gif',
+                'theme/static/frontend/test/default/fr_FR/logo.gif',
                 'fr_FR',
             ),
             'modular file' => array(
                 'Module::favicon.ico',
-                'theme/frontend/test/default/en_US/Module/favicon.ico',
+                'theme/static/frontend/test/default/en_US/Module/favicon.ico',
             ),
             'lib file' => array(
                 'varien/product.js',
@@ -118,15 +119,15 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         return array(
             'theme css file' => array(
                 'css/styles.css',
-                'theme/frontend/test/default/en_US/css/styles.css',
+                'theme/static/frontend/test/default/en_US/css/styles.css',
             ),
             'theme file' => array(
                 'images/logo.gif',
-                'theme/frontend/test/default/images/logo.gif',
+                'theme/static/frontend/test/default/images/logo.gif',
             ),
             'theme localized file' => array(
                 'logo.gif',
-                'theme/frontend/test/default/locale/fr_FR/logo.gif',
+                'theme/static/frontend/test/default/locale/fr_FR/logo.gif',
                 'fr_FR',
             )
         );
@@ -320,6 +321,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      * Publication of CSS files located in the module
      *
      * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      * @dataProvider publishCssFileFromModuleDataProvider
      */
     public function testPublishCssFileFromModule(
@@ -541,5 +543,46 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
             )
         ));
         $this->_model->setDesignTheme('test/default');
+    }
+
+    /**
+     * Check that the mechanism of publication not affected data content on css files
+     *
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
+     */
+    public function testCssWithBase64Data()
+    {
+        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+                Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
+            )
+        ));
+
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $themePath = implode(DS, array('frontend', 'package', 'default', 'theme.xml'));
+
+        $theme = $themeModel->getCollectionFromFilesystem()
+            ->setBaseDir(dirname(__DIR__) . '/_files/design/')
+            ->addTargetPattern($themePath)
+            ->getFirstItem()
+            ->save();
+
+        $publishedPath = $this->_model->getPublicDir() . '/frontend/package/default/en_US';
+        $params =  array(
+            'area'    => 'frontend',
+            'package' => 'package',
+            'theme'   => 'default',
+            'locale'  => 'en_US',
+            'themeModel' => $theme
+        );
+        $filePath = $this->_model->getViewFile('css/base64.css', $params);
+
+        // publicate static content
+        $this->_model->getViewFileUrl('css/base64.css', $params);
+        $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
+
+        $this->_model->setDesignTheme(Mage::getModel('Mage_Core_Model_Theme'));
     }
 }

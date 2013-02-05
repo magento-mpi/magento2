@@ -119,6 +119,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
      * Create mock object for order items and for specified product type
      *
      * @param string $type
+     * @return Mage_Sales_Model_Order_Item
      */
     protected function _createItemMock($type = 'simple')
     {
@@ -146,15 +147,22 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Mage_Sales
         return array('items_taxes' => $itemsTaxes, 'shipping_taxes' => $shippingTaxes);
     }
 
+    /**
+     * Get store config value
+     *
+     * @param string $path
+     * @return string
+     */
     protected function _getStoreConfig($path)
     {
-        return (string) Mage::getStoreConfig($path);
+        return (string)Mage::getStoreConfig($path);
     }
 
     /**
      * Returns data for the order
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getMockData()
     {
