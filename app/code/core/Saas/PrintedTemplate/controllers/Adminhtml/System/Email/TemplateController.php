@@ -21,7 +21,7 @@ class Saas_PrintedTemplate_Adminhtml_System_Email_TemplateController
     extends Mage_Adminhtml_System_Email_TemplateController
 {
     /**
-     * Ovverride to change ACL
+     * Override to change ACL
      *
      * @return bool
      * @see Mage_Adminhtml_System_Email_TemplateController::_isAllowed()

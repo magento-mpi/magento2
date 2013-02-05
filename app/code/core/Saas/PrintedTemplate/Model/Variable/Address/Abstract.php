@@ -36,9 +36,9 @@ abstract class Saas_PrintedTemplate_Model_Variable_Address_Abstract
     public function getCountry()
     {
         if (!$this->_countryName) {
-            $id = $this->_value->getCountryId();
-            $country = $this->_getCountryModel()->load($id);
-            $this->_countryName = ($country->getId()) ? $country->getName() : $id;
+            $countryId = $this->_value->getCountryId();
+            $country = $this->_getCountryModel()->load($countryId);
+            $this->_countryName = ($country->getId()) ? $country->getName() : $countryId;
         }
 
         return $this->_countryName;

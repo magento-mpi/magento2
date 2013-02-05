@@ -13,7 +13,7 @@ require 'Mage/DesignEditor/controllers/Adminhtml/System/Design/EditorController.
 /**
  * Test backend controller for the design editor
  */
-class Mage_Core_Model_Theme_EditorControllerTest extends PHPUnit_Framework_TestCase
+class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_DesignEditor_Adminhtml_System_Design_EditorController

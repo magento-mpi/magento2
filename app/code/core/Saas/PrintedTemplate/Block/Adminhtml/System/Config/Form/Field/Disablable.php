@@ -27,7 +27,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_System_Config_Form_Field_Disablable
      */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $js = '';
+        $javascript = '';
         $moduleEnabled = Mage::getStoreConfig('sales_pdf/general/enable_printed_templates');
 
         if ($moduleEnabled) {
@@ -35,7 +35,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_System_Config_Form_Field_Disablable
             $element->addClass('disabled');
 
             // when option is disabled also disable "inherit" checkbox if exists
-            $js = "<script type=\"text/javascript\">
+            $javascript = "<script type=\"text/javascript\">
             Event.observe(window, 'load', function() {
                 var inheritCheckbox = $('{$element->getHtmlId()}_inherit');
                 if (inheritCheckbox) {
@@ -49,7 +49,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_System_Config_Form_Field_Disablable
         }
 
         $html = parent::_getElementHtml($element);
-        $html .= $js;
+        $html .= $javascript;
 
         return $html;
     }

@@ -578,11 +578,11 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Check if developer mode is enabled.
-     *
+     * Check if developer mode is enabled
+     * 
      * @return bool
      */
-    public function isDeveloperMode()
+    public function getUpdateMode()
     {
         return $this->_appState->isDeveloperMode();
     }

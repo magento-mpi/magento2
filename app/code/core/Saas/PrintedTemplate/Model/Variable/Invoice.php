@@ -81,7 +81,7 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
 
     /**
      * Get variable "discount_amount_without_tax" value
-     * It is a very specific variable which is requered for French invoice
+     * It is a very specific variable which is required for French invoice
      *
      * @return string
      */
@@ -92,7 +92,7 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
 
     /**
      * Get variable "grand_total_excl_tax_without_discount_tax" value
-     * It is a very specific variable which is requered for French invoice
+     * It is a very specific variable which is required for French invoice
      *
      * @return string
      */
@@ -103,36 +103,36 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
 
     /**
      * Get variable "tax_amount_without_discount" value
-     * It is a very specific variable which is requered for French invoice
+     * It is a very specific variable which is required for French invoice
      *
      * @return string
      */
     public function getTaxAmountWithoutDiscount()
     {
         if (!$this->_value->hasTaxAmountWithoutDiscount()) {
-            $taxAmountWithoutDiscount =
+            $taxWithoutDiscount =
                 $this->_value->getGrandTotal() - $this->_getGrandTotalExclTaxWithoutDiscountTaxRaw();
-            $this->_value->setTaxAmountWithoutDiscount($taxAmountWithoutDiscount);
+            $this->_value->setTaxAmountWithoutDiscount($taxWithoutDiscount);
         }
 
         return $this->_format($this->_value->getTaxAmountWithoutDiscount(), 'currency');
     }
 
     /**
-     * Calculate value for variable "discount_amount_withou_tax"
-     * It is a very specific variable which is requered for French invoice
+     * Calculate value for variable "discount_amount_without_tax"
+     * It is a very specific variable which is required for French invoice
      *
      * @return float
      */
     protected function _getDiscountAmountWithoutTaxRaw()
     {
         if (!$this->_value->hasDiscountAmountWithouTax()) {
-            $discountAmountExclTax = 0;
+            $discountExclTax = 0;
             foreach ($this->_value->getAllItems() as $item) {
                 $taxRate = $this->_getItemTaxRealPercent($item) / 100.;
-                $discountAmountExclTax += $item->getDiscountAmount() / (1 + $taxRate);
+                $discountExclTax += $item->getDiscountAmount() / (1 + $taxRate);
             }
-            $this->_value->setDiscountAmountWithouTax($discountAmountExclTax);
+            $this->_value->setDiscountAmountWithouTax($discountExclTax);
         }
 
         return $this->_value->getDiscountAmountWithouTax();
@@ -140,7 +140,7 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
 
     /**
      * Calculate value for variable "grand_total_excl_tax_without_discount_tax"
-     * It is a very specific variable which is requered for French invoice
+     * It is a very specific variable which is required for French invoice
      *
      * @return float
      */
@@ -148,8 +148,11 @@ class Saas_PrintedTemplate_Model_Variable_Invoice extends Saas_PrintedTemplate_M
     {
         if (!$this->_value->hasGrandTotalExclTaxWithoutDiscountTax()) {
             $discountTax = -$this->_value->getDiscountAmount() - $this->_getDiscountAmountWithoutTaxRaw();
-            $grandTotalExclTaxWithoutDiscountTax = $this->_value->getGrandTotalExclTax() + $discountTax;
-            $this->_value->setGrandTotalExclTaxWithoutDiscountTax($grandTotalExclTaxWithoutDiscountTax);
+            /**
+             * Grand total excluding tax without discount tax
+             */
+            $grandTotal = $this->_value->getGrandTotalExclTax() + $discountTax;
+            $this->_value->setGrandTotalExclTaxWithoutDiscountTax($grandTotal);
         }
 
         return $this->_value->getGrandTotalExclTaxWithoutDiscountTax();

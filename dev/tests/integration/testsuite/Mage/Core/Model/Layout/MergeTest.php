@@ -67,6 +67,8 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $nonPageHandles = array('non_page_handle');
         $this->_model->addHandle($nonPageHandles);
 
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+
         $this->assertFalse($this->_model->addPageHandles(array('non_existing_handle')));
         $this->assertEmpty($this->_model->getPageHandles());
         $this->assertEquals($nonPageHandles, $this->_model->getHandles());
@@ -285,6 +287,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     public function testGetFileLayoutUpdatesXmlFromModule()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
         $this->_replaceConfigLayoutUpdates('
             <page module="Mage_Page">
                 <file>layout.xml</file>
