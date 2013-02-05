@@ -55,5 +55,10 @@ if (version_compare($codeBase->getVersion(), '2.0.0.0') === -1) {
     require $indexFile;
 } else {
     $appEntryPoint = require $magentoDir . DIRECTORY_SEPARATOR . 'saas.php';
-    $appEntryPoint(Saas_Db::getInstance()->getTenantData($codeBase->getId()));
+    $dirs = array(
+        'magento_dir' => $magentoDir,
+        'media_dir' => $codeBase->getMediaDirName()
+    );
+
+    $appEntryPoint(array_merge(Saas_Db::getInstance()->getTenantData($codeBase->getId()), $dirs));
 }
