@@ -80,14 +80,4 @@ class Mage_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_Fram
     {
         $this->assertEquals(self::ENTITY_TYPE_ID, $this->_model->getEntityTypeId());
     }
-
-    /**
-     * @todo implement in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
-     *
-     * @covers Mage_ImportExport_Model_Import_Entity_EavAbstract::getAttributeOptions
-     */
-    public function testGetAttributeOptions()
-    {
-        $this->markTestIncomplete('Technical debt - not implemented');
-    }
 }

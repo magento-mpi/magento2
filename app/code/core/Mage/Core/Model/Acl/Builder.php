@@ -23,33 +23,20 @@ class Mage_Core_Model_Acl_Builder
     protected $_acl;
 
     /**
-     * Area configuration
+     * Acl loader list
      *
-     * @var Varien_Simplexml_Element
+     * @var Mage_Core_Model_Acl_LoaderPool
      */
-    protected $_config;
-
-    /**
-     * Application config object
-     *
-     * @var Mage_Core_Model_Config
-     */
-    protected $_objectFactory;
+    protected $_loaderPool;
 
     /**
      * @param array $data
      * @throws InvalidArgumentException
      */
-    public function __construct(array $data = array())
+    public function __construct(Magento_Acl $acl, Mage_Core_Model_Acl_LoaderPool $loaderPool)
     {
-        if (!isset($data['areaConfig'])) {
-            throw new InvalidArgumentException('Area Config must be passed to ACL builder');
-        }
-        $this->_areaConfig = $data['areaConfig'];
-        if (!isset($data['objectFactory'])) {
-            throw new InvalidArgumentException('Object Factory must be passed to ACL builder');
-        }
-        $this->_objectFactory = $data['objectFactory'];
+        $this->_acl = $acl;
+        $this->_loaderPool = $loaderPool;
     }
 
     /**
@@ -60,32 +47,16 @@ class Mage_Core_Model_Acl_Builder
      */
     public function getAcl()
     {
-        if (!$this->_acl) {
+        if (!count($this->_acl->getResources())) {
             try {
-                $acl = $this->_objectFactory->getModelInstance('Magento_Acl');
-                $this->_objectFactory->getModelInstance($this->_getLoaderClass('resource'))->populateAcl($acl);
-                $this->_objectFactory->getModelInstance($this->_getLoaderClass('role'))->populateAcl($acl);
-                $this->_objectFactory->getModelInstance($this->_getLoaderClass('rule'))->populateAcl($acl);
-                $this->_acl = $acl;
+                /** @var $loader Magento_Acl_Loader */
+                foreach ($this->_loaderPool as $loader) {
+                    $loader->populateAcl($this->_acl);
+                }
             } catch (Exception $e) {
                 throw new LogicException('Could not create acl object: ' . $e->getMessage());
             }
         }
         return $this->_acl;
-    }
-
-    /**
-     * Retrieve ACL loader class from config or NullLoader if not defined
-     *
-     * @param string $loaderType
-     * @return string
-     */
-    protected function _getLoaderClass($loaderType)
-    {
-        $loaderClass = (string) (isset($this->_areaConfig['acl'][$loaderType . 'Loader'])
-            ? $this->_areaConfig['acl'][$loaderType . 'Loader']
-            : '');
-
-        return $loaderClass ?: 'Magento_Acl_Loader_Default';
     }
 }

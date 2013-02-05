@@ -32,8 +32,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager_Zend',
-            array('create', 'get'), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
 
         $this->_request = $this->getMock(
             'Mage_Core_Controller_Request_Http', array('getParam', 'getPost'), array(), '', false

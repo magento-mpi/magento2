@@ -7,23 +7,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_Zend
+class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
 {
     /**
      * @param Magento_ObjectManager_Configuration $configuration
      * @param string $baseDir
-     * @param Magento_Di $diInstance
-     * @param Magento_Di_InstanceManager $instanceManager
      */
     public function __construct(
         Magento_ObjectManager_Configuration $configuration,
-        $baseDir,
-        Magento_Di $diInstance = null,
-        Magento_Di_InstanceManager $instanceManager = null
+        $baseDir
     ) {
         Magento_Profiler::start('di');
         Magento_Profiler::start('definitions');
-        parent::__construct($baseDir . '/var/di/definitions.php', $diInstance, $instanceManager);
+        if (is_readable($baseDir . '/var/di/definitions.php')) {
+            $definitions = new Magento_ObjectManager_Definition_Compiled(
+                unserialize(file_get_contents($baseDir . '/var/di/definitions.php'))
+            );
+        } else {
+            $definitions = new Magento_ObjectManager_Definition_Runtime();
+        }
+        parent::__construct($definitions, new Magento_ObjectManager_Config());
         Magento_Profiler::stop('definitions');
         Mage::setObjectManager($this);
         Magento_Profiler::start('configuration');

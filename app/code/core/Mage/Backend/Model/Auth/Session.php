@@ -41,16 +41,9 @@ class Mage_Backend_Model_Auth_Session
      *
      * @param array $data
      */
-    public function __construct(array $data = array())
+    public function __construct(Mage_Core_Model_Acl_Builder $aclBuilder)
     {
-        if (isset($data['aclBuilder'])) {
-            $this->_aclBuilder = $data['aclBuilder'];
-        } else {
-            $areaConfig = Mage::getConfig()->getAreaConfig(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
-            $this->_aclBuilder = Mage::getSingleton('Mage_Core_Model_Acl_Builder', array(
-                'data' => array('areaConfig' => $areaConfig, 'objectFactory' => Mage::getConfig())
-            ));
-        }
+        $this->_aclBuilder = $aclBuilder;
         $this->init('admin');
     }
 

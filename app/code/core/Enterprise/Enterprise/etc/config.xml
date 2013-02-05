@@ -34,9 +34,9 @@
             </enterprise_enterprise_setup>
         </resources>
         <di>
-            <aliases>
+            <preferences>
                 <Mage_Core_Model_Resource_Setup_Migration>Enterprise_Enterprise_Model_Resource_Setup_Migration</Mage_Core_Model_Resource_Setup_Migration>
-            </aliases>
+            </preferences>
         </di>
     </global>
     <frontend>

@@ -50,9 +50,7 @@ class Mage_Core_Model_Authorization
             'Magento_Authorization_Policy_Default';
 
         /** @var $aclBuilder Mage_Core_Model_Acl_Builder */
-        $aclBuilder = Mage::getSingleton('Mage_Core_Model_Acl_Builder', array(
-            'data' => array('areaConfig' => Mage::getConfig()->getAreaConfig(), 'objectFactory' => Mage::getConfig())
-        ));
+        $aclBuilder = Mage::getSingleton('Mage_Core_Model_Acl_Builder');
 
         /** @var $policyObject Magento_Authorization_Policy **/
         $policyObject = new $policyClassName($aclBuilder->getAcl());

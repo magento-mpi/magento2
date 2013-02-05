@@ -38,10 +38,12 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
     {
         $collection = new Varien_Data_Collection();
         $removeButtonHtml = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
-            'class' => 'delete',
-            'label' => '',
-            'onclick' => 'addBySku.removeFailedItem(this)',
-            'type' => 'button',
+            'data' => array(
+                'class' => 'delete',
+                'label' => '',
+                'onclick' => 'addBySku.removeFailedItem(this)',
+                'type' => 'button',
+            )
         ))->toHtml();
         /* @var $parentBlock Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract */
         $parentBlock = $this->getParentBlock();

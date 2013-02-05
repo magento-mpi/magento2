@@ -73,7 +73,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with('customer/captcha/type')
             ->will($this->returnValue('zend'));
 
-        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento_ObjectManager');
         $config = $this->_getConfigStub();
         $config->expects($this->once())
             ->method('getModelInstance')

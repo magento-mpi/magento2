@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Preview extends Mage_Adminhtml_
     {
         /** @var $template Mage_Core_Model_Email_Template */
         $template = Mage::getModel('Mage_Core_Model_Email_Template',
-            array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND));
+            array('data' => array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND)));
         $id = (int)$this->getRequest()->getParam('id');
         if ($id) {
             $template->load($id);

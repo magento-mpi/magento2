@@ -738,7 +738,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $arguments = $this->_argumentProcessor->process($arguments);
 
-        $block = $this->_createBlock($className, $elementName, $arguments);
+        $block = $this->_createBlock($className, $elementName, array('data' => $arguments));
         if (!empty($node['template'])) {
             $block->setTemplate((string)$node['template']);
         }

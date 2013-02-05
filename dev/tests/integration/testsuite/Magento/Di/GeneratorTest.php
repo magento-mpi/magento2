@@ -8,7 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once __DIR__ . '/Generator/TestAsset/SourceClassWithNamespace.php';
+require_once __DIR__ . '/Generator/TestAsset/ParentClassWithNamespace.php';
 /**
  * @magentoAppIsolation enabled
  */

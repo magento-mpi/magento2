@@ -25,7 +25,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
-        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', $args);
+        $block = $layout->createBlock(
+            'Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', array('data' => $args)
+        );
         $block->toHtml();
         return $block->getForm();
     }

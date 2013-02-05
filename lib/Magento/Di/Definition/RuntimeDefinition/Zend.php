@@ -81,4 +81,21 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
         $this->_classGenerator->generateForConstructor($class);
         return parent::getInstantiator($class);
     }
+
+    /**
+     * Check whether method has parameters
+     *
+     * @param string $class
+     * @param string $method
+     * @return bool
+     */
+    public function hasMethodParameters($class, $method)
+    {
+        if (!array_key_exists($class, $this->classes)) {
+            $this->processClass($class);
+        }
+        return parent::hasMethodParameters($class, $method);
+    }
+
+
 }

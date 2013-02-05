@@ -25,7 +25,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeControllerTest extends Mage
         $this->dispatch('backend/admin/catalog_product_action_attribute/save/store/0');
 
         $this->assertEquals(302, $this->getResponse()->getHttpResponseCode());
-        $expectedUrl = Mage::getUrl('backend/admin/catalog_product/index');
+        $expectedUrl = Mage::getUrl('*/catalog_product/index', array('_nosecret' => true));
         $isRedirectPresent = false;
         foreach ($this->getResponse()->getHeaders() as $header) {
             if ($header['name'] === 'Location' && strpos($header['value'], $expectedUrl) === 0) {

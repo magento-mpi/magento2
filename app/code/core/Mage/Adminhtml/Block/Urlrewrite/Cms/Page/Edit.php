@@ -87,8 +87,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Mage_Adminhtml_Block
     protected function _createEditFormBlock()
     {
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', '', array(
-            'cms_page'    => $this->_getCmsPage(),
-            'url_rewrite' => $this->_getUrlRewrite()
+            'data' => array(
+                'cms_page'    => $this->_getCmsPage(),
+                'url_rewrite' => $this->_getUrlRewrite()
+            )
         ));
     }
 }

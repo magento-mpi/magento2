@@ -12,33 +12,12 @@ require __DIR__ . '/../../../app/bootstrap.php';
 
 class ArrayDefinitionCompiler
 {
-    /**#@+
-     * Abstract classes
-     */
-    const ABSTRACT_MODEL = 'Mage_Core_Model_Abstract';
-    const ABSTRACT_BLOCK = 'Mage_Core_Block_Abstract';
-    /**#@-*/
-
     /**
      * Main config
      *
      * @var Mage_Core_Model_Config
      */
     protected $_config;
-
-    /**
-     * Information about abstract block/model constructor
-     *
-     * @var ReflectionMethod[]
-     */
-    protected $_constructorList;
-
-    /**
-     * List of common dependencies for model and block abstract
-     *
-     * @var array
-     */
-    protected $_commonDependencies = array();
 
     /**
      * Class constructor
@@ -50,8 +29,6 @@ class ArrayDefinitionCompiler
             Mage::PARAM_BAN_CACHE => true
         )), BP);
         $this->_config = $objectManager->get('Mage_Core_Model_Config');
-
-        $this->_initCommonDependencies();
     }
 
     /**
@@ -62,15 +39,7 @@ class ArrayDefinitionCompiler
      */
     public function compileModule($moduleDir)
     {
-        $moduleDefinitions = $this->_compileModuleDefinitions($moduleDir);
-        $this->_removeModelAndBlockConstructors($moduleDefinitions);
-
-        array_walk($moduleDefinitions, function (&$item)
-        {
-            unset($item['supertypes']);
-        });
-
-        return $moduleDefinitions;
+        return $this->_compileModuleDefinitions($moduleDir);
     }
 
     /**
@@ -82,32 +51,6 @@ class ArrayDefinitionCompiler
     public function isModuleEnabled($moduleName)
     {
         return $this->_config->isModuleEnabled($moduleName);
-    }
-
-    /**
-     * Init list of common dependencies of model and block abstract classes
-     *
-     * @return ArrayDefinitionCompiler
-     */
-    protected function _initCommonDependencies()
-    {
-        $classList = array(
-            self::ABSTRACT_MODEL,
-            self::ABSTRACT_BLOCK
-        );
-
-        foreach ($classList as $className) {
-            $this->_constructorList[$className] = new ReflectionMethod($className, '__construct');
-
-            /** @var $param ReflectionParameter */
-            foreach ($this->_constructorList[$className]->getParameters() as $param) {
-                if ($param->getClass() && !in_array($param->getClass()->getName(), $this->_commonDependencies)) {
-                    $this->_commonDependencies[] = $param->getClass()->getName();
-                }
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -136,110 +79,35 @@ class ArrayDefinitionCompiler
         }
 
         $compiler->compile();
-        $moduleDefinitions = $compiler->toArray();
-
-        return $moduleDefinitions;
+        return $compiler->toArray();
     }
+}
 
-    /**
-     * Remove model and block constructors
-     *
-     * @see Zend\Di\Di::newInstance()
-     * @param $moduleDefinitions
-     */
-    protected function _removeModelAndBlockConstructors(&$moduleDefinitions)
+class UniqueList
+{
+    protected $_itemsPerNumber = array();
+
+    public function getNumber($item)
     {
-        foreach ($moduleDefinitions as $name => $definition) {
-            if (!$this->_hasConstructorParams($name, $definition)
-                || $this->_areConstructorParamsEquals(self::ABSTRACT_MODEL, $definition)
-                || $this->_areConstructorParamsEquals(self::ABSTRACT_BLOCK, $definition)
-            ) {
-                unset($moduleDefinitions[$name]);
-            }
+        if (in_array($item, $this->_itemsPerNumber)) {
+            return array_search($item, $this->_itemsPerNumber);
+        } else {
+            $this->_itemsPerNumber[] = $item;
+            return count($this->_itemsPerNumber)-1;
         }
     }
 
-    /**
-     * Check if class has constructor params
-     *
-     * For cases when *_Model_* found function will return true, because such classes must be in compiled array.
-     *
-     * @param $className
-     * @param $definition
-     * @return bool
-     */
-    protected function _hasConstructorParams($className, $definition)
+    public function asArray()
     {
-        $constructorParams = array();
-        if (isset($definition['parameters']['__construct'])) {
-            $constructorParams = array_values($definition['parameters']['__construct']);
+        foreach ($this->_itemsPerNumber as &$item) {
+            $item = serialize($item);
         }
-
-        $paramNumber = count($constructorParams);
-        if (!$paramNumber && in_array($className, $this->_commonDependencies)) {
-            return true;
-        }
-
-        return (bool) $paramNumber;
-    }
-
-    /**
-     * Check is class constructor params are same as in abstract
-     *
-     * @param string $className
-     * @param array $definition
-     * @return bool
-     */
-    protected function _areConstructorParamsEquals($className, $definition)
-    {
-        if (!isset($this->_constructorList[$className])) {
-            $this->_constructorList[$className] = new ReflectionMethod($className, '__construct');
-        }
-
-        if (isset($definition['supertypes']) && isset($definition['parameters']['__construct'])) {
-            foreach ($definition['supertypes'] as $type) {
-                if (($type == $className)
-                    && (count($definition['parameters']['__construct']) ==
-                        count($this->_constructorList[$className]->getParameters())
-                    )
-                ) {
-                    return $this->_compareConstructorParams($definition['parameters']['__construct'],
-                        $this->_constructorList[$className]->getParameters()
-                    );
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Compare constructors params
-     *
-     * @param array $classArguments
-     * @param ReflectionParameter[] $abstractArguments
-     * @return bool
-     */
-    protected function _compareConstructorParams($classArguments, $abstractArguments)
-    {
-        $index = 0;
-        foreach ($classArguments as $argumentInfo) {
-            $argumentType = null;
-            if ($abstractArguments[$index]->getClass()) {
-                $argumentType = $abstractArguments[$index]->getClass()->getName();
-            }
-            if ($argumentInfo[1] != $argumentType) {
-                return false;
-            }
-            $index++;
-        }
-        return true;
+        return $this->_itemsPerNumber;
     }
 }
 
 $definitions = array();
 $compiler = new ArrayDefinitionCompiler();
-
 foreach (glob(BP . '/app/code/*') as $codePoolDir) {
     foreach (glob($codePoolDir . '/*') as $vendorDir) {
         foreach (glob($vendorDir . '/*') as $moduleDir) {
@@ -262,11 +130,22 @@ if (is_readable(BP . '/var/generation')) {
     echo "Compiling generated entities\n";
     $definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/var/generation'));
 }
-foreach ($definitions as $key => $definition) {
-    $definitions[$key] = json_encode($definition);
+
+$signatureList = new UniqueList();
+$resultDefinitions = array();
+foreach ($definitions as $className => $definition) {
+    $resultDefinitions[$className] = null;
+    if (isset($definition['parameters']['__construct']) && count($definition['parameters']['__construct'])) {
+        $resultDefinitions[$className] = $signatureList->getNumber(
+            array_values($definition['parameters']['__construct'])
+        );
+    }
 }
+
 if (!file_exists(BP . '/var/di/')) {
     mkdir(BP . '/var/di', 0777, true);
 }
 
-file_put_contents(BP . '/var/di/definitions.php', serialize($definitions));
+file_put_contents(
+    BP . '/var/di/definitions.php', serialize(array($signatureList->asArray(), $resultDefinitions))
+);

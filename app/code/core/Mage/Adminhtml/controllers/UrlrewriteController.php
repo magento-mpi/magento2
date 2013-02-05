@@ -70,12 +70,12 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         switch ($mode) {
             case self::PRODUCT_MODE:
                 $editBlock = $this->getLayout()
-                    ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit', '', array(
+                    ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit', '', array('data' => array(
                         'category'         => $this->_getCategory(),
                         'product'          => $this->_getProduct(),
                         'is_category_mode' => $this->getRequest()->has('category'),
                         'url_rewrite'      => $this->_getUrlRewrite()
-                    ));
+                    )));
                 break;
             case self::CATEGORY_MODE:
                 $editBlock = $this->getLayout()

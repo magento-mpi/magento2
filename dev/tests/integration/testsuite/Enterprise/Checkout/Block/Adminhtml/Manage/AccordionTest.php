@@ -29,6 +29,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
     {
         $this->_block = null;
         $this->_layout = null;
+        Mage::getConfig()->setCurrentAreaCode(null);
     }
 
     public function testToHtml()
