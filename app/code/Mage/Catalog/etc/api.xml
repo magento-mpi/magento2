@@ -147,6 +147,10 @@
                         <title>Update product</title>
                         <acl>catalog/product/update</acl>
                     </update>
+                    <multiUpdate translate="title" module="Mage_Catalog">
+                        <title>Multi update product</title>
+                        <acl>catalog/product/multi_update</acl>
+                    </multiUpdate>
                     <delete translate="title" module="Mage_Catalog">
                         <title>Delete product</title>
                         <acl>catalog/product/delete</acl>
@@ -193,6 +197,14 @@
                         <code>106</code>
                         <message>Product attribute set does not belong to catalog product entity type.</message>
                     </product_attribute_set_not_valid>
+                    <multi_update_not_match>
+                        <code>107</code>
+                        <message>Quantity of product IDs and product data should match. No changes made.</message>
+                    </multi_update_not_match>
+                    <partially_updated>
+                        <code>108</code>
+                        <message>Some or all products failed to update, see error message for details.</message>
+                    </partially_updated>
                 </faults>
             </catalog_product>
             <catalog_product_attribute translate="title" module="Mage_Catalog">
@@ -759,6 +771,9 @@
                         <update translate="title" module="Mage_Catalog">
                             <title>Update</title>
                         </update>
+                        <multi_update translate="title" module="Mage_Catalog">
+                            <title>Multi Update</title>
+                        </multi_update>
                         <delete translate="title" module="Mage_Catalog">
                             <title>Delete</title>
                         </delete>

@@ -170,6 +170,41 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
     }
 
     /**
+     * Update multiple products information at once
+     *
+     * @param array      $productIds
+     * @param array      $productData
+     * @param string|int $store
+     * @param string     $identifierType
+     * @return boolean
+     */
+    public function multiUpdate($productIds, $productData, $store = null, $identifierType = null)
+    {
+        if (count($productIds) != count($productData)) {
+            $this->_fault('multi_update_not_match');
+        }
+
+        $productData = (array)$productData;
+        $failMessages = array();
+
+        foreach ($productIds as $index => $productId) {
+            try {
+                $this->update($productId, $productData[$index], $store, $identifierType);
+            } catch (Mage_Api_Exception $e) {
+                $failMessages[] = sprintf("Product ID %d:\n %s", $productId, $e->getMessage());
+            }
+        }
+
+        if (empty($failMessages)) {
+            return true;
+        } else {
+            $this->_fault('partially_updated', implode("\n", $failMessages));
+        }
+
+        return false;
+    }
+
+    /**
      *  Set additional data before product saved
      *
      *  @param    Mage_Catalog_Model_Product $product

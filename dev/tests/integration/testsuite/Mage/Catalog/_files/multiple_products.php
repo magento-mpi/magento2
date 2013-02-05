@@ -11,11 +11,18 @@
 
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
+
+$now = Mage::app()->getLocale()->date()
+    ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
+    ->toString(Varien_Date::DATE_INTERNAL_FORMAT);
+
 $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(10)
     ->setAttributeSetId(4)
     ->setName('Simple Product')
     ->setSku('simple1')
+    ->setCreatedAt($now)
+    ->setTaxClassId('none')
     ->setDescription('description')
     ->setShortDescription('short description')
     ->setOptionsContainer('container1')
@@ -49,6 +56,8 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
     ->setName('Simple Product2')
     ->setSku('simple2')
+    ->setCreatedAt($now)
+    ->setTaxClassId('none')
     ->setDescription('description')
     ->setShortDescription('short description')
     ->setEnableGooglecheckout(false)
@@ -85,6 +94,8 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
     ->setName('Simple Product 3')
     ->setSku('simple3')
+    ->setCreatedAt($now)
+    ->setTaxClassId('none')
     ->setDescription('description')
     ->setShortDescription('short description')
     ->setMsrpEnabled(
