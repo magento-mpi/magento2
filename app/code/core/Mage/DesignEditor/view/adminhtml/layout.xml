@@ -96,11 +96,19 @@
                             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group" name="design_editor_tools_code_css_group" template="Mage_DesignEditor::editor/tools/code/css/group.phtml" />
                             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Message" name="design_editor_tools_code_css_message" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
                         </block>
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js" name="design_editor_tools_code_js" template="Mage_DesignEditor::editor/tools/code/js.phtml" />
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js" name="design_editor_tools_code_js" template="Mage_DesignEditor::editor/tools/code/js.phtml">
+                            <block template="Mage_DesignEditor::/editor/tools/code/js_items.phtml" type="Mage_Backend_Block_Template" name="design_editor_tools_code_js_items" as="design.editor.tools.code.js.items" />
+                        </block>
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom" name="design_editor_tools_code_custom" template="Mage_DesignEditor::editor/tools/code/custom.phtml" />
                     </block>
                 </block>
             </block>
         </reference>
     </adminhtml_system_design_editor_launch>
+
+    <adminhtml_system_design_editor_tools_uploadjs>
+        <container name="root" label="Root" output="1">
+            <block template="Mage_DesignEditor::/editor/tools/code/js_items.phtml" type="Mage_Backend_Block_Template" name="design_editor_tools_code_js_items"/>
+        </container>
+    </adminhtml_system_design_editor_tools_uploadjs>
 </layout>

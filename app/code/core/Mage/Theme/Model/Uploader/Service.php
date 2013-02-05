@@ -126,10 +126,10 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
      *
      * @param string $file - Key in the $_FILES array
      * @param Mage_Core_Model_Theme $theme
+     * @param bool $saveAsTmp
      * @return Mage_Theme_Model_Uploader_Service
-     * @throws Mage_Core_Exception
      */
-    public function uploadJsFile($file, $theme)
+    public function uploadJsFile($file, $theme, $saveAsTmp = true)
     {
         /** @var $fileUploader Mage_Core_Model_File_Uploader */
         $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($file));
@@ -148,7 +148,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
         $this->setFilePath($file['tmp_name']);
         $file['content'] = $this->getFileContent();
 
-        $this->_filesJs->saveJsFile($theme, $file, true);
+        $this->_filesJs->saveJsFile($theme, $file, $saveAsTmp);
 
         return $this;
     }
