@@ -59,7 +59,7 @@ system_configuration:
                                     multiselects:
                                         weekend_days: //select[@name='groups[locale][fields][weekend][value][]']
                                     checkboxes:
-                                        timezone: //input[@name='groups[locale][fields][timezone][inherit]']
+                                        timezone_use_default: //input[@name='groups[locale][fields][timezone][inherit]']
                                         locale_use_default: //input[@name='groups[locale][fields][code][inherit]']
                                         first_day_of_week_use_default: //input[@name='groups[locale][fields][firstday][inherit]']
                                         weekend_days_use_default: //input[@name='groups[locale][fields][weekend][inherit]']
@@ -96,7 +96,7 @@ system_configuration:
                                 single_store_mode:
                                     xpath: //fieldset[@id='general_single_store_mode']
                                     links:
-                                        single_store_mode_link: //parent::div//a[@id='general_region-head']
+                                        single_store_mode_link: //parent::div//a[@id='general_single_store_mode-head']
                                     dropdowns:
                                         enable_single_store_mode: //select[@id='general_single_store_mode_enabled']
                 -
@@ -234,7 +234,7 @@ system_configuration:
                                 design_themes:
                                     xpath: //fieldset[@id='design_theme']
                                     links:
-                                        design_theme_link: //parent::div//a[@id='design_theme-head']
+                                        design_themes_link: //parent::div//a[@id='design_theme-head']
                                     dropdowns:
                                         design_theme: //select[@id="design_theme_theme_id"]
                                         exceptions_design_theme: //select[@name[contains(., '[%rowId%][value]')]]
@@ -306,8 +306,8 @@ system_configuration:
                                         copyright: //textarea[@name='groups[footer][fields][copyright][value]']
                                         misc_html: //textarea[@name='groups[footer][fields][absolute_footer][value]']
                                     checkboxes:
-                                        copyright: //input[@name='groups[footer][fields][copyright][inherit]']
-                                        misc_html: //input[@name='groups[footer][fields][absolute_footer][inherit]']
+                                        copyright_use_default: //input[@name='groups[footer][fields][copyright][inherit]']
+                                        misc_html_use_default: //input[@name='groups[footer][fields][absolute_footer][inherit]']
                             -
                                 product_image_watermarks:
                                     xpath: //fieldset[@id='design_watermark']
@@ -359,7 +359,7 @@ system_configuration:
                                 transaction_emails:
                                     xpath: //fieldset[@id='design_email']
                                     links:
-                                        transaction_emails_links: //parent::div//a[@id='design_email-head']
+                                        transaction_emails_link: //parent::div//a[@id='design_email-head']
                                     fields:
                                         logo_image: //input[@id="design_email_logo"]
                                         logo_image_alt: //input[@id="design_email_logo_alt"]
@@ -2086,9 +2086,9 @@ system_configuration:
                                         commerce_search_use_default: //input[@id="google_googleshopping_commerce_search_inherit"]
                             -
                                 google_website_optimizer:
-                                    xpath: //div/fieldset[legend='Google Website Optimizer']
+                                    xpath: //fieldset[@id='google_optimizer']
                                     links:
-                                        google_website_optimizer_link: //a[text()='Google Website Optimizer']
+                                        google_website_optimizer_link: //parent::div//a[@id='google_optimizer-head']
                                     dropdowns:
                                         enable: //select[@name='groups[optimizer][fields][active][value]']
                                     checkboxes:
@@ -2288,8 +2288,8 @@ system_configuration:
                                         api_authentication_methods_use_default: //input[@name='groups[api][fields][api_authentication][inherit]']
                                         api_sandbox_mode_use_default: //input[@name='groups[api][fields][sandbox_flag][inherit]']
                                         api_uses_proxy_use_default: //input[@name='groups[api][fields][use_proxy][inherit]']
-                                        proxy_host: //input[@name='groups[api][fields][proxy_host][inherit]']
-                                        proxy_port: //input[@name='groups[api][fields][proxy_port][inherit]']
+                                        proxy_host_use_default: //input[@name='groups[api][fields][proxy_host][inherit]']
+                                        proxy_port_use_default: //input[@name='groups[api][fields][proxy_port][inherit]']
                             -
                                 express_checkout_settings:
                                     xpath: //fieldset[@id='paypal_express']
@@ -2541,7 +2541,7 @@ system_configuration:
                                         ecpe_countries_payment_applicable_from_use_default: //input[@name='groups[express_pe][fields][specificcountry][inherit]']
                             -
                                 settlement_report_settings:
-                                    xpath: //parent::div//a[@id='paypal_settlement_reports']
+                                    xpath: //fieldset[@id='paypal_settlement_reports']
                                     links:
                                         settlement_report_settings_link: //parent::div//a[@id='paypal_settlement_reports-head']
                                     fields:
@@ -3011,7 +3011,7 @@ system_configuration:
                                 lastschrift_elv_powered_by_moneybookers_germany:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_did']
                                     links:
-                                        lastschrift_elv_powered_by_moneybookers_germany_link: //parent::div//a[@id='-head']
+                                        lastschrift_elv_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_did-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_did][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_did][fields][title][value]']
@@ -3030,7 +3030,7 @@ system_configuration:
                                 giropay_powered_by_moneybookers_germany:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_gir']
                                     links:
-                                        giropay_powered_by_moneybookers_germany_link: //parent::div//a[@id='-head']
+                                        giropay_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_gir-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_gir][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_gir][fields][title][value]']
@@ -3068,7 +3068,7 @@ system_configuration:
                                 laser_powered_by_moneybookers_ireland:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_lsr']
                                     links:
-                                        laser_powered_by_moneybookers_ireland_link: //parent::div//a[@id='-head']
+                                        laser_powered_by_moneybookers_ireland_link: //parent::div//a[@id='moneybookers_moneybookers_lsr-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_lsr][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_lsr][fields][title][value]']
@@ -3087,7 +3087,7 @@ system_configuration:
                                 maestro_powered_by_moneybookers_united_kingdom_austria_spain:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_mae']
                                     links:
-                                        maestro_powered_by_moneybookers_united_kingdom_austria_spain_link: //parent::div//a[@id='-head']
+                                        maestro_powered_by_moneybookers_united_kingdom_austria_spain_link: //parent::div//a[@id='moneybookers_moneybookers_mae-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_mae][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_mae][fields][title][value]']
@@ -3357,7 +3357,7 @@ system_configuration:
                                 soap_settings:
                                     xpath: //fieldset[@id='webapi_soap']
                                     links:
-                                        general_settings_link: //parent::div//a[@id='webapi_soap-head']
+                                        soap_settings_link: //parent::div//a[@id='webapi_soap-head']
                                     fields:
                                         default_response_charset: //input[@id="webapi_soap_charset"]
                                     dropdowns:
@@ -3557,54 +3557,44 @@ system_configuration:
                                     links:
                                         disable_modules_output_link: //parent::div//a[@id='advanced_modules_disable_output-head']
                                     dropdowns:
-                                        mage_admin: //select[@name='groups[modules_disable_output][fields][Mage_Admin][value]']
                                         mage_adminnotification: //select[@name='groups[modules_disable_output][fields][Mage_AdminNotification][value]']
-                                        mage_amazonpayments: //select[@name='groups[modules_disable_output][fields][Mage_AmazonPayments][value]']
-                                        mage_api: //select[@name='groups[modules_disable_output][fields][Mage_Api][value]']
+                                        mage_api: //select[@id='Mage_Api']
                                         mage_authorizenet: //select[@name='groups[modules_disable_output][fields][Mage_Authorizenet][value]']
                                         mage_backup: //select[@name='groups[modules_disable_output][fields][Mage_Backup][value]']
                                         mage_bundle: //select[@name='groups[modules_disable_output][fields][Mage_Bundle][value]']
+                                        mage_captcha: //select[@id='Mage_Captcha']
                                         mage_catalog: //select[@name='groups[modules_disable_output][fields][Mage_Catalog][value]']
-                                        mage_catalogindex: //select[@name='groups[modules_disable_output][fields][Mage_CatalogIndex][value]']
                                         mage_cataloginventory: //select[@name='groups[modules_disable_output][fields][Mage_CatalogInventory][value]']
                                         mage_catalogrule: //select[@name='groups[modules_disable_output][fields][Mage_CatalogRule][value]']
                                         mage_catalogsearch: //select[@name='groups[modules_disable_output][fields][Mage_CatalogSearch][value]']
                                         mage_centinel: //select[@name='groups[modules_disable_output][fields][Mage_Centinel][value]']
                                         mage_checkout: //select[@name='groups[modules_disable_output][fields][Mage_Checkout][value]']
-                                        mage_chronopay: //select[@name='groups[modules_disable_output][fields][Mage_Chronopay][value]']
                                         mage_cms: //select[@name='groups[modules_disable_output][fields][Mage_Cms][value]']
-                                        mage_compiler: //select[@name='groups[modules_disable_output][fields][Mage_Compiler][value]']
                                         mage_connect: //select[@name='groups[modules_disable_output][fields][Mage_Connect][value]']
                                         mage_contacts: //select[@name='groups[modules_disable_output][fields][Mage_Contacts][value]']
                                         mage_core: //select[@name='groups[modules_disable_output][fields][Mage_Core][value]']
                                         mage_cron: //select[@name='groups[modules_disable_output][fields][Mage_Cron][value]']
+                                        mage_currencysymbol: //select[@id='Mage_CurrencySymbol']
                                         mage_customer: //select[@name='groups[modules_disable_output][fields][Mage_Customer][value]']
-                                        mage_cybermut: //select[@name='groups[modules_disable_output][fields][Mage_Cybermut][value]']
-                                        mage_cybersource: //select[@name='groups[modules_disable_output][fields][Mage_Cybersource][value]']
-                                        mage_dataflow: //select[@name='groups[modules_disable_output][fields][Mage_Dataflow][value]']
+                                        mage_designeditor: //select[@id='Mage_DesignEditor']
                                         mage_directory: //select[@name='groups[modules_disable_output][fields][Mage_Directory][value]']
                                         mage_downloadable: //select[@name='groups[modules_disable_output][fields][Mage_Downloadable][value]']
                                         mage_eav: //select[@name='groups[modules_disable_output][fields][Mage_Eav][value]']
-                                        mage_eway: //select[@name='groups[modules_disable_output][fields][Mage_Eway][value]']
-                                        mage_flo2ccsh: //select[@name='groups[modules_disable_output][fields][Mage_Flo2Cash][value]']
                                         mage_giftmessage: //select[@name='groups[modules_disable_output][fields][Mage_GiftMessage][value]']
                                         mage_googleanalytics: //select[@name='groups[modules_disable_output][fields][Mage_GoogleAnalytics][value]']
-                                        mage_googlebase: //select[@name='groups[modules_disable_output][fields][Mage_GoogleBase][value]']
                                         mage_googlecheckout: //select[@name='groups[modules_disable_output][fields][Mage_GoogleCheckout][value]']
                                         mage_googleoptimizer: //select[@name='groups[modules_disable_output][fields][Mage_GoogleOptimizer][value]']
-                                        mage_ideal: //select[@name='groups[modules_disable_output][fields][Mage_Ideal][value]']
+                                        mage_googleshopping: //select[@id='Mage_GoogleShopping']
                                         mage_importexport: //select[@name='groups[modules_disable_output][fields][Mage_ImportExport][value]']
                                         mage_index: //select[@name='groups[modules_disable_output][fields][Mage_Index][value]']
                                         mage_install: //select[@name='groups[modules_disable_output][fields][Mage_Install][value]']
-                                        mage_loadtest: //select[@name='groups[modules_disable_output][fields][Mage_LoadTest][value]']
                                         mage_log: //select[@name='groups[modules_disable_output][fields][Mage_Log][value]']
                                         mage_media: //select[@name='groups[modules_disable_output][fields][Mage_Media][value]']
                                         mage_newsletter: //select[@name='groups[modules_disable_output][fields][Mage_Newsletter][value]']
+                                        mage_oauth: //select[@id='Mage_Oauth']
                                         mage_ogone: //select[@name='groups[modules_disable_output][fields][Mage_Ogone][value]']
-                                        mage_oscommerce: //select[@name='groups[modules_disable_output][fields][Mage_Oscommerce][value]']
                                         mage_page: //select[@name='groups[modules_disable_output][fields][Mage_Page][value]']
                                         mage_pagecache: //select[@name='groups[modules_disable_output][fields][Mage_PageCache][value]']
-                                        mage_paybox: //select[@name='groups[modules_disable_output][fields][Mage_Paybox][value]']
                                         mage_paygate: //select[@name='groups[modules_disable_output][fields][Mage_Paygate][value]']
                                         mage_payment: //select[@name='groups[modules_disable_output][fields][Mage_Payment][value]']
                                         mage_paypal: //select[@name='groups[modules_disable_output][fields][Mage_Paypal][value]']
@@ -3612,7 +3602,6 @@ system_configuration:
                                         mage_persistent: //select[@name='groups[modules_disable_output][fields][Mage_Persistent][value]']
                                         mage_poll: //select[@name='groups[modules_disable_output][fields][Mage_Poll][value]']
                                         mage_productalert: //select[@name='groups[modules_disable_output][fields][Mage_ProductAlert][value]']
-                                        mage_protx: //select[@name='groups[modules_disable_output][fields][Mage_Protx][value]']
                                         mage_rating: //select[@name='groups[modules_disable_output][fields][Mage_Rating][value]']
                                         mage_reports: //select[@name='groups[modules_disable_output][fields][Mage_Reports][value]']
                                         mage_review: //select[@name='groups[modules_disable_output][fields][Mage_Review][value]']
@@ -3625,60 +3614,51 @@ system_configuration:
                                         mage_sitemap: //select[@name='groups[modules_disable_output][fields][Mage_Sitemap][value]']
                                         mage_tag: //select[@name='groups[modules_disable_output][fields][Mage_Tag][value]']
                                         mage_tax: //select[@name='groups[modules_disable_output][fields][Mage_Tax][value]']
+                                        mage_theme: //select[@id='Mage_Theme']
                                         mage_usa: //select[@name='groups[modules_disable_output][fields][Mage_Usa][value]']
                                         mage_weee: //select[@name='groups[modules_disable_output][fields][Mage_Weee][value]']
                                         mage_widget: //select[@name='groups[modules_disable_output][fields][Mage_Widget][value]']
                                         mage_wishlist: //select[@name='groups[modules_disable_output][fields][Mage_Wishlist][value]']
-                                        mage_xmlconnect: //select[@name='groups[modules_disable_output][fields][Mage_XmlConnect][value]']
                                         phoenix_moneybookers: //select[@name='groups[modules_disable_output][fields][Phoenix_Moneybookers][value]']
                                     checkboxes:
-                                        mage_admin_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Admin][inherit]']
                                         mage_adminnotification_use_default: //input[@name='groups[modules_disable_output][fields][Mage_AdminNotification][inherit]']
-                                        mage_amazonpayments_use_default: //input[@name='groups[modules_disable_output][fields][Mage_AmazonPayments][inherit]']
-                                        mage_api_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Api][inherit]']
+                                        mage_api_use_default: //input[@id='Mage_Api_inherit']
                                         mage_authorizenet_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Authorizenet][inherit]']
                                         mage_backup_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Backup][inherit]']
                                         mage_bundle_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Bundle][inherit]']
+                                        mage_captcha_use_default: //input[@id='Mage_Captcha_inherit']
                                         mage_catalog_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Catalog][inherit]']
-                                        mage_catalogindex_use_default: //input[@name='groups[modules_disable_output][fields][Mage_CatalogIndex][inherit]']
                                         mage_cataloginventory_use_default: //input[@name='groups[modules_disable_output][fields][Mage_CatalogInventory][inherit]']
                                         mage_catalogrule_use_default: //input[@name='groups[modules_disable_output][fields][Mage_CatalogRule][inherit]']
                                         mage_catalogsearch_use_default: //input[@name='groups[modules_disable_output][fields][Mage_CatalogSearch][inherit]']
                                         mage_centinel_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Centinel][inherit]']
                                         mage_checkout_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Checkout][inherit]']
-                                        mage_chronopay_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Chronopay][inherit]']
                                         mage_cms_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Cms][inherit]']
-                                        mage_compiler_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Compiler][inherit]']
                                         mage_connect_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Connect][inherit]']
                                         mage_contacts_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Contacts][inherit]']
                                         mage_core_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Core][inherit]']
                                         mage_cron_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Cron][inherit]']
+                                        mage_currencysymbol_use_default: //input[@id='Mage_CurrencySymbol_inherit']
                                         mage_customer_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Customer][inherit]']
-                                        mage_cybermut_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Cybermut][inherit]']
-                                        mage_cybersource_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Cybersource][inherit]']
-                                        mage_dataflow_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Dataflow][inherit]']
+                                        mage_designeditor_use_default: //input[@id='Mage_DesignEditor_inherit']
                                         mage_directory_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Directory][inherit]']
                                         mage_downloadable_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Downloadable][inherit]']
                                         mage_eav_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Eav][inherit]']
-                                        mage_eway_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Eway][inherit]']
-                                        mage_flo2ccsh_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Flo2Cash][inherit]']
                                         mage_giftmessage_use_default: //input[@name='groups[modules_disable_output][fields][Mage_GiftMessage][inherit]']
                                         mage_googleanalytics_use_default: //input[@name='groups[modules_disable_output][fields][Mage_GoogleAnalytics][inherit]']
-                                        mage_googlebase_use_default: //input[@name='groups[modules_disable_output][fields][Mage_GoogleBase][inherit]']
                                         mage_googlecheckout_use_default: //input[@name='groups[modules_disable_output][fields][Mage_GoogleCheckout][inherit]']
                                         mage_googleoptimizer_use_default: //input[@name='groups[modules_disable_output][fields][Mage_GoogleOptimizer][inherit]']
-                                        mage_ideal_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Ideal][inherit]']
+                                        mage_googleshopping_use_default: //input[@id='Mage_GoogleShopping_inherit']
                                         mage_importexport_use_default: //input[@name='groups[modules_disable_output][fields][Mage_ImportExport][inherit]']
                                         mage_index_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Index][inherit]']
                                         mage_install_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Install][inherit]']
-                                        mage_loadtest_use_default: //input[@name='groups[modules_disable_output][fields][Mage_LoadTest][inherit]']
                                         mage_log_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Log][inherit]']
                                         mage_media_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Media][inherit]']
                                         mage_newsletter_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Newsletter][inherit]']
+                                        mage_oauth_use_default: //input[@id='Mage_Oauth_inherit']
                                         mage_ogone_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Ogone][inherit]']
                                         mage_page_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Page][inherit]']
                                         mage_pagecache_use_default: //input[@name='groups[modules_disable_output][fields][Mage_PageCache][inherit]']
-                                        mage_paybox_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Paybox][inherit]']
                                         mage_paygate_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Paygate][inherit]']
                                         mage_payment_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Payment][inherit]']
                                         mage_paypal_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Paypal][inherit]']
@@ -3686,7 +3666,6 @@ system_configuration:
                                         mage_persistent_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Persistent][inherit]']
                                         mage_poll_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Poll][inherit]']
                                         mage_productalert_use_default: //input[@name='groups[modules_disable_output][fields][Mage_ProductAlert][inherit]']
-                                        mage_protx_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Protx][inherit]']
                                         mage_rating_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Rating][inherit]']
                                         mage_reports_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Reports][inherit]']
                                         mage_review_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Review][inherit]']
@@ -3699,11 +3678,11 @@ system_configuration:
                                         mage_sitemap_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Sitemap][inherit]']
                                         mage_tag_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Tag][inherit]']
                                         mage_tax_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Tax][inherit]']
+                                        mage_theme_use_default: //input[@id='Mage_Theme_inherit']
                                         mage_usa_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Usa][inherit]']
                                         mage_weee_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Weee][inherit]']
                                         mage_widget_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Widget][inherit]']
                                         mage_wishlist_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Wishlist][inherit]']
-                                        mage_xmlconnect_use_default: //input[@name='groups[modules_disable_output][fields][Mage_XmlConnect][inherit]']
                                         phoenix_moneybookers_use_default: //input[@name='groups[modules_disable_output][fields][Phoenix_Moneybookers][inherit]']
                 -
                     advanced_developer:

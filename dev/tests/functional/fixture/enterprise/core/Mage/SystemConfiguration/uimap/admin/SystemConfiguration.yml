@@ -71,7 +71,7 @@ system_configuration:
                                 catalog_catalog_event:
                                     xpath: //fieldset[@id='catalog_enterprise_catalogevent']
                                     links:
-                                        states_options_link: //parent::div//a[@id='catalog_enterprise_catalogevent-head']
+                                        catalog_catalog_event_link: //parent::div//a[@id='catalog_enterprise_catalogevent-head']
                                     fields:
                                         number_of_events:  //input[@id="catalog_enterprise_catalogevent_lister_widget_limit"]
                                         events_to_scroll:  //input[@id="catalog_enterprise_catalogevent_lister_widget_scroll"]
@@ -82,7 +82,7 @@ system_configuration:
                                 catalog_rule_based_product_relations:
                                     xpath: //fieldset[@id='catalog_enterprise_targetrule']
                                     links:
-                                        catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_enterprise_catalogevent-head']
+                                        catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_enterprise_targetrule-head']
                                     fields:
                                         maximum_number_in_related_list: //input[@id="catalog_enterprise_targetrule_related_position_limit"]
                                         maximum_number_in_cross_sell: //input[@id="catalog_enterprise_targetrule_crosssell_position_limit"]
@@ -592,10 +592,10 @@ system_configuration:
                                         enterprise_reward: //select[@name='groups[modules_disable_output][fields][Enterprise_Reward][value]']
                                         enterprise_rma: //select[@name='groups[modules_disable_output][fields][Enterprise_Rma][value]']
                                         enterprise_salesarchive: //select[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][value]']
-                                        enterprise_salespool: //select[@name='groups[modules_disable_output][fields][Enterprise_SalesPool][value]']
                                         enterprise_search: //select[@name='groups[modules_disable_output][fields][Enterprise_Search][value]']
                                         enterprise_targetrule: //select[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][value]']
                                         enterprise_websiterestriction: //select[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][value]']
+                                        enterprise_wishlist: //select[@id='Enterprise_Wishlist']
                                     checkboxes:
                                         enterprise_admingws_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][inherit]']
                                         enterprise_banner_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Banner][inherit]']
@@ -629,6 +629,7 @@ system_configuration:
                                         enterprise_search_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Search][inherit]']
                                         enterprise_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][inherit]']
                                         enterprise_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][inherit]']
+                                        enterprise_wishlist_use_default: //input[@id='Enterprise_Wishlist_inherit']
 
 system_configuration_tabs:
     uimap: *system_configuration_uimap
