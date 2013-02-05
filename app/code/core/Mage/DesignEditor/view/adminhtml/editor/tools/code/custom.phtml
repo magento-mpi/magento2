@@ -9,7 +9,11 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */ ?>
+
 <div class="tab-panel" id="vde-tab-custom">
+    <div id="vde-tab-custom-messages-placeholder">
+        <?php echo $this->getChildHtml('messages') ?>
+    </div>
     <div class="custom-code-description">
         <h5 class="title"><?php echo $this->__('Custom CSS'); ?></h5>
         <p><?php echo $this->__('Update the custom.css file to right in order to overwrite the default styles.'); ?></p>
@@ -42,7 +46,6 @@
             dataType: 'json',
             replaceFileInput: false,
             url : '<?php echo $this->getUrl('*/system_design_editor_tools/upload', array('theme' => $this->getTheme()->getThemeId())) ?>',
-            acceptFileTypes: /(.|\/)(css)$/i,
 
             /**
              * Handler of "file selected" event
@@ -65,16 +68,10 @@
                 if (!data.result.error) {
                     contentArea.val(data.result.content);
                 }
-            },
 
-            /**
-             * Handler on "upload ajax request fail" event
-             * @param e
-             * @param data
-             */
-            fail: function(e, data) {
-                $(this).val('');
-                alert($.mage.__('File extension not known or unsupported type.'));
+                if (data.result.message_html) {
+                    $('#vde-tab-custom-messages-placeholder').append(data.result.message_html);
+                }
             }
         });
 

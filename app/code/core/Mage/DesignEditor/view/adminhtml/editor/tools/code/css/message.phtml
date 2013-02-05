@@ -9,14 +9,24 @@
  */
 ?>
 
-<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Message */ ?>
+<?php /** @var $this Mage_Core_Block_Messages */ ?>
+
+<?php foreach ($this->_getMessageTypes() as $type): ?>
+<?php
+    /** @var $message Mage_Core_Model_Message */
+    foreach ($this->getMessages($type) as $message):
+?>
+<?php if ($message->getText()): ?>
 <div class="vde-message">
     <div class="message-inner">
         <div class="message-content">
-            <?php echo $this->getMessageText() ?>
+            <?php echo $this->_escapeMessageFlag ? $this->escapeHtml($message->getText()) : $message->getText() ?>
         </div>
         <button class="action-close" title="<?php echo $this->__('Close Message'); ?>">
             <span><?php echo $this->__('Close Message'); ?></span>
         </button>
     </div>
 </div>
+<?php endif; ?>
+<?php endforeach; ?>
+<?php endforeach; ?>

@@ -92,19 +92,27 @@
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Block" name="design_editor_tools_block" template="Mage_DesignEditor::editor/tools/block.phtml" />
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Settings" name="design_editor_tools_settings" template="Mage_DesignEditor::editor/tools/settings.phtml" />
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code" name="design_editor_tools_code" template="Mage_DesignEditor::editor/tools/code.phtml">
+                        <!-- Tab with CSS list -->
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css" name="design_editor_tools_code_css" template="Mage_DesignEditor::editor/tools/code/css.phtml">
                             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group" name="design_editor_tools_code_css_group" template="Mage_DesignEditor::editor/tools/code/css/group.phtml" />
-                            <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Message" name="design_editor_tools_code_css_message" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
                         </block>
+                        <!-- Tab with JavaScript list -->
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js" name="design_editor_tools_code_js" template="Mage_DesignEditor::editor/tools/code/js.phtml">
                             <block template="Mage_DesignEditor::/editor/tools/code/js_items.phtml" type="Mage_Backend_Block_Template" name="design_editor_tools_code_js_items" as="design.editor.tools.code.js.items" />
                         </block>
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom" name="design_editor_tools_code_custom" template="Mage_DesignEditor::editor/tools/code/custom.phtml" />
+                        <!-- Tab with Custom CSS -->
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom" name="design_editor_tools_code_custom" template="Mage_DesignEditor::editor/tools/code/custom.phtml">
+                            <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
+                        </block>
                     </block>
                 </block>
             </block>
         </reference>
     </adminhtml_system_design_editor_launch>
+
+    <adminhtml_system_design_editor_tools_upload>
+        <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
+    </adminhtml_system_design_editor_tools_upload>
 
     <adminhtml_system_design_editor_tools_uploadjs>
         <container name="root" label="Root" output="1">

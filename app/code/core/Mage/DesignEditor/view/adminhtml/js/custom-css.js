@@ -22,7 +22,7 @@
         },
 
         _events: function() {
-            this.btnCssUpdate.on('click', $.proxy(this._updateCustomCss, this))
+            this.btnCssUpdate.on('click', $.proxy(this._updateCustomCss, this));
         },
 
         _updateCustomCss: function()
@@ -33,10 +33,8 @@
                 data: {custom_css_content: $(this.options.customCssCode).val()},
                 dataType: 'json',
                 success: $.proxy(function(response) {
-                    if (response.error) {
-                        alert($.mage.__('Error') + ': "' + response.message + '".');
-                    } else {
-                        alert($.mage.__('Success: Theme custom css was saved.'));
+                    if (response.message_html) {
+                        $('#vde-tab-custom-messages-placeholder').append(response.message_html);
                     }
                 }, this),
                 error: function() {

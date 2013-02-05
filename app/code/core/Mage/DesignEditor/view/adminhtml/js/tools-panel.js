@@ -74,9 +74,9 @@
                 });
 
             this.btnClose
-                .on('click.hideVDEToolsPanel', $.proxy(this._hide, this));
+                .live('click.hideVDEToolsPanel', $.proxy(this._hide, this));
 
-            this.btnCloseMsg.on('click.hideVDEMessage', $.proxy(function(e) {
+            this.btnCloseMsg.live('click.hideVDEMessage', $.proxy(function(e) {
                 $(e.target).parents('.vde-message')[0].remove();
             }, this));
         },
