@@ -143,7 +143,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 }
                 if (!$theme->isVirtual()) {
                     throw new InvalidArgumentException(
-                        $this->__('Only virtual theme is possible to delete.', $themeId)
+                        $this->__('Only virtual theme is possible to delete and theme "%s" isn\'t virtual', $themeId)
                     );
                 }
                 $theme->delete();

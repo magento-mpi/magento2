@@ -47,8 +47,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                    array('error' => $this->_helper->__('Theme list can not be loaded')))
-            );
+                array('error' => $this->_helper->__('Theme list can not be loaded'))
+            ));
         }
     }
 
@@ -91,7 +91,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             );
             $pageTypes = $customFrontLayout->getPageHandlesHierarchy();
 
-            $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
+            $this->_setTitle();
             $this->loadLayout();
 
             $this->_configureToolsBlock($theme);
@@ -200,8 +200,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                    array('error' => $this->_helper->__('Theme is not assigned')))
-            );
+                array('error' => $this->_helper->__('Theme is not assigned'))
+            ));
             $response = array(
                 'error'   => true,
                 'message' => $this->_helper->__('Theme is not assigned')
@@ -241,11 +241,86 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
-                    array('error' => true, 'message' => $this->__('Theme is not saved')))
-            );
+                array('error' => true, 'message' => $this->__('Theme is not saved'))
+            ));
         }
     }
 
+    /**
+     * Get layout xml
+     */
+    public function getLayoutUpdateAction()
+    {
+        $historyData = Mage::app()->getRequest()->getPost('historyData');
+        if (!$historyData) {
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+                array(Mage_Core_Model_Message::ERROR => array($this->__('Invalid post data')))
+            ));
+            return;
+        }
+
+        try {
+            $layoutUpdate = $this->_compactHistory($historyData);
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                Mage_Core_Model_Message::SUCCESS => array($layoutUpdate)
+            )));
+        } catch (Mage_Core_Exception $e) {
+            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+                array(Mage_Core_Model_Message::ERROR => array($e->getMessage()))
+            ));
+        }
+    }
+
+    /**
+     * Save temporary layout update
+     * @throws InvalidArgumentException
+     */
+    public function saveTemporaryLayoutUpdateAction()
+    {
+        $themeId = (int)$this->_getSession()->getData('theme_id');
+        /** @var $coreHelper Mage_Core_Helper_Data */
+        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+
+        try {
+            if (!is_numeric($themeId)) {
+                throw new InvalidArgumentException('Theme id is not valid');
+            }
+
+            if ($this->getRequest()->has('layoutUpdate')) {
+                $this->_saveLayoutUpdate(
+                    $this->getRequest()->getParam('layoutUpdate'),
+                    $this->getRequest()->getParam('handle'),
+                    $themeId,
+                    true
+                );
+            }
+            $this->getResponse()->setBody($coreHelper->jsonEncode(
+                array('success' => $this->__('Temporary layout update saved'))
+            ));
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->getResponse()->setBody($coreHelper->jsonEncode(
+                array('error' => $this->__('Temporary layout update not saved'))
+            ));
+        }
+    }
+    
+    /**
+     * Display available theme list. Only when no customized themes
+     */
+    public function firstEntranceAction()
+    {
+        $this->_doSelectionTheme('index');
+    }
+
+    /**
+     * Set page title
+     */
+    protected function _setTitle()
+    {
+        $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
+    }
+    
     /**
      * Whether the current user has enough permissions to execute an action
      *
@@ -345,65 +420,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Get layout xml
-     */
-    public function getLayoutUpdateAction()
-    {
-        $historyData = Mage::app()->getRequest()->getPost('historyData');
-        if (!$historyData) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                array(Mage_Core_Model_Message::ERROR => array($this->__('Invalid post data')))
-            ));
-            return;
-        }
-
-        try {
-            $layoutUpdate = $this->_compactHistory($historyData);
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
-                Mage_Core_Model_Message::SUCCESS => array($layoutUpdate)
-            )));
-        } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                array(Mage_Core_Model_Message::ERROR => array($e->getMessage()))
-            ));
-        }
-    }
-
-    /**
-     * Save temporary layout update
-     * @throws InvalidArgumentException
-     */
-    public function saveTemporaryLayoutUpdateAction()
-    {
-        $themeId = (int)$this->_getSession()->getData('theme_id');
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-
-        try {
-            if (!is_numeric($themeId)) {
-                throw new InvalidArgumentException('Theme id is not valid');
-            }
-
-            if ($this->getRequest()->has('layoutUpdate')) {
-                $this->_saveLayoutUpdate(
-                    $this->getRequest()->getParam('layoutUpdate'),
-                    $this->getRequest()->getParam('handle'),
-                    $themeId,
-                    true
-                );
-            }
-            $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('success' => $this->__('Temporary layout update saved'))
-            ));
-        } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($coreHelper->jsonEncode(
-                array('error' => $this->__('Temporary layout update not saved'))
-            ));
-        }
-    }
-
-    /**
      * Get theme customization
      *
      * @param Mage_Core_Model_Theme $theme
@@ -445,14 +461,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Display available theme list. Only when no customized themes
-     */
-    public function firstEntranceAction()
-    {
-        $this->_doSelectionTheme('index');
-    }
-
-    /**
      * Check whether is customized themes in database
      *
      * @return bool
@@ -477,7 +485,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         }
 
         try {
-            $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
+            $this->_setTitle();
             $this->loadLayout();
             $this->_setActiveMenu('Mage_DesignEditor::system_design_editor');
             if (!$this->_isFirstEntrance()) {
@@ -531,4 +539,5 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         return $vdeUrlModel->getUrl(ltrim($url, '/'));
     }
+
 }

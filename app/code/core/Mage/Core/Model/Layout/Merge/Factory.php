@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Layout merge model factory
+ */
 class Mage_Core_Model_Layout_Merge_Factory
 {
     /**
