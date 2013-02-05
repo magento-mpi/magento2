@@ -66,7 +66,6 @@
     $.validator.addMethod(
         "validate-date-between",
         function(value, element, params) {
-            this.dateBetweenErrorMessage = $.mage.__('Please enter a date between %min and %max.').replace('%min', params[0]).replace('%max', params[1]);
             var minDate = new Date(params[0]),
                 maxDate = new Date(params[1]),
                 inputDate = new Date(element.value);
@@ -75,6 +74,7 @@
             if (inputDate >= minDate && inputDate <= maxDate) {
                 return true;
             }
+            this.dateBetweenErrorMessage = $.mage.__('Please enter a date between %min and %max.').replace('%min', params[0]).replace('%max', params[1]);
             return false;
         },
         function(){
