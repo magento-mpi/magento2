@@ -82,7 +82,6 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
         $modelJsFile->expects($this->never())->method('_save');
         $modelJsFile->expects($this->once())
             ->method('getCollectionByTheme')
-            ->with($themeModel)
             ->will($this->returnValue($filesCollection));
 
         $modelJsFile->setDataForDelete($jsFilesIdForDelete);
@@ -95,7 +94,7 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
      */
     protected function _getMockThemeModel($return = null)
     {
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false);
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false, false);
         $themeModel->expects($return ? $this->once() : $this->never())
             ->method('getId')
             ->will($this->returnValue($return));
