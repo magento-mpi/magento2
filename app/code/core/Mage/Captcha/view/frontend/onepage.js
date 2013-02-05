@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint browser:true jquery:true*/
 (function($, window, document, undefined) {
     "use strict";
 
@@ -17,7 +18,11 @@
 
     $(document).on('billing-request:completed', function() {
         if (typeof window.checkout !== 'undefined') {
-            $(".captcha-reload").trigger("click");
+            $(".captcha-reload").each(function() {
+                if (!$(this).is(":hidden")) {
+                    $(this).trigger("click");
+                }
+            });
         }
     });
 })(jQuery, window, document);

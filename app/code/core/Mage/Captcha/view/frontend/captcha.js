@@ -15,9 +15,19 @@
             reloadSelector: '.captcha-reload',
             imageSelector: '.captcha-img'
         },
+
+        /**
+         * Method binds click event to reload image
+         * @private
+         */
         _create: function() {
             this.element.on('click', this.options.reloadSelector, $.proxy(this.refresh, this));
         },
+
+        /**
+         * Method triggeres an AJAX request to refresh the CAPTCHA image
+         * @param e
+         */
         refresh: function(e) {
             var reloadImage = $(e.currentTarget);
             reloadImage.addClass(this.options.refreshClass);
