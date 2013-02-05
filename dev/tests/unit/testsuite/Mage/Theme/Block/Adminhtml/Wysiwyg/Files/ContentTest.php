@@ -53,6 +53,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Frame
 
     /**
      * @dataProvider requestParamsProvider
+     * @param array $requestParams
      */
     public function testGetNewFolderUrl($requestParams)
     {
@@ -72,6 +73,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Frame
 
     /**
      * @dataProvider requestParamsProvider
+     * @param array $requestParams
      */
     public function testGetDeleteFilesUrl($requestParams)
     {
@@ -91,6 +93,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Frame
 
     /**
      * @dataProvider requestParamsProvider
+     * @param array $requestParams
      */
     public function testGetOnInsertUrl($requestParams)
     {
@@ -108,6 +111,10 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Frame
         $this->assertEquals($expectedUrl, $this->_filesContent->getOnInsertUrl());
     }
 
+    /**
+     * Data provider for requestParams
+     * @return array
+     */
     public function requestParamsProvider()
     {
         return array(
@@ -129,12 +136,6 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Frame
             ->will($this->returnValue($expectedRequest));
 
         $this->assertEquals($expectedRequest, $this->_filesContent->getTargetElementId());
-    }
-
-    public function getContentsUrl()
-    {
-        return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type'))
-            + $this->_helperStorage->getRequestParams());
     }
 
     public function testGetContentsUrl()
@@ -165,5 +166,4 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Frame
 
         $this->assertEquals($expectedUrl, $this->_filesContent->getContentsUrl());
     }
-
 }
