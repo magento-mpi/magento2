@@ -63,7 +63,7 @@
                         <?php echo $this->getBlockHtml('formkey')?>
                         <label for="quick-search-email" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Recipient Email') ?> <em>*</em></label>
                         <div class="input-box">
-                            <input type="text" class="input-text" data-validate="{required:true, minlength:2}" id="quick-search-email" name="params[email]" />
+                            <input type="text" class="input-text" data-validate="{required:true, minlength:2,'validate-email':true}" id="quick-search-email" name="params[email]" />
                         </div>
                     </li>
                 </ul>
