@@ -53,7 +53,7 @@ if (version_compare($codeBase->getVersion(), '2.0.0.0-dev01') === -1) {
     // backwards-compatibility hacks for SaaS 1.x. See comment for each line below
     set_include_path($magentoDir); // usage is unknown
     Saas_Db::setInstance($saasDb); // actively used in application code
-    $tenant = $saasDb->getTenantById($codeBase->getId()); // used application entry point as a global variable (!)
+    $tenant = $saasDb->getTenantById($codeBase->getId()); // used by the application entry point as a global variable
     $indexFile = $magentoDir . (file_exists($magentoDir . '/index_saas.php') ? '/index_saas.php' : '/index.php');
     require $indexFile;
 } else {

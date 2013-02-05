@@ -7,7 +7,7 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    private $identifier;
+    private $_id;
 
     /**
      * @var array
@@ -20,7 +20,7 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->identifier = uniqid();
+        $this->_id = uniqid();
     }
 
     /**
@@ -34,15 +34,15 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
 
     public function testGetId()
     {
-        $object = new Saas_Tenant_CodeBase($this->identifier, __DIR__, self::$config);
-        $this->assertEquals($this->identifier, $object->getId());
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, self::$config);
+        $this->assertEquals($this->_id, $object->getId());
     }
 
     public function testGetVersion()
     {
         $config = self::$config;
         $config['version'] = uniqid();
-        $object = new Saas_Tenant_CodeBase($this->identifier, __DIR__, $config);
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
         $this->assertEquals($config['version'], $object->getVersion());
     }
 
@@ -54,7 +54,7 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
     {
         $config = self::$config;
         $config['maintenanceMode'] = $value;
-        $object = new Saas_Tenant_CodeBase($this->identifier, __DIR__, $config);
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
         $this->assertEquals($value, $object->isUnderMaintenance());
     }
 
@@ -75,25 +75,25 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
     {
         $config = self::$config;
         $config['version'] = '2.0.0.0';
-        $object = new Saas_Tenant_CodeBase($this->identifier, __DIR__ . DIRECTORY_SEPARATOR . '_files', $config);
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__ . DIRECTORY_SEPARATOR . '_files', $config);
         $expected = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . '2.0.0.0';
         $this->assertEquals($expected, $object->getDir());
 
         $msg = "Directory does not exist: '" . __DIR__ . DIRECTORY_SEPARATOR . "2.0.0.0'";
         $this->setExpectedException('LogicException', $msg);
-        $object = new Saas_Tenant_CodeBase($this->identifier, __DIR__, $config);
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
         $object->getDir();
     }
 
     public function testGetMediaDirName()
     {
-        $object = new Saas_Tenant_CodeBase($this->identifier, __DIR__, self::$config);
-        $this->assertEquals('media' . DIRECTORY_SEPARATOR . $this->identifier, $object->getMediaDirName());
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, self::$config);
+        $this->assertEquals('media' . DIRECTORY_SEPARATOR . $this->_id, $object->getMediaDirName());
 
         $config = self::$config;
         $config['tenantConfiguration']['local'] = '<?xml version="1.0"?><config><global><web><dir><media>' . 'test'
             . '</media></dir></web></global></config>';
-        $object = new Saas_Tenant_CodeBase($this->identifier, __DIR__, $config);
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
         $this->assertEquals('media' . DIRECTORY_SEPARATOR . 'test', $object->getMediaDirName());
     }
 }

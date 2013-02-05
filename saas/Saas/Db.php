@@ -120,11 +120,7 @@ class Saas_Db
      */
     public function getTenantByDomain($domainName)
     {
-        try {
-            $identifier = $this->_loader->getId($domainName);
-        } catch (InvalidArgumentException $e) {
-            throw new Saas_Db_WrongTenantException($e->getMessage(), 0, $e);
-        }
+        $identifier = $this->_loader->getId($domainName);
         if (!$identifier) {
             throw new Saas_Db_WrongTenantException("Unable to load a tenant by domain name '{$domainName}'.");
         }
