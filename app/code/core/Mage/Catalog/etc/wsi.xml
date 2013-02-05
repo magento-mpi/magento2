@@ -127,6 +127,11 @@
                     <xsd:element name="configurable_attributes" type="typens:catalogProductConfigurableAttributesEntityArray" minOccurs="0"/>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="catalogProductCreateEntityArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:catalogProductCreateEntity" />
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:complexType name="catalogProductAttributeSetEntity">
                 <xsd:sequence>
                     <xsd:element name="set_id" type="xsd:int" minOccurs="0" />
@@ -642,6 +647,22 @@
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="catalogProductUpdateResponseParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:boolean" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="catalogProductMultiUpdateRequestParam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="productIds" type="typens:ArrayOfString" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="productData" type="typens:catalogProductCreateEntityArray" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="catalogProductMultiUpdateResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element minOccurs="1" maxOccurs="1" name="result" type="xsd:boolean" />
@@ -1701,6 +1722,12 @@
     <wsdl:message name="catalogProductUpdateResponse">
         <wsdl:part name="parameters" element="typens:catalogProductUpdateResponseParam" />
     </wsdl:message>
+    <wsdl:message name="catalogProductMultiUpdateRequest">
+        <wsdl:part name="parameters" element="typens:catalogProductMultiUpdateRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductMultiUpdateResponse">
+        <wsdl:part name="parameters" element="typens:catalogProductMultiUpdateResponseParam" />
+    </wsdl:message>
     <wsdl:message name="catalogProductSetSpecialPriceRequest">
         <wsdl:part name="parameters" element="typens:catalogProductSetSpecialPriceRequestParam" />
     </wsdl:message>
@@ -2180,6 +2207,11 @@
             <wsdl:input message="typens:catalogProductUpdateRequest" />
             <wsdl:output message="typens:catalogProductUpdateResponse" />
         </wsdl:operation>
+        <wsdl:operation name="catalogProductMultiUpdate">
+            <wsdl:documentation>Multi update product stock data</wsdl:documentation>
+            <wsdl:input message="typens:catalogProductMultiUpdateRequest" />
+            <wsdl:output message="typens:catalogProductMultiUpdateResponse" />
+        </wsdl:operation>
         <wsdl:operation name="catalogProductSetSpecialPrice">
             <wsdl:documentation>Update product special price</wsdl:documentation>
             <wsdl:input message="typens:catalogProductSetSpecialPriceRequest" />
@@ -2568,6 +2600,15 @@
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="catalogProductUpdate">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="catalogProductMultiUpdate">
             <soap:operation soapAction="" />
             <wsdl:input>
                 <soap:body use="literal" />
