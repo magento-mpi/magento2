@@ -109,7 +109,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
             'skipProxy'  => true
         );
 
-        $basePath = $this->_dirs->getDir(Mage_Core_Model_Dir::APP);
+        $basePath = $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT);
         $files = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
