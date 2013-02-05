@@ -77,19 +77,3 @@ require __DIR__ . '/Saas/Tenant/Loader.php';
 require __DIR__ . '/Saas/Tenant.php';
 require __DIR__ . '/Saas/Tenant/CodeBase.php';
 require __DIR__ . '/Saas/Region/Domain.php';
-
-/**
- * Calculate magento source code path based on magento version
- *
- * @param string $magentoVersion
- * @throws Exception
- */
-function saasMagentoDir($magentoVersion)
-{
-    $path = SAAS_MAGENTO_DIR . '/' . $magentoVersion;
-    $dir = realpath($path);
-    if ($dir) {
-        return $dir;
-    }
-    throw new Exception(sprintf('Magento path "%s" doesn\'t exist.', $path));
-}

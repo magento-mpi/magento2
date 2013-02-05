@@ -37,13 +37,13 @@ class Saas_Tenant_CodeBase
      * @param string $identifier
      * @param string $baseDir
      * @param array $config
-     * @throws LogicException
+     * @throws InvalidArgumentException
      */
     public function __construct($identifier, $baseDir, array $config)
     {
         $this->_id = $identifier;
         if (!is_dir($baseDir)) {
-            throw new LogicException("Directory does not exist: '{$baseDir}'");
+            throw new InvalidArgumentException("Directory does not exist: '{$baseDir}'");
         }
         $this->_baseDir = $baseDir;
         $data = $this->_extractArrayElement($config, 'tenantConfiguration');

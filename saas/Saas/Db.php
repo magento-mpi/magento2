@@ -27,26 +27,27 @@ class Saas_Db
      */
     protected static $_instance = null;
 
+    /**
+     * @var bool
+     */
     private $_persist = false;
 
     /**
-     * Create the singleton instance
+     * Set the pseudo-singleton instance
      *
-     * @param string $dsn
-     * @param string $dbName
-     * @param array $options
+     * @param Saas_Db $instance
      * @throws \LogicException
      */
-    public static function init($dsn, $dbName, array $options)
+    public static function setInstance(Saas_Db $instance)
     {
         if (self::$_instance) {
             throw new LogicException('Singleton is already initialized.');
         }
-        self::$_instance = new Saas_Db($dsn, $dbName, $options);
+        self::$_instance = $instance;
     }
 
     /**
-     * Get the singleton instance
+     * Get the pseudo-singleton instance
      *
      * @return \Saas_Db
      * @throws \LogicException
@@ -62,7 +63,7 @@ class Saas_Db
     /**
      * Initialize DB connection
      */
-    private function __construct($dsn, $dbName, array $options)
+    public function __construct($dsn, $dbName, array $options)
     {
         if (isset($options['persist'])) {
             $this->_persist = (bool)$options['persist'];
@@ -99,19 +100,14 @@ class Saas_Db
      * @param string $deploymentDir
      * @return \Saas_Tenant_CodeBase
      * @throws \Saas_Db_WrongTenantException
-     * @throws \Saas_Db_WrongTenantException
      */
     public function getTenantCodeBase($domainName, $deploymentDir)
     {
-        try {
-            $identifier = $this->_loader->getId($domainName);
-            if (!$identifier) {
-                throw new Exception("Unable to load a tenant by domain name '{$domainName}'.");
-            }
-            return new Saas_Tenant_CodeBase($identifier, $deploymentDir, $this->_loader->getData($identifier));
-        } catch (Exception $e) {
-            throw new Saas_Db_WrongTenantException($e->getMessage(), 0, $e);
+        $identifier = $this->_loader->getId($domainName);
+        if (!$identifier) {
+            throw new Saas_Db_WrongTenantException("Unable to load a tenant by domain name '{$domainName}'.");
         }
+        return new Saas_Tenant_CodeBase($identifier, $deploymentDir, $this->_loader->getData($identifier));
     }
 
     /**
@@ -149,7 +145,7 @@ class Saas_Db
     }
 
     /**
-     * @param $identifier
+     * @param string $identifier
      * @return array
      * @throws \Saas_Db_WrongTenantException
      */

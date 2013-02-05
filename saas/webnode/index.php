@@ -19,8 +19,8 @@ try {
     if (SAAS_MONGO_IS_REPLICA) {
         $options['replicaSet'] = SAAS_MONGO_IS_REPLICA;
     }
-    Saas_Db::init(SAAS_MONGO_DSN, SAAS_MONGO_DATABASE, $options);
-    $codeBase = Saas_Db::getInstance()->getTenantCodeBase($_SERVER['HTTP_HOST'], SAAS_MAGENTO_DIR);
+    $saasDb = new Saas_Db(SAAS_MONGO_DSN, SAAS_MONGO_DATABASE, $options);
+    $codeBase = $saasDb->getTenantCodeBase($_SERVER['HTTP_HOST'], SAAS_MAGENTO_DIR);
     if ($codeBase->isUnderMaintenance()) {
         throw new Exception(sprintf('Tenant "%s" is currently under maintenance.', $codeBase->getId()));
     }
@@ -30,7 +30,7 @@ try {
     exit;
 } catch (Exception $e) {
     header("{$_SERVER['SERVER_PROTOCOL']} 503 Service Temporarily Unavailable", true, 503);
-    include(dirname(__FILE__) . '/static/maintenance.html');
+    include(__DIR__ . '/static/maintenance.html');
     trigger_error("{$e->getMessage()}\n{$e->getTraceAsString()}", E_USER_ERROR);
     exit;
 }
@@ -49,16 +49,20 @@ if ($_SERVER['REQUEST_URI'] == '/robots.txt') {
 // turn magento API logging on
 include_once __DIR__ . '/apiLog.php';
 
-set_include_path($magentoDir);
-if (version_compare($codeBase->getVersion(), '2.0.0.0') === -1) {
+if (version_compare($codeBase->getVersion(), '2.0.0.0-dev01') === -1) {
+    // backwards-compatibility hacks for SaaS 1.x. See comment for each line below
+    set_include_path($magentoDir); // usage is unknown
+    Saas_Db::setInstance($saasDb); // actively used in application code
+    $tenant = $saasDb->getTenantById($codeBase->getId()); // used application entry point as a global variable (!)
     $indexFile = $magentoDir . (file_exists($magentoDir . '/index_saas.php') ? '/index_saas.php' : '/index.php');
     require $indexFile;
 } else {
+    /** @var $appEntryPoint callback */
     $appEntryPoint = require $magentoDir . DIRECTORY_SEPARATOR . 'saas.php';
     $dirs = array(
         'magento_dir' => $magentoDir,
         'media_dir' => $codeBase->getMediaDirName()
     );
 
-    $appEntryPoint(array_merge(Saas_Db::getInstance()->getTenantData($codeBase->getId()), $dirs));
+    $appEntryPoint(array_merge($saasDb->getTenantData($codeBase->getId()), $dirs));
 }

@@ -67,13 +67,17 @@ class Saas_Tenant
     /**
      * Build base dir of the application based on current tenant's version
      *
-     * @param string $codeBasesDir
      * @return string
      * @throws Exception If there is no way to
      */
     public function getMagentoDir()
     {
-        return saasMagentoDir($this->getVersion());
+        $path = SAAS_MAGENTO_DIR . '/' . $this->getVersion();
+        $dir = realpath($path);
+        if ($dir) {
+            return $dir;
+        }
+        throw new Exception(sprintf('Magento path "%s" doesn\'t exist.', $path));
     }
 
     /**

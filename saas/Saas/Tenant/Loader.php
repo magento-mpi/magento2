@@ -45,7 +45,9 @@ class Saas_Tenant_Loader
         if (isset($this->_ids[$domainName])) {
             return $this->_ids[$domainName];
         }
-        if (empty($domainName) || !preg_match("/^[a-z0-9\-\.]*[a-z0-9\-]{1,63}\.[a-z]{2,}$/", $domainName)) {
+        if (empty($domainName) || strlen($domainName) > 253
+            || !preg_match("/^([a-z0-9\-]{1,63}\.)+[a-z]{2,}$/", $domainName)
+        ) {
             throw new InvalidArgumentException(sprintf('Incorrect domain name "%s".', $domainName));
         }
         $domain = preg_replace('/^www\./i', '', $domainName);
