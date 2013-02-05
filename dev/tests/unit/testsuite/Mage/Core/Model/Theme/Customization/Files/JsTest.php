@@ -24,13 +24,13 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
         );
 
         /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false);
 
         $jsFile->expects($this->atLeastOnce())
             ->method('_getThemeFileByName')
             ->will($this->returnValue($jsFile));
 
-        $jsFile->expects($this->at(1))
+        $jsFile->expects($this->atLeastOnce())
             ->method('getId')
             ->will($this->returnValue(1));
 
