@@ -139,11 +139,11 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 /** @var $theme Mage_Core_Model_Theme */
                 $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
                 if (!$theme->getId()) {
-                    throw new InvalidArgumentException($this->__('Theme with id "%d" is not found.', $themeId));
+                    throw new InvalidArgumentException(sprintf('Theme with id "%d" is not found.', $themeId));
                 }
                 if (!$theme->isVirtual()) {
                     throw new InvalidArgumentException(
-                        $this->__('Only virtual theme is possible to delete and theme "%s" isn\'t virtual', $themeId)
+                        sprintf('Only virtual theme is possible to delete and theme "%s" isn\'t virtual', $themeId)
                     );
                 }
                 $theme->delete();
@@ -265,13 +265,13 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException($this->__('Theme with id "%d" is not found.', $themeId));
+                throw new InvalidArgumentException(sprintf('Theme with id "%d" is not found.', $themeId));
             }
 
             $themeCss = $helper->getCssFiles($theme);
             if (!isset($themeCss[$fileName])) {
                 throw new InvalidArgumentException(
-                    $this->__('Css file "%s" is not in the theme with id "%d".', $fileName, $themeId)
+                    sprintf('Css file "%s" is not in the theme with id "%d".', $fileName, $themeId)
                 );
             }
 

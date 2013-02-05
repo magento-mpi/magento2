@@ -65,7 +65,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException($this->__('The theme was not found.'));
+                throw new InvalidArgumentException(sprintf('Theme "%s" was not found.', $themeId));
             }
 
             if (!$theme->isVirtual()) {
@@ -273,7 +273,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
     /**
      * Save temporary layout update
-     * @throws InvalidArgumentException
      */
     public function saveTemporaryLayoutUpdateAction()
     {
