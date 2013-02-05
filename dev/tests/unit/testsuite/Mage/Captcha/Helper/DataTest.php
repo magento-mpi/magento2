@@ -52,10 +52,10 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
                     'params' => array('formId' => 'user_create', 'helper' => $this->_object)
                 )
             )
-            ->will($this->returnValue(new Mage_Captcha_Model_Zend(array('formId' => 'user_create'))));
+            ->will($this->returnValue(new Mage_Captcha_Model_Default(array('formId' => 'user_create'))));
         $this->_object->setConfig($config);
 
-        $this->assertInstanceOf('Mage_Captcha_Model_Zend', $this->_object->getCaptcha('user_create'));
+        $this->assertInstanceOf('Mage_Captcha_Model_Default', $this->_object->getCaptcha('user_create'));
     }
 
     /**
@@ -97,7 +97,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::getImgDir
+     * @covers Mage_Captcha_Model_Default::getImgDir
      * @covers Mage_Captcha_Helper_Data::getImgDir
      */
     public function testGetImgDir()
@@ -116,7 +116,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::getImgUrl
+     * @covers Mage_Captcha_Model_Default::getImgUrl
      * @covers Mage_Captcha_Helper_Data::getImgUrl
      */
     public function testGetImgUrl()

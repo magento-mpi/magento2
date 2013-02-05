@@ -19,8 +19,8 @@
             this.element.on('click', this.options.reloadSelector, $.proxy(this.refresh, this));
         },
         refresh: function(e) {
-            var image = $(e.currentTarget);
-            image.addClass(this.options.refreshClass);
+            var reloadImage = $(e.currentTarget);
+            reloadImage.addClass(this.options.refreshClass);
             $.ajax({
                 url: this.options.url,
                 type: 'post',
@@ -35,7 +35,7 @@
                     }
                 },
                 complete: function() {
-                    image.removeClass(this.options.refreshClass);
+                    reloadImage.removeClass(this.options.refreshClass);
                 }
             });
         }
