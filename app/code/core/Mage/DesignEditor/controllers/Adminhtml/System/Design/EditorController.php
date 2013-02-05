@@ -190,7 +190,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             /** @var $themeCustomization Mage_Core_Model_Theme */
             $themeCustomization = $themeService->assignThemeToStores($themeId, $stores);
-            
+
             $message = $coreHelper->__('Theme successfully assigned');
             $response = array(
                 'success' => $message,
@@ -304,7 +304,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             ));
         }
     }
-    
+
     /**
      * Display available theme list. Only when no customized themes
      */
@@ -320,7 +320,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     {
         $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
     }
-    
+
     /**
      * Whether the current user has enough permissions to execute an action
      *
@@ -549,5 +549,4 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         return $vdeUrlModel->getUrl(ltrim($url, '/'));
     }
-
 }
