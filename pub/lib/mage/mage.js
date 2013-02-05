@@ -9,7 +9,6 @@
 /*jshint browser:true jquery:true*/
 (function($, window, undefined) {
     "use strict";
-    var location = window.location;
 
     /* Redirect Utility */
     $.extend(true, $, {
@@ -27,7 +26,7 @@
                 timeout = timeout ? timeout : 0;
                 type = type ? type : "assign";
                 var _redirect = function() {
-                    location[type](type === 'reload' ? forced : url);
+                    window.location[type](type === 'reload' ? forced : url);
                 };
                 if (timeout) {
                     setTimeout(_redirect, timeout);

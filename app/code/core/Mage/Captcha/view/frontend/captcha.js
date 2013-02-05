@@ -26,7 +26,7 @@
 
         /**
          * Method triggeres an AJAX request to refresh the CAPTCHA image
-         * @param e
+         * @param e - Event
          */
         refresh: function(e) {
             var reloadImage = $(e.currentTarget);
