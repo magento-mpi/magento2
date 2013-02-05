@@ -34,3 +34,52 @@
         <button class="action-update" title="<?php echo $this->__('Update'); ?>"><?php echo $this->__('Update'); ?></button>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    (function ($) {
+        $( '#' + '<?php echo $this->getFileElementName() ?>' ).fileupload({
+            dataType: 'json',
+            replaceFileInput: false,
+            url : '<?php echo $this->getUrl('*/system_design_editor_tools/upload', array('theme' => $this->getTheme()->getThemeId())) ?>',
+            acceptFileTypes: /(.|\/)(css)$/i,
+
+            /**
+             * Handler of "file selected" event
+             * @param e
+             * @param data
+             */
+            add: function (e, data) {
+                data.submit();
+            },
+
+            /**
+             * Handler on "upload ajax request done" event
+             * @param e
+             * @param data
+             */
+            done: function (e, data) {
+                var contentArea = $('#custom_code');
+                contentArea.val('');
+                $('#css_uploader_button').attr('disabled', 'disabled');
+                if (!data.result.error) {
+                    contentArea.val(data.result.content);
+                }
+            },
+
+            /**
+             * Handler on "upload ajax request fail" event
+             * @param e
+             * @param data
+             */
+            fail: function(e, data) {
+                $(this).val('');
+                alert($.mage.__('File extension not known or unsupported type.'));
+            }
+        });
+
+        $('#vde-tab-custom').customCssPanel({
+            saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
+        });
+    })(jQuery);
+</script>
