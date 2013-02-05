@@ -19,7 +19,7 @@
     $(document).on('billing-request:completed', function() {
         if (typeof window.checkout !== 'undefined') {
             $(".captcha-reload").each(function() {
-                if (!$(this).is(":hidden")) {
+                if ($(this).is(":visible")) {
                     $(this).trigger("click");
                 }
             });
