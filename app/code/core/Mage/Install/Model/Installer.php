@@ -165,7 +165,15 @@ class Mage_Install_Model_Installer extends Varien_Object
             ->setConfigData($data)
             ->install();
 
-        $this->_refreshConfig();
+
+        /** @var $primaryConfig Mage_Core_Model_Config_Primary */
+        $primaryConfig = Mage::getSingleton('Mage_Core_Model_Config_Primary');
+        $primaryConfig->reinit();
+
+        /** @var $moduleConfig  Mage_Core_Model_Config_Modules*/
+        $moduleConfig = Mage::getSingleton('Mage_Core_Model_Config_Modules');
+        $moduleConfig->reinit();
+
         return $this;
     }
 

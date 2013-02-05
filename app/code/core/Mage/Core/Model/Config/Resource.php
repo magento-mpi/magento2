@@ -16,7 +16,7 @@ class Mage_Core_Model_Config_Resource
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Config_Primary $config
+     * @param Mage_Core_Model_ConfigInterface $config
      */
     public function __construct(Mage_Core_Model_ConfigInterface $config)
     {
