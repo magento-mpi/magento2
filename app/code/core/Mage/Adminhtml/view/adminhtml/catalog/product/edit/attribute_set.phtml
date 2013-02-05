@@ -19,12 +19,13 @@
     {{/each}}
 </ul>
 {{if !term && items.length && !$data.allShown()}}
-<div data-mage-init="{&quot;actionLink&quot;:{&quot;event&quot;:&quot;showAll&quot;}}" class="show-all">Show all...</div>
+<div data-mage-init="{actionLink:{event:&quot;showAll&quot;}}" class="show-all">Show all...</div>
 {{/if}}
 </script>
 <script>
     jQuery(function ($) {
-        $('#attribute-set-suggest-container .current-set-container').on('click.attribute_set', function () {
+        $('#attribute-set-suggest-container .current-set-container').off('click.attribute-set')
+            .on('click.attribute-set', function () {
             $(this).next('div').toggle();
         });
         $('#attribute-set-suggest').suggest(<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)

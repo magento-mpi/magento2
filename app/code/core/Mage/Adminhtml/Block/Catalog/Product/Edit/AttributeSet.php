@@ -19,14 +19,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Backen
 {
 
     /**
-     * Get encoded options for suggest widget
+     * Get options for suggest widget
      *
-     * @return string
+     * @return array
      */
     public function getSelectorOptions()
     {
         return array(
-            'source' => Mage::helper('Mage_Backend_Helper_Data')->getUrl('*/catalog_product/suggestAttributeSet'),
+            'source' => $this->getUrl('*/catalog_product/suggestAttributeSet'),
             'className' => 'category-select',
             'template' => '#product-template-selector-template',
             'showRecent' => true,
