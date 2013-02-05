@@ -125,7 +125,7 @@ new_product:
                                 product_general:
                                     xpath: //div[contains(div/div/div,'General')]
                                     buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
+                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         new_category: //button[span='New Category']
                                     dropdowns:
                                         general_sku_type: //select[@id='sku_type']
@@ -340,7 +340,7 @@ new_product:
                                     xpath: //div[contains(div/div/div,'Prices')]
                                     buttons:
                                         prices_group_add_group_price: //button[span='Add Group Price']
-                                        create_new_attribute: //button[span='Create New Attribute']
+                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         add_tier_price: //button[span='Add Tier']
                                         delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
                                     dropdowns:
@@ -378,7 +378,7 @@ new_product:
                                 product_meta_information:
                                     xpath: //div[contains(div/div/div,'Meta Information')]
                                     buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
+                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     fields:
                                         meta_information_meta_title: //input[@id='meta_title']
                                         meta_information_meta_keywords: //textarea[@id='meta_keyword']
@@ -399,7 +399,7 @@ new_product:
                                 product_recurring_profile:
                                     xpath: //div[contains(div/div/div,'Recurring Profile')]
                                     buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
+                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     dropdowns:
                                         recurring_profile_enable_recurring_profile: //select[@id='is_recurring']
                                         recurring_profile_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
@@ -424,7 +424,7 @@ new_product:
                                 product_design:
                                     xpath: //div[contains(div/div/div,'Design')]
                                     buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
+                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     dropdowns:
                                         design_custom_design: //select[@id='custom_design']
                                         design_page_layout: //select[@id='page_layout']
@@ -441,7 +441,7 @@ new_product:
                                 product_gift_options:
                                     xpath: //div[contains(div/div/div,'Gift Options')]
                                     buttons:
-                                        create_new_attribute: //button[span='Create New Attribute']
+                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
                                         gift_options_allow_gift_message_default: //input[@id='use_config_gift_message_available']
                                     dropdowns:
@@ -697,7 +697,7 @@ new_product:
             reset: //button[span='Reset']
             change_attribute_set: //button[@id='change-attribute-set-button']
             change_attribute_set_disabled: //button[@id='change-attribute-set-button' and contains(@class, 'disabled')]
-            save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
+            save_and_continue_edit: //*[@id='save-split-button']
             save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
             save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]

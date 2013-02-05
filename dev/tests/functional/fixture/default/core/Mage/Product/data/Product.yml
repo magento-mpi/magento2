@@ -489,20 +489,20 @@ simple_product:
     meta_information_meta_title: Meta Title for Simple Product
     meta_information_meta_keywords: Meta Keywords for Simple Product
     meta_information_meta_description: Meta Description for Simple Product
-#    recurring_profile_enable_recurring_profile: Yes
-#    recurring_profile_customer_define_start_date: No
-#    recurring_profile_schedule_description: Shedule Description
-#    recurring_profile_max_payment_failures: Max Payment Failures
-#    recurring_profile_auto_bill_next_cycle: No
-#    recurring_profile_billing_period_unit: Week
-#    recurring_profile_billing_frequency: Billing Frequency
-#    recurring_profile_max_billing_cycles: Max Billing Cycles
-#    recurring_profile_trial_billing_period_unit: Month
-#    recurring_profile_trial_billing_frequency: Trial Billing Frequency
-#    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
-#    recurring_profile_trial_billing_amount: Trial Billing Amount
-#    recurring_profile_initial_fee: Initial Fee
-#    recurring_profile_allow_initial_fee_failure: No
+    recurring_profile_enable_recurring_profile: Yes
+    recurring_profile_customer_define_start_date: No
+    recurring_profile_schedule_description: Shedule Description
+    recurring_profile_max_payment_failures: Max Payment Failures
+    recurring_profile_auto_bill_next_cycle: No
+    recurring_profile_billing_period_unit: Week
+    recurring_profile_billing_frequency: Billing Frequency
+    recurring_profile_max_billing_cycles: Max Billing Cycles
+    recurring_profile_trial_billing_period_unit: Month
+    recurring_profile_trial_billing_frequency: Trial Billing Frequency
+    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
+    recurring_profile_trial_billing_amount: Trial Billing Amount
+    recurring_profile_initial_fee: Initial Fee
+    recurring_profile_allow_initial_fee_failure: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%

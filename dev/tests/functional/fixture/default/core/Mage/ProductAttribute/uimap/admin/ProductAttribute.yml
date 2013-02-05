@@ -63,28 +63,28 @@ new_product_attribute:
                         fieldsets:
                             -
                                 attribute_properties:
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //div//*[@id='base_fieldset']
                                     dropdowns:
-                                        scope: "//tr[not(@style='display: none;')]//select[@id='is_global']"
+                                        scope: //select[@id='is_global' and not(@disabled)]
                                         catalog_input_type_for_store_owner: //select[@id='frontend_input']
-                                        default_yesno_value: "//tr[not(@style='display: none;')]//select[@id='default_value_yesno']"
-                                        unique_value: "//tr[not(@style='display: none;')]//select[@id='is_unique']"
-                                        values_required: "//tr[not(@style='display: none;')]//select[@id='is_required']"
-                                        input_validation_for_store_owner: "//tr[not(@style='display: none;')]//select[@id='frontend_class']"
-                                        apply_to: "//tr[not(@style='display: none;')]//select[@onchange='toggleApplyVisibility(this)']"
-                                        use_to_create_configurable_product: "//tr[not(@style='display: none;')]//select[@id='is_configurable']"
+                                        default_yesno_value: //select[@id='default_value_yesno' and not(@disabled)]
+                                        unique_value: //select[@id='is_unique' and not(@disabled)]
+                                        values_required: //select[@id='is_required' and not(@disabled)]
+                                        input_validation_for_store_owner: //select[@id='frontend_class' and not(@disabled)]
+                                        apply_to: //select[@onchange='toggleApplyVisibility(this)']
+                                        use_to_create_configurable_product: //select[@id='is_configurable' and not(@disabled)]
                                     fields:
                                         attribute_code: //input[@id='attribute_code']
-                                        default_text_field_value: "//tr[not(@style='display: none;')]//input[@id='default_value_text']"
-                                        default_text_area_value: "//tr[not(@style='display: none;')]//textarea[@id='default_value_textarea']"
-                                        default_date_value: "//tr[not(@style='display: none;')]//input[@id='default_value_date']"
-                                        default_price_value: "//tr[not(@style='display: none;')]//input[@id='default_value_text']"
+                                        default_text_field_value: //input[@id='default_value_text' and not (@disabled)]
+                                        default_text_area_value: //textarea[@id='default_value_textarea' and not (@disabled)]
+                                        default_date_value: //input[@id='default_value_date' and not (@disabled)]
+                                        default_price_value: //input[@id='default_value_text' and not (@disabled)]
                                     multiselects:
                                         apply_product_types: "//select[@id='apply_to' and not(contains(@class,'no-display'))]"
                                     required: [attribute_code, apply_product_types]
                             -
                                 frontend_properties:
-                                    xpath: //div[@id='front_fieldset']
+                                    xpath: //div//*[@id='front_fieldset']
                                     dropdowns:
                                         use_in_quick_search: //select[@id='is_searchable']
                                         use_in_advanced_search: //select[@id='is_visible_in_advanced_search']
@@ -98,23 +98,23 @@ new_product_attribute:
                                         used_in_product_listing: //select[@id='used_in_product_listing']
                                         used_for_sorting_in_product_listing: //select[@id='used_for_sort_by' and not(@disabled)]
                                     fields:
-                                        position: //input[@id='position'][not(@disabled)]
+                                        position: //input[@id='position' and not(@disabled)]
                 -
                     manage_labels_options:
                         xpath: //a[@id='product_attribute_tabs_labels']
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
+                                    xpath: //fieldset[contains(.//@id,'attribute-labels-table')]
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [admin_title]
                             -
                                 manage_options:
-                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]//thead"
                                     buttons:
-                                        add_option: //button[@id='add_new_option_button']
+                                        add_option: /..//button[@id='add_new_option_button']
                                         delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
                                     checkboxes:
                                         is_default: //input[@name='default[]' and @value='option_%fieldOptionNumber%']
@@ -127,8 +127,8 @@ new_product_attribute:
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option_name]
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
+            back: //button[@data-ui-id='attribute-edit-content-back-button']
+            reset: //button[@data-ui-id='attribute-edit-content-reset-button']
             save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
             save_and_continue_edit: //button[@data-ui-id='attribute-edit-content-save-and-edit-button-button']
             save_in_new_attribute_set: //button[@id='save_in_new_set']
@@ -150,7 +150,7 @@ edit_product_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
+                                    xpath: //fieldset[contains(.//@id,'attribute-labels-table')]
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input

@@ -43,8 +43,9 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
         $this->addParameter('attribute_code', $attributeCode);
         switch ($attributeCode) {
             case 'price':
-                $search = array('attribute_code' => 'price',
-                    'required' => 'Yes',
+                $search = array(
+                    'attribute_code' => 'price',
+                    'scope' => 'Website',
                     'use_in_layered_navigation' => 'Filterable (with results)'
                 );
                 break;
