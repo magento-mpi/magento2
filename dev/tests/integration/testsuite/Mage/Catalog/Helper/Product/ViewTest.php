@@ -11,10 +11,6 @@
 
 require Mage::getBaseDir() . '/app/code/core/Mage/Catalog/controllers/ProductController.php';
 
-/**
- * @magentoAppIsolation enabled
- * @magentoDbIsolation enabled
- */
 class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 {
     /**
