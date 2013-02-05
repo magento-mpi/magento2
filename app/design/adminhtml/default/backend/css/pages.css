@@ -496,3 +496,42 @@
 .field-poll_answers_container .action-add {
     margin-top: 7px;
 }
+
+/*
+    Reports
+-------------------------------------- */
+.reports-title .page-actions {
+     float: right;
+}
+
+.reports-title .store-switcher {
+    padding: 14px 0 18px;
+}
+
+.reports-content select {
+    width: 160px;
+}
+
+.reports-content input.hasDatepicker {
+    width: 133px;
+}
+
+/* TODO: refactor when validation design is ready */
+.reports-content .required .control {
+    position: relative;
+}
+.reports-content input.hasDatepicker + label.mage-error {
+    left: 0;
+    position: absolute;
+    top: 30px;
+}
+
+.reports-title:before,
+.reports-title:after {
+    content: "";
+    display: table;
+}
+
+.reports-title:after {
+    clear: both;
+}
