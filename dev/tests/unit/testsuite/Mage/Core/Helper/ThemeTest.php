@@ -11,10 +11,11 @@
 
 class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 {
-    const APP = '/qqq';
-    const MODULES = '/qqq/code00';
-    const THEMES = '/qqq/design00';
-    const PUB_LIB = '/qqq/js00';
+    const ROOT = '/zzz';
+    const APP = '/zzz/qqq';
+    const MODULES = '/zzz/qqq/code00';
+    const THEMES = '/zzz/qqq/design00';
+    const PUB_LIB = '/zzz/qqq/js00';
 
     /**
      * @dataProvider getSafePathDataProvider
@@ -72,14 +73,14 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             'skipProxy'  => true
         );
         $map = array(
-            array('test1.css', $params, '/qqq/test1.css'),
-            array('test2.css', $params, '/qqq/test2.css'),
-            array('Mage_Core::test3.css', $params, '/qqq/test3.css'),
-            array('test4.css', $params, '/qqq/test4.css'),
-            array('test21.css', $params, '/qqq/test21.css'),
-            array('test22.css', $params, '/qqq/test22.css'),
-            array('Mage_Core::test23.css', $params, '/qqq/test23.css'),
-            array('test24.css', $params, '/qqq/test24.css'),
+            array('test1.css', $params, '/zzz/qqq/test1.css'),
+            array('test2.css', $params, '/zzz/qqq/test2.css'),
+            array('Mage_Core::test3.css', $params, '/zzz/qqq/test3.css'),
+            array('test4.css', $params, '/zzz/qqq/test4.css'),
+            array('test21.css', $params, '/zzz/qqq/test21.css'),
+            array('test22.css', $params, '/zzz/qqq/test22.css'),
+            array('Mage_Core::test23.css', $params, '/zzz/qqq/test23.css'),
+            array('test24.css', $params, '/zzz/qqq/test24.css'),
         );
         $design = $this->_getDesign($theme, $themeArea, $map);
 
@@ -107,8 +108,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'test1.css' => array(
                         'id'       => 'test1.css',
-                        'path'     => '/qqq/test1.css',
-                        'safePath' => 'test1.css'
+                        'path'     => '/zzz/qqq/test1.css',
+                        'safePath' => 'qqq/test1.css'
                     )
                 )
             ),
@@ -117,8 +118,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'test2.css' => array(
                         'id'       => 'test2.css',
-                        'path'     => '/qqq/test2.css',
-                        'safePath' => 'test2.css'
+                        'path'     => '/zzz/qqq/test2.css',
+                        'safePath' => 'qqq/test2.css'
                     )
                 )
             ),
@@ -127,8 +128,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'Mage_Core::test3.css' => array(
                         'id'       => 'Mage_Core::test3.css',
-                        'path'     => '/qqq/test3.css',
-                        'safePath' => 'test3.css'
+                        'path'     => '/zzz/qqq/test3.css',
+                        'safePath' => 'qqq/test3.css'
                     ),
                 )
             ),
@@ -137,8 +138,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'test4.css' => array(
                         'id'       => 'test4.css',
-                        'path'     => '/qqq/test4.css',
-                        'safePath' => 'test4.css'
+                        'path'     => '/zzz/qqq/test4.css',
+                        'safePath' => 'qqq/test4.css'
                     )
                 )
             ),
@@ -147,8 +148,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'test21.css' => array(
                         'id'       => 'test21.css',
-                        'path'     => '/qqq/test21.css',
-                        'safePath' => 'test21.css'
+                        'path'     => '/zzz/qqq/test21.css',
+                        'safePath' => 'qqq/test21.css'
                     ),
                 )
             ),
@@ -157,8 +158,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'test22.css' => array(
                         'id'       => 'test22.css',
-                        'path'     => '/qqq/test22.css',
-                        'safePath' => 'test22.css'
+                        'path'     => '/zzz/qqq/test22.css',
+                        'safePath' => 'qqq/test22.css'
                     ),
                 )
             ),
@@ -167,8 +168,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'Mage_Core::test23.css' => array(
                         'id'       => 'Mage_Core::test23.css',
-                        'path'     => '/qqq/test23.css',
-                        'safePath' => 'test23.css'
+                        'path'     => '/zzz/qqq/test23.css',
+                        'safePath' => 'qqq/test23.css'
                     ),
                 )
             ),
@@ -177,8 +178,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'test24.css' => array(
                         'id'       => 'test24.css',
-                        'path'     => '/qqq/test24.css',
-                        'safePath' => 'test24.css'
+                        'path'     => '/zzz/qqq/test24.css',
+                        'safePath' => 'qqq/test24.css'
                     ),
                 )
             ),
@@ -243,43 +244,43 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(
                     'test21.css' => array(
                         'id'       => 'test21.css',
-                        'path'     => '/qqq/test21.css',
-                        'safePath' => 'test21.css'
+                        'path'     => '/zzz/qqq/test21.css',
+                        'safePath' => 'qqq/test21.css'
                     ),
                     'test22.css' => array(
                         'id'       => 'test22.css',
-                        'path'     => '/qqq/test22.css',
-                        'safePath' => 'test22.css'
+                        'path'     => '/zzz/qqq/test22.css',
+                        'safePath' => 'qqq/test22.css'
                     ),
                     'Mage_Core::test23.css' => array(
                         'id'       => 'Mage_Core::test23.css',
-                        'path'     => '/qqq/test23.css',
-                        'safePath' => 'test23.css'
+                        'path'     => '/zzz/qqq/test23.css',
+                        'safePath' => 'qqq/test23.css'
                     ),
                     'test24.css' => array(
                         'id'       => 'test24.css',
-                        'path'     => '/qqq/test24.css',
-                        'safePath' => 'test24.css'
+                        'path'     => '/zzz/qqq/test24.css',
+                        'safePath' => 'qqq/test24.css'
                     ),
                     'test1.css' => array(
                         'id'       => 'test1.css',
-                        'path'     => '/qqq/test1.css',
-                        'safePath' => 'test1.css'
+                        'path'     => '/zzz/qqq/test1.css',
+                        'safePath' => 'qqq/test1.css'
                     ),
                     'test2.css' => array(
                         'id'       => 'test2.css',
-                        'path'     => '/qqq/test2.css',
-                        'safePath' => 'test2.css'
+                        'path'     => '/zzz/qqq/test2.css',
+                        'safePath' => 'qqq/test2.css'
                     ),
                     'Mage_Core::test3.css' => array(
                         'id'       => 'Mage_Core::test3.css',
-                        'path'     => '/qqq/test3.css',
-                        'safePath' => 'test3.css'
+                        'path'     => '/zzz/qqq/test3.css',
+                        'safePath' => 'qqq/test3.css'
                     ),
                     'test4.css' => array(
                         'id'       => 'test4.css',
-                        'path'     => '/qqq/test4.css',
-                        'safePath' => 'test4.css'
+                        'path'     => '/zzz/qqq/test4.css',
+                        'safePath' => 'qqq/test4.css'
                     ),
                 ),
             ),
@@ -305,30 +306,30 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     public function getGroupedCssFilesDataProvider()
     {
         $item11 = array(
-            'path'     => '/qqq/design00/area11/package11/theme11/test11.test',
+            'path'     => '/zzz/qqq/design00/area11/package11/theme11/test11.test',
             'safePath' => 'design00/area11/package11/theme11/test11.test'
         );
         $item12 = array(
-            'path'     => '/qqq/design00/area12/package12/theme12/test12.test',
+            'path'     => '/zzz/qqq/design00/area12/package12/theme12/test12.test',
             'safePath' => 'design00/area12/package12/theme12/test12.test'
         );
         $item13 = array(
-            'path'     => '/qqq/design00/area13/package13/theme13/test13.test',
+            'path'     => '/zzz/qqq/design00/area13/package13/theme13/test13.test',
             'safePath' => 'design00/area13/package13/theme13/test13.test'
         );
 
         $item21 = array(
-            'path'     => '/qqq/code00/Mage_Core00/test21.test',
+            'path'     => '/zzz/qqq/code00/Mage_Core00/test21.test',
             'safePath' => 'code00/Mage_Core00/test21.test'
         );
         $item31 = array(
-            'path'     => '/qqq/js00/some_path/test31.test',
+            'path'     => '/zzz/qqq/js00/some_path/test31.test',
             'safePath' => 'js00/some_path/test31.test'
         );
         $groups11 = array(
             '"11" Theme files' => array(
                 array(
-                    'path'     => '/qqq/design00/area11/package11/theme11/test11.test',
+                    'path'     => '/zzz/qqq/design00/area11/package11/theme11/test11.test',
                     'safePath' => 'design00/area11/package11/theme11/test11.test'
                 ),
             )
@@ -336,7 +337,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $groups12 = array(
             '"12" Theme files' => array(
                 array(
-                    'path'     => '/qqq/design00/area12/package12/theme12/test12.test',
+                    'path'     => '/zzz/qqq/design00/area12/package12/theme12/test12.test',
                     'safePath' => 'design00/area12/package12/theme12/test12.test'
                 ),
             )
@@ -344,7 +345,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $groups13 = array(
             '"13" Theme files' => array(
                 array(
-                    'path'     => '/qqq/design00/area13/package13/theme13/test13.test',
+                    'path'     => '/zzz/qqq/design00/area13/package13/theme13/test13.test',
                     'safePath' => 'design00/area13/package13/theme13/test13.test'
                 ),
             )
@@ -352,19 +353,19 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $groups1 = array(
             '"11" Theme files' => array(
                 array(
-                    'path'     => '/qqq/design00/area11/package11/theme11/test11.test',
+                    'path'     => '/zzz/qqq/design00/area11/package11/theme11/test11.test',
                     'safePath' => 'design00/area11/package11/theme11/test11.test'
                 ),
             ),
             '"12" Theme files' => array(
                 array(
-                    'path'     => '/qqq/design00/area12/package12/theme12/test12.test',
+                    'path'     => '/zzz/qqq/design00/area12/package12/theme12/test12.test',
                     'safePath' => 'design00/area12/package12/theme12/test12.test'
                 ),
             ),
             '"13" Theme files' => array(
                 array(
-                    'path'     => '/qqq/design00/area13/package13/theme13/test13.test',
+                    'path'     => '/zzz/qqq/design00/area13/package13/theme13/test13.test',
                     'safePath' => 'design00/area13/package13/theme13/test13.test'
                 ),
             )
@@ -372,7 +373,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $groups21 = array(
             'Framework files' => array(
                 array(
-                    'path'     => '/qqq/code00/Mage_Core00/test21.test',
+                    'path'     => '/zzz/qqq/code00/Mage_Core00/test21.test',
                     'safePath' => 'code00/Mage_Core00/test21.test'
                 ),
             )
@@ -380,7 +381,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $groups31 = array(
             'Library files' => array(
                 array(
-                    'path'     => '/qqq/js00/some_path/test31.test',
+                    'path'     => '/zzz/qqq/js00/some_path/test31.test',
                     'safePath' => 'js00/some_path/test31.test'
                 ),
             )
@@ -493,6 +494,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValueMap(array(
+                array(Mage_Core_Model_Dir::ROOT, self::ROOT),
                 array(Mage_Core_Model_Dir::APP, self::APP),
                 array(Mage_Core_Model_Dir::MODULES, self::MODULES),
                 array(Mage_Core_Model_Dir::THEMES, self::THEMES),
