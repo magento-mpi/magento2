@@ -73,6 +73,39 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     }
 
     /**
+     * Upload js file
+     *
+     * @throws Mage_Core_Exception
+     */
+    public function uploadJsAction()
+    {
+        /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
+        $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
+        $themeId = $this->getRequest()->getParam('id');
+        try {
+            $theme = $this->_loadTheme($themeId);
+            $serviceModel->uploadJsFile('js_files_uploader', $theme, false);
+
+            $this->loadLayout();
+
+            /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
+            $filesJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
+            $customJsFiles = $theme->setCustomization($filesJs)
+                ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
+
+            $jsItemsBlock = $this->getLayout()->getBlock('design_editor_tools_code_js_items');
+            $jsItemsBlock->setJsFiles($customJsFiles);
+            $result = array('content' => $jsItemsBlock->toHtml());
+        } catch (Mage_Core_Exception $e) {
+            $result = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $result = array('error' => true, 'message' => $this->__('Cannot upload js file'));
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+    }
+
+    /**
      * Load theme by theme id
      *
      * Method also checks if theme actually loaded and if theme is virtual or not

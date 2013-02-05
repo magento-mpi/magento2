@@ -457,6 +457,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 ->setThemeId($theme->getId());
         }
 
+        /** @var $jsTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js */
+        $jsTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_js');
+        if ($jsTabBlock) {
+            /** @var $jsFileModel Mage_Core_Model_Theme_Customization_Files_Js */
+            $jsFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
+            $theme->setCustomization($jsFileModel);
+
+            $jsTabBlock->setTheme($theme);
+        }
+
         return $this;
     }
 
