@@ -19,7 +19,7 @@
                     this.checkFree = true;
                     element.attr('checked', 'checked').removeAttr('disabled').parent().hide();
                 } else {
-                    element.removeAttr('disabled');
+                    element.attr("disabled", "disabled");
                 }
             }
         },
@@ -33,7 +33,10 @@
                 if (!this.checkFree) {
                     this._appendHiddenElement();
                 }
-                $(this.options.paymentMethodsSelector).hide();
+                $(this.options.paymentMethodsSelector).hide().attr("disabled", "disabled");
+                $(this.options.paymentMethodsSelector).find(':input').each($.proxy(function(index, element) {
+                    $(element).attr("disabled", "disabled");
+                }, this));
                 this.options.payment.switchMethod();
             }
         },
@@ -43,7 +46,18 @@
          * @private
          */
         _showPaymentMethod: function() {
-            $("input[name='payment[method]']").removeAttr('disabled');
+            $("input[name='payment[method]']").each($.proxy(function(index, element) {
+                element = $(element);
+                if (element.val() !== 'free') {
+                    element.removeAttr('disabled');
+                }
+            }, this));
+            var selectRadio = $("input:radio[name='payment[method]']:not(disabled):not([value='free'])");
+            selectRadio.first().attr('checked', true);
+            if (selectRadio.length === 1) {
+                selectRadio.hide();
+            }
+            $(this.options.customerBalancePaymentSelector).remove();
             $(this.options.paymentMethodsSelector).show();
             this.options.payment.switchMethod(this.options.payment.lastUsedMethod);
         }

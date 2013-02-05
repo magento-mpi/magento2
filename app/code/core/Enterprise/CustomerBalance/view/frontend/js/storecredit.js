@@ -54,7 +54,7 @@
                 this.options.customerBalanceSubstracted = false;
             }
             if (this.options.quoteBaseGrandTotal < this.options.minBalance) {
-                $(this.options.paymentForm).find(':input:not(:hidden)').each($.proxy(function(index, element) {
+                $(this.options.paymentForm).find(':input').each($.proxy(function(index, element) {
                     this._switchElement($(element));
                 }, this));
                 this._setHiddenElement();
@@ -71,7 +71,7 @@
             if (this.isCustomerBalanceChecked) {
                 if (element.attr('name') === 'payment[method]') {
                     if (element.val() === 'free' && element.is(':radio')) {
-                        element.attr('checked', 'checked').removeAttr('disabled').parent().hide();
+                        element.attr('checked', 'checked').removeAttr("disabled").parent().hide();
                     }
                 }
             } else {
@@ -86,12 +86,12 @@
          * @private
          */
         _appendHiddenElement: function() {
-             $('<input>').attr({
-                 type: 'hidden',
-                 id: this.options.customerBalancePaymentSelector,
-                 name: 'payment[method]',
-                 value: 'free'
-             }).appendTo(this.options.customerBalanceBlockSelector);
+            $('<input>').attr({
+                type: 'hidden',
+                id: this.options.customerBalancePaymentSelector.replace(/^(#|.)/, ""),
+                name: 'payment[method]',
+                value: 'free'
+            }).appendTo(this.options.customerBalanceBlockSelector);
         },
 
         /**
@@ -101,12 +101,12 @@
         _setHiddenElement: function() {
             if (this.isCustomerBalanceChecked) {
                 this._appendHiddenElement();
-                $(this.options.paymentMethodsSelector).hide();
+                $(this.options.paymentMethodsSelector).hide().attr("disabled", "disabled");
+                $(this.options.paymentMethodsSelector).find(':input').each($.proxy(function(index, element) {
+                    $(element).attr("disabled", "disabled");
+                }, this));
             } else {
-                if ($(this.options.customerBalancePaymentSelector).length > 0) {
-                    $(this.options.customerBalanceBlockSelector).find(this.options.customerBalancePaymentSelector).hide();
-                }
-                $(this.options.paymentMethodsSelector).show();
+                $(this.options.paymentMethodsSelector).show().removeAttr("disabled");
             }
         },
 
@@ -121,6 +121,12 @@
                     element.removeAttr('disabled');
                 }
             }, this));
+            var selectRadio = $("input:radio[name='payment[method]']:not(disabled):not([value='free'])");
+            selectRadio.first().attr('checked', true);
+            if (selectRadio.length === 1) {
+                selectRadio.hide();
+            }
+            $(this.options.customerBalancePaymentSelector).remove();
             $(this.options.paymentMethodsSelector).show();
         },
 
