@@ -23,8 +23,14 @@
         <?php echo trim($_element->getElementHtml()) ?>
     <?php else: ?>
         <?php echo $this->getElementLabelHtml() ?>
-        <?php echo $this->getElementHtml() ?>
-        <?php echo $this->getScopeLabel() ?>
+
+        <div class="control">
+            <?php echo $this->getElementHtml() ?>
+        </div>
+
+        <?php if ($this->getScopeLabel()): ?>
+            <div class="field-service" value-scope="<?php echo $this->getScopeLabel()?>"></div>
+        <?php endif;?>
 
         <?php if ($this->canDisplayUseDefault()): ?>
         <div class="value use-default">
