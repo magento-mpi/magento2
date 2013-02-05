@@ -1,0 +1,36 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */ ?>
+<div class="tab-panel" id="vde-tab-custom">
+    <div class="custom-code-description">
+        <h5 class="title"><?php echo $this->__('Custom CSS'); ?></h5>
+        <p><?php echo $this->__('Update the custom.css file to right in order to overwrite the default styles.'); ?></p>
+        <p><?php echo $this->__('Or, replace, delete or download the file:'); ?></p>
+        <div class="custom-file">
+            <span class="filename"><?php echo $this->getCustomFileName() ?></span>
+
+            <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
+                <span><?php echo $this->__('Download file'); ?></span>
+            </button>
+            <button class="action-delete" title="<?php echo $this->__('Delete file'); ?>">
+                <span><?php echo $this->__('Delete file'); ?></span>
+            </button>
+
+            <?php echo $this->getFormHtml() ?>
+        </div>
+    </div>
+    <div class="custom-code">
+        <div class="textarea-container">
+            <textarea name="custom_code" id="custom_code" cols="30" rows="10"><?php echo $this->getCustomCssContent($this->getTheme()) ?></textarea>
+        </div>
+        <button class="action-update" title="<?php echo $this->__('Update'); ?>"><?php echo $this->__('Update'); ?></button>
+    </div>
+</div>
