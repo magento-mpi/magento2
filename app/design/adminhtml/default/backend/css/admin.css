@@ -3066,37 +3066,41 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid tr.headings th a:after {
-    background: url(../images/grid-sorted-th-arrows.png) no-repeat 0 -12px;
-    content: '';
     display: none;
     height: 8px;
-    width: 12px;
+    width: 15px;
     position: absolute;
-    bottom: 5px;
+    bottom: 4px;
     right: 0;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 8px;
+    -webkit-font-smoothing: antialiased;
+    content: '\e038'; /* arrow down icon */
+    color: #8c8172;
 }
 
 .grid tr.headings th a:hover:after {
-    background-position: 0 -12px;
     display: block;
 }
 
 .grid tr.headings th a.sort-arrow-desc:after {
-    background-position: 0 0;
+    color: #c7b299;
     display: block;
 }
 
 .grid tr.headings th a.sort-arrow-asc:after {
-    background-position: -12px 0;
+    color: #c7b299;
+    content: '\e035'; /* arrow up icon */
     display: block;
 }
 
-.grid tr.headings th a.sort-arrow-desc:hover:after {
-    background-position: 0 -24px;
-}
-
+.grid tr.headings th a.sort-arrow-desc:hover:after,
 .grid tr.headings th a.sort-arrow-asc:hover:after {
-    background-position: -12px -24px;
+    color: #fff;
 }
 
 /* Grid - Filter */
