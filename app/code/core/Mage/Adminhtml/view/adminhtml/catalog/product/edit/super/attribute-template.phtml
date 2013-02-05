@@ -71,10 +71,10 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                         <table class="data-table">
                             <thead>
                             <tr>
-                                <th><?php echo $this->__('Label'); ?></th>
-                                <th class="column-price"><?php echo $this->__('Change Price'); ?></th>
-                                <th><?php echo $this->__('Include'); ?></th>
-                                <th></th>
+                                <th class="col-name"><?php echo $this->__('Label'); ?></th>
+                                <th class="col-price"><?php echo $this->__('Change Price'); ?></th>
+                                <th class="col-include"><?php echo $this->__('Include'); ?></th>
+                                <th class="col-actions"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -83,8 +83,8 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                             foreach ($attribute['options'] as $option) {
                                 ?>
                             <tr>
-                                <td><?php echo $this->escapeHtml($option['label']) ?></td>
-                                <td class="column-price">
+                                <td class="col-name"><?php echo $this->escapeHtml($option['label']) ?></td>
+                                <td class="col-price">
                                     <?php
                                     $price_value = '';
                                     $isPercent = false;
@@ -134,7 +134,7 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                         </div>
                                     </div>
                                 </td>
-                                <td>
+                                <td class="col-include">
                                     <input type="hidden"
                                            name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][include]"
                                            value="0"/>
@@ -142,7 +142,7 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                            name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][include]"
                                            value="1" <?php echo $include ? 'checked="checked"' : ''; ?> />
                                 </td>
-                                <td>
+                                <td class="col-actions">
                                     <button type="button" class="action-delete" title="<?php echo $this->__('Delete'); ?>">
                                         <span><?php echo $this->__('Delete'); ?></span>
                                     </button>
@@ -153,13 +153,6 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                         </table>
                     </div>
                 </div>
-
-                <label>
-                    <input type="checkbox" class="price-variation"
-                        <?php echo $havePriceVariation ? 'checked="checked"' : '' ?> />
-                    <?php echo $this->__('Have price variations'); ?>
-                </label>
-
             </fieldset>
         </div>
     </div>
