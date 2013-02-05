@@ -6,37 +6,45 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-document.observe('billing-request:completed', function(event) {
-    if (typeof window.checkout != 'undefined') {
-        if (window.checkout.method == 'guest' && $('guest_checkout')){
-            $('guest_checkout').captcha.refresh()
+(function ($, undefined) {
+    "use strict";
+    $(document).on("login:setMethod", function() {
+        var inputPrefix = 'captcha-input-box-',
+            imagePrefix = 'captcha-image-box-';
+
+        $("[id^='" + inputPrefix + "'], [id^='" + imagePrefix + "']").addClass("hidden");
+
+        if ($("#login\\:guest").is(':checked')) {
+            $("#" + inputPrefix + "guest_checkout").removeClass("hidden");
+            $("#" + imagePrefix + "guest_checkout").removeClass("hidden");
         }
-        if (window.checkout.method == 'register' && $('register_during_checkout')){
-            $('register_during_checkout').captcha.refresh()
+        if ($("#login\\:register").is(':checked')) {
+            $("#" + inputPrefix + "register_during_checkout").removeClass("hidden");
+            $("#" + imagePrefix + "register_during_checkout").removeClass("hidden");
         }
-    }
+    });
+    $(document).on('billing-request:completed', function() {
+        if (typeof window.checkout != 'undefined') {
+            $("#guest_checkout, #register_during_checkout").captcha.refresh();
+        }
+    });
+    $("#captcha-reload").on("click", function() {
+        $(this).captcha.refresh();
+    });
+})(jQuery);
+
+/**
+ * Need to remove when we refactor onepage checkout
+ * @deprecated
+ */
+document.observe('login:setMethod', function(event) {
+    jQuery(document).trigger('login:setMethod');
 });
 
-
-document.observe('login:setMethod', function(event) {
-    var switchCaptchaElement = function(shown, hidden) {
-        var inputPrefix = 'captcha-input-box-', imagePrefix = 'captcha-image-box-';
-        if ($(inputPrefix + hidden)) {
-            $(inputPrefix + hidden).hide();
-            $(imagePrefix + hidden).hide();
-        }
-        if ($(inputPrefix + shown)) {
-            $(inputPrefix + shown).show();
-            $(imagePrefix + shown).show();
-        }
-    };
-
-    switch (event.memo.method) {
-        case 'guest':
-            switchCaptchaElement('guest_checkout', 'register_during_checkout');
-            break;
-        case 'register':
-            switchCaptchaElement('register_during_checkout', 'guest_checkout');
-            break;
-    }
+/**
+ * Need to remove when we refactor onepage checkout
+ * @deprecated
+ */
+document.observe('billing-request:completed', function(event) {
+    jQuery(document).trigger('billing-request:completed');
 });
