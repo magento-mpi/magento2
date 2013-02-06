@@ -116,6 +116,36 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     }
 
     /**
+     * Reorder js file
+     */
+    public function reorderJsAction()
+    {
+        $themeId = $this->getRequest()->getParam('id');
+        $reorderJsFiles = (array)$this->getRequest()->getParam('js_order', array());
+        /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
+        $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
+        try {
+            $theme = $this->_loadTheme($themeId);
+            $themeJs->setJsOrderData($reorderJsFiles);
+            $theme->setCustomization($themeJs);
+            $theme->save();
+
+            $result = array('success' => true);
+        } catch (Mage_Core_Exception $e) {
+            $this->_session->addError($e->getMessage());
+            $result = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $errorMessage = $this->__('Cannot upload css file');
+            $this->_session->addError($errorMessage);
+            $result = array('error' => true, 'message' => $errorMessage);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->loadLayout();
+        $result['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+    }
+
+    /**
      * Load theme by theme id
      *
      * Method also checks if theme actually loaded and if theme is virtual or not

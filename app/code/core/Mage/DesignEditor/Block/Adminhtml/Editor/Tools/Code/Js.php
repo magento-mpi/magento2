@@ -112,6 +112,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     }
 
     /**
+     * Get reorder js url
+     *
+     * @return string
+     */
+    public function getJsReorderUrl()
+    {
+        return $this->getUrl('*/system_design_editor_tools/reorderjs', array('id' => $this->getTheme()->getId()));
+    }
+
+    /**
      * Get custom js files
      *
      * @return Mage_Core_Model_Resource_Theme_Files_Collection

@@ -17,7 +17,7 @@
 <?php else: ?>
     <?php /** @var $file Mage_Core_Model_Theme_Files */ ?>
     <?php foreach ($this->getJsFiles() as $file): ?>
-        <li class="item">
+        <li class="item" id="js-file-<?php echo $file->getId() ?>">
             <span class="filename" title="<?php echo $file->getFileName() ?>"><?php echo $file->getFileName() ?></span>
             <a href="#" class="action-delete" title="<?php echo $this->__('Delete file'); ?>">
                 <span><?php echo $this->__('Delete file'); ?></span>

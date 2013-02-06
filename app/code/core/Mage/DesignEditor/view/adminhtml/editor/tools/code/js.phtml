@@ -10,6 +10,9 @@
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js */ ?>
 <div class="tab-panel" id="vde-tab-js">
+    <div id="vde-tab-custom-messages-placeholder">
+        <?php echo $this->getChildHtml('messages') ?>
+    </div>
     <div class="files-wrapper">
         <div class="files-list">
             <div class="files-list-header">
@@ -83,8 +86,6 @@
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }
-
-                //$('.ui-sortable').sortable('initButtons');
             },
 
             /**
@@ -111,5 +112,27 @@
                 alert($.mage.__('File extension not known or unsupported type.'));
             }
         });
+
+        $('.ui-sortable').sortable({
+            update: function( event, ui ) {
+                var jsOrder = $(this).sortable('serialize',{key: 'js_order[]'});
+                $.ajax({
+                    url: '<?php echo $this->getJsReorderUrl(); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: jsOrder,
+                    showLoader: false,
+                    success: $.proxy(function(response) {
+                        if (response.message_html) {
+                            $('#vde-tab-custom-messages-placeholder').append(response.message_html);
+                        }
+                    }, this),
+                    error: $.proxy(function() {
+                        alert($.mage.__('Error: unknown error.'));
+                    }, this)
+                });
+            }
+        });
+        $('.ui-sortable').disableSelection();
     })(jQuery);
 </script>

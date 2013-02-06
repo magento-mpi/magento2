@@ -123,4 +123,8 @@
             <block template="Mage_DesignEditor::/editor/tools/code/js_items.phtml" type="Mage_Backend_Block_Template" name="design_editor_tools_code_js_items"/>
         </container>
     </adminhtml_system_design_editor_tools_uploadjs>
+
+    <adminhtml_system_design_editor_tools_reorderjs>
+        <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
+    </adminhtml_system_design_editor_tools_reorderjs>
 </layout>
