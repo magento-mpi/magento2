@@ -7,23 +7,7 @@
  * @license     {license_link}
  */
 
-.mage-suggest {
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    margin: 0 6px 6px 0;
-    width: 72.5%;
-    padding: 2px;
-    padding-right: 30px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-}
-
-.mage-suggest:after {
+.mage-suggest.category-select:after {
     position: absolute;
     top: 0;
     right: 5px;

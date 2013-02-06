@@ -224,6 +224,23 @@ button.primary.disabled,
 }
 
 /*
+    Fileupload button
+-------------------------------------- */
+.action-upload {
+    position: relative;
+}
+.action-upload > span {}
+.action-upload > input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: red;
+    opacity: 0;
+}
+
+/*
     Dropdown menu
 -------------------------------------- */
 .dropdown-menu,
@@ -297,6 +314,46 @@ button.primary.disabled,
 }
 
 /*
+    Suggest
+-------------------------------------- */
+.mage-suggest {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 6px 6px 0;
+    width: 72.5%;
+    padding: 2px;
+    padding-right: 30px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.mage-suggest-dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin: 3px -1px 0 -1px;
+    border: 1px solid #cac2b5;
+    border-radius: 3px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 990;
+}
+
+.mage-suggest-dropdown .jstree {
+    padding: 5px;
+}
+
+.mage-suggest-dropdown .jstree a {
+    line-height: 1.666;
+}
+
+/*
     Actions Split
 -------------------------------------- */
 .actions-split {
@@ -366,6 +423,11 @@ button.primary.disabled,
     -webkit-font-smoothing: antialiased;
     content: '\e07f'; /* delete icon */
     color: #b7b3ad;
+}
+
+.action-.delete:hover:before,
+.action-delete:hover:before {
+    color: #7e7e7e;
 }
 
 input.action-.delete[type="button"],
@@ -455,7 +517,7 @@ textarea,
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    border-radius: 3px;
+    border-radius: 4px;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-transition: border linear 0.5s, box-shadow linear 0.2s;
     -moz-transition: border linear 0.5s, box-shadow linear 0.2s;
@@ -470,9 +532,10 @@ textarea,
 }
 
 select {
-    padding: 4px;
+    padding: 4px 4px 5px;
     margin: 0 0 8px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     -webkit-transition: border linear 0.5s, box-shadow linear 0.2s;
     -moz-transition: border linear 0.5s, box-shadow linear 0.2s;
     -ms-transition: border linear 0.5s, box-shadow linear 0.2s;
@@ -583,6 +646,10 @@ option.placeholder {
     width: 100%;
 }
 
+.control > input.hasDatepicker {
+    width: 130px;
+}
+
 .control > input[type="radio"],
 .control > input[type="checkbox"] {
     width: auto;
@@ -598,6 +665,12 @@ option.placeholder {
 
 .multi-input > input {
     width: 100%;
+}
+
+/* TODO: remove styles for images when images will be replaced by font icons */
+.control > .hasDatepicker + img {
+    margin: -3px 0 0 5px;
+    vertical-align: middle;
 }
 
 /*
@@ -686,6 +759,10 @@ option.placeholder {
     color: #b2b0ad;
 }
 
+.fieldset-wrapper-title > .title[data-toggle="collapse"]:hover:before {
+    color: #7e7e7e;
+}
+
 .fieldset-wrapper.opened > .fieldset-wrapper-title > .title:before {
     content: '\e02c'; /* arrow down icon */
 }
@@ -751,7 +828,7 @@ option.placeholder {
 }
 
 .fieldset-wrapper .fieldset-wrapper-title .draggable-handle:hover {
-    color: #000;
+    color: #7e7e7e;
 }
 
 .fieldset-wrapper .fieldset-wrapper-title .draggable-handle:before {
@@ -807,6 +884,8 @@ option.placeholder {
     margin-bottom: 0;
 }
 
+.fieldset-wrapper .fieldset:last-child,
+.fieldset .fieldset:last-child,
 .fieldset .field:last-child {
     margin-bottom: 0;
 }
@@ -831,19 +910,19 @@ option.placeholder {
 
 /* "Use default" checkbox */
 .use-default {
+
+}
+.use-default-control {
     display: none;
 }
-
-.use-default + span {
+.use-default-label {
     cursor: pointer;
     text-decoration: underline;
     font-size: 11px;
     color: #a29c94;
 }
-
-.use-default:checked + span,
-.use-default + span:hover {
-    color: #000;
+.use-default-label:hover {
+    color: #7e7e7e;
 }
 
 /*
@@ -2012,6 +2091,13 @@ table tbody tr:nth-child(odd):hover th {
     margin: 20px 0;
 }
 
+.page-content > .page-title {
+    max-width: 1300px;
+    min-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .page-title-inner > .title {
     font-family: 'CallunaSans';
     font-size: 26px;
@@ -2047,6 +2133,16 @@ table tbody tr:nth-child(odd):hover th {
     color: #676056;
     text-shadow: none;
     border-bottom: 1px solid #c7c2b6;
+}
+
+.wrapper > .message {
+    padding: 0 20px;
+}
+
+.page-content > .messages {
+    max-width: 1300px;
+    min-width: 960px;
+    margin: 0 auto;
 }
 
 .message:before,
@@ -2210,6 +2306,22 @@ table tbody tr:nth-child(odd):hover th {
     color: #d87e34;
 }
 
+/*
+    Error message
+-------------------------------------- */
+.message-error {
+    color: #963535;
+    background: #f3dcd8;
+    border: 1px solid #963535;
+    margin-bottom: 20px;
+}
+
+.message-error:before {
+    content: '\e069';
+    color: #963535;
+}
+
+
 /* TODO: implement styles for all types of messages when the new code is integrated */
 
 /*
@@ -2220,9 +2332,8 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .page-content {
-    min-width: 960px;
-    max-width: 1300px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 .side-col {
@@ -2268,10 +2379,15 @@ table tbody tr:nth-child(odd):hover th {
     background: #f5f2ed;
     border: 1px solid #b7b2a6;
     border-radius: 5px;
+    min-width: 960px;
+    max-width: 1300px;
+    margin: 0 auto;
 }
 
 .col-1-layout {
     padding: 20px;
+    min-width: 920px;
+    max-width: 1260px;
 }
 
 .col-2-left-layout:before {
@@ -2628,7 +2744,7 @@ table tbody tr:nth-child(odd):hover th {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 998;
 }
 
 .page-actions.fixed .page-actions-inner {
@@ -2685,8 +2801,15 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid tr.on-mouse {
-    background: #fff;
     cursor: pointer;
+}
+
+.grid tr.on-mouse td,
+.grid table tbody tr.on-mouse:hover td,
+.grid table tbody tr.on-mouse:hover th,
+.grid table tbody tr.on-mouse:nth-child(odd):hover td,
+.grid table tbody tr.on-mouse:nth-child(odd):hover th {
+    background-color: #fff;
 }
 
 /* Rows mouse-over */
@@ -2736,10 +2859,15 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid table td.empty-text {
-    border: 1px solid #c0bbaf;
+    border: solid #c0bbaf;
+    border-width: 0 1px;
     font-size: 15px;
     text-align: center;
     padding: 15px;
+}
+
+.grid table tr:last-child td.empty-text {
+    border-width: 0 1px 1px;
 }
 
 .grid table td.empty-text:hover {
@@ -2773,7 +2901,9 @@ table tbody tr:nth-child(odd):hover th {
     font-weight: 400;
 }
 
-/* Grid - Pager and Buttons row */
+/*
+    Grid - Pager and Buttons row
+-------------------------------------- */
 .grid-actions {
     border: 1px solid #c0bbaf;
     border-bottom: 0;
@@ -2796,8 +2926,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid-actions select {
-    margin: 0;
-    vertical-align: top;
+    margin: 0 5px;
 }
 
 .grid-actions .export,
@@ -2849,12 +2978,65 @@ table tbody tr:nth-child(odd):hover th {
     color: #7f7f7f;
 }
 
+.grid-actions .date {
+    float: left;
+    margin: 0 15px 0 0;
+    position: relative;
+}
+
+.grid-actions .date input {
+    margin: 0 5px;
+    width: 80px;
+}
+
+.grid-actions .required:after {
+    content: '*';
+    color: red;
+}
+
+/* TODO: remove styles for images when images will be replaced by font icons */
+.grid-actions img {
+    vertical-align: middle;
+    height: 22px;
+    width: 22px;
+}
+
+/* TODO: refactor validation fields styles after approved design comes */
+.grid-actions .validation-advice {
+    background: #f3dcd8;
+    border: 1px solid #963535;
+    border-radius: 3px;
+    color: #963535;
+    margin: 5px 0 0;
+    padding: 3px 7px;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 5;
+}
+
+.grid-actions .validation-advice:before {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e029'; /* user icon */
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    margin-left: -3px;
+}
+
 /* Grid - Headings */
 .grid tr.headings th {
     font-size: 13px;
-    border-right: 1px solid #837F79;
+    border-right: 1px solid #837f79;
     padding: 0 1px;
     vertical-align: bottom;
+}
+
+.grid tr th:first-child {
+    border-left: 1px solid #837f79;
 }
 
 .grid tr.headings th > span {
@@ -2865,6 +3047,10 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid tr.headings th:hover > span {
     border-color: #504841;
+}
+
+.grid tr.headings th.no-link:hover > span {
+    border-color: transparent;
 }
 
 .grid tr.headings th a span {
@@ -2880,37 +3066,41 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid tr.headings th a:after {
-    background: url(../images/grid-sorted-th-arrows.png) no-repeat 0 -12px;
-    content: '';
     display: none;
     height: 8px;
-    width: 12px;
+    width: 15px;
     position: absolute;
-    bottom: 5px;
+    bottom: 4px;
     right: 0;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 8px;
+    -webkit-font-smoothing: antialiased;
+    content: '\e038'; /* arrow down icon */
+    color: #8c8172;
 }
 
 .grid tr.headings th a:hover:after {
-    background-position: 0 -12px;
     display: block;
 }
 
 .grid tr.headings th a.sort-arrow-desc:after {
-    background-position: 0 0;
+    color: #c7b299;
     display: block;
 }
 
 .grid tr.headings th a.sort-arrow-asc:after {
-    background-position: -12px 0;
+    color: #c7b299;
+    content: '\e035'; /* arrow up icon */
     display: block;
 }
 
-.grid tr.headings th a.sort-arrow-desc:hover:after {
-    background-position: 0 -24px;
-}
-
+.grid tr.headings th a.sort-arrow-desc:hover:after,
 .grid tr.headings th a.sort-arrow-asc:hover:after {
-    background-position: -12px -24px;
+    color: #fff;
 }
 
 /* Grid - Filter */
@@ -3054,13 +3244,19 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Grid Footer */
 .grid table tfoot tr {
-    background: #d7e5ef;
+    background: #656156;
 }
 
+.grid table tfoot tr th,
 .grid table tfoot tr td {
-    border-top: 1px solid #9babb9;
-    background: #e5ecf2;
+    border-right: 1px solid #837f79;
     line-height: 1.7em;
+    padding: 3px 10px;
+}
+
+.grid table tfoot tr th:first-child,
+.grid table tfoot tr td:first-child {
+    border-left: 1px solid #837f79;
 }
 
 .grid table.border tfoot tr td {
@@ -3106,6 +3302,13 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    Table columns styles
+-------------------------------------- */
+.col-no-records {
+    text-align: center;
+}
+
+/*
     Data table
 -------------------------------------- */
 .data-table {
@@ -3130,9 +3333,9 @@ tr.dynamic-grid input.input-text {
 .data-table tbody tr:not(:last-child) td,
 .data-table tbody tr td {
     background: #fff;
-    padding: 3px 7px;
+    padding: 5px 7px;
     font-size: 12px;
-    vertical-align: top;
+    vertical-align: middle;
     border: solid #eae8e4;
     border-width: 0 0 1px;
 }
@@ -3159,7 +3362,6 @@ tr.dynamic-grid input.input-text {
     width: 98%;
     padding-left: 1%;
     padding-right: 1%;
-    height: 24px;
 }
 
 .data-table select {
@@ -3167,9 +3369,43 @@ tr.dynamic-grid input.input-text {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    border-radius: 3px;
+    border-radius: 4px;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
+
+.data-table .required-entry:after {
+    content: '*';
+    color: red;
+}
+
+
+/*
+    Content alignments in tables
+-------------------------------------- */
+
+/* left */
+.col-name,
+.col-sku,
+.col-color,
+.col-size {
+    text-align: left;
+}
+
+/* center */
+.col-include,
+.col-display,
+.col-image,
+.col-price {
+    text-align: center;
+}
+
+/* right */
+.col-qty,
+.col-weight,
+.col-actions {
+    text-align: right;
+}
+
 
 /*
     Attribute Information
@@ -3183,14 +3419,6 @@ tr.dynamic-grid input.input-text {
 .data-table .col-delete {
     text-align: center;
     width: 32px;
-}
-
-.data-table .col-price input {
-    width: 60px;
-}
-
-.data-table .col-qty input {
-    width: 50px;
 }
 
 .data-table .col-file {

@@ -238,6 +238,60 @@
         }
     });
 
+    $.widget('mage.useDefault', {
+        options: {
+            field: '.field',
+            useDefault: '.use-default',
+            checkbox: '.use-default-control',
+            label: '.use-default-label'
+        },
+
+        _create: function() {
+            this.el = this.element;
+            this.field = $(this.el).closest(this.options.field);
+            this.useDefault = $(this.options.useDefault, this.field);
+            this.checkbox = $(this.options.checkbox, this.useDefault);
+            this.label = $(this.options.label, this.useDefault);
+            this.origValue = this.el.attr('data-store-label');
+
+            this._events();
+        },
+
+        _events: function() {
+            var self = this;
+
+            this.el
+                .on('change.toggleUseDefaultVisibility keyup.toggleUseDefaultVisibility', $.proxy(this._toggleUseDefaultVisibility, this))
+                .trigger('change.toggleUseDefaultVisibility');
+
+            this.checkbox
+                .on('change.setOrigValue', function() {
+                    if ($(this).prop('checked')) {
+                        self.el
+                            .val(self.origValue)
+                            .trigger('change.toggleUseDefaultVisibility');
+
+                        $(this).prop('checked', false);
+                    }
+                });
+        },
+
+        _toggleUseDefaultVisibility: function() {
+            var curValue = this.el.val(),
+                origValue = this.origValue;
+
+            this[curValue != origValue ? '_show' : '_hide']();
+        },
+
+        _show: function() {
+            this.useDefault.show();
+        },
+
+        _hide: function() {
+            this.useDefault.hide();
+        }
+    });
+
     var switcherForIe8 = function() {
         /* Switcher for IE8 */
         if ($.browser.msie && $.browser.version == '8.0') {
@@ -261,6 +315,7 @@
         $('.fade').modalPopup();
         $('details').details();
         $('.page-actions').floatingHeader();
+        $('[data-store-label]').useDefault();
 
         /* Listen events on "Collapsable" events */
         $('.collapse')
