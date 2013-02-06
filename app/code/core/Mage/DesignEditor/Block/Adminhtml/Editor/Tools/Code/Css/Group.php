@@ -11,7 +11,7 @@
 /**
  * Block that renders group of files
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group extends Mage_Backend_Block_Widget_Form
 {
     /**
      * Get url to download CSS file
