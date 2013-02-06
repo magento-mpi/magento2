@@ -292,6 +292,36 @@
         }
     });
 
+    $.widget('mage.collapsable', {
+        options: {
+            parent: null,
+            openedClass: 'opened',
+            wrapper: '.fieldset-wrapper'
+        },
+
+        _create: function() {
+            this._events();
+        },
+
+        _events: function() {
+            var self = this;
+
+            this.element
+                .on('show', function (e) {
+                    var fieldsetWrapper = $(this).closest(self.options.wrapper);
+
+                    fieldsetWrapper.addClass(self.options.openedClass);
+                    e.stopPropagation();
+                })
+                .on('hide', function (e) {
+                    var fieldsetWrapper = $(this).closest(self.options.wrapper);
+
+                    fieldsetWrapper.removeClass(self.options.openedClass);
+                    e.stopPropagation();
+                });
+        }
+    });
+
     var switcherForIe8 = function() {
         /* Switcher for IE8 */
         if ($.browser.msie && $.browser.version == '8.0') {
@@ -316,19 +346,7 @@
         $('details').details();
         $('.page-actions').floatingHeader();
         $('[data-store-label]').useDefault();
-
-        /* Listen events on "Collapsable" events */
-        $('.collapse')
-            .on('show', function () {
-                var fieldsetWrapper = $(this).closest('.fieldset-wrapper');
-
-                fieldsetWrapper.addClass('opened');
-            })
-            .on('hide', function () {
-                var fieldsetWrapper = $(this).closest('.fieldset-wrapper');
-
-                fieldsetWrapper.removeClass('opened');
-            });
+        $('.collapse').collapsable();
 
         $.each($('.entry-edit'), function(i, entry) {
             $('.collapse:first', entry).collapse('show');
