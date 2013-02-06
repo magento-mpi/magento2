@@ -23,9 +23,9 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
     public function entityAction()
     {
         $type = $this->getRequest()->getParam('type');
-        $id = $this->getRequest()->getParam('id');
+        $orderTypeId = $this->getRequest()->getParam('id');
 
-        if (!$id || !$type) {
+        if (!$orderTypeId || !$type) {
             $this->_forward('noRoute');
             return;
         }
@@ -36,10 +36,10 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
                 Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
             }
 
-            $entity->load($id);
+            $entity->load($orderTypeId);
             if (!$entity->getId()) {
                 Mage::throwException(
-                    $this->__('Cannot load %s entity #%s; please reload page and try again.', $type, $id)
+                    $this->__('Cannot load %s entity #%s; please reload page and try again.', $type, $orderTypeId)
                 );
             }
 
@@ -47,12 +47,10 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
             $fileName = $type . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
 
             $this->_prepareDownloadResponse($fileName, $pdf, 'application/pdf');
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError($this->__('Cannot generate PDF.'));
             $this->_redirectReferer();
@@ -61,6 +59,8 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
 
     /**
      * Mass PDF print for entutis: invoice, creditmemo or shipment
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function entitiesAction()
     {
@@ -95,13 +95,11 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
 
             $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
                 ->getPdf();
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();
             return;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError($this->__('Cannot generate PDF.'));
             $this->_redirectReferer();

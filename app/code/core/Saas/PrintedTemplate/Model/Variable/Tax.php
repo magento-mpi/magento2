@@ -53,11 +53,11 @@ class Saas_PrintedTemplate_Model_Variable_Tax extends Saas_PrintedTemplate_Model
     protected function _getOrder()
     {
         if ($this->_hasOrder()) {
-            $id = $this->_value->getOrderId();
-            if (!isset(self::$_orders[$id])) {
-                self::$_orders[$id] = Mage::getModel('Mage_Sales_Model_Order')->load($id);
+            $orderId = $this->_value->getOrderId();
+            if (!isset(self::$_orders[$orderId])) {
+                self::$_orders[$orderId] = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             }
-            return self::$_orders[$id];
+            return self::$_orders[$orderId];
         }
     }
 
@@ -65,6 +65,7 @@ class Saas_PrintedTemplate_Model_Variable_Tax extends Saas_PrintedTemplate_Model
      * Set order for taxes
      *
      * @param Mage_Sales_Model_Order $order
+     * @return Saas_PrintedTemplate_Model_Variable_Tax
      */
     public function setOrder(Mage_Sales_Model_Order $order)
     {
@@ -85,9 +86,9 @@ class Saas_PrintedTemplate_Model_Variable_Tax extends Saas_PrintedTemplate_Model
     }
 
     /**
-     * Formats currency using order formater (if has order)
+     * Formats currency using order formatter (if has order)
      *
-     * @param float
+     * @param float $value
      * @return string
      */
     public function formatCurrency($value)
