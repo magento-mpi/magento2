@@ -20,11 +20,6 @@ class Mage_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Validato
     /**
      * @var array
      */
-    protected $_messages = array();
-
-    /**
-     * @var array
-     */
     protected $_attributes = array();
 
     /**
@@ -218,15 +213,5 @@ class Mage_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Validato
         } else {
             $this->_messages[$code] = array_merge($this->_messages[$code], $messages);
         }
-    }
-
-    /**
-     * Get validation messages
-     *
-     * @return array
-     */
-    public function getMessages()
-    {
-        return $this->_messages;
     }
 }

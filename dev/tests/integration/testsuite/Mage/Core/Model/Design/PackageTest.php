@@ -56,8 +56,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     protected function _emulateFixtureTheme($themePath = 'test/default')
     {
-        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+            Mage_Core_Model_App::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));

@@ -427,15 +427,15 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testPublishResourcesAndCssWhenChangedCss($expectedPublished)
     {
-        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+        $appInstallDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir();
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::THEMES =>
-                    Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change'
+                Mage_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
         $this->_model->setDesignTheme('test/default');
         $themePath = $this->_model->getDesignTheme()->getFullPath();
-        $fixtureViewPath = Magento_Test_Bootstrap::getInstance()->getInstallDir() . "/media_for_change/$themePath/";
+        $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
         $publishedPath = $this->_model->getPublicDir() . "/$themePath/en_US/";
 
         $this->_model->getViewFileUrl('style.css', array('locale' => 'en_US'));
@@ -502,15 +502,15 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _testPublishChangedResourcesWhenUnchangedCss($expectedPublished)
     {
-        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+        $appInstallDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir();
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::THEMES =>
-                    Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change'
+                Mage_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
         $this->_model->setDesignTheme('test/default');
         $themePath = $this->_model->getDesignTheme()->getFullPath();
-        $fixtureViewPath = Magento_Test_Bootstrap::getInstance()->getInstallDir() . "/media_for_change/$themePath/";
+        $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
         $publishedPath = $this->_model->getPublicDir() . "/$themePath/en_US/";
 
         $this->_model->getViewFileUrl('style.css', array('locale' => 'en_US'));
@@ -537,7 +537,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     protected function _initTestTheme()
     {
-        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
@@ -553,7 +553,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
      */
     public function testCssWithBase64Data()
     {
-        Magento_Test_Bootstrap::getInstance()->reinitialize(array(
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )

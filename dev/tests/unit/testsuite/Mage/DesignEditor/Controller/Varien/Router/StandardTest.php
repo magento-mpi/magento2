@@ -169,12 +169,12 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $controllerFactory  = $this->getMock('Mage_Core_Controller_Varien_Action_Factory', array(), array(), '', false);
         $objectManager      = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
         $filesystem         = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $app                = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
 
         $helper         = $this->_getHelperMock();
         $backendSession = $this->_getBackendSessionMock($isVde, $isLoggedIn);
         $stateModel     = $this->_getStateModelMock($routers);
         $configuration  = $this->_getConfigurationMock($isVde, $isLoggedIn, $isConfiguration);
+        $app            = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $callback = function ($name) use ($helper, $backendSession, $stateModel, $configuration) {
             switch ($name) {
                 case 'Mage_DesignEditor_Helper_Data': return $helper;
