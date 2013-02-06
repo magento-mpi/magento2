@@ -71,21 +71,19 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
      */
     public function usedInRule()
     {
-        $taxClass = $this->generate('string', 30);
-        $multiselect = 'customer_tax_class';
+        $taxClass = $this->loadDataSet('Tax', 'new_customer_tax_class');
         //Create Tax Class
-        $this->clickButton('add_rule');
-        $this->clickControl('link','tax_rule_info_additional_link');
-        $this->addCompositeMultiselectValue($multiselect, $taxClass);
+        $this->taxHelper()->createTaxClass($taxClass);
         //Create Tax Rule
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required',
-            array('customer_tax_class' => $taxClass));
+            array('customer_tax_class' => $taxClass['customer_tax_class']));
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
+        $this->taxHelper()->createTaxRule($taxRuleData);
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->_ruleToBeDeleted = $this->loadDataSet('Tax', 'search_tax_rule',
             array('filter_name' => $taxRuleData['name']));
-        $this->taxHelper()->deleteTaxClass($taxClass, 'customer_tax_class', 'used_in_rule_error');
+        $this->taxHelper()
+            ->deleteTaxClass($taxClass['customer_tax_class'], 'customer_tax_class', 'used_in_rule_error');
     }
 
     /**
@@ -96,17 +94,15 @@ class Core_Mage_Tax_CustomerTaxClass_DeleteTest extends Mage_Selenium_TestCase
      */
     public function usedInCustomerGroup()
     {
-        $taxClass = $this->generate('string', 20);
+        $taxClass = $this->loadDataSet('Tax', 'new_customer_tax_class');
         $customerGroupData = $this->loadDataSet('CustomerGroup', 'new_customer_group',
-            array('tax_class' => $taxClass));
-        $multiselect = 'customer_tax_class';
-        $this->clickButton('add_rule');
-        $this->clickControl('link','tax_rule_info_additional_link');
-        $this->addCompositeMultiselectValue($multiselect, $taxClass);
+            array('tax_class' => $taxClass['customer_tax_class']));
+        $this->taxHelper()->createTaxClass($taxClass);
         $this->navigate('manage_customer_groups');
         $this->customerGroupsHelper()->createCustomerGroup($customerGroupData);
         $this->assertMessagePresent('success', 'success_saved_customer_group');
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->deleteTaxClass($taxClass, 'customer_tax_class', 'used_in_customer_group_error');
+        $this->taxHelper()
+            ->deleteTaxClass($taxClass['customer_tax_class'], 'customer_tax_class', 'used_in_customer_group_error');
     }
 }

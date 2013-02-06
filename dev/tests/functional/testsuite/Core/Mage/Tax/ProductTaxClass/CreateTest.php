@@ -24,6 +24,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
+        $this->currentWindow()->maximize();
         $this->loginAdminUser();
         $this->navigate('manage_tax_rule');
     }
@@ -32,7 +33,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Need to verify that product tax class are created by default and displayed in the field.</p>
      *
      * @test
-     * @testlinkId TL-MAGE-6380
+     * @TestlinkId TL-MAGE-6380
      */
     public function productTaxClassByDefault()
     {
@@ -46,7 +47,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Need verified that admin user will be able to create any Product Tax Class.</p>
      *
      * @test
-     * @testLinkId TL-MAGE-6381
+     * @TestLinkId TL-MAGE-6381
      */
     public function creatingProductTaxClass()
     {
@@ -63,7 +64,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends creatingProductTaxClass
-     * @testLinkId TL-MAGE-6389
+     * @TestLinkId TL-MAGE-6389
      */
     public function creatingWithSameName()
     {
@@ -83,7 +84,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends creatingProductTaxClass
-     * @testLinkId TL-MAGE-6383
+     * @TestLinkId TL-MAGE-6383
      */
     public function creatingWithEmptyName()
     {
@@ -98,7 +99,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends creatingProductTaxClass
-     * @testLinkId TL-MAGE-6384
+     * @TestLinkId TL-MAGE-6384
      */
     public function editingProductTaxClass()
     {

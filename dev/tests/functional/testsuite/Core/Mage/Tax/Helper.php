@@ -19,30 +19,10 @@
 class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Define Store View id in Table by name
-     *
-     * @param string $storeView
-     *
-     * @return integer
-     */
-    public function findTaxTitleByName($storeView)
-    {
-        $taxTitleQty = $this->getControlCount('pageelement', 'tax_title_header');
-        for ($i = 1; $i <= $taxTitleQty; $i++) {
-            $this->addParameter('index', $i);
-            $text = $this->getControlAttribute('pageelement', 'tax_title_header_index', 'text');
-            if ($text == $storeView) {
-                return $i;
-            }
-        }
-        return 0;
-    }
-
-    /**
-     * Create Product Tax Class|Customer Tax Class|Tax Rate|Tax Rule
+     * Create Product Tax Rule
      *
      * @param array|string $taxItemData
-     * @param string $type search type rate|rule|customer_class|product_class
+     * @param string $type search type rule
      */
     public function createTaxItem($taxItemData, $type)
     {
@@ -52,6 +32,34 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         $this->clickControl('link', 'tax_rule_info_additional_link');
         $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
         $this->saveForm('save_' . $type);
+    }
+
+    /**
+     * Create Product Tax Rule
+     *
+     * @param array|string $taxItemData
+     */
+    public function createTaxRule($taxItemData)
+    {
+        $taxItemData = $this->fixtureDataToArray($taxItemData);
+        $this->clickButton('add_rule');
+        $this->fillFieldset($taxItemData, 'tax_rule_info', false);
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
+        $this->saveForm('save_rule');
+    }
+
+    /**
+     * Create Product Tax Class|Customer Tax Class
+     *
+     * @param $taxClassData
+     */
+    public function createTaxClass($taxClassData)
+    {
+        $taxItemData = $this->fixtureDataToArray($taxClassData);
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
     }
 
     /**
@@ -69,7 +77,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
             $this->assertTrue($this->controlIsPresent('fieldset', 'tax_titles'),
                 'Tax Titles for store views are defined, but cannot be set.');
             foreach ($rateTitles as $key => $value) {
-                $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
+                $this->addParameter('storeName', $key);
                 $this->fillField('tax_title', $value);
             }
         }
@@ -77,10 +85,10 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Open Product Tax Class|Customer Tax Class|Tax Rate|Tax Rule
+     * Open Tax Rate|Tax Rule
      *
      * @param array $taxSearchData Data for search
-     * @param string $type search type rate|rule|customer_class|product_class
+     * @param string $type search type rate|rule
      *
      * @throws OutOfRangeException
      */
@@ -142,7 +150,9 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         $generalElement = $this->getElement($containerXpath);
         $optionElement = $this->getChildElement($generalElement, $labelLocator);
         $optionElement->click();
-        $this->getChildElement($optionElement, "//span[@title='Delete']")->click();
+        $deleteButton = $this->getChildElement($optionElement, "//span[@title='Delete']");
+        $this->moveto($deleteButton);
+        $deleteButton->click();
         //First message
         $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
         $alertText = $this->alertText();

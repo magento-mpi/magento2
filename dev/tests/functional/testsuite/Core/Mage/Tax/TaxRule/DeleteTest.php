@@ -59,7 +59,7 @@ class Core_Mage_Tax_TaxRule_DeleteTest extends Mage_Selenium_TestCase
         $rule = $this->loadDataSet('Tax', 'new_tax_rule_required', array('tax_rate' => $taxRateData['tax_identifier']));
         $searchTaxRule = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $rule['name']));
         //Steps
-        $this->taxHelper()->createTaxItem($rule, 'rule');
+        $this->taxHelper()->createTaxRule($rule);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
         //Steps
