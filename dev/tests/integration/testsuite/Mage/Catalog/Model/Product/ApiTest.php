@@ -77,51 +77,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDbIsolation enabled
-     */
-    public function testCreate()
-    {
-        $productData = array(
-            'name'              => 'API Test Simple Product Name',
-            'description'       => 'API Test Simple Product Description',
-            'short_description' => 'API Test Simple Product Short Description',
-            'sku'               => 'api-test-simple-product',
-            'type_id'           => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-            'attribute_set_id'  => 4,
-            'price'             => 100.00,
-            'weight'            => 20.00,
-        );
-        $actualProductId = Magento_Test_Helper_Api::call(
-            $this,
-            'catalogProductCreate',
-            array($productData['type_id'], $productData['attribute_set_id'], $productData['sku'], $productData)
-        );
-        $this->assertGreaterThan(0, $actualProductId, 'Product identifier is expected to be a positive number');
-
-        /** @var $actualProduct Mage_Catalog_Model_Product */
-        $actualProduct = Mage::getModel('Mage_Catalog_Model_Product');
-        $actualProduct->load($actualProductId);
-        $this->assertFalse($actualProduct->isObjectNew(), 'Product loading is expected to succeed.');
-
-        $this->markTestIncomplete(
-            'Bug: loaded product is missing some of the data, which does not seem to happen in non-testing environment'
-        );
-        $actualProductData = array_intersect_assoc($actualProduct->getData(), $productData);
-        $this->assertEquals($productData, $actualProductData);
-    }
-
-    /**
-     * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     * @expectedException SoapFault
-     * @expectedExceptionMessage Maximum allowed number of products is reached.
-     */
-    public function testCreateLimited()
-    {
-        $this->testCreate();
-    }
-
-    /**
      * Test retrieving the list of attributes which are not in default create/update list via API.
      */
     public function testGetAdditionalAttributes()
