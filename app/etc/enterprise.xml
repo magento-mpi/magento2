@@ -11,9 +11,13 @@
 <config>
     <global>
         <cache>
-            <request_processors>
-                <ee>Enterprise_PageCache_Model_Processor</ee>
-            </request_processors>
+            <instances>
+                <default>
+                    <request_processors>
+                        <ee>Enterprise_PageCache_Model_Processor</ee>
+                    </request_processors>
+                </default>
+            </instances>
         </cache>
         <full_page_cache>
             <backend_options>

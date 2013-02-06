@@ -24,6 +24,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     const XML_PATH_DI_CONFIG = 'global/di';
 
     /**
+     * Id of cache instance for config to use
+     */
+    const XML_PATH_CONFIG_CACHE_ID = 'global/cache/instance_for_config';
+
+    /**
      * Configuration cache tag
      */
     const CACHE_TAG = 'CONFIG';
@@ -151,6 +156,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @var bool
      */
     protected $_allowCacheForInit = true;
+
+    /**
+     * Cache instance to use
+     *
+     * @var string|null
+     */
+    protected $_cacheInstanceId = null;
 
     /**
      * Property used during cache save process
@@ -509,8 +521,38 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function reinit()
     {
         $this->_allowCacheForInit = false;
+        $this->_cacheInstanceId = null;
         $this->_useCache = false;
         return $this->init();
+    }
+
+    /**
+     * Return id of cache instance to be used by config
+     *
+     * @return string
+     */
+    protected function _getCacheInstanceId()
+    {
+        if ($this->_cacheInstanceId === null)
+        {
+            $node = $this->getNode(self::XML_PATH_CONFIG_CACHE_ID);
+            if ($node && ((string) $node !== '')) {
+                $this->_cacheInstanceId = (string) $node;
+            } else {
+                $this->_cacheInstanceId = Mage_Core_Model_App::DEFAULT_CACHE_ID;
+            }
+        }
+        return $this->_cacheInstanceId;
+    }
+
+    /**
+     * Return cache instance to be used by config
+     *
+     * @return Mage_Core_Model_Cache
+     */
+    protected function _getCacheInstance()
+    {
+        return Mage::app()->getCacheInstance($this->_getCacheInstanceId());
     }
 
     /**
@@ -531,7 +573,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getCache()
     {
-        return Mage::app()->getCache();
+        return $this->_getCacheInstance()->getFrontend();
     }
 
     /**
@@ -642,7 +684,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _loadCache($cacheId)
     {
-        return Mage::app()->loadCache($cacheId);
+        return $this->_getCacheInstance()->load($cacheId);
     }
 
     /**
@@ -656,7 +698,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _saveCache($data, $cacheId, $tags = array(), $lifetime = false)
     {
-        return Mage::app()->saveCache($data, $cacheId, $tags, $lifetime);
+        return $this->_getCacheInstance()->save($data, $cacheId, $tags, $lifetime);
     }
 
     /**
@@ -667,7 +709,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _removeCache($cacheId)
     {
-        return Mage::app()->removeCache($cacheId);
+        return $this->_getCacheInstance()->remove($cacheId);
     }
 
     /**

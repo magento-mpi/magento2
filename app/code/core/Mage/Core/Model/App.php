@@ -73,6 +73,11 @@ class Mage_Core_Model_App
     const DISTRO_LOCALE_CODE = 'en_US';
 
     /**
+     * Path to caches declarations
+     */
+    const XML_CACHE_INSTANCES_XPATH = 'global/cache/instances/*';
+
+    /**
      * Cache tag for all cache data exclude config cache
      *
      */
@@ -94,6 +99,11 @@ class Mage_Core_Model_App
      *
      */
     const ADMIN_STORE_ID = 0;
+
+    /**
+     * Id of cache to be used by default
+     */
+    const DEFAULT_CACHE_ID = 'default';
 
     /**
      * Application loaded areas array
@@ -159,13 +169,13 @@ class Mage_Core_Model_App
     protected $_isFrontControllerInitialized = false;
 
     /**
-     * Cache object
+     * Cache objects of Mage_Core_Model_Cache
      *
-     * @var Mage_Core_Model_Cache
+     * @var array
      */
-    protected $_cache;
+    protected $_caches = array();
 
-    /**
+     /**
      * Use Cache
      *
      * @var array
@@ -371,7 +381,7 @@ class Mage_Core_Model_App
 
         Magento_Profiler::stop('init');
 
-        if ($this->_cache->processRequest($this->getResponse())) {
+        if ($this->_caches[self::DEFAULT_CACHE_ID]->processRequest($this->getResponse())) {
             $this->getResponse()->sendResponse();
         } else {
             Magento_Profiler::start('init');
@@ -505,17 +515,38 @@ class Mage_Core_Model_App
     protected function _initCache(array $cacheInitOptions = array())
     {
         $this->_isCacheLocked = true;
-        $options = $this->_config->getNode('global/cache');
-        if ($options) {
-            $options = $options->asArray();
-        } else {
-            $options = array();
+        $instances = $this->_config->getXpath(self::XML_CACHE_INSTANCES_XPATH);
+        if ($instances) {
+            foreach ($instances as $instanceNode) {
+                /** @var $instanceNode Mage_Core_Model_Config_Element */
+                $instanceId = $instanceNode->getName();
+                if (isset($this->_caches[$instanceId])) {
+                    throw new Magento_Exception("Double declaration of cache instance {$instanceId}");
+                }
+                $options = $instanceNode->asArray() ?: array();
+                $options = array_merge($options, $cacheInitOptions);
+                $this->_caches[$instanceId] = $this->_initCacheInstance($options);
+            }
         }
-        $options = array_merge($options, $cacheInitOptions);
-        $this->_cache = $this->_objectManager->create('Mage_Core_Model_Cache', array('options' => $options), false);
-        $this->_objectManager->addSharedInstance($this->_cache, 'Mage_Core_Model_Cache');
+
+        if (!isset($this->_caches[self::DEFAULT_CACHE_ID])) {
+            $this->_caches[self::DEFAULT_CACHE_ID] = $this->_initCacheInstance($cacheInitOptions);
+        }
+
+        $this->_objectManager->addSharedInstance($this->_caches[self::DEFAULT_CACHE_ID], 'Mage_Core_Model_Cache');
+
         $this->_isCacheLocked = false;
         return $this;
+    }
+
+    /**
+     * Init cache instance according to the provided options
+     *
+     * @return Mage_Core_Model_Cache
+     */
+    protected function _initCacheInstance($options)
+    {
+        return $this->_objectManager->create('Mage_Core_Model_Cache', array('options' => $options), false);
     }
 
     /**
@@ -1271,16 +1302,18 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Get core cache model
+     * Get cache model by id. Return default cache model, if id is not set.
      *
+     * @param string $instanceId
      * @return Mage_Core_Model_Cache
      */
-    public function getCacheInstance()
+    public function getCacheInstance($instanceId = null)
     {
-        if (!$this->_cache) {
+        if (!$this->_caches) {
             $this->_initCache();
         }
-        return $this->_cache;
+        $instanceId = $instanceId ?: self::DEFAULT_CACHE_ID;
+        return $this->_caches[$instanceId];
     }
 
     /**
@@ -1290,10 +1323,10 @@ class Mage_Core_Model_App
      */
     public function getCache()
     {
-        if (!$this->_cache) {
+        if (!$this->_caches) {
             $this->_initCache();
         }
-        return $this->_cache->getFrontend();
+        return $this->_caches[self::DEFAULT_CACHE_ID]->getFrontend();
     }
 
     /**
@@ -1304,7 +1337,7 @@ class Mage_Core_Model_App
      */
     public function loadCache($id)
     {
-        return $this->_cache->load($id);
+        return $this->_caches[self::DEFAULT_CACHE_ID]->load($id);
     }
 
     /**
@@ -1318,7 +1351,7 @@ class Mage_Core_Model_App
      */
     public function saveCache($data, $id, $tags = array(), $lifeTime = false)
     {
-        $this->_cache->save($data, $id, $tags, $lifeTime);
+        $this->_caches[self::DEFAULT_CACHE_ID]->save($data, $id, $tags, $lifeTime);
         return $this;
     }
 
@@ -1330,7 +1363,7 @@ class Mage_Core_Model_App
      */
     public function removeCache($id)
     {
-        $this->_cache->remove($id);
+        $this->_caches[self::DEFAULT_CACHE_ID]->remove($id);
         return $this;
     }
 
@@ -1342,7 +1375,7 @@ class Mage_Core_Model_App
      */
     public function cleanCache($tags = array())
     {
-        $this->_cache->clean($tags);
+        $this->_caches[self::DEFAULT_CACHE_ID]->clean($tags);
         Mage::dispatchEvent('application_clean_cache', array('tags' => $tags));
         return $this;
     }
@@ -1355,7 +1388,7 @@ class Mage_Core_Model_App
      */
     public function useCache($type = null)
     {
-        return $this->_cache->canUse($type);
+        return $this->_caches[self::DEFAULT_CACHE_ID]->canUse($type);
     }
 
     /**
@@ -1366,7 +1399,7 @@ class Mage_Core_Model_App
      */
     public function saveUseCache($data)
     {
-        $this->_cache->saveOptions($data);
+        $this->_caches[self::DEFAULT_CACHE_ID]->saveOptions($data);
         return $this;
     }
 
