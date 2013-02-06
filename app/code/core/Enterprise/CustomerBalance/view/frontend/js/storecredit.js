@@ -71,7 +71,7 @@
             if (this.isCustomerBalanceChecked) {
                 if (element.attr('name') === 'payment[method]') {
                     if (element.val() === 'free' && element.is(':radio')) {
-                        element.attr('checked', 'checked').removeAttr("disabled").parent().hide();
+                        element.prop('checked', true).removeAttr("disabled").parent().hide();
                     }
                 }
             } else {
@@ -101,10 +101,7 @@
         _setHiddenElement: function() {
             if (this.isCustomerBalanceChecked) {
                 this._appendHiddenElement();
-                $(this.options.paymentMethodsSelector).hide().attr("disabled", "disabled");
-                $(this.options.paymentMethodsSelector).find(':input').each($.proxy(function(index, element) {
-                    $(element).attr("disabled", "disabled");
-                }, this));
+                $(this.options.paymentMethodsSelector).hide().prop("disabled", true).find(":input").prop("disabled", true);
             } else {
                 $(this.options.paymentMethodsSelector).show().removeAttr("disabled");
             }
@@ -115,13 +112,9 @@
          * @private
          */
         _showPaymentMethod: function() {
-            $("input[name='payment[method]']").each($.proxy(function(index, element) {
-                element = $(element);
-                if (element.val() !== 'free') {
-                    element.removeAttr('disabled');
-                }
-            }, this));
-            var selectRadio = $("input:radio[name='payment[method]']:not(disabled):not([value='free'])");
+            $("input:radio[name='payment[method]'][value='free']").prop("disabled", true).parent().hide();
+            $("input[name='payment[method]']:not([value='free'])").removeAttr("disabled");
+            var selectRadio = $("input:radio[name='payment[method]']:not(disabled, [value='free'])");
             selectRadio.first().attr('checked', true);
             if (selectRadio.length === 1) {
                 selectRadio.hide();

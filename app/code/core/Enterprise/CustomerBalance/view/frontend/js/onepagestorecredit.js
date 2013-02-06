@@ -19,7 +19,7 @@
                     this.checkFree = true;
                     element.attr('checked', 'checked').removeAttr('disabled').parent().hide();
                 } else {
-                    element.attr("disabled", "disabled");
+                    element.prop("disabled", true);
                 }
             }
         },
@@ -33,10 +33,7 @@
                 if (!this.checkFree) {
                     this._appendHiddenElement();
                 }
-                $(this.options.paymentMethodsSelector).hide().attr("disabled", "disabled");
-                $(this.options.paymentMethodsSelector).find(':input').each($.proxy(function(index, element) {
-                    $(element).attr("disabled", "disabled");
-                }, this));
+                $(this.options.paymentMethodsSelector).hide().prop("disabled", "disabled").find(":input").attr('disabled', 'disabled');
                 this.options.payment.switchMethod();
             }
         },
@@ -46,13 +43,9 @@
          * @private
          */
         _showPaymentMethod: function() {
-            $("input[name='payment[method]']").each($.proxy(function(index, element) {
-                element = $(element);
-                if (element.val() !== 'free') {
-                    element.removeAttr('disabled');
-                }
-            }, this));
-            var selectRadio = $("input:radio[name='payment[method]']:not(disabled):not([value='free'])");
+            $("input:radio[name='payment[method]'][value='free']").prop("disabled",true).parent().hide();
+            $("input[name='payment[method]']:not([value='free'])").removeAttr("disabled");
+            var selectRadio = $("input:radio[name='payment[method]']:not(disabled, [value='free'])");
             selectRadio.first().attr('checked', true);
             if (selectRadio.length === 1) {
                 selectRadio.hide();
