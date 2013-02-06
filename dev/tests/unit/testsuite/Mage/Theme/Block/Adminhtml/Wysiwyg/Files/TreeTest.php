@@ -32,10 +32,19 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_TreeTest extends PHPUnit_Framewor
         $this->_urlBuilder = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_filesTree = $objectManagerHelper->getBlock('Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree', array(
-            'helperStorage' => $this->_helperStorage,
-            'urlBuilder'    => $this->_urlBuilder
-        ));
+        $constructArguments =  $objectManagerHelper->getConstructArguments(
+            Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
+            'Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content',
+            array('urlBuilder'    => $this->_urlBuilder)
+        );
+        $this->_filesTree = $this->getMock(
+            'Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree', array('helper'), $constructArguments
+        );
+
+        $this->_filesTree->expects($this->any())
+            ->method('helper')
+            ->with('Mage_Theme_Helper_Storage')
+            ->will($this->returnValue($this->_helperStorage));
     }
 
     public function testGetTreeLoaderUrl()

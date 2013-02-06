@@ -41,14 +41,18 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Frame
             Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
             'Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content',
             array(
-                'helperStorage' => $this->_helperStorage,
                 'urlBuilder'    => $this->_urlBuilder,
                 'request'       => $this->_request
             )
         );
         $this->_filesContent = $this->getMock(
-            'Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content', null, $constructArguments
+            'Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content', array('helper'), $constructArguments
         );
+
+        $this->_filesContent->expects($this->any())
+            ->method('helper')
+            ->with('Mage_Theme_Helper_Storage')
+            ->will($this->returnValue($this->_helperStorage));
     }
 
     /**
