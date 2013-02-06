@@ -13,6 +13,7 @@
  *
  * @method Mage_Core_Model_Theme getTheme()
  * @method setTheme($theme)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backend_Block_Widget_Form
 {
@@ -20,7 +21,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      * Magento config model
      *
      * @var Mage_Core_Model_Config
-     * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
      */
     protected $_config;
 
