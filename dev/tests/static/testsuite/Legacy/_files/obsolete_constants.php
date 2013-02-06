@@ -50,4 +50,5 @@ return array(
     array('URL_TYPE_SKIN'),
     array('INSTALLER_HOST_RESPONSE', 'Mage_Install_Model_Installer'),
     array('DEFAULT_THEME_NAME', 'Mage_Core_Model_Design_Package'),
+    array('XML_PATH_CACHE_BETA_TYPES'),
 );

@@ -185,6 +185,7 @@ return array(
     array('getChildGroup', null, 'Mage_Core_Block_Abstract::getGroupChildNames()'),
     array('getConfig', 'Mage_Eav_Model_Entity_Attribute_Abstract'),
     array('getCustomerData', 'Mage_Adminhtml_Block_Sales_Order_Create_Form_Account'),
+    array('getCacheBetaTypes'),
     array('getDataForSave', 'Mage_Wishlist_Model_Item'),
     array('getDebug', 'Mage_Ogone_Model_Api'),
     array('getDebug', 'Mage_Paypal_Model_Api_Abstract'),
