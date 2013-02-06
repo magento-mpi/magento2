@@ -66,6 +66,28 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
         $this->assertEquals($expectedUrl, $this->_model->getJsUploadUrl());
     }
 
+    /**
+     * @covers Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js::getJsReorderUrl
+     */
+    public function testGetJsReorderUrl()
+    {
+        $themeId = 8;
+        $theme = $this->getMockBuilder('Mage_Core_Model_Theme')->disableOriginalConstructor()->getMock();
+        $theme->expects($this->once())->method('getId')->will($this->returnValue($themeId));
+        $this->_model->setTheme($theme);
+
+        $expectedUrl = 'some_url';
+        $this->_urlBuilder->expects($this->once())
+            ->method('getUrl')
+            ->with('*/system_design_editor_tools/reorderjs', array('id' => $themeId))
+            ->will($this->returnValue($expectedUrl));
+
+        $this->assertEquals($expectedUrl, $this->_model->getJsReorderUrl());
+    }
+
+    /**
+     * @covers Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js::getTitle
+     */
     public function testGetTitle()
     {
         $this->_model->expects($this->atLeastOnce())
@@ -74,6 +96,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
         $this->assertEquals('Custom javascript files', $this->_model->getTitle());
     }
 
+    /**
+     * @covers Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js::getJsFiles
+     */
     public function testGetJsFiles()
     {
         $filesCollection = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_Files_Collection')
