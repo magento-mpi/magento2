@@ -55,9 +55,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     public function saveCssContentAction()
     {
         $themeId = $this->getRequest()->getParam('theme_id', false);
-        $customCssContent = $this->getRequest()->getParam('custom_css_content', false);
+        $customCssContent = $this->getRequest()->getParam('custom_css_content', null);
         try {
-            if (!$themeId || !$customCssContent) {
+            if (!$themeId || (null === $customCssContent)) {
                 throw new InvalidArgumentException('Param "stores" is not valid');
             }
 
@@ -68,12 +68,18 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $themeCss->setDataForSave($customCssContent);
             $theme->setCustomization($themeCss)->save();
             $response = array('error' => false);
+            $this->_session->addSuccess($this->__('Theme custom css was saved.'));
         } catch (Mage_Core_Exception $e) {
+            $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $response = array('error' => true, 'message' => $this->__('Cannot upload css file'));
+            $errorMessage = $this->__('Cannot save custom css');
+            $this->_session->addError($errorMessage);
+            $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
+        $this->loadLayout();
+        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
