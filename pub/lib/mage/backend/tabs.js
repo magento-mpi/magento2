@@ -151,7 +151,9 @@
              * @param {Object}
              */
             load: function(event, ui) {
-                $(ui.tab).prop('href', '#' + $(ui.panel).prop('id'));
+                var panel = $(ui.panel);
+                $(ui.tab).prop('href', '#' + panel.prop('id'));
+                panel.trigger('contentUpdated');
             }
         }
     });
