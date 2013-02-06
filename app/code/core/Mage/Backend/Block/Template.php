@@ -15,7 +15,6 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.numberOfChildren)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
