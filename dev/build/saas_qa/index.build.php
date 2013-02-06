@@ -26,7 +26,7 @@ try {
 
 // Determine application configuration string for a tenant
 $appConfigString = serialize(array(
-    'MAGE_CONFIG_DATA' => $localXml,
+    'custom_local_config' => $localXml,
     'app_uris' => array(
         'media' => "pub/media.{$tenantId}",
     ),
