@@ -9,8 +9,34 @@
  */
  /* @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet */
 ?>
-<div id="<?php echo $this->getNameInLayout() ?>" style="display:none">
-    <?php echo $this->getFormHtml();?>
-    <?php echo $this->getChildHtml('form_after');?>
-</div>
-
+<script id="product-template-selector-template" type="text/x-jquery-tmpl">
+{{if !term && items.length && !$data.allShown()}}
+<h2>Recent Items</h2>
+{{/if}}
+<ul data-mage-init="{&quot;menu&quot;:[]}">
+    {{each items}}
+    <li {{html optionData($value)}}><a href="#">${$value.label}</a></li>
+    {{/each}}
+</ul>
+{{if !term && items.length && !$data.allShown()}}
+<div data-mage-init="{actionLink:{event:&quot;showAll&quot;}}" class="show-all">Show all...</div>
+{{/if}}
+</script>
+<script>
+    jQuery(function ($) {
+        $('#attribute-set-suggest-container .current-set-container').off('click.attribute-set')
+            .on('click.attribute-set', function () {
+                $(this).next('div').toggle();
+            });
+        $('#attribute-set-suggest').suggest(<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
+            .on('suggestselect', function (e, selectedItem) {
+                if (selectedItem.id) {
+                    var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace('#', '');
+                    uri += /\?/.test(uri) ? '&' : '?';
+                    uri += 'set=' + window.encodeURIComponent(selectedItem.id);
+                    var $form = $('#product-edit-form');
+                    $form.attr('action', uri).addClass('ignore-validate').submit();
+                }
+            });
+    });
+</script>
