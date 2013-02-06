@@ -113,16 +113,6 @@
                     $('#product-variations-matrix').trigger('disable');
                 });
 
-        $('.collapse', collapsableArea)
-            .on('show', function(e) {
-
-                e.stopPropagation();
-            })
-            .on('hide', function(e) {
-
-                e.stopPropagation();
-            });
-
     var $gridDialog = $('#associated-products-container').dialog({
         title: 'Select Associated Product',
         autoOpen: false,
@@ -149,7 +139,7 @@
             .on('click', 'input.associated-matrix-product-id', function() {
                 $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
             })
-            .on('click', '.choose-product', function(event) {
+            .on('click', '.action-choose', function(event) {
                 event.preventDefault();
                 var grid = window.<?php echo $this->getGridJsObject() ?>;
                 var $button = $(this);
@@ -171,16 +161,20 @@
                         return;
                     }
                     var $gridRow = $(event.target).parents('tr'),
-                            associatedClass = '.associated-product-';
+                        associatedClass = '.associated-product-';
+
                     if ($gridRow.find(associatedClass + 'id').length) {
                         var $matrixRow = $button.parents('tr'),
-                                matrixClass = '.associated-matrix-product-';
+                            matrixClass = '.associated-matrix-product-';
+
                         $.each('name,sku,qty,weight,id'.split(','), function () {
                             var target = $matrixRow.find(matrixClass + this),
-                                    value = $.trim($gridRow.find(associatedClass + this).text()),
-                                    button = target.find('button.choose-product');
+                                value = $.trim($gridRow.find(associatedClass + this).text()),
+                                button = target.find('.action-choose');
+
                             target[target.is('input[type=checkbox]') ? 'val' : 'text'](value).append(button);
                         });
+
                         $matrixRow.find(matrixClass + 'id').attr('checked', true).removeAttr('disabled');
                     }
                     $gridDialog.dialog('close');

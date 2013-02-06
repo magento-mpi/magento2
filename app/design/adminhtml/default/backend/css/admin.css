@@ -189,6 +189,11 @@ button.primary.disabled,
 .action-.delete:active,
 .action-.delete.active,
 .action-.delete:disabled,
+#product-variations-matrix .action-choose,
+#product-variations-matrix .action-choose:hover,
+#product-variations-matrix .action-choose:active,
+#product-variations-matrix .action-choose.active,
+#product-variations-matrix .action-choose:disabled,
 .fieldset-wrapper-title .action-add,
 .fieldset-wrapper-title .action-add:hover,
 .fieldset-wrapper-title .action-add:active,
@@ -229,14 +234,16 @@ button.primary.disabled,
 .action-upload {
     position: relative;
 }
-.action-upload > span {}
+
+.action-upload > span {
+}
+
 .action-upload > input[type="file"] {
     position: absolute;
     left: 0;
     top: 0;
     right: 0;
     bottom: 0;
-    background: red;
     opacity: 0;
 }
 
@@ -912,15 +919,18 @@ option.placeholder {
 .use-default {
 
 }
+
 .use-default-control {
     display: none;
 }
+
 .use-default-label {
     cursor: pointer;
     text-decoration: underline;
     font-size: 11px;
     color: #a29c94;
 }
+
 .use-default-label:hover {
     color: #7e7e7e;
 }
@@ -1993,7 +2003,8 @@ table tbody tr:nth-child(odd):hover th {
     Login page
 -------------------------------------- */
 
-.page-login {}
+.page-login {
+}
 
 .page-login .fieldset {
     border-color: #B5DCD6;
@@ -2003,6 +2014,7 @@ table tbody tr:nth-child(odd):hover th {
     min-width: 0;
     max-width: auto;
 }
+
 .page-login .footer,
 .page-login .form-login {
     width: 600px;
@@ -2013,7 +2025,7 @@ table tbody tr:nth-child(odd):hover th {
 .page-login .header {
     width: 564px;
     margin: 0 auto;
-    padding:50px 18px;
+    padding: 50px 18px;
 }
 
 .page-login .logo {
@@ -2320,7 +2332,6 @@ table tbody tr:nth-child(odd):hover th {
     content: '\e069';
     color: #963535;
 }
-
 
 /* TODO: implement styles for all types of messages when the new code is integrated */
 
@@ -3378,6 +3389,48 @@ tr.dynamic-grid input.input-text {
     color: red;
 }
 
+.data-table .actions-split {
+    margin-top: 4px;
+}
+
+.data-table .actions-split [class^='action-'] {
+    background: none;
+    border: 1px solid #c8c3b5;
+    padding: 3px 5px;
+    color: #bbb3a6;
+    font-size: 12px;
+}
+
+.data-table .actions-split [class^='action-']:first-child {
+    border-right: 0;
+}
+
+.data-table .actions-split .dropdown-menu {
+    margin-top: -1px;
+}
+
+.data-table .actions-split.active .action-toggle {
+    position: relative;
+    border-bottom-right-radius: 0;
+    box-shadow: none;
+    background: #fff;
+}
+
+.data-table .actions-split.active .action-toggle:after {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    margin-top: -1px;
+    background: #fff;
+    content: '';
+    z-index: 2;
+}
+
+.data-table .actions-split.active .dropdown-menu {
+    border-top-right-radius: 0;
+}
 
 /*
     Content alignments in tables
@@ -3395,7 +3448,8 @@ tr.dynamic-grid input.input-text {
 .col-include,
 .col-display,
 .col-image,
-.col-price {
+.col-price,
+.col-change-price {
     text-align: center;
 }
 
@@ -3405,7 +3459,6 @@ tr.dynamic-grid input.input-text {
 .col-actions {
     text-align: right;
 }
-
 
 /*
     Attribute Information
