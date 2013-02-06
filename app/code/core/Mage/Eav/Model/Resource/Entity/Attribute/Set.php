@@ -19,6 +19,11 @@
 class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Minimal attribute set name
+     */
+    const MINIMAL_ATTRIBUTE_SET_NAME = 'Minimal';
+
+    /**
      * Initialize connection
      *
      */
@@ -157,6 +162,28 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Set extends Mage_Core_Model_Resou
             ->where('attribute_set_id = :attribute_set_id')
             ->where('default_id = 1')
             ->limit(1);
+        return $adapter->fetchOne($select, $bind);
+    }
+
+    /**
+     * Get Minimal Attribute Set id by EntityTypeId
+     *
+     * @param int $entityTypeId
+     * @return int
+     */
+    public function getMinimalAttrSetId($entityId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $bind = array(
+            'attribute_set_name' => self::MINIMAL_ATTRIBUTE_SET_NAME,
+            'entity_type_id'     => $entityId
+        );
+
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('attribute_set_name = :attribute_set_name')
+            ->where('entity_type_id = :entity_type_id');
+
         return $adapter->fetchOne($select, $bind);
     }
 }

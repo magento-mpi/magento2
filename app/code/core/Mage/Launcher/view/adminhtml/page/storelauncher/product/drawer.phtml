@@ -10,5 +10,13 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer */
 ?>
+<form action="" id="drawer-form" method="post">
+    <span>
+        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Get started by adding a single product') ?>
+    </span>
+    <?php echo $this->getGeneralTabContent();?>
 
-<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add product drawer content') ?>
+    <?php echo $this->getChildBlock('new-category')->setUseContainer(false)->toHtml();?>
+    <?php echo $this->getChildBlock('new-category-js')->setUseContainer(false)->toHtml();?>
+    <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>
+</form>

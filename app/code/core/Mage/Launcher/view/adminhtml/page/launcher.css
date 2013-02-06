@@ -395,7 +395,7 @@
     background: #fff;
     left:0;
     top: 1000px;
-    z-index: 1002;
+    z-index: 902;
     display: none;
     color:#676056;
 }
@@ -1564,4 +1564,17 @@
 .payments-tiles:after,
 .clearfix:after {
     clear: both;
+}
+
+.dialog {
+    position: absolute;
+    display: block;
+}
+
+.dialog table.table_window  {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+	margin: 0px;
+	padding:0px;
 }

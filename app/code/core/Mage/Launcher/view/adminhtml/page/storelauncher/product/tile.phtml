@@ -10,20 +10,20 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Tile */
 ?>
-<article class="sl-step <?php echo $this->getTileStateStyle(); ?>" id="article-<?php echo $this->getTileCode()?>">
+<article class="tile-store-settings tile-product <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>">
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Product') ?></h2>
-    <div class="create">
+    <div class="tile-teaser">
         <p>
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Create Product') ?>
         </p>
-        <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode() ?>"
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
             data-save-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/save') ?>"
             data-load-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Create Product') ?>
         </button>
     </div>
 
-    <div class="completed">
+    <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <p><strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have created Product') ?></strong></p>
         <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
