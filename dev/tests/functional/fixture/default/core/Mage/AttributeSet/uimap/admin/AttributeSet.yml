@@ -49,7 +49,7 @@ add_new_attribute_set:
             fieldsets:
                 -
                     edit_set_name:
-                        xpath:  //div[@id='set_name']
+                        xpath:  //*[@id='set_name']
                         fields:
                             set_name: //input[@name='attribute_set_name']
                         dropdowns:
@@ -68,12 +68,12 @@ edit_attribute_set:
             fieldsets:
                 -
                     edit_set_name:
-                        xpath:  //div[@id='set_name']
+                        xpath:  //*[@id='set_name']
                         fields:
                             set_name: //input[@name='attribute_set_name']
                 -
                     groups:
-                        xpath:  //td[div[@id='tree-div1']]
+                        xpath:  //*[div[@id='tree-div1']]
                         buttons:
                             add_group: //button[span='Add New']
                             delete_group: //button[span='Delete Selected Group']
