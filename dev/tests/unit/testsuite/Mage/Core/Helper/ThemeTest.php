@@ -82,7 +82,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             array('Mage_Core::test23.css', $params, '/zzz/qqq/test23.css'),
             array('test24.css', $params, '/zzz/qqq/test24.css'),
         );
-        $design = $this->_getDesign($theme, $themeArea, $map);
+        $design = $this->_getDesign($map);
 
         // 4. Get dirs model
         $dirs = $this->_getDirs();
@@ -100,11 +100,17 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function getCssFilesDataProvider()
     {
         return array(
             array(
-                '<block type="Mage_Page_Block_Html_Head" name="head"><action method="addCss"><param>test1.css</param></action></block>',
+                '<block type="Mage_Page_Block_Html_Head" name="head">
+                    <action method="addCss"><param>test1.css</param></action>
+                </block>',
                 array(
                     'test1.css' => array(
                         'id'       => 'test1.css',
@@ -114,7 +120,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block type="Mage_Page_Block_Html_Head" name="head"><action method="addCss"><file>test2.css</file></action></block>',
+                '<block type="Mage_Page_Block_Html_Head" name="head">
+                    <action method="addCss"><file>test2.css</file></action>
+                </block>',
                 array(
                     'test2.css' => array(
                         'id'       => 'test2.css',
@@ -124,7 +132,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block type="Mage_Page_Block_Html_Head" name="head"><action method="addCss"><param>Mage_Core::test3.css</param></action></block>',
+                '<block type="Mage_Page_Block_Html_Head" name="head">
+                    <action method="addCss"><param>Mage_Core::test3.css</param></action>
+                </block>',
                 array(
                     'Mage_Core::test3.css' => array(
                         'id'       => 'Mage_Core::test3.css',
@@ -134,7 +144,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block type="Mage_Page_Block_Html_Head" name="head"><action method="addCssIe"><param>test4.css</param></action></block>',
+                '<block type="Mage_Page_Block_Html_Head" name="head">
+                    <action method="addCssIe"><param>test4.css</param></action>
+                </block>',
                 array(
                     'test4.css' => array(
                         'id'       => 'test4.css',
@@ -164,7 +176,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<reference name="head"><action method="addCss"><param>Mage_Core::test23.css</param></action></reference>',
+                '<reference name="head">
+                    <action method="addCss"><param>Mage_Core::test23.css</param></action>
+                </reference>',
                 array(
                     'Mage_Core::test23.css' => array(
                         'id'       => 'Mage_Core::test23.css',
@@ -193,7 +207,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(),
             ),
             array(
-                '<block type="Some_Block_Class"><action method="addCss"><param>Mage_Core::test33.css</param></action></block>',
+                '<block type="Some_Block_Class">
+                    <action method="addCss"><param>Mage_Core::test33.css</param></action>
+                </block>',
                 array(),
             ),
             array(
@@ -201,19 +217,27 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 array(),
             ),
             array(
-                '<reference name="some_block_name"><action method="addCss"><param>test41.css</param></action></reference>',
+                '<reference name="some_block_name">
+                    <action method="addCss"><param>test41.css</param></action>
+                </reference>',
                 array(),
             ),
             array(
-                '<reference name="some_block_name"><action method="addCss"><file>test42.css</file></action></reference>',
+                '<reference name="some_block_name">
+                    <action method="addCss"><file>test42.css</file></action>
+                </reference>',
                 array(),
             ),
             array(
-                '<reference name="some_block_name"><action method="addCss"><param>Mage_Core::test43.css</param></action></reference>',
+                '<reference name="some_block_name">
+                    <action method="addCss"><param>Mage_Core::test43.css</param></action>
+                </reference>',
                 array(),
             ),
             array(
-                '<reference name="some_block_name"><action method="addCssIe"><param>test44.css</param></action></reference>',
+                '<reference name="some_block_name">
+                    <action method="addCssIe"><param>test44.css</param></action>
+                </reference>',
                 array(),
             ),
             array(
@@ -426,7 +450,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     protected function _getTheme($themeId, $themeArea)
     {
         /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->getMock('Mage_Core_Model_Theme', array('getThemeId', 'getArea', 'getThemeTitle'), array(), '', false);
+        $theme = $this->getMock('Mage_Core_Model_Theme',
+            array('getThemeId', 'getArea', 'getThemeTitle'), array(), '', false
+        );
         $theme->expects($this->any())
             ->method('getThemeId')
             ->will($this->returnValue($themeId));
@@ -441,12 +467,10 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Mage_Core_Model_Theme $theme
-     * @param string $themeArea
      * @param array $map
      * @return Mage_Core_Model_Design_Package|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getDesign($theme, $themeArea, $map)
+    protected function _getDesign($map)
     {
         /** @var $design Mage_Core_Model_Design_Package */
         $design = $this->getMock('Mage_Core_Model_Design_Package', array('getViewFile'), array(), '', false);
@@ -514,7 +538,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $theme13 = $this->_getTheme('13', 'area13');
 
         /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollection = $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array('getThemeByFullPath'), array(), '', false);
+        $themeCollection = $this->getMock('Mage_Core_Model_Resource_Theme_Collection',
+            array('getThemeByFullPath'), array(), '', false
+        );
         $themeCollection->expects($this->any())
             ->method('getThemeByFullPath')
             ->will($this->returnValueMap(array(

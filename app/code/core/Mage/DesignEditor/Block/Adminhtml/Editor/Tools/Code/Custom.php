@@ -13,6 +13,7 @@
  *
  * @method Mage_Core_Model_Theme getTheme()
  * @method setTheme($theme)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Backend_Block_Widget_Form
 {
