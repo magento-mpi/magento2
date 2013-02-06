@@ -112,19 +112,4 @@ class Saas_Tenant_CodeBase
         }
         return $dir;
     }
-
-    /**
-     * Get custom name of media directory
-     *
-     * @return string
-     */
-    public function getMediaDirName()
-    {
-        if (empty($this->_localXml->global->web->dir->media)) {
-            $mediaDir = $this->getId();
-        } else {
-            $mediaDir = (string)$this->_localXml->global->web->dir->media;
-        }
-        return 'media' . DIRECTORY_SEPARATOR . $mediaDir;
-    }
 }

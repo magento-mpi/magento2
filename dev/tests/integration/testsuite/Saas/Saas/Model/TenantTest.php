@@ -92,14 +92,29 @@ class Saas_Saas_Model_TenantTest extends PHPUnit_Framework_TestCase
                 ),
                 $xmlSaasOff
             ),
+            'each_node_has_unique' => array(
+                array(
+                    'modules' => $xmlStart
+                        . '<config>
+                            <modules><Saas1><active>true</active></Saas1><Saas><active>false</active></Saas></modules>
+                           </config>',
+                    'tenantModules' => $xmlStart
+                        . '<config>
+                            <modules><Saas1><active>true</active></Saas1><Saas2><active>false</active></Saas2></modules>
+                           </config>',
+                ),
+                $xmlSaas1On
+            ),
         );
     }
 
     public function testGetMediaDirGetVarDir()
     {
         $mediaDir = 'mediadir';
-        $varDir = 'vardir';
-        $tenant = new Saas_Saas_Model_Tenant(array('media_dir' => $mediaDir, 'var_dir' => $varDir));
+        $tenant = new Saas_Saas_Model_Tenant(
+            array('local' => '<?xml version="1.0" encoding="utf-8" ?><config><global><web><dir><media>'
+                    . $mediaDir . '</media></dir></web></global></config>')
+        );
         $this->assertEquals($tenant->getMediaDir(), $mediaDir);
         $this->assertEquals($tenant->getVarDir(), $mediaDir); //yes, there is no specific var dir
     }

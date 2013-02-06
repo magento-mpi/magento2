@@ -31,15 +31,20 @@ class Saas_Saas_Model_Tenant
     protected $_configArray = array();
 
     /**
+     * Tenant's media dir. Relative path inside media folder
+     *
+     * @var string
+     */
+    protected $_mediaDir;
+
+    /**
      * Constructor
      *
      * @param array $configArray
      */
     public function __construct(array $configArray)
     {
-        if (is_null($this->_config)) {
-            $this->_config = new Saas_Saas_Model_Tenant_Config();
-        }
+        $this->_config = new Saas_Saas_Model_Tenant_Config();
         $this->_configArray = $configArray;
     }
 
@@ -54,12 +59,41 @@ class Saas_Saas_Model_Tenant
     }
 
     /**
-     * Strange legacy logic.
+     * Legacy logic.
      * Only if modules are enabled in tenantModules or groupModules node, they can be affected by modules node
      *
      * @return string
      */
     public function getTenantModules()
+    {
+        /**
+         * Contains all modules that might be turned on or off
+         */
+        $availableModules = $this->_getAvailableModules();
+
+        $allModulesConfig = new Varien_Simplexml_Config();
+
+        if ($this->_configArray['modules']) {
+            $allModulesConfig->loadString($this->_configArray['modules']);
+            if (isset($allModulesConfig->getNode()->modules)) {
+                //Remove selected modules that not available to change
+                foreach (array_keys((array)$allModulesConfig->getNode('modules')) as $key) {
+                    if (!isset($availableModules[$key])) {
+                        unset($allModulesConfig->getNode('modules')->$key);
+                    }
+                }
+            }
+        }
+
+        return $allModulesConfig->getXmlString();
+    }
+
+    /**
+     * Get all modules that can be turned on or off via config nodes
+     *
+     * @return array
+     */
+    protected function _getAvailableModules()
     {
         $modulesArray = array();
         foreach (array('groupModules', 'tenantModules') as $node) {
@@ -80,8 +114,7 @@ class Saas_Saas_Model_Tenant
                 }
             }
         }
-
-        return $this->_config->getModulesConfig($this->_configArray['modules'], $availableModules);
+        return $availableModules;
     }
 
     /**
@@ -91,7 +124,11 @@ class Saas_Saas_Model_Tenant
      */
     public function getMediaDir()
     {
-        return $this->_configArray['media_dir'];
+        if (is_null($this->_mediaDir)) {
+            $node = new SimpleXMLElement($this->_configArray['local']);
+            $this->_mediaDir = (string)$node->global->web->dir->media;
+        }
+        return $this->_mediaDir;
     }
 
     /**
@@ -101,7 +138,7 @@ class Saas_Saas_Model_Tenant
      */
     public function getVarDir()
     {
-        return $this->_configArray['media_dir'];
+        return $this->getMediaDir();
     }
 
 }

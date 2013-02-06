@@ -84,16 +84,4 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
         $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
         $object->getDir();
     }
-
-    public function testGetMediaDirName()
-    {
-        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, self::$_config);
-        $this->assertEquals('media' . DIRECTORY_SEPARATOR . $this->_id, $object->getMediaDirName());
-
-        $config = self::$_config;
-        $config['tenantConfiguration']['local'] = '<?xml version="1.0"?><config><global><web><dir><media>' . 'test'
-            . '</media></dir></web></global></config>';
-        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
-        $this->assertEquals('media' . DIRECTORY_SEPARATOR . 'test', $object->getMediaDirName());
-    }
 }

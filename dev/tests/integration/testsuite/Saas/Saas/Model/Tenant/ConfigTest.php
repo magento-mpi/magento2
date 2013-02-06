@@ -65,21 +65,6 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetModulesConfig()
-    {
-        $xmlStart = '<?xml version="1.0" encoding="utf-8" ?>';
-        $xmlTestModule = '<Test_Module><active>true</active></Test_Module>';
-        $xmlTestModule1 = '<Test_Module1><active>true</active></Test_Module1>';
-
-        $this->assertXmlStringEqualsXmlString(
-            $this->_model->getModulesConfig(
-                $xmlStart . '<config><modules>' . $xmlTestModule . $xmlTestModule1 . '</modules></config>',
-                array('Test_Module' => true, 'Test_OtherModule' => true)
-            ),
-            $xmlStart . '<config><modules>' . $xmlTestModule . '</modules></config>'
-        );
-    }
-
     /**
      * @dataProvider loadModulesDataProvider
      */

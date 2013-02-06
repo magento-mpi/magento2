@@ -1,6 +1,6 @@
 <?php
 /**
- * SaaS application "entry point", requires "SaaS access point" to delegate execution to it
+ * SaaS "Application entry point", required by "SaaS entry point"
  *
  * {license_notice}
  *
@@ -11,20 +11,38 @@
 /**
  * Run application based on invariant configuration string
  *
- * Both "SaaS access point" and this "entry point" have a convention: API consists of one and only one string argument
- * Underlying implementation may differ, in future versions of the entry point, but API should remain the same
+ * Both "SaaS entry point" and this "Application entry point" have a convention:
+ * API consists of one and only one array argument.
+ * Underlying implementation of the Application entry point may differ in future versions due to changes
+ * in Application itself, but API should remain the same
  *
  * @param array $appConfigArray
+ * @throws Exception
  */
-return function ($appConfigArray) {
+return function (array $appConfigArray) {
     require __DIR__ . '/app/bootstrap.php';
 
-    $tenant = new Saas_Saas_Model_Tenant($appConfigArray);
+    if (!array_key_exists('tenantConfiguration', $appConfigArray)) {
+        throw new Exception('Tenant Configuration does not exist');
+    }
+
+    $tenant = new Saas_Saas_Model_Tenant($appConfigArray['tenantConfiguration']);
+
+    //Process robots.txt request
+    if ($_SERVER['REQUEST_URI'] == '/robots.txt') {
+        $robotsFile = __DIR__ . '/media/' . $tenant->getMediaDir() . '/robots.txt';
+        if (!file_exists($robotsFile)) {
+            $robotsFile = __DIR__ . '/saas_robots.txt';
+        }
+
+        readfile($robotsFile);
+        exit();
+    }
 
     $resultArray = array(
         Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-            Mage_Core_Model_Dir::MEDIA => $appConfigArray['magento_dir'] . '/media/' . $tenant->getMediaDir(),
-            Mage_Core_Model_Dir::VAR_DIR => $appConfigArray['magento_dir'] . '/var/' . $tenant->getVarDir(),
+            Mage_Core_Model_Dir::MEDIA => __DIR__ . '/media/' . $tenant->getMediaDir(),
+            Mage_Core_Model_Dir::VAR_DIR => __DIR__ . '/var/' . $tenant->getVarDir(),
         ),
         Mage_Core_Model_App::INIT_OPTION_URIS => array(
             Mage_Core_Model_Dir::MEDIA => 'media/' . $tenant->getMediaDir(),
