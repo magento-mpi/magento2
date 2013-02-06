@@ -169,8 +169,8 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
         $this->addParameter('storeId', '0');
         $this->clickButton('submit');
         //Verifying
-        foreach($excludedAttributes as $key => $value) {
-            $this->assertFalse($this->controlIsVisible($value, $key));
+        foreach($excludedAttributes as $controlName => $controlType) {
+            $this->assertFalse($this->controlIsVisible($controlType, $controlName));
         }
     }
 
