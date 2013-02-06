@@ -363,9 +363,9 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function categoryNameDataProvider()
     {
         return array(
-            array(str_replace(array('\\', '/', ',', '"'), '?',
+            array(str_replace(array('/', ',', '"'), '?',
                 $this->generate('string', rand(20, 255), ':alnum:,:punct:'))),
-            array(str_replace(array('\\', '/', ',', '"'), '?',
+            array(str_replace(array('/', ',', '"'), '?',
                 $this->generate('string', rand(256, 512), ':alnum:,:punct:'))),
             array('<img src=example.com?nonexistent.jpg onerror=alert(' . $this->generate('string', 5) . ')>')
         );
