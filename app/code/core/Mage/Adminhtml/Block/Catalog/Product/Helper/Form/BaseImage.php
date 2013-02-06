@@ -82,6 +82,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     }
 
     /**
+     * Get label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->helper('Mage_Catalog_Helper_Data')->__('Images');
+    }
+
+    /**
      * Return element html code
      *
      * @return string
