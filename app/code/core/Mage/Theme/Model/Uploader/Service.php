@@ -128,6 +128,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Theme $theme
      * @param bool $saveAsTmp
      * @return Mage_Theme_Model_Uploader_Service
+     * @throws Mage_Core_Exception
      */
     public function uploadJsFile($file, $theme, $saveAsTmp = true)
     {
@@ -151,6 +152,16 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
         $this->_filesJs->saveJsFile($theme, $file, $saveAsTmp);
 
         return $this;
+    }
+
+    /**
+     * Get js files object
+     *
+     * @return Mage_Core_Model_Theme_Customization_Files_Js
+     */
+    public function getJsFiles()
+    {
+        return $this->_filesJs;
     }
 
     /**
