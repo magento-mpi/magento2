@@ -24,6 +24,12 @@ $tile->save();
 
 $tile = Mage::getModel('Mage_Launcher_Model_Tile');
 $tile->setPageCode('store_launcher');
+$tile->setTileCode('store_design');
+$tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
+$tile->save();
+
+$tile = Mage::getModel('Mage_Launcher_Model_Tile');
+$tile->setPageCode('store_launcher');
 $tile->setTileCode('tax');
 $tile->setState(Mage_Launcher_Model_Tile::STATE_TODO);
 $tile->save();
