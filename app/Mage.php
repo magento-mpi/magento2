@@ -660,10 +660,13 @@ final class Mage
                 self::$_app->init($params);
             }
         } catch (Mage_Core_Model_Session_Exception $e) {
-            header('Location: ' . self::getBaseUrl());
+            self::_handleSessionException();
             die;
         } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php');
+            self::_handleStoreException();
+            die;
+        } catch (Magento_BootstrapException $e) {
+            self::_handleBootstrapException($e);
             die;
         } catch (Exception $e) {
             self::printException($e);
@@ -696,12 +699,41 @@ final class Mage
             self::$_app->run($params);
             Magento_Profiler::stop('mage');
         } catch (Mage_Core_Model_Session_Exception $e) {
-            header('Location: ' . self::getBaseUrl());
+            self::_handleSessionException();
         } catch (Mage_Core_Model_Store_Exception $e) {
-            require_once(self::getBaseDir() . '/pub/errors/404.php');
+            self::_handleStoreException();
+        } catch (Magento_BootstrapException $e) {
+            self::_handleBootstrapException($e);
         } catch (Exception $e) {
             self::printException($e);
         }
+    }
+
+    /**
+     * Redirect to the application base URL
+     */
+    private static function _handleSessionException()
+    {
+        header('Location: ' . self::getBaseUrl());
+    }
+
+    /**
+     * Present a "404 Not Found" page to an end-user
+     */
+    private static function _handleStoreException()
+    {
+        require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php');
+    }
+
+    /**
+     * Present a bootstrap exception message as a plain text directly to an end-user
+     *
+     * @param Magento_BootstrapException $exception
+     */
+    private static function _handleBootstrapException(Magento_BootstrapException $exception)
+    {
+        header('Content-Type: text/plain', true, 503);
+        echo $exception->getMessage();
     }
 
     /**
@@ -826,56 +858,6 @@ final class Mage
         }
 
         die();
-    }
-
-    /**
-     * Define system folder directory url by virtue of running script directory name
-     * Try to find requested folder by shifting to domain root directory
-     *
-     * @param   string  $folder
-     * @param   boolean $exitIfNot
-     * @return  string
-     */
-    public static function getScriptSystemUrl($folder, $exitIfNot = false)
-    {
-        $runDirUrl  = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-        $runDir     = rtrim(dirname($_SERVER['SCRIPT_FILENAME']), DS);
-
-        $baseUrl    = null;
-        if (is_dir($runDir.'/'.$folder)) {
-            $baseUrl = str_replace(DS, '/', $runDirUrl);
-        } else {
-            $runDirUrlArray = explode('/', $runDirUrl);
-            $runDirArray    = explode('/', $runDir);
-            $count          = count($runDirArray);
-
-            for ($i=0; $i < $count; $i++) {
-                array_pop($runDirUrlArray);
-                array_pop($runDirArray);
-                $_runDir = implode('/', $runDirArray);
-                if (!empty($_runDir)) {
-                    $_runDir .= '/';
-                }
-
-                if (is_dir($_runDir.$folder)) {
-                    $_runDirUrl = implode('/', $runDirUrlArray);
-                    $baseUrl    = str_replace(DS, '/', $_runDirUrl);
-                    break;
-                }
-            }
-        }
-
-        if (is_null($baseUrl)) {
-            $errorMessage = "Unable detect system directory: $folder";
-            if ($exitIfNot) {
-                // exit because of infinity loop
-                exit($errorMessage);
-            } else {
-                self::printException(new Exception(), $errorMessage);
-            }
-        }
-
-        return $baseUrl;
     }
 
     /**

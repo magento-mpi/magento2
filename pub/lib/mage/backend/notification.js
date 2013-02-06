@@ -10,8 +10,11 @@
 (function($) {
     $.widget("mage.notification", {
         options: {
+            appendMethod: 'after',
+            appendselector: '#messages:first',
             templates: {
-                global: '<ul class="messages"><li class="{{if error}}error-msg{{/if}}"><ul><li>${message}</li></ul></li></ul>'
+                global: '<ul class="messages"><li class="{{if error}}error-msg{{/if}}"><ul>' +
+                    '<li>{{html message}}</li></ul></li></ul>'
             }
         },
 
@@ -37,7 +40,10 @@
             try {
                 var response = $.parseJSON(jqXHR.responseText);
                 if (response && response.error) {
-                    this.element.append($.tmpl('globalNotification', response));
+                    var appendElement = $(this.options.appendselector).length ?
+                        $(this.options.appendselector) :
+                        this.element;
+                    appendElement[this.options.appendMethod || 'append']($.tmpl('globalNotification', response));
                 }
             } catch(e) {}
         }

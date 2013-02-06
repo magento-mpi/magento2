@@ -273,9 +273,11 @@ class Mage_Core_Model_App
      * Constructor
      */
     public function __construct(
+        Mage_Core_Model_Config $config,
         Mage_Core_Controller_Varien_Front $frontController,
         Magento_ObjectManager $objectManager
     ) {
+        $this->_config = $config;
         $this->_frontController = $frontController;
         $this->_objectManager = $objectManager;
     }
@@ -294,9 +296,6 @@ class Mage_Core_Model_App
         $logger = $this->_initLogger();
 
         Magento_Profiler::start('init_config');
-        /** @var $config Mage_Core_Model_Config */
-        $config = $this->_objectManager->create('Mage_Core_Model_Config');
-        $this->_config = $config;
         $this->_initBaseConfig();
         $this->_initCache();
         $this->_config->init();
@@ -327,9 +326,6 @@ class Mage_Core_Model_App
         $this->_initFilesystem();
         $this->_initLogger();
 
-        /** @var $config Mage_Core_Model_Config */
-        $config = $this->_objectManager->get('Mage_Core_Model_Config');
-        $this->_config = $config;
         $this->_initBaseConfig();
         $this->_initCache($this->getInitParam(Mage_Core_Model_Cache::APP_INIT_PARAM) ?: array());
 
@@ -460,9 +456,29 @@ class Mage_Core_Model_App
         $this->_objectManager->addSharedInstance($dirs, 'Mage_Core_Model_Dir');
         foreach (Mage_Core_Model_Dir::getWritableDirCodes() as $code) {
             $path = $dirs->getDir($code);
-            if ($path && !is_dir($path)) {
-                mkdir($path);
+            $this->_ensureDirWritable($path);
+        }
+    }
+
+    /**
+     * Ensure a directory exists and is writable
+     *
+     * @param string $path
+     * @throws Magento_BootstrapException
+     */
+    protected function _ensureDirWritable($path)
+    {
+        // create a directory, if no directory or file with the same path already exists
+        $hasFilesystemError = false;
+        if (!file_exists($path)) {
+            try {
+                $hasFilesystemError = !mkdir($path, 0777);
+            } catch (Exception $e) {
+                $hasFilesystemError = true;
             }
+        }
+        if ($hasFilesystemError || !is_dir($path) || !is_writable($path)) {
+            throw new Magento_BootstrapException("Path '$path' has to be a writable directory.");
         }
     }
 
