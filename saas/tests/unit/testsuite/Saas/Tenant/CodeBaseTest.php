@@ -12,7 +12,7 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    private static $config = array(
+    private static $_config = array(
         'tenantConfiguration' => array('local' => '<?xml version="1.0"?><config/>'),
         'version' => '1.0.0.0',
         'maintenanceMode' => false,
@@ -34,13 +34,13 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
 
     public function testGetId()
     {
-        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, self::$config);
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, self::$_config);
         $this->assertEquals($this->_id, $object->getId());
     }
 
     public function testGetVersion()
     {
-        $config = self::$config;
+        $config = self::$_config;
         $config['version'] = uniqid();
         $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
         $this->assertEquals($config['version'], $object->getVersion());
@@ -52,7 +52,7 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
      */
     public function testIsUserUnderMaintenance($value)
     {
-        $config = self::$config;
+        $config = self::$_config;
         $config['maintenanceMode'] = $value;
         $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
         $this->assertEquals($value, $object->isUnderMaintenance());
@@ -73,7 +73,7 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
 
     public function testGetDir()
     {
-        $config = self::$config;
+        $config = self::$_config;
         $config['version'] = '2.0.0.0';
         $object = new Saas_Tenant_CodeBase($this->_id, __DIR__ . DIRECTORY_SEPARATOR . '_files', $config);
         $expected = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . '2.0.0.0';
@@ -87,10 +87,10 @@ class Saas_Tenant_CodeBaseTest extends PHPUnit_Framework_TestCase
 
     public function testGetMediaDirName()
     {
-        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, self::$config);
+        $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, self::$_config);
         $this->assertEquals('media' . DIRECTORY_SEPARATOR . $this->_id, $object->getMediaDirName());
 
-        $config = self::$config;
+        $config = self::$_config;
         $config['tenantConfiguration']['local'] = '<?xml version="1.0"?><config><global><web><dir><media>' . 'test'
             . '</media></dir></web></global></config>';
         $object = new Saas_Tenant_CodeBase($this->_id, __DIR__, $config);
