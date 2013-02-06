@@ -241,8 +241,10 @@ class Magento_Test_Application
         $this->initialize();
 
         /* Run all install and data-install scripts */
-        Mage_Core_Model_Resource_Setup::applyAllUpdates();
-        Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+        /** @var $updater Mage_Core_Model_Db_Updater */
+        $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_Updater');
+        $updater->updateScheme();
+        $updater->updateData();
 
         /* Enable configuration cache by default in order to improve tests performance */
         Mage::app()->getCacheInstance()->saveOptions(array('config' => 1));
