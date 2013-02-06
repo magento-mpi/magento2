@@ -86,11 +86,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
             $this->_config->getBlockClassName('Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File')
         );
 
+        $confirmMessage = $this->__('You are about to upload JavaScript files. This will take effect immediately and might affect the design of your store if your theme is assigned to the store front. Are you sure you want to do this?');
         $form->addField('js_files_uploader', 'js_files', array(
             'name'     => 'js_files_uploader',
             'title'    => $this->__('Select JS Files to Upload'),
             'accept'   => 'application/x-javascript',
-            'multiple' => ''
+            'multiple' => '',
+            'onclick'  => "return confirm('{$confirmMessage}');"
         ));
 
         parent::_prepareForm();

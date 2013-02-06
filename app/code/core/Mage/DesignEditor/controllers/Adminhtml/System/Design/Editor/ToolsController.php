@@ -79,8 +79,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
 
     /**
      * Upload js file
-     *
-     * @throws Mage_Core_Exception
      */
     public function uploadJsAction()
     {
@@ -90,6 +88,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         try {
             $theme = $this->_loadTheme($themeId);
             $serviceModel->uploadJsFile('js_files_uploader', $theme, false);
+            $theme->setCustomization($serviceModel->getJsFiles())->save();
 
             $this->loadLayout();
 

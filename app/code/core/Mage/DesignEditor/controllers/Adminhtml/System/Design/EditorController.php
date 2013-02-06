@@ -225,10 +225,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->get('Mage_Core_Model_Theme');
             if (!($themeId && $theme->load($themeId)->getId())) {
-                throw new Mage_Core_Exception($this->__('The theme was not found.'));
+                Mage::throwException($this->__('The theme was not found.'));
             }
             if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception($this->__('This theme is not editable.'));
+                Mage::throwException($this->__('This theme is not editable.'));
             }
             $theme->setThemeTitle($themeTitle);
             $theme->save();

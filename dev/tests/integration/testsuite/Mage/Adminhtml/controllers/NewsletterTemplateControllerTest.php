@@ -49,14 +49,13 @@ class Mage_Adminhtml_Newsletter_TemplateControllerTest extends Mage_Backend_Util
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertEmpty(Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)->getErrors());
+        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
         /**
          * Check that success message is set
          */
-        $successMessages = Mage::getSingleton('Mage_Backend_Model_Session')
-            ->getMessages(false)->getItemsByType(Mage_Core_Model_Message::SUCCESS);
-        $this->assertCount(1, $successMessages, 'Success message was not set');
-        $this->assertEquals('The newsletter template has been saved.', current($successMessages)->getCode());
+        $this->assertSessionMessages(
+            $this->equalTo(array('The newsletter template has been saved.')), Mage_Core_Model_Message::SUCCESS
+        );
     }
 
     /**
@@ -72,15 +71,14 @@ class Mage_Adminhtml_Newsletter_TemplateControllerTest extends Mage_Backend_Util
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertEmpty(Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)->getErrors());
+        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
 
         /**
          * Check that success message is set
          */
-        $successMessages = Mage::getSingleton('Mage_Backend_Model_Session')
-            ->getMessages(false)->getItemsByType(Mage_Core_Model_Message::SUCCESS);
-        $this->assertCount(1, $successMessages, 'Success message was not set');
-        $this->assertEquals('The newsletter template has been saved.', current($successMessages)->getCode());
+        $this->assertSessionMessages(
+            $this->equalTo(array('The newsletter template has been saved.')), Mage_Core_Model_Message::SUCCESS
+        );
     }
 
     /**
@@ -100,14 +98,12 @@ class Mage_Adminhtml_Newsletter_TemplateControllerTest extends Mage_Backend_Util
         /**
          * Check that errors was generated and set to session
          */
-        Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)->getErrors();
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::ERROR);
 
         /**
          * Check that success message is not set
          */
-        $successMessages = Mage::getSingleton('Mage_Backend_Model_Session')
-            ->getMessages(false)->getItemsByType(Mage_Core_Model_Message::SUCCESS);
-        $this->assertEmpty($successMessages);
+        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::SUCCESS);
     }
 
     /**
@@ -123,14 +119,13 @@ class Mage_Adminhtml_Newsletter_TemplateControllerTest extends Mage_Backend_Util
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertEmpty(Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(false)->getErrors());
+        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
 
         /**
          * Check that success message is set
          */
-        $successMessages = Mage::getSingleton('Mage_Backend_Model_Session')
-            ->getMessages(false)->getItemsByType(Mage_Core_Model_Message::SUCCESS);
-        $this->assertCount(1, $successMessages, 'Success message was not set');
-        $this->assertEquals('The newsletter template has been deleted.', current($successMessages)->getCode());
+        $this->assertSessionMessages(
+            $this->equalTo(array('The newsletter template has been deleted.')), Mage_Core_Model_Message::SUCCESS
+        );
     }
 }
