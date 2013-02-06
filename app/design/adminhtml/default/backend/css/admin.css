@@ -267,6 +267,10 @@ button.primary.disabled,
     z-index: 1;
 }
 
+.dropdown-menu > li {
+    white-space: nowrap;
+}
+
 .dropdown-menu > li,
 .ui-autocomplete > li {
     padding: 5px;
@@ -3409,6 +3413,12 @@ tr.dynamic-grid input.input-text {
     margin-top: -1px;
 }
 
+.data-table .actions-split .dropdown-menu a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+}
+
 .data-table .actions-split.active .action-toggle {
     position: relative;
     border-bottom-right-radius: 0;
@@ -3431,7 +3441,6 @@ tr.dynamic-grid input.input-text {
 .data-table .actions-split.active .dropdown-menu {
     border-top-right-radius: 0;
 }
-
 /*
     Content alignments in tables
 -------------------------------------- */
