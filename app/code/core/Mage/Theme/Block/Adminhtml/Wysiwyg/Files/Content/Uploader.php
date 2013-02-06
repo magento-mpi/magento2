@@ -16,17 +16,23 @@
 class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Mage_Adminhtml_Block_Media_Uploader
 {
     /**
-     * Change upload url in configuration
+     * Path to uploader template
      *
-     * @return Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader
+     * @var string
      */
-    protected function _construct()
+    protected $_template = 'browser/content/uploader.phtml';
+
+    /**
+     * Prepare layout
+     *
+     * @return Mage_Adminhtml_Block_Media_Uploader
+     */
+    protected function _prepareLayout()
     {
-        parent::_construct();
         $this->getConfig()->setUrl(
             $this->getUrl('*/*/upload', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams())
         );
-        return $this;
+        return parent::_prepareLayout();
     }
 
     /**
