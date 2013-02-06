@@ -18,7 +18,9 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
     {
         $user = Mage::getModel('Mage_User_Model_User');
         $user->setUsername('newuser')
-            ->setPassword('password')
+            ->setFirstname('first_name')
+            ->setLastname('last_name')
+            ->setPassword('password1')
             ->setEmail('newuser@example.com')
             ->setRoleId(1)
             ->save();

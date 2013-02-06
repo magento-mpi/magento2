@@ -98,7 +98,6 @@ class Mage_Core_Model_Theme_Service
      * @param int $themeId
      * @param array $stores
      * @param string $scope
-     * @param string $area
      * @return Mage_Core_Model_Theme
      * @throws UnexpectedValueException
      */

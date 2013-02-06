@@ -127,7 +127,7 @@ manage_categories:
             save_category: //button[@data-ui-id='category-edit-form-save-button']
             delete_category: //button[span='Delete Category']
         messages:
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "//label[(@for)='%fieldId%' and contains(.,'This field is required.')]"
             success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been saved.')]
             success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been deleted.')]
             confirm_delete: Are you sure you want to delete this category?

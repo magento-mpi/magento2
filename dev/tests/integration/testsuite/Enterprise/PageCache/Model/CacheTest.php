@@ -9,7 +9,9 @@ class Enterprise_PageCache_Model_CacheTest extends PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        Varien_Io_File::rmdirRecursive(Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/' . __CLASS__);
+        Varien_Io_File::rmdirRecursive(
+            Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/' . __CLASS__
+        );
     }
 
     public function testGetCache()
@@ -24,10 +26,10 @@ class Enterprise_PageCache_Model_CacheTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCacheInstance()
     {
-        $bootstrap = Magento_Test_Bootstrap::getInstance();
+        $bootstrap = Magento_Test_Helper_Bootstrap::getInstance();
         $bootstrap->reinitialize(array(
             Mage_Core_Model_App::INIT_OPTION_DIRS => array(
-                Mage_Core_Model_Dir::VAR_DIR => $bootstrap->getInstallDir() . '/' . __CLASS__
+                Mage_Core_Model_Dir::VAR_DIR => $bootstrap->getAppInstallDir() . '/' . __CLASS__
             )
         ));
 

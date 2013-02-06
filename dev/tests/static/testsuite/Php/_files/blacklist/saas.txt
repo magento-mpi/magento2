@@ -3,4 +3,4 @@
 # This file will not be published, too
 #
 app/code/core/Saas/UnitPrice/view
-app/code/core/Saas/PrintedTemplate/view
+app/code/core/Saas/PrintedTemplate
