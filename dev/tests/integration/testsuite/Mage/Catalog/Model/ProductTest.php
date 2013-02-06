@@ -86,8 +86,8 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     public function testValidateRestricted()
     {
         $this->setExpectedException('Mage_Core_Exception', 'Maximum allowed number of products is reached.');
+        /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->isObjectNew(true);
         $product->validate();
     }
 
