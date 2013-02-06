@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
 $designDir = Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change';
 $themeDir = $designDir . DIRECTORY_SEPARATOR . '/frontend/test/default';
 $sourcePath = dirname(__DIR__) . '/Model/_files/design/frontend/test/publication/';

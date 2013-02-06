@@ -554,10 +554,11 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     public function testCssWithBase64Data()
     {
         Magento_Test_Bootstrap::getInstance()->reinitialize(array(
-            Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+            Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_COre_Model_App_Area::PART_CONFIG);
 
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
