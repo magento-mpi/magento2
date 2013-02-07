@@ -115,7 +115,7 @@
 
         $('.ui-sortable').sortable({
             update: function( event, ui ) {
-                var jsOrder = $(this).sortable('serialize',{key: 'js_order[]'});
+                var jsOrder = $(this).sortable('serialize', {key: 'js_order[]'});
                 $.ajax({
                     url: '<?php echo $this->getJsReorderUrl(); ?>',
                     type: 'POST',
