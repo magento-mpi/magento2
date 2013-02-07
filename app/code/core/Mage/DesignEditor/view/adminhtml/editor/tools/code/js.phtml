@@ -10,7 +10,7 @@
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js */ ?>
 <div class="tab-panel" id="vde-tab-js">
-    <div id="vde-tab-custom-messages-placeholder">
+    <div id="vde-tab-js-messages-placeholder">
         <?php echo $this->getChildHtml('messages') ?>
     </div>
     <div class="files-wrapper">
@@ -43,6 +43,22 @@
 </div>
 <script type="text/javascript">
     (function ($) {
+        $('#vde-tab-js .js-file .action-delete').live('click', function() {
+            $.ajax({
+                url: '<?php echo $this->getJsDeleteUrl(); ?>',
+                data: {js_removed_files: [$(this).data('id')]},
+                dataType: 'json'
+            }).done(function(data) {
+                if (!data.error) {
+                    $('#vde-tab-js .files-list-content .items').html(data.content);
+                }
+                if (data.message_html) {
+                    $('#vde-tab-js-messages-placeholder').append(data.message_html);
+                }
+            });
+            return false;
+        });
+
         $('#js_files_uploader').fileupload({
             dataType: 'json',
             replaceFileInput: false,
@@ -76,15 +92,19 @@
                 var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
                 $(progressSelector).css('width','100%');
 
-                var contentArea = $('.files-list-content .items');
+                var contentArea = $('#vde-tab-js .files-list-content .items');
                 $(this).val('');
 
                 if (!data.result.error) {
-                    $(progressSelector).removeClass('upload-progress').addClass('upload-success')
+                    $(progressSelector).removeClass('upload-progress').addClass('upload-success');
                     $('#' + data.fileId).delay(2000).fadeOut(2000);
                     contentArea.html(data.result.content);
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
+                }
+
+                if (data.result.message_html) {
+                    $('#vde-tab-js-messages-placeholder').append(data.result.message_html);
                 }
             },
 

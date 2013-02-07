@@ -89,20 +89,21 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
     public function saveAction()
     {
         $redirectBack = (bool)$this->getRequest()->getParam('back', false);
+        $themeData = $this->getRequest()->getParam('theme');
+        $customCssData = $this->getRequest()->getParam('custom_css_content');
+        $uploadJsFiles = (array)$this->getRequest()->getParam('js_uploaded_files');
+        $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
+        $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order', array()));
+
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
         $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
         /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
         $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
+
         try {
             if ($this->getRequest()->getPost()) {
-                $themeData = $this->getRequest()->getParam('theme');
-                $customCssData = $this->getRequest()->getParam('custom_css_content');
-                $uploadJsFiles = (array)$this->getRequest()->getParam('js_uploaded_files');
-                $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
-                $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order', array()));
-
                 $themeCss->setDataForSave($customCssData);
                 $theme->setCustomization($themeCss);
 
@@ -112,7 +113,6 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 $theme->setCustomization($themeJs);
 
                 $theme->saveFormData($themeData);
-
                 $this->_getSession()->addSuccess($this->__('The theme has been saved.'));
             }
         } catch (Mage_Core_Exception $e) {

@@ -83,6 +83,32 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
+
+    /**
+     * Ajax list of existing javascript files
+     */
+    public function jsListAction()
+    {
+        $themeId = $this->getRequest()->getParam('id');
+        try {
+            $theme = $this->_loadTheme($themeId);
+            $this->loadLayout();
+
+            /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
+            $filesJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
+            $customJsFiles = $theme->setCustomization($filesJs)
+                ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
+
+            $jsItemsBlock = $this->getLayout()->getBlock('design_editor_tools_code_js_items');
+            $jsItemsBlock->setJsFiles($customJsFiles);
+
+            $result = array('error' => false, 'content' => $jsItemsBlock->toHtml());
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+    }
+
     /**
      * Upload js file
      */
@@ -95,24 +121,46 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $theme = $this->_loadTheme($themeId);
             $serviceModel->uploadJsFile('js_files_uploader', $theme, false);
             $theme->setCustomization($serviceModel->getJsFiles())->save();
-
-            $this->loadLayout();
-
-            /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
-            $filesJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
-            $customJsFiles = $theme->setCustomization($filesJs)
-                ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
-
-            $jsItemsBlock = $this->getLayout()->getBlock('design_editor_tools_code_js_items');
-            $jsItemsBlock->setJsFiles($customJsFiles);
-            $result = array('content' => $jsItemsBlock->toHtml());
+            $this->_forward('jsList');
+            return;
         } catch (Mage_Core_Exception $e) {
-            $result = array('error' => true, 'message' => $e->getMessage());
+            $this->_getSession()->addError($e->getMessage());
+            $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $result = array('error' => true, 'message' => $this->__('Cannot upload js file'));
+            $errorMessage = $this->__('Cannot upload js file');
+            $this->_getSession()->addError($errorMessage);
+            $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->loadLayout();
+        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+    }
+
+    /**
+     * Delete custom file action
+     */
+    public function deleteCustomFilesAction()
+    {
+        $themeId = $this->getRequest()->getParam('id');
+        $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
+        try {
+            $theme = $this->_loadTheme($themeId);
+
+            /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
+            $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
+            $theme->setCustomization($themeJs);
+
+            $themeJs->setDataForDelete($removeJsFiles);
+            $theme->save();
+
+            $this->_forward('jsList');
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e, $this->__('File "%s" is not found.', $fileName));
+            die($e->getMessage());
+            $this->_redirectUrl($this->_getRefererUrl());
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
     }
 
     /**
@@ -154,17 +202,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      * @return Mage_Core_Model_Theme
      * @throws Mage_Core_Exception
      */
-    public function _loadTheme($themeId)
+    protected function _loadTheme($themeId)
     {
         /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->_objectManager->get('Mage_Core_Model_Theme');
+        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         if (!$themeId || !$theme->load($themeId)->getId()) {
             throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
         }
-        if (!$theme->isVirtual()) {
+        if (!$theme->isEditable()) {
             throw new Mage_Core_Exception($this->__('Theme "%s" is not editable.', $themeId));
         }
-
         return $theme;
     }
 }
