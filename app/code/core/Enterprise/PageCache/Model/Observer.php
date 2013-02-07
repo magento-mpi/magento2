@@ -63,24 +63,34 @@ class Enterprise_PageCache_Model_Observer
     protected $_fpcCache;
 
     /**
+     * FPC processor restriction model
+     *
+     * @var Enterprise_PageCache_Model_Processor_RestrictionInterface
+     */
+    protected $_restriction;
+
+    /**
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Config $config
      * @param Mage_Core_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Cookie $cookie
+     * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Config $config,
         Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_Cache $fpcCache,
-        Enterprise_PageCache_Model_Cookie $cookie
+        Enterprise_PageCache_Model_Cookie $cookie,
+        Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
     ) {
         $this->_processor = $processor;
         $this->_config    = $config;
         $this->_cache = $cache;
         $this->_fpcCache = $fpcCache;
         $this->_cookie = $cookie;
+        $this->_restriction = $restriction;
         $this->_isEnabled = $this->_cache->canUse('full_page');
     }
 
@@ -199,8 +209,7 @@ class Enterprise_PageCache_Model_Observer
          * Categories with category event can't be cached
          */
         if ($category && $category->getEvent()) {
-            $request = $observer->getEvent()->getControllerAction()->getRequest();
-            $request->setParam('no_cache', true);
+            $this->_restriction->setIsDenied();
         }
         return $this;
     }
@@ -221,8 +230,7 @@ class Enterprise_PageCache_Model_Observer
          * Categories with category event can't be cached
          */
         if ($product && $product->getEvent()) {
-            $request = $observer->getEvent()->getControllerAction()->getRequest();
-            $request->setParam('no_cache', true);
+            $this->_restriction->setIsDenied();
         }
         return $this;
     }
@@ -659,7 +667,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->set(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE, '1', 0);
+        $this->_cookie->set(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE, '1', 0);
         return $this;
     }
 
@@ -674,7 +682,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->delete(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
+        $this->_cookie->delete(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE);
         return $this;
     }
 }

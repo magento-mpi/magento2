@@ -99,7 +99,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_cookie
             ->expects($this->once())
             ->method('set')
-            ->with(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE)
+            ->with(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
         ;
         $this->_observer->setNoCacheCookie(new Varien_Event_Observer());
     }
@@ -109,7 +109,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_cookie
             ->expects($this->once())
             ->method('delete')
-            ->with(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE)
+            ->with(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
         ;
         $this->_observer->deleteNoCacheCookie(new Varien_Event_Observer());
     }

@@ -22,6 +22,9 @@
         </full_page_cache>
         <skip_process_modules_updates>0</skip_process_modules_updates>
         <di>
+            <preference>
+                <Enterprise_PageCache_Model_Processor_RestrictionInterface>Enterprise_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
+            </preference>
             <Magento_Http_Handler_Composite>
                 <parameters>
                     <handlers>

@@ -49,7 +49,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     public function testIsAllowedNoCacheCookie()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_COOKIE[Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE] = '1';
+        $_COOKIE[Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE] = '1';
         $this->assertFalse($this->_model->isAllowed());
     }
 

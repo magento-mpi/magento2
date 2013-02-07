@@ -10,7 +10,6 @@
 
 class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model_Cache_ProcessorInterface
 {
-    const NO_CACHE_COOKIE               = 'NO_CACHE';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
@@ -78,11 +77,11 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     protected $_scopeCode;
 
     /**
-     * Application cache model
+     * Page cache processor restriction model
      *
-     * @var Mage_Core_Model_Cache
+     * @var Enterprise_PageCache_Model_Processor_RestrictionInterface
      */
-    protected $_cache;
+    protected $_restriction;
 
     /**
      * Design package model
@@ -119,30 +118,40 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     protected $_fpcCache;
 
     /**
+     * Application environment
+     *
+     * @var Enterprise_PageCache_Model_Environment
+     */
+    protected $_environment;
+
+    /**
      * @param string $scopeCode
-     * @param Mage_Core_Model_Cache $cache
+     * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Mage_Core_Model_Design_Package_Proxy $designPackage
      * @param Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
      * @param Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory
      * @param Enterprise_PageCache_Model_ContainerFactory $containerFactory
+     * @param Enterprise_PageCache_Model_Environment $environment
      */
     public function __construct(
         $scopeCode,
-        Mage_Core_Model_Cache $cache,
+        Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Mage_Core_Model_Design_Package_Proxy $designPackage,
         Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory,
         Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory,
-        Enterprise_PageCache_Model_ContainerFactory $containerFactory
+        Enterprise_PageCache_Model_ContainerFactory $containerFactory,
+        Enterprise_PageCache_Model_Environment $environment
     ) {
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
         $this->_subProcessorFactory = $subProcessorFactory;
         $this->_designPackage = $designPackage;
         $this->_scopeCode = $scopeCode;
-        $this->_cache = $cache;
+        $this->_restriction = $restriction;
         $this->_fpcCache = $fpcCache;
+        $this->_environment = $environment;
         $this->_createRequestIds();
         $this->_requestTags = array(self::CACHE_TAG);
     }
@@ -163,29 +172,26 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
          * Define COOKIE state
          */
         if ($uri) {
-            if (isset($_COOKIE['store'])) {
-                $uri = $uri.'_'.$_COOKIE['store'];
-            }
-            if (isset($_COOKIE['currency'])) {
-                $uri = $uri.'_'.$_COOKIE['currency'];
-            }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP];
-            }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN];
-            }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS];
-            }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE];
+            $uriParts = array($uri);
+            $cookieParams = array(
+                'store',
+                'currency',
+                Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP,
+                Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN,
+                Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS,
+                Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE
+            );
+
+            foreach ($cookieParams as $paramName) {
+                if ($this->_environment->hasCookie($paramName)) {
+                    $uriParts[] = $this->_environment->getCookie($paramName);
+                }
             }
             $designPackage = $this->_getDesignPackage();
-
             if ($designPackage) {
-                $uri .= '_' . $designPackage;
+                $uriParts[] = $designPackage;
             }
+            $uri = implode('_', $uriParts);
         }
 
         $this->_requestId       = $uri;
@@ -282,27 +288,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
      */
     public function isAllowed()
     {
-        if (!$this->_requestId) {
-            return false;
-        }
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
-            return false;
-        }
-        if (isset($_COOKIE[self::NO_CACHE_COOKIE])) {
-            return false;
-        }
-        if (isset($_GET['no_cache'])) {
-            return false;
-        }
-        if (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
-            return false;
-        }
-
-        if (!$this->_cache->canUse('full_page')) {
-            return false;
-        }
-
-        return true;
+        return $this->_restriction->isAllowed($this->_requestId);
     }
 
     /**
@@ -381,7 +367,10 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     public function getRecentlyViewedCountCacheId()
     {
         $cookieName = Mage_Core_Model_Store::COOKIE_NAME;
-        return 'recently_viewed_count' . (isset($_COOKIE[$cookieName]) ? '_' . $_COOKIE[$cookieName] : '');
+        $additional = $this->_environment->hasCookie($cookieName) ?
+            '_' . $this->_environment->getCookie($cookieName) :
+            '';
+        return 'recently_viewed_count' . $additional;
     }
 
     /**
@@ -392,7 +381,10 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     public function getSessionInfoCacheId()
     {
         $cookieName = Mage_Core_Model_Store::COOKIE_NAME;
-        return 'full_page_cache_session_info' . (isset($_COOKIE[$cookieName]) ? '_' . $_COOKIE[$cookieName] : '');
+        $additional = $this->_environment->hasCookie($cookieName) ?
+            '_' . $this->_environment->getCookie($cookieName) :
+            '';
+        return 'full_page_cache_session_info' . $additional;
     }
 
     /**
@@ -413,12 +405,12 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         if ($sessionInfo) {
             $sessionInfo = unserialize($sessionInfo);
             foreach ($sessionInfo as $cookieName => $cookieInfo) {
-                if (isset($_COOKIE[$cookieName]) && isset($cookieInfo['lifetime'])
+                if ($this->_environment->hasCookie($cookieName) && isset($cookieInfo['lifetime'])
                     && isset($cookieInfo['path']) && isset($cookieInfo['domain'])
                     && isset($cookieInfo['secure']) && isset($cookieInfo['httponly'])
                 ) {
                     $lifeTime = (0 == $cookieInfo['lifetime']) ? 0 : time() + $cookieInfo['lifetime'];
-                    setcookie($cookieName, $_COOKIE[$cookieName], $lifeTime,
+                    setcookie($cookieName, $this->_environment->getCookie($cookieName), $lifeTime,
                         $cookieInfo['path'], $cookieInfo['domain'],
                         $cookieInfo['secure'], $cookieInfo['httponly']
                     );
@@ -432,7 +424,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
          * restore session_id in content whether content is completely processed or not
          */
         $sidCookieName = $this->getMetadata('sid_cookie_name');
-        $sidCookieValue = $sidCookieName && isset($_COOKIE[$sidCookieName]) ? $_COOKIE[$sidCookieName] : '';
+        $sidCookieValue = $sidCookieName && $this->_environment->getCookie($sidCookieName, '');
         Enterprise_PageCache_Helper_Url::restoreSid($content, $sidCookieValue);
 
         if ($isProcessed) {
@@ -598,10 +590,9 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                 $this->_saveMetadata();
             }
 
-            if (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
+            if ($this->_environment->hasQuery(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
                 Mage::getSingleton('Enterprise_PageCache_Model_Cookie')->updateCustomerCookies();
                 Mage::getModel('Enterprise_PageCache_Model_Observer')->updateCustomerProductIndex();
-
             }
         }
         return $this;
@@ -615,25 +606,22 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
      */
     public function canProcessRequest(Zend_Controller_Request_Http $request)
     {
-        $res = $this->isAllowed();
-        $res = $res && Mage::app()->useCache('full_page');
-        if ($request->getParam('no_cache')) {
-            $res = false;
-        }
+        $output = $this->isAllowed();
 
-        if ($res) {
+        if ($output) {
             $maxDepth = Mage::getStoreConfig(self::XML_PATH_ALLOWED_DEPTH);
             $queryParams = $request->getQuery();
             unset($queryParams[Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM]);
-            $res = count($queryParams)<=$maxDepth;
+            $output = count($queryParams) <= $maxDepth;
         }
-        if ($res) {
+        if ($output) {
             $multicurrency = Mage::getStoreConfig(self::XML_PATH_CACHE_MULTICURRENCY);
-            if (!$multicurrency && !empty($_COOKIE['currency'])) {
-                $res = false;
+            $currency = $this->_environment->getCookie('currency');
+            if (!$multicurrency && !empty($currency)) {
+                $output = false;
             }
         }
-        return $res;
+        return $output;
     }
 
     /**
@@ -705,28 +693,26 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
      */
     protected function _getFullPageUrl()
     {
-        $uri = false;
         /**
          * Define server HTTP HOST
          */
-        if (isset($_SERVER['HTTP_HOST'])) {
-            $uri = $_SERVER['HTTP_HOST'];
-        } elseif (isset($_SERVER['SERVER_NAME'])) {
-            $uri = $_SERVER['SERVER_NAME'];
-        }
+        $uri = $this->_environment->getServer('HTTP_HOST', $this->_environment->getServer('SERVER_NAME', false));
 
         /**
          * Define request URI
          */
         if ($uri) {
-            if (isset($_SERVER['REQUEST_URI'])) {
-                $uri.= $_SERVER['REQUEST_URI'];
-            } elseif (!empty($_SERVER['IIS_WasUrlRewritten']) && !empty($_SERVER['UNENCODED_URL'])) {
-                $uri.= $_SERVER['UNENCODED_URL'];
-            } elseif (isset($_SERVER['ORIG_PATH_INFO'])) {
-                $uri.= $_SERVER['ORIG_PATH_INFO'];
-                if (!empty($_SERVER['QUERY_STRING'])) {
-                    $uri.= $_SERVER['QUERY_STRING'];
+            $iisWasUrlRewritten = $this->_environment->getServer('IIS_WasUrlRewritten');
+            $enencodedUrl = $this->_environment->getServer('UNENCODED_URL');
+            if ($this->_environment->hasServer('REQUEST_URI')) {
+                $uri .= $this->_environment->getServer('REQUEST_URI');
+            } elseif (!empty($iisWasUrlRewritten) && !empty($enencodedUrl)) {
+                $uri .= $enencodedUrl;
+            } elseif ($this->_environment->hasServer('ORIG_PATH_INFO')) {
+                $uri .= $this->_environment->getServer('ORIG_PATH_INFO');
+                $queryString = $this->_environment->getServer('QUERY_STRING');
+                if (!empty($queryString)) {
+                    $uri .= $queryString;
                 }
             }
         }
