@@ -690,18 +690,18 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $verifyData = array($attributeData['attribute2']['admin_title'], $attributeData['attribute1']['admin_title']);
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', array('attribute_position' => 2),
             array(
-                 'general_attribute_1' => $verifyData[1],
-                 'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
-                 'general_attribute_2' => $verifyData[0],
-                 'var2_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name']
+                'general_attribute_1' => $verifyData[1],
+                'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name'],
+                'general_attribute_2' => $verifyData[0],
+                'var2_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name']
             )
         );
         $productData['general_configurable_attributes']['attribute_2'] =
             $this->loadDataSet('Product', 'general_configurable_attribute_without_price',
                 array('attribute_position' => 1),
                 array(
-                     'general_attribute_1' => $verifyData[0],
-                     'var1_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name']
+                    'general_attribute_1' => $verifyData[0],
+                    'var1_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name']
                 )
             );
         //Steps
