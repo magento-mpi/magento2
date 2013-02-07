@@ -47,7 +47,7 @@ manage_products:
                             product_grid_head: //div[@id='productGrid']//thead/tr[@class='headings']
                             product_grid_columns_price: //span[@class='sort-title' and text()='Price']
         buttons:
-            add_new_product: //*[@id='add_new_product']
+            add_new_product: //*[@data-ui-id='products-list-add-new-button']
             add_new_product_split: //*[@data-ui-id='products-list-add-new-button']
             add_new_product_split_select: //*[@data-ui-id='products-list-add-new-button-dropdown']
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
@@ -697,7 +697,7 @@ new_product:
             reset: //button[span='Reset']
             change_attribute_set: //button[@id='change-attribute-set-button']
             change_attribute_set_disabled: //button[@id='change-attribute-set-button' and contains(@class, 'disabled')]
-            save_and_continue_edit: //*[@id='save-split-button']
+            save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
             save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
             save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]
