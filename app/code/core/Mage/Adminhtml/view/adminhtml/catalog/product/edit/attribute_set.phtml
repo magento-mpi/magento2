@@ -24,11 +24,11 @@
 </script>
 <script>
     jQuery(function ($) {
-        $('#attribute-set-suggest-container .current-set-container').off('click.attribute-set')
-            .on('click.attribute-set', function () {
+        $('#product-template-suggest-container .current-product-template-container').off('click.product-template')
+            .on('click.product-template', function () {
                 $(this).next('div').toggle().find('.mage-suggest-dropdown')/*.trigger('showAll')*/;
             });
-        $('#attribute-set-suggest').suggest(<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
+        $('#product-template-suggest').suggest(<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
             .on('suggestselect', function (e, selectedItem) {
                 if (selectedItem.id) {
                     var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace('#', '');
@@ -39,8 +39,8 @@
                 }
             }).focus();
         $('body').on('click', function (e) {
-            if (!$(e.target).is('#attribute-set-suggest-container, #attribute-set-suggest-container *')) {
-                $('#attribute-set-suggest-container .dropdown-wrapper').hide();
+            if (!$(e.target).is('#product-template-suggest-container, #product-template-suggest-container *')) {
+                $('#product-template-suggest-container .dropdown-wrapper').hide();
             }
         });
     });

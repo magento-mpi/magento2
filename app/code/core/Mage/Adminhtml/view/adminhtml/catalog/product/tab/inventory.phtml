@@ -283,7 +283,7 @@
                 ? $('inventory_enable_qty_increments_default').value
                 : $('inventory_enable_qty_increments').value;
 
-        $('inventory_qty_increments').up('tr')[enableQtyIncrements == 1 ? 'show' : 'hide']();
+        $('inventory_qty_increments').up('.field')[enableQtyIncrements == 1 ? 'show' : 'hide']();
     }
 
     function applyEnableDecimalDivided() {
