@@ -13,8 +13,8 @@
         options: {
             saveCustomCssUrl: null,
             customCssCode: '#custom_code',
-            btnUpdateCss: '.vde-tools-content .action-update',
-            btnUpdateDownload: '.vde-tools-content .action-download'
+            btnUpdateCss: '#vde-tab-custom .action-update',
+            btnUpdateDownload: '#vde-tab-custom .action-download'
         },
 
         updateButtons: function() {
@@ -36,7 +36,9 @@
 
         _editCustomCss: function()
         {
-            this.btnCssUpdate.removeAttr('disabled');
+            if ($.trim($(this.customCssCode).val())) {
+                this.btnCssUpdate.removeAttr('disabled');
+            }
         },
 
         _updateCustomCss: function()
@@ -61,7 +63,7 @@
 
         _prepareUpdateButton: function()
         {
-            if (!$(this.customCssCode).val()) {
+            if (!$.trim($(this.customCssCode).val())) {
                 this.btnCssUpdate.attr('disabled', 'disabled');
                 $(this.btnUpdateDownload).fadeOut();
             } else {
