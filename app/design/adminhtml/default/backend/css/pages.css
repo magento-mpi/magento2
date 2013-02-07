@@ -313,7 +313,11 @@
 }
 
 #attributes-container .col-name {
-    width: 30%;
+    width: 45%;
+}
+
+#attributes-container .pricing-value {
+    text-align: right;
 }
 
 #generate-variations-button {
@@ -334,7 +338,9 @@
     line-height: 30px;
     text-align: center;
     color: #9f9a91;
+    overflow: hidden;
 }
+
 #product-variations-matrix .action-upload:hover {
     color: #7e7e7e;
 }
@@ -349,8 +355,31 @@
     font-size: 22px;
 }
 
-#product-variations-matrix .action-upload span {
+#product-variations-matrix .action-upload span,
+#product-variations-matrix .action-choose span {
     display: none;
+}
+
+#product-variations-matrix .action-choose {
+    color:#b8b3a7;
+    float: right;
+    margin-left: 5px;
+}
+#product-variations-matrix .action-choose:hover {
+    color:#7e7e7e;
+}
+#product-variations-matrix .action-choose:before {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e040'; /* user icon */
+}
+
+#product-variations-matrix .col-name > a + .action-choose:before {
+    content: '\e03f'; /* user icon */
+    color: #a09a8c;
 }
 
 /*
@@ -409,11 +438,11 @@
 }
 
 .address-list li {
-    border:1px solid #d9d2ca;
+    border: 1px solid #d9d2ca;
     background: #f7f2ec;
     padding: 10px 10px 15px;
-    cursor:pointer;
-    margin-bottom:-1px;
+    cursor: pointer;
+    margin-bottom: -1px;
 }
 
 .address-list li.active {
@@ -421,7 +450,7 @@
     position: relative;
     box-shadow: 0 1px 1px 0 rgba(217, 210, 202, 1);
     margin-left: -2px;
-    padding-left:12px;
+    padding-left: 12px;
 }
 
 .address-list li.active:after {
@@ -430,7 +459,7 @@
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
-    color:#fff;
+    color: #fff;
     content: "\e02a";
     speak: none;
     line-height: 11px;
@@ -469,7 +498,8 @@
     float: left;
 }
 
-.address-list address:first-line {  /*  its not work  if First Name and Last Name in two lines */
+.address-list address:first-line {
+    /*  its not work  if First Name and Last Name in two lines */
     font-weight: bold;
 }
 
@@ -507,7 +537,7 @@
 }
 
 .address-item-edit .legend span {
-   padding-left: 0;
+    padding-left: 0;
 }
 
 .address-item-edit-actions {
@@ -522,9 +552,11 @@
 .field-poll_answers_container .control {
     width: 600px;
 }
+
 .field-poll_answers_container .col-poll_votes_count {
     width: 90px;
 }
+
 .field-poll_answers_container .action-add {
     margin-top: 7px;
 }
@@ -533,7 +565,7 @@
     Reports
 -------------------------------------- */
 .reports-title .page-actions {
-     float: right;
+    float: right;
 }
 
 .reports-title .store-switcher {
@@ -552,6 +584,7 @@
 .reports-content .required .control {
     position: relative;
 }
+
 .reports-content input.hasDatepicker + label.mage-error {
     left: 0;
     position: absolute;
@@ -567,8 +600,6 @@
 .reports-title:after {
     clear: both;
 }
-
-
 
 /*
     Clearfix

@@ -18,10 +18,6 @@
                     });
                 }
             });
-            var useDefaultCheckboxHandler = function (event) {
-                var $this = $(event.target);
-                $this.closest('.fieldset-legend').find('.store-label').prop('disabled', $this.is(':checked'));
-            };
             var updateGenerateVariationsButtonAvailability = function () {
                 var isDisabled = $('#attributes-container .entry-edit:not(:has(input.include:checked))').length > 0 ||
                     !$('#attributes-container .entry-edit').length;
@@ -29,7 +25,7 @@
             };
 
             this._on({
-                'click .action-delete':  function (event) {
+                'click .fieldset-wrapper-title .action-delete':  function (event) {
                     var $entity = $(event.target).closest('.entry-edit');
                     $('#attribute-' + $entity.find('[name$="[code]"]').val() + '-container select').removeAttr('disabled');
                     $entity.remove();
@@ -42,10 +38,15 @@
                 'add': function (event, attribute) {
                     $('#attribute-template').tmpl({attribute: attribute}).appendTo($(event.target));
                     $('#attribute-' + attribute.code + '-container select').prop('disabled', true);
+
+                    $('.collapse')
+                        .collapsable()
+                        .collapse('show');
+
+                    $('[data-store-label]').useDefault();
+
                     updateGenerateVariationsButtonAvailability();
-                },
-                'click .use-default': useDefaultCheckboxHandler,
-                'change .use-default': useDefaultCheckboxHandler
+                }
             });
             updateGenerateVariationsButtonAvailability();
         },
