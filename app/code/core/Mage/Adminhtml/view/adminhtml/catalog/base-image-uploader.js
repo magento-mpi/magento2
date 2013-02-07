@@ -17,12 +17,12 @@ function BaseImageUploader(id, maxFileSize) {
             maximumImageCount = 5;
 
         var findElement = function (data) {
-            return $container.find('.container').filter(function () {
+            return $container.find('.image:not(.image-placeholder)').filter(function () {
                 return $(this).data('image').file == data.file;
             }).first();
         };
         var updateVisibility = function() {
-            var elementsList = $container.find('.container:not(.removed-item)');
+            var elementsList = $container.find('.image:not(.removed-item)');
             elementsList.each(function(index) {
                 $(this)[index < maximumImageCount ? 'show' : 'hide']();
             });
@@ -54,7 +54,7 @@ function BaseImageUploader(id, maxFileSize) {
             if (data.position === 0) {
                 $container.prepend($element);
             } else {
-                var $after = $container.find('.container').eq(data.position);
+                var $after = $container.find('.image').eq(data.position);
                 if (!$element.is($after)) {
                     $element.insertAfter($after);
                 }
@@ -63,28 +63,28 @@ function BaseImageUploader(id, maxFileSize) {
         });
 
 
-        $container.on('click', '.container', function (event) {
+        $container.on('click', '.image', function (event) {
             $(this).toggleClass('active').siblings().removeClass('active');
         });
 
         $container.on('click', '.make-main', function (event) {
-            var data = $(this).closest('.container').data('image');
+            var data = $(this).closest('.image').data('image');
             $galleryContainer.productGallery('setMain', data);
         });
 
         $container.on('click', '.close', function (event) {
-            $galleryContainer.trigger('removeItem', $(this).closest('.container').data('image'));
+            $galleryContainer.trigger('removeItem', $(this).closest('.image').data('image'));
         });
 
         $container.sortable({
             axis: 'x',
-            items: '.container',
+            items: '.image:not(.image-placeholder)',
             distance: 8,
             tolerance: 'pointer',
             stop: function (event, data) {
                 $galleryContainer.trigger('setPosition', {
                     imageData: data.item.data('image'),
-                    position: $container.find('.container').index(data.item)
+                    position: $container.find('.image').index(data.item)
                 });
                 $galleryContainer.trigger('resort');
             }

@@ -29,32 +29,30 @@ $elementName = $this->getElement()->getName() . '[images]';
     }
     ?>
     <script id="<?php echo $this->getHtmlId() ?>-template" type="text/x-jquery-tmpl">
-        <div class="item {{if disabled == 1 }}disabled{{/if}}" id="${file_id}" data-role="image">
+        <div class="image item {{if disabled == 1 }}disabled{{/if}}" data-image-label="<?php echo $this->__('Main') ?>" data-role="image">
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][position]" value="${position}" class="position"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][file]" value="${file}"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][value_id]" value="${value_id}"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][label]" value="${label}"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][disabled]" value="${disabled}"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][removed]" value="" class="is-removed"/>
-
-            <span class="remove">&times;</span>
-
-            <div class="image">
-                <ul class="type-labels">
-                    <?php foreach ($this->getImageTypes() as $typeData) { ?>
-                        <li class="type-<?php echo $this->escapeHtml(
-                            $typeData['code']
-                        ) ?>"><?php echo $this->escapeHtml($typeData['label']) ?></li>
-                    <?php } ?>
-                </ul>
-                <img src="${url}" alt="${label}"/>
-            </div>
-
-            <div class="drag-zone">
-                <div class="main-control button">
-                    <?php echo $this->__('Make main')?>
-                </div>
-            </div>
+            <ul class="type-labels" style="display: none">
+                <?php foreach ($this->getImageTypes() as $typeData) { ?>
+                    <li class="type-<?php echo $this->escapeHtml(
+                        $typeData['code']
+                    ) ?>"><?php echo $this->escapeHtml($typeData['label']) ?></li>
+                <?php } ?>
+            </ul>
+            <img src="${url}" alt="${label}"/>
+            <div class="actions" >
+                <button class="action-delete" title="<?php echo $this->__('Delete image') ?>">
+                     <span> <?php echo $this->__('Delete image') ?></span >
+                </button>
+                <button class="main-control action-make-main" title="<?php echo $this->__('Make Main') ?>">
+                    <span><?php echo $this->__('Make Main') ?></span >
+                </button >
+                <div class="draggable-handle" ></div >
+            </div >
         </div>
     </script>
     <script class="dialog-template" type="text/x-jquery-tmpl"  data-title="Image Options">
