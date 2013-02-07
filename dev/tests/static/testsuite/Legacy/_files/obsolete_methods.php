@@ -1,4 +1,14 @@
 <?php
+/**
+ * Obsolete methods
+ *
+ * Format: array(<method_name = ''>[, <class_scope> = ''[, <replacement>]])
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 return array(
 	array('__get', 'Varien_Object'),
 	array('__set', 'Varien_Object'),
