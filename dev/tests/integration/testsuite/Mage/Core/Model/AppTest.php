@@ -278,6 +278,30 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $cache = $this->_mageModel->getCacheInstance();
         $this->assertInstanceOf('Mage_Core_Model_Cache', $cache);
         $this->assertSame($cache, $this->_mageModel->getCacheInstance());
+        $this->assertSame($cache, $this->_mageModel->getCacheInstance(Mage_Core_Model_App::DEFAULT_CACHE_ID));
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testGetCacheInstanceForCustomCache()
+    {
+        $localFile = file_get_contents(__DIR__ . '/_files/application/custom_cache/local.xml');
+        $params = array(
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $localFile
+        );
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
+
+        $application = Mage::app();
+
+        $additionalCache = $application->getCacheInstance('additional');
+        $this->assertInstanceOf('Mage_Core_Model_Cache', $additionalCache);
+        $this->assertNotSame($additionalCache, $application->getCacheInstance());
+
+        $idPrefix = $additionalCache->getFrontend()->getOption('cache_id_prefix');
+        $this->assertEquals('additional_prefix', $idPrefix);
+
+        $this->assertInstanceOf('Zend_Cache_Backend_BlackHole', $additionalCache->getFrontend()->getBackend());
     }
 
     public function testGetCache()
