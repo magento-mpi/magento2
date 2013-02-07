@@ -69,7 +69,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
         return <<<HTML
 <script>
     head.js($widgetUrl, function () {
-        jQuery('#new-category').mage('newCategoryDialog', $widgetOptions);
+        jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
+            $('#new-category').mage('newCategoryDialog', $widgetOptions);
+        });
     });
 </script>
 HTML;

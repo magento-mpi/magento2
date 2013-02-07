@@ -72,9 +72,7 @@
          * @private
          */
         _addOption: function(item) {
-            this.valueField.append(
-                '<option value="' + item.id + '" selected="selected">' + item.label + '</option>'
-            );
+            this.valueField.append($('<option>', {value: item.id, selected: true}).text(item.label));
         },
 
         /**
@@ -103,7 +101,7 @@
                 '<li class="category-selector-search-field"></li></ul>',
             choiceTemplate: '<li class="category-selector-search-choice button"><div>${text}</div>' +
                 '<span class="category-selector-search-choice-close" tabindex="-1" ' +
-                'data-mage-init="{&quot;actionLink&quot;:{&quot;event&quot;:&quot;removeOption&quot;}}"></span></li>'
+                'data-mage-init="{actionLink:{event:&quot;removeOption&quot;}}"></span></li>'
         },
 
         /**

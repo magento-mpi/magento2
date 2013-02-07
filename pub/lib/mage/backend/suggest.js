@@ -379,7 +379,8 @@
                 items: this._items,
                 term: this._term,
                 optionData: function(item) {
-                    return 'data-suggest-option="' + JSON.stringify(item).replace(/"/g, '&quot;') + '"';
+                    return 'data-suggest-option="' +
+                        $('<div>').text(JSON.stringify(item)).html().replace(/"/g, '&quot;') + '"';
                 }
             });
         },
