@@ -115,7 +115,7 @@
     </adminhtml_system_design_editor_tools_upload>
 
     <adminhtml_system_design_editor_tools_savecsscontent>
-        <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
+        <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/message.phtml" />
     </adminhtml_system_design_editor_tools_savecsscontent>
 
     <adminhtml_system_design_editor_tools_uploadjs>
@@ -129,6 +129,6 @@
     </adminhtml_system_design_editor_tools_jslist>
 
     <adminhtml_system_design_editor_tools_reorderjs>
-        <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/css/message.phtml" />
+        <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/message.phtml" />
     </adminhtml_system_design_editor_tools_reorderjs>
 </layout>

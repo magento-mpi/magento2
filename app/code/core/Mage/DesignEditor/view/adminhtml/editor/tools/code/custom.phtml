@@ -24,9 +24,6 @@
             <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
                 <span><?php echo $this->__('Download file'); ?></span>
             </button>
-            <button class="action-delete" title="<?php echo $this->__('Delete file'); ?>">
-                <span><?php echo $this->__('Delete file'); ?></span>
-            </button>
 
             <?php echo $this->getFormHtml() ?>
         </div>
@@ -42,6 +39,10 @@
 
 <script type="text/javascript">
     (function ($) {
+        $('#vde-tab-custom').customCssPanel({
+            saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
+        });
+
         $( '#' + '<?php echo $this->getFileElementName() ?>' ).fileupload({
             dataType: 'json',
             replaceFileInput: false,
@@ -67,16 +68,13 @@
                 $('#css_uploader_button').attr('disabled', 'disabled');
                 if (!data.result.error) {
                     contentArea.val(data.result.content);
+                    $('#vde-tab-custom').customCssPanel('updateButtons');
                 }
 
                 if (data.result.message_html) {
                     $('#vde-tab-custom-messages-placeholder').append(data.result.message_html);
                 }
             }
-        });
-
-        $('#vde-tab-custom').customCssPanel({
-            saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
         });
     })(jQuery);
 </script>

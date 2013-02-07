@@ -13,19 +13,25 @@
         options: {
             saveCustomCssUrl: null,
             customCssCode: '#custom_code',
-            btnUpdateCss: '.vde-tools-content .action-update'
+            btnUpdateCss: '.vde-tools-content .action-update',
+            btnUpdateDownload: '.vde-tools-content .action-download'
+        },
+
+        updateButtons: function() {
+            this._prepareUpdateButton();
         },
 
         _create: function() {
             this.btnCssUpdate = $(this.options.btnUpdateCss);
             this.customCssCode = $(this.options.customCssCode);
+            this.btnUpdateDownload = $(this.options.btnUpdateDownload);
             this._prepareUpdateButton();
             this._events();
         },
 
         _events: function() {
             this.btnCssUpdate.on('click', $.proxy(this._updateCustomCss, this));
-            this.customCssCode.on('keyup', $.proxy(this._editCustomCss, this));
+            this.customCssCode.on('input onchange', $.proxy(this._editCustomCss, this));
         },
 
         _editCustomCss: function()
@@ -57,6 +63,9 @@
         {
             if (!$(this.customCssCode).val()) {
                 this.btnCssUpdate.attr('disabled', 'disabled');
+                $(this.btnUpdateDownload).fadeOut();
+            } else {
+                $(this.btnUpdateDownload).fadeIn();
             }
         }
     });
