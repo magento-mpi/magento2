@@ -76,7 +76,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array(
-            'action'   => '#',
+            'action' => '#',
             'method' => 'post'
         ));
         $this->setForm($form);
