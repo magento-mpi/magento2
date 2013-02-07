@@ -66,14 +66,14 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
             'name'      => $this->getElementName(),
             'title'     => $title,
             'type'      => $this->getType(),
-            'class'     => 'scalable ' . $this->getClass() . ' ' . $disabled,
+            'class'     => 'action- scalable ' . $this->getClass() . ' ' . $disabled,
             'onclick'   => $this->getOnClick(),
             'style'     => $this->getStyle(),
             'value'     => $this->getValue(),
             'disabled'  => $disabled
         );
-        if ($this->getDataAttr()) {
-            foreach ($this->getDataAttr() as $key => $attr) {
+        if ($this->getDataAttribute()) {
+            foreach ($this->getDataAttribute() as $key => $attr) {
                 $attributes['data-' . $key] = json_encode($attr);
             }
         }

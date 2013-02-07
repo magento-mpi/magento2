@@ -56,12 +56,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
         $this->assertEquals('*/*/getLayoutUpdate', $this->_block->getViewLayoutUrl());
     }
 
-    public function testGetBackUrl()
+    public function testGetQuitUrl()
     {
         $this->_urlBuilder->expects($this->once())
             ->method('getUrl')
             ->will($this->returnArgument(0));
-        $this->assertEquals('*/*/', $this->_block->getBackUrl());
+        $this->assertEquals('*/*/quit', $this->_block->getQuitUrl());
     }
 
     public function testGetNavigationModeUrl()
@@ -88,5 +88,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
             ->will($this->returnValue("*/*/launch/mode/{$mode}/theme_id/3/"));
 
         $this->assertEquals("*/*/launch/mode/{$mode}/theme_id/3/", $this->_block->getDesignModeUrl());
+    }
+
+    public function testGetSaveTemporaryLayoutUpdateUrl()
+    {
+        $this->_urlBuilder->expects($this->once())
+            ->method('getUrl')
+            ->will($this->returnArgument(0));
+        $this->assertEquals('*/*/saveTemporaryLayoutUpdate', $this->_block->getSaveTemporaryLayoutUpdateUrl());
     }
 }

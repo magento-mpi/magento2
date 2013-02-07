@@ -35,6 +35,20 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected $_targetDirs = array();
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * @param Magento_Filesystem $filesystem
+     */
+    public function __construct(Magento_Filesystem $filesystem)
+    {
+        $this->_filesystem = $filesystem;
+        parent::__construct();
+    }
+
+    /**
      * Retrieve collection empty item
      *
      * @return Mage_Core_Model_Theme
@@ -113,7 +127,6 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     /**
      * Return target dir for themes with theme configuration file
      *
-     *
      * @throws Magento_Exception
      * @return array|string
      */
@@ -142,7 +155,9 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
         foreach ($this->getTargetPatterns() as $directoryPath) {
             $pathsToThemeConfig = array_merge(
                 $pathsToThemeConfig,
-                glob($this->getBaseDir() . DIRECTORY_SEPARATOR . $directoryPath, GLOB_NOSORT)
+                str_replace('/', DIRECTORY_SEPARATOR,
+                    $this->_filesystem->searchKeys($this->getBaseDir(), $directoryPath)
+                )
             );
         }
 

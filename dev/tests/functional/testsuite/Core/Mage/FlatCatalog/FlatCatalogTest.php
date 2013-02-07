@@ -34,7 +34,7 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
-        $simple = $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $catPath));
+        $simple = $this->loadDataSet('Product', 'simple_product_visible', array('general_categories' => $catPath));
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();

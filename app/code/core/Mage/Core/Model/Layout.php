@@ -182,7 +182,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_structure = $structure;
         $this->_argumentProcessor = $argumentProcessor;
         $this->_translator = $translator;
-        $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
+        $this->_elementClass = 'Mage_Core_Model_Layout_Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new Varien_Object;
         $this->_scheduledStructure = $scheduledStructure;
@@ -552,7 +552,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             list(
                 $row[self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME],
                 $row[self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER]
-                ) = $this->_beforeAfterToSibling($node);
+            ) = $this->_beforeAfterToSibling($node);
 
             // materialized path for referencing nodes in the plain array of _scheduledStructure
             if ($this->_scheduledStructure->hasPath($parentName)) {
@@ -675,6 +675,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @param string $name
      * @param string $type
+     * @param string $class
      * @return string
      */
     protected function _createStructuralElement($name, $type, $class)
@@ -689,6 +690,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Generate anonymous element name for structure
      *
+     * @param string $class
      * @return string
      */
     protected function _generateAnonymousName($class)
@@ -1321,7 +1323,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _getBlockInstance($block, array $attributes = array())
     {
         if ($block && is_string($block)) {
-            $block = Mage::getConfig()->getBlockClassName($block);
             if (class_exists($block)) {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             }
@@ -1447,8 +1448,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getBlockSingleton($type)
     {
         if (!isset($this->_helpers[$type])) {
-            $className = Mage::getConfig()->getBlockClassName($type);
-            if (!$className) {
+            if (!$type) {
                 Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $type));
             }
 

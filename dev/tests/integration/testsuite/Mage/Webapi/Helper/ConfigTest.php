@@ -22,7 +22,7 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $objectManager = new Magento_Test_ObjectManager();
+        $objectManager = Mage::getObjectManager();
         $this->_helper = $objectManager->get('Mage_Webapi_Helper_Config');
         parent::setUp();
     }
@@ -159,7 +159,7 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $expectedParts,
             $this->_helper->getResourceNameParts($className),
-            "Resource parts for rest route were identified incorrectly."
+            "Resource parts for REST route were identified incorrectly."
         );
     }
 

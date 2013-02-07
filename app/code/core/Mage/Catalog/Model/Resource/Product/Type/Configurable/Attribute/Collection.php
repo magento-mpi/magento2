@@ -153,8 +153,9 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
      */
     public function _addAssociatedProductFilters()
     {
-        $this->getProductType()
-            ->getUsedProducts($this->getProduct(), $this->getColumnValues('attribute_id')); // Filter associated products
+        $this->getProductType()->getUsedProducts(
+            $this->getProduct(), $this->getColumnValues('attribute_id') // Filter associated products
+        );
         return $this;
     }
 
@@ -182,7 +183,10 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
                 ->from(array('def' => $this->_labelTable))
                 ->joinLeft(
                     array('store' => $this->_labelTable),
-                    $this->getConnection()->quoteInto('store.product_super_attribute_id = def.product_super_attribute_id AND store.store_id = ?', $this->getStoreId()),
+                    $this->getConnection()->quoteInto(
+                        'store.product_super_attribute_id = def.product_super_attribute_id AND store.store_id = ?',
+                        $this->getStoreId()
+                    ),
                     array(
                         'use_default' => $useDefaultCheck,
                         'label' => $labelCheck
@@ -298,7 +302,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     }
 
     /**
-     * Retrive product instance
+     * Retrieve product instance
      *
      * @return Mage_Catalog_Model_Product
      */

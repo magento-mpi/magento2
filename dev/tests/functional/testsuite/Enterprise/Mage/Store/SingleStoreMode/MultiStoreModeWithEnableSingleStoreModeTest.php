@@ -148,9 +148,6 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
      */
     public function editCustomer($userData)
     {
-        //Data
-        $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
         //Preconditions
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));

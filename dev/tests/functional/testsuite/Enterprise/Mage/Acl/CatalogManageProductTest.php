@@ -78,7 +78,7 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_products');
         //Data
-        $productData = $this->loadDataSet('Product', $type . '_product_website');
+        $productData = $this->loadDataSet('Product', $type . '_product_visible');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, $type);
@@ -154,7 +154,7 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
             $this->fail("This user doesn't have permission to watch Column Price");
         }
         //Data
-        $productData = $this->loadDataSet('Product', $type . '_product_price');
+        $productData = $this->loadDataSet('Product', $type . '_product_visible', array('prices_price' => '%noValue%'));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, $type);

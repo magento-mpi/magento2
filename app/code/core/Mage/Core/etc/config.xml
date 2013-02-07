@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.6</version>
+            <version>1.6.0.10</version>
             <active>true</active>
             <codePool>core</codePool>
         </Mage_Core>
@@ -55,6 +55,11 @@
                 </collections>
             </types>
         </cache>
+        <design>
+            <theme>
+                <allow_view_files_duplication>1</allow_view_files_duplication>
+            </theme>
+        </design>
         <session>
             <validation>
                 <http_user_agent_skip>
@@ -91,15 +96,22 @@
             <Magento_Data_Structure>
                 <shared>0</shared>
             </Magento_Data_Structure>
-            <Magento_Filesystem>
-                <shared>0</shared>
+            <Mage_Core_Model_Store_StorageFactory>
                 <parameters>
-                    <adapter>Magento_Filesystem_Adapter_Local</adapter>
+                    <config>Mage_Core_Model_Config_Proxy</config>
                 </parameters>
-            </Magento_Filesystem>
+            </Mage_Core_Model_Store_StorageFactory>
+            <Mage_Core_Model_Theme_Image>
+                <shared>0</shared>
+            </Mage_Core_Model_Theme_Image>
         </di>
     </global>
     <frontend>
+        <design>
+            <theme>
+                <full_name>default/demo</full_name>
+            </theme>
+        </design>
         <routers>
             <core>
                 <use>standard</use>
@@ -164,7 +176,7 @@
         </events>
         <design>
             <theme>
-                <full_name>default/basic</full_name>
+                <full_name>default/backend</full_name>
             </theme>
         </design>
         <di>
@@ -191,10 +203,6 @@
     </install>
     <default>
         <design>
-            <theme>
-                <full_name>default/demo</full_name>
-                <allow_view_files_duplication>1</allow_view_files_duplication>
-            </theme>
             <pagination>
                 <list_allow_all>1</list_allow_all>
                 <pagination_frame>5</pagination_frame>
@@ -282,15 +290,11 @@
                 <base_url>{{base_url}}</base_url>
                 <base_web_url>{{unsecure_base_url}}</base_web_url>
                 <base_link_url>{{unsecure_base_url}}</base_link_url>
-                <base_public_url>{{unsecure_public_url}}</base_public_url>
-                <base_media_url>{{unsecure_public_url}}media/</base_media_url>
             </unsecure>
             <secure>
-                <base_url>{{base_url}}</base_url>
+                <base_url>{{unsecure_base_url}}</base_url>
                 <base_web_url>{{secure_base_url}}</base_web_url>
                 <base_link_url>{{secure_base_url}}</base_link_url>
-                <base_public_url>{{secure_public_url}}</base_public_url>
-                <base_media_url>{{secure_public_url}}media/</base_media_url>
                 <use_in_frontend>0</use_in_frontend>
                 <use_in_adminhtml>0</use_in_adminhtml>
                 <offloader_header>SSL_OFFLOADED</offloader_header>

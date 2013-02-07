@@ -90,7 +90,7 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
                 }
                 $this->_saveCache($categoryUniqueClasses, $categoryCacheId);
             }
-            if (!Enterprise_PageCache_Model_Cache::getCacheInstance()->getFrontend()->test($blockCacheId)) {
+            if (!$this->_fpcCache->getFrontend()->test($blockCacheId)) {
                 $this->_saveCache($blockContent, $blockCacheId);
             }
         }

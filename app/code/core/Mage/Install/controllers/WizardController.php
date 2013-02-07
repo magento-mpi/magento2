@@ -37,15 +37,16 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
      */
     protected  function _verifyTheme()
     {
+        /** @var Magento_Filesystem $filesystem */
         $pubTheme = Mage::getDesign()->getPublicDir();
 
-        if (is_dir($pubTheme)) {
-            $isWritable = is_writable($pubTheme);
-        } else {
-            $isWritable = @mkdir($pubTheme, 0777, true);
-            if ($isWritable) {
-                rmdir($pubTheme);
-            }
+        try {
+            $filesystem = $this->_objectManager->get('Magento_Filesystem');
+            $filesystem->setIsAllowCreateDirectories(true);
+            $filesystem->ensureDirectoryExists($pubTheme, 0777);
+            $isWritable = $filesystem->isWritable($pubTheme);
+        } catch (Magento_Filesystem_Exception $e) {
+            $isWritable = false;
         }
 
         if (!$isWritable) {
@@ -99,7 +100,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     /**
      * Checking installation status
      *
-     * @return unknown
+     * @return bool
      */
     protected function _checkIfInstalled()
     {
@@ -382,7 +383,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
     }
 
     /**
-     * Process administrator instalation POST data
+     * Process administrator installation POST data
      */
     public function administratorPostAction()
     {
@@ -392,37 +393,22 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $adminData      = $this->getRequest()->getPost('admin');
         $encryptionKey  = $this->getRequest()->getPost('encryption_key');
 
-        $errors = array();
-
-        //preparing admin user model with data and validate it
-        $user = $this->_getInstaller()->validateAndPrepareAdministrator($adminData);
-        if (is_array($user)) {
-            $errors = $user;
-        }
-
-        //checking if valid encryption key was entered
-        $result = $this->_getInstaller()->validateEncryptionKey($encryptionKey);
-        if (is_array($result)) {
-            $errors = array_merge($errors, $result);
-        }
-
-        if (!empty($errors)) {
-            Mage::getSingleton('Mage_Install_Model_Session')->setAdminData($adminData);
-            $this->getResponse()->setRedirect($step->getUrl());
-            return false;
-        }
-
         try {
-            $this->_getInstaller()->createAdministrator($user);
-            $this->_getInstaller()->installEnryptionKey($encryptionKey);
+            $encryptionKey = $this->_getInstaller()->getValidEncryptionKey($encryptionKey);
+            $this->_getInstaller()->createAdministrator($adminData);
+            $this->_getInstaller()->installEncryptionKey($encryptionKey);
+            $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (Exception $e){
-            Mage::getSingleton('Mage_Install_Model_Session')
-                ->setAdminData($adminData)
-                ->addError($e->getMessage());
+            /** @var $session Mage_Install_Model_Session */
+            $session = Mage::getSingleton('Mage_Install_Model_Session');
+            $session->setAdminData($adminData);
+            if ($e instanceof Mage_Core_Exception) {
+                $session->addMessages($e->getMessages());
+            } else {
+                $session->addError($e->getMessage());
+            }
             $this->getResponse()->setRedirect($step->getUrl());
-            return false;
         }
-        $this->getResponse()->setRedirect($step->getNextUrl());
     }
 
     /**
@@ -448,23 +434,5 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $this->getLayout()->addBlock('Mage_Install_Block_End', 'install.end', 'content');
         $this->renderLayout();
         Mage::getSingleton('Mage_Install_Model_Session')->clear();
-    }
-
-    /**
-     * Host validation response
-     */
-    public function checkHostAction()
-    {
-        $this->getResponse()->setHeader('Transfer-encoding', '', true);
-        $this->getResponse()->setBody(Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE);
-    }
-
-    /**
-     * Host validation response
-     */
-    public function checkSecureHostAction()
-    {
-        $this->getResponse()->setHeader('Transfer-encoding', '', true);
-        $this->getResponse()->setBody(Mage_Install_Model_Installer::INSTALLER_HOST_RESPONSE);
     }
 }

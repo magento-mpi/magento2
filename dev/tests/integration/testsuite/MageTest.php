@@ -29,22 +29,19 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLog($level, $file, $forceLog, $expectedLevel, $expectedKey, $expectsAddLog)
     {
         $message = uniqid();
-        $objectManager = Mage::getObjectManager();
-        /** @var $objectManager Magento_ObjectManager_Zend|PHPUnit_Framework_MockObject_MockObject */
-        $mock = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
         /** @var $logger Mage_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
         $logger = $this->getMock('Mage_Core_Model_Logger', array('log', 'addStreamLog'), array(), '', false);
-        Mage::initializeObjectManager(null, $mock);
+        $realLogger = Mage::getObjectManager()->get('Mage_Core_Model_Logger');
+        Mage::getObjectManager()->addSharedInstance($logger, 'Mage_Core_Model_Logger');
         try {
-            $mock->expects($this->any())->method('get')->will($this->returnValue($logger));
             $logger->expects($this->once())->method('log')->with($message, $expectedLevel, $expectedKey);
             if ($expectsAddLog) {
                 $logger->expects($this->once())->method('addStreamLog');
             }
             Mage::log($message, $level, $file, $forceLog);
-            Mage::initializeObjectManager(null, $objectManager);
+            Mage::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
         } catch (Exception $e) {
-            Mage::initializeObjectManager(null, $objectManager);
+            Mage::getObjectManager()->addSharedInstance($realLogger, 'Mage_Core_Model_Logger');
             throw $e;
         }
 
@@ -72,8 +69,9 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLogWrapper()
     {
         // @magentoConfigFixture is applied after initialization, so we need to do this again
-        Magento_Test_Bootstrap::getInstance()->reinitialize();
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize();
         $this->expectOutputRegex('/test/');
+        Mage::app()->getStore(true);
         Mage::log('test');
     }
 
@@ -94,7 +92,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLogUnsupportedWrapper()
     {
         // initialize again, because config fixture is applied after initialization
-        Magento_Test_Bootstrap::getInstance()->reinitialize();
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize();
         $logEntry = microtime();
         Mage::log($logEntry);
         $logFile = Mage::getBaseDir('log') . '/system.log';
@@ -110,7 +108,8 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLogException()
     {
         // reinitialization is needed here, too
-        Magento_Test_Bootstrap::getInstance()->reinitialize();
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize();
+        Mage::app()->getStore(true);
         $msg = uniqid();
         $exception = new Exception((string)$msg);
         Mage::logException($exception);

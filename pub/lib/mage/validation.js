@@ -10,7 +10,7 @@
 (function ($) {
     "use strict";
     $.extend(true, $, {
-        //@TODO: Move methods 'isEmpty', 'isEmptyNoTrim', 'parseNumber', 'stripHtml' in file with utility functions
+        // @TODO: Move methods 'isEmpty', 'isEmptyNoTrim', 'parseNumber', 'stripHtml' in file with utility functions
         mage: {
             /**
              * Check if string is empty with trim
@@ -332,8 +332,10 @@
             },
             'Please select an option'
         ],
-        "is-empty": [
-            $.mage.isEmpty,
+        "validate-no-empty": [
+            function(value) {
+                return !$.mage.isEmpty(value);
+            },
             'Empty Value'
         ],
         "validate-alphanum-with-spaces": [
@@ -491,6 +493,18 @@
 
             },
             'Please select one of the above options.'
+        ],
+        // validate-not-negative-number should be replaced in all places with this one and then removed
+        "validate-zero-or-greater": [
+            function(v) {
+                if ($.mage.isEmptyNoTrim(v)) {
+                    return true;
+                }
+                v = $.mage.parseNumber(v);
+                return !isNaN(v) && v >= 0;
+
+            },
+            'Please enter a number 0 or greater in this field.'
         ],
         "validate-greater-than-zero": [
             function(v) {
@@ -754,12 +768,6 @@
                  return result;
              },
             'Please select a file'
-        ],
-        'validate-super-product-attributes': [
-            function(v) {
-                return (v !== "no-attributes");
-            },
-            'Please select one or more attributes.'
         ],
         "validate-ajax-error": [
             function(v, element) {

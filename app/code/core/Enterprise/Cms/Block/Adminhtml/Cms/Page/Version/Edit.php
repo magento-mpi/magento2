@@ -40,15 +40,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
             $this->_addButton('new', array(
                     'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save as New Version'),
                     'class'     => 'new',
-                    'data_attr'  => array(
-                        'widget-button' => array(
-                            'event' => 'save',
-                            'related' => '#edit_form',
-                            'eventData' => array(
-                                'action' => $this->getNewUrl()
-                            )
-                        )
-                    )
+                    'data_attribute'  => array(
+                        'mage-init' => array(
+                            'button' => array(
+                                'event' => 'save',
+                                'target' => '#edit_form',
+                                'eventData' => array(
+                                    'action' => $this->getNewUrl()
+                                )
+                            ),
+                        ),
+                    ),
                 ));
 
             $this->_addButton('new_revision', array(
@@ -71,12 +73,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
             $this->_addButton('saveandcontinue', array(
                 'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Save and Continue Edit'),
                 'class'     => 'save',
-                'data_attr'  => array(
-                    'widget-button' => array(
-                        'event' => 'saveAndContinueEdit',
-                        'related' => '#edit_form',
-                    )
-                )
+                'data_attribute'  => array(
+                    'mage-init' => array(
+                        'button' => array(
+                            'event' => 'saveAndContinueEdit', 'target' => '#edit_form'
+                        ),
+                    ),
+                ),
             ), 1);
         } else {
             $this->removeButton('save');

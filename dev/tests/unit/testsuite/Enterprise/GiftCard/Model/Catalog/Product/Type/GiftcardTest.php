@@ -47,10 +47,18 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
 
         $helpers = array(
-            'Enterprise_GiftCard_Helper_Data'        => $this->getMock('Enterprise_GiftCard_Helper_Data'),
-            'Mage_Core_Helper_Data'                  => $this->getMock('Mage_Core_Helper_Data'),
-            'Mage_Catalog_Helper_Data'               => $this->getMock('Mage_Catalog_Helper_Data'),
-            'Mage_Core_Helper_File_Storage_Database' => $this->getMock('Mage_Core_Helper_File_Storage_Database')
+            'Enterprise_GiftCard_Helper_Data'        => $this->getMock(
+                'Enterprise_GiftCard_Helper_Data', array(), array(), '', false, false
+            ),
+            'Mage_Core_Helper_Data'                  => $this->getMock(
+                'Mage_Core_Helper_Data', array(), array(), '', false, false
+            ),
+            'Mage_Catalog_Helper_Data'               => $this->getMock(
+                'Mage_Catalog_Helper_Data', array(), array(), '', false, false
+            ),
+            'Mage_Core_Helper_File_Storage_Database' => $this->getMock(
+                'Mage_Core_Helper_File_Storage_Database', array(), array(), '', false, false
+            )
         );
 
         foreach ($helpers as $helper) {
@@ -59,14 +67,18 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $locale = new Varien_Object(array('number' => 100));
 
+        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = $this->getMock(
             'Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard',
             array('_isStrictProcessMode'),
-            array(array(
-                'store'     => $store,
-                'helpers'   => $helpers,
-                'locale'    => $locale,
-            ))
+            array(
+                $filesystem,
+                array(
+                    'store'     => $store,
+                    'helpers'   => $helpers,
+                    'locale'    => $locale,
+                )
+            )
         );
     }
 

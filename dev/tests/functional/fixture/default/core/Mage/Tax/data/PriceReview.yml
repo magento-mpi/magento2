@@ -18,14 +18,12 @@ simple_product_for_prices_validation_1:
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 111.11
     prices_tax_class: Taxable Goods
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 500
-    inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 simple_product_for_prices_validation_2:
     product_attribute_set: Default
@@ -36,14 +34,12 @@ simple_product_for_prices_validation_2:
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 100
     prices_tax_class: Taxable Goods
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 500
-    inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 simple_product_for_prices_validation_3:
     product_attribute_set: Default
@@ -54,14 +50,12 @@ simple_product_for_prices_validation_3:
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 15.51
     prices_tax_class: Taxable Goods
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 500
-    inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 customer_account_for_prices_validation:
     associate_to_website: Main Website
@@ -5979,16 +5973,14 @@ simple_product_for_prices_validation_front_1:
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 111.11
     prices_tax_class: Taxable Goods
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 500
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
-    inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 simple_product_for_prices_validation_front_2:
     product_attribute_set: Default
@@ -5999,16 +5991,14 @@ simple_product_for_prices_validation_front_2:
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 100
     prices_tax_class: Taxable Goods
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 500
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 3
-    inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 simple_product_for_prices_validation_front_3:
     product_attribute_set: Default
@@ -6019,16 +6009,14 @@ simple_product_for_prices_validation_front_3:
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 15.51
     prices_tax_class: Taxable Goods
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 500
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 5
-    inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 estimate_shipping:
     country: United States
@@ -7727,16 +7715,14 @@ simple_product_for_price_rules_validation_front:
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
+    general_qty: 120
+    general_stock_availability: In Stock
     prices_price: 120
     prices_tax_class: Taxable Goods
-    inventory_manage_stock_default: No
-    inventory_manage_stock: Yes
-    inventory_qty: 500
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 1
-    inventory_stock_availability: In Stock
     websites: Main Website
-    categories: Default Category
+    general_categories: Default Category
 
 #############################################################
 #         By Percentage of the Original Price               #

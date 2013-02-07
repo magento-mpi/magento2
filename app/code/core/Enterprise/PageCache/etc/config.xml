@@ -146,6 +146,14 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_action_postdispatch_adminhtml_system_currencysymbol_save>
+            <assigned_theme_save_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>invalidateCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </assigned_theme_save_after>
             <catalogrule_after_apply>
                 <observers>
                     <enterprise_pagecache>
@@ -194,6 +202,14 @@
                     </enterprise_pagecache>
                 </observers>
             </adminhtml_cache_flush_all>
+            <assign_theme_to_stores_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>cleanCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </assign_theme_to_stores_after>
         </events>
         <translate>
             <modules>

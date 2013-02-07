@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Create Rule model
+     * Create Rule model.
      *
      * @param Mage_Webapi_Model_Resource_Acl_Rule|PHPUnit_Framework_MockObject_MockObject $ruleResource
      * @param Mage_Webapi_Model_Resource_Acl_User_Collection $resourceCollection
@@ -67,7 +67,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test constructor
+     * Test constructor.
      */
     public function testConstructor()
     {
@@ -78,7 +78,7 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test method getRoleUsers()
+     * Test getRoleUsers() method.
      */
     public function testGetRoleUsers()
     {
@@ -93,21 +93,19 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get collection and _construct
+     * Test GET collection and _construct
      */
     public function testGetCollection()
     {
-        /** @var Mage_Webapi_Model_Resource_Acl_Rule_Collection $collection */
-        $collection = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_Rule_Collection')
-            ->setConstructorArgs(array('resource' => $this->_ruleResource))
-            ->setMethods(array('_initSelect', 'getSelect'))
-            ->getMock();
-
-        $collection->expects($this->any())
-            ->method('_initSelect')
-            ->withAnyParameters()
-            ->will($this->returnValue(null));
-
+        /** @var PHPUnit_Framework_MockObject_MockObject $collection */
+        $collection = $this->getMock(
+            'Mage_Webapi_Model_Resource_Acl_Rule_Collection',
+            array('_initSelect', 'setModel', 'getSelect'),
+            array('resource' => $this->_ruleResource),
+            '',
+            true
+        );
+        $collection->expects($this->any())->method('setModel')->with('Mage_Webapi_Model_Resource_Acl_Role');
         $collection->expects($this->any())
             ->method('getSelect')
             ->withAnyParameters()
@@ -115,13 +113,12 @@ class Mage_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
         $model = $this->_createModel($this->_ruleResource, $collection);
 
-        // test _construct
+        // Test _construct
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('Mage_Webapi_Model_Acl_Rule', '_model', $result);
         $this->assertAttributeEquals('Mage_Webapi_Model_Resource_Acl_Rule', '_resourceModel', $result);
 
-        // test getByRole
+        // Test getByRole
         $resultColl = $result->getByRole(1);
         $this->assertInstanceOf('Mage_Webapi_Model_Resource_Acl_Rule_Collection', $resultColl);
     }

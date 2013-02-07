@@ -50,11 +50,11 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     public function testGetPlaceholderImageUrl($type, $expectedFile)
     {
         Mage::getDesign()->setDesignTheme('default/basic', 'adminhtml');
-        $expectedPubFile = Mage::getBaseDir('media') . "/theme/adminhtml/default/basic/en_US/{$expectedFile}";
+        $expectedPubFile = Mage::getBaseDir('media') . "/theme/static/adminhtml/default/basic/en_US/{$expectedFile}";
         if (file_exists($expectedPubFile)) {
             unlink($expectedPubFile);
         }
-
+        $expectedPubFile = str_replace('/', DIRECTORY_SEPARATOR, $expectedPubFile);
         $url = $this->_model->getPlaceholderImageUrl($type);
         $this->assertStringEndsWith($expectedFile, $url);
         $this->assertFileExists($expectedPubFile);
@@ -81,11 +81,16 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     /**
      * Tests, that theme file is found anywhere in theme folders, not only in module directory.
      *
+     * @magentoDataFixture Mage/Widget/_files/themes.php
      * @magentoAppIsolation enabled
      */
     public function testGetPlaceholderImageUrlAtTheme()
     {
-        Mage::getConfig()->getOptions()->setDesignDir(dirname(__DIR__) . '/_files/design');
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+            Mage::PARAM_APP_DIRS => array(
+                Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
+            )
+        ));
         $actualFile = $this->testGetPlaceholderImageUrl(
             'Mage_Catalog_Block_Product_Widget_New',
             'Mage_Catalog/images/product_widget_new.gif'

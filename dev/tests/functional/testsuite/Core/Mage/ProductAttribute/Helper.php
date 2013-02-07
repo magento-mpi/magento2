@@ -44,6 +44,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openAttribute($searchData)
     {
+        $this->waitForControlVisible('fieldset', 'attributes_grid');
         $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
@@ -186,6 +187,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
                         case 'fill':
                             $this->addParameter('fieldOptionNumber', $optionCount);
                             $this->clickButton('add_option', false);
+                            $this->waitForControlEditable('field', 'option_position');
                             $this->storeViewTitles($attrData[$fKey], 'manage_options');
                             $this->fillFieldset($attrData[$fKey], 'manage_options');
                             $optionCount = $this->getControlCount('pageelement', 'manage_options_option');
@@ -341,6 +343,6 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->storeViewTitles($editedData);
         $this->attributeOptions($editedData);
-        $this->saveForm('save_attribute', false);
+        $this->saveForm('save_attribute');
     }
 }

@@ -62,7 +62,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly(array $searchData)
     {
         //Data
-
         $addressData = $this->loadDataSet('Customers', 'generic_address');
         //Steps
         $this->customerHelper()->openCustomer($searchData);
@@ -73,7 +72,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Add Address for customer with one empty required field.
+     * <p>Add Address for customer with one empty required field.</p>
      *
      * @param string $emptyField
      * @param array $searchData
@@ -105,7 +104,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
             $fieldXpath = $fieldSet->findDropdown($emptyField);
         }
         if ($emptyField == 'street_address_line_1') {
-            $fieldXpath .= "/ancestor::div[@class='multi-input']";
+            $this->addParameter('address_number', '1');
         }
         $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertMessagePresent('validation', 'empty_required_field');
@@ -120,7 +119,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
             array('street_address_line_1'),
             array('city'),
             array('country'),
-            //array('state'), //Fails because of MAGE-1424 // Should be required only if country='United States'
+            array('state'),
             array('zip_code'),
             array('telephone')
         );

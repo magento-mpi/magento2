@@ -34,12 +34,10 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
      */
     public function preconditionsForTests()
     {
-        //Data
+        //Data for configurable attribute
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('General' => $attrData['attribute_code']));
-        $productData = $this->loadDataSet('Product', 'simple_product_minimal');
-        $productData['general_user_attr_dropdown'] = $attrData['option_1']['admin_option_name'];
         //Steps (attribute)
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -52,15 +50,23 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
         $this->saveForm('save_attribute_set');
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        //Data for creating simple product for configurable
+        $productData = $this->loadDataSet('Product', 'simple_product_minimal');
+        $productData['general_user_attr']['dropdown'][$attrData['attribute_code']]  =
+            $attrData['option_1']['admin_option_name'];
         //Steps for creating simple product for configurable
         $this->navigate('manage_products');
-        $this->addParameter('attributeCodeDropdown', $attrData['attribute_code']);
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
-
-        return array('simple_sku' => $productData['general_sku'], 'attribute' => $attrData['admin_title']);
+        return array(
+            'simple_sku' => $productData['general_sku'],
+            'simple_name' => $productData['general_name'],
+            'attribute' => $attrData['admin_title'],
+            'attributeCode' => $attrData['attribute_code'],
+            'attributeValue' => $attrData['option_1']['admin_option_name']
+        );
     }
 
     /**
@@ -75,11 +81,13 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
      * @test
      * @dataProvider productTypesDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5700, TL-MAGE-5701, TL-MAGE-5702, TL-MAGE-5703, TL-MAGE-5706, TL-MAGE-5707
+     * @TestlinkId TL-MAGE-5701, TL-MAGE-5702, TL-MAGE-5703, TL-MAGE-5706, TL-MAGE-5707
      */
-    // @codingStandardsIgnoreEnd
     public function createAllProducts($productType, $testData)
     {
+        if ($productType == 'dynamic_bundle') {
+            $this->markTestIncomplete('MAGETWO-6269');
+        }
         //Data
         switch ($productType) {
             case 'simple_custom':
@@ -90,11 +98,6 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
             case 'downloadable':
                 $productData = $this->loadDataSet('Product', $productType . '_product_minimal',
                     array('downloadable_link_1' => $this->loadDataSet('Product', 'downloadable_links')));
-                break;
-            case 'configurable':
-                $productData = $this->loadDataSet('Product', $productType . '_product_minimal',
-                    array('configurable_attribute_title' => $testData['attribute'],
-                          'associated_search_sku'        => $testData['simple_sku']));
                 break;
             case 'fixed_bundle':
             case 'dynamic_bundle':
@@ -118,17 +121,16 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
-
     public function productTypesDataProvider()
     {
         return array(
             array('simple_custom'),
             array('virtual'),
             array('downloadable'),
-            array('configurable'),
             array('fixed_bundle'),
             array('dynamic_bundle'),
-            array('grouped'));
+            array('grouped')
+        );
     }
 
     /**
@@ -147,11 +149,12 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
         $field = key($emptyField);
         $productData = $this->loadDataSet('Product', 'simple_product_minimal', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $field);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage($fieldType, $field);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -171,5 +174,32 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
             array(array('general_min_price' => '%noValue%'), 'field'),
             array(array('general_min_tax_class' => '-- Please Select --'), 'dropdown')
         );
+    }
+
+    /**
+     * Create configurable product based on minimal attribute set
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-5700
+     */
+    public function createConfigurableProduct($testData)
+    {
+        $configurable = $this->loadDataSet('Product', 'configurable_product_minimal',
+            array(
+                'associated_sku'          => $testData['simple_sku'],
+                'associated_product_name' => $testData['simple_name']
+            ),
+            array(
+                'var1_attr_value1'    => $testData['attributeValue'],
+                'general_attribute_1' => $testData['attribute']
+            )
+        );
+        $this->productHelper()->selectTypeProduct('simple');
+        $this->productHelper()->changeAttributeSet($configurable['product_attribute_set']);
+        $this->waitForControlEditable('field', 'general_name');
+        $this->productHelper()->fillProductInfo($configurable);
+        $this->productHelper()->saveProduct();
+        $this->assertMessagePresent('success', 'success_saved_product');
     }
 }

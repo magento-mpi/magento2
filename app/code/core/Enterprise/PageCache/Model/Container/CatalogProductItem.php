@@ -122,7 +122,7 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
         if (!$lifetime) {
             $lifetime = false;
         }
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $this->_getCacheId(), $tags, $lifetime);
+        $this->_fpcCache->save($data, $this->_getCacheId(), $tags, $lifetime);
         return $this;
     }
 
@@ -138,7 +138,7 @@ class Enterprise_PageCache_Model_Container_CatalogProductItem
         $info = self::$_sharedInfoData[$placeholderName]['info'];
         if (is_null($info)) {
             $info = array();
-            $cacheRecord = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($this->_getCacheId());
+            $cacheRecord = $this->_fpcCache->load($this->_getCacheId());
             if ($cacheRecord) {
                 $cacheRecord = json_decode($cacheRecord, true);
                 if ($cacheRecord && array_key_exists($this->_getInfoCacheId(), $cacheRecord)) {

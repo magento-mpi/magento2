@@ -199,7 +199,7 @@ class Enterprise_Logging_Model_Processor
         /**
          * Log event changes for each model
          */
-        foreach ($usedModels->children() as $expect => $callback) {
+        foreach ($usedModels->children() as $className => $callback) {
 
             /**
              * Add custom skip fields per expecetd model
@@ -221,7 +221,6 @@ class Enterprise_Logging_Model_Processor
              */
             $additionalData = array_diff($additionalData, $skipData);
 
-            $className = Mage::getConfig()->getModelClassName($expect);
             if ($model instanceof $className) {
                 $classMap = $this->_getCallbackFunction(trim($callback), $this->_modelsHandler,
                     sprintf('model%sAfter', ucfirst($action)));

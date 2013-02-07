@@ -34,9 +34,9 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      * @var array
      */
     protected $_websites = array(
-        Mage_Core_Model_App::ADMIN_STORE_ID => 'admin',
-        1                                   => 'website1',
-        2                                   => 'website2',
+        Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        1                                            => 'website1',
+        2                                            => 'website2',
     );
 
     /**
@@ -157,57 +157,54 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
 
         $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
         if ($addData) {
-            $dataSourceModel->expects($this->exactly(2))
-                ->method('getNextBunch')
+            $dataSourceModel->expects($this->exactly(2))->method('getNextBunch')
                 ->will($this->returnCallback(array($this, 'getNextBunch')));
         }
 
         $connection = $this->getMock('stdClass');
 
         $websiteManager = $this->getMock('stdClass', array('getWebsites'));
-        $websiteManager->expects($this->once())
-            ->method('getWebsites')
+        $websiteManager->expects($this->once())->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
 
-        $mageHelper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'));
-        $mageHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $mageHelper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'), array(), '', false, false);
+        $mageHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $enterpriseHelper = $this->getMock('Enterprise_ImportExport_Helper_Data', array('__'));
-        $enterpriseHelper->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $enterpriseHelper = $this->getMock('Enterprise_ImportExport_Helper_Data', array('__'),
+            array(), '', false, false
+        );
+        $enterpriseHelper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         /** @var $customerStorage Mage_ImportExport_Model_Resource_Customer_Storage */
         $customerStorage = $this->getMock('Mage_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
         foreach ($this->_customers as $customerData) {
             /** @var $customer Mage_Customer_Model_Customer */
-            $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+            $arguments = $objectManagerHelper->getConstructArguments(
+                Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+                'Mage_Customer_Model_Customer'
+            );
             $arguments['data'] = $customerData;
             $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
 
         $moduleHelper = $this->getMock('stdClass', array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'));
-        $moduleHelper->expects($this->any())
-            ->method('isRewardPointsEnabled')
-            ->will($this->returnValue(true));
-        $moduleHelper->expects($this->any())
-            ->method('isCustomerBalanceEnabled')
-            ->will($this->returnValue(true));
+        $moduleHelper->expects($this->any())->method('isRewardPointsEnabled')->will($this->returnValue(true));
+        $moduleHelper->expects($this->any())->method('isCustomerBalanceEnabled')->will($this->returnValue(true));
 
         $objectFactory = $this->getMock('stdClass', array('getModelInstance'));
-        $objectFactory->expects($this->any())
-            ->method('getModelInstance')
+        $objectFactory->expects($this->any())->method('getModelInstance')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
 
         /** @var $attributeCollection Varien_Data_Collection */
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
-            $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+            $arguments = $objectManagerHelper->getConstructArguments(
+                Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+                'Mage_Eav_Model_Entity_Attribute_Abstract'
+            );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
                 $arguments, '', true, true, true, array('_construct')
@@ -224,7 +221,9 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'data_source_model'            => $dataSourceModel,
             'connection'                   => $connection,
             'json_helper'                  => 'not_used',
-            'string_helper'                => new Mage_Core_Helper_String(),
+            'string_helper'                => $this->getMock('Mage_Core_Helper_String',
+                array(), array(), '', false, false
+            ),
             'page_size'                    => 1,
             'max_data_size'                => 1,
             'bunch_size'                   => 1,
@@ -294,7 +293,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_App::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(

@@ -53,6 +53,9 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param array $data
      *
@@ -70,11 +73,14 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
         $this->_configStructure = $configStructure;
     }
@@ -98,8 +104,10 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
         $this->addChild('save_button', 'Mage_Backend_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Save Config'),
             'class' => 'save',
-            'data_attr'  => array(
-                'widget-button' => array('event' => 'save', 'related' => '#config-edit-form')
+            'data_attribute'  => array(
+                'mage-init' => array(
+                    'button' => array('event' => 'save', 'target' => '#config-edit-form'),
+                ),
             ),
         ));
         $block = $this->getLayout()->createBlock($this->_formBlockName);

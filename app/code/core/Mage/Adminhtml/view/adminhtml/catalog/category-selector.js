@@ -47,10 +47,10 @@
                 };
 
             $this.bind('categorySelector:add', function(event, args) {
-                $('<li class="category-selector-search-choice button"/>')
+                $('<li class="category-selector-search-choice"/>')
                     .data(args.data || {})
                     .append($('<input type="hidden" />').attr('name', name).val(args.value))
-                    .append($('<div/>').text(args.text))
+                    .append($('<strong/>').text(args.text))
                     .append('<span ' +
                         'class="category-selector-search-choice-close" tabindex="-1"></span>'
                     )
@@ -72,14 +72,6 @@
             });
             $input.bind('ajaxSend ajaxComplete', function(e) {
                 e.stopPropagation();
-                switch (e.type) {
-                    case 'ajaxSend':
-                        $input.addClass('category-selector-active');
-                        break;
-                    case 'ajaxComplete':
-                        $input.removeClass('category-selector-active');
-                        break;
-                }
             });
             $input.autocomplete({
                 source: function(request, response) {
@@ -127,9 +119,9 @@
                         .attr('title', item.path)
                         .addClass('level-' + level)
                         .text(item.label)
-                        .css({marginLeft: level * 16})
+                        .css({paddingLeft: level * 16})
                     );
-                if (window.parseInt(item.item.is_active, 10) == 0) {
+                if (window.parseInt(item.item.is_active, 10) === 0) {
                     $li.addClass('category-disabled');
                 }
                 if (elementPresent(item)) {

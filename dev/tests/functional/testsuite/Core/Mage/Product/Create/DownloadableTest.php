@@ -85,7 +85,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable', false);
         $this->addParameter('elementTitle', $productData['general_name']);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        $this->productHelper()->saveProduct('continueEdit');
         //Verifying
         $newSku = $this->productHelper()->getGeneratedSku($productData['general_sku']);
         $this->addParameter('productSku', $newSku);
@@ -113,11 +113,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $product = $this->loadDataSet('Product', 'downloadable_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($product, 'downloadable');
+        $this->productHelper()->createProduct($product, 'downloadable', false);
         //Verifying
-        $this->addFieldIdToMessage($fieldType, $field);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage($fieldType, $field);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -130,8 +131,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
             array(array('general_status' => '-- Please Select --'), 'dropdown'),
             array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
             array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
-            array(array('inventory_qty' => ''), 'field')
+            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 
@@ -274,11 +274,12 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'downloadable');
+        $this->productHelper()->createProduct($productData, 'downloadable', false);
         //Verifying
-        $this->addFieldIdToMessage('field', $emptyTierPrice);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', $emptyTierPrice);
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsDataProvider()
@@ -331,7 +332,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData =
-            $this->loadDataSet('Product', 'downloadable_product_required', array('inventory_qty' => $invalidQty));
+            $this->loadDataSet('Product', 'downloadable_product_required', array('general_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -361,21 +362,24 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      */
     public function emptyFieldForSamples($emptyField)
     {
+        if ($emptyField == 'downloadable_sample_row_url') {
+            $this->markTestIncomplete('MAGETWO-6990');
+        }
         // Data
         $productData = $this->loadDataSet('Product', 'downloadable_product_required');
         $productData['downloadable_information_data']['downloadable_sample_1'] =
             $this->loadDataSet('Product', 'downloadable_samples', array($emptyField => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'downloadable');
-
+        $this->productHelper()->createProduct($productData, 'downloadable', false);
         //Verifying
-        $this->addFieldIdToMessage('field', $emptyField);
-        if ($emptyField == 'downloadable_sample_row_title') {
-            $this->assertMessagePresent('validation', 'empty_required_field');
-        } else {
-            $this->assertMessagePresent('validation', 'specify_url');
-        }
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', $emptyField);
+//        if ($emptyField == 'downloadable_sample_row_title') {
+//            $this->assertMessagePresent('validation', 'empty_required_field');
+//        } else {
+//            $this->assertMessagePresent('validation', 'specify_url');
+//        }
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyFieldForSamplesDataProvider()
@@ -399,20 +403,24 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      */
     public function emptyFieldForLinks($emptyField)
     {
-        // Data
+        if ($emptyField == 'downloadable_link_row_file_url') {
+            $this->markTestIncomplete('MAGETWO-6990');
+        }
+        //Data
         $productData = $this->loadDataSet('Product', 'downloadable_product_required');
         $productData['downloadable_information_data']['downloadable_link_1'] =
             $this->loadDataSet('Product', 'downloadable_links', array($emptyField => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'downloadable');
+        $this->productHelper()->createProduct($productData, 'downloadable', false);
         //Verifying
-        $this->addFieldIdToMessage('field', $emptyField);
-        if ($emptyField == 'downloadable_link_row_title') {
-            $this->assertMessagePresent('validation', 'empty_required_field');
-        } else {
-            $this->assertMessagePresent('validation', 'specify_url');
-        }
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', $emptyField);
+//        if ($emptyField == 'downloadable_link_row_title') {
+//            $this->assertMessagePresent('validation', 'empty_required_field');
+//        } else {
+//            $this->assertMessagePresent('validation', 'specify_url');
+//        }
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyFieldForLinksDataProvider()

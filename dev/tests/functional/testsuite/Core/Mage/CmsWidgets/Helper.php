@@ -139,7 +139,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('layout', $layoutName);
             $this->addParameter('widgetParam', "//div[@id='" . $layoutName . '_ids_' . $layoutIndex . "']");
             if (!empty($chooseOptions)) {
-                $layout = (preg_match('/anchor_categories/', $layoutName)) ? 'categories' : 'products';
+                $layout = (preg_match('/anchor_categories/', $layoutName)) ? 'general_categories' : 'products';
                 $this->chooseLayoutOptions($value['choose_options'], $layout);
             } elseif ($this->controlIsPresent('radiobutton', 'all_categories_products_radio')) {
                 $this->fillRadiobutton('all_categories_products_radio', 'Yes');
@@ -160,7 +160,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
         $this->clickControl('link', 'open_chooser', false);
         $this->waitForElementEditable("//div[@class='chooser']/div");
         foreach ($layoutOptions as $value) {
-            if ($layoutName == 'categories') {
+            if ($layoutName == 'general_categories') {
                 $this->categoryHelper()->selectCategory($value, 'layout_updates_body');
             }
             if ($layoutName == 'products') {

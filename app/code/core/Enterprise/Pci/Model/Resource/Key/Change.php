@@ -25,6 +25,23 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
     protected $_encryptor;
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * Constructor
+     *
+     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Filesystem $filesystem
+     */
+    public function __construct(Mage_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
+    {
+        parent::__construct($resource);
+        $this->_filesystem = $filesystem;
+    }
+
+    /**
      * Initialize
      *
      */
@@ -71,12 +88,16 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
      */
     public function changeEncryptionKey($key = null)
     {
+        $this->_filesystem->setWorkingDirectory(Mage::getBaseDir('etc'));
         // prepare new key, encryptor and new file contents
         $file = Mage::getBaseDir('etc') . DS . 'local.xml';
-        if (!is_writeable($file)) {
-            throw new Exception(Mage::helper('Enterprise_Pci_Helper_Data')->__('File %s is not writeable.', realpath($file)));
+
+        if (!$this->_filesystem->isWritable($file)) {
+            throw new Exception(Mage::helper('Enterprise_Pci_Helper_Data')
+                ->__('File %s is not writeable.', $file));
         }
-        $contents = file_get_contents($file);
+
+        $contents = $this->_filesystem->read($file);
         if (null === $key) {
             $key = md5(time());
         }
@@ -91,7 +112,7 @@ class Enterprise_Pci_Model_Resource_Key_Change extends Mage_Core_Model_Resource_
         try {
             $this->_reEncryptSystemConfigurationValues();
             $this->_reEncryptCreditCardNumbers();
-            file_put_contents($file, $contents);
+            $this->_filesystem->write($file, $contents);
             $this->commit();
             return $key;
         }

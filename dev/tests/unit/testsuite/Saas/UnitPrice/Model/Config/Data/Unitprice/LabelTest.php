@@ -15,12 +15,12 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_LabelTest extends PHPUnit_Frame
 {
     protected function eventManagerMock()
     {
-        return $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'));
+        return $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
     }
 
     protected function helperMock()
     {
-        return $this->getMock('Saas_UnitPrice_Helper_Data', array('getConfig'));
+        return $this->getMock('Saas_UnitPrice_Helper_Data', array('getConfig'), array(), '', false);
     }
 
     protected function cacheManagerMock()

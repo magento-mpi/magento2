@@ -34,19 +34,74 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     protected $_appConfig;
 
     /**
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirs = null;
+
+    /**
+     * @var Magento_ObjectManager|null
+     */
+    protected $_objectManager = null;
+
+    /**
      * Constructor.
      * Following entries in $params are required: 'area', 'package', 'theme', 'locale'. The 'appConfig' and
      * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
      * present or null, then they will be retrieved from global application instance.
      *
-     * @param array $data
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Filesystem $filesystem
+     * @param array $params
+     * @throws InvalidArgumentException
      */
-    public function __construct($data)
+    public function __construct(
+        Mage_Core_Model_Dir $dirs,
+        Magento_ObjectManager $objectManager,
+        Magento_Filesystem $filesystem,
+        $params
+    ) {
+        $this->_dirs = $dirs;
+        $this->_objectManager = $objectManager;
+        $this->_filesystem = $filesystem;
+        if (!array_key_exists('area', $params) || !array_key_exists('themeModel', $params)
+            || !array_key_exists('locale', $params)
+        ) {
+            throw new InvalidArgumentException("Missing one of the param keys: 'area', 'themeModel', 'locale'.");
+        }
+        $this->_area = $params['area'];
+        $this->_theme = $params['themeModel'];
+        $this->_locale = $params['locale'];
+    }
+
+    /**
+     * Get area code
+     *
+     * @return string
+     */
+    public function getArea()
     {
-        $this->_area = $data['area'];
-        $this->_locale = $data['locale'];
-        $this->_theme = $data['themeModel'];
-        $this->_appConfig = isset($data['appConfig']) ? $data['appConfig'] : Mage::getConfig();
+        return $this->_area;
+    }
+
+    /**
+     * Get theme identification code
+     *
+     * @return string
+     */
+    public function getTheme()
+    {
+        return $this->_theme->getId() ?: $this->_theme->getThemePath();
+    }
+
+    /**
+     * Get locale code
+     *
+     * @return null|string
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
     }
 
     /**
@@ -58,16 +113,23 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getFile($file, $module = null)
     {
-        $dir = $this->_appConfig->getOptions()->getDesignDir();
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $dirs = array();
         $themeModel = $this->_theme;
         while ($themeModel) {
-            list($package, $theme) = $this->_getInheritedTheme($themeModel);
-            $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}";
+            $themePath = $themeModel->getThemePath();
+            if ($themePath) {
+                $dirs[] = "{$dir}/{$this->_area}/{$themePath}";
+            }
             $themeModel = $themeModel->getParentTheme();
         }
 
-        $moduleDir = $module ? array($this->_appConfig->getModuleDir('view', $module) . "/{$this->_area}") : array();
+        if ($module) {
+            $moduleDir = array($this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module)
+                . "/{$this->_area}");
+        } else {
+            $moduleDir = array();
+        }
         return $this->_fallback($file, $dirs, $module, $moduleDir);
     }
 
@@ -79,12 +141,14 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getLocaleFile($file)
     {
-        $dir = $this->_appConfig->getOptions()->getDesignDir();
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $dirs = array();
         $themeModel = $this->_theme;
         while ($themeModel) {
-            list($package, $theme) = $this->_getInheritedTheme($themeModel);
-            $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/locale/{$this->_locale}";
+            $themePath = $themeModel->getThemePath();
+            if ($themePath) {
+                $dirs[] = "{$dir}/{$this->_area}/{$themePath}/locale/{$this->_locale}";
+            }
             $themeModel = $themeModel->getParentTheme();
         }
 
@@ -100,15 +164,17 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getViewFile($file, $module = null)
     {
-        $dir = $this->_appConfig->getOptions()->getDesignDir();
-        $moduleDir = $module ? $this->_appConfig->getModuleDir('view', $module) : '';
+        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+        $moduleDir = $module ? $this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module) : '';
 
         $dirs = array();
         $themeModel = $this->_theme;
         while ($themeModel) {
-            list($package, $theme) = $this->_getInheritedTheme($themeModel);
-            $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}/locale/{$this->_locale}";
-            $dirs[] = "{$dir}/{$this->_area}/{$package}/{$theme}";
+            $themePath = $themeModel->getThemePath();
+            if ($themePath) {
+                $dirs[] = "{$dir}/{$this->_area}/{$themePath}/locale/{$this->_locale}";
+                $dirs[] = "{$dir}/{$this->_area}/{$themePath}";
+            }
             $themeModel = $themeModel->getParentTheme();
         }
 
@@ -117,7 +183,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             $dirs,
             $module,
             array("{$moduleDir}/{$this->_area}/locale/{$this->_locale}", "{$moduleDir}/{$this->_area}"),
-            array($this->_appConfig->getOptions()->getJsDir())
+            array($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB))
         );
     }
 
@@ -135,52 +201,30 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     protected function _fallback($file, $themeDirs, $module = false, $moduleDirs = array(), $extraDirs = array())
     {
+        // add customization path
+        $dirs = array();
+        if ($this->_theme->getCustomizationPath()) {
+            $dirs[] = $this->_theme->getCustomizationPath();
+        }
+
         // add modules to lookup
-        $dirs = $themeDirs;
+        $dirs = array_merge($dirs, $themeDirs);
         if ($module) {
             array_walk($themeDirs, function (&$dir) use ($module) {
                 $dir = "{$dir}/{$module}";
             });
-            $dirs = array_merge($themeDirs, $moduleDirs);
+            $dirs = array_merge($dirs, $themeDirs, $moduleDirs);
         }
         $dirs = array_merge($dirs, $extraDirs);
+
         // look for files
         $tryFile = '';
         foreach ($dirs as $dir) {
             $tryFile = str_replace('/', DIRECTORY_SEPARATOR, "{$dir}/{$file}");
-            if (file_exists($tryFile)) {
+            if ($this->_filesystem->has($tryFile)) {
                 break;
             }
         }
         return $tryFile;
-    }
-
-    /**
-     * Get the name of the inherited theme
-     *
-     * If the specified theme inherits other theme the result is the name of inherited theme.
-     * If the specified theme does not inherit other theme the result is null.
-     *
-     * @param Mage_Core_Model_Theme $themeModel
-     * @return string|null
-     */
-    protected function _getInheritedTheme($themeModel)
-    {
-        $themePath = $themeModel->getThemePath();
-        return $themePath ? explode('/', $themePath) : null;
-    }
-
-    /**
-     * Object notified, that theme file was published, thus it can return published file name on next calls
-     *
-     * @param string $publicFilePath
-     * @param string $file
-     * @param string|null $module
-     * @return Mage_Core_Model_Design_FallbackInterface
-     */
-    public function notifyViewFilePublished($publicFilePath, $file, $module = null)
-    {
-        // Do nothing - we don't cache file paths in real fallback
-        return $this;
     }
 }
