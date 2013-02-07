@@ -44,6 +44,10 @@
 <script type="text/javascript">
     (function ($) {
         $('#vde-tab-js .js-file .action-delete').live('click', function() {
+            if (!confirm('<?php echo $this->getConfirmMessageDelete() ?>')) {
+                return false;
+            }
+
             $.ajax({
                 url: '<?php echo $this->getJsDeleteUrl(); ?>',
                 data: {js_removed_files: [$(this).data('id')]},
@@ -56,6 +60,7 @@
                     $('#vde-tab-js-messages-placeholder').append(data.message_html);
                 }
             });
+
             return false;
         });
 

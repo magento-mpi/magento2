@@ -13,6 +13,7 @@
  *
  * @method Mage_Core_Model_Theme getTheme()
  * @method setTheme($theme)
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backend_Block_Widget_Form
@@ -23,6 +24,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      * @var Mage_Core_Model_Config
      */
     protected $_config;
+
+    /**
+     * @var Mage_Core_Model_Theme_Service
+     */
+    protected $_service;
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -40,6 +46,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Theme_Service $service
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -60,12 +67,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Config $config,
+        Mage_Core_Model_Theme_Service $service,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
         $this->_config = $config;
+        $this->_service = $service;
     }
 
     /**
@@ -86,19 +95,40 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
             $this->_config->getBlockClassName('Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File')
         );
 
-        $confirmMessage = $this->__('You are about to upload JavaScript files. '
-            . 'This will take effect immediately and might affect the design of your store if your theme '
-            . 'is assigned to the store front. Are you sure you want to do this?');
-        $form->addField('js_files_uploader', 'js_files', array(
+        $jsConfig = array(
             'name'     => 'js_files_uploader',
             'title'    => $this->__('Select JS Files to Upload'),
             'accept'   => 'application/x-javascript',
             'multiple' => '',
-            'onclick'  => "return confirm('{$confirmMessage}');"
-        ));
+        );
+        if ($this->_service->isThemeAssignedToStore($this->getTheme())) {
+            $confirmMessage = $this->__('You are about to upload JavaScript files. '
+                . 'This will take effect immediately and might affect the design of your store if your theme '
+                . 'is assigned to the store front. Are you sure you want to do this?');
+            $jsConfig['onclick'] = "return confirm('{$confirmMessage}');";
+        }
+        $form->addField('js_files_uploader', 'js_files', $jsConfig);
 
         parent::_prepareForm();
         return $this;
+    }
+
+    /**
+     * Return confirmation message for delete action
+     *
+     * @return string
+     */
+    public function getConfirmMessageDelete()
+    {
+        if ($this->_service->isThemeAssignedToStore($this->getTheme())) {
+            $confirmMessage = $this->__('Are you sure you want to delete the selected JavaScript file? This operation'
+                . ' cannot be undone. It will affect the theme and frontend design if the theme is currently assigned'
+                .'  to the store front');
+        } else {
+            $confirmMessage = $this->__('Are you sure you want to delete the selected JavaScript file? This operation'
+                . 'cannot be undone. It will affect the theme.');
+        }
+        return $confirmMessage;
     }
 
     /**

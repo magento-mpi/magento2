@@ -156,8 +156,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
 
             $this->_forward('jsList');
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('File "%s" is not found.', $fileName));
-            die($e->getMessage());
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
