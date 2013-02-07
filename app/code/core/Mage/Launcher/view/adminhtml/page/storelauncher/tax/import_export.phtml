@@ -25,33 +25,30 @@
 
 <script type="text/javascript">
     //<![CDATA[
-    (function ($) {
+    (function($) {
         $('#import_rates_file').fileupload({
-            dataType:'json',
-            formData:{
-                isAjax:'true',
-                form_key:FORM_KEY
+            dataType: 'json',
+            formData: {
+                isAjax: 'true',
+                form_key: FORM_KEY
             },
-            sequentialUploads:false,
-            done:function (e, data) {
+            sequentialUploads: false,
+            done: function(e, data) {
                 if (data.result.success == true) {
                     updateTaxRateMultiselect(data.result);
                     showTaxRateImportMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Import completed successfully'); ?>');
                 } else {
                     showTaxRateImportMessage(data.result.error_message);
                 }
-                return;
             },
-            fail:function (e, data) {
+            fail: function(e, data) {
                 showTaxRateImportMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>');
-                return;
             },
-            add:function (e, data) {
+            add: function(e, data) {
                 $('#import-rate-errors').addClass('hidden');
                 $(this).fileupload('process', data).done(function () {
                     data.submit();
                 });
-                return;
             }
         });
 
@@ -60,26 +57,24 @@
          *
          * @param message
          */
-        var showTaxRateImportMessage = function (message) {
+        var showTaxRateImportMessage = function(message) {
             var messageContainer = $('#import-rate-errors');
             messageContainer.text(message);
             messageContainer.removeClass('hidden');
-            return;
-        }
+        };
 
         /**
          * Refresh tax Rate Field
          *
-         * @param Array import rates request result
+         * @param result array import rates request result
          */
-        var updateTaxRateMultiselect = function (result) {
+        var updateTaxRateMultiselect = function(result) {
             var taxSection = $('#tax_rate').parent().parent(),
                 previousSection = taxSection.prev();
             taxSection.remove();
             // Next variable is global for tax rule page and is used in edit tax rate pop-up
             taxRateCollection = result.tax_rate_collection;
             previousSection.after(result.tax_rate_field);
-            return;
         }
     }(jQuery));
     //]]>

@@ -318,40 +318,28 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $html .= '<script type="text/javascript">
             (function($) {
-                var EmailAddresses = $("input[id^=sender_email]");
-
-                EmailAddresses = $.grep(EmailAddresses, function(elem, index) {
-                    if (elem.value != $("#store_email").val()) {
-                        return false;
-                    }
-                    return true;
-                });
+                var allEmailAddresses = $("input[id^=sender_email]"),
+                    storeEmail = $("#store_email"),
+                    sameEmailAddresses = $.grep(allEmailAddresses, function(elem, index) {
+                        return elem.value == storeEmail.val();
+                    });
 
                 var emailUpdateHandler = function() {
                     var elementId = this.id;
-                    EmailAddresses = $.grep(EmailAddresses, function(elem, index) {
-                        if (elem.id == elementId) {
-                            return false;
-                        }
-                        return true;
+                    sameEmailAddresses = $.grep(sameEmailAddresses, function(elem, index) {
+                        return !(elem.id == elementId);
                     });
-                }
+                };
 
                 var storeEmailHandler = function() {
                     var element = this;
-                    $.each(EmailAddresses, function() {
+                    $.each(sameEmailAddresses, function() {
                         this.value = element.value;
                     });
-                }
+                };
 
-                $("#sender_email_general").on("keyup", emailUpdateHandler);
-                $("#sender_email_representative").on("keyup", emailUpdateHandler);
-                $("#sender_email_support").on("keyup", emailUpdateHandler);
-                $("#sender_email_custom1").on("keyup", emailUpdateHandler);
-                $("#sender_email_custom2").on("keyup", emailUpdateHandler);
-
-                $("#store_email").on("keyup", storeEmailHandler);
-                $("#store_email").on("blur", storeEmailHandler);
+                allEmailAddresses.on("keyup change", emailUpdateHandler);
+                storeEmail.on("keyup blur change", storeEmailHandler);
             })(jQuery);
             </script>';
         return $html;
