@@ -9,5 +9,5 @@
  * @license     {license_link}
  */
 
-$designDir = Magento_Test_Bootstrap::getInstance()->getInstallDir() . '/media_for_change';
+$designDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/media_for_change';
 Varien_Io_File::rmdirRecursive($designDir);

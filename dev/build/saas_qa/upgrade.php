@@ -40,3 +40,4 @@ Mage::app(array(
     ),
 ));
 Mage_Core_Model_Resource_Setup::applyAllUpdates();
+Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
