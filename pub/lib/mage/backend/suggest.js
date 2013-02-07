@@ -162,7 +162,7 @@
                             break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
-                            if (this.isDropdownShown()) {
+                            if (this.isDropdownShown() && this._focused) {
                                 this._proxyEvents(event);
                                 event.preventDefault();
                             }
