@@ -60,18 +60,13 @@
 
     $('.vde-tools').toolsPanel();
 
-    /* Activate "Scripts" tab */
-    $('.vde-tools-footer .item-code > a').tab('show');
+    $('[class^="action-"][href="#vde-tab-custom"]').on('click.activateCustomCodeTab', function() {
+        $('.vde-tab-controls a[href="#vde-tab-custom"]').trigger('click');
+    });
 
-    $('[class^="action-"][href="#vde-tab-custom"]')
-            .on('click.activateCustomCodeTab', function() {
-                $('.vde-tab-controls a[href="#vde-tab-custom"]').trigger('click');
-            });
-
-    $('.action-edit[href="#vde-tab-custom"]')
-            .on('click.focusOnCustomCodeTextarea', function() {
-                $('#custom_code').focus();
-            });
+    $('.action-edit[href="#vde-tab-custom"]').on('click.focusOnCustomCodeTextarea', function() {
+        $('#custom_code').focus();
+    });
 
 })(window.jQuery);
 </script>

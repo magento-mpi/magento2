@@ -49,32 +49,28 @@
 
         _events: function() {
             var self = this;
+            this.resizableArea.resizable({
+                handles: 'n',
+                minHeight: 100,
+                maxHeight: 700,
+                resize: function(event, ui) {
+                    self._recalcDataHeight(ui.size.height);
+                }
+            }).bind('resize.vdeToolsResize', function () {
+                self._recalcDataHeight(self._getResizableAreaHeight());
+                $(this).css('top', 'auto');
+            });
 
-            this.resizableArea
-                .resizable({
-                    handles: 'n',
-                    minHeight: 100,
-                    maxHeight: 700,
-                    resize: function(event, ui) {
-                        self._recalcDataHeight(ui.size.height);
-                    }
-                }).bind('resize.vdeToolsResize', function () {
-                    self._recalcDataHeight(self._getResizableAreaHeight());
-                    $(this).css('top', 'auto');
-                });
+            this.panelTab.on('shown', function () {
+                if (!self.panel.hasClass(self.options.openedPanelClass)) {
+                    self._show();
+                } else {
+                    self._recalcDataHeight(self.options.panelDefaultHeight);
+                }
+                self.resizableArea.trigger('resize.vdeToolsResize');
+            });
 
-            this.panelTab
-                .on('shown', function () {
-                    if (!self.panel.hasClass(self.options.openedPanelClass)) {
-                        self._show();
-                    } else {
-                        self._recalcDataHeight(self.options.panelDefaultHeight);
-                    }
-                    self.resizableArea.trigger('resize.vdeToolsResize');
-                });
-
-            this.btnClose
-                .live('click.hideVDEToolsPanel', $.proxy(this._hide, this));
+            this.btnClose.live('click.hideVDEToolsPanel', $.proxy(this._hide, this));
 
             this.btnCloseMsg.live('click.hideVDEMessage', $.proxy(function(e) {
                 $(e.target).parents('.vde-message')[0].remove();
@@ -101,29 +97,21 @@
         },
 
         _show: function() {
-            var self = this;
-
             this.panel.addClass(this.options.openedPanelClass);
-
             this.resizableArea.animate({
-                height: self.options.panelDefaultHeight - self.panelHeaderHeight
-            }, self.options.showHidePanelAnimationSpeed, function() {
-                self.resizableArea.trigger('resize.vdeToolsResize');
-            });
+                height: this.options.panelDefaultHeight - this.panelHeaderHeight
+            }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
+                this.resizableArea.trigger('resize.vdeToolsResize');
+            }, this));
         },
 
         _hide: function() {
-            var self = this;
-
             this.resizableArea.animate({
                 height: 0
-            }, self.options.showHidePanelAnimationSpeed, function() {
-                self.panel
-                    .removeClass(self.options.openedPanelClass);
-
-                self.mainTabs
-                    .removeClass(self.options.activeTabClass);
-            });
+            }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
+                this.panel.removeClass(this.options.openedPanelClass);
+                this.mainTabs.removeClass(this.options.activeTabClass);
+            }, this));
         }
     });
 })(window.jQuery);
