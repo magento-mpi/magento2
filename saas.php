@@ -20,7 +20,9 @@ return function ($appConfigString) {
     try {
         $params = array_merge($_SERVER, unserialize($appConfigString));
         require __DIR__ . '/app/bootstrap.php';
-        $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $params);
+
+        $objectManager = new Mage_Core_Model_ObjectManager(new Saas_Core_Model_ObjectManager_Config($params), BP);
+        $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $params, $objectManager);
         $entryPoint->processRequest();
     } catch (Exception $e) {
         Mage::printException($e);

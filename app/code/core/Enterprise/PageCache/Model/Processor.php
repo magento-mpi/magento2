@@ -240,6 +240,38 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     }
 
     /**
+     * Apply custom logic before content extraction
+     *
+     * @param Zend_Controller_Request_Http $request
+     * @param Zend_Controller_Response_Http $response
+     * @param bool|string $content
+     * @return bool|string
+     */
+    protected function _beforeExtractContent(
+        Zend_Controller_Request_Http $request,
+        Zend_Controller_Response_Http $response,
+        $content
+    ) {
+        return $content;
+    }
+
+    /**
+     * Apply custom logic after content extraction
+     *
+     * @param Zend_Controller_Request_Http $request
+     * @param Zend_Controller_Response_Http $response
+     * @param bool|string $content
+     * @return bool|string
+     */
+    protected function _afterExtractContent(
+        Zend_Controller_Request_Http $request,
+        Zend_Controller_Response_Http $response,
+        $content
+    ) {
+        return $content;
+    }
+
+    /**
      * Prepare page identifier
      *
      * @param string $id
@@ -302,22 +334,15 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         Zend_Controller_Response_Http $response,
         $content
     ) {
-        /*
-         * Apply design change
-         */
-        $designChange = $this->_fpcCache->load($this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX);
-        if ($designChange) {
-            $designChange = unserialize($designChange);
-            if (is_array($designChange) && isset($designChange['design'])) {
-                $this->_designPackage->setDesignTheme($designChange['design']);
-            }
-        }
 
-        if (!$this->_designExceptionExistsInCache) {
-            //no design exception value - error
-            //must be at least empty value
+        $content = $this->_beforeExtractContent($request, $response, $content);
+
+        $this->_applyDesignChange();
+
+        if (!$this->_checkDesignException()) {
             return false;
         }
+
         if (!$content && $this->isAllowed()) {
             $subProcessorClass = $this->getMetadata('cache_subprocessor');
             if (!$subProcessorClass) {
@@ -334,29 +359,83 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
             $content = $this->_fpcCache->load($cacheId);
 
             if ($content) {
-                if (function_exists('gzuncompress')) {
-                    $content = gzuncompress($content);
-                }
-                $content = $this->_processContent($content, $request);
+                $content = $this->_processContent($this->_compressContent($content), $request);
 
-                // restore response headers
-                $responseHeaders = $this->getMetadata('response_headers');
-                if (is_array($responseHeaders)) {
-                    foreach ($responseHeaders as $header) {
-                        $response->setHeader($header['name'], $header['value'], $header['replace']);
-                    }
-                }
+                $this->_restoreResponseHeaders($response);
 
-                // renew recently viewed products
-                $productId = $this->_fpcCache->load($this->getRequestCacheId() . '_current_product_id');
-                $countLimit = $this->_fpcCache->load($this->getRecentlyViewedCountCacheId());
-                if ($productId && $countLimit) {
-                    Enterprise_PageCache_Model_Cookie::registerViewedProducts($productId, $countLimit);
-                }
+                $this->_updateRecentlyViewedProducts();
             }
+        }
 
+        $content = $this->_afterExtractContent($request, $response, $content);
+
+        return $content;
+    }
+
+    /**
+     * Renew recently viewed products
+     */
+    protected function _updateRecentlyViewedProducts()
+    {
+        $productId = $this->_fpcCache->load($this->getRequestCacheId() . '_current_product_id');
+        $countLimit = $this->_fpcCache->load($this->getRecentlyViewedCountCacheId());
+        if ($productId && $countLimit) {
+            Enterprise_PageCache_Model_Cookie::registerViewedProducts($productId, $countLimit);
+        }
+    }
+
+    /**
+     * Restore response headers
+     *
+     * @param Zend_Controller_Response_Http $response
+     */
+    protected function _restoreResponseHeaders(Zend_Controller_Response_Http $response)
+    {
+        $responseHeaders = $this->getMetadata('response_headers');
+        if (is_array($responseHeaders)) {
+            foreach ($responseHeaders as $header) {
+                $response->setHeader($header['name'], $header['value'], $header['replace']);
+            }
+        }
+    }
+
+    /**
+     * Compress content if possible
+     *
+     * @param string $content
+     * @return string
+     */
+    protected function _compressContent($content)
+    {
+        if (function_exists('gzuncompress')) {
+            $content = gzuncompress($content);
+            return $content;
         }
         return $content;
+    }
+
+    /**
+     * Check design exception existence
+     *
+     * @return bool
+     */
+    protected function _checkDesignException()
+    {
+        return $this->_designExceptionExistsInCache;
+    }
+
+    /**
+     * Apply design change
+     */
+    protected function _applyDesignChange()
+    {
+        $designChange = $this->_fpcCache->load($this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX);
+        if ($designChange) {
+            $designChange = unserialize($designChange);
+            if (is_array($designChange) && isset($designChange['design'])) {
+                $this->_designPackage->setDesignTheme($designChange['design']);
+            }
+        }
     }
 
     /**
