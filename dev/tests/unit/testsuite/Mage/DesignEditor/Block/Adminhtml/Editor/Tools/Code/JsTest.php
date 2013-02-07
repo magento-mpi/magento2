@@ -30,7 +30,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
             Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
             'Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js',
             array(
-                 'config' => $this->getMock('Mage_Core_Model_Config', array(), array(), '', false),
+                 'config'     => $this->getMock('Mage_Core_Model_Config', array(), array(), '', false),
+                 'service'    => $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false),
                  'urlBuilder' => $this->_urlBuilder
         ));
         $this->_model = $this->getMock(
