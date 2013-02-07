@@ -26,6 +26,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_UnitTest extends PHPUnit_Fra
 
         $unitPriceHelper = $this->getMockBuilder('Saas_UnitPrice_Helper_Data')
             ->setMethods(array('__'))
+            ->disableOriginalConstructor()
             ->getMock();
 
         $unitPriceHelper->expects($this->once())

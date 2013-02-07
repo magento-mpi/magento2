@@ -53,16 +53,19 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
     /**
      * Prepare unit price fake data helper
      *
-     * @param array $value
-     * @return Saas_UnitPrice_Helper_FakeData
+     * @param array $values
+     * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _prepareHelper($values = array())
     {
-        $helper = new Saas_UnitPrice_Helper_FakeData();
+        /** @var $helper PHPUnit_Framework_MockObject_MockObject */
+        $helper = $this->getMock('Saas_UnitPrice_Helper_FakeData', array(), array(), '', false);
+        $map = array();
         foreach ($values as $key => $value) {
-            $helper->setConfig($key, $value);
+            $map[] = array($key, $value);
         }
 
+        $helper->expects($this->any())->method('getConfig')->will($this->returnValueMap($map));
         return $helper;
     }
 

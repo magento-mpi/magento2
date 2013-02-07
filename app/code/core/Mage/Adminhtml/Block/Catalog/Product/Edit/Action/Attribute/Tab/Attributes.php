@@ -73,12 +73,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
      */
     protected function _getAdditionalElementTypes()
     {
-        $config = Mage::getConfig();
         return array(
-            'price' => $config->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price'),
-            'weight' => $config->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight'),
-            'image' => $config->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image'),
-            'boolean' => $config->getBlockClassName('Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean')
+            'price' => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price',
+            'weight' => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight',
+            'image' => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image',
+            'boolean' => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean',
         );
     }
 

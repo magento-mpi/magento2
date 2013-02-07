@@ -243,7 +243,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $storeId = $object->getStoreId();
 
         $storeIds = $object->getStoreIds();
-        $storeIds[] = Mage_Core_Model_App::ADMIN_STORE_ID;
+        $storeIds[] = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
 
         // remove current storeId
         $storeIds = array_flip($storeIds);

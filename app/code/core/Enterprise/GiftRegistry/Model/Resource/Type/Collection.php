@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
      * @param int $storeId
      * @return Enterprise_GiftRegistry_Model_Resource_Type_Collection
      */
-    public function addStoreData($storeId = Mage_Core_Model_App::ADMIN_STORE_ID)
+    public function addStoreData($storeId = Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
     {
         $infoTable = $this->getTable('enterprise_giftregistry_type_info');
         $adapter   = $this->getConnection();
@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type_Collection extends Mage_Core_M
         $select->from(array('m' => $this->getMainTable()))
             ->joinInner(
                 array('d' => $infoTable),
-                $adapter->quoteInto('m.type_id = d.type_id AND d.store_id = ?', Mage_Core_Model_App::ADMIN_STORE_ID),
+                $adapter->quoteInto('m.type_id = d.type_id AND d.store_id = ?', Mage_Core_Model_AppInterface::ADMIN_STORE_ID),
                 array())
             ->joinLeft(
                 array('s' => $infoTable),

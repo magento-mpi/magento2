@@ -17,10 +17,35 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     protected $_staticTypes = null;
 
     /**
+     * @var Mage_Core_Model_Config_StorageInterface
+     */
+    protected $_configReader;
+
+    /**
      * Pathes to attribute groups and types nodes
      */
     const XML_ATTRIBUTE_GROUPS_PATH = 'prototype/attribute_groups';
     const XML_ATTRIBUTE_TYPES_PATH = 'prototype/attribute_types';
+
+    /**
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Config_Modules_Reader $configReader,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_configReader = $configReader;
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Load config from giftregistry.xml files and try to cache it
@@ -35,7 +60,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
             } else {
                 $xmlConfig = new Varien_Simplexml_Config();
                 $xmlConfig->loadString('<?xml version="1.0"?><prototype></prototype>');
-                Mage::getConfig()->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
+                $this->_configReader->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
 
                 if (Mage::app()->useCache('config')) {
                     Mage::app()->saveCache($xmlConfig->getXmlString(), 'giftregistry_config',

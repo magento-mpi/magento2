@@ -133,7 +133,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
+                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_AppInterface::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
                 'orders_count'          => new Zend_Db_Expr('SUM(orders_count)'),
                 'orders_invoiced'       => new Zend_Db_Expr('SUM(orders_invoiced)'),
@@ -249,7 +249,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_App::ADMIN_STORE_ID),
+                'store_id'              => new Zend_Db_Expr(Mage_Core_Model_AppInterface::ADMIN_STORE_ID),
                 'order_status'          => 'order_status',
                 'orders_count'          => new Zend_Db_Expr('SUM(orders_count)'),
                 'orders_invoiced'       => new Zend_Db_Expr('SUM(orders_invoiced)'),

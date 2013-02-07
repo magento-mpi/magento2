@@ -1,17 +1,13 @@
 <?php
 /**
+ * Sorted modules config
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Configuration for modules availability and dependencies
- */
-class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
+class Mage_Core_Model_Config_Modules_Sorted extends Mage_Core_Model_Config_Base
 {
     /**
      * Types of dependencies between modules

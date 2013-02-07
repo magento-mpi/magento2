@@ -22,38 +22,26 @@ class Enterprise_Pbridge_Model_Authorizenet_Source_PaymentAction
     protected $_helper = null;
 
     /**
-     * Default constructor
-     * @param array $arguments
+     * @param Enterprise_Pbridge_Helper_Data $helper
      */
-    public function __construct(array $arguments = array())
+    public function __construct(Enterprise_Pbridge_Helper_Data $helper)
     {
-        if (isset($arguments['helper'])) {
-            $this->_helper = $arguments['helper'];
-        }
+        $this->_helper = $helper;
     }
 
     /**
-     * Get helper
-     * @return Enterprise_Pbridge_Helper_Data|null
+     * @return array
      */
-    protected function _getHelper()
-    {
-        if (is_null($this->_helper)) {
-            $this->_helper = Mage::helper('Enterprise_Pbridge_Helper_Data');
-        }
-        return $this->_helper;
-    }
-
     public function toOptionArray()
     {
         return array(
             array(
                 'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
-                'label' => $this->_getHelper()->__('Authorize Only')
+                'label' => $this->_helper->__('Authorize Only')
             ),
             array(
                 'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
-                'label' => $this->_getHelper()->__('Authorize and Capture')
+                'label' => $this->_helper->__('Authorize and Capture')
             ),
         );
     }
