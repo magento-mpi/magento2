@@ -18,7 +18,7 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_containerFactoryMock;
+    protected $_contFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -40,14 +40,14 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
         $this->_cacheMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false, false);
         $this->_configSectionsMock = $this->getMock('Mage_Core_Model_Config_Sections',
             array(), array(), '', false, false);
-        $this->_containerFactoryMock = $this->getMock('Mage_Core_Model_Config_ContainerFactory',
+        $this->_contFactoryMock = $this->getMock('Mage_Core_Model_Config_ContainerFactory',
             array(), array(), '', false, false);
         $this->_baseFactoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
         $this->_model = new Mage_Core_Model_Config_Cache(
             $this->_cacheMock,
             $this->_configSectionsMock,
-            $this->_containerFactoryMock,
+            $this->_contFactoryMock,
             $this->_baseFactoryMock
         );
     }
@@ -56,7 +56,7 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
     {
         unset($this->_cacheMock);
         unset($this->_configSectionsMock);
-        unset($this->_containerFactoryMock);
+        unset($this->_contFactoryMock);
         unset($this->_baseFactoryMock);
         unset($this->_model);
     }
@@ -86,7 +86,7 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->at(2))
             ->method('load')
             ->will($this->returnValue('test_config'));
-        $this->_containerFactoryMock->expects($this->once())
+        $this->_contFactoryMock->expects($this->once())
             ->method('create')
             ->with($this->equalTo(array('sourceData' => 'test_config')))
             ->will($this->returnValue('some_instance'));

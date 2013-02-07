@@ -104,10 +104,25 @@
 
     <adminhtml_system_design_theme_edit>
         <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="setCanLoadTinyMce"><flag>1</flag></action>
+
+            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
 
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+
+            <action method="addJs"><file>mage/adminhtml/browser.js</file></action>
+
+            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-ui.js</file></action>
             <action method="addJs"><file>Mage_Theme::js/form.js</file></action>
+            <action method="addJs"><file>Mage_Theme::js/sortable.js</file></action>
+            <action method="addCss"><file>Mage_Theme::css/theme.css</file></action>
+            <action method="addCss"><file>prototype/windows/themes/default.css</file></action>
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
         </reference>
         <reference name="content">
             <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit" name="theme_edit"/>
@@ -116,6 +131,11 @@
             <block type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">
                 <block template="tabs/css.phtml" type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css"
                        name="theme_edit_tabs_tab_css_tab" />
+                <block template="tabs/js.phtml" type="Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js" name="theme_edit_tabs_tab_js_tab">
+                    <block template="Mage_Theme::tabs/fieldset/js.phtml" type="Mage_Backend_Block_Widget_Form_Renderer_Fieldset" name="theme_edit_tabs_tab_js_tab_content">
+                        <block template="Mage_Theme::tabs/fieldset/js_items.phtml" type="Mage_Backend_Block_Template" name="theme_edit_tabs_tab_js_items" as="theme.edit.tabs.tab.js.items" />
+                    </block>
+                </block>
 
                 <action method="addTab">
                     <name>general_section</name>
@@ -123,8 +143,37 @@
                 </action>
                 <action method="addTab">
                     <name>css_tab</name>
-                    <block>theme_edit_tabs_tab_css_tab</block></action>
+                    <block>theme_edit_tabs_tab_css_tab</block>
+                </action>
+                <action method="addTab">
+                    <name>js_tab</name>
+                    <block>theme_edit_tabs_tab_js_tab</block>
+                </action>
             </block>
         </reference>
     </adminhtml_system_design_theme_edit>
+
+    <adminhtml_system_design_theme_uploadjs>
+        <container name="root" label="Root" output="1">
+            <block template="Mage_Theme::tabs/fieldset/js_items.phtml" type="Mage_Backend_Block_Template" name="theme_js_file_list" as="js_files" />
+        </container>
+    </adminhtml_system_design_theme_uploadjs>
+
+    <adminhtml_system_design_wysiwyg_files_index>
+        <remove name="footer" />
+        <remove name="head" />
+        <reference name="left">
+            <block name="wysiwyg_files.js" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content" template="Mage_Adminhtml::cms/browser/js.phtml" />
+            <block name="wysiwyg_files.tree" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree" template="Mage_Adminhtml::cms/browser/tree.phtml" />
+        </reference>
+        <reference name="content">
+            <block name="wysiwyg_files.content" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content" template="browser/content.phtml">
+                <block name="wysiwyg_files.uploader" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader" template="browser/content/uploader.phtml" />
+            </block>
+        </reference>
+    </adminhtml_system_design_wysiwyg_files_index>
+
+    <adminhtml_system_design_wysiwyg_files_contents>
+        <block name="wysiwyg_files.files" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files" template="browser/content/files.phtml" output="1" />
+    </adminhtml_system_design_wysiwyg_files_contents>
 </layout>

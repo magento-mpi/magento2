@@ -57,6 +57,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
      * Returns data for the order item
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getMockData()
     {
@@ -203,6 +204,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleDynamic
      * Returns data for children of bundle product
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getChildrenMockData()
     {

@@ -1,3 +1,73 @@
+2.0.0.0-dev41
+=============
+* All-new look & feel of backend UI -- "Magento 2 backend" theme
+  * This theme includes "Magento User Interface Library" -- a set of reusable CSS-classes, icons and fonts
+* Theme editing features (in backend UI):
+  * Ability to view static resources, such as CSS and JavaScript files, which are inherited by virtual themes from physical themes and application, and library
+  * Ability to upload and edit custom CSS/JavaScript code assigned do a particular virtual theme
+  * Ability to manage image and font assets for virtual themes
+  * The uploaded or edited theme resources are used in page generation
+  * Ability to rename virtual themes
+  * Physical themes are read-only
+* Visual design editor:
+  * Ability to enter "Design" mode directly from the list of "My Customizations" in "Design Gallery"
+  * Updated styling of theme selector and VDE toolbars
+* Added functional limitations:
+  * Ability to limit maximum number of store views in the system
+  * Ability to limit maximum number of admin user records in the system
+* Introduced early discovery system of memory leaks in integration tests:
+  * Added ability to integration testing framework to detect usage of memory and estimate memory leaks using OS tools outside of PHP process
+  * Also ability to set memory usage threshold which would deliberately trigger error if integration tests reach it
+* Refactoring in integration tests:
+  * Broke down `Magento_Test_Bootstrap` into smaller testable classes
+  * Minimized amount of logic in `bootstrap.php` of integration tests
+  * Factored out memory utility functions from memory integration tests into a separate helper
+  * Removed hard-coding of the default setting values from `Magento_Test_Bootstrap` in favor of requiring some crucial settings
+  * Fixed integration tests dependency on `app/etc/local.xml`, changes in which were involved into the sandbox hash calculation `dev/tests/integration/tmp/sandbox-<db_vendor>-<hash>`
+  * Fixed incorrect interpretation of setting values equal to the string '0'
+* "Suggest" JavaScript widget improvements:
+  * Added ability to set callback for "item selection"
+  * Added ability to provide a template in widget options
+  * Implemented "multiple suggestions" ability directly in this widget and removed the "multisuggest" widget
+* Converted several grids in backend from hard-coded PHP implementation to declarations in layout
+* Other various improvements:
+  * Factored out logic of handling theme images from `Mage_Core_Model_Theme` into a separate class
+  * Ability to filter file extensions in uploader component
+  * Materialization of resources linked in CSS-files will only log error instead of crashing page generation process
+* Bug fixes:
+  * Fixed several memory leaks in different places, related with dispatching controller actions multiple times in integration tests and with excessive reference to `Mage_Core_Model_App` object
+  * Fixed integration test in `Mage_Install` module that verifies encryption key length
+  * Fixed DHL shipping carrier declaration in config that caused inability to use it with shopping cart price rules
+  * Fixed some of unit tests incompatible with PHPUnit v3.6
+  * Fixed issues in generating of configurable product variations when the button "Generate" is invoked second time
+  * Fixed an error that caused inability to create a theme in Windows environment in developer mode
+  * Fixed various errors in JavaScript tests for visual design editor
+
+2.0.0.0-dev40
+=============
+* Implemented ability to customize all the main directory paths for the application, i.e. locations of `var`, `etc`, `media` and other directories
+* Implemented ability to pass application configuration data from the environment
+* Magento Web API changes:
+  * Added SOAP V2 API coverage from Magento 1.x
+  * Improved integration testing framework to develop Web API tests. Covered SOAP V2 API with positive integration tests.
+  * Changed `Mage_Webapi` module front name from `api` to `webapi`
+* Improvements for product creation UI:
+  * Implemented AJAX suggestions popup and categories tree popup for convenient assignment of categories
+  * Moved selection of Bundle and Grouped sub-products to the "General" tab, implemented popup grids for them
+  * Made "Weight" checkbox to be selected by default for a Configurable product
+* Implemented integration test to measure and control PHP memory leak on application reinitialization
+* Changed format of configuration files for static tests that search for obsolete Magento 1.x code
+* Bug fixes:
+  * Fixed Web API WSDL incompatibility with C# and Java
+  * Fixed issue, that Magento duplicated custom options field for a product, if creating them via a multi-call to API
+  * Fixed `shoppingCartPaymentList` method in Web API, which was throwing exception "Object has no 'code' property"
+  * Fixed invalid Wishlist link and several invalid links in Checkout on frontend store view
+  * Made Stock Status in 'quantity_and_stock_status' attribute editable again for a Configurable product
+  * Fixed issue, that it was not possible to save Customer after first save, because "Date Of Birth" format was reported by Magento to be incorrect
+  * Fixed fatal error in Code Sniffer exemplar test
+  * Fixed wrong failures of `Varien_Db_Adapter_Pdo_MysqlTest::testWaitTimeout()` integration test in developer mode
+  * Fixed issue, that mass-action column in backend grids moved to another position in single store mode
+
 2.0.0.0-dev39
 =============
 * Visual design editor improvements:
