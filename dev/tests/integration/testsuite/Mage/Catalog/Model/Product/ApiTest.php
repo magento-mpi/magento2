@@ -122,7 +122,8 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
 
         foreach ($productIds as $index => $productId) {
             $description = $product->load($productId)->getDescription();
-            $this->assertEquals($productData[$index]->description, $description, 'Actual description does not match the expected one.');
+            $this->assertEquals($productData[$index]->description, $description,
+                'Actual description does not match the expected one.');
         }
     }
 
@@ -185,12 +186,178 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             $this->assertNotEquals($productData[1]->description, $product->getDescription());
         }
     }
+
     /**
-     * Test information retrieve about product.
+     * Test catalogProductInfo with a non-numeric id, identifierType not set.
+     *
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     *
      */
-    public function testInfo()
+    public function testInfoAlphaIdTypeNotSet()
     {
-        $this->markTestSkipped('Not implemented');
+        echo "in testInfo()\n";
+        /** @var Mage_Catalog_Model_Product $alphaProduct */
+        $alphaProduct = Mage::getModel('Mage_Catalog_Model_Product');
+        $alphaProduct->load(1);
+
+        $soapResult = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductInfo',
+            array(
+                'product' => 'simple'
+            )
+        );
+
+        $this->assertNotEmpty($soapResult, 'Error during customer address info via API call');
+        $this->_verifyProductInfo($alphaProduct->getData(), $soapResult);
+
+    }
+
+    /**
+     * Test catalogProductInfo with a numeric id, identifierType null.
+     * Should return an error because no product with that productId exists.
+     *
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     *
+     */
+    public function testInfoNumericIdTypeNotSetError()
+    {
+
+        /** @var Mage_Catalog_Model_Product $numericalProduct */
+        $numericalProduct = Mage::getModel('Mage_Catalog_Model_Product');
+        $numericalProduct->load(2);
+
+        try{
+            $soapResult = Magento_Test_Helper_Api::call(
+                $this,
+                'catalogProductInfo',
+                array(
+                    'product' => '12345'
+                )
+            );
+        } catch (SoapFault $e) {
+            $result = array(
+                'faultcode' => $e->faultcode,
+                'faultstring' => $e->faultstring
+            );
+        }
+
+        $this->assertInternalType('array', $result);
+        $this->assertEquals(101, $result['faultcode'], 'Fault code is not right.');
+        $this->assertEquals('Product does not exist.', $result['faultstring'], 'Fault code is not right.');
+    }
+
+    /**
+     * Test catalogProductInfo with a numeric id, identifierType null.
+     *
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     *
+     */
+    public function testInfoNumericIdTypeNotSet()
+    {
+
+        /** @var Mage_Catalog_Model_Product $numericalProduct */
+        $numericalProduct = Mage::getModel('Mage_Catalog_Model_Product');
+        $numericalProduct->load(2);
+
+        $soapResult = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductInfo',
+            array(
+                'product' => '2'
+            )
+        );
+    }
+
+    /**
+     * Test catalogProductInfo with a non-numeric id, identifierType sku.
+     *
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     *
+     */
+    public function testInfoAlphaIdTypeSku()
+    {
+        echo "in testInfo()\n";
+        /** @var Mage_Catalog_Model_Product $alphaProduct */
+        $alphaProduct = Mage::getModel('Mage_Catalog_Model_Product');
+        $alphaProduct->load(1);
+
+        $soapResult = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductInfo',
+            array(
+                'product' => 'simple',
+                'storeView' => null,
+                'attributes' => null,
+                'productIdentifierType' => 'sku'
+            )
+        );
+
+        $this->assertNotEmpty($soapResult, 'Error during customer address info via API call');
+        $this->_verifyProductInfo($alphaProduct->getData(), $soapResult);
+
+    }
+
+    /**
+     * Test catalogProductInfo with a numeric id, identifierType sku.
+     *
+     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     *
+     */
+    public function testInfoNumericIdTypeSku()
+    {
+
+        /** @var Mage_Catalog_Model_Product $numericalProduct */
+        $numericalProduct = Mage::getModel('Mage_Catalog_Model_Product');
+        $numericalProduct->load(2);
+
+        $soapResult = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductInfo',
+            array(
+                'product' => '12345',
+                'storeView' => null,
+                'attributes' => null,
+                'productIdentifierType' => 'sku'
+            )
+        );
+
+        $this->assertNotEmpty($soapResult, 'Error during customer address info via API call');
+        $this->_verifyProductInfo($numericalProduct->getData(), $soapResult);
+    }
+
+    /**
+     * Verify fields in an address array
+     *
+     * Compares two arrays containing address data.  Throws assertion error if
+     * data does not match.
+     *
+     * @param array $expectedData Expected values of address array
+     * @param array $actualData Values that are to be tested
+     */
+    protected function _verifyProductInfo($expectedData, $actualData)
+    {
+        $fieldsToCompare = array(
+            'entity_id' => 'product_id',
+            'sku',
+            'attribute_set_id' => 'set',
+            'type_id' => 'type',
+            'category_ids',
+            'weight',
+            'name',
+            'is_returnable',
+            'price',
+            'unit_price_unit',
+            'unit_price_base_unit',
+            'unit_price_base_amount',
+            'quantity_and_stock_status'
+        );
+        Magento_Test_Helper_Api::checkEntityFields(
+            $this,
+            $expectedData,
+            $actualData,
+            $fieldsToCompare
+        );
     }
 
     /**
