@@ -23,6 +23,7 @@
              */
             source: null,
             delay: 500,
+            loadingClass: 'ui-autocomplete-loading',
             events: {},
             appendMethod: 'after',
             controls: {
@@ -358,7 +359,7 @@
             var renderer = $.proxy(function(items) {
                 return this._renderDropdown(items, context || {});
             }, this);
-            this.element.addClass('ui-autocomplete-loading');
+            this.element.addClass(this.options.loadingClass);
             if (this.options.delay) {
                 clearTimeout(this._searchTimeout);
                 this._searchTimeout = this._delay(function() {
@@ -400,6 +401,7 @@
                     e.preventDefault();
                 });
             this._renderedContext = context;
+            this.element.removeClass(this.options.loadingClass);
             this._showDropdown();
         },
 
