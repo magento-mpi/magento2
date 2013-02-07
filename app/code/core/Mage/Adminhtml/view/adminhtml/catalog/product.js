@@ -279,11 +279,11 @@ Product.Attributes.prototype = {
     },
     create : function() {
         var win = window.open(this.getConfig().url, 'new_attribute',
-                'width=900,height=600,resizable=1,scrollbars=1');
+                'width=1000,height=600,resizable=1,scrollbars=1');
         win.focus();
     },
     addRow : function(html) {
-        var attributesContainer = $$('#group_fields' + this.getConfig().group_id + ' .form-list tbody')[0];
+        var attributesContainer = $$('#group_fields' + this.getConfig().group_id)[0];
         Element.insert(attributesContainer, {
             bottom :html
         });
