@@ -36,9 +36,11 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $this->_model = null;
-        $connection = new Mongo($this->_connectionString);
-        $connection->dropDB($this->_dbName);
+        if (!empty($this->_connectionString) && extension_loaded('mongo')) {
+            $this->_model = null;
+            $connection = new Mongo($this->_connectionString);
+            $connection->dropDB($this->_dbName);
+        }
     }
 
     public function testGetIds()
