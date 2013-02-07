@@ -33,6 +33,7 @@ app/code/core/Mage/Core/Controller/Varien/Action/Forward.php
 app/code/core/Mage/Core/Controller/Varien/DispatchableInterface.php
 app/code/core/Mage/Core/Controller/Varien/Router/Abstract.php
 app/code/core/Mage/Core/data
+app/code/core/Mage/Core/Model/Abstract.php
 app/code/core/Mage/Core/Model/Config.php
 app/code/core/Mage/Core/Model/Config/Module.php
 app/code/core/Mage/Core/Model/Design.php

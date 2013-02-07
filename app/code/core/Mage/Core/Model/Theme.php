@@ -309,12 +309,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _afterSave()
     {
-        $this->saveThemeCustomization()->_applyCustomizationFiles();
-        /** @var $service Mage_Core_Model_Theme_Service */
-        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-        if ($service->isThemeAssignedToStore($this)) {
-            $this->_eventDispatcher->dispatch('assigned_theme_save_after');
+        $this->saveThemeCustomization();
+        if ($this->isCustomized()) {
+            $this->_applyCustomizationFiles();
         }
+
+        $this->_checkAssignedThemeChanged();
         return parent::_afterSave();
     }
 
@@ -342,6 +342,21 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
         $this->getThemeImage()->removePreviewImage();
         return parent::_beforeDelete();
+    }
+
+    /**
+     * Check is theme assigned to store and dispatch event if that was changed
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _checkAssignedThemeChanged()
+    {
+        /** @var $service Mage_Core_Model_Theme_Service */
+        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+        if ($service->isThemeAssignedToStore($this)) {
+            $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
+        }
+        return $this;
     }
 
     /**

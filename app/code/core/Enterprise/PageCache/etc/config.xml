@@ -146,14 +146,14 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_action_postdispatch_adminhtml_system_currencysymbol_save>
-            <assigned_theme_save_after>
+            <assigned_theme_changed>
                 <observers>
                     <enterprise_pagecache>
                         <class>Enterprise_PageCache_Model_Observer</class>
                         <method>invalidateCache</method>
                     </enterprise_pagecache>
                 </observers>
-            </assigned_theme_save_after>
+            </assigned_theme_changed>
             <catalogrule_after_apply>
                 <observers>
                     <enterprise_pagecache>
