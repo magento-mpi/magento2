@@ -1411,6 +1411,10 @@ table tbody tr:nth-child(odd):hover th {
     border-radius: 8px;
 }
 
+.wrapper-popup {
+    padding: 0 10px;
+}
+
 .fade .popup .popup-inner {
     padding: 20px;
     border-radius: 3px;
@@ -2541,6 +2545,35 @@ table tbody tr:nth-child(odd):hover th {
     z-index: 3;
 }
 
+.side-col .tabs span.changed,
+.side-col .tabs span.error,
+.side-col .tabs span.loader {
+    position: absolute;
+    right: 15px;
+    top: 9px;
+    width: 16px;
+    height: 16px;
+}
+
+.side-col .tab-item-link.changed {
+    font-style: italic;
+    color: #19a3d1;
+}
+
+.side-col .tab-item-link.error span.error:after {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e006'; /* warning icon */
+    color: #d87e34;
+}
+
+.side-col .tab-item-link.ui-tabs-loading span.loader:after {
+    background: url(../mui/images/ajax-loader-small.gif) no-repeat 50% 50%;
+}
+
 /* TODO: styles for navigation on System > Configuration page */
 
 /*
@@ -2582,15 +2615,6 @@ table tbody tr:nth-child(odd):hover th {
     border-top: 3px solid #d87e34;
     padding-top: 5px;
     box-shadow: 1px 0 3px #aaa;
-}
-
-/* Tabs Loading Spinner */
-.side-col .tabs .loading,
-.tabs-horiz .loading {
-    display: none;
-    position: absolute;
-    left: 50%;
-    margin-top: 9px;
 }
 
 /*
@@ -2786,7 +2810,7 @@ table tbody tr:nth-child(odd):hover th {
     min-height: 36px;
     margin: 0 auto;
     min-width: 916px;
-    max-width: 1258px;
+    max-width: 1259px;
 }
 
 .page-actions.fixed .page-actions-inner:before {
@@ -3452,6 +3476,7 @@ tr.dynamic-grid input.input-text {
 .data-table .actions-split.active .dropdown-menu {
     border-top-right-radius: 0;
 }
+
 /*
     Content alignments in tables
 -------------------------------------- */
