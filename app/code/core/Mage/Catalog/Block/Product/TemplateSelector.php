@@ -32,7 +32,8 @@ class Mage_Catalog_Block_Product_TemplateSelector extends Mage_Core_Block_Templa
             ->setEntityTypeFilter($entityType->getId())
             ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))
             ->addFieldToSelect('attribute_set_id', 'id')
-            ->addFieldToSelect('attribute_set_name', 'label');
+            ->addFieldToSelect('attribute_set_name', 'label')
+            ->setOrder('attribute_set_name', Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection::SORT_ORDER_ASC);
         $result = $collection->getData();
         foreach ($result as $key => $set) {
             if ($set['id'] == $this->getRequest()->getParam('current_template_id')) {
