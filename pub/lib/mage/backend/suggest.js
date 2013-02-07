@@ -430,6 +430,7 @@
         },
 
         _abortSearch: function() {
+            this.element.removeClass(this.options.loadingClass);
             clearTimeout(this._searchTimeout);
             if (this._xhr) {
                 this._xhr.abort();
@@ -742,6 +743,39 @@
         /**
          * @override
          */
+        _bind: function() {
+            this._super();
+            if (this.options.multiselect) {
+                this._on({
+                    keydown: function(event) {
+                        var keyCode = $.ui.keyCode;
+                        switch (event.keyCode) {
+                            case keyCode.BACKSPACE:
+                                if (!this._value()) {
+                                    event.preventDefault();
+                                    this._removeLastAdded();
+                                }
+                                break;
+                        }
+                    }
+                });
+            }
+        },
+
+        /**
+         * Remove last added option
+         * @private
+         */
+        _removeLastAdded: function() {
+            var lastAdded =  this.elementWrapper.prev();
+            if (lastAdded.length) {
+                lastAdded.trigger('removeOption');
+            }
+        },
+
+        /**
+         * @override
+         */
         _selectItem: function() {
             this._superApply(arguments);
             if (this.options.multiselect && this._selectedItem !== this._nonSelectedItem) {
@@ -760,9 +794,9 @@
                 .insertBefore(this.elementWrapper)
                 .trigger('contentUpdated')
                 .on('removeOption', $.proxy(function(e) {
-                this._removeOption($(e.currentTarget).data());
-                $(e.currentTarget).remove();
-            }, this));
+                    this._removeOption($(e.currentTarget).data());
+                    $(e.currentTarget).remove();
+                }, this));
         }
     });
 })(jQuery);

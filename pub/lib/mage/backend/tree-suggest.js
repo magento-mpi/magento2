@@ -14,15 +14,17 @@
         mage: {
             treeToList: function(list, nodes, level, path) {
                 $.each(nodes, function() {
-                    list.push({
-                        label: this.label,
-                        id: this.id,
-                        level: level,
-                        item: this,
-                        path: path + this.label
-                    });
-                    if ('children' in this) {
-                        $.mage.treeToList(list, this.children, level + 1, path + this.label + ' / ' );
+                    if ($.type(this) === 'object') {
+                        list.push({
+                            label: this.label,
+                            id: this.id,
+                            level: level,
+                            item: this,
+                            path: path + this.label
+                        });
+                        if (this.children) {
+                            $.mage.treeToList(list, this.children, level + 1, path + this.label + ' / ' );
+                        }
                     }
                 });
                 return list;
