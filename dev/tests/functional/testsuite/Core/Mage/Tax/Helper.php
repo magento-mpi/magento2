@@ -22,22 +22,6 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
      * Create Product Tax Rule
      *
      * @param array|string $taxItemData
-     * @param string $type search type rule
-     */
-    public function createTaxItem($taxItemData, $type)
-    {
-        $taxItemData = $this->fixtureDataToArray($taxItemData);
-        $this->clickButton('add_' . $type);
-        $this->fillFieldset($taxItemData, 'tax_rule_info', false);
-        $this->clickControl('link', 'tax_rule_info_additional_link');
-        $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
-        $this->saveForm('save_' . $type);
-    }
-
-    /**
-     * Create Product Tax Rule
-     *
-     * @param array|string $taxItemData
      */
     public function createTaxRule($taxItemData)
     {
