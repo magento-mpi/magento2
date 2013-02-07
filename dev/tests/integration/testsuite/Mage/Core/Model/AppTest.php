@@ -51,7 +51,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testInit()
     {
         $this->assertNull($this->_model->getConfig());
-        $this->_model->init(Magento_Test_Bootstrap::getInstance()->getInitParams());
+        $this->_model->init(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
         $this->assertContains(Mage_Core_Model_App::ADMIN_STORE_ID, array_keys($this->_model->getStores(true)));
@@ -70,7 +70,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testBaseInit()
     {
         $this->assertNull($this->_model->getConfig());
-        $this->_model->baseInit(Magento_Test_Bootstrap::getInstance()->getInitParams());
+        $this->_model->baseInit(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
         $this->assertNotEmpty($this->_model->getConfig()->getNode());
     }
@@ -80,13 +80,13 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testRun()
     {
-        if (!Magento_Test_Bootstrap::canTestHeaders()) {
+        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test application run without sending headers');
         }
         $request = new Magento_Test_Request();
         $request->setRequestUri('core/index/index');
         $this->_mageModel->setRequest($request);
-        $this->_mageModel->run(Magento_Test_Bootstrap::getInstance()->getInitParams());
+        $this->_mageModel->run(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
         $this->assertTrue($request->isDispatched());
     }
 
@@ -320,7 +320,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetResponse()
     {
-        if (!Magento_Test_Bootstrap::canTestHeaders()) {
+        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
         $this->assertInstanceOf('Mage_Core_Controller_Response_Http', $this->_model->getResponse());
@@ -367,18 +367,5 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $groups = $this->_mageModel->getGroups();
         $this->assertInternalType('array', $groups);
         $this->assertGreaterThanOrEqual(1, count($groups));
-    }
-
-    /**
-     * @magentoConfigFixture global/di/preferences/Mage_Core_Model_Url Mage_Backend_Model_Url
-     * @magentoConfigFixture frontend/di/preferences/Mage_Core_Model_Url Mage_DesignEditor_Model_Url_NavigationMode
-     */
-    public function testLoadDiConfiguration()
-    {
-        $objectManager = Mage::getObjectManager();
-        $this->_model  = $objectManager->get('Mage_Core_Model_App');
-        $this->_model->loadDiConfiguration('frontend');
-        $testInstance  = $objectManager->create('Mage_Backend_Block_Widget_Grid_ColumnSet');
-        $this->assertAttributeInstanceOf('Mage_DesignEditor_Model_Url_NavigationMode', '_urlBuilder', $testInstance);
     }
 }

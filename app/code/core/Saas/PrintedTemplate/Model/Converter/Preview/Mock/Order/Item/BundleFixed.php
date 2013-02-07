@@ -36,7 +36,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
      * Returns model instance
      *
      * @param string $modelName
-     * @return mixed
+     * @return Mage_Core_Model_Abstract
      */
     public function getModel($modelName)
     {
@@ -57,6 +57,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
      * Returns data for the order item
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getMockData()
     {
@@ -203,6 +204,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
      * Returns data for children of bundle product
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getChildrenMockData()
     {

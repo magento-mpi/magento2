@@ -95,10 +95,10 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
     {
         $this->_title($this->__('System'))->_title($this->__('Printed Templates'));
 
-        $id = (int)$this->getRequest()->getParam($idFieldName);
+        $fieldId = (int)$this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('Saas_PrintedTemplate_Model_Template');
-        if ($id) {
-            $model->load($id);
+        if ($fieldId) {
+            $model->load($fieldId);
         } else {
             $model->setEntityType($this->getRequest()->getParam('entity_type'));
         }
@@ -116,9 +116,9 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      */
     public function previewHtmlAction()
     {
-        $id = (int)$this->getRequest()->getParam('id');
-        if ($id) {
-            $template = Mage::getModel('Saas_PrintedTemplate_Model_Template')->load($id);
+        $templateId = (int)$this->getRequest()->getParam('id');
+        if ($templateId) {
+            $template = Mage::getModel('Saas_PrintedTemplate_Model_Template')->load($templateId);
         } else {
             $template = Mage::getModel('Saas_PrintedTemplate_Model_Template')
                 ->setEntityType($this->getRequest()->getParam('entity_type'));
@@ -126,8 +126,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
 
             try {
                 $template->validate();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->getResponse()->setBody($this->__($e->getMessage()));
                 return;
             }
@@ -143,9 +142,9 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      */
     public function previewPdfAction()
     {
-        $id = (int)$this->getRequest()->getParam('id');
-        if ($id) {
-            $template = Mage::getModel('Saas_PrintedTemplate_Model_Template')->load($id);
+        $templateId = (int)$this->getRequest()->getParam('id');
+        if ($templateId) {
+            $template = Mage::getModel('Saas_PrintedTemplate_Model_Template')->load($templateId);
         } else {
             $template = Mage::getModel('Saas_PrintedTemplate_Model_Template')
                 ->setEntityType($this->getRequest()->getParam('entity_type'));
@@ -215,11 +214,11 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
     public function saveAction()
     {
         $request = $this->getRequest();
-        $id = $request->getParam('id');
+        $templateId = $request->getParam('id');
         $continueEdit = $request->getParam('continue_edit', false);
 
         $template = $this->_initTemplate('id');
-        if (!$template->getId() && $id) {
+        if (!$template->getId() && $templateId) {
             $this->_getSession()->addError($this->__('This Printed template no longer exists.'));
             $this->_redirect('*/*/');
             return;
@@ -258,8 +257,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
         try {
             $this->_updateTemplate($template);
             $template->validate();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $result['error'] = true;
             $result['message'] = $e->getMessage();
         }
@@ -406,10 +404,10 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
     {
         $customVariables = $this->_getCoreVariableModel()->getVariablesOptionArray(true);
         $storeContactVariabls = $this->_getCoreSourceEmailVariablesModel()->toOptionArray(true);
-        $printedTemplateVariables = $this->_getPrintedTemplateSourceVariablesModel()
+        $templateVariables = $this->_getPrintedTemplateSourceVariablesModel()
             ->toOptionArray($this->getRequest()->getParam('template_type'));
-        array_unshift($printedTemplateVariables, $storeContactVariabls);
-        $printedTemplateVariables[] = $customVariables;
-        $this->getResponse()->setBody(Zend_Json::encode($printedTemplateVariables));
+        array_unshift($templateVariables, $storeContactVariabls);
+        $templateVariables[] = $customVariables;
+        $this->getResponse()->setBody(Zend_Json::encode($templateVariables));
     }
 }

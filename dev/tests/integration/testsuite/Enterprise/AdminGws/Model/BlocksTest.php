@@ -14,11 +14,10 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     protected function setUp()
     {
         parent::setUp();
-        Mage::app()->loadDiConfiguration(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $auth Mage_Backend_Model_Auth */
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
-        $auth->login('admingws_user', 'admingws_password');
+        $auth->login('admingws_user', 'admingws_password1');
     }
 
     protected function tearDown()
@@ -51,10 +50,8 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     public function testValidateCatalogPermissionsStoreGroups()
     {
         $this->dispatch('backend/admin/catalog_category/edit/id/3');
-        $this->assertContains(
-            'title="New Permission" type="button" class="scalable delete disabled disabled" disabled="disabled"',
-            $this->getResponse()->getBody()
-        );
+        $this->assertRegExp('/title\="New Permission"\s+type\="button"\s+'
+            . 'class="action-\w*\s+scalable\s+delete\s+disabled\s+disabled"/', $this->getResponse()->getBody());
     }
 
     /**

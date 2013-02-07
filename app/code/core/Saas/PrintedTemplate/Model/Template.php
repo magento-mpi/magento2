@@ -14,6 +14,7 @@
  * @category   Saas
  * @package    Saas_PrintedTemplate
  * @subpackage Models
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
 {
@@ -109,12 +110,14 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
     /**
      * Validate template settings
      *
-     * @throws Exception If content height length is too small
-     * @return bool true if everything allright
+     * @return bool true if everything alright
+     * @throws UnexpectedValueException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function validate()
     {
-        $pageHeight = $footerHeight = $headerHeight = null;
+        $footerHeight = $headerHeight = null;
 
         if (!$this->getPageSize()) {
             throw new UnexpectedValueException('Page size should be defined.');

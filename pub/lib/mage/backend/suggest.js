@@ -14,6 +14,7 @@
      * Implement base functionality
      */
     $.widget('mage.suggest', {
+        widgetEventPrefix: "suggest",
         options: {
             template: '',
             minLength: 1,
@@ -43,7 +44,7 @@
          */
         _create: function() {
             this._term = '';
-            this._nonSelectedItem = {value: '', label: ''};
+            this._nonSelectedItem = {id: '', label: ''};
             this._renderedContext = null;
             this._selectedItem = this._nonSelectedItem;
             this._control = this.options.controls || {};
@@ -69,7 +70,7 @@
         },
 
         /**
-         * Define a field for storing value (find in DOM or create a new one)
+         * Define a field for storing item id (find in DOM or create a new one)
          * @private
          */
         _prepareValueField: function() {
@@ -84,7 +85,7 @@
         },
 
         /**
-         * Create value field which keeps a value for selected option
+         * Create value field which keeps a id for selected option
          * can be overridden in descendants
          * @return {jQuery}
          * @private
@@ -154,7 +155,7 @@
                             break;
                         case keyCode.TAB:
                             if (this.isDropdownShown()) {
-                                this._selectItem();
+                                this._onSelectItem();
                                 event.preventDefault();
                             }
                             break;
@@ -220,7 +221,7 @@
                 $.each(controlEvents, $.proxy(function(i, handlerName) {
                     switch(suggestEvent) {
                         case 'select' :
-                            events[handlerName] = this._selectItem;
+                            events[handlerName] = this._onSelectItem;
                             break;
                         case 'focus' :
                             events[handlerName] = this._focusItem;
@@ -255,6 +256,15 @@
         },
 
         /**
+         *
+         * @private
+         */
+        _onSelectItem: function() {
+            this._selectItem();
+            this._trigger('select', null, [this._selectedItem]);
+        },
+
+        /**
          * Save selected item and hide dropdown
          * @private
          */
@@ -263,7 +273,7 @@
                 this._selectedItem = this._readItemData(this._focused);
                 if (this._selectedItem !== this._nonSelectedItem) {
                     this._term = this._selectedItem.label;
-                    this.valueField.val(this._selectedItem.value);
+                    this.valueField.val(this._selectedItem.id);
                     this._hideDropdown();
                 }
             }
@@ -313,8 +323,9 @@
          */
         _setTemplate: function() {
             this.templateName = 'suggest' + Math.random().toString(36).substr(2);
-            if ($(this.options.template).length) {
-                $(this.options.template).template(this.templateName);
+            var template = $(this.options.template);
+            if (template.length && template.prop('type')=== 'text/x-jquery-tmpl') {
+                template.template(this.templateName);
             } else {
                 $.template(this.templateName, this.options.template);
             }
@@ -332,7 +343,7 @@
                     this._search(term);
                 } else {
                     this._selectedItem = this._nonSelectedItem;
-                    this.valueField.val(this._selectedItem.value);
+                    this.valueField.val(this._selectedItem.id);
                 }
             }
         },
@@ -376,7 +387,7 @@
 
         /**
          * Render content of suggest's dropdown
-         * @param {Array} items - list of label+value objects
+         * @param {Array} items - list of label+id objects
          * @param {Object} context - template's context
          * @private
          */
@@ -432,7 +443,7 @@
         filter: function(items, term) {
             var matcher = new RegExp(term, 'i');
             return $.grep(items, function(value) {
-                return matcher.test(value.label || value.value || value);
+                return matcher.test(value.label || value.id || value);
             });
         }
     });
@@ -536,19 +547,19 @@
          */
         _selectItem: function() {
             this._superApply(arguments);
-            if (this._selectedItem.value && this.options.showRecent) {
+            if (this._selectedItem.id && this.options.showRecent) {
                 this._addRecent(this._selectedItem);
             }
         },
 
         /**
          * Add selected item of search result into storage of recents
-         * @param {Object} item - label+value object
+         * @param {Object} item - label+id object
          * @private
          */
         _addRecent: function(item) {
             this._recentItems = $.grep(this._recentItems, function(obj){
-                return obj.value !== item.value;
+                return obj.id !== item.id;
             });
             this._recentItems.unshift(item);
             this._recentItems = this._recentItems.slice(0, this.options.storageLimit);
@@ -608,6 +619,148 @@
                     return !!context._allShown;
                 }
             });
+        }
+    });
+
+    /**
+     * Implement multi suggest functionality
+     */
+    $.widget('mage.suggest', $.mage.suggest, {
+        /**
+         * @override
+         */
+        _create: function() {
+            this._super();
+            if (this.options.multiselect) {
+                this.valueField.hide();
+            }
+        },
+
+        /**
+         * @override
+         */
+        _prepareValueField: function() {
+            this._super();
+            if (this.options.multiselect && !this.options.valueField && this.options.selectedItems) {
+                $.each(this.options.selectedItems, $.proxy(function(i, item) {
+                    this._addOption(item);
+                }, this));
+            }
+        },
+
+        /**
+         * @override
+         */
+        _createValueField: function() {
+            if (this.options.multiselect) {
+                return $('<select/>', {
+                    type: 'hidden',
+                    multiple: 'multiple'
+                });
+            } else {
+                return this._super();
+            }
+        },
+
+        /**
+         * @override
+         */
+        _selectItem: function() {
+            if (this.options.multiselect) {
+                if (this.isDropdownShown() && this._focused) {
+                    this._selectedItem = this._readItemData(this._focused);
+                    if (this.valueField.find('option[value=' + this._selectedItem.id + ']').length) {
+                        this._selectedItem = this._nonSelectedItem;
+                    }
+                    if (this._selectedItem !== this._nonSelectedItem) {
+                        this._term = '';
+                        this._addOption(this._selectedItem);
+                    }
+                }
+            } else {
+                this._super();
+            }
+        },
+
+        /**
+         * Add selected item in to select options
+         * @param item
+         * @private
+         */
+        _addOption: function(item) {
+            this.valueField.append(
+                '<option value="' + item.id + '" selected="selected">' + item.label + '</option>'
+            );
+        },
+
+        /**
+         * Remove item from select options
+         * @param item
+         * @private
+         */
+        _removeOption: function(item) {
+            this.valueField.find('option[value=' + item.id + ']').remove();
+        },
+
+        /**
+         * @override
+         */
+        _hideDropdown: function() {
+            this._super();
+            if (this.options.multiselect) {
+                this.element.val('');
+            }
+        }
+    });
+
+    $.widget('mage.suggest', $.mage.suggest, {
+        options: {
+            multiSuggestWrapper: '<ul class="category-selector-choices">' +
+                '<li class="category-selector-search-field"></li></ul>',
+            choiceTemplate: '<li class="category-selector-search-choice button"><div>${text}</div>' +
+                '<span class="category-selector-search-choice-close" tabindex="-1" ' +
+                'data-mage-init="{&quot;actionLink&quot;:{&quot;event&quot;:&quot;removeOption&quot;}}"></span></li>'
+        },
+
+        /**
+         * @override
+         */
+        _render: function() {
+            this._super();
+            if (this.options.multiselect) {
+                this.element.wrap(this.options.multiSuggestWrapper);
+                this.elementWrapper = this.element.parent();
+                this.valueField.find('option').each($.proxy(function(i, option) {
+                    option = $(option);
+                    this._renderOption({id: option.val(), label: option.text()});
+                }, this));
+            }
+        },
+
+        /**
+         * @override
+         */
+        _selectItem: function() {
+            this._superApply(arguments);
+            if (this.options.multiselect && this._selectedItem !== this._nonSelectedItem) {
+                this._renderOption(this._selectedItem);
+            }
+        },
+
+        /**
+         * Render visual element of selected item
+         * @param {Object} item - selected item
+         * @private
+         */
+        _renderOption: function(item) {
+            $.tmpl(this.options.choiceTemplate, {text: item.label})
+                .data(item)
+                .insertBefore(this.elementWrapper)
+                .trigger('contentUpdated')
+                .on('removeOption', $.proxy(function(e) {
+                this._removeOption($(e.currentTarget).data());
+                $(e.currentTarget).remove();
+            }, this));
         }
     });
 })(jQuery);

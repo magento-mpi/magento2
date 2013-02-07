@@ -50,12 +50,12 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Proxy to Mage::registry();
      *
-     * @param string $id
+     * @param string $typeId
      * @return string|null Value
      */
-    protected function _registry($id)
+    protected function _registry($typeId)
     {
-        return Mage::registry($id);
+        return Mage::registry($typeId);
     }
 
     /**
@@ -82,21 +82,19 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
             return '';
         }
 
-        return $this->_getBackendHelper()->getUrl(
-            'adminhtml/print/entity/',
-            array(
-                'type' => $type,
-                'id'   => $model->getId(),
-            )
-        );
+        return $this->_getBackendHelper()->getUrl('adminhtml/print/entity/', array(
+            'type' => $type,
+            'id'   => $model->getId(),
+        ));
     }
 
     /**
-     * Convert xml config pathes to decorated names
+     * Convert xml config paths to decorated names
      * Method is used to show path to where is config template is used.
      *
      * @param array $paths
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getSystemConfigPathsParts($paths)
     {
