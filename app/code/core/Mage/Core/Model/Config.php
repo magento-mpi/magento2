@@ -26,7 +26,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Id of cache instance for config to use
      */
-    const XML_PATH_CONFIG_CACHE_ID = 'global/cache/instance_for_config';
+    const XML_PATH_CACHE_INSTANCE_ID = 'global/cache_advanced/usage/Mage_Core_Model_Config';
 
     /**
      * Configuration cache tag
@@ -535,7 +535,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         if ($this->_cacheInstanceId === null)
         {
-            $node = $this->getNode(self::XML_PATH_CONFIG_CACHE_ID);
+            $node = $this->getNode(self::XML_PATH_CACHE_INSTANCE_ID);
             if ($node && ((string) $node !== '')) {
                 $this->_cacheInstanceId = (string) $node;
             } else {

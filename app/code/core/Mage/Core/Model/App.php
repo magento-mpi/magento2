@@ -73,9 +73,14 @@ class Mage_Core_Model_App
     const DISTRO_LOCALE_CODE = 'en_US';
 
     /**
-     * Path to caches declarations
+     * Path to the options for default cache instance
      */
-    const XML_CACHE_INSTANCES_XPATH = 'global/cache/instances/*';
+    const XML_PATH_CACHE = 'global/cache';
+
+    /**
+     * Path to the options for additional cache instances
+     */
+    const XML_PATH_CACHE_ADVANCED_INSTANCES = 'global/cache_advanced/instances';
 
     /**
      * Cache tag for all cache data exclude config cache
@@ -515,25 +520,28 @@ class Mage_Core_Model_App
     protected function _initCache(array $cacheInitOptions = array())
     {
         $this->_isCacheLocked = true;
-        $instances = $this->_config->getXpath(self::XML_CACHE_INSTANCES_XPATH);
+
+        // Init default cache instance
+        $options = $this->_config->getNode(self::XML_PATH_CACHE);
+        $options = $options->asArray() ?: array();
+        $options = array_merge($options, $cacheInitOptions);
+        $this->_caches[self::DEFAULT_CACHE_ID] = $this->_initCacheInstance($options);
+        $this->_objectManager->addSharedInstance($this->_caches[self::DEFAULT_CACHE_ID], 'Mage_Core_Model_Cache');
+
+        // Init custom cache instances
+        $instances = $this->_config->getXpath(self::XML_PATH_CACHE_ADVANCED_INSTANCES . '/*');
         if ($instances) {
             foreach ($instances as $instanceNode) {
                 /** @var $instanceNode Mage_Core_Model_Config_Element */
                 $instanceId = $instanceNode->getName();
-                if (isset($this->_caches[$instanceId])) {
-                    throw new Magento_Exception("Double declaration of cache instance {$instanceId}");
+                if ($instanceId == self::DEFAULT_CACHE_ID) {
+                    throw new Magento_Exception("Additional cache may not have identifier {$instanceId}");
                 }
                 $options = $instanceNode->asArray() ?: array();
                 $options = array_merge($options, $cacheInitOptions);
                 $this->_caches[$instanceId] = $this->_initCacheInstance($options);
             }
         }
-
-        if (!isset($this->_caches[self::DEFAULT_CACHE_ID])) {
-            $this->_caches[self::DEFAULT_CACHE_ID] = $this->_initCacheInstance($cacheInitOptions);
-        }
-
-        $this->_objectManager->addSharedInstance($this->_caches[self::DEFAULT_CACHE_ID], 'Mage_Core_Model_Cache');
 
         $this->_isCacheLocked = false;
         return $this;
