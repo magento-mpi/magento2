@@ -28,6 +28,23 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Model_Resource_Config', $this->_createModel(true)->getResourceModel());
     }
 
+    /**
+     * Instantiate Mage_Core_Model_Config and initialize (load configuration) if needed
+     *
+     * @param bool $initialize
+     * @param array $arguments
+     * @return Mage_Core_Model_Config
+     */
+    protected function _createModel($initialize = false, array $arguments = array())
+    {
+        /** @var $model Mage_Core_Model_Config */
+        $model = Mage::getModel('Mage_Core_Model_Config', $arguments);
+        if ($initialize) {
+            $model->init();
+        }
+        return $model;
+    }
+
     public function testInit()
     {
         $model = $this->_createModel();
@@ -62,6 +79,24 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $model->loadBase();
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
         $this->assertEquals($expectedValue, (string)$model->getNode($expectedNode));
+    }
+
+    /**
+     * Creates Mage_Core_Model_Config model with initialized Mage_Core_Model_App
+     *
+     * @param array $appOptions
+     * @param Magento_Test_ObjectManager $objectManager
+     * @return Mage_Core_Model_Config
+     */
+    protected function _createModelWithApp(array $appOptions, Magento_Test_ObjectManager $objectManager = null)
+    {
+        $baseOptions = Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams();
+        $appOptions = array_replace_recursive($baseOptions, $appOptions);
+        $objectManager = $objectManager ?: new Magento_Test_ObjectManager();
+        /** @var $app Mage_Core_Model_App */
+        $app = $objectManager->get('Mage_Core_Model_App');
+        $app->init($appOptions);
+        return $objectManager->create('Mage_Core_Model_Config');
     }
 
     /**
@@ -301,6 +336,31 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($model->loadCache());
     }
 
+    /**
+     * Test, that config uses custom cache instance, when such is configured
+     *
+     * @magentoAppIsolation enabled
+     */
+    public function testUsageOfCustomCache()
+    {
+        $localFile = file_get_contents(__DIR__ . '/_files/Config/custom_cache_local.xml');
+        $params = array(
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $localFile
+        );
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
+
+        // Get cache is now using custom cache instance
+        $config = Mage::app()->getConfig();
+        $additionalCache = Mage::app()->getCacheInstance('additional');
+        $this->assertSame($additionalCache->getFrontend(), $config->getCache());
+
+        // Check, that config uses custom cache instance (dummy), so cachning for it shouldn't work
+        Mage::app()->getCacheInstance()->allowUse('config');
+        $additionalCache->allowUse('config');
+        $config->saveCache();
+        $this->assertFalse($config->loadCache());
+    }
+
     public function testGetSectionNode()
     {
         $this->assertInstanceOf(
@@ -495,41 +555,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('suffix', $fieldset);
         $this->assertObjectHasAttribute('email', $fieldset);
         $this->assertObjectHasAttribute('password', $fieldset);
-    }
-
-    /**
-     * Creates Mage_Core_Model_Config model with initialized Mage_Core_Model_App
-     *
-     * @param array $appOptions
-     * @param Magento_Test_ObjectManager $objectManager
-     * @return Mage_Core_Model_Config
-     */
-    protected function _createModelWithApp(array $appOptions, Magento_Test_ObjectManager $objectManager = null)
-    {
-        $baseOptions = Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams();
-        $appOptions = array_replace_recursive($baseOptions, $appOptions);
-        $objectManager = $objectManager ?: new Magento_Test_ObjectManager();
-        /** @var $app Mage_Core_Model_App */
-        $app = $objectManager->get('Mage_Core_Model_App');
-        $app->init($appOptions);
-        return $objectManager->create('Mage_Core_Model_Config');
-    }
-
-    /**
-     * Instantiate Mage_Core_Model_Config and initialize (load configuration) if needed
-     *
-     * @param bool $initialize
-     * @param array $arguments
-     * @return Mage_Core_Model_Config
-     */
-    protected function _createModel($initialize = false, array $arguments = array())
-    {
-        /** @var $model Mage_Core_Model_Config */
-        $model = Mage::getModel('Mage_Core_Model_Config', $arguments);
-        if ($initialize) {
-            $model->init();
-        }
-        return $model;
     }
 
     /**

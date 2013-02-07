@@ -523,7 +523,10 @@ class Mage_Core_Model_App
 
         // Init default cache instance
         $options = $this->_config->getNode(self::XML_PATH_CACHE);
-        $options = $options->asArray() ?: array();
+        if ($options) {
+            $options = $options->asArray();
+        }
+        $options = $options ?: array();
         $options = array_merge($options, $cacheInitOptions);
         $this->_caches[self::DEFAULT_CACHE_ID] = $this->_initCacheInstance($options);
         $this->_objectManager->addSharedInstance($this->_caches[self::DEFAULT_CACHE_ID], 'Mage_Core_Model_Cache');
@@ -1314,6 +1317,7 @@ class Mage_Core_Model_App
      *
      * @param string $instanceId
      * @return Mage_Core_Model_Cache
+     * @throws Magento_Exception
      */
     public function getCacheInstance($instanceId = null)
     {
@@ -1321,6 +1325,9 @@ class Mage_Core_Model_App
             $this->_initCache();
         }
         $instanceId = $instanceId ?: self::DEFAULT_CACHE_ID;
+        if (!isset($this->_caches[$instanceId])) {
+            throw new Magento_Exception("Cache instance \"{$instanceId}\" is not defined");
+        }
         return $this->_caches[$instanceId];
     }
 

@@ -533,8 +533,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _getCacheInstanceId()
     {
-        if ($this->_cacheInstanceId === null)
-        {
+        if ($this->_cacheInstanceId === null) {
             $node = $this->getNode(self::XML_PATH_CACHE_INSTANCE_ID);
             if ($node && ((string) $node !== '')) {
                 $this->_cacheInstanceId = (string) $node;
@@ -569,7 +568,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Retrieve cache object
      *
-     * @return Zend_Cache_Frontend_File
+     * @return Zend_Cache_Core
      */
     public function getCache()
     {

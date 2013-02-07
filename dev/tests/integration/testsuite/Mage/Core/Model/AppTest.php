@@ -282,11 +282,20 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Magento_Exception
+     * @expectedExceptionMessage Cache instance "non_existing" is not defined
+     */
+    public function testGetCacheInstanceException()
+    {
+        $this->_mageModel->getCacheInstance('non_existing');
+    }
+
+    /**
      * @magentoAppIsolation enabled
      */
     public function testGetCacheInstanceForCustomCache()
     {
-        $localFile = file_get_contents(__DIR__ . '/_files/application/custom_cache/local.xml');
+        $localFile = file_get_contents(__DIR__ . '/_files/App/custom_cache_local.xml');
         $params = array(
             Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $localFile
         );
