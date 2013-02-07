@@ -1743,14 +1743,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'select_associated_product_option');
             $this->clickButton('add_selected_products', false);
             $this->addParameter('productSku', $value['associated_search_sku']);
-            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product');
-            //Fill in additional data
-            if (isset($value['associated_product_default_qty'])) {
-                $this->addParameter('productSku', $value['associated_search_sku']);
-                $this->fillField('associated_product_default_qty', $value['associated_product_default_qty']);
-            }
-            if (isset($value['associated_product_position'])) {
-                $productOrder[$value['associated_search_sku']] = $value['associated_product_position'];
+            if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product')){
+                if (isset($value['associated_product_position'])) {
+                    $productOrder[$value['associated_search_sku']] = $value['associated_product_position'];
+                    unset($value['associated_product_position']);
+                }
+            unset($value['associated_search_sku']);
+                if (!empty($value)) {
+                $this->fillFieldset($value, 'grouped_associated_products');
+                }
             }
         }
         $this->orderBlocks($productOrder, 'productSku', 'move_grouped_product', 'grouped_assigned_products');
@@ -1784,7 +1785,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Verify that product is assigned to group
+     * Verify that product is assigned to grouped product
      *
      * @param array $data
      */
@@ -1792,9 +1793,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $productOrder = array();
         foreach ($data as $value) {
-            if (isset($value['associated_search_sku'])) {
-                $this->addParameter('productSku', $value['associated_search_sku']);
-                $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product');
+            if (!isset($value['associated_search_sku'])) {
+                $this->fail('Invalid grouped item data');
+            }
+            $this->addParameter('productSku', $value['associated_search_sku']);
+            if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product')) {
                 if (isset($value['associated_product_position'])) {
                     $productOrder[$value['associated_search_sku']] = $value['associated_product_position'];
                     unset($value['associated_product_position']);
@@ -1806,13 +1809,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                     $this->verifyForm($value, 'general');
                 }
             } else {
-                $this->addVerificationMessage(
-                    'general' . " tab: Product is not assigned with data: \n"
+                $this->addVerificationMessage('general' . " tab: Product is not assigned with data: \n"
                     . print_r($value['associated_search_sku'], true));
             }
         }
         $this->verifyBlocksOrder($productOrder, 'grouped_assigned_products');
     }
+
     /**
      * Unselect any associated product(as up_sells, cross_sells, related) to opened product
      *
