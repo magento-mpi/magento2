@@ -83,7 +83,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
-
     /**
      * Ajax list of existing javascript files
      */
