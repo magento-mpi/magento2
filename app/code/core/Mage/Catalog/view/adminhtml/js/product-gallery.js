@@ -14,7 +14,7 @@
      */
     $.widget('mage.productGallery', {
         options: {
-            item: '[data-role="image"]',
+            imageSelector: '[data-role="image"]',
             template: '.image-template',
             types: null,
             initialized: false
@@ -47,25 +47,25 @@
                 setPosition: '_setPosition',
                 resort: '_resort',
                 'click .remove': function(event) {
-                    var $imageContainer = $(event.currentTarget).closest(this.options.item);
+                    var $imageContainer = $(event.currentTarget).closest(this.options.imageSelector);
                     this.element.trigger('removeItem', $imageContainer.data('imageData'));
                 },
                 'click .main-control': function(event) {
-                    var $imageContainer = $(event.currentTarget).closest(this.options.item);
+                    var $imageContainer = $(event.currentTarget).closest(this.options.imageSelector);
                     var imageData = $imageContainer.data('imageData');
                     this.setMain(imageData);
                 },
                 'change [data-role="type-selector"]': '_changeType',
                 'change [data-role="visibility-trigger"]': '_changeVisibility'
             };
-            events['click ' + this.options.item] = function() {
+            events['click ' + this.options.imageSelector] = function() {
                 $(event.currentTarget).toggleClass('active');
             };
             this._on(events);
 
             this.element.sortable({
                 distance: 8,
-                items: this.options.item,
+                items: this.options.imageSelector,
                 tolerance: "pointer",
                 cancel: 'input, button, .ui-dialog, .uploader',
                 update: $.proxy(function() {
@@ -82,7 +82,7 @@
          */
         _changeVisibility: function(event) {
             var $checkbox = $(event.currentTarget);
-            var $imageContainer = $checkbox.closest(this.options.item);
+            var $imageContainer = $checkbox.closest(this.options.imageSelector);
             $imageContainer.toggleClass('disabled', $checkbox.is(':checked'));
         },
 
@@ -117,7 +117,7 @@
          */
         _changeType: function(event) {
             var $checkbox = $(event.currentTarget);
-            var $imageContainer = $checkbox.closest(this.options.item);
+            var $imageContainer = $checkbox.closest(this.options.imageSelector);
             this.element.trigger('setImageType', {
                 type: $checkbox.val(),
                 imageData: $checkbox.is(':checked') ? $imageContainer.data('imageData') : null
@@ -130,7 +130,7 @@
          * @returns {Element}
          */
         findElement: function(data) {
-            return this.element.find(this.options.item).filter(function() {
+            return this.element.find(this.options.imageSelector).filter(function() {
                 return $(this).data('imageData').file == data.file;
             }).first();
         },
@@ -142,22 +142,22 @@
          * @private
          */
         _addItem: function(event, imageData) {
-            var count = this.element.find(this.options.item).length;
-            var imageData = $.extend({
+            var count = this.element.find(this.options.imageSelector).length;
+            imageData = $.extend({
                 file_id: Math.random().toString(33).substr(2, 18),
                 disabled: 0,
                 position: count + 1
             }, imageData);
 
             var element = this.$template.tmpl(imageData).data('imageData', imageData);
-            if (count == 0) {
+            if (count === 0) {
                 element.prependTo(this.element);
             } else {
-                element.insertAfter(this.element.find(this.options.item + ':last'));
+                element.insertAfter(this.element.find(this.options.imageSelector + ':last'));
             }
 
-            if ((!this.options.initialized && this.options.images.length == 0) ||
-                (this.options.initialized && this.element.find(this.options.item + ':not(.removed)').length == 1)
+            if (!this.options.initialized && this.options.images.length === 0 ||
+                this.options.initialized && this.element.find(this.options.imageSelector + ':not(.removed)').length == 1
             ) {
                 this.setMain(imageData);
             }
@@ -179,7 +179,7 @@
          */
         _removeItem: function(event, imageData) {
             var $imageContainer = this.findElement(imageData);
-            $imageContainer.addClass('removed').hide().find('.is-removed').val(1);;
+            $imageContainer.addClass('removed').hide().find('.is-removed').val(1);
         },
 
         /**
@@ -208,7 +208,7 @@
                 var value = $(element).val();
                 if (value != index) {
                     this.element.trigger('moveElement', {
-                        imageData: $(element).closest(this.options.item).data('imageData'),
+                        imageData: $(element).closest(this.options.imageSelector).data('imageData'),
                         position: index
                     });
                     $(element).val(index);
@@ -224,14 +224,14 @@
          */
         _setPosition: function(event, data) {
             var $element = this.findElement(data.imageData);
-            var curIndex = this.element.find(this.options.item).index($element);
+            var curIndex = this.element.find(this.options.imageSelector).index($element);
             var newPosition = data.position + (curIndex > data.position ? -1 : 0);
             if (data.position != curIndex) {
-                if (data.position == 0) {
+                if (data.position === 0) {
                     this.element.prepend($element);
                 } else {
                     $element.insertAfter(
-                        this.element.find(this.options.item).eq(newPosition)
+                        this.element.find(this.options.imageSelector).eq(newPosition)
                     );
                 }
                 this.element.trigger('resort');
@@ -253,16 +253,16 @@
             this._super();
             var events = {
                 'click .remove': function(event) {
-                    var $imageContainer = $(event.currentTarget).closest(this.options.item);
+                    var $imageContainer = $(event.currentTarget).closest(this.options.imageSelector);
                     var dialog = $imageContainer.data('dialog');
                     if (dialog) {
                         dialog.dialog('close');
                     }
                 }
             };
-            events['dblclick ' + this.options.item] = function(event) {
+            events['dblclick ' + this.options.imageSelector] = function(event) {
                 this._showDialog($(event.currentTarget).data('imageData'));
-            }
+            };
             this._on(events);
         },
 
@@ -292,11 +292,11 @@
                     dialogElement.closest('.ui-dialog').appendTo($imageContainer);
                     $imageContainer.find('[data-role="type-selector"]').each($.proxy(function(index, checkbox) {
                         var $checkbox = $(checkbox);
-                        $checkbox.prop('checked', this.options.types[$checkbox.val()].value == imageData.file)
+                        $checkbox.prop('checked', this.options.types[$checkbox.val()].value == imageData.file);
                     }, this));
                 }, this));
 
-                $imageContainer.data('dialog', dialogElement)
+                $imageContainer.data('dialog', dialogElement);
             }
             dialogElement.dialog('open');
         }

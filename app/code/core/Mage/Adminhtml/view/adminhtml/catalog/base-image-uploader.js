@@ -51,7 +51,7 @@ function BaseImageUploader(id, maxFileSize) {
 
         $galleryContainer.on('moveElement', function (event, data) {
             var $element = findElement(data.imageData);
-            if (data.position == 0) {
+            if (data.position === 0) {
                 $container.prepend($element);
             } else {
                 var $after = $container.find('.container').eq(data.position);

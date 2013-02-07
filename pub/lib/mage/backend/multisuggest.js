@@ -156,6 +156,6 @@
             this.valueField.val(item.id);
             this._addOption(item);
             this._renderOption(item);
-        },
+        }
     });
 })(jQuery);

@@ -446,7 +446,7 @@
          * @return {Object}
          */
         filter: function(items, term) {
-            var matcher = new RegExp(term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'i');
+            var matcher = new RegExp(term.replace(/[\-\/\\\^$*+?.()|\[\]{}]/g, '\\$&'), 'i');
             return $.grep(items, function(value) {
                 return matcher.test(value.label || value.id || value);
             });
