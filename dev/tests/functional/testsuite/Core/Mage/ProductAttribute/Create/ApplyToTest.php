@@ -16,8 +16,8 @@
 class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System - Manage Attributes.</p>
+     * Preconditions:
+     * Navigate to System - Manage Attributes.
      */
     protected function assertPreConditions()
     {
@@ -26,7 +26,7 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Create user-defined attribute which applied only to Simple Product type</p>
+     * Create user-defined attribute which applied only to Simple Product type
      *
      * @return array
      *
@@ -48,11 +48,12 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
-        return array ('assigned_attribute' => $attributeData['attribute_code']);
+        return array ('assigned_attribute' => $attributeData['attribute_code'],
+                      'title' => $attributeData['admin_title']);
         }
 
     /**
-     * <p>Verify that Apply To dropdown is enabled for new user-defined product attribute</p>
+     * Verify that Apply To dropdown is enabled for new user-defined product attribute
      *
      * @test
      * @TestLinkId TL-MAGE-6424
@@ -76,7 +77,7 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Verify that selection in Apply To control is used for selected product type's template</p>
+     * Verify that selection in Apply To control is used for selected product type's template
      *
      * @param array $attribute
      *
@@ -89,18 +90,21 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_required');
         $virtual = $this->loadDataSet('Product', 'virtual_product_required');
+        $attributeTitle = $attribute['title'];
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple, 'simple', false);
         //Verifying presence for simple product type
         $this->openTab('general');
         $this->addParameter('attributeCodeDropdown', $attribute['assigned_attribute']);
-        $this->assertTrue($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'));
+        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
+            "Dropdown $attributeTitle is absent in this product type, but should not");
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($virtual, 'virtual', false);
         //Verifying absence for virtual product type
         $this->openTab('general');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'));
+        $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
+            "Dropdown $attributeTitle is present in this product type, but should not");
     }
 }

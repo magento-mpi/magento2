@@ -89,18 +89,15 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
     public function changeStatus()
     {
         $productQty = 2;
+        $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
-            //Data
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            ${'searchData' . $i} =
-                $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
-            //Steps
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
             $this->productHelper()->createProduct($productData);
-            //Verifying
             $this->assertMessagePresent('success', 'success_saved_product');
         }
         for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i}, 'product_grid');
+            $this->searchAndChoose($searchData[$i], 'product_grid');
         }
         $this->addParameter('qtyUpdatedProducts', $productQty);
         $this->fillDropdown('product_massaction', 'Change status');
@@ -119,20 +116,16 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
      */
     public function updateAllProductsFields()
     {
-        $this->markTestIncomplete('MAGETWO-5854');
         $productQty = 2;
+        $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
-            //Data
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            ${'searchData' . $i} =
-                $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
-            //Steps
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
             $this->productHelper()->createProduct($productData);
-            //Verifying
             $this->assertMessagePresent('success', 'success_saved_product');
         }
         for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i}, 'manage_products');
+            $this->searchAndChoose($searchData[$i], 'product_grid');
         }
         $this->addParameter('qtyUpdatedAtrProducts', $productQty);
         $this->fillDropdown('product_massaction', 'Update Attributes');
@@ -148,5 +141,52 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
         $this->clickButton('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_updated_products_attributes_massaction');
+    }
+
+    /**
+     * Verifying product type switcher, base image control, category selector are absent using Batch Updates
+     *
+     * @test
+     * @dataProvider excludedAttributesDataProvider
+     * @Testlink TL-MAGE-6660
+     * @param array $excludedAttributes
+     */
+    public function verifyExcludedAttributesAreAbsent($excludedAttributes)
+    {
+        $productQty = 2;
+        $searchData = array();
+        for ($i = 1; $i <= $productQty; $i++) {
+            $productData = $this->loadDataSet('Product', 'simple_product_required');
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
+            $this->productHelper()->createProduct($productData);
+            $this->assertMessagePresent('success', 'success_saved_product');
+        }
+        for ($i = 1; $i <= $productQty; $i++) {
+            $this->searchAndChoose($searchData[$i], 'product_grid');
+        }
+        $this->addParameter('qtyUpdatedAtrProducts', $productQty);
+        $this->fillDropdown('product_massaction', 'Update Attributes');
+        $this->addParameter('storeId', '0');
+        $this->clickButton('submit');
+        //Verifying
+        foreach($excludedAttributes as $controlName => $controlType) {
+            $this->assertFalse($this->controlIsVisible($controlType, $controlName));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function excludedAttributesDataProvider()
+    {
+        return array(array(array(
+            'attributes_image' => self::FIELD_TYPE_INPUT,
+            'attributes_category' => self::FIELD_TYPE_INPUT,
+            'attributes_change_category' => self::FIELD_TYPE_CHECKBOX,
+            'attributes_weight_and_type_switcher' => self::FIELD_TYPE_CHECKBOX,
+            'attributes_change_image_gallery' => self::FIELD_TYPE_CHECKBOX,
+            'attributes_change_group_price' => self::FIELD_TYPE_CHECKBOX,
+            'attributes_change_tier_price' => self::FIELD_TYPE_CHECKBOX
+        )));
     }
 }

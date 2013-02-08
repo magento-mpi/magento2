@@ -215,6 +215,12 @@
     background: #fff url('Mage_Adminhtml::images/image-placeholder.png') no-repeat 50% 0%;
 }
 
+.image-placeholder input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    border: 100px solid;
+}
+
 .image-placeholder-text {
     padding: 72px 5px 0;
     font-size: 11px;
@@ -300,23 +306,23 @@
     padding-right: 25px;
 }
 
-#attributes-container .field-variation > .label {
+#configurable-attributes-container .field-variation > .label {
     margin-left: -7px;
 }
 
-#attributes-container .field-variation > .control {
+#configurable-attributes-container .field-variation > .control {
     width: 43%;
 }
 
-#attributes-container {
+#configurable-attributes-container {
     margin-bottom: 23px;
 }
 
-#attributes-container .col-name {
+#configurable-attributes-container .col-name {
     width: 45%;
 }
 
-#attributes-container .pricing-value {
+#configurable-attributes-container .pricing-value {
     text-align: right;
 }
 

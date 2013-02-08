@@ -19,8 +19,9 @@
                 }
             });
             var updateGenerateVariationsButtonAvailability = function () {
-                var isDisabled = $('#attributes-container .entry-edit:not(:has(input.include:checked))').length > 0 ||
-                    !$('#attributes-container .entry-edit').length;
+                var isDisabled =
+                    $('#configurable-attributes-container .entry-edit:not(:has(input.include:checked))').length > 0 ||
+                    !$('#configurable-attributes-container .entry-edit').length;
                 $('#generate-variations-button').prop('disabled', isDisabled).toggleClass('disabled', isDisabled);
             };
 

@@ -8,7 +8,7 @@
  */
 /*jshint browser:true jquery:true*/
 (function($) {
-    "use strict";
+    'use strict';
     $.widget('mage.groupedProduct', {
         _create: function () {
             this.$grid = this.element.find('#grouped_grid');

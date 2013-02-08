@@ -99,10 +99,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 $fieldset->setHeaderBar($headerBar->toHtml());
             }
 
-            if ($form->getElement('meta_description')) {
-                $form->getElement('meta_description')->setOnkeyup('checkMaxLength(this, 255);');
-            }
-
             $values = $product->getData();
 
             // Set default attribute values for new product or on attribute set change
