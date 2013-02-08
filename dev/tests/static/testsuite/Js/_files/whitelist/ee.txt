@@ -4,7 +4,6 @@ app/code/core/Enterprise/GiftCard
 app/code/core/Enterprise/GiftCardAccount
 app/code/core/Enterprise/GiftRegistry
 app/code/core/Enterprise/Rma
-app/code/core/Enterprise/Persistent
 app/code/core/Enterprise/Wishlist
 app/code/core/Enterprise/CustomerBalance
 app/design/frontend/enterprise/fixed/js
