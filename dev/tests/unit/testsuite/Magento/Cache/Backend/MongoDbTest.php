@@ -41,15 +41,15 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $ids
+     * @param array $expected
      * @dataProvider getIdsDataProvider
      */
-    public function testGetIds(array $ids)
+    public function testGetIds(array $ids, array $expected)
     {
         $result = new ArrayIterator($ids);
         $this->_collection->expects($this->once())
             ->method('find')
             ->will($this->returnValue($result));
-        $expected = array_keys($ids);
         $actual = $this->_model->getIds();
         $this->assertEquals($expected, $actual);
     }
@@ -57,8 +57,8 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     public function getIdsDataProvider()
     {
         return array(
-            'empty db'    => array(array()),
-            'multiple records' => array(array('id1' => 'id1', 'id2' => 'id2')),
+            'empty db'    => array(array(), array()),
+            'multiple records' => array(array('id1' => 'id1', 'id2' => 'id2'), array('id1', 'id2')),
         );
     }
 
@@ -162,16 +162,16 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     /**
      * @param mixed $cacheId
      * @param array $expectedInput
-     * @param array|null $expectedOutput
+     * @param array|null $mongoOutput
      * @param array|bool $expected
      * @dataProvider getMetadatasDataProvider
      */
-    public function testGetMetadatas($cacheId, $expectedInput, $expectedOutput, $expected)
+    public function testGetMetadatas($cacheId, $expectedInput, $mongoOutput, $expected)
     {
         $this->_collection->expects($this->once())
             ->method('findOne')
             ->with($expectedInput)
-            ->will($this->returnValue($expectedOutput));
+            ->will($this->returnValue($mongoOutput));
         $actual = $this->_model->getMetadatas($cacheId);
         $this->assertEquals($expected, $actual);
     }

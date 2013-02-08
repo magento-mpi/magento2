@@ -12,9 +12,17 @@
 class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
 {
     /**
-     * @var MongoDB|null
+     * Infinite expiration time
      */
-    protected $_database = null;
+    const EXPIRATION_TIME_INFINITE = 0;
+
+    /**#@+
+     * Available comparison modes. Used for composing queries to search by tags
+     */
+    const COMPARISON_MODE_MATCHING_TAG     = Zend_Cache::CLEANING_MODE_MATCHING_TAG;
+    const COMPARISON_MODE_NOT_MATCHING_TAG = Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG;
+    const COMPARISON_MODE_MATCHING_ANY_TAG = Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG;
+    /**#@-*/
 
     /**
      * @var MongoCollection|null
@@ -32,7 +40,7 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
         /** MongoDB connection options */
         'mongo_options' => array(),
         /** Name of a database to be used for cache storage */
-        'db'                => 'magento_cache',
+        'db'                => '',
         /** Name of a collection to be used for cache storage */
         'collection'        => 'cache',
     );
@@ -42,8 +50,13 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
      */
     public function __construct(array $options = array())
     {
-        if (!extension_loaded('mongo')) {
-            Zend_Cache::throwException("'mongo' extension is required for using MongoDb cache backend");
+        if (!extension_loaded('mongo') || !version_compare(Mongo::VERSION, '1.2.11', '>=')) {
+            Zend_Cache::throwException(
+                "At least 1.2.11 version of 'mongo' extension is required for using MongoDb cache backend"
+            );
+        }
+        if (empty($options['db'])) {
+            Zend_Cache::throwException("'db' option is not specified");
         }
         parent::__construct($options);
     }
@@ -51,14 +64,14 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
     /**
      * Get collection
      *
-     * @return MongoCollection|null
+     * @return MongoCollection
      */
     protected function _getCollection()
     {
         if (null === $this->_collection) {
             $connection = new Mongo($this->_options['connection_string'], $this->_options['mongo_options']);
-            $this->_database = $connection->selectDB($this->_options['db']);
-            $this->_collection = $this->_database->selectCollection($this->_options['collection']);
+            $database = $connection->selectDB($this->_options['db']);
+            $this->_collection = $database->selectCollection($this->_options['collection']);
         }
         return $this->_collection;
     }
@@ -94,27 +107,12 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
      */
     public function getIdsMatchingTags($tags = array())
     {
-        $query = $this->_getQueryMatchingAllTags($tags);
+        $query = $this->_getQueryMatchingTags($tags, self::COMPARISON_MODE_MATCHING_TAG);
         if (empty($query)) {
             return array();
         }
         $result = $this->_getCollection()->find($query, array('_id'));
         return array_keys(iterator_to_array($result));
-    }
-
-    /**
-     * Get query to filter by all specified tags
-     *
-     * @param array $tags
-     * @return array
-     */
-    protected function _getQueryMatchingAllTags($tags)
-    {
-        $query = array();
-        foreach ($tags as $tag) {
-            $query['$and'][] = array('tags' => $this->_quoteString($tag));
-        }
-        return $query;
     }
 
     /**
@@ -127,27 +125,12 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
      */
     public function getIdsNotMatchingTags($tags = array())
     {
-        $query = $this->_getQueryNotMatchingTags($tags);
+        $query = $this->_getQueryMatchingTags($tags, self::COMPARISON_MODE_NOT_MATCHING_TAG);
         if (empty($query)) {
             return array();
         }
         $result = $this->_getCollection()->find($query, array('_id'));
         return array_keys(iterator_to_array($result));
-    }
-
-    /**
-     * Get query to filter by not matching any of specified tags
-     *
-     * @param array $tags
-     * @return array
-     */
-    protected function _getQueryNotMatchingTags($tags)
-    {
-        $query = array();
-        foreach ($tags as $tag) {
-            $query['$nor'][] = array('tags' => $this->_quoteString($tag));
-        }
-        return $query;
     }
 
     /**
@@ -160,7 +143,7 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
      */
     public function getIdsMatchingAnyTags($tags = array())
     {
-        $query = $this->_getQueryMatchingAnyTags($tags);
+        $query = $this->_getQueryMatchingTags($tags, self::COMPARISON_MODE_MATCHING_ANY_TAG);
         if (empty($query)) {
             return array();
         }
@@ -169,16 +152,26 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
     }
 
     /**
-     * Get query to filter by any of specified tags
+     * Get query to filter by specified tags and comparison mode
      *
      * @param array $tags
+     * @param string $comparisonMode
      * @return array
      */
-    protected function _getQueryMatchingAnyTags($tags)
+    protected function _getQueryMatchingTags(array $tags, $comparisonMode)
     {
+        $operators = array(
+            self::COMPARISON_MODE_MATCHING_TAG     => '$and',
+            self::COMPARISON_MODE_NOT_MATCHING_TAG => '$nor',
+            self::COMPARISON_MODE_MATCHING_ANY_TAG => '$or'
+        );
+        if (!isset($operators[$comparisonMode])) {
+            Zend_Cache::throwException("Incorrect comparison mode specified: $comparisonMode");
+        }
+        $operator = $operators[$comparisonMode];
         $query = array();
         foreach ($tags as $tag) {
-            $query['$or'][] = array('tags' => $this->_quoteString($tag));
+            $query[$operator][] = array('tags' => $this->_quoteString($tag));
         }
         return $query;
     }
@@ -207,7 +200,10 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
      */
     public function getMetadatas($cacheId)
     {
-        $result = $this->_getCollection()->findOne(array('_id' => $this->_quoteString($cacheId)));
+        $result = $this->_getCollection()->findOne(
+            array('_id' => $this->_quoteString($cacheId)),
+            array('expire', 'tags', 'mtime')
+        );
         return $result === null ? false : $result;
     }
 
@@ -276,7 +272,7 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
         $query = array('_id' => $this->_quoteString($cacheId));
         if (!$notTestCacheValidity) {
             $query['$or'] = array(
-                array('expire' => 0),
+                array('expire' => self::EXPIRATION_TIME_INFINITE),
                 array('expire' => array('$gt' => time()))
             );
         }
@@ -294,14 +290,13 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
     {
         $result = $this->_getCollection()
             ->findOne(array(
-            '_id' => $this->_quoteString($cacheId),
-            '$or' => array(
-                array('expire' => 0),
-                array('expire' => array('$gt' => time()))
+                '_id' => $this->_quoteString($cacheId),
+                '$or' => array(
+                    array('expire' => self::EXPIRATION_TIME_INFINITE),
+                    array('expire' => array('$gt' => time()))
                 )
             ),
-            array('mtime')
-        );
+            array('mtime'));
         return $result ? $result['mtime'] : false;
     }
 
@@ -321,7 +316,7 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
     {
         $lifetime = $this->getLifetime($specificLifetime);
         $time = time();
-        $expire   = $lifetime === null ? 0 : $time + $lifetime;
+        $expire = $lifetime === null ? self::EXPIRATION_TIME_INFINITE : $time + $lifetime;
         $tags = array_map(array($this, '_quoteString'), $tags);
         $document = array(
             '_id'      => $this->_quoteString($cacheId),
@@ -370,16 +365,12 @@ class Magento_Cache_Backend_MongoDb extends Zend_Cache_Backend implements Zend_C
                 $result = (bool)$result['ok'];
                 break;
             case Zend_Cache::CLEANING_MODE_OLD:
-                $query = array('expire' => array('$ne' => 0, '$lte' => time()));
+                $query = array('expire' => array('$ne' => self::EXPIRATION_TIME_INFINITE, '$lte' => time()));
                 break;
             case Zend_Cache::CLEANING_MODE_MATCHING_TAG:
-                $query = $this->_getQueryMatchingAllTags((array)$tags);
-                break;
             case Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
-                $query = $this->_getQueryNotMatchingTags((array)$tags);
-                break;
             case Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG:
-                $query = $this->_getQueryMatchingAnyTags((array)$tags);
+                $query = $this->_getQueryMatchingTags((array)$tags, $mode);
                 break;
             default: Zend_Cache::throwException('Unsupported cleaning mode: ' . $mode);
         }

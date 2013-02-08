@@ -43,6 +43,15 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @expectedException Zend_Cache_Exception
+     * @expectedExceptionMessage 'db' option is not specified
+     */
+    public function testConstructor()
+    {
+        new Magento_Cache_Backend_MongoDb();
+    }
+
     public function testGetIds()
     {
         $this->assertEmpty($this->_model->getIds());
@@ -110,8 +119,8 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     public function getIdsMatchingAnyTagsDataProvider()
     {
         return array(
-            'no tags' => array(array(), array()),
-            'one tag' => array(array('tag2'), array('test1', 'test3')),
+            'no tags'       => array(array(), array()),
+            'one tag'       => array(array('tag2'), array('test1', 'test3')),
             'multiple tags' => array(array('tag1', 'tag2'), array('test1', 'test2', 'test3')),
         );
     }
@@ -180,7 +189,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->test('test'));
         $this->_model->save('test data', 'test');
-        $this->assertNotEmpty($this->_model->test('test'), 'Could not find document with _id="test"');
+        $this->assertNotEmpty($this->_model->test('test'), 'Cache with id "test" has not been saved');
     }
 
     public function testSave()
@@ -188,12 +197,13 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
         $cacheId = 'test_id';
         $data = 'test data';
         $tags = array('tag1', 'tag2');
-        $expected = array('_id' => $cacheId, 'data' => $data, 'tags' => $tags,);
 
-        $this->assertTrue($this->_model->save($data, $cacheId, $tags, false));
-        $actual = $this->_model->getMetadatas($cacheId);
-        $actual = array_intersect_key($actual, $expected);
-        $this->assertEquals($expected, $actual);
+        $this->assertTrue($this->_model->save($data, $cacheId, $tags));
+        $actualData = $this->_model->load($cacheId);
+        $this->assertEquals($data, $actualData);
+        $actualMetadata = $this->_model->getMetadatas($cacheId);
+        $this->arrayHasKey('tags', $actualMetadata);
+        $this->assertEquals($tags, $actualMetadata['tags']);
     }
 
     public function testRemove()
