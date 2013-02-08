@@ -34,7 +34,7 @@ class Saas_Saas_Model_TenantTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException LogicException
      * @expectedExceptionMessage Local Configuration does not exist
      */
     public function testGetLocalConfigException()
@@ -138,12 +138,24 @@ class Saas_Saas_Model_TenantTest extends PHPUnit_Framework_TestCase
         $configData = array(
             'local' => $this->_xmlStart . '<config><global><web><dir><media>'
                                 . $mediaDir . '</media></dir></web></global></config>',
-            'modules' => $this->_xmlStart . '<config></config>',
-            'tenantModules' => $this->_xmlStart . '<config></config>'
         );
 
         $tenant = new Saas_Saas_Model_Tenant($configData);
         $this->assertEquals($tenant->getMediaDir(), $mediaDir);
         $this->assertEquals($tenant->getVarDir(), $mediaDir); //yes, there is no specific var dir
+    }
+
+    /**
+     * @expectedException LogicException
+     * @expectedExceptionMessage Media dir is not set
+     */
+    public function testGetMediaDirException()
+    {
+        $configData = array(
+            'local' => $this->_xmlStart . '<config/>',
+        );
+
+        $tenant = new Saas_Saas_Model_Tenant($configData);
+        $tenant->getMediaDir();
     }
 }

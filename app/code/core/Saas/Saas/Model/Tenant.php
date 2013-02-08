@@ -83,13 +83,13 @@ class Saas_Saas_Model_Tenant
      * Get Config object, containing data from 'local' configuration element
      *
      * @return Varien_Simplexml_Config
-     * @throws Exception
+     * @throws LogicException
      */
     private function _getLocalConfig()
     {
         $config = new Varien_Simplexml_Config();
         if (!array_key_exists('local', $this->_configArray)) {
-            throw new Exception('Local Configuration does not exist');
+            throw new LogicException('Local Configuration does not exist');
         }
         $config->loadString($this->_configArray['local']);
         return $config;
@@ -107,7 +107,7 @@ class Saas_Saas_Model_Tenant
     {
         $allModulesConfig = new Varien_Simplexml_Config();
 
-        if ($this->_configArray['modules']) {
+        if (!empty($this->_configArray['modules'])) {
             /**
              * Contains all modules that might be turned on or off
              */
@@ -180,11 +180,15 @@ class Saas_Saas_Model_Tenant
      * Get relative tenant's media dir
      *
      * @return string
+     * @throws LogicException
      */
     public function getMediaDir()
     {
         if (is_null($this->_mediaDir)) {
             $this->_mediaDir = (string)$this->_config->getNode('global/web/dir/media');
+            if (!$this->_mediaDir) {
+                throw new LogicException('Media dir is not set');
+            }
         }
         return $this->_mediaDir;
     }

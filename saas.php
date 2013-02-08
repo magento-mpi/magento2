@@ -9,21 +9,19 @@
  */
 
 /**
- * Run application based on invariant configuration array
- *
  * Both "SaaS entry point" and this "Application entry point" have a convention:
  * API consists of one and only one array argument.
  * Underlying implementation of the Application entry point may differ in future versions due to changes
  * in Application itself, but API should remain the same
  *
  * @param array $appConfigArray
- * @throws Exception
+ * @throws LogicException
  */
 return function (array $appConfigArray) {
     require __DIR__ . '/app/bootstrap.php';
 
     if (!array_key_exists('tenantConfiguration', $appConfigArray)) {
-        throw new Exception('Tenant Configuration does not exist');
+        throw new LogicException('Tenant Configuration does not exist');
     }
 
     $tenant = new Saas_Saas_Model_Tenant($appConfigArray['tenantConfiguration']);
