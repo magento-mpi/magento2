@@ -74,7 +74,7 @@
             if (inputDate >= minDate && inputDate <= maxDate) {
                 return true;
             }
-            this.dateBetweenErrorMessage = $.mage.__('Please enter a date between %min and %max.').replace('%min', params[0]).replace('%max', params[1]);
+            this.dateBetweenErrorMessage = $.mage.__('Please enter a date between %min and %max.').replace('%min', minDate).replace('%max', maxDate);
             return false;
         },
         function(){

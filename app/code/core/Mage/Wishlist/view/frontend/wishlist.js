@@ -33,6 +33,9 @@
                     .on('click', this.options.addToCartSelector, function() {
                         $.proxy(_this._addItemsToCart($(this)), _this);
                     })
+                    .on('addToCart', function(event, context) {
+                        $.proxy(_this._addItemsToCart($(context).parents('.cart-cell').find(_this.options.addToCartSelector)), _this);
+                    })
                     .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
                     .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
                     .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
@@ -138,6 +141,11 @@
         _create: function() {
             this._super();
             if (this.options.infoList) {
+                this.element.on('addToCart', $.proxy(function(event, context) {
+                    this.element.find('input:checkbox').attr('checked', false);
+                    $(context).closest('tr').find('input:checkbox').attr('checked', true);
+                    this.element.submit();
+                }, this));
                 this._checkBoxValidate();
             }
         },

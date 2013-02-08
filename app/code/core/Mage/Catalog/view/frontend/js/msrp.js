@@ -60,6 +60,7 @@
         },
 
         _addToCartSubmit: function() {
+            this.element.trigger('addToCart', this.element);
             if (this.options.addToCartUrl) {
                 $('#map-popup').hide();
                 if (opener !== null) {
