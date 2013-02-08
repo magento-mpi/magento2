@@ -52,7 +52,7 @@
                     if (response.message_html) {
                         $('#vde-tab-custom-messages-placeholder').append(response.message_html);
                     }
-
+                    this.element.trigger('refreshIframe');
                     this._prepareUpdateButton();
                 }, this),
                 error: function() {
