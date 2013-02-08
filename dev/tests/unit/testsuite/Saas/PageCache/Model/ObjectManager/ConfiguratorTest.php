@@ -23,12 +23,7 @@ class Saas_PageCache_Model_ObjectManager_ConfiguratorTest extends PHPUnit_Framew
             'preference' => array(
                 'Enterprise_PageCache_Model_Processor_RestrictionInterface'
                     => 'Saas_PageCache_Model_Processor_Restriction',
-                'Enterprise_PageCache_Model_Processor' => 'Saas_PageCache_Model_Processor',
-            ),
-            'Saas_PageCache_Model_Processor' => array(
-                'parameters' => array(
-                    'scopeCode' => 'run_code',
-                )
+
             ),
         );
         

@@ -9,6 +9,7 @@
  */
 
 interface Enterprise_PageCache_Model_Cache_ProcessorInterface
+    extends Enterprise_PageCache_Model_RequestProcessorInterface
 {
     /**
      * Refresh values of request ids
@@ -53,19 +54,6 @@ interface Enterprise_PageCache_Model_Cache_ProcessorInterface
      * @return bool
      */
     public function isAllowed();
-
-
-    /**
-     * @param Zend_Controller_Request_Http $request
-     * @param Zend_Controller_Response_Http $response
-     * @param string $content
-     * @return bool|string
-     */
-    public function extractContent(
-        Zend_Controller_Request_Http $request,
-        Zend_Controller_Response_Http $response,
-        $content
-    );
 
     /**
      * Retrieve recently viewed count cache identifier

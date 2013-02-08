@@ -11,26 +11,46 @@
 class Enterprise_PageCache_Model_Http_Handler implements Magento_Http_HandlerInterface
 {
     /**
-     * List of available processors
+     * List of available request processors
      *
-     * @var Enterprise_PageCache_Model_Cache_ProcessorInterface[]
+     * @var Enterprise_PageCache_Model_RequestProcessorInterface[]
      */
     protected $_processors = array();
 
     /**
      * @param Mage_Core_Model_Config_Primary $config
-     * @param Enterprise_PageCache_Model_Cache_ProcessorFactory $factory
+     * @param Enterprise_PageCache_Model_RequestProcessorFactory $factory
      */
     public function __construct(
         Mage_Core_Model_Config_Primary $config,
-        Enterprise_PageCache_Model_Cache_ProcessorFactory $factory
+        Enterprise_PageCache_Model_RequestProcessorFactory $factory
     ) {
         $processors = $config->getNode('global/cache/request_processors');
         if ($processors) {
-            foreach($processors->asArray() as $className) {
-                $this->_processors[] = $factory->create($className);
+            $processors = $processors->asArray();
+            usort($processors, array($this, '_cmp'));
+
+            foreach($processors as $processorConfig) {
+                $this->_processors[] = $factory->create($processorConfig['class']);
             }
         }
+    }
+
+    /**
+     * Sort request processors
+     *
+     * @param array $processorA
+     * @param array $processorB
+     * @return int
+     */
+    protected function _cmp($processorA, $processorB)
+    {
+        $sortOrderA = intval($processorA['sortOrder']);
+        $sortOrderB = intval($processorB['sortOrder']);
+        if ($sortOrderA == $sortOrderB) {
+            return 0;
+        }
+        return ($sortOrderA < $sortOrderB) ? -1 : 1;
     }
 
     /**

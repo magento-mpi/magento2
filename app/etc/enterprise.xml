@@ -12,7 +12,10 @@
     <global>
         <cache>
             <request_processors>
-                <ee>Enterprise_PageCache_Model_Processor</ee>
+                <ee>
+                    <sortOrder>50</sortOrder>
+                    <class>Enterprise_PageCache_Model_Processor</class>
+                </ee>
             </request_processors>
         </cache>
         <full_page_cache>

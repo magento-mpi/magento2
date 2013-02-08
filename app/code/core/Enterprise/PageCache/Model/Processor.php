@@ -240,38 +240,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     }
 
     /**
-     * Apply custom logic before content extraction
-     *
-     * @param Zend_Controller_Request_Http $request
-     * @param Zend_Controller_Response_Http $response
-     * @param bool|string $content
-     * @return bool|string
-     */
-    protected function _beforeExtractContent(
-        Zend_Controller_Request_Http $request,
-        Zend_Controller_Response_Http $response,
-        $content
-    ) {
-        return $content;
-    }
-
-    /**
-     * Apply custom logic after content extraction
-     *
-     * @param Zend_Controller_Request_Http $request
-     * @param Zend_Controller_Response_Http $response
-     * @param bool|string $content
-     * @return bool|string
-     */
-    protected function _afterExtractContent(
-        Zend_Controller_Request_Http $request,
-        Zend_Controller_Response_Http $response,
-        $content
-    ) {
-        return $content;
-    }
-
-    /**
      * Prepare page identifier
      *
      * @param string $id
@@ -335,8 +303,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         $content
     ) {
 
-        $content = $this->_beforeExtractContent($request, $response, $content);
-
         $this->_applyDesignChange();
 
         if (!$this->_checkDesignException()) {
@@ -366,8 +332,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                 $this->_updateRecentlyViewedProducts();
             }
         }
-
-        $content = $this->_afterExtractContent($request, $response, $content);
 
         return $content;
     }
