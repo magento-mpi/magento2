@@ -41,14 +41,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
     }
 
     /**
+     * @dataProvider prepareTheme
      * @covers Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom::getDownloadCustomCssUrl
      */
-    public function testGetDownloadCustomCssUrl()
+    public function testGetDownloadCustomCssUrl($theme)
     {
-        $themeId = 15;
-        $theme = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
-        $theme->setThemeId($themeId);
-
         $expectedUrl = 'some_url';
 
         $this->_urlBuilder->expects($this->once())
@@ -57,5 +54,59 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
             ->will($this->returnValue($expectedUrl));
 
         $this->assertEquals($expectedUrl, $this->_model->getDownloadCustomCssUrl($theme));
+    }
+
+    /**
+     * @dataProvider prepareTheme
+     */
+    public function testGetSaveCustomCssUrl($theme)
+    {
+        $expectedUrl = 'some_url';
+
+        $this->_urlBuilder->expects($this->once())
+            ->method('getUrl')
+            ->with('*/system_design_editor_tools/saveCssContent', array('theme_id' => $theme->getThemeId()))
+            ->will($this->returnValue($expectedUrl));
+
+        $this->assertEquals($expectedUrl, $this->_model->getSaveCustomCssUrl($theme));
+    }
+
+    public function testGetCustomCssContent()
+    {
+        $expectedContent = 'New file content';
+
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $this->getMock(
+            'Mage_Core_Model_Theme', array('getCustomizationData', 'getFirstItem'), array(), '', false
+        );
+
+        /** @var $cssFile Mage_Core_Model_Theme_Customization_Files_Css */
+        $cssFile = $this->getMock(
+            'Mage_Core_Model_Theme_Customization_Files_Css', array('getContent'), array(), '', false
+        );
+
+        $theme->expects($this->once())
+            ->method('getCustomizationData')
+            ->with(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)
+            ->will($this->returnValue($theme));
+
+        $theme->expects($this->once())
+            ->method('getFirstItem')
+            ->will($this->returnValue($cssFile));
+
+        $cssFile->expects($this->once())
+            ->method('getContent')
+            ->will($this->returnValue('New file content'));
+
+        $this->assertEquals($expectedContent, $this->_model->getCustomCssContent($theme));
+    }
+
+    public function prepareTheme()
+    {
+        $themeId = 15;
+        $theme = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+        $theme->setThemeId($themeId);
+
+        return array(array($theme));
     }
 }
