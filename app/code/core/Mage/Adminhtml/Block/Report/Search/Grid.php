@@ -51,15 +51,18 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
     {
         $this->addColumn('query_id', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
-            'width'     =>'50px',
             'filter'    =>false,
             'index'     =>'query_id',
-            'type'      =>'number'
+            'type'      =>'number',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('query_text', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Search Query'),
-            'index'     =>'query_text'
+            'index'     =>'query_text',
+            'header_css_class'  => 'col-query',
+            'column_css_class'  => 'col-query'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
@@ -68,24 +71,28 @@ class Mage_Adminhtml_Block_Report_Search_Grid extends Mage_Adminhtml_Block_Widge
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_view'    => true,
-                'sortable'      => false
+                'sortable'      => false,
+                'header_css_class'  => 'col-store',
+                'column_css_class'  => 'col-store'
             ));
         }
 
         $this->addColumn('num_results', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Results'),
-            'width'     =>'50px',
             'align'     =>'right',
             'type'      =>'number',
-            'index'     =>'num_results'
+            'index'     =>'num_results',
+            'header_css_class'  => 'col-results',
+            'column_css_class'  => 'col-results'
         ));
 
         $this->addColumn('popularity', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Hits'),
-            'width'     =>'50px',
             'align'     =>'right',
             'type'      =>'number',
-            'index'     =>'popularity'
+            'index'     =>'popularity',
+            'header_css_class'  => 'col-hits',
+            'column_css_class'  => 'col-hits'
         ));
 
         $this->addExportType('*/*/exportSearchCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));

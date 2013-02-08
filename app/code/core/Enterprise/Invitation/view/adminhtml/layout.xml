@@ -61,38 +61,42 @@
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="sent">
                 <arguments>
                     <header translate="true" module="Enterprise_Invitation">Invitations Sent</header>
-                    <width>200px</width>
                     <type>number</type>
                     <index>sent</index>
                     <id>sent</id>
+                    <header_css_class>col-inv-sent</header_css_class>
+                    <column_css_class>col-inv-sent</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted">
                 <arguments>
                     <header translate="true" module="Enterprise_Invitation">Invitations Accepted</header>
-                    <width>220px</width>
                     <type>number</type>
                     <index>accepted</index>
                     <id>accepted</id>
+                    <header_css_class>col-inv-acc</header_css_class>
+                    <column_css_class>col-inv-acc</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="purchased">
                 <arguments>
                     <header translate="true" module="Enterprise_Invitation">Accepted and Purchased</header>
-                    <width>220px</width>
                     <type>number</type>
                     <index>purchased</index>
                     <id>purchased</id>
+                    <header_css_class>col-acc</header_css_class>
+                    <column_css_class>col-acc</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="purchased_rate">
                 <arguments>
                     <header translate="true" module="Enterprise_Invitation">Conversion Rate</header>
-                    <width>100px</width>
                     <renderer>Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
                     <type>string</type>
                     <index>purchased_rate</index>
                     <id>purchased_rate</id>
+                    <header_css_class>col-rate</header_css_class>
+                    <column_css_class>col-rate</column_css_class>
                 </arguments>
             </block>
         </reference>
@@ -142,6 +146,8 @@
                     <type>number</type>
                     <index>entity_id</index>
                     <id>id</id>
+                    <header_css_class>col-id</header_css_class>
+                    <column_css_class>col-id</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
@@ -150,6 +156,8 @@
                     <type>text</type>
                     <index>name</index>
                     <id>name</id>
+                    <header_css_class>col-name</header_css_class>
+                    <column_css_class>col-name</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="email">
@@ -157,6 +165,8 @@
                     <header translate="true" module="Enterprise_Invitation">Email</header>
                     <index>email</index>
                     <id>email</id>
+                    <header_css_class>col-email</header_css_class>
+                    <column_css_class>col-email</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="group">
@@ -164,6 +174,8 @@
                     <header translate="true" module="Enterprise_Invitation">Group</header>
                     <index>group_name</index>
                     <id>group</id>
+                    <header_css_class>col-group</header_css_class>
+                    <column_css_class>col-group</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="sent">
@@ -172,6 +184,8 @@
                     <index>sent</index>
                     <type>number</type>
                     <id>sent</id>
+                    <header_css_class>col-inv-sent</header_css_class>
+                    <column_css_class>col-inv-sent</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted">
@@ -180,6 +194,8 @@
                     <index>accepted</index>
                     <type>number</type>
                     <id>accepted</id>
+                    <header_css_class>col-inv-acc</header_css_class>
+                    <column_css_class>col-inv-acc</column_css_class>
                 </arguments>
             </block>
         </reference>
@@ -217,6 +233,8 @@
                     <type>number</type>
                     <index>sent</index>
                     <id>sent</id>
+                    <header_css_class>col-inv-sent</header_css_class>
+                    <column_css_class>col-inv-sent</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted">
@@ -225,6 +243,8 @@
                     <type>number</type>
                     <index>accepted</index>
                     <id>accepted</id>
+                    <header_css_class>col-inv-acc</header_css_class>
+                    <column_css_class>col-inv-acc</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="canceled">
@@ -233,6 +253,8 @@
                     <type>number</type>
                     <index>canceled</index>
                     <id>canceled</id>
+                    <header_css_class>col-inv-disc</header_css_class>
+                    <column_css_class>col-inv-disc</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted_rate">
@@ -243,6 +265,8 @@
                     <id>accepted_rated</id>
                     <width>170</width>
                     <renderer>Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
+                    <header_css_class>col-inv-acc-rate</header_css_class>
+                    <column_css_class>col-inv-acc-rate</column_css_class>
                 </arguments>
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="canceled_rate">
@@ -253,6 +277,8 @@
                     <id>canceled_rate</id>
                     <width>170</width>
                     <renderer>Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</renderer>
+                    <header_css_class>col-inv-disc-rate</header_css_class>
+                    <column_css_class>col-inv-disc-rate</column_css_class>
                 </arguments>
             </block>
         </reference>

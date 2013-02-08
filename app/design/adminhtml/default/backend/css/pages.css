@@ -602,6 +602,458 @@
 }
 
 /*
+    Reports - Customer Reviews
+-------------------------------------- */
+.adminhtml-report-review-customer .col-qty,
+.adminhtml-report-review-customer .col-actions {
+    white-space: nowrap;
+    width: 85px;
+}
+
+/*
+    Reports - Product Reviews
+-------------------------------------- */
+
+.adminhtml-report-review-product .col-id {
+    width: 35px;
+}
+
+.adminhtml-report-review-product .col-qty,
+.adminhtml-report-review-product .col-rating,
+.adminhtml-report-review-product .col-avg-rating,
+.adminhtml-report-review-product .col-actions {
+    text-align: right;
+    white-space: nowrap;
+    width: 85px;
+}
+
+.adminhtml-report-review-product .col-date {
+    white-space: nowrap;
+    width: 140px;
+}
+
+.adminhtml-report-review-product .col-rating {
+    width: 104px;
+}
+
+/*
+    Reports - New Accounts
+-------------------------------------- */
+
+.adminhtml-report-customer-accounts .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+/*
+    Reports - Refresh Statistics
+-------------------------------------- */
+
+.adminhtml-report-statistics-index .col-period {
+    white-space: nowrap;
+    width: 140px;
+}
+
+.adminhtml-report-statistics-index .col-select {
+    width: 25px;
+}
+
+/*
+    Reports - Products Ordered
+-------------------------------------- */
+.adminhtml-report-product-sold .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-product-sold .col-qty {
+    white-space: nowrap;
+    width: 120px;
+}
+
+/*
+    Reports - Customers by Orders Total
+-------------------------------------- */
+.adminhtml-report-customer-totals .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-customer-totals .col-qty {
+    width: 65px;
+}
+
+.adminhtml-report-customer-totals .col-rating {
+    width: 100px;
+}
+
+/*
+    Reports - Tag by popular
+-------------------------------------- */
+.adminhtml-report-tag-popular .col-qty,
+.adminhtml-report-tag-popular .col-actions {
+    width: 80px;
+}
+
+/*
+    Reports - Tag by customer
+-------------------------------------- */
+.adminhtml-report-tag-customer .col-id {
+    width: 35px;
+}
+
+.adminhtml-report-tag-customer .col-qty,
+.adminhtml-report-tag-customer .col-actions {
+    width: 80px;
+}
+
+/*
+    Reports - Tag by product
+-------------------------------------- */
+.adminhtml-report-tag-product .col-id {
+    width: 35px;
+}
+
+.adminhtml-report-tag-product .col-actions {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-tag-product .col-unique-numbers,
+.adminhtml-report-tag-product .col-total-numbers {
+    text-align: right;
+    width: 95px
+}
+
+/*
+    Reports - Customers by Number of Orders
+-------------------------------------- */
+.adminhtml-report-customer-orders .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-customer-orders .col-qty,
+.adminhtml-report-customer-orders .col-average,
+.adminhtml-report-customer-orders .col-total {
+    white-space: nowrap;
+    width: 105px;
+}
+
+/*
+   Reports - Customers by Orders Total
+-------------------------------------- */
+.adminhtml-report-customer-totals .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-customer-totals .col-qty,
+.adminhtml-report-customer-totals .col-average,
+.adminhtml-report-customer-totals .col-total {
+    white-space: nowrap;
+    width: 105px;
+}
+
+/*
+    Reports - Customer's wishlists
+-------------------------------------- */
+.adminhtml-report-customer-wishlist-wishlist .col-period {
+    width: 70px;
+}
+
+.adminhtml-report-customer-wishlist-wishlist .col-whishlist-qty,
+.adminhtml-report-customer-wishlist-wishlist .col-available-qty,
+.adminhtml-report-customer-wishlist-wishlist .col-qty-diff {
+    text-align: right;
+    width: 100px;
+}
+
+/*
+    Reports - Most Viewed
+-------------------------------------- */
+.adminhtml-report-product-viewed .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-product-viewed .col-qty,
+.adminhtml-report-product-viewed .col-price {
+    white-space: nowrap;
+    width: 80px;
+}
+
+/*
+    Reports - Search Terms
+-------------------------------------- */
+.adminhtml-report-search .col-id {
+    width: 35px;
+}
+
+.adminhtml-report-search .col-results,
+.adminhtml-report-search .col-hits {
+    text-align: right;
+    white-space: nowrap;
+    width: 80px;
+}
+
+/*
+    Reports - Bestsellers
+-------------------------------------- */
+
+.adminhtml-report-sales-bestsellers .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-sales-bestsellers .col-qty,
+.adminhtml-report-sales-bestsellers .col-price {
+    white-space: nowrap;
+    width: 80px;
+}
+
+/*
+    Reports - Downloads
+-------------------------------------- */
+.adminhtml-report-product-downloads .col-qty,
+.adminhtml-report-product-downloads .col-price {
+    white-space: nowrap;
+    width: 80px;
+}
+
+/*
+    Reports - Order Conversion Rate
+-------------------------------------- */
+.adminhtml-report-invitation-order .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-invitation-order .col-inv-sent,
+.adminhtml-report-invitation-order .col-inv-acc,
+.adminhtml-report-invitation-order .col-acc,
+.adminhtml-report-invitation-order .col-rate {
+    text-align: right;
+}
+
+/*
+    Reports - Invitations - Customer
+-------------------------------------- */
+.adminhtml-report-invitation-customer .col-id {
+    width: 35px;
+}
+
+.adminhtml-report-invitation-customer .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-invitation-customer .col-inv-sent,
+.adminhtml-report-invitation-customer .col-inv-acc {
+    text-align: right;
+    white-space: nowrap;
+    width: 120px;
+}
+
+/*
+    Reports - Invitations - General
+-------------------------------------- */
+.adminhtml-report-invitation-index .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-invitation-index .col-inv-sent,
+.adminhtml-report-invitation-index .col-inv-acc,
+.adminhtml-report-invitation-index .col-inv-disc,
+.adminhtml-report-invitation-index .col-inv-acc-rate,
+.adminhtml-report-invitation-index .col-inv-disc-rate {
+    text-align: right;
+    width: 18%;
+}
+
+/*
+    Reports - Abandoned Carts
+-------------------------------------- */
+
+.adminhtml-report-shopcart-abandoned .col-ip,
+.adminhtml-report-shopcart-abandoned .col-subtotal,
+.adminhtml-report-shopcart-abandoned .col-number,
+.adminhtml-report-shopcart-abandoned .col-coupon {
+    text-align: right;
+}
+
+/*
+    Reports - Products in Carts
+-------------------------------------- */
+.adminhtml-report-shopcart-product .col-id {
+    width: 35px;
+}
+
+.adminhtml-report-shopcart-product .col-carts,
+.adminhtml-report-shopcart-product .col-qty,
+.adminhtml-report-shopcart-product .col-price {
+    text-align: right;
+    width: 80px;
+}
+
+/*
+    Reports - Refunds
+-------------------------------------- */
+
+.adminhtml-report-sales-refunded .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-sales-refunded .col-ref-total,
+.adminhtml-report-sales-refunded .col-ref-online,
+.adminhtml-report-sales-refunded .col-ref-offline {
+    text-align: right;
+    width: 23%;
+}
+
+/*
+    Reports - Shipping
+-------------------------------------- */
+
+.adminhtml-report-sales-shipping .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-sales-shipping .col-qty,
+.adminhtml-report-sales-shipping .col-total-sales-shipping,
+.adminhtml-report-sales-shipping .col-total-shipping {
+    text-align: right;
+    width: 120px;
+}
+
+/*
+    Reports - Invoiced
+-------------------------------------- */
+
+.adminhtml-report-sales-invoiced .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-sales-invoiced .col-qty,
+.adminhtml-report-sales-invoiced .col-invoiced,
+.adminhtml-report-sales-invoiced .col-total-invoiced,
+.adminhtml-report-sales-invoiced .col-total-invoiced-paid,
+.adminhtml-report-sales-invoiced .col-total-invoiced-not-paid {
+    text-align: right;
+    width: 18%;
+}
+
+/*
+    Reports - Tax
+-------------------------------------- */
+
+.adminhtml-report-sales-tax .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-sales-tax .col-rate,
+.adminhtml-report-sales-tax .col-qty,
+.adminhtml-report-sales-tax .col-tax-amount {
+    text-align: right;
+    width: 105px;
+}
+
+/*
+    Reports - Orders
+-------------------------------------- */
+.adminhtml-report-sales-sales .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-sales-sales .col-orders,
+.adminhtml-report-sales-sales .col-sales-items,
+.adminhtml-report-sales-sales .col-sales-total,
+.adminhtml-report-sales-sales .col-invoiced,
+.adminhtml-report-sales-sales .col-refunded,
+.adminhtml-report-sales-sales .col-sales-tax,
+.adminhtml-report-sales-sales .col-sales-shipping,
+.adminhtml-report-sales-sales .col-sales-discount,
+.adminhtml-report-sales-sales .col-canceled {
+    text-align: right;
+    width: 11%;
+}
+
+/*
+    Reports - Coupons
+-------------------------------------- */
+/* TODO: re-check styles for coupons table after coupons functionality will have been repaired */
+.adminhtml-report-sales-coupons .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-sales-coupons .col-sales,
+.adminhtml-report-sales-coupons .col-sales-discount,
+.adminhtml-report-sales-coupons .col-total-amount,
+.adminhtml-report-sales-coupons .col-subtotal,
+.adminhtml-report-sales-coupons .col-discount,
+.adminhtml-report-sales-coupons .col-total {
+    text-align: right;
+}
+
+/*
+    Reports - Customer Segments
+-------------------------------------- */
+
+.adminhtml-report-customer-customersegment-segment .col-id {
+    width: 35px;
+}
+
+.adminhtml-report-customer-customersegment-segment .col-status {
+    width: 65px;
+}
+
+.adminhtml-report-customer-customersegment-segment .col-qty {
+    white-space: nowrap;
+    width: 150px;
+}
+
+.adminhtml-report-customer-customersegment-segment .col-segment,
+.adminhtml-report-customer-customersegment-segment .col-website {
+    width: 35%;
+}
+
+.adminhtml-report-customer-customersegment-segment .col-select {
+    width: 45px;
+}
+
+/*
+    Reports - Low Stock
+-------------------------------------- */
+
+.adminhtml-report-product-lowstock .col-qty {
+    width: 10%;
+}
+
+.adminhtml-report-product-lowstock .col-product {
+    width: 60%;
+}
+
+.adminhtml-report-product-lowstock .col-sku {
+    width: 20%;
+}
+
+/*
+    Reports - PayPal Settlement Reports
+-------------------------------------- */
+
+.adminhtml-paypal-reports-index .col-amount,
+.adminhtml-paypal-reports-index .col-fee-amount {
+    text-align: right;
+}
+
+/*
     Clearfix
 -------------------------------------- */
 .images:before,

@@ -41,33 +41,36 @@ class Mage_Tag_Block_Adminhtml_Report_Customer_Grid extends Mage_Adminhtml_Block
     {
 
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('ID'),
-            'width'     => '50px',
-            'align'     =>'right',
-            'index'     =>'entity_id'
+            'header'            => Mage::helper('Mage_Tag_Helper_Data')->__('ID'),
+            'index'             => 'entity_id',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('First Name'),
-            'index'     =>'firstname'
+            'header'            => Mage::helper('Mage_Tag_Helper_Data')->__('First Name'),
+            'index'             => 'firstname',
+            'header_css_class'  => 'col-first-name',
+            'column_css_class'  => 'col-first-name'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Last Name'),
-            'index'     =>'lastname'
+            'header'            => Mage::helper('Mage_Tag_Helper_Data')->__('Last Name'),
+            'index'             => 'lastname',
+            'header_css_class'  => 'col-last-name',
+            'column_css_class'  => 'col-last-name'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Total Tags'),
-            'width'     =>'50px',
-            'align'     =>'right',
-            'index'     =>'taged'
+            'header'            => Mage::helper('Mage_Tag_Helper_Data')->__('Total Tags'),
+            'index'             => 'taged',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty',
         ));
 
         $this->addColumn('action',
             array(
                 'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Action'),
-                'width'     => '100%',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
@@ -83,6 +86,8 @@ class Mage_Tag_Block_Adminhtml_Report_Customer_Grid extends Mage_Adminhtml_Block
                 'filter'    => false,
                 'sortable'  => false,
                 'index'     => 'stores',
+                'header_css_class'  => 'col-actions',
+                'column_css_class'  => 'col-actions'
         ));
 
         $this->setFilterVisibility(false);

@@ -1190,8 +1190,7 @@ table .dropdown-menu li {
 }
 
 table tbody tr td:first-child input[type="checkbox"] {
-    margin-left: 5px;
-    margin-top: 0;
+    margin: 0;
 }
 
 table tbody tr:nth-child(odd) td,
@@ -2889,7 +2888,6 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid table td {
-    font-size: 14px;
     border: solid #c0bbaf;
     border-width: 0 1px 1px 0;
     padding: 10px 10px 5px;
@@ -2944,11 +2942,6 @@ table tbody tr:nth-child(odd):hover th {
 .grid tbody.odd tr.border td,
 .grid tbody.even tr.border td {
     border-bottom: 1px solid #dadfe0;
-}
-
-[id$='Grid'] {
-    font-family: 'CallunaSans';
-    font-weight: 400;
 }
 
 /*
@@ -3310,7 +3303,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid table.border tfoot tr td {
-    background: #d7e5ef;
+    background: #656156;
 }
 
 /* Dynamic Grid */
@@ -3349,13 +3342,6 @@ tr.dynamic-grid input.input-text {
 
 .categories-side-col {
     padding: 0 3%;
-}
-
-/*
-    Table columns styles
--------------------------------------- */
-.col-no-records {
-    text-align: center;
 }
 
 /*
@@ -3485,23 +3471,32 @@ tr.dynamic-grid input.input-text {
 .col-name,
 .col-sku,
 .col-color,
-.col-size {
+.col-size,
+.col-product,
+.col-comment {
     text-align: left;
 }
 
 /* center */
 .col-include,
+.col-price,
 .col-display,
 .col-image,
 .col-price,
-.col-change-price {
+.col-change-price
+.col-no-records,
+.col-select {
     text-align: center;
 }
 
 /* right */
 .col-qty,
 .col-weight,
-.col-actions {
+.col-actions,
+.col-price,
+.col-id,
+.col-total,
+.col-average {
     text-align: right;
 }
 
@@ -3717,3 +3712,4 @@ tr.dynamic-grid input.input-text {
 .grid-actions:after,
 .fieldset-wrapper-title:after {
     clear: both;
+}
