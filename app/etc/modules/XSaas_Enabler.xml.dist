@@ -14,5 +14,7 @@
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
         <Saas_PrintedTemplate><active>true</active></Saas_PrintedTemplate>
         <Saas_PageCache><active>true</active></Saas_PageCache>
+        <Saas_Saas><active>true</active></Saas_Saas>
+        <Saas_Core><active>true</active></Saas_Core>
     </modules>
 </config>

@@ -47,7 +47,7 @@ class Saas_PageCache_Model_RequestProcessor_Maintenance implements Enterprise_Pa
     }
 
     /**
-     * Apply custom logic after content extraction
+     * Apply custom logic FPC content extraction
      *
      * @param Zend_Controller_Request_Http $request
      * @param Zend_Controller_Response_Http $response
