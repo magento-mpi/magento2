@@ -49,6 +49,28 @@ class Core_Mage_StoreLauncher_StoreInfo_TileTest extends Mage_Selenium_TestCase
      */
     public function designOfTileIsChangedAfterMouseNavigation()
     {
-        $this->markTestSkipped('TODO');
+        /**
+         * @var Core_Mage_StoreLauncher_Helper $helper
+         */
+        $helper = $this->storeLauncherHelper();
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $tileElement
+         */
+        $tileXpath = $this->_getControlXpath('fieldset', 'bussines_info_tile');
+        $tileElement = $this->getElement($tileXpath);
+        $style = $helper->getTileBgColor($tileElement);
+        $this->assertNotEmpty($style, 'Could not get Tile style');
+        //Mouse over
+        $this->moveto($tileElement);
+        $mouseOverStyle = $helper->getTileBgColor($tileElement);
+        $this->assertNotEmpty($mouseOverStyle, 'Could not get Tile style');
+        $this->assertNotEquals($style, $mouseOverStyle, 'Style is not changed on mouse over');
+        //Tile can be selected
+        $this->refresh();
+        $tileElement = $this->getElement($tileXpath);
+        $tileElement->click();
+        $tileSelectedStyle = $helper->getTileBgColor($tileElement);
+        $this->assertNotEmpty($tileSelectedStyle, 'Could not get Tile style');
+        $this->assertNotEquals($style, $tileSelectedStyle, 'Style is not changed after mouse click');
     }
 }

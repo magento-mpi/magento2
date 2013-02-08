@@ -18,33 +18,34 @@ store_launcher:
             fieldsets:
                 -
                     store_launcher:
-                        xpath: //section[@id='store-launcher']
+                        xpath: //section[@class='store-launcher']
                 -
                     common_tile:
                         xpath:
                         buttons:
-                            open_drawer: //button[@class='button drawer-open']
+                            open_drawer: //div[@class='tile-teaser']//button[@class='action-open-drawer']
+                            edit_drawer: //div[@class='tile-done']//button[@class='action-open-drawer']
                 -
                     bussines_info_tile:
-                        xpath: //article[@id='article-business_info']
+                        xpath: //article[@id='tile-business_info']
                         buttons:
                             confirm_info: //button[normalize-space()='Confirm Info']
                             edit_store_info: //button[normalize-space()='Edit Store Info']
                         pageelements:
                             title: //h2
-                            text: //div[@class='create']//p
-                            complete_state_text: //div[@class='completed']//p[text()='%addressData%']
+                            text: //div[@class='tile-teaser']//p
+                            complete_state_text: //div[@class='tile-done' and contains(., '%addressData%')]
                 -
                     common_drawer:
                         xpath: //div[@id='drawer']
                         buttons:
-                            close_drawer: //span[@class='btn-close']
-                            save_my_settings: //button[@class='button button-special button-save-settins']
+                            close_drawer: //button[@class='action-close-drawer']
+                            save_my_settings: //button[@class='action-save-settings primary']
                         pageelements:
-                            drawer_footer: //footer[@class='drawer-footer']
+                            drawer_footer: //footer[@class='drawer-footer' and contains(@style, 'bottom: 0px')]
                 -
                     bussines_info_drawer_form:
-                        xpath: //div[@class='content']//form[normalize-space(div/h4)='Store Info']
+                        xpath: //section[@class='drawer-content']//form[@class='store-info-form']
                         fields:
                             store_name: //input[@id='store_name']
                             store_contact_email: //input[@id='store_email']
@@ -55,7 +56,6 @@ store_launcher:
                             store_zip:  //input[@id='postcode']
                             billing_vat_number: //input[@id='vat_number']
                             store_state_region_field: //input[@id='region_id']
-                            sender_email_general: //input[@id='sender_email_general']
                             sales_sender_email: //input[@id='sender_email_representative']
                             customer_support_sender_email: //input[@id='sender_email_support']
                             custom1_sender_email: //input[@id='sender_email_custom1']
@@ -68,8 +68,8 @@ store_launcher:
                             vat_number_is_valid: //button[span='VAT Number is Valid']
                             vat_number_is_invalid: //button[span='VAT Number is Invalid']
                         pageelements:
-                            add_store_email_addressess: //h3[@id='advanced_block_title']
-                            additional_content: //div[@id='advanced_block_content']
+                            add_store_email_addressess: //details[@id='detailsstore_info']/summary
+                            additional_content: //div[@id='details-contentstore_info']
 
 
 
