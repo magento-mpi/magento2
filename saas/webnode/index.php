@@ -40,14 +40,14 @@ try {
             }
 
             readfile($robotsFile);
-            exit();
+        } else {
+            // turn magento API logging on
+            include_once __DIR__ . '/apiLog.php';
+
+            $indexFile = $magentoDir
+                . (file_exists($magentoDir . '/index_saas.php') ? '/index_saas.php' : '/index.php');
+            require $indexFile;
         }
-
-        // turn magento API logging on
-        include_once __DIR__ . '/apiLog.php';
-
-        $indexFile = $magentoDir . (file_exists($magentoDir . '/index_saas.php') ? '/index_saas.php' : '/index.php');
-        require $indexFile;
     } else {
         /** @var $appEntryPoint callback */
         $appEntryPoint = require $magentoDir . '/saas.php';
@@ -57,10 +57,8 @@ try {
 
 } catch (Saas_Db_WrongTenantException $e) {
     header('Location: ' . SAAS_WEBNODE_NO_TENANT_LINK, true, 302);
-    exit;
 } catch (Exception $e) {
     header("{$_SERVER['SERVER_PROTOCOL']} 503 Service Temporarily Unavailable", true, 503);
     include(__DIR__ . '/static/maintenance.html');
     trigger_error("{$e->getMessage()}\n{$e->getTraceAsString()}", E_USER_ERROR);
-    exit;
 }

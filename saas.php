@@ -9,7 +9,7 @@
  */
 
 /**
- * Run application based on invariant configuration string
+ * Run application based on invariant configuration array
  *
  * Both "SaaS entry point" and this "Application entry point" have a convention:
  * API consists of one and only one array argument.
@@ -36,7 +36,7 @@ return function (array $appConfigArray) {
         }
 
         readfile($robotsFile);
-        exit();
+        return;
     }
 
     $resultArray = array(

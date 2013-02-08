@@ -19,7 +19,7 @@ class Saas_Saas_Model_Tenant
     /**
      * Config model
      *
-     * @var Saas_Saas_Model_Tenant_Config
+     * @var Varien_Simplexml_Config
      */
     protected $_config;
 
@@ -44,8 +44,8 @@ class Saas_Saas_Model_Tenant
      */
     public function __construct(array $configArray)
     {
-        $this->_config = new Saas_Saas_Model_Tenant_Config();
         $this->_configArray = $configArray;
+        $this->_config = $this->_mergeConfig(array($this->_getLocalConfig(), $this->_getModulesConfig()));
     }
 
     /**
@@ -55,25 +55,64 @@ class Saas_Saas_Model_Tenant
      */
     public function getConfigString()
     {
-        return $this->_config->merge(array($this->_configArray['local'], $this->getTenantModules()))->getXmlString();
+        return $this->_config->getXmlString();
     }
 
     /**
-     * Legacy logic.
+     * Merges all Varien_Simplexml_Config objects into one
+     *
+     * @param array $arrayOfConfigs
+     * @return Varien_Simplexml_Config
+     */
+    private function _mergeConfig(array $arrayOfConfigs)
+    {
+        $mergedConfig = null;
+        foreach ($arrayOfConfigs as $config) {
+            if ($config instanceof Varien_Simplexml_Config) {
+                if (is_null($mergedConfig)) {
+                    $mergedConfig = $config;
+                } else {
+                    $mergedConfig->extend($config);
+                }
+            }
+        }
+        return $mergedConfig;
+    }
+
+    /**
+     * Get Config object, containing data from 'local' configuration element
+     *
+     * @return Varien_Simplexml_Config
+     * @throws Exception
+     */
+    private function _getLocalConfig()
+    {
+        $config = new Varien_Simplexml_Config();
+        if (!array_key_exists('local', $this->_configArray)) {
+            throw new Exception('Local Configuration does not exist');
+        }
+        $config->loadString($this->_configArray['local']);
+        return $config;
+    }
+
+    /**
+     * Get Config object, containing data from 'modules' configuration element
+     *
+     * Contains Legacy logic.
      * Only if modules are enabled in tenantModules or groupModules node, they can be affected by modules node
      *
-     * @return string
+     * @return Varien_Simplexml_Config
      */
-    public function getTenantModules()
+    private function _getModulesConfig()
     {
-        /**
-         * Contains all modules that might be turned on or off
-         */
-        $availableModules = $this->_getAvailableModules();
-
         $allModulesConfig = new Varien_Simplexml_Config();
 
         if ($this->_configArray['modules']) {
+            /**
+             * Contains all modules that might be turned on or off
+             */
+            $availableModules = $this->_getAvailableModules();
+
             $allModulesConfig->loadString($this->_configArray['modules']);
             if (isset($allModulesConfig->getNode()->modules)) {
                 //Remove selected modules that not available to change
@@ -85,7 +124,7 @@ class Saas_Saas_Model_Tenant
             }
         }
 
-        return $allModulesConfig->getXmlString();
+        return $allModulesConfig;
     }
 
     /**
@@ -93,13 +132,12 @@ class Saas_Saas_Model_Tenant
      *
      * @return array
      */
-    protected function _getAvailableModules()
+    private function _getAvailableModules()
     {
         $modulesArray = array();
         foreach (array('groupModules', 'tenantModules') as $node) {
             if (array_key_exists($node, $this->_configArray)) {
-                $modulesArray =
-                    array_merge($modulesArray, $this->_config->loadModulesFromString($this->_configArray[$node]));
+                $modulesArray = array_merge($modulesArray, self::_loadModulesFromString($this->_configArray[$node]));
             }
         }
 
@@ -118,6 +156,27 @@ class Saas_Saas_Model_Tenant
     }
 
     /**
+     * Load modules data as array from specific xml string
+     *
+     * @param  string $xmlString
+     * @return array
+     */
+    private static function _loadModulesFromString($xmlString)
+    {
+        $nodeModulesConfig = new Varien_Simplexml_Config();
+        $nodeModules = array();
+
+        $nodeModulesConfig->loadString($xmlString);
+        if ($nodeModulesConfig->getNode('modules')) {
+            $nodeModules = $nodeModulesConfig->getNode('modules')->asArray();
+            if (!is_array($nodeModules)) {
+                $nodeModules = array();
+            }
+        }
+        return $nodeModules;
+    }
+
+    /**
      * Get relative tenant's media dir
      *
      * @return string
@@ -125,8 +184,7 @@ class Saas_Saas_Model_Tenant
     public function getMediaDir()
     {
         if (is_null($this->_mediaDir)) {
-            $node = new SimpleXMLElement($this->_configArray['local']);
-            $this->_mediaDir = (string)$node->global->web->dir->media;
+            $this->_mediaDir = (string)$this->_config->getNode('global/web/dir/media');
         }
         return $this->_mediaDir;
     }

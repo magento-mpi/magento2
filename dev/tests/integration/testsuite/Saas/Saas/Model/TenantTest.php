@@ -11,18 +11,20 @@
 
 class Saas_Saas_Model_TenantTest extends PHPUnit_Framework_TestCase
 {
+    protected $_xmlStart = '<?xml version="1.0" encoding="utf-8" ?>';
+    protected $_xmlSaasOn = '<modules><Saas><active>true</active></Saas></modules>';
+
     public function testGetConfigString()
     {
-        $xmlStart = '<?xml version="1.0" encoding="utf-8" ?>';
         $xmlSaasOn = '<modules><Saas><active>true</active></Saas></modules>';
         $xmlLocal = '<global><fast_storage><mongodb>1</mongodb></fast_storage></global>';
         $xmlWrong = '<wrongnode/>';
 
         $configData = array(
-            'local' => $xmlStart . '<config>' . $xmlLocal . '</config>',
-            'modules' => $xmlStart . '<config>' . $xmlSaasOn . '</config>',
-            'tenantModules' => $xmlStart . '<config>' . $xmlSaasOn . '</config>',
-            'wrongNodeName' => $xmlStart . '<config>' . $xmlWrong . '</config>',
+            'local' => $this->_xmlStart . '<config>' . $xmlLocal . '</config>',
+            'modules' => $this->_xmlStart . '<config>' . $xmlSaasOn . '</config>',
+            'tenantModules' => $this->_xmlStart . '<config>' . $xmlSaasOn . '</config>',
+            'wrongNodeName' => $this->_xmlStart . '<config>' . $xmlWrong . '</config>',
         );
         $tenant = new Saas_Saas_Model_Tenant($configData);
         $value = $tenant->getConfigString();
@@ -32,12 +34,34 @@ class Saas_Saas_Model_TenantTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Local Configuration does not exist
+     */
+    public function testGetLocalConfigException()
+    {
+        $configData = array(
+            'modules' => $this->_xmlStart . '<config/>',
+            'tenantModules' => $this->_xmlStart . '<config/>',
+            'wrongNodeName' => $this->_xmlStart . '<config/>',
+        );
+        $tenant = new Saas_Saas_Model_Tenant($configData);
+        $tenant->getConfigString();
+    }
+
+    /**
      * @dataProvider getModulesDataProvider
      */
-    public function testGetTenantModules($configData, $expectedResult)
+    public function testGetTenantModules($modulesData, $expectedResult)
     {
+        $configData = array(
+            'local' => $this->_xmlStart . '<config/>',
+            'modules' => $modulesData['modules'],
+            'tenantModules' => isset($modulesData['tenantModules']) ? $modulesData['tenantModules'] : null,
+            'groupModules' => isset($modulesData['groupModules']) ? $modulesData['groupModules'] : null,
+        );
+
         $tenant = new Saas_Saas_Model_Tenant($configData);
-        $this->assertXmlStringEqualsXmlString($tenant->getTenantModules(), $expectedResult);
+        $this->assertXmlStringEqualsXmlString($tenant->getConfigString(), $expectedResult);
     }
 
     public function getModulesDataProvider()
@@ -111,10 +135,14 @@ class Saas_Saas_Model_TenantTest extends PHPUnit_Framework_TestCase
     public function testGetMediaDirGetVarDir()
     {
         $mediaDir = 'mediadir';
-        $tenant = new Saas_Saas_Model_Tenant(
-            array('local' => '<?xml version="1.0" encoding="utf-8" ?><config><global><web><dir><media>'
-                    . $mediaDir . '</media></dir></web></global></config>')
+        $configData = array(
+            'local' => $this->_xmlStart . '<config><global><web><dir><media>'
+                                . $mediaDir . '</media></dir></web></global></config>',
+            'modules' => $this->_xmlStart . '<config></config>',
+            'tenantModules' => $this->_xmlStart . '<config></config>'
         );
+
+        $tenant = new Saas_Saas_Model_Tenant($configData);
         $this->assertEquals($tenant->getMediaDir(), $mediaDir);
         $this->assertEquals($tenant->getVarDir(), $mediaDir); //yes, there is no specific var dir
     }
