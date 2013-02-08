@@ -162,7 +162,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             return null;
         }
 
-        $this->_app->getConfig()->loadDiConfiguration($this->_areaCode);
+        $this->_app->loadAreaPart($this->_areaCode, Mage_Core_Model_App_Area::PART_CONFIG);
 
         return $this->_matchController($request, $params);
     }

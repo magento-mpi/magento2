@@ -139,23 +139,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'    => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price'
-            ),
-            'weight'   => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight'
-            ),
-            'gallery'  => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery'
-            ),
-            'image'    => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image'
-            ),
-            'boolean'  => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean'),
-            'textarea' => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg'
-            )
+            'price'    => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price',
+            'weight'   => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight',
+            'gallery'  => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery',
+            'image'    => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image',
+            'boolean'  => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean',
+            'textarea' => 'Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg',
         );
 
         $response = new Varien_Object();

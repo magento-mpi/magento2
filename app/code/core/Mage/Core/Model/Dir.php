@@ -83,6 +83,11 @@ class Mage_Core_Model_Dir
     const LOG = 'log';
 
     /**
+     * Theme customization files
+     */
+    const THEME = 'theme';
+
+    /**
      * File system session directory (if file system session storage is used)
      */
     const SESSION = 'session';
@@ -116,6 +121,7 @@ class Mage_Core_Model_Dir
         self::PUB_LIB => 'pub/lib',
         self::MEDIA   => 'pub/media',
         self::UPLOAD  => 'pub/media/upload',
+        self::THEME   => 'pub/media/theme'
     );
 
     /**
@@ -154,10 +160,11 @@ class Mage_Core_Model_Dir
      * Initialize URIs and paths
      *
      * @param string $baseDir
+     * @param Varien_Io_File $fileSystem
      * @param array $uris custom URIs
      * @param array $dirs custom directories (full system paths)
      */
-    public function __construct($baseDir, array $uris = array(), array $dirs = array())
+    public function __construct($baseDir, Varien_Io_File $fileSystem, array $uris = array(), array $dirs = array())
     {
         // uris
         foreach (array_keys($this->_uris) as $code) {
@@ -179,6 +186,23 @@ class Mage_Core_Model_Dir
         }
         foreach ($this->_getDefaultReplacements($dirs) as $code => $replacement) {
             $this->_setDir($code, $replacement);
+        }
+
+        $this->_createFolders($fileSystem);
+    }
+
+    /**
+     * Create application folders if they don't exist
+     *
+     * @param Varien_Io_File $fileSystem
+     */
+    protected function _createFolders(Varien_Io_File $fileSystem)
+    {
+        foreach (self::getWritableDirCodes() as $code) {
+            $path = $this->getDir($code);
+            if ($path) {
+                $fileSystem->checkAndCreateFolder($path);
+            }
         }
     }
 

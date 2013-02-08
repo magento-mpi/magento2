@@ -32,6 +32,13 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected $_config;
 
     /**
+     * Resource configuration
+     *
+     * @var Mage_Core_Model_Config_Resource
+     */
+    protected $_resourceConfig;
+
+    /**
      * @var Mage_Core_Model_Dir
      */
     protected $_dirs;
@@ -44,20 +51,21 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected $_filesystem;
 
     /**
-     * Inject dependencies on config and directories
-     *
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-            Mage_Core_Model_Config $config,
-            Mage_Core_Model_Dir $dirs,
-            Magento_Filesystem $filesystem
+        Mage_Core_Model_Config $config, 
+        Mage_Core_Model_Dir $dirs, 
+        Mage_Core_Model_Config_Resource $resourceConfig,
+        Magento_Filesystem $filesystem
     ) {
         $this->_localConfigFile = $dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
-        $this->_config = $config;
         $this->_dirs = $dirs;
+        $this->_config = $config;
+        $this->_resourceConfig = $resourceConfig;
         $this->_filesystem = $filesystem;
     }
 
@@ -144,7 +152,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $baseSecureUrl = $uri->getUri();
         }
 
-        $connectDefault = $this->_config
+        $connectDefault = $this->_resourceConfig
                 ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
 
         $data = new Varien_Object();
@@ -222,21 +230,18 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         return null;
     }
 
-    public function replaceTmpInstallDate($date = null)
+    public function replaceTmpInstallDate($date = 'now')
     {
         $stamp    = strtotime((string) $date);
         $localXml = $this->_filesystem->read($this->_localConfigFile);
-        $localXml = str_replace(self::TMP_INSTALL_DATE_VALUE, date('r', $stamp ? $stamp : time()), $localXml);
+        $localXml = str_replace(self::TMP_INSTALL_DATE_VALUE, date('r', $stamp), $localXml);
         $this->_filesystem->write($this->_localConfigFile, $localXml);
 
         return $this;
     }
 
-    public function replaceTmpEncryptKey($key = null)
+    public function replaceTmpEncryptKey($key)
     {
-        if (!$key) {
-            $key = md5(Mage::helper('Mage_Core_Helper_Data')->getRandomString(10));
-        }
         $localXml = $this->_filesystem->read($this->_localConfigFile);
         $localXml = str_replace(self::TMP_ENCRYPT_KEY_VALUE, $key, $localXml);
         $this->_filesystem->write($this->_localConfigFile, $localXml);

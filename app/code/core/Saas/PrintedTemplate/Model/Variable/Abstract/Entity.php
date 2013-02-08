@@ -18,7 +18,7 @@
 class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTemplate_Model_Variable_Abstract
 {
     /**
-     * Key of value property for caching wraped taxes
+     * Key of value property for caching wrapped taxes
      *
      * @var string
      */
@@ -39,9 +39,9 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
     protected $_locale;
 
     /**
-     * Formats currency using order formater
+     * Formats currency using order formatter
      *
-     * @param float
+     * @param float $value
      * @return string
      */
     public function formatCurrency($value)
@@ -83,7 +83,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
      * Get variable item model
      *
      * @param mixed $arguments Arguments for model initialization
-     *
+     * @return false|Mage_Core_Model_Abstract
      */
     protected function _getVariableItemModel($arguments)
     {
@@ -188,13 +188,23 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
     }
 
     /**
+     * Get tax compound id model
+     * @return Saas_PrintedTemplate_Model_Tax_CompoundId
+     */
+    protected function _getTaxCompoundIdModel()
+    {
+        return Mage::getModel('Saas_PrintedTemplate_Model_Tax_CompoundId');
+    }
+
+    /**
      * Returns taxes grouped by compound ID
      *
      * @return array Array of saas_printedtemplate/variable_tax
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getTaxesGroupedByCompoundId()
     {
-        // Build coumpound ID for each item, summirize, real percent and set tax
+        // Build compound ID for each item, summarize, real percent and set tax
         $itemInfo = array();
         foreach ($this->_getTaxCollections() as $taxes) {
             $prev = null;
@@ -202,7 +212,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
                 $id = $tax->getItemId();
                 if (!isset($itemInfo[$id])) {
                     $itemInfo[$id] = new Varien_Object(array(
-                        'compound_id'      => Mage::getModel('Saas_PrintedTemplate_Model_Tax_CompoundId'),
+                        'compound_id'      => $this->_getTaxCompoundIdModel(),
                         'tax_amount'       => $tax->getTaxAmount(),
                         'row_total'        => $tax->getRowTotal(),
                         'discount'         => $tax->getDiscountAmount(),
@@ -292,7 +302,8 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
      */
     protected function _getTaxCollections()
     {
-        if ($taxCollections = $this->_loadFromCache(self::TAXES_GROUPED_BY_PERCENT_CACHE_KEY)) {
+        $taxCollections = $this->_loadFromCache(self::TAXES_GROUPED_BY_PERCENT_CACHE_KEY);
+        if ($taxCollections) {
             return $taxCollections;
         }
 

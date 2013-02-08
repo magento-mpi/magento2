@@ -31,6 +31,7 @@ class Saas_PrintedTemplate_Model_Variable_AbstractTest extends PHPUnit_Framework
 
         $coreHelper = $this->getMockBuilder('Mage_Core_Helper_Data')
             ->setMethods(array('formatDate', 'formatCurrency'))
+            ->disableOriginalConstructor()
             ->getMock();
         $coreHelper->expects($this->any())
             ->method('formatDate')
@@ -39,6 +40,7 @@ class Saas_PrintedTemplate_Model_Variable_AbstractTest extends PHPUnit_Framework
             ->method('formatCurrency')
             ->will($this->returnValue('test_data'));
         $saasHelper = $this->getMockBuilder('Saas_PrintedTemplate_Helper_Data')
+            ->disableOriginalConstructor()
             ->setMethods(array('__'))
             ->getMock();
         $saasHelper->expects($this->any())

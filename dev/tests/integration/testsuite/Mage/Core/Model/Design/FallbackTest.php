@@ -16,7 +16,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        $dirs = new Mage_Core_Model_Dir(__DIR__);
+        $dirs = new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File());
         Mage::getObjectManager()->create(
             'Mage_Core_Model_Design_Fallback',
             array(
@@ -34,12 +34,16 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     public function testGetters()
     {
         $theme = 't';
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('getThemeCode'), array(), '', false);
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('getId', 'getThemePath'), array(), '', false);
         $themeModel->expects($this->any())
-            ->method('getThemeCode')
+            ->method('getId')
+            ->will($this->returnValue(false));
+
+        $themeModel->expects($this->any())
+            ->method('getThemePath')
             ->will($this->returnValue($theme));
 
-        $dirs = new Mage_Core_Model_Dir(__DIR__);
+        $dirs = new Mage_Core_Model_Dir(__DIR__, $this->getMock('Varien_Io_File'));
         $stub = array(
             'themeConfig' => 'stub',
             'area' => 'a',
@@ -71,7 +75,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
         // Prepare config with directories
         $baseDir = dirname(__DIR__) . DIRECTORY_SEPARATOR .  '_files' . DIRECTORY_SEPARATOR . 'fallback';
         $viewDir = $baseDir . DIRECTORY_SEPARATOR . 'design';
-        $dirs = new Mage_Core_Model_Dir($baseDir, array(), array(Mage_Core_Model_Dir::THEMES => $viewDir));
+        $dirs = new Mage_Core_Model_Dir(
+            $baseDir, $this->getMock('Varien_Io_File'), array(), array(Mage_Core_Model_Dir::THEMES => $viewDir)
+        );
 
         /** @var $collection Mage_Core_Model_Theme_Collection */
         $collection = Mage::getModel('Mage_Core_Model_Theme_Collection');
@@ -305,12 +311,12 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'general modular skin file' => array(
                 'fixture_script.js', 'frontend', 'package/custom_theme2', 'en_US',
                 'Fixture_Module',
-                "%s/frontend/package/custom_theme2/Fixture_Module/fixture_script.js",
+                "%s/frontend/package/custom_theme2/fixture_script.js",
             ),
             'localized modular skin file' => array(
                 'fixture_script.js', 'frontend', 'package/custom_theme2', 'ru_RU',
                 'Fixture_Module',
-                "%s/frontend/package/custom_theme2/locale/ru_RU/Fixture_Module/fixture_script.js",
+                "%s/frontend/package/custom_theme2/locale/ru_RU/fixture_script.js",
             ),
         );
     }

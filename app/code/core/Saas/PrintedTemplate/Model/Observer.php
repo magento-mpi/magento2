@@ -53,6 +53,7 @@ class Saas_PrintedTemplate_Model_Observer
      * Save order detailed tax information on event sales_order_save_after
      *
      * @param Varien_Event_Observer $observer
+     * @return Saas_PrintedTemplate_Model_Observer
      */
     public function saveOrderTaxDetails(Varien_Event_Observer $observer)
     {
@@ -101,11 +102,11 @@ class Saas_PrintedTemplate_Model_Observer
     public function removeWidgetsFromWysiwyg(Varien_Event_Observer $observer)
     {
         $config = $observer->getEvent()->getConfig();
-        $skipPrintedTemplateWidgets = true;
+        $skipTemplate = true;
         if ($config->hasSkipPrintedTemplateWidgets()) {
-            $skipPrintedTemplateWidgets = $config->getSkipPrintedTemplateWidgets();
+            $skipTemplate = $config->getSkipPrintedTemplateWidgets();
         }
-        if ($skipPrintedTemplateWidgets) {
+        if ($skipTemplate) {
             $this->_addWidgetsToSkip($this->_widgetsToSkip, $config);
         } else {
             $this->_addWidgetsToSkip($this->_widgetsToRemove, $config);
@@ -117,28 +118,24 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Add observer to specific event
      *
-     * @param type $area
-     * @param type $eventName
-     * @param type $observerName
-     * @param type $observerClass
-     * @param type $observerMethod
+     * @param string $area
+     * @param string $eventName
+     * @param string $observerName
+     * @param string $observerClass
+     * @param string $observerMethod
      * @return Saas_PrintedTemplate_Model_Observer
      */
     protected function _addObserver($area, $eventName, $observerName, $observerClass, $observerMethod)
     {
-        $eventConfig = Mage::getConfig()->getEventConfig($area, $eventName);
-        if (!$eventConfig) {
-            $eventConfig = Mage::getConfig()->getNode($area)->events->addChild($eventName);
-        }
-        if (isset($eventConfig->observers)) {
-            $eventObservers = $eventConfig->observers;
-        } else {
-            $eventObservers = $eventConfig->addChild('observers');
-        }
-        $observer = $eventObservers->addChild($observerName);
-        $observer->addChild('class', $observerClass);
-        $observer->addChild('method', $observerMethod);
-
+        /** @var $eventManager Mage_Core_Model_Event_Manager */
+        $eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        $eventManager->addObservers($area, $eventName, array(
+            $observerName => array(
+                'type' => 'model',
+                'model' => $observerClass,
+                'method' => $observerMethod
+            )
+        ));
         return $this;
     }
 
@@ -146,10 +143,9 @@ class Saas_PrintedTemplate_Model_Observer
      * Dynamically add adminhtml_block_html_before event observer for adminhtml_widget_instance_edit action
      * observes controller_action_predispatch_adminhtml_widget_instance_edit event
      *
-     * @param Varien_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    public function addWidgetInstanceFormBlockRenderingObserver(Varien_Event_Observer $observer)
+    public function addWidgetInstanceFormBlockRenderingObserver()
     {
         $this->_addObserver('adminhtml',
             'adminhtml_block_html_before',
@@ -166,6 +162,7 @@ class Saas_PrintedTemplate_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function removeWidgetsFromWidgetInstanceForm(Varien_Event_Observer $observer)
     {
@@ -207,10 +204,9 @@ class Saas_PrintedTemplate_Model_Observer
      * Dynamically add adminhtml_block_html_before event observer for adminhtml_widget_instance_index action
      * observes controller_action_predispatch_adminhtml_widget_instance_index event
      *
-     * @param Varien_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    public function addWidgetInstanceGridBlockRenderingObserver(Varien_Event_Observer $observer)
+    public function addWidgetInstanceGridBlockRenderingObserver()
     {
         $this->_addObserver('adminhtml',
             'adminhtml_block_html_before',
@@ -261,6 +257,7 @@ class Saas_PrintedTemplate_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function updatePrintTemplateAction(Varien_Event_Observer $observer)
     {
@@ -310,7 +307,7 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Replace massaction item URL in the grid block
      *
-     * @param Mage_Adminhtml_Block_Widget_Grid $block grid block
+     * @param Mage_Adminhtml_Block_Widget_Grid|Mage_Backend_Block_Widget_Grid $block grid block
      * @param string $itemName the name of mass action item
      * @param string $type entity type
      * @return Saas_PrintedTemplate_Model_Observer

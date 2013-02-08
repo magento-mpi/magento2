@@ -128,18 +128,18 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
-     * @param string $areaCode
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        $areaCode = null,
+        Mage_Core_Controller_Response_Http $response,        
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory
+        Mage_Core_Model_Layout_Factory $layoutFactory,
+        $areaCode = null
     ) {
         parent::__construct($request, $response, $areaCode);
 
@@ -517,19 +517,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     {
         $area = Mage::app()->getArea($this->getLayout()->getArea());
         $area->load();
-        $this->_initDefaultTheme();
         $area->detectDesign($this->getRequest());
-        return $this;
-    }
-
-    /**
-     * Initialize theme
-     *
-     * @return Mage_Core_Controller_Varien_Action
-     */
-    protected function _initDefaultTheme()
-    {
-        Mage::getDesign()->setDefaultDesignTheme();
         return $this;
     }
 
