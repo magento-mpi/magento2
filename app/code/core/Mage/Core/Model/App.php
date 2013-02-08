@@ -525,39 +525,16 @@ class Mage_Core_Model_App
         $options = $this->_config->getNode(self::XML_PATH_CACHE);
         if ($options) {
             $options = $options->asArray();
+        } else {
+            $options = array();
         }
-        $options = $options ?: array();
         $options = array_merge($options, $cacheInitOptions);
-        $this->_caches[self::DEFAULT_CACHE_ID] = $this->_initCacheInstance($options);
+        $this->_caches[self::DEFAULT_CACHE_ID] = $this->_objectManager->create('Mage_Core_Model_Cache',
+            array('options' => $options), false);
         $this->_objectManager->addSharedInstance($this->_caches[self::DEFAULT_CACHE_ID], 'Mage_Core_Model_Cache');
-
-        // Init custom cache instances
-        $instances = $this->_config->getXpath(self::XML_PATH_CACHE_ADVANCED_INSTANCES . '/*');
-        if ($instances) {
-            foreach ($instances as $instanceNode) {
-                /** @var $instanceNode Mage_Core_Model_Config_Element */
-                $instanceId = $instanceNode->getName();
-                if ($instanceId == self::DEFAULT_CACHE_ID) {
-                    throw new Magento_Exception("Additional cache may not have identifier {$instanceId}");
-                }
-                $options = $instanceNode->asArray() ?: array();
-                $options = array_merge($options, $cacheInitOptions);
-                $this->_caches[$instanceId] = $this->_initCacheInstance($options);
-            }
-        }
 
         $this->_isCacheLocked = false;
         return $this;
-    }
-
-    /**
-     * Init cache instance according to the provided options
-     *
-     * @return Mage_Core_Model_Cache
-     */
-    protected function _initCacheInstance($options)
-    {
-        return $this->_objectManager->create('Mage_Core_Model_Cache', array('options' => $options), false);
     }
 
     /**
@@ -1321,12 +1298,18 @@ class Mage_Core_Model_App
      */
     public function getCacheInstance($instanceId = null)
     {
+        $instanceId = $instanceId ?: self::DEFAULT_CACHE_ID;
         if (!$this->_caches) {
             $this->_initCache();
         }
-        $instanceId = $instanceId ?: self::DEFAULT_CACHE_ID;
         if (!isset($this->_caches[$instanceId])) {
-            throw new Magento_Exception("Cache instance \"{$instanceId}\" is not defined");
+            $instanceNode = $this->_config->getNode(self::XML_PATH_CACHE_ADVANCED_INSTANCES . '/' . $instanceId);
+            if (!$instanceNode) {
+                throw new Magento_Exception("Cache instance \"{$instanceId}\" is not defined");
+            }
+            $options = $instanceNode->asArray() ?: array();
+            $this->_caches[$instanceId] = $this->_objectManager->create('Mage_Core_Model_Cache',
+                array('options' => $options), false);
         }
         return $this->_caches[$instanceId];
     }

@@ -297,6 +297,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         $cacheLoad = $this->loadModulesCache();
         if ($cacheLoad) {
+            $this->_loadLocalConfig();
             return $this;
         }
         $this->loadModules();
