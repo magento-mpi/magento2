@@ -210,7 +210,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     {
         $cacheId = 'test';
         $this->_model->save('test data', $cacheId);
-        $this->assertGreaterThan(0, $this->_model->test($cacheId), "Cache with id '$cacheId' has need been found");
+        $this->assertGreaterThan(0, $this->_model->test($cacheId), "Cache with id '$cacheId' has not been found");
         $this->_model->remove($cacheId);
         $this->assertFalse($this->_model->test($cacheId), "Cache with id '$cacheId' has not been removed");
     }
