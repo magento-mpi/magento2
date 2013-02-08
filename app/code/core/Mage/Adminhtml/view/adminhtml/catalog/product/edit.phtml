@@ -54,17 +54,17 @@
     <?php echo $this->getBlockHtml('formkey')?>
     <div id="product-edit-form-tabs"></div>
     <?php echo $this->getChildHtml('product-type-tabs') ?>
+    <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
 </form>
 <script type="text/javascript">
-    function checkMaxLength(Object, MaxLen)
-    {
-        if (Object.value.length > MaxLen-1) {
-            Object.value = Object.value.substr(0, MaxLen);
-        }
-        return 1;
-    }
 
 jQuery(function($) {
+    $('#meta_description').on('change keyup paste', function () {
+        var maxLength = $(this).data('maxLength') || 255;
+        if ($(this).val().length >= maxLength) {
+            $(this).val($(this).val().substr(0, maxLength));
+        }
+    });
     $('#product-edit-form')
         .mage('form')
         .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
