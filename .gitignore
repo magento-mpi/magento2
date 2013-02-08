@@ -25,9 +25,9 @@ atlassian*
 /lib/flex/varien/.flexLibProperties
 /lib/flex/varien/.project
 /lib/flex/varien/.settings
-/pub/media/catalog/*
+/pub/media/*
 /pub/media/customer/*
 /pub/media/downloadable/*
-/pub/media/theme/static/*
-/pub/media/tmp/*
+/pub/media/theme/*
+/pub/media/theme/customization/*
 /var/*
