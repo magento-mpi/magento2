@@ -8,49 +8,6 @@
  */
 
 /*
-Fonts
--------------------------------------- */
-@font-face {
-    font-family: 'CallunaSans';
-    src: url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansLight-webfont.woff');
-    src: url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansLight-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansLight-webfont.svg#webfont85gDAx2H') format('svg'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansLight-webfont.woff') format('woff'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansLight-webfont.ttf') format('truetype');
-    font-style: normal;
-    font-weight: 200;
-}
-
-@font-face {
-    font-family: 'CallunaSans';
-    src: url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansRegular-webfont.woff');
-    src: url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansRegular-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansRegular-webfont.svg#webfont85gDAx2D') format('svg'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansRegular-webfont.woff') format('woff'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansRegular-webfont.ttf') format('truetype');
-    font-style: normal;
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: 'CallunaSans';
-    src: url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansSemiBold-webfont.woff');
-    src: url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansSemiBold-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansSemiBold-webfont.svg#webfont85gDAx2A') format('svg'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansSemiBold-webfont.woff') format('woff'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansSemiBold-webfont.ttf') format('truetype');
-    font-style: normal;
-    font-weight: 500;
-}
-
-@font-face {
-    font-family: 'CallunaSans';
-    src: url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansBold-webfont.woff');
-    src: url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansBold-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansBold-webfont.svg#webfont85gDAx2C') format('svg'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansBold-webfont.woff') format('woff'), url('Mage_DesignEditor::/css/fonts/calluna/CallunaSansBold-webfont.ttf') format('truetype');
-    font-style: normal;
-    font-weight: 600;
-}
-
-@font-face {
-    font-family: 'MUI-Icons';
-    src: url('Mage_DesignEditor::/css/fonts/MUI-Icons.eot');
-    src: url('Mage_DesignEditor::/css/fonts/MUI-Icons.eot?#iefix') format('embedded-opentype'), url('Mage_DesignEditor::/css/fonts/MUI-Icons.svg#MUI-Icons') format('svg'), url('Mage_DesignEditor::/css/fonts/MUI-Icons.woff') format('woff'), url('Mage_DesignEditor::/css/fonts/MUI-Icons.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-/*
    Actions look like buttons
 -------------------------------------- */
 .action-theme-preview,
@@ -93,69 +50,12 @@ Fonts
     user-select: none;
 }
 
-.action-theme-preview:hover,
-.action-theme-assign:hover,
-.action-save:hover,
-#vde_toolbar_buttons .action-theme-assign,
-#vde_toolbar_buttons .action-theme-assign:visited,
-.popup .action-save,
-.popup .action-save:visited {
-    border: 1px solid #b6754a;
-    color: #fff;
-    text-decoration: none;
-    text-shadow: 0 -1px 1px rgba(1, 1, 1, 0.5);
-    background: #f4863e;
-    background: -moz-linear-gradient(top, #f4863e 0%, #e97d37 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4863e), color-stop(100%, #e97d37));
-    background: -webkit-linear-gradient(top, #f4863e 0%, #e97d37 100%);
-    background: -o-linear-gradient(top, #f4863e 0%, #e97d37 100%);
-    background: -ms-linear-gradient(top, #f4863e 0%, #e97d37 100%);
-    background: linear-gradient(to bottom, #f4863e 0%, #e97d37 100%);
-}
 
-.action-theme-preview:focus,
-.action-theme-assign:focus,
-.action-save:focus {
-    outline: thin dotted #333;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
-}
-
-.action-theme-preview:active,
-.action-theme-preview.active,
-.action-theme-assign:active,
-.action-theme-assign.active,
-.action-save:active,
-.action-save.active {
-    border: 1px solid #b6754a;
-    color: #fff;
-    text-decoration: none;
-    text-shadow: 0 -1px 1px rgba(1, 1, 1, 0.5);
-    background: #f4863e;
-    background: -moz-linear-gradient(top, #f4863e 0%, #e97d37 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4863e), color-stop(100%, #e97d37));
-    background: -webkit-linear-gradient(top, #f4863e 0%, #e97d37 100%);
-    background: -o-linear-gradient(top, #f4863e 0%, #e97d37 100%);
-    background: -ms-linear-gradient(top, #f4863e 0%, #e97d37 100%);
-    background: linear-gradient(to bottom, #f4863e 0%, #e97d37 100%);
-}
-
-.action-theme-preview[disabled],
-.action-theme-assign[disabled],
-.action-save[disabled] {
-    cursor: not-allowed;
-    background-color: #e6e6e6;
-    background-image: none;
-    opacity: 0.65;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-}
 
 /*
     Actions look like links
 -------------------------------------- */
-.popup .action-close {
+#store-view-window .action-close {
     background: none;
     border: none;
     color: #6d665e;
@@ -165,9 +65,9 @@ Fonts
     border-bottom: 1px solid #b5b3af;
 }
 
-.popup .action-close:hover {
+#store-view-window .action-close:hover {
     color: #000;
-    border-bottom-color: #000;
+    border-bottom: 1px solid #000;
 }
 
 /*
@@ -234,6 +134,8 @@ Fonts
     font-size: 13px;
     min-width: 440px;
     box-shadow: 0 2px 10px 0 #333;
+    border: 0;
+    border-radius: 0;
 }
 
 .fade .popup-header {
@@ -242,9 +144,10 @@ Fonts
     background: #f3efea;
 }
 
-.fade .popup-title {
+.fade .popup .popup-title {
     font: 20px/1 'CallunaSans', Arial, sans-serif;
     font-weight: 300;
+    padding-left: 0;
 }
 
 .fade .popup .actions {
@@ -321,54 +224,6 @@ Fonts
     Themes Tabs
 -------------------------------------- */
 /* TODO: remove after unified tabs implementation */
-#theme_selector_tabs {
-
-}
-
-#theme_selector_tabs .tabs-horiz {
-    margin: 0;
-    padding: 0;
-    background: none;
-    list-style: none;
-    border-bottom: 1px solid #ccc;
-}
-
-#theme_selector_tabs .tabs-horiz > li {
-    margin: 0 -1px -1px 0;
-    float: left;
-    background: #eaeaea;
-    background: -moz-linear-gradient(top, #eaeaea 0%, #dfdfdf 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eaeaea), color-stop(100%, #dfdfdf));
-    background: -webkit-linear-gradient(top, #eaeaea 0%, #dfdfdf 100%);
-    background: -o-linear-gradient(top, #eaeaea 0%, #dfdfdf 100%);
-    background: -ms-linear-gradient(top, #eaeaea 0%, #dfdfdf 100%);
-    background: linear-gradient(to bottom, #eaeaea 0%, #dfdfdf 100%);
-}
-
-#theme_selector_tabs .tabs-horiz > li:hover {
-    background: #dfdfdf;
-    background: -moz-linear-gradient(top, #dfdfdf 0%, #eaeaea 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dfdfdf), color-stop(100%, #eaeaea));
-    background: -webkit-linear-gradient(top, #dfdfdf 0%, #eaeaea 100%);
-    background: -o-linear-gradient(top, #dfdfdf 0%, #eaeaea 100%);
-    background: -ms-linear-gradient(top, #dfdfdf 0%, #eaeaea 100%);
-    background: linear-gradient(to bottom, #dfdfdf 0%, #eaeaea 100%);
-}
-
-#theme_selector_tabs .tabs-horiz > li a {
-    padding-right: 12px;
-    padding-left: 12px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    line-height: 18px;
-    border: 1px solid #ccc;
-    text-decoration: none;
-    color: #666;
-}
-
-#theme_selector_tabs .tabs-horiz .ui-tabs-active a {
-    border-bottom-color: #fff;
-}
 
 /*
     Themes Tabs Panel
@@ -401,8 +256,8 @@ Fonts
     padding: 40px 0 0;
 }
 
-.ie8 .theme {
-    margin-right: 3%;
+.eq-ie8 .theme {
+    margin-right: 3.33%;
 }
 
 @media screen and (min-width: 1280px) {
@@ -464,6 +319,7 @@ Fonts
 }
 
 .theme-title {
+    margin: 0;
     color: #f2ebde;
     font-family: 'CallunaSans', Arial, sans-serif;
     font-weight: 200;
@@ -487,13 +343,8 @@ Fonts
     white-space: nowrap;
 }
 
-.theme-data .action-theme-assign {
+.theme-data .actions [class^='action-'] {
     margin-left: 8px;
-}
-
-.theme-data .action-theme-assign span {
-    background: none;
-    padding-left: 4px;
 }
 
 .theme-data .action-theme-preview:hover,
@@ -508,12 +359,18 @@ Fonts
 }
 
 .theme-data .action-edit,
-.theme-data .action-delete {
-    color: #fff;
+.theme-data .action-delete,
+.theme-data .action-edit:active,
+.theme-data .action-delete:active {
+    background: none;
+    border: none;
     text-decoration: none;
+    display: inline-block;
+    box-shadow: none;
+    color: #fff;
     font-size: 16px;
     vertical-align: middle;
-    margin: 3px 0 0 7px;
+    padding: 5px;
 }
 
 .theme-data .action-edit:before,
@@ -526,25 +383,20 @@ Fonts
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
     content: "\e05b";
+    color: #fff;
+}
+
+.theme-data .actions .action-delete {
+    margin-left: 0;
 }
 
 .theme-data .action-delete:before {
     content: "\e07f";
 }
 
-.theme-data .action-edit,
-.theme-data .action-delete {
-    background: none;
-    border: none;
-    display: inline-block;
-    width: 22px;
-    height: 24px;
-    overflow: hidden;
-}
-
-.theme-data .action-edit span {
-    background: none;
-    padding: 0;
+.theme-data .action-edit > span,
+.theme-data .action-delete > span {
+    display: none;
 }
 
 /*
@@ -559,6 +411,8 @@ Fonts
 
 .themes-customizations .theme-data .actions {
     bottom: 20px;
+    left: 0;
+    right: 10px;
 }
 
 .themes-customizations h3 {
@@ -592,6 +446,7 @@ Fonts
     top: 0;
     left: 0;
     right: 0;
+    display: none;
 }
 
 .edit-theme-title-form > input[type="text"] {
@@ -615,6 +470,7 @@ Fonts
     top: 5px;
     right: 0;
     left: 52%;
+    margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -627,6 +483,14 @@ Fonts
 /*
     Websites/Stores/Storeviews List in Popup
 -------------------------------------- */
+.websites,
+.stores,
+.storeviews {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 .website {
     padding: 10px 0 0;
 }
@@ -773,6 +637,12 @@ Fonts
     background: url(Mage_DesignEditor::images/vde-tools-panel-draggable-handler-bg.png) no-repeat;
 }
 
+.vde-tab-controls {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 .vde-tab-controls > .item {
     display: inline-block;
 }
@@ -881,6 +751,7 @@ Fonts
     font: 24px/1.333 "CallunaSans", Arial, sans-serif;
     font-weight: 500;
     color: #f2ebde;
+    margin: 0;
 }
 
 .vde-tab-data .action-download,
@@ -991,6 +862,7 @@ Fonts
 }
 
 .files-list-header > .title {
+    margin: 0;
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -999,9 +871,10 @@ Fonts
 .files-list-header > .action-add {
     display: inline-block;
     position: absolute;
-    top:3px;
-    right:0;
+    top: 3px;
+    right: 0;
     margin: 6px 0 0 0;
+    padding: 0;
     width: 16px;
     height: 16px;
     line-height: 16px;
@@ -1034,6 +907,11 @@ Fonts
     display: none;
 }
 
+.files-list-content .items {
+    margin: 0;
+    padding: 0;
+}
+
 .files-list-content .item {
     position: relative;
     padding: 10px 50px 8px 0;
@@ -1046,6 +924,7 @@ Fonts
     top: 10px;
     right: 0;
 }
+
 .files-list-content .item .action-edit {
     right: 30px;
 }
@@ -1056,7 +935,6 @@ Fonts
     text-overflow: ellipsis;
     overflow: hidden;
 }
-
 
 .vde-tab-content-inner .filename {
     font: bold 16px/1.333 "Helvetica", Arial, sans-serif;
@@ -1140,12 +1018,9 @@ Fonts
     box-sizing: border-box;
 }
 
-[class^="custom-code"]:first-child {
-    margin-left: 0;
-}
-
 .custom-code-description {
     width: 31.914893614%;
+    margin-left: 0;
 }
 
 .custom-code-description .title,
