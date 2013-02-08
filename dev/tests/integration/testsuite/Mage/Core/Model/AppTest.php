@@ -297,7 +297,8 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     {
         $localFile = file_get_contents(__DIR__ . '/_files/App/custom_cache_local.xml');
         $params = array(
-            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $localFile
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $localFile,
+            'global_ban_use_cache' => true, // so that fresh config is merged and includes our custom local file
         );
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
 
