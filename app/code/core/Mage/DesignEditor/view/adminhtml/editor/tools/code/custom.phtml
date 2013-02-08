@@ -24,8 +24,10 @@
             <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
                 <span><?php echo $this->__('Download file'); ?></span>
             </button>
-
-            <?php echo $this->getFormHtml() ?>
+            <span class="action-add" title="<?php echo $this->__('Upload File'); ?>">
+                <span><?php echo $this->__('Upload File'); ?></span>
+                <?php echo $this->getFormHtml() ?>
+            </span>
         </div>
     </div>
     <div class="custom-code">

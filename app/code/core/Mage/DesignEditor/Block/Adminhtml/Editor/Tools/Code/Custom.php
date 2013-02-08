@@ -94,8 +94,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
         $form->addField($this->getFileElementName(), 'css_file', array(
             'name'     => $this->getFileElementName(),
             'accept'   => 'text/css',
-            'no_span'  => true,
-            'class'    => 'action-add'
+            'no_span'  => true
         ));
 
         parent::_prepareForm();

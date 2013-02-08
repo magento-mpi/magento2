@@ -17,10 +17,10 @@
         <div class="files-list">
             <div class="files-list-header">
                 <h5 class="title" title="<?php echo $this->escapeHtml($this->getTitle()) ?>"><?php echo $this->getTitle() ?></h5>
-                <?php echo $this->getFormHtml() ?>
-                <a href="#" class="action-add" data-toggle="tab" title="<?php echo $this->__('Add Files'); ?>">
+                <span class="action-add" title="<?php echo $this->__('Add Files'); ?>">
                     <span><?php echo $this->__('Add Files'); ?></span>
-                </a>
+                    <?php echo $this->getFormHtml() ?>
+                </span>
             </div>
             <div id="js-file-uploader" class="uploader"></div>
             <div class="files-list-content">
