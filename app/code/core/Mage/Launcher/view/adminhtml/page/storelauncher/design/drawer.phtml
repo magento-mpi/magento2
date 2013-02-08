@@ -12,3 +12,31 @@
 ?>
 
 <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('First choose a store theme, then customize it for your business') ?>
+
+<ul class="themes-list">
+    <?php foreach ($this->getThemes() as $theme):?>
+    <li>
+        <div class="theme-item">
+            <div class="theme-item-content">
+                <ul>
+                    <li class="theme-front">
+                        <img src="<?php $theme->getPreviewImageUrl() ?>" alt="<?php echo $theme->getThemeTitle() ?>">
+                    </li>
+                    <li class="theme-back">
+                        <dl>
+                            <dt><?php echo $theme->getThemeTitle() ?></dt>
+                            <dd>
+                                <p><?php echo $this->__('Our responsive theme designed by Magento pros to be best in breed for Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis'); ?></p>
+                                <div class="buttons">
+                                    <a class="button btn-theme-preview" href="<?php echo $this->getPreviewUrl($theme->getId())?>" target="_blank"><?php echo $this->__('Preview Theme'); ?></a>
+                                    <button class="button btn-theme-choose"><?php echo $this->__('Choose Theme'); ?></button>
+                                </div>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </li>
+    <?php endforeach; ?>
+</ul>

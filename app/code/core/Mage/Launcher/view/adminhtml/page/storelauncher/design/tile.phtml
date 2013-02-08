@@ -10,20 +10,21 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile */
 ?>
-<article class="sl-step <?php echo $this->getTileStateStyle(); ?>" id="article-<?php echo $this->getTileCode()?>">
+
+<article class="tile-store-settings tile-design <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>">
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Store Design') ?></h2>
-    <div class="create">
+    <div class="tile-teaser">
         <p>
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose how you want your store to look.') ?>
         </p>
-        <button class="button drawer-open" data-drawer="open-drawer-<?php echo $this->getTileCode() ?>"
-            data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
-            data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Open Design') ?>
         </button>
     </div>
 
-    <div class="completed">
+    <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <p><strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have already configured Design') ?></strong></p>
         <?php endif; ?>
