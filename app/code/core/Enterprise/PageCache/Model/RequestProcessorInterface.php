@@ -9,6 +9,8 @@
 interface Enterprise_PageCache_Model_RequestProcessorInterface
 {
     /**
+     * Extract cached page content
+     *
      * @param Zend_Controller_Request_Http $request
      * @param Zend_Controller_Response_Http $response
      * @param string $content
