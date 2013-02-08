@@ -12,383 +12,506 @@
 
 $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 ?>
-<form action="" id="drawer-form" method="post">
-    <?php echo $this->getBlockHtml('formkey')?>
-    <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose the PayPal solution that fits your business'); ?></h2>
+<form action="" class="payments-setup-form" id="drawer-form" method="post">
+<?php echo $this->getBlockHtml('formkey')?>
+<ul class="payments-tabs-nav">
+    <li class="active">
+        <a href="#non-merchant-account" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Solutions for Everyone'); ?></a>
+    </li>
+    <li>
+        <a href="#merchant-account" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Solutions for Merchant Bank Accounts'); ?></a>
+    </li>
+</ul>
 
-    <div class="payment-method-setup">
-        <div class="field bank-merchant-account choice" id="field-bank-merchant-account">
-            <input type="checkbox" id="bank-merchant-account">
-            <label for="bank-merchant-account" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('I have a merchant account with a bank'); ?></span></label>
-        </div>
+<h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose a payment method that fits your business needs'); ?></h2>
 
-        <div class="payment-method-list">
-            <div class="payment-method selected payment-method-express">
-                <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Express Checkout'); ?></h3>
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('A PayPal button can help boost sales'); ?></p>
-                <ul>
-                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add PayPal to increase your sales by 18% on average'); ?></li>
-                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add an Express Checkout button for a <strong class="paypal-marker">quick and easy</strong> way to pay'); ?></li>
-                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers use information stored in their PayPal accounts to check out quickly'); ?></li>
-                </ul>
-                <div class="field choice" id="field-payment-method-0">
-                    <input type="radio" checked="" name="payment-method" id="payment-method-0">
-                    <label for="payment-method-0" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Selected'); ?></span></label>
-                </div>
+<div class="payments-tiles">
+
+    <div class="payment-method payment-method-express-checkout active">
+        <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
+        <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Express Checkout'); ?></h3>
+        <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Help boost sales with PayPal button'); ?></p>
+        <ul class="payment-features">
+            <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add PayPal to increase your sales 18% on average'); ?></li>
+            <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add an Express Checkout button for a quick and easy way to pay'); ?></li>
+            <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customer uses information stored in their PayPal accounts to check out quickly'); ?></li>
+        </ul>
+        <footer class="payment-method-footer">
+            <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$0/Month'); ?></span>
+            <div class="actions">
+                <button type="button" class="action-configure-payment-method" data-payment-config="express-checkout">
+                    <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose PayPal Express'); ?></span>
+                </button>
             </div>
-            <div class="payment-method payment-method-standard">
-                <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Standard'); ?></h3>
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('The fast and easy way to pay online'); ?></p>
-                <ul>
+            <strong class="note">
+                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Express Checkout'); ?>
+            </strong>
+            <div class="payment-status">
+                <span class="payment-status-success">Setup Successful</span>
+                <button type="button" class="action-edit" data-payment-config="express-checkout">
+                    <span>Edit</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <div class="payments-tab-content">
+        <div class="tab-pane active" id="non-merchant-account">
+            <div class="payment-method payment-method-paypal-standard">
+                <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
+                <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Standard'); ?></h3>
+                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('The fast and easy way to pay online'); ?></p>
+                <ul class="payment-features">
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Simple setup, no programming required'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("Customers don't need a PayPal account"); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Easiest way to accept credit cards, PayPal, and Bill Me Later&reg;'); ?></li>
                 </ul>
-                <div class="field choice" id="field-payment-method-1">
-                    <input type="radio" name="payment-method" id="payment-method-1">
-                    <label for="payment-method-1" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Select'); ?></span></label>
-                </div>
+                <footer class="payment-method-footer">
+                    <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
+                    <div class="actions">
+                        <button type="button" class="action-configure-payment-method" data-payment-config="paypal-standard">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Chose Standard'); ?></span>
+                        </button>
+                    </div>
+                    <strong class="note">
+                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Standard'); ?>
+                    </strong>
+                    <div class="payment-status">
+                        <span class="payment-status-success">Setup Successful</span>
+                        <button type="button" class="action-edit" data-payment-config="paypal-standard">
+                            <span>Edit</span>
+                        </button>
+                    </div>
+                </footer>
             </div>
-            <div class="payment-method payment-method-advanced">
-                <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Advanced'); ?></h3>
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
-                <ul>
+            <div class="payment-method payment-method-payments-advanced">
+                <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
+                <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Advanced'); ?></h3>
+                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
+                <ul class="payment-features">
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers check out and pay on your website'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Simplifies PCI compliance'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers can pay by credit card, PayPal, or Bill Me Later&reg;'); ?></li>
                 </ul>
-                <div class="field choice" id="field-payment-method-2">
-                    <input type="radio" name="payment-method" id="payment-method-2">
-                    <label for="payment-method-2" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Select'); ?></span></label>
-                </div>
+                <footer class="payment-method-footer">
+                    <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
+                    <div class="actions">
+                        <button type="button" class="action-configure-payment-method" data-payment-config="payments-advanced">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Chose Advanced'); ?></span>
+                        </button>
+                    </div>
+                    <strong class="note">
+                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payments Advanced'); ?>
+                    </strong>
+                    <div class="payment-status">
+                        <span class="payment-status-success">Setup Successful</span>
+                        <button type="button" class="action-edit" data-payment-config="payments-advanced">
+                            <span>Edit</span>
+                        </button>
+                    </div>
+                </footer>
             </div>
-            <div class="payment-method payment-method-pro">
-                <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Pro'); ?></h3>
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("You control your customers' checkout experience"); ?></p>
-                <ul>
+            <div class="payment-method payment-method-payments-pro">
+                <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
+                <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Pro'); ?></h3>
+                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("You control your customers' checkout experience"); ?></p>
+                <ul class="payment-features">
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers check out and pay without leaving your website'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design and host your checkout pages for full control'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Accept credit cards by phone, fax, or mail'); ?></li>
                 </ul>
-                <div class="field choice" id="field-payment-method-3">
-                    <input type="radio" name="payment-method" id="payment-method-3">
-                    <label for="payment-method-3" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Select'); ?></span></label>
-                </div>
+                <footer class="payment-method-footer">
+                    <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
+                    <div class="actions">
+                        <button type="button" class="action-configure-payment-method" data-payment-config="payments-pro">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Chose Payments Pro'); ?></span>
+                        </button>
+                    </div>
+                    <strong class="note">
+                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payments Pro'); ?>
+                    </strong>
+                    <div class="payment-status">
+                        <span class="payment-status-success">Setup Successful</span>
+                        <button type="button" class="action-edit" data-payment-config="payments-pro">
+                            <span>Edit</span>
+                        </button>
+                    </div>
+                </footer>
             </div>
-            <div class="payment-method payment-method-payflo-link">
-                <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Link'); ?></h3>
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
-                <ul>
+        </div>
+        <div class="tab-pane" id="merchant-account">
+            <div class="payment-method payment-method-payflow-link">
+                <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
+                <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Link'); ?></h3>
+                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
+                <ul class="payment-features">
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers check out and pay on your website'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Simplifies PCI compliance'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers can pay by credit card, PayPal, or Bill Me Later&reg;'); ?></li>
                 </ul>
-                <div class="field choice with-addon" id="field-payment-method-4">
-                    <span class="label-required"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('* Requires a Merchant Account'); ?></span>
-                    <input type="radio" name="payment-method" id="payment-method-4">
-                    <label for="payment-method-4" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Select'); ?></span></label>
-                </div>
+                <footer class="payment-method-footer">
+                    <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
+                    <div class="actions">
+                        <button type="button" class="action-configure-payment-method" data-payment-config="payflow-link">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Chose Payflow Link'); ?></span>
+                        </button>
+                    </div>
+                    <strong class="note">
+                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payflow Link'); ?>
+                    </strong>
+                    <div class="payment-status">
+                        <span class="payment-status-success">Setup Successful</span>
+                        <button type="button" class="action-edit" data-payment-config="payflow-link">
+                            <span>Edit</span>
+                        </button>
+                    </div>
+                </footer>
             </div>
             <div class="payment-method payment-method-payflow-pro">
-                <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Pro'); ?></h3>
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("You control your customers' checkout experience"); ?></p>
-                <ul>
+                <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
+                <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Pro'); ?></h3>
+                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("You control your customers' checkout experience"); ?></p>
+                <ul class="payment-features">
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers check out and pay without leaving your website'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design and host your checkout pages for full control'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Accept credit cards by phone, fax, or mail'); ?></li>
-                </ul>
-                <div class="field choice with-addon" id="field-payment-method-5">
-                    <span class="label-required"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('* Requires a Merchant Account'); ?></span>
-                    <input type="radio" name="payment-method" id="payment-method-5">
-                    <label for="payment-method-5" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Select'); ?></span></label>
-                </div>
+                </ul class="payment-features">
+                <footer class="payment-method-footer">
+                    <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
+                    <div class="actions">
+                        <button type="button" class="action-configure-payment-method" data-payment-config="payflow-pro">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Chose Payflow Pro'); ?></span>
+                        </button>
+                    </div>
+                    <strong class="note">
+                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payflow Pro'); ?>
+                    </strong>
+                    <div class="payment-status">
+                        <span class="payment-status-success">Setup Successful</span>
+                        <button type="button" class="action-edit" data-payment-config="payflow-pro">
+                            <span>Edit</span>
+                        </button>
+                    </div>
+                </footer>
             </div>
             <div class="payment-method payment-method-authorize">
-                <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net'); ?></h3>
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Loreum ipsum Carpe Noctum un la sqeee'); ?></p>
-                <ul>
-                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Free Dirigibles'); ?></li>
-                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Lots of Vacuum tubes'); ?></li>
-                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Gears and knobs'); ?></li>
-                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Unlimited placeholder text'); ?></li>
+                <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
+                <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net'); ?></h3>
+                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Flexible, reliable and secure web transactions'); ?></p>
+                <ul class="payment-features">
+                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Accept a variety of payment methods'); ?></li>
+                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Safe and secure (PCI-DSS compliant)'); ?></li>
+                    <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Automatic deposit of funds into your bank account'); ?></li>
                 </ul>
-                <div class="field choice with-addon" id="field-payment-method-6">
-                    <span class="label-required"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('* Requires a Merchant Account'); ?></span>
-                    <input type="radio" name="payment-method" id="payment-method-6">
-                    <label for="payment-method-6" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Select'); ?></span></label>
-                </div>
+                <footer class="payment-method-footer">
+                    <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
+                    <div class="actions">
+                        <button type="button" class="action-configure-payment-method" data-payment-config="authorize">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Authorize.net'); ?></span>
+                        </button>
+                    </div>
+                    <strong class="note">
+                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Authorize.net'); ?>
+                    </strong>
+                    <div class="payment-status">
+                        <span class="payment-status-success">Setup Successful</span>
+                        <button type="button" class="action-edit" data-payment-config="authorize">
+                            <span>Edit</span>
+                        </button>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>
-    <div class="payment-method-config-form">
-        <div class="payment-method-data">
-            <div style="display: block;" class="payment-method-data-fields">
-                <input type="hidden" name="groups[global][fields][express][value]" value="1">
-                <input type="hidden" name="payment_method" value="paypal_express_checkout">
-                <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Express Checkout'); ?></h3>
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Fusce porttitor diam in tortor porttitor laoreet vitae a urna. In tempus, sem a sollicitudin luctus, est quam tincidunt mauris, quis laoreet lorem magna sit amet tellus. Praesent eros urna, venenatis vel euismod a, elementum in urna. Sed ac scelerisque mi. Maecenas molestie cursus erat ut fermentum. Vestibulum consectetur tempor vehicula.'); ?></p>
-                <div class="grid-row">
-                    <div class="field grid-6 vat-number with-addon" id="field-store-paypal-express-email">
-                        <label for="store-paypal-express-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal payments will be sent to your email address at:'); ?></span></label>
-                        <div class="control">
-                            <div class="addon">
-                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-express-email">
-                                <div class="addafter">
-                                    <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Update'); ?></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="display: none;" class="payment-method-data-fields">
-                <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Fusce porttitor diam in tortor porttitor laoreet vitae a urna. In tempus, sem a sollicitudin luctus, est quam tincidunt mauris, quis laoreet lorem magna sit amet tellus. Praesent eros urna, venenatis vel euismod a, elementum in urna. Sed ac scelerisque mi. Maecenas molestie cursus erat ut fermentum. Vestibulum consectetur tempor vehicula.'); ?></p>
-                <input type="hidden" name="groups[global][fields][wps][value]" value="1">
-                <input type="hidden" name="payment_method" value="paypal_payments_standard">
-                <div class="grid-row">
-                    <div class="field grid-6 vat-number with-addon" id="field-store-paypal-standard-email">
-                        <label for="store-paypal-standard-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email address associated with the PayPal account'); ?></span></label>
-                        <div class="control">
-                            <div class="addon">
-                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-standard-email">
-                                <div class="addafter">
-                                    <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div style="display: none;" class="payment-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Advanced'); ?></legend>
-                    <input type="hidden" name="groups[global][fields][payflow_advanced][value]" value="1">
-                    <input type="hidden" name="payment_method" value="paypal_payments_advanced">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-21">
-                            <label for="pm-21" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
-                            <div class="control">
-                                <input type="text" name="groups[payflow_advanced][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/partner'); ?>" class="input-text" id="pm-21">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-22">
-                            <label for="pm-22" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span></label>
-                            <div class="control">
-                                <input type="text" name="groups[payflow_advanced][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/vendor'); ?>" class="input-text" id="pm-22">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-23">
-                            <label for="pm-23" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span></label>
-                            <div class="control">
-                                <input type="text" name="groups[payflow_advanced][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/user'); ?>" class="input-text" id="pm-23">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-24">
-                            <label for="pm-24" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
-                            <div class="control">
-                                <input type="password" name="groups[payflow_advanced][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/payflow_advanced/pwd'); ?>" class="input-text" id="pm-24">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
-            </div>
-            <div style="display: none;" class="payment-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Pro'); ?></legend>
-                    <input type="hidden" name="groups[global][fields][express][value]" value="1">
-                    <input type="hidden" name="groups[global][fields][wpp][value]" value="1">
-                    <input type="hidden" name="payment_method" value="paypal_payments_pro">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-31">
-                            <label for="store-paypal-payments-pro-email" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email address associated with the PayPal account'); ?></span></label>
-                            <div class="control">
-                                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-payments-pro-email">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
-            </div>
-            <div style="display: none;" class="payment-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Link'); ?></legend>
-                    <input type="hidden" name="groups[global][fields][payflow_link][value]" value="1">
-                    <input type="hidden" name="payment_method" value="paypal_payflow_link">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-41">
-                            <label for="pm-41" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
-                            <div class="control">
-                                <input type="text" class="input-text" id="pm-41" name="groups[payflow_link][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/partner'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-42">
-                            <label for="pm-42" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span></label>
-                            <div class="control">
-                                <input type="text" class="input-text" id="pm-42" name="groups[payflow_link][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/vendor'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-43">
-                            <label for="pm-43" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span></label>
-                            <div class="control">
-                                <input type="text" class="input-text" id="pm-43" name="groups[payflow_link][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/user'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-44">
-                            <label for="pm-44" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-44" name="groups[payflow_link][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/payflow_link/pwd'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
-            </div>
-            <div style="display: none;" class="payment-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Pro'); ?></legend>
-                    <input type="hidden" name="groups[global][fields][verisign][value]" value="1">
-                    <input type="hidden" name="payment_method" value="paypal_payflow_pro">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-51">
-                            <label for="pm-51" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span></label>
-                            <div class="control">
-                                <input type="text" class="input-text" id="pm-51" name="groups[verisign][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/verisign/partner'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-52">
-                            <label for="pm-52" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span></label>
-                            <div class="control">
-                                <input type="text" class="input-text" id="pm-52" name="groups[verisign][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/verisign/vendor'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-53">
-                            <label for="pm-53" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-53" name="groups[verisign][fields][user][value]" value="<?php echo $this->getObscuredValue('payment/verisign/user'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-54">
-                            <label for="pm-54" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-54" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/verisign/pwd'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
-            </div>
-            <div style="display: none;" class="payment-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net'); ?></legend>
-                    <input type="hidden" name="groups[authorizenet][fields][active][value]" value="1">
-                    <input type="hidden" name="payment_method" value="authorize_net">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-61">
-                            <label for="pm-61" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('API Login ID'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-61" name="groups[authorizenet][fields][login][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/login'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-62">
-                            <label for="pm-62" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Transaction Key'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-62" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/trans_key'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
+</div>
+<div class="payments-config-data">
+
+<div class="payment-config" id="express-checkout">
+    <fieldset class="fieldset">
+        <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Just enter your PayPal account email address'); ?></legend>
+        <input type="hidden" name="groups[global][fields][express][value]" value="1">
+        <input type="hidden" name="payment_method" value="paypal_express_checkout">
+        <div class="field field-store-paypal-express-email with-note">
+            <label for="store-paypal-express-email" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-express-email">
+                <div class="note"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments will be sent to this address'); ?></div>
             </div>
         </div>
-    </div>
-    <a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'payment')); ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Additional Payment Methods Settings'); ?></a>
+        <div class="actions">
+            <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm'); ?></span>
+            </button>
+        </div>
+    </fieldset>
+</div>
+
+<div class="payment-config" id="paypal-standard">
+    <fieldset class="fieldset">
+        <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please email address associated with the PayPal account'); ?></legend>
+        <input type="hidden" name="groups[global][fields][wps][value]" value="1">
+        <input type="hidden" name="payment_method" value="paypal_payments_standard">
+        <div class="field field-store-paypal-standard-email with-note">
+            <label for="store-paypal-standard-email" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="store-paypal-standard-email">
+                <div class="note"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments will be sent to this address'); ?></div>
+            </div>
+        </div>
+        <div class="actions">
+            <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm'); ?></span>
+            </button>
+        </div>
+    </fieldset>
+</div>
+
+<div class="payment-config" id="payments-advanced">
+    <fieldset class="fieldset">
+        <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
+        <input type="hidden" name="groups[global][fields][payflow_advanced][value]" value="1">
+        <input type="hidden" name="payment_method" value="paypal_payments_advanced">
+        <div class="field field-advanced-partner">
+            <label for="advanced-partner" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" name="groups[payflow_advanced][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/partner'); ?>" class="input-text" id="advanced-partner">
+            </div>
+        </div>
+        <div class="field field-advanced-vendor">
+            <label for="advanced-vendor" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" name="groups[payflow_advanced][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/vendor'); ?>" class="input-text" id="advanced-vendor">
+            </div>
+        </div>
+        <div class="field field-advanced-user">
+            <label for="advanced-user" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" name="groups[payflow_advanced][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/user'); ?>" class="input-text" id="advanced-user">
+            </div>
+        </div>
+        <div class="field field-advanced-password">
+            <label for="advanced-password" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
+            </label>
+            <div class="control">
+                <input type="password" name="groups[payflow_advanced][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/payflow_advanced/pwd'); ?>" class="input-text" id="advanced-password">
+            </div>
+        </div>
+        <div class="actions">
+            <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm'); ?></span>
+            </button>
+        </div>
+    </fieldset>
+</div>
+
+<div class="payment-config" id="payments-pro">
+    <fieldset class="fieldset">
+        <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
+        <input type="hidden" name="groups[global][fields][express][value]" value="1">
+        <input type="hidden" name="groups[global][fields][wpp][value]" value="1">
+        <input type="hidden" name="payment_method" value="paypal_payments_pro">
+        <div class="field field-payments-pro-email">
+            <label for="payments-pro-email" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" name="groups[account][fields][business_account][value]" class="input-text" value="<?php echo $this->getConfigValue('paypal/general/business_account'); ?>" id="payments-pro-email">
+            </div>
+        </div>
+        <div class="actions">
+            <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm'); ?></span>
+            </button>
+        </div>
+    </fieldset>
+</div>
+
+<div class="payment-config" id="payflow-link">
+    <fieldset class="fieldset">
+        <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
+        <input type="hidden" name="groups[global][fields][payflow_link][value]" value="1">
+        <input type="hidden" name="payment_method" value="paypal_payflow_link">
+        <div class="field field-payflow-link-partner">
+            <label for="payflow-link-partner" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" class="input-text" id="payflow-link-partner" name="groups[payflow_link][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/partner'); ?>">
+            </div>
+        </div>
+        <div class="field field-payflow-link-vendor">
+            <label for="payflow-link-vendor" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" class="input-text" id="payflow-link-vendor" name="groups[payflow_link][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/vendor'); ?>">
+            </div>
+        </div>
+        <div class="field field-payflow-link-user">
+            <label for="payflow-link-user" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" class="input-text" id="payflow-link-user" name="groups[payflow_link][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/user'); ?>">
+            </div>
+        </div>
+        <div class="field field-payflow-link-password">
+            <label for="payflow-link-password" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
+            </label>
+            <div class="control">
+                <input type="password" class="input-text" id="payflow-link-password" name="groups[payflow_link][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/payflow_link/pwd'); ?>">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm'); ?></span>
+            </button>
+        </div>
+    </fieldset>
+</div>
+
+<div class="payment-config" id="payflow-pro">
+    <fieldset class="fieldset">
+        <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
+        <input type="hidden" name="groups[global][fields][verisign][value]" value="1">
+        <input type="hidden" name="payment_method" value="paypal_payflow_pro">
+        <div class="field field-payflow-pro-partner">
+            <label for="payflow-pro-partner" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" class="input-text" id="payflow-pro-partner" name="groups[verisign][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/verisign/partner'); ?>">
+            </div>
+        </div>
+        <div class="field field-payflow-pro-partner-vendor">
+            <label for="payflow-pro-partner-vendor" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
+            </label>
+            <div class="control">
+                <input type="text" class="input-text" id="payflow-pro-partner-vendor" name="groups[verisign][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/verisign/vendor'); ?>">
+            </div>
+        </div>
+        <div class="field field-payflow-pro-partner-user">
+            <label for="payflow-pro-user" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span>
+            </label>
+            <div class="control">
+                <input type="password" class="input-text" id="payflow-pro-user" name="groups[verisign][fields][user][value]" value="<?php echo $this->getObscuredValue('payment/verisign/user'); ?>">
+            </div>
+        </div>
+        <div class="field field-payflow-pro-password">
+            <label for="payflow-pro-password" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
+            <div class="control">
+                <input type="password" class="input-text" id="payflow-pro-password" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/verisign/pwd'); ?>">
+            </div>
+        </div>
+        <div class="actions">
+            <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm'); ?></span>
+            </button>
+        </div>
+    </fieldset>
+</div>
+
+<div class="payment-config" id="authorize">
+    <fieldset class="fieldset">
+        <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
+        <input type="hidden" name="groups[authorizenet][fields][active][value]" value="1">
+        <input type="hidden" name="payment_method" value="authorize_net">
+        <div class="field field-authorize-login">
+            <label for="authorize-login" class="label">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('API Login ID'); ?></span>
+            </label>
+            <div class="control">
+                <input type="password" class="input-text" id="authorize-login" name="groups[authorizenet][fields][login][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/login'); ?>">
+            </div>
+        </div>
+        <div class="field field-authorize-key">
+            <label for="authorize-key" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Transaction Key'); ?></span></label>
+            <div class="control">
+                <input type="password" class="input-text" id="authorize-key" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/trans_key'); ?>">
+            </div>
+        </div>
+        <div class="actions">
+            <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm'); ?></span>
+            </button>
+        </div>
+    </fieldset>
+</div>
+</div>
+
+<a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'payment')); ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Additional Payment Methods Settings'); ?></a>
+
 </form>
 
 
 <script type="text/javascript">
-(function ($) {
-    $(document).ready(function() {
-        'use strict';
-        $('.payment-method .choice input')
-            .on('click.highlightSelected', function() {
-                var elem = $(this),
-                    id = elem.attr('id').replace('payment-method-', '');
-                elem
-                    .next()
-                    .find('span')
-                    .text('Selected')
-                    .closest('.payment-method')
-                    .addClass('selected')
-                    .siblings()
-                    .removeClass('selected')
-                    .find('.label span')
-                    .text('Select');
+    (function ($) {
+        $(document).ready(function() {
+            'use strict';
 
-                $('.payment-method-data>div')
-                    .eq(id)
-                    .show()
-                    .siblings()
-                    .hide();
-            });
-        $('.payment-method')
-            .on('click.highlightPayment', function() {
-                $(this)
-                    .find('.choice input')
-                    .trigger('click.highlightSelected');
-            });
-        $('#bank-merchant-account')
-            .on('click.toggleBankMerchantAccount', function() {
-                var paymentList = $('.payment-method-list');
-                if ($(this).is(':checked')) {
-                    paymentList.addClass('has-merchant-account');
-                } else {
-                    paymentList.removeClass('has-merchant-account');
-                }
-            });
-        $('.save-method-button')
-            .on('click.savePaymentMethod', function(event) {
-                var elem = $(this),
-                    fields = elem
-                        .closest('.payment-method-data-fields')
-                        .find(':input');
-                event.preventDefault();
-                var ajaxOptions = {
-                    type: 'POST',
-                    showLoader: true,
-                    data: fields.serialize(),
-                    dataType: 'json',
-                    url: elem.attr('data-save-url'),
-                    success: function(result, status) {
-                        if (result.success) {
-                            if (result && result.message) {
-                                alert(result.message);
-                            }
-                        } else {
-                            if (result && result.error_message) {
-                                alert(result.error_message);
+            $('[data-payment-config]')
+                .on('click.conigurePaymentMethod', function () {
+                    var elem = $(this),
+                        paymentTiles = $('.payment-method').filter('.active'),
+                        paymentMethod = elem.attr('data-payment-config');
+
+                    paymentTiles.removeClass('active');
+                    elem
+                        .closest('.payment-method')
+                        .addClass('active');
+
+                    $('#'+paymentMethod)
+                        .show()
+                        .siblings()
+                        .hide();
+
+                });
+
+            $('.action-save-method')
+                .on('click.savePaymentMethod', function(event) {
+                    var elem = $(this),
+                        form = elem.closest('.payment-config'),
+                        fields = form.find(':input'),
+                        id = form.attr('id');
+
+                    event.preventDefault();
+                    var ajaxOptions = {
+                        type: 'POST',
+                        showLoader: true,
+                        data: fields.serialize(),
+                        dataType: 'json',
+                        url: elem.attr('data-save-url'),
+                        success: function(result, status) {
+                            if (result.success) {
+                                if (result && result.message) {
+                                    alert(result.message);
+                                    $('.payment-method-'+id)
+                                        .addClass('configured');
+                                }
+                            } else {
+                                if (result && result.error_message) {
+                                    alert(result.error_message);
+                                }
                             }
                         }
-                    }
-                };
-                $.ajax(ajaxOptions);
-            });
-    });
-})(jQuery);
+                    };
+                    $.ajax(ajaxOptions);
+                });
+        });
+    })(jQuery);
 </script>
