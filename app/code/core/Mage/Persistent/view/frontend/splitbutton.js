@@ -1,8 +1,8 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_Persistent
+ * @category    Mage
+ * @package     Mage_Persistent
  * @copyright   {copyright}
  * @license     {license_link}
  */
