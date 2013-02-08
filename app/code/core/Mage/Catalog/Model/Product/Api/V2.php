@@ -29,9 +29,8 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
     public function info($productId, $store = null, $attributes = null, $identifierType = null)
     {
         // make sku flag case-insensitive
-        $type_sku = 'sku';
-        if (!strcasecmp($type_sku, $identifierType)) {
-            $identifierType = $type_sku;
+        if (!empty($identifierType)) {
+            $identifierType = strtolower($identifierType);
         }
 
         $product = $this->_getProduct($productId, $store, $identifierType);
@@ -150,11 +149,12 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
              */
             if (is_array($errors = $product->validate())) {
                 $strErrors = array();
-                foreach($errors as $code => $error) {
+                foreach ($errors as $code => $error) {
                     if ($error === true) {
                         $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid.', $code);
                     } else {
-                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid: %s', $code, $error);
+                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Value for "%s" is invalid: %s',
+                            $code, $error);
                     }
                     $strErrors[] = $error;
                 }
@@ -207,9 +207,9 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
     /**
      *  Set additional data before product saved
      *
-     *  @param    Mage_Catalog_Model_Product $product
-     *  @param    array $productData
-     *  @return   object
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $productData
+     * @return object
      */
     protected function _prepareDataForSave ($product, $productData)
     {
@@ -261,7 +261,8 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
                 if (is_string($website)) {
                     try {
                         $website = Mage::app()->getWebsite($website)->getId();
-                    } catch (Exception $e) { }
+                    } catch (Exception $e) {
+                    }
                 }
             }
             $product->setWebsiteIds($productData->websites);
