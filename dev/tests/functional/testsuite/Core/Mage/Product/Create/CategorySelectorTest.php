@@ -213,10 +213,9 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($nonexistentCategory);
-        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
+        $resultElement = $this->waitForControl(self::UIMAP_TYPE_FIELDSET, 'category_search');
         //Verifying
-        $this->assertEquals('No search results.',
-            $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result', 'text'),
+        $this->assertCount(0, $this->getChildElements($resultElement, 'li', false),
             "Category $nonexistentCategory was founded"
         );
     }

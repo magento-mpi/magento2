@@ -246,6 +246,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateBundle($data, $assignData)
     {
+        $this->markTestIncomplete('MAGETWO-4321');
         //Data
         $bundle = $this->loadDataSet('Product', $data, $assignData,
             array('product_1' => $assignData['related_search_sku'],

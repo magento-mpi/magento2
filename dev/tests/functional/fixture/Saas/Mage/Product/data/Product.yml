@@ -18,6 +18,7 @@ simple_product_with_param_for_configurable:
     general_sku: simple_sku_%randomize%
     general_weight: 100
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_dropdown_goext: goext
     general_qty: 999
     general_stock_availability: In Stock

@@ -63,6 +63,9 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInSimple()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-7272');
+        }
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product');
         $productSearch =
@@ -90,6 +93,8 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function existSkuInSimple($productData)
     {
         //Steps
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->addParameter('elementTitle', $productData['general_name']);
         $this->productHelper()->saveProduct('continueEdit');
@@ -99,6 +104,9 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
         $productData['general_sku'] = $newSku;
         $this->productHelper()->verifyProductInfo($productData);
     }
@@ -362,6 +370,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function invalidQtyInSimple($invalidQty)
     {
+        $this->markTestIncomplete('MAGETWO-3360');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required', array('general_qty' => $invalidQty));
         //Steps

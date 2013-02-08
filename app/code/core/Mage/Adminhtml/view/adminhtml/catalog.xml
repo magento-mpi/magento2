@@ -367,6 +367,7 @@ Layout handle for grouped products
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Name</header>
+                            <column_css_class>grouped-product-name</column_css_class>
                             <type>text</type>
                             <index>name</index>
                             <editable>1</editable>
@@ -377,6 +378,7 @@ Layout handle for grouped products
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">SKU</header>
+                            <column_css_class>grouped-product-sku</column_css_class>
                             <type>text</type>
                             <index>sku</index>
                             <width>80px</width>
@@ -387,6 +389,7 @@ Layout handle for grouped products
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Price</header>
+                            <column_css_class>grouped-product-price</column_css_class>
                             <type>currency</type>
                             <index>price</index>
                             <width>110px</width>
@@ -397,6 +400,7 @@ Layout handle for grouped products
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Default Qty</header>
+                            <column_css_class>grouped-product-qty</column_css_class>
                             <type>number</type>
                             <index>qty</index>
                             <width>110px</width>
@@ -410,7 +414,7 @@ Layout handle for grouped products
                             <header translate="true" module="Mage_Catalog">Delete</header>
                             <type>button</type>
                             <button_type>button</button_type>
-                            <column_css_class>product-delete</column_css_class>
+                            <column_css_class>grouped-product-delete</column_css_class>
                             <width>60px</width>
                             <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Button</renderer>
                             <align>right</align>
