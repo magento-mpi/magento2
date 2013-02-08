@@ -55,6 +55,7 @@
             }).done(function(data) {
                 if (!data.error) {
                     $('#vde-tab-js .files-list-content .items').html(data.content);
+                    $('#vde-tab-js .files-list-content .items').trigger('refreshIframe');
                 }
                 if (data.message_html) {
                     $('#vde-tab-js-messages-placeholder').append(data.message_html);
@@ -122,6 +123,10 @@
                 $(progressSelector).css('width', progress + '%');
             },
 
+            stop: function(e, data) {
+                $('.ui-sortable').trigger('refreshIframe');
+            },
+
             /**
              * Fail event
              * @param e
@@ -146,6 +151,7 @@
                     data: jsOrder,
                     showLoader: false,
                     success: $.proxy(function(response) {
+                        $('.ui-sortable').trigger('refreshIframe');
                         if (response.message_html) {
                             $('#vde-tab-custom-messages-placeholder').append(response.message_html);
                         }

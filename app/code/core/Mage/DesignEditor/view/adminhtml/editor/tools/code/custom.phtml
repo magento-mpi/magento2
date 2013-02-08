@@ -71,6 +71,7 @@
                 if (!data.result.error) {
                     contentArea.val(data.result.content);
                     $('#vde-tab-custom').customCssPanel('updateButtons');
+                    $('#vde-tab-custom').trigger('refreshIframe');
                 }
 
                 if (data.result.message_html) {
