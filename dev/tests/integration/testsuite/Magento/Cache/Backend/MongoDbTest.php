@@ -47,7 +47,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
      * @expectedException Zend_Cache_Exception
      * @expectedExceptionMessage 'db' option is not specified
      */
-    public function testConstructor()
+    public function testConstructorException()
     {
         new Magento_Cache_Backend_MongoDb();
     }
@@ -146,7 +146,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     {
         $cacheId = 'test';
         $this->_model->save('test data', $cacheId, array(), 2);
-        $this->assertGreaterThan(0, $this->_model->test($cacheId), 'Could not create document');
+        $this->assertGreaterThan(0, $this->_model->test($cacheId), "Cache with id '$cacheId' has not been saved");
         $this->_model->touch($cacheId, $extraLifeTime);
         sleep(2);
         $this->assertThat($this->_model->test($cacheId), $constraint);
@@ -189,7 +189,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->test('test'));
         $this->_model->save('test data', 'test');
-        $this->assertNotEmpty($this->_model->test('test'), 'Cache with id "test" has not been saved');
+        $this->assertNotEmpty($this->_model->test('test'), "Cache with id 'test' has not been saved");
     }
 
     public function testSave()
@@ -210,9 +210,9 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
     {
         $cacheId = 'test';
         $this->_model->save('test data', $cacheId);
-        $this->assertGreaterThan(0, $this->_model->test($cacheId), "Could not find document with _id='$cacheId'");
+        $this->assertGreaterThan(0, $this->_model->test($cacheId), "Cache with id '$cacheId' has need been found");
         $this->_model->remove($cacheId);
-        $this->assertFalse($this->_model->test($cacheId), "Could not remove document with _id='$cacheId'");
+        $this->assertFalse($this->_model->test($cacheId), "Cache with id '$cacheId' has not been removed");
     }
 
     /**
