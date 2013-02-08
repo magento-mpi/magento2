@@ -24,7 +24,8 @@
         </reference>
     </adminhtml_catalog_product_index>
 
-    <adminhtml_catalog_product_head_files>
+    <adminhtml_catalog_product_new>
+        <update handle="editor"/>
         <reference name="head">
             <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
@@ -37,7 +38,6 @@
             <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::json2.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/suggest.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::mage/backend/multisuggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.hotkeys.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/tree-suggest.js</file></action>
@@ -47,11 +47,6 @@
             <action method="addJs"><file>Mage_Catalog::js/product-gallery.js</file></action>
             <!--<action method="addCss"><file>Mage_Adminhtml::catalog/configurable-product.css</file></action>-->
         </reference>
-    </adminhtml_catalog_product_head_files>
-
-    <adminhtml_catalog_product_new>
-        <update handle="editor"/>
-        <update handle="adminhtml_catalog_product_head_files" />
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
                 <container name="product-type-tabs" label="Tabs">
@@ -79,32 +74,9 @@
     </adminhtml_catalog_product_new>
 
     <adminhtml_catalog_product_edit>
-        <update handle="editor" />
-        <update handle="adminhtml_catalog_product_head_files" />
-        <reference name="content">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit">
-                <container name="product-type-tabs" label="Tabs">
-                </container>
-            </block>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info"
-                   template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category"
-                   template="Mage_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
-            <block type="Mage_Core_Block_Template" name="affected-attribute-set-form"
-                   template="Mage_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
-        </reference>
+        <update handle="adminhtml_catalog_product_new"/>
         <reference name="left">
-            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"/>
-        </reference>
-        <reference name="js">
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" name="catalog_product_js"
-                   template="catalog/product/js.phtml" />
-            <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
-            <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector"
-                   template="Mage_Catalog::product/configurable/attribute-selector/js.phtml"/>
-            <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector"
-                   template="Mage_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>            
         </reference>
     </adminhtml_catalog_product_edit>
 
