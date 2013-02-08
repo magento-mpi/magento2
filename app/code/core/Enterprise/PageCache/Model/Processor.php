@@ -140,6 +140,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         $this->_fpcCache = $fpcCache;
         $this->_environment = $environment;
         $this->_designInfo = $designInfo;
+        $this->_requestIdentifier = $requestIdentifier;
         $this->_metadata = $metadata;
         $this->_requestTags = array(self::CACHE_TAG);
     }

@@ -69,6 +69,7 @@ class Enterprise_PageCache_Model_Request_Identifier
         $this->_scopeCode = $scopeCode;
         $this->_fpcCache = $fpcCache;
         $this->_environment = $environment;
+        $this->_designInfo = $designInfo;
         $this->_createRequestIds();
     }
 
