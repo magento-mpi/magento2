@@ -17,7 +17,6 @@
  */
 class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backend_Block_Widget_Form
 {
-
     /**
      * Prepare layout.
      * Add files to use dialog windows
@@ -26,7 +25,8 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
      */
     protected function _prepareLayout()
     {
-        if ($head = $this->getLayout()->getBlock('head')) {
+        $head = $this->getLayout()->getBlock('head');
+        if ($head) {
             $head->addJs('prototype/window.js')
                 ->addCss('prototype/windows/themes/default.css')
                 ->addCss('Mage_Core::prototype/magento.css')
@@ -39,6 +39,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
      * Add fields to form and create template info form
      *
      * @return Mage_Adminhtml_Block_Widget_Form
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
     {
@@ -53,11 +54,11 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
 
         $templateId = $this->getPrintedTemplate()->getId();
 
-        if ($templateId && $usedCurrentlyForValue = $this->_getUsedCurrenlyForValue()) {
+        if ($templateId && $usedForValue = $this->_getUsedCurrentlyForValue()) {
             $fieldset->addField('used_currently_for', 'note', array(
                 'label' => $this->__('Used Currently For'),
                 'container_id' => 'used_currently_for',
-                'text' => $usedCurrentlyForValue
+                'text' => $usedForValue
             ));
         }
 
@@ -65,7 +66,6 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
             'name'      => 'name',
             'label'     => $this->__('Template Name'),
             'required'  => true
-
         ));
 
         $fieldset->addField('page_size', 'select', array(
@@ -90,8 +90,8 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
         }
         $wysiwygConfig = Mage::getSingleton('Saas_PrintedTemplate_Model_Wysiwyg_Config')->getConfig($configData);
 
-        $dynamicHeightsEnabled = $this->_isDynamicHeightsEnabled();
-        if ($dynamicHeightsEnabled) {
+        $dynamicHeightsOn = $this->_isDynamicHeightsEnabled();
+        if ($dynamicHeightsOn) {
             $fieldset->addField('header_auto_height', 'checkbox', array(
                 'name' => 'header_auto_height',
                 'label' => $this->__('Auto Header Height'),
@@ -119,7 +119,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
             'class' => 'height-measure-field'
         ));
 
-        if ($dynamicHeightsEnabled) {
+        if ($dynamicHeightsOn) {
             $fieldset->addField('footer_auto_height', 'checkbox', array(
                 'name' => 'footer_auto_height',
                 'label' => $this->__('Auto Footer Height'),
@@ -169,8 +169,8 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
             $formData['content'] = Mage::getSingleton('Saas_PrintedTemplate_Model_Wysiwyg_TemplateParser')
                 ->exportContent($this->getPrintedTemplate());
             $form->addValues($formData);
-            $dynamicHeightsEnabled = $this->_isDynamicHeightsEnabled();
-            if ($dynamicHeightsEnabled) {
+            $dynamicHeightsOn = $this->_isDynamicHeightsEnabled();
+            if ($dynamicHeightsOn) {
                 $form->getElement('header_auto_height')->setIsChecked($formData['header_auto_height']);
                 $form->getElement('footer_auto_height')->setIsChecked($formData['footer_auto_height']);
             }
@@ -197,24 +197,24 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
     }
 
     /**
-     * Retrieve html for used_currenly_for element value
+     * Retrieve html for used_currently_for element value
      *
      * @return string
      */
-    protected function _getUsedCurrenlyForValue()
+    protected function _getUsedCurrentlyForValue()
     {
         $pathDelimiter = '<span class="path-delimiter">&nbsp;-&gt;&nbsp;</span>';
         $lineDelimiter = '<br />';
-        $systemConfigPathsWhereUsedCurrently = Mage::helper('Saas_PrintedTemplate_Helper_Data')
+        $pathsUsedCurrently = Mage::helper('Saas_PrintedTemplate_Helper_Data')
             ->getSystemConfigPathsParts($this->getPrintedTemplate()->getSystemConfigPathsWhereUsedCurrently());
         $result = array();
-        foreach ($systemConfigPathsWhereUsedCurrently as $pathArray) {
+        foreach ($pathsUsedCurrently as $pathArray) {
             $path = array();
             foreach ($pathArray as $pathNode) {
                 $path[] = (isset($pathNode['url']) && $pathNode['url']
-                        ? "<a href=\"{$pathNode['url']}\">{$pathNode['title']}</a>" : $pathNode['title'])
-                    . (isset($pathNode['scope']) && $pathNode['scope']
-                        ? "&nbsp;&nbsp;<span class=\"path-scope-label\">({$pathNode['scope']})" : '');
+                    ? "<a href=\"{$pathNode['url']}\">{$pathNode['title']}</a>" : $pathNode['title'])
+                        . (isset($pathNode['scope']) && $pathNode['scope']
+                            ? "&nbsp;&nbsp;<span class=\"path-scope-label\">({$pathNode['scope']})" : '');
             }
             $result[] = implode($pathDelimiter, $path);
         }
@@ -223,7 +223,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
     }
 
     /**
-     * Check if PDF adtapter supports dynamic header/footer size calculation
+     * Check if PDF adapter supports dynamic header/footer size calculation
      *
      * @return bool
      */

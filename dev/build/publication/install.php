@@ -62,17 +62,7 @@ if ($installOptions) {
 
 /* Initialize Magento application */
 require_once __DIR__ . '/../../../app/bootstrap.php';
-Mage::app();
+$params = array('reportDir' => $reportDir);
 
-/* Clean reports */
-Varien_Io_File::rmdirRecursive($reportDir);
-
-/* Run all indexer processes */
-/** @var $indexer Mage_Index_Model_Indexer */
-$indexer = Mage::getModel('Mage_Index_Model_Indexer');
-/** @var $process Mage_Index_Model_Process */
-foreach ($indexer->getProcessesCollection() as $process) {
-    if ($process->getIndexer()->isVisible()) {
-        $process->reindexEverything();
-    }
-}
+$entryPoint = new Mage_Index_Model_EntryPoint_Indexer(BP, $params);
+$entryPoint->processRequest();

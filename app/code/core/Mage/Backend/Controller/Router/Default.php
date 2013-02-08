@@ -139,7 +139,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     protected function _shouldBeSecure($path)
     {
         return substr((string)Mage::getConfig()->getNode('default/web/unsecure/base_url'), 0, 5) === 'https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_App::ADMIN_STORE_ID)
+            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
                 && substr((string)Mage::getConfig()->getNode('default/web/secure/base_url'), 0, 5) === 'https';
     }
 
@@ -151,7 +151,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     protected function _getCurrentSecureUrl($request)
     {
-        return Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID)
+        return Mage::app()->getStore(Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
     }
 

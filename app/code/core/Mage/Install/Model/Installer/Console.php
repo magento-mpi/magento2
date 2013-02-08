@@ -69,35 +69,32 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     protected $_dataModel;
 
     /**
-     * Initialize application and "data model"
+     * Resource config
      *
-     * @param Magento_Filesystem $filesystem
-     * @param array $installArgs
+     * @var Mage_Core_Model_Config_Resource
      */
-    public function __construct(Magento_Filesystem $filesystem, array $installArgs)
-    {
-        $this->_filesystem = $filesystem;
-        $params = $this->_buildInitParams($installArgs);
-        Mage::app($params);
-        $this->_getInstaller()->setDataModel($this->_getDataModel());
-    }
+    protected $_resourceConfig;
 
     /**
-     * Customize application init parameters
+     * DB updater
      *
-     * @param array $args
-     * @return array
+     * @var Mage_Core_Model_Db_UpdaterInterface
      */
-    protected function _buildInitParams(array $args)
-    {
-        $result = array();
-        if (!empty($args[self::OPTION_URIS])) {
-            $result[Mage_Core_Model_App::INIT_OPTION_URIS] = unserialize(base64_decode($args[self::OPTION_URIS]));
-        }
-        if (!empty($args[self::OPTION_DIRS])) {
-            $result[Mage_Core_Model_App::INIT_OPTION_DIRS] = unserialize(base64_decode($args[self::OPTION_DIRS]));
-        }
-        return $result;
+    protected $_dbUpdater;
+
+    /**
+     * @param Mage_Core_Model_Config_Resource $resourceConfig
+     * @param Mage_Core_Model_Db_UpdaterInterface $daUpdater
+     */
+    public function __construct(
+        Mage_Core_Model_Config_Resource $resourceConfig,
+        Mage_Core_Model_Db_UpdaterInterface $daUpdater,
+        Magento_Filesystem $filesystem
+    ) {
+        $this->_resourceConfig = $resourceConfig;
+        $this->_dbUpdater = $daUpdater;
+        $this->_getInstaller()->setDataModel($this->_getDataModel());
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -264,7 +261,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
                 'lastname'          => $options['admin_lastname'],
                 'email'             => $options['admin_email'],
                 'username'          => $options['admin_username'],
-                'new_password'      => $options['admin_password'],
+                'password'          => $options['admin_password'],
             ));
 
             $installer = $this->_getInstaller();
@@ -292,47 +289,15 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             }
 
             // apply data updates
-            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+            $this->_dbUpdater->updateData();
 
             /**
-             * Validate entered data for administrator user
+             * Create primary administrator user & install encryption key
              */
-            $user = $installer->validateAndPrepareAdministrator($this->_getDataModel()->getAdminData());
-
-            if ($this->hasErrors()) {
-                return false;
-            }
-
-            /**
-             * Prepare encryption key and validate it
-             */
-            $encryptionKey = empty($options['encryption_key'])
-                ? $this->generateEncryptionKey()
-                : $options['encryption_key'];
-            $this->_getDataModel()->setEncryptionKey($encryptionKey);
-            $installer->validateEncryptionKey($encryptionKey);
-
-            if ($this->hasErrors()) {
-                return false;
-            }
-
-            /**
-             * Create primary administrator user
-             */
-            $installer->createAdministrator($user);
-
-            if ($this->hasErrors()) {
-                return false;
-            }
-
-            /**
-             * Save encryption key or create if empty
-             */
-            $installer->installEnryptionKey($encryptionKey);
-
-            if ($this->hasErrors()) {
-                return false;
-            }
+            $encryptionKey = !empty($options['encryption_key']) ? $options['encryption_key'] : null;
+            $encryptionKey = $installer->getValidEncryptionKey($encryptionKey);
+            $installer->createAdministrator($this->_getDataModel()->getAdminData());
+            $installer->installEncryptionKey($encryptionKey);
 
             /**
              * Installation finish
@@ -349,23 +314,15 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             $this->_filesystem->changePermissions(Mage::getBaseDir('var'), 0777, true);
             return $encryptionKey;
         } catch (Exception $e) {
-            $this->addError('ERROR: ' . $e->getMessage());
+            if ($e instanceof Mage_Core_Exception) {
+                foreach ($e->getMessages(Mage_Core_Model_Message::ERROR) as $errorMessage) {
+                    $this->addError($errorMessage);
+                }
+            } else {
+                $this->addError('ERROR: ' . $e->getMessage());
+            }
             return false;
         }
-    }
-
-    /**
-     * Generate pseudorandom encryption key
-     *
-     * @param Mage_Core_Helper_Data $helper
-     * @return string
-     */
-    public function generateEncryptionKey($helper = null)
-    {
-        if ($helper === null) {
-            $helper = Mage::helper('Mage_Core_Helper_Data');
-        }
-        return md5($helper->getRandomString(10));
     }
 
     /**
@@ -373,7 +330,8 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
      */
     protected function _cleanUpDatabase()
     {
-        $dbConfig = Mage::getConfig()->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+        $dbConfig = $this->_resourceConfig
+            ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $modelName = 'Mage_Install_Model_Installer_Db_' . ucfirst($dbConfig->model);
 
         if (!class_exists($modelName)) {

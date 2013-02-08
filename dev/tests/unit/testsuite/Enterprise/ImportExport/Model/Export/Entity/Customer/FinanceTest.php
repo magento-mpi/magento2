@@ -24,8 +24,8 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
      * @var array
      */
     protected $_websites = array(
-        Mage_Core_Model_App::ADMIN_STORE_ID => 'admin',
-        1                                   => 'website1',
+        Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        1                                            => 'website1',
     );
 
     /**
@@ -132,7 +132,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_App::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(

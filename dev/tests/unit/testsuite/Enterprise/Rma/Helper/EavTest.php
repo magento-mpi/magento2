@@ -17,7 +17,9 @@ class Enterprise_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Enterprise_Rma_Helper_Eav();
+        $this->_model = new Enterprise_Rma_Helper_Eav(
+            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false)
+        );
     }
 
     /**

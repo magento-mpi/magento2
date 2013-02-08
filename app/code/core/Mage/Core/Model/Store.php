@@ -13,11 +13,13 @@
  *
  * @method Mage_Core_Model_Resource_Store _getResource()
  * @method Mage_Core_Model_Resource_Store getResource()
+ * @method Mage_Core_Model_Store setId(string $value)
  * @method Mage_Core_Model_Store setCode(string $value)
  * @method Mage_Core_Model_Store setWebsiteId(int $value)
  * @method Mage_Core_Model_Store setGroupId(int $value)
  * @method Mage_Core_Model_Store setName(string $value)
  * @method int getSortOrder()
+ * @method int getStoreId()
  * @method Mage_Core_Model_Store setSortOrder(int $value)
  * @method Mage_Core_Model_Store setIsActive(int $value)
  *
@@ -256,6 +258,43 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Validation rules for store
+     *
+     * @return Zend_Validate_Interface|null
+     */
+    protected function _getValidationRulesBeforeSave()
+    {
+        $validator = new Magento_Validator_Composite_VarienObject();
+
+        $storeLabelRule = new Zend_Validate_NotEmpty();
+        $storeLabelRule->setMessage(
+            Mage::helper('Mage_Core_Helper_Data')->__('Name is required'),
+            Zend_Validate_NotEmpty::IS_EMPTY
+        );
+        $validator->addRule($storeLabelRule, 'name');
+
+        $storeCodeRule = new Zend_Validate_Regex('/^[a-z]+[a-z0-9_]*$/');
+        $storeCodeRule->setMessage(
+            Mage::helper('Mage_Core_Helper_Data')->__('The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'),
+            Zend_Validate_Regex::NOT_MATCH
+        );
+        $validator->addRule($storeCodeRule, 'code');
+
+        if ($this->isObjectNew()) {
+            /** @var $limitation Mage_Core_Model_Store_Limitation */
+            $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Limitation');
+            $storeSavingAllowance = new Zend_Validate_Callback(array($limitation, 'canCreate'));
+            $storeSavingAllowance->setMessage(
+                $limitation->getCreateRestrictionMessage(), Zend_Validate_Callback::INVALID_VALUE
+            );
+
+            $validator->addRule($storeSavingAllowance);
+        }
+
+        return $validator;
+    }
+
+    /**
      * Loading store data
      *
      * @param   mixed $id
@@ -320,7 +359,13 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             return $this->_configCache[$path];
         }
 
-        $config = Mage::getConfig();
+        if (!Mage::isInstalled()) {
+            /** @var $config Mage_Core_Model_ConfigInterface */
+            $config = Mage::getSingleton('Mage_Core_Model_Config_Modules');
+        } else {
+            /** @var $config Mage_Core_Model_ConfigInterface */
+            $config = Mage::getSingleton('Mage_Core_Model_Config');
+        }
 
         $fullPath = 'stores/' . $this->getCode() . '/' . $path;
         $data = $config->getNode($fullPath);
@@ -348,9 +393,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if ($this->_configCache === null) {
             $code = $this->getCode();
             if ($code) {
-                if (Mage::app()->useCache('config')) {
+                $cache = Mage::getObjectManager()->get('Mage_Core_Model_Cache');
+                if ($cache->canUse('config')) {
                     $cacheId = 'store_' . $code . '_config_cache';
-                    $data = Mage::app()->loadCache($cacheId);
+                    $data = $cache->load($cacheId);
                     if ($data) {
                         $data = unserialize($data);
                     } else {
@@ -358,10 +404,10 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                         foreach ($this->_configCacheBaseNodes as $node) {
                             $data[$node] = $this->getConfig($node);
                         }
-                        Mage::app()->saveCache(serialize($data), $cacheId, array(
+                        $cache->save(serialize($data), $cacheId, array(
                             self::CACHE_TAG,
                             Mage_Core_Model_Config::CACHE_TAG
-                        ));
+                        ), false);
                     }
                     $this->_configCache = $data;
                 }
@@ -648,7 +694,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function isAdmin()
     {
-        return $this->getId() == Mage_Core_Model_App::ADMIN_STORE_ID;
+        return $this->getId() == Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
     }
 
 

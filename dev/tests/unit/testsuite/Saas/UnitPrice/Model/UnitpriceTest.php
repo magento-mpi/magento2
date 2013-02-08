@@ -12,6 +12,9 @@
 class Saas_UnitPrice_Model_UnitpriceTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @param Saas_UnitPrice_Helper_Data $helper
+     * @param null $exceptionMessage
+     * @param array $params
      * @return Saas_UnitPrice_Model_Unitprice
      */
     public function unitPriceMock(Saas_UnitPrice_Helper_Data $helper, $exceptionMessage = null,
@@ -42,7 +45,7 @@ class Saas_UnitPrice_Model_UnitpriceTest extends PHPUnit_Framework_TestCase
 
     public function helperMock()
     {
-        return $this->getMock('Saas_UnitPrice_Helper_Data', array('getConfig', '__'));
+        return $this->getMock('Saas_UnitPrice_Helper_Data', array('getConfig', '__'), array(), '', false);
     }
 
     /**

@@ -17,7 +17,7 @@ class Saas_UnitPrice_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function createProduct()
     {
-        $eventManager = new Mage_Core_Model_Event_Manager();
+        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
         $cacheManager = $this->getMockBuilder('Mage_Core_Model_Cache')
             ->disableOriginalConstructor()
             ->getMock();
@@ -77,7 +77,7 @@ class Saas_UnitPrice_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('getFrontend')
             ->will($this->returnValue($frontend));
 
-        $helper = $this->getMock('Saas_UnitPrice_Helper_Data');
+        $helper = $this->getMock('Saas_UnitPrice_Helper_Data', array(), array(), '', false);
         $helper->expects($this->any())
             ->method('moduleActive')
             ->will($this->returnValue(true));

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
+class Mage_Customer_Service_Customer
 {
     /**
      * @var callable
@@ -174,6 +174,19 @@ class Mage_Customer_Service_Customer extends Mage_Core_Service_ServiceAbstract
         $this->_afterSave($customer, $customerData, $addressesData);
 
         return $this;
+    }
+
+    /**
+     * Sets each value from data to entity Varien_Object using setter method.
+     *
+     * @param Varien_Object $entity
+     * @param array $data
+     */
+    protected function _setDataUsingMethods($entity, array $data)
+    {
+        foreach ($data as $property => $value) {
+            $entity->setDataUsingMethod($property, $value);
+        }
     }
 
     /**

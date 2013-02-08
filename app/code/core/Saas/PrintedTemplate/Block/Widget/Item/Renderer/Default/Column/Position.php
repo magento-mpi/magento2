@@ -24,14 +24,14 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default_Column_Position
      *
      * @var array
      */
-    static protected $_currentPositionByWidget = array();
+    static protected $_currentPosition = array();
 
     /**
      * Position numbers for each order item
      *
      * @var array
      */
-    static protected $_itemPositionsByWidget = array();
+    static protected $_itemPositions = array();
 
     /**
      * Build item name HTML
@@ -41,18 +41,17 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default_Column_Position
     public function getHtml()
     {
         $currentPosition = $this->_getCurrentPosition();
-
         return $currentPosition ? $currentPosition : '';
     }
 
     /**
-     * Get current posiotion of current item in the current widget
+     * Get current position of current item in the current widget
      *
      * @return int|bool Return 'false' if widget isn't found, otherwise return position
      */
     protected function _getCurrentPosition()
     {
-        // check if item is main (not child of complex product) and widget is avaliable
+        // check if item is main (not child of complex product) and widget is available
         $parentBlock = $this->getParentBlock();
         if ($this->getItem()->getOrderItem()->getParentItemId() ||
             !$parentBlock || !$parentBlock->getParentBlock() ||
@@ -63,19 +62,19 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default_Column_Position
         $itemId = $this->getItem()->getOrderItem()->getId();
         $widgetId = $this->getParentBlock()->getParentBlock()->getWidgetId();
         // cache position number for each order item
-        if (isset(self::$_itemPositionsByWidget[$widgetId][$itemId])) {
-            return self::$_itemPositionsByWidget[$widgetId][$itemId];
-        } elseif (!isset(self::$_itemPositionsByWidget[$widgetId])) {
-            self::$_itemPositionsByWidget[$widgetId] = array();
+        if (isset(self::$_itemPositions[$widgetId][$itemId])) {
+            return self::$_itemPositions[$widgetId][$itemId];
+        } elseif (!isset(self::$_itemPositions[$widgetId])) {
+            self::$_itemPositions[$widgetId] = array();
         }
 
         // calculate next position number
-        if (!isset(self::$_currentPositionByWidget[$widgetId])) {
-            self::$_currentPositionByWidget[$widgetId] = 0;
+        if (!isset(self::$_currentPosition[$widgetId])) {
+            self::$_currentPosition[$widgetId] = 0;
         }
 
-        self::$_itemPositionsByWidget[$widgetId][$itemId] = ++self::$_currentPositionByWidget[$widgetId];
+        self::$_itemPositions[$widgetId][$itemId] = ++self::$_currentPosition[$widgetId];
 
-        return self::$_itemPositionsByWidget[$widgetId][$itemId];
+        return self::$_itemPositions[$widgetId][$itemId];
     }
 }

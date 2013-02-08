@@ -30,13 +30,14 @@ try {
 }
 define('BARE_BOOTSTRAP', 1);
 require __DIR__ . '/../../../app/bootstrap.php';
-Mage::setIsDeveloperMode(true);
-Mage::app(array(
-    Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => file_get_contents($params['local-xml']),
-    Mage_Core_Model_App::INIT_OPTION_URIS => array(Mage_Core_Model_Dir::MEDIA => $params['media-uri']),
-    Mage_Core_Model_App::INIT_OPTION_DIRS => array(
+
+$configurations = array(
+    Mage::PARAM_CUSTOM_LOCAL_CONFIG => file_get_contents($params['local-xml']),
+    Mage::PARAM_APP_URIS => array(Mage_Core_Model_Dir::MEDIA => $params['media-uri']),
+    Mage::PARAM_APP_DIRS => array(
         Mage_Core_Model_Dir::MEDIA => $params['media-dir'],
         Mage_Core_Model_Dir::VAR_DIR => $params['var-dir'],
     ),
-));
-Mage_Core_Model_Resource_Setup::applyAllUpdates();
+);
+$entryPoint = new \Magento\MultiTenant\Upgrade\EntryPoint(BP, $configurations);
+$entryPoint->processRequest();

@@ -142,7 +142,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
     /**
      * Return edit flag for block
      *
-     * @return boolean
+     * @return int
      */
     public function getEditMode()
     {

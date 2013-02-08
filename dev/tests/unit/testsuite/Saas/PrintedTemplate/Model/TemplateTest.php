@@ -47,7 +47,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
                 'height' => new Zend_Measure_Length($pageSize, Zend_Measure_Length::MILLIMETER),
                 'width' => new Zend_Measure_Length($pageSize, Zend_Measure_Length::MILLIMETER),
             );
-            $pageSizeObj = Mage::getModel('Saas_PrintedTemplate_Model_PageSize', array('sizeInfo' => $config));
+            $pageSizeObj = new Saas_PrintedTemplate_Model_PageSize(array('sizeInfo' => $config));
             $template->expects($this->any())
                 ->method('getPageSize')
                 ->will($this->returnValue($pageSizeObj));

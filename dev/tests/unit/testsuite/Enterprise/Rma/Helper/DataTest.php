@@ -29,7 +29,8 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->_getAppMock($mockConfig),
             $storeConfigMock,
             $this->_getCountryFactoryMock($mockConfig),
-            $this->_getRegionFactoryMock($mockConfig)
+            $this->_getRegionFactoryMock($mockConfig),
+            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false)
         );
         $this->assertEquals($model->getReturnAddressData(), $expectedResult);
     }

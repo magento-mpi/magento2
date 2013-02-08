@@ -34,7 +34,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const COOKIE_CUSTOMER_LOGGED_IN = 'CUSTOMER_AUTH';
 
     /**
-     * Subprocessors cookie names
+     * Sub-processors cookie names
      */
     const COOKIE_CATEGORY_PROCESSOR = 'CATEGORY_INFO';
 
@@ -56,23 +56,38 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     /**
      * Encryption salt value
      *
-     * @var sting
+     * @var string
      */
     protected $_salt = null;
 
     /**
+     * FPC cache model
+     *
+     * @var Enterprise_PageCache_Model_Cache
+     */
+    protected $_fpcCache;
+
+    /**
+     * @param Enterprise_PageCache_Model_Cache $_fpcCache
+     */
+    public function __construct(Enterprise_PageCache_Model_Cache $_fpcCache)
+    {
+        $this->_fpcCache = $_fpcCache;
+    }
+
+    /**
      * Retrieve encryption salt
      *
-     * @return null|sting
+     * @return null|string
      */
     protected function _getSalt()
     {
         if ($this->_salt === null) {
             $saltCacheId = 'full_page_cache_key';
-            $this->_salt = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($saltCacheId);
+            $this->_salt = $this->_fpcCache->load($saltCacheId);
             if (!$this->_salt) {
                 $this->_salt = md5(microtime() . rand());
-                Enterprise_PageCache_Model_Cache::getCacheInstance()->save($this->_salt, $saltCacheId,
+                $this->_fpcCache->save($this->_salt, $saltCacheId,
                     array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
             }
         }

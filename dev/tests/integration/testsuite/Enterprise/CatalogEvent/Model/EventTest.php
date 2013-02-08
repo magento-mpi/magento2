@@ -33,7 +33,7 @@ class Enterprise_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
 
     public function testCRUD()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() == 'mssql') {
+        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() == 'mssql') {
             $this->markTestIncomplete('Bug MAGETWO-294');
         }
         $this->_model
