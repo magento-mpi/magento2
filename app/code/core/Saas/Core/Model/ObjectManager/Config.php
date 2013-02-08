@@ -18,7 +18,7 @@ class Saas_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
 
         $this->_initialConfig['Saas_Saas_Model_Maintenance_Config'] = array(
             'parameters' => array(
-                'config' => $this->_getParam('maintenance_mode'),
+                'config' => $this->_getParam('maintenance_mode', array()),
             ),
         );
     }

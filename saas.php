@@ -21,7 +21,12 @@ return function ($appConfigString) {
         $params = array_merge($_SERVER, unserialize($appConfigString));
         require __DIR__ . '/app/bootstrap.php';
 
-        $objectManager = new Mage_Core_Model_ObjectManager(new Saas_Core_Model_ObjectManager_Config($params), BP);
+        if (!array_key_exists(Mage::PARAM_BASEDIR, $params)) {
+            $params[Mage::PARAM_BASEDIR] = BP;
+        }
+
+        $config = new Saas_Core_Model_ObjectManager_Config($params);
+        $objectManager = new Mage_Core_Model_ObjectManager($config, BP);
         $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $params, $objectManager);
         $entryPoint->processRequest();
     } catch (Exception $e) {
