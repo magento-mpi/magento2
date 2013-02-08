@@ -70,7 +70,15 @@ class Enterprise_PageCache_Model_Observer
     protected $_restriction;
 
     /**
+     * Request identifier model
+     *
+     * @var Enterprise_PageCache_Model_Request_Identifier
+     */
+    protected $_requestIdentifier;
+
+    /**
      * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
      * @param Mage_Core_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Cache $fpcCache
@@ -79,6 +87,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor $processor,
+        Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier,
         Enterprise_PageCache_Model_Config $config,
         Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_Cache $fpcCache,
@@ -91,6 +100,7 @@ class Enterprise_PageCache_Model_Observer
         $this->_fpcCache = $fpcCache;
         $this->_cookie = $cookie;
         $this->_restriction = $restriction;
+        $this->_requestIdentifier = $_requestIdentifier;
         $this->_isEnabled = $this->_cache->canUse('full_page');
     }
 
@@ -161,13 +171,12 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $cacheId = Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY;
-
+        $cacheId = Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY;
         $exception = $this->_fpcCache->load($cacheId);
         if (!$exception) {
             $exception = Mage::getStoreConfig(self::XML_PATH_DESIGN_EXCEPTION);
             $this->_fpcCache->save($exception, $cacheId);
-            $this->_processor->refreshRequestIds();
+            $this->_requestIdentifier->refreshRequestIds();
         }
         return $this;
     }
@@ -590,7 +599,7 @@ class Enterprise_PageCache_Model_Observer
     public function registerDesignExceptionsChange(Varien_Event_Observer $observer)
     {
         $object = $observer->getDataObject();
-        $this->_fpcCache->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY,
+        $this->_fpcCache->save($object->getValue(), Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY,
                 array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         return $this;
     }

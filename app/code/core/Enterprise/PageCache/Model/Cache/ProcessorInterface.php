@@ -12,27 +12,6 @@ interface Enterprise_PageCache_Model_Cache_ProcessorInterface
     extends Enterprise_PageCache_Model_RequestProcessorInterface
 {
     /**
-     * Refresh values of request ids
-     *
-     * Some parts of $this->_requestId and $this->_requestCacheId might be changed in runtime
-     * E.g. we may not know about design package
-     * But during cache save we need this data to be actual
-     *
-     * @return Enterprise_PageCache_Model_Processor
-     */
-    public function refreshRequestIds();
-
-
-    /**
-     * Prepare page identifier
-     *
-     * @param string $id
-     * @return string
-     */
-    public function prepareCacheId($id);
-
-
-    /**
      * Get HTTP request identifier
      *
      * @return string
