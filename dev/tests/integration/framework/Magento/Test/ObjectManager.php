@@ -35,7 +35,6 @@ class Magento_Test_ObjectManager extends Mage_Core_Model_ObjectManager
             }
         }
 
-        Mage::getSingleton('Mage_Core_Model_Config_Base')->destroy();
         $instanceManagerNew = new Magento_Di_InstanceManager_Zend();
         $instanceManagerNew->addSharedInstance($this, 'Magento_ObjectManager');
         if ($this->_di->instanceManager()->hasSharedInstance('Mage_Core_Model_Resource')) {

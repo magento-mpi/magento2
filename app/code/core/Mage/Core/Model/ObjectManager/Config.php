@@ -26,6 +26,9 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         'Mage_Core_Model_Config' => array(
             'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage')
         ),
+        'Mage_Core_Model_Config_Container' => array(
+            'parameters' => array('configCache' => 'Mage_Core_Model_Config_Cache_Proxy')
+        ),
         'Mage_Core_Model_Config_Resource' => array(
             'parameters' => array('config' => 'Mage_Core_Model_Config_Primary')
         ),
@@ -43,6 +46,9 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         ),
         'Mage_Core_Model_Config_Storage_Locales' => array(
             'parameters' => array('loader' => 'Mage_Core_Model_Config_Loader_Locales_Proxy')
+        ),
+        'Mage_Core_Model_Event_Config' => array(
+            'parameters' => array('config' => 'Mage_Core_Model_Config_Modules_Proxy')
         ),
         'Mage_Install_Model_Installer' => array(
             'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
