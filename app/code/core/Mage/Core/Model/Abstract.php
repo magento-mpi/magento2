@@ -11,6 +11,8 @@
 
 /**
  * Abstract model class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class Mage_Core_Model_Abstract extends Varien_Object
 {
@@ -55,7 +57,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      *
      * @var string
      */
-    protected $_resourceCollectionName;
+    protected $_collectionName;
 
     /**
      * Model cache tag for clear cache in after save and after delete
@@ -180,15 +182,15 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * If collection name is omitted, resource name will be used with _collection appended
      *
      * @param string $resourceName
-     * @param string|null $resourceCollectionName
+     * @param string|null $collectionName
      */
-    protected function _setResourceModel($resourceName, $resourceCollectionName = null)
+    protected function _setResourceModel($resourceName, $collectionName = null)
     {
         $this->_resourceName = $resourceName;
-        if (is_null($resourceCollectionName)) {
-            $resourceCollectionName = $resourceName . '_Collection';
+        if (is_null($collectionName)) {
+            $collectionName = $resourceName . '_Collection';
         }
-        $this->_resourceCollectionName = $resourceCollectionName;
+        $this->_collectionName = $collectionName;
     }
 
     /**
@@ -222,14 +224,14 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     public function getResourceCollection()
     {
-        if (empty($this->_resourceCollection) && empty($this->_resourceCollectionName)) {
+        if (empty($this->_resourceCollection) && empty($this->_collectionName)) {
             Mage::throwException(
                 Mage::helper('Mage_Core_Helper_Data')->__('Model collection resource name is not defined.')
             );
         }
         return $this->_resourceCollection ?
             clone $this->_resourceCollection :
-            Mage::getResourceModel($this->_resourceCollectionName, array('resource' => $this->_getResource()));
+            Mage::getResourceModel($this->_collectionName, array('resource' => $this->_getResource()));
     }
 
     /**
