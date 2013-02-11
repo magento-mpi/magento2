@@ -453,6 +453,7 @@
     padding-left: 12px;
 }
 
+.address-list li.active:before,
 .address-list li.active:after {
     position: absolute;
     font-family: 'MUI-Icons';
@@ -468,8 +469,18 @@
     text-indent: -6px;
     top: 50%;
     margin-top: -5px;
-    text-shadow: 2px 0 0 #d9d2ca;
+    z-index: 2;
+}
+
+.address-list li.active:before {
+    color:#d9d2ca;
+    right: -11px;
     z-index: 1;
+}
+
+.address-list li.adress-list-actions:before,
+.address-list li.adress-list-actions:after {
+    display: none;
 }
 
 .address-list li.adress-list-actions {
@@ -482,10 +493,6 @@
 
 .address-list li.adress-list-actions:first-child {
     padding: 0;
-}
-
-.address-list li.adress-list-actions:after {
-    display: none;
 }
 
 .address-list .label {
@@ -1091,4 +1098,24 @@
 .images:after,
 .clearfix:after {
     clear: both;
+}
+
+
+/*
+    Gift Registry
+--------------------------------------*/
+.table-fieldset-alt,
+.type-options,
+.giftregistry-custom-attributes {
+    margin-bottom: 20px;
+}
+
+.table-fieldset-alt thead th,
+.table-fieldset-alt tbody tr td {
+    border-width: 0;
+}
+
+.table-fieldset-alt tbody tr:nth-child(odd) td,
+.table-fieldset-alt tbody tr:nth-child(odd):hover td {
+    background: #fff;
 }
