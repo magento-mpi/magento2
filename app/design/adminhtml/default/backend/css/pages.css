@@ -222,7 +222,7 @@
 }
 
 .image-placeholder-text {
-    padding: 72px 5px 0;
+    padding: 60px 5px 0;
     font-size: 11px;
     font-weight: bold;
     line-height: 1.333;
@@ -283,23 +283,6 @@
 #variations-search-field > .control {
     position: relative;
     width: 42%;
-}
-
-#variations-search-field > .control:after {
-    position: absolute;
-    top: 0;
-    right: 3px;
-    bottom: 0;
-    width: 22px;
-    text-align: center;
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    content: '\e01f'; /* search icon */
-    font-size: 20px;
-    color: #b2b2b2;
 }
 
 #variations-search-field > .control > input {
