@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model_Cache_ProcessorInterface
+class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model_RequestProcessorInterface
 {
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';

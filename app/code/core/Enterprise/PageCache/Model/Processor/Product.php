@@ -28,7 +28,7 @@ class Enterprise_PageCache_Model_Processor_Product extends Enterprise_PageCache_
     /**
      * Cache processor
      *
-     * @var Enterprise_PageCache_Model_Cache_ProcessorInterface
+     * @var Enterprise_PageCache_Model_Processor
      */
     protected $_processor;
 

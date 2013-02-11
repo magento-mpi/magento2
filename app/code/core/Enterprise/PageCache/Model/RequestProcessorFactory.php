@@ -32,13 +32,12 @@ class Enterprise_PageCache_Model_RequestProcessorFactory
      */
     public function create($className, array $arguments = array())
     {
-        $processor = $this->_objectManager->create($className, $arguments);
-
-        if (false === ($processor instanceof Enterprise_PageCache_Model_RequestProcessorInterface)) {
+        if(false === is_subclass_of($className, 'Enterprise_PageCache_Model_RequestProcessorInterface')) {
             throw new LogicException(
                 $className . ' doesn\'t implement Enterprise_PageCache_Model_RequestProcessorInterface'
             );
         }
+        $processor = $this->_objectManager->create($className, $arguments);
 
         return $processor;
     }

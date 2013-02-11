@@ -25,7 +25,7 @@ class Enterprise_PageCache_Model_Observer
     /**
      * Page Cache Processor
      *
-     * @var Enterprise_PageCache_Model_Cache_ProcessorInterface
+     * @var Enterprise_PageCache_Model_Processor
      */
     protected $_processor;
 

@@ -110,10 +110,10 @@ class Enterprise_PageCache_Model_Processor_Default implements Enterprise_PageCac
     /**
      * Return cache page id with application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
+     * @param Enterprise_PageCache_Model_Processor $processor
      * @return string
      */
-    public function getPageIdInApp(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor)
+    public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
     {
         return $this->getPageIdWithoutApp($processor);
     }
@@ -121,10 +121,10 @@ class Enterprise_PageCache_Model_Processor_Default implements Enterprise_PageCac
     /**
      * Return cache page id without application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
+     * @param Enterprise_PageCache_Model_Processor $processor
      * @return string
      */
-    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor)
+    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor)
     {
         $queryParams = $_GET;
         ksort($queryParams);

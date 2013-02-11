@@ -196,10 +196,10 @@ abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterpri
     /**
      * Set processor for container needs
      *
-     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
+     * @param Enterprise_PageCache_Model_Processor $processor
      * @return Enterprise_PageCache_Model_Container_Abstract
      */
-    public function setProcessor(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor)
+    public function setProcessor(Enterprise_PageCache_Model_Processor $processor)
     {
         $this->_processor = $processor;
         return $this;
