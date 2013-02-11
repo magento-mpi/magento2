@@ -53,7 +53,7 @@ create_cms_widget:
                         fieldsets:
                             -
                                 settings_fieldset:
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     dropdowns:
                                         type: //select[@name='type']
                                         design_package_theme: //select[@id='theme_id']
@@ -76,7 +76,7 @@ add_widget_options:
                         fieldsets:
                             -
                                 frontend_properties_fieldset:
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     dropdowns:
                                         type: //select[@name='type']
                                         design_package_theme: //select[@name='package_theme']
@@ -84,10 +84,10 @@ add_widget_options:
                                         widget_instance_title: //input[@name='title']
                                         sort_order: //input[@name='sort_order']
                                     multiselects:
-                                        assign_to_store_views: //select[@name='store_ids[]']
+                                        assign_to_store_views: //*[@id='store_ids']
                             -
                                 layout_updates_header:
-                                    xpath: //div[@class='entry-edit-head' and h4='Layout Updates']
+                                    xpath: //*[@id='widget_instace_tabs_main_section_content']//legend[span='Layout Updates']
                                     buttons:
                                         add_layout_update: //button[span='Add Layout Update']
                             -

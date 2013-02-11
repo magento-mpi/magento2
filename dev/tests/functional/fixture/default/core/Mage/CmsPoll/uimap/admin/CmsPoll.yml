@@ -60,7 +60,7 @@ new_poll:
                         fieldsets:
                             -
                                 information:
-                                    xpath: //div[contains(div/div/h4,'Poll information')]
+                                    xpath: //*[@id='poll_form']
                                     dropdowns:
                                         poll_status: //select[@id='closed']
                                     fields:

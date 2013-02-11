@@ -11,14 +11,14 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //ul[@id='nav']//a[contains(@href, '/catalog_product/')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, '/catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: &manageProductsUimap
         form:
             fieldsets:
                 -
                     product_grid:
-                        xpath: //div[@id='productGrid']
+                        xpath: //*[@id='productGrid']
                         links:
                             selectall: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
                         buttons:
@@ -337,7 +337,7 @@ new_product:
                         fieldsets:
                             -
                                 product_prices:
-                                    xpath: //div[contains(div/div/strong/span,'Prices')]
+                                    xpath: //div[contains(div/div/h4,'Prices')]
                                     buttons:
                                         prices_group_add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']

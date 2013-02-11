@@ -11,7 +11,7 @@
 # 'Static Blocks' page
 manage_cms_static_blocks:
     mca: cms_block/
-    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/cms_block/')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, '/cms_block/')]
     title: Static Blocks / CMS / Magento Admin
     uimap:
         form: &searchStaticBlocksGrid
@@ -54,7 +54,7 @@ edit_cms_static_block:
             fieldsets:
                 -
                     general_information:
-                        xpath: //div[@class='entry-edit']
+                        xpath: //div[@class='entry-edit form-inline']
                         buttons:
                             show_hide_editor: //button[@id='toggleblock_content']
                         dropdowns:
@@ -63,7 +63,7 @@ edit_cms_static_block:
                             block_title: //input[@name='title']
                             block_identifier: //input[@name='identifier']
                         multiselects:
-                            store_view: //select[@id='block_store_id']
+                            store_view: //*[@id='block_store_id'][not(@type='hidden')]
                 -
                     simple_editor:
                         xpath: //div[@id='buttonsblock_content']/parent::td

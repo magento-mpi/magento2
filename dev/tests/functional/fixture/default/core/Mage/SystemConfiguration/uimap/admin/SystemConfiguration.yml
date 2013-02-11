@@ -34,6 +34,13 @@ system_configuration:
                         xpath: //a[contains(@href, 'edit/section/general/')]
                         fieldsets:
                             -
+                                single_store_mode:
+                                    xpath: //fieldset[@id='general_single_store_mode']
+                                    links:
+                                        single_store_mode_link: //parent::div//a[@id='general_single_store_mode-head']
+                                    dropdowns:
+                                        enable_single_store_mode: //select[@id='general_single_store_mode_enabled']
+                            -
                                 countries_options:
                                     xpath: //fieldset[@id='general_country']
                                     links:

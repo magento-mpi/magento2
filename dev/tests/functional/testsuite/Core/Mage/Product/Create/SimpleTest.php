@@ -56,7 +56,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     /**
      * <p>Creating product with all fields</p>
      *
-     * @depends onlyRequiredFieldsInSimple
+     * @ depends onlyRequiredFieldsInSimple
      *
      * @TestlinkId TL-MAGE-3411
      * @test

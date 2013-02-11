@@ -12,7 +12,7 @@
 # 'Manage Statuses' page
 order_statuses:
     mca: sales_order_status/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order_status')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, 'sales_order_status')]
     title: Order Statuses / Sales / Magento Admin
     uimap:
         form:
@@ -49,14 +49,14 @@ new_order_status:
             fieldsets:
                 -
                     order_status_info:
-                        xpath: //form[@id='edit_form']
+                        xpath: //*[@id='base_fieldset']
                         fields:
                             status_code: //input[@id='status']
                             status_label: //input[@id='label']
                         required: [status_code, status_label]
                 -
                     store_view_specific_labels:
-                        xpath: //div[@id='store_labels_fieldset']
+                        xpath: //*[@id='store_labels_fieldset']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

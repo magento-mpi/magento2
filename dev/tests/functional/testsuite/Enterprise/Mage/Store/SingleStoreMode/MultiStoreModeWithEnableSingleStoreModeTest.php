@@ -131,9 +131,9 @@ class Enterprise_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreM
         $this->navigate('manage_customer_segments');
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'),
             'There is no "Website" dropdown on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'add_segment'),
+        $this->assertTrue($this->controlIsPresent('button', 'add_new_segment'),
             'There is no "Add Segment" button on the page');
-        $this->clickButton('add_segment');
+        $this->clickButton('add_new_segment');
         $this->assertTrue($this->controlIsPresent('multiselect', 'assigned_to_website'),
             'There is no "Assigned to Website" selector on the page');
     }

@@ -122,9 +122,9 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
         $this->navigate('manage_customer_segments');
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'),
             'There is no "Website" dropdown on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'add_segment'),
+        $this->assertTrue($this->controlIsPresent('button', 'add_new_segment'),
             'There is no "Add Segment" button on the page');
-        $this->clickButton('add_segment');
+        $this->clickButton('add_new_segment');
         $this->assertTrue($this->controlIsPresent('multiselect', 'assigned_to_website'),
             'There is no "Assigned to Website" selector on the page');
     }
@@ -143,9 +143,9 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $rewardGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('reward_points_head');
-        $this->assertTrue((isset($rewardGrid['website'])), "Sales Statistics table not contain 'Website' column");
+        $this->assertTrue((isset($rewardGrid['website'])), "Reward Points table not contain 'Website' column");
         $storeCreditGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('store_credit_head');
-        $this->assertTrue((isset($storeCreditGrid['website'])), "Sales Statistics table not contain 'website' column");
+        $this->assertTrue((isset($storeCreditGrid['website'])), "Store Credit table not contain 'website' column");
         $salesGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('sales_statistics_head');
         $this->assertTrue((isset($salesGrid['website']) && isset($salesGrid['store'])
             && isset($salesGrid['store_view'])), "Sales Statistics table not contain all columns");
@@ -165,14 +165,14 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
             "Table is not contain 'visible_in' column");
         $this->openTab('store_credit');
         $storeCredit2 = $this->shoppingCartHelper()->getColumnNamesAndNumbers('store_credit_balance_head');
-        $this->assertTrue((isset($storeCredit2['website'])), "Sales Statistics table is not contain 'website' column");
+        $this->assertTrue((isset($storeCredit2['website'])), "Store Credit table is not contain 'website' column");
         $this->assertTrue($this->controlIsPresent('dropdown', 'website'), "Dropdown 'website' is absent");
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'), "Dropdown 'filter_website' is absent");
         $this->openTab('gift_regystry');
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'), "Dropdown 'filter_website' is absent");
         $this->openTab('reward_points');
         $rewardGrid2 = $this->shoppingCartHelper()->getColumnNamesAndNumbers('reward_points_balance_head');;
-        $this->assertTrue((isset($rewardGrid2['website'])), "Sales Statistics table is not contain 'website' column");
+        $this->assertTrue((isset($rewardGrid2['website'])), "Reward Points table is not contain 'website' column");
         $this->assertTrue($this->controlIsPresent('dropdown', 'store'), "Dropdown 'store' is absent");
         $this->clickControl('link', 'reward_points_history_link', false);
         $this->waitForAjax();
