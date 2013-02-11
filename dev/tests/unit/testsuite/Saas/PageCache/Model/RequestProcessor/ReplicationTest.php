@@ -69,7 +69,7 @@ class Saas_PageCache_Model_RequestProcessor_ReplicationTest extends PHPUnit_Fram
     public function testExtractContentWhenReplicationIsCompletedAndWithoutCategoryMetadata()
     {
         $content = 'test_content';
-        $this->_model->expects($this->once())->method('_isReplicationCompleted')->will($this->returnValue(true));
+        $this->_model->expects($this->never())->method('_isReplicationCompleted');
 
         $this->_metadataMock->expects($this->once())->method('getMetadata')
             ->with(Enterprise_PageCache_Model_Processor_Category::METADATA_CATEGORY_ID)
@@ -87,6 +87,11 @@ class Saas_PageCache_Model_RequestProcessor_ReplicationTest extends PHPUnit_Fram
     public function testExtractContentWhenReplicationIsNotCompleted()
     {
         $content = 'test_content';
+
+        $this->_metadataMock->expects($this->once())->method('getMetadata')
+            ->with(Enterprise_PageCache_Model_Processor_Category::METADATA_CATEGORY_ID)
+            ->will($this->returnValue(true));
+
         $this->_model->expects($this->once())->method('_isReplicationCompleted')->will($this->returnValue(false));
 
         $this->_fpcCacheMock->expects($this->never())

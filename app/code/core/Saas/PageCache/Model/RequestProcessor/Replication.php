@@ -62,14 +62,8 @@ class Saas_PageCache_Model_RequestProcessor_Replication implements Enterprise_Pa
         Zend_Controller_Response_Http $response,
         $content
     ) {
-        /**
-         * $this->_metadata->getMetadata(Enterprise_PageCache_Model_Processor_Category::METADATA_CATEGORY_ID)
-         * returns not empty values only we are on cached category page. For another category it will be empty value
-         * So, we should run validate process for search engine only when we are on cached category page, because
-         * only on this page third-party search engine uses
-         */
-        if ($this->_isReplicationCompleted() &&
-            $this->_metadata->getMetadata(Enterprise_PageCache_Model_Processor_Category::METADATA_CATEGORY_ID)
+        if ($this->_metadata->getMetadata(Enterprise_PageCache_Model_Processor_Category::METADATA_CATEGORY_ID) &&
+            $this->_isReplicationCompleted()
         ) {
             $this->_fpcCache->invalidateType(Enterprise_PageCache_Model_Processor::CACHE_TAG);
         }

@@ -51,5 +51,8 @@ return array(
      array('getCacheInstance', 'Enterprise_PageCache_Model_Cache'),
      array('refreshRequestIds', 'Enterprise_PageCache_Model_Processor',
          'Enterprise_PageCache_Model_Request_Identifier::refreshRequestIds'
-        ),
+     ),
+    array('prepareCacheId', 'Enterprise_PageCache_Model_Processor',
+         'Enterprise_PageCache_Model_Request_Identifier::prepareCacheId'
+     ),
 );
