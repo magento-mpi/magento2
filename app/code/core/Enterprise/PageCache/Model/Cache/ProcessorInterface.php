@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 interface Enterprise_PageCache_Model_Cache_ProcessorInterface
     extends Enterprise_PageCache_Model_RequestProcessorInterface
 {

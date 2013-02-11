@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_PageCache_Model_Http_Handler implements Magento_Http_HandlerInterface
 {
     /**

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model_Cache_ProcessorInterface
 {
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Saas_PageCache_Model_ObjectManager_Configurator extends Mage_Core_Model_ObjectManager_ConfigAbstract
 {
     /**
@@ -21,6 +20,11 @@ class Saas_PageCache_Model_ObjectManager_Configurator extends Mage_Core_Model_Ob
             'preference' => array(
                 'Enterprise_PageCache_Model_Processor_RestrictionInterface'
                     => 'Saas_PageCache_Model_Processor_Restriction',
+            ),
+            'Saas_PageCache_Model_RequestProcessor_Replication' => array(
+                'arguments' => array(
+                    'cache' => 'Enterprise_PageCache_Model_Cache_Proxy'
+                )
             )
         ));
     }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_PageCache_Model_Metadata implements Enterprise_PageCache_Model_MetadataInterface
 {
     /**

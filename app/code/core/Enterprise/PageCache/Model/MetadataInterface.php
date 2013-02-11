@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 interface Enterprise_PageCache_Model_MetadataInterface
 {
     /**

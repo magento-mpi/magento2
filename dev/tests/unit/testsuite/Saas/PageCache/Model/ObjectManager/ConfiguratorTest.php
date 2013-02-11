@@ -23,10 +23,14 @@ class Saas_PageCache_Model_ObjectManager_ConfiguratorTest extends PHPUnit_Framew
             'preference' => array(
                 'Enterprise_PageCache_Model_Processor_RestrictionInterface'
                     => 'Saas_PageCache_Model_Processor_Restriction',
-
             ),
+            'Saas_PageCache_Model_RequestProcessor_Replication' => array(
+                'arguments' => array(
+                    'cache' => 'Enterprise_PageCache_Model_Cache_Proxy',
+                )
+            )
         );
-        
+
         $objectManagerMock->expects($this->once())
             ->method('setConfiguration')
             ->with($exceptedConfig);

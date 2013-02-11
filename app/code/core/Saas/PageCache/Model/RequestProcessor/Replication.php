@@ -23,8 +23,12 @@ class Saas_PageCache_Model_RequestProcessor_Replication implements Enterprise_Pa
      */
     protected $_fpcCache;
 
+    /**
+     * @param Enterprise_PageCache_Model_Cache $cache
+     * @param Enterprise_PageCache_Model_Metadata $metadata
+     */
     public function __construct(
-        Enterprise_PageCache_Model_Cache_Proxy $cache,
+        Enterprise_PageCache_Model_Cache $cache,
         Enterprise_PageCache_Model_Metadata $metadata
     ) {
         $this->_fpcCache = $cache;

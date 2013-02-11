@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Saas_PageCache_Model_Processor_Restriction
     extends Enterprise_PageCache_Model_Processor_Restriction
 {

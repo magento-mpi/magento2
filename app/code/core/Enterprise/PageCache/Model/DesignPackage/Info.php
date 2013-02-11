@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_PageCache_Model_DesignPackage_Info
 {
     /**
@@ -29,31 +28,15 @@ class Enterprise_PageCache_Model_DesignPackage_Info
 
     /**
      * @param Enterprise_PageCache_Model_Cache $fpcCache
+     * @param Enterprise_PageCache_Model_DesignPackage_Rules $packageRules
      */
-    public function __construct(Enterprise_PageCache_Model_Cache $fpcCache)
-    {
+    public function __construct(
+        Enterprise_PageCache_Model_Cache $fpcCache,
+        Enterprise_PageCache_Model_DesignPackage_Rules $packageRules
+    ) {
         $exceptions = $fpcCache->load(self::DESIGN_EXCEPTION_KEY);
         $this->_designExceptionExistsInCache = $fpcCache->getFrontend()->test(self::DESIGN_EXCEPTION_KEY);
-
-        if ($exceptions) {
-            $rules = @unserialize($exceptions);
-            $this->_packageName = $this->_getPackageByUserAgent($rules);
-        }
-    }
-
-    /**
-     * Get package name based on design exception rules
-     *
-     * @param array $rules - design exception rules
-     * @return null|string
-     */
-    protected function _getPackageByUserAgent($rules)
-    {
-        $output = null;
-        if (false === empty($rules)) {
-            $output = Mage_Core_Model_Design_Package::getPackageByUserAgent($rules);
-        }
-        return $output;
+        $this->_packageName = $packageRules->getPackageByUserAgent($exceptions);
     }
 
     /**
