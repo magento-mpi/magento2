@@ -1457,7 +1457,8 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Old loading popup */
 /* TODO: remove this popup after refactoring of "varienLoader.js" file */
-.loading-old {
+.loading-old,
+.loading-mask {
     border: 1px solid #d85909;
     position: fixed;
     z-index: 1003;
@@ -1474,7 +1475,8 @@ table tbody tr:nth-child(odd):hover th {
     padding: 100px 0 10px;
 }
 
-.loading-old:after {
+.loading-old:after,
+.loading-mask:after {
     position: absolute;
     left: 50%;
     top: 40%;
@@ -1486,13 +1488,19 @@ table tbody tr:nth-child(odd):hover th {
     z-index: 2;
 }
 
-.loading-old .loader {
+.loading-old .loader,
+.loading-mask .loader {
     position: relative !important;
     left: auto !important;
     top: auto !important;
 }
 
-.eq-ie8 .loading-old {
+.loading-mask img {
+    display: none;
+}
+
+.eq-ie8 .loading-old,
+.eq-ie8 .loading-mask {
     background: #fff;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 }
