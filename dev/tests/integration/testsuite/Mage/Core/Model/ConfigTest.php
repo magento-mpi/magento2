@@ -349,9 +349,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
 
-        // Get cache is now using custom cache instance
+        // Check, that config's cache frontend is the one from custom cache instance
         $config = Mage::app()->getConfig();
-        $additionalCache = Mage::app()->getCacheInstance('additional');
+        $additionalCache = Mage::app()->getCacheInstance('config_instance');
         $this->assertSame($additionalCache->getFrontend(), $config->getCache());
 
         // Check, that config uses custom cache instance (dummy), so cachning for it shouldn't work

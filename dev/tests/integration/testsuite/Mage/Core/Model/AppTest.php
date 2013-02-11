@@ -273,6 +273,24 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertSame($front, $this->_mageModel->getFrontController());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testHasCacheInstance()
+    {
+        $localFile = file_get_contents(__DIR__ . '/_files/App/custom_cache_local.xml');
+        $params = array(
+            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $localFile,
+            'global_ban_use_cache' => true, // so that fresh config is merged and includes our custom local file
+        );
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
+
+        $application = Mage::app();
+        $this->assertTrue($application->hasCacheInstance(Mage_Core_Model_App::DEFAULT_CACHE_ID));
+        $this->assertTrue($application->hasCacheInstance('additional'));
+        $this->assertFalse($application->hasCacheInstance('non_existing_cache'));
+    }
+
     public function testGetCacheInstance()
     {
         $cache = $this->_mageModel->getCacheInstance();

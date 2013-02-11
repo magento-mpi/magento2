@@ -1290,6 +1290,18 @@ class Mage_Core_Model_App
     }
 
     /**
+     * Check, whether there is a cache instance with the provided id
+     *
+     * @param string $instanceId
+     * @return bool
+     */
+    public function hasCacheInstance($instanceId)
+    {
+        return isset($this->_caches[$instanceId]) ||
+            (bool)$this->_config->getNode(self::XML_PATH_CACHE_ADVANCED_INSTANCES . '/' . $instanceId);
+    }
+
+    /**
      * Get cache model by id. Return default cache model, if id is not set.
      *
      * @param string $instanceId
