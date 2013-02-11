@@ -30,7 +30,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader extends Mage_Adm
     protected function _prepareLayout()
     {
         $this->getConfig()->setUrl(
-            $this->getUrl('*/*/upload', $this->getHelperStorage()->getRequestParams())
+            $this->getUrl('*/*/upload', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams())
         );
         return parent::_prepareLayout();
     }

@@ -95,7 +95,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_ShipmentTest extends PHPUnit_Fram
     public function getChildrenDataProvider()
     {
         $fixturePath = __DIR__ . '/../../../_files/';
-        return require_once($fixturePath . 'order_data.php');
+        return include ($fixturePath . 'order_data.php');
     }
 
     /**

@@ -19,8 +19,8 @@
 class Core_Mage_AttributeSet_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
+     * Preconditions:
+     * Navigate to Catalog -> Manage Products
      */
     protected function assertPreConditions()
     {

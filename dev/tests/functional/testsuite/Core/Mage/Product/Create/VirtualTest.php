@@ -57,6 +57,9 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInVirtual()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-7272');
+        }
         //Data
         $product = $this->loadDataSet('Product', 'virtual_product');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
@@ -325,6 +328,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function invalidQtyInVirtual($invalidQty)
     {
+        $this->markTestIncomplete('MAGETWO-3360');
         //Data
         $productData = $this->loadDataSet('Product', 'virtual_product_required', array('general_qty' => $invalidQty));
         //Steps

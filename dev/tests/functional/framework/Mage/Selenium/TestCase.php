@@ -311,6 +311,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public final function setUp()
     {
         $this->prepareBrowserSession();
+        $this->currentWindow()->maximize();
         $this->cookie()->clear();
         $this->refresh();
         $this->setUpBeforeTestClass();
@@ -818,15 +819,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
         }
         if (preg_match('/%currentDate%/', $value)) {
-            $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
-            switch (end($fallbackOrderHelper)) {
-                case 'default':
-                    $value = preg_replace('/%currentDate%/', date("n/j/y"), $value);
-                    break;
-                default:
-                    $value = preg_replace('/%currentDate%/', date("n/j/Y"), $value);
-                    break;
-            }
+            $value = preg_replace('/%currentDate%/', date("n/j/Y"), $value);
         }
         if (preg_match('/^%next(\w)+%$/', $value)) {
             $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
@@ -2911,7 +2904,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $qtyElementsInTable = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'qtyElementsInTable');
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
-        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
+        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
         $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
         $pagerLocator = $fieldsetLocator . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
 

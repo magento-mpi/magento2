@@ -60,8 +60,6 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     {
         $this->_assertSessionErrors = false;
         $this->_objectManager = Mage::getObjectManager();
-        $this->_runOptions[Mage::INIT_OPTION_REQUEST]  = $this->getRequest();
-        $this->_runOptions[Mage::INIT_OPTION_RESPONSE] = $this->getResponse();
     }
 
     protected function tearDown()
@@ -69,7 +67,6 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
         $this->_request = null;
         $this->_response = null;
         $this->_objectManager = null;
-        $this->_runOptions = array();
     }
 
     /**
@@ -91,8 +88,10 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function dispatch($uri)
     {
         $this->getRequest()->setRequestUri($uri);
-        $this->_getBootstrap()->runApp($this->_runOptions);
-        $this->_assertSessionErrors = true;
+        $this->_getBootstrap()->runApp(array(
+            'request' => $this->getRequest(),
+            'response' => $this->getResponse()
+        ));
     }
 
     /**

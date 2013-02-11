@@ -41,6 +41,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_OrderTest extends PHPUni
 
         $helper = $this->getMockBuilder('Saas_PrintedTemplate_Helper_Data')
             ->setMethods(array('__'))
+            ->disableOriginalConstructor()
             ->getMock();
         $helper->expects($this->any())
             ->method('__')

@@ -59,10 +59,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
     }
 
     /**
-     * Redefining of standart field to filter adding, for aviability of
+     * Redefining of standard field to filter adding, for availability of
      * bit operations for display state
      *
-     * @param unknown_type $field
+     * @param string $field
      * @param null|string|array $condition
      * @return Enterprise_CatalogEvent_Model_Resource_Event_Collection
      */
@@ -75,7 +75,6 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
             }
             if (in_array((int) $condition, array(0, 1))) {
                 $this->getSelect()->where('display_state = ?', (int)$condition);
-                //$this->getSelect()->where('(' . $field . ' & ' . (int) $condition . ') = ' . (int) $condition);
             } else {
                 $this->getSelect()->where('display_state=?', 0);
             }

@@ -17,7 +17,12 @@
  * @param string $appConfigString
  */
 return function ($appConfigString) {
-    $params = array_merge($_SERVER, unserialize($appConfigString));
-    require __DIR__ . '/app/bootstrap.php';
-    Mage::run($params);
+    try {
+        $params = array_merge($_SERVER, unserialize($appConfigString));
+        require __DIR__ . '/app/bootstrap.php';
+        $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $params);
+        $entryPoint->processRequest();
+    } catch (Exception $e) {
+        Mage::printException($e);
+    }
 };

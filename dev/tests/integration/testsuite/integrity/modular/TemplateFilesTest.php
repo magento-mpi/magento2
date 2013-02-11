@@ -64,7 +64,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
                     $area = 'adminhtml';
                 }
 
-                Mage::getConfig()->setCurrentAreaCode($area);
+            Mage::app()->loadAreaPart(
+                Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::AREA_ADMINHTML
+            );
+            Mage::getConfig()->setCurrentAreaCode($area);
 
                 $block = Mage::getModel($blockClass);
                 $template = $block->getTemplate();

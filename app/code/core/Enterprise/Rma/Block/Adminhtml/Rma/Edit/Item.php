@@ -112,12 +112,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item extends Mage_Adminhtml_Block_
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'text' => Mage::getConfig()
-                ->getBlockClassName('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text'),
-            'textarea' => Mage::getConfig()
-                ->getBlockClassName('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Textarea'),
-            'image' => Mage::getConfig()
-                ->getBlockClassName('Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image')
+            'text' => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text',
+            'textarea' => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Textarea',
+            'image' => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image',
         );
     }
 

@@ -103,7 +103,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
             'name'     => 'base_price',
             'required' => true,
             'class'    => 'validate-not-negative-number',
-            'after_element_html' => '<br /><strong>[' .  Mage::app()->getBaseCurrencyCode() . ']</strong>'
+            'after_element_html' => '<strong>[' .  Mage::app()->getBaseCurrencyCode() . ']</strong>'
         ));
 
         $uploadButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
@@ -143,9 +143,6 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
      */
     protected function _getAdditionalElementTypes()
     {
-        return array(
-            'image' => Mage::getConfig()
-                ->getBlockClassName('Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image')
-        );
+        return array('image' => 'Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image');
     }
 }
