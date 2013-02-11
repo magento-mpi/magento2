@@ -177,6 +177,22 @@ jQuery(function($) {
         } else {
             updateSaveSplitButtonAvailability();
         }
+
+        if ($('#status').val() == '1') {
+            $('#product-online-switcher').prop('checked', true);
+        } else {
+            $('#product-online-switcher').prop('checked', false);
+        }
+    });
+
+    $('#attribute-status-container').hide();
+
+    $('#product-online-switcher').on('change', function(event) {
+        if ($(this).prop('checked')) {
+            $('#status').val('1');
+        } else {
+            $('#status').val('2');
+        }
     });
 });
 </script>

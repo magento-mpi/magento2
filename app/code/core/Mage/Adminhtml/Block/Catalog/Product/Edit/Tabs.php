@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
             if (Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
                 $this->addTab('inventory', array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Inventory'),
+                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Advanced Inventory'),
                     'content'   => $this->_translateHtml($this->getLayout()
                         ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory')->toHtml()),
                 ));
