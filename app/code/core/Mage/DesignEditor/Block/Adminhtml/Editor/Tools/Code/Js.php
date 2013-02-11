@@ -19,13 +19,6 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * Magento config model
-     *
-     * @var Mage_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @var Mage_Core_Model_Theme_Service
      */
     protected $_service;
@@ -45,7 +38,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Theme_Service $service
      * @param array $data
      *
@@ -66,14 +58,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Config $config,
         Mage_Core_Model_Theme_Service $service,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
         );
-        $this->_config = $config;
         $this->_service = $service;
     }
 
@@ -91,9 +81,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
         $this->setForm($form);
         $form->setUseContainer(true);
 
-        $form->addType('js_files',
-            $this->_config->getBlockClassName('Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File')
-        );
+        $form->addType('js_files', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File');
 
         $jsConfig = array(
             'name'     => 'js_files_uploader',
