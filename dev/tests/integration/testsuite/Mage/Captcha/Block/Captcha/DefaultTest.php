@@ -8,17 +8,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Captcha_Block_Captcha_ZendTest extends PHPUnit_Framework_TestCase
+class Mage_Captcha_Block_Captcha_DefaultTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Captcha_Block_Captcha_Zend
+     * @var Mage_Captcha_Block_Captcha_Default
      */
     protected $_block;
 
     public function setUp()
     {
          $this->_block = Mage::app()->getLayout()
-            ->createBlock('Mage_Captcha_Block_Captcha_Zend');
+            ->createBlock('Mage_Captcha_Block_Captcha_Default');
     }
 
     /**

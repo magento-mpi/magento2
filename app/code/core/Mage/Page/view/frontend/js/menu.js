@@ -24,6 +24,11 @@
             }, this));
         },
 
+        /**
+         * Show sub menu by adding shown-sub class
+         * @private
+         * @param subElement
+         */
         _show: function(subElement) {
             if (subElement.data('hideTimeId')) {
                 clearTimeout(subElement.data('hideTimeId'));
@@ -33,6 +38,11 @@
             }), this.options.showDelay);
         },
 
+        /**
+         * Hide sub menu by removing shown-sub class
+         * @private
+         * @param subElement
+         */
         _hide: function(subElement) {
             if (subElement.data('showTimeId')) {
                 clearTimeout(subElement.data('showTimeId'));

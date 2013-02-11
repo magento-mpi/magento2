@@ -22,13 +22,13 @@
     </span>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <form id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"<?php if (!$this->canRedeem()): ?> onsubmit="giftCardAccountLookupBalance(); return false;"<?php endif; ?>>
-        <div id="giftcard_balance_lookup"></div>
+        <div id="giftcard-balance-lookup"></div>
         <div class="fieldset">
             <ul class="form-list">
                 <li>
-                    <label for="giftcard_code"><?php echo $this->__('Enter gift card code') ?></label>
+                    <label for="giftcard-code"><?php echo $this->__('Enter gift card code') ?></label>
                     <div class="input-box">
-                        <input class="input-text" id="giftcard_code" name="giftcard_code" data-validate="{required:true}" value="<?php echo $this->getCurrentGiftcard(); ?>" />
+                        <input class="input-text" id="giftcard-code" name="giftcard_code" data-validate="{required:true}" value="<?php echo $this->getCurrentGiftcard(); ?>" />
                     </div>
                 </li>
             </ul>
@@ -46,12 +46,12 @@
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-                "<?php echo $this->getViewFileUrl('Enterprise_GiftCardAccount::gift-card.js')?>", function() {
+                "<?php echo $this->getViewFileUrl('Enterprise_GiftCardAccount::js/gift-card.js')?>", function() {
                     $('#giftcard-form').giftCard({
-                        giftCardCodeSelector: '#giftcard_code',
+                        giftCardCodeSelector: '#giftcard-code',
                         checkStatus: 'button.check-gc-status',
                         giftCardStatusUrl: '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>',
-                        giftCardStatusId: '#giftcard_balance_lookup',
+                        giftCardStatusId: '#giftcard-balance-lookup',
                         giftCardSpinnerId: '#gc-please-wait',
                         messages: '.col-main .messages'
                     }).validation();

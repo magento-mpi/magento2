@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
+class Mage_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Captcha default config data
      * @var array
      */
     protected static $_defaultConfig = array(
-        'type' => 'zend',
+        'type' => 'default',
         'enable' => '1',
         'font' => 'linlibertine',
         'mode' => 'after_fail',
@@ -52,7 +52,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Mage_Captcha_Model_Zend
+     * @var Mage_Captcha_Model_Default
      */
     protected $_object;
 
@@ -73,7 +73,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
             ->with('Mage_Captcha_Helper_Data')
             ->will($this->returnValue($this->_getHelperStub()));
 
-        $this->_object = new Mage_Captcha_Model_Zend(
+        $this->_object = new Mage_Captcha_Model_Default(
             $this->_objectManager,
             array(
                 'formId' => 'user_create',
@@ -83,15 +83,15 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::getBlockName
+     * @covers Mage_Captcha_Model_Default::getBlockName
      */
     public function testGetBlockName()
     {
-        $this->assertEquals($this->_object->getBlockName(), 'Mage_Captcha_Block_Captcha_Zend');
+        $this->assertEquals($this->_object->getBlockName(), 'Mage_Captcha_Block_Captcha_Default');
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::isRequired
+     * @covers Mage_Captcha_Model_Default::isRequired
      */
     public function testIsRequired()
     {
@@ -99,7 +99,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::isCaseSensitive
+     * @covers Mage_Captcha_Model_Default::isCaseSensitive
      */
     public function testIsCaseSensitive()
     {
@@ -110,7 +110,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::getFont
+     * @covers Mage_Captcha_Model_Default::getFont
      */
     public function testGetFont()
     {
@@ -121,8 +121,8 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::getTimeout
-     * @covers Mage_Captcha_Model_Zend::getExpiration
+     * @covers Mage_Captcha_Model_Default::getTimeout
+     * @covers Mage_Captcha_Model_Default::getExpiration
      */
     public function testGetTimeout()
     {
@@ -133,7 +133,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::isCorrect
+     * @covers Mage_Captcha_Model_Default::isCorrect
      */
     public function testIsCorrect()
     {
@@ -151,7 +151,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::getImgSrc
+     * @covers Mage_Captcha_Model_Default::getImgSrc
      */
     public function testGetImgSrc()
     {
@@ -162,13 +162,13 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::logAttempt
+     * @covers Mage_Captcha_Model_Default::logAttempt
      */
     public function testLogAttempt()
     {
         $resourceModel = $this->_getResourceModelStub();
 
-        $captcha = new Mage_Captcha_Model_Zend(
+        $captcha = new Mage_Captcha_Model_Default(
             $this->_objectManager,
             array(
                 'formId' => 'user_create',
@@ -181,7 +181,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Zend::getWord
+     * @covers Mage_Captcha_Model_Default::getWord
      */
     public function testGetWord()
     {
@@ -238,7 +238,7 @@ class Mage_Captcha_Model_ZendTest extends PHPUnit_Framework_TestCase
 
         $helper->expects($this->any())
             ->method('getConfigNode')
-            ->will($this->returnCallback('Mage_Captcha_Model_ZendTest::getConfigNodeStub'));
+            ->will($this->returnCallback('Mage_Captcha_Model_DefaultTest::getConfigNodeStub'));
 
         $helper->expects($this->any())
             ->method('getFonts')

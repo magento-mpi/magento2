@@ -15,9 +15,9 @@
  * @package    Mage_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Block_Captcha_Zend extends Mage_Core_Block_Template
+class Mage_Captcha_Block_Captcha_Default extends Mage_Core_Block_Template
 {
-    protected $_template = 'zend.phtml';
+    protected $_template = 'default.phtml';
 
     /**
      * @var string

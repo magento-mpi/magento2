@@ -9,7 +9,9 @@
 /*jshint browser:true jquery:true*/
 /*global FORM_KEY*/
 /*global bSelection*/
+/*global $H*/
 (function($) {
+    "use strict";
     $.widget('mage.bundleProduct', {
         _create: function () {
             this._initOptionBoxes();
@@ -81,7 +83,8 @@
                 $selectionGrid.dialog({
                     title: $optionBox.find('input[name$="[title]"]').val() === '' ?
                         'Add Products to New Option' :
-                        'Add Products to Option "' + $optionBox.find('input[name$="[title]"]').val() + '"',
+                        'Add Products to Option "' +
+                            $('<div>').text($optionBox.find('input[name$="[title]"]').val()).html() + '"',
                     autoOpen: false,
                     minWidth: 980,
                     modal: true,
@@ -110,7 +113,7 @@
                             bSelection.gridRemoval.each(
                                 function(pair) {
                                     $optionBox.find('.product-sku').filter(function () {
-                                        return $.trim($(this).text()) == pair.key; // find row by SKU
+                                        return $.trim($(this).text()) === pair.key; // find row by SKU
                                     }).closest('tr').find('button.delete').trigger('click');
                                 }
                             );

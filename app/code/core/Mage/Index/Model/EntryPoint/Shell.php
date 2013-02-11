@@ -17,7 +17,7 @@ class Mage_Index_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstra
         $entryPoint = $params['entryPoint'];
         unset($params['entryPoint']);
         parent::__construct($baseDir, $params);
-        $this->_objectManager->configure(array(
+        $this->_objectManager->setConfiguration(array(
             'Mage_Index_Model_Shell' => array(
                 'parameters' => array(
                     'entryPoint' => $entryPoint,
