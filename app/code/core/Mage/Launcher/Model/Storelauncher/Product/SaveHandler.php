@@ -15,7 +15,128 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Product_SaveHandler extends Mage_Launcher_Model_Tile_MinimalSaveHandler
+class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Launcher_Model_Tile_SaveHandler
 {
+    /**
+     * ID of the attribute set that is used by product created via Product Tile
+     * @todo ID  must not be hardcoded. For now it corresponds to "Minimal" attribute set, but it will change
+     */
+    const RELATED_ATTRIBUTE_SET_ID = 10;
 
+    /**
+     * Application instance
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * Object manager
+     *
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @param Mage_Core_Model_App $app
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(
+        Mage_Core_Model_App $app,
+        Magento_ObjectManager $objectManager
+    ) {
+        $this->_app = $app;
+        $this->_objectManager = $objectManager;
+    }
+
+    /**
+     * Save product related data
+     *
+     * @param array $data Request data
+     * @throws Mage_Launcher_Exception
+     */
+    public function save($data)
+    {
+        $preparedData = $this->prepareData($data);
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->_objectManager->create('Mage_Catalog_Model_Product', array(), false)
+            ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
+            // only simple product can be created via Product Tile
+            ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+            ->addData($preparedData['product'])
+            ->setData('_edit_mode', true)
+            ->setAttributeSetId($this->getRelatedProductAttributeSetId())
+            ->setWebsiteIds($this->getRelatedWebsiteIds());
+        if ($product->validate() !== true) {
+            // validate method returns array of errors if some values are not valid
+            throw new Mage_Launcher_Exception('Product data is invalid.');
+        }
+        // catalog_product_prepare_save and catalog_product_transition_product_type are not dispatched on purpose
+        $product->save();
+    }
+
+    /**
+     * Retrieve ID of the product attribute set used by products created via Product Tile
+     *
+     * @return int
+     */
+    public function getRelatedProductAttributeSetId()
+    {
+        /** @todo attribute set ID  must not be hardcoded */
+        return self::RELATED_ATTRIBUTE_SET_ID;
+    }
+
+    /**
+     * Retrieve the list of website IDs related to product
+     *
+     * @return array
+     */
+    public function getRelatedWebsiteIds()
+    {
+        // For now all products created via Product Tile are associated with default website
+        return array($this->_app->getStore(true)->getWebsite()->getId());
+    }
+
+    /**
+     * Prepare Data for saving
+     *
+     * @param array $data
+     * @return array
+     * @throws Mage_Launcher_Exception
+     */
+    public function prepareData($data)
+    {
+        if (!isset($data['product']) || !is_array($data['product'])) {
+            throw new Mage_Launcher_Exception('Product data is invalid.');
+        }
+        // prevent ID overriding
+        unset($data['product'][Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);
+        // prepare product stock data
+        $data['product']['stock_data'] = $this->_prepareProductStockData($data);
+
+        return $data;
+    }
+
+    /**
+     * Prepare product stock data
+     *
+     * @param array $data product data
+     * @return array
+     */
+    protected function _prepareProductStockData(array $data)
+    {
+        $stockData = array();
+        // process 'quantity_and_stock_status' attribute
+        $stockData['qty'] = (!empty($data['product']['quantity_and_stock_status']['qty']))
+            ? (int)$data['product']['quantity_and_stock_status']['qty']
+            : 0;
+        $stockData['is_in_stock'] = empty($data['product']['quantity_and_stock_status']['is_in_stock']) ? 0 : 1;
+        $stockData['manage_stock'] = (!empty($stockData['qty'])) ? 1 : 0;
+        // manage stock explicitly
+        $stockData['use_config_manage_stock'] = 0;
+        // quantity can be represented only by integer value for products created via Product Tile
+        $stockData['is_qty_decimal'] = 0;
+
+        return $stockData;
+    }
 }
