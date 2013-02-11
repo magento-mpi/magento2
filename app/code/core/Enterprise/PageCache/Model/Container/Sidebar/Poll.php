@@ -73,14 +73,14 @@ class Enterprise_PageCache_Model_Container_Sidebar_Poll extends Enterprise_PageC
         $data = serialize($renderedParams);
         $id = $this->_getInfoCacheId();
         $tags = array(Enterprise_PageCache_Model_Processor::CACHE_TAG);
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $id, $tags);
+        $this->_fpcCache->save($data, $id, $tags);
         return $this;
     }
 
     /**
      * Loads informational cache, containing parameters used to show poll
      *
-     * @return false|array
+     * @return bool|array
      */
     protected function _loadInfoCache()
     {

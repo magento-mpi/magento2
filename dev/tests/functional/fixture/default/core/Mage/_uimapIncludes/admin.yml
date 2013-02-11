@@ -23,11 +23,11 @@ admin_header:
                             close: //a[span='close']
                 -
                     global_header:
-                        xpath: //div[contains(a/img/@class,'logo')]
+                        xpath: //*[@class='header']
                         links:
                             log_out: //a[@class='link-logout']
                         pageelements:
-                            admin_logo: //img[@class='logo' and contains(@src,'logo.gif')]
+                            admin_logo: //*[@class='logo' and @title='Magento Admin Panel']
                         fields:
                             global_record_search: //*[@id='global_search']
                 -
@@ -43,8 +43,8 @@ admin_header:
                         checkboxes:
                             table_line_checkbox: "%tableLineXpath%//input[@type='checkbox']"
                         pageelements:
-                            qtyElementsInTable: //td[@class='pager']//span[contains(@id,'total-count')]
-                            qty_elements_in_specific_table: "%tableHeadXpath%//td[@class='pager']//span[contains(@id,'total-count')]"
+                            qtyElementsInTable: //div[@class='pager']//span[contains(@id,'total-count')]
+                            qty_elements_in_specific_table: "%tableHeadXpath%//div[@class='pager']//span[contains(@id,'total-count')]"
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
                             loadingHolder: "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]"
                             dropdown_option: "%dropdownXpath%//option"

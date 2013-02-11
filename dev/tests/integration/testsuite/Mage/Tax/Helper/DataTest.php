@@ -16,7 +16,8 @@ class Mage_Tax_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDefaultCustomerTaxClass()
     {
-        $helper = new Mage_Tax_Helper_Data();
+        /** @var $helper Mage_Tax_Helper_Data */
+        $helper = Mage::helper('Mage_Tax_Helper_Data');
         $this->assertEquals(1, $helper->getDefaultCustomerTaxClass());
     }
 
@@ -25,7 +26,8 @@ class Mage_Tax_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDefaultProductTaxClass()
     {
-        $helper = new Mage_Tax_Helper_Data();
+        /** @var $helper Mage_Tax_Helper_Data */
+        $helper = Mage::helper('Mage_Tax_Helper_Data');
         $this->assertEquals(1, $helper->getDefaultProductTaxClass());
     }
 

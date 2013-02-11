@@ -87,13 +87,11 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default extends Mage_Backe
     /**
      * Check is renderer block exists
      *
-     * @param string Block name
+     * @param string $block block name
      * @return bool
      */
     protected function _isBlockExists($block)
     {
-        $blockClass = Mage::getConfig()->getBlockClassName($block);
-
-        return $blockClass && class_exists($blockClass);
+        return $block && class_exists($block);
     }
 }

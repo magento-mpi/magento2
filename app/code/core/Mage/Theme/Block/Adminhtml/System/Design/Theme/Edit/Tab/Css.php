@@ -279,10 +279,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getAdditionalElementTypes()
     {
-        $linksElement = $this->_objectManager->get('Mage_Core_Model_Config')
-            ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links');
-        $fileElement = $this->_objectManager->get('Mage_Core_Model_Config')
-            ->getBlockClassName('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File');
+        $linksElement = 'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links';
+        $fileElement = 'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File';
         return array('links' => $linksElement, 'css_file' => $fileElement);
     }
 

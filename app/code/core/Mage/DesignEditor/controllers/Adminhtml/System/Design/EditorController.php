@@ -370,7 +370,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $layoutCollection Mage_DesignEditor_Model_Resource_Layout_Update_Collection */
         $layoutCollection = $this->_objectManager
             ->create('Mage_DesignEditor_Model_Resource_Layout_Update_Collection');
-        $layoutCollection->addStoreFilter(Mage_Core_Model_App::ADMIN_STORE_ID)
+        $layoutCollection->addStoreFilter(Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->addThemeFilter($themeId)
             ->addFieldToFilter('handle', $handle)
             ->addFieldToFilter('is_vde', true)
@@ -386,7 +386,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         if ($xml || $layoutUpdate) {
             $layoutUpdateData = array(
-                'store_id'     => Mage_Core_Model_App::ADMIN_STORE_ID,
+                'store_id'     => Mage_Core_Model_AppInterface::ADMIN_STORE_ID,
                 'theme_id'     => $themeId,
                 'handle'       => $handle,
                 'xml'          => $this->_compactHistory($layoutUpdate, $xml),

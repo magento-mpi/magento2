@@ -25,7 +25,7 @@
     <?php if ($this->customerHasAddresses()) : ?>
         <li>
             <label for="address_type_or_id"><?php echo $this->__('Select a shipping address from your address book or enter a new address.') ?></label>
-            <div class="input-box"><?php echo $this->getAddressHtmlSelect('address_type_or_id') ?></div>
+            <div class="input-box" data-shipping-address="<?php echo $this->getEntity()->getShippingAddress() ? 'true' : 'false' ?>" ><?php echo $this->getAddressHtmlSelect('address_type_or_id') ?></div>
         </li>
     <?php endif ?>
         <li id="shipping-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif ?>>
@@ -67,13 +67,6 @@
                             <select id="address:region_id" name="address[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
                             <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                         </select>
-                        <script type="text/javascript">
-                        //<![CDATA[
-                        document.observe("dom:loaded", function() {
-                            $('address:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
-                        })
-                        //]]>
-                        </script>
                         <input type="text" id="address:region" name="address[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>" title="<?php echo $this->__('State/Province') ?>" class="input-text <?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('region') ?>" style="display:none;" />
                     </div>
                     </div>
@@ -111,36 +104,15 @@
     </ul>
 </div>
 <script type="text/javascript">
-//<![CDATA[
-
-function changeShippingAddressType(event) {
-    var el = Event.element(event);
-    var show_form = false;
-
-    if ((!el) || (el.getValue() == 'new')) {
-        show_form = true;
-    }
-
-    if ( $('shipping-new-address-form')) {
-        if (show_form) {
-            $('shipping-new-address-form').show();
-        } else {
-            $('shipping-new-address-form').hide();
-        }
-    }
-}
-if ($('address_type_or_id')) {
-    $('address_type_or_id').observe('change', changeShippingAddressType);
-}
-
-new RegionUpdater('address:country_id', 'address:region', 'address:region_id', regionJSON, undefined, 'zip');
-
-<?php if ($this->getEntity()->getShippingAddress()): ?>
-    if ($('address_type_or_id')) {
-        $('address_type_or_id').setValue('new');
-    }
-    $('shipping-new-address-form').show();
-<?php endif; ?>
-
-//]]>
+    head.js(
+        "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+        function() {
+            jQuery('#address\\:country_id').regionUpdater({
+                regionListId: '#address\\:region_id',
+                regionInputId: '#address\\:region',
+                postcodeId: '#address\\:postcode',
+                regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>,
+                defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>"
+            });
+        });
 </script>

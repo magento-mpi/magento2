@@ -37,7 +37,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function requiredFieldsForDynamicSmoke()
     {
-        $this->markTestIncomplete('MAGETWO-6269');
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
         //Steps
@@ -72,6 +71,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForDynamic()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-7272');
+        }
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle');
         $productSearch =
@@ -95,6 +97,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForFixed()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-7272');
+        }
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle');
         $productSearch =
@@ -387,38 +392,15 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] =
+        $productData['general_bundle_items']['item_1'] =
             $this->loadDataSet('Product', 'bundle_item_1', array('bundle_items_default_title' => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
+        $this->productHelper()->createProduct($productData, 'bundle', false);
         //Verifying
-        $this->addFieldIdToMessage('field', 'bundle_items_default_title');
-        $this->assertMessagePresent('success', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
-    }
-
-    /**
-     * <p>Creating product with Bundle Items invalid "Position"</p>
-     *
-     * @param $invalidPosition
-     *
-     * @test
-     * @dataProvider invalidNumericFieldDataProvider
-     * @depends requiredFieldsForDynamicSmoke
-     * @TestlinkId TL-MAGE-3353
-     */
-    public function invalidPositionForBundleItems($invalidPosition)
-    {
-        //Data
-        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] =
-            $this->loadDataSet('Product', 'bundle_item_1', array('bundle_items_position' => $invalidPosition));
-        //Steps
-        $this->productHelper()->createProduct($productData, 'bundle');
-        //Verifying
-        $this->addFieldIdToMessage('field', 'bundle_items_position');
-        $this->assertMessagePresent('success', 'enter_zero_or_greater');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('field', 'bundle_items_default_title');
+//        $this->assertMessagePresent('success', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
@@ -436,7 +418,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Data
         $simpleData = $this->loadDataSet('Product', 'simple_product_required');
         $option = $this->loadDataSet('Product', 'bundle_item_2',
-            array('bundle_items_search_sku' => $simpleData['general_sku']));
+            array('associated_search_sku' => $simpleData['general_sku']));
         $bundleData = $this->loadDataSet('Product', $dataBundleType, array('item_1'=> $option));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundleData['general_sku']));
@@ -469,7 +451,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         //Data
         $virtualData = $this->loadDataSet('Product', 'virtual_product_required');
         $option = $this->loadDataSet('Product', 'bundle_item_2',
-            array('bundle_items_search_sku' => $virtualData['general_sku']));
+            array('associated_search_sku' => $virtualData['general_sku']));
         $bundleData = $this->loadDataSet('Product', $dataBundleType, array('item_1'=> $option));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundleData['general_sku']));

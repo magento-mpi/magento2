@@ -17,7 +17,7 @@
 class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
+     * Preconditions:
      */
     protected function assertPreConditions()
     {
@@ -26,7 +26,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Create new attribute set based on Default.</p>
+     * Create new attribute set based on Default.
      *
      * @return string
      *
@@ -45,7 +45,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Remove system attribute group</p>
+     * Remove system attribute group
      *
      * @param string $setName
      *
@@ -69,10 +69,10 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Remove system attribute group with system attributes</p>
+     * Remove system attribute group with system attributes
      *
-     * <p>Expected results:</p>
-     *  <p>1. Meta information group has been deleted.</p>
+     * Expected results:
+     *  1. Meta information group has been deleted.
      *
      * @param string $setName
      *
@@ -90,7 +90,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Remove system attributes from Default attribute set</p>
+     * Remove system attributes from Default attribute set
      *
      * @param string $attributeCode
      * @param string $setName
@@ -112,7 +112,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Remove system attributes from Minimal attribute set</p>
+     * Remove system attributes from Minimal attribute set
      *
      * @param string $attributeCode
      *
@@ -134,7 +134,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>DataProvider with list of unassignable system attributes</p>
+     * DataProvider for system attributes, which can be unassigned
      *
      * @return array
      */
@@ -175,7 +175,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Create simple product based on modified Default attribute set</p>
+     * Create simple product based on modified Default attribute set
      *
      * @param string $attributeCode
      *
@@ -198,7 +198,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Non removable system attributes</p>
+     * Non removable system attributes
      *
      * @param string $attributeCode
      *
@@ -218,7 +218,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>DataProvider with list of non unassignable system attributes</p>
+     * DataProvider with list of non unassignable system attributes
      *
      * @return array
      */

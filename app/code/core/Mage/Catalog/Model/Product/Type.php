@@ -196,7 +196,8 @@ class Mage_Catalog_Model_Product_Type
     static public function getTypes()
     {
         if (is_null(self::$_types)) {
-            $productTypes = Mage::getConfig()->getNode('global/catalog/product/type')->asArray();
+            $config = Mage::getObjectManager()->get('Mage_Core_Model_Config_Modules');
+            $productTypes = $config->getNode('global/catalog/product/type')->asArray();
             foreach ($productTypes as $productKey => $productConfig) {
                 $moduleName = 'Mage_Catalog_Helper_Data';
                 if (isset($productConfig['@']['module'])) {

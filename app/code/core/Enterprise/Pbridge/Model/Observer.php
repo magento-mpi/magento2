@@ -19,6 +19,21 @@
 class Enterprise_Pbridge_Model_Observer
 {
     /**
+     * Writer of configuration storage
+     *
+     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     */
+    protected $_configWriter;
+
+    /**
+     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+     */
+    public function __construct(Mage_Core_Model_Config_Storage_WriterInterface $configWriter)
+    {
+        $this->_configWriter = $configWriter;
+    }
+
+    /**
      * Add HTTP header to response that allows browsers accept third-party cookies
      *
      * @param Varien_Event_Observer $observer
@@ -76,7 +91,7 @@ class Enterprise_Pbridge_Model_Observer
 
         if ($profileStatus !== null) {
             $scope = $observer->getEvent()->getData('website') ? 'websites' : 'default';
-            Mage::getConfig()->saveConfig('payment/pbridge/profilestatus', $profileStatus, $scope, $website->getId());
+            $this->_configWriter->save('payment/pbridge/profilestatus', $profileStatus, $scope, $website->getId());
             Mage::app()->cleanCache(array(Mage_Core_Model_Config::CACHE_TAG));
         }
         return $this;

@@ -118,28 +118,24 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Add observer to specific event
      *
-     * @param type $area
-     * @param type $eventName
-     * @param type $observerName
-     * @param type $observerClass
-     * @param type $observerMethod
+     * @param string $area
+     * @param string $eventName
+     * @param string $observerName
+     * @param string $observerClass
+     * @param string $observerMethod
      * @return Saas_PrintedTemplate_Model_Observer
      */
     protected function _addObserver($area, $eventName, $observerName, $observerClass, $observerMethod)
     {
-        $eventConfig = Mage::getConfig()->getEventConfig($area, $eventName);
-        if (!$eventConfig) {
-            $eventConfig = Mage::getConfig()->getNode($area)->events->addChild($eventName);
-        }
-        if (isset($eventConfig->observers)) {
-            $eventObservers = $eventConfig->observers;
-        } else {
-            $eventObservers = $eventConfig->addChild('observers');
-        }
-        $observer = $eventObservers->addChild($observerName);
-        $observer->addChild('class', $observerClass);
-        $observer->addChild('method', $observerMethod);
-
+        /** @var $eventManager Mage_Core_Model_Event_Manager */
+        $eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        $eventManager->addObservers($area, $eventName, array(
+            $observerName => array(
+                'type' => 'model',
+                'model' => $observerClass,
+                'method' => $observerMethod
+            )
+        ));
         return $this;
     }
 
