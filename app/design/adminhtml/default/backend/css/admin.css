@@ -464,10 +464,16 @@ button.primary.disabled,
 }
 
 .suggest-expandable .mage-suggest-inner > input[type="search"] {
+    position: relative;
     margin: 6px 5px 5px;
     padding-right: 20px;
     border: 1px solid #ccc;
     width: 211px;
+    z-index: 1;
+}
+
+.suggest-expandable .mage-suggest-inner > input[type="search"].ui-autocomplete-loading {
+    background: #fff url(../mui/images/ajax-loader-small.gif) no-repeat 190px 50%;
 }
 
 .suggest-expandable .mage-suggest-dropdown {
@@ -492,7 +498,9 @@ button.primary.disabled,
 .suggest-expandable .action-show-all:disabled {
     border-top: 1px solid #e5e5e5;
     display: block;
+    width: 100%;
     padding: 8px 10px 10px;
+    text-align: left;
     font: 12px/1.333 Arial, Verdana, sans-serif;
     color: #676056;
 }
