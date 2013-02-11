@@ -76,7 +76,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
-        $productCat = array('categories' => $catPath);
+        $productCat = array('general_categories' => $catPath);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps

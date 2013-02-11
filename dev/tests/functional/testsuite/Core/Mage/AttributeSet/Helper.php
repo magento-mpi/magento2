@@ -146,11 +146,11 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('attributeName', $attribute);
             if ($isAssigned) {
                 if (!$this->controlIsPresent('link', 'group_attribute')) {
-                    $this->addVerificationMessage("Attribute with title '$attribute' is not assigned to attribute set");
+                    $this->addVerificationMessage("Attribute with code '$attribute' is not assigned to attribute set");
                 }
             } else {
                 if (!$this->controlIsPresent('link', 'unassigned_attribute')) {
-                    $this->addVerificationMessage("Attribute with title '$attribute' is assigned to attribute set");
+                    $this->addVerificationMessage("Attribute with code '$attribute' is assigned to attribute set");
                 }
             }
         }
@@ -167,10 +167,13 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
     {
         foreach ($attributes as $attributeCode) {
             $this->addParameter('attributeName', $attributeCode);
+            $unassignedGroup = $this->getControlElement('pageelement', 'unassigned_placeholder');
+            $assignedAttribute = $this->getControlElement('link', 'group_attribute');
+            $this->focusOnElement($unassignedGroup);
             $this->clickControl('link', 'group_attribute', false);
-            $this->moveto($this->getControlElement('link', 'group_attribute'));
+            $this->moveto($assignedAttribute);
             $this->buttondown();
-            $this->moveto($this->getControlElement('pageelement', 'node_icon'));
+            $this->moveto($this->getControlElement('pageelement', 'unassigned_placeholder'));
             $this->buttonup();
             if ($this->alertIsPresent()) {
                 $text = $this->alertText();

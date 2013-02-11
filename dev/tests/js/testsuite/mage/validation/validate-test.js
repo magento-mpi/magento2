@@ -34,11 +34,12 @@ MageValidationTest.prototype.testValidateSelect = function () {
     assertEquals(true, $.validator.methods['validate-select'].call(this, "abc"));
 };
 
-MageValidationTest.prototype.testIsEmpty = function () {
-    assertEquals(true, $.validator.methods['is-empty'].call(this, ""));
-    assertEquals(true, $.validator.methods['is-empty'].call(this, null));
-    assertEquals(true, $.validator.methods['is-empty'].call(this, undefined));
-    assertEquals(true, $.validator.methods['is-empty'].call(this, "   "));
+MageValidationTest.prototype.testValidateNotEmpty = function () {
+    assertFalse($.validator.methods['validate-no-empty'].call(this, ""));
+    assertFalse($.validator.methods['validate-no-empty'].call(this, null));
+    assertFalse($.validator.methods['validate-no-empty'].call(this, undefined));
+    assertFalse($.validator.methods['validate-no-empty'].call(this, "   "));
+    assertTrue($.validator.methods['validate-no-empty'].call(this, "test"));
 };
 
 MageValidationTest.prototype.testValidateAlphanumWithSpaces = function () {

@@ -14,7 +14,7 @@
     $.widget('mage.tabs', $.ui.tabs, {
         options: {
             spinner: false,
-            groups: 'ul.tabs'
+            groups: null
         },
 
         /**
@@ -114,7 +114,7 @@
         _movePanelsInDestination: function(panels) {
             if (this.options.destination && !panels.parents(this.options.destination).length) {
                 panels
-                    .find('script').remove();
+                    .find('script[type!="text/x-jquery-tmpl"]').remove();
                 panels.appendTo(this.options.destination)
                     .each($.proxy(function(i, panel) {
                         $(panel).trigger('move.tabs', this.anchors.eq(i));
@@ -151,7 +151,9 @@
              * @param {Object}
              */
             load: function(event, ui) {
-                $(ui.tab).prop('href', '#' + $(ui.panel).prop('id'));
+                var panel = $(ui.panel);
+                $(ui.tab).prop('href', '#' + panel.prop('id'));
+                panel.trigger('contentUpdated');
             }
         }
     });

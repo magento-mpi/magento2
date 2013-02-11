@@ -11,10 +11,6 @@
 
 /**
  * Tests for Order by SKU functionality on the Frontend in My Account
- *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Selenium_TestCase
 {
@@ -51,10 +47,10 @@ class Enterprise_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleniu
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('simple_product'   => array ('sku'      => $simple['general_sku'],
-                                                  'qty'      => 1),
-                     'customer'         => array ('email'    => $userData['email'],
-                                                  'password' => $userData['password']));
+        return array(
+            'simple_product' => array('sku' => $simple['general_sku'], 'qty' => 1),
+            'customer' => array('email' => $userData['email'], 'password' => $userData['password'])
+        );
     }
             
     /**

@@ -128,18 +128,18 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      *
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
-     * @param string $areaCode
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        $areaCode = null,
+        Mage_Core_Controller_Response_Http $response,        
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory
+        Mage_Core_Model_Layout_Factory $layoutFactory,
+        $areaCode = null
     ) {
         parent::__construct($request, $response, $areaCode);
 
@@ -517,19 +517,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     {
         $area = Mage::app()->getArea($this->getLayout()->getArea());
         $area->load();
-        $this->_initDefaultTheme();
         $area->detectDesign($this->getRequest());
-        return $this;
-    }
-
-    /**
-     * Initialize theme
-     *
-     * @return Mage_Core_Controller_Varien_Action
-     */
-    protected function _initDefaultTheme()
-    {
-        Mage::getDesign()->setDefaultDesignTheme();
         return $this;
     }
 
@@ -1027,7 +1015,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                         array_unshift($this->_titles, $title);
                     }
                 }
-                $titleBlock->setTitle(implode(' / ', array_reverse($this->_titles)));
+                $titleBlock->setTitle(array_reverse($this->_titles));
             }
         }
     }
@@ -1104,6 +1092,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         $contentType = 'application/octet-stream',
         $contentLength = null)
     {
+        /** @var Magento_Filesystem $filesystem */
+        $filesystem = $this->_objectManager->create('Magento_Filesystem');
         $isFile = false;
         $file   = null;
         if (is_array($content)) {
@@ -1113,7 +1103,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             if ($content['type'] == 'filename') {
                 $isFile         = true;
                 $file           = $content['value'];
-                $contentLength  = filesize($file);
+                $contentLength  = $filesystem->getFileSize($file);
             }
         }
 
@@ -1131,18 +1121,16 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 $this->getResponse()->clearBody();
                 $this->getResponse()->sendHeaders();
 
-                $ioAdapter = new Varien_Io_File();
-                if (!$ioAdapter->fileExists($file)) {
+                if (!$filesystem->isFile($file)) {
                     Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('File not found'));
                 }
-                $ioAdapter->open(array('path' => $ioAdapter->dirname($file)));
-                $ioAdapter->streamOpen($file, 'r');
-                while ($buffer = $ioAdapter->streamRead()) {
+                $stream = $filesystem->createAndOpenStream($file, 'r');
+                while ($buffer = $stream->read(1024)) {
                     print $buffer;
                 }
-                $ioAdapter->streamClose();
+                $stream->close();
                 if (!empty($content['rm'])) {
-                    $ioAdapter->rm($file);
+                    $filesystem->delete($file);
                 }
 
                 exit(0);

@@ -345,8 +345,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
             ->setInputClass($class)
             ->setInputParams($params);
         if ($template) {
-            $this->setScriptPath(Mage::getBaseDir('design'));
-            return  $this->fetchView($template);
+            return $this->fetchView($template);
         }
     }
 
@@ -368,8 +367,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
             ->setSelectRegionParams($params)
             ->setSelectRegionDefault($default);
         if ($template) {
-            $this->setScriptPath(Mage::getBaseDir('design'));
-            return  $this->fetchView($template);
+            return $this->fetchView($template);
         }
     }
 

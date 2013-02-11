@@ -14,15 +14,12 @@
  * @see Mage_Adminhtml_Block_Urlrewrite_Edit
  */
 ?>
-<div class="content-header">
-    <?php echo $this->getHeaderHtml() ?>
-    <p class="content-buttons form-buttons"><?php echo $this->getButtonsHtml() ?></p>
-</div>
-
+<div class="page-actions"><?php echo $this->getButtonsHtml() ?></div>
 <?php echo $this->getChildHtml() ?>
 
 <?php if ($this->getChildBlock('form')): ?>
 <script type="text/javascript">
-    jQuery('#edit_form').form().validation({'validationUrl': '<?php echo $this->getValidationUrl() ?>'});
+    jQuery('#edit_form').mage('form')
+        .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 </script>
 <?php endif; ?>

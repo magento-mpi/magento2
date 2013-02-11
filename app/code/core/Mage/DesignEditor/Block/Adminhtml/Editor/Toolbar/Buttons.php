@@ -55,13 +55,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     }
 
     /**
-     * Get "Back" button URL
+     * Get "Quit" button URL
      *
      * @return string
      */
-    public function getBackUrl()
+    public function getQuitUrl()
     {
-        return $this->getUrl('*/*/');
+        return $this->getUrl('*/*/quit');
     }
 
     /**
@@ -100,18 +100,20 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
-            'label'     => $this->__('Assign this Theme'),
-            'data_attr' => array(
-                'widget-button' => array(
-                    'event'     => 'assign',
-                    'related'   => 'body',
-                    'eventData' => array(
-                        'theme_id' => $this->getThemeId()
-                    )
+            'label'  => $this->__('Assign this Theme'),
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event'     => 'assign',
+                        'target'    => 'body',
+                        'eventData' => array(
+                            'theme_id' => $this->getThemeId()
+                        )
+                    ),
                 ),
             ),
-            'class'     => 'save action-theme-assign',
-            'target'    => '_blank'
+            'class'  => 'save action-theme-assign',
+            'target' => '_blank'
         ));
 
         return $assignButton->toHtml();
@@ -140,15 +142,17 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
         /** @var $switchButton Mage_Backend_Block_Widget_Button */
         $switchButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $switchButton->setData(array(
-            'label'     => $label,
-            'data_attr' => array(
-                'widget-button' => array(
-                    'event'     => 'switchMode',
-                    'related'   => 'body',
-                    'eventData' => $eventData
+            'label' => $label,
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event'     => 'switchMode',
+                        'target'    => 'body',
+                        'eventData' => $eventData
+                    ),
                 ),
             ),
-            'class'     => 'action-switch-mode',
+            'class' => 'action-switch-mode',
         ));
 
         return $switchButton->toHtml();

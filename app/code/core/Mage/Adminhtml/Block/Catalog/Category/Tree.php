@@ -103,7 +103,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection();
 
         $matchingNamesCollection = clone $collection;
-        $matchingNamesCollection->addAttributeToFilter('name', array('like' => "%{$namePart}%"))
+        $escapedNamePart = Mage::getResourceHelper('Mage_Core')->addLikeEscape($namePart, array('position' => 'any'));
+        $matchingNamesCollection->addAttributeToFilter('name', array('like' => $escapedNamePart))
             ->addAttributeToFilter('entity_id', array('neq' => Mage_Catalog_Model_Category::TREE_ROOT_ID))
             ->addAttributeToSelect('path')
             ->setPageSize((string)Mage::getConfig()->getNode(self::XML_PATH_SUGGESTED_CATEGORIES_LIMIT))
@@ -133,7 +134,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
                 }
             }
             $categoryById[$category->getId()]['is_active'] = $category->getIsActive();
-            $categoryById[$category->getId()]['name'] = $category->getName();
+            $categoryById[$category->getId()]['label'] = $category->getName();
             $categoryById[$category->getParentId()]['children'][] = &$categoryById[$category->getId()];
         }
 

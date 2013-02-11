@@ -2,15 +2,20 @@
 /**
  * Application entry point
  *
+ * Example - run a particular store or website:
+ * --------------------------------------------
+ * $params = $_SERVER;
+ * $params['MAGE_RUN_CODE'] = 'website2';
+ * $params['MAGE_RUN_TYPE'] = 'website';
+ * ...
+ * new Mage_Core_Model_EntryPoint_Http(BP, $params)
+ * --------------------------------------------
+ *
  * {license_notice}
  *
- * @category   Mage
- * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-require_once __DIR__ . '/app/bootstrap.php';
-
-$appOptions = new Mage_Core_Model_App_Options($_SERVER);
-Mage::run($appOptions->getRunCode(), $appOptions->getRunType(), $appOptions->getRunOptions());
+require __DIR__ . '/app/bootstrap.php';
+$entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $_SERVER);
+$entryPoint->processRequest();

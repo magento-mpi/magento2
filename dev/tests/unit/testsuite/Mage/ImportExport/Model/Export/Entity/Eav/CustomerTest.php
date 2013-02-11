@@ -23,8 +23,8 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
      * @var array
      */
     protected $_websites = array(
-        Mage_Core_Model_App::ADMIN_STORE_ID => 'admin',
-        1                                   => 'website1',
+        Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        1                                            => 'website1',
     );
 
     /**
@@ -102,7 +102,10 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $attributeCollection = new Varien_Data_Collection();
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+            $arguments = $objectManagerHelper->getConstructArguments(
+                Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+                'Mage_Eav_Model_Entity_Attribute_Abstract'
+            );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
                 $arguments, '', true, true, true, array('_construct')
@@ -137,7 +140,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_App::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -195,7 +198,10 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
         $this->_model->setWriter($writer);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+        $arguments = $objectManagerHelper->getConstructArguments(
+            Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+            'Mage_Core_Model_Abstract'
+        );
         $arguments['data'] = $this->_customerData;
         $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', $arguments);
 

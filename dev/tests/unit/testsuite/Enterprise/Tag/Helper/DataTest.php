@@ -17,7 +17,10 @@ class Enterprise_Tag_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testAddActionClassToRewardModel()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments(Magento_Test_Helper_ObjectManager::MODEL_ENTITY);
+        $arguments = $objectManagerHelper->getConstructArguments(
+            Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
+            'Enterprise_Reward_Model_Reward'
+        );
         $rewardModelMock = $this->getMock('Enterprise_Reward_Model_Reward', array('_init', 'setActionModelClass'),
             $arguments);
         $rewardModelMock->staticExpects($this->once())
@@ -27,7 +30,9 @@ class Enterprise_Tag_Helper_DataTest extends PHPUnit_Framework_TestCase
         $data = array(
             'reward_model' => $rewardModelMock
         );
-        $helper = new Enterprise_Tag_Helper_Data($data);
+        $helper = new Enterprise_Tag_Helper_Data(
+            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false), $data
+        );
         $helper->addActionClassToRewardModel();
     }
 

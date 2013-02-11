@@ -26,18 +26,25 @@ class Mage_Core_Model_Logger
     protected $_loggers = array();
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Core_Model_Dir
      */
-    protected $_config = null;
+    protected $_dirs = null;
 
     /**
-     * Instantiate with config model
-     *
-     * @param Mage_Core_Model_Config $config
+     * @var Varien_Io_File
      */
-    public function __construct(Mage_Core_Model_Config $config)
+    protected $_fileSystem;
+
+    /**
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Varien_Io_File $fileSystem
+     */
+    public function __construct(Mage_Core_Model_Dir $dirs, Varien_Io_File $fileSystem, $defaultFile = '')
     {
-        $this->_config = $config;
+        $this->_dirs = $dirs;
+        $this->_fileSystem = $fileSystem;
+        $this->addStreamLog(Mage_Core_Model_Logger::LOGGER_SYSTEM, $defaultFile)
+            ->addStreamLog(Mage_Core_Model_Logger::LOGGER_EXCEPTION, $defaultFile);
     }
 
     /**
@@ -47,16 +54,18 @@ class Mage_Core_Model_Logger
      *
      * @param string $loggerKey
      * @param string $fileOrWrapper
+     * @param string $writerClass
      * @return Mage_Core_Model_Logger
      * @link http://php.net/wrappers
      */
-    public function addStreamLog($loggerKey, $fileOrWrapper = '')
+    public function addStreamLog($loggerKey, $fileOrWrapper = '', $writerClass = '')
     {
         $file = $fileOrWrapper ?: "{$loggerKey}.log";
         if (!preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
-            $file = $this->_config->getOptions()->getLogDir() . DIRECTORY_SEPARATOR . $file;
+            $logDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LOG);
+            $this->_fileSystem->checkAndCreateFolder($logDir);
+            $file = $logDir . DIRECTORY_SEPARATOR . $file;
         }
-        $writerClass = (string)$this->_config->getNode('global/log/core/writer_model');
         if (!$writerClass || !is_subclass_of($writerClass, 'Zend_Log_Writer_Stream')) {
             $writerClass = 'Zend_Log_Writer_Stream';
         }
@@ -73,13 +82,15 @@ class Mage_Core_Model_Logger
      * Reset all loggers and initialize them according to store configuration
      *
      * @param Mage_Core_Model_Store $store
+     * @param Mage_Core_Model_ConfigInterface $config
      */
-    public function initForStore(Mage_Core_Model_Store $store)
+    public function initForStore(Mage_Core_Model_Store $store, Mage_Core_Model_ConfigInterface $config)
     {
         $this->_loggers = array();
         if ($store->getConfig('dev/log/active')) {
-            $this->addStreamLog(self::LOGGER_SYSTEM, $store->getConfig('dev/log/file'));
-            $this->addStreamLog(self::LOGGER_EXCEPTION, $store->getConfig('dev/log/exception_file'));
+            $writer = (string)$config->getNode('global/log/core/writer_model');
+            $this->addStreamLog(self::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $writer);
+            $this->addStreamLog(self::LOGGER_EXCEPTION, $store->getConfig('dev/log/exception_file'), $writer);
         }
     }
 

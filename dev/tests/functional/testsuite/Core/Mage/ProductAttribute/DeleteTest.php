@@ -19,8 +19,8 @@
 class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System -> Manage Attributes.</p>
+     * Preconditions:
+     * Navigate to System -> Manage Attributes.
      */
     protected function assertPreConditions()
     {
@@ -29,7 +29,7 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Delete Product Attributes</p>
+     * Delete Product Attributes
      *
      * @param $dataName
      *
@@ -70,7 +70,7 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Delete system Product Attributes</p>
+     * Delete system Product Attributes
      *
      * @test
      * @TestlinkId TL-MAGE-3342
@@ -99,8 +99,9 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('General' => $attrData['attribute_code']));
-        $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('configurable_attribute_title' => $attrData['admin_title']));
+        $productData = $this->loadDataSet('Product', 'configurable_product_required', null,
+            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+                  'general_attribute_1' => $attrData['admin_title']));
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
             array('attribute_code'  => $attrData['attribute_code'],
                   'attribute_label' => $attrData['admin_title']));

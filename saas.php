@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category   Mage
- * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -18,4 +16,13 @@
  *
  * @param string $appConfigString
  */
-return new EntryPoint;
+return function ($appConfigString) {
+    try {
+        $params = array_merge($_SERVER, unserialize($appConfigString));
+        require __DIR__ . '/app/bootstrap.php';
+        $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $params);
+        $entryPoint->processRequest();
+    } catch (Exception $e) {
+        Mage::printException($e);
+    }
+};

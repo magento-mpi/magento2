@@ -23,11 +23,11 @@ admin_header:
                             close: //a[span='close']
                 -
                     global_header:
-                        xpath: //div[contains(a/img/@class,'logo')]
+                        xpath: //*[@class='header']
                         links:
                             log_out: //a[@class='link-logout']
                         pageelements:
-                            admin_logo: //img[@class='logo' and contains(@src,'logo.gif')]
+                            admin_logo: //*[@class='logo' and @title='Magento Admin Panel']
                         fields:
                             global_record_search: //*[@id='global_search']
                 -
@@ -43,8 +43,8 @@ admin_header:
                         checkboxes:
                             table_line_checkbox: "%tableLineXpath%//input[@type='checkbox']"
                         pageelements:
-                            qtyElementsInTable: //td[@class='pager']//span[contains(@id,'total-count')]
-                            qty_elements_in_specific_table: "%tableHeadXpath%//td[@class='pager']//span[contains(@id,'total-count')]"
+                            qtyElementsInTable: //div[@class='pager']//span[contains(@id,'total-count')]
+                            qty_elements_in_specific_table: "%tableHeadXpath%//div[@class='pager']//span[contains(@id,'total-count')]"
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
                             loadingHolder: "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]"
                             dropdown_option: "%dropdownXpath%//option"
@@ -67,6 +67,7 @@ admin_header:
                             table_line_index_cell_index_options: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='item-options']"
                             table_line_index_cell_index_product_name: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='product-name']"
                             table_line_input:  "%tableLineXpath%/input"
+                            default_table_row: //table[@class='data']/tbody/tr
                             element_index: "%elementXpath%[%index%]"
                             element_not_disabled_style: "%elementXpath%[not(contains(@style,'display:') and contains(@style,'none'))]"
                             element_with_disabled_style: "%elementXpath%[contains(@style,'display:') and contains(@style,'none')]"
@@ -86,7 +87,7 @@ admin_header:
             general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"
             general_error: "//*[normalize-space(@class)='error-msg'][string-length(.)>1]"
-            general_validation: "//*[normalize-space(@class)='validation-advice'][string-length(.)>1]"
+            general_validation: "//*[normalize-space(@class)='validation-advice' or normalize-space(@class)='mage-error'][string-length(.)>1]"
             #general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             #general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"
             #general_error: "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]"

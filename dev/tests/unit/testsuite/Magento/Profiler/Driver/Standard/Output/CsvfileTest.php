@@ -38,12 +38,12 @@ class Magento_Profiler_Driver_Standard_Output_CsvfileTest extends PHPUnit_Framew
             ),
             'Custom config' => array(
                 'config' => array(
-                    'baseDir' => str_replace('/', DIRECTORY_SEPARATOR, '/var/www/project/'),
-                    'filePath' => str_replace('/', DIRECTORY_SEPARATOR, '/log/example.csv'),
+                    'baseDir' => '/var/www/project/',
+                    'filePath' => '/log/example.csv',
                     'delimiter' => "\t",
                     'enclosure' => '"'
                 ),
-                'filePath' => str_replace('/', DIRECTORY_SEPARATOR, '/var/www/project/log/example.csv'),
+                'filePath' => '/var/www/project/log/example.csv',
                 'delimiter' => "\t",
                 'enclosure' => '"'
             ),

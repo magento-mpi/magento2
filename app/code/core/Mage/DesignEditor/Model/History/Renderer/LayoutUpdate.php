@@ -14,6 +14,11 @@
 class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_DesignEditor_Model_History_RendererInterface
 {
     /**
+     * Name of default handle
+     */
+    const DEFAULT_HANDLE = 'current_handle';
+
+    /**
      * Get Layout update out of collection of changes
      *
      * @param Mage_DesignEditor_Model_Change_Collection $collection
@@ -30,7 +35,7 @@ class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_Desi
             }
         }
 
-        if ($handle) {
+        if ($handle && $collection->count() > 0) {
             $layoutUpdate = '';
             $element = $element->$handle;
             /** @var $node Varien_Simplexml_Element */
@@ -63,7 +68,8 @@ class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_Desi
      */
     protected function _render(SimpleXMLElement $element, $item)
     {
-        $handle = $this->_getHandleNode($element, $item->getData('handle'));
+        $handleName = $item->getData('handle') ?: self::DEFAULT_HANDLE;
+        $handle = $this->_getHandleNode($element, $handleName);
         $directive = $handle->addChild($item->getLayoutDirective());
 
         foreach ($item->getLayoutUpdateData() as $attribute => $value) {

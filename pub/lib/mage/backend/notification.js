@@ -29,14 +29,14 @@
         /**
          * Add new message
          * @protected
-         * @param {Object} e event object
+         * @param {Object} event object
          * @param {Object} jqXHR The jQuery XMLHttpRequest object returned by $.ajax()
          * @param {Object}
          */
-        _add: function(e, jqXHR) {
+        _add: function(event, jqXHR) {
             try {
                 var response = $.parseJSON(jqXHR.responseText);
-                if (response && response.error) {
+                if (response && response.error && response.message) {
                     this.element.append($.tmpl('globalNotification', response));
                 }
             } catch(e) {}

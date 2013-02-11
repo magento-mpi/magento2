@@ -10,7 +10,7 @@
 (function ($) {
     "use strict";
     $.extend(true, $, {
-        //@TODO: Move methods 'isEmpty', 'isEmptyNoTrim', 'parseNumber', 'stripHtml' in file with utility functions
+        // @TODO: Move methods 'isEmpty', 'isEmptyNoTrim', 'parseNumber', 'stripHtml' in file with utility functions
         mage: {
             /**
              * Check if string is empty with trim
@@ -332,8 +332,10 @@
             },
             'Please select an option'
         ],
-        "is-empty": [
-            $.mage.isEmpty,
+        "validate-no-empty": [
+            function(value) {
+                return !$.mage.isEmpty(value);
+            },
             'Empty Value'
         ],
         "validate-alphanum-with-spaces": [
@@ -491,6 +493,18 @@
 
             },
             'Please select one of the above options.'
+        ],
+        // validate-not-negative-number should be replaced in all places with this one and then removed
+        "validate-zero-or-greater": [
+            function(v) {
+                if ($.mage.isEmptyNoTrim(v)) {
+                    return true;
+                }
+                v = $.mage.parseNumber(v);
+                return !isNaN(v) && v >= 0;
+
+            },
+            'Please enter a number 0 or greater in this field.'
         ],
         "validate-greater-than-zero": [
             function(v) {
@@ -755,12 +769,6 @@
              },
             'Please select a file'
         ],
-        'validate-super-product-attributes': [
-            function(v) {
-                return (v !== "no-attributes");
-            },
-            'Please select one or more attributes.'
-        ],
         "validate-ajax-error": [
             function(v, element) {
                 element = $(element);
@@ -837,6 +845,21 @@
             function() {
                 return $.mage.__('Please enter a value greater than or equal to %s').replace('%s', this.gteToVal);
             }
+        ],
+        "validate-emails": [
+            function(value) {
+                if ($.mage.isEmpty(value)) {
+                    return true;
+                }
+                var valid_regexp = /^[a-z0-9\._-]{1,30}@([a-z0-9_-]{1,30}\.){1,5}[a-z]{2,4}$/i,
+                    emails = value.split(',');
+                for (var i = 0; i < emails.length; i++) {
+                    if(!valid_regexp.test(emails[i].strip())) {
+                        return false;
+                    }
+                }
+                return true;
+            }, "Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com."
         ]
     };
 
@@ -871,7 +894,15 @@
             onclick: false,
             ignoreTitle: true,
             errorClass: 'mage-error',
-            errorElement: 'div'
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                // logic for date-picker error placement
+                if (element.hasClass('hasDatepicker')) {
+                    element.siblings('img').after(error);
+                } else {
+                    element.after(error);
+                }
+            }
         },
         /**
          * Validation creation

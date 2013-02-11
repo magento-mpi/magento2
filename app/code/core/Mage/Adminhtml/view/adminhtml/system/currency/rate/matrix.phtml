@@ -22,7 +22,7 @@ $_rates = ( $_newRates ) ? $_newRates : $_oldRates;
             <tr class="headings">
                 <th class="a-right">&nbsp;</th>
                 <?php $_i = 0; foreach( $this->getAllowedCurrencies() as $_currencyCode ): ?>
-                    <th class="<?php echo (( ++$_i == (sizeof($this->getAllowedCurrencies())) ) ? 'last' : '' ) ?> a-right"><strong><?php echo $_currencyCode ?><strong></th>
+                    <th class="<?php echo (( ++$_i == (sizeof($this->getAllowedCurrencies())) ) ? 'last' : '' ) ?> a-right"><span><?php echo $_currencyCode ?></span></th>
                 <?php endforeach; ?>
             </tr>
         </thead>
@@ -54,5 +54,5 @@ $_rates = ( $_newRates ) ? $_newRates : $_oldRates;
     </div>
 </form>
 <script type="text/javascript">
-    jQuery('#rate-form').form().validation();
+    jQuery('#rate-form').mage('form').mage('validation');
 </script>

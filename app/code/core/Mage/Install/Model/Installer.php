@@ -18,19 +18,51 @@
  */
 class Mage_Install_Model_Installer extends Varien_Object
 {
-
-    /**
-     * Installer host response used to check urls
-     *
-     */
-    const INSTALLER_HOST_RESPONSE   = 'MAGENTO';
-
     /**
      * Installer data model used to store data between installation steps
      *
      * @var Varien_Object
      */
     protected $_dataModel;
+
+    /**
+     * DB updated model
+     *
+     * @var Mage_Core_Model_Db_UpdaterInterface
+     */
+    protected $_dbUpdater;
+
+    /**
+     * Application chache model
+     *
+     * @var Mage_Core_Model_Cache
+     */
+    protected $_cache;
+
+    /**
+     * Application config model
+     *
+     * @var Mage_Core_Model_ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * @param Mage_Core_Model_ConfigInterface $config
+     * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
+     * @param Mage_Core_Model_Cache $cache
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_ConfigInterface $config,
+        Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
+        Mage_Core_Model_Cache $cache,
+        array $data = array()
+    ) {
+        $this->_dbUpdater = $dbUpdater;
+        $this->_config = $config;
+        $this->_cache = $cache;
+        parent::__construct($data);
+    }
 
     /**
      * Checking install status of application
@@ -45,7 +77,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * Get data model
      *
-     * @return Varien_Object
+     * @return Mage_Install_Model_Session
      */
     public function getDataModel()
     {
@@ -75,7 +107,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     public function checkDownloads()
     {
         try {
-            $result = Mage::getModel('Mage_Install_Model_Installer_Pear')->checkDownloads();
+            Mage::getModel('Mage_Install_Model_Installer_Pear')->checkDownloads();
             $result = true;
         } catch (Exception $e) {
             $result = false;
@@ -133,7 +165,15 @@ class Mage_Install_Model_Installer extends Varien_Object
             ->setConfigData($data)
             ->install();
 
-        $this->_refreshConfig();
+
+        /** @var $primaryConfig Mage_Core_Model_Config_Primary */
+        $primaryConfig = Mage::getSingleton('Mage_Core_Model_Config_Primary');
+        $primaryConfig->reinit();
+
+        /** @var $moduleConfig  Mage_Core_Model_Config_Modules*/
+        $moduleConfig = Mage::getSingleton('Mage_Core_Model_Config_Modules');
+        $moduleConfig->reinit();
+
         return $this;
     }
 
@@ -144,13 +184,14 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     public function installDb()
     {
-        Mage_Core_Model_Resource_Setup::applyAllUpdates();
+        $this->_dbUpdater->updateScheme();
         $data = $this->getDataModel()->getConfigData();
 
         /**
          * Saving host information into DB
          */
-        $setupModel = new Mage_Core_Model_Resource_Setup('core_setup');
+        $setupModel = Mage::getObjectManager()
+            ->get('Mage_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
 
         if (!empty($data['use_rewrites'])) {
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_USE_REWRITES, 1);
@@ -226,101 +267,52 @@ class Mage_Install_Model_Installer extends Varien_Object
     }
 
     /**
-     * Prepare admin user data in model and validate it.
-     * Returns TRUE or array of error messages.
+     * Create an admin user
      *
      * @param array $data
-     * @return mixed
-     */
-    public function validateAndPrepareAdministrator($data)
-    {
-        $user = Mage::getModel('Mage_User_Model_User')
-            ->load($data['username'], 'username');
-        $user->addData($data);
-
-        $result = $user->validate();
-        if (is_array($result)) {
-            foreach ($result as $error) {
-                $this->getDataModel()->addError($error);
-            }
-            return $result;
-        }
-        return $user;
-    }
-
-    /**
-     * Create admin user.
-     * Paramater can be prepared user model or array of data.
-     * Returns TRUE or throws exception.
-     *
-     * @param mixed $data
-     * @return bool
      */
     public function createAdministrator($data)
     {
-        $user = Mage::getModel('Mage_User_Model_User')
-            ->load('admin', 'username');
-        if ($user && $user->getPassword() == '4297f44b13955235245b2497399d7a93') {
-            $user->delete();
-        }
-
-        //to support old logic checking if real data was passed
-        if (is_array($data)) {
-            $data = $this->validateAndPrepareAdministrator($data);
-            if (is_array($data)) {
-                throw new Exception(Mage::helper('Mage_Install_Helper_Data')->__('Please correct the user data and try again.'));
-            }
-        }
-
-        //run time flag to force saving entered password
-        $data->setForceNewPassword(true)
+        /** @var $user Mage_User_Model_User */
+        $user = Mage::getModel('Mage_User_Model_User');
+        $user->loadByUsername($data['username']);
+        $user->addData($data)
+            ->setForceNewPassword(true) // run-time flag to force saving of the entered password
             ->setRoleId(1)
             ->save();
-
-        return true;
     }
 
     /**
-     * Validating encryption key.
-     * Returns TRUE or array of error messages.
-     *
-     * @param $key
-     * @return unknown_type
-     */
-    public function validateEncryptionKey($key)
-    {
-        $errors = array();
-
-        try {
-            if ($key) {
-                Mage::helper('Mage_Core_Helper_Data')->validateKey($key);
-            }
-        } catch (Exception $e) {
-            $errors[] = $e->getMessage();
-            $this->getDataModel()->addError($e->getMessage());
-        }
-
-        if (!empty($errors)) {
-            return $errors;
-        }
-
-        return true;
-    }
-
-    /**
-     * Set encryption key
+     * Install encryption key into the application, generate and return a random one, if no value is specified
      *
      * @param string $key
      * @return Mage_Install_Model_Installer
      */
-    public function installEnryptionKey($key)
+    public function installEncryptionKey($key)
     {
-        if ($key) {
-            Mage::helper('Mage_Core_Helper_Data')->validateKey($key);
-        }
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('Mage_Core_Helper_Data');
+        $helper->validateKey($key);
         Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
         return $this;
+    }
+
+    /**
+     * Return a validated encryption key, generating a random one, if no value was initially provided
+     *
+     * @param string|null $key
+     * @return string
+     */
+    public function getValidEncryptionKey($key = null)
+    {
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('Mage_Core_Helper_Data');
+        if (!$key) {
+            $key = md5($helper->getRandomString(10));
+        }
+        $helper->validateKey($key);
+        return $key;
     }
 
     public function finish()
@@ -332,7 +324,7 @@ class Mage_Install_Model_Installer extends Varien_Object
         foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type => $label) {
             $cacheData[$type] = 1;
         }
-        Mage::app()->saveUseCache($cacheData);
+        $this->_cache->saveOptions($cacheData);
         return $this;
     }
 
@@ -341,7 +333,7 @@ class Mage_Install_Model_Installer extends Varien_Object
      */
     protected function _refreshConfig()
     {
-        Mage::app()->cleanCache();
-        Mage::app()->getConfig()->reinit();
+        $this->_cache->clean();
+        $this->_config->reinit();
     }
 }

@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
 
             $fieldset = $form->addFieldset('group_fields' . $group->getId(), array(
                 'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
-                'class' => 'fieldset-wide'
+                'collapsable' => true
             ));
 
             $attributes = $this->getGroupAttributes();
@@ -99,10 +99,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 $fieldset->setHeaderBar($headerBar->toHtml());
             }
 
-            if ($form->getElement('meta_description')) {
-                $form->getElement('meta_description')->setOnkeyup('checkMaxLength(this, 255);');
-            }
-
             $values = $product->getData();
 
             // Set default attribute values for new product or on attribute set change
@@ -139,23 +135,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'    => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price'
-            ),
-            'weight'   => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight'
-            ),
-            'gallery'  => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery'
-            ),
-            'image'    => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image'
-            ),
-            'boolean'  => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean'),
-            'textarea' => Mage::getConfig()->getBlockClassName(
-                'Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg'
-            )
+            'price'    => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Price',
+            'weight'   => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight',
+            'gallery'  => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery',
+            'image'    => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Image',
+            'boolean'  => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean',
+            'textarea' => 'Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg',
         );
 
         $response = new Varien_Object();

@@ -16,14 +16,6 @@
 <form action="<?php echo $this->getUrl('*/*/editPost'); /*$this->getAddPostActionUrl();*/ ?>" method="post" id="form-validate">
     <div class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
-
-        <script type="text/javascript">
-        //<![CDATA[
-            dataForm = new VarienForm('form-validate');
-            regionJSON = <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson(); ?>;
-        //]]>
-        </script>
-
         <?php echo $this->getChildHtml(); ?>
         <div class="buttons-set form-buttons">
             <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
@@ -33,61 +25,13 @@
     </div>
 </form>
 <script type="text/javascript">
-//<![CDATA[
-
-function $Name(element)
-{
-  if (typeof element == 'string')
-    element = document.getElementsByName(element);
-  return Element.extend(element);
-}
-
-function setFieldByName(name, value)
-{
-    var x = $Name(name);
-    if (x != null) {
-        for(i = 0; i < x.length;  i++) {
-            x[i].setValue(value);
-        }
-    }
-}
-
-function setFieldById(domId, value)
-{
-    x = $(domId); if (x != null) {x.setValue(value)};
-}
-
-document.observe("dom:loaded", function() {
-
-<?php $formDataPost = $this->getFormDataPost(); ?>
-
-<?php if (is_array($formDataPost)) : ?>
-    <?php foreach ($formDataPost as $name => $value) : ?>
-        <?php if (!is_array($value)) : ?>
-            setFieldByName(<?php echo '"'.$name.'", "'.addslashes($value).'"' ?>);
-        <?php else : ?>
-            <?php foreach ($value as $name2 => $value2) : ?>
-                <?php if (!is_array($value2)) : ?>
-                    setFieldByName(<?php echo '"'.$name.'['.$name2.']", "'.addslashes($value2).'"' ?>);
-                <?php else : ?>
-                    <?php foreach ($value2 as $name3 => $value3) : ?>
-                        <?php if (!is_array($value3)) : ?>
-                            setFieldByName(<?php echo '"'.$name.'['.$name2.']['.$name3.']", "'.addslashes($value3).'"' ?>);
-                        <?php else : ?>
-                            <?php foreach ($value3 as $name4 => $value4) : ?>
-                                <?php if (!is_array($value4)) : ?>
-                                    setFieldByName(<?php echo '"'.$name.'['.$name2.']['.$name3.']['.$name4.']", "'.addslashes($value4).'"' ?>);
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                         <?php endif; ?>
-                     <?php endforeach; ?>
-                 <?php endif; ?>
-             <?php endforeach; ?>
-        <?php endif; ?>
-    <?php endforeach; ?>
-<?php endif; ?>
-
-});
-
-//]]>
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+                $('#form-validate').validation();
+            });
+    })(jQuery);
 </script>

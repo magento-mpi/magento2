@@ -46,6 +46,9 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Mage_Core_Model_Registry $registryManager,
      * @param Mage_Catalog_Model_Product_Type_Configurable $productType
@@ -67,6 +70,9 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Mage_Core_Model_Registry $registryManager,
         Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
@@ -75,8 +81,8 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $helperFactory->get('Mage_Backend_Helper_Data'),
-            $generatorFactory, $subtotals, $totals, $data);
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem,
+            $helperFactory->get('Mage_Backend_Helper_Data'), $generatorFactory, $subtotals, $totals, $data);
 
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
@@ -103,8 +109,8 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
 
         $product = $this->_getProduct();
         $attributes = $this->_productType->getUsedProductAttributes($product);
-        /** @var $attribute Mage_Catalog_Model_Entity_Attribute */
         foreach ($attributes as $attribute) {
+            /** @var $attribute Mage_Catalog_Model_Entity_Attribute */
             /** @var $block Mage_Backend_Block_Widget_Grid_Column */
             $block = $this->addChild(
                 $attribute->getAttributeCode(),

@@ -309,7 +309,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
 
         $select->join(
             array('pp_default'=>$priceTable),
-            sprintf($joinCondition, 'pp_default', Mage_Core_Model_App::ADMIN_STORE_ID),
+            sprintf($joinCondition, 'pp_default', Mage_Core_Model_AppInterface::ADMIN_STORE_ID),
             array('default_price'=>'pp_default.value')
         );
 
@@ -319,7 +319,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
             if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
             } else {
-                $storeId = Mage_Core_Model_App::ADMIN_STORE_ID;
+                $storeId = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
             }
 
             $select->joinInner(
@@ -344,7 +344,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
                 if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
                     $storeId = $defaultGroup->getDefaultStoreId();
                 } else {
-                    $storeId = Mage_Core_Model_App::ADMIN_STORE_ID;
+                    $storeId = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
                 }
 
                 $tableAlias = 'pp' . $websiteId;

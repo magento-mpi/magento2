@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoDbIsolation enabled
- */
 class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -19,23 +16,20 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    /**
-     * @var Mage_Core_Utility_Theme
-     */
-    protected $_themeUtility;
-
     protected function setUp()
     {
-        $this->_themeUtility = Mage::getModel('Mage_Core_Utility_Theme', array(
-            dirname(__DIR__) . '/_files/design',
-            Mage::getDesign()
-        ));
-        $this->_themeUtility->registerThemes()->setDesignTheme('test/default', 'frontend');
-
         /* Disable loading and saving layout cache */
         Mage::app()->getCacheInstance()->banUse('layout');
+
+        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+            Mage::PARAM_APP_DIRS => array(
+                Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
+            )
+        ));
+        Mage::getDesign()->setDesignTheme('test/default');
+
         $this->_model = Mage::getModel('Mage_Core_Model_Layout_Merge', array(
-            'arguments' => array('area' => 'frontend', 'themeId' => Mage::getDesign()->getDesignTheme()->getId())
+            'arguments' => array('area' => 'frontend', 'theme' => Mage::getDesign()->getDesignTheme()->getId())
         ));
     }
 
@@ -72,6 +66,8 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         /* add a non-page handle to verify that it won't be affected during page handles manipulation */
         $nonPageHandles = array('non_page_handle');
         $this->_model->addHandle($nonPageHandles);
+
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
 
         $this->assertFalse($this->_model->addPageHandles(array('non_existing_handle')));
         $this->assertEmpty($this->_model->getPageHandles());
@@ -136,6 +132,9 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test that, regarding of the current area, page types hierarchy getter retrieves the front-end page types
+     *
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
      * @throws Exception
      */
     public function testGetPageHandlesHierarchyFromBackend()
@@ -143,21 +142,16 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $area = Mage::getDesign()->getArea();
         $this->assertEquals('frontend', $area, 'Test assumes that front-end is the current area.');
 
-        /* use new instance to ensure that in-memory caching, if any, won't affect test results */
         /** @var $model Mage_Core_Model_Layout_Merge */
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge');
         $frontendPageTypes = $model->getPageHandlesHierarchy();
         $this->assertNotEmpty($frontendPageTypes);
 
+        /* use new instance to ensure that in-memory caching, if any, won't affect test results */
+        $model = Mage::getModel('Mage_Core_Model_Layout_Merge');
         Mage::getDesign()->setArea('adminhtml');
-        try {
-            $backendPageTypes = $this->_model->getPageHandlesHierarchy();
-            $this->assertSame($frontendPageTypes, $backendPageTypes);
-        } catch (Exception $e) {
-            Mage::getDesign()->setArea($area);
-            throw $e;
-        }
-        Mage::getDesign()->setArea($area);
+        $backendPageTypes = $model->getPageHandlesHierarchy();
+        $this->assertSame($frontendPageTypes, $backendPageTypes);
     }
 
     /**
@@ -199,16 +193,18 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      */
     public function testLoad()
     {
+        $collection = new Mage_Core_Model_Resource_Theme_Collection;
         $layoutHandle = 'layout_test_handle';
         $expectedText = 'Text declared in the frontend/test/test_theme';
         /** @var $model Mage_Core_Model_Layout_Merge */
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
-            'area'       => 'frontend',
-            'themeId'    => $this->_themeUtility->getThemeByParams('test/test_theme', 'frontend')->getId()
+            'area' => 'frontend',
+            'theme' => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
         )));
         $this->assertNotContains($layoutHandle, $model->getHandles());
         $this->assertNotContains($expectedText, $model->asString());
@@ -218,6 +214,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
      */
     public function testLoadCache()
@@ -228,23 +225,29 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expectedTextThemeOne = 'Text declared in the frontend/test/test_theme';
         $expectedTextThemeTwo = 'Text declared in the frontend/test/cache_test_theme';
 
+        $collection = new Mage_Core_Model_Resource_Theme_Collection;
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'    => 'frontend',
-            'themeId' => $this->_themeUtility->getThemeByParams('test/test_theme', 'frontend')->getId()
+            'theme' => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
         )));
         $model->load($layoutHandle);
         $this->assertContains($expectedTextThemeOne, $model->asString());
         $this->assertNotContains($expectedTextThemeTwo, $model->asString());
 
+        $collection = new Mage_Core_Model_Resource_Theme_Collection;
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'    => 'frontend',
-            'themeId' => $this->_themeUtility->getThemeByParams('test/cache_test_theme', 'frontend')->getId()
+            'theme' => $collection->getThemeByFullPath('frontend/test/cache_test_theme')->getId()
         )));
         $model->load($layoutHandle);
         $this->assertContains($expectedTextThemeTwo, $model->asString());
         $this->assertNotContains($expectedTextThemeOne, $model->asString());
     }
 
+    /**
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
+     */
     public function testFetchDbLayoutUpdates()
     {
         $update = '<reference name="root"><block type="Mage_Core_Block_Template" template="dummy.phtml"/></reference>';
@@ -264,6 +267,10 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
+     */
     public function testGetFileLayoutUpdatesXmlFromTheme()
     {
         $this->_replaceConfigLayoutUpdates('
@@ -280,6 +287,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     public function testGetFileLayoutUpdatesXmlFromModule()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
         $this->_replaceConfigLayoutUpdates('
             <page module="Mage_Page">
                 <file>layout.xml</file>
@@ -302,8 +310,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     {
         /* Erase existing layout updates */
         unset(Mage::app()->getConfig()->getNode("{$area}/layout")->updates);
-        /* Setup layout updates fixture */
-        Mage::app()->getConfig()->extend(new Varien_Simplexml_Config("
+        $updates = new Varien_Simplexml_Config("
             <config>
                 <{$area}>
                     <layout>
@@ -313,7 +320,9 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
                     </layout>
                 </{$area}>
             </config>
-        "));
+        ");
+        /* Setup layout updates fixture */
+        Mage::app()->getConfig()->getNode()->extend($updates->getNode());
     }
 
     /**
@@ -367,6 +376,8 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoConfigFixture current_store advanced/modules_disable_output/Mage_Catalog true
      * @magentoConfigFixture current_store advanced/modules_disable_output/Mage_Page    true
+     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
      */
     public function testGetFileLayoutUpdatesXmlDisabledOutput()
     {

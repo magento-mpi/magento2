@@ -15,7 +15,7 @@
      */
     var TypeSwitcher = function (data) {
         this._data = data;
-        this.$type = $('#type_id');
+        this.$type = $('#product_type_id');
         this.$weight = $('#' + data.weight_id);
         this.$is_virtual = $('#' + data.is_virtual_id);
         this.$tab = $('#' + data.tab_id);
@@ -49,11 +49,15 @@
             this.$is_virtual.on('change click', function() {
                 if ($(this).is(':checked')) {
                     $type.val(self.baseType.virtual).trigger('change');
-                    self.$weight.addClass('ignore-validate').attr('disabled', 'disabled');
+                    if ($type.val() != 'bundle') { // @TODO move this check to Mage_Bundle after refactoring as widget
+                        self.$weight.addClass('ignore-validate').prop('disabled', true);
+                    }
                     self.$tab.show();
                 } else {
                     $type.val(self.baseType.real).trigger('change');
-                    self.$weight.removeClass('ignore-validate').removeAttr('disabled', 'disabled');
+                    if ($type.val() != 'bundle') { // @TODO move this check to Mage_Bundle after refactoring as widget
+                        self.$weight.removeClass('ignore-validate').prop('disabled', false);
+                    }
                     self.$tab.hide();
                 }
             }).trigger('change');

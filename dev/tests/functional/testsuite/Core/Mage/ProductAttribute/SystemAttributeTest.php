@@ -17,8 +17,8 @@
 class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System - Manage Attributes.</p>
+     * Preconditions:
+     * Navigate to System - Manage Attributes.
      */
     protected function assertPreConditions()
     {
@@ -27,7 +27,7 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
     }
 
     /**
-     * <p>Values of Apply To dropdown and multiselect are defined and can't be changed for all system attributes</p>
+     * Values of Apply To dropdown and multiselect are defined and can't be changed for all system attributes
      *
      * @param string $attributeCode
      * @param string $applyTo
@@ -36,7 +36,6 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
      * @test
      * @dataProvider systemAttributesDataProvider
      * @TestLinkId TL-MAGE-6423
-     * @author Maryna_Ilnytska
      */
     public function checkApplyProductTypeOptionDisabled($attributeCode, $applyTo, $types)
     {
@@ -44,19 +43,25 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
         $this->addParameter('attribute_code', $attributeCode);
         switch ($attributeCode) {
             case 'price':
-                $search = array('attribute_code' => 'price',
-                                'used_in_layered_navigation' => 'Filterable (with results)');
+                $search = array(
+                    'attribute_code' => 'price',
+                    'scope' => 'Website',
+                    'use_in_layered_navigation' => 'Filterable (with results)'
+                );
                 break;
             case 'status':
                 $search = array('attribute_label' => 'Status');
+                break;
+            case 'image':
+                $search = array('attribute_label' => 'Base Image');
                 break;
             default:
                 $search = array('attribute_code' => $attributeCode);
                 break;
         }
-        $this->searchAndOpen($search, 'attributes_grid');
+        $this->productAttributeHelper()->openAttribute($search);
         //Verifying
-        $this->assertTrue($this->getControlElement('dropdown', 'apply_to')->enabled());
+        $this->assertFalse($this->getControlElement('dropdown', 'apply_to')->enabled());
         if ($applyTo == 'All Product Types') {
             $this->assertFalse($this->controlIsPresent('multiselect', 'apply_product_types'));
         } else {
@@ -64,12 +69,12 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
                 'Apply To multiselect is absent');
             $element = $this->getControlElement('multiselect', 'apply_product_types');
             $this->assertFalse($element->enabled(), 'Apply To multiselect is enabled');
-            $this->assertEquals($types, $this->select($element)->selectedLabels());
+            $this->assertEquals($types, $this->select($element)->selectedValues());
         }
     }
 
     /**
-     * <p>Data Provider with system attributes list and defined product types' applying</p>
+     * Data Provider with system attributes list and defined product types' applying
      *
      * @return array
      */
@@ -132,7 +137,7 @@ class Core_Mage_ProductAttribute_SystemAttributeTest extends Mage_Selenium_TestC
             array('url_key', 'All Product Types', null),
             array('visibility', 'All Product Types', null),
             array('weight', 'Selected Product Types',
-                array('simple', 'virtual', 'bundle', 'downloadable')),
+                array('simple', 'configurable', 'virtual', 'bundle', 'downloadable')),
         );
     }
 }

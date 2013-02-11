@@ -84,7 +84,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
             'base_dir'          => 'not_used',
             'path_to_map_file'  => 'not_used',
             'connection'        => $adapterMock,
-            'core_helper'       => new Mage_Core_Helper_Data(),
+            'core_helper'       => $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false, false),
             'aliases_map'       => $aliasesMap
         );
     }
@@ -133,7 +133,15 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
      */
     public function testAppendClassAliasReplace()
     {
-        $setupModel = new Mage_Core_Model_Resource_Setup_Migration('core_setup', $this->_getModelDependencies());
+        $setupModel = new Mage_Core_Model_Resource_Setup_Migration(
+            $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
+            $this->getMock('Magento_Filesystem', array(), array(), '', false),
+            'core_setup',
+            $this->_getModelDependencies()
+        );
 
         $setupModel->appendClassAliasReplace('tableName', 'fieldName', 'entityType', 'fieldContentType',
             array('pk_field1', 'pk_field2'), 'additionalWhere'
@@ -182,9 +190,15 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
         $tableRowsCount = count($tableData);
 
         $setupModel = new Mage_Core_Model_Resource_Setup_Migration(
+            $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false),
+            $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
+            $this->getMock('Magento_Filesystem', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)
         );
+
         $setupModel->setTable('table', 'table');
 
         foreach ($replaceRules as $replaceRule) {
@@ -235,5 +249,16 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
             $this->assertNotEmpty($classAlias);
             $this->assertNotEmpty($className);
         }
+    }
+
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Filesystem
+     */
+    protected function _getFilesystemMock()
+    {
+        $mock = $this->getMockBuilder('Magento_Filesystem')
+            ->disableOriginalConstructor()
+            ->getMock();
+        return $mock;
     }
 }

@@ -12,7 +12,7 @@
 
 manage_categories:
     mca: catalog_category/
-    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_category/')]
     title: New Category / Manage Categories / Categories / Catalog / Magento Admin
     uimap: &categoryUimap
         form:
@@ -47,7 +47,7 @@ manage_categories:
                         fieldsets:
                             -
                                 general_info:
-                                    xpath: //div[contains(div/div/h4,'General Information')]
+                                    xpath: //fieldset[contains(legend/span,'General Information')]
                                     checkboxes:
                                         delete_thumbnail_image: //input[@name='general[thumbnail][delete]']
                                         delete_image: //*[@name='general[image][delete]']
@@ -71,7 +71,7 @@ manage_categories:
                         fieldsets:
                             -
                                 display_settings:
-                                    xpath: "//div[contains(div/div/h4,'Display Settings')]"
+                                    xpath: //fieldset[contains(legend/span,'Display Settings')]
                                     checkboxes:
                                         available_product_listing_config: //input[@value='available_sort_by']
                                         default_product_listing_config: //input[@value='default_sort_by']
@@ -91,7 +91,7 @@ manage_categories:
                         fieldsets:
                             -
                                 custom_design:
-                                    xpath: "//div[contains(div/div/h4,'Custom Design') and not (@style='display: none;')]"
+                                    xpath: //fieldset[contains(legend/span,'Custom Design')]
                                     dropdowns:
                                         use_parent_category_settings: //select[@name='general[custom_use_parent_settings]']
                                         apply_to_products: //select[@name='general[custom_apply_to_products]']
@@ -127,7 +127,7 @@ manage_categories:
             save_category: //button[@data-ui-id='category-edit-form-save-button']
             delete_category: //button[span='Delete Category']
         messages:
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This field is required.' and not(contains(@style,'display: none;'))]
             success_saved_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been saved.')]
             success_deleted_category: //li[normalize-space(@class)='success-msg' and contains(.,'The category has been deleted.')]
             confirm_delete: Are you sure you want to delete this category?

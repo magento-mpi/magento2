@@ -28,6 +28,9 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
         'Mage_Core_Model_Store_Config',
         'Mage_Core_Controller_Varien_Front',
         'Mage_Core_Model_Factory_Helper',
+        'Mage_Core_Model_Dir',
+        'Mage_Core_Model_Logger',
+        'Magento_Filesystem',
     );
 
     protected function setUp()
@@ -42,10 +45,13 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
+     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      */
     public function testImage()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 
@@ -64,7 +70,7 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = Mage::getModel($injectionClass);
+            $arguments[] = Mage::getObjectManager()->get($injectionClass);
         }
         return $arguments;
     }

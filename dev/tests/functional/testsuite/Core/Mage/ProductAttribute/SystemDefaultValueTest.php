@@ -16,8 +16,8 @@
 class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System - Manage Attributes.</p>
+     * Preconditions:
+     * Navigate to System - Manage Attributes.
      */
     protected function assertPreConditions()
     {
@@ -26,10 +26,10 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Default value for System attributes</p>
-     * <p>Preconditions:</p>
-     * <p>1. System attribute is existed.</p>
-     * <p>2. System attribute is presented in Default attribute set.</p>
+     * Default value for System attributes
+     * Preconditions:
+     * 1. System attribute is existed.
+     * 2. System attribute is presented in Default attribute set.
      *
      * @param string $attributeCode
      * @param string $productType
@@ -47,8 +47,13 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
         $attributeData = $this->loadDataSet('SystemAttributes', $attributeCode);
         $productData = $this->loadDataSet('Product', $productType . '_product_required');
         unset($productData[$uimapName]);
+        $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
+            array('attribute_code' => $attributeData['attribute_code']));
+        if ($attributeCode == 'status') {
+            $searchData['attribute_label'] = 'Status';
+        }
         //Steps
-        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attributeData['attribute_code']));
+        $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifySystemAttribute($attributeData);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
@@ -66,7 +71,7 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
         if ($attributeCode == 'custom_design') {
             $this->openTab('design');
             $this->assertEquals($attributeData['default_control_value'],
-                $this->getControlAttribute('dropdown', $uimapName, 'selectedValue'),
+                $this->getControlAttribute('dropdown', $uimapName, 'selectedLabel'),
                 'Incorrect default value for custom design attribute.');
         } else {
             $productData[$uimapName] = $attributeData['default_value'];
@@ -75,7 +80,7 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>DataProvider with system attributes list</p>
+     * DataProvider with system attributes list
      *
      * @return array
      */
@@ -99,9 +104,8 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
     }
 
     /**
-     * <p>Change selected default value for tax_class_id to '-- Please Select --'</p>
-     * <p>Preconditions:</p>
-     * <p>1. Default value is specified for system attribute 'tax_class_id'.</p>
+     * Change selected default value for tax_class_id to '-- Please Select --'
+     * and verify impossibility to save product in this case
      *
      * @test
      * @TestlinkId TL-MAGE-6082
@@ -124,10 +128,11 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
             'Option with value "' . $attribute['default_value'] . '" is not set as default for attribute');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
         //Verifying
-        $this->addFieldIdToMessage('dropdown', 'prices_tax_class');
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+//        $this->addFieldIdToMessage('dropdown', 'prices_tax_class');
+//        $this->assertMessagePresent('validation', 'empty_required_field');
+//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 }

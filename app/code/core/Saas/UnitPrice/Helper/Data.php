@@ -28,12 +28,11 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      *  {{reference_unit_short}}=> the reference unit, short format
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param boolean|string $labelFormat FALSE = configured long lable, TRUE = configured short lable,
      * "STRING" = the string is used as a format template
      *
      * @return string
      */
-    public function getUnitPriceLabel($product, $labelFormat = false)
+    public function getUnitPriceLabel($product)
     {
         $productAmount = $product->getUnitPriceAmount();
         if (!$productAmount) {
@@ -193,7 +192,8 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isUnitPriceProInstalledAndActive()
     {
-        if ($node = Mage::getConfig()->getNode('modules/UnitPricePro')) {
+        $modulesConfig = Mage::getSingleton('Mage_Core_Model_Config_Modules');
+        if ($node = $modulesConfig->getNode('modules/UnitPricePro')) {
             return strval($node->active) == 'true';
         }
         return false;
