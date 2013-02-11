@@ -17,17 +17,6 @@
         <legend><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card Information') ?></legend>
         <table cellspacing="0" class="form-list" id="table_enterprise_giftcard">
         <tr>
-            <td class="label"><label for="giftcard_type"><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Card Type') ?><span class="required">*</span></label></td>
-            <td class="value"><select id="giftcard_type" <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> name="<?php echo $this->getFieldPrefix() ?>[giftcard_type]" class="select required-entry">
-                <?php foreach ($this->getCardTypes() as $_value=>$_label): ?>
-                    <?php $_selected = ($this->getFieldValue('giftcard_type') == $_value ? 'selected="selected"' : ''); ?>
-                    <option value="<?php echo $_value; ?>" <?php echo $_selected; ?>><?php echo $_label; ?></option>
-                <?php endforeach; ?>
-            </select>
-            </td>
-            <td class="value scope-label"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('[GLOBAL]') ?></td>
-        </tr>
-        <tr>
             <td class="label"><label for="giftcard_is_redeemable"><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Is Redeemable') ?></label></td>
             <td class="value"><select <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> id="giftcard_is_redeemable" name="<?php echo $this->getFieldPrefix() ?>[is_redeemable]" class="select">
                 <option value="1"><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Yes') ?></option>
