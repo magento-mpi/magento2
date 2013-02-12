@@ -16,56 +16,6 @@
 class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Block_Widget_Container
 {
     /**
-     * @var Mage_Theme_Helper_Storage
-     */
-    protected $_helperStorage;
-
-    /**
-     * Initialize dependencies
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Layout $layout
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Backend_Model_Url $urlBuilder
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Design_Package $designPackage
-     * @param Mage_Core_Model_Session $session
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
-     * @param Mage_Theme_Helper_Storage $helperStorage
-     * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
-    public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Backend_Model_Url $urlBuilder,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Session $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
-        Mage_Theme_Helper_Storage $helperStorage,
-        array $data = array()
-    ) {
-        $this->_helperStorage = $helperStorage;
-        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
-    }
-
-    /**
      * Block construction
      */
     protected function _construct()
@@ -113,7 +63,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
     public function getContentsUrl()
     {
         return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type'))
-            + $this->_helperStorage->getRequestParams());
+            + $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
     }
 
     /**
@@ -148,7 +98,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
      */
     public function getNewfolderUrl()
     {
-        return $this->getUrl('*/*/newFolder', $this->_helperStorage->getRequestParams());
+        return $this->getUrl('*/*/newFolder', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
     }
 
     /**
@@ -158,7 +108,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
      */
     protected function getDeletefolderUrl()
     {
-        return $this->getUrl('*/*/deleteFolder', $this->_helperStorage->getRequestParams());
+        return $this->getUrl('*/*/deleteFolder', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
     }
 
     /**
@@ -168,7 +118,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
      */
     public function getDeleteFilesUrl()
     {
-        return $this->getUrl('*/*/deleteFiles', $this->_helperStorage->getRequestParams());
+        return $this->getUrl('*/*/deleteFiles', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
     }
 
     /**
@@ -178,7 +128,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
      */
     public function getOnInsertUrl()
     {
-        return $this->getUrl('*/*/onInsert', $this->_helperStorage->getRequestParams());
+        return $this->getUrl('*/*/onInsert', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
     }
 
     /**

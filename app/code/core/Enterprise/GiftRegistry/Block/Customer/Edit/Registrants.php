@@ -83,7 +83,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registrants extends  Enterpris
     protected function _getElementName($code)
     {
         $custom = ($this->isAttributeStatic($code)) ? '' : '[custom]';
-        return $this->_prefix . '[_index_]'. $custom . '[' . $code . ']';
+        return $this->_prefix . '[${_index_}]'. $custom . '[' . $code . ']';
     }
 
     /**
@@ -95,7 +95,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registrants extends  Enterpris
     protected function _getElementId($code)
     {
         $custom = ($this->isAttributeStatic($code)) ? '' : 'custom:';
-        return $this->_prefix . ':'. $custom . $code . '_index_';
+        return $this->_prefix . ':'. $custom . $code . '${_index_}';
     }
 
     /**

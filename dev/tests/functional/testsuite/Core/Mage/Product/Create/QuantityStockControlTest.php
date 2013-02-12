@@ -206,6 +206,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
      */
     public function generalQtyValidation($qty)
     {
+        $this->markTestIncomplete('MAGETWO-3360');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_sync_inventory', array('general_qty' => $qty));
         //Steps
@@ -240,6 +241,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
      */
     public function saveLastEnteredDataInventoryNewProduct()
     {
+        $this->markTestIncomplete('MAGETWO-3360');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_sync_inventory',
             array('inventory_qty' => '37', 'inventory_stock_availability' => 'In Stock'));

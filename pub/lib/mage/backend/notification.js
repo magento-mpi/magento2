@@ -10,11 +10,8 @@
 (function($) {
     $.widget("mage.notification", {
         options: {
-            appendMethod: 'append',
-            appendSelector: '#messages',
             templates: {
-                global: '<ul class="messages"><li class="{{if error}}error-msg{{/if}}"><ul>' +
-                    '<li>{{html message}}</li></ul></li></ul>'
+                global: '<ul class="messages"><li class="{{if error}}error-msg{{/if}}"><ul><li>${message}</li></ul></li></ul>'
             }
         },
 
@@ -26,7 +23,7 @@
             $.each(this.options.templates, function(key, template) {
                 $.template(key + 'Notification', template);
             });
-            this.element.on('ajaxComplete ajaxError', $.proxy(this._add, this));
+            $(document).on('ajaxComplete ajaxError', $.proxy(this._add, this));
         },
 
         /**
@@ -39,11 +36,8 @@
         _add: function(event, jqXHR) {
             try {
                 var response = $.parseJSON(jqXHR.responseText);
-                if (response && response.error) {
-                    var appendElement = $(this.options.appendSelector).length ?
-                        $(this.options.appendSelector) :
-                        this.element;
-                    appendElement[this.options.appendMethod]($.tmpl('globalNotification', response));
+                if (response && response.error && response.message) {
+                    this.element.append($.tmpl('globalNotification', response));
                 }
             } catch(e) {}
         }

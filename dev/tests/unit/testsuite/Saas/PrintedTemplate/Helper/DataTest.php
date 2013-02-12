@@ -15,7 +15,9 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
         // preapre
         $type = uniqid();
         $model = new Varien_Object(array('id' => uniqid()));
-        $helper = $this->getMock('Saas_PrintedTemplate_Helper_Data', array('_registry', '_getBackendHelper'));
+        $helper = $this->getMock('Saas_PrintedTemplate_Helper_Data',
+            array('_registry', '_getBackendHelper'), array(), '', false
+        );
         $helper->expects($this->once())
             ->method('_registry')
             ->with("current_$type")
@@ -55,7 +57,10 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $helper = $this->getMock(
             'Saas_PrintedTemplate_Helper_Data',
-            array('_getBackendHelper', '_getMenuConfig', '_getConfigStructure')
+            array('_getBackendHelper', '_getMenuConfig', '_getConfigStructure'),
+            array(),
+            '',
+            false
         );
         $helper->expects($this->any())
             ->method('_getBackendHelper')
@@ -120,7 +125,7 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected function helper(array $urls = array())
     {
-        $helper = $this->getMock('Mage_Core_Helper_Abstract', array('__', 'getUrl'));
+        $helper = $this->getMock('Mage_Core_Helper_Abstract', array('__', 'getUrl'), array(), '', false);
         $helper->expects($this->any())
             ->method('__')
             ->will(

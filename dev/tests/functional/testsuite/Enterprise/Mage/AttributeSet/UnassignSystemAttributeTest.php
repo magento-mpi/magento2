@@ -18,7 +18,7 @@ class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest
     extends Core_Mage_AttributeSet_UnassignSystemAttributeTest
 {
     /**
-     * <p>DataProvider with list of not required system attributes</p>
+     * DataProvider for system attributes, which can be unassigned
      *
      * @return array
      */
@@ -65,7 +65,7 @@ class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest
     }
 
     /**
-     * <p>DataProvider with list of non unassignable system attributes</p>
+     * DataProvider with list of non unassignable system attributes
      *
      * @return array
      */

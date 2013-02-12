@@ -47,7 +47,8 @@ class Enterprise_PageCache_Helper_Url
     /**
      * Restore session_id from marker value
      *
-     * @param  string $content
+     * @param string $content
+     * @param string $sidValue
      * @return bool
      */
     public static function restoreSid(&$content, $sidValue)
@@ -68,7 +69,10 @@ class Enterprise_PageCache_Helper_Url
      */
     public static function replaceUenc($content)
     {
-        $urlHelper = new Mage_Core_Helper_Url;
+        /**
+         * @var $urlHelper Mage_Core_Helper_Url
+         */
+        $urlHelper = Mage::getObjectManager()->create('Mage_Core_Helper_Url');
         $search = '/\/(' . Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
         $replace = '/$1/' . $urlHelper->getEncodedUrl() . '/';
         $content = preg_replace($search, $replace, $content);

@@ -43,53 +43,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_mageModel = null;
     }
 
-    /**
-     * @covers Mage_Core_Model_App::_initCache
-     *
-     * @magentoAppIsolation enabled
-     */
-    public function testInit()
-    {
-        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
-        $this->_model->init(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
-        $this->assertNotEmpty($this->_model->getConfig()->getNode());
-        $this->assertContains(Mage_Core_Model_App::ADMIN_STORE_ID, array_keys($this->_model->getStores(true)));
-
-        // Check that we have shared cache object inside of object manager
-        $objectManager = Mage::getObjectManager();
-        /** @var $cache Mage_Core_Model_Cache */
-        $cache = $objectManager->get('Mage_Core_Model_Cache');
-        $appCache = $this->_model->getCacheInstance();
-        $this->assertSame($appCache, $cache);
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testBaseInit()
-    {
-        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
-        $this->_model->baseInit(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
-        $this->assertNotEmpty($this->_model->getConfig()->getNode());
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testRun()
-    {
-        $request = new Magento_Test_Request();
-        $request->setRequestUri('core/index/index');
-        $this->_mageModel->setRequest($request);
-        $this->_mageModel->run(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
-        $this->assertTrue($request->isDispatched());
-    }
-
-    public function testIsInstalled()
-    {
-        $this->assertTrue($this->_mageModel->isInstalled());
-    }
-
     public function testGetCookie()
     {
         $this->assertInstanceOf('Mage_Core_Model_Cookie', $this->_model->getCookie());
@@ -257,15 +210,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('USD', $this->_model->getBaseCurrencyCode());
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testGetConfig()
-    {
-        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->getConfig());
-        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_mageModel->getConfig());
-    }
-
     public function testGetFrontController()
     {
         $front = $this->_mageModel->getFrontController();
@@ -278,40 +222,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $cache = $this->_mageModel->getCacheInstance();
         $this->assertInstanceOf('Mage_Core_Model_Cache', $cache);
         $this->assertSame($cache, $this->_mageModel->getCacheInstance());
-        $this->assertSame($cache, $this->_mageModel->getCacheInstance(Mage_Core_Model_App::DEFAULT_CACHE_ID));
-    }
-
-    /**
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage Cache instance "non_existing" is not defined
-     */
-    public function testGetCacheInstanceException()
-    {
-        $this->_mageModel->getCacheInstance('non_existing');
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testGetCacheInstanceForCustomCache()
-    {
-        $localFile = file_get_contents(__DIR__ . '/_files/App/custom_cache_local.xml');
-        $params = array(
-            Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $localFile,
-            'global_ban_use_cache' => true, // so that fresh config is merged and includes our custom local file
-        );
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
-
-        $application = Mage::app();
-
-        $additionalCache = $application->getCacheInstance('additional');
-        $this->assertInstanceOf('Mage_Core_Model_Cache', $additionalCache);
-        $this->assertNotSame($additionalCache, $application->getCacheInstance());
-
-        $idPrefix = $additionalCache->getFrontend()->getOption('cache_id_prefix');
-        $this->assertEquals('additional_prefix', $idPrefix);
-
-        $this->assertInstanceOf('Zend_Cache_Backend_BlackHole', $additionalCache->getFrontend()->getBackend());
     }
 
     public function testGetCache()
@@ -346,17 +256,18 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Mage_Core_Controller_Request_Http', $this->_model->getRequest());
-        $request = new Magento_Test_Request();
-        $this->_model->setRequest($request);
-        $this->assertSame($request, $this->_model->getRequest());
+        $this->_model->setRequest(new Magento_Test_Request());
+        $this->assertInstanceOf('Magento_Test_Request', $this->_model->getRequest());
     }
 
     public function testSetGetResponse()
     {
+        if (!Magento_Test_Helper_Bootstrap::canTestHeaders()) {
+            $this->markTestSkipped('Can\'t test get response without sending headers');
+        }
         $this->assertInstanceOf('Mage_Core_Controller_Response_Http', $this->_model->getResponse());
-        $response = new Magento_Test_Response();
-        $this->_model->setResponse($response);
-        $this->assertSame($response, $this->_model->getResponse());
+        $this->_model->setResponse(new Magento_Test_Response());
+        $this->assertInstanceOf('Magento_Test_Response', $this->_model->getResponse());
     }
 
     public function testSetGetUpdateMode()

@@ -17,7 +17,7 @@
 class Core_Mage_AttributeSet_Create_BasedOnMinimalTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
+     * Preconditions:
      */
     protected function assertPreConditions()
     {
@@ -27,7 +27,7 @@ class Core_Mage_AttributeSet_Create_BasedOnMinimalTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Attribute Set creation - based on Minimal</p>
+     * Attribute Set creation - based on Minimal
      *
      * @return string
      *
@@ -46,7 +46,7 @@ class Core_Mage_AttributeSet_Create_BasedOnMinimalTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Verifying attributes, assigned to attribute set </p>
+     * Verifying attributes, assigned to attribute set
      *
      * @param array $setName
      *

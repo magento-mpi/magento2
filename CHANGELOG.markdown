@@ -1,3 +1,90 @@
+2.0.0.0-dev42
+=============
+* JavaScript Updates to the Frontend
+  * Refactored various tabs components to an analogous jQuery widget.
+    * New tabs widget is used instead of Enterprise.Tabs and Varien.Tabs.
+  * Category navigation refactored to a jQuery widget on CE/EE.
+  * Region updater component refactored to a jQuery widget.
+    * Various CE/EE components/modules updated with use of the new widget.
+      * Gift Registry, Checkout, and Persistent.
+  * Sales components updated to use jQuery widgets including form validation.
+    * Retrieve shipping rates and add/remove coupon in shopping cart.
+  * Refactored product zoom to an analogous jQuery widget.
+    * CE uses new jQuery widget for zoom. EE uses native jQuery jqzoom.
+  * Converted Weee component to jQuery.
+    * Global tax toggle converted to self invoking jQuery function.
+    * Modified tax toggle inline onclick handlers in HTML markup to use jQuery.
+  * Refactored related products on product view page and in target rule to jQuery.
+    * Reusable jQuery widget created and used on CE/EE.
+  * Gift card component converted to jQuery on EE/Pro.
+    * Redeem gift card, add to cart check card status, multishipping payment.
+      * My Account gift card redeem, gift card toggle.
+  * Refactored all functionality related to customer wishlist to jQuery.
+    * Including multiple wishlists on EE.
+  * Refactored Varien.dateRangeDate and Varien.FileElement to jQuery.
+  * Customer balance component converted to jQuery.
+    * One page checkout, multishipping payment, store credit management.
+  * Replaced $.mage.constants with jQuery UI $.ui.keyCode for keyboard key codes.
+  * Refactored customer Gift Registry to jQuery.
+    * Create, edit, delete, share, manage items, and form validations.
+      * Add to gift registry from shopping cart and wishlist.
+  * Contact Us form converted to use jQuery validation on CE/EE.
+  * Refactored Email a Friend on product view page (CE/EE) to use jQuery.
+    * Includes using jQuery validation on send email form.
+  * Converted customer address and address book to use a jQuery widget.
+    * Supports adding and deleting addresses.
+  * Refactored gallery thumbnail image view on product view page to jQuery.
+  * Converted Orders and Returns to a jQuery widget with jQuery form validation.
+    * Search by zip code or email address toggle.
+  * Refactored most parts of CAPTCHA to jQuery on all supported forms.
+* Bug Fixes
+  * Fixed incorrect URL generated for Magento logo image on CE.
+  * Fixed Store Id not set resulting in messages sent via Email a Friend to fail.
+
+2.0.0.0-dev41
+=============
+* All-new look & feel of backend UI -- "Magento 2 backend" theme
+  * This theme includes "Magento User Interface Library" -- a set of reusable CSS-classes, icons and fonts
+* Theme editing features (in backend UI):
+  * Ability to view static resources, such as CSS and JavaScript files, which are inherited by virtual themes from physical themes and application, and library
+  * Ability to upload and edit custom CSS/JavaScript code assigned to a particular virtual theme
+  * Ability to manage image and font assets for virtual themes
+  * The uploaded or edited theme resources are used in page generation
+  * Ability to rename virtual themes
+  * Physical themes are read-only
+* Visual design editor:
+  * Ability to enter a "Design Mode" directly from the list of "My Customizations" in "Design Gallery"
+  * Updated styling of theme selector and VDE toolbars
+* Added functional limitations (managed through configuration files):
+  * Ability to limit maximum number of store views in the system
+  * Ability to limit maximum number of admin user records in the system
+* Introduced mechanism of early discovery of memory leaks in integration tests:
+  * Added ability to integration testing framework to detect usage of memory and estimate memory leaks using OS tools outside of PHP process
+  * Also ability to set memory usage threshold which would deliberately trigger error, if integration tests reach it
+* Refactoring in integration tests:
+  * Broke down `Magento_Test_Bootstrap` into smaller testable classes
+  * Minimized amount of logic in `bootstrap.php` of integration tests
+  * Factored out memory utility functions from memory integration tests into a separate helper
+  * Removed hard-coding of the default setting values from `Magento_Test_Bootstrap` in favor of requiring some crucial settings
+  * Fixed integration tests dependency on `app/etc/local.xml`, changes in which were involved into the sandbox hash calculation `dev/tests/integration/tmp/sandbox-<db_vendor>-<hash>`
+* Improvements in JavaScript widget "Suggest" (`pub/lib/mage/backend/suggest.js`):
+  * Added ability to set callback for "item selection"
+  * Added ability to provide a template in widget options
+  * Implemented "multiple suggestions" ability directly in this widget and removed the "multisuggest" widget
+* Converted several grids in backend from PHP implementation to declarations in layout
+* Other various improvements:
+  * Factored out logic of handling theme images from `Mage_Core_Model_Theme` into `Mage_Core_Model_Theme_Image`
+  * Ability to filter file extensions in uploader component
+  * Publication of resources linked in CSS-files will only log error instead of crashing page generation process
+* Bug fixes:
+  * Fixed several memory leaks in different places, related with dispatching controller actions multiple times in integration tests and with excessive reference to `Mage_Core_Model_App` object
+  * Fixed integration test in `Mage_Install` module that verifies encryption key length
+  * Fixed DHL shipping carrier declaration in config that caused inability to use it with shopping cart price rules
+  * Fixed issues in generating of configurable product variations when the button "Generate" is invoked second time
+  * Fixed an error that caused inability to create a theme in Windows environment in developer mode
+  * Fixed various errors in JavaScript tests for visual design editor
+  * Fixed broken "Edit" link on backend product management page
+
 2.0.0.0-dev40
 =============
 * Implemented ability to customize all the main directory paths for the application, i.e. locations of `var`, `etc`, `media` and other directories

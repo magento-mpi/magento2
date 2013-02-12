@@ -37,7 +37,7 @@ return function (array $appConfigArray) {
         return;
     }
 
-    $resultArray = array(
+    $entryPointParams = array(
         Mage_Core_Model_App::INIT_OPTION_DIRS => array(
             Mage_Core_Model_Dir::MEDIA => __DIR__ . '/media/' . $tenant->getMediaDir(),
             Mage_Core_Model_Dir::VAR_DIR => __DIR__ . '/var/' . $tenant->getVarDir(),
@@ -48,5 +48,8 @@ return function (array $appConfigArray) {
         Mage_Core_Model_Config::INIT_OPTION_EXTRA_DATA => $tenant->getConfigString(),
     );
 
-    Mage::run(array_merge($_SERVER, $resultArray));
+    $entryPointParams = array_merge($_SERVER, $entryPointParams);
+    
+    $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $entryPointParams);
+    $entryPoint->processRequest();
 };
