@@ -2273,17 +2273,16 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                     && $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'associated_product_default_qty', 'value')
                        != $formedData['qty'][$product['associated_search_sku']]
                 ) {
-                    $this->addVerificationMessage(" Invalid product qty with sku: \n"
-                                                  . print_r($product['associated_search_sku'], true));
+                    $this->addVerificationMessage("Invalid product qty with sku: \n"
+                        . print_r($product['associated_search_sku'], true));
                 }
             } else {
                 $this->addVerificationMessage('general' . " tab: Product is not assigned with data: \n"
-                                              . print_r($product['associated_search_sku'], true));
+                    . print_r($product['associated_search_sku'], true));
             }
         }
         $this->verifyBlocksOrder($formedData['order'], 'grouped_assigned_products');
     }
-
 
     #*********************************************************************************
     #*                         Test  Methods for creating product                    *
