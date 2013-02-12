@@ -158,7 +158,7 @@ new_product:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                             -
                                 category_search:
-                                    xpath: //div[@class='mage-suggest-dropdown']/ul[@role='menu']
+                                    xpath: //*[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']/ul[@role='menu']
                                     links:
                                         category: //*[@role='menuitem']//span[text()='%categoryPath%']
                                         selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']

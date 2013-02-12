@@ -133,6 +133,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     public function storeViewTitles($attrData, $fieldsetName = 'manage_titles', $action = 'fill')
     {
         $name = 'store_view_titles';
+        $columnShift = $fieldsetName == 'manage_options' ? 1 : 0;
         if (isset($attrData['admin_title'])) {
             $attrData[$name]['Admin'] = $attrData['admin_title'];
         }
@@ -149,6 +150,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
                     }
                 }
                 if ($number != -1) {
+                    $number -= $columnShift;
                     $this->addParameter('storeViewNumber', $number);
                     $fieldName = preg_replace('/^manage_/', '', $fieldsetName) . '_by_store_name';
                     switch ($action) {
