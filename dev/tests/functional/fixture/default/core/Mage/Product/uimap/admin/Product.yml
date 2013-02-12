@@ -123,7 +123,7 @@ new_product:
                         fieldsets:
                             -
                                 product_general:
-                                    xpath: //div[contains(div/div/div,'General')]
+                                    xpath: //div[div//span='General']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         new_category: //button[span='New Category']
@@ -337,7 +337,7 @@ new_product:
                         fieldsets:
                             -
                                 product_prices:
-                                    xpath: //div[contains(div/div/div,'Prices')]
+                                    xpath: //div[div/strong/span='Prices']
                                     buttons:
                                         prices_group_add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
@@ -376,7 +376,7 @@ new_product:
                         fieldsets:
                             -
                                 product_meta_information:
-                                    xpath: //div[contains(div/div/div,'Meta Information')]
+                                    xpath: //div[div/strong/span='Meta Information']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     fields:
@@ -390,14 +390,14 @@ new_product:
                         fieldsets:
                             -
                                 product_images:
-                                    xpath: //div[contains(div/div/div,'Images')]
+                                    xpath: //div[div/strong/span='Images']
                 -
                     recurring_profile: &recurringProfileTab
                         xpath: //a[@title='Recurring Profile']
                         fieldsets:
                             -
                                 product_recurring_profile:
-                                    xpath: //div[contains(div/div/div,'Recurring Profile')]
+                                    xpath: //div[div/strong/span='Recurring Profile']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     dropdowns:
@@ -422,7 +422,7 @@ new_product:
                         fieldsets:
                             -
                                 product_design:
-                                    xpath: //div[contains(div/div/div,'Design')]
+                                    xpath: //div[div/strong/span='Design']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     dropdowns:
@@ -439,7 +439,7 @@ new_product:
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: //div[contains(div/div/div,'Gift Options')]
+                                    xpath: //div[div/strong/span='Gift Options']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
@@ -819,7 +819,7 @@ updating_products:
                         fieldsets:
                             -
                                 attributes:
-                                    xpath: //div[contains(div/div/h4,'Attributes')]
+                                    xpath: //fieldset[legend/span='Attributes']
                                     checkboxes:
                                         attributes_change_name: //*[@id='name']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_description: //*[@id='description']//following-sibling::*//*[@type="checkbox"]
