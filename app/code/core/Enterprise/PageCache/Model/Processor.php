@@ -46,13 +46,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     protected $_restriction;
 
     /**
-     * Design package model
-     *
-     * @var Mage_Core_Model_Design_PackageInterface
-     */
-    protected $_designPackage;
-
-    /**
      * SubProcessor factory
      *
      * @var Enterprise_PageCache_Model_Cache_SubProcessorFactory
@@ -110,7 +103,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     /**
      * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
      * @param Enterprise_PageCache_Model_Cache $fpcCache
-     * @param Mage_Core_Model_Design_Package_Proxy $designPackage
      * @param Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
      * @param Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory
      * @param Enterprise_PageCache_Model_ContainerFactory $containerFactory
@@ -122,7 +114,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     public function __construct(
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
         Enterprise_PageCache_Model_Cache $fpcCache,
-        Mage_Core_Model_Design_Package_Proxy $designPackage,
         Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory,
         Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory,
         Enterprise_PageCache_Model_ContainerFactory $containerFactory,
@@ -134,7 +125,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
         $this->_subProcessorFactory = $subProcessorFactory;
-        $this->_designPackage = $designPackage;
         $this->_restriction = $restriction;
         $this->_fpcCache = $fpcCache;
         $this->_environment = $environment;
@@ -187,8 +177,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         Zend_Controller_Response_Http $response,
         $content
     ) {
-
-        $this->_applyDesignChange();
 
         if (!$this->_designInfo->isDesignExceptionExistsInCache()) {
             return false;
@@ -261,20 +249,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
             return $content;
         }
         return $content;
-    }
-
-    /**
-     * Apply design change
-     */
-    protected function _applyDesignChange()
-    {
-        $designChange = $this->_fpcCache->load($this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX);
-        if ($designChange) {
-            $designChange = unserialize($designChange);
-            if (is_array($designChange) && isset($designChange['design'])) {
-                $this->_designPackage->setDesignTheme($designChange['design']);
-            }
-        }
     }
 
     /**
@@ -478,18 +452,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                     self::CACHE_SIZE_KEY,
                     $this->getRequestTags()
                 );
-
-                /*
-                 * Save design change in cache
-                 */
-                $designChange = Mage::getSingleton('Mage_Core_Model_Design');
-                if ($designChange->getData()) {
-                    $this->_fpcCache->save(
-                        serialize($designChange->getData()),
-                        $this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX,
-                        $this->getRequestTags()
-                    );
-                }
 
                 // save response headers
                 $this->_metadata->setMetadata('response_headers', $response->getHeaders());

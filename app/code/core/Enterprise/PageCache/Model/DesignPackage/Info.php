@@ -17,7 +17,7 @@ class Enterprise_PageCache_Model_DesignPackage_Info
      * It always must be present (maybe serialized empty value)
      * @var boolean
      */
-    protected $_designExceptionExistsInCache = false;
+    protected $_designExceptionExistsInCache = null;
 
     /**
      * Design package name
@@ -27,6 +27,20 @@ class Enterprise_PageCache_Model_DesignPackage_Info
     protected $_packageName = null;
 
     /**
+     * Design package rules
+     *
+     * @var Enterprise_PageCache_Model_DesignPackage_Rules
+     */
+    protected $_designPackageRules;
+
+    /**
+     * FPC cache model
+     *
+     * @var Enterprise_PageCache_Model_Cache
+     */
+    protected $_fpcCache;
+
+    /**
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_DesignPackage_Rules $packageRules
      */
@@ -34,9 +48,8 @@ class Enterprise_PageCache_Model_DesignPackage_Info
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_DesignPackage_Rules $packageRules
     ) {
-        $exceptions = $fpcCache->load(self::DESIGN_EXCEPTION_KEY);
-        $this->_designExceptionExistsInCache = $fpcCache->getFrontend()->test(self::DESIGN_EXCEPTION_KEY);
-        $this->_packageName = $packageRules->getPackageByUserAgent($exceptions);
+        $this->_fpcCache = $fpcCache;
+        $this->_designPackageRules = $packageRules;
     }
 
     /**
@@ -46,6 +59,9 @@ class Enterprise_PageCache_Model_DesignPackage_Info
      */
     public function getPackageName()
     {
+        if (null === $this->_packageName) {
+            $this->_packageName = $this->_designPackageRules->getPackageName();
+        }
         return $this->_packageName;
     }
 
@@ -56,6 +72,10 @@ class Enterprise_PageCache_Model_DesignPackage_Info
      */
     public function isDesignExceptionExistsInCache()
     {
+        if (null === $this->_designExceptionExistsInCache) {
+            $this->_designExceptionExistsInCache = $this->_fpcCache->getFrontend()->test(self::DESIGN_EXCEPTION_KEY);
+        }
+
         return $this->_designExceptionExistsInCache;
     }
 }
