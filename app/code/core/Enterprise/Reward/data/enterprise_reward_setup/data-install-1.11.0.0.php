@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Enterprise
- * @package     Enterprise_WebsiteRestriction
+ * @package     Enterprise_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
