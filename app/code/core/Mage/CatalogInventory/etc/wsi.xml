@@ -131,7 +131,7 @@
             <wsdl:output message="typens:catalogInventoryStockItemUpdateResponse" />
         </wsdl:operation>
         <wsdl:operation name="catalogInventoryStockItemMultiUpdate">
-            <wsdl:documentation>Multi update product stock data</wsdl:documentation>
+            <wsdl:documentation>Stock item multi update</wsdl:documentation>
             <wsdl:input message="typens:catalogInventoryStockItemMultiUpdateRequest" />
             <wsdl:output message="typens:catalogInventoryStockItemMultiUpdateResponse" />
         </wsdl:operation>

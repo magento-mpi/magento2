@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
+ * Catalog inventory api V2
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Catalog inventory api V2
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 class Mage_CatalogInventory_Model_Stock_Item_Api_V2 extends Mage_CatalogInventory_Model_Stock_Item_Api
 {
     /**
