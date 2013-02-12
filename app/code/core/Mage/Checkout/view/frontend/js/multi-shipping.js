@@ -1,0 +1,47 @@
+/**
+ * {license_notice}
+ *
+ * @category    checkout multi-shipping
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/*jshint jquery:true*/
+(function($) {
+    "use strict";
+    $.widget('mage.multiShipping', {
+        options: {
+            addNewAddressBtn: '[data-role="add-new-address"]', // Add a new address for multishipping.
+            addNewAddressFlag: '#add_new_address_flag', // Hidden input field with value 0 or 1.
+            canContinueBtn: '[data-role="can-continue"]', // Continue button (update quantity or go to shipping).
+            canContinueFlag: '#can_continue_flag' // Hidden input field with value 0 or 1.
+        },
+
+        /**
+         * Bind event handlers to click events for corresponding buttons.
+         * @private
+         */
+        _create: function() {
+            $(this.options.addNewAddressBtn).on('click', $.proxy(this._addNewAddress, this));
+            $(this.options.canContinueBtn).on('click', $.proxy(this._canContinue, this));
+        },
+
+        /**
+         * Add a new address. Set the hidden input field and submit the form. Then enter a new shipping address.
+         * @private
+         */
+        _addNewAddress: function() {
+            $(this.options.addNewAddressFlag).val(1);
+            this.element.submit();
+        },
+
+        /**
+         * Can the user continue to the next step? The data-flag attribute holds either 0 (no) or 1 (yes).
+         * @private
+         * @param event {Event} - Click event on the corresponding button.
+         */
+        _canContinue: function(event) {
+            $(this.options.canContinueFlag).val($(event.target).data('flag'));
+        }
+    });
+})(jQuery);

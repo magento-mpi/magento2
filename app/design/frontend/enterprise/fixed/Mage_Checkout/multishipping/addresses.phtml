@@ -18,7 +18,7 @@
 <form id="checkout_multishipping_form" action="<?php echo $this->getPostActionUrl() ?>" method="post">
 <div class="page-title title-buttons">
     <h1><?php echo $this->__('Ship to Multiple Addresses') ?></h1>
-    <button type="button" title="<?php echo $this->__('Enter a New Address') ?>" class="button" onclick="$('add_new_address_flag').value=1; $('checkout_multishipping_form').submit();"><span><span><?php echo $this->__('Enter a New Address') ?></span></span></button>
+    <button type="button" title="<?php echo $this->__('Enter a New Address') ?>" class="button" data-role="add-new-address"><span><span><?php echo $this->__('Enter a New Address') ?></span></span></button>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <fieldset class="multiple-checkout">
@@ -40,7 +40,7 @@
         </thead>
         <tfoot>
             <tr>
-                <td colspan="100" class="a-right"><button type="submit" class="button" onclick="$('can_continue_flag').value=0"><span><span><?php echo $this->__('Update Qty &amp; Addresses') ?></span></span></button></td>
+                <td colspan="100" class="a-right"><button type="submit" class="button" data-role="can-continue" data-flag="0"><span><span><?php echo $this->__('Update Qty &amp; Addresses') ?></span></span></button></td>
             </tr>
         </tfoot>
         <tbody>
@@ -56,10 +56,15 @@
         <?php endforeach; ?>
         </tbody>
     </table>
-    <script type="text/javascript">(function($) {$('#multiship-addresses-table').decorate('table')})(jQuery)</script>
+    <script type="text/javascript">jQuery('#multiship-addresses-table').decorate('table')</script>
     <div class="buttons-set">
         <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back to Shopping Cart') ?></a></p>
-        <button type="submit" class="button<?php if ($this->isContinueDisabled()):?> disabled<?php endif; ?>" onclick="$('can_continue_flag').value=1"<?php if ($this->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><span><?php echo $this->__('Continue to Shipping Information') ?></span></span></button>
+        <button type="submit" class="button<?php if ($this->isContinueDisabled()):?> disabled<?php endif; ?>" data-role="can-continue" data-flag="1"<?php if ($this->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><span><?php echo $this->__('Continue to Shipping Information') ?></span></span></button>
     </div>
 </fieldset>
 </form>
+<script type="text/javascript">
+    head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/multi-shipping.js') ?>", function() {
+        jQuery('#checkout_multishipping_form').multiShipping();
+    })
+</script>
