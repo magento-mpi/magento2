@@ -7,6 +7,8 @@
  */
 class Enterprise_PageCache_Model_DesignPackage_Rules
 {
+    const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
+
     /**
      * Design model
      *
@@ -60,22 +62,35 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
 
     /**
      * Get package name based on design exception rules and design change schedules
-     *
-     * @return string
      */
-    public function getPackageName()
+    public function getPackageName($storeId)
     {
         $exceptions = $this->_fpcCache->load(Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY);
 
         Magento_Profiler::start('process_design_change');
-        //TODO:: need to identify current requested store view id
-        $storeId = 1;
-        $this->_design->loadChange($storeId, date('Y-m-d'));
+
+        $date = date('Y-m-d');
+
+        $changeCacheId = self::DESIGN_CHANGE_CACHE_SUFFIX . md5($storeId . $date);
+        $result = $this->_fpcCache->load($changeCacheId);
+        if ($result === false) {
+            $result = $this->_design->getResource()->loadChange($storeId, $date);
+            $result = $result ?: array();
+            $this->_fpcCache->save(
+                serialize($result),
+                $changeCacheId,
+                array(Enterprise_PageCache_Model_Processor::CACHE_TAG),
+                86400
+            );
+        } else {
+            $result = unserialize($result);
+        }
+
         Magento_Profiler::stop('process_design_change');
 
         $output = $this->_getPackageByUserAgent($exceptions);
         if ('' === $output) {
-            $output = $this->_design->getDesign();
+            $output = isset($result['design']) ? $result['design'] : '';
         }
 
         return $output;

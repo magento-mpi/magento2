@@ -54,22 +54,61 @@ class Enterprise_PageCache_Model_Request_Identifier
     protected $_designInfo;
 
     /**
+     * Store identifier model
+     *
+     * @var Enterprise_PageCache_Model_Store_Identifier
+     */
+    protected $_storeIdentifier;
+
+    /**
+     * @var string
+     */
+    protected $_storeKeyCacheKey;
+
+    /**
+     * Disable cache for url with next GET params
+     *
+     * @var array
+     */
+    protected $_noCacheGetParams = array('___store', '___from_store');
+
+    /**
      * @param string $scopeCode
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_DesignPackage_Info $designInfo
      * @param Enterprise_PageCache_Model_Environment $environment
+     * @param Enterprise_PageCache_Model_Store_Identifier $storeIdentifier
      */
     public function __construct(
         $scopeCode,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_DesignPackage_Info $designInfo,
-        Enterprise_PageCache_Model_Environment $environment
+        Enterprise_PageCache_Model_Environment $environment,
+        Enterprise_PageCache_Model_Store_Identifier $storeIdentifier
     ) {
         $this->_scopeCode = $scopeCode;
         $this->_fpcCache = $fpcCache;
         $this->_environment = $environment;
         $this->_designInfo = $designInfo;
-        $this->_createRequestIds();
+        $this->_storeIdentifier = $storeIdentifier;
+        if ($this->allowCache()) {
+            $this->_createRequestIds();
+        }
+    }
+
+    /**
+     * Check if request could be cached
+     *
+     * @return bool
+     */
+    public function allowCache()
+    {
+        foreach ($this->_noCacheGetParams as $param) {
+            if ($this->_environment->hasQuery($param)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -136,7 +175,10 @@ class Enterprise_PageCache_Model_Request_Identifier
                 }
             }
 
-            $designPackage = $this->_designInfo->getPackageName();
+            $this->_generateStoreCacheId($uriParts);
+
+            $storeId = $this->_storeIdentifier->getStoreId($this->getStoreCacheId());
+            $designPackage = $this->_designInfo->getPackageName($storeId);
             if ($designPackage) {
                 $uriParts[] = $designPackage;
             }
@@ -154,6 +196,21 @@ class Enterprise_PageCache_Model_Request_Identifier
     public function getRequestCacheId()
     {
         return $this->_requestCacheId;
+    }
+
+    protected function _generateStoreCacheId(array $uriParts)
+    {
+
+        $id = implode('_', $uriParts);
+        $this->_storeKeyCacheKey = md5($id);
+    }
+
+    /**
+     * @return string
+     */
+    public function getStoreCacheId()
+    {
+        return $this->_storeKeyCacheKey;
     }
 
     /**

@@ -15,7 +15,6 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
 
-    const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
     const CACHE_SIZE_KEY                = 'FPC_CACHE_SIZE_CAHCE_KEY';
     const XML_PATH_CACHE_MAX_SIZE       = 'system/page_cache/max_cache_size';
 
@@ -450,6 +449,18 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                 $this->_fpcCache->save(
                     $currentStorageSize + $contentSize,
                     self::CACHE_SIZE_KEY,
+                    $this->getRequestTags()
+                );
+
+                /** @var $storeIdentifier Enterprise_PageCache_Model_Store_Identifier */
+                $storeIdentifier = Mage::getSingleton('Enterprise_PageCache_Model_Store_Identifier');
+
+                /** @var $storeManager Mage_Core_Model_StoreManager */
+                $storeManager = Mage::getSingleton('Mage_Core_Model_StoreManager');
+
+                $storeIdentifier->save(
+                    $storeManager->getStore()->getId(),
+                    $this->_requestIdentifier->getStoreCacheId(),
                     $this->getRequestTags()
                 );
 

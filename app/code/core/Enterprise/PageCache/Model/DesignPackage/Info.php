@@ -57,10 +57,10 @@ class Enterprise_PageCache_Model_DesignPackage_Info
      *
      * @return null|string
      */
-    public function getPackageName()
+    public function getPackageName($storeId)
     {
         if (null === $this->_packageName) {
-            $this->_packageName = $this->_designPackageRules->getPackageName();
+            $this->_packageName = $this->_designPackageRules->getPackageName($storeId);
         }
         return $this->_packageName;
     }
