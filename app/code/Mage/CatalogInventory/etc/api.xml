@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,7 +26,7 @@
                     </update>
                     <multiUpdate>
                         <title>Update multi product stock data</title>
-                        <acl>cataloginventory/multi_update</acl>
+                        <acl>cataloginventory/update</acl>
                     </multiUpdate>
                 </methods>
                 <faults module="Mage_CatalogInventory">
@@ -66,9 +64,6 @@
                     <info translate="title" module="Mage_CatalogInventory">
                         <title>Retrieve stock data</title>
                     </info>
-                    <multi_update translate="title" module="Mage_CatalogInventory">
-                        <title>Multi Update</title>
-                    </multi_update>
                 </cataloginventory>
             </resources>
         </acl>

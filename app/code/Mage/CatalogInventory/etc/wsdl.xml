@@ -88,7 +88,7 @@
             <output message="typens:catalogInventoryStockItemUpdateResponse" />
         </operation>
         <operation name="catalogInventoryStockItemMultiUpdate">
-            <documentation>Multi stock item update</documentation>
+            <documentation>Stock item multi update</documentation>
             <input message="typens:catalogInventoryStockItemMultiUpdateRequest"/>
             <output message="typens:catalogInventoryStockItemMultiUpdateResponse"/>
         </operation>
