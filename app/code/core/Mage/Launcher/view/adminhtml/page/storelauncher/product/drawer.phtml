@@ -19,4 +19,25 @@
     <?php echo $this->getChildBlock('new-category')->setUseContainer(false)->toHtml();?>
     <?php echo $this->getChildBlock('new-category-js')->setUseContainer(false)->toHtml();?>
     <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>
+
+    <div>
+        <h4 class="title">Import Products to Catalog</h4>
+        <ul>
+            <li>
+                You can get
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/export'); ?>"><?php echo $this->__('CSV Format Guideline'); ?></a>
+                as a definition for data being imported
+            </li>
+            <li>
+                You can
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/catalog_category'); ?>"><?php echo $this->__('Create Category'); ?></a>
+                to put all related products into one place
+            </li>
+            <li>
+                After completion all steps above you can
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/import'); ?>"><?php echo $this->__('Import CSV File'); ?></a>
+                which contains products you would like to have in your store
+            </li>
+        </ul>
+    </div>
 </form>
