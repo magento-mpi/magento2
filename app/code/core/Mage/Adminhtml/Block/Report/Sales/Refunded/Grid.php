@@ -37,12 +37,13 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
         $this->addColumn('period', array(
             'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Period'),
             'index'         => 'period',
-            'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
             'renderer'      => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
             'totals_label'  => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
             'html_decorators' => array('nobr'),
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('orders_count', array(
@@ -50,7 +51,9 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'index'     => 'orders_count',
             'type'      => 'number',
             'total'     => 'sum',
-            'sortable'  => false
+            'sortable'  => false,
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         if ($this->getFilterData()->getStoreIds()) {
@@ -67,6 +70,8 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'total'         => 'sum',
             'sortable'      => false,
             'rate'          => $rate,
+            'header_css_class'  => 'col-ref-total',
+            'column_css_class'  => 'col-ref-total'
         ));
 
         $this->addColumn('online_refunded', array(
@@ -77,6 +82,8 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'total'         => 'sum',
             'sortable'      => false,
             'rate'          => $rate,
+            'header_css_class'  => 'col-ref-online',
+            'column_css_class'  => 'col-ref-online'
         ));
 
         $this->addColumn('offline_refunded', array(
@@ -87,6 +94,8 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'total'         => 'sum',
             'sortable'      => false,
             'rate'          => $rate,
+            'header_css_class'  => 'col-ref-offline',
+            'column_css_class'  => 'col-ref-offline'
         ));
 
         $this->addExportType('*/*/exportRefundedCsv', Mage::helper('Mage_Adminhtml_Helper_Data')->__('CSV'));

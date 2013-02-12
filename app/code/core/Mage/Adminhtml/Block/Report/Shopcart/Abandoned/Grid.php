@@ -61,33 +61,37 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('customer_name', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Customer Name'),
-            'index'     =>'customer_name',
-            'sortable'  =>false
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Customer Name'),
+            'index'     => 'customer_name',
+            'sortable'  => false,
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('email', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Email'),
-            'index'     =>'email',
-            'sortable'  =>false
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Email'),
+            'index'     => 'email',
+            'sortable'  => false,
+            'header_css_class'  => 'col-email',
+            'column_css_class'  => 'col-email'
         ));
 
         $this->addColumn('items_count', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Number of Items'),
-            'width'     =>'80px',
-            'align'     =>'right',
-            'index'     =>'items_count',
-            'sortable'  =>false,
-            'type'      =>'number'
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Number of Items'),
+            'index'     => 'items_count',
+            'sortable'  => false,
+            'type'      => 'number',
+            'header_css_class'  => 'col-number',
+            'column_css_class'  => 'col-number'
         ));
 
         $this->addColumn('items_qty', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Quantity of Items'),
-            'width'     =>'80px',
-            'align'     =>'right',
-            'index'     =>'items_qty',
-            'sortable'  =>false,
-            'type'      =>'number'
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Quantity of Items'),
+            'index'     => 'items_qty',
+            'sortable'  => false,
+            'type'      => 'number',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         if ($this->getRequest()->getParam('website')) {
@@ -104,45 +108,50 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
 
         $this->addColumn('subtotal', array(
             'header'        => Mage::helper('Mage_Reports_Helper_Data')->__('Subtotal'),
-            'width'         => '80px',
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'subtotal',
             'sortable'      => false,
             'renderer'      => 'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
             'rate'          => $this->getRate($currencyCode),
+            'header_css_class'  => 'col-subtotal',
+            'column_css_class'  => 'col-subtotal'
         ));
 
         $this->addColumn('coupon_code', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Applied Coupon'),
-            'width'     =>'80px',
-            'index'     =>'coupon_code',
-            'sortable'  =>false
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Applied Coupon'),
+            'index'     => 'coupon_code',
+            'sortable'  => false,
+            'header_css_class'  => 'col-coupon',
+            'column_css_class'  => 'col-coupon'
         ));
 
         $this->addColumn('created_at', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Created At'),
-            'width'     =>'170px',
-            'type'      =>'datetime',
-            'index'     =>'created_at',
-            'filter_index'=>'main_table.created_at',
-            'sortable'  =>false
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Created At'),
+            'type'      => 'datetime',
+            'index'     => 'created_at',
+            'filter_index'=> 'main_table.created_at',
+            'sortable'  => false,
+            'header_css_class'  => 'col-created',
+            'column_css_class'  => 'col-created'
         ));
 
         $this->addColumn('updated_at', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Updated At'),
-            'width'     =>'170px',
-            'type'      =>'datetime',
-            'index'     =>'updated_at',
-            'filter_index'=>'main_table.updated_at',
-            'sortable'  =>false
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Updated At'),
+            'type'      => 'datetime',
+            'index'     => 'updated_at',
+            'filter_index'=> 'main_table.updated_at',
+            'sortable'  => false,
+            'header_css_class'  => 'col-updated',
+            'column_css_class'  => 'col-updated'
         ));
 
         $this->addColumn('remote_ip', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('IP Address'),
-            'width'     =>'80px',
-            'index'     =>'remote_ip',
-            'sortable'  =>false
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('IP Address'),
+            'index'     => 'remote_ip',
+            'sortable'  => false,
+            'header_css_class'  => 'col-ip',
+            'column_css_class'  => 'col-ip'
         ));
 
         $this->addExportType('*/*/exportAbandonedCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));

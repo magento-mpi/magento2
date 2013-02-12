@@ -942,7 +942,7 @@ option.placeholder {
 }
 
 .fieldset > .field > input[type="checkbox"] {
-    margin-top: 10px;
+    margin-top: 7px;
 }
 
 /* "Use default" checkbox */
@@ -1205,8 +1205,7 @@ table .dropdown-menu li {
 }
 
 table tbody tr td:first-child input[type="checkbox"] {
-    margin-left: 5px;
-    margin-top: 0;
+    margin: 0;
 }
 
 table tbody tr:nth-child(odd) td,
@@ -2812,7 +2811,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .page-actions.fixed {
-    padding: 0 1px;
+    padding: 0 21px;
     position: fixed;
     top: 0;
     left: 0;
@@ -2912,10 +2911,9 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid table td {
-    font-size: 14px;
     border: solid #c0bbaf;
     border-width: 0 1px 1px 0;
-    padding: 10px 10px 5px;
+    padding: 5px;
 }
 
 .grid table td:first-child,
@@ -2969,11 +2967,6 @@ table tbody tr:nth-child(odd):hover th {
     border-bottom: 1px solid #dadfe0;
 }
 
-[id$='Grid'] {
-    font-family: 'CallunaSans';
-    font-weight: 400;
-}
-
 /*
     Grid - Pager and Buttons row
 -------------------------------------- */
@@ -2989,7 +2982,7 @@ table tbody tr:nth-child(odd):hover th {
     background: -ms-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
     background: linear-gradient(to bottom, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f6f3ec', endColorstr = '#edeae1', GradientType = 0);
-    padding: 10px 10px 5px;
+    padding: 7px 8px 8px;
     position: relative;
 }
 
@@ -3104,7 +3097,7 @@ table tbody tr:nth-child(odd):hover th {
 .grid tr.headings th {
     font-size: 13px;
     border-right: 1px solid #837f79;
-    padding: 0 1px;
+    padding: 0;
     vertical-align: bottom;
 }
 
@@ -3114,8 +3107,10 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid tr.headings th > span {
     display: block;
-    border-bottom: 5px solid transparent;
-    padding: 5px 10px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    padding: 5px 5px 2px;
+    white-space: nowrap;
 }
 
 .grid tr.headings th:hover > span {
@@ -3182,27 +3177,55 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid .filter th {
-    padding: 10px 8px 5px;
+    padding: 5px;
     border-right: 1px solid #837F79;
     vertical-align: top;
     white-space: normal;
 }
 
 .grid .filter input.input-text {
-    padding: 2px;
-    height: 24px;
+    background: #5e5a52;
+    border-radius: 2px;
+    border: none;
+    color: #bcb795;
+    padding: 0 5px;
+    height: 20px;
     width: 99%;
 }
 
+.grid .filter input.input-text::-webkit-input-placeholder {
+    color: #858376 !important;
+    text-transform: lowercase;
+}
+
+.grid .filter input.input-text:-moz-placeholder {
+    color: #858376 !important;
+    text-transform: lowercase;
+}
+
+.grid .filter input.input-text::-moz-placeholder {
+    color: #858376 !important;
+    text-transform: lowercase;
+}
+
+:-ms-input-placeholder {
+    color: #858376 !important;
+    text-transform: lowercase;
+}
+
 .grid .filter select {
-    padding: 2px;
+    background: #5e5a52;
+    border-radius: 2px;
+    border: none;
+    color: #bcb795;
+    margin: 0;
+    padding: 0;
+    height: 20px;
     width: 99%;
 }
 
 .grid .filter .range .range-line {
     margin-bottom: 3px;
-    overflow: hidden;
-    width: 100px;
 }
 
 .grid .filter .range div.date {
@@ -3210,22 +3233,13 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid .filter .range input {
-    float: right;
     width: 56px;
     margin-top: 0;
 }
 
 .grid .filter .range select {
-    float: right;
     width: 56px;
-    margin-top: 0;
-}
-
-.grid .filter .range .label {
-    display: block;
-    width: 36px;
-    float: left;
-    padding-left: 2px;
+    margin: 0;
 }
 
 .grid .filter .date img {
@@ -3242,16 +3256,16 @@ table tbody tr:nth-child(odd):hover th {
 /* Grid - Mass Action */
 .massaction {
     color: #CAC3B4;
-    padding: 12px 10px;
+    padding: 7px 8px;
     background: #666158;
-    box-shadow: 0 2px 3px 0 #504d46 inset, 0 -2px 3px 0 #504d46 inset;
+    box-shadow: 0 1px 2px 0 #504d46 inset, 0 -1px 2px 0 #504d46 inset;
     overflow: hidden;
 }
 
 .massaction ul {
     list-style: none;
     margin: 0;
-    padding: 4px 0 0;
+    padding: 6px 0 0;
 }
 
 .massaction li {
@@ -3259,6 +3273,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .massaction li:after {
+    color: #837F79;
     content: '|';
     display: inline-block;
     margin: 0 5px;
@@ -3281,7 +3296,10 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .massaction .entry-edit fieldset select {
+    border-radius: 2px;
+    padding: 3px;
     margin: 0;
+    vertical-align: middle;
 }
 
 .massaction .entry-edit fieldset select.validation-failed {
@@ -3295,6 +3313,10 @@ table tbody tr:nth-child(odd):hover th {
     vertical-align: middle;
 }
 
+.massaction .entry-edit .field-row button {
+    padding: 3px 10px;
+}
+
 .massaction .entry-edit .outer-span .entry-edit {
     float: none;
 }
@@ -3303,7 +3325,7 @@ table tbody tr:nth-child(odd):hover th {
     color: #cac3b4;
     line-height: 26px;
     margin: 0 5px 0 20px;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .massaction .entry-edit .validation-advice {
@@ -3313,6 +3335,10 @@ table tbody tr:nth-child(odd):hover th {
 .massaction a {
     color: #e7e2d7;
     text-decoration: none;
+}
+
+.massaction a:hover {
+    color: #fff;
 }
 
 /* Grid Footer */
@@ -3333,7 +3359,12 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid table.border tfoot tr td {
-    background: #d7e5ef;
+    background: #656156;
+}
+
+.grid .col-price,
+.grid .col-number {
+    text-align: right;
 }
 
 /* Dynamic Grid */
@@ -3372,13 +3403,6 @@ tr.dynamic-grid input.input-text {
 
 .categories-side-col {
     padding: 0 3%;
-}
-
-/*
-    Table columns styles
--------------------------------------- */
-.col-no-records {
-    text-align: center;
 }
 
 /*
@@ -3508,23 +3532,32 @@ tr.dynamic-grid input.input-text {
 .col-name,
 .col-sku,
 .col-color,
-.col-size {
+.col-size,
+.col-product,
+.col-comment {
     text-align: left;
 }
 
 /* center */
 .col-include,
+.col-price,
 .col-display,
 .col-image,
 .col-price,
-.col-change-price {
+.col-change-price
+.col-no-records,
+.col-select {
     text-align: center;
 }
 
 /* right */
 .col-qty,
 .col-weight,
-.col-actions {
+.col-actions,
+.col-price,
+.col-id,
+.col-total,
+.col-average {
     text-align: right;
 }
 
@@ -3740,3 +3773,4 @@ tr.dynamic-grid input.input-text {
 .grid-actions:after,
 .fieldset-wrapper-title:after {
     clear: both;
+}

@@ -145,7 +145,7 @@ class Enterprise_CustomerSegment_Model_Observer
             'disabled' => $model->getIsReadonly(),
             'after_element_html' => $this->_getChangeNoteMessageScript(
                 'rule_use_customer_segment',
-                'note_use_customer_segment'
+                'use_customer_segment-note'
             )
         ));
 
@@ -197,7 +197,7 @@ class Enterprise_CustomerSegment_Model_Observer
             'disabled' => (bool)$model->getIsReadonly(),
             'after_element_html' => $this->_getChangeNoteMessageScript(
                 'banner_properties_use_customer_segment',
-                'note_use_customer_segment'
+                'use_customer_segment-note'
             )
         ));
 

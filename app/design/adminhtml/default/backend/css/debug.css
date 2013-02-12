@@ -111,17 +111,37 @@ label.mage-error {
     Accordion
 ------------------------*/
 .accordion {
-    background: #fff;
-    border: 1px solid #eae6e0;
-    border-radius: 5px;
     margin: 0 0 8px;
     padding: 0;
 }
 
 .accordion > dt,
-.accordion .collapseable {
-    position: relative;
-    margin: 0 10px;
+.accordion > dd.open,
+.accordion .collapseable,
+.accordion .collapseable.open + input + fieldset {
+    background: #fff;
+    border: 1px solid #eae6e0;
+    border-radius: 5px;
+    margin: 0 0 8px;
+}
+
+.accordion > dt + dd {
+    display: none;
+}
+
+.accordion > dt.open,
+.accordion .collapseable.open {
+    margin: 0;
+    border-bottom: 0;
+    border-radius: 5px 5px 0 0;
+}
+
+.accordion > dt + dd.open,
+.accordion .collapseable.open + input + fieldset {
+    padding: 17px 18px 18px;
+    display: block;
+    border-top: 0;
+    border-radius: 0 0 5px 5px;
 }
 
 .accordion > dt a,
@@ -135,51 +155,36 @@ label.mage-error {
     margin: 0 8px;
 }
 
-.accordion .collapseable a.open {
-    border-bottom: 1px solid #eee;
+.accordion .collapseable.open a,
+.accordion dt.open a {
+    border-bottom: 1px solid #ededed;
 }
 
 .accordion > dt a:before,
 .accordion .collapseable > a:before {
-    float: right;
-    content: "\e02c";
-    color: #b2aa9d;
+    float: left;
+    content: '\e02a'; /* arrow right icon */
+    color: #b2b0ad;
     display: inline-block;
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
+    margin-right: 3px;
 }
 
 .accordion > dt.open a:before,
-.accordion .collapseable a.open:before {
-    content: "\e029";
+.accordion .collapseable.open a:before {
+    content: '\e02c'; /* arrow down icon */
 }
 
 .accordion > dt + dd {
     display: none;
 }
 
-.accordion > dt + .open {
-    display: block;
-    border-top: 1px solid #EDEDED;
-    margin: 0 10px;
-    padding: 17px 8px;
-}
-
-.accordion > dd + dt,
-.accordion .collapseable {
-    border-top: 1px solid #eee;
-}
-
-.accordion > .open + dt,
-.accordion .collapseable:first-child {
-    border: none;
-}
-
 .accordion > dt + .open:empty {
-    background: url(../mui/images/ajax-loader-big.gif) no-repeat center;
+    background: #fff url(../mui/images/ajax-loader-big.gif) no-repeat center;
     height: 100px;
 }
 
@@ -193,14 +198,12 @@ label.mage-error {
 
 /* TODO: arrange configuration tables */
 .accordion .collapseable.disabled {
-    margin: 0;
-    border-color: #fff;
+    background: #f1f1f1;
 }
 
 .accordion .collapseable.disabled > a {
-    background: #f1f1f1;
-    cursor: not-allowed;
     padding: 14px 27px;
+    cursor: not-allowed;
 }
 
 .accordion .collapseable.disabled > a:before {
@@ -222,6 +225,7 @@ label.mage-error {
 .accordion .config .label {
     float: none;
     width: 25%;
+    text-align: right;
 }
 
 .accordion .config td {
@@ -229,7 +233,6 @@ label.mage-error {
     border: 0;
     padding: 8px 15px 0 0;
     vertical-align: top;
-    text-align: left;
 }
 
 .accordion .paypal-selection-simplified {
@@ -598,4 +601,11 @@ th.required:before {
 .rule-param-wait {
     background: url(../mui/images/ajax-loader-small.gif) no-repeat left center;
     padding-left: 20px;
+}
+
+/*
+    Catalog Manage Products
+-------------------------------------- */
+.adminhtml-catalog-product-index .page-actions {
+    float: right;
 }
