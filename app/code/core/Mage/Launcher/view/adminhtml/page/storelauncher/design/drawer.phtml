@@ -11,6 +11,8 @@
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer */
 ?>
 
+<div class="themes-list-wrapper">
+
 <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('First choose a store theme, then customize it for your business') ?>
 
 <ul class="themes-list">
@@ -28,7 +30,7 @@
                             <dd>
                                 <p><?php echo $this->__('Our responsive theme designed by Magento pros to be best in breed for Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis'); ?></p>
                                 <div class="buttons">
-                                    <a class="button btn-theme-preview" href="<?php echo $this->getPreviewUrl($theme->getId())?>" target="_blank"><?php echo $this->__('Preview Theme'); ?></a>
+                                    <a class="action-button button btn-theme-preview" href="<?php echo $this->getPreviewUrl($theme->getId())?>" target="_blank"><?php echo $this->__('Preview Theme'); ?></a>
                                     <button class="button btn-theme-choose"><?php echo $this->__('Choose Theme'); ?></button>
                                 </div>
                             </dd>
@@ -40,3 +42,50 @@
     </li>
     <?php endforeach; ?>
 </ul>
+
+</div>
+
+<div class="theme-page hidden">
+    <a href="#" class="" id="edit-theme">Edit</a>
+</div>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function() {
+            'use strict';
+            var currentThemeId = null;
+            $('#drawer')
+                .drawer('drawerPageAdd', {name: 'themes-list', page: '.themes-list-wrapper'})
+                .drawer('drawerPageAdd', {name: 'themes-page', page: '.theme-page'})
+                .drawer('drawerPageShow', currentThemeId ? 'theme-page' : 'themes-list')
+                .drawer('headerButtonCreate', {
+                    name: 'skip',
+                    title: '<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Skip This for Now'); ?>',
+                    click: function() {
+                        $('#drawer')
+                            .drawer('headerButtonHide', 'skip')
+                            .drawer('headerButtonShow', 'save')
+                            .drawer('drawerPageSwitch', 'themes-page');
+                    }
+                })
+                .drawer('headerButtonHide', 'save')
+                .drawer('headerButtonShow', 'skip');
+            $('#edit-theme')
+                .on('click', function() {
+                    $('#drawer')
+                        .drawer('headerButtonHide', 'save')
+                        .drawer('headerButtonShow', 'skip')
+                        .drawer('drawerPageSwitch', 'themes-list');
+                    return false;
+                });
+            $('.btn-theme-choose')
+                .on('click', function() {
+                    $('#drawer')
+                        .drawer('headerButtonHide', 'skip')
+                        .drawer('headerButtonShow', 'save')
+                        .drawer('drawerPageSwitch', 'themes-page');
+                    // @TODO: Set current theme
+                });
+        });
+    })(jQuery);
+</script>

@@ -24,6 +24,11 @@
 
         },
 
+        headerButtons: {},
+
+        drawerPages: {},
+        drawerPageCurrent: null,
+
         _create: function() {
             this.drawerHeader = $(this.options.drawerHeader);
             this.drawerHeaderInner = $(this.options.drawerHeaderInner);
@@ -33,6 +38,8 @@
             this.btnCloseDrawer = $(this.options.btnCloseDrawer);
             this.btnSaveDrawer = $(this.options.btnSaveDrawer);
             this.drawerTopPosition = $(this.options.drawerTopPosition);
+            this.headerButtons['close'] = this.btnCloseDrawer;
+            this.headerButtons['save'] = this.btnSaveDrawer;
             this._bind();
             this._handleHash();
         },
@@ -244,6 +251,60 @@
                     .attr('data-save-url', elem.attr('data-save-url'));
             } catch(err) {
             }
+        },
+
+        headerButtonCreate: function(buttonOptions) {
+            var buttonObject;
+            if (this.headerButtons[buttonOptions.name]) {
+                return;
+            }
+            if(buttonOptions.html) {
+                buttonObject = $(buttonOptions.html);
+            } else {
+                var buttonVars = {
+                    type: 'button',
+                    cssClass: 'primary',
+                    title: 'Button',
+                    click: function() {}
+                };
+                $.extend(buttonVars, buttonOptions);
+                buttonObject = $.tmpl('<button type="${type}" class="${cssClass}">${title}</button>', buttonVars);
+            }
+
+            $('.drawer-header .actions').prepend(buttonObject);
+            buttonObject.on('click', buttonVars.click);
+
+            this.headerButtons[buttonOptions.name] = buttonObject;
+        },
+
+        headerButtonHide: function(buttonName) {
+            this.headerButtons[buttonName].addClass('hidden');
+        },
+
+        headerButtonShow: function(buttonName) {
+            this.headerButtons[buttonName].removeClass('hidden');
+        },
+
+        drawerPageAdd: function(page) {
+            this.drawerPages[page.name] = $(page.page);
+            this.drawerPageHide(page.name);
+        },
+
+        drawerPageShow: function(name) {
+            this.drawerPages[name].removeClass('hidden');
+            this.drawerPageCurrent = name;
+        },
+
+        drawerPageHide: function(name) {
+            this.drawerPages[name].addClass('hidden');
+        },
+
+        drawerPageSwitch: function(name) {
+            if (this.drawerPageCurrent) {
+                this.drawerPageHide(this.drawerPageCurrent);
+            }
+            this.drawerPageShow(name);
+            this.drawerPageCurrent = name;
         }
     });
 
