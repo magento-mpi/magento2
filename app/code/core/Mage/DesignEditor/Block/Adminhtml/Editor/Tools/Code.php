@@ -11,19 +11,50 @@
 /**
  * Block that renders Code tab (or Scripts tab)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code extends Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs
 {
     /**
-     * Get tabs html
+     * Tab HTML identifier
+     */
+    protected $_htmlId = 'vde-tab-code';
+
+    /**
+     * Tab HTML title
+     */
+    protected $_title = 'Scripts';
+
+    /**
+     * Get tabs data
      *
      * @return array
      */
     public function getTabs()
     {
         return array(
-            $this->getChildHtml('design_editor_tools_code_css'),
-            $this->getChildHtml('design_editor_tools_code_js'),
-            $this->getChildHtml('design_editor_tools_code_custom')
+            array(
+                'is_active'     => true,
+                'id'          => 'vde-tab-css',
+                'title'         => strtoupper($this->__('CSS')),
+                'content_block' => 'design_editor_tools_code_css'
+            ),
+            array(
+                'is_active'     => false,
+                'id'          => 'vde-tab-js',
+                'title'         => strtoupper($this->__('JS')),
+                'content_block' => 'design_editor_tools_code_js'
+            ),
+            array(
+                'is_active'     => false,
+                'id'          => 'vde-tab-custom',
+                'title'         => strtoupper($this->__('Custom CSS')),
+                'content_block' => 'design_editor_tools_code_custom'
+            ),
+            array(
+                'is_active'     => false,
+                'id'          => 'vde-tab-image-sizing',
+                'title'         => strtoupper($this->__('Image Sizing')),
+                'content_block' => 'design_editor_tools_code_image-sizing'
+            ),
         );
     }
 }

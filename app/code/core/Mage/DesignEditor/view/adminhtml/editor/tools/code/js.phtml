@@ -9,25 +9,23 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js */ ?>
-<div class="tab-panel" id="vde-tab-js">
-    <div id="vde-tab-js-messages-placeholder">
-        <?php echo $this->getChildHtml('messages') ?>
-    </div>
-    <div class="files-wrapper">
-        <div class="files-list">
-            <div class="files-list-header">
-                <h5 class="title" title="<?php echo $this->escapeHtml($this->getTitle()) ?>"><?php echo $this->getTitle() ?></h5>
-                <span class="action-add" title="<?php echo $this->__('Add Files'); ?>">
-                    <span><?php echo $this->__('Add Files'); ?></span>
-                    <?php echo $this->getFormHtml() ?>
-                </span>
-            </div>
-            <div id="js-file-uploader" class="uploader"></div>
-            <div class="files-list-content">
-                <ul class="items ui-sortable">
-                    <?php echo $this->getChildBlock('design.editor.tools.code.js.items')->setJsFiles($this->getJsFiles())->toHtml(); ?>
-                </ul>
-            </div>
+<div id="vde-tab-js-messages-placeholder">
+    <?php echo $this->getChildHtml('messages') ?>
+</div>
+<div class="files-wrapper">
+    <div class="files-list">
+        <div class="files-list-header">
+            <h5 class="title" title="<?php echo $this->escapeHtml($this->getTitle()) ?>"><?php echo $this->getTitle() ?></h5>
+            <span class="action-add" title="<?php echo $this->__('Add Files'); ?>">
+                <span><?php echo $this->__('Add Files'); ?></span>
+                <?php echo $this->getFormHtml() ?>
+            </span>
+        </div>
+        <div id="js-file-uploader" class="uploader"></div>
+        <div class="files-list-content">
+            <ul class="items ui-sortable">
+                <?php echo $this->getChildBlock('design.editor.tools.code.js.items')->setJsFiles($this->getJsFiles())->toHtml(); ?>
+            </ul>
         </div>
     </div>
 </div>
