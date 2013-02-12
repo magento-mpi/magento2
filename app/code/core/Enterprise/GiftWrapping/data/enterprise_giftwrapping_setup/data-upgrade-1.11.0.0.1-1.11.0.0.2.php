@@ -25,3 +25,5 @@ foreach ($attributesOrder as $key => $value) {
         $this->addAttributeToGroup($entityTypeId, $attributeSetId, $groupName, $attribute['attribute_id'], $value);
     }
 }
+
+$this->removeAttributeGroup($entityTypeId, $attributeSetId, 'Gift Options');
