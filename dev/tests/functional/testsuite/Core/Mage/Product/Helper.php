@@ -790,7 +790,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
-            $this->fillCheckbox('is_configurable', 'Yes');
+            if (strpos($this->getControlAttribute('link', 'is_configurable', 'class'), 'active') !== false) {
+                $this->clickControl('link', 'is_configurable', false);
+                $this->waitForControlVisible('field', 'general_configurable_attribute_title');
+            }
             $attributeTitle = $generalTab['general_configurable_attributes'];
             unset($generalTab['general_configurable_attributes']);
         }
