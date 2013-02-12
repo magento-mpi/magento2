@@ -18,11 +18,6 @@
 class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
 {
     /**
-     * Id of cache instance for config to use
-     */
-    const XML_PATH_CACHE_INSTANCE_ID = 'global/cache_advanced/usage/Mage_Core_Model_Config';
-    
-    /**
      * Config cache tag
      */
     const CACHE_TAG = 'CONFIG';
@@ -95,13 +90,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_prototype;
 
     /**
-     * Whether local configuration is loaded or not
-     *
-     * @var bool
-     */
-    protected $_isLocalConfigLoaded = false;
-
-    /**
      * Active modules array per namespace
      *
      * @var array
@@ -161,13 +149,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @var Mage_Core_Model_Config_InvalidatorInterface
      */
     protected $_invalidator;
-
-    /**
-     * Cache instance to use
-     *
-     * @var string|null
-     */
-    protected $_cacheInstanceId = null;
 
     /**
      * @param Magento_ObjectManager $objectManager
@@ -442,7 +423,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      */
     public function setModuleDir($moduleName, $type, $path)
     {
-       $this->_moduleReader->setModuleDir($moduleName, $type, $path);
+        $this->_moduleReader->setModuleDir($moduleName, $type, $path);
         return $this;
     }
 
@@ -684,79 +665,5 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
         $eventManager->dispatch('application_clean_cache', array('tags' => array(self::CACHE_TAG)));
         $this->_storage->removeCache();
-    }
-
-    /**
-     * Return id of cache instance to be used by config
-     *
-     * @return string
-     */
-    protected function _getCacheInstanceId()
-    {
-        if ($this->_cacheInstanceId === null) {
-            $node = $this->getNode(self::XML_PATH_CACHE_INSTANCE_ID);
-            if ($node && ((string) $node !== '')) {
-                $this->_cacheInstanceId = (string) $node;
-            } else {
-                $this->_cacheInstanceId = Mage_Core_Model_App::DEFAULT_CACHE_ID;
-            }
-        }
-        return $this->_cacheInstanceId;
-    }
-
-    /**
-     * Return cache instance to be used by config
-     *
-     * @return Mage_Core_Model_Cache
-     */
-    protected function _getCacheInstance()
-    {
-        return $this->_app->getCacheInstance($this->_getCacheInstanceId());
-    }
-
-    /**
-     * Retrieve cache object
-     *
-     * @return Zend_Cache_Core
-     */
-    public function getCache()
-    {
-        return $this->_getCacheInstance()->getFrontend();
-    }
-
-    /**
-     * Load cached data by identifier
-     *
-     * @param   string $cacheId
-     * @return  string
-     */
-    protected function _loadCache($cacheId)
-    {
-        return $this->_getCacheInstance()->load($cacheId);
-    }
-
-    /**
-     * Save cache data
-     *
-     * @param   string $data
-     * @param   string $cacheId
-     * @param   array $tags
-     * @param   bool|int $lifetime
-     * @return  Mage_Core_Model_Config
-     */
-    protected function _saveCache($data, $cacheId, $tags = array(), $lifetime = false)
-    {
-        return $this->_getCacheInstance()->save($data, $cacheId, $tags, $lifetime);
-    }
-
-    /**
-     * Clear cache data by id
-     *
-     * @param   string $cacheId
-     * @return  Mage_Core_Model_Config
-     */
-    protected function _removeCache($cacheId)
-    {
-        return $this->_getCacheInstance()->remove($cacheId);
     }
 }

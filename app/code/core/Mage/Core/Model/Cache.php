@@ -21,11 +21,6 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     const XML_PATH_TYPES    = 'global/cache/types';
 
     /**
-     * Inject custom cache settings in application initialization
-     */
-    const APP_INIT_PARAM = 'cache';
-
-    /**
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -102,7 +97,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     protected $_globalBanUseCache = false;
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_ConfigInterface $config
      * @param Mage_Core_Model_Config_Primary $cacheConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Factory_Helper $helperFactory

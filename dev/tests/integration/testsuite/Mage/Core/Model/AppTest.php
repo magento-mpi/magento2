@@ -68,7 +68,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     public function testHasSingleStore()
     {
-        $this->assertNull($this->_model->hasSingleStore());
+        $this->assertTrue($this->_model->hasSingleStore());
         $this->assertTrue($this->_mageModel->hasSingleStore());
     }
 
@@ -97,18 +97,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function errorHandler()
     {
         $this->_errorCatchFlag = true;
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store general/locale/code de_DE
-     */
-    public function testLoadArea()
-    {
-        $translator = Mage::app()->getTranslator();
-        $this->assertEmpty($translator->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
-        $this->_model->loadArea('frontend');
-        $this->assertEquals('de_DE', $translator->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
     }
 
     public function testGetArea()
@@ -155,7 +143,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testGetWebsiteNonExisting()
     {
-        $this->assertNotEmpty($this->_mageModel->getWebsite()->getId());
+        $this->assertNotEmpty($this->_mageModel->getWebsite(true)->getId());
         $this->_mageModel->getWebsite(100);
     }
 
@@ -171,7 +159,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testGetGroupNonExisting()
     {
-        $this->assertNotEmpty($this->_mageModel->getGroup()->getId());
+        $this->assertNotEmpty($this->_mageModel->getGroup(true)->getId());
         $this->_mageModel->getGroup(100);
     }
 
@@ -180,13 +168,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $locale = $this->_model->getLocale();
         $this->assertInstanceOf('Mage_Core_Model_Locale', $locale);
         $this->assertSame($locale, $this->_model->getLocale());
-    }
-
-    public function testGetTranslator()
-    {
-        $translate = $this->_model->getTranslator();
-        $this->assertInstanceOf('Mage_Core_Model_Translate', $translate);
-        $this->assertSame($translate, $this->_model->getTranslator());
     }
 
     /**
@@ -268,13 +249,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mage_Core_Controller_Response_Http', $this->_model->getResponse());
         $this->_model->setResponse(new Magento_Test_Response());
         $this->assertInstanceOf('Magento_Test_Response', $this->_model->getResponse());
-    }
-
-    public function testSetGetUpdateMode()
-    {
-        $this->assertFalse($this->_model->getUpdateMode());
-        $this->_model->setUpdateMode(true);
-        $this->assertTrue($this->_model->getUpdateMode());
     }
 
     /**

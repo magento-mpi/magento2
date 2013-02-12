@@ -20,21 +20,6 @@
 class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 {
     /**
-     * Path to the options for default cache instance
-     */
-    const XML_PATH_CACHE = 'global/cache';
-
-    /**
-     * Path to the options for additional cache instances
-     */
-    const XML_PATH_CACHE_ADVANCED_INSTANCES = 'global/cache_advanced/instances';
-
-    /**
-     * Id of cache to be used by default
-     */
-    const DEFAULT_CACHE_ID = 'default';
-    
-    /**
      * Application loaded areas array
      *
      * @var array
@@ -70,11 +55,11 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     protected $_isFrontControllerInitialized = false;
 
     /**
-     * Cache objects of Mage_Core_Model_Cache
+     * Cache object
      *
-     * @var array
+     * @var Mage_Core_Model_Cache
      */
-    protected $_caches = array();
+    protected $_cache;
 
     /**
      * Request object
@@ -393,13 +378,11 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Get cache model by id. Return default cache model, if id is not set.
+     * Get core cache model
      *
-     * @param string $instanceId
      * @return Mage_Core_Model_Cache
-     * @throws Magento_Exception
      */
-    public function getCacheInstance($instanceId = null)
+    public function getCacheInstance()
     {
         return $this->_cache;
     }
@@ -422,7 +405,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function loadCache($id)
     {
-        return $this->_caches[self::DEFAULT_CACHE_ID]->load($id);
+        return $this->_cache->load($id);
     }
 
     /**
@@ -436,7 +419,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function saveCache($data, $id, $tags = array(), $lifeTime = false)
     {
-        $this->_caches[self::DEFAULT_CACHE_ID]->save($data, $id, $tags, $lifeTime);
+        $this->_cache->save($data, $id, $tags, $lifeTime);
         return $this;
     }
 
@@ -448,7 +431,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function removeCache($id)
     {
-        $this->_caches[self::DEFAULT_CACHE_ID]->remove($id);
+        $this->_cache->remove($id);
         return $this;
     }
 
@@ -473,7 +456,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function useCache($type = null)
     {
-        return $this->_caches[self::DEFAULT_CACHE_ID]->canUse($type);
+        return $this->_cache->canUse($type);
     }
 
     /**
@@ -484,7 +467,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function saveUseCache($data)
     {
-        $this->_caches[self::DEFAULT_CACHE_ID]->saveOptions($data);
+        $this->_cache->saveOptions($data);
         return $this;
     }
 

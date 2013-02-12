@@ -160,11 +160,10 @@ class Mage_Core_Model_Dir
      * Initialize URIs and paths
      *
      * @param string $baseDir
-     * @param Varien_Io_File $fileSystem
      * @param array $uris custom URIs
      * @param array $dirs custom directories (full system paths)
      */
-    public function __construct($baseDir, Varien_Io_File $fileSystem, array $uris = array(), array $dirs = array())
+    public function __construct($baseDir, array $uris = array(), array $dirs = array())
     {
         // uris
         foreach (array_keys($this->_uris) as $code) {
@@ -188,21 +187,31 @@ class Mage_Core_Model_Dir
             $this->_setDir($code, $replacement);
         }
 
-        $this->_createFolders($fileSystem);
+        foreach (self::getWritableDirCodes() as $code) {
+            $path = $this->getDir($code);
+            $this->_ensureDirWritable($path);
+        }
     }
 
     /**
-     * Create application folders if they don't exist
+     * Ensure a directory exists and is writable
      *
-     * @param Varien_Io_File $fileSystem
+     * @param string $path
+     * @throws Magento_BootstrapException
      */
-    protected function _createFolders(Varien_Io_File $fileSystem)
+    protected function _ensureDirWritable($path)
     {
-        foreach (self::getWritableDirCodes() as $code) {
-            $path = $this->getDir($code);
-            if ($path) {
-                $fileSystem->checkAndCreateFolder($path);
+        // create a directory, if no directory or file with the same path already exists
+        $hasFilesystemError = false;
+        if (!file_exists($path)) {
+            try {
+                $hasFilesystemError = !mkdir($path, 0777);
+            } catch (Exception $e) {
+                $hasFilesystemError = true;
             }
+        }
+        if ($hasFilesystemError || !is_dir($path) || !is_writable($path)) {
+            throw new Magento_BootstrapException("Path '$path' has to be a writable directory.");
         }
     }
 
