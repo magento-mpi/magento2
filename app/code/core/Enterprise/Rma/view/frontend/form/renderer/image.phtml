@@ -19,10 +19,5 @@
 <label for="items:<?php echo $this->getHtmlId()?>${_index_}"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php if ($this->isRequired()) echo '<em>*</em>' ?><?php echo $this->getLabel() ?></label>
 <div class="input-box">
     <input type="file" id="items:<?php echo $this->getHtmlId()?>${_index_}" name="<?php echo $this->getFieldName()?>_${_index_}" value="" class="input-file" />
-    <input type="hidden" id="items:<?php echo $this->getHtmlId()?>${_index_}_value" value="<?php echo $this->getEscapedValue()?>" <?php if ($this->isRequired()): ?>data-validate="{required:true}" <?php endif;?>/>
-    <script type="text/javascript">
-//<![CDATA[
-    new Varien.FileElement('items:<?php echo $this->getHtmlId()?>${_index_}');
-//]]>
-    </script>
+    <input type="hidden" id="items:<?php echo $this->getHtmlId()?>${_index_}_value" name="<?php echo $this->getFieldName()?>_${_index_}_value" value="<?php echo $this->getEscapedValue()?>" <?php if ($this->isRequired()): ?>data-validate="{required:true}" <?php endif;?>/>
 </div>

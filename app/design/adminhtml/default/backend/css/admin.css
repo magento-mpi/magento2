@@ -199,6 +199,21 @@ button.primary.disabled,
 .fieldset-wrapper-title .action-add:active,
 .fieldset-wrapper-title .action-add.active,
 .fieldset-wrapper-title .action-add:disabled,
+#store-view-window [class^='action-close'],
+#store-view-window [class^='action-close']:hover,
+#store-view-window [class^='action-close']:active,
+#store-view-window [class^='action-close'].active,
+#store-view-window [class^='action-close']:disabled,
+.custom-file > .action-add,
+.custom-file > .action-add:hover,
+.custom-file > .action-add:active,
+.custom-file > .action-add.active,
+.custom-file > .action-add:disabled,
+.vde-tools-header .action-close,
+.vde-tools-header .action-close:hover,
+.vde-tools-header .action-close:active,
+.vde-tools-header .action-close.active,
+.vde-tools-header .action-close:disabled,
 .action-delete,
 .action-delete:hover,
 .action-delete:active,
@@ -1458,7 +1473,8 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Old loading popup */
 /* TODO: remove this popup after refactoring of "varienLoader.js" file */
-.loading-old {
+.loading-old,
+.loading-mask {
     border: 1px solid #d85909;
     position: fixed;
     z-index: 1003;
@@ -1475,7 +1491,8 @@ table tbody tr:nth-child(odd):hover th {
     padding: 100px 0 10px;
 }
 
-.loading-old:after {
+.loading-old:after,
+.loading-mask:after {
     position: absolute;
     left: 50%;
     top: 40%;
@@ -1487,13 +1504,19 @@ table tbody tr:nth-child(odd):hover th {
     z-index: 2;
 }
 
-.loading-old .loader {
+.loading-old .loader,
+.loading-mask .loader {
     position: relative !important;
     left: auto !important;
     top: auto !important;
 }
 
-.eq-ie8 .loading-old {
+.loading-mask img {
+    display: none;
+}
+
+.eq-ie8 .loading-old,
+.eq-ie8 .loading-mask {
     background: #fff;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 }
