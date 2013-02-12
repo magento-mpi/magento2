@@ -169,7 +169,8 @@ class Mage_CatalogRule_Model_Observer
             && $product->getConfigurablePrice() !== null
         ) {
             $configurablePrice = $product->getConfigurablePrice();
-            $productPriceRule = Mage::getModel('Mage_CatalogRule_Model_Rule')->calcProductPriceRule($product, $configurablePrice);
+            $productPriceRule = Mage::getModel('Mage_CatalogRule_Model_Rule')
+                ->calcProductPriceRule($product, $configurablePrice);
             if ($productPriceRule !== null) {
                 $product->setConfigurablePrice($productPriceRule);
             }
@@ -341,7 +342,7 @@ class Mage_CatalogRule_Model_Observer
         }
 
         $productIds = array();
-        /* @var $product Mage_Core_Model_Product */
+        /* @var $product Mage_Catalog_Model_Product */
         foreach ($collection as $product) {
             $key = implode('|', array($date, $websiteId, $groupId, $product->getId()));
             if (!isset($this->_rulePrices[$key])) {

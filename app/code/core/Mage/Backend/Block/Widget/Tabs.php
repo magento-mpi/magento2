@@ -13,16 +13,24 @@
  *
  * @category   Mage
  * @package    Mage_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
 {
     /**
-     * tabs structure
+     * Tabs structure
      *
      * @var array
      */
     protected $_tabs = array();
+
+    /**
+     * Tab groups information
+     * Keys are tab group codes, values are Varien_Object's containing information - title, data-mage-init
+     *
+     * @var array
+     */
+    protected $_tabGroups = array();
 
     /**
      * Active tab key
@@ -82,6 +90,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
      * @param   string $tabId
      * @param   array|Varien_Object|string $tab
      * @return  Mage_Backend_Block_Widget_Tabs
+     * @throws  Exception
      */
     public function addTab($tabId, $tab)
     {
@@ -397,6 +406,28 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
         if (isset($this->_tabs[$tabId])) {
             unset($this->_tabs[$tabId]);
         }
+        return $this;
+    }
+
+    /**
+     * Get tab groups property
+     *
+     * @return array
+     */
+    public function getTabGroups()
+    {
+        return $this->_tabGroups;
+    }
+
+    /**
+     * Set tab groups property
+     *
+     * @param array $tabGroups
+     * @return Mage_Backend_Block_Widget_Tabs
+     */
+    public function setTabGroups($tabGroups)
+    {
+        $this->_tabGroups = $tabGroups;
         return $this;
     }
 }
