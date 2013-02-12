@@ -138,7 +138,8 @@ jQuery(function($) {
             $(this).html('');
         })
         .on('click', 'input.associated-matrix-product-id', function() {
-            $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
+            $(this).closest('tr').find('input[type!=checkbox],button.action-choose')
+                    .prop('disabled', !$(this).is(':checked'));
         })
         .on('click', '.action-choose', function(event) {
             event.preventDefault();
@@ -177,6 +178,7 @@ jQuery(function($) {
                     });
 
                     $matrixRow.find(matrixClass + 'id').prop({checked: true, disabled: false});
+                    $matrixRow.find('[type="file"]').prop('disabled', true);
                 }
                 $gridDialog.dialog('close');
             };

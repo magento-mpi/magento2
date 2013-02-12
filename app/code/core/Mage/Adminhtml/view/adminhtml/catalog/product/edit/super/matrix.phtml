@@ -88,10 +88,15 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                checked="checked">
                     </td>
                     <td class="col-image">
-                        <div class="action-upload">
+                        <?php $image = $product->getImage(); if ($image == 'no_selection'): $image = ''; endif; ;?>
+                        <div class="action-upload"<?php if ($image): ?> style="display: none;"<?php endif;?>>
                             <span><?php echo $this->__('Upload Image'); ?></span>
-                            <input type="file" name="file[]" title="<?php echo $this->__('Upload Image'); ?>">
+                            <input data-url="<?php echo Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->_getUploadUrl()) ?>"
+                                   title="<?php echo $this->__('Upload Image'); ?>" name="image" type="file" disabled=""/>
+                            <input id="product-<?php echo $product->getId()?>-variation-image"
+                                   value="<?php echo $image?>" type="hidden"/>
                         </div>
+                        <?php if ($image): ?><img src="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getImageUrl($product)?>" width="55px" height="55px"/><?php endif; ?>
                     </td>
                     <td class="col-name associated-matrix-product-name"><a
                             href="<?php echo $this->getEditProductUrl($product->getId())?>"
@@ -143,7 +148,12 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     <td class="col-image">
                         <div class="action-upload">
                             <span><?php echo $this->__('Upload Image'); ?></span>
-                            <input type="file" name="file[]" title="<?php echo $this->__('Upload Image'); ?>">
+                            <input data-url="<?php echo Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->_getUploadUrl()) ?>"
+                                   title="<?php echo $this->__('Upload Image'); ?>"
+                                   type="file" name="image" <?php echo $disabled;?>/>
+                            <input id="variations-matrix-<?php echo $key?>-image"
+                                   name="variations-matrix[<?php echo $key?>][image]"
+                                   value="" type="hidden"/>
                         </div>
                     </td>
                     <td class="col-name associated-matrix-product-name">
@@ -155,7 +165,8 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]"
                                value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
 
-                        <button type="button" class="action-choose" title="<?php echo $this->__('Choose'); ?>" data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>">
+                        <button type="button" class="action-choose" title="<?php echo $this->__('Choose'); ?>"
+                                data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled;?>>
                             <span><?php echo $this->__('Choose'); ?></span>
                         </button>
                     </td>
@@ -214,3 +225,35 @@ $productByUsedAttributes = $this->getAssociatedProducts();
         </table>
     </div>
 </div>
+<script type="text/javascript">
+    (function ($) {
+        $('.action-upload > [type="file"]').fileupload({
+            dataType: 'json',
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            done: function (event, data) {
+                if (!data.result) {
+                    return;
+                }
+                if (!data.result.error) {
+                    var parentElement = $(event.target).closest('.col-image'),
+                        imageElement = parentElement.find('img');
+                    if (imageElement.length) {
+                        imageElement.attr('src', data.result.url);
+                    } else {
+                        parentElement.find('.action-upload').hide();
+                        $.template('variationImage', '<img src="${url}" width="55px" height="55px"/>');
+                        $.tmpl('variationImage', data.result).appendTo(parentElement);
+                        parentElement.find('img').on('click', function (event) {
+                            if ($(event.target).closest('tr').find('.associated-matrix-product-id').attr('checked')) {
+                                $(event.target).closest('.col-image').find('[type="file"]').trigger('click');
+                            }
+                        });
+                    }
+                    parentElement.find('input[id$="image"]').val(data.result.file);
+                } else {
+                    alert($.mage.__('File extension not known or unsupported type.'));
+                }
+            }
+        });
+    })(jQuery);
+</script>
