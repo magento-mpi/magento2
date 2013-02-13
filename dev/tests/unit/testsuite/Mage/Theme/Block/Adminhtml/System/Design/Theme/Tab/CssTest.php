@@ -21,6 +21,11 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
      */
     protected $_objectManager;
 
+    /**
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dirInstance;
+
     protected function setUp()
     {
         $this->_model = $this->getMock(
@@ -33,6 +38,18 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
     }
 
     /**
+     * @return Mage_Core_Model_Dir
+     */
+    protected function _getDirInstance()
+    {
+        if (!$this->_dirInstance) {
+            $filesystemHelper = new Magento_Test_Helper_FileSystem($this);
+            $this->_dirInstance = $filesystemHelper->createDirInstance(__DIR__);
+        }
+        return $this->_dirInstance;
+    }
+
+    /**
      * @return array
      */
     protected function _prepareModelArguments()
@@ -40,15 +57,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
         $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File());
 
         $constructArguments = $objectManagerHelper->getConstructArguments(
             Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
             'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
             array(
                  'objectManager'   => $this->_objectManager,
-                 'dirs'            => $dirs,
+                 'dirs'            => $this->_getDirInstance(),
                  'uploaderService' => $this->getMock('Mage_Theme_Model_Uploader_Service', array(), array(), '', false),
                  'urlBuilder'      => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
             )
@@ -165,21 +180,19 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
      */
     public function getGroupedFilesProvider()
     {
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File());
-
-        $designDir = str_replace(
-            $dirs->getDir(Mage_Core_Model_Dir::APP), '', $dirs->getDir(Mage_Core_Model_Dir::THEMES)
+        $themesDir = $this->_getDirInstance()->getDir(Mage_Core_Model_Dir::THEMES);
+        $modulesDir = $this->_getDirInstance()->getDir(Mage_Core_Model_Dir::MODULES);
+        $designDir = str_replace($this->_getDirInstance()->getDir(Mage_Core_Model_Dir::APP), '', $themesDir);
+        $jsDir = str_replace(
+            $this->_getDirInstance()->getDir(Mage_Core_Model_Dir::APP), '',
+            $this->_getDirInstance()->getDir(Mage_Core_Model_Dir::PUB_LIB)
         );
-        $jsDir = str_replace($dirs->getDir(Mage_Core_Model_Dir::APP), '', $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB));
-        $codeDir = str_replace(
-            $dirs->getDir(Mage_Core_Model_Dir::APP), '', $dirs->getDir(Mage_Core_Model_Dir::MODULES)
-        );
+        $codeDir = str_replace($this->_getDirInstance()->getDir(Mage_Core_Model_Dir::APP), '', $modulesDir);
         return array(
             array(array(), array()),
             array(
                 array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $dirs->getDir(Mage_Core_Model_Dir::MODULES) . '/pub/lib/mage/calendar.css')),
+                    $modulesDir . '/pub/lib/mage/calendar.css')),
                 array('Framework files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'mage/calendar.css'),
@@ -189,7 +202,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
             )))),
             array(
                 array('Mage_Page::css/tabs.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $dirs->getDir(Mage_Core_Model_Dir::MODULES) . '/core/Mage/Page/view/frontend/css/tabs.css')),
+                    $modulesDir . '/core/Mage/Page/view/frontend/css/tabs.css')),
                 array('Framework files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'Mage_Page::css/tabs.css'),
@@ -200,7 +213,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
             )))),
             array(
                 array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB) . '/mage/calendar.css')),
+                    $this->_getDirInstance()->getDir(Mage_Core_Model_Dir::PUB_LIB) . '/mage/calendar.css')),
                 array('Library files' => array(
                     array(
                         'href' => array('theme_id' => 1, 'file' => 'mage/calendar.css'),
@@ -210,7 +223,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
             )))),
             array(
                 array('mage/calendar.css' => str_replace('/', DIRECTORY_SEPARATOR,
-                    $dirs->getDir(Mage_Core_Model_Dir::THEMES) . '/frontend/default/demo/css/styles.css'),
+                    $themesDir . '/frontend/default/demo/css/styles.css'),
                 ),
                 array('"test title" Theme files' => array(
                     array(
@@ -348,12 +361,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
      */
     public function getGroupProvider()
     {
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File());
-
-        $designDir = $dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $jsDir = $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
-        $codeDir = $dirs->getDir(Mage_Core_Model_Dir::MODULES);
+        $designDir = $this->_getDirInstance()->getDir(Mage_Core_Model_Dir::THEMES);
+        $jsDir = $this->_getDirInstance()->getDir(Mage_Core_Model_Dir::PUB_LIB);
+        $codeDir = $this->_getDirInstance()->getDir(Mage_Core_Model_Dir::MODULES);
 
         return array(
             array(

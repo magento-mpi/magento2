@@ -68,7 +68,11 @@ class Mage_Core_Model_DirFilesystemTest extends PHPUnit_Framework_TestCase
      */
     protected function _createWithCustomDir($dirCode, $path)
     {
-        new Mage_Core_Model_Dir(__DIR__, array(), array($dirCode => $path));
+        $filesystem = Mage::getObjectManager()->get('Magento_Filesystem');
+        $appParams = Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams();
+        $dirs = isset($appParams[Mage::PARAM_APP_DIRS]) ? $appParams[Mage::PARAM_APP_DIRS] : array();
+        $dirs[$dirCode] = $path;
+        new Mage_Core_Model_Dir($filesystem, __DIR__, array(), $dirs);
     }
 
     /**

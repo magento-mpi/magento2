@@ -140,6 +140,13 @@ class Mage_Core_Model_Dir
     );
 
     /**
+     * File system instance
+     *
+     * @var Magento_Filesystem
+     */
+    private $_filesystem;
+
+    /**
      * Absolute paths to directories
      *
      * @var array
@@ -159,12 +166,15 @@ class Mage_Core_Model_Dir
     /**
      * Initialize URIs and paths
      *
+     * @param Magento_Filesystem $filesystem
      * @param string $baseDir
      * @param array $uris custom URIs
      * @param array $dirs custom directories (full system paths)
      */
-    public function __construct($baseDir, array $uris = array(), array $dirs = array())
+    public function __construct(Magento_Filesystem $filesystem, $baseDir, array $uris = array(), array $dirs = array())
     {
+        $this->_filesystem = $filesystem;
+
         // uris
         foreach (array_keys($this->_uris) as $code) {
             $this->_uris[$code] = self::$_defaults[$code];
@@ -187,6 +197,14 @@ class Mage_Core_Model_Dir
             $this->_setDir($code, $replacement);
         }
 
+        $this->_ensureDirsWritable();
+    }
+
+    /**
+     * Ensure all required directories exist and have writable permissions
+     */
+    protected function _ensureDirsWritable()
+    {
         foreach (self::getWritableDirCodes() as $code) {
             $path = $this->getDir($code);
             $this->_ensureDirWritable($path);
@@ -202,16 +220,15 @@ class Mage_Core_Model_Dir
     protected function _ensureDirWritable($path)
     {
         // create a directory, if no directory or file with the same path already exists
-        $hasFilesystemError = false;
-        if (!file_exists($path)) {
-            try {
-                $hasFilesystemError = !mkdir($path, 0777);
-            } catch (Exception $e) {
-                $hasFilesystemError = true;
-            }
+        $filesystemError = null;
+        try {
+            $this->_filesystem->setIsAllowCreateDirectories(true);
+            $this->_filesystem->ensureDirectoryExists($path, 0777);
+        } catch (Magento_Filesystem_Exception $e) {
+            $filesystemError = $e;
         }
-        if ($hasFilesystemError || !is_dir($path) || !is_writable($path)) {
-            throw new Magento_BootstrapException("Path '$path' has to be a writable directory.");
+        if ($filesystemError || !$this->_filesystem->isDirectory($path) || !$this->_filesystem->isWritable($path)) {
+            throw new Magento_BootstrapException("Path '$path' has to be a writable directory.", 0, $filesystemError);
         }
     }
 
