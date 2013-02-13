@@ -60,16 +60,20 @@
                 'change [data-role="type-selector"]': '_changeType',
                 'change [data-role="visibility-trigger"]': '_changeVisibility'
             };
-            events['click ' + this.options.imageSelector] = function() {
+            events['click ' + this.options.imageSelector] = function(event) {
                 $(event.currentTarget).toggleClass('active');
             };
             this._on(events);
 
             this.element.sortable({
                 distance: 8,
+                placeholder: "ui-state-highlight",
                 items: this.options.imageSelector,
                 tolerance: "pointer",
                 cancel: 'input, button, .ui-dialog, .uploader',
+                start: function(e, ui) {
+                    ui.placeholder.height(ui.helper.height() - 2);
+                },
                 update: $.proxy(function() {
                     this.element.trigger('resort');
                 }, this)
@@ -253,12 +257,14 @@
          */
         _bind: function() {
             this._super();
-            var events = {
-                'click [data-role="delete-button"]': function() {
-                    this.element.find('[data-role="dialog"]').trigger('close');
-                }
+            var events = {};
+
+            events['click .action-close'] = function() {
+                this.element.find('[data-role="dialog"]').trigger('close');
             };
             events['dblclick ' + this.options.imageSelector] = function(event) {
+                $(event.currentTarget).addClass('active');
+
                 this._showDialog($(event.currentTarget).data('imageData'));
             };
             this._on(events);
@@ -266,6 +272,31 @@
                 this.element.find('[data-role="dialog"]').trigger('close');
             }, this));
 
+            $('body')
+                .on('change', '[data-role="type-selector"]', function() {
+                    var parent = $(this).closest('.item'),
+                        selectedClass = 'selected';
+
+                    parent.toggleClass(selectedClass, $(this).prop('checked'));
+                });
+        },
+
+        /**
+         * Set Position of Image Pointer
+         * @param image
+         * @param panel
+         * @private
+         */
+        _setImagePointerPosition: function(image, panel) {
+            var position = image.position(),
+                posX = position.left,
+                imageWidth = image.width(),
+                pointer = $('.image-pointer', panel),
+                pointerWidth = 20,
+                padding = 9,
+                pointerOffset = posX + padding + pointerWidth / 2 + imageWidth / 2;
+
+            pointer.css({left: pointerOffset});
         },
 
         /**
@@ -280,33 +311,50 @@
                 return;
             }
 
+
             if (!dialogElement) {
-                var $template = this.element.find(this.options.dialogTemplate);
-                var imageCountInLine = 6;
+                var $template = this.element.find(this.options.dialogTemplate),
+                    imageCountInLine = 5;
+
                 dialogElement = $template.tmpl(imageData);
 
-                dialogElement.on("open", $.proxy(function(event) {
-                    var imagesList = this.element.find(this.options.imageSelector + ':not(.removed)');
-                    var index = imagesList.index($imageContainer);
-                    var positionIndex = Math.floor(index / imageCountInLine + 1) * imageCountInLine - 1;
-                    if (positionIndex > imagesList.length - 1) {
-                        positionIndex = imagesList.length - 1;
-                    }
-                    var afterElement = imagesList.get(positionIndex);
-                    $(event.target).insertAfter(afterElement);
-                    $imageContainer.find('[data-role="type-selector"]').each($.proxy(function(index, checkbox) {
-                        var $checkbox = $(checkbox);
-                        $checkbox.prop('checked', this.options.types[$checkbox.val()].value == imageData.file);
+                dialogElement
+                    .on('open', $.proxy(function(event) {
+                        var imagesList = this.element.find(this.options.imageSelector + ':not(.removed)');
+                        var index = imagesList.index($imageContainer);
+                        var positionIndex = Math.floor(index / imageCountInLine + 1) * imageCountInLine - 1;
+                        if (positionIndex > imagesList.length - 1) {
+                            positionIndex = imagesList.length - 1;
+                        }
+                        var afterElement = imagesList.get(positionIndex);
+
+                        this._setImagePointerPosition($imageContainer, dialogElement);
+
+                        $(event.target)
+                            .insertAfter(afterElement)
+                            .slideDown(500);
+
+                        $imageContainer
+                            .find('[data-role="type-selector"]')
+                                .each($.proxy(function(index, checkbox) {
+                                    var $checkbox = $(checkbox);
+
+                                    $checkbox.prop('checked', this.options.types[$checkbox.val()].value == imageData.file);
+                                }, this));
+
+                        $(event.target).show();
+                    }, this))
+                    .on('close', $.proxy(function(event) {
+                        $imageContainer.removeClass('active');
+
+                        $(event.target)
+                            .slideUp(500);
                     }, this));
-                    $(event.target).show();
-                }, this));
-                dialogElement.on("close", function(event) {
-                    $(event.target).hide();
-                });
+
                 $imageContainer.data('dialog', dialogElement);
+
             }
             dialogElement.trigger('open');
-
         }
     });
 })(jQuery);

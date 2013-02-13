@@ -194,6 +194,16 @@ button.primary.disabled,
 #product-variations-matrix .action-choose:active,
 #product-variations-matrix .action-choose.active,
 #product-variations-matrix .action-choose:disabled,
+.image-panel .action-close,
+.image-panel .action-close:hover,
+.image-panel .action-close:active,
+.image-panel .action-close.active,
+.image-panel .action-close:disabled,
+.image-panel-controls .action-remove,
+.image-panel-controls .action-remove:hover,
+.image-panel-controls .action-remove:active,
+.image-panel-controls .action-remove.active,
+.image-panel-controls .action-remove:disabled,
 .suggest-expandable .action-show-all,
 .suggest-expandable .action-show-all:hover,
 .suggest-expandable .action-show-all:active,
@@ -269,7 +279,7 @@ button.primary.disabled,
     border-radius: 3px;
     background: #fff;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    z-index: 990;
 }
 
 .dropdown-menu > li {
@@ -435,7 +445,11 @@ button.primary.disabled,
     float: right;
     margin-left: 4px;
     font-size: 13px;
-    color: #666;
+    color: #b2b0ad;
+}
+
+.suggest-expandable .actions-split .action-toggle:hover:before {
+    color: #7e7e7e;
 }
 
 .suggest-expandable .dropdown-menu {
@@ -507,6 +521,10 @@ button.primary.disabled,
 
 .page-actions .suggest-expandable {
     float: left;
+}
+
+.page-actions.fixed #product-template-suggest-container {
+    margin-left: 148px;
 }
 
 /*
@@ -1072,7 +1090,25 @@ option.placeholder {
 }
 
 .fieldset > .field > input[type="checkbox"] {
-    margin-top: 10px;
+    margin-top: 12px;
+}
+
+.fieldset-alt {
+}
+
+.fieldset-alt .field {
+}
+
+.fieldset-alt .field > .label {
+    display: block;
+    width: 100%;
+    clear: both;
+    text-align: left;
+    margin: 0 0 10px;
+}
+
+.fieldset-alt .field > .control {
+
 }
 
 /* "Use default" checkbox */
@@ -1093,6 +1129,66 @@ option.placeholder {
 
 .use-default-label:hover {
     color: #7e7e7e;
+}
+
+/*
+    Custom Multiselect
+-------------------------------------- */
+.multiselect-alt {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #333;
+}
+
+.multiselect-alt .item {
+    position: relative;
+    padding: 6px 25px 5px;
+    border-bottom: 1px solid #fff;
+    cursor: pointer;
+}
+
+.multiselect-alt .item:last-child {
+    border-bottom: 0;
+}
+
+.multiselect-alt .item.selected {
+    background: #d7ebf5;
+}
+
+.multiselect-alt .item.selected:hover {
+    background: #afdef2;
+}
+
+.multiselect-alt .item.selected:before {
+    position: absolute;
+    left: 8px;
+    top: 1px;
+    bottom: 0;
+    width: 10px;
+    line-height: 28px;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e01e'; /* checked icon */
+    text-align: center;
+    color: #7ba4b1;
+    font-size: 9px;
+    text-shadow: 0 -1px 1px #60727b;
+}
+
+.multiselect-alt label {
+    display: block;
+    cursor: pointer;
+}
+
+
+.multiselect-alt input[type="checkbox"] {
+    display: none;
 }
 
 /*
@@ -1599,7 +1695,8 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Old loading popup */
 /* TODO: remove this popup after refactoring of "varienLoader.js" file */
-.loading-old {
+.loading-old,
+.loading-mask {
     border: 1px solid #d85909;
     position: fixed;
     z-index: 1003;
@@ -1616,7 +1713,8 @@ table tbody tr:nth-child(odd):hover th {
     padding: 100px 0 10px;
 }
 
-.loading-old:after {
+.loading-old:after,
+.loading-mask:after {
     position: absolute;
     left: 50%;
     top: 40%;
@@ -1628,13 +1726,19 @@ table tbody tr:nth-child(odd):hover th {
     z-index: 2;
 }
 
-.loading-old .loader {
+.loading-old .loader,
+.loading-mask .loader {
     position: relative !important;
     left: auto !important;
     top: auto !important;
 }
 
-.eq-ie8 .loading-old {
+.loading-mask img {
+    display: none;
+}
+
+.eq-ie8 .loading-old,
+.eq-ie8 .loading-mask {
     background: #fff;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 }
@@ -2638,6 +2742,10 @@ table tbody tr:nth-child(odd):hover th {
 
 .side-col .tabs > li {
     border-bottom: 1px solid #e5e1db;
+}
+
+.side-col .tabs > li:first-child {
+    border-top: 1px solid #e5e1db;
 }
 
 .side-col .tabs > li a {

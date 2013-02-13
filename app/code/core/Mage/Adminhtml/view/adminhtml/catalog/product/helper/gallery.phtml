@@ -11,23 +11,28 @@
 $elementName = $this->getElement()->getName() . '[images]';
 ?>
 <div id="<?php echo $this->getHtmlId() ?>"
+     class='gallery'
      data-mage-init="{'productGallery':{template:'#<?php echo $this->getHtmlId() ?>-template'}}"
      data-images="<?php echo $this->escapeHtml($this->getImagesJson()) ?>"
      data-types="<?php echo $this->escapeHtml(
          $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getImageTypes())
      ) ?>"
      >
+    <?php if (!$this->getElement()->getReadonly()) { ?>
+    <div class="image image-placeholder">
+        <?php echo $this->getUploaderHtml(); ?>
+        <img class="spacer" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>"/>
+        <p class="image-placeholder-text"><?php echo $this->__('Click here or drag and drop to add images'); ?></p>
+    </div>
+    <?php } ?>
     <?php foreach ($this->getImageTypes() as $typeData) { ?>
         <input name="<?php echo $this->escapeHtml($typeData['name']) ?>"
                class="image-<?php echo $this->escapeHtml($typeData['code']) ?>"
                type="hidden"
                value="<?php echo $this->escapeHtml($typeData['value']) ?>"/>
     <?php } ?>
-    <?php
-    if (!$this->getElement()->getReadonly()) {
-        echo $this->getUploaderHtml();
-    }
-    ?>
+
+
     <script id="<?php echo $this->getHtmlId() ?>-template" type="text/x-jquery-tmpl">
         <div class="image item {{if disabled == 1 }}disabled{{/if}}" data-image-label="<?php echo $this->__('Main') ?>" data-role="image">
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][position]" value="${position}" class="position"/>
@@ -43,12 +48,13 @@ $elementName = $this->getElement()->getName() . '[images]';
                     ) ?>"><?php echo $this->escapeHtml($typeData['label']) ?></li>
                 <?php } ?>
             </ul>
-            <img src="${url}" alt="${label}"/>
+            <img class="spacer" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>"/>
+            <img class="product-image" src="${url}" alt="${label}"/>
             <div class="actions" >
-                <button class="action-delete" data-role="delete-button" title="<?php echo $this->__('Delete image') ?>">
+                <button type="button" class="action-delete" data-role="delete-button" title="<?php echo $this->__('Delete image') ?>">
                      <span> <?php echo $this->__('Delete image') ?></span >
                 </button>
-                <button class="action-make-main" data-role="make-main-button"  title="<?php echo $this->__('Make Main') ?>">
+                <button type="button" class="action-make-main" data-role="make-main-button" title="<?php echo $this->__('Make Main') ?>">
                     <span><?php echo $this->__('Make Main') ?></span >
                 </button >
                 <div class="draggable-handle" ></div >
@@ -56,45 +62,72 @@ $elementName = $this->getElement()->getName() . '[images]';
         </div>
     </script>
     <script class="dialog-template" type="text/x-jquery-tmpl"  data-title="Image Options">
-        <div style="width: 100%; clear: both; overflow: auto;" data-role="dialog">
-            <div style="width: 50%; float:right">
-                <div>
-                    <label><?php echo $this->__('Description')?></label>
-                    <textarea placeholder="label"
-                              name="<?php echo $elementName ?>[${file_id}][label]">${label}</textarea>
-                </div>
-                <div class="buttons-group widget-button-split">
-                    <label><?php echo $this->__('Role')?></label>
-                    <ul style="float:right; background-color:white; border: 1px solid #666">
-                        <?php foreach ($this->getMediaAttributes() as $attribute) { ?>
-                        <li>
-                            <label>
-                            <?php echo $this->escapeHtml($attribute->getFrontendLabel()) ?>
-                            <input class="image-type"
-                                data-role="type-selector"
-                                type="checkbox"
-                                value="<?php echo $this->escapeHtml($attribute->getAttributeCode()) ?>"
-                            />
-                            </label>
-                        </li>
-                        <?php } ?>
-                    </ul>
-                </div>
-                <div>
-                    <label>
-                        <input type="checkbox"
-                           data-role="visibility-trigger"
-                           value="1"
-                           name="<?php echo $elementName ?>[${file_id}][disabled]"
-                        {{if disabled == 1 }}checked="checked"{{/if}} />
-                        <span><?php echo $this->__('Hide from product page')?></span>
-                    </label>
-                </div>
+        <div class="image-panel" data-role="dialog">
+            <div class="image-panel-preview">
+                <img src="${url}" alt="${label}" />
             </div>
-            <div style="width: 50%;">
-                <img src="${url}" alt="${label}" style="max-width:90%; max-height:500px" />
-                <span class="remove">&times;</span>
-             </div>
+            <div class="image-panel-controls">
+                <strong class="image-name">bikini-glasses-bag-tall-blue.jpg${label}</strong>
+                <p class="image-file-params">
+                    <span class="dimention">400 x 700</span>,
+                    <span class="size">123 Kb</span>
+                </p>
+
+                <button type="button" class="action-remove" title="<?php echo $this->__('Remove image'); ?>">
+                    <span><?php echo $this->__('Remove image'); ?></span>
+                </button>
+
+                <fieldset class="fieldset fieldset-alt">
+                    <div class="field field-image-description">
+                        <label class="label" for="image-desciption">
+                            <span><?php echo $this->__('Alt text')?></span>
+                        </label>
+                        <div class="control">
+                            <textarea id="image-desciption"
+                                      rows="3"
+                                      name="<?php echo $elementName ?>[${file_id}][label]">${label}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="field field-image-role">
+                        <label class="label">
+                            <span><?php echo $this->__('Role')?></span>
+                        </label>
+                        <div class="control">
+                            <ul class="multiselect-alt">
+                                <?php foreach ($this->getMediaAttributes() as $attribute) { ?>
+                                <li class="item">
+                                    <label>
+                                        <input class="image-type"
+                                               data-role="type-selector"
+                                               type="checkbox"
+                                               value="<?php echo $this->escapeHtml($attribute->getAttributeCode()) ?>"
+                                                />
+                                        <?php echo $this->escapeHtml($attribute->getFrontendLabel()) ?>
+                                    </label>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="field field-image-hide">
+                        <label class="label">
+                            <input type="checkbox"
+                               data-role="visibility-trigger"
+                               value="1"
+                               name="<?php echo $elementName ?>[${file_id}][disabled]"
+                            {{if disabled == 1 }}checked="checked"{{/if}} />
+                            <span><?php echo $this->__('Hide from product page')?></span>
+                        </label>
+                    </div>
+                </fieldset>
+            </div>
+
+            <button type="button" class="action-close" title="<?php echo $this->__('Close panel'); ?>">
+                <span><?php echo $this->__('Close panel'); ?></span>
+            </button>
+            <div class="image-pointer"></div>
         </div>
     </script>
 </div>
