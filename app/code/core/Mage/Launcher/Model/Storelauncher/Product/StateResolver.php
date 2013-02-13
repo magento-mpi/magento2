@@ -41,6 +41,16 @@ class Mage_Launcher_Model_Storelauncher_Product_StateResolver extends Mage_Launc
     {
         $isTileComplete = parent::isTileComplete();
         // product tile is considered to be complete if at least one product has been created
-        return $isTileComplete && ($this->_productCollection->getSize() > 0);
+        return $isTileComplete && ($this->getProductCount() > 0);
+    }
+
+    /**
+     * Get Product Count
+     *
+     * @return int
+     */
+    public function getProductCount()
+    {
+        return $this->_productCollection->getSize();
     }
 }
