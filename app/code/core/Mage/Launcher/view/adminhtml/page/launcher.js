@@ -194,12 +194,11 @@
         },
 
         _drawerAfterSave: function(result, status) {
-            window.location.hash = '';
-
             if (result.success) {
                 //Complete class should be added by condition for specified tile
                 $('#tile-' + result.tile_code).before(result.tile_content).remove();
                 this._handleLaunchStoreButton();
+                window.location.hash = '';
                 this.drawerClose();
             } else if (result && result.error_message) {
                 alert(result.error_message);
