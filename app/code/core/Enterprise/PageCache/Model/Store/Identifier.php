@@ -7,10 +7,13 @@
  */
 class Enterprise_PageCache_Model_Store_Identifier
 {
+    /**
+     * Store identifier cache prefix
+     */
     const CACHE_ID = 'current_store_id_cache';
 
     /**
-     * FPC cache model
+     * Cache model
      *
      * @var Enterprise_PageCache_Model_Cache
      */
@@ -32,7 +35,7 @@ class Enterprise_PageCache_Model_Store_Identifier
      */
     public function getStoreId($requestId)
     {
-        return (int)$this->_fpcCache->load(self::CACHE_ID . '_' . $requestId);
+        return (int) $this->_fpcCache->load(self::CACHE_ID . '_' . $requestId);
     }
 
     /**

@@ -34,13 +34,13 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
     protected $_fpcCache;
 
     /**
-     * @param Mage_Core_Model_Design_Proxy $design
-     * @param Mage_Core_Model_Design_Package_Proxy $designPackage
+     * @param Mage_Core_Model_Design $design
+     * @param Mage_Core_Model_Design_Package $designPackage
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      */
     public function __construct(
-        Mage_Core_Model_Design_Proxy $design,
-        Mage_Core_Model_Design_Package_Proxy $designPackage,
+        Mage_Core_Model_Design $design,
+        Mage_Core_Model_Design_Package $designPackage,
         Enterprise_PageCache_Model_Cache $fpcCache
     ) {
         $this->_design = $design;
@@ -77,7 +77,7 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
 
         $date = date('Y-m-d');
 
-        $changeCacheId = self::DESIGN_CHANGE_CACHE_SUFFIX . md5($storeId . $date);
+        $changeCacheId = self::DESIGN_CHANGE_CACHE_SUFFIX . '_'. md5($storeId . $date);
         $result = $this->_fpcCache->load($changeCacheId);
         if ($result === false) {
             $result = $this->_design->getResource()->loadChange($storeId, $date);

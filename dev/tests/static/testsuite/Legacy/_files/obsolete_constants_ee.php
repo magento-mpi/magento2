@@ -22,4 +22,7 @@ return array(
     array('DESIGN_EXCEPTION_KEY', 'Enterprise_PageCache_Model_Processor',
         'Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY'
     ),
+    array('DESIGN_CHANGE_CACHE_SUFFIX', 'Enterprise_PageCache_Model_Processor',
+        'Enterprise_PageCache_Model_DesignPackage_Rules::DESIGN_CHANGE_CACHE_SUFFIX'
+    ),
 );

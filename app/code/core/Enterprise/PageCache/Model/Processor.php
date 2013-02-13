@@ -113,6 +113,19 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
      */
     protected $_storeManager;
 
+    /**
+     * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
+     * @param Enterprise_PageCache_Model_Cache $fpcCache
+     * @param Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
+     * @param Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory
+     * @param Enterprise_PageCache_Model_ContainerFactory $containerFactory
+     * @param Enterprise_PageCache_Model_Environment $environment
+     * @param Enterprise_PageCache_Model_Request_Identifier $requestIdentifier
+     * @param Enterprise_PageCache_Model_DesignPackage_Info $designInfo
+     * @param Enterprise_PageCache_Model_Metadata $metadata
+     * @param Enterprise_PageCache_Model_Store_Identifier $storeIdentifier
+     * @param Mage_Core_Model_StoreManager $storeManager
+     */
     public function __construct(
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
         Enterprise_PageCache_Model_Cache $fpcCache,

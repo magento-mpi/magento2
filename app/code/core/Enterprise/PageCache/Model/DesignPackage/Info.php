@@ -55,6 +55,7 @@ class Enterprise_PageCache_Model_DesignPackage_Info
     /**
      * Return package name based on design exception rules
      *
+     * @param int $storeId
      * @return null|string
      */
     public function getPackageName($storeId)

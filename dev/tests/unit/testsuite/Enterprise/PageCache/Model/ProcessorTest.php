@@ -28,11 +28,6 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_designPackageMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_subProcessorFactoryMock;
 
     /**
@@ -65,15 +60,23 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
      */
     protected $_metadataMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storeIdentifier;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storeManager;
+
     protected function setUp()
     {
         $this->_restrictionMock = $this->getMock('Enterprise_PageCache_Model_Processor_RestrictionInterface',
             array(), array(), '', false
         );
         $this->_fpcCacheMock = $this->getMock('Enterprise_PageCache_Model_Cache', array(), array(), '', false);
-        $this->_designPackageMock = $this->getMock('Mage_Core_Model_Design_Package_Proxy',
-            array(), array(), '', false
-        );
+
         $this->_subProcessorFactoryMock = $this->getMock('Enterprise_PageCache_Model_Cache_SubProcessorFactory',
             array(), array(), '', false
         );
@@ -93,18 +96,23 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
             array(), array(), '', false
         );
         $this->_metadataMock = $this->getMock('Enterprise_PageCache_Model_Metadata', array(), array(), '', false);
+        $this->_storeIdentifier = $this->getMock('Enterprise_PageCache_Model_Store_Identifier', array(),
+            array(), '', false
+        );
+        $this->_storeManager = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
 
         $this->_model = new  Enterprise_PageCache_Model_Processor(
             $this->_restrictionMock,
             $this->_fpcCacheMock,
-            $this->_designPackageMock,
             $this->_subProcessorFactoryMock,
             $this->_placeholderFactoryMock,
             $this->_containerFactoryMock,
             $this->_environmentMock,
             $this->_requestIdentifierMock,
             $this->_designInfoMock,
-            $this->_metadataMock
+            $this->_metadataMock,
+            $this->_storeIdentifier,
+            $this->_storeManager
         );
     }
 
