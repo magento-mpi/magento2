@@ -80,13 +80,13 @@
 
 <script type="text/javascript">
     //<![CDATA[
-jQuery(function(){
+jQuery(function($){
     function toggleDefault(v)
     {
-        defaultValue = $('giftcard_' + v + '_default');
-        checkbox = $('giftcard_use_config_' + v);
-        if (checkbox.checked) {
-            $('giftcard_' + v).value = defaultValue.value;
+        defaultValue = $('#giftcard_' + v + '_default').val();
+        $checkbox = $('#giftcard_use_config_' + v);
+        if ($checkbox.is(':checked')) {
+            $('#giftcard_' + v).val(defaultValue);
         }
     }
 
@@ -94,33 +94,32 @@ jQuery(function(){
     toggleDefault('is_redeemable');
     toggleDefault('lifetime');
     toggleDefault('allow_message');
-    jQuery(function ($) {
-        $('#product_info_tabs_group_8').parent().hide();
-        $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
-            var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
-            $('#giftcard_info_container')[action]();
-        });
-        $('#allow_open_amount').on('click', function () {
-            $('#open_amount_min,#open_amount_max').prop('disabled', !$(this).is(':checked'));
-        });
 
-        /**
-         * Adding event on card type select box of product to set weight to required or not
-         */
-        function togglecardType() {
-            var $weight = $('#attribute-weight-container');
-            var isVirtual = $(this).val() == '0';
-            if ($weight.length) {
-                $weight.toggle(!isVirtual);
-            }
+    $('#product_info_tabs_group_8').parent().hide();
+    $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
+        var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
+        $('#giftcard_info_container')[action]();
+    });
+    $('#allow_open_amount').on('click', function () {
+        $('#open_amount_min,#open_amount_max').prop('disabled', !$(this).is(':checked'));
+    });
 
-            $.each($('.hidden-for-virtual'), function () {
-                $(this).closest('.field').toggle(!isVirtual);
-            });
+    /**
+     * Adding event on card type select box of product to set weight to required or not
+     */
+    function togglecardType() {
+        var $weight = $('#attribute-weight-container');
+        var isVirtual = $(this).val() == '0';
+        if ($weight.length) {
+            $weight.toggle(!isVirtual);
         }
 
-        $('#giftcard_type').on('change', togglecardType).change();
-    });
+        $.each($('.hidden-for-virtual'), function () {
+            $(this).closest('.field').toggle(!isVirtual);
+        });
+    }
+
+    $('#giftcard_type').on('change', togglecardType).change();
 });
     //]]>
 </script>
