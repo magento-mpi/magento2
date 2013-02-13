@@ -14,28 +14,26 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolverTest
 {
     /**
      * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config $config
      * @return Mage_Launcher_Model_Storelauncher_Shipping_StateResolver
      */
-    protected function _getStateResolverInstance(Mage_Core_Model_App $app, Mage_Core_Model_Config $config)
+    protected function _getStateResolverInstance(Mage_Core_Model_App $app)
     {
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
         $request->expects($this->any())
             ->method('getPost')
             ->with($this->equalTo('shipping_enabled'), $this->equalTo(null))
             ->will($this->returnValue('1'));
-        return new Mage_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $config, $request);
+        return new Mage_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
     }
 
     public function testIsTileCompleteWhenShippingEnabledCheckboxIsNotChecked()
     {
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
         $request->expects($this->any())->method('getPost')
             ->with($this->equalTo('shipping_enabled'), $this->equalTo(null))
             ->will($this->returnValue('0'));
-        $stateResolver = new Mage_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $config, $request);
+        $stateResolver = new Mage_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
         $this->assertEquals(true, $stateResolver->isTileComplete());
     }
 

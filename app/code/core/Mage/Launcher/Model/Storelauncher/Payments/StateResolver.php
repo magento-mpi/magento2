@@ -25,7 +25,6 @@ class Mage_Launcher_Model_Storelauncher_Payments_StateResolver
      */
     public function isTileComplete()
     {
-        $this->_config->reinit();
         $paymentConfigPaths = array(
             'paypal_express_checkout' => 'payment/paypal_express/active',
             'paypal_standard' => 'payment/paypal_standard/active',

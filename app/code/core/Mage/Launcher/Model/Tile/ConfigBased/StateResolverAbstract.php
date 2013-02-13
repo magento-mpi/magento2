@@ -26,21 +26,38 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
     protected $_app;
 
     /**
-     * @var Mage_Core_Model_Config
+     * Config sections that are related to the current Tile
+     *
+     * @var array
      */
-    protected $_config;
+    protected $_sections = array();
 
     /**
      * Constructor
      *
      * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config $config
      */
-    function __construct(
-        Mage_Core_Model_App $app,
-        Mage_Core_Model_Config $config
-    ) {
+    function __construct(Mage_Core_Model_App $app) {
         $this->_app = $app;
-        $this->_config = $config;
+    }
+
+    /**
+     * Handle System Configuration change (handle related event) and return new state
+     *
+     * @param string $sectionName
+     * @param int $currentState current state of the tile
+     * @return int result refreshed state
+     */
+    public function handleSystemConfigChange($sectionName, $currentState)
+    {
+        if (in_array($sectionName, $this->_sections)) {
+            if ($this->isTileComplete()) {
+                return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+            }
+            if ($currentState == Mage_Launcher_Model_Tile::STATE_COMPLETE) {
+                return Mage_Launcher_Model_Tile::STATE_TODO;
+            }
+        }
+        return $currentState;
     }
 }

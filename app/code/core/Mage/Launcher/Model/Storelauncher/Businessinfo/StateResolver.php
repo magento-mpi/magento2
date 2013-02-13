@@ -15,30 +15,22 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver implements Mage_Launcher_Model_Tile_StateResolver
+class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver
+    extends Mage_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
 {
     /**
-     * @var Mage_Core_Model_App
+     * Default email address
      */
-    protected $_app;
-
-    /**
-     * @var Mage_Core_Model_Config
-     */
-    protected $_config;
+    const DEFAULT_EMAIL_ADDRESS = 'owner@example.com';
 
     /**
      * Constructor
      *
      * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config $config
      */
-    function __construct(
-        Mage_Core_Model_App $app,
-        Mage_Core_Model_Config $config
-    ) {
-        $this->_app = $app;
-        $this->_config = $config;
+    public function __construct(Mage_Core_Model_App $app) {
+        parent::__construct($app);
+        $this->_sections = array('trans_email');
     }
 
     /**
@@ -48,41 +40,7 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver implements Ma
      */
     public function isTileComplete()
     {
-        $this->_config->reinit();
         $email = $this->_app->getStore()->getConfig('trans_email/ident_general/email');
-        return isset($email) && ($email != 'owner@example.com');
-    }
-
-    /**
-     * Handle System Configuration change (handle related event) and return new state
-     *
-     * @param string $sectionName
-     * @param int $currentState current state of the tile
-     * @return int result state
-     */
-    public function handleSystemConfigChange($sectionName, $currentState)
-    {
-        if (in_array($sectionName, array('trans_email'))) {
-            if ($this->isTileComplete()) {
-                return Mage_Launcher_Model_Tile::STATE_COMPLETE;
-            }
-            if ($currentState == Mage_Launcher_Model_Tile::STATE_COMPLETE) {
-                return Mage_Launcher_Model_Tile::STATE_TODO;
-            }
-        }
-        return $currentState;
-    }
-
-    /**
-     * Get Persistent State of the Tile
-     *
-     * @return int
-     */
-    public function getPersistentState()
-    {
-        if ($this->isTileComplete()) {
-            return Mage_Launcher_Model_Tile::STATE_COMPLETE;
-        }
-        return Mage_Launcher_Model_Tile::STATE_TODO;
+        return isset($email) && ($email != self::DEFAULT_EMAIL_ADDRESS);
     }
 }

@@ -14,12 +14,11 @@ class Mage_Launcher_Model_Storelauncher_Payments_StateResolverTest
 {
     /**
      * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config $config
      * @return Mage_Launcher_Model_Storelauncher_Payments_StateResolver
      */
-    protected function _getStateResolverInstance(Mage_Core_Model_App $app, Mage_Core_Model_Config $config)
+    protected function _getStateResolverInstance(Mage_Core_Model_App $app)
     {
-        return new Mage_Launcher_Model_Storelauncher_Payments_StateResolver($app, $config);
+        return new Mage_Launcher_Model_Storelauncher_Payments_StateResolver($app);
     }
 
     /**

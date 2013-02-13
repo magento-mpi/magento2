@@ -19,10 +19,9 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
 
     /**
      * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config $config
      * @return Mage_Launcher_Model_Tile_StateResolver
      */
-    protected abstract function _getStateResolverInstance(Mage_Core_Model_App $app, Mage_Core_Model_Config $config);
+    protected abstract function _getStateResolverInstance(Mage_Core_Model_App $app);
 
     /**
      * @dataProvider handleSystemConfigChangeDataProvider
@@ -102,12 +101,6 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        // Create mock object of Configuration
-        $config = $this->getMock('Mage_Core_Model_Config', array('reinit'), array(), '', false);
-        $config->expects($this->once())
-            ->method('reinit')
-            ->will($this->returnValue($config));
-
-        return $this->_getStateResolverInstance($app, $config);
+        return $this->_getStateResolverInstance($app);
     }
 }

@@ -27,15 +27,13 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolver
 
     /**
      * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Controller_Request_Http $request
      */
     function __construct(
         Mage_Core_Model_App $app,
-        Mage_Core_Model_Config $config,
         Mage_Core_Controller_Request_Http $request
     ) {
-        parent::__construct($app, $config);
+        parent::__construct($app);
         // shipping tile can be considered complete when user simply deselects 'Shipping Enabled' checkbox
         $isShippingEnabled = $request->getPost('shipping_enabled');
         $this->_isConfigRequired = !empty($isShippingEnabled);
@@ -52,7 +50,6 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolver
             return true;
         }
 
-        $this->_config->reinit();
         $shippingConfigPaths = array(
             'carriers_flatrate' => 'carriers/flatrate/active',
             'carriers_ups' => 'carriers/ups/active',
@@ -69,6 +66,4 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolver
         }
         return false;
     }
-
-
 }

@@ -105,12 +105,6 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $config = $this->getMock('Mage_Core_Model_Config', array('reinit'), array(), '', false);
-
-        $config->expects($this->once())
-            ->method('reinit')
-            ->will($this->returnValue(true));
-
-        return new Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver($app, $config);
+        return new Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver($app);
     }
 }

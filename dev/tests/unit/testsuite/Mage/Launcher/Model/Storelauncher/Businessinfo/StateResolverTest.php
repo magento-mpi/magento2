@@ -64,7 +64,10 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
     public function getTestData()
     {
         return array(
-            array('owner@example.com', Mage_Launcher_Model_Tile::STATE_TODO),
+            array(
+                Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver::DEFAULT_EMAIL_ADDRESS,
+                Mage_Launcher_Model_Tile::STATE_TODO
+            ),
             array('test@example.com', Mage_Launcher_Model_Tile::STATE_COMPLETE),
             array(null, Mage_Launcher_Model_Tile::STATE_TODO),
         );
@@ -105,12 +108,6 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $config = $this->getMock('Mage_Core_Model_Config', array('reinit'), array(), '', false);
-
-        $config->expects($this->once())
-            ->method('reinit')
-            ->will($this->returnValue(true));
-
-        return new Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver($app, $config);
+        return new Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver($app);
     }
 }
