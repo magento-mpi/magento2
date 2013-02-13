@@ -74,15 +74,20 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testProcessPreDispatchCannotProcessRequest()
     {
-        $request = new Magento_Test_Request();
-        $request->setParam('no_cache', '1');
+        /** @var $restriction Enterprise_PageCache_Model_Processor_Restriction */
+        $restriction = Mage::getSingleton('Enterprise_PageCache_Model_Processor_Restriction');
+        $restriction->setIsDenied();
+
         $observerData = new Varien_Event_Observer();
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => new Magento_Test_Response())
+                array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response())
             )
         )));
         $this->_cookie

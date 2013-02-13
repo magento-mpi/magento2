@@ -76,8 +76,7 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
         $exceptions = $this->_fpcCache->load(Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY);
 
         $date = date('Y-m-d');
-
-        $changeCacheId = self::DESIGN_CHANGE_CACHE_SUFFIX . '_'. md5($storeId . $date);
+        $changeCacheId =  $this->getCacheId($storeId, $date);
         $result = $this->_fpcCache->load($changeCacheId);
         if ($result === false) {
             $result = $this->_design->getResource()->loadChange($storeId, $date);
@@ -100,5 +99,18 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
         }
 
         return $output;
+    }
+
+    /**
+     * Get cache id
+     *
+     * @param int $storeId
+     * @param string $date
+     * @return string
+     */
+    public function getCacheId($storeId, $date = null)
+    {
+        $date = is_null($date) ? date('Y-m-d') : $date;
+        return self::DESIGN_CHANGE_CACHE_SUFFIX . '_' . md5($storeId . $date);
     }
 }

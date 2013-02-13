@@ -32,6 +32,13 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     const CACHE_TAG              = 'CORE_DESIGN';
 
     /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'core_design';
+
+    /**
      * Model cache tag for clear cache in after save and after delete
      *
      * When you use true - all cache will be clean

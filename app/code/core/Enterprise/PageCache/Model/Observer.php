@@ -77,6 +77,13 @@ class Enterprise_PageCache_Model_Observer
     protected $_requestIdentifier;
 
     /**
+     * Design rules
+     *
+     * @var Enterprise_PageCache_Model_DesignPackage_Rules
+     */
+    protected $_designRules;
+
+    /**
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
@@ -84,6 +91,7 @@ class Enterprise_PageCache_Model_Observer
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Cookie $cookie
      * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
+     * @param Enterprise_PageCache_Model_DesignPackage_Rules $designRules
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor $processor,
@@ -92,7 +100,8 @@ class Enterprise_PageCache_Model_Observer
         Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_Cookie $cookie,
-        Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
+        Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
+        Enterprise_PageCache_Model_DesignPackage_Rules $designRules
     ) {
         $this->_processor = $processor;
         $this->_config    = $config;
@@ -101,6 +110,7 @@ class Enterprise_PageCache_Model_Observer
         $this->_cookie = $cookie;
         $this->_restriction = $restriction;
         $this->_requestIdentifier = $_requestIdentifier;
+        $this->_designRules = $designRules;
         $this->_isEnabled = $this->_cache->canUse('full_page');
     }
 
@@ -693,5 +703,18 @@ class Enterprise_PageCache_Model_Observer
         }
         $this->_cookie->delete(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE);
         return $this;
+    }
+
+    /**
+     * Invalidate design changes cache when design change was added/deleted
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function invalidateDesignChange(Varien_Event_Observer $observer)
+    {
+        /** @var $design Mage_Core_Model_Design */
+        $design = $observer->getEvent()->getObject();
+        $cacheId = $this->_designRules->getCacheId($design->getStoreId());
+        $this->_fpcCache->remove($cacheId);
     }
 }
