@@ -188,38 +188,34 @@ new_product:
                                     xpath: //div[@id='config_super_product']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='configurable-attribute-selector']
-                                        attribute_blocks_name: //input[@class='store-label required-entry']
+                                        attribute_blocks_name: //input[contains(@name,'[label]')]
                                     links:
-                                        configurable_attribute_select: //li[@class='ui-menu-item']//a[text()='%attributeTitle%']
+                                        configurable_attribute_select: //div[@class='mage-suggest-dropdown']//a[text()='%attributeTitle%']
                                         is_configurable: //strong[span='Variations']
                                     buttons:
-                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and not(@disabled)]
-                                        generate_product_variations_disabled: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and @disabled]
+                                        generate_product_variations: //button[@id='generate-variations-button' and not(@disabled)]
+                                        generate_product_variations_disabled: //button[@id='generate-variations-button' and @disabled]
                                     pageelements:
-                                        product_variations_fieldset: /fieldset
-                                        configurable_attributes_list: "//ul[contains(@class,'ui-autocomplete')][not(contains(@style,'display: none;'))]"
-                                        attribute_search_result: //span[@role='status'][string-length(text())>1]
-                                        attribute_search_specific_result: //span[@role='status'][not(text()='%searchResult%')]
+                                        product_variations_fieldset: //div[@id='config_super_product-content']
+                                        configurable_attributes_list: "//div[@class='mage-suggest-dropdown'][not(contains(@style,'display: none;'))]"
                             -
                                 product_variation_attribute:
-                                    xpath: //div[div/h4//@data-store-label='%attributeTitle%']
+                                    xpath: //div[div/strong/span='%attributeTitle%']
                                     checkboxes:
                                         have_price_variation: //label[contains(.,'Have price variation')]/input
                                         include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
-                                        use_default_label: //*[@class='entry-edit-head']//*[@name=contains(.,'[is_default]')]//*[@type='checkbox']
+                                        use_default_label: //label[span='Use Default']
                                     fields:
                                         variation_attribute_price: //tr[td='%attributeOption%']//input[contains(@name,'[pricing_value]')]
-                                        frontend_label: //*[@value='%attributeTitle%']
+                                        frontend_label: //input[contains(@name,'[label]')]
                                     dropdowns:
                                         variation_attribute_price_type: //tr[td='%attributeOption%']//select[contains(@name,'[is_percent]')]
                                     links:
-                                        delete_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_variation_attribute: //span[@class='ui-icon ui-icon-grip-dotted-vertical']
-                                        expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
+                                        delete_product_variation_attribute: //button[@title='Delete Variations Group']
+                                        move_product_variation_attribute: //div[@title='Sort Variations']
+                                        expand_product_variation_attribute: //strong[@data-toggle]
                                     pageelements:
                                         option_line: //tbody/tr
-                                    messages:
-                                        required_attribute_label: //*[@class='mage-error' and contains(.,'This field is required.')]
                             -
                                 variations_matrix_grid:
                                     xpath: //div[@id='product-variations-matrix']
@@ -227,20 +223,17 @@ new_product:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
                                         assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
                                     pageelements:
-                                        variations_matrix_header: //tr[normalize-space(@class)='headings']
+                                        variations_matrix_header: //thead/tr
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%']
                                         variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']
                                     buttons:
-                                        choose: //tbody/tr[%attributeSearch%]//button[@class='choose-product']
+                                        choose: //tbody/tr[%attributeSearch%]//button[@title='Choose']
                                     fields:
                                         associated_product_name: //tbody/tr[%attributeSearch%]//input[contains(@name,'[name]')]
-                                        associated_price: //tbody/tr[%attributeSearch%]//input[contains(@name,'[price]')]
                                         associated_sku: //tbody/tr[%attributeSearch%]//input[contains(@name,'[sku]')]
                                         associated_quantity: //tbody/tr[%attributeSearch%]//input[contains(@name,'[qty]')]
                                         associated_weight: //tbody/tr[%attributeSearch%]//input[contains(@name,'[weight]')]
-                                    messages:
-                                        required_field: //*[contains(@for,'variations-matrix') and contains(@for,'%field%')]
                             -
                                 select_associated_product:
                                     xpath: //div[div/span='Select Associated Product']
