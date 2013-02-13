@@ -31,6 +31,8 @@
             <Enterprise_PageCache_Model_Processor>
                 <parameters>
                     <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
+                    <metadata>Enterprise_PageCache_Model_Metadata_Proxy</metadata>
+                    <requestIdentifier>Enterprise_PageCache_Model_Request_Identifier_Proxy</requestIdentifier>
                 </parameters>
             </Enterprise_PageCache_Model_Processor>
             <Enterprise_PageCache_Model_DesignPackage_Rules>
