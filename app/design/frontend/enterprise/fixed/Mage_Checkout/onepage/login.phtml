@@ -83,7 +83,7 @@
             <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
         <?php endif; ?>
         <div class="buttons-set">
-            <button type="button" class="button" onclick="checkout.setMethod();"><span><span><?php echo ($this->isAllowedGuestCheckout() ? $this->__('Continue') : $this->__('Register')) ?></span></span></button>
+            <button type="button" class="button" data-checkout='{"isGuessCheckoutAllowed":true}'><span><span><?php echo ($this->isAllowedGuestCheckout() ? $this->__('Continue') : $this->__('Register')) ?></span></span></button>
         </div>
     </div>
     <?php endif; ?>
@@ -94,9 +94,8 @@
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/login.js') ?>",
                 function() {
-                    $('#login-form').onePageLogin().validation();
+                    $('#login-form').validation();
                 }
             )}
         )(jQuery);

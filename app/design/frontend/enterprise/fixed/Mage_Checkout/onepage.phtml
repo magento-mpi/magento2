@@ -34,17 +34,20 @@
     <?php endforeach ?>
     </ol>
     <script type="text/javascript">
-    //<![CDATA[
-        var accordion = new Accordion('checkoutSteps', '.step-title', true);
-        <?php if($this->getActiveStep()): ?>
-        accordion.openSection('opc-<?php echo $this->getActiveStep() ?>');
-        <?php endif ?>
-        var checkout = new Checkout(accordion,{
-            progress: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
-            review: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
-            saveMethod: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>',
-            failure: '<?php echo $this->getUrl('checkout/cart') ?>'}
-        );
-    //]]>
+        (function($) {
+            head.js(
+                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/checkout.js') ?>",
+                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/accordion.js') ?>",
+                function() {
+                    $('#checkoutSteps').accordion({
+                        activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'
+                    }).checkout({
+                        progressUrl: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
+                        reviewUrl: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
+                        saveMethodUrl: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>',
+                        failureUrl: '<?php echo $this->getUrl('checkout/cart') ?>'
+                    });
+                });
+        })(jQuery);
     </script>
 </div>
