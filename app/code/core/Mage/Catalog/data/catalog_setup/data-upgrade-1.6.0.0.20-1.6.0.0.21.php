@@ -54,7 +54,7 @@ foreach ($tabNames as $tabName => $tab) {
 $this->addAttributeGroup($entityTypeId, $attributeSetId, $autosettingsTabName, 60);
 
 //New attributes order and properties
-$properties = array('is_required', 'default_value');
+$properties = array('is_required', 'default_value', 'frontend_input_renderer');
 $attributesOrder = array(
     //Product Details tab
     'name' => array($newGeneralTabName => 10),
@@ -65,9 +65,12 @@ $attributesOrder = array(
     'weight' => array($newGeneralTabName => 70, 'is_required' => 0),
     'category_ids' => array($newGeneralTabName => 80),
     'description' => array($newGeneralTabName => 90, 'is_required' => 0),
-    'short_description' => array($newGeneralTabName => 100, 'is_required' => 0),
-    'status' => array($newGeneralTabName => 110, 'default_value' => 1),
+    'status' => array(
+        $newGeneralTabName => 100, 'is_required' => 0, 'default_value' => 1,
+        'frontend_input_renderer' => 'Varien_Data_Form_Element_Hidden'
+    ),
     //Autosettings tab
+    'short_description' => array($autosettingsTabName => 0, 'is_required' => 0),
     'url_key' => array($autosettingsTabName => 10),
     'visibility' => array($autosettingsTabName => 20, 'is_required' => 0),
     'news_from_date' => array($autosettingsTabName => 30),
