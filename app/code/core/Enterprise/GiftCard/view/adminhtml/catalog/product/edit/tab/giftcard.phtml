@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 ?>
-<div class="entry-edit">
+<div class="entry-edit" id="giftcard_info_container">
     <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card Information') ?></h4>
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Messaging and Lifetime') ?></h4>
     </div>
     <fieldset>
 
@@ -80,6 +80,7 @@
 
     <script type="text/javascript">
     //<![CDATA[
+jQuery(function(){
     function toggleDefault(v)
     {
         defaultValue = $('giftcard_' + v + '_default');
@@ -93,42 +94,34 @@
     toggleDefault('is_redeemable');
     toggleDefault('lifetime');
     toggleDefault('allow_message');
+    jQuery(function ($) {
+        $('#product_info_tabs_group_8').parent().hide();
+        $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
+            var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
+            $('#giftcard_info_container')[action]();
+        });
+        $('#allow_open_amount').on('click', function () {
+            $('#open_amount_min,#open_amount_max').prop('disabled', !$(this).is(':checked'));
+        });
 
-    /**
-     * Adding event on card type select box of product to set weight to required or not
-     */
-    function togglecardType() {
-        if ($('weight') != undefined) {
-            var weight = $('weight');
-            var span = weight.up('tr').down('td').down('label > span');
-            if ($('giftcard_type').value == '0') {
-                while(weight.hasClassName('required-entry')) {
-                    weight.removeClassName('required-entry');
-                }
-                if (span != undefined) {
-                    span.hide();
-                }
+        /**
+         * Adding event on card type select box of product to set weight to required or not
+         */
+        function togglecardType() {
+            var $weight = $('#attribute-weight-container');
+            var isVirtual = parseInt($(this).val()) == '0';
+            if ($weight.length) {
+                $weight.toggle(!isVirtual);
             }
-            else {
-                weight.addClassName('required-entry');
-                if (span != undefined) {
-                    span.show();
-                }
-            }
+
+            $.each($('.hidden-for-virtual'), function (ids, el) {
+                $(el).closest('.field').toggle(!isVirtual);
+            });
         }
-        var isVirtual = parseInt($('giftcard_type').value) == 0;
 
-        $$('.hidden-for-virtual').each(function(el){
-            if (isVirtual) {
-                el.up('tr').hide();
-            } else {
-                el.up('tr').show();
-            }
-        })
-    }
-
-    togglecardType();
-    Event.observe('giftcard_type', 'change', togglecardType);
+        $('#giftcard_type').on('change', togglecardType).change();
+    });
+});
     //]]>
     </script>
 </div>

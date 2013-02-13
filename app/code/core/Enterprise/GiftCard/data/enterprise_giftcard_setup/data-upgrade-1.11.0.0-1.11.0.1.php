@@ -33,3 +33,13 @@ $attribute = $this->getAttribute($entityTypeId, 'giftcard_type');
 if ($attribute) {
     $this->updateAttribute($entityTypeId, $attribute['attribute_id'], 'is_visible', 1);
 }
+
+$attribute = $this->getAttribute($entityTypeId, 'allow_open_amount');
+if ($attribute) {
+    $this->updateAttribute(
+        $entityTypeId,
+        $attribute['attribute_id'],
+        'frontend_input_renderer',
+        'Enterprise_GiftCard_Block_Adminhtml_Renderer_Form_Field_OpenAmount'
+    );
+}
