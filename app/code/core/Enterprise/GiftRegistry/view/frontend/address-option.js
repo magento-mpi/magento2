@@ -27,7 +27,7 @@
          * Add a 'Use gift registry shipping address' option to items on the multishipping page. Bind a change
          * handler on the quantity field of gift registry items to prevent changing the value.
          * @private
-         * @param x {Number} - Index value - Unused.
+         * @param x {Number} - Index value from $.each() - Unused.
          * @param object {Object} - JSON Object - {"item": #, "address": #}
          */
         _addAddressOption: function(x, object) {
@@ -37,15 +37,14 @@
                 if (arr[2] && parseInt(arr[2], 10) === object.item) {
                     var selectedIndices = _this.options.selectedAddressIndices,
                         selectOption = $(_this.options.addressOptionTmpl).tmpl([{
-                            text: $.mage.__('Use gift registry shipping address'),
-                            value: _this.options.addressItemPrefix + object.address
+                            _text_: $.mage.__('Use gift registry shipping address'),
+                            _value_: _this.options.addressItemPrefix + object.address
                         }]).appendTo(element);
                     if (selectedIndices.length > 0) {
                         _this._setSelected(selectOption, parseInt(arr[1], 10), selectedIndices);
                     }
-                    $(element).closest('tr').find('input[type="text"]').on('change', function(event) {
-                        var qty = $(event.target);
-                        qty.val(qty.prop('defaultValue'));
+                    $(element).closest('tr').find('input[type="text"]').on('focus', function(event) {
+                        $(event.target).blur();
                         alert($.mage.__('Changing quantity for gift registry items is not allowed during checkout. You can change item quantity on the Gift Registry Info page or directly in your shopping cart.'));
                     });
                 }
@@ -63,7 +62,7 @@
         _setSelected: function(option, index, indices) {
             for (var i = 0; i < indices.length; i++) {
                 if (indices[i] === index) {
-                    option.attr('selected', 'selected');
+                    option.prop("selected", true);
                     break;
                 }
             }
