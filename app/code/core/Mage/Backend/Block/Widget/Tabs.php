@@ -25,14 +25,6 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
     protected $_tabs = array();
 
     /**
-     * Tab groups information
-     * Keys are tab group codes, values are Varien_Object's containing information - title, data-mage-init
-     *
-     * @var array
-     */
-    protected $_tabGroups = array();
-
-    /**
      * Active tab key
      *
      * @var string
@@ -46,6 +38,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
      */
     protected $_destElementId = 'content';
 
+    /** @var string */
     protected $_template = 'Mage_Backend::widget/tabs.phtml';
 
     /**
@@ -406,28 +399,6 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
         if (isset($this->_tabs[$tabId])) {
             unset($this->_tabs[$tabId]);
         }
-        return $this;
-    }
-
-    /**
-     * Get tab groups property
-     *
-     * @return array
-     */
-    public function getTabGroups()
-    {
-        return $this->_tabGroups;
-    }
-
-    /**
-     * Set tab groups property
-     *
-     * @param array $tabGroups
-     * @return Mage_Backend_Block_Widget_Tabs
-     */
-    public function setTabGroups($tabGroups)
-    {
-        $this->_tabGroups = $tabGroups;
         return $this;
     }
 }

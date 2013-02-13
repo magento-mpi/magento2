@@ -17,25 +17,20 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    const ADVANCED_TAB_GROUP_CODE = 'advanced-settings';
-    const BASIC_TAB_GROUP_CODE = 'basic-settings';
+    const BASIC_TAB_GROUP_CODE = 'basic';
+    const ADVANCED_TAB_GROUP_CODE = 'advanced';
 
     /** @var string */
     protected $_attributeTabBlock = 'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes';
+
+    /** @var string */
+    protected $_template = 'Mage_Catalog::product/edit/tabs.phtml';
 
     protected function _construct()
     {
         parent::_construct();
         $this->setId('product_info_tabs');
         $this->setDestElementId('product-edit-form-tabs');
-        $this->setTabGroups(array(
-            self::BASIC_TAB_GROUP_CODE => new Varien_Object(array(
-                'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Basic Settings'),
-            )),
-            self::ADVANCED_TAB_GROUP_CODE => new Varien_Object(array(
-                'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Advanced Settings'),
-            )),
-        ));
     }
 
     protected function _prepareLayout()
@@ -164,18 +159,21 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
         }
 
-        $advancedActive = $this->_tabs[$this->_activeTab]->getGroupCode() == self::ADVANCED_TAB_GROUP_CODE ? 'true'
-            : 'false';
-        $this->_tabGroups[self::ADVANCED_TAB_GROUP_CODE]->setData(
-            'data-mage-init',
-            '{accordion:{active:' . $advancedActive . ',collapsible:true}}'
-        );
-
         return parent::_prepareLayout();
     }
 
     /**
-     * Retrive product object from object if not from registry
+     * Check whether active tab belong to advanced group
+     *
+     * @return bool
+     */
+    public function isAdvancedTabGroupActive()
+    {
+        return $this->_tabs[$this->_activeTab]->getGroupCode() == self::ADVANCED_TAB_GROUP_CODE;
+    }
+
+    /**
+     * Retrieve product object from object if not from registry
      *
      * @return Mage_Catalog_Model_Product
      */
