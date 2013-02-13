@@ -24,19 +24,17 @@
         <h4 class="title">Import Products to Catalog</h4>
         <ul>
             <li>
-                You can get
-                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/export'); ?>"><?php echo $this->__('CSV Format Guideline'); ?></a>
-                as a definition for data being imported
+                Create the relevant product
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/catalog_category'); ?>"><?php echo $this->__('categories'); ?></a>
+                for your products
             </li>
             <li>
-                You can
-                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/catalog_category'); ?>"><?php echo $this->__('Create Category'); ?></a>
-                to put all related products into one place
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/export'); ?>"><?php echo $this->__('Export the guideline'); ?></a>
+                for products
             </li>
             <li>
-                After completion all steps above you can
-                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/import'); ?>"><?php echo $this->__('Import CSV File'); ?></a>
-                which contains products you would like to have in your store
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/import'); ?>"><?php echo $this->__('Import the products'); ?></a>
+                to the system
             </li>
         </ul>
     </div>
