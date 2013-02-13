@@ -56,6 +56,8 @@ class Saas_PageCache_Model_RequestProcessor_Replication implements Enterprise_Pa
      * @param Zend_Controller_Response_Http $response
      * @param bool|string $content
      * @return bool|string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function extractContent(
         Zend_Controller_Request_Http $request,

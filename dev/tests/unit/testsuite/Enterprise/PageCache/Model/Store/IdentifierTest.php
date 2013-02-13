@@ -42,13 +42,13 @@ class Enterprise_PageCache_Model_Store_IdentifierTest extends PHPUnit_Framework_
 
     public function testSave()
     {
-        $id = 10;
+        $storeId = 10;
         $requestId = Enterprise_PageCache_Model_Store_Identifier::CACHE_ID . '_' . $this->_requestId;
         $tags = array('some_tags');
         $this->_fpcCacheMock->expects($this->once())
             ->method('save')
-            ->with($id, $requestId, $tags)
+            ->with($storeId, $requestId, $tags)
             ->will($this->returnValue('10'));
-        $this->_model->save($id, $this->_requestId, $tags);
+        $this->_model->save($storeId, $this->_requestId, $tags);
     }
 }

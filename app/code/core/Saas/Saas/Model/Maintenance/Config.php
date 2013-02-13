@@ -67,6 +67,6 @@ class Saas_Saas_Model_Maintenance_Config
      */
     public function getUrl()
     {
-       return $this->_getValue('url', null);
+        return $this->_getValue('url', null);
     }
 }

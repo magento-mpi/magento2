@@ -28,17 +28,17 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_subProcessorFactoryMock;
+    protected $_subProcFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_placeholderFactoryMock;
+    protected $_plcFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_containerFactoryMock;
+    protected $_cntrFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -48,7 +48,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_requestIdentifierMock;
+    protected $_requestIdtfMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -77,19 +77,19 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         );
         $this->_fpcCacheMock = $this->getMock('Enterprise_PageCache_Model_Cache', array(), array(), '', false);
 
-        $this->_subProcessorFactoryMock = $this->getMock('Enterprise_PageCache_Model_Cache_SubProcessorFactory',
+        $this->_subProcFactoryMock = $this->getMock('Enterprise_PageCache_Model_Cache_SubProcessorFactory',
             array(), array(), '', false
         );
-        $this->_placeholderFactoryMock = $this->getMock('Enterprise_PageCache_Model_Container_PlaceholderFactory',
+        $this->_plcFactoryMock = $this->getMock('Enterprise_PageCache_Model_Container_PlaceholderFactory',
             array(), array(), '', false
         );
-        $this->_containerFactoryMock = $this->getMock('Enterprise_PageCache_Model_ContainerFactory',
+        $this->_cntrFactoryMock = $this->getMock('Enterprise_PageCache_Model_ContainerFactory',
             array(), array(), '', false
         );
         $this->_environmentMock = $this->getMock('Enterprise_PageCache_Model_Environment',
             array(), array(), '', false
         );
-        $this->_requestIdentifierMock = $this->getMock('Enterprise_PageCache_Model_Request_Identifier',
+        $this->_requestIdtfMock = $this->getMock('Enterprise_PageCache_Model_Request_Identifier',
             array(), array(), '', false
         );
         $this->_designInfoMock = $this->getMock('Enterprise_PageCache_Model_DesignPackage_Info',
@@ -104,11 +104,11 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         $this->_model = new  Enterprise_PageCache_Model_Processor(
             $this->_restrictionMock,
             $this->_fpcCacheMock,
-            $this->_subProcessorFactoryMock,
-            $this->_placeholderFactoryMock,
-            $this->_containerFactoryMock,
+            $this->_subProcFactoryMock,
+            $this->_plcFactoryMock,
+            $this->_cntrFactoryMock,
             $this->_environmentMock,
-            $this->_requestIdentifierMock,
+            $this->_requestIdtfMock,
             $this->_designInfoMock,
             $this->_metadataMock,
             $this->_storeIdentifier,
@@ -118,7 +118,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
 
     public function testGetRequestId()
     {
-        $this->_requestIdentifierMock->expects($this->once())
+        $this->_requestIdtfMock->expects($this->once())
             ->method('getRequestId')->will($this->returnValue('test_id'));
 
         $this->assertEquals('test_id', $this->_model->getRequestId());
@@ -126,7 +126,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
 
     public function testGetRequestCacheId()
     {
-        $this->_requestIdentifierMock->expects($this->once())
+        $this->_requestIdtfMock->expects($this->once())
             ->method('getRequestCacheId')->will($this->returnValue('test_cache_id'));
 
         $this->assertEquals('test_cache_id', $this->_model->getRequestCacheId());
@@ -134,7 +134,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
 
     public function testisAllowed()
     {
-        $this->_requestIdentifierMock->expects($this->once())
+        $this->_requestIdtfMock->expects($this->once())
             ->method('getRequestId')->will($this->returnValue('test_id'));
 
         $this->_restrictionMock->expects($this->once())->method('isAllowed')

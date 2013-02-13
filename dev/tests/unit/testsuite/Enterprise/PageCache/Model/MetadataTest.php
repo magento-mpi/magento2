@@ -19,7 +19,7 @@ class Enterprise_PageCache_Model_MetadataTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_requestIdentifierMock;
+    protected $_requestIdtfMock;
 
     /**
      * @var Enterprise_PageCache_Model_Metadata
@@ -38,11 +38,11 @@ class Enterprise_PageCache_Model_MetadataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_fpcCacheMock = $this->getMock('Enterprise_PageCache_Model_Cache', array(), array(), '', false);
-        $this->_requestIdentifierMock = $this->getMock('Enterprise_PageCache_Model_Request_Identifier',
+        $this->_requestIdtfMock = $this->getMock('Enterprise_PageCache_Model_Request_Identifier',
             array(), array(), '', false
         );
 
-        $this->_requestIdentifierMock->expects($this->atLeastOnce())
+        $this->_requestIdtfMock->expects($this->atLeastOnce())
             ->method('getRequestCacheId')
             ->will($this->returnValue('test_id'));
 
@@ -52,7 +52,7 @@ class Enterprise_PageCache_Model_MetadataTest extends PHPUnit_Framework_TestCase
             ->with('test_id' . Enterprise_PageCache_Model_MetadataInterface::METADATA_CACHE_SUFFIX)
             ->will($this->returnValue($cache));
 
-        $this->_model = new Enterprise_PageCache_Model_Metadata($this->_fpcCacheMock, $this->_requestIdentifierMock);
+        $this->_model = new Enterprise_PageCache_Model_Metadata($this->_fpcCacheMock, $this->_requestIdtfMock);
     }
 
     public function testGetSetMetadata()
@@ -67,10 +67,10 @@ class Enterprise_PageCache_Model_MetadataTest extends PHPUnit_Framework_TestCase
     public function testSaveMetadata()
     {
         $tags = array('some_tag');
-        $id = 'test_id' . Enterprise_PageCache_Model_MetadataInterface::METADATA_CACHE_SUFFIX;
+        $cacheId = 'test_id' . Enterprise_PageCache_Model_MetadataInterface::METADATA_CACHE_SUFFIX;
         $this->_fpcCacheMock->expects($this->once())
             ->method('save')
-            ->with(serialize($this->_data), $id, $tags);
+            ->with(serialize($this->_data), $cacheId, $tags);
 
         $this->_model->saveMetadata($tags);
     }
