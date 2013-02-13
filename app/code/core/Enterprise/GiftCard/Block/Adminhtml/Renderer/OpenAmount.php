@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * HTML select element block
  *
@@ -16,7 +15,7 @@
  * @package    Enterprise_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftCard_Block_Adminhtml_Renderer_Form_Field_OpenAmount extends Varien_Data_Form_Element_Select
+class Enterprise_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Varien_Data_Form_Element_Select
 {
     /**
      * @var Varien_Data_Form_Element_Checkbox

@@ -78,7 +78,7 @@
         </table>
     </fieldset>
 
-    <script type="text/javascript">
+<script type="text/javascript">
     //<![CDATA[
 jQuery(function(){
     function toggleDefault(v)
@@ -109,13 +109,13 @@ jQuery(function(){
          */
         function togglecardType() {
             var $weight = $('#attribute-weight-container');
-            var isVirtual = parseInt($(this).val()) == '0';
+            var isVirtual = $(this).val() == '0';
             if ($weight.length) {
                 $weight.toggle(!isVirtual);
             }
 
-            $.each($('.hidden-for-virtual'), function (ids, el) {
-                $(el).closest('.field').toggle(!isVirtual);
+            $.each($('.hidden-for-virtual'), function () {
+                $(this).closest('.field').toggle(!isVirtual);
             });
         }
 
@@ -123,5 +123,5 @@ jQuery(function(){
     });
 });
     //]]>
-    </script>
+</script>
 </div>

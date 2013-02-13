@@ -40,6 +40,6 @@ if ($attribute) {
         $entityTypeId,
         $attribute['attribute_id'],
         'frontend_input_renderer',
-        'Enterprise_GiftCard_Block_Adminhtml_Renderer_Form_Field_OpenAmount'
+        'Enterprise_GiftCard_Block_Adminhtml_Renderer_OpenAmount'
     );
 }

@@ -13,7 +13,7 @@
 <layout>
     <adminhtml_catalog_product_giftcard>
         <reference name="product-type-tabs">
-            <block type="Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard" template="Enterprise_GiftCard::catalog/product/edit/tab/giftcard.phtml"></block>
+            <block type="Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard"></block>
         </reference>
     </adminhtml_catalog_product_giftcard>
 
