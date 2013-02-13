@@ -709,12 +709,18 @@ class Enterprise_PageCache_Model_Observer
      * Invalidate design changes cache when design change was added/deleted
      *
      * @param Varien_Event_Observer $observer
+     * @return Enterprise_PageCache_Model_Observer
      */
     public function invalidateDesignChange(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
         /** @var $design Mage_Core_Model_Design */
         $design = $observer->getEvent()->getObject();
         $cacheId = $this->_designRules->getCacheId($design->getStoreId());
         $this->_fpcCache->remove($cacheId);
+
+        return $this;
     }
 }
