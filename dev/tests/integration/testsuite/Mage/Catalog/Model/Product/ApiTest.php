@@ -362,25 +362,79 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test product creation.
+     *
+     * @magentoDbIsolation enabled
      */
     public function testCreate()
     {
-        $this->markTestSkipped('Not implemented');
+        $data = require dirname(__FILE__) . '/API/_files/ProductData.php';
+
+        $productId = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductCreate',
+            $data['create']
+        );
+
+        $this->assertGreaterThan(0, $productId);
     }
 
     /**
      * Test setting special price.
+     *
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testSetSpecialPrice()
     {
-        $this->markTestSkipped('Not implemented');
+        $this->markTestSkipped('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load(1);
+        $newPrice = 10.1;
+        $originalPrice = $product->getPrice();
+        $productData = array('price' => $newPrice);
+        $updatedProduct = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductUpdate',
+            array($product->getId(), $productData)
+        );
+        $this->assertTrue($updatedProduct, 'Product was not updated');
+
+        $product->load(1);
+        $this->assertEquals($originalPrice, $product->getPrice(), 'Price was not updated');
     }
 
     /**
      * Test updating product information.
+     *
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testUpdate()
     {
-        $this->markTestSkipped('Not implemented');
+        $this->markTestSkipped('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
+        $newData = array(
+            'name'              => 'New Name',
+            'description'       => 'New Description',
+            'short_description' => 'New short description',
+            'weight'            => 2,
+            'price'             => 13.13,
+        );
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product->load(1);
+
+        $originalData = $product->getData();
+
+        $updatedProduct = Magento_Test_Helper_Api::call(
+            $this,
+            'catalogProductUpdate',
+            array($product->getId(), $newData)
+        );
+        $this->assertTrue($updatedProduct, 'Product was not updated');
+        $product->load(1);
+
+        $updatedProductData = $product->getData();
+        $this->assertNotEquals($originalData, $updatedProductData, 'Product was not updated');
+
     }
 }
