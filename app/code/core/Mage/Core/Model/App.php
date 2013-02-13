@@ -518,6 +518,9 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function getResponse()
     {
+        if (!$this->_response) {
+            $this->_response = $this->_objectManager->get('Mage_Core_Controller_Response_Http');
+        }
         return $this->_response;
     }
 
