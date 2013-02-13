@@ -70,8 +70,8 @@ $attributesOrder = array(
     //Autosettings tab
     'url_key' => array($autosettingsTabName => 10),
     'visibility' => array($autosettingsTabName => 20, 'is_required' => 0),
-    'news_to_date' => array($autosettingsTabName => 30),
-    'news_from_date' => array($autosettingsTabName => 40),
+    'news_from_date' => array($autosettingsTabName => 30),
+    'news_to_date' => array($autosettingsTabName => 40),
     'country_of_manufacture' => array($autosettingsTabName => 50)
 );
 
