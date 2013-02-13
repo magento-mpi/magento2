@@ -18,22 +18,32 @@ $autosettingsTabName = 'Autosettings';
 $tabNames = array(
     'General' => array(
         'attribute_group_name' => $newGeneralTabName,
-        'sort_order' => 10
+        'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newGeneralTabName)),
+        'tab_group_code' => 'basic',
+        'sort_order' => 10,
     ),
     'Images' => array(
         'attribute_group_name' => $newImagesTabName,
-        'sort_order' => 20
+        'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newImagesTabName)),
+        'tab_group_code' => 'basic',
+        'sort_order' => 20,
     ),
     'Meta Information' => array(
         'attribute_group_name' => $newMetaTabName,
-        'sort_order' => 30
+        'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newMetaTabName)),
+        'tab_group_code' => 'basic',
+        'sort_order' => 30,
     ),
     'Prices' => array(
         'attribute_group_name' => $newPriceTabName,
-        'sort_order' => 40
+        'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newPriceTabName)),
+        'tab_group_code' => 'advanced',
+        'sort_order' => 40,
     ),
     'Design' => array(
-        'sort_order' => 50
+        'attribute_group_code' => 'design',
+        'tab_group_code' => 'advanced',
+        'sort_order' => 50,
     )
 );
 
@@ -52,6 +62,8 @@ foreach ($tabNames as $tabName => $tab) {
 
 //Add new tab
 $this->addAttributeGroup($entityTypeId, $attributeSetId, $autosettingsTabName, 60);
+$this->updateAttributeGroup($entityTypeId, $attributeSetId, 'Autosettings', 'attribute_group_code', 'autosettings');
+$this->updateAttributeGroup($entityTypeId, $attributeSetId, 'Autosettings', 'tab_group_code', 'advanced');
 
 //New attributes order and properties
 $properties = array('is_required', 'default_value');
