@@ -28,6 +28,11 @@
             <preference>
                 <Enterprise_PageCache_Model_Processor_RestrictionInterface>Enterprise_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
             </preference>
+            <Enterprise_PageCache_Model_Processor>
+                <parameters>
+                    <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
+                </parameters>
+            </Enterprise_PageCache_Model_Processor>
             <Magento_Http_Handler_Composite>
                 <parameters>
                     <handlers>

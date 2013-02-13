@@ -100,16 +100,19 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     protected $_metadata;
 
     /**
-     * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
-     * @param Enterprise_PageCache_Model_Cache $fpcCache
-     * @param Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
-     * @param Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory
-     * @param Enterprise_PageCache_Model_ContainerFactory $containerFactory
-     * @param Enterprise_PageCache_Model_Environment $environment
-     * @param Enterprise_PageCache_Model_Request_Identifier $requestIdentifier
-     * @param Enterprise_PageCache_Model_DesignPackage_Info $designInfo
-     * @param Enterprise_PageCache_Model_Metadata $metadata
+     * Store id identifier model
+     *
+     * @var Enterprise_PageCache_Model_Store_Identifier
      */
+    protected $_storeIdentifier;
+
+    /**
+     * Store manager model
+     *
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
     public function __construct(
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
         Enterprise_PageCache_Model_Cache $fpcCache,
@@ -119,7 +122,9 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         Enterprise_PageCache_Model_Environment $environment,
         Enterprise_PageCache_Model_Request_Identifier $requestIdentifier,
         Enterprise_PageCache_Model_DesignPackage_Info $designInfo,
-        Enterprise_PageCache_Model_Metadata $metadata
+        Enterprise_PageCache_Model_Metadata $metadata,
+        Enterprise_PageCache_Model_Store_Identifier $storeIdentifier,
+        Mage_Core_Model_StoreManager $storeManager
     ) {
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
@@ -130,6 +135,8 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         $this->_designInfo = $designInfo;
         $this->_requestIdentifier = $requestIdentifier;
         $this->_metadata = $metadata;
+        $this->_storeIdentifier = $storeIdentifier;
+        $this->_storeManager = $storeManager;
         $this->_requestTags = array(self::CACHE_TAG);
     }
 
@@ -452,14 +459,8 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
                     $this->getRequestTags()
                 );
 
-                /** @var $storeIdentifier Enterprise_PageCache_Model_Store_Identifier */
-                $storeIdentifier = Mage::getSingleton('Enterprise_PageCache_Model_Store_Identifier');
-
-                /** @var $storeManager Mage_Core_Model_StoreManager */
-                $storeManager = Mage::getSingleton('Mage_Core_Model_StoreManager');
-
-                $storeIdentifier->save(
-                    $storeManager->getStore()->getId(),
+                $this->_storeIdentifier->save(
+                    $this->_storeManager->getStore()->getId(),
                     $this->_requestIdentifier->getStoreCacheId(),
                     $this->getRequestTags()
                 );

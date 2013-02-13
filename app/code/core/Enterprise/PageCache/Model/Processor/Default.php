@@ -46,7 +46,9 @@ class Enterprise_PageCache_Model_Processor_Default implements Enterprise_PageCac
      * Replace block content to placeholder replacer
      *
      * @param string $content
+     *
      * @return string
+     * @throws Exception
      */
     public function replaceContentToPlaceholderReplacer($content)
     {

@@ -2,15 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
 class Enterprise_PageCache_Model_Store_Identifier
 {
     const CACHE_ID = 'current_store_id_cache';
+
     /**
+     * FPC cache model
+     *
      * @var Enterprise_PageCache_Model_Cache
      */
     protected $_fpcCache;
@@ -24,7 +25,10 @@ class Enterprise_PageCache_Model_Store_Identifier
     }
 
     /**
-     * Get current store
+     * Get store id
+     *
+     * @param string $requestId
+     * @return int
      */
     public function getStoreId($requestId)
     {
@@ -33,6 +37,10 @@ class Enterprise_PageCache_Model_Store_Identifier
 
     /**
      * Save page store
+     *
+     * @param int $id
+     * @param string $requestId
+     * @param array $tags
      */
     public function save($id, $requestId, array $tags)
     {

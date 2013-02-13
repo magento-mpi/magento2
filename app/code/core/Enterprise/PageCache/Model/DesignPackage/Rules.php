@@ -7,6 +7,9 @@
  */
 class Enterprise_PageCache_Model_DesignPackage_Rules
 {
+    /**
+     * Design change cache suffix
+     */
     const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
 
     /**
@@ -62,12 +65,15 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
 
     /**
      * Get package name based on design exception rules and design change schedules
+     *
+     * @param int $storeId
+     * @return string
      */
     public function getPackageName($storeId)
     {
-        $exceptions = $this->_fpcCache->load(Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY);
-
         Magento_Profiler::start('process_design_change');
+
+        $exceptions = $this->_fpcCache->load(Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY);
 
         $date = date('Y-m-d');
 

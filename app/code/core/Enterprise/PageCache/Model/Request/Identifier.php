@@ -61,16 +61,11 @@ class Enterprise_PageCache_Model_Request_Identifier
     protected $_storeIdentifier;
 
     /**
+     * Store id cache key
+     *
      * @var string
      */
     protected $_storeKeyCacheKey;
-
-    /**
-     * Disable cache for url with next GET params
-     *
-     * @var array
-     */
-    protected $_noCacheGetParams = array('___store', '___from_store');
 
     /**
      * @param string $scopeCode
@@ -91,24 +86,7 @@ class Enterprise_PageCache_Model_Request_Identifier
         $this->_environment = $environment;
         $this->_designInfo = $designInfo;
         $this->_storeIdentifier = $storeIdentifier;
-        if ($this->allowCache()) {
-            $this->_createRequestIds();
-        }
-    }
-
-    /**
-     * Check if request could be cached
-     *
-     * @return bool
-     */
-    public function allowCache()
-    {
-        foreach ($this->_noCacheGetParams as $param) {
-            if ($this->_environment->hasQuery($param)) {
-                return false;
-            }
-        }
-        return true;
+        $this->_createRequestIds();
     }
 
     /**
@@ -145,7 +123,7 @@ class Enterprise_PageCache_Model_Request_Identifier
     }
 
     /**
-     * Populate request ids
+     * Initialize request ids
      */
     protected function _createRequestIds()
     {
@@ -175,7 +153,7 @@ class Enterprise_PageCache_Model_Request_Identifier
                 }
             }
 
-            $this->_generateStoreCacheId($uriParts);
+            $this->_initializeStoreCacheId($uriParts);
 
             $storeId = $this->_storeIdentifier->getStoreId($this->getStoreCacheId());
             $designPackage = $this->_designInfo->getPackageName($storeId);
@@ -198,14 +176,20 @@ class Enterprise_PageCache_Model_Request_Identifier
         return $this->_requestCacheId;
     }
 
-    protected function _generateStoreCacheId(array $uriParts)
+    /**
+     * Initialize store cache id
+     *
+     * @param array $uriParts
+     */
+    protected function _initializeStoreCacheId(array $uriParts)
     {
-
         $id = implode('_', $uriParts);
         $this->_storeKeyCacheKey = md5($id);
     }
 
     /**
+     * Get store cache id
+     *
      * @return string
      */
     public function getStoreCacheId()
