@@ -17,17 +17,6 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
         $this->_filesystemHelper = new Magento_Test_Helper_FileSystem($this);
     }
 
-    public function testGetWritableDirCodes()
-    {
-        $codes = Mage_Core_Model_Dir::getWritableDirCodes();
-        $this->assertInternalType('array', $codes);
-        $this->assertNotEmpty($codes);
-        $dir = $this->_filesystemHelper->createDirInstance(__DIR__);
-        foreach ($codes as $code) {
-            $this->assertNotEmpty($dir->getDir($code));
-        }
-    }
-
     /**
      * @param string $code
      * @param string $value

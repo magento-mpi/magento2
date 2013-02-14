@@ -163,21 +163,11 @@ class Mage_Core_Model_Dir
     private $_dirs = array();
 
     /**
-     * Codes of directories, validation of which have been already performed
+     * Directory paths, validation of which have been already performed
      *
      * @var array
      */
-    private $_validatedDirCodes = array();
-
-    /**
-     * Retrieve the list of directories that application requires to be writable in order to operate
-     *
-     * @return array
-     */
-    public static function getWritableDirCodes()
-    {
-        return self::$_writableDirCodes;
-    }
+    private $_validatedDirs = array();
 
     /**
      * Initialize URIs and paths
@@ -215,17 +205,21 @@ class Mage_Core_Model_Dir
     }
 
     /**
-     * Validate directory path value corresponding to the directory code, if applicable
+     * Validate directory path value corresponding to the directory code
      *
      * @param string $code
+     * @param string $path
      */
-    protected function _validateDir($code)
+    protected function _validateDir($code, $path)
     {
-        if (in_array($code, self::$_writableDirCodes) && !in_array($code, $this->_validatedDirCodes)) {
-            $this->_validatedDirCodes[] = $code;
-            $path = $this->getDir($code);
+        // successful validation is to be performed only once for performance considerations
+        if (isset($this->_validatedDirs[$path])) {
+            return;
+        }
+        if (in_array($code, self::$_writableDirCodes)) {
             $this->_ensureDirWritable($path);
         }
+        $this->_validatedDirs[$path] = true;
     }
 
     /**
@@ -290,8 +284,12 @@ class Mage_Core_Model_Dir
      */
     public function getDir($code)
     {
-        $this->_validateDir($code);
-        return isset($this->_dirs[$code]) ? $this->_dirs[$code] : false;
+        if (isset($this->_dirs[$code])) {
+            $path = $this->_dirs[$code];
+            $this->_validateDir($code, $path);
+            return $path;
+        }
+        return false;
     }
 
     /**

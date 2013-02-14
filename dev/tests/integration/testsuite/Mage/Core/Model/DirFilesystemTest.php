@@ -142,10 +142,13 @@ class Mage_Core_Model_DirFilesystemTest extends PHPUnit_Framework_TestCase
 
     public function writableDirCodeDataProvider()
     {
-        $result = array();
-        foreach (Mage_Core_Model_Dir::getWritableDirCodes() as $dirCode) {
-            $result[$dirCode] = array($dirCode);
-        }
-        return $result;
+        return array(
+            Mage_Core_Model_Dir::MEDIA      => array(Mage_Core_Model_Dir::MEDIA),
+            Mage_Core_Model_Dir::VAR_DIR    => array(Mage_Core_Model_Dir::VAR_DIR),
+            Mage_Core_Model_Dir::TMP        => array(Mage_Core_Model_Dir::TMP),
+            Mage_Core_Model_Dir::CACHE      => array(Mage_Core_Model_Dir::CACHE),
+            Mage_Core_Model_Dir::LOG        => array(Mage_Core_Model_Dir::LOG),
+            Mage_Core_Model_Dir::SESSION    => array(Mage_Core_Model_Dir::SESSION),
+        );
     }
 }
