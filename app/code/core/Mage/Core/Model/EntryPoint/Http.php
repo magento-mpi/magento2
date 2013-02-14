@@ -12,7 +12,7 @@ class Mage_Core_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
     /**
      * Run http application
      */
-    protected function _processRequest()
+    public function processRequest()
     {
         try {
             $request = $this->_objectManager->get('Mage_Core_Controller_Request_Http');

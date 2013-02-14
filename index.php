@@ -17,5 +17,8 @@
  * @license    {license_link}
  */
 require __DIR__ . '/app/bootstrap.php';
+
+Magento_Profiler::start('mage');
 $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $_SERVER);
 $entryPoint->processRequest();
+Magento_Profiler::stop('mage');

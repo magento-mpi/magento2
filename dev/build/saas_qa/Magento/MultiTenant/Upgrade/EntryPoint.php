@@ -14,7 +14,7 @@ class EntryPoint extends \Mage_Core_Model_EntryPointAbstract
     /**
      * Apply scheme updates
      */
-    protected function _processRequest()
+    public function processRequest()
     {
         /** @var $appState \Mage_Core_Model_App_State */
         $appState = $this->_objectManager->get('Mage_Core_Model_App_State');
