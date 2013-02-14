@@ -12,8 +12,10 @@
     "use strict";
     $.widget('mage.overview', {
         options: {
+            opacity: 0.5, // CSS opacity for the 'Place Order' button when it's clicked and then disabled.
             pleaseWaitLoader: '#review-please-wait', // 'Submitting order information...' Ajax loader.
-            placeOrderSubmit: '#review-buttons-container button[type="submit"]' // The 'Place Order' button.
+            placeOrderSubmit: '#review-buttons-container button[type="submit"]', // The 'Place Order' button.
+            agreements: '#checkout-agreements' // Container for all of the checkout billing agreements.
         },
 
         /**
@@ -31,12 +33,12 @@
          * @private
          */
         _showLoader: function() {
-            if ($('#checkout-arguments input').filter(':not(:checked)').length > 0) {
+            if ($(this.options.agreements).find('input[type="checkbox"]').filter(':not(:checked)').length > 0) {
                 alert($.mage.__('Please agree to all Terms and Conditions before placing the orders.'));
                 return false;
             }
             $(this.options.pleaseWaitLoader).show();
-            $(this.options.placeOrderSubmit).prop('disabled', true).css('opacity', 0.5);
+            $(this.options.placeOrderSubmit).prop('disabled', true).css('opacity', this.options.opacity);
             return true;
         }
     });
