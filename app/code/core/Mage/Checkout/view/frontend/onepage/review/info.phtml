@@ -61,8 +61,15 @@
         </span>
     </div>
     <script type="text/javascript">
-    //<![CDATA[
-        review = new Review('<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>', '<?php echo $this->getUrl('checkout/onepage/success') ?>', $('checkout-agreements'));
-    //]]>
+    (function($) {
+        head.js(
+            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/review.js') ?>",
+            function() {
+                $('[role="review-save"]').review({
+                    saveMethodUrl:'<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
+                    successUrl:'<?php echo $this->getUrl('checkout/onepage/success') ?>'
+                });
+            });
+    })(jQuery);
     </script>
 </div>
