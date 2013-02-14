@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 /*jshint jquery:true browser:true*/
+/*global alert*/
 (function($) {
     'use strict';
     $.widget('mage.review', {
@@ -69,7 +70,7 @@
             }
 
             if (response.goto_section) {
-                $(this.options.containerSelector).trigger('enableSection', {selector: 'opc' + response.goto_section})
+                $(this.options.containerSelector).trigger('enableSection', {selector: 'opc' + response.goto_section});
             }
         }
     });
