@@ -1,21 +1,23 @@
 <?php
 /**
- * Multi-tenant database scheme updater entry point
+ * Entry point for upgrading application
  *
  * {license_notice}
  *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-namespace Magento\MultiTenant\Upgrade;
-
-class EntryPoint extends \Mage_Core_Model_EntryPointAbstract
+class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAbstract
 {
     /**
      * Apply scheme & data updates
      */
     protected function _processRequest()
     {
+        /** @var $cache Mage_Core_Model_Cache */
+        $cache = $this->_objectManager->get('Mage_Core_Model_Cache');
+        $cache->flush();
+
         /** @var $appState \Mage_Core_Model_App_State */
         $appState = $this->_objectManager->get('Mage_Core_Model_App_State');
         $appState->setIsDeveloperMode(true);

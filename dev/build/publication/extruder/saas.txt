@@ -2,7 +2,7 @@
 # See also common.txt and dev_build.txt for items that are not part of any edition
 #
 saas
-saas.php
+saas_infrastructure
 saas_robots.txt
 app/code/core/Saas
 app/etc/modules/XSaas_Enabler.xml.dist

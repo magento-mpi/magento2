@@ -9,53 +9,89 @@
  */
 
 /**
- * Tenant model
- *
- * @category   Saas
- * @package    Saas
+ * Configurator of application initialization parameters with context of a tenant
  */
-class Saas_Saas_Model_Tenant
+class Saas_Saas_Model_Tenant_Config
 {
     /**
-     * Config model
-     *
+     * @var string
+     */
+    private $_rootDir;
+
+    /**
      * @var Varien_Simplexml_Config
      */
-    protected $_config;
+    private $_config;
 
     /**
      * Configuration array, taken from external configuration storage (legacy format)
      *
      * @var array
      */
-    protected $_configArray = array();
+    private $_configArray = array();
 
     /**
-     * Tenant's media dir. Relative path inside media folder
+     * Name of media directory relatively to root
      *
      * @var string
      */
-    protected $_mediaDir;
+    private $_mediaDir;
 
     /**
      * Constructor
      *
-     * @param array $configArray
+     * @param string $rootDir
+     * @param array $tenantData
+     * @throws LogicException
      */
-    public function __construct(array $configArray)
+    public function __construct($rootDir, array $tenantData)
     {
-        $this->_configArray = $configArray;
+        $this->_rootDir = $rootDir;
+        if (!array_key_exists('tenantConfiguration', $tenantData)) {
+            throw new LogicException('Missing key "tenantConfiguration"');
+        }
+        $this->_configArray = $tenantData['tenantConfiguration'];
         $this->_config = $this->_mergeConfig(array($this->_getLocalConfig(), $this->_getModulesConfig()));
+        $dirName = (string)$this->_config->getNode('global/web/dir/media');
+        if (!$dirName) {
+            throw new LogicException('Media directory name is not set');
+        }
+        $this->_mediaDir = "media/{$dirName}";
     }
 
     /**
-     * Get merged configuration as one xml string
+     * Get a file in context of tenant media directory
      *
+     * @param string $fileName
      * @return string
+     * @throws InvalidArgumentException
      */
-    public function getConfigString()
+    public function getMediaDirFile($fileName)
     {
-        return $this->_config->getXmlString();
+        if (!$fileName) {
+            throw new InvalidArgumentException('File name cannot be empty');
+        }
+        return "{$this->_rootDir}/{$this->_mediaDir}/{$fileName}";
+    }
+
+    /**
+     * Get initialization parameters for application with context of tenant data
+     *
+     * @return array
+     */
+    public function getApplicationParams()
+    {
+        $varDirWorkaround = $this->_config->getNode('global/web/dir/media');
+        return array(
+            Mage::PARAM_APP_DIRS => array(
+                Mage_Core_Model_Dir::MEDIA => "{$this->_rootDir}/{$this->_mediaDir}",
+                Mage_Core_Model_Dir::VAR_DIR => "{$this->_rootDir}/var/{$varDirWorkaround}",
+            ),
+            Mage::PARAM_APP_URIS => array(
+                Mage_Core_Model_Dir::MEDIA => $this->_mediaDir,
+            ),
+            Mage::PARAM_CUSTOM_LOCAL_CONFIG => $this->_config->getXmlString(),
+        );
     }
 
     /**
@@ -175,32 +211,4 @@ class Saas_Saas_Model_Tenant
         }
         return $nodeModules;
     }
-
-    /**
-     * Get relative tenant's media dir
-     *
-     * @return string
-     * @throws LogicException
-     */
-    public function getMediaDir()
-    {
-        if (is_null($this->_mediaDir)) {
-            $this->_mediaDir = (string)$this->_config->getNode('global/web/dir/media');
-            if (!$this->_mediaDir) {
-                throw new LogicException('Media dir is not set');
-            }
-        }
-        return $this->_mediaDir;
-    }
-
-    /**
-     * Get relative tenant's var dir
-     *
-     * @return string
-     */
-    public function getVarDir()
-    {
-        return $this->getMediaDir();
-    }
-
 }
