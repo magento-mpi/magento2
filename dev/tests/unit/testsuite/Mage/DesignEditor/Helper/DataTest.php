@@ -51,6 +51,16 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_translatorMock;
+
+    protected function setUp()
+    {
+        $this->_translatorMock = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
+    }
+
     protected function tearDown()
     {
         unset($this->_model);
@@ -66,7 +76,7 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with(Mage_DesignEditor_Helper_Data::XML_PATH_FRONT_NAME)
             ->will($this->returnValue($frontNameNode));
 
-        $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_translatorMock, $configurationMock);
         $this->assertEquals(self::TEST_FRONT_NAME, $this->_model->getFrontName());
     }
 
@@ -80,7 +90,7 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with(Mage_DesignEditor_Helper_Data::XML_PATH_DEFAULT_HANDLE)
             ->will($this->returnValue($defaultHandleNode));
 
-        $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_translatorMock, $configurationMock);
         $this->assertEquals(self::TEST_DEFAULT_HANDLE, $this->_model->getDefaultHandle());
     }
 
@@ -94,7 +104,7 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with(Mage_DesignEditor_Helper_Data::XML_PATH_DISABLED_CACHE_TYPES)
             ->will($this->returnValue($cacheTypesNode));
 
-        $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_translatorMock, $configurationMock);
         $this->assertEquals($this->_disabledCacheTypes, $this->_model->getDisabledCacheTypes());
     }
 
@@ -119,7 +129,7 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with($xmlPath)
             ->will($this->returnValue($blockDataNode));
 
-        $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_translatorMock, $configurationMock);
         $this->assertEquals($this->_elementData, $this->_model->$method());
     }
 
@@ -156,7 +166,7 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with(Mage_DesignEditor_Helper_Data::XML_PATH_DAYS_TO_EXPIRE)
             ->will($this->returnValue($frontNameNode));
 
-        $this->_model = new Mage_DesignEditor_Helper_Data($configurationMock);
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_translatorMock, $configurationMock);
         $this->assertEquals(self::TEST_DATE_TO_EXPIRE, $this->_model->getDaysToExpire());
     }
 }

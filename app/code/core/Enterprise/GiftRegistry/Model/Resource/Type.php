@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_Model_Resource_Type extends Mage_Core_Model_Resour
             $adapter->quote('default'),
             $adapter->quote('store')
         );
-        $storeIds       = array(Mage_Core_Model_App::ADMIN_STORE_ID);
+        $storeIds       = array(Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
         if ($object->getStoreId()) {
             $storeIds[] = (int)$object->getStoreId();
         }

@@ -389,12 +389,13 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Product image url getter
      *
-     * @param Mage_Core_Model_Product $product
+     * @param Mage_Catalog_Model_Product $product
      * @return string
      */
     public function getImageUrl($product)
     {
-        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')->resize($this->getImageSize());
+        return (string)$this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')
+            ->resize($this->getImageSize());
     }
 
     /**

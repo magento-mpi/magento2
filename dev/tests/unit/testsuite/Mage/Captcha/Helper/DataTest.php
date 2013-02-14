@@ -17,26 +17,13 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     const FONT_FIXTURE = '<fonts><font_code><label>Label</label><path>path/to/fixture.ttf</path></font_code></fonts>';
 
     /**
-     * Temp dir to act as media dir for the test
-     *
-     * @var string
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_mediaDir;
+    protected $_dirMock;
 
     protected function setUp()
     {
-        $this->_mediaDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'media';
-        if (!is_dir($this->_mediaDir)) {
-            mkdir($this->_mediaDir, 0777);
-        }
-    }
-
-    protected function tearDown()
-    {
-        if (is_dir($this->_mediaDir)) {
-            $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-            $filesystem->delete($this->_mediaDir);
-        }
+        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
     }
 
     /**
@@ -63,13 +50,12 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $adapterMock->expects($this->any())
             ->method('isDirectory')
             ->will($this->returnValue(true));
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
 
-        $customPaths = array(
-            Mage_Core_Model_Dir::MEDIA => $this->_mediaDir
-        );
-        $dirs = new Mage_Core_Model_Dir(TESTS_TEMP_DIR, array(), $customPaths);
-        return new Mage_Captcha_Helper_Data($dirs, $app, $config, $filesystem);
+        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+
+        $translator = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
+
+        return new Mage_Captcha_Helper_Data($this->_dirMock, $app, $config, $filesystem, $translator);
     }
 
     /**
@@ -118,6 +104,11 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetFonts()
     {
+        $this->_dirMock->expects($this->once())
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::LIB)
+            ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
+
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub());
         $fonts = $object->getFonts();
         $this->assertArrayHasKey('font_code', $fonts); // fixture
@@ -134,11 +125,15 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetImgDir()
     {
+        $this->_dirMock->expects($this->once())
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::MEDIA)
+            ->will($this->returnValue(TESTS_TEMP_DIR . '/media'));
+
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub());
         $this->assertFileNotExists(TESTS_TEMP_DIR . '/captcha');
         $result = $object->getImgDir();
         $result = str_replace('/', DIRECTORY_SEPARATOR, $result);
-        $this->assertFileExists($result);
         $this->assertStringStartsWith(TESTS_TEMP_DIR, $result);
         $this->assertStringEndsWith('captcha' . DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR, $result);
     }

@@ -19,7 +19,7 @@
 class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
+     * Preconditions:
      */
     protected function assertPreConditions()
     {
@@ -29,7 +29,7 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Move Root Category to Root category.</p>
+     * Move Root Category to Root category.
      *
      * @test
      * @TestlinkId TL-MAGE-3173
@@ -54,7 +54,7 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Move Root with Sub Category to Root category.</p>
+     * Move Root with Sub Category to Root category.
      *
      * @test
      * @TestlinkId TL-MAGE-3174
@@ -80,7 +80,7 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Move Sub Category to Sub category.</p>
+     * Move Sub Category to Sub category.
      *
      * @test
      * @TestlinkId TL-MAGE-3175
@@ -109,7 +109,7 @@ class Core_Mage_Category_MoveTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Move Root Category assigned to store to Root category.</p>
+     * Move Root Category assigned to store to Root category.
      *
      * @test
      * @TestlinkId TL-MAGE-3172

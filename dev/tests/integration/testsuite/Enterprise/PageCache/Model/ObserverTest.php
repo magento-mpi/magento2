@@ -12,12 +12,12 @@
 class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_PageCache_Model_Observer|PHPUnit_Framework_MockObject_MockObject
+     * @var Enterprise_PageCache_Model_Observer
      */
     protected $_observer;
 
     /**
-     * @var Enterprise_PageCache_Model_Cookie|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cookie;
 
@@ -25,14 +25,16 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getCacheInstance()->allowUse('full_page');
         $this->_cookie = $this->getMock(
-            'Enterprise_PageCache_Model_Cookie', array('set', 'delete', 'updateCustomerCookies')
+            'Enterprise_PageCache_Model_Cookie',
+            array('set', 'delete', 'updateCustomerCookies'),
+            array(),
+            '',
+            false,
+            false
         );
-        $this->_observer = $this->getMock('Enterprise_PageCache_Model_Observer', array('_getCookie'));
-        $this->_observer
-            ->expects($this->any())
-            ->method('_getCookie')
-            ->will($this->returnValue($this->_cookie))
-        ;
+
+        $this->_observer = Mage::getObjectManager()
+            ->create('Enterprise_PageCache_Model_Observer', array('cookie' => $this->_cookie));
     }
 
     protected function tearDown()
@@ -44,23 +46,30 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testProcessPreDispatchCanProcessRequest()
     {
         $request = new Magento_Test_Request();
+        $response = new Magento_Test_Response();
+
         $request->setRouteName('catalog');
         $request->setControllerName('product');
         $request->setActionName('view');
+
         $observerData = new Varien_Event_Observer();
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => new Magento_Test_Response(), 'areaCode' => 'adminhtml')
+                array('request' => $request, 'response' => $response)
             )
         )));
-        $this->_cookie
-            ->expects($this->once())
-            ->method('updateCustomerCookies');
+
+        $this->_cookie->expects($this->once())->method('updateCustomerCookies');
 
         Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
-        Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
+
+        /** @var $session Mage_Catalog_Model_Session */
+        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
+        $session->setParamsMemorizeDisabled(false);
+
         $this->_observer->processPreDispatch($observerData);
+
         $this->assertFalse(Mage::app()->useCache(Mage_Core_Block_Abstract::CACHE_GROUP));
         $this->assertTrue(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
@@ -73,7 +82,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => new Magento_Test_Response(), 'areaCode' => 'adminhtml')
+                array('request' => $request, 'response' => new Magento_Test_Response())
             )
         )));
         $this->_cookie

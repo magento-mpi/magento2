@@ -57,6 +57,9 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInGrouped()
     {
+        if ($this->getBrowser() == 'chrome') {
+            $this->markTestIncomplete('MAGETWO-7272');
+        }
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product');
         $productSearch =
@@ -322,9 +325,9 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Data
         $groupedData =
             $this->loadDataSet('Product', 'grouped_product_required', array('associated_search_sku' => $simpleSku));
-        $groupedData['associated_grouped_data']['associated_grouped_2'] =
+        $groupedData['general_grouped_data']['associated_grouped_2'] =
             $this->loadDataSet('Product', 'associated_grouped', array('associated_search_sku' => $virtualSku));
-        $groupedData['associated_grouped_data']['associated_grouped_3'] =
+        $groupedData['general_grouped_data']['associated_grouped_3'] =
             $this->loadDataSet('Product', 'associated_grouped', array('associated_search_sku' => $downloadableSku));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $groupedData['general_sku']));

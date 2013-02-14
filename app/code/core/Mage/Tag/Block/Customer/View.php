@@ -145,7 +145,7 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
     /**
      * Product image url getter
      *
-     * @param Mage_Core_Model_Product $product
+     * @param Mage_Catalog_Model_Product $product
      * @return string
      */
     public function getImageUrl($product)

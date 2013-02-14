@@ -70,7 +70,8 @@ class Enterprise_PageCache_Model_Container_Banner
         if (!$lifetime) {
             $lifetime = false;
         }
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $id, $tags, $lifetime);
+
+        $this->_fpcCache->save($data, $id, $tags, $lifetime);
         return $this;
     }
 

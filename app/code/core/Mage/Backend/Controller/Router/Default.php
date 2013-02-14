@@ -33,6 +33,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_App $app
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
@@ -40,10 +41,11 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     public function __construct(
         Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
+        Mage_Core_Model_App $app,
         $areaCode,
         $baseController
     ) {
-        parent::__construct($controllerFactory, $filesystem, $areaCode, $baseController);
+        parent::__construct($controllerFactory, $filesystem, $app, $areaCode, $baseController);
 
         $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
         if (empty($this->_areaFrontName)) {
@@ -137,7 +139,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     protected function _shouldBeSecure($path)
     {
         return substr((string)Mage::getConfig()->getNode('default/web/unsecure/base_url'), 0, 5) === 'https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_App::ADMIN_STORE_ID)
+            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
                 && substr((string)Mage::getConfig()->getNode('default/web/secure/base_url'), 0, 5) === 'https';
     }
 
@@ -149,7 +151,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     protected function _getCurrentSecureUrl($request)
     {
-        return Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID)
+        return Mage::app()->getStore(Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
     }
 

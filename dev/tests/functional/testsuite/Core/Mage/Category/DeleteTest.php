@@ -19,7 +19,7 @@
 class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
+     * Preconditions:
      */
     protected function assertPreConditions()
     {
@@ -29,7 +29,7 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Deleting Root Category</p>
+     * Deleting Root Category
      *
      * @test
      * @TestlinkId TL-MAGE-3167
@@ -50,7 +50,7 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Deleting  Subcategory</p>
+     * Deleting  Subcategory
      *
      * @test
      * @TestlinkId TL-MAGE-3170
@@ -71,7 +71,7 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Deleting Root Category that assigned to store</p>
+     * Deleting Root Category that assigned to store
      *
      * @test
      * @TestlinkId TL-MAGE-3171
@@ -104,7 +104,7 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Deleting Root Category with Subcategory</p>
+     * Deleting Root Category with Subcategory
      *
      * @test
      * @TestlinkId TL-MAGE-3168
@@ -131,7 +131,7 @@ class Core_Mage_Category_DeleteTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Deleting Root Category with Subcategory</p>
+     * Deleting Root Category with Subcategory
      *
      * @test
      * @TestlinkId TL-MAGE-3169

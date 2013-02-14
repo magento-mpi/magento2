@@ -213,10 +213,9 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($nonexistentCategory);
-        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result');
+        $resultElement = $this->waitForControl(self::UIMAP_TYPE_FIELDSET, 'category_search');
         //Verifying
-        $this->assertEquals('No search results.',
-            $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'category_search_result', 'text'),
+        $this->assertCount(0, $this->getChildElements($resultElement, 'li', false),
             "Category $nonexistentCategory was founded"
         );
     }
@@ -363,9 +362,9 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     public function categoryNameDataProvider()
     {
         return array(
-            array(str_replace(array('\\', '/', ',', '"'), '?',
+            array(str_replace(array('/', ',', '"'), '?',
                 $this->generate('string', rand(20, 255), ':alnum:,:punct:'))),
-            array(str_replace(array('\\', '/', ',', '"'), '?',
+            array(str_replace(array('/', ',', '"'), '?',
                 $this->generate('string', rand(256, 512), ':alnum:,:punct:'))),
             array('<img src=example.com?nonexistent.jpg onerror=alert(' . $this->generate('string', 5) . ')>')
         );

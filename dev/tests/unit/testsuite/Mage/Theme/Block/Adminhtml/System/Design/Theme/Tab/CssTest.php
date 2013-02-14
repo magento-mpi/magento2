@@ -41,7 +41,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
 
         $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
         /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = new Mage_Core_Model_Dir(__DIR__);
+        $dirs = new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File());
 
         $constructArguments = $objectManagerHelper->getConstructArguments(
             Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
@@ -166,7 +166,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
     public function getGroupedFilesProvider()
     {
         /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = new Mage_Core_Model_Dir(__DIR__);
+        $dirs = new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File());
 
         $designDir = str_replace(
             $dirs->getDir(Mage_Core_Model_Dir::APP), '', $dirs->getDir(Mage_Core_Model_Dir::THEMES)
@@ -349,7 +349,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
     public function getGroupProvider()
     {
         /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = new Mage_Core_Model_Dir(__DIR__);
+        $dirs = new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File());
 
         $designDir = $dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $jsDir = $dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);

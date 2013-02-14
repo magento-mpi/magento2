@@ -329,12 +329,16 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
 
         $entity = $this->getMockBuilder('Saas_PrintedTemplate_Model_Variable_Abstract_Entity')
             ->disableOriginalConstructor()
-            ->setMethods(array('_getTaxVariableModel'))
+            ->setMethods(array('_getTaxVariableModel', '_getTaxCompoundIdModel'))
             ->getMock();
 
         $entity->expects($this->any())
             ->method('_getTaxVariableModel')
             ->will($this->returnCallback(array($this, 'initTaxVariableModel')));
+
+        $entity->expects($this->any())
+            ->method('_getTaxCompoundIdModel')
+            ->will($this->returnValue(new Saas_PrintedTemplate_Model_Tax_CompoundId()));
 
         $entity->__construct($valueModel);
 

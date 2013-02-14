@@ -17,7 +17,7 @@
         widgetEventPrefix: "suggest",
         options: {
             template: '{{if items.length}}{{if !term && !$data.allShown() && $data.recentShown()}}' +
-                '<h2>${recentTitle}</h2>' +
+                '<h5 class="title">${recentTitle}</h5>' +
                 '{{/if}}' +
                 '<ul data-mage-init="{&quot;menu&quot;:[]}">' +
                 '{{each items}}' +
@@ -481,22 +481,22 @@
          * @private
          */
         _source: function(term, renderer) {
-            if ($.isArray(this.options.source)) {
-                renderer(this.filter(this.options.source, term));
-
-            } else if ($.type(this.options.source) === 'string') {
+            var o = this.options;
+            if ($.isArray(o.source)) {
+                renderer(this.filter(o.source, term));
+            } else if ($.type(o.source) === 'string') {
                 if (this._xhr) {
                     this._xhr.abort();
                 }
                 this._xhr = $.ajax($.extend({
-                    url: this.options.source,
+                    url: o.source,
                     type: 'POST',
                     dataType: 'json',
                     data: {name_part: term},
                     success: renderer
-                }, this.options.ajaxOptions || {}));
+                }, o.ajaxOptions || {}));
             } else {
-                this.options.source.apply(this.options.source, arguments);
+                o.source.apply(o.source, arguments);
             }
         },
 
@@ -518,7 +518,7 @@
          * @return {Object}
          */
         filter: function(items, term) {
-            var matcher = new RegExp(term, 'i');
+            var matcher = new RegExp(term.replace(/[\-\/\\\^$*+?.()|\[\]{}]/g, '\\$&'), 'i');
             return $.grep(items, function(value) {
                 return matcher.test(value.label || value.id || value);
             });
@@ -615,7 +615,6 @@
          * @override
          */
         _create: function() {
-
             if (this.options.showRecent && window.localStorage) {
                 var recentItems = JSON.parse(localStorage.getItem(this.options.storageKey));
                 /**
@@ -736,6 +735,7 @@
                 }, this));
             }
         },
+        
         /**
          * @override
          */
@@ -907,5 +907,4 @@
             }
         }
     });
-
 })(jQuery);

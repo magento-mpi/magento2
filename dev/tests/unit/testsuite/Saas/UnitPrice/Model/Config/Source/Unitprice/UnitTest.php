@@ -36,7 +36,7 @@ class Saas_UnitPrice_Model_Config_Source_Unitprice_UnitTest extends PHPUnit_Fram
 
     protected function helperMock()
     {
-        return $this->getMock('Saas_UnitPrice_Helper_Data', array('getConfig', '__'));
+        return $this->getMock('Saas_UnitPrice_Helper_Data', array('getConfig', '__'), array(), '', false);
     }
 
     protected function unitPriceMock()

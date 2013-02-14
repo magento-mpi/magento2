@@ -16,7 +16,7 @@ $installer->startSetup();
 // add config attributes to catalog product
 $installer->addAttribute('catalog_product', 'related_tgtr_position_limit', array(
     'group'        => 'General',
-    'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Related Target Rule Rule Based Positions'),
+    'label'        => 'Related Target Rule Rule Based Positions',
     'visible'      => false,
     'user_defined' => false,
     'required'     => false,
@@ -28,7 +28,7 @@ $installer->addAttribute('catalog_product', 'related_tgtr_position_limit', array
 
 $installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', array(
     'group'        => 'General',
-    'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Related Target Rule Position Behavior'),
+    'label'        => 'Related Target Rule Position Behavior',
     'visible'      => false,
     'user_defined' => false,
     'required'     => false,
@@ -40,7 +40,7 @@ $installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', ar
 
 $installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
     'group'        => 'General',
-    'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Upsell Target Rule Rule Based Positions'),
+    'label'        => 'Upsell Target Rule Rule Based Positions',
     'visible'      => false,
     'user_defined' => false,
     'required'     => false,
@@ -52,7 +52,7 @@ $installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
 
 $installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', array(
     'group'        => 'General',
-    'label'        => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Upsell Target Rule Position Behavior'),
+    'label'        => 'Upsell Target Rule Position Behavior',
     'visible'      => false,
     'user_defined' => false,
     'required'     => false,
