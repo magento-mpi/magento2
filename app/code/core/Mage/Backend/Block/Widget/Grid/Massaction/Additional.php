@@ -36,7 +36,10 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Additional extends Mage_Backend_
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -53,12 +56,15 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Additional extends Mage_Backend_
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
         Mage_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
         array $data = array()
     ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $data
-        );
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
+
         $this->_handlerFactory = $handlerFactory;
     }
 
