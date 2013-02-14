@@ -108,9 +108,9 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $helper->saveDrawer();
         $this->_restoreRequired = true;
 
-        $helper->mouseOverDrawer('bussines_info_tile');
         $this->addParameter('addressData', 'Business Address');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'complete_state_text'), 'Tile state is not changed');
+        $helper->mouseOverDrawer('bussines_info_tile');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'bussines_info_text'), 'Tile state is not changed');
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('general_general');
         $this->systemConfigurationHelper()->expandFieldSet('store_information');
@@ -143,9 +143,9 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $helper->saveDrawer();
         $this->_restoreRequired = true;
 
-        $helper->mouseOverDrawer('bussines_info_tile');
         $this->addParameter('addressData', 'Business Address');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'complete_state_text'), 'Tile state is not changed');
+        $helper->mouseOverDrawer('bussines_info_tile');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'bussines_info_text'), 'Tile state is not changed');
         unset($data['store_name']);
         unset($data['store_contact_telephone']);
         unset($data['billing_vat_number']);
@@ -153,7 +153,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         {
             $this->addParameter('addressData', $value);
             $helper->mouseOverDrawer('bussines_info_tile');
-            if (!$this->controlIsVisible('pageelement', 'complete_state_text')) {
+            if (!$this->controlIsVisible('pageelement', 'bussines_info_text')) {
                 $this->addVerificationMessage("Displayed data is invalid. There is no '$value' on Tile");
             }
         }

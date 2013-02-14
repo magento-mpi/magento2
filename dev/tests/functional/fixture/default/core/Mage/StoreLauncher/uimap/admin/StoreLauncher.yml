@@ -19,12 +19,24 @@ store_launcher:
                 -
                     store_launcher:
                         xpath: //section[@class='store-launcher']
+                        pageelements:
+                            page_title: //div[@class='page-title']//h1[@class='title']
                 -
                     common_tile:
                         xpath:
                         buttons:
                             open_drawer: //div[@class='tile-teaser']//button[@class='action-open-drawer']
                             edit_drawer: //div[@class='tile-done']//button[@class='action-open-drawer']
+                        links:
+                            additional_action: //div[@class='tile-done']//a[@class='action-more-settings']
+                -
+                    common_drawer:
+                        xpath: //div[@id='drawer']
+                        buttons:
+                            close_drawer: //button[@class='action-close-drawer']
+                            save_my_settings: //button[@class='action-save-settings primary']
+                        pageelements:
+                            drawer_footer: //footer[@class='drawer-footer' and contains(@style, 'bottom: 0px')]
                 -
                     bussines_info_tile:
                         xpath: //article[@id='tile-business_info']
@@ -34,15 +46,7 @@ store_launcher:
                         pageelements:
                             title: //h2
                             text: //div[@class='tile-teaser']//p
-                            complete_state_text: //div[@class='tile-done' and contains(., '%addressData%')]
-                -
-                    common_drawer:
-                        xpath: //div[@id='drawer']
-                        buttons:
-                            close_drawer: //button[@class='action-close-drawer']
-                            save_my_settings: //button[@class='action-save-settings primary']
-                        pageelements:
-                            drawer_footer: //footer[@class='drawer-footer' and contains(@style, 'bottom: 0px')]
+                            bussines_info_text: //div[@class='tile-done' and contains(., '%addressData%')]
                 -
                     bussines_info_drawer_form:
                         xpath: //section[@class='drawer-content']//form[@class='store-info-form']
@@ -70,6 +74,55 @@ store_launcher:
                         pageelements:
                             add_store_email_addressess: //details[@id='detailsstore_info']/summary
                             additional_content: //div[@id='details-contentstore_info']
-
-
-
+                -
+                    tax_rules_tile:
+                        xpath: //article[@id='tile-tax']
+                        buttons:
+                            confirm_info: //button[normalize-space()='Set Tax Rules']
+                            edit_store_info: //button[normalize-space()='Set Additional Tax Rules']
+                        pageelements:
+                            title: //h2
+                            text: //div[@class='tile-teaser']//p
+                            tax_rules_text: //div[@class='tile-done' and contains(., '%taxData%')]
+                -
+                    tax_rules_drawer:
+                        xpath: //div[@id='drawer']
+                        buttons:
+                            tax_rules_enabled: //label[strong/em[@class='label-tax-enabled']]
+                            tax_rules_disabled: //label[strong/em[@class='label-tax-disabled']]
+                            add_rate: //span[contains(text(), 'Add New Tax Rate')]
+                        links:
+                            tax_rule_info_additional_link: //summary/span
+                        fields:
+                            name: //input[@id='code']
+                            priority: //input[@id='priority']
+                            sort_order: //input[@id='position']
+                        composite_multiselects:
+                            tax_rate: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-rate']//section
+                            customer_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-customer-class']//section
+                            product_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-product-class']//section
+                        pageelements:
+                            no_tax_title: //div[@class='no-tax-info']//h2
+                            tax_title: //div[@class='tax-rule-config']//h2
+                -
+                    tax_rate_form:
+                        xpath: //div[contains(@class, 'tax-rate-popup')]
+                        dropdowns:
+                            country: //select[@id='tax_country_id']
+                            state: //select[@id='tax_region_id']
+                        fields:
+                            tax_identifier: //input[@id='code']
+                            zip_postal_code: //input[@id='tax_postcode']
+                            zip_range_from: //input[@id='zip_from']
+                            zip_range_to: //input[@id='zip_to']
+                            rate_percent: //input[@id='rate']
+                        checkboxes:
+                            zip_is_range: //input[@id='zip_is_range']
+                        buttons:
+                            save_rate: //button[@id='tax-rule-edit-apply-button']
+        messages: &newTaxRuleMessages
+            enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
+            generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
+            empty_required_field:  //label[@class='mage-error' and contains(.,'This field is required.')]
+            confirmation_for_delete_class: Do you really want to delete this tax class?
+            confirmation_for_delete_rate: Do you really want to delete this tax rate?

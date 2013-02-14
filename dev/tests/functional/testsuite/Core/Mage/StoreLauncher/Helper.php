@@ -19,6 +19,14 @@
 class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
+     * Possible tile states
+     */
+    public static $STATE_TODO = 0;
+    public static $STATE_COMPLETE = 1;
+    public static $STATE_DISMISSED = 2;
+    public static $STATE_SKIPPED = 3;
+
+    /**
      * Open Drawer popup
      *
      * @param $tile fieldset name from UIMap
@@ -101,5 +109,55 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
             return $elementStyle;
         }
         return null;
+    }
+
+    protected function _getDbCredentials()
+    {
+        $data = array();
+        $basePath = rtrim(SELENIUM_TESTS_BASEDIR, DIRECTORY_SEPARATOR)
+                    . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
+        $localXml = $basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc'
+                    . DIRECTORY_SEPARATOR . 'local.xml';
+        $keys = array('host', 'username', 'password', 'dbname');
+        if (file_exists($localXml)) {
+            $config = simplexml_load_file($localXml, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $connection = $config->xpath('//connection');
+            foreach($keys as $k => $v) {
+                $data[$v] = (string)$connection[0]->$v;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Change Tile State by direct DB query
+     *
+     * @param $tileCode Correspond value from DB
+     * @param $tileState STATE_TODO|STATE_COMPLETE|STATE_DISMISSED|STATE_SKIPPED
+     * @return bool
+     */
+    public function setTileState($tileCode, $tileState)
+    {
+        $connectionData = $this->_getDbCredentials();
+        //Uncomment and change if Magento instance is not local
+        /*$connectionData['dbname' ] = 'magento_db';
+        $connectionData['username' ] = 'user';
+        $connectionData['password' ] = '123123q';
+        $connectionData['host' ] = '192.168.1.1';*/
+        if (!empty($connectionData)) {
+            try {
+                $connection = new PDO(
+                    'mysql:dbname=' . $connectionData['dbname' ] . ';host=' . $connectionData['host'],
+                    $connectionData['username' ],
+                    $connectionData['password' ]);
+                $sql = "UPDATE launcher_tile SET state=? WHERE tile_code=?";
+                $q = $connection->prepare($sql);
+                $q->execute(array($tileState, $tileCode));
+                return true;
+            } catch (PDOException $e) {
+                $this->fail($e->getMessage());
+            }
+        }
+        $this->fail('Could not set Tile state');
     }
 }

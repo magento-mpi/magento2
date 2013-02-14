@@ -51,6 +51,7 @@
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
+ * @method Core_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper                                                                       tagsHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
@@ -3467,6 +3468,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $fieldValue = array_map('trim', $fieldValue);
         $generalElement = $this->getElement($locator);
+        $generalElement->click();
         //Get all available options
         /* @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
         $existValues = array();
@@ -3607,6 +3609,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($this->alertIsPresent()) {
             $this->fail($this->alertText());
         }
+        $this->waitForAjax();
         $this->assertEmpty($this->getChildElements($generalElement, $labelLocator, false), 'Option is not deleted');
     }
 
