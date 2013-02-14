@@ -81,12 +81,12 @@
 <script type="text/javascript">
     //<![CDATA[
 jQuery(function($){
-    function toggleDefault(v)
+    function toggleDefault(field)
     {
-        defaultValue = $('#giftcard_' + v + '_default').val();
-        $checkbox = $('#giftcard_use_config_' + v);
+        var defaultValue = $('#giftcard_' + field + '_default').val(),
+            $checkbox = $('#giftcard_use_config_' + field);
         if ($checkbox.is(':checked')) {
-            $('#giftcard_' + v).val(defaultValue);
+            $('#giftcard_' + field).val(defaultValue);
         }
     }
 
