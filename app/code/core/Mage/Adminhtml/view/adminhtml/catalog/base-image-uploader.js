@@ -30,7 +30,7 @@
                 elementsList.each(function(index) {
                     $(this)[index < maximumImageCount ? 'show' : 'hide']();
                 });
-                $dropPlaceholder[elementsList.length >= maximumImageCount ? 'hide' : 'show']();
+                $dropPlaceholder[elementsList.length > maximumImageCount ? 'hide' : 'show']();
             };
 
             $galleryContainer.on('setImageType', function(event, data) {
@@ -68,13 +68,13 @@
 
             $container.on('click', '[data-role="make-main-button"]', function(event) {
                 event.preventDefault();
-                var data = $(this.target).closest('.image').data('image');
+                var data = $(event.target).closest('.image').data('image');
                 $galleryContainer.productGallery('setMain', data);
             });
 
             $container.on('click', '[data-role="delete-button"]', function(event) {
                 event.preventDefault();
-                $galleryContainer.trigger('removeItem', $(this.target).closest('.image').data('image'));
+                $galleryContainer.trigger('removeItem', $(event.target).closest('.image').data('image'));
             });
 
             $container.sortable({
