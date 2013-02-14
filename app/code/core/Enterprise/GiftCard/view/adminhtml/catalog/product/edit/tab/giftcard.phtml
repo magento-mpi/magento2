@@ -81,25 +81,19 @@
 <script type="text/javascript">
     //<![CDATA[
 jQuery(function($){
-    function toggleDefault(field)
-    {
+    $.each('email_template,is_redeemable,lifetime,allow_message'.split(','), function (field) {
         var defaultValue = $('#giftcard_' + field + '_default').val(),
             $checkbox = $('#giftcard_use_config_' + field);
         if ($checkbox.is(':checked')) {
             $('#giftcard_' + field).val(defaultValue);
         }
-    }
+    });
 
-    toggleDefault('email_template');
-    toggleDefault('is_redeemable');
-    toggleDefault('lifetime');
-    toggleDefault('allow_message');
-
-    $('#product_info_tabs_group_8').parent().hide();
     $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
         var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
         $('#giftcard_info_container')[action]();
     });
+
     $('#allow_open_amount').on('click', function () {
         $('#open_amount_min,#open_amount_max').prop('disabled', !$(this).is(':checked'));
     });
@@ -107,19 +101,20 @@ jQuery(function($){
     /**
      * Adding event on card type select box of product to set weight to required or not
      */
-    function togglecardType() {
-        var $weight = $('#attribute-weight-container');
-        var isVirtual = $(this).val() == '0';
-        if ($weight.length) {
-            $weight.toggle(!isVirtual);
-        }
+    $('#product_info_tabs_product-details_content').on('move.tabs', function () {
+        $('#giftcard_type').on('change', function () {
+            var $weight = $('#weight');
+            var isVirtual = $(this).val() == '0';
+            if ($weight.length) {
+                $weight.prop('disabled', isVirtual);
+            }
+            $.each($('.hidden-for-virtual'), function () {
+                $(this).closest('.field').toggle(!isVirtual);
+            });
+        }).change();
 
-        $.each($('.hidden-for-virtual'), function () {
-            $(this).closest('.field').toggle(!isVirtual);
-        });
-    }
-
-    $('#giftcard_type').on('change', togglecardType).change();
+        $('#weight_and_type_switcher').parent().hide();
+    });
 });
     //]]>
 </script>
