@@ -1,45 +1,30 @@
 2.0.0.0-dev42
 =============
-* JavaScript Updates to the Frontend
-  * Refactored various tabs components to an analogous jQuery widget.
-    * New tabs widget is used instead of Enterprise.Tabs and Varien.Tabs.
-  * Category navigation refactored to a jQuery widget on CE/EE.
-  * Region updater component refactored to a jQuery widget.
-    * Various CE/EE components/modules updated with use of the new widget.
-      * Gift Registry, Checkout, and Persistent.
-  * Sales components updated to use jQuery widgets including form validation.
-    * Retrieve shipping rates and add/remove coupon in shopping cart.
-  * Refactored product zoom to an analogous jQuery widget.
-    * CE uses new jQuery widget for zoom. EE uses native jQuery jqzoom.
-  * Converted Weee component to jQuery.
-    * Global tax toggle converted to self invoking jQuery function.
-    * Modified tax toggle inline onclick handlers in HTML markup to use jQuery.
-  * Refactored related products on product view page and in target rule to jQuery.
-    * Reusable jQuery widget created and used on CE/EE.
-  * Gift card component converted to jQuery on EE/Pro.
-    * Redeem gift card, add to cart check card status, multishipping payment.
-      * My Account gift card redeem, gift card toggle.
-  * Refactored all functionality related to customer wishlist to jQuery.
-    * Including multiple wishlists on EE.
-  * Refactored Varien.dateRangeDate and Varien.FileElement to jQuery.
-  * Customer balance component converted to jQuery.
-    * One page checkout, multishipping payment, store credit management.
-  * Replaced $.mage.constants with jQuery UI $.ui.keyCode for keyboard key codes.
-  * Refactored customer Gift Registry to jQuery.
-    * Create, edit, delete, share, manage items, and form validations.
-      * Add to gift registry from shopping cart and wishlist.
-  * Contact Us form converted to use jQuery validation on CE/EE.
-  * Refactored Email a Friend on product view page (CE/EE) to use jQuery.
-    * Includes using jQuery validation on send email form.
-  * Converted customer address and address book to use a jQuery widget.
-    * Supports adding and deleting addresses.
-  * Refactored gallery thumbnail image view on product view page to jQuery.
-  * Converted Orders and Returns to a jQuery widget with jQuery form validation.
-    * Search by zip code or email address toggle.
-  * Refactored most parts of CAPTCHA to jQuery on all supported forms.
-* Bug Fixes
-  * Fixed incorrect URL generated for Magento logo image on CE.
-  * Fixed Store Id not set resulting in messages sent via Email a Friend to fail.
+* Application initialization improvements:
+  * Removed application initialization responsibility from `Mage` class
+  * Introduces entry points, which are responsible for different types of requests processing: HTTP, media, cron, indexing, console installing, etc.
+  * Configuration is cached by sections and loaded only on demand
+  * Class rewrites functionality removed from `Mage_Core_Model_Config` model. DI configuration should be used for rewriting classes
+* Added ability to configure object manager with array in addition to object and scalar values
+* VDE improvements:
+  * Theme CSS files view and uploading/downloading of custom CSS file
+  * Updated styling of VDE Tools panel
+* Improved usability of product image gallery UI
+* Refactored various components to an analogous jQuery widget:
+  * Refactored components: category navigation, sales components, orders and returns, retrieve shipping rates and add/remove coupon in shopping cart, customer address, customer wishlist, products management and gallery, send to friend, weee, "Contact Us" form, CAPTCHA
+  * New tabs widget is used instead of `Varien.Tabs`
+  * Refactored `Varien.dateRangeDate` and `Varien.FileElement`
+  * Replaced `$.mage.constants` with jQuery UI `$.ui.keyCode` for keyboard key codes
+* Bug fixes:
+  * Improvements and bug fixes in new backend theme
+  * Image, categories attributes and virtual/downloadable checkbox are displayed on Update Attributes page
+  * Undefined config property in `reloadOptionLabels()` function in `configurable.js` (Chrome)
+  * Impossible to edit existing customer/product tax class
+  * Incorrect format of customer's "Date of Birth"
+  * Theme preview images are absent in VDE
+  * Search by backslash doesn't work for Categories field on product creation page
+  * Impossible to assign a category to a product, if category name contains HTML tag
+  * Incorrect URL generated for logo image
 
 2.0.0.0-dev41
 =============
@@ -71,6 +56,7 @@
   * Added ability to set callback for "item selection"
   * Added ability to provide a template in widget options
   * Implemented "multiple suggestions" ability directly in this widget and removed the "multisuggest" widget
+  * Refactored configurable attribute, category parent and attribute set selectors to use suggest widget
 * Converted several grids in backend from PHP implementation to declarations in layout
 * Other various improvements:
   * Factored out logic of handling theme images from `Mage_Core_Model_Theme` into `Mage_Core_Model_Theme_Image`
