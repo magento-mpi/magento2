@@ -23,7 +23,6 @@ try {
     echo $e->getMessage();
     exit(1);
 }
-Magento_Profiler::start('mage');
 // Determine application configuration string for a tenant
 $appConfigString = serialize(array(
     'custom_local_config' => $localXml,
@@ -40,4 +39,3 @@ $appConfigString = serialize(array(
 $appEntryPoint = require __DIR__ . '/saas.php';
 // Delegate execution to the application entry point
 $appEntryPoint($appConfigString);
-Magento_Profiler::stop('mage');

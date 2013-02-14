@@ -20,7 +20,7 @@ return function ($appConfigString) {
     try {
         $params = array_merge($_SERVER, unserialize($appConfigString));
         require __DIR__ . '/app/bootstrap.php';
-
+        Magento_Profiler::start('mage');
         if (!array_key_exists(Mage::PARAM_BASEDIR, $params)) {
             $params[Mage::PARAM_BASEDIR] = BP;
         }
@@ -29,6 +29,7 @@ return function ($appConfigString) {
         $objectManager = new Mage_Core_Model_ObjectManager($config, BP);
         $entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $params, $objectManager);
         $entryPoint->processRequest();
+        Magento_Profiler::stop('mage');
     } catch (Exception $e) {
         Mage::printException($e);
     }
