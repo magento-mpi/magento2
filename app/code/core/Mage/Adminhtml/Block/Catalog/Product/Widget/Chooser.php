@@ -215,19 +215,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
         $this->addColumn('entity_id', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
-            'width'     => '60px',
-            'index'     => 'entity_id'
+            'index'     => 'entity_id',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
         $this->addColumn('chooser_sku', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
             'name'      => 'chooser_sku',
-            'width'     => '80px',
-            'index'     => 'sku'
+            'index'     => 'sku',
+            'header_css_class'  => 'col-sku',
+            'column_css_class'  => 'col-sku'
         ));
         $this->addColumn('chooser_name', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Name'),
             'name'      => 'chooser_name',
-            'index'     => 'name'
+            'index'     => 'name',
+            'header_css_class'  => 'col-product',
+            'column_css_class'  => 'col-product'
         ));
 
         return parent::_prepareColumns();

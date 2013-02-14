@@ -59,22 +59,28 @@
 /* Action "Back" as cross  */
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:active {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:active {
     overflow: hidden;
     padding: 5px 6px 3px;
     margin-left: 12px;
     color: #7a7976;;
 }
 
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:hover {
     color: #000;
 }
 
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back.mage-error {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back.mage-error,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back.mage-error {
     color: #b57c72;
 }
 
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:before {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:before,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:before {
     display: inline-block;
     font-family: 'MUI-Icons';
     font-style: normal;
@@ -85,7 +91,8 @@
     font-size: 16px;
 }
 
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back span {
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back span,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back span {
     display: inline-block;
     overflow: hidden;
     text-indent: -999em;
@@ -1091,21 +1098,102 @@
 }
 
 /*
-    Clearfix
+    Newsletter
 -------------------------------------- */
-.images:before,
-.images:after,
-.clearfix:before,
-.clearfix:after {
-    content: "";
-    display: table;
+[class^=" adminhtml-newsletter-"] .page-actions .action-back {
+    float: right;
 }
 
-.images:after,
-.clearfix:after {
-    clear: both;
+/*
+    Newsletter Templates
+-------------------------------------- */
+.adminhtml-newsletter-template-index .col-id {
+     width: 35px;
 }
 
+.adminhtml-newsletter-template-index .col-actions {
+     width: 80px;
+}
+
+.adminhtml-newsletter-template-index .col-type {
+     width: 100px;
+}
+
+.adminhtml-newsletter-template-index .col-added,
+.adminhtml-newsletter-template-index .col-updated {
+     width: 140px;
+}
+
+[class^=' adminhtml-newsletter-'] .buttons-set {
+    margin: 0 0 15px;
+}
+
+[class^=" adminhtml-newsletter-"] .buttons-set button {
+    margin-right: 4px;
+}
+
+/*
+    Newsletter - Queue
+-------------------------------------- */
+.adminhtml-newsletter-queue-index .col-id {
+    width: 35px;
+}
+
+.adminhtml-newsletter-queue-index .col-finish,
+.adminhtml-newsletter-queue-index .col-start {
+    width: 130px;
+}
+
+.adminhtml-newsletter-queue-index .col-status,
+.adminhtml-newsletter-queue-index .col-processed,
+.adminhtml-newsletter-queue-index .col-recipients {
+    white-space: nowrap;
+    width: 85px;
+}
+
+.adminhtml-newsletter-queue-index td.col-processed,
+.adminhtml-newsletter-queue-index td.col-recipients {
+    text-align: right;
+}
+
+.adminhtml-newsletter-queue-index .col-actions {
+    width: 80px;
+}
+
+/*
+    Newsletter - Subscribers
+-------------------------------------- */
+.adminhtml-newsletter-subscriber-index .col-id {
+    width: 35px;
+}
+
+.adminhtml-newsletter-subscriber-index .col-type {
+    width: 75px;
+}
+
+.adminhtml-newsletter-subscriber-index .col-status {
+    white-space: nowrap;
+    width: 85px;
+}
+
+/*
+    Newsletter - Problems
+-------------------------------------- */
+.adminhtml-newsletter-problem-index .col-select {
+    width: 25px;
+}
+
+.adminhtml-newsletter-problem-index .col-id {
+    width: 35px;
+}
+
+.adminhtml-newsletter-problem-index .col-start {
+    width: 130px;
+}
+
+.adminhtml-newsletter-problem-index .col-error-code {
+    width: 150px;
+}
 
 /*
     Gift Registry
@@ -1124,4 +1212,20 @@
 .table-fieldset-alt tbody tr:nth-child(odd) td,
 .table-fieldset-alt tbody tr:nth-child(odd):hover td {
     background: #fff;
+}
+
+/*
+    Clearfix
+-------------------------------------- */
+.images:before,
+.images:after,
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.images:after,
+.clearfix:after {
+    clear: both;
 }
