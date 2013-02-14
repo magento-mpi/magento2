@@ -287,10 +287,20 @@
     height: 100%;
     opacity: 0;
     border: 500px solid transparent;
+    z-index: 2;
 }
 
 .image-placeholder .file-row {
-    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    height: auto;
+    overflow: hidden;
+    background: #fff url(../mui/images/ajax-loader-big.gif) no-repeat 50% 50%;
+    z-index: 5;
+    text-indent: -999em;
 }
 
 .image-placeholder-text {
@@ -304,6 +314,10 @@
     line-height: 1.333;
     text-align: center;
     color: #cac8c4;
+}
+
+.gallery .image.base-image::before {
+    margin-left: -75%;
 }
 
 .gallery .image-placeholder {
@@ -333,6 +347,11 @@
     border-bottom: 1px solid #cfd0cb;
 }
 
+.eq-ie8 .image-panel {
+    border: solid #d6d3d0;
+    border-width: 2px 1px 1px;
+}
+
 .image-pointer {
     position: absolute;
     left: 50%;
@@ -341,6 +360,10 @@
     width: 28px;
     height: 15px;
     background: url(Mage_Backend::images/gallery-image-panel-corner.png) no-repeat;
+}
+
+.eq-ie8 .image-pointer {
+    top: -13px;
 }
 
 .image-panel-controls,
@@ -465,6 +488,16 @@
 
 /* Weight field */
 .field-weight {
+
+}
+.field-weight input[type="text"] {
+    float: left;
+    width: 75%;
+}
+
+.field-weight .addafter {
+    padding-top: 1px;
+    color: #b2b2b2;
 }
 
 .field-weight .field:first-child {
@@ -474,6 +507,7 @@
 
 .field-weight .choice input {
     margin-right: 5px;
+    vertical-align: bottom;
 }
 
 /* Variations Search Field */
@@ -553,7 +587,7 @@
 #product-variations-matrix .action-choose {
     color: #b8b3a7;
     float: right;
-    margin-left: 5px;
+    margin: 5px 0 0 5px;
 }
 
 #product-variations-matrix .action-choose:hover {

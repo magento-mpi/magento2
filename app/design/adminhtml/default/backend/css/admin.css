@@ -2721,7 +2721,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .side-col > .switcher {
-    padding-top: 20px;
+    padding-top: 6px;
 }
 
 .side-col > .switcher > a {
