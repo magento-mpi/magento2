@@ -83,6 +83,38 @@
 
     $.widget('mage.treeSuggest', $.mage.suggest, {
         widgetEventPrefix: "suggest",
+        options: {
+            template: '{{if items.length}}{{if $data.allShown()}}' +
+                '{{if typeof nested === "undefined"}}' +
+                '<div style="display:none;" data-mage-init="{&quot;jstree&quot;:{&quot;plugins&quot;:' +
+                '[&quot;themes&quot;,&quot;html_data&quot;,&quot;ui&quot;,&quot;hotkeys&quot;],' +
+                '&quot;themes&quot;:{&quot;theme&quot;:&quot;default&quot;,&quot;dots&quot;:' +
+                'false,&quot;icons&quot;:false}}}">{{/if}}' +
+                '<ul>{{each items}}' +
+                '<li{{if $data.itemSelected($value)}} class="mage-suggest-selected"{{/if}}>' +
+                '<a href="#" {{html optionData($value)}}>${$value.label}</a>' +
+                '{{if $value.children && $value.children.length}}' +
+                '{{html renderTreeLevel($value.children)}}' +
+                '{{/if}}' +
+                '</li>{{/each}}</ul>' +
+                '{{if typeof nested === "undefined"}}</div>{{/if}}' +
+                '{{else}}' +
+                '<ul data-mage-init="{&quot;menu&quot;:[]}">' +
+                '{{each items}}' +
+                '{{if !$data.itemSelected($value)}}<li {{html optionData($value)}}>' +
+                '<a href="#"><span class="category-label">${$value.label}<span>' +
+                '<span class="category-path">${$value.path}<span></a></li>{{/if}}' +
+                '{{/each}}</ul>' +
+                '{{/if}}{{else}}<span class="mage-suggest-no-records">${noRecordsText}</span>{{/if}}',
+            controls: {
+                selector: ':ui-menu, .jstree',
+                eventsMap: {
+                    focus: ['menufocus', 'hover_node'],
+                    blur: ['menublur', 'dehover_node'],
+                    select: ['menuselect', 'select_tree_node']
+                }
+            }
+        },
         /**
          * @override
          */
@@ -102,20 +134,22 @@
                 }
             });
             this._on({
-                focus: function() {
-                    this.search();
-                }
+                focus: this.search
             });
         },
 
         /**
          * @override
          */
-        search: function() {
-            if (!this.options.showRecent && !this._value()) {
-                this._showAll();
+        search: function(e) {
+            if (!this._recentItems && !this._value()) {
+                var term = this._value();
+                if (this._term !== term) {
+                    this._term = term;
+                }
+                this._showAll(e);
             } else {
-                this._super();
+                this._superApply(arguments);
             }
         },
 
@@ -142,15 +176,15 @@
         /**
          * @override
          */
-        _renderDropdown: function(items, context) {
-            if(!context._allShown) {
+        _renderDropdown: function(e, items, context) {
+            if(context &&!context._allShown) {
                 items = this.filter($.mage.treeToList([], items, 0, ''), this._term);
             }
             var control = this.dropdown.find(this._control.selector);
             if (control.length && control.hasClass('jstree')) {
                 control.jstree("destroy");
             }
-            this._superApply([items, context]);
+            this._superApply([e, items, context]);
         }
     });
 })(jQuery);

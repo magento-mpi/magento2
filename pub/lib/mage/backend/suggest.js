@@ -16,22 +16,34 @@
     $.widget('mage.suggest', {
         widgetEventPrefix: "suggest",
         options: {
-            template: '',
+            template: '{{if items.length}}{{if !term && !$data.allShown() && $data.recentShown()}}' +
+                '<h2>${recentTitle}</h2>' +
+                '{{/if}}' +
+                '<ul data-mage-init="{&quot;menu&quot;:[]}">' +
+                '{{each items}}' +
+                '{{if !$data.itemSelected($value)}}<li {{html optionData($value)}}>' +
+                '<a href="#">${$value.label}</a></li>{{/if}}' +
+                '{{/each}}' +
+                '{{if !term && !$data.allShown() && $data.recentShown()}}' +
+                '<li data-mage-init="{actionLink:{event:&quot;showAll&quot;}}" class="show-all">' +
+                '<a href="#">${showAllTitle}</a></li>' +
+                '{{/if}}' +
+                '</ul>{{else}}<span class="mage-suggest-no-records">${noRecordsText}</span>{{/if}}',
             minLength: 1,
             /**
              * @type {(string|Array)}
              */
             source: null,
             delay: 500,
-            loadingClass: 'ui-autocomplete-loading',
+            loadingClass: 'mage-suggest-state-loading',
             events: {},
             appendMethod: 'after',
             controls: {
-                selector: ':ui-menu, .jstree',
+                selector: ':ui-menu',
                 eventsMap: {
-                    focus: ['menufocus', 'hover_node'],
-                    blur: ['menublur', 'dehover_node'],
-                    select: ['menuselect', 'select_tree_node']
+                    focus: ['menufocus'],
+                    blur: ['menublur'],
+                    select: ['menuselect']
                 }
             },
             className: null,
@@ -124,7 +136,7 @@
 
         /**
          * Pass original event to a control component for handling it as it's own event
-         * @param {Object} event
+         * @param {Object} event - event object
          * @private
          */
         _proxyEvents: function(event) {
@@ -156,7 +168,7 @@
                             break;
                         case keyCode.TAB:
                             if (this.isDropdownShown()) {
-                                this._onSelectItem();
+                                this._onSelectItem(event);
                                 event.preventDefault();
                             }
                             break;
@@ -168,7 +180,7 @@
                             }
                             break;
                         case keyCode.ESCAPE:
-                            this._hideDropdown();
+                            this.close(event);
                             break;
                     }
                 },
@@ -192,16 +204,30 @@
                             }
                             break;
                         default:
-                            this.search();
+                            this.search(event);
                     }
                 },
-                blur: this._hideDropdown,
+                blur: function(event) {
+                    this.close(event);
+                    this._change(event);
+                },
                 cut: this.search,
                 paste: this.search,
-                input: this.search
+                input: this.search,
+                select: this._onSelectItem
             }, this.options.events));
 
             this._bindDropdown();
+        },
+
+        /**
+         * @param {Object} e - event object
+         * @private
+         */
+        _change: function(e) {
+            if (this._term !== this._value()) {
+                this._trigger("change");
+            }
         },
 
         /**
@@ -237,14 +263,32 @@
         },
 
         /**
+         * @override
+         */
+        _trigger: function(type, event, data) {
+            var result = this._superApply(arguments);
+            if(result === false && event) {
+                event.stopImmediatePropagation();
+                event.preventDefault();
+            }
+            return result;
+        },
+
+        /**
          * Handle focus event of options item
          * @param {Object} e - event object
          * @param {Object} option
          * @private
          */
         _focusItem: function(e, option) {
-            this._focused = option.item;
-            this.element.val(this._readItemData(this._focused).label);
+            if(option && option.item) {
+                this._focused = $(option.item).prop('tagName') ?
+                    this._readItemData(option.item) :
+                    option.item;
+
+                this.element.val(this._focused.label);
+                this._trigger('focus', e, {item: this._focused});
+            }
         },
 
         /**
@@ -257,25 +301,33 @@
         },
 
         /**
-         *
+         * @param {Object} e - event object
+         * @param {Object} item
          * @private
          */
-        _onSelectItem: function() {
-            this._selectItem();
-            this._trigger('select', null, [this._selectedItem]);
+        _onSelectItem: function(e, item) {
+            if(item && $.type(item) === 'object' && $(e.target).is(this.element)) {
+                this._focusItem(e, {item: item});
+            }
+
+            if (this._trigger('select', e || null, {item: this._focused}) === false) {
+                return;
+            }
+            this._selectItem(e);
         },
 
         /**
          * Save selected item and hide dropdown
          * @private
+         * @param {Object} e - event object
          */
-        _selectItem: function() {
-            if (this.isDropdownShown() && this._focused) {
-                this._selectedItem = this._readItemData(this._focused);
+        _selectItem: function(e) {
+            if (this._focused) {
+                this._selectedItem = this._focused;
                 if (this._selectedItem !== this._nonSelectedItem) {
                     this._term = this._selectedItem.label;
                     this.valueField.val(this._selectedItem.id);
-                    this._hideDropdown();
+                    this.close(e);
                 }
             }
         },
@@ -301,21 +353,25 @@
         /**
          * Open dropdown
          * @private
+         * @param {Object} e - event object
          */
-        _showDropdown: function() {
+        open: function(e) {
             if (!this.isDropdownShown()) {
                 this.dropdown.show();
+                this._trigger('open', e);
             }
         },
 
         /**
          * Close and clear dropdown content
          * @private
+         * @param {Object} e - event object
          */
-        _hideDropdown: function() {
+        close: function(e) {
             this.element.val(this._selectedItem.label);
             this._renderedContext = null;
             this.dropdown.hide().empty();
+            this._trigger('close', e);
         },
 
         /**
@@ -335,13 +391,17 @@
         /**
          * Execute search process
          * @public
+         * @param {Object} e - event object
          */
-        search: function() {
+        search: function(e) {
             var term = this._value();
-            if (this._term !== term) {
+            if (this._term !== term && term.length >= this.options.minLength) {
                 this._term = term;
                 if (term) {
-                    this._search(term);
+                    if (this._trigger("search", e) === false) {
+                        return;
+                    }
+                    this._search(e, term);
                 } else {
                     this._selectedItem = this._nonSelectedItem;
                     this.valueField.val(this._selectedItem.id);
@@ -351,13 +411,14 @@
 
         /**
          * Actual search method, can be overridden in descendants
+         * @param {Object} e - event object
          * @param {string} term - search phrase
          * @param {Object} context - search context
          * @private
          */
-        _search: function(term, context) {
+        _search: function(e, term, context) {
             var renderer = $.proxy(function(items) {
-                return this._renderDropdown(items, context || {});
+                return this._renderDropdown(e, items, context || {});
             }, this);
             this.element.addClass(this.options.loadingClass);
             if (this.options.delay) {
@@ -382,17 +443,25 @@
                 term: this._term,
                 optionData: function(item) {
                     return 'data-suggest-option="' + JSON.stringify(item).replace(/"/g, '&quot;') + '"';
-                }
+                },
+                itemSelected: $.proxy(function(item) {
+                    return item.id === this._selectedItem.id
+                }, this),
+                noRecordsText: $.mage.__('No records found')
             });
         },
 
         /**
          * Render content of suggest's dropdown
+         * @param {Object} e - event object
          * @param {Array} items - list of label+id objects
          * @param {Object} context - template's context
          * @private
          */
-        _renderDropdown: function(items, context) {
+        _renderDropdown: function(e, items, context) {
+            if (this._trigger("response", e, {items: items}) === false) {
+                return
+            }
             this._items = items;
             $.tmpl(this.templateName, this._prepareDropdownContext(context))
                 .appendTo(this.dropdown.empty());
@@ -402,7 +471,7 @@
                 });
             this._renderedContext = context;
             this.element.removeClass(this.options.loadingClass);
-            this._showDropdown();
+            this.open(e);
         },
 
         /**
@@ -426,9 +495,14 @@
                     data: {name_part: term},
                     success: renderer
                 }, this.options.ajaxOptions || {}));
+            } else {
+                this.options.source.apply(this.options.source, arguments);
             }
         },
 
+        /**
+         * @private
+         */
         _abortSearch: function() {
             this.element.removeClass(this.options.loadingClass);
             clearTimeout(this._searchTimeout);
@@ -489,42 +563,84 @@
     });*/
 
     /**
-     * Implement storing search history and display recent searches
+     * Implement show all functionality
      */
     $.widget('mage.suggest', $.mage.suggest, {
-        options: {
-            showRecent: false,
-            storageKey: 'suggest',
-            storageLimit: 10
-        },
-
-        /**
-         * @override
-         * @private
-         */
-        _create: function() {
-            if (this.options.showRecent && window.localStorage) {
-                var recentItems = JSON.parse(localStorage.getItem(this.options.storageKey));
-                /**
-                 * @type {Array} - list of recently searched items
-                 * @private
-                 */
-                this._recentItems = $.isArray(recentItems) ? recentItems : [];
-            }
-            this._super();
-        },
-
         /**
          * @override
          * @private
          */
         _bind: function() {
             this._super();
+            this._on(this.dropdown, {
+                showAll: this._showAll
+            });
+        },
+
+        /**
+         * @private
+         * @param {Object} e - event object
+         */
+        _showAll: function(e) {
+            this._abortSearch();
+            this._search(e, '', {_allShown: true});
+
+        },
+
+        /**
+         * @override
+         */
+        _prepareDropdownContext: function() {
+            var context = this._superApply(arguments);
+            return $.extend(context, {
+                allShown: function(){
+                    return !!context._allShown;
+                }
+            });
+        }
+    });
+
+    /**
+     * Implement storing search history and display recent searches
+     */
+    $.widget('mage.suggest', $.mage.suggest, {
+        options: {
+            showRecent: false,
+            storageKey: 'suggest',
+            storageLimit: 10,
+            currentlySelected: null
+        },
+
+        /**
+         * @override
+         */
+        _create: function() {
+
+            if (this.options.showRecent && window.localStorage) {
+                var recentItems = JSON.parse(localStorage.getItem(this.options.storageKey));
+                /**
+                 * @type {Array} - list of recently searched items
+                 * @private
+                 */
+                this._recentItems = $.isArray(recentItems) ? $.grep(recentItems, $.proxy(function(item) {
+                    return item.id !== this.options.currentlySelected;
+                }, this)) : [];
+            }
+            this._super();
+        },
+
+        /**
+         * @override
+         */
+        _bind: function() {
+            this._super();
             if (this.options.showRecent) {
                 this._on({
-                    focus: function() {
+                    focus: function(event) {
                         if (!this._value()) {
-                            this._renderDropdown(this._recentItems);
+                            this._recentItems.length ?
+                                this._renderDropdown(event, this._recentItems) :
+                                this._showAll();
                         }
                     }
                 });
@@ -534,25 +650,38 @@
         /**
          * @override
          */
-        search: function() {
-            this._super();
+        search: function(e) {
+            this._superApply(arguments);
             if (this.options.showRecent) {
                 if (!this._term) {
                     this._abortSearch();
-                    this._renderDropdown(this._recentItems);
+                    this._renderDropdown(e, this._recentItems);
                 }
             }
         },
 
         /**
          * @override
-         * @private
          */
         _selectItem: function() {
             this._superApply(arguments);
             if (this._selectedItem.id && this.options.showRecent) {
                 this._addRecent(this._selectedItem);
             }
+        },
+
+        /**
+         * @override
+         */
+        _prepareDropdownContext: function() {
+            var context = this._superApply(arguments);
+            return $.extend(context, {
+                recentShown: $.proxy(function(){
+                    return this.options.showRecent;
+                }, this),
+                recentTitle: $.mage.__('Recent items'),
+                showAllTitle: $.mage.__('Show all...')
+            });
         },
 
         /**
@@ -571,71 +700,62 @@
     });
 
     /**
-     * Implement show all functionality
-     */
-    $.widget('mage.suggest', $.mage.suggest, {
-        /**
-         * @override
-         * @private
-         */
-        _bind: function() {
-            this._super();
-            this._on(this.dropdown, {
-                showAll: this._showAll
-            });
-        },
-
-        /**
-         *
-         * @private
-         */
-        _showAll: function() {
-            this._abortSearch();
-            if (!this._allItems) {
-                this._search('', {_allShown: true});
-            } else if (!this._renderedContext || !this._renderedContext._allShown) {
-                this._renderDropdown(this._allItems, {_allShown: true});
-            }
-        },
-
-        /**
-         * @override
-         * @param items
-         * @param context
-         * @private
-         */
-        _renderDropdown: function(items, context) {
-            this._superApply(arguments);
-            if (context && context._allShown && !this.allItems) {
-                this._allItems = this._items;
-            }
-        },
-
-        /**
-         * @override
-         * @private
-         */
-        _prepareDropdownContext: function() {
-            var context = this._superApply(arguments);
-            return $.extend(context, {
-                allShown: function(){
-                    return !!context._allShown;
-                }
-            });
-        }
-    });
-
-    /**
      * Implement multi suggest functionality
      */
     $.widget('mage.suggest', $.mage.suggest, {
+        options: {
+            multiSuggestWrapper: '<ul class="mage-suggest-choices">' +
+                '<li class="mage-suggest-search-field"></li></ul>',
+            choiceTemplate: '<li class="mage-suggest-choice button"><div>${text}</div>' +
+                '<span class="mage-suggest-choice-close" tabindex="-1" ' +
+                'data-mage-init="{&quot;actionLink&quot;:{&quot;event&quot;:&quot;removeOption&quot;}}"></span></li>'
+        },
+
         /**
          * @override
          */
         _create: function() {
             this._super();
+            this._selectedItems = [];
             if (this.options.multiselect) {
                 this.valueField.hide();
+            }
+        },
+
+        /**
+         * @override
+         */
+        _render: function() {
+            this._super();
+            if (this.options.multiselect) {
+                this.element.wrap(this.options.multiSuggestWrapper);
+                this.elementWrapper = this.element.parent();
+                this.valueField.find('option').each($.proxy(function(i, option) {
+                    option = $(option);
+                    this._renderOption({id: option.val(), label: option.text()});
+                }, this));
+            }
+        },
+        /**
+         * @override
+         */
+        _bind: function() {
+            this._super();
+            if (this.options.multiselect) {
+                this._on({
+                    keydown: function(event) {
+                        var keyCode = $.ui.keyCode;
+                        switch (event.keyCode) {
+                            case keyCode.BACKSPACE:
+                                if (!this._value()) {
+                                    event.preventDefault();
+                                    this._removeLastAdded(event);
+                                }
+                                break;
+                        }
+                    },
+                    removeOption: this.removeOption
+                });
             }
         },
 
@@ -670,8 +790,8 @@
          */
         _selectItem: function() {
             if (this.options.multiselect) {
-                if (this.isDropdownShown() && this._focused) {
-                    this._selectedItem = this._readItemData(this._focused);
+                if (this._focused) {
+                    this._selectedItem = this._focused;
                     if (this.valueField.find('option[value=' + this._selectedItem.id + ']').length) {
                         this._selectedItem = this._nonSelectedItem;
                     }
@@ -681,8 +801,38 @@
                     }
                 }
             } else {
-                this._super();
+                this._superApply(arguments);
             }
+        },
+
+        /**
+         * @override
+         */
+        _prepareDropdownContext: function() {
+            var context = this._superApply(arguments);
+            return $.extend(context, {
+                itemSelected:$.proxy(function(item) {
+                    var selected = false;
+                    $.each(this._selectedItems, function(i, selectedItem){
+                        if(item.id === selectedItem.id) {
+                            selected = true;
+                            return;
+                        }
+                    });
+                    return selected;
+                }, this)
+            });
+        },
+
+        /**
+         *
+         * @param {Object} item
+         * @return {Element}
+         * @private
+         */
+        _createOption: function(item) {
+            return $('<option value="' + item.id + '" selected="selected">' + item.label + '</option>')
+                .data('renderedOption', this._renderOption(item));
         },
 
         /**
@@ -691,96 +841,46 @@
          * @private
          */
         _addOption: function(item) {
-            this.valueField.append(
-                '<option value="' + item.id + '" selected="selected">' + item.label + '</option>'
-            );
+            this._selectedItems.push(this._selectedItem);
+            this.valueField.append(this._createOption(item));
         },
 
         /**
-         * Remove item from select options
-         * @param item
+         * @param {Object|Element} item
+         * @return {Element}
          * @private
          */
-        _removeOption: function(item) {
-            this.valueField.find('option[value=' + item.id + ']').remove();
-        },
-
-        /**
-         * @override
-         */
-        _hideDropdown: function() {
-            this._super();
-            if (this.options.multiselect) {
-                this.element.val('');
-            }
-        }
-    });
-
-    $.widget('mage.suggest', $.mage.suggest, {
-        options: {
-            multiSuggestWrapper: '<ul class="category-selector-choices">' +
-                '<li class="category-selector-search-field"></li></ul>',
-            choiceTemplate: '<li class="category-selector-search-choice button"><div>${text}</div>' +
-                '<span class="category-selector-search-choice-close" tabindex="-1" ' +
-                'data-mage-init="{&quot;actionLink&quot;:{&quot;event&quot;:&quot;removeOption&quot;}}"></span></li>'
-        },
-
-        /**
-         * @override
-         */
-        _render: function() {
-            this._super();
-            if (this.options.multiselect) {
-                this.element.wrap(this.options.multiSuggestWrapper);
-                this.elementWrapper = this.element.parent();
-                this.valueField.find('option').each($.proxy(function(i, option) {
-                    option = $(option);
-                    this._renderOption({id: option.val(), label: option.text()});
-                }, this));
-            }
-        },
-
-        /**
-         * @override
-         */
-        _bind: function() {
-            this._super();
-            if (this.options.multiselect) {
-                this._on({
-                    keydown: function(event) {
-                        var keyCode = $.ui.keyCode;
-                        switch (event.keyCode) {
-                            case keyCode.BACKSPACE:
-                                if (!this._value()) {
-                                    event.preventDefault();
-                                    this._removeLastAdded();
-                                }
-                                break;
-                        }
-                    }
-                });
-            }
+        _getOption: function(item){
+            return $(item).prop('tagName') ?
+                $(item) :
+                this.valueField.find('option[value=' + item.id + ']');
         },
 
         /**
          * Remove last added option
          * @private
+         * @param {Object} e - event object
          */
-        _removeLastAdded: function() {
-            var lastAdded =  this.elementWrapper.prev();
-            if (lastAdded.length) {
-                lastAdded.trigger('removeOption');
+        _removeLastAdded: function(e) {
+            var lastOption = this.valueField.find('option:last');
+            if(lastOption.length) {
+                this.removeOption(e, lastOption);
             }
         },
 
         /**
-         * @override
+         * Remove item from select options
+         * @param {Object} e - event object
+         * @param item
+         * @private
          */
-        _selectItem: function() {
-            this._superApply(arguments);
-            if (this.options.multiselect && this._selectedItem !== this._nonSelectedItem) {
-                this._renderOption(this._selectedItem);
-            }
+        removeOption: function(e, item) {
+            var option = this._getOption(item);
+            option.data('renderedOption').remove();
+            option.remove();
+            this._selectedItems = $.grep(this._selectedItems, function(selectedItem) {
+                return selectedItem.id !== item.id;
+            });
         },
 
         /**
@@ -789,14 +889,23 @@
          * @private
          */
         _renderOption: function(item) {
-            $.tmpl(this.options.choiceTemplate, {text: item.label})
-                .data(item)
+            return $.tmpl(this.options.choiceTemplate, {text: item.label})
                 .insertBefore(this.elementWrapper)
                 .trigger('contentUpdated')
                 .on('removeOption', $.proxy(function(e) {
-                    this._removeOption($(e.currentTarget).data());
-                    $(e.currentTarget).remove();
+                    this.removeOption(e, item);
                 }, this));
+        },
+
+        /**
+         * @override
+         */
+        close: function() {
+            this._superApply(arguments);
+            if (this.options.multiselect) {
+                this.element.val('');
+            }
         }
     });
+
 })(jQuery);
