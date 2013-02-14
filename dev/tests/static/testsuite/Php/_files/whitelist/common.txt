@@ -23,6 +23,7 @@ app/code/core/Mage/Catalog/Model/Product/Limitation.php
 app/code/core/Mage/Catalog/Block/Product/Grouped
 app/code/core/Mage/Catalog/Block/Product/TemplateSelector.php
 app/code/core/Mage/Catalog/Model/Resource/Product/Collection
+app/code/core/Mage/Catalog/Model/Product/Type.php
 app/code/core/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/core/Mage/Centinel/Model/State/Jcb.php
 app/code/core/Mage/Cms/Controller/Router.php
@@ -34,6 +35,7 @@ app/code/core/Mage/Core/Controller/Varien/Action/Forward.php
 app/code/core/Mage/Core/Controller/Varien/DispatchableInterface.php
 app/code/core/Mage/Core/Controller/Varien/Router/Abstract.php
 app/code/core/Mage/Core/data
+app/code/core/Mage/Core/Model/Abstract.php
 app/code/core/Mage/Core/Model/Config
 app/code/core/Mage/Core/Model/Design.php
 app/code/core/Mage/Core/Model/Design/Fallback

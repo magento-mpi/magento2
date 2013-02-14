@@ -372,7 +372,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param string $moduleName
      * @return Varien_Simplexml_Element
      */
-    function getModuleConfig($moduleName = '')
+    public function getModuleConfig($moduleName = '')
     {
         $modules = $this->getNode('modules');
         if ('' === $moduleName) {
@@ -597,7 +597,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
                 }
             }
             // assume namespace is qualified
-            if(isset($name[1])) {
+            if (isset($name[1])) {
                 $fullNS = $name[0] . '_' . $name[1];
                 if (2 <= $partsNum && isset($namespace[$fullNS])) {
                     return $asFullModuleName ? $namespace[$fullNS] : $fullNS;
