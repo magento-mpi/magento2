@@ -77,6 +77,23 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test/upload', $dir->getUri(Mage_Core_Model_Dir::UPLOAD));
     }
 
+    /**
+     * Test that URIs are not affected by custom dirs
+     */
+    public function testGetUriIndependentOfDirs()
+    {
+        $fixtureDirs = array(
+            Mage_Core_Model_Dir::ROOT => __DIR__ . '/root',
+            Mage_Core_Model_Dir::MEDIA => __DIR__ . '/media',
+            'custom' => 'test2'
+        );
+        $default = $this->_filesystemHelper->createDirInstance(__DIR__);
+        $custom = $this->_filesystemHelper->createDirInstance(__DIR__, array(), $fixtureDirs);
+        foreach (array_keys($fixtureDirs) as $dirCode ) {
+            $this->assertEquals($default->getUri($dirCode), $custom->getUri($dirCode));
+        }
+    }
+
     public function testGetDir()
     {
         $newRoot = __DIR__ . DIRECTORY_SEPARATOR . 'root';
@@ -97,16 +114,22 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
         // but it didn't affect the customized dirs
         $this->assertEquals($newMedia, $dir->getDir(Mage_Core_Model_Dir::MEDIA));
         $this->assertStringStartsWith($newMedia, $dir->getDir(Mage_Core_Model_Dir::UPLOAD));
+    }
 
-        // uris should not be affected
+    /**
+     * Test that dirs are not affected by custom URIs
+     */
+    public function testGetDirIndependentOfUris()
+    {
+        $fixtureUris = array(
+            Mage_Core_Model_Dir::PUB   => '',
+            Mage_Core_Model_Dir::MEDIA => 'test',
+            'custom' => 'test2'
+        );
         $default = $this->_filesystemHelper->createDirInstance(__DIR__);
-        foreach (array(
-            Mage_Core_Model_Dir::PUB,
-            Mage_Core_Model_Dir::PUB_LIB,
-            Mage_Core_Model_Dir::MEDIA,
-            Mage_Core_Model_Dir::UPLOAD) as $code
-        ) {
-            $this->assertEquals($default->getUri($code), $dir->getUri($code));
+        $custom = $this->_filesystemHelper->createDirInstance(__DIR__, $fixtureUris);
+        foreach (array_keys($fixtureUris) as $dirCode ) {
+            $this->assertEquals($default->getDir($dirCode), $custom->getDir($dirCode));
         }
     }
 }

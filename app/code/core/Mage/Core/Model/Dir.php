@@ -125,6 +125,15 @@ class Mage_Core_Model_Dir
     );
 
     /**
+     * List of directories that application requires to be writable in order to operate
+     *
+     * @var array
+     */
+    private static $_writableDirCodes = array(
+        self::MEDIA, self::VAR_DIR, self::TMP, self::CACHE, self::LOG, self::SESSION
+    );
+
+    /**
      * Paths of URIs designed for building URLs
      *
      * Values are to be initialized in constructor.
@@ -154,13 +163,20 @@ class Mage_Core_Model_Dir
     private $_dirs = array();
 
     /**
-     * List of directories that application requires to be writable in order to operate
+     * Codes of directories, validation of which have been already performed
+     *
+     * @var array
+     */
+    private $_validatedDirCodes = array();
+
+    /**
+     * Retrieve the list of directories that application requires to be writable in order to operate
      *
      * @return array
      */
     public static function getWritableDirCodes()
     {
-        return array(self::MEDIA, self::VAR_DIR, self::TMP, self::CACHE, self::LOG, self::SESSION);
+        return self::$_writableDirCodes;
     }
 
     /**
@@ -196,16 +212,17 @@ class Mage_Core_Model_Dir
         foreach ($this->_getDefaultReplacements($dirs) as $code => $replacement) {
             $this->_setDir($code, $replacement);
         }
-
-        $this->_ensureDirsWritable();
     }
 
     /**
-     * Ensure all required directories exist and have writable permissions
+     * Validate directory path value corresponding to the directory code, if applicable
+     *
+     * @param string $code
      */
-    protected function _ensureDirsWritable()
+    protected function _validateDir($code)
     {
-        foreach (self::getWritableDirCodes() as $code) {
+        if (in_array($code, self::$_writableDirCodes) && !in_array($code, $this->_validatedDirCodes)) {
+            $this->_validatedDirCodes[] = $code;
             $path = $this->getDir($code);
             $this->_ensureDirWritable($path);
         }
@@ -273,6 +290,7 @@ class Mage_Core_Model_Dir
      */
     public function getDir($code)
     {
+        $this->_validateDir($code);
         return isset($this->_dirs[$code]) ? $this->_dirs[$code] : false;
     }
 

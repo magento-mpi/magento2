@@ -61,18 +61,19 @@ class Mage_Core_Model_DirFilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Instantiate the model passing a custom directory path
+     * Instantiate and return the model passing a custom directory path
      *
      * @param string $dirCode
      * @param string $path
+     * @return Mage_Core_Model_Dir
      */
-    protected function _createWithCustomDir($dirCode, $path)
+    protected function _createModelWithCustomDir($dirCode, $path)
     {
         $filesystem = Mage::getObjectManager()->get('Magento_Filesystem');
         $appParams = Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams();
         $dirs = isset($appParams[Mage::PARAM_APP_DIRS]) ? $appParams[Mage::PARAM_APP_DIRS] : array();
         $dirs[$dirCode] = $path;
-        new Mage_Core_Model_Dir($filesystem, __DIR__, array(), $dirs);
+        return new Mage_Core_Model_Dir($filesystem, __DIR__, array(), $dirs);
     }
 
     /**
@@ -90,11 +91,13 @@ class Mage_Core_Model_DirFilesystemTest extends PHPUnit_Framework_TestCase
      * @dataProvider writableDirCodeDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testConstructorExistingReadonlyDir($dirCode)
+    public function testExistingReadonlyDir($dirCode)
     {
         $this->_requireReadonlyDir();
+        $dirs = $this->_createModelWithCustomDir($dirCode, self::$_tmpReadonlyDir);
+        // expectation is intentionally set up after the model creation to ensure validation is performed on demand
         $this->_expectDirBootstrapException(self::$_tmpReadonlyDir);
-        $this->_createWithCustomDir($dirCode, self::$_tmpReadonlyDir);
+        $dirs->getDir($dirCode);
     }
 
     /**
@@ -102,10 +105,11 @@ class Mage_Core_Model_DirFilesystemTest extends PHPUnit_Framework_TestCase
      * @dataProvider writableDirCodeDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testConstructorExistingFile($dirCode)
+    public function testExistingFile($dirCode)
     {
+        $dirs = $this->_createModelWithCustomDir($dirCode, __FILE__);
         $this->_expectDirBootstrapException(__FILE__);
-        $this->_createWithCustomDir($dirCode, __FILE__);
+        $dirs->getDir($dirCode);
     }
 
     /**
@@ -113,12 +117,13 @@ class Mage_Core_Model_DirFilesystemTest extends PHPUnit_Framework_TestCase
      * @dataProvider writableDirCodeDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testConstructorNewDirInReadonlyDir($dirCode)
+    public function testNewDirInReadonlyDir($dirCode)
     {
         $this->_requireReadonlyDir();
         $path = self::$_tmpReadonlyDir . DIRECTORY_SEPARATOR . 'non_existing_dir';
+        $dirs = $this->_createModelWithCustomDir($dirCode, $path);
         $this->_expectDirBootstrapException($path);
-        $this->_createWithCustomDir($dirCode, $path);
+        $dirs->getDir($dirCode);
     }
 
     /**
@@ -126,11 +131,12 @@ class Mage_Core_Model_DirFilesystemTest extends PHPUnit_Framework_TestCase
      * @dataProvider writableDirCodeDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testConstructorNewDirInWritableDir($dirCode)
+    public function testNewDirInWritableDir($dirCode)
     {
         $path = self::$_tmpWritableDir . DIRECTORY_SEPARATOR . $dirCode;
+        $dirs = $this->_createModelWithCustomDir($dirCode, $path);
         $this->assertFileNotExists($path);
-        $this->_createWithCustomDir($dirCode, $path);
+        $dirs->getDir($dirCode);
         $this->assertFileExists($path);
     }
 
