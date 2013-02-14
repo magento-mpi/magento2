@@ -246,7 +246,13 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
                             $conditionName = $condition->key;
                             $conditionValue = $condition->value;
                             $this->formatFilterConditionValue($conditionName, $conditionValue);
-                            $parsedFilters[$fieldName] = array($conditionName => $conditionValue);
+                            $condition = array($conditionName => $conditionValue);
+
+                            if (array_key_exists($fieldName, $parsedFilters)) {
+                                $parsedFilters[$fieldName] += $condition;
+                            } else {
+                                $parsedFilters[$fieldName] = $condition;
+                            }
                         }
                     }
                 } else {
@@ -257,7 +263,13 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
                             $condition = $value->value;
                             if (is_object($condition) && isset($condition->key) && isset($condition->value)) {
                                 $this->formatFilterConditionValue($condition->key, $condition->value);
-                                $parsedFilters[$fieldName] = array($condition->key => $condition->value);
+                                $condition = array($condition->key => $condition->value);
+
+                                if (array_key_exists($fieldName, $parsedFilters)) {
+                                    $parsedFilters[$fieldName] += $condition;
+                                } else {
+                                    $parsedFilters[$fieldName] = $condition;
+                                }
                             }
                         }
                     }
