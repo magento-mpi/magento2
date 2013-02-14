@@ -521,6 +521,7 @@ button.primary.disabled,
 
 .page-actions .suggest-expandable {
     float: left;
+    margin-top: 1px;
 }
 
 .page-actions.fixed #product-template-suggest-container {
@@ -1185,7 +1186,6 @@ option.placeholder {
     display: block;
     cursor: pointer;
 }
-
 
 .multiselect-alt input[type="checkbox"] {
     display: none;
@@ -2718,6 +2718,7 @@ table tbody tr:nth-child(odd):hover th {
 .side-col h3,
 .side-col > .switcher {
     padding: 0 17px;
+    margin-top: 16px;
 }
 
 .side-col > .switcher {
@@ -2732,6 +2733,44 @@ table tbody tr:nth-child(odd):hover th {
     Universal Sidebar Tabs
 -------------------------------------- */
 /* TODO: for "Product" page only while refactoring */
+
+.side-col .ui-accordion-header {
+    position: relative;
+    margin: 10px 0 3px;
+    padding: 5px 20px;
+    cursor: pointer;
+    color: #575149;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.side-col .ui-accordion-header:before {
+    position: absolute;
+    left: 4px;
+    top: 7px;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e02a'; /* arrow right icon */
+    font-size: 14px;
+    color: #ada79e;
+}
+
+.side-col .ui-accordion-header:hover:before {
+    color: #777;
+}
+
+.side-col .ui-accordion-header.ui-state-focus {
+}
+
+.side-col .ui-accordion-header-active {
+}
+
+.side-col .ui-accordion-header-active:before {
+    content: '\e02c'; /* arrow down icon */
+}
+
 .side-col .tabs {
     margin: 0 0 30px;
     padding: 0;
@@ -2953,10 +2992,17 @@ table tbody tr:nth-child(odd):hover th {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
 }
 
-.switcher strong {
-    vertical-align: top;
+.switcher input[type="checkbox"] {
+    position: absolute;
+    left: -999em;
+}
+
+.switcher-label {
     font-family: "CallunaSans", Arial, sans-serif;
     font-size: 12px;
     font-weight: 600;
@@ -2965,31 +3011,38 @@ table tbody tr:nth-child(odd):hover th {
     text-transform: uppercase;
 }
 
-.switcher input[type="checkbox"] {
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    margin: 0;
+.switcher-label:before {
+    content: attr(data-text-off);
 }
 
-.switcher input:focus + span {
-    outline: 1px dotted grey;
-}
-
-.switcher span {
+.switcher-label:after {
     display: inline-block;
+    margin-left: 10px;
+    vertical-align: bottom;
     width: 34px;
     height: 17px;
     background: url(Mage_Backend::images/switcher.png) no-repeat;
+    content: '';
 }
 
-.switcher input:checked + span {
+.switcher input[type="checkbox"]:focus + .switcher-label:after {
+    border-color: #75b9f0;
+}
+
+.switcher input[type="checkbox"]:checked + .switcher-label:after {
     background-position: -34px 0;
 }
 
-/* TODO: IE8 fix for :checked attr */
-.eq-ie8 .switcher input.checked + span {
+.switcher input[type="checkbox"]:checked + .switcher-label:before {
+    content: attr(data-text-on);
+}
+
+.eq-ie8 .switcher.checked .switcher-label:after {
     background-position: -34px 0;
+}
+
+.eq-ie8 .switcher.checked .switcher-label:before {
+    content: attr(data-text-on);
 }
 
 /*

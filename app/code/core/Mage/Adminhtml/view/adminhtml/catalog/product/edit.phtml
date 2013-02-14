@@ -14,10 +14,6 @@
  */
 ?>
 
-<!--
-    <h3 class="icon-head head-products"><?php echo $this->getHeader() ?></h3>
--->
-
 <div class="page-actions">
     <div id="product-template-suggest-container" class="suggest-expandable">
         <div class="actions-split">
@@ -31,11 +27,12 @@
     </div>
 
     <div class="switcher" onselectstart='return false;'>
-        <label class="switcher-label" for="product-online-switcher" title="Product online status">
-            <strong>Product online</strong>
-            <input type="checkbox" id="product-online-switcher" checked />
-            <span></span>
-        </label>
+        <input type="checkbox" id="product-online-switcher" name="product-online-switcher" />
+        <label class="switcher-label"
+               for="product-online-switcher"
+               data-text-on="<?php echo $this->__('Product online'); ?>"
+               data-text-off="<?php echo $this->__('Product offline'); ?>"
+               title="<?php echo $this->__('Product online status'); ?>"></label>
     </div>
 
     <?php if($this->getProductId()): ?>
