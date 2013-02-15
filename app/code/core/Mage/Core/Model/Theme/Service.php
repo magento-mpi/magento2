@@ -303,6 +303,17 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
+     * Get theme by id
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme
+     */
+    public function getThemeById($themeId)
+    {
+        return $this->_themeFactory->create()->load($themeId);
+    }
+
+    /**
      * Fetch theme customization and sort them out to arrays:
      * self::_assignedThemeCustomizations and self::_unassignedThemeCustomizations.
      *

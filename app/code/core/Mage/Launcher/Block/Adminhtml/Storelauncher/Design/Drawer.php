@@ -103,4 +103,55 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
             'mode'     => Mage_DesignEditor_Model_State::MODE_NAVIGATION
         ));
     }
+
+    /**
+     * Retrieve Store Config
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getConfigValue($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
+     * Get current theme_id
+     *
+     * @return int|null
+     */
+    public function getCurrentThemeId()
+    {
+        return $this->getConfigValue('design/theme/theme_id');
+    }
+
+    /**
+     * Get current theme
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getCurrentTheme()
+    {
+        return $this->_themeService->getThemeById($this->getCurrentThemeId());
+    }
+
+    /**
+     * Retrieve array of themes blocks
+     *
+     * @return array|null
+     */
+    public function getThemesBlocks()
+    {
+        $themesBlocks = array();
+        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Template');
+        $block->setTemplate('Mage_Launcher::page/storelauncher/design/drawer/theme_block.phtml');
+        foreach($this->getThemes() as $theme) {
+            $themeBlock = clone $block;
+            $themeBlock->setTheme($theme);
+            $themesBlocks[] = $themeBlock;
+        }
+
+        return $themesBlocks;
+    }
+
 }

@@ -1,0 +1,39 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme */
+?>
+<li>
+    <div class="theme-item">
+        <div class="theme-item-content">
+            <ul>
+                <li class="theme-front">
+                    <img src="<?php echo $this->getTheme()->getPreviewImageUrl() ?>" alt="<?php echo $this->getTheme()->getThemeTitle() ?>">
+                </li>
+                <li class="theme-back">
+                    <dl>
+                        <dt><?php echo $this->getTheme()->getThemeTitle() ?></dt>
+                        <dd>
+                            <p><?php echo $this->__('Our responsive theme designed by Magento pros to be best in breed for Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis'); ?></p>
+                            <div class="buttons">
+                                <a class="action-button button btn-theme-preview" href="<?php echo $this->getPreviewUrl($this->getTheme()->getId())?>" target="_blank"><?php echo $this->__('Preview Theme'); ?></a>
+                                <button class="button btn-theme-choose"
+                                        data-theme-id="<?php echo $this->getTheme()->getId()?>"
+                                        data-theme-img-src="<?php echo $this->getTheme()->getPreviewImageUrl()?>">
+                                    <?php echo $this->__('Choose Theme'); ?>
+                                </button>
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+</li>

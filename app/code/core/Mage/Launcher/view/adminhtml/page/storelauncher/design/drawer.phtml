@@ -10,165 +10,45 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer */
 ?>
-
+<form action="" id="drawer-form" method="post">
 <div class="themes-list-wrapper">
-
 <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('First choose a store theme, then customize it for your business') ?>
 
 <ul class="themes-list">
-    <?php foreach ($this->getThemes() as $theme):?>
-    <li>
-        <div class="theme-item">
-            <div class="theme-item-content">
-                <ul>
-                    <li class="theme-front">
-                        <img src="<?php $theme->getPreviewImageUrl() ?>" alt="<?php echo $theme->getThemeTitle() ?>">
-                    </li>
-                    <li class="theme-back">
-                        <dl>
-                            <dt><?php echo $theme->getThemeTitle() ?></dt>
-                            <dd>
-                                <p><?php echo $this->__('Our responsive theme designed by Magento pros to be best in breed for Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis'); ?></p>
-                                <div class="buttons">
-                                    <a class="action-button button btn-theme-preview" href="<?php echo $this->getPreviewUrl($theme->getId())?>" target="_blank"><?php echo $this->__('Preview Theme'); ?></a>
-                                    <button class="button btn-theme-choose"><?php echo $this->__('Choose Theme'); ?></button>
-                                </div>
-                            </dd>
-                        </dl>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </li>
+    <?php foreach ($this->getThemesBlocks() as $theme):?>
+        <?php echo $theme->toHtml() ?>
     <?php endforeach; ?>
 </ul>
 
 </div>
 
 <div class="theme-page hidden">
-    <a href="#" class="button btn-edit edit-theme">Edit</a>
+    <input type="hidden" name="groups[design][theme][fields][theme_id][value]" id="theme-id" value="<?php echo $this->getConfigValue('design/theme/theme_id'); ?>">
+    <h2><?php echo $this->__('You\'ve created your store theme, name, and logo'); ?></h2>
+    <dl class="theme-selected-thumbnail">
+        <dt>
+            <?php echo $this->__('Your Theme'); ?> <a href="#" class="button btn-edit edit-theme" id="edit-theme"><?php echo $this->__('Edit'); ?></a>
+        </dt>
+        <dd>
+            <img src="<?php echo $this->getCurrentTheme()->getPreviewImageUrl() ?>" id="theme-image">
+        </dd>
+    </dl>
+    <dl class="theme-selected-info">
+        <dt><?php echo $this->__('Store Name'); ?></dt>
+        <dd class="theme-selected-name">
+            <div id="field-store-name-1" >
+                <input type="text" id="store-name-1" name="groups[general][store_information][fields][name][value]" value="<?php echo $this->getConfigValue('general/store_information/name'); ?>" class="input-text">
+            </div>
+        </dd>
+    </dl>
 </div>
+</form>
 
 <script type="text/javascript">
     (function($) {
-        $.widget("storeCreation.drawerPages", {
-            options: {
-                drawer: '#drawer',
-                drawerHeader: '.drawer-header',
-                drawerHeaderActions: '.actions',
-                btnCloseDrawer: '.action-close-drawer',
-                btnSaveDrawer: '.action-save-settings'
-            },
-
-            headerButtons: {},
-
-            drawerPages: {},
-            drawerPageCurrent: null,
-
-            _create: function() {
-                this.drawerHeader = $(this.options.drawerHeader);
-                this.drawerHeaderActions = this.drawerHeader.find(this.options.drawerHeaderActions);
-                this.btnCloseDrawer = $(this.options.btnCloseDrawer);
-                this.btnSaveDrawer = $(this.options.btnSaveDrawer);
-                this.headerButtonCreate({
-                    name: 'close',
-                    button: this.btnCloseDrawer,
-                    click: $.proxy(this.destroy, this)
-                });
-                this.headerButtonCreate({
-                    name: 'save',
-                    button: this.btnSaveDrawer,
-                    click: $.proxy(this.destroy, this)
-                });
-            },
-
-            headerButtonCreate: function(buttonOptions) {
-                var buttonObject;
-                if (this.headerButtons[buttonOptions.name]) {
-                    buttonObject = this.headerButtons[buttonOptions.name];
-                    buttonObject.off('.headerButton');
-                }
-                var buttonVars = {
-                    type: 'button',
-                    cssClass: 'primary',
-                    title: 'Button',
-                    click: function() {},
-                    afterShow: function() {}
-                };
-                $.extend(buttonVars, buttonOptions);
-
-                if (buttonOptions.button) {
-                    buttonObject = buttonOptions.button;
-                }
-
-                if (!buttonObject) {
-                    buttonObject = $.tmpl('<button type="${type}" class="${cssClass}">${title}</button>', buttonVars);
-                }
-
-                this.drawerHeaderActions.prepend(buttonObject);
-                buttonObject.on('click.headerButton', buttonVars.click);
-                buttonObject.on('afterShow.headerButton', buttonVars.afterShow);
-
-                this.headerButtons[buttonOptions.name] = buttonObject;
-            },
-
-            headerButtonHide: function(buttonName) {
-                this.headerButtons[buttonName].addClass('hidden');
-            },
-
-            headerButtonHideAll: function() {
-                $.each(this.headerButtons, $.proxy(function(buttonName) {
-                    this.headerButtonHide(buttonName);
-                }, this));
-            },
-
-            headerButtonShow: function(buttonName) {
-                this.headerButtons[buttonName]
-                    .removeClass('hidden')
-                    .trigger('afterShow.headerButton');
-            },
-
-            drawerPageAdd: function(page) {
-                if (this.drawerPages[page.name]) {
-                    this.drawerPages[page.name].page.remove();
-                    delete  this.drawerPages[page.name];
-                }
-                var pageElement = {
-                    page: '',
-                    buttons: 'close'
-                };
-                $.extend(pageElement, page);
-                pageElement.page = $(pageElement.page);
-                this.drawerPages[page.name] = pageElement;
-                this.drawerPageHide(page.name);
-            },
-
-            drawerPageShow: function(name) {
-                if (!name || !this.drawerPages[name]) {
-                    return;
-                }
-                this.drawerPages[name].page.removeClass('hidden');
-                this.headerButtonHideAll();
-                $.each(this.drawerPages[name].buttons, $.proxy(function(i, buttonName) {
-                    this.headerButtonShow(buttonName);
-                }, this));
-                this.drawerPageCurrent = name;
-            },
-
-            drawerPageHide: function(name) {
-                if (name && this.drawerPages[name]) {
-                    this.drawerPages[name].page.addClass('hidden');
-                }
-            },
-
-            drawerPageSwitch: function(name) {
-                this.drawerPageHide(this.drawerPageCurrent);
-                this.drawerPageShow(name);
-            }
-        });
         $(document).ready(function() {
             'use strict';
-            var currentThemeId = <?php echo $this->getThemeId() ? $this->getThemeId() : 'null'; ?>;
+            var currentThemeId = <?php echo $this->getCurrentThemeId() ? $this->getCurrentThemeId() : 'null'; ?>;
             $('#drawer')
                 .drawerPages()
                 .drawerPages('headerButtonCreate', {
@@ -201,9 +81,12 @@
                     return false;
                 });
             $('.btn-theme-choose')
-                .on('click', function() {
+                .on('click', function(event) {
+                    event.preventDefault();
                     $('#drawer').drawerPages('drawerPageSwitch', 'theme-page');
-                    // @TODO: Set current theme
+                    $('#theme-image').attr('src' , $(this).attr('data-theme-img-src'));
+                    $('#theme-id').val($(this).attr('data-theme-id'));
+                    return false;
                 });
         });
     })(jQuery);
