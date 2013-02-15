@@ -60,7 +60,7 @@ new_poll:
                         fieldsets:
                             -
                                 information:
-                                    xpath: //*[@id='poll_form']
+                                    xpath: //fieldset[@id='poll_form']
                                     dropdowns:
                                         poll_status: //select[@id='closed']
                                     fields:

@@ -57,7 +57,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6180
+     * @TestLinkId TL-MAGE-6180
      */
     public function systemConfigurationVerificationScopeSelector()
     {
@@ -71,7 +71,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6181
+     * @TestLinkId TL-MAGE-6181
      */
     public function systemConfigurationVerificationTableRatesExport()
     {
@@ -86,7 +86,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6183
+     * @TestLinkId TL-MAGE-6183
      */
     public function systemConfigurationVerificationAccountSharingOptions()
     {
@@ -100,8 +100,8 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>"Price" fieldset is displayed if Single Store Mode enabled.</p>
      *
      * @test
-     * @ depends preconditionsForTests
-     * @testlinkId TL-MAGE-6183
+     * @depends preconditionsForTests
+     * @TestLinkId TL-MAGE-6183
      */
     public function systemConfigurationVerificationCatalogPrice()
     {
@@ -115,7 +115,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6184
+     * @TestLinkId TL-MAGE-6184
      */
     public function systemConfigurationVerificationDebugOptions()
     {
@@ -129,7 +129,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6185
+     * @TestLinkId TL-MAGE-6185
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationVerificationHints()
@@ -149,7 +149,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6317
+     * @TestLinkId TL-MAGE-6317
      */
     public function verificationManageProducts()
     {
@@ -182,7 +182,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6316
+     * @TestLinkId TL-MAGE-6316
      */
     public function verificationSearchTerms()
     {
@@ -203,7 +203,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6318
+     * @TestLinkId TL-MAGE-6318
      */
     public function verificationReviewRatings()
     {
@@ -230,7 +230,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6319
+     * @TestLinkId TL-MAGE-6319
      */
     public function verificationTags()
     {
@@ -257,7 +257,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6320
+     * @TestLinkId TL-MAGE-6320
      */
     public function verificationUrlRewrite()
     {
@@ -273,7 +273,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6167
+     * @TestLinkId TL-MAGE-6167
      */
     public function verificationManageContent()
     {
@@ -294,7 +294,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6168
+     * @TestLinkId TL-MAGE-6168
      */
     public function verificationStaticBlocks()
     {
@@ -318,7 +318,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6169
+     * @TestLinkId TL-MAGE-6169
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
@@ -350,7 +350,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6171
+     * @TestLinkId TL-MAGE-6171
      */
     public function verificationPolls()
     {
@@ -370,7 +370,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6302
+     * @TestLinkId TL-MAGE-6302
      */
     public function verificationDashboardPage()
     {
@@ -384,7 +384,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6229
+     * @TestLinkId TL-MAGE-6229
      */
     public function newCustomer()
     {
@@ -402,7 +402,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * @param $userData
      * @depends preconditionsForTests
      * @test
-     * @testlinkId TL-MAGE-6230
+     * @TestLinkId TL-MAGE-6230
      */
     public function editCustomer($userData)
     {
@@ -433,7 +433,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6311
+     * @TestLinkId TL-MAGE-6311
      */
     public function verificationNewsletterSubscribers()
     {
@@ -451,7 +451,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6266
+     * @TestLinkId TL-MAGE-6266
      */
     public function verificationCatalogPriceRule()
     {
@@ -470,7 +470,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6267
+     * @TestLinkId TL-MAGE-6267
      */
     public function verificationShoppingCartPriceRule()
     {
@@ -490,7 +490,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * @depends preconditionsForTests
      *
      * @test
-     * @testlinkId TL-MAGE-6288
+     * @TestLinkId TL-MAGE-6288
      */
     public function allReportPages($page)
     {
@@ -530,7 +530,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @depends preconditionsForTests
      * @test
-     * @testlinkId TL-MAGE-6271
+     * @TestLinkId TL-MAGE-6271
      */
     public function verificationSelectStoreDuringOrderCreation($userData)
     {
@@ -548,7 +548,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6272
+     * @TestLinkId TL-MAGE-6272
      */
     public function verificationRecurringProfiles()
     {
@@ -563,7 +563,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6273
+     * @TestLinkId TL-MAGE-6273
      */
     public function verificationTermsAndConditions()
     {
@@ -581,7 +581,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6321
+     * @TestLinkId TL-MAGE-6321
      */
     public function verificationDesignSchedule()
     {
@@ -599,7 +599,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6324
+     * @TestLinkId TL-MAGE-6324
      */
     public function verificationOrderStatuses()
     {

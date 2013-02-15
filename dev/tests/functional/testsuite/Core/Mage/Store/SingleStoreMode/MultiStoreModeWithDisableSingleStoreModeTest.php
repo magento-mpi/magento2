@@ -31,6 +31,8 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         $this->admin('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
@@ -38,8 +40,6 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
 
         return $userData;
     }
@@ -49,7 +49,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6256
+     * @TestLinkId TL-MAGE-6256
      */
     public function systemConfigurationVerificationScopeSelector()
     {
@@ -74,7 +74,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6251
+     * @TestLinkId TL-MAGE-6251
      */
     public function systemConfigurationVerificationTableRatesExport($diffScope)
     {
@@ -101,7 +101,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6253
+     * @TestLinkId TL-MAGE-6253
      */
     public function systemConfigurationVerificationAccountSharingOptions($diffScope)
     {
@@ -128,7 +128,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6252
+     * @TestLinkId TL-MAGE-6252
      */
     public function systemConfigurationVerificationCatalogPrice($diffScope)
     {
@@ -155,7 +155,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6254
+     * @TestLinkId TL-MAGE-6254
      */
     public function systemConfigurationVerificationDebugOptions($diffScope)
     {
@@ -180,7 +180,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6255
+     * @TestLinkId TL-MAGE-6255
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationVerificationHints()
@@ -199,8 +199,8 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      * <p> Manage Product page </p>
      *
      * @test
-     * @ depends preconditionsForTests
-     * @testlinkId TL-MAGE-6299
+     * @depends preconditionsForTests
+     * @TestLinkId TL-MAGE-6299
      */
     public function verificationManageProducts()
     {
@@ -231,7 +231,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6298
+     * @TestLinkId TL-MAGE-6298
      */
     public function verificationSearchTerms()
     {
@@ -252,7 +252,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6300
+     * @TestLinkId TL-MAGE-6300
      */
     public function verificationReviewRatings()
     {
@@ -279,7 +279,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6301
+     * @TestLinkId TL-MAGE-6301
      */
     public function verificationTags()
     {
@@ -306,7 +306,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6306
+     * @TestLinkId TL-MAGE-6306
      */
     public function verificationUrlRewrite()
     {
@@ -322,7 +322,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6218
+     * @TestLinkId TL-MAGE-6218
      */
     public function verificationManageContent()
     {
@@ -343,7 +343,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6219
+     * @TestLinkId TL-MAGE-6219
      */
     public function verificationStaticBlocks()
     {
@@ -367,7 +367,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6220
+     * @TestLinkId TL-MAGE-6220
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
@@ -398,7 +398,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6222
+     * @TestLinkId TL-MAGE-6222
      */
     public function verificationPolls()
     {
@@ -418,7 +418,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6303
+     * @TestLinkId TL-MAGE-6303
      */
     public function verificationDashboardPage()
     {
@@ -433,7 +433,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6260
+     * @TestLinkId TL-MAGE-6260
      */
     public function newCustomer()
     {
@@ -451,7 +451,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      * @param $userData
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6258
+     * @TestLinkId TL-MAGE-6258
      */
     public function editCustomer($userData)
     {
@@ -482,7 +482,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6310
+     * @TestLinkId TL-MAGE-6310
      */
     public function verificationNewsletterSubscribers()
     {
@@ -500,7 +500,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6262
+     * @TestLinkId TL-MAGE-6262
      */
     public function verificationCatalogPriceRule()
     {
@@ -519,7 +519,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6263
+     * @TestLinkId TL-MAGE-6263
      */
     public function verificationShoppingCartPriceRule()
     {
@@ -540,7 +540,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6287
+     * @TestLinkId TL-MAGE-6287
      */
     public function allReportPages($page)
     {
@@ -579,7 +579,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6275
+     * @TestLinkId TL-MAGE-6275
      */
     public function verificationSelectStoreDuringOrderCreation($userData)
     {
@@ -597,7 +597,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6276
+     * @TestLinkId TL-MAGE-6276
      */
     public function verificationRecurringProfiles()
     {
@@ -611,7 +611,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6277
+     * @TestLinkId TL-MAGE-6277
      */
     public function verificationTermsAndConditions()
     {
@@ -630,7 +630,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6312
+     * @TestLinkId TL-MAGE-6312
      */
     public function verificationDesignSchedule()
     {
@@ -648,7 +648,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithDisableSingleStoreModeTe
      *
      * @test
      * @depends preconditionsForTests
-     * @testlinkId TL-MAGE-6315
+     * @TestLinkId TL-MAGE-6315
      */
     public function verificationOrderStatuses()
     {

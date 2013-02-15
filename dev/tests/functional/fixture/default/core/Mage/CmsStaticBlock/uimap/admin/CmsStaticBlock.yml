@@ -63,7 +63,7 @@ edit_cms_static_block:
                             block_title: //input[@name='title']
                             block_identifier: //input[@name='identifier']
                         multiselects:
-                            store_view: //*[@id='block_store_id'][not(@type='hidden')]
+                            store_view: //select[@id='block_store_id'][not(@type='hidden')]
                 -
                     simple_editor:
                         xpath: //div[@id='buttonsblock_content']/parent::td

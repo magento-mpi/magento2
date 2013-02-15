@@ -52,7 +52,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6166
+     * @TestLinkId TL-MAGE-6166
      */
     public function verificationManageHierarchy()
     {
@@ -70,7 +70,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6169
+     * @TestLinkId TL-MAGE-6169
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
@@ -99,7 +99,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6170
+     * @TestLinkId TL-MAGE-6170
      */
     public function verificationBanners()
     {
@@ -121,7 +121,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6226
+     * @TestLinkId TL-MAGE-6226
      */
     public function verificationCustomerSegments()
     {
@@ -142,7 +142,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6230
+     * @TestLinkId TL-MAGE-6230
      */
     public function editCustomer($userData)
     {
@@ -195,7 +195,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6238
+     * @TestLinkId TL-MAGE-6238
      */
     public function verificationGiftCardAccount()
     {
@@ -220,7 +220,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6266
+     * @TestLinkId TL-MAGE-6266
      */
     public function verificationCatalogPriceRule()
     {
@@ -244,7 +244,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6267
+     * @TestLinkId TL-MAGE-6267
      */
     public function verificationShoppingCartPriceRule()
     {
@@ -268,7 +268,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6233
+     * @TestLinkId TL-MAGE-6233
      */
     public function verificationRewardExchangeRates()
     {
@@ -286,7 +286,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6274
+     * @TestLinkId TL-MAGE-6274
      */
     public function verificationGiftWrapping()
     {
@@ -305,7 +305,7 @@ class Enterprise_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Ma
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6182
+     * @TestLinkId TL-MAGE-6182
      */
     public function verificationCatalogPrice()
     {
