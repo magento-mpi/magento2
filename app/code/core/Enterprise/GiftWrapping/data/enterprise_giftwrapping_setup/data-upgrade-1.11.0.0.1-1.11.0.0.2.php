@@ -26,4 +26,6 @@ foreach ($attributesOrder as $key => $value) {
     }
 }
 
-$this->removeAttributeGroup($entityTypeId, $attributeSetId, 'Gift Options');
+if (!$this->getAttributesNumberInGroup($entityTypeId, $attributeSetId, 'Gift Options')) {
+    $this->removeAttributeGroup($entityTypeId, $attributeSetId, 'Gift Options');
+}

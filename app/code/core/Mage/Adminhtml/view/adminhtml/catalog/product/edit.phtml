@@ -31,11 +31,8 @@
 
     <div class="switcher" onselectstart='return false;'>
         <label class="switcher-label" for="product-online-switcher" title="Product online status">
-            <?php $isEnabled = $this->getProduct()->getStatus() == '1' ? true : false ?>
-            <strong id="product-online-status"><?php echo $isEnabled
-                ? Mage::helper('Mage_Catalog_Helper_Data')->__('Product online')
-                : Mage::helper('Mage_Catalog_Helper_Data')->__('Product offline') ?></strong>
-            <input type="checkbox" id="product-online-switcher" <?php echo $isEnabled ? 'checked' : '' ?> />
+            <strong id="product-online-status">Product online</strong>
+            <input type="checkbox" id="product-online-switcher" checked="checked" />
             <span></span>
         </label>
     </div>
@@ -180,6 +177,11 @@ jQuery(function($) {
         } else {
             updateSaveSplitButtonAvailability();
         }
+
+        $('#product-online-switcher').prop('checked', $('#status').val() == '1');
+        $('#product-online-switcher').siblings('#product-online-status').text(
+            $.mage.__($('#status').val() == '1' ? 'Product online' : 'Product offline')
+        );
     });
 
     $('#product-online-switcher').on('change', function(event) {
