@@ -99,6 +99,7 @@ HTML;
             'valueField' => '#' . $this->getHtmlId(),
             'className' => 'category-select',
             'multiselect' => true,
+            'showAll' => true
         );
     }
 }

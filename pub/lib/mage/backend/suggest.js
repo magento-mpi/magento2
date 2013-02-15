@@ -46,9 +46,11 @@
                     select: ['menuselect']
                 }
             },
+            termAjaxArgument: 'name_part',
             className: null,
             inputWrapper:'<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
-            dropdownWrapper: '<div class="mage-suggest-dropdown"></div>'
+            dropdownWrapper: '<div class="mage-suggest-dropdown"></div>',
+            currentlySelected: null
         },
 
         /**
@@ -168,7 +170,7 @@
                             break;
                         case keyCode.TAB:
                             if (this.isDropdownShown()) {
-                                this._onSelectItem(event);
+                                this._onSelectItem(event, null);
                                 event.preventDefault();
                             }
                             break;
@@ -226,7 +228,7 @@
          */
         _change: function(e) {
             if (this._term !== this._value()) {
-                this._trigger("change");
+                this._trigger("change", e);
             }
         },
 
@@ -310,10 +312,11 @@
                 this._focusItem(e, {item: item});
             }
 
-            if (this._trigger('select', e || null, {item: this._focused}) === false) {
+            if (this._trigger('beforeselect', e || null, {item: this._focused}) === false) {
                 return;
             }
             this._selectItem(e);
+            this._trigger('select', e || null, {item: this._focused});
         },
 
         /**
@@ -395,13 +398,13 @@
          */
         search: function(e) {
             var term = this._value();
-            if (this._term !== term && term.length >= this.options.minLength) {
+            if (this._term !== term) {
                 this._term = term;
-                if (term) {
+                if (term && term.length >= this.options.minLength) {
                     if (this._trigger("search", e) === false) {
                         return;
                     }
-                    this._search(e, term);
+                    this._search(e, term, {});
                 } else {
                     this._selectedItem = this._nonSelectedItem;
                     this.valueField.val(this._selectedItem.id);
@@ -417,17 +420,17 @@
          * @private
          */
         _search: function(e, term, context) {
-            var renderer = $.proxy(function(items) {
-                return this._renderDropdown(e, items, context || {});
+            var response = $.proxy(function(items) {
+                return this._processResponse(e, items, context || {});
             }, this);
             this.element.addClass(this.options.loadingClass);
             if (this.options.delay) {
                 clearTimeout(this._searchTimeout);
                 this._searchTimeout = this._delay(function() {
-                    this._source(term, renderer);
+                    this._source(term, response);
                 }, this.options.delay);
             } else {
-                this._source(term, renderer);
+                this._source(term, response);
             }
         },
 
@@ -445,7 +448,9 @@
                     return 'data-suggest-option="' + JSON.stringify(item).replace(/"/g, '&quot;') + '"';
                 },
                 itemSelected: $.proxy(function(item) {
-                    return item.id === this._selectedItem.id
+                    return item.id == (this._selectedItem && this._selectedItem.id ?
+                        this._selectedItem.id :
+                        this.options.currentlySelected);
                 }, this),
                 noRecordsText: $.mage.__('No records found')
             });
@@ -459,9 +464,6 @@
          * @private
          */
         _renderDropdown: function(e, items, context) {
-            if (this._trigger("response", e, {items: items}) === false) {
-                return
-            }
             this._items = items;
             $.tmpl(this.templateName, this._prepareDropdownContext(context))
                 .appendTo(this.dropdown.empty());
@@ -475,25 +477,44 @@
         },
 
         /**
-         * Implement search process via spesific source
-         * @param {string} term - search phrase
-         * @param {Function} renderer - search results handler, display search result
+         * @param {Object} e
+         * @param {Object} items
+         * @param {Object} context
          * @private
          */
-        _source: function(term, renderer) {
+        _processResponse: function(e, items, context) {
+            var renderer = $.proxy(function(items) {
+                return this._renderDropdown(e, items, context || {});
+            }, this);
+            if (this._trigger("response", e, [items, renderer]) === false) {
+                return
+            }
+            this._renderDropdown(e, items, context);
+        },
+
+        /**
+         * Implement search process via spesific source
+         * @param {string} term - search phrase
+         * @param {Function} response - search results handler, process search result
+         * @private
+         */
+        _source: function(term, response) {
             var o = this.options;
             if ($.isArray(o.source)) {
-                renderer(this.filter(o.source, term));
+                response(this.filter(o.source, term));
             } else if ($.type(o.source) === 'string') {
                 if (this._xhr) {
                     this._xhr.abort();
                 }
+                var ajaxData = {};
+                ajaxData[this.options.termAjaxArgument] = term;
+
                 this._xhr = $.ajax($.extend({
                     url: o.source,
                     type: 'POST',
                     dataType: 'json',
-                    data: {name_part: term},
-                    success: renderer
+                    data: ajaxData,
+                    success: response
                 }, o.ajaxOptions || {}));
             } else {
                 o.source.apply(o.source, arguments);
@@ -563,18 +584,49 @@
     });*/
 
     /**
-     * Implement show all functionality
+     * Implement show all functionality and storing and display recent searches
      */
     $.widget('mage.suggest', $.mage.suggest, {
+        options: {
+            showRecent: false,
+            showAll: false,
+            storageKey: 'suggest',
+            storageLimit: 10
+        },
+
         /**
          * @override
-         * @private
+         */
+        _create: function() {
+            if (this.options.showRecent && window.localStorage) {
+                var recentItems = JSON.parse(localStorage.getItem(this.options.storageKey));
+                /**
+                 * @type {Array} - list of recently searched items
+                 * @private
+                 */
+                this._recentItems = $.isArray(recentItems) ? recentItems : [];
+            }
+            this._super();
+        },
+
+        /**
+         * @override
          */
         _bind: function() {
             this._super();
             this._on(this.dropdown, {
-                showAll: this._showAll
+                showAll: function(e) {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    this.element.trigger('showAll');
+                }
             });
+            if (this.options.showRecent || this.options.showAll) {
+                this._on({
+                    focus: this.search,
+                    showAll: this._showAll
+                });
+            }
         },
 
         /**
@@ -590,73 +642,17 @@
         /**
          * @override
          */
-        _prepareDropdownContext: function() {
-            var context = this._superApply(arguments);
-            return $.extend(context, {
-                allShown: function(){
-                    return !!context._allShown;
-                }
-            });
-        }
-    });
-
-    /**
-     * Implement storing search history and display recent searches
-     */
-    $.widget('mage.suggest', $.mage.suggest, {
-        options: {
-            showRecent: false,
-            storageKey: 'suggest',
-            storageLimit: 10,
-            currentlySelected: null
-        },
-
-        /**
-         * @override
-         */
-        _create: function() {
-            if (this.options.showRecent && window.localStorage) {
-                var recentItems = JSON.parse(localStorage.getItem(this.options.storageKey));
-                /**
-                 * @type {Array} - list of recently searched items
-                 * @private
-                 */
-                this._recentItems = $.isArray(recentItems) ? $.grep(recentItems, $.proxy(function(item) {
-                    return item.id !== this.options.currentlySelected;
-                }, this)) : [];
-            }
-            this._super();
-        },
-
-        /**
-         * @override
-         */
-        _bind: function() {
-            this._super();
-            if (this.options.showRecent) {
-                this._on({
-                    focus: function(event) {
-                        if (!this._value()) {
-                            this._recentItems.length ?
-                                this._renderDropdown(event, this._recentItems) :
-                                this._showAll();
-                        }
-                    }
-                });
-            }
-        },
-
-        /**
-         * @override
-         */
         search: function(e) {
-            this._superApply(arguments);
-            if (this.options.showRecent) {
-                if (!this._term) {
-                    this._abortSearch();
-                    this._renderDropdown(e, this._recentItems);
+            if (!this._value()) {
+                if (this.options.showRecent) {
+                    this._recentItems.length ?
+                        this._processResponse(e, this._recentItems, {}) :
+                        this._showAll(e);
+                } else if (this.options.showAll) {
+                    this._showAll(e);
                 }
             }
+            this._superApply(arguments);
         },
 
         /**
@@ -679,7 +675,10 @@
                     return this.options.showRecent;
                 }, this),
                 recentTitle: $.mage.__('Recent items'),
-                showAllTitle: $.mage.__('Show all...')
+                showAllTitle: $.mage.__('Show all...'),
+                allShown: function(){
+                    return !!context._allShown;
+                }
             });
         },
 
@@ -810,18 +809,21 @@
          */
         _prepareDropdownContext: function() {
             var context = this._superApply(arguments);
-            return $.extend(context, {
-                itemSelected:$.proxy(function(item) {
-                    var selected = false;
-                    $.each(this._selectedItems, function(i, selectedItem){
-                        if(item.id === selectedItem.id) {
-                            selected = true;
-                            return;
-                        }
-                    });
-                    return selected;
-                }, this)
-            });
+            if(this.options.multiselect) {
+                return $.extend(context, {
+                    itemSelected:$.proxy(function(item) {
+                        var selected = false;
+                        $.each(this._selectedItems, function(i, selectedItem){
+                            if(item.id === selectedItem.id) {
+                                selected = true;
+                                return false;
+                            }
+                        });
+                        return selected;
+                    }, this)
+                });
+            }
+            return context;
         },
 
         /**
@@ -862,9 +864,10 @@
          * @param {Object} e - event object
          */
         _removeLastAdded: function(e) {
-            var lastOption = this.valueField.find('option:last');
-            if(lastOption.length) {
-                this.removeOption(e, lastOption);
+            var selectedLength = this._selectedItems.length,
+                lastAdded = selectedLength ? this._selectedItems[selectedLength - 1] : null;
+            if(lastAdded) {
+                this.removeOption(e, lastAdded);
             }
         },
 
@@ -876,11 +879,11 @@
          */
         removeOption: function(e, item) {
             var option = this._getOption(item);
-            option.data('renderedOption').remove();
-            option.remove();
             this._selectedItems = $.grep(this._selectedItems, function(selectedItem) {
                 return selectedItem.id !== item.id;
             });
+            option.data('renderedOption').remove();
+            option.remove();
         },
 
         /**

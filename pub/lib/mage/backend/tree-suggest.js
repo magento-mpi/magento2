@@ -141,21 +141,6 @@
         /**
          * @override
          */
-        search: function(e) {
-            if (!this._recentItems && !this._value()) {
-                var term = this._value();
-                if (this._term !== term) {
-                    this._term = term;
-                }
-                this._showAll(e);
-            } else {
-                this._superApply(arguments);
-            }
-        },
-
-        /**
-         * @override
-         */
         _prepareDropdownContext: function() {
             var context = this._superApply(arguments),
                 optionData = context.optionData,
@@ -176,7 +161,7 @@
         /**
          * @override
          */
-        _renderDropdown: function(e, items, context) {
+        _processResponse: function(e, items, context) {
             if(context &&!context._allShown) {
                 items = this.filter($.mage.treeToList([], items, 0, ''), this._term);
             }

@@ -405,9 +405,19 @@ button.primary.disabled,
 
 .mage-suggest-dropdown li a {
     display: block;
+}
+.mage-suggest-dropdown li a,
+.mage-suggest-dropdown .jstree li a:hover,
+.mage-suggest-dropdown .jstree .jstree-hovered,
+.mage-suggest-dropdown .jstree .jstree-clicked {
     padding: 6px 10px 5px;
     text-decoration: none;
     color: #333;
+}
+.mage-suggest-dropdown .jstree li a:hover,
+.mage-suggest-dropdown .jstree .jstree-hovered,
+.mage-suggest-dropdown .jstree .jstree-clicked {
+    border: none;
 }
 
 .mage-suggest-dropdown li a.ui-state-focus {
