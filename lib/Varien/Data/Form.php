@@ -14,6 +14,9 @@
  * @category   Varien
  * @package    Varien_Data
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @method Varien_Data_Form setParent($block)
+ * @method Mage_Backend_Block_Widget_Form getParent()
  */
 class Varien_Data_Form extends Varien_Data_Form_Abstract
 {

@@ -10,8 +10,10 @@
 
 /**
  * Block that renders tabs
+ *
+ * @method bool getIsActive()
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs extends Mage_Core_Block_Template
+abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract extends Mage_Core_Block_Template
 {
     /**
      * Alias of tab handle block in layout
@@ -61,7 +63,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs extends Mage_Core_Bloc
     public function getTabContents()
     {
         $contents = array();
-        /** @var $tabBodyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tab_Body */
+        /** @var $tabBodyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body */
         $tabBodyBlock = $this->getChildBlock(self::TAB_BODY_BLOCK_ALIAS);
         foreach ($this->getTabs() as $tab) {
             $contents[] = $tabBodyBlock->setContentBlock($tab['content_block'])
@@ -92,4 +94,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs extends Mage_Core_Bloc
 
         return $handles;
     }
+
+    /**
+     * Get tabs data
+     *
+     * @return array
+     */
+    abstract public function getTabs();
 }

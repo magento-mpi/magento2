@@ -14,11 +14,11 @@
  * @method string getContentBlock()
  * @method string getTabId()
  * @method bool getIsActive()
- * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tab_Body setContentBlock($content)
- * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tab_Body setIsActive($flag)
- * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tab_Body setTabId($id)
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body setContentBlock($content)
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body setIsActive($flag)
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body setTabId($id)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tab_Body extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body extends Mage_Core_Block_Template
 {
     /**
      * Get tab content

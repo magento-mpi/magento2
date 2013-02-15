@@ -129,7 +129,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('The theme was not found.'));
+            $this->_getSession()->addException($e, $this->__('Unknown error.'));
             $this->_redirect('*/*/');
             return;
         }

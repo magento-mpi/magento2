@@ -1444,6 +1444,11 @@
     width: 100%;
 }
 
+.fieldset.column {
+    float: left;
+    width: 25%;
+}
+
 /*
     Clearfix
 -------------------------------------- */

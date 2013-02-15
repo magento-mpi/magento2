@@ -11,17 +11,18 @@
 /**
  * Block that renders Design tab
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Design extends Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract
 {
     /**
      * Tab HTML identifier
      */
-    protected $_htmlId = 'vde-tab-design';
+    protected $_htmlId = 'vde-tab-quick-styles';
 
     /**
      * Tab HTML title
      */
-    protected $_title = 'Design';
+    protected $_title = 'Quick Styles';
 
     /**
      * Get tabs data
@@ -35,31 +36,31 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Design extends Mage_DesignE
                 'is_active'     => true,
                 'id'          => 'vde-tab-header',
                 'title'         => strtoupper($this->__('Header')),
-                'content_block' => 'design_editor_tools_design_header'
+                'content_block' => 'design_editor_tools_quick-styles_header'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-bgs',
                 'title'         => strtoupper($this->__('Backgrounds')),
-                'content_block' => 'design_editor_tools_design_backgrounds'
+                'content_block' => 'design_editor_tools_quick-styles_backgrounds'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-buttons',
                 'title'         => strtoupper($this->__('Buttons & Icons')),
-                'content_block' => 'design_editor_tools_design_buttons'
+                'content_block' => 'design_editor_tools_quick-styles_buttons'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-tips',
                 'title'         => strtoupper($this->__('Tips & Messages')),
-                'content_block' => 'design_editor_tools_design_tips'
+                'content_block' => 'design_editor_tools_quick-styles_tips'
             ),
             array(
                 'is_active'     => false,
                 'id'          => 'vde-tab-fonts',
                 'title'         => strtoupper($this->__('Fonts')),
-                'content_block' => 'design_editor_tools_design_fonts'
+                'content_block' => 'design_editor_tools_quick-styles_fonts'
             ),
 
         );

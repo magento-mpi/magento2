@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Column renderer
+ */
+class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column
+    extends Mage_Backend_Block_Widget_Form_Renderer_Fieldset
+{
+    //protected $_template = 'Mage_Backend::widget/form/renderer/fieldset/element.phtml';
+}
