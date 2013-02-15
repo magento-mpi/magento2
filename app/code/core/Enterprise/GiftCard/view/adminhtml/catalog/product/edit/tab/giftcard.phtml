@@ -81,14 +81,14 @@
 <script type="text/javascript">
     //<![CDATA[
 jQuery(function($){
-    function toggleDefault(field)
+    window.toggleDefault = function (field)
     {
         var defaultValue = $('#giftcard_' + field + '_default').val(),
             $checkbox = $('#giftcard_use_config_' + field);
         if ($checkbox.is(':checked')) {
             $('#giftcard_' + field).val(defaultValue);
         }
-    }
+    };
 
     toggleDefault('email_template');
     toggleDefault('is_redeemable');
@@ -117,9 +117,9 @@ jQuery(function($){
             $.each($('.hidden-for-virtual'), function () {
                 $(this).closest('.field').toggle(!isVirtual);
             });
-        }).change();
+        }).trigger('change');
 
-        $('#weight_and_type_switcher').parent().hide();
+        $('#weight_and_type_switcher').closest('.field').hide();
     });
 });
     //]]>
