@@ -195,7 +195,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfoAlphaIdTypeNotSet()
     {
-        echo "in testInfo()\n";
         /** @var Mage_Catalog_Model_Product $alphaProduct */
         $alphaProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $alphaProduct->load(1);
@@ -208,9 +207,8 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertNotEmpty($soapResult, 'Error during customer address info via API call');
+        $this->assertNotEmpty($soapResult, 'Error during catalog product info via API call');
         $this->_verifyProductInfo($alphaProduct->getData(), $soapResult);
-
     }
 
     /**
@@ -228,7 +226,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $numericalProduct->load(2);
 
         try{
-            $soapResult = Magento_Test_Helper_Api::call(
+            Magento_Test_Helper_Api::call(
                 $this,
                 'catalogProductInfo',
                 array(
@@ -255,7 +253,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfoNumericIdTypeNotSet()
     {
-
         /** @var Mage_Catalog_Model_Product $numericalProduct */
         $numericalProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $numericalProduct->load(2);
@@ -267,6 +264,9 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
                 'product' => '2'
             )
         );
+
+        $this->assertNotEmpty($soapResult, 'Error during catalog product info via API call');
+        $this->_verifyProductInfo($numericalProduct->getData(), $soapResult);
     }
 
     /**
@@ -277,7 +277,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfoAlphaIdTypeSku()
     {
-        echo "in testInfo()\n";
         /** @var Mage_Catalog_Model_Product $alphaProduct */
         $alphaProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $alphaProduct->load(1);
@@ -295,7 +294,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($soapResult, 'Error during customer address info via API call');
         $this->_verifyProductInfo($alphaProduct->getData(), $soapResult);
-
     }
 
     /**
@@ -306,7 +304,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfoNumericIdTypeSku()
     {
-
         /** @var Mage_Catalog_Model_Product $numericalProduct */
         $numericalProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $numericalProduct->load(2);
