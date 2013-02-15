@@ -22,7 +22,7 @@
         _initOptionBoxes: function () {
             this.element.sortable({
                 axis: 'y',
-                handle: '.entry-edit-head > .ui-icon-grip-dotted-vertical',
+                handle: '.draggable-handle',
                 items: '.option-box',
                 update: this._updateOptionBoxPositions,
                 tolerance: 'pointer'
@@ -32,12 +32,6 @@
                 $(event.target).closest('.option-box').find('.head-edit-form').text($(event.target).val());
             };
             this._on({
-                'click .remove':  function (event) {
-                    $(event.target).closest('.option-box').find('.delete-product-option').trigger('click');
-                },
-                'click .toggle': function (event) {
-                    $(event.target).closest('.option-box').find('.option-header,.form-list,.selection-search').toggle();
-                },
                 'change .option-box input[name$="[title]"]': syncOptionTitle,
                 'keyup .option-box input[name$="[title]"]': syncOptionTitle
             });
@@ -45,7 +39,7 @@
         _initSortableSelections: function () {
             this.element.find('.option-box .form-list tbody').sortable({
                 axis: 'y',
-                handle: '.ui-icon-grip-dotted-vertical',
+                handle: '.draggable-handle',
                 helper: function(event, ui) {
                     ui.children().each(function() {
                         $(this).width($(this).width());
@@ -54,9 +48,6 @@
                 },
                 update: this._updateSelectionsPositions,
                 tolerance: 'pointer'
-            });
-            this.element.find('.option-box').each(function () {
-                $(this).find('.add-selection').appendTo($(this));
             });
         },
         _bindAddSelectionDialog: function () {
@@ -96,6 +87,7 @@
                         text: 'Apply Changes',
                         'class': 'add',
                         click: function() {
+                            console.log('click');
                             bSelection.gridSelection.get(optionIndex).each(
                                 function(pair) {
                                     bSelection.addRow(optionIndex, {

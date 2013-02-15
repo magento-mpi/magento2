@@ -11,7 +11,7 @@
 /** @var $this Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection */
 ?>
 <script id="bundle-option-selection-box-template" type="text/x-jquery-tmpl">
-    <table class="border" cellpadding="0" cellspacing="0">
+    <table class="border data-table">
         <thead>
             <tr class="headings">
                 <th style="width:1px">&nbsp;</th>
@@ -263,10 +263,10 @@ Bundle.Selection.prototype = {
     },
 
     addBox : function (parentIndex) {
-        var div = $(bOption.idLabel + '_' + parentIndex);
+        var div = $(bOption.idLabel + '_' + parentIndex).down('.fieldset-alt');
         this.template = new Template(this.templateBox, this.templateSyntax);
         var data = {'parentIndex' : parentIndex};
-        Element.insert(div, {'bottom':this.template.evaluate(data)});
+        Element.insert(div, {'after':this.template.evaluate(data)});
     },
 
     remove : function(event) {
