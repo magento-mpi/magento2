@@ -24,7 +24,7 @@ $coreHelper = Mage::helper('Mage_Core_Helper_Data');
     <script type="text/javascript">
     //<![CDATA[
     var attributeTemplate =
-        '<div class="fieldset-wrapper opened option-box" id="{{prefix}}_option_{{id}}">'+
+        '<div class="fieldset-wrapper opened option-box collapsable-wrapper" id="{{prefix}}_option_{{id}}">'+
             '<div class="fieldset-wrapper-title">'+
                 '<strong class="title" data-toggle="collapse" data-target="#{{prefix}}_option_{{id}}-content"><span>New Attribute</span></strong>'+
                 '<div class="actions">'+ <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getDeleteButtonHtml()) ?> +'</div>'+

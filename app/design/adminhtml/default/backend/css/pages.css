@@ -398,48 +398,30 @@
 /*
     Customer
 ---------------------------------------*/
-.customer-iformation:before,
-.customer-iformation:after {
+.customer-information:before,
+.customer-information:after {
     content: "";
     display: table;
 }
 
-.customer-iformation:after {
+.customer-information:after {
     clear: both;
 }
 
-.customer-iformation table,
-.customer-iformation address {
+.customer-information .data-table,
+.customer-information address {
     width: 48.5%;
 }
 
-.customer-iformation table {
+.customer-information .data-table {
     float: left;
     width: 48.5%;
 }
 
-.customer-iformation address {
+.customer-information address {
     padding-top: 4px;
     line-height: 2.2;
     float: right;
-}
-
-.customer-iformation table tbody tr th {
-    font-weight: bold;
-}
-
-.customer-iformation table tbody tr td,
-.customer-iformation table tbody tr th {
-    background-color: #fff;
-    border: 0;
-    padding: 9px 10px 10px;
-    color: #666;
-    vertical-align: top;
-}
-
-.customer-iformation table tbody tr:nth-child(2n+1) td,
-.customer-iformation table tbody tr:nth-child(2n+1) th {
-    background-color: #fbfaf6;
 }
 
 .address-list {
@@ -562,6 +544,39 @@
 
 .address-item-edit-actions {
     padding: 0 0 18px 20%;
+}
+
+/*
+    Invitations
+--------------------------------------*/
+.invitee_information,
+.inviter_information {
+    width: 48.9362%;
+}
+.invitee_information {
+    float: left;
+}
+.inviter_information {
+    float: right;
+}
+.invitation_information .data-table th,
+.invitee_information .data-table th,
+.inviter_information .data-table th {
+    width: 20%;
+    white-space: nowrap;
+}
+.invitation_information .data-table textarea,
+.invitation_information .data-table input {
+    width: 100%;
+}
+.invitations-history ul {
+    margin: 0;
+    padding-left: 25px;
+}
+.invitations-history ul .status:before {
+    display:inline-block;
+    content: "|";
+    margin: 0 10px;
 }
 
 /*

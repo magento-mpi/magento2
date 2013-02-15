@@ -747,25 +747,9 @@ option.placeholder {
     margin: 0 0 18px;
 }
 
-.fieldset-wrapper {
-    padding-bottom: 2px;
-}
-
 .fieldset-wrapper > .fieldset-wrapper-title {
     float: none;
-    border-bottom: none;
-    margin-bottom: 0;
 }
-
-.fieldset-wrapper.opened {
-    padding-bottom: 18px;
-}
-
-.fieldset-wrapper.opened > .fieldset-wrapper-title {
-    border-bottom: 1px solid #ededed;
-    margin-bottom: 18px;
-}
-
 .fieldset-wrapper > .fieldset-wrapper-title .title,
 .fieldset > .legend span {
     font-family: 'CallunaSans', Arial, sans-serif;
@@ -776,13 +760,32 @@ option.placeholder {
     display: inline-block;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"] {
+/* Collapsable fieldset-wrapper */
+.collapsable-wrapper {
+    padding-bottom: 2px;
+}
+
+.collapsable-wrapper.opened {
+    padding-bottom: 18px;
+}
+
+.collapsable-wrapper > .fieldset-wrapper-title {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.collapsable-wrapper.opened > .fieldset-wrapper-title {
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 18px;
+}
+
+.collapsable-wrapper .fieldset-wrapper-title > .title {
     position: relative;
     padding-left: 22px;
     cursor: pointer;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"]:before {
+.collapsable-wrapper .fieldset-wrapper-title > .title:before {
     position: absolute;
     left: 0;
     top: 7px;
@@ -795,12 +798,12 @@ option.placeholder {
     color: #b2b0ad;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"]:hover:before {
-    color: #7e7e7e;
+.collapsable-wrapper.opened > .fieldset-wrapper-title > .title:before {
+    content: '\e02c'; /* arrow down icon */
 }
 
-.fieldset-wrapper.opened > .fieldset-wrapper-title > .title:before {
-    content: '\e02c'; /* arrow down icon */
+.collapsable-wrapper .fieldset-wrapper-title > .title:hover:before {
+    color: #7e7e7e;
 }
 
 /* Fieldset styles in another fieldset */
@@ -3551,6 +3554,48 @@ tr.dynamic-grid input.input-text {
 
 .data-table .actions-split.active .dropdown-menu {
     border-top-right-radius: 0;
+}
+
+/*
+    Data table - alternative view
+-------------------------------------- */
+.invitation_information .data-table,
+.invitee_information .data-table, 
+.inviter_information .data-table,
+.customer-information .data-table {
+    width:100%;
+}
+.invitation_information .data-table tbody tr th,
+.invitee_information .data-table tbody tr th,
+.inviter_information .data-table tbody tr th,
+.customer-information .data-table tbody tr th {
+    font-weight: bold;
+}
+
+.invitation_information .data-table tbody tr td,
+.invitation_information .data-table tbody tr th,
+.invitee_information .data-table tbody tr td,
+.invitee_information .data-table tbody tr th,
+.inviter_information .data-table tbody tr td,
+.inviter_information .data-table tbody tr th,
+.customer-information .data-table tbody tr td,
+.customer-information .data-table tbody tr th {
+    background-color: #fff;
+    border: 0;
+    padding: 9px 10px 10px;
+    color: #666;
+    vertical-align: top;
+}
+
+.invitation_information .data-table tbody tr:nth-child(2n+1) td,
+.invitation_information .data-table tbody tr:nth-child(2n+1) th,
+.invitee_information .data-table tbody tr:nth-child(2n+1) td,
+.invitee_information .data-table tbody tr:nth-child(2n+1) th,
+.inviter_information .data-table tbody tr:nth-child(2n+1) td,
+.inviter_information .data-table tbody tr:nth-child(2n+1) th,
+.customer-information .data-table tbody tr:nth-child(2n+1) td,
+.customer-information .data-table tbody tr:nth-child(2n+1) th {
+    background-color: #fbfaf6;
 }
 
 /*
