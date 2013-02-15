@@ -2,7 +2,7 @@
 =============
 * JavaScript Updates to the Frontend
   * Refactored various tabs components to an analogous jQuery widget.
-    * New tabs widget is used instead of Enterprise.Tabs and Varien.Tabs.
+    * New tabs widget is used instead of existing Prototype tabs classes.
   * Category navigation refactored to a jQuery widget on CE/EE.
   * Region updater component refactored to a jQuery widget.
     * Various CE/EE components/modules updated with use of the new widget.
