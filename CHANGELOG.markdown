@@ -3,21 +3,31 @@
 * Application initialization improvements:
   * Removed application initialization responsibility from `Mage` class
   * Introduces entry points, which are responsible for different types of requests processing: HTTP, media, cron, indexing, console installing, etc.
-  * Configuration is cached by sections and loaded only on demand
+  * New configuration classes are introduced and each of them is responsible for specific section of configuration
   * Class rewrites functionality removed from `Mage_Core_Model_Config` model. DI configuration should be used for rewriting classes
 * Added ability to configure object manager with array in addition to object and scalar values
 * VDE improvements:
-  * Theme CSS files view and uploading/downloading of custom CSS file
+  * Theme CSS files viewing and uploading/downloading of custom CSS file
   * Updated styling of VDE Tools panel
-* Improved usability of product image gallery UI
 * Refactored various components to an analogous jQuery widget:
-  * Refactored components: category navigation, sales components, orders and returns, retrieve shipping rates and add/remove coupon in shopping cart, customer address, customer wishlist, products management and gallery, send to friend, weee, "Contact Us" form, CAPTCHA
+  * Refactored components:
+    * Category navigation
+    * Products management and gallery
+    * Send to friend
+    * Sales components, including orders and returns
+    * Retrieve shipping rates and add/remove coupon in shopping cart
+    * Customer address and address book
+    * Customer wishlist
+    * "Contact Us" form
+    * CAPTCHA
+    * Weee
   * New tabs widget is used instead of `Varien.Tabs`
   * Refactored `Varien.dateRangeDate` and `Varien.FileElement`
   * Replaced `$.mage.constants` with jQuery UI `$.ui.keyCode` for keyboard key codes
+* Refactored configurable attribute, category parent and attribute set selectors to use suggest widget
 * Bug fixes:
   * Improvements and bug fixes in new backend theme
-  * Image, categories attributes and virtual/downloadable checkbox are displayed on Update Attributes page
+  * Image, categories attributes and virtual/downloadable fields are displayed on Update Attributes page, where they shouldn't be present
   * Undefined config property in `reloadOptionLabels()` function in `configurable.js` (Chrome)
   * Impossible to edit existing customer/product tax class
   * Incorrect format of customer's "Date of Birth"
