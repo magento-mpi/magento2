@@ -17,6 +17,20 @@
  */
 class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
 {
+
+    /** @var Mage_Core_Controller_Request_Http */
+    protected $_request;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     */
+    function __construct(Mage_Core_Controller_Request_Http $request)
+    {
+        $this->_request = $request;
+    }
+
     /**
      * Go thru a WSI args array and turns it to correct state.
      *
@@ -301,7 +315,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isWsiCompliant()
     {
-        $pathInfo = Mage::app()->getRequest()->getPathInfo();
+        $pathInfo = $this->_request->getPathInfo();
         $pathParts = explode('/', trim($pathInfo, '/'));
         $controllerPosition = 1;
         if (isset($pathParts[$controllerPosition]) && $pathParts[$controllerPosition] == 'soap_wsi') {
