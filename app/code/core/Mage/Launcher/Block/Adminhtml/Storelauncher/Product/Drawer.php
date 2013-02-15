@@ -52,6 +52,13 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
       */
      protected $_attrSetGroupColl;
 
+     /**
+      * Minimal Attribute Set ID
+      *
+      * @var int
+      */
+     protected $_minimalAttrSetId;
+
     /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
@@ -108,6 +115,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
         $this->_entityModel = $entityModel;
         $this->_entityAttrSet = $entityAttrSet;
         $this->_attrSetGroupColl = $attrSetGroupColl;
+
+        $this->_minimalAttrSetId = $this->_getMinimalAttrSetId();
+        $this->_initProduct(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE, $this->_minimalAttrSetId);
     }
 
     /**
@@ -127,21 +137,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
      */
     public function getGeneralTabContent()
     {
-        $entityTypeId = $this->_entityModel
-            ->setType(Mage_Catalog_Model_Product::ENTITY)
-            ->getTypeId();
-
-        $minimalAttrSetId = $this->_entityAttrSet->getMinimalAttrSetId($entityTypeId);
-
-        $product = $this->_initProduct(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE, $minimalAttrSetId);
-        Mage::dispatchEvent('catalog_product_new_action', array('product' => $product));
+        Mage::dispatchEvent('catalog_product_new_action', array('product' => $this->_productModel));
 
         $group = $this->_attrSetGroupColl
-            ->setAttributeSetFilter($minimalAttrSetId)
+            ->setAttributeSetFilter($this->_minimalAttrSetId)
             ->setSortOrder()
             ->fetchItem();
 
-        $attributes = $product->getAttributes($group->getId(), true);
+        $attributes = $this->_productModel->getAttributes($group->getId(), true);
 
         foreach ($attributes as $key => $attribute) {
             if (!$attribute->getIsVisible()) {
@@ -192,5 +195,19 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
     {
         $this->_translateInline->processResponseBody($html);
         return $html;
+    }
+
+    /**
+     * Get Minimal Attribute Set Id
+     *
+     * @return int
+     */
+    protected function _getMinimalAttrSetId()
+    {
+        $entityTypeId = $this->_entityModel
+            ->setType(Mage_Catalog_Model_Product::ENTITY)
+            ->getTypeId();
+
+        return $this->_entityAttrSet->getMinimalAttrSetId($entityTypeId);
     }
 }

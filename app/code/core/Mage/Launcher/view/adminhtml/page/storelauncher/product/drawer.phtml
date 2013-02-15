@@ -20,6 +20,10 @@
     <?php echo $this->getChildBlock('new-category-js')->setUseContainer(false)->toHtml();?>
     <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>
 
+    <!-- Field below used by TypeSwitcher to hide unneeded attributes for Simple product -->
+    <input type="hidden" value="simple" name="type_id" id="type_id" />
+    <?php echo $this->getChildBlock('product_edit')->setUseContainer(false)->toHtml();?>
+
     <div>
         <h4 class="title">Import Products to Catalog</h4>
         <ul>

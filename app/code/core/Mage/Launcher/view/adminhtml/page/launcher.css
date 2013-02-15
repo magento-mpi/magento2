@@ -1578,3 +1578,7 @@
 	margin: 0px;
 	padding:0px;
 }
+
+.page-actions {
+    display: none;
+}
