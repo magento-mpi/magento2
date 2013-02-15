@@ -20,7 +20,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
     public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
                                 'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'downloadable_information', 'giftcardinfo', 'general');
+                                'downloadable_information', 'giftcardinfo', 'general', 'autosettings');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -58,36 +58,38 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     #**************************************************************************************
 
     /**
-     * Fill in data on Prices Tab
+     * Fill in data on General Tab
      *
-     * @param array $pricesTab
+     * @param array $generalTab
      */
-    public function fillPricesTab(array $pricesTab)
+    public function fillGeneralTab(array $generalTab)
     {
-        $this->openTab('prices');
-        if (isset($pricesTab['prices_gift_card_amounts'])) {
-            foreach ($pricesTab['prices_gift_card_amounts'] as $value) {
+        $this->openTab('general');
+        parent::fillGeneralTab($generalTab);
+        if (isset($generalTab['general_gift_card_data'])) {
+            foreach ($generalTab['general_gift_card_data']['general_amounts'] as $value) {
                 $this->addGiftCardAmount($value);
             }
-            unset($pricesTab['prices_gift_card_amounts']);
+            $this->fillFieldset($generalTab['general_gift_card_data'], 'general_gift_card_data');
+            unset($generalTab['general_gift_card_data']);
         }
-        parent::fillPricesTab($pricesTab);
     }
 
-    /**
-     * Verify data on Prices Tab
-     *
-     * @param array $pricesTab
-     */
-    public function verifyPricesTab($pricesTab)
-    {
-        $this->openTab('prices');
-        if (isset($pricesTab['prices_gift_card_amounts'])) {
-            $this->verifyGiftCardAmounts($pricesTab['prices_gift_card_amounts']);
-            unset($pricesTab['prices_gift_card_amounts']);
-        }
-        parent::verifyPricesTab($pricesTab);
-    }
+//    /**
+//     * Verify data on General Tab
+//     *
+//     * @param array $generalTab
+//     */
+//    public function verifyGeneralTab($generalTab)
+//    {
+//        $this->openTab('general');
+//        if (isset($generalTab['general_gift_card_data'])) {
+//            $this->verifyGiftCardAmounts($generalTab['general_gift_card_data']['general_amounts']);
+//            $this->verifyForm($generalTab['general_gift_card_data'], 'general');
+//            unset($generalTab['general_gift_card_data']);
+//        }
+//        parent::verifyGeneralTab($generalTab);
+//    }
 
     /**
      * Add Gift Card Amount
@@ -96,11 +98,11 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function addGiftCardAmount(array $giftCardData)
     {
-        $rowNumber = $this->getControlCount('fieldset', 'prices_gift_card_amounts');
+        $rowNumber = $this->getControlCount('fieldset', 'general_amounts');
         $this->addParameter('giftCardId', $rowNumber);
         $this->clickButton('add_gift_card_amount', false);
         $this->waitForAjax();
-        $this->fillTab($giftCardData, 'prices');
+        $this->fillTab($giftCardData, 'general');
     }
 
     /**
@@ -112,7 +114,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function verifyGiftCardAmounts(array $giftCardData)
     {
-        $rowQty = count($this->getControlElements('fieldset', 'prices_gift_card_amounts', null, false));
+        $rowQty = count($this->getControlElements('fieldset', 'general_gift_card_amounts', null, false));
         $needCount = count($giftCardData);
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(

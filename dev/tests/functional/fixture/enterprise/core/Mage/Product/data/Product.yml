@@ -19,11 +19,11 @@ prices_gift_card_amount1: &giftCardAmount1
 
 prices_gift_card_amount2: &giftCardAmount2
     prices_gift_card_website: All Websites [USD]
-    prices_gift_card_amount: 5.55
+    general_amount: 5.55
 
-prices_gift_card_amounts: &giftCardAmounts
-    prices_gift_card_amount1: *giftCardAmount1
-    prices_gift_card_amount2: *giftCardAmount2
+general_amounts: &giftCardAmounts
+    general_amount1: *giftCardAmount1
+    general_amount2: *giftCardAmount2
 
 # Test Datasets for Add New Product Gift card type
 gift_card_required:
@@ -33,12 +33,13 @@ gift_card_required:
     general_short_description: Short Description for Gift Card Required
     general_sku: giftcard_sku_req_%randomize%
     general_weight: 2.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_gift_card_amounts: *giftCardAmounts
-    prices_gift_card_allow_open_amount: Yes
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_gift_card_data:
+        general_allow_open_amount: Yes
+        general_card_type: %noValue%
+        general_amounts: *giftCardAmounts
     inventory_qty: 111
-    giftcardinfo_card_type: %noValue%
 
 frontend_gift_card_validation:
     product_attribute_set: Default
@@ -47,8 +48,8 @@ frontend_gift_card_validation:
     general_short_description: Short Description for Gift Card frontend
     general_sku: giftcard_frontend_sku_%randomize%
     general_weight: 2.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_gift_card_amounts: *giftCardAmounts
@@ -170,15 +171,25 @@ gift_card:
     general_news_from: %currentDate%
     general_news_to: %currentDate%
     general_url_key: giftcard-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_gift_card_amounts: *giftCardAmounts
-    prices_gift_card_allow_open_amount: Yes
-    prices_gift_card_open_amount_min: 0.1
-    prices_gift_card_open_amount_max: 99999
-    prices_enable_googlecheckout: Yes
+    general_gift_card_data:
+        general_allow_open_amount: Yes
+        general_open_amount_min: 0.1
+        general_open_amount_max: 99999
+        general_card_type: %noValue%
+        general_amounts: *giftCardAmounts
+        general_card_type: Combined
+    general_is_redeemable_default: No
+    general_is_redeemable: No
+    general_lifetime_default: No
+    general_lifetime: 20
+    general_allow_message_default: No
+    general_allow_message: No
+    general_email_template_default: No
+    general_enable_googlecheckout: Yes
     meta_information_meta_title: Meta Title for Gift Card
     meta_information_meta_keywords: Meta Keywords for Gift Card
     meta_information_meta_description: Meta Description for Gift Card
@@ -210,14 +221,6 @@ gift_card:
     inventory_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
-    giftcardinfo_card_type: Combined
-    giftcardinfo_is_redeemable_default: No
-    giftcardinfo_is_redeemable: No
-    giftcardinfo_lifetime_default: No
-    giftcardinfo_lifetime: 20
-    giftcardinfo_allow_message_default: No
-    giftcardinfo_allow_message: No
-    giftcardinfo_email_template_default: No
 
 #<----------------------Product for Order by SKU functionality----------------->
 simple_sku:
@@ -227,12 +230,12 @@ simple_sku:
    general_short_description: Short Description for Simple Product
    general_sku: simple_sku_%randomize%
    general_weight: 1.14
-   general_status: Enabled
-   general_visibility: Catalog, Search
+   product_online_status: Enabled
+   autosettings_visibility: Catalog, Search
    general_qty: 120
    general_stock_availability: In Stock
-   prices_price: 12.99
-   prices_tax_class: None
+   general_price: 12.99
+   general_tax_class: None
    inventory_min_allowed_qty_default: %noValue%
    inventory_min_allowed_qty: %noValue%
    inventory_max_allowed_qty_default: %noValue%
@@ -255,10 +258,10 @@ simple_product_website:
     general_short_description: Short Description for Simple Product Visible
     general_sku: simple_visible_sku_%randomize%
     general_weight: 1.14
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 12.99
-    prices_tax_class: None
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price: 12.99
+    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -274,10 +277,10 @@ virtual_product_website:
     general_description: Description for Virtual Product Visible
     general_short_description: Short Description for Virtual Product Visible
     general_sku: virtual_visible_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 18.99
-    prices_tax_class: None
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price: 18.99
+    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -296,8 +299,8 @@ bundle_product_website:
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
     general_weight_type: Dynamic
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
     general_bundle_items:
@@ -313,8 +316,8 @@ grouped_product_website:
     general_description: Description for Grouped Product Visible
     general_short_description: Short Description for Grouped Product Visible
     general_sku: grouped_visible_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
     general_grouped_data:
@@ -341,10 +344,10 @@ downloadable_product_website:
     general_description: Description for Downloadable Product Visible
     general_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 98.99
-    prices_tax_class: None
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price: 98.99
+    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -379,9 +382,9 @@ simple_product_price:
     general_short_description: Short Description for Simple Product Visible
     general_sku: simple_visible_sku_%randomize%
     general_weight: 1.14
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_tax_class: None
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -398,9 +401,9 @@ virtual_product_price:
     general_description: Description for Virtual Product Visible
     general_short_description: Short Description for Virtual Product Visible
     general_sku: virtual_visible_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_tax_class: None
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -417,9 +420,9 @@ downloadable_product_price:
     general_description: Description for Downloadable Product Visible
     general_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_tax_class: None
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
