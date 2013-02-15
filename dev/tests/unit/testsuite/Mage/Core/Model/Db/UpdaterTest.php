@@ -5,18 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Design_Db_UpdaterTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        /**
-         * Clear internal class static state to a default one, as it is not designed to be run several times
-         */
-        $reflectionProperty = new ReflectionProperty('Mage_Core_Model_Db_Updater', '_schemaUpdatesChecked');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue(null, false);
-    }
-
     /**
      * Automatic updates must be enabled/disabled according to config flags
      *
