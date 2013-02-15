@@ -66,7 +66,6 @@
   * Added ability to set callback for "item selection"
   * Added ability to provide a template in widget options
   * Implemented "multiple suggestions" ability directly in this widget and removed the "multisuggest" widget
-  * Refactored configurable attribute, category parent and attribute set selectors to use suggest widget
 * Converted several grids in backend from PHP implementation to declarations in layout
 * Other various improvements:
   * Factored out logic of handling theme images from `Mage_Core_Model_Theme` into `Mage_Core_Model_Theme_Image`
