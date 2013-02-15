@@ -20,7 +20,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
     public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
                                 'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'downloadable_information', 'general');
+                                'downloadable_information', 'general', 'autosettings');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -514,6 +514,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (isset($productData['product_attribute_set']) && $productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
+        if (isset($productData['product_online_status'])) {
+            $this->selectOnlineStatus($productData['product_online_status']);
+            unset($productData['product_online_status']);
+        }
         $this->fillProductInfo($productData);
         if ($isSave) {
             $this->saveProduct();
@@ -612,6 +616,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyProductInfo(array $productData, $skipElements = array('product_attribute_set'))
     {
+        if (isset($productData['product_online_status'])) {
+            $this->selectOnlineStatus($productData['product_online_status'], 'verify');
+            unset($productData['product_online_status']);
+        }
         $data = $this->formProductData($productData, $skipElements);
         foreach ($data as $tabName => $tabData) {
             $this->verifyProductTab($tabData, $tabName);
@@ -691,14 +699,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Fill Product Tab
      *
      * @param array $tabData
-     * @param string $tabName Value - general|prices|meta_information|images|recurring_profile
-     * |design|gift_options|inventory|websites|related|up_sells
+     * @param string $tabName Value - general|prices|meta_information|images|
+     * |design|advanced_settings|inventory|websites|related|up_sells
      * |cross_sells|custom_options|bundle_items|associated|downloadable_information
      *
      * @return bool
      */
     public function fillProductTab(array $tabData, $tabName = 'general')
     {
+        $basicSettings = array('general', 'meta_information');
+        if (!in_array($tabName, $basicSettings)
+            && $this->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected') == 'false'
+        ) {
+            $this->clickControl('fieldset', 'advanced_settings');
+        }
         switch ($tabName) {
             case 'general':
                 $this->fillGeneralTab($tabData);
@@ -742,6 +756,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyProductTab(array $tabData, $tabName = 'general')
     {
+        $basicSettings = array('general', 'meta_information');
+        if (!in_array($tabName, $basicSettings)
+            && $this->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected') == 'false'
+        ) {
+            $this->clickControl('fieldset', 'advanced_settings');
+        }
         switch ($tabName) {
             case 'general':
                 $this->verifyGeneralTab($tabData);
@@ -848,6 +868,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->verifyForm($generalTab, 'general');
         $this->assertEmptyVerificationErrors();
+    }
+
+    public function selectOnlineStatus($statusData, $action = 'fill')
+    {
+        $script = "return jQuery('#product-online-switcher').prop('checked')";
+        $status = $this->execute(array('script' => $script, 'args' => array()));
+        if (($status && $statusData == 'Disabled') || (!$status && $statusData == 'Enabled')) {
+            if ($action == 'fill') {
+                $this->clickControl('pageelement', 'product_online_status');
+            }
+            else {
+                $this->addVerificationMessage('Product Online Status should be ' . $statusData);
+            }
+        }
     }
 
     /**

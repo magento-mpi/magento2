@@ -88,11 +88,15 @@ new_product:
             fieldsets: &new_product_fieldsets
                 -
                     product_information:
-                        xpath: //div[@class='content-header']
+                        xpath: //div[@class='page-actions']
                         pageelements:
                             product_attribute_set: //h3[@class='icon-head head-products' and contains(text(),'%attributeSet%')]
                             product_page_title: //h3[@class='icon-head head-products']
                             product_name: //h3[@class='icon-head head-products'][text()='%productName% (%attributeSet%)']
+                            product_online_status: //div[@class='switcher']/label/span
+                -
+                    advanced_settings:
+                        xpath: //*[@id='product_info_tabs-advanced']//h3
                 -
                     change_attribute_set:
                         xpath: //div[div/span='Select Attribute Set']
@@ -119,19 +123,18 @@ new_product:
             tabs:
                 -
                     general: &generalTab
-                        xpath: //a[@title='General']
+                        xpath: //a[@title='Product Details']
                         fieldsets:
                             -
                                 product_general:
-                                    xpath: //div[div/strong/span='General']
+                                    xpath: //div[contains(div/div/div,'Product Details')]
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         new_category: //button[span='New Category']
                                     dropdowns:
+                                        general_tax_class: //select[@id='tax_class_id']
                                         general_sku_type: //select[@id='sku_type']
                                         general_weight_type: //select[@id='weight_type']
-                                        general_status: //select[@id='status']
-                                        general_visibility: //select[@id='visibility']
                                         general_country_manufacture: //select[@id='country_of_manufacture']
                                         general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                         general_user_attr_dropdown: //select[@id='%attributeCodeDropdown%']
@@ -141,12 +144,10 @@ new_product:
                                     fields:
                                         general_name: //input[@id='name']
                                         general_sku: //input[@id='sku']
+                                        general_price: //input[@id='price' and not(@disabled)]
                                         general_description: //textarea[@id='description']
                                         general_short_description: //textarea[@id='short_description']
                                         general_weight: //input[@id='weight' and not(@disabled)]
-                                        general_news_from: //input[@id='news_from_date']
-                                        general_news_to: //input[@id='news_to_date']
-                                        general_url_key: //input[@id='url_key']
                                         general_categories: //input[@id='category_ids-suggest']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
@@ -325,11 +326,11 @@ new_product:
                                         associated_search_price_to: //input[@name='price[to]']
                 -
                     prices: &pricesTab
-                        xpath: //a[@title='Prices']
+                        xpath: //a[@title='Advanced Pricing']
                         fieldsets:
                             -
                                 product_prices:
-                                    xpath: //div[div/strong/span='Prices']
+                                    xpath: //div[contains(div/div/div,'Advanced Pricing')]
                                     buttons:
                                         prices_group_add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
@@ -337,17 +338,29 @@ new_product:
                                         delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
                                     dropdowns:
                                         prices_price_type: //select[@id='price_type']
-                                        prices_tax_class: //select[@id='tax_class_id']
                                         prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
                                         prices_price_view_bundle: //select[@id='price_view']
                                         prices_apply_map: //select[@id='msrp_enabled']
                                         prices_display_actual_price: //select[@id='msrp_display_actual_price_type']
+                                        prices_enable_recurring_profile: //select[@id='is_recurring']
+                                        prices_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
+                                        prices_auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
+                                        prices_billing_period_unit: //select[@id='recurring_profileperiod_unit']
+                                        prices_trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
+                                        prices_allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
                                     fields:
-                                        prices_price: //input[@id='price' and not(@disabled)]
                                         prices_special_price: //input[@id='special_price']
                                         prices_special_price_from: //input[@id='special_from_date']
                                         prices_special_price_to: //input[@id='special_to_date']
                                         prices_manu_suggested_retail_price: //input[@id='msrp']
+                                        prices_schedule_description: //input[@id='recurring_profileschedule_description']
+                                        prices_max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
+                                        prices_billing_frequency: //input[@id='recurring_profileperiod_frequency']
+                                        prices_max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
+                                        prices_trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
+                                        prices_max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
+                                        prices_trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
+                                        prices_initial_fee: //input[@id='recurring_profileinit_amount']
                                     pageelements:
                                         prices_group_price_grid_head: //table[@id="group_prices_table"]/thead
                                         prices_group_price_grid_table: //table[@id="group_prices_table"]/tbody
@@ -364,11 +377,11 @@ new_product:
                                         prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
                 -
                     meta_information: &metaInformationTab
-                        xpath: //a[@title='Meta Information']
+                        xpath: //a[@title='Search Optimization']
                         fieldsets:
                             -
                                 product_meta_information:
-                                    xpath: //div[div/strong/span='Meta Information']
+                                    xpath: //div[contains(div/div/div,'Search Optimization')]
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     fields:
@@ -378,36 +391,11 @@ new_product:
                                         meta_information_user_attr_field: //input[@id='%attributeCodeField%']
                 -
                     images: &imagesTab
-                        xpath: //a[@title='Images']
+                        xpath: //a[@title='Image Management']
                         fieldsets:
                             -
                                 product_images:
-                                    xpath: //div[div/strong/span='Images']
-                -
-                    recurring_profile: &recurringProfileTab
-                        xpath: //a[@title='Recurring Profile']
-                        fieldsets:
-                            -
-                                product_recurring_profile:
-                                    xpath: //div[div/strong/span='Recurring Profile']
-                                    buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
-                                    dropdowns:
-                                        recurring_profile_enable_recurring_profile: //select[@id='is_recurring']
-                                        recurring_profile_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
-                                        recurring_profile_auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
-                                        recurring_profile_billing_period_unit: //select[@id='recurring_profileperiod_unit']
-                                        recurring_profile_trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
-                                        recurring_profile_allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
-                                    fields:
-                                        recurring_profile_schedule_description: //input[@id='recurring_profileschedule_description']
-                                        recurring_profile_max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
-                                        recurring_profile_billing_frequency: //input[@id='recurring_profileperiod_frequency']
-                                        recurring_profile_max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
-                                        recurring_profile_trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
-                                        recurring_profile_max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
-                                        recurring_profile_trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
-                                        recurring_profile_initial_fee: //input[@id='recurring_profileinit_amount']
+                                    xpath: //div[div/strong/span='Image Management']
                 -
                     design: &designTab
                         xpath: //a[@title='Design']
@@ -426,25 +414,30 @@ new_product:
                                         design_active_to: //input[@id='custom_design_to']
                                         design_custom_layout_update: //textarea[@id='custom_layout_update']
                 -
-                    gift_options: &giftOptionsTab
-                        xpath: //a[@title='Gift Options']
+                    autosettings: &autosettingsTab
+                        xpath: //a[@title='Autosettings']
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: //div[div/strong/span='Gift Options']
+                                    xpath: //div[contains(div/div/div,'Autosettings')]
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
-                                        gift_options_allow_gift_message_default: //input[@id='use_config_gift_message_available']
+                                        autosettings_allow_gift_message_default: //input[@id='use_config_gift_message_available']
                                     dropdowns:
-                                        gift_options_allow_gift_message: //select[@id='gift_message_available']
+                                        autosettings_allow_gift_message: //select[@id='gift_message_available']
+                                        autosettings_visibility: //select[@id='visibility']
+                                    fields:
+                                        autosettings_news_from: //input[@id='news_from_date']
+                                        autosettings_news_to: //input[@id='news_to_date']
+                                        autosettings_url_key: //input[@id='url_key']
                 -
                     inventory: &inventoryTab
-                        xpath: //a[@title='Inventory']
+                        xpath: //a[@title='Advanced Inventory']
                         fieldsets:
                             -
                                 product_inventory:
-                                    xpath: //div[contains(fieldset,'Inventory')]
+                                    xpath: //div[contains(fieldset,'Advanced Inventory')]
                                     checkboxes:
                                         inventory_manage_stock_default: //input[@id='inventory_use_config_manage_stock']
                                         inventory_qty_for_items_out_of_stock_default: //input[@id='inventory_use_config_min_qty']
@@ -712,11 +705,9 @@ edit_product:
                 -
                     images: *imagesTab
                 -
-                    recurring_profile: *recurringProfileTab
-                -
                     design: *designTab
                 -
-                    gift_options: *giftOptionsTab
+                    autosettings: *autosettingsTab
                 -
                     inventory: *inventoryTab
                 -

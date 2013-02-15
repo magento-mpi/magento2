@@ -435,17 +435,12 @@ downloadable_information_data: &downloadableData
 simple_product_required:
     product_attribute_set: Default
     general_name: Simple Product Required(%randomize%)
-    general_description: Description for Simple Product Required
-    general_short_description: Short Description for Simple Product Required
     general_sku: simple_sku_req_%randomize%
+    general_description: %noValue%
+    general_short_description: %noValue%
     general_weight: 1.13
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    general_qty: %noValue%
-    general_stock_availability: %noValue%
-    prices_price: 9.99
-    prices_special_price: %noValue%
-    prices_tax_class: None
+    product_online_status: Enabled
+    general_price: 9.99
 
 # Product that has all needed fields set to be visible in frontend.
 simple_product_visible:
@@ -455,14 +450,14 @@ simple_product_visible:
     general_short_description: Short Description for Simple Product Visible
     general_sku: simple_visible_sku_%randomize%
     general_weight: 1.14
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 12.99
-    prices_tax_class: None
-    websites: Main Website
+    general_price: 12.99
+    general_tax_class: None
     general_categories: Default Category
+    websites: Main Website
+    autosettings_visibility: Catalog, Search
     custom_options_data: %noValue%
 
 simple_product:
@@ -472,45 +467,45 @@ simple_product:
     general_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 2.56
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: simple-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    general_tax_class: None
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 4.95
+    general_price: 4.95
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: simple-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Simple Product
     meta_information_meta_keywords: Meta Keywords for Simple Product
     meta_information_meta_description: Meta Description for Simple Product
-    recurring_profile_enable_recurring_profile: Yes
-    recurring_profile_customer_define_start_date: No
-    recurring_profile_schedule_description: Shedule Description
-    recurring_profile_max_payment_failures: Max Payment Failures
-    recurring_profile_auto_bill_next_cycle: No
-    recurring_profile_billing_period_unit: Week
-    recurring_profile_billing_frequency: Billing Frequency
-    recurring_profile_max_billing_cycles: Max Billing Cycles
-    recurring_profile_trial_billing_period_unit: Month
-    recurring_profile_trial_billing_frequency: Trial Billing Frequency
-    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
-    recurring_profile_trial_billing_amount: Trial Billing Amount
-    recurring_profile_initial_fee: Initial Fee
-    recurring_profile_allow_initial_fee_failure: No
+    prices_enable_recurring_profile: Yes
+    prices_customer_define_start_date: No
+    prices_schedule_description: Shedule Description
+    prices_max_payment_failures: Max Payment Failures
+    prices_auto_bill_next_cycle: No
+    prices_billing_period_unit: Week
+    prices_billing_frequency: Billing Frequency
+    prices_max_billing_cycles: Max Billing Cycles
+    prices_trial_billing_period_unit: Month
+    prices_trial_billing_frequency: Trial Billing Frequency
+    prices_max_trial_billing_cycles: Max Trial Billing Cycles
+    prices_trial_billing_amount: Trial Billing Amount
+    prices_initial_fee: Initial Fee
+    prices_allow_initial_fee_failure: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -544,43 +539,43 @@ duplicate_simple:
     general_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 2.56
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: simple-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 4.95
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: simple-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price: 4.95
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_tax_class: None
+    general_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Simple Product
     meta_information_meta_keywords: Meta Keywords for Simple Product
     meta_information_meta_description: Meta Description for Simple Product
-    recurring_profile_enable_recurring_profile: Yes
-    recurring_profile_customer_define_start_date: No
-    recurring_profile_schedule_description: Shedule Description
-    recurring_profile_max_payment_failures: Max Payment Failures
-    recurring_profile_auto_bill_next_cycle: No
-    recurring_profile_billing_period_unit: Week
-    recurring_profile_billing_frequency: Billing Frequency
-    recurring_profile_max_billing_cycles: Max Billing Cycles
-    recurring_profile_trial_billing_period_unit: Month
-    recurring_profile_trial_billing_frequency: Trial Billing Frequency
-    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
-    recurring_profile_trial_billing_amount: Trial Billing Amount
-    recurring_profile_initial_fee: Initial Fee
-    recurring_profile_allow_initial_fee_failure: No
+    prices_enable_recurring_profile: Yes
+    prices_customer_define_start_date: No
+    prices_schedule_description: Shedule Description
+    prices_max_payment_failures: Max Payment Failures
+    prices_auto_bill_next_cycle: No
+    prices_billing_period_unit: Week
+    prices_billing_frequency: Billing Frequency
+    prices_max_billing_cycles: Max Billing Cycles
+    prices_trial_billing_period_unit: Month
+    prices_trial_billing_frequency: Trial Billing Frequency
+    prices_max_trial_billing_cycles: Max Trial Billing Cycles
+    prices_trial_billing_amount: Trial Billing Amount
+    prices_initial_fee: Initial Fee
+    prices_allow_initial_fee_failure: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     websites: Main Website
     general_categories: Default Category
     related_data: &relatedDuplicate
@@ -607,13 +602,13 @@ virtual_product_required:
     general_description: Description for Virtual Product Required
     general_short_description: Short Description for Virtual Product Required
     general_sku: virtual_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: %noValue%
     general_stock_availability: %noValue%
-    prices_price: 99.99
+    general_price: 99.99
     prices_special_price: %noValue%
-    prices_tax_class: None
+    general_tax_class: None
 
 # Product that has all needed fields set to be visible in frontend.
 virtual_product_visible:
@@ -622,12 +617,12 @@ virtual_product_visible:
     general_description: Description for Virtual Product Visible
     general_short_description: Short Description for Virtual Product Visible
     general_sku: virtual_visible_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 18.99
-    prices_tax_class: None
+    general_price: 18.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: %noValue%
@@ -638,45 +633,45 @@ virtual_product:
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku_%randomize%
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: virtual-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: virtual-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 14.95
+    general_price: 14.95
     prices_special_price: 13.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_tax_class: None
+    general_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Virtual Product
     meta_information_meta_keywords: Meta Keywords for Virtual Product
     meta_information_meta_description: Meta Description for Virtual Product
-    recurring_profile_enable_recurring_profile: Yes
-    recurring_profile_customer_define_start_date: No
-    recurring_profile_schedule_description: Shedule Description
-    recurring_profile_max_payment_failures: Max Payment Failures
-    recurring_profile_auto_bill_next_cycle: No
-    recurring_profile_billing_period_unit: Week
-    recurring_profile_billing_frequency: Billing Frequency
-    recurring_profile_max_billing_cycles: Max Billing Cycles
-    recurring_profile_trial_billing_period_unit: Month
-    recurring_profile_trial_billing_frequency: Trial Billing Frequency
-    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
-    recurring_profile_trial_billing_amount: Trial Billing Amount
-    recurring_profile_initial_fee: Initial Fee
-    recurring_profile_allow_initial_fee_failure: No
+    prices_enable_recurring_profile: Yes
+    prices_customer_define_start_date: No
+    prices_schedule_description: Shedule Description
+    prices_max_payment_failures: Max Payment Failures
+    prices_auto_bill_next_cycle: No
+    prices_billing_period_unit: Week
+    prices_billing_frequency: Billing Frequency
+    prices_max_billing_cycles: Max Billing Cycles
+    prices_trial_billing_period_unit: Month
+    prices_trial_billing_frequency: Trial Billing Frequency
+    prices_max_trial_billing_cycles: Max Trial Billing Cycles
+    prices_trial_billing_amount: Trial Billing Amount
+    prices_initial_fee: Initial Fee
+    prices_allow_initial_fee_failure: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -709,43 +704,43 @@ duplicate_virtual:
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku_%randomize%
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: virtual-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 14.95
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: virtual-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price: 14.95
     prices_special_price: 13.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_tax_class: None
+    general_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Virtual Product
     meta_information_meta_keywords: Meta Keywords for Virtual Product
     meta_information_meta_description: Meta Description for Virtual Product
-    recurring_profile_enable_recurring_profile: Yes
-    recurring_profile_customer_define_start_date: No
-    recurring_profile_schedule_description: Shedule Description
-    recurring_profile_max_payment_failures: Max Payment Failures
-    recurring_profile_auto_bill_next_cycle: No
-    recurring_profile_billing_period_unit: Week
-    recurring_profile_billing_frequency: Billing Frequency
-    recurring_profile_max_billing_cycles: Max Billing Cycles
-    recurring_profile_trial_billing_period_unit: Month
-    recurring_profile_trial_billing_frequency: Trial Billing Frequency
-    recurring_profile_max_trial_billing_cycles: Max Trial Billing Cycles
-    recurring_profile_trial_billing_amount: Trial Billing Amount
-    recurring_profile_initial_fee: Initial Fee
-    recurring_profile_allow_initial_fee_failure: No
+    prices_enable_recurring_profile: Yes
+    prices_customer_define_start_date: No
+    prices_schedule_description: Shedule Description
+    prices_max_payment_failures: Max Payment Failures
+    prices_auto_bill_next_cycle: No
+    prices_billing_period_unit: Week
+    prices_billing_frequency: Billing Frequency
+    prices_max_billing_cycles: Max Billing Cycles
+    prices_trial_billing_period_unit: Month
+    prices_trial_billing_frequency: Trial Billing Frequency
+    prices_max_trial_billing_cycles: Max Trial Billing Cycles
+    prices_trial_billing_amount: Trial Billing Amount
+    prices_initial_fee: Initial Fee
+    prices_allow_initial_fee_failure: No
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     websites: Main Website
     general_categories: Default Category
     related_data: *relatedDuplicate
@@ -765,8 +760,8 @@ dynamic_bundle_required:
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_sku_req_%randomize%
     general_weight_type: Dynamic
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     prices_special_price: %noValue%
     general_bundle_items:
         item_1: %noValue%
@@ -780,8 +775,8 @@ dynamic_bundle_visible:
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
     general_weight_type: Dynamic
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
@@ -797,12 +792,12 @@ fixed_bundle_required: &bundle
     general_sku: bundle_fixed_sku_req_%randomize%
     general_weight_type: Fixed
     general_weight: 0.999
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price_type: Fixed
-    prices_price: 12.55
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price_type: Fixed
+    general_price: 12.55
     prices_special_price: %noValue%
-    prices_tax_class: None
+    general_tax_class: None
     general_bundle_items:
         item_1: %noValue%
 
@@ -818,12 +813,12 @@ fixed_bundle_visible:
     general_sku: bundle_fixed_visible_sku_%randomize%
     general_weight_type: Fixed
     general_weight: 0.999
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price_type: Fixed
-    prices_price: 12.55
-    prices_tax_class: None
+    general_price_type: Fixed
+    general_price: 12.55
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     general_bundle_items:
@@ -837,17 +832,17 @@ dynamic_bundle:
     general_sku_type: Dynamic
     general_sku: bundle_sku_%randomize%
     general_weight_type: Dynamic
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: dynamic-bundle-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price_type: Dynamic
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: dynamic-bundle-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price_type: Dynamic
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_price_view_bundle: As Low as
+    general_price_view_bundle: As Low as
     meta_information_meta_title: Meta Title for Bundle(Dynamic) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Dynamic) Product
     meta_information_meta_description: Meta Description for Bundle(Dynamic) Product
@@ -857,8 +852,8 @@ dynamic_bundle:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_enable_qty_increments_default: No
@@ -882,18 +877,18 @@ fixed_bundle:
     general_sku: bundle_sku_%randomize%
     general_weight_type: Fixed
     general_weight: 0.111
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: fixed-bundle-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price_type: Fixed
-    prices_price: 66.32
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: fixed-bundle-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price_type: Fixed
+    general_price: 66.32
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_price_view_bundle: As Low as
+    general_price_view_bundle: As Low as
     meta_information_meta_title: Meta Title for Bundle(Fixed) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Fixed) Product
     meta_information_meta_description: Meta Description for Bundle(Fixed) Product
@@ -903,8 +898,8 @@ fixed_bundle:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_enable_qty_increments_default: No
@@ -929,18 +924,18 @@ duplicate_fixed_bundle:
     general_sku: bundle_sku_%randomize%
     general_weight_type: Fixed
     general_weight: 0.111
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: fixed-bundle-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price_type: Fixed
-    prices_price: 66.32
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: fixed-bundle-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price_type: Fixed
+    general_price: 66.32
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_price_view_bundle: As Low as
+    general_price_view_bundle: As Low as
     meta_information_meta_title: Meta Title for Bundle(Fixed) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Fixed) Product
     meta_information_meta_description: Meta Description for Bundle(Fixed) Product
@@ -950,8 +945,8 @@ duplicate_fixed_bundle:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     websites: Main Website
     general_categories: Default Category
     related_data: *relatedDuplicate
@@ -993,17 +988,17 @@ duplicate_dynamic_bundle:
     general_sku_type: Dynamic
     general_sku: bundle_sku_%randomize%
     general_weight_type: Dynamic
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: dynamic-bundle-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price_type: Dynamic
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: dynamic-bundle-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price_type: Dynamic
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_price_view_bundle: As Low as
+    general_price_view_bundle: As Low as
     meta_information_meta_title: Meta Title for Bundle(Dynamic) Product
     meta_information_meta_keywords: Meta Keywords for Bundle(Dynamic) Product
     meta_information_meta_description: Meta Description for Bundle(Dynamic) Product
@@ -1013,8 +1008,8 @@ duplicate_dynamic_bundle:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     websites: Main Website
     general_categories: Default Category
     related_data: *relatedDuplicate
@@ -1053,8 +1048,8 @@ grouped_product_required:
     general_description: Description for Grouped Product Required
     general_short_description: Short Description for Grouped Product Required
     general_sku: grouped_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_grouped_data: *associatedProductsGroupedData
 
 # Product that has all needed fields set to be visible in frontend.
@@ -1064,8 +1059,8 @@ grouped_product_visible:
     general_description: Description for Grouped Product Visible
     general_short_description: Short Description for Grouped Product Visible
     general_sku: grouped_visible_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
@@ -1077,11 +1072,11 @@ grouped_product:
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku_%randomize%
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: grouped-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: grouped-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_country_manufacture: %noValue%
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Grouped Product
@@ -1093,8 +1088,8 @@ grouped_product:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_enable_qty_increments_default: No
@@ -1115,11 +1110,11 @@ duplicate_grouped:
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku_%randomize%
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: grouped-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: grouped-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_country_manufacture: %noValue%
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Grouped Product
@@ -1131,8 +1126,8 @@ duplicate_grouped:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     websites: Main Website
     general_categories: Default Category
     related_data: *relatedDuplicate
@@ -1163,11 +1158,11 @@ configurable_product_required:
     general_short_description: Short Description for Configurable Product Required
     general_weight: 0.1
     general_sku: configurable_sku_req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 14.95
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price: 14.95
     prices_special_price: %noValue%
-    prices_tax_class: None
+    general_tax_class: None
     general_configurable_attributes: *general_configurable_attributes
     general_configurable_variations: *associatedProductsConfigurableData
 
@@ -1179,11 +1174,11 @@ configurable_product_visible:
     general_short_description: Short Description for Configurable Product Visible
     general_weight: 1
     general_sku: configurable_visible_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price: 18.95
-    prices_tax_class: None
+    general_price: 18.95
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     general_configurable_attributes: *general_configurable_attributes
@@ -1196,13 +1191,13 @@ configurable_product:
     general_short_description: Short Description for Configurable Product
     general_weight: 5
     general_sku: configurable_sku_%randomize%
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: configurable-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: configurable-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_country_manufacture: %noValue%
-    prices_price: 4.95
+    general_price: 4.95
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
@@ -1210,7 +1205,7 @@ configurable_product:
     prices_apply_map: %noValue%
     prices_display_actual_price: %noValue%
     prices_manu_suggested_retail_price: %noValue%
-    prices_tax_class: None
+    general_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Configurable Product
     meta_information_meta_keywords: Meta Keywords for Configurable Product
@@ -1221,8 +1216,8 @@ configurable_product:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_enable_qty_increments_default: No
@@ -1245,13 +1240,13 @@ duplicate_configurable:
     general_short_description: Short Description for Configurable Product
     general_weight: 3.17
     general_sku: configurable_sku_%randomize%
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: configurable-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: configurable-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_country_manufacture: %noValue%
-    prices_price: 4.95
+    general_price: 4.95
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
@@ -1259,7 +1254,7 @@ duplicate_configurable:
     prices_apply_map: %noValue%
     prices_display_actual_price: %noValue%
     prices_manu_suggested_retail_price: %noValue%
-    prices_tax_class: None
+    general_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Configurable Product
     meta_information_meta_keywords: Meta Keywords for Configurable Product
@@ -1270,8 +1265,8 @@ duplicate_configurable:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     websites: Main Website
     general_categories: Default Category
     related_data: *relatedDuplicate
@@ -1291,13 +1286,13 @@ downloadable_product_required:
     general_description: Description for Downloadable Product Required
     general_short_description: Short Description for Downloadable Product Required
     general_sku: downloadable_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: %noValue%
     general_stock_availability: %noValue%
-    prices_price: 99.99
+    general_price: 99.99
     prices_special_price: %noValue%
-    prices_tax_class: None
+    general_tax_class: None
     downloadable_information_data: *downloadableData
 
 # Product that has all needed fields set to be visible in frontend.
@@ -1307,12 +1302,12 @@ downloadable_product_visible:
     general_description: Description for Downloadable Product Visible
     general_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 98.99
-    prices_tax_class: None
+    general_price: 98.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     downloadable_information_data: *downloadableData
@@ -1323,19 +1318,19 @@ downloadable_product:
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku_%randomize%
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: downloadable-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: downloadable-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 14.95
+    general_price: 14.95
     prices_special_price: 13.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_tax_class: None
+    general_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Downloadable Product
     meta_information_meta_keywords: Meta Keywords for Downloadable Product
@@ -1346,8 +1341,8 @@ downloadable_product:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -1380,17 +1375,17 @@ duplicate_downloadable:
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku_%randomize%
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: downloadable-product-url-key
-    general_status: Enabled
-    general_visibility: Catalog, Search
-    prices_price: 14.95
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: downloadable-product-url-key
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
+    general_price: 14.95
     prices_special_price: 13.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
     prices_tier_price_data: *tierPriceData
-    prices_tax_class: None
+    general_tax_class: None
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Downloadable Product
     meta_information_meta_keywords: Meta Keywords for Downloadable Product
@@ -1401,8 +1396,8 @@ duplicate_downloadable:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     websites: Main Website
     general_categories: Default Category
     related_data: *relatedDuplicate
@@ -1426,15 +1421,15 @@ frontend_simple_product_details_validation:
     general_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 2.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 110
+    general_price: 110
     prices_special_price: 100
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
-    prices_tax_class: None
+    general_tax_class: None
     prices_tier_price_data: *tierPriceData
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
@@ -1448,15 +1443,15 @@ frontend_virtual_product_details_validation:
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: virtual_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 110
+    general_price: 110
     prices_special_price: 100
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
-    prices_tax_class: None
+    general_tax_class: None
     prices_tier_price_data: *tierPriceData
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
@@ -1475,12 +1470,12 @@ simple_product_related: &simple_product_related
     general_short_description: Short Description for Simple Product
     general_sku: linking_simple_sku_%randomize%
     general_weight: 2.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 4.95
-    prices_tax_class: None
+    general_price: 4.95
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
 
@@ -1490,12 +1485,12 @@ virtual_product_related: &virtual_product_related
     general_description: Description for Virtual Product
     general_short_description: Short Description for Virtual Product
     general_sku: linking_virtual_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 18.99
-    prices_tax_class: None
+    general_price: 18.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
 
@@ -1505,12 +1500,12 @@ downloadable_product_related: &downloadable_product_related
     general_description: Description for Downloadable Product
     general_short_description: Short Description for Downloadable Product
     general_sku: linking_downloadable_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 98.99
-    prices_tax_class: None
+    general_price: 98.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     downloadable_information_data:
@@ -1543,11 +1538,11 @@ bundle_product_related: &bundle_product_related
     general_sku: linking_bundle_sku_%randomize%
     general_weight_type: Fixed
     general_weight: 0.111
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price_type: Fixed
-    prices_price: 66.32
+    general_price_type: Fixed
+    general_price: 66.32
     websites: Main Website
     general_categories: Default Category
     general_bundle_items:
@@ -1572,11 +1567,11 @@ configurable_product_related: &configurable_product_related
     general_short_description: Short Description for Configurable Product
     general_weight: 3.14
     general_sku: linking_configurable_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price: 4.95
-    prices_tax_class: None
+    general_price: 4.95
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     general_configurable_attributes: *general_configurable_attributes
@@ -1588,8 +1583,8 @@ grouped_product_related: &grouped_product_related
     general_description: Description for Grouped Product
     general_short_description: Short Description for Grouped Product
     general_sku: linking_grouped_sku_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
@@ -1812,12 +1807,12 @@ simple_multi_checkout_options:
     general_short_description: Short Description for Simple Multi Checkout Options
     general_sku: simple_multi_checkout_options_sku.req_%randomize%
     general_weight: 1.14
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 50
     general_stock_availability: In Stock
-    prices_price: 8.99
-    prices_tax_class: None
+    general_price: 8.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
@@ -1832,12 +1827,12 @@ virtual_multi_checkout_options:
     general_description: Description for Virtual Multi Checkout Options
     general_short_description: Short Description for Virtual Multi Checkout Options
     general_sku: virtual_multi_checkout_options_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 50
     general_stock_availability: In Stock
-    prices_price: 18.99
-    prices_tax_class: None
+    general_price: 18.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
@@ -1852,12 +1847,12 @@ downloadable_multi_checkout:
     general_description: Description for Downloadable Product Visible
     general_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_multi_checkout_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 98.99
-    prices_tax_class: None
+    general_price: 98.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     downloadable_information_data:
@@ -1887,12 +1882,12 @@ downloadable_product_visible_multi_checkout:
     general_description: Description for Downloadable Product Visible
     general_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 98.99
-    prices_tax_class: None
+    general_price: 98.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     downloadable_information_data:
@@ -1922,12 +1917,12 @@ downloadable_multi_checkout_options_no_links:
     general_description: Description for Downloadable Multi Checkout Visible
     general_short_description: Short Description for Downloadable Multi Checkout Visible
     general_sku: %randomize%_downloadable_multi_checkout_options_no_links.req
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 50
     general_stock_availability: In Stock
-    prices_price: 98.99
-    prices_tax_class: None
+    general_price: 98.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
@@ -1946,12 +1941,12 @@ downloadable_multi_checkout_no_links:
     general_description: Description for Downloadable Multi Checkout No Links
     general_short_description: Short Description for Downloadable Multi Checkout No Links
     general_sku: %randomize%_downloadable_multi_checkout_no_links.req
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 98.99
-    prices_tax_class: None
+    general_price: 98.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     downloadable_information_data:
@@ -1969,12 +1964,12 @@ downloadable_multi_checkout_options_links:
     general_description: Description for Downloadable Product Options Links
     general_short_description: Short Description for Downloadable Product Options Links
     general_sku: %randomize%_downloadable_visible_options_links_sku.req
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 98.99
-    prices_tax_class: None
+    general_price: 98.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
@@ -1990,8 +1985,8 @@ grouped_multi_checkout_options:
     general_description: Description for Grouped Product Options
     general_short_description: Short Description for Grouped Product Options
     general_sku: %randomize%_grouped_options_sku.req
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
@@ -2057,12 +2052,12 @@ fixed_bundle_multi_checkout:
     general_sku: %randomize%_bundle_fixed_multi_checkout_sku.req
     general_weight_type: Fixed
     general_weight: 0.999
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price_type: Fixed
-    prices_price: 12.55
-    prices_tax_class: None
+    general_price_type: Fixed
+    general_price: 12.55
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     general_bundle_items: *bundleDataMultiCheckout
@@ -2075,8 +2070,8 @@ dynamic_bundle_multi_checkout:
     general_sku_type: Dynamic
     general_sku: %randomize%_bundle_dynamic_multi_checkout_sku.req
     general_weight_type: Dynamic
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
@@ -2091,12 +2086,12 @@ fixed_bundle_multi_checkout_options:
     general_sku: %randomize%_bundle_fixed_options_sku.req
     general_weight_type: Fixed
     general_weight: 0.999
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price_type: Fixed
-    prices_price: 12.55
-    prices_tax_class: None
+    general_price_type: Fixed
+    general_price: 12.55
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
@@ -2110,8 +2105,8 @@ dynamic_bundle_multi_checkout_options:
     general_sku_type: Dynamic
     general_sku: %randomize%_bundle_dynamic_options_sku.req
     general_weight_type: Dynamic
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
@@ -2129,11 +2124,11 @@ configurable_multi_checkout:
     general_short_description: Short Description for Configurable Product Visible
     general_weight: 15
     general_sku: %randomize%_configurable_multi_checkout_sku.req
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price: 18.95
-    prices_tax_class: None
+    general_price: 18.95
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     general_configurable_attributes: *general_configurable_attributes
@@ -2149,11 +2144,11 @@ configurable_multi_checkout_options:
     general_weight: 3.14
     general_short_description: Short Description for Configurable Multi Checkout Options
     general_sku: %randomize%_configurable_options_sku.req
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price: 18.95
-    prices_tax_class: None
+    general_price: 18.95
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: *customOptionsData
@@ -2269,8 +2264,8 @@ simple_product_minimal:
     general_short_description: Short Description for Simple Product Required
     general_sku: simple_sku_req_%randomize%
     general_weight: 1.13
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_min_price: 9.99
     general_min_tax_class: None
     websites: Main Website
@@ -2284,8 +2279,8 @@ virtual_product_minimal:
     general_description: Description for Virtual Product Required
     general_short_description: Short Description for Virtual Product Required
     general_sku: virtual_sku_req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_min_price: 99.99
     general_min_tax_class: None
     websites: Main Website
@@ -2299,8 +2294,8 @@ configurable_product_minimal:
     general_weight: 5.19
     general_sku: configurable_sku_req_%randomize%
     general_weight: 1.47
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_min_price: 14.95
     general_min_tax_class: None
     general_categories: Default Category
@@ -2313,8 +2308,8 @@ downloadable_product_minimal:
     general_description: Description for Downloadable Product Required
     general_short_description: Short Description for Downloadable Product Required
     general_sku: downloadable_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_min_price: 99.99
     general_min_tax_class: None
     websites: Main Website
@@ -2327,8 +2322,8 @@ grouped_product_minimal:
     general_description: Description for Grouped Product Visible
     general_short_description: Short Description for Grouped Product Visible
     general_sku: grouped_visible_sku.req_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_categories: Default Category
     general_grouped_data:
         associated_grouped_1:
@@ -2343,8 +2338,8 @@ fixed_bundle_minimal:
     general_sku: bundle_fixed_visible_sku_%randomize%
     general_weight_type: Fixed
     general_weight: 0.999
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_min_price_type: Fixed
     general_min_price: 12.55
     general_min_tax_class: None
@@ -2361,8 +2356,8 @@ dynamic_bundle_minimal:
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
     general_weight_type: Dynamic
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_min_price_type: Dynamic
     websites: Main Website
     general_categories: Default Category
@@ -2376,12 +2371,12 @@ simple_product_zero_price:
     general_short_description: Short Description for Simple Product Zero
     general_sku: simple_zero_sku_%randomize%
     general_weight: 1.14
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: '0.00'
-    prices_tax_class: None
+    general_price: '0.00'
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: %noValue%
@@ -2393,12 +2388,12 @@ simple_product_wcod:
     general_short_description: Short Description for Simple Product Visible
     general_sku: simple_visible_sku_%randomize%
     general_weight: 1.14
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 12.99
-    prices_tax_class: None
+    general_price: 12.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data: %noValue%
@@ -2410,12 +2405,12 @@ simple_product_sync_inventory:
     general_short_description: Short Description for Simple Product Visible
     general_sku: simple_sku_inventory_%randomize%
     general_weight: 1.14
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 15
     general_stock_availability: Out of Stock
-    prices_price: 12.99
-    prices_tax_class: None
+    general_price: 12.99
+    general_tax_class: None
     inventory_manage_stock_default: %noValue%
     inventory_manage_stock: %noValue%
     inventory_qty: %noValue%
@@ -2432,8 +2427,8 @@ bundle_product_visible:
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
     general_weight_type: Dynamic
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
     websites: Main Website
     general_categories: Default Category
@@ -2447,14 +2442,14 @@ simple_product_url_rewrite:
     general_short_description: Short Description for Simple Product Required
     general_sku: simple_sku_req_%randomize%
     general_weight: 1.13
-    general_url_key: simple-product-url-key(%randomize%)
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    autosettings_url_key: simple-product-url-key(%randomize%)
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: %noValue%
     general_stock_availability: %noValue%
-    prices_price: 9.99
+    general_price: 9.99
     prices_special_price: %noValue%
-    prices_tax_class: None
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
 
@@ -2465,17 +2460,17 @@ advanced_search_product:
     general_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 2.56
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 4.95
+    general_price: 4.95
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
     prices_special_price_to: %currentDate%
-    prices_tax_class: None
+    general_tax_class: None
     inventory_notify_for_qty_below_default: No
     inventory_notify_for_qty_below: 12
     websites: Main Website
@@ -2488,13 +2483,13 @@ compare_simple_product:
     general_short_description: Short Description for Simple Product Compare
     general_sku: simple_sku_compare_%randomize%
     general_weight: 1.13
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 2155
+    general_price: 2155
     prices_special_price: 2000
-    prices_tax_class: None
+    general_tax_class: None
     websites: Main Website
     general_categories: %noValue%
 
@@ -2504,12 +2499,12 @@ compare_virtual_product:
     general_description: Description for Virtual Product Compare
     general_short_description: Short Description for Virtual Product Compare
     general_sku: virtual_sku_compare_%randomize%
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 99.99
-    prices_tax_class: None
+    general_price: 99.99
+    general_tax_class: None
     prices_tier_price_data:
         prices_tier_price_1:
             prices_tier_price_website: All Websites [USD]

@@ -126,11 +126,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     {
         return array(
             array(array('general_name' => '%noValue%'), 'field'),
-            array(array('general_description' => '%noValue%'), 'field'),
-            array(array('general_short_description' => '%noValue%'), 'field'),
             array(array('general_sku' => ''), 'field'),
-            array(array('general_status' => '-- Please Select --'), 'dropdown'),
-            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
         );
     }
 
@@ -142,7 +138,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * @TestlinkId TL-MAGE-3410
      * @test
      */
-    public function specialCharactersInRequiredFields()
+    public function specialCharactersInTextFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product_required',
@@ -170,7 +166,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * @TestlinkId TL-MAGE-3408
      * @test
      */
-    public function longValuesInRequiredFields()
+    public function longValuesInTextFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product_required',

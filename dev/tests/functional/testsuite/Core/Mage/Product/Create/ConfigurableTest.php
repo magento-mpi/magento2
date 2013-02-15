@@ -215,8 +215,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             array(array('general_sku' => ''), 'field'),
             array(array('general_status' => '-- Please Select --'), 'dropdown'),
             array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
-            array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
+            array(array('general_price' => '%noValue%'), 'field'),
+            array(array('general_tax_class' => '-- Please Select --'), 'dropdown'),
         );
     }
 
@@ -320,13 +320,13 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('prices_price' => $invalidPrice),
+            array('general_price' => $invalidPrice),
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->addFieldIdToMessage('field', 'general_price');
         $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }

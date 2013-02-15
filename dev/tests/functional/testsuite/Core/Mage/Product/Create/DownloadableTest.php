@@ -133,8 +133,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
             array(array('general_sku' => ''), 'field'),
             array(array('general_status' => '-- Please Select --'), 'dropdown'),
             array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
-            array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
+            array(array('general_price' => '%noValue%'), 'field'),
+            array(array('general_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 
@@ -228,11 +228,11 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData =
-            $this->loadDataSet('Product', 'downloadable_product_required', array('prices_price' => $invalidPrice));
+            $this->loadDataSet('Product', 'downloadable_product_required', array('general_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
-        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->addFieldIdToMessage('field', 'general_price');
         $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
