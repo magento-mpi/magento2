@@ -1,7 +1,7 @@
 /**
  * {license_notice}
  *
- * @category    checkout multi-shipping
+ * @category    checkout multi-shipping addresses
  * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,9 +11,9 @@
     "use strict";
     $.widget('mage.multiShipping', {
         options: {
-            addNewAddressBtn: '[data-role="add-new-address"]', // Add a new address for multishipping.
+            addNewAddressBtn: 'button[data-role="add-new-address"]', // Add a new multishipping address.
             addNewAddressFlag: '#add_new_address_flag', // Hidden input field with value 0 or 1.
-            canContinueBtn: '[data-role="can-continue"]', // Continue button (update quantity or go to shipping).
+            canContinueBtn: 'button[data-role="can-continue"]', // Continue (update quantity or go to shipping).
             canContinueFlag: '#can_continue_flag' // Hidden input field with value 0 or 1.
         },
 
