@@ -12,6 +12,7 @@
     // mage.accordion base functionality
     $.widget('mage.accordion', $.ui.accordion, {
         options: {
+            heightStyle: 'content',
             animate: false,
             beforeActivate: function(e, ui) {
                 // Make sure sections below current are not clickable and sections above are clickable

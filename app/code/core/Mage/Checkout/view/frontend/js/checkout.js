@@ -16,14 +16,46 @@
             loginRegisterSelector: '#login\\:register',
             continueSelector: '#onepage-guest-register-button',
             registerCustomerPasswordSelector: '#register-customer-password',
-            nextSectionSelector: '#opc-billing'
+            sectionSelectorPrefix: '#opc-',
+            nextSection: 'billing',
+            ajaxLoaderPlaceButton: false
         },
 
         _create: function() {
             var _this = this;
-            this.element.on('click', this.options.continueSelector, function() {
-                $.proxy(_this._continue($(this)), _this);
-            }).on('ajaxError', $.proxy(this._ajaxError, this));
+            this.element
+                .on('click', this.options.continueSelector, function() {
+                    $.proxy(_this._continue($(this)), _this);
+                })
+                .on('gotoSection', function(event, section) {
+                    $.proxy(_this._ajaxUpdateProgress(section), _this);
+                    _this.element.trigger('enableSection', {selector: _this.options.sectionSelectorPrefix + section});
+                })
+                .on('ajaxError', $.proxy(this._ajaxError, this))
+                .on('ajaxSend', $.proxy(this._ajaxSend, this))
+                .on('ajaxComplete', $.proxy(this._ajaxComplete, this));
+        },
+
+        /**
+         * Callback function for before ajax send event(global)
+         * @private
+         */
+        _ajaxSend: function() {
+            var loader = this.element.find('.section.active .please-wait').show();
+            if (this.options.ajaxLoaderPlaceButton) {
+                loader.siblings('.button').hide();
+            }
+        },
+
+        /**
+         * Callback function for ajax complete event(global)
+         * @private
+         */
+        _ajaxComplete: function() {
+            this.element.find('.please-wait').hide();
+            if (this.options.ajaxLoaderPlaceButton) {
+                this.element.find('.button').show();
+            }
         },
 
         /**
@@ -42,7 +74,7 @@
          */
         _continue: function(elem) {
             var json = elem.data('checkout');
-            if (json.isGuessCheckoutAllowed) {
+            if (json.isGuestCheckoutAllowed) {
                 if ($(this.options.loginGuestSelector).is(':checked')) {
                     this._ajaxCheckoutSave('guest');
                 } else if ($(this.options.loginRegisterSelector).is(':checked')) {
@@ -73,8 +105,26 @@
                     if (method === 'register') {
                         $(this.options.registerCustomerPasswordSelector).show();
                     }
-                    this.element.trigger('enableSection', {selector: this.options.nextSectionSelector});
+                    this.element.trigger('gotoSection', this.options.nextSection);
                     $(document).trigger('login:setMethod', {method: method});
+                }
+            });
+        },
+
+        /**
+         * Update progress sidebar content
+         * @private
+         * @param toStep
+         */
+        _ajaxUpdateProgress: function(toStep) {
+            $.ajax({
+                url: this.options.progressUrl,
+                type: 'get',
+                cache: false,
+                context: this,
+                data: toStep ? {toStep: toStep} : null,
+                success: function(response) {
+                    $(this.options.checkoutProgressContainer).html(response);
                 }
             });
         }

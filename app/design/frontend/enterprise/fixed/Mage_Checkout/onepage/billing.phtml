@@ -166,7 +166,7 @@
                 <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
                     <li class="control">
                         <div class="input-box">
-                            <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" onchange="if(window.shipping) shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" />
+                            <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" <?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" />
                         </div>
                         <label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label>
                     </li>
@@ -182,13 +182,13 @@
     <?php if ($this->canShip()): ?>
         <li class="control">
             <div class="input-box">
-                <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> onclick="$('shipping:same_as_billing').checked = true;" class="radio" />
+                <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> class="radio" />
             </div>
             <label for="billing:use_for_shipping_yes"><?php echo $this->__('Ship to this address') ?></label>
         </li>
         <li class="control">
             <div class="input-box">
-                <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> onclick="$('shipping:same_as_billing').checked = false;" class="radio" />
+                <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> class="radio" />
             </div>
             <label for="billing:use_for_shipping_no"><?php echo $this->__('Ship to different address') ?></label>
         </li>
@@ -199,7 +199,7 @@
     <?php endif; ?>
 </fieldset>
 <div class="buttons-set form-buttons btn-only" id="billing-buttons-container">
-    <button type="button" class="button" onclick="billing.save()"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+    <button type="button" class="button"><span><span><?php echo $this->__('Continue') ?></span></span></button>
     <span id="billing-please-wait" class="please-wait" style="display:none;">
         <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
     </span>
@@ -207,17 +207,15 @@
 <p class="required"><?php echo $this->__('* Required Fields') ?></p>
 </form>
 <script type="text/javascript">
-//<![CDATA[
-    var billing = new Billing('co-billing-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>');
-    var billingForm = new VarienForm('co-billing-form');
-    $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
-//]]>
-</script>
-<script type="text/javascript">
     (function($) {
         head.js(
             "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/billing.js') ?>",
             function() {
+                $('#co-billing-form').billing({
+                    getAddressUrl: '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/',
+                    saveBillingUrl: '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>'
+                });
                 $('#billing\\:country_id').regionUpdater({
                     regionListId: '#billing\\:region_id',
                     regionInputId: '#billing\\:region',
