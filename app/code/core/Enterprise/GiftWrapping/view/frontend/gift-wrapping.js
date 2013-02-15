@@ -134,9 +134,7 @@
          * @param {Object} data - substitution data
          */
         insertBlock: function(element, data) {
-            $(this.options.templateWrapping).tmpl([
-                {_id_: data.id, _blockId_: data.addrId}
-            ]).appendTo(element);
+            this._processTemplate(this.options.templateWrapping,element,[{_id_: data.id, _blockId_: data.addrId}]);
         },
 
         /**
@@ -146,9 +144,21 @@
          * @param {Object} data - substitution data
          */
         insertOptions: function(element, data) {
-            $(this.options.templateOptions).tmpl([
-                {_id_: data.id, _price_: data.price}
-            ]).appendTo(element);
+            this._processTemplate(this.options.templateOptions,element,[{_id_: data.id, _price_: data.price}]);
+        },
+
+        /**
+         * Utility to process templates
+         * @private
+         * @param {String} templateSelector
+         * @param {Object} element - container
+         * @param {Object} data - template data
+         */
+        _processTemplate: function(templateSelector,element, data) {
+            var $tmpl = $(templateSelector)
+            if($tmpl.length && element && data) {
+                $tmpl.tmpl(data).appendTo(element);
+            }
         },
 
         /**
