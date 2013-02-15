@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Api
+ * Web service api main helper.
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Web service api main helper
- *
- * @category   Mage
- * @package    Mage_Api
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
@@ -32,7 +25,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Go thru a WSI args array and turns it to correct state.
+     * Go through a WSI args array and turns it to correct state.
      *
      * @param Object $obj - Link to Object
      * @return Object
@@ -43,7 +36,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
 
             $modifiedKeys = $this->clearWsiFootprints($obj);
 
-            foreach ($obj as $key => $value) {
+            foreach ($obj as $value) {
                 if (is_object($value)) {
                     $this->wsiArrayUnpacker($value);
                 }
@@ -57,13 +50,15 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             foreach ($modifiedKeys as $arrKey) {
-                $this->associativeArrayUnpack($obj->$arrKey);
+                if ($arrKey !== 'complex_filter') {
+                    $this->associativeArrayUnpack($obj->$arrKey);
+                }
             }
         }
     }
 
     /**
-     * Go thru an object parameters and unpak associative object to array.
+     * Go through an object parameters and unpack associative object to array.
      *
      * @param Object $obj - Link to Object
      * @return Object
@@ -81,7 +76,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
         } elseif (is_array($obj)) {
             $arr = array();
             $needReplacement = true;
-            foreach ($obj as $key => &$value) {
+            foreach ($obj as &$value) {
                 $isAssoc = $this->v2AssociativeArrayUnpacker($value);
                 if ($isAssoc) {
                     foreach ($value as $aKey => $aVal) {
@@ -105,7 +100,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Go thru mixed and turns it to a correct look.
+     * Go through mixed and turns it to a correct look.
      *
      * @param Mixed $mixed A link to variable that may contain associative array.
      */
@@ -175,7 +170,6 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
         if (is_array($mixed)) {
             $arrKeys = array_keys($mixed);
             $isDigit = false;
-            $isString = false;
             foreach ($arrKeys as $key) {
                 if (is_int($key)) {
                     $isDigit = true;
@@ -183,7 +177,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
             if ($isDigit) {
-                $mixed = $this->packArrayToObjec($mixed);
+                $mixed = $this->packArrayToObject($mixed);
             } else {
                 $mixed = (object)$mixed;
             }
@@ -202,7 +196,7 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Array $arr - Link to Object
      * @return Object
      */
-    public function packArrayToObjec(Array $arr)
+    public function packArrayToObject(Array $arr)
     {
         $obj = new stdClass();
         $obj->complexObjectArray = $arr;
@@ -253,42 +247,9 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             }
             // parse complex filter
             if (isset($filters->complex_filter) && is_array($filters->complex_filter)) {
-                if ($this->isWsiCompliant()) {
-                    // WS-I compliance mode
-                    foreach ($filters->complex_filter as $fieldName => $condition) {
-                        if (is_object($condition) && isset($condition->key) && isset($condition->value)) {
-                            $conditionName = $condition->key;
-                            $conditionValue = $condition->value;
-                            $this->formatFilterConditionValue($conditionName, $conditionValue);
-                            $condition = array($conditionName => $conditionValue);
-
-                            if (array_key_exists($fieldName, $parsedFilters)) {
-                                $parsedFilters[$fieldName] += $condition;
-                            } else {
-                                $parsedFilters[$fieldName] = $condition;
-                            }
-                        }
-                    }
-                } else {
-                    // non WS-I compliance mode
-                    foreach ($filters->complex_filter as $value) {
-                        if (is_object($value) && isset($value->key) && isset($value->value)) {
-                            $fieldName = $value->key;
-                            $condition = $value->value;
-                            if (is_object($condition) && isset($condition->key) && isset($condition->value)) {
-                                $this->formatFilterConditionValue($condition->key, $condition->value);
-                                $condition = array($condition->key => $condition->value);
-
-                                if (array_key_exists($fieldName, $parsedFilters)) {
-                                    $parsedFilters[$fieldName] += $condition;
-                                } else {
-                                    $parsedFilters[$fieldName] = $condition;
-                                }
-                            }
-                        }
-                    }
-                }
+                $parsedFilters = $this->_parseComplexFilter($filters->complex_filter);
             }
+
             $filters = $parsedFilters;
         }
         // make sure that method result is always array
@@ -306,6 +267,36 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $filters;
+    }
+
+    /**
+     * Parses complex filter, which may contain several nodes, e.g. when user want to fetch orders which were updated
+     * between two dates.
+     *
+     * @param mixed $complexFilter
+     *
+     * @return array
+     */
+    protected function _parseComplexFilter($complexFilter)
+    {
+        $parsedFilters = array();
+
+        foreach ($complexFilter as $filter) {
+            if (!isset($filter->key) || !isset($filter->value)) {
+                continue;
+            }
+
+            list($fieldName, $condition) = array($filter->key, $filter->value);
+            $condition = $this->formatFilterConditionValue($condition->key, $condition->value);
+
+            if (array_key_exists($fieldName, $parsedFilters)) {
+                $parsedFilters[$fieldName] += $condition;
+            } else {
+                $parsedFilters[$fieldName] = $condition;
+            }
+        }
+
+        return $parsedFilters;
     }
 
     /**
@@ -333,8 +324,9 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $conditionOperator
      * @param string $conditionValue
+     * @return array
      */
-    public function formatFilterConditionValue($conditionOperator, &$conditionValue)
+    public function formatFilterConditionValue($conditionOperator, $conditionValue)
     {
         if (is_string($conditionOperator) && in_array($conditionOperator, array('in', 'nin', 'finset'))
             && is_string($conditionValue)
@@ -342,6 +334,8 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             $delimiter = ',';
             $conditionValue = explode($delimiter, $conditionValue);
         }
+
+        return array($conditionOperator => $conditionValue);
     }
 
     /**

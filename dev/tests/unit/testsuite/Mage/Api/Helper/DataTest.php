@@ -77,7 +77,6 @@ class Mage_Api_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testParseFiltersMultipleConditionsOnSameFieldWsi($input, $expectedOutput)
     {
-        $this->markTestIncomplete('MAGETWO-7571');
         $this->_requestMock->expects($this->any())->method('getPathInfo')->will($this->returnValue('api/soap_wsi'));
         $output = $this->_helper->parseFilters($input);
         $this->assertEquals(
@@ -158,7 +157,6 @@ class Mage_Api_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testWsiArrayUnpackerWithComplexFilter()
     {
-        $this->markTestIncomplete('MAGETWO-7571');
         $rawWsiData = (object)array(
             'sessionId' => 'session',
             'filters' => (object)array(
