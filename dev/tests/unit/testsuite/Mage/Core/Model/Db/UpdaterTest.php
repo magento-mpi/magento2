@@ -23,21 +23,12 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
         $modulesConfig = new Mage_Core_Model_Config_Modules($storage);
 
         // Data updates model
-        $actualSqlUpdates = false;
-        $setSqlUpdates = function () use (&$actualSqlUpdates) {
-            $actualSqlUpdates = true;
-        };
-        $actualDataUpdates = false;
-        $setDataUpdates = function () use (&$actualDataUpdates) {
-            $actualDataUpdates = true;
-        };
+        $updateCalls = $expectedUpdates ? 1 : 0;
         $setupModel = $this->getMock('Mage_Core_Model_Resource_Setup', array(), array(), '', false);
-        $setupModel->expects($this->any())
-            ->method('applyUpdates')
-            ->will($this->returnCallback($setSqlUpdates));
-        $setupModel->expects($this->any())
-            ->method('applyDataUpdates')
-            ->will($this->returnCallback($setDataUpdates));
+        $setupModel->expects($this->exactly($updateCalls))
+            ->method('applyUpdates');
+        $setupModel->expects($this->exactly($updateCalls))
+            ->method('applyDataUpdates');
 
         $factory = $this->getMock('Mage_Core_Model_Resource_SetupFactory', array(), array(), '', false);
         $factory->expects($this->any())
@@ -56,10 +47,7 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
 
         // Run and verify
         $updater->updateScheme();
-        $this->assertEquals($expectedUpdates, $actualSqlUpdates);
-
         $updater->updateData();
-        $this->assertEquals($expectedUpdates, $actualDataUpdates);
     }
 
     public static function updateSchemeAndDataConfigDataProvider()
