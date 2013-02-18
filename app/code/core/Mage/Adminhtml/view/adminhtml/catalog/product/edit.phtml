@@ -178,9 +178,8 @@ jQuery(function($) {
             updateSaveSplitButtonAvailability();
         }
 
-        $('#product-online-switcher').prop('checked', $('#status').val() == '1');
-        $('#product-online-switcher').siblings('#product-online-status').text(
-            $.mage.__($('#status').val() == '1' ? 'Product online' : 'Product offline')
+        $('#product-online-switcher').prop('checked', $('#status').val() == '1').siblings('#product-online-status').
+            text($.mage.__($('#status').val() == '1' ? 'Product online' : 'Product offline')
         );
     });
 
