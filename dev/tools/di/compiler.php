@@ -240,14 +240,12 @@ class ArrayDefinitionCompiler
 $definitions = array();
 $compiler = new ArrayDefinitionCompiler();
 
-foreach (glob(BP . '/app/code/*') as $codePoolDir) {
-    foreach (glob($codePoolDir . '/*') as $vendorDir) {
-        foreach (glob($vendorDir . '/*') as $moduleDir) {
-            $moduleName = basename($vendorDir) . '_' . basename($moduleDir);
-            if (is_dir($moduleDir) && $compiler->isModuleEnabled($moduleName)) {
-                echo "Compiling module " . $moduleName . "\n";
-                $definitions = array_merge_recursive($definitions, $compiler->compileModule($moduleDir));
-            }
+foreach (glob(BP . '/app/code/*') as $vendorDir) {
+    foreach (glob($vendorDir . '/*') as $moduleDir) {
+        $moduleName = basename($vendorDir) . '_' . basename($moduleDir);
+        if (is_dir($moduleDir) && $compiler->isModuleEnabled($moduleName)) {
+            echo "Compiling module " . $moduleName . "\n";
+            $definitions = array_merge_recursive($definitions, $compiler->compileModule($moduleDir));
         }
     }
 }

@@ -122,7 +122,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $configMock->expects($this->any())->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
         $configMock->expects($this->any())->method('getModuleDir')
-            ->will($this->returnValue(BP . '/app/code/core/Mage/Backend/etc'));
+            ->will($this->returnValue(BP . '/app/code/Mage/Backend/etc'));
 
         $structureReader = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader',
             array('moduleReader' => $configMock)

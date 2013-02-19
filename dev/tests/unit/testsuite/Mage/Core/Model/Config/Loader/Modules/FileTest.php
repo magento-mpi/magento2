@@ -71,8 +71,7 @@ class Mage_Core_Model_Config_Loader_Modules_FileTest extends PHPUnit_Framework_T
         $this->_modulesConfigMock->expects($this->exactly(2))
             ->method('getNode')
             ->will($this->returnValueMap(array(
-                array('modules', $nodes),
-                array('modules/mod1/codePool', 'core')
+                array('modules', $nodes)
             )));
         $result = $this->_model->loadConfigurationFromFile($this->_modulesConfigMock, $fileName, null, null, array());
         $this->assertInstanceOf('Mage_Core_Model_Config_Base', $result);

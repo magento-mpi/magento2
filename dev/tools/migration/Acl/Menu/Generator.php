@@ -110,7 +110,6 @@ class Tools_Migration_Acl_Menu_Generator
         return $this->_basePath . DIRECTORY_SEPARATOR
             . 'app' . DIRECTORY_SEPARATOR
             . 'code' . DIRECTORY_SEPARATOR
-            . '*' . DIRECTORY_SEPARATOR //code pool
             . '*' . DIRECTORY_SEPARATOR //namespace
             . '*' . DIRECTORY_SEPARATOR //module name
             . 'etc' . DIRECTORY_SEPARATOR;

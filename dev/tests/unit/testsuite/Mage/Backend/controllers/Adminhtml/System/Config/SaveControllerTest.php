@@ -10,10 +10,10 @@
  */
 
 require_once (realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/app/code/core/Mage/Backend/Controller/System/ConfigAbstract.php');
+    . '/app/code/Mage/Backend/Controller/System/ConfigAbstract.php');
 
 require_once (realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/app/code/core/Mage/Backend/controllers/Adminhtml/System/Config/SaveController.php');
+    . '/app/code/Mage/Backend/controllers/Adminhtml/System/Config/SaveController.php');
 
 class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Framework_TestCase
 {

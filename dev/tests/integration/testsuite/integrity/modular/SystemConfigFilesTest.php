@@ -13,7 +13,7 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     public function testConfiguration()
     {
-        $fileList = glob(Mage::getBaseDir('app') . '/*/*/*/*/etc/adminhtml/system.xml');
+        $fileList = glob(Mage::getBaseDir('app') . '/*/*/*/etc/adminhtml/system.xml');
         try {
             $configMock = $this->getMock(
                 'Mage_Core_Model_Config_Modules_Reader', array('getModuleConfigurationFiles', 'getModuleDir'),

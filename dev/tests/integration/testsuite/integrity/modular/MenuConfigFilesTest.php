@@ -43,7 +43,7 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
     protected function _getConfigurationFileList()
     {
         if (empty($this->_fileList)) {
-            foreach (glob(Mage::getBaseDir('app') . '/*/*/*/*/etc/adminhtml/menu.xml') as $file) {
+            foreach (glob(Mage::getBaseDir('app') . '/*/*/*/etc/adminhtml/menu.xml') as $file) {
                 $this->_fileList[$file] = $file;
             }
         }

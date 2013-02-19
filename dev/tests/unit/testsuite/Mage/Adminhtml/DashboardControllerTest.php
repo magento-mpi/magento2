@@ -114,4 +114,4 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
     }
 }
 
-require_once __DIR__ . '/../../../../../../app/code/core/Mage/Adminhtml/controllers/DashboardController.php';
+require_once __DIR__ . '/../../../../../../app/code/Mage/Adminhtml/controllers/DashboardController.php';

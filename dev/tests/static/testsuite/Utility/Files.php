@@ -155,7 +155,7 @@ class Utility_Files
     ) {
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$cacheKey])) {
-            $files = glob($this->_path . "/app/code/*/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+            $files = glob($this->_path . "/app/code/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
             $files = array_filter($files, function ($file) use ($excludedFileNames) {
                 return !in_array(basename($file), $excludedFileNames);
             });
@@ -349,7 +349,7 @@ class Utility_Files
     public function codePoolClassFileExists($class, &$path = '')
     {
         $path = implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
-        $directories = array('/app/code/core/', '/app/code/community/', '/app/code/local/', '/lib/');
+        $directories = array('/app/code/', '/lib/');
         foreach ($directories as $dir) {
             $fullPath = str_replace('/', DIRECTORY_SEPARATOR, $this->_path . $dir . $path);
             /**

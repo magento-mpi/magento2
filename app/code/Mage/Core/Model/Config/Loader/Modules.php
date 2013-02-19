@@ -190,7 +190,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected function _getDeclaredModuleFiles()
     {
         $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
-        $moduleFiles = glob($codeDir . DS . '*' . DS . '*' . DS . '*' . DS . 'etc' . DS . 'config.xml');
+        $moduleFiles = glob($codeDir . DS . '*' . DS . '*' . DS . 'etc' . DS . 'config.xml');
 
         if (!$moduleFiles) {
             return false;
