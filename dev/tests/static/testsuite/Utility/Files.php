@@ -95,13 +95,13 @@ class Utility_Files
     {
         $key = __METHOD__ . "/{$this->_path}/{$appCode}/{$otherCode}/{$templates}";
         if (!isset(self::$_cache[$key])) {
-            $pool = $namespace = $module = $area = $package = $theme = '*';
+            $namespace = $module = $area = $package = $theme = '*';
 
             $files = array();
             if ($appCode) {
                 $files = array_merge(
                     glob($this->_path . '/app/*.php', GLOB_NOSORT),
-                    self::_getFiles(array("{$this->_path}/app/code/{$pool}/{$namespace}/{$module}"), '*.php')
+                    self::_getFiles(array("{$this->_path}/app/code/{$namespace}/{$module}"), '*.php')
                 );
             }
             if ($otherCode) {
@@ -114,7 +114,7 @@ class Utility_Files
             }
             if ($templates) {
                 $files = array_merge($files,
-                    self::_getFiles(array("{$this->_path}/app/code/{$pool}/{$namespace}/{$module}"), '*.phtml'),
+                    self::_getFiles(array("{$this->_path}/app/code/{$namespace}/{$module}"), '*.phtml'),
                     self::_getFiles(
                         array("{$this->_path}/app/design/{$area}/{$package}/{$theme}/{$namespace}_{$module}"), '*.phtml'
                     )
@@ -172,7 +172,6 @@ class Utility_Files
      *
      * An incoming array can contain the following items
      * array (
-     *     'pool'           => 'pool_name',
      *     'namespace'      => 'namespace_name',
      *     'module'         => 'module_name',
      *     'area'           => 'area_name',
@@ -189,7 +188,6 @@ class Utility_Files
     public function getLayoutFiles($incomingParams = array(), $asDataSet = true)
     {
          $params = array(
-            'pool' => '*',
             'namespace' => '*',
             'module' => '*',
             'area' => '*',
@@ -209,7 +207,7 @@ class Utility_Files
             $files = array();
             if ($params['include_code']) {
                 $files = self::_getFiles(
-                    array("{$this->_path}/app/code/{$params['pool']}/{$params['namespace']}/{$params['module']}"
+                    array("{$this->_path}/app/code/{$params['namespace']}/{$params['module']}"
                         . "/view/{$params['area']}"),
                     '*.xml'
                 );
@@ -248,10 +246,10 @@ class Utility_Files
         if (isset(self::$_cache[$key])) {
             return self::$_cache[$key];
         }
-        $pool = $namespace = $module = $area = $package = $theme = $skin = '*';
+        $namespace = $module = $area = $package = $theme = $skin = '*';
         $files = self::_getFiles(
             array(
-                "{$this->_path}/app/code/{$pool}/{$namespace}/{$module}/view/{$area}",
+                "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
                 "{$this->_path}/app/design/{$area}/{$package}/{$theme}/skin/{$skin}",
                 "{$this->_path}/pub/lib/{mage,varien}"
             ),
@@ -273,7 +271,7 @@ class Utility_Files
         if (isset(self::$_cache[$key])) {
             return self::$_cache[$key];
         }
-        $files = self::_getFiles(array($this->_path . '/app/code/*/*/*/view/email'), '*.html');
+        $files = self::_getFiles(array($this->_path . '/app/code/*/*/view/email'), '*.html');
         $result = self::composeDataSets($files);
         self::$_cache[$key] = $result;
         return $result;
