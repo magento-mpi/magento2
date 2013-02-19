@@ -17,10 +17,12 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Initialize dependencies.
      *
+     * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Controller_Request_Http $request
      */
-    function __construct(Mage_Core_Controller_Request_Http $request)
+    public function __construct(Mage_Core_Model_Translate $translator, Mage_Core_Controller_Request_Http $request)
     {
+        parent::__construct($translator);
         $this->_request = $request;
     }
 
@@ -246,9 +248,11 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
                 }
             }
             // parse complex filter
+            // @codingStandardsIgnoreStart
             if (isset($filters->complex_filter) && is_array($filters->complex_filter)) {
                 $parsedFilters = $this->_parseComplexFilter($filters->complex_filter);
             }
+            // @codingStandardsIgnoreEnd
 
             $filters = $parsedFilters;
         }
