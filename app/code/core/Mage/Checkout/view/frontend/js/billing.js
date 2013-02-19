@@ -39,17 +39,19 @@
          * Save Billing info using ajax
          */
         _ajaxBillingSave: function() {
-            $.ajax({
-                url: this.options.saveBillingUrl,
-                type: 'post',
-                cache: false,
-                context: this,
-                data: this.element.serialize(),
-                success: function(response) {
-                    var responseObj = eval('(' + response + ')');
-                    this.element.trigger('gotoSection', responseObj.goto_section);
-                }
-            });
+            if (this.element.validation().valid()) {
+                $.ajax({
+                    url: this.options.saveBillingUrl,
+                    type: 'post',
+                    cache: false,
+                    context: this,
+                    data: this.element.serialize(),
+                    success: function(response) {
+                        var responseObj = eval('(' + response + ')');
+                        this.element.trigger('gotoSection', responseObj.goto_section);
+                    }
+                });
+            }
         }
     });
 })(jQuery);
