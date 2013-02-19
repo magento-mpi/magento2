@@ -29,16 +29,12 @@ foreach ($attributesOrder as $key => $order) {
     }
 }
 
-$attributeProperties = array(
-    'giftcard_type' => array('is_visible' => 1),
-    'allow_open_amount' => array('is_required' => 0)
-);
+$attribute = $this->getAttribute($entityTypeId, 'giftcard_type');
+if ($attribute) {
+    $this->updateAttribute($entityTypeId, $attribute['attribute_id'], 'is_visible', 1);
+}
 
-foreach ($attributeProperties as $attributeName => $properties) {
-    $attribute = $this->getAttribute($entityTypeId, $attributeName);
-    if ($attribute) {
-        foreach ($properties as $propertyName => $propertyValue) {
-            $this->updateAttribute($entityTypeId, $attribute['attribute_id'], $propertyName, $propertyValue);
-        }
-    }
+$attribute = $this->getAttribute($entityTypeId, 'allow_open_amount');
+if ($attribute) {
+    $this->updateAttribute($entityTypeId, $attribute['attribute_id'], 'is_required', 0);
 }
