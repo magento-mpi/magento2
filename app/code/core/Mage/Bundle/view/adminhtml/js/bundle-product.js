@@ -62,7 +62,7 @@
                 $optionBox.find('[name$="[product_id]"]').each(function () {
                     if (!$(this).closest('tr').find('[name$="[delete]"]').val()) {
                         productIds.push($(this).val());
-                        productSkus.push($(this).closest('tr').find('.product-sku').text());
+                        productSkus.push($(this).closest('tr').find('.col-sku').text());
                     }
                 });
 
@@ -87,7 +87,6 @@
                         text: 'Apply Changes',
                         'class': 'add',
                         click: function() {
-                            console.log('click');
                             bSelection.gridSelection.get(optionIndex).each(
                                 function(pair) {
                                     bSelection.addRow(optionIndex, {
@@ -102,7 +101,7 @@
                             );
                             bSelection.gridRemoval.each(
                                 function(pair) {
-                                    $optionBox.find('.product-sku').filter(function () {
+                                    $optionBox.find('.col-sku').filter(function () {
                                         return $.trim($(this).text()) == pair.key; // find row by SKU
                                     }).closest('tr').find('button.delete').trigger('click');
                                 }
