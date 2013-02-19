@@ -216,8 +216,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      *
      * @return string
      */
-    protected function _getUploadUrl()
+    protected function _getImageUploadUrl()
     {
-        return Mage::getModel('Mage_Backend_Model_Url')->getUrl('*/catalog_product_gallery/upload');
+        return $this->getUrl('*/catalog_product_gallery/upload');
     }
 }

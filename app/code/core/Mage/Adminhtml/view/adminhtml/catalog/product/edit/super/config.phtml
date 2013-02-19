@@ -138,8 +138,8 @@ jQuery(function($) {
             $(this).html('');
         })
         .on('click', 'input.associated-matrix-product-id', function() {
-            $(this).closest('tr').find('input[type!=checkbox],button.action-choose')
-                    .prop('disabled', !$(this).is(':checked'));
+            $(this).closest('tr').find('input[type!=checkbox],button')
+                .prop('disabled', !$(this).is(':checked'));
         })
         .on('click', '.action-choose', function(event) {
             event.preventDefault();
@@ -162,7 +162,7 @@ jQuery(function($) {
                 if (!this.rows || !this.rows.length) {
                     return;
                 }
-                var $gridRow = $(event.target).parents('tr'),
+                var $gridRow = $(event.target).closest('tr'),
                     associatedClass = '.associated-product-';
 
                 if ($gridRow.find(associatedClass + 'id').length) {
@@ -178,7 +178,28 @@ jQuery(function($) {
                     });
 
                     $matrixRow.find(matrixClass + 'id').prop({checked: true, disabled: false});
-                    $matrixRow.find('[type="file"]').prop('disabled', true);
+
+                    var parentElement = $matrixRow.find('.col-image'),
+                        imageElement = $matrixRow.find('img');
+                    if (imageElement.length) {
+                        imageElement.attr('src', $gridRow.find('[data-role=image-url]').val());
+                    } else {
+                        parentElement.find('.action-upload').remove();
+                        $('<img>', {
+                            src: $gridRow.find('[data-role=image-url]').val(),
+                            style: 'width:55px;height:55px'
+                        }).appendTo(parentElement);
+                        parentElement.find('img').on('click', function (event) {
+                            if ($(event.target).closest('tr').find('.associated-matrix-product-id').is(':checked')) {
+                                $(event.target).closest('.col-image').find('[name=image]').trigger('click');
+                            }
+                        });
+                    }
+
+                    $matrixRow.find('[name=image]')
+                        .attr('src', $gridRow.find('[data-role="image-url"]').val())
+                        .trigger('click')
+                        .prop({disabled: true});
                 }
                 $gridDialog.dialog('close');
             };

@@ -85,30 +85,34 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     <td class="col-display">
                         <input type="checkbox" name="associated_product_ids[]"
                                value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id"
-                               checked="checked">
+                               checked="checked"/>
                     </td>
                     <td class="col-image">
                         <?php $image = $product->getImage(); if ($image == 'no_selection'): $image = ''; endif; ;?>
-                        <div class="action-upload"<?php if ($image): ?> style="display: none;"<?php endif;?>>
+                        <div class="action-upload"<?php if ($image): ?> style="display:none"<?php endif;?>>
                             <span><?php echo $this->__('Upload Image'); ?></span>
-                            <input data-url="<?php echo Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->_getUploadUrl()) ?>"
-                                   title="<?php echo $this->__('Upload Image'); ?>" name="image" type="file" disabled=""/>
+                            <input name="image" type="file" disabled="disabled"
+                                   data-url="<?php echo $this->escapeHtml($this->_getImageUploadUrl()) ?>"
+                                   title="<?php echo $this->__('Upload Image'); ?>" />
                             <input id="product-<?php echo $product->getId()?>-variation-image"
                                    value="<?php echo $image?>" type="hidden"/>
                         </div>
-                        <?php if ($image): ?><img src="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getImageUrl($product)?>" width="55px" height="55px"/><?php endif; ?>
+                        <?php if ($image): ?>
+                            <img src="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getImageUrl($product)?>"
+                                 style="width:55px;height:55px" />
+                        <?php endif; ?>
                     </td>
-                    <td class="col-name associated-matrix-product-name"><a
-                            href="<?php echo $this->getEditProductUrl($product->getId())?>"
-                            target="_blank"><?php echo $this->escapeHtml($product->getName())?></a>
+                    <td class="col-name associated-matrix-product-name">
+                        <a href="<?php echo $this->getEditProductUrl($product->getId())?>"
+                           target="_blank"><?php echo $this->escapeHtml($product->getName())?></a>
 
                         <button type="button" class="action-choose" title="<?php echo $this->__('Choose'); ?>"
                                 data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>">
                             <span><?php echo $this->__('Choose'); ?></span>
                         </button>
                     </td>
-                    <td class="col-sku"><span
-                            class="associated-matrix-product-sku"><?php echo $this->escapeHtml($product->getSku())?></span>
+                    <td class="col-sku">
+                        <span class="associated-matrix-product-sku"><?php echo $this->escapeHtml($product->getSku())?></span>
                     </td>
                     <td class="col-price associated-matrix-product-price"><?php echo $price ?></td>
                     <td class="col-qty associated-matrix-product-qty"><?php echo $product->getStockItem()->getQty()?></td>
@@ -116,7 +120,8 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     <?php
                     foreach ($usedProductAttributes as $attribute) {
                         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-                        echo '<td class="col-' . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">', $variation[$attribute->getId()]['label'], '</td>', PHP_EOL;
+                        echo '<td class="col-' . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">',
+                            $this->escapeHtml($variation[$attribute->getId()]['label']), '</td>', PHP_EOL;
                     }
                     ?>
                     <td class="col-actions">
@@ -148,7 +153,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     <td class="col-image">
                         <div class="action-upload">
                             <span><?php echo $this->__('Upload Image'); ?></span>
-                            <input data-url="<?php echo Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->_getUploadUrl()) ?>"
+                            <input data-url="<?php echo $this->escapeHtml($this->_getImageUploadUrl()) ?>"
                                    title="<?php echo $this->__('Upload Image'); ?>"
                                    type="file" name="image" <?php echo $disabled;?>/>
                             <input id="variations-matrix-<?php echo $key?>-image"
@@ -226,9 +231,11 @@ $productByUsedAttributes = $this->getAssociatedProducts();
     </div>
 </div>
 <script type="text/javascript">
-    (function ($) {
-        $('.action-upload > [type="file"]').fileupload({
+jQuery(function ($) {
+    $('.action-upload > [name=image]').each(function() {
+        $(this).fileupload({
             dataType: 'json',
+            dropZone: $(this),
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             done: function (event, data) {
                 if (!data.result) {
@@ -241,11 +248,10 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         imageElement.attr('src', data.result.url);
                     } else {
                         parentElement.find('.action-upload').hide();
-                        $.template('variationImage', '<img src="${url}" width="55px" height="55px"/>');
-                        $.tmpl('variationImage', data.result).appendTo(parentElement);
+                        $.tmpl('<img src="${url}" style="width:55px;height:55px"/>', data.result).appendTo(parentElement);
                         parentElement.find('img').on('click', function (event) {
-                            if ($(event.target).closest('tr').find('.associated-matrix-product-id').attr('checked')) {
-                                $(event.target).closest('.col-image').find('[type="file"]').trigger('click');
+                            if ($(event.target).closest('tr').find('.associated-matrix-product-id').is(':checked')) {
+                                $(event.target).closest('.col-image').find('[name=image]').trigger('click');
                             }
                         });
                     }
@@ -255,5 +261,6 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                 }
             }
         });
-    })(jQuery);
+    });
+});
 </script>
