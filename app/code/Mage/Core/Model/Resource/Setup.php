@@ -230,16 +230,6 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
         $dbVer = $this->_getResource()->getDbVersion($this->_resourceName);
         $configVer = (string)$this->_moduleConfig->version;
 
-        /**
-         * Hook queries in adapter, so that in MySQL compatibility mode extensions and custom modules will avoid
-         * errors due to changes in database structure
-         */
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('Mage_Core_Helper_Data');
-        if (((string)$this->_moduleConfig->codePool != 'core') && $helper->useDbCompatibleMode()) {
-            $this->_hookQueries();
-        }
-
         // Module is installed
         if ($dbVer !== false) {
             $status = version_compare($configVer, $dbVer);
@@ -258,57 +248,6 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
             $this->_installResourceDb($configVer);
         }
 
-        $this->_unhookQueries();
-
-        return $this;
-    }
-
-    /**
-     * Hooks queries to strengthen backwards compatibility in MySQL.
-     * Currently - dynamically updates column types for foreign keys, when their targets were changed
-     * during MMDB development.
-     *
-     * @return Mage_Core_Model_Resource_Setup
-     */
-    protected function _hookQueries()
-    {
-        $this->_queriesHooked = true;
-        /* @var $adapter Varien_Db_Adapter_Pdo_Mysql */
-        $adapter = $this->getConnection();
-        $adapter->setQueryHook(array('object' => $this, 'method' => 'callbackQueryHook'));
-        return $this;
-    }
-
-    /**
-     * Removes query hook
-     *
-     * @return Mage_Core_Model_Resource_Setup
-     */
-    protected function _unhookQueries()
-    {
-        if (!$this->_queriesHooked) {
-            return $this;
-        }
-        /* @var $adapter Varien_Db_Adapter_Pdo_Mysql */
-        $adapter = $this->getConnection();
-        $adapter->setQueryHook(null);
-        $this->_queriesHooked = false;
-        return $this;
-    }
-
-    /**
-     * Callback function, called on every query adapter processes.
-     * Modifies SQL or tables, so that foreign keys will be set successfully
-     *
-     * @param string $sql
-     * @param array $bind
-     * @return Mage_Core_Model_Resource_Setup
-     */
-    public function callbackQueryHook(&$sql, &$bind)
-    {
-        Mage::getSingleton('Mage_Core_Model_Resource_Setup_Query_Modifier',
-            array('adapter' => $this->getConnection()))
-            ->processQuery($sql, $bind);
         return $this;
     }
 
