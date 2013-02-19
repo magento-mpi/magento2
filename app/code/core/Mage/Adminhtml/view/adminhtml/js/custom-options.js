@@ -38,8 +38,7 @@
                 },
                 //Remove custom option or option row for 'select' type of custom option
                 'click button[id^=product_option_][id$=_delete]':  function (event) {
-                    var element = $(event.target).closest('#product_options_container_top > div,tr'),
-                        elementId = element.attr('id');
+                    var element = $(event.target).closest('#product_options_container_top > div,tr');
                     if (element.length) {
                         $('#product_' + element.attr('id').replace('product_', '') + '_is_delete').val(1);
                         element.addClass('ignore-validate').hide();
@@ -270,12 +269,13 @@
                 if (!this.options.selectionItemCount[data.id]) {
                     this.options.selectionItemCount[data.id] = 1;
                 }
-                data.select_id = this.options.selectionItemCount[data.id]++;
+                data.select_id = this.options.selectionItemCount[data.id];
                 data.price = data.sku = '';
             } else {
                 data = event;
                 data.id = data.option_id;
                 data.select_id = data.option_type_id;
+                this.options.selectionItemCount[data.id] = data.item_count;
             }
             this.element.find('#custom-option-select-type-row-template').tmpl(data)
                 .appendTo($('#select_option_type_row_' + data.id));
@@ -287,17 +287,19 @@
             }
             this._bindUseDefault(this.options.fieldId + '_' + data.id + '_select_' + data.select_id, data);
             this.refreshSortableElements();
+            this.options.selectionItemCount[data.id] = parseInt(this.options.selectionItemCount[data.id]) + 1;
         },
         //Add custom option
         addOption: function (event) {
             var data = {},
                 element = event.target || event.srcElement || event.currentTarget;
             if (typeof element !== 'undefined') {
-                data.id = this.options.itemCount++;
+                data.id = this.options.itemCount;
                 data.type = '';
                 data.option_id = 0;
             } else {
                 data = event;
+                this.options.itemCount = data.item_count;
             }
             this.element.find('#custom-option-base-template').tmpl(data)
                 .appendTo(this.element.find('#product_options_container_top'));
@@ -312,6 +314,7 @@
             this.refreshSortableElements();
             this._bindCheckboxHandlers();
             this._bindReadOnlyMode();
+            this.options.itemCount++;
         },
         refreshSortableElements: function () {
             if (!this.options.isReadonly) {
