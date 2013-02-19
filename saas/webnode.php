@@ -28,7 +28,7 @@ return function (array $tenantData)
     if ($_SERVER['REQUEST_URI'] == '/robots.txt') {
         $robotsFile = $config->getMediaDirFile('robots.txt');
         if (!file_exists($robotsFile)) {
-            $robotsFile = $rootDir . '/saas_robots.txt';
+            $robotsFile = __DIR__ . '/robots.txt';
         }
         readfile($robotsFile);
         return;
