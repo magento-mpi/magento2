@@ -659,6 +659,11 @@ option.placeholder {
     width: 60%;
 }
 
+.form-inline .no-label .control {
+    margin-left: 20%;
+    width: 60%;
+}
+
 .form-inline .field-service {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;

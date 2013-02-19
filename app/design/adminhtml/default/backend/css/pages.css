@@ -597,6 +597,15 @@
 }
 
 /*
+    CMS -> Banners
+-------------------------------------- */
+
+/* Banner Properties */
+#banner_properties_customer_segment_ids {
+    min-width: 20%;
+}
+
+/*
     Reports
 -------------------------------------- */
 .reports-title .page-actions {
