@@ -14,7 +14,6 @@
         <Mage_Tax>
             <version>1.6.0.5</version>
             <active>true</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Catalog/>
                 <Mage_Customer/>

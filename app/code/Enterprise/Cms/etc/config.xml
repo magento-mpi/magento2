@@ -14,7 +14,6 @@
         <Enterprise_Cms>
             <version>1.11.0.4</version>
             <active>false</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Adminhtml />
                 <Mage_Cms />

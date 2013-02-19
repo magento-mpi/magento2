@@ -14,7 +14,6 @@
         <Mage_Ogone>
             <version>1.6.0.0</version>
             <active>true</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Sales/>
                 <Mage_Payment/>

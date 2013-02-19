@@ -14,7 +14,6 @@
         <Enterprise_Reminder>
             <version>1.11.0.2</version>
             <active>false</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Customer/>
                 <Mage_Adminhtml/>

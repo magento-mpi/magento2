@@ -14,7 +14,6 @@
         <Enterprise_GiftWrapping>
             <version>1.11.0.0.1</version>
             <active>false</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Adminhtml/>
                 <Mage_GiftMessage/>

@@ -14,7 +14,6 @@
         <Mage_Wishlist>
             <version>1.6.0.0</version>
             <active>true</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Customer/>
                 <Mage_Catalog/>

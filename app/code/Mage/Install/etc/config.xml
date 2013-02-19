@@ -14,7 +14,6 @@
         <Mage_Install>
             <version>0.7.0</version>
             <active>true</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Core/>
             </depends>

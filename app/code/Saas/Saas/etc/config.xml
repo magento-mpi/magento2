@@ -14,7 +14,6 @@
         <Saas_Saas>
             <version>0.1.0</version>
             <active>false</active>
-            <codePool>core</codePool>
         </Saas_Saas>
     </modules>
 </config>

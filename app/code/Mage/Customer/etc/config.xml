@@ -14,7 +14,6 @@
         <Mage_Customer>
             <version>1.6.2.0.3</version>
             <active>true</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Eav/>
                 <Mage_Directory/>

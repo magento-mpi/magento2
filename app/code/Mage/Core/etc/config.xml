@@ -14,7 +14,6 @@
         <Mage_Core>
             <version>1.6.0.10</version>
             <active>true</active>
-            <codePool>core</codePool>
         </Mage_Core>
     </modules>
     <global>

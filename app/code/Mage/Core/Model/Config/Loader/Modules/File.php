@@ -155,10 +155,7 @@ class Mage_Core_Model_Config_Loader_Modules_File
             return $this->_moduleDirs[$moduleName][$type];
         }
 
-        $codePool = (string)$modulesConfig->getNode('modules/' . $moduleName . '/codePool');
-
         $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES) . DIRECTORY_SEPARATOR
-            . $codePool . DIRECTORY_SEPARATOR
             . uc_words($moduleName, DIRECTORY_SEPARATOR);
 
         switch ($type) {

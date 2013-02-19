@@ -14,7 +14,6 @@
         <Mage_Oauth>
             <version>1.0.0.0</version>
             <active>true</active>
-            <codePool>core</codePool>
             <depends>
                 <Mage_Core/>
             </depends>

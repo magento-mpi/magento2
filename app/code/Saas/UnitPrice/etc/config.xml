@@ -14,7 +14,6 @@
         <Saas_UnitPrice>
             <version>0.1.4</version>
             <active>false</active>
-            <codePool>core</codePool>
         </Saas_UnitPrice>
     </modules>
     <global>
