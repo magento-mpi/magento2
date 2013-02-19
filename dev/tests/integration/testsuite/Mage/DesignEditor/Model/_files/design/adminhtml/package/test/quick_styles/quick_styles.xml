@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_DesignEditor
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+ -->
+<quick-styles>
+    <!-- Complex control with components -->
+    <control name="headers" title="Headers">
+        <type>logo</type>
+        <components>
+            <!-- Font picker -->
+            <control name="logo-picker">
+                <type>color-picker</type>
+                <selector>.body .div</selector>
+                <attribute>background-color</attribute>
+                <var>test_var_key1</var>
+            </control>
+            <!-- Font selector for base fonts -->
+            <control name="font-selector">
+                <type>font-selector</type>
+                <selector>*</selector>
+                <attribute>font-family</attribute>
+                <options>
+                    <option>Arial, Verdana, Georgia</option>
+                    <option>Tahoma</option>
+                </options>
+                <var>test_var_key2</var>
+            </control>
+            <!-- Third control recursion -->
+            <control name="test-control">
+                <type>test-control</type>
+                <components>
+                    <!-- Simple control -->
+                    <control name="image-uploader">
+                        <type>logo-uploader</type>
+                        <var>test_var_key3</var>
+                    </control>
+                </components>
+            </control>
+        </components>
+    </control>
+    <!-- Simple control -->
+    <control name="logo-uploader" title="Logo Uploader">
+        <type>logo-uploader</type>
+        <var>test_var_key4</var>
+    </control>
+    <!-- Simple control -->
+    <control name="background-color-picker">
+        <type>color-picker</type>
+        <selector>.body .div</selector>
+        <attribute>background-color</attribute>
+        <var>test_var_key5</var>
+    </control>
+</quick-styles>
