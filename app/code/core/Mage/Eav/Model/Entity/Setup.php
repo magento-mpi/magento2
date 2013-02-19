@@ -587,9 +587,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     /**
      * Get number of all attributes in group
      *
-     * @param mixed $entityTypeId
-     * @param mixed $setId
-     * @param mixed $groupId
+     * @param int|string $entityTypeId
+     * @param int|string $setId
+     * @param int|string $groupId
      *
      * @return string
      */
