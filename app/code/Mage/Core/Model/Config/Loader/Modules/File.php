@@ -65,12 +65,9 @@ class Mage_Core_Model_Config_Loader_Modules_File
         $mergeModel = null,
         $configCache = array()
     ) {
-        if ($mergeToObject === null) {
-            $mergeToObject = $this->_prototypeFactory->create('<config/>');
-        }
-        if ($mergeModel === null) {
-            $mergeModel = $this->_prototypeFactory->create('<config/>');
-        }
+        $mergeToObject = null === $mergeToObject ? $this->_prototypeFactory->create('<config/>') : $mergeToObject;
+        $mergeModel = null === $mergeModel ? $mergeModel = $this->_prototypeFactory->create('<config/>'): $mergeModel;
+
         $modules = $modulesConfig->getNode('modules')->children();
         /** @var $module Varien_Simplexml_Element */
         foreach ($modules as $modName => $module) {
