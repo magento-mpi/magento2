@@ -167,10 +167,13 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
     {
         foreach ($attributes as $attributeCode) {
             $this->addParameter('attributeName', $attributeCode);
+            $unassignedGroup = $this->getControlElement('pageelement', 'unassigned_placeholder');
+            $assignedAttribute = $this->getControlElement('link', 'group_attribute');
+            $this->focusOnElement($unassignedGroup);
             $this->clickControl('link', 'group_attribute', false);
-            $this->moveto($this->getControlElement('link', 'group_attribute'));
+            $this->moveto($assignedAttribute);
             $this->buttondown();
-            $this->moveto($this->getControlElement('pageelement', 'node_icon'));
+            $this->moveto($this->getControlElement('pageelement', 'unassigned_placeholder'));
             $this->buttonup();
             if ($this->alertIsPresent()) {
                 $text = $this->alertText();

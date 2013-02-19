@@ -12,7 +12,10 @@
     <global>
         <cache>
             <request_processors>
-                <ee>Enterprise_PageCache_Model_Processor</ee>
+                <ee>
+                    <sortOrder>50</sortOrder>
+                    <class>Enterprise_PageCache_Model_Processor</class>
+                </ee>
             </request_processors>
         </cache>
         <full_page_cache>
@@ -22,15 +25,35 @@
         </full_page_cache>
         <skip_process_modules_updates>0</skip_process_modules_updates>
         <di>
-            <Mage_Core_Model_Cache>
+            <preference>
+                <Enterprise_PageCache_Model_Processor_RestrictionInterface>Enterprise_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
+            </preference>
+            <Enterprise_PageCache_Model_Processor>
                 <parameters>
-                    <cacheOptions>
-                        <request_processors>
-                            <ee>Enterprise_PageCache_Model_Processor</ee>
-                        </request_processors>
-                    </cacheOptions>
+                    <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
+                    <metadata>Enterprise_PageCache_Model_Metadata_Proxy</metadata>
+                    <requestIdentifier>Enterprise_PageCache_Model_Request_Identifier_Proxy</requestIdentifier>
                 </parameters>
-            </Mage_Core_Model_Cache>
+            </Enterprise_PageCache_Model_Processor>
+            <Enterprise_PageCache_Model_DesignPackage_Rules>
+                <parameters>
+                    <design>Mage_Core_Model_Design_Proxy</design>
+                    <designPackage>Mage_Core_Model_Design_Package_Proxy</designPackage>
+                </parameters>
+            </Enterprise_PageCache_Model_DesignPackage_Rules>
+            <Magento_Http_Handler_Composite>
+                <parameters>
+                    <handlers>
+                        <fpc>
+                            <sortOrder>25</sortOrder>
+                            <class>Enterprise_PageCache_Model_Http_Handler</class>
+                        </fpc>
+                    </handlers>
+                </parameters>
+            </Magento_Http_Handler_Composite>
         </di>
+        <configurators>
+            <pageCache>Enterprise_PageCache_Model_ObjectManager_Configurator</pageCache>
+        </configurators>
     </global>
 </config>

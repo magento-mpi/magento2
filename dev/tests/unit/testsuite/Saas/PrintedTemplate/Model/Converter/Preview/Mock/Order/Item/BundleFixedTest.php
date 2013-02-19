@@ -14,6 +14,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixedTe
     {
         $helper = $this->getMockBuilder('Saas_PrintedTemplate_Helper_Data')
             ->setMethods(array('__'))
+            ->disableOriginalConstructor()
             ->getMock();
         $helper->expects($this->any())
             ->method('__')
@@ -25,7 +26,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixedTe
             ->getMock();
 
         $modelFixed =  $this->getMockBuilder('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed')
-            ->setMethods(array('getModel', '_getHelper'))
+            ->setMethods(array('getModel', '_getHelper', '_getResource'))
             ->disableOriginalConstructor()
             ->getMock();
         $modelFixed->expects($this->any())
@@ -34,6 +35,8 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixedTe
         $modelFixed->expects($this->any())
             ->method('getModel')
             ->will($this->returnValue($mockItem));
+        $resource = $this->getMock('Mage_Sales_Model_Resource_Order_Item', array(), array(), '', false);
+        $modelFixed->expects($this->any())->method('_getResource')->will($this->returnValue($resource));
 
         $this->assertEmpty($modelFixed->getData());
         $this->assertEmpty($mockItem->getData());

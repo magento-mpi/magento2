@@ -55,10 +55,11 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
             array('unit_price_incl_tax', $data['unit_price_incl_tax'])
         );
 
+        $methods = array('getModel', 'getHelperModel', '_loadDefaultUnitPriceValues', 'getConfig', '__', 'currency');
         $helper = $this->getMockBuilder('Saas_UnitPrice_Helper_Data')
-            ->setMethods(array(
-                'getModel', 'getHelperModel', '_loadDefaultUnitPriceValues', 'getConfig', '__', 'currency')
-        )->getMock();
+            ->setMethods($methods)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $helper->expects($this->any())
             ->method('getConfig')
@@ -208,6 +209,7 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $helper = $this->getMockBuilder('Saas_UnitPrice_Helper_FakeData')
             ->setMethods(array('getModel'))
+            ->disableOriginalConstructor()
             ->getMock();
 
         $attributes = array();

@@ -52,7 +52,6 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
      */
     protected $_storageRoot;
 
-
     /**
      * Magento filesystem
      *

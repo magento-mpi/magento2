@@ -18,11 +18,9 @@ class Enterprise_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHP
 
     protected function setUp()
     {
-        $mockHelper = $this->getMock('Enterprise_Pbridge_Helper_Data');
+        $mockHelper = $this->getMock('Enterprise_Pbridge_Helper_Data', array(), array(), '', false, false);
         $mockHelper->expects($this->any())->method('__')->will($this->returnValue('Test Label'));
-        $this->_model= new Enterprise_Pbridge_Model_Authorizenet_Source_PaymentAction(array(
-            'helper' => $mockHelper,
-        ));
+        $this->_model= new Enterprise_Pbridge_Model_Authorizenet_Source_PaymentAction($mockHelper);
     }
 
     /**

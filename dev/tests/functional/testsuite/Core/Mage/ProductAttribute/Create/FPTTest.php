@@ -45,7 +45,7 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create "Fixed Product Tax" type Product Attribute (required fields only)</p>
+     * Create "Fixed Product Tax" type Product Attribute (required fields only)
      *
      * @return array
      * @test
@@ -65,8 +65,8 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking of verification for duplicate of Product Attributes with similar code
-     * Creation of new attribute with existing code.</p>
+     * Checking of verification for duplicate of Product Attributes with similar code
+     * Creation of new attribute with existing code.
      *
      * @param array $attrData
      *
@@ -76,6 +76,7 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
+        $this->markTestIncomplete('MAGETWO-5787');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -83,7 +84,7 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking validation for required fields are EMPTY</p>
+     * Checking validation for required fields are EMPTY
      *
      * @param $emptyField
      *
@@ -125,7 +126,7 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking validation for valid data in the 'Attribute Code' field</p>
+     * Checking validation for valid data in the 'Attribute Code' field
      *
      * @param $wrongAttributeCode
      * @param $validationMessage
@@ -141,6 +142,9 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_fpt',
             array('attribute_code' => $wrongAttributeCode));
         //Steps
+        if ($validationMessage == 'wrong_length_attribute_code') {
+            $this->markTestIncomplete('MAGETWO-7215');
+        }
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
@@ -159,8 +163,8 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking of correct validate of submitting form by using special</p>
-     * <p>characters for all fields exclude 'Attribute Code' field.</p>
+     * Checking of correct validate of submitting form by using special
+     * characters for all fields exclude 'Attribute Code' field.
      *
      * @test
      * @depends withRequiredFieldsOnly
@@ -185,7 +189,7 @@ class Core_Mage_ProductAttribute_Create_FPTTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Checking of correct work of submitting form by using long values for fields filling</p>
+     * Checking of correct work of submitting form by using long values for fields filling
      *
      * @test
      * @depends withRequiredFieldsOnly

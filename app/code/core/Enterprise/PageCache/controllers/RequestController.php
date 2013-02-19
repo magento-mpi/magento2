@@ -14,10 +14,19 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
      */
     public function processAction()
     {
-        $processor  = Mage::getSingleton('Enterprise_PageCache_Model_Processor');
+        /**
+         * @var $processor Enterprise_PageCache_Model_Processor
+         */
+        $processor  = $this->_objectManager->get('Enterprise_PageCache_Model_Processor');
+
         $content    = Mage::registry('cached_page_content');
+        /**
+         * @var $containers Enterprise_PageCache_Model_ContainerInterface[]
+         */
         $containers = Mage::registry('cached_page_containers');
-        $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
+
+        $cacheInstance = $this->_objectManager->get('Enterprise_PageCache_Model_Cache');
+
         foreach ($containers as $container) {
             $container->applyInApp($content);
         }
@@ -32,7 +41,7 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
         }
 
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('Mage_Core_Model_Session');
+        $session = $this->_objectManager->get('Mage_Core_Model_Session');
         $cookieName = $session->getSessionName();
         $cookieInfo = array(
             'lifetime' => $session->getCookie()->getLifetime(),

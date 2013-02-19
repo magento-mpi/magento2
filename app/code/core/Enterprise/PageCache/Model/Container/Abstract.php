@@ -11,7 +11,7 @@
 /**
  * Abstract placeholder container
  */
-abstract class Enterprise_PageCache_Model_Container_Abstract
+abstract class Enterprise_PageCache_Model_Container_Abstract implements Enterprise_PageCache_Model_ContainerInterface
 {
     /**
      * @var null|Enterprise_PageCache_Model_Processor
@@ -26,19 +26,26 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     protected $_placeholder;
 
     /**
-     * Class constructor
-     *
+     * @var Enterprise_PageCache_Model_Cache
+     */
+    protected $_fpcCache;
+
+    /**
+     * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Container_Placeholder $placeholder
      */
-    public function __construct($placeholder)
-    {
+    public function __construct(
+        Enterprise_PageCache_Model_Cache $fpcCache,
+        Enterprise_PageCache_Model_Container_Placeholder $placeholder
+    ) {
         $this->_placeholder = $placeholder;
+        $this->_fpcCache = $fpcCache;
     }
 
     /**
      * Get container individual cache id
      *
-     * @return string|false
+     * @return string|bool
      */
     protected function _getCacheId()
     {
@@ -141,11 +148,11 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
      * Load cached data by cache id
      *
      * @param string $id
-     * @return string|false
+     * @return string|bool
      */
     protected function _loadCache($id)
     {
-        return Enterprise_PageCache_Model_Cache::getCacheInstance()->load($id);
+        return $this->_fpcCache->load($id);
     }
 
     /**
@@ -170,7 +177,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
          */
         Enterprise_PageCache_Helper_Url::replaceSid($data);
 
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save($data, $id, $tags, $lifetime);
+        $this->_fpcCache->save($data, $id, $tags, $lifetime);
         return $this;
     }
 

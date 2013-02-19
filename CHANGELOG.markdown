@@ -1,3 +1,85 @@
+2.0.0.0-dev42
+=============
+* Application initialization improvements:
+  * Removed application initialization responsibility from `Mage` class
+  * Introduces entry points, which are responsible for different types of requests processing: HTTP, media, cron, indexing, console installing, etc.
+  * New configuration classes are introduced and each of them is responsible for specific section of configuration
+  * Class rewrites functionality removed from `Mage_Core_Model_Config` model. DI configuration should be used for rewriting classes
+* Added ability to configure object manager with array in addition to object and scalar values
+* VDE improvements:
+  * Theme CSS files viewing and uploading/downloading of custom CSS file
+  * Updated styling of VDE Tools panel
+* Refactored various components to an analogous jQuery widget:
+  * Refactored components:
+    * Category navigation
+    * Products management and gallery
+    * Send to friend
+    * Sales components, including orders and returns
+    * Retrieve shipping rates and add/remove coupon in shopping cart
+    * Customer address and address book
+    * Customer wishlist
+    * "Contact Us" form
+    * CAPTCHA
+    * Weee
+  * New tabs widget is used instead of `Varien.Tabs`
+  * Refactored `Varien.dateRangeDate` and `Varien.FileElement`
+  * Replaced `$.mage.constants` with jQuery UI `$.ui.keyCode` for keyboard key codes
+* Refactored configurable attribute, category parent and attribute set selectors to use suggest widget
+* Bug fixes:
+  * Improvements and bug fixes in new backend theme
+  * Image, categories attributes and virtual/downloadable fields are displayed on Update Attributes page, where they shouldn't be present
+  * Undefined config property in `reloadOptionLabels()` function in `configurable.js` (Chrome)
+  * Impossible to edit existing customer/product tax class
+  * Incorrect format of customer's "Date of Birth"
+  * Theme preview images are absent in VDE
+  * Search by backslash doesn't work for Categories field on product creation page
+  * Impossible to assign a category to a product, if category name contains HTML tag
+  * Incorrect URL generated for logo image
+
+2.0.0.0-dev41
+=============
+* All-new look & feel of backend UI -- "Magento 2 backend" theme
+  * This theme includes "Magento User Interface Library" -- a set of reusable CSS-classes, icons and fonts
+* Theme editing features (in backend UI):
+  * Ability to view static resources, such as CSS and JavaScript files, which are inherited by virtual themes from physical themes and application, and library
+  * Ability to upload and edit custom CSS/JavaScript code assigned to a particular virtual theme
+  * Ability to manage image and font assets for virtual themes
+  * The uploaded or edited theme resources are used in page generation
+  * Ability to rename virtual themes
+  * Physical themes are read-only
+* Visual design editor:
+  * Ability to enter a "Design Mode" directly from the list of "My Customizations" in "Design Gallery"
+  * Updated styling of theme selector and VDE toolbars
+* Added functional limitations (managed through configuration files):
+  * Ability to limit maximum number of store views in the system
+  * Ability to limit maximum number of admin user records in the system
+* Introduced mechanism of early discovery of memory leaks in integration tests:
+  * Added ability to integration testing framework to detect usage of memory and estimate memory leaks using OS tools outside of PHP process
+  * Also ability to set memory usage threshold which would deliberately trigger error, if integration tests reach it
+* Refactoring in integration tests:
+  * Broke down `Magento_Test_Bootstrap` into smaller testable classes
+  * Minimized amount of logic in `bootstrap.php` of integration tests
+  * Factored out memory utility functions from memory integration tests into a separate helper
+  * Removed hard-coding of the default setting values from `Magento_Test_Bootstrap` in favor of requiring some crucial settings
+  * Fixed integration tests dependency on `app/etc/local.xml`, changes in which were involved into the sandbox hash calculation `dev/tests/integration/tmp/sandbox-<db_vendor>-<hash>`
+* Improvements in JavaScript widget "Suggest" (`pub/lib/mage/backend/suggest.js`):
+  * Added ability to set callback for "item selection"
+  * Added ability to provide a template in widget options
+  * Implemented "multiple suggestions" ability directly in this widget and removed the "multisuggest" widget
+* Converted several grids in backend from PHP implementation to declarations in layout
+* Other various improvements:
+  * Factored out logic of handling theme images from `Mage_Core_Model_Theme` into `Mage_Core_Model_Theme_Image`
+  * Ability to filter file extensions in uploader component
+  * Publication of resources linked in CSS-files will only log error instead of crashing page generation process
+* Bug fixes:
+  * Fixed several memory leaks in different places, related with dispatching controller actions multiple times in integration tests and with excessive reference to `Mage_Core_Model_App` object
+  * Fixed integration test in `Mage_Install` module that verifies encryption key length
+  * Fixed DHL shipping carrier declaration in config that caused inability to use it with shopping cart price rules
+  * Fixed issues in generating of configurable product variations when the button "Generate" is invoked second time
+  * Fixed an error that caused inability to create a theme in Windows environment in developer mode
+  * Fixed various errors in JavaScript tests for visual design editor
+  * Fixed broken "Edit" link on backend product management page
+
 2.0.0.0-dev40
 =============
 * Implemented ability to customize all the main directory paths for the application, i.e. locations of `var`, `etc`, `media` and other directories

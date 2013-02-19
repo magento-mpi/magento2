@@ -73,6 +73,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
      */
     protected $_collection;
 
+
     protected function setUp()
     {
         foreach (array_keys($this->_joinValues) as $key) {
@@ -136,7 +137,12 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
             ->method('getTable')
             ->will($this->returnValue(self::MAIN_TABLE));
 
-        $this->_collection = new Enterprise_CatalogEvent_Model_Resource_Event_Collection($application, $resource);
+        $this->_collection = $this->getMock(
+            'Enterprise_CatalogEvent_Model_Resource_Event_Collection',
+            array('setModel'),
+            array($application, $resource),
+            '',
+            true, true);
     }
 
     protected function tearDown()

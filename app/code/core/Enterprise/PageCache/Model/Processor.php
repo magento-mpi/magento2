@@ -7,36 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Enterprise_PageCache_Model_Processor
+class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model_RequestProcessorInterface
 {
-    const NO_CACHE_COOKIE               = 'NO_CACHE';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
-    const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
-    const DESIGN_EXCEPTION_KEY          = 'FPC_DESIGN_EXCEPTION_CACHE';
-    const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
+
     const CACHE_SIZE_KEY                = 'FPC_CACHE_SIZE_CAHCE_KEY';
     const XML_PATH_CACHE_MAX_SIZE       = 'system/page_cache/max_cache_size';
-
-    const METADATA_CACHE_SUFFIX        = '_metadata';
-
-    /**
-     * Request identifier
-     *
-     * @var string
-     */
-    protected $_requestId;
-
-    /**
-     * Request page cache identifier
-     *
-     * @var string
-     */
-    protected $_requestCacheId;
 
     /**
      * Cache tags related with request
@@ -45,147 +25,134 @@ class Enterprise_PageCache_Model_Processor
     protected $_requestTags;
 
     /**
-     * Cache service info
-     * @var mixed
-     */
-    protected $_metaData = null;
-
-    /**
-     * Flag whether design exception value presents in cache
-     * It always must be present (maybe serialized empty value)
-     * @var boolean
-     */
-    protected $_designExceptionExistsInCache = false;
-
-    /**
      * Request processor model
      * @var mixed
      */
     protected $_requestProcessor = null;
 
     /**
-     * subprocessor model
-     * @var mixed
+     * subProcessor model
+     *
+     * @var Enterprise_PageCache_Model_Cache_SubProcessorInterface
      */
-    protected $_subprocessor;
+    protected $_subProcessor;
 
     /**
-     * Class constructor
+     * Page cache processor restriction model
+     *
+     * @var Enterprise_PageCache_Model_Processor_RestrictionInterface
      */
-    public function __construct()
-    {
-        $this->_createRequestIds();
-        $this->_requestTags     = array(self::CACHE_TAG);
-    }
+    protected $_restriction;
 
     /**
-     * Populate request ids
-     * @return Enterprise_PageCache_Model_Processor
+     * SubProcessor factory
+     *
+     * @var Enterprise_PageCache_Model_Cache_SubProcessorFactory
      */
-    protected function _createRequestIds()
-    {
-        $uri = $this->_getFullPageUrl();
-
-        //Removing get params
-        $pieces = explode('?', $uri);
-        $uri = array_shift($pieces);
-
-        /**
-         * Define COOKIE state
-         */
-        if ($uri) {
-            if (isset($_COOKIE['store'])) {
-                $uri = $uri.'_'.$_COOKIE['store'];
-            }
-            if (isset($_COOKIE['currency'])) {
-                $uri = $uri.'_'.$_COOKIE['currency'];
-            }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP];
-            }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN];
-            }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS];
-            }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE];
-            }
-            $designPackage = $this->_getDesignPackage();
-
-            if ($designPackage) {
-                $uri .= '_' . $designPackage;
-            }
-        }
-
-        $this->_requestId       = $uri;
-        $this->_requestCacheId  = $this->prepareCacheId($this->_requestId);
-
-        return $this;
-    }
+    protected $_subProcessorFactory;
 
     /**
-     * Refresh values of request ids
+     * Placeholder factory
      *
-     * Some parts of $this->_requestId and $this->_requestCacheId might be changed in runtime
-     * E.g. we may not know about design package
-     * But during cache save we need this data to be actual
-     *
-     * @return Enterprise_PageCache_Model_Processor
+     * @var Enterprise_PageCache_Model_Container_PlaceholderFactory
      */
-    public function refreshRequestIds()
-    {
-        if (!$this->_designExceptionExistsInCache) {
-            $this->_createRequestIds();
-        }
-        return $this;
-    }
+    protected $_placeholderFactory;
 
     /**
-     * Get currently configured design package.
-     * Depends on design exception rules configuration and browser user agent
+     * Container factory
      *
-     * return string|bool
+     * @var Enterprise_PageCache_Model_ContainerFactory
      */
-    protected function _getDesignPackage()
-    {
-        $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
-        $exceptions = $cacheInstance->load(self::DESIGN_EXCEPTION_KEY);
-        $this->_designExceptionExistsInCache = $cacheInstance->getFrontend()->test(self::DESIGN_EXCEPTION_KEY);
-
-        if (!$exceptions) {
-            return false;
-        }
-
-        $rules = @unserialize($exceptions);
-        if (empty($rules)) {
-            return false;
-        }
-        return Mage_Core_Model_Design_Package::getPackageByUserAgent($rules);
-    }
+    protected $_containerFactory;
 
     /**
-     * Prepare page identifier
-     *
-     * @param string $id
-     * @return string
+     * FPC cache model
+     * @var Enterprise_PageCache_Model_Cache
      */
-    public function prepareCacheId($id)
-    {
-        $cacheId = self::REQUEST_ID_PREFIX . md5($id . $this->_getScopeCode());
-        return $cacheId;
+    protected $_fpcCache;
+
+    /**
+     * Application environment
+     *
+     * @var Enterprise_PageCache_Model_Environment
+     */
+    protected $_environment;
+
+    /**
+     * Request identifier model
+     *
+     * @var Enterprise_PageCache_Model_Request_Identifier
+     */
+    protected $_requestIdentifier;
+
+    /**
+     * Design info model
+     *
+     * @var Enterprise_PageCache_Model_DesignPackage_Info
+     */
+    protected $_designInfo;
+
+    /**
+     * Metadata storage model
+     *
+     * @var Enterprise_PageCache_Model_Metadata
+     */
+    protected $_metadata;
+
+    /**
+     * Store id identifier model
+     *
+     * @var Enterprise_PageCache_Model_Store_Identifier
+     */
+    protected $_storeIdentifier;
+
+    /**
+     * Store manager model
+     *
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
+     * @param Enterprise_PageCache_Model_Cache $fpcCache
+     * @param Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory
+     * @param Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory
+     * @param Enterprise_PageCache_Model_ContainerFactory $containerFactory
+     * @param Enterprise_PageCache_Model_Environment $environment
+     * @param Enterprise_PageCache_Model_Request_Identifier $requestIdentifier
+     * @param Enterprise_PageCache_Model_DesignPackage_Info $designInfo
+     * @param Enterprise_PageCache_Model_Metadata $metadata
+     * @param Enterprise_PageCache_Model_Store_Identifier $storeIdentifier
+     * @param Mage_Core_Model_StoreManager $storeManager
+     */
+    public function __construct(
+        Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
+        Enterprise_PageCache_Model_Cache $fpcCache,
+        Enterprise_PageCache_Model_Cache_SubProcessorFactory $subProcessorFactory,
+        Enterprise_PageCache_Model_Container_PlaceholderFactory $placeholderFactory,
+        Enterprise_PageCache_Model_ContainerFactory $containerFactory,
+        Enterprise_PageCache_Model_Environment $environment,
+        Enterprise_PageCache_Model_Request_Identifier $requestIdentifier,
+        Enterprise_PageCache_Model_DesignPackage_Info $designInfo,
+        Enterprise_PageCache_Model_Metadata $metadata,
+        Enterprise_PageCache_Model_Store_Identifier $storeIdentifier,
+        Mage_Core_Model_StoreManager $storeManager
+    ) {
+        $this->_containerFactory = $containerFactory;
+        $this->_placeholderFactory = $placeholderFactory;
+        $this->_subProcessorFactory = $subProcessorFactory;
+        $this->_restriction = $restriction;
+        $this->_fpcCache = $fpcCache;
+        $this->_environment = $environment;
+        $this->_designInfo = $designInfo;
+        $this->_requestIdentifier = $requestIdentifier;
+        $this->_metadata = $metadata;
+        $this->_storeIdentifier = $storeIdentifier;
+        $this->_storeManager = $storeManager;
+        $this->_requestTags = array(self::CACHE_TAG);
     }
 
-     /**
-     * Get current scope code
-     *
-     * @return string
-     */
-    protected function _getScopeCode()
-    {
-        return Mage::app()->getInitParam(Mage_Core_Model_App::INIT_OPTION_SCOPE_CODE);
-    }
 
     /**
      * Get HTTP request identifier
@@ -194,16 +161,17 @@ class Enterprise_PageCache_Model_Processor
      */
     public function getRequestId()
     {
-        return $this->_requestId;
+        return $this->_requestIdentifier->getRequestId();
     }
 
     /**
      * Get page identifier for loading page from cache
+     *
      * @return string
      */
     public function getRequestCacheId()
     {
-        return $this->_requestCacheId;
+        return $this->_requestIdentifier->getRequestCacheId();
     }
 
     /**
@@ -214,90 +182,90 @@ class Enterprise_PageCache_Model_Processor
      */
     public function isAllowed()
     {
-        if (!$this->_requestId) {
-            return false;
-        }
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
-            return false;
-        }
-        if (isset($_COOKIE[self::NO_CACHE_COOKIE])) {
-            return false;
-        }
-        if (isset($_GET['no_cache'])) {
-            return false;
-        }
-        if (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
-            return false;
-        }
-        if (!Mage::app()->useCache('full_page')) {
-            return false;
-        }
-
-        return true;
+        return $this->_restriction->isAllowed($this->_requestIdentifier->getRequestId());
     }
 
     /**
-     * Get page content from cache storage
-     *
+     * @param Zend_Controller_Request_Http $request
+     * @param Zend_Controller_Response_Http $response
      * @param string $content
-     * @return string|false
+     * @return bool|string
      */
-    public function extractContent($content)
-    {
-        $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
-        /*
-         * Apply design change
-         */
-        $designChange = $cacheInstance->load($this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX);
-        if ($designChange) {
-            $designChange = unserialize($designChange);
-            if (is_array($designChange) && isset($designChange['design'])) {
-                Mage::getDesign()->setDesignTheme($designChange['design']);
-            }
-        }
+    public function extractContent(
+        Zend_Controller_Request_Http $request,
+        Zend_Controller_Response_Http $response,
+        $content
+    ) {
 
-        if (!$this->_designExceptionExistsInCache) {
-            //no design exception value - error
-            //must be at least empty value
+        if (!$this->_designInfo->isDesignExceptionExistsInCache()) {
             return false;
         }
+
         if (!$content && $this->isAllowed()) {
-            $subprocessorClass = $this->getMetadata('cache_subprocessor');
-            if (!$subprocessorClass) {
+            $subProcessorClass = $this->_metadata->getMetadata('cache_subprocessor');
+            if (!$subProcessorClass) {
                 return $content;
             }
 
             /*
              * @var Enterprise_PageCache_Model_Processor_Default
              */
-            $subprocessor = new $subprocessorClass;
-            $this->setSubprocessor($subprocessor);
-            $cacheId = $this->prepareCacheId($subprocessor->getPageIdWithoutApp($this));
+            $subProcessor = $this->_subProcessorFactory->create($subProcessorClass);
+            $this->setSubprocessor($subProcessor);
+            $cacheId = $this->_requestIdentifier->prepareCacheId($subProcessor->getPageIdWithoutApp($this));
 
-            $content = $cacheInstance->load($cacheId);
+            $content = $this->_fpcCache->load($cacheId);
 
             if ($content) {
-                if (function_exists('gzuncompress')) {
-                    $content = gzuncompress($content);
-                }
-                $content = $this->_processContent($content);
+                $content = $this->_processContent($this->_compressContent($content), $request);
 
-                // restore response headers
-                $responseHeaders = $this->getMetadata('response_headers');
-                if (is_array($responseHeaders)) {
-                    foreach ($responseHeaders as $header) {
-                        Mage::app()->getResponse()->setHeader($header['name'], $header['value'], $header['replace']);
-                    }
-                }
+                $this->_restoreResponseHeaders($response);
 
-                // renew recently viewed products
-                $productId = $cacheInstance->load($this->getRequestCacheId() . '_current_product_id');
-                $countLimit = $cacheInstance->load($this->getRecentlyViewedCountCacheId());
-                if ($productId && $countLimit) {
-                    Enterprise_PageCache_Model_Cookie::registerViewedProducts($productId, $countLimit);
-                }
+                $this->_updateRecentlyViewedProducts();
             }
+        }
 
+        return $content;
+    }
+
+    /**
+     * Renew recently viewed products
+     */
+    protected function _updateRecentlyViewedProducts()
+    {
+        $productId = $this->_fpcCache->load($this->getRequestCacheId() . '_current_product_id');
+        $countLimit = $this->_fpcCache->load($this->getRecentlyViewedCountCacheId());
+        if ($productId && $countLimit) {
+            Enterprise_PageCache_Model_Cookie::registerViewedProducts($productId, $countLimit);
+        }
+    }
+
+    /**
+     * Restore response headers
+     *
+     * @param Zend_Controller_Response_Http $response
+     */
+    protected function _restoreResponseHeaders(Zend_Controller_Response_Http $response)
+    {
+        $responseHeaders = $this->_metadata->getMetadata('response_headers');
+        if (is_array($responseHeaders)) {
+            foreach ($responseHeaders as $header) {
+                $response->setHeader($header['name'], $header['value'], $header['replace']);
+            }
+        }
+    }
+
+    /**
+     * Compress content if possible
+     *
+     * @param string $content
+     * @return string
+     */
+    protected function _compressContent($content)
+    {
+        if (function_exists('gzuncompress')) {
+            $content = gzuncompress($content);
+            return $content;
         }
         return $content;
     }
@@ -310,7 +278,10 @@ class Enterprise_PageCache_Model_Processor
     public function getRecentlyViewedCountCacheId()
     {
         $cookieName = Mage_Core_Model_Store::COOKIE_NAME;
-        return 'recently_viewed_count' . (isset($_COOKIE[$cookieName]) ? '_' . $_COOKIE[$cookieName] : '');
+        $additional = $this->_environment->hasCookie($cookieName) ?
+            '_' . $this->_environment->getCookie($cookieName) :
+            '';
+        return 'recently_viewed_count' . $additional;
     }
 
     /**
@@ -321,7 +292,10 @@ class Enterprise_PageCache_Model_Processor
     public function getSessionInfoCacheId()
     {
         $cookieName = Mage_Core_Model_Store::COOKIE_NAME;
-        return 'full_page_cache_session_info' . (isset($_COOKIE[$cookieName]) ? '_' . $_COOKIE[$cookieName] : '');
+        $additional = $this->_environment->hasCookie($cookieName) ?
+            '_' . $this->_environment->getCookie($cookieName) :
+            '';
+        return 'full_page_cache_session_info' . $additional;
     }
 
     /**
@@ -329,24 +303,25 @@ class Enterprise_PageCache_Model_Processor
      * Direct request to pagecache/request/process action if necessary for additional processing
      *
      * @param string $content
-     * @return string|false
+     * @param Zend_Controller_Request_Http $request
+     * @return string|bool
      */
-    protected function _processContent($content)
+    protected function _processContent($content, Zend_Controller_Request_Http $request)
     {
         $containers = $this->_processContainers($content);
         $isProcessed = empty($containers);
         // renew session cookie
-        $sessionInfo = Enterprise_PageCache_Model_Cache::getCacheInstance()->load($this->getSessionInfoCacheId());
+        $sessionInfo = $this->_fpcCache->load($this->getSessionInfoCacheId());
 
         if ($sessionInfo) {
             $sessionInfo = unserialize($sessionInfo);
             foreach ($sessionInfo as $cookieName => $cookieInfo) {
-                if (isset($_COOKIE[$cookieName]) && isset($cookieInfo['lifetime'])
+                if ($this->_environment->hasCookie($cookieName) && isset($cookieInfo['lifetime'])
                     && isset($cookieInfo['path']) && isset($cookieInfo['domain'])
                     && isset($cookieInfo['secure']) && isset($cookieInfo['httponly'])
                 ) {
                     $lifeTime = (0 == $cookieInfo['lifetime']) ? 0 : time() + $cookieInfo['lifetime'];
-                    setcookie($cookieName, $_COOKIE[$cookieName], $lifeTime,
+                    setcookie($cookieName, $this->_environment->getCookie($cookieName), $lifeTime,
                         $cookieInfo['path'], $cookieInfo['domain'],
                         $cookieInfo['secure'], $cookieInfo['httponly']
                     );
@@ -359,8 +334,8 @@ class Enterprise_PageCache_Model_Processor
         /**
          * restore session_id in content whether content is completely processed or not
          */
-        $sidCookieName = $this->getMetadata('sid_cookie_name');
-        $sidCookieValue = $sidCookieName && isset($_COOKIE[$sidCookieName]) ? $_COOKIE[$sidCookieName] : '';
+        $sidCookieName = $this->_metadata->getMetadata('sid_cookie_name');
+        $sidCookieValue = $sidCookieName && $this->_environment->getCookie($sidCookieName, '');
         Enterprise_PageCache_Helper_Url::restoreSid($content, $sidCookieValue);
 
         if ($isProcessed) {
@@ -368,21 +343,20 @@ class Enterprise_PageCache_Model_Processor
         } else {
             Mage::register('cached_page_content', $content);
             Mage::register('cached_page_containers', $containers);
-            Mage::app()->getRequest()
-                ->setModuleName('pagecache')
+            $request->setModuleName('pagecache')
                 ->setControllerName('request')
                 ->setActionName('process')
                 ->isStraight(true);
 
             // restore original routing info
             $routingInfo = array(
-                'aliases'              => $this->getMetadata('routing_aliases'),
-                'requested_route'      => $this->getMetadata('routing_requested_route'),
-                'requested_controller' => $this->getMetadata('routing_requested_controller'),
-                'requested_action'     => $this->getMetadata('routing_requested_action')
+                'aliases'              => $this->_metadata->getMetadata('routing_aliases'),
+                'requested_route'      => $this->_metadata->getMetadata('routing_requested_route'),
+                'requested_controller' => $this->_metadata->getMetadata('routing_requested_controller'),
+                'requested_action'     => $this->_metadata->getMetadata('routing_requested_action')
             );
 
-            Mage::app()->getRequest()->setRoutingInfo($routingInfo);
+            $request->setRoutingInfo($routingInfo);
             return false;
         }
     }
@@ -391,7 +365,7 @@ class Enterprise_PageCache_Model_Processor
      * Process Containers
      *
      * @param $content
-     * @return array
+     * @return Enterprise_PageCache_Model_ContainerInterface[]
      */
     protected function _processContainers(&$content)
     {
@@ -403,19 +377,19 @@ class Enterprise_PageCache_Model_Processor
         $placeholders = array_unique($placeholders[1]);
         $containers = array();
         foreach ($placeholders as $definition) {
-            $placeholder = new Enterprise_PageCache_Model_Container_Placeholder($definition);
+            $placeholder = $this->_placeholderFactory->create($definition);
             $container = $placeholder->getContainerClass();
             if (!$container) {
                 continue;
             }
-
-            $container = new $container($placeholder);
+            $arguments = array('placeholder' => $placeholder);
+            $container = $this->_containerFactory->create($container, $arguments);
             $container->setProcessor($this);
             if (!$container->applyWithoutApp($content)) {
                 $containers[] = $container;
             } else {
                 preg_match($placeholder->getPattern(), $content, $matches);
-                if (array_key_exists(1,$matches)) {
+                if (array_key_exists(1, $matches)) {
                     $containers = array_merge($this->_processContainers($matches[1]), $containers);
                     $content = preg_replace($placeholder->getPattern(), str_replace('$', '\\$', $matches[1]), $content);
                 }
@@ -456,19 +430,19 @@ class Enterprise_PageCache_Model_Processor
      * @param Zend_Controller_Response_Http $response
      * @return Enterprise_PageCache_Model_Processor
      */
-    public function processRequestResponse(Zend_Controller_Request_Http $request,
+    public function processRequestResponse(
+        Zend_Controller_Request_Http $request,
         Zend_Controller_Response_Http $response
     ) {
-        $cacheInstance = Enterprise_PageCache_Model_Cache::getCacheInstance();
         /**
          * Basic validation for request processing
          */
         if ($this->canProcessRequest($request)) {
             $processor = $this->getRequestProcessor($request);
             if ($processor && $processor->allowCache($request)) {
-                $this->setMetadata('cache_subprocessor', get_class($processor));
+                $this->_metadata->setMetadata('cache_subprocessor', get_class($processor));
 
-                $cacheId = $this->prepareCacheId($processor->getPageIdInApp($this));
+                $cacheId = $this->_requestIdentifier->prepareCacheId($processor->getPageIdInApp($this));
                 $content = $processor->prepareContent($response);
 
                 /**
@@ -481,7 +455,7 @@ class Enterprise_PageCache_Model_Processor
                 }
 
                 $contentSize = strlen($content);
-                $currentStorageSize = (int) $cacheInstance->load(self::CACHE_SIZE_KEY);
+                $currentStorageSize = (int) $this->_fpcCache->load(self::CACHE_SIZE_KEY);
 
                 $maxSizeInBytes = Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
@@ -490,47 +464,41 @@ class Enterprise_PageCache_Model_Processor
                     return $this;
                 }
 
-                $cacheInstance->save($content, $cacheId, $this->getRequestTags());
+                $this->_fpcCache->save($content, $cacheId, $this->getRequestTags());
 
-                $cacheInstance->save(
+                $this->_fpcCache->save(
                     $currentStorageSize + $contentSize,
                     self::CACHE_SIZE_KEY,
                     $this->getRequestTags()
                 );
 
-                /*
-                 * Save design change in cache
-                 */
-                $designChange = Mage::getSingleton('Mage_Core_Model_Design');
-                if ($designChange->getData()) {
-                    $cacheInstance->save(
-                        serialize($designChange->getData()),
-                        $this->getRequestCacheId() . self::DESIGN_CHANGE_CACHE_SUFFIX,
-                        $this->getRequestTags()
-                    );
-                }
+                $this->_storeIdentifier->save(
+                    $this->_storeManager->getStore()->getId(),
+                    $this->_requestIdentifier->getStoreCacheId(),
+                    $this->getRequestTags()
+                );
 
                 // save response headers
-                $this->setMetadata('response_headers', $response->getHeaders());
+                $this->_metadata->setMetadata('response_headers', $response->getHeaders());
 
                 // save original routing info
-                $this->setMetadata('routing_aliases', Mage::app()->getRequest()->getAliases());
-                $this->setMetadata('routing_requested_route', Mage::app()->getRequest()->getRequestedRouteName());
-                $this->setMetadata('routing_requested_controller',
-                    Mage::app()->getRequest()->getRequestedControllerName());
-                $this->setMetadata('routing_requested_action', Mage::app()->getRequest()->getRequestedActionName());
+                $this->_metadata->setMetadata('routing_aliases', $request->getAliases());
+                $this->_metadata->setMetadata('routing_requested_route', $request->getRequestedRouteName());
+                $this->_metadata->setMetadata('routing_requested_controller', $request->getRequestedControllerName());
+                $this->_metadata->setMetadata('routing_requested_action', $request->getRequestedActionName());
 
-                $this->setMetadata('sid_cookie_name', Mage::getSingleton('Mage_Core_Model_Session')->getSessionName());
+                $this->_metadata->setMetadata('sid_cookie_name',
+                    Mage::getSingleton('Mage_Core_Model_Session')->getSessionName()
+                );
 
                 Mage::dispatchEvent('pagecache_processor_metadata_before_save', array('processor' => $this));
 
-                $this->_saveMetadata();
+                $this->_metadata->saveMetadata($this->getRequestTags());
             }
 
-            if (isset($_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM])) {
+            if ($this->_environment->hasQuery(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
                 Mage::getSingleton('Enterprise_PageCache_Model_Cookie')->updateCustomerCookies();
                 Mage::getModel('Enterprise_PageCache_Model_Observer')->updateCustomerProductIndex();
-
             }
         }
         return $this;
@@ -544,25 +512,22 @@ class Enterprise_PageCache_Model_Processor
      */
     public function canProcessRequest(Zend_Controller_Request_Http $request)
     {
-        $res = $this->isAllowed();
-        $res = $res && Mage::app()->useCache('full_page');
-        if ($request->getParam('no_cache')) {
-            $res = false;
-        }
+        $output = $this->isAllowed();
 
-        if ($res) {
+        if ($output) {
             $maxDepth = Mage::getStoreConfig(self::XML_PATH_ALLOWED_DEPTH);
             $queryParams = $request->getQuery();
             unset($queryParams[Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM]);
-            $res = count($queryParams)<=$maxDepth;
+            $output = count($queryParams) <= $maxDepth;
         }
-        if ($res) {
-            $multicurrency = Mage::getStoreConfig(self::XML_PATH_CACHE_MULTICURRENCY);
-            if (!$multicurrency && !empty($_COOKIE['currency'])) {
-                $res = false;
+        if ($output) {
+            $multiCurrency = Mage::getStoreConfig(self::XML_PATH_CACHE_MULTICURRENCY);
+            $currency = $this->_environment->getCookie('currency');
+            if (!$multiCurrency && !empty($currency)) {
+                $output = false;
             }
         }
-        return $res;
+        return $output;
     }
 
     /**
@@ -609,8 +574,7 @@ class Enterprise_PageCache_Model_Processor
      */
     public function setMetadata($key, $value)
     {
-        $this->_loadMetadata();
-        $this->_metaData[$key] = $value;
+        $this->_metadata->setMetadata($key, $value);
         return $this;
     }
 
@@ -623,90 +587,26 @@ class Enterprise_PageCache_Model_Processor
      */
     public function getMetadata($key)
     {
-        $this->_loadMetadata();
-        return (isset($this->_metaData[$key])) ? $this->_metaData[$key] : null;
-    }
-
-    /**
-     * Return current page base url
-     *
-     * @return string
-     */
-    protected function _getFullPageUrl()
-    {
-        $uri = false;
-        /**
-         * Define server HTTP HOST
-         */
-        if (isset($_SERVER['HTTP_HOST'])) {
-            $uri = $_SERVER['HTTP_HOST'];
-        } elseif (isset($_SERVER['SERVER_NAME'])) {
-            $uri = $_SERVER['SERVER_NAME'];
-        }
-
-        /**
-         * Define request URI
-         */
-        if ($uri) {
-            if (isset($_SERVER['REQUEST_URI'])) {
-                $uri.= $_SERVER['REQUEST_URI'];
-            } elseif (!empty($_SERVER['IIS_WasUrlRewritten']) && !empty($_SERVER['UNENCODED_URL'])) {
-                $uri.= $_SERVER['UNENCODED_URL'];
-            } elseif (isset($_SERVER['ORIG_PATH_INFO'])) {
-                $uri.= $_SERVER['ORIG_PATH_INFO'];
-                if (!empty($_SERVER['QUERY_STRING'])) {
-                    $uri.= $_SERVER['QUERY_STRING'];
-                }
-            }
-        }
-        return $uri;
-    }
-
-
-    /**
-     * Save metadata for cache in cache storage
-     */
-    protected function _saveMetadata()
-    {
-        Enterprise_PageCache_Model_Cache::getCacheInstance()->save(
-            serialize($this->_metaData),
-            $this->getRequestCacheId() . self::METADATA_CACHE_SUFFIX,
-            $this->getRequestTags()
-            );
-    }
-
-    /**
-     * Load cache metadata from storage
-     */
-    protected function _loadMetadata()
-    {
-        if ($this->_metaData === null) {
-            $cacheMetadata = Enterprise_PageCache_Model_Cache::getCacheInstance()
-                ->load($this->getRequestCacheId() . self::METADATA_CACHE_SUFFIX);
-            if ($cacheMetadata) {
-                $cacheMetadata = unserialize($cacheMetadata);
-            }
-            $this->_metaData = (empty($cacheMetadata) || !is_array($cacheMetadata)) ? array() : $cacheMetadata;
-        }
+        return $this->_metadata->getMetadata($key);
     }
 
     /**
      * Set subprocessor
      *
-     * @param mixed $subprocessor
+     * @param Enterprise_PageCache_Model_Cache_SubProcessorInterface $subProcessor
      */
-    public function setSubprocessor($subprocessor)
+    public function setSubprocessor(Enterprise_PageCache_Model_Cache_SubProcessorInterface $subProcessor)
     {
-        $this->_subprocessor = $subprocessor;
+        $this->_subProcessor = $subProcessor;
     }
 
     /**
      * Get subprocessor
      *
-     * @return mixed
+     * @return Enterprise_PageCache_Model_Cache_SubProcessorInterface
      */
     public function getSubprocessor()
     {
-        return $this->_subprocessor;
+        return $this->_subProcessor;
     }
 }

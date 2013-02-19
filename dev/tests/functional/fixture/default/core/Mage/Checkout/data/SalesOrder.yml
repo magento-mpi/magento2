@@ -217,6 +217,7 @@ simple_low_qty:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_qty: 2
     general_stock_availability: In Stock
     prices_price: 54.95
@@ -231,6 +232,7 @@ simple_with_increments:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 54.95
@@ -249,6 +251,7 @@ simple_out_of_stock:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_qty: 0
     general_stock_availability: Out of Stock
     prices_price: 54.95
@@ -263,6 +266,7 @@ simple_min_allowed_qty:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 54.95
@@ -279,6 +283,7 @@ simple_max_allowed_qty:
     general_sku: simple_sku_Order(%randomize%)
     general_weight: 18.56
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 54.95
@@ -295,6 +300,7 @@ downloadable_product_for_order:
     general_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku_Order(%randomize%)
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 14.95
@@ -325,10 +331,11 @@ grouped_product_for_order:
     general_short_description: Short Description for Grouped Product
     general_sku: grouped_sku_Order(%randomize%)
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_stock_availability: In Stock
     general_categories: %noValue%
     websites: Main Website
-    associated_grouped_data:
+    general_grouped_data:
         associated_grouped_1:
             associated_search_sku: %associated_1%
         associated_grouped_2:
@@ -347,13 +354,14 @@ fixed_bundle_for_order:
     general_weight_type: Fixed
     general_weight: 0.999
     general_status: Enabled
+    general_visibility: Catalog, Search
     general_stock_availability: In Stock
     prices_price_type: Fixed
     prices_price: 12.55
     prices_tax_class: None
     general_categories: %noValue%
     websites: Main Website
-    bundle_items_data:
+    general_bundle_items:
         ship_bundle_items: Separately
         item_1:
             bundle_items_default_title: Multiple Select
@@ -361,10 +369,10 @@ fixed_bundle_for_order:
             bundle_items_is_required: Yes
             bundle_items_position: 1
             add_product_1:
-                bundle_items_search_sku: %add_product_1%
+                associated_search_sku: %add_product_1%
                 selection_item_price: %price_product_1%
             add_product_2:
-                bundle_items_search_sku: %add_product_2%
+                associated_search_sku: %add_product_2%
                 selection_item_price: %price_product_2%
         item_2:
             bundle_items_default_title: Drop-down
@@ -372,10 +380,10 @@ fixed_bundle_for_order:
             bundle_items_is_required: Yes
             bundle_items_position: 2
             add_product_1:
-                bundle_items_search_sku: %add_product_1%
+                associated_search_sku: %add_product_1%
                 selection_item_price: %price_product_1%
             add_product_2:
-                bundle_items_search_sku: %add_product_2%
+                associated_search_sku: %add_product_2%
                 selection_item_price: %price_product_2%
         item_3:
             bundle_items_default_title: Radio Buttons
@@ -383,10 +391,10 @@ fixed_bundle_for_order:
             bundle_items_is_required: Yes
             bundle_items_position: 3
             add_product_1:
-                bundle_items_search_sku: %add_product_1%
+                associated_search_sku: %add_product_1%
                 selection_item_price: %price_product_1%
             add_product_2:
-                bundle_items_search_sku: %add_product_2%
+                associated_search_sku: %add_product_2%
                 selection_item_price: %price_product_2%
         item_4:
             bundle_items_default_title: Checkbox
@@ -394,10 +402,10 @@ fixed_bundle_for_order:
             bundle_items_is_required: Yes
             bundle_items_position: 4
             add_product_1:
-                bundle_items_search_sku: %add_product_1%
+                associated_search_sku: %add_product_1%
                 selection_item_price: %price_product_1%
             add_product_2:
-                bundle_items_search_sku: %add_product_2%
+                associated_search_sku: %add_product_2%
                 selection_item_price: %price_product_2%
 
 #<------------CONFIGURABLE------------>

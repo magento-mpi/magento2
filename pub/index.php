@@ -4,13 +4,13 @@
  *
  * {license_notice}
  *
- * @category   Mage
- * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 require __DIR__ . '/../app/bootstrap.php';
+Magento_Profiler::start('mage');
 $params = $_SERVER;
-$params[Mage_Core_Model_App::INIT_OPTION_URIS][Mage_Core_Model_Dir::PUB] = '';
-Mage::run($params);
+$params[Mage::PARAM_APP_URIS][Mage_Core_Model_Dir::PUB] = '';
+$entryPoint = new Mage_Core_Model_EntryPoint_Http(BP, $params);
+$entryPoint->processRequest();
+Magento_Profiler::stop('mage');

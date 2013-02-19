@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_PageCache_Model_Processor_Default
+class Enterprise_PageCache_Model_Processor_Default implements Enterprise_PageCache_Model_Cache_SubProcessorInterface
 {
     /**
      * @var Enterprise_PageCache_Model_Container_Placeholder
@@ -46,7 +46,9 @@ class Enterprise_PageCache_Model_Processor_Default
      * Replace block content to placeholder replacer
      *
      * @param string $content
+     *
      * @return string
+     * @throws Exception
      */
     public function replaceContentToPlaceholderReplacer($content)
     {
@@ -98,7 +100,7 @@ class Enterprise_PageCache_Model_Processor_Default
          * This should simplify debugging _renderBlock()
          */
         if ($container && !Mage::getIsDeveloperMode()) {
-            $container = new $container($this->_placeholder);
+            $container = Mage::getModel($container, array('placeholder' => $this->_placeholder));
             $container->setProcessor(Mage::getSingleton('Enterprise_PageCache_Model_Processor'));
             $blockContent = $matches[1];
             $container->saveCache($blockContent);
@@ -111,7 +113,6 @@ class Enterprise_PageCache_Model_Processor_Default
      * Return cache page id with application. Depends on GET super global array.
      *
      * @param Enterprise_PageCache_Model_Processor $processor
-     * @param Zend_Controller_Request_Http $request
      * @return string
      */
     public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
