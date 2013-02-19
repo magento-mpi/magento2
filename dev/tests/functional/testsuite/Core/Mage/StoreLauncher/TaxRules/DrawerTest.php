@@ -56,34 +56,8 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Tax Rules drawer is displayed</p>
-     *
-     * @test
-     */
-    public function taxRulesDrawerIsDisplayed()
-    {
-        $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'tax_rules_drawer'));
-        $this->assertTrue($this->controlIsVisible('button', 'close_drawer'));
-        $this->assertTrue($this->controlIsVisible('button', 'save_my_settings'));
-    }
-
-    /**
-     * <p>User can return to the Store Launcher page</p>
-     *
-     * @depends taxRulesDrawerIsDisplayed
-     * @test
-     */
-    public function returnToTheStoreLauncherPage()
-    {
-        $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->assertTrue($this->storeLauncherHelper()->closeDrawer(), 'Failed to close drawer');
-    }
-
-    /**
      * <p>Disable tax rules</p>
      *
-     * @depends taxRulesDrawerIsDisplayed
      * @test
      */
     public function disableTaxRules()
@@ -132,7 +106,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
      *
      * @param $taxRateDataSetName
      * @dataProvider withRequiredFieldsOnlyDataProvider
-     * @depends taxRulesDrawerIsDisplayed
      * @test
      */
     public function createTaxRateRequiredFieldsOnly($taxRateDataSetName)
@@ -204,7 +177,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     /**
      * <p>Add new Customer Tax Class on Drawer</p>
      *
-     * @depends taxRulesDrawerIsDisplayed
      * @test
      */
     public function createCustomerTaxClass()
@@ -258,7 +230,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     /**
      * <p>Add new Product Tax Class on Drawer</p>
      *
-     * @depends taxRulesDrawerIsDisplayed
      * @test
      */
     public function createProductTaxClass()
@@ -313,7 +284,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
      * <p>Creating Tax Rule with required fields</p>
      *
      * @test
-     * @depends taxRulesDrawerIsDisplayed
      */
     public function withRequiredFieldsOnly()
     {

@@ -54,44 +54,8 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     }
 
     /**
-     * <p>Store Info drawer is displayed</p>
-     *
-     * @test
-     * @TestlinkId TL-MAGE-6504
-     */
-    public function storeInfoDrawerIsDisplayed()
-    {
-        /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
-         */
-        $helper = $this->storeLauncherHelper();
-        $helper->openDrawer('bussines_info_tile');
-        $this->assertTrue($this->controlIsVisible('fieldset', 'bussines_info_drawer_form'));
-        $this->assertTrue($this->controlIsVisible('button', 'close_drawer'));
-        $this->assertTrue($this->controlIsVisible('button', 'save_my_settings'));
-    }
-
-    /**
-     * <p>User can return to the Store Launcher page</p>
-     *
-     * @depends storeInfoDrawerIsDisplayed
-     * @test
-     * @TestlinkId TL-MAGE-6506
-     */
-    public function returnToTheStoreLauncherPage()
-    {
-        /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
-         */
-        $helper = $this->storeLauncherHelper();
-        $helper->openDrawer('bussines_info_tile');
-        $this->assertTrue($helper->closeDrawer(), 'Failed to close drawer');
-    }
-
-    /**
      * <p>User can edit Business Info information.</p>
      *
-     * @depends storeInfoDrawerIsDisplayed
      * @test
      * @TestlinkId TL-MAGE-6508
      */
@@ -126,7 +90,6 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     /**
      * <p>Business Address is displayed on tile after saving info on drawer</p>
      *
-     * @depends storeInfoDrawerIsDisplayed
      * @test
      * @TestlinkId TL-MAGE-6509
      */
@@ -163,7 +126,6 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     /**
      * <p>User can cancel editing Store Info</p>
      *
-     * @depends storeInfoDrawerIsDisplayed
      * @test
      * @TestlinkId TL-MAGE-6510
      */
@@ -187,7 +149,6 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     /**
      * <p>All Store Email Addresses contains Store Contact Email by default</p>
      *
-     * @depends storeInfoDrawerIsDisplayed
      * @test
      * @TestlinkId TL-MAGE-6527
      */
