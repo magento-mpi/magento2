@@ -11,21 +11,21 @@
 /** @var $this Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection */
 ?>
 <script id="bundle-option-selection-box-template" type="text/x-jquery-tmpl">
-    <table class="border" cellpadding="0" cellspacing="0">
+    <table class="data-table">
         <thead>
             <tr class="headings">
-                <th style="width:1px">&nbsp;</th>
-                <th style="width:1px"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default') ?></th>
-                <th class="product-name"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Name') ?></th>
-                <th class="product-sku"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('SKU') ?></th>
+                <th class="col-draggable"></th>
+                <th class="col-default"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default') ?></th>
+                <th class="col-name"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Name') ?></th>
+                <th class="col-sku"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('SKU') ?></th>
             <?php if ($this->getCanReadPrice() !== false): ?>
-                <th class="type-price price-type-box"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?></th>
-                <th class="type-type price-type-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Price Type') ?></th>
+                <th class="col-price price-type-box"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?></th>
+                <th class="col-price price-type-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Price Type') ?></th>
             <?php endif; ?>
-                <th class="type-price"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Qty') ?></th>
-                <th class="type-uqty qty-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('User Defined Qty') ?></th>
-                <th class="type-order" style="display:none"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>
-                <th class="last">&nbsp;</th>
+                <th class="col-qty"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Quanttity') ?></th>
+                <th class="col-uqty qty-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('User Defined') ?></th>
+                <th class="col-order type-order" style="display:none"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>
+                <th class="col-actions"></th>
             </tr>
         </thead>
         <tbody>
@@ -33,8 +33,8 @@
     </table>
 </script>
 <script id="bundle-option-selection-row-template" type="text/x-jquery-tmpl">
-    <td>
-        <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
+    <td class="col-draggable">
+        <span class="draggable-handle"></span>
         <input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}"
                name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][selection_id]"
                value="{{selection_id}}"/>
@@ -46,15 +46,15 @@
         <input type="hidden" name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][delete]"
                value="" class="delete"/>
     </td>
-    <td class="a-center">
+    <td class="col-default">
         <input onclick="bSelection.checkGroup(event)" type="{{option_type}}" class="default"
                name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][is_default]"
                value="1" {{checked}} />
     </td>
-    <td class="product-name">{{name}}</td>
-    <td class="product-sku">{{sku}}</td>
+    <td class="col-name">{{name}}</td>
+    <td class="col-sku">{{sku}}</td>
 <?php if ($this->getCanReadPrice() !== false): ?>
-    <td class="price-type-box">
+    <td class="col-price price-type-box">
         <input id="<?php echo $this->getFieldId() ?>_{{index}}_price_value"
                class="input-text required-entry validate-zero-or-greater" type="text"
                name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][selection_price_value]"
@@ -63,7 +63,7 @@
                disabled="disabled"
             <?php endif; ?>/>
     </td>
-    <td class="price-type-box">
+    <td class="col-price price-type-box">
         <?php echo $this->getPriceTypeSelectHtml() ?>
         <div><?php echo $this->getCheckboxScopeHtml() ?></div>
     </td>
@@ -77,21 +77,21 @@
            name="<?php echo $this->getFieldName(); ?>[{{parentIndex}}][{{index}}][default_price_scope]" value="1" />
     <?php endif; ?>
 <?php endif; ?>
-    <td>
+    <td class="col-qty">
         <input class="input-text required-entry validate-greater-zero-based-on-option validate-zero-or-greater" type="text"
                name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][selection_qty]"
                value="{{selection_qty}}" />
     </td>
-    <td class="qty-box">
+    <td class="col-uqty qty-box">
         <input type="checkbox" class="is-user-defined-qty" checked="checked" />
         <span style="display:none"><?php echo $this->getQtyTypeSelectHtml() ?></span>
     </td>
-    <td class="type-order" style="display:none">
+    <td class="col-order type-order" style="display:none">
         <input class="input-text required-entry validate-zero-or-greater" type="text"
                name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][position]"
                value="{{position}}" />
     </td>
-    <td class="last">
+    <td class="col-actions">
         <span title="Delete Row">
             <?php echo $this->getSelectionDeleteButtonHtml() ?>
         </span>
@@ -116,7 +116,7 @@ Bundle.Selection.prototype = {
     selectionSearchUrl: '<?php echo $this->getSelectionSearchUrl() ?>',
 
     initialize : function() {
-        this.templateBox = '<div class="grid tier form-list" id="' + this.idLabel + '_box_{{parentIndex}}">' + bundleTemplateBox + '</div>';
+        this.templateBox = '<div class="tier form-list" id="' + this.idLabel + '_box_{{parentIndex}}">' + bundleTemplateBox + '</div>';
 
         this.templateRow = '<tr class="selection" id="' + this.idLabel + '_row_{{index}}">' + bundleTemplateRow + '</tr>';
     },
@@ -233,7 +233,7 @@ Bundle.Selection.prototype = {
             );
         }
 
-        jQuery('#bundle_option_' + parentIndex + ' .no-products-message').closest('tr').hide();
+        jQuery('#bundle_option_' + parentIndex + ' .no-products-message').hide();
     },
 
     bindScopeCheckbox : function(){
@@ -263,10 +263,10 @@ Bundle.Selection.prototype = {
     },
 
     addBox : function (parentIndex) {
-        var div = $(bOption.idLabel + '_' + parentIndex);
+        var div = $(bOption.idLabel + '_' + parentIndex).down('.fieldset-alt');
         this.template = new Template(this.templateBox, this.templateSyntax);
         var data = {'parentIndex' : parentIndex};
-        Element.insert(div, {'bottom':this.template.evaluate(data)});
+        Element.insert(div, {'after':this.template.evaluate(data)});
     },
 
     remove : function(event) {
@@ -282,7 +282,7 @@ Bundle.Selection.prototype = {
             var selection = $$('#' + container.id + ' tr.selection');
             if (container && selection && !selection.length) {
                 container.hide();
-                jQuery(element).closest('.option-box').find('.no-products-message').closest('tr').show();
+                jQuery(element).closest('.option-box').find('.no-products-message').show();
             }
         }
     },
