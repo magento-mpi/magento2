@@ -25,11 +25,24 @@
 }
 
 #bundle_product_container .field-option-title {
-    width: 40%;
+    width: 50%;
+}
+
+#bundle_product_container .field-option-store-view {
+    width: 20%;
+}
+
+#bundle_product_container .field-option-input-type {
+    width: 20%;
+}
+
+#bundle_product_container .field-option-input-type select {
+    width: 100%;
 }
 
 #bundle_product_container .field-option-req {
     width: 105px;
+    white-space: nowrap;
 }
 
 #bundle_product_container .field-option-req .control {
