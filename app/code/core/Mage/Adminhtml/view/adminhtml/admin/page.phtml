@@ -63,15 +63,15 @@
         </section>
 
         <?php echo $this->getChildHtml('js') ?>
-        <!-- TODO: remove this popup after refactoring of "varienLoader.js" file -->
-        <div class="loading-old" id="loading-mask" style="display:none;">
-            <div class="loader" id="loading_mask_loader"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please wait...') ?></div>
-        </div>
     </div>
 
     <footer class="footer">
         <div class="footer-content"><?php echo $this->getChildHtml('footer') ?></div>
     </footer>
     <?php echo $this->getChildHtml('before_body_end') ?>
+    <!-- TODO: remove this popup after refactoring of "varienLoader.js" file -->
+    <div class="loading-old" id="loading-mask" style="display:none;">
+        <div class="loader" id="loading_mask_loader"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please wait...') ?></div>
+    </div>
 </body>
 </html>

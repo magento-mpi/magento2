@@ -123,6 +123,8 @@ label.mage-error {
     border: 1px solid #eae6e0;
     border-radius: 5px;
     margin: 0 0 8px;
+    padding: 5px 18px 2px;
+    position: relative;
 }
 
 .accordion > dt + dd {
@@ -138,7 +140,7 @@ label.mage-error {
 
 .accordion > dt + dd.open,
 .accordion .collapseable.open + input + fieldset {
-    padding: 17px 18px 18px;
+    padding: 25px 18px 18px;
     display: block;
     border-top: 0;
     border-radius: 0 0 5px 5px;
@@ -148,11 +150,12 @@ label.mage-error {
 .accordion .collapseable > a {
     color: #666;
     display: block;
-    padding: 15px 17px 10px 10px;
+    padding: 7px 0 10px 22px;
     font-family: 'CallunaSans', Arial, sans-serif;
     font-size: 18px;
     text-decoration: none;
-    margin: 0 8px;
+    position: relative;
+    cursor: pointer;
 }
 
 .accordion .collapseable.open a,
@@ -162,21 +165,25 @@ label.mage-error {
 
 .accordion > dt a:before,
 .accordion .collapseable > a:before {
-    float: left;
-    content: '\e02a'; /* arrow right icon */
-    color: #b2b0ad;
-    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 7px;
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
-    margin-right: 3px;
+    content: '\e02a'; /* arrow right icon */
+    color: #b2b0ad;
 }
 
 .accordion > dt.open a:before,
 .accordion .collapseable.open a:before {
     content: '\e02c'; /* arrow down icon */
+}
+.accordion > dt a:hover:before,
+.accordion .collapseable > a:hover:before {
+    color: #7e7e7e;
 }
 
 .accordion > dt + dd {
@@ -202,7 +209,6 @@ label.mage-error {
 }
 
 .accordion .collapseable.disabled > a {
-    padding: 14px 27px;
     cursor: not-allowed;
 }
 

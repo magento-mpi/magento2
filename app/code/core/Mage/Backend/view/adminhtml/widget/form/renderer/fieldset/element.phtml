@@ -20,6 +20,7 @@ $fieldClass .= ($elementBeforeLabel) ? ' choice' : '';
 $fieldClass .= ($addOn) ? ' with-addon' : '';
 $fieldClass .= ($element->getRequired()) ? ' required' : '';
 $fieldClass .= ($note) ? ' with-note' : '';
+$fieldClass .= (!$element->getLabelHtml()) ? ' no-label' : '';
 
 $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
     . $this->getUiId('form-field', $element->getId());

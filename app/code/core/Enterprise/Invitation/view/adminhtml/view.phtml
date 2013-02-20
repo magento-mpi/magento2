@@ -15,11 +15,8 @@
  * @see Enterprise_Invitation_Block_Adminhtml_Invitation_View
  */
 ?>
-<div class="content-header">
-    <?php echo $this->getHeaderHtml(); ?>
-    <p class="content-buttons form-buttons">
-        <?php echo $this->getButtonsHtml(); ?>
-    </p>
+<div class="page-actions">
+    <?php echo $this->getButtonsHtml(); ?>
 </div>
 <form id="invitation-elements" action="<?php echo $this->getSaveMessageUrl(); ?>" method="POST">
 <?php echo $this->getBlockHtml('formkey')?>

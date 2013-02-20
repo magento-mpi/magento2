@@ -113,7 +113,9 @@ input[type=submit].primary:visited,
 input[type=reset].primary:visited,
 button.primary:visited,
 .primary,
-.primary:visited {
+.primary:visited,
+.popup-window .add-widget,
+.popup-window .add-widget:visited {
     color: #fff;
     background: #f47b20;
 }
@@ -127,7 +129,9 @@ input[type=submit].primary:focus,
 input[type=reset].primary:focus,
 button.primary:focus,
 .primary:hover,
-.primary:focus {
+.primary:focus,
+.popup-window .add-widget:hover,
+.popup-window .add-widget:focus {
     background: #e2701a;
     color: #fff;
     text-shadow: 0 -1px 2px #955326;
@@ -142,7 +146,8 @@ input[type=submit].primary.active,
 input[type=reset].primary.active,
 button.primary.active,
 .primary:active,
-.primary.active {
+.primary.active,
+.popup-window .add-widget:active {
     box-shadow: 0 1px 5px #955326 inset;
 }
 
@@ -224,6 +229,11 @@ button.primary.disabled,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:disabled,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back.active,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:disabled,
 .notifications [class^="action-"],
 .notifications [class^="action-"]:hover,
 .notifications [class^="action-"]:active,
@@ -649,6 +659,11 @@ option.placeholder {
     width: 60%;
 }
 
+.form-inline .no-label .control {
+    margin-left: 20%;
+    width: 60%;
+}
+
 .form-inline .field-service {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -737,25 +752,9 @@ option.placeholder {
     margin: 0 0 18px;
 }
 
-.fieldset-wrapper {
-    padding-bottom: 2px;
-}
-
 .fieldset-wrapper > .fieldset-wrapper-title {
     float: none;
-    border-bottom: none;
-    margin-bottom: 0;
 }
-
-.fieldset-wrapper.opened {
-    padding-bottom: 18px;
-}
-
-.fieldset-wrapper.opened > .fieldset-wrapper-title {
-    border-bottom: 1px solid #ededed;
-    margin-bottom: 18px;
-}
-
 .fieldset-wrapper > .fieldset-wrapper-title .title,
 .fieldset > .legend span {
     font-family: 'CallunaSans', Arial, sans-serif;
@@ -766,13 +765,32 @@ option.placeholder {
     display: inline-block;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"] {
+/* Collapsable fieldset-wrapper */
+.collapsable-wrapper {
+    padding-bottom: 2px;
+}
+
+.collapsable-wrapper.opened {
+    padding-bottom: 18px;
+}
+
+.collapsable-wrapper > .fieldset-wrapper-title {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.collapsable-wrapper.opened > .fieldset-wrapper-title {
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 18px;
+}
+
+.collapsable-wrapper .fieldset-wrapper-title > .title {
     position: relative;
     padding-left: 22px;
     cursor: pointer;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"]:before {
+.collapsable-wrapper .fieldset-wrapper-title > .title:before {
     position: absolute;
     left: 0;
     top: 7px;
@@ -785,12 +803,12 @@ option.placeholder {
     color: #b2b0ad;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"]:hover:before {
-    color: #7e7e7e;
+.collapsable-wrapper.opened > .fieldset-wrapper-title > .title:before {
+    content: '\e02c'; /* arrow down icon */
 }
 
-.fieldset-wrapper.opened > .fieldset-wrapper-title > .title:before {
-    content: '\e02c'; /* arrow down icon */
+.collapsable-wrapper .fieldset-wrapper-title > .title:hover:before {
+    color: #7e7e7e;
 }
 
 /* Fieldset styles in another fieldset */
@@ -1476,7 +1494,7 @@ table tbody tr:nth-child(odd):hover th {
 .loading-mask {
     border: 1px solid #d85909;
     position: fixed;
-    z-index: 1003;
+    z-index: 1015;
     width: 200px !important;
     height: auto !important;
     background: rgba(255, 255, 255, .8);
@@ -2044,11 +2062,14 @@ table tbody tr:nth-child(odd):hover th {
     Login page
 -------------------------------------- */
 
-.page-login {
+.page-login form {
+    border: 1px solid #b5dcd6;
+    border-radius: 5px;
 }
 
 .page-login .fieldset {
-    border-color: #B5DCD6;
+    border: none;
+    margin: 0;
 }
 
 .page-login .footer-content {
@@ -2515,6 +2536,10 @@ table tbody tr:nth-child(odd):hover th {
     list-style: none;
     font-family: 'CallunaSans', Arial, sans-serif;
     font-weight: 500;
+}
+
+.side-col > .ui-tabs > .tabs:first-child > li:first-child > a {
+    border-top-left-radius: 5px;
 }
 
 .side-col .tabs > li {
@@ -3067,6 +3092,11 @@ table tbody tr:nth-child(odd):hover th {
     width: 22px;
 }
 
+.grid-actions .pager img {
+    width: auto;
+    height: auto;
+}
+
 /* TODO: refactor validation fields styles after approved design comes */
 .grid-actions .validation-advice {
     background: #f3dcd8;
@@ -3222,6 +3252,13 @@ table tbody tr:nth-child(odd):hover th {
     padding: 0;
     height: 20px;
     width: 99%;
+}
+
+.grid td select {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    padding: 4px 4px 5px;
+    text-align: left;
 }
 
 .grid .filter .range .range-line {
@@ -3525,6 +3562,48 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    Data table - alternative view
+-------------------------------------- */
+.invitation_information .data-table,
+.invitee_information .data-table, 
+.inviter_information .data-table,
+.customer-information .data-table {
+    width:100%;
+}
+.invitation_information .data-table tbody tr th,
+.invitee_information .data-table tbody tr th,
+.inviter_information .data-table tbody tr th,
+.customer-information .data-table tbody tr th {
+    font-weight: bold;
+}
+
+.invitation_information .data-table tbody tr td,
+.invitation_information .data-table tbody tr th,
+.invitee_information .data-table tbody tr td,
+.invitee_information .data-table tbody tr th,
+.inviter_information .data-table tbody tr td,
+.inviter_information .data-table tbody tr th,
+.customer-information .data-table tbody tr td,
+.customer-information .data-table tbody tr th {
+    background-color: #fff;
+    border: 0;
+    padding: 9px 10px 10px;
+    color: #666;
+    vertical-align: top;
+}
+
+.invitation_information .data-table tbody tr:nth-child(2n+1) td,
+.invitation_information .data-table tbody tr:nth-child(2n+1) th,
+.invitee_information .data-table tbody tr:nth-child(2n+1) td,
+.invitee_information .data-table tbody tr:nth-child(2n+1) th,
+.inviter_information .data-table tbody tr:nth-child(2n+1) td,
+.inviter_information .data-table tbody tr:nth-child(2n+1) th,
+.customer-information .data-table tbody tr:nth-child(2n+1) td,
+.customer-information .data-table tbody tr:nth-child(2n+1) th {
+    background-color: #fbfaf6;
+}
+
+/*
     Content alignments in tables
 -------------------------------------- */
 
@@ -3722,6 +3801,27 @@ tr.dynamic-grid input.input-text {
 .widget-layout-updates .chooser_container p img,
 .widget-layout-updates .chooser_container p input {
     vertical-align: middle;
+}
+
+/*
+    Preview window
+-------------------------------------- */
+.preview-window {
+    background: #fff;
+}
+
+.preview-window .toolbar {
+    background: #f5f2ed;
+    padding: 20px;
+}
+
+.preview-window .toolbar .switcher {
+    margin: 0;
+}
+
+.preview-window .toolbar .switcher span {
+    background: none;
+    width: auto;
 }
 
 /*
