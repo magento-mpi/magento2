@@ -9,35 +9,6 @@
  */
 ?>
 <div class="order-items order-details">
-    <?php if ($this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable('items', $this->getOrder())): ?>
-    <script type="text/javascript">
-    //<![CDATA[
-    function giftMessageToogle(giftMessageIdentifier)
-    {
-        var link = $('order-item-gift-message-link-'+giftMessageIdentifier);
-        var container = $('order-item-gift-message-'+giftMessageIdentifier);
-        var row = $('order-item-row-'+giftMessageIdentifier);
-        if(link.expanded) {
-            link.expanded = false;
-            link.removeClassName('expanded');
-            if(container.hasClassName('last')) {
-                row.addClassName('last');
-            }
-            container.hide();
-        } else {
-            link.expanded = true;
-            link.addClassName('expanded');
-            if(container.hasClassName('last')) {
-                row.removeClassName('last');
-            }
-            container.show();
-        }
-
-        return false;
-    }
-    //]]>
-    </script>
-    <?php endif; ?>
     <?php $_order = $this->getOrder() ?>
     <h2 class="table-caption"><?php echo $this->__('Items Ordered') ?>
         <?php if ($_order->getTracksCollection()->count()) : ?>
