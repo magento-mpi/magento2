@@ -255,6 +255,9 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
 
     public function testLoadNoRecord()
     {
+        if (!extension_loaded('mongo')) {
+            $this->markTestSkipped("'mongo' extension is not loaded");
+        }
         $this->_collection->expects($this->once())
             ->method('findOne')
             ->will($this->returnValue(null));
@@ -282,6 +285,9 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
 
     public function testSave()
     {
+        if (!extension_loaded('mongo')) {
+            $this->markTestSkipped("'mongo' extension is not loaded");
+        }
         $inputAssertion = $this->logicalAnd(
             $this->arrayHasKey('_id'),
             $this->arrayHasKey('data'),
