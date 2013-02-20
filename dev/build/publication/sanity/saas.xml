@@ -17,6 +17,28 @@
         <word>biz@magento.com</word>
         <word>petervarien</word>
         <word>ukpromerchant</word>
+        <!-- Removed modules -->
+        <word>Find_Feed</word>
+        <word>Phoenix</word>
+        <word>AdminGws</word>
+        <word>CatalogEvent</word>
+        <word>CatalogPermissions</word>
+        <word>GiftWrapping</word>
+        <word>ImportExport</word>
+        <word>Enterprise_License</word>
+        <word>Enterprise_Persistent</word>
+        <word>PricePermissions</word>
+        <word>PromotionPermissions</word>
+        <word>Enterprise_Reminder</word>
+        <word>Enterprise_Rma</word>
+        <word>Enterprise_Tag</word>
+        <word>TargetRule</word>
+        <word>Enterprise_Wishlist</word>
+        <word>Mage_Authorizenet</word>
+        <word>GoogleOptimizer</word>
+        <word>Mage_Ogone</word>
+        <word>Mage_PageCache</word>
+        <word>Mage_Persistent</word>
     </words>
     <whitelist>
         <item>
