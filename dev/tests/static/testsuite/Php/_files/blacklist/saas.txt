@@ -2,6 +2,5 @@
 # These items are mentioned in "extruder" configuration of publication build: dev/build/publication/extruder/saas.txt
 # This file will not be published, too
 #
-!app/code/core/Mage/Webapi/view
 app/code/core/Saas/UnitPrice/view
 app/code/core/Saas/PrintedTemplate

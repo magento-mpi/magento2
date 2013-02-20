@@ -104,24 +104,6 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
             $patterns = array_merge($patterns, file($list, FILE_IGNORE_NEW_LINES));
         }
 
-        // Remove negated paths
-        $negated = array();
-        foreach ($patterns as $key => $pattern) {
-            if (substr($pattern, 0, 1) != '!') {
-                continue;
-            }
-            $negated[] = substr($pattern, 1);
-            unset($patterns[$key]);
-        }
-
-        foreach ($negated as $negPattern) {
-            $len = strlen($negPattern);
-            $filterFunc = function ($pattern) use ($negPattern, $len) {
-                return substr($pattern, 0, $len) != $negPattern;
-            };
-            $patterns = array_filter($patterns, $filterFunc);
-        }
-
         // Expand glob patterns
         $result = array();
         foreach ($patterns as $pattern) {

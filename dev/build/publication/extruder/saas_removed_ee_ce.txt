@@ -17,14 +17,11 @@ app/code/core/Enterprise/TargetRule
 app/code/core/Enterprise/Wishlist
 app/code/core/Mage/Authorizenet
 app/code/core/Mage/GoogleOptimizer
-app/code/core/Mage/Oauth
 app/code/core/Mage/Ogone
 app/code/core/Mage/Persistent
 app/code/core/Mage/PageCache
-app/code/core/Mage/Webapi
 app/design/frontend/default/iphone/Mage_Persistent
 app/design/frontend/default/modern/Mage_Persistent
-app/design/frontend/enterprise/fixed/Mage_Oauth
 app/design/frontend/enterprise/fixed/Mage_Persistent
 app/design/frontend/enterprise/iphone_html5/Enterprise_TargetRule
 app/design/frontend/enterprise/iphone_html5/Enterprise_Wishlist
@@ -43,7 +40,6 @@ dev/tests/integration/testsuite/Enterprise/TargetRule
 dev/tests/integration/testsuite/Enterprise/Wishlist
 dev/tests/integration/testsuite/Mage/Authorizenet
 dev/tests/integration/testsuite/Mage/PageCache
-dev/tests/integration/testsuite/Mage/Webapi
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EnablerTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws
@@ -53,5 +49,4 @@ dev/tests/unit/testsuite/Enterprise/ImportExport
 dev/tests/unit/testsuite/Enterprise/PricePermissions
 dev/tests/unit/testsuite/Enterprise/Rma
 dev/tests/unit/testsuite/Enterprise/Tag
-dev/tests/unit/testsuite/Mage/Webapi
 pub/lib/mage/directpost.js
