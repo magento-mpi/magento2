@@ -364,7 +364,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $data = require dirname(__FILE__) . '/API/_files/ProductData.php';
+        $data = require dirname(__FILE__) . DS . 'API' . DS . '_files' . DS . 'ProductData.php';
 
         $productId = Magento_Test_Helper_Api::call(
             $this,
@@ -373,31 +373,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertGreaterThan(0, $productId);
-    }
-
-    /**
-     * Test setting special price.
-     *
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
-     */
-    public function testSetSpecialPrice()
-    {
-        $this->markTestSkipped('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $product->load(1);
-        $newPrice = 10.1;
-        $originalPrice = $product->getPrice();
-        $productData = array('price' => $newPrice);
-        $updatedProduct = Magento_Test_Helper_Api::call(
-            $this,
-            'catalogProductUpdate',
-            array($product->getId(), $productData)
-        );
-        $this->assertTrue($updatedProduct, 'Product was not updated');
-
-        $product->load(1);
-        $this->assertEquals($originalPrice, $product->getPrice(), 'Price was not updated');
     }
 
     /**
@@ -420,8 +395,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 
-        $originalData = $product->getData();
-
         $updatedProduct = Magento_Test_Helper_Api::call(
             $this,
             'catalogProductUpdate',
@@ -430,8 +403,13 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($updatedProduct, 'Product was not updated');
         $product->load(1);
 
-        $updatedProductData = $product->getData();
-        $this->assertNotEquals($originalData, $updatedProductData, 'Product was not updated');
-
+        $updatedProductData = array(
+            'name' => $product->getName(),
+            'description' => $product->getDescription(),
+            'short_description' =>$product->getShortDescription(),
+            'weight' => $product->getWeight(),
+            'price' =>$product->getPrice(),
+        );
+        $this->assertEquals($newData, $updatedProductData, 'Product was not updated');
     }
 }
