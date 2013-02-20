@@ -60,7 +60,7 @@
                 $('#grouped-product-popup').dialog('open');
                 return false;
             });
-            this.$grid.on('click', '.product-delete button', function (event) {
+            this.$grid.on('click', '.grouped-product-delete button', function (event) {
                 $(this).closest('tr').hide().addClass('ignore-validate');
                 widget._updatePopupGrid();
                 widget._updateHiddenField(widget._getSelectedIds());
