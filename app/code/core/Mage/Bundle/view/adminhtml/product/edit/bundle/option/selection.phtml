@@ -22,7 +22,7 @@
                 <th class="col-price price-type-box"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?></th>
                 <th class="col-price price-type-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Price Type') ?></th>
             <?php endif; ?>
-                <th class="col-qty"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Quanttity') ?></th>
+                <th class="col-qty"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Default Quantity') ?></th>
                 <th class="col-uqty qty-box"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('User Defined') ?></th>
                 <th class="col-order type-order" style="display:none"><?php echo Mage::helper('Mage_Bundle_Helper_Data')->__('Position') ?></th>
                 <th class="col-actions"></th>
@@ -34,7 +34,7 @@
 </script>
 <script id="bundle-option-selection-row-template" type="text/x-jquery-tmpl">
     <td class="col-draggable">
-        <span class="draggable-handle"></span>
+        <span data-role="grip" class="draggable-handle"></span>
         <input type="hidden" id="<?php echo $this->getFieldId() ?>_id_{{index}}"
                name="<?php echo $this->getFieldName() ?>[{{parentIndex}}][{{index}}][selection_id]"
                value="{{selection_id}}"/>

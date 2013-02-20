@@ -20,6 +20,10 @@
     padding-right: 4%;
 }
 
+#bundle_product_container .fieldset-alt > .field.no-display {
+    display: none;
+}
+
 #bundle_product_container .fieldset-alt .control {
     width: 100%;
 }
