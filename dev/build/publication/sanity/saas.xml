@@ -19,12 +19,12 @@
         <word>ukpromerchant</word>
         <!-- Removed modules -->
         <word>Find_Feed</word>
-        <word>Phoenix</word>
+        <word>Moneybookers</word>
         <word>AdminGws</word>
         <word>CatalogEvent</word>
         <word>CatalogPermissions</word>
         <word>GiftWrapping</word>
-        <word>ImportExport</word>
+        <word>Enterprise_ImportExport</word>
         <word>Enterprise_License</word>
         <word>Enterprise_Persistent</word>
         <word>PricePermissions</word>
@@ -42,7 +42,22 @@
     </words>
     <whitelist>
         <item>
+            <path>app/code/core/Enterprise/Enterprise/Model/Resource/Setup/Migration.php</path>
+        </item>
+        <item>
+            <path>app/code/core/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.0-1.11.0.1.php</path>
+        </item>
+        <item>
+            <path>app/code/core/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
+        </item>
+        <item>
             <path>dev/build</path>
+        </item>
+        <item>
+            <path>dev/tools/migration</path>
+        </item>
+        <item>
+            <path>lib/Zend</path>
         </item>
         <item>
             <word>{copyright}</word>

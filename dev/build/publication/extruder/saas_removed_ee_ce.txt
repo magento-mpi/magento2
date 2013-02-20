@@ -1,5 +1,6 @@
 # Files or directories that are part of Magento EE and Magento CE, but not part of Go Edition.
 #
+CHANGELOG.markdown
 app/code/community/Phoenix
 app/code/core/Enterprise/AdminGws
 app/code/core/Enterprise/CatalogEvent
@@ -40,6 +41,7 @@ dev/tests/integration/testsuite/Enterprise/TargetRule
 dev/tests/integration/testsuite/Enterprise/Wishlist
 dev/tests/integration/testsuite/Mage/Authorizenet
 dev/tests/integration/testsuite/Mage/PageCache
+dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EnablerTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws
