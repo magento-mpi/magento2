@@ -76,7 +76,7 @@
         <div class="buttons-set">
             <p class="required">&nbsp;</p>
             <button type="button" class="button" data-checkout='{"isGuestCheckoutAllowed":true}'><span><span><?php echo ($this->isAllowedGuestCheckout() ? $this->__('Continue') : $this->__('Register')) ?></span></span></button>
-            <span id="checkout-please-wait" class="please-wait" style="display:none;">
+            <span class="please-wait" style="display:none;">
                 <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
             </span>
         </div>

@@ -29,19 +29,29 @@
 <script type="text/javascript">
     (function($) {
         head.js(
-            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/checkout.js') ?>",
+            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/opcheckout.js') ?>",
             "<?php echo $this->getViewFileUrl('Mage_Checkout::js/accordion.js') ?>",
             function() {
-                $('#checkoutSteps').accordion({
-                    activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'
-                }).checkout({
+                $('#checkoutSteps')
+                    .accordion({
+                        activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'
+                    })
+                    .opcheckout({
                         progressUrl: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
                         reviewUrl: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
                         saveMethodUrl: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>',
                         failureUrl: '<?php echo $this->getUrl('checkout/cart') ?>',
                         ajaxLoaderPlaceButton: true,
-                        checkoutProgressContainer: '#checkout-progress-wrapper'
-                });
+                        checkoutProgressContainer: '#checkout-progress-wrapper',
+                        getAddressUrl: '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/',
+                        saveBillingUrl: '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>',
+                        saveShippingUrl: '<?php echo $this->getUrl('checkout/onepage/saveShipping') ?>',
+                        saveShippingMethodUrl: "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>",
+                        savePaymentUrl: '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>',
+                        saveOrderUrl: '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
+                        checkoutSuccessUrl: '<?php echo $this->getUrl('checkout/onepage/success') ?>',
+                        checkoutAgreements: '#checkout-agreements'
+                    });
             });
     })(jQuery);
 </script>

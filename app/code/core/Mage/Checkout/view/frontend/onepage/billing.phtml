@@ -185,17 +185,8 @@
 <script type="text/javascript">
     (function($) {
         head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
             "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
-            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/billing.js') ?>",
             function() {
-                $('#co-billing-form').billing({
-                    getAddressUrl: '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/',
-                    saveBillingUrl: '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>'
-                }).validation();
                 $('#billing\\:country_id').regionUpdater({
                     regionListId: '#billing\\:region_id',
                     regionInputId: '#billing\\:region',
