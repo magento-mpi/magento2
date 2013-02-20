@@ -48,7 +48,7 @@
             <?php if ($_item->getQuoteItem()) :?>
             <tr>
                 <td><?php echo $this->getItemHtml($_item->getQuoteItem())?></td>
-                <td><input type="text" name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->escapeHtml($_item->getQty()) ?>" size="2" class="input-text qty validate-number" /></td>
+                <td><input type="text" name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->escapeHtml($_item->getQty()) ?>" size="2" class="input-text qty" data-validate="{number: true}"/></td>
                 <td><?php if ($_item->getProduct()->getIsVirtual()): echo $this->__('Shipping selection is not applicable'); else: echo $this->getAddressesHtmlSelect($_item, $_index); endif; ?></td>
                 <td class="a-center"><a href="<?php echo $this->getItemDeleteUrl($_item) ?>" title="<?php echo $this->__('Remove Item') ?>" class="btn-remove"><img src="<?php echo $this->getViewFileUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove item')?>" /></a></td>
             </tr>
@@ -64,18 +64,14 @@
 </fieldset>
 </form>
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/multi-shipping.js') ?>", function() {
-        jQuery('#checkout_multishipping_form').multiShipping();
-    });
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-            function() {
-                $('#checkout_multishipping_form').validation();
-            }
-        )}
-    )(jQuery);
+    head.js(
+        "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+        "<?php echo $this->getViewFileUrl('Mage_Checkout::js/multi-shipping.js') ?>",
+        function() {
+            jQuery('#checkout_multishipping_form').multiShipping().validation();
+        }
+    );
 </script>
