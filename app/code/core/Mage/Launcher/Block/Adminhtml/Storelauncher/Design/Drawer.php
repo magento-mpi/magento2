@@ -91,20 +91,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
     }
 
     /**
-     * Get preview url for selected theme
-     *
-     * @param int $themeId
-     * @return string
-     */
-    public function getPreviewUrl($themeId)
-    {
-        return $this->getUrl('adminhtml/system_design_editor/launch', array(
-            'theme_id' => $themeId,
-            'mode'     => Mage_DesignEditor_Model_State::MODE_NAVIGATION
-        ));
-    }
-
-    /**
      * Retrieve Store Config
      *
      * @param string $path
@@ -143,8 +129,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
     public function getThemesBlocks()
     {
         $themesBlocks = array();
-        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Template');
-        $block->setTemplate('Mage_Launcher::page/storelauncher/design/drawer/theme_block.phtml');
+        /** @var $block Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme */
+        $block = $this->getChildBlock('theme-preview');
         foreach($this->getThemes() as $theme) {
             $themeBlock = clone $block;
             $themeBlock->setTheme($theme);

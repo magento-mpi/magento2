@@ -66,10 +66,6 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler extends Mage_Launcher
         if (empty($groups['design']['theme']['fields']['theme_id']['value'])) {
             throw new Mage_Launcher_Exception('Theme is required.');
         }
-        if (empty($groups['general']['store_information']['fields']['name']['value'])) {
-            throw new Mage_Launcher_Exception('Store name is required.');
-        }
-
         return $groups;
     }
 }

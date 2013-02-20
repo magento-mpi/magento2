@@ -51,7 +51,6 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
-<<<<<<< HEAD
 
             <!--Product Tile-->
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
@@ -64,11 +63,9 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/tree-suggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
-=======
+
             <!--Design Tile-->
             <action method="addJs"><file>Mage_Launcher::page/design_widget.js</file></action>
-
->>>>>>> Implemented MAGETWO-7385: Create Theme Page
         </reference>
         <reference name="js">
             <block type="Mage_Backend_Block_Template" template="system/config/js.phtml"/>
@@ -104,7 +101,9 @@
     </launcher_storelauncher_payments_drawer_load>
 
     <launcher_storelauncher_design_drawer_load>
-        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer" name="store_design.drawer"  template="page/storelauncher/design/drawer.phtml"/>
+        <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer" name="store_design.drawer"  template="page/storelauncher/design/drawer.phtml">
+            <block type="Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme" name="theme-preview" template="page/storelauncher/design/drawer/theme.phtml" />
+        </block>
     </launcher_storelauncher_design_drawer_load>
 
     <launcher_storelauncher_design_drawer_save>

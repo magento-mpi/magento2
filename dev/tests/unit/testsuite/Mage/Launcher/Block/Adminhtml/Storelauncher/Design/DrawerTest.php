@@ -25,12 +25,18 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        $layout = $this->getMock('Mage_Core_Model_Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Mage_Core_Model_Layout', array('getBlock', 'getChildName'), array(), '', false);
 
         $layout->expects($this->any())
-            ->method('createBlock')
+            ->method('getChildName')
+            ->with(null, 'theme-preview')
+            ->will($this->returnValue('Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme'));
+        $layout->expects($this->any())
+            ->method('getBlock')
+            ->with('Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme')
             ->will($this->returnValue(
-                $this->getMock('Mage_Backend_Block_Template', array('setTemplate'), array(), '', false)
+                $this->getMock('Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
+                    array(), array(), '', false)
             )
         );
 
@@ -51,14 +57,11 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer',
             $arguments
         );
-
-        $this->_configData = array();
     }
 
     public function tearDown()
     {
         unset($this->_drawerBlock);
-        unset($this->_configData);
     }
 
     public function testGetThemesBlocks()
@@ -75,7 +78,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     {
         $themes = array();
         for ($iterationIndex = 0; $iterationIndex < 5; $iterationIndex++) {
-            $themes[] = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+            $themes[] = $this->getMock('Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
+                array(), array(), '', false);
         }
         return $themes;
     }
