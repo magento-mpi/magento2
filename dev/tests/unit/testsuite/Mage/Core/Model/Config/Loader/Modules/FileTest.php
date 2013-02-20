@@ -106,6 +106,6 @@ class Mage_Core_Model_Config_Loader_Modules_FileTest extends PHPUnit_Framework_T
         $type = 'etc';
         $path = realpath(__DIR__. '/../../_files/testdir/etc');
         $this->_model->setModuleDir($moduleName, $type, $path);
-        $this->assertEquals($path, $this->_model->getModuleDir($this->_modulesConfigMock, $type, $moduleName));
+        $this->assertEquals($path, $this->_model->getModuleDir($type, $moduleName));
     }
 }

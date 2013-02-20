@@ -69,7 +69,7 @@ class Mage_Core_Model_Config_Modules_Reader
      */
     public function getModuleDir($type, $moduleName)
     {
-        return $this->_fileReader->getModuleDir($this->_config, $type, $moduleName);
+        return $this->_fileReader->getModuleDir($type, $moduleName);
     }
 
     /**

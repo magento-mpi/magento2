@@ -69,16 +69,14 @@ class Mage_Core_Model_Config_Loader_Modules_File
         $mergeModel = null === $mergeModel ? $mergeModel = $this->_prototypeFactory->create('<config/>'): $mergeModel;
 
         $modules = $modulesConfig->getNode('modules')->children();
-        /** @var $module Varien_Simplexml_Element */
+        /** @var $module Mage_Core_Model_Config_Element */
         foreach ($modules as $modName => $module) {
             if ($module->is('active')) {
                 if (!is_array($fileName)) {
                     $fileName = array($fileName);
                 }
                 foreach ($fileName as $configFile) {
-                    $this->_loadFileConfig(
-                        $configFile, $configCache, $modName, $mergeToObject, $modulesConfig, $mergeModel
-                    );
+                    $this->_loadFileConfig($configFile, $configCache, $modName, $mergeToObject, $mergeModel);
                 }
             }
         }
@@ -92,12 +90,10 @@ class Mage_Core_Model_Config_Loader_Modules_File
      * @param array $configCache
      * @param string $modName
      * @param Mage_Core_Model_Config_Base $mergeToObject
-     * @param Mage_Core_Model_ConfigInterface $modulesConfig
      * @param Mage_Core_Model_Config_Base $mergeModel
      */
-    public function _loadFileConfig(
-        $configFile, $configCache, $modName, $mergeToObject, Mage_Core_Model_ConfigInterface $modulesConfig, $mergeModel
-    ) {
+    public function _loadFileConfig($configFile, $configCache, $modName, $mergeToObject, $mergeModel)
+    {
         if ($configFile == 'config.xml' && isset($configCache[$modName])) {
             $mergeToObject->extend($configCache[$modName], true);
             //Prevent overriding <active> node of module if it was redefined in etc/modules
@@ -108,7 +104,7 @@ class Mage_Core_Model_Config_Loader_Modules_File
                 true
             );
         } else {
-            $configFilePath = $this->getModuleDir($modulesConfig, 'etc', $modName) . DS . $configFile;
+            $configFilePath = $this->getModuleDir('etc', $modName) . DS . $configFile;
             if ($mergeModel->loadFile($configFilePath)) {
                 $mergeToObject->extend($mergeModel, true);
             }
@@ -126,11 +122,12 @@ class Mage_Core_Model_Config_Loader_Modules_File
     {
         $result = array();
         $modules = $modulesConfig->getNode('modules')->children();
+        /** @var $module Mage_Core_Model_Config_Element */
         foreach ($modules as $moduleName => $module) {
             if ((!$module->is('active'))) {
                 continue;
             }
-            $file = $this->getModuleDir($modulesConfig, 'etc', $moduleName) . DIRECTORY_SEPARATOR . $filename;
+            $file = $this->getModuleDir('etc', $moduleName) . DIRECTORY_SEPARATOR . $filename;
             if (file_exists($file)) {
                 $result[] = $file;
             }
@@ -141,12 +138,11 @@ class Mage_Core_Model_Config_Loader_Modules_File
     /**
      * Get module directory by directory type
      *
-     * @param Mage_Core_Model_ConfigInterface $modulesConfig
      * @param string $type
      * @param string $moduleName
      * @return string
      */
-    public function getModuleDir(Mage_Core_Model_ConfigInterface $modulesConfig, $type, $moduleName)
+    public function getModuleDir($type, $moduleName)
     {
         if (isset($this->_moduleDirs[$moduleName][$type])) {
             return $this->_moduleDirs[$moduleName][$type];
