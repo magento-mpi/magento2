@@ -14,6 +14,6 @@
 -->
 <configuration>
     <cache>
-        <driver>memory</driver>
+        <location>{{pdepend_cache_path}}</location>
     </cache>
 </configuration>

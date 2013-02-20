@@ -484,7 +484,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      * Get list of cache tags applied to model object.
      * Return false if cache tags are not supported by model
      *
-     * @return array|false
+     * @return array|bool
      */
     public function getCacheTags()
     {
@@ -558,7 +558,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Delete object from database
      *
-     * @return Mage_ Core_Model_Abstract
+     * @return Mage_Core_Model_Abstract
      * @throws Exception
      */
     public function delete()

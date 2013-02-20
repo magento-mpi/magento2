@@ -529,7 +529,6 @@
                     <mage_index_block_adminhtml_process_grid>removeProcessListButtons</mage_index_block_adminhtml_process_grid>
                     <mage_index_block_adminhtml_process_edit>removeProcessEditButtons</mage_index_block_adminhtml_process_edit>
                     <enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>
-                    <enterprise_giftWrapping_block_adminhtml_giftwrapping_grid>removeGiftWrappingForbiddenMassactions</enterprise_giftWrapping_block_adminhtml_giftwrapping_grid>
                     <enterprise_cms_block_adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms_block_adminhtml_cms_page_revision_edit>
                     <enterprise_cms_block_adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms_block_adminhtml_cms_page_preview_buttons>
                     <enterprise_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountAddButton</enterprise_giftCardAccount_block_adminhtml_giftcardaccount>

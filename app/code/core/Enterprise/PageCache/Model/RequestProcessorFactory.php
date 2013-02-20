@@ -1,14 +1,13 @@
 <?php
 /**
- * FPC processor factory
+ * FPC request processor factory
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Enterprise_PageCache_Model_Cache_ProcessorFactory
+class Enterprise_PageCache_Model_RequestProcessorFactory
 {
     /**
      * @var Magento_ObjectManager
@@ -24,20 +23,20 @@ class Enterprise_PageCache_Model_Cache_ProcessorFactory
     }
 
     /**
-     * Get processor instance
+     * Get request processor instance
      *
      * @param string $className
      * @param array $arguments
-     * @return Enterprise_PageCache_Model_Cache_ProcessorInterface
+     * @return Enterprise_PageCache_Model_RequestProcessorInterface
      * @throws LogicException
      */
     public function create($className, array $arguments = array())
     {
         $processor = $this->_objectManager->create($className, $arguments);
 
-        if (false === ($processor instanceof Enterprise_PageCache_Model_Cache_ProcessorInterface)) {
+        if (false === ($processor instanceof Enterprise_PageCache_Model_RequestProcessorInterface)) {
             throw new LogicException(
-                $className . ' doesn\'t implement Enterprise_PageCache_Model_Cache_ProcessorInterface'
+                $className . ' doesn\'t implement Enterprise_PageCache_Model_RequestProcessorInterface'
             );
         }
 

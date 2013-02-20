@@ -49,4 +49,10 @@ return array(
      array('_registerProductsView', 'Enterprise_PageCache_Model_Container_Viewedproducts'),
      array('_getForeignKeyName', 'Varien_Db_Adapter_Oracle'),
      array('getCacheInstance', 'Enterprise_PageCache_Model_Cache'),
+     array('refreshRequestIds', 'Enterprise_PageCache_Model_Processor',
+         'Enterprise_PageCache_Model_Request_Identifier::refreshRequestIds'
+     ),
+    array('prepareCacheId', 'Enterprise_PageCache_Model_Processor',
+         'Enterprise_PageCache_Model_Request_Identifier::prepareCacheId'
+     ),
 );
