@@ -116,11 +116,15 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
                     tinyMCE.execCommand('mceRemoveControl', false, 'page_content');
                 }
             }
-            jQuery(function() {
-                jQuery(\"#" . $tabsBlock->getId() ."\")
-                    .tabs('option', 'tabsBlockPrefix', '" . $tabsBlockPrefix . "')
-                    .tabs('option', 'tabIdArgument', 'active_tab');
-            });
+            (function($) {
+                'use strict';
+
+                head.js('{$this->getViewFileUrl('mage/backend/tabs.js')}', function() {
+                    $(\"#{$tabsBlock->getId()}\")
+                        .tabs('option', 'tabsBlockPrefix', '" . $tabsBlockPrefix . "')
+                        .tabs('option', 'tabIdArgument', 'active_tab');
+                });
+            })(jQuery);
         ";
         return parent::_prepareLayout();
     }
