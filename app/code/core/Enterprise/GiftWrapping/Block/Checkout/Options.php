@@ -47,10 +47,11 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Mage_Core_Block_Tem
     {
         $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
-            'id'    => 'giftwrapping-${_id_}-${_blockId_}',
+            'id'    => 'giftwrapping-${_id_}',
             'class' => 'select'
         ))
             ->setName('giftwrapping[${_id_}][design]')
+            ->setExtraParams('data-addr-id="${_blockId_}"')
             ->setOptions($this->getDesignCollection()->toOptionArray());
         return $select->getHtml();
     }

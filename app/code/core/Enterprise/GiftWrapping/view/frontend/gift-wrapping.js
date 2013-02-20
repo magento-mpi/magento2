@@ -31,18 +31,18 @@
             addPrintedCardPrefix: "add-printed-card-",
             noDisplayClass: "no-display",
             giftWrappingSelectPrefix: "giftwrapping-",
-            imageBoxSelector: '#image-box-',
+            imageBoxSelectorPrefix: '#image-box-',
             orderContainerPrefix: 'options-order-container',
             optionsItemContainerPrefix: 'options-items-container',
             extraOptionsContainerPrefix: 'extra-options-container',
-            addGiftOptionSelPrefix: '#add-gift-options-',
-            giftOptionsOrderSelPrefix: '#add-gift-options-for-order-',
-            giftItemsOrderSelPrefix: '#add-gift-options-for-items-',
+            addGiftOptionSelectorPrefix: '#add-gift-options-',
+            giftOptionsOrderSelectorPrefix: '#add-gift-options-for-order-',
+            giftItemsOrderSelectorPrefix: '#add-gift-options-for-items-',
             //Price related selectors
-            priceInclTaxSel: '#price-including-tax-',
-            priceExclTaxSel: '#price-excluding-tax-',
-            regPriceSel: '#regular-price-',
-            priceOptionSel: "#price-options-box-"
+            priceInclTaxSelectorPrefix: '#price-including-tax-',
+            priceExclTaxSelectorPrefix: '#price-excluding-tax-',
+            regPriceSelectorPrefix: '#regular-price-',
+            priceOptionSelectorPrefix: "#price-options-box-"
         },
 
         /**
@@ -64,11 +64,11 @@
          */
         _ready: function() {
             if (this.options.allowForOrder) {
-                this.processGiftOptions(this);
+                this.processGiftOptions();
             }
-            this.processGiftOptionItems(this);
+            this.processGiftOptionItems();
             if (this.options.allowGiftReceipt || this.options.allowPrintedCard) {
-                this.processGiftReceiptCardOptions(this);
+                this.processGiftReceiptCardOptions();
             }
         },
 
@@ -77,13 +77,14 @@
          * @public
          * @param {Object} instance - widget instance
          */
-        processGiftOptions: function(instance) {
-            var data = {};
+        processGiftOptions: function() {
+            var data = {},
+                instance = this;
             $('.' + instance.options.orderContainerPrefix).each(function() {
                 data.id = this.id.replace(instance.options.orderContainerPrefix + '-', '');
                 data.addrId = false;
                 instance.insertBlock(this, data);
-                $(instance.options.addGiftOptionSelPrefix + data.id + ', ' + instance.options.giftOptionsOrderSelPrefix + data.id)
+                $(instance.options.addGiftOptionSelectorPrefix + data.id + ', ' + instance.options.giftOptionsOrderSelectorPrefix + data.id)
                     .removeClass(instance.options.noDisplayClass);
             });
         },
@@ -94,7 +95,8 @@
          * @param {Object} instance - widget instance
          */
         processGiftOptionItems: function(instance) {
-            var data = {};
+            var data = {},
+                instance = this;
             $('.' + instance.options.optionsItemContainerPrefix).each(function() {
                 var idArr = this.id.replace(instance.options.optionsItemContainerPrefix + '-', '').split('-');
                 var id = idArr[1];
@@ -102,7 +104,7 @@
                     data.id = id;
                     data.addrId = idArr[0];
                     instance.insertBlock(this, data);
-                    $(instance.options.addGiftOptionSelPrefix + idArr[0] + ', ' + instance.options.giftItemsOrderSelPrefix + idArr[0])
+                    $(instance.options.addGiftOptionSelectorPrefix + idArr[0] + ', ' + instance.options.giftItemsOrderSelectorPrefix + idArr[0])
                         .removeClass(instance.options.noDisplayClass);
                 }
             });
@@ -114,6 +116,7 @@
          * @param {Object} instance - widget instance
          */
         processGiftReceiptCardOptions: function(instance) {
+            var instance = this;
             $('.' + instance.options.extraOptionsContainerPrefix).each(function() {
                 var id = this.id.replace(instance.options.extraOptionsContainerPrefix + '-', ''),
                     cardInfo = instance.options.cardInfo[id];
@@ -123,7 +126,7 @@
                     cardInfo = {"id": id};
                 }
                 instance.insertOptions(this, cardInfo);
-                $(instance.options.addGiftOptionSelPrefix + id).removeClass(instance.options.noDisplayClass);
+                $(instance.options.addGiftOptionSelectorPrefix + id).removeClass(instance.options.noDisplayClass);
             });
         },
 
@@ -134,7 +137,9 @@
          * @param {Object} data - substitution data
          */
         insertBlock: function(element, data) {
-            this._processTemplate(this.options.templateWrapping,element,[{_id_: data.id, _blockId_: data.addrId}]);
+            this._processTemplate(this.options.templateWrapping, element, [
+                {_id_: data.id, _blockId_: data.addrId}
+            ]);
         },
 
         /**
@@ -144,7 +149,9 @@
          * @param {Object} data - substitution data
          */
         insertOptions: function(element, data) {
-            this._processTemplate(this.options.templateOptions,element,[{_id_: data.id, _price_: data.price}]);
+            this._processTemplate(this.options.templateOptions, element, [
+                {_id_: data.id, _price_: data.price}
+            ]);
         },
 
         /**
@@ -154,9 +161,9 @@
          * @param {Object} element - container
          * @param {Object} data - template data
          */
-        _processTemplate: function(templateSelector,element, data) {
+        _processTemplate: function(templateSelector, element, data) {
             var $tmpl = $(templateSelector)
-            if($tmpl.length && element && data) {
+            if ($tmpl.length && element && data) {
                 $tmpl.tmpl(data).appendTo(element);
             }
         },
@@ -168,14 +175,15 @@
          */
         setWrapping: function(e) {
             var instance = e.data,
-                idArr = this.id.replace(instance.options.giftWrappingSelectPrefix, '').split('-'),
-                $img = $(instance.options.imageBoxSelector + idArr[0]),
+                designBlockId = this.id.replace(instance.options.giftWrappingSelectPrefix, ''),
+                blockId = $(this).data("addrId"),
+                $img = $(instance.options.imageBoxSelectorPrefix + designBlockId),
                 designInfo = instance.options.designsInfo[this.value];
 
             //If a design is selected in the drop down, render it with price
             if (this.value) {
                 instance.setDesign(designInfo.path, $img)
-                    .setPrice(instance.options.itemsInfo[idArr[0]], designInfo, idArr[0], idArr[1]);
+                    .setPrice(instance.options.itemsInfo[designBlockId], designInfo, designBlockId, blockId);
             }
             //Based on design selection toggle design layer display
             $img.parent().toggleClass(instance.options.noDisplayClass, !this.value);
@@ -209,9 +217,9 @@
                 priceExclTax = itemsInfo && itemsInfo.price_excl_tax ? itemsInfo.price_excl_tax : designInfo[blockId].price_excl_tax;
 
             if (price || (priceInclTax && priceExclTax)) {
-                $(this.options.priceInclTaxSel + designBlockId).text(priceInclTax);
-                $(this.options.priceExclTaxSel + designBlockId).text(priceExclTax);
-                $(this.options.regPriceSel + designBlockId).text(price);
+                $(this.options.priceInclTaxSelectorPrefix + designBlockId).text(priceInclTax);
+                $(this.options.priceExclTaxSelectorPrefix + designBlockId).text(priceExclTax);
+                $(this.options.regPriceSelectorPrefix + designBlockId).text(price);
             }
             return this;
         },
@@ -222,7 +230,7 @@
          * @param {Object} e - event object
          */
         showCardPrice: function(e) {
-            $(e.data.priceOptionSel + this.id.replace(e.data.addPrintedCardPrefix, ''))
+            $(e.data.priceOptionSelectorPrefix + this.id.replace(e.data.addPrintedCardPrefix, ''))
                 .toggleClass(e.data.noDisplayClass, !this.checked);
         }
 
