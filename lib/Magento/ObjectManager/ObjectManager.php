@@ -1,5 +1,12 @@
 <?php
 /**
+ * Magento object manager. Responsible for instantiating objects taking itno account:
+ * - constructor arguments (using configured, and provided parameters)
+ * - class shareability
+ * - interface preferences
+ *
+ * Intentionally contains multiple concerns for optimum performance
+ *
  * {license_notice}
  *
  * @copyright {copyright}
@@ -41,11 +48,11 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function __construct(
         Magento_ObjectManager_Definition $definitions = null,
-        Magento_ObjectManager_Config $configuration = null
+        array $configuration = array()
     ) {
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
-        $this->_configuration = $configuration ?: new Magento_ObjectManager_Config();
         $this->_sharedInstances['Magento_ObjectManager'] = $this;
+        $this->_configuration = $configuration;
     }
 
     /**
@@ -57,10 +64,12 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @throws LogicException
      * @throws BadMethodCallException
      */
-    protected function _resolveArguments($className, array $parameters, array $callTimeArguments = array())
+    protected function _resolveArguments($className, array $parameters, array $arguments = array())
     {
         $resolvedArguments = array();
-        $arguments = array_replace($this->_configuration->getArguments($className), $callTimeArguments);
+        if (isset($this->_configuration[$className]['parameters'])) {
+            $arguments = array_replace($this->_configuration[$className]['parameters'], $arguments);
+        }
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
             $argument = null;
@@ -85,7 +94,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                 }
 
                 $this->_creationStack[$className] = 1;
-                $argument = $this->_configuration->isShared($argument) ?
+                $argument = $this->_isShared($argument) ?
                     $this->get($argument) :
                     $this->create($argument);
                 unset($this->_creationStack[$className]);
@@ -93,6 +102,36 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
             $resolvedArguments[] = $argument;
         }
         return $resolvedArguments;
+    }
+
+    /**
+     * @return string
+     * @throws LogicException
+     */
+    protected function _resolveClassName($className)
+    {
+        $preferencePath = array();
+        while (isset($this->_configuration['preferences'][$className])) {
+            if (isset($preferencePath[$this->_configuration['preferences'][$className]])) {
+                throw new LogicException(
+                    'Circular type preference: ' . $className . ' relates to '
+                        . $this->_configuration['preferences'][$className] . ' and viceversa.'
+                );
+            }
+            $className = $this->_configuration['preferences'][$className];
+            $preferencePath[$className] = 1;
+        }
+        return $className;
+    }
+
+    /**
+     * @param $className
+     * @return bool
+     */
+    protected function _isShared($className)
+    {
+        return !(isset($this->_configuration[$className]['shared'])
+            && $this->_configuration[$className]['shared'] == false);
     }
 
     /**
@@ -176,7 +215,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function create($className, array $arguments = array())
     {
-        return $this->_create($this->_configuration->resolveClassName($className), $arguments);
+        return $this->_create($this->_resolveClassName($className), $arguments);
     }
 
     /**
@@ -187,7 +226,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function get($className)
     {
-        $resolvedName = $this->_configuration->resolveClassName($className);
+        $resolvedName = $this->_resolveClassName($className);
         if (!isset($this->_sharedInstances[$resolvedName])) {
             $this->_sharedInstances[$resolvedName] = $this->_create($resolvedName);
         }
@@ -201,6 +240,6 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function configure(array $configuration)
     {
-        $this->_configuration->extend($configuration);
+        $this->_configuration = array_replace_recursive($this->_configuration, $configuration);
     }
 }

@@ -69,7 +69,7 @@ class Magento_Autoload_IncludePath
     {
         $file = self::getFile($class);
         if ($file) {
-            include $file;
+            include_once $file;
         }
     }
 }

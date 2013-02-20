@@ -30,7 +30,6 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
         Magento_Di_Generator_Class $classGenerator = null
     ) {
         parent::__construct($strategy, $explicitClasses);
-        $this->_classGenerator = $classGenerator ?: new Magento_Di_Generator_Class();
     }
 
     /**
@@ -73,16 +72,6 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
     }
 
     /**
-     * @param string $class
-     * @return array|string
-     */
-    public function getInstantiator($class)
-    {
-        $this->_classGenerator->generateForConstructor($class);
-        return parent::getInstantiator($class);
-    }
-
-    /**
      * Check whether method has parameters
      *
      * @param string $class
@@ -95,6 +84,8 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
             $this->processClass($class);
         }
 
-        return $this->classes[$class]['parameters'][$method];
+        return isset($this->classes[$class]['parameters'][$method]) ?
+            $this->classes[$class]['parameters'][$method] :
+            null;
     }
 }

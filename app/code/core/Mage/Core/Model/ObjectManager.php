@@ -26,7 +26,7 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
         } else {
             $definitions = new Magento_ObjectManager_Definition_Runtime();
         }
-        parent::__construct($definitions, new Magento_ObjectManager_Config());
+        parent::__construct($definitions);
         Magento_Profiler::stop('definitions');
         Mage::setObjectManager($this);
         Magento_Profiler::start('configuration');
