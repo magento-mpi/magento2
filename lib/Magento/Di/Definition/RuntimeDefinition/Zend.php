@@ -89,13 +89,12 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
      * @param string $method
      * @return bool
      */
-    public function hasMethodParameters($class, $method)
+    public function getMethodParameters($class, $method)
     {
         if (!array_key_exists($class, $this->classes)) {
             $this->processClass($class);
         }
-        return parent::hasMethodParameters($class, $method);
+
+        return $this->classes[$class]['parameters'][$method];
     }
-
-
 }

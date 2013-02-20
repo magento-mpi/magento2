@@ -25,17 +25,6 @@ class Magento_ObjectManager_Definition_Runtime implements Magento_ObjectManager_
     }
 
     /**
-     * Check whether class has parameters
-     *
-     * @param string $className
-     * @return bool
-     */
-    public function hasParameters($className)
-    {
-        return $this->_reader->hasMethodParameters($className, '__construct');
-    }
-
-    /**
      * Get list of method parameters
      *
      * Retrieve an ordered list of constructor parameters.

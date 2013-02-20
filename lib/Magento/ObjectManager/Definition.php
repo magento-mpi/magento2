@@ -10,14 +10,6 @@
 interface Magento_ObjectManager_Definition
 {
     /**
-     * Check whether class has parameters
-     *
-     * @param string $className
-     * @return bool
-     */
-    public function hasParameters($className);
-
-    /**
      * Get list of method parameters
      *
      * Retrieve an ordered list of constructor parameters.

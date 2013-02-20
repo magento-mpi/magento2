@@ -25,17 +25,6 @@ class Magento_ObjectManager_Definition_Compiled implements Magento_ObjectManager
     }
 
     /**
-     * Check whether method has parameters
-     *
-     * @param string $className
-     * @return bool
-     */
-    public function hasParameters($className)
-    {
-        return $this->_definitions[$className] !== null;
-    }
-
-    /**
      * Get list of method parameters
      *
      * Retrieve an ordered list of constructor parameters.
