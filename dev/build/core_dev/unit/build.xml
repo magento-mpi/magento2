@@ -58,6 +58,9 @@
         </antcall>
     </target>
 
+    <target name="unit_tests_saas" depends="_go_edition" description="Unit tests for Go">
+        <antcall target="_unit_tests_all"/>
+    </target>
     <target name="unit_tests_ee" description="Unit tests for EE">
         <antcall target="_unit_tests_all"/>
     </target>
