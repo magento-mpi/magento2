@@ -1,3 +1,20 @@
+2.0.0.0-dev43
+=============
+* Implemented functional limitation that restricts max number of catalog products in the system
+* Implemented cache backend library model for MongoDB
+* Converted some more grids in backend from PHP implementation to declarations in layout
+* Removed `app/etc/removed local.xml.additional` sample file
+* Refactored `Mage_Core_Model_EntryPointAbstract` and its descendants to provide public abstract interface instead of protected
+* Bugfixes:
+  * Fixed JavaScript and markup issues on product editing page in backend that caused erroneous sending of AJAX-queries and not rendering validation messages
+  * Fixed issues of application initialization in cases when `var` directory doesn't have writable permissions
+    * Writable directories are validated at an early stage of initialization
+    * Introduced `Magento_BootstrapException` representing an error during the application bootstrap
+    * Implemented presenting of a plain exception text to an end-user for bootstrap exceptions (there is no other way to handle those exceptions, application is not available yet)
+    * Implemented filesystem interaction of `Mage_Core_Model_Dir` through `Magento_Filesystem`
+    * Introduced `Magento_Test_Helper_FileSystem` to reuse mocking of `Mage_Core_Model_Dir` in unit tests
+  * Fixed sorting issues in test `Magento_Filesystem_Adapter_LocalTest::testGetNestedKeys()` that caused occasional failures
+
 2.0.0.0-dev42
 =============
 * Application initialization improvements:
