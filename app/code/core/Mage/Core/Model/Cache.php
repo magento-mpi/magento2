@@ -149,6 +149,12 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
             true, true, true
         );
 
+        //Cache Backend decoration if frontend is Varien_Cache_Core
+        if (is_callable(array($this->_frontend, 'decorateBackend'))) {
+//            method_exists($this->_frontend, 'decorateBackend')) {
+            $this->_frontend->decorateBackend();
+        }
+
         // stop profiling
         Magento_Profiler::stop('cache_frontend_create');
 

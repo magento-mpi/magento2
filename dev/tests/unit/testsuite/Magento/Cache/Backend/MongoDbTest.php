@@ -227,6 +227,10 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
      */
     public function testLoad($doNotTestValidity)
     {
+        if (!extension_loaded('mongo')) {
+            $this->markTestSkipped("'mongo' extension is not loaded");
+        }
+
         $cacheId = 'test_id';
         $expected = 'test_data';
         $validityCondition = $this->arrayHasKey('$or');

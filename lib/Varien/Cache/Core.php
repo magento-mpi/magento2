@@ -16,11 +16,6 @@ class Varien_Cache_Core extends Zend_Cache_Core
     const COMPRESSION_THRESHOLD = 512;
 
     /**
-     * Any string longer than threshold to be compressed during saving
-     */
-    const COMPRESSION_PREFIX = 'CACHE_COMPRESSION';
-
-    /**
      * Available options
      *
      * ====> (bool) compression :
@@ -36,17 +31,9 @@ class Varien_Cache_Core extends Zend_Cache_Core
     );
 
     /**
-     * Get is compression allowed (due to possible values in xml configuration)
-     *
-     * @return bool
+     * @var null|Varien_Cache_Backend_Decorator
      */
-    protected function _isCompressionAllowed()
-    {
-        return $this->_specificOptions['compression'] === true
-            || $this->_specificOptions['compression'] === 'true'
-            || $this->_specificOptions['compression'] === '1'
-            || $this->_specificOptions['compression'] === 1;
-    }
+    protected $_backendDecorator;
 
     /**
      * Make and return a cache id
@@ -97,104 +84,7 @@ class Varien_Cache_Core extends Zend_Cache_Core
     public function save($data, $cacheId = null, $tags = array(), $specificLifetime = false, $priority = 8)
     {
         $tags = $this->_tags($tags);
-
-        $revertSerialization = false;
-
-        //compression
-        if ($this->_isCompressionAllowed()) {
-            if ($this->_options['automatic_serialization']) {
-                $data = serialize($data);
-                //to prevent serialization in parent class
-                $this->setOption('automatic_serialization', false);
-                $revertSerialization = true;
-            }
-
-            if (is_string($data) && $this->_isCompressionNeeded($data)) {
-                $data = self::_compressData($data);
-            }
-        }
-        $save = parent::save($data, $cacheId, $tags, $specificLifetime, $priority);
-        if ($revertSerialization) {
-            $this->setOption('automatic_serialization', true);
-        }
-        return $save;
-    }
-
-    /**
-     * Compress data and add specific prefix
-     *
-     * @param string $data
-     * @return string
-     */
-    protected static function _compressData($data)
-    {
-        return self::COMPRESSION_PREFIX . gzcompress($data);
-    }
-
-    /**
-     * Get whether compression is needed
-     *
-     * @param string $data
-     * @return bool
-     */
-    protected function _isCompressionNeeded($data)
-    {
-        return (strlen($data) > (int)$this->_specificOptions['compression_threshold']);
-    }
-
-    /**
-     * Test if a cache is available for the given id and (if yes) return it (false else)
-     *
-     * @param  string  $cacheId                Cache id
-     * @param  boolean $doNotTestCache If set to true, the cache validity won't be tested
-     * @param  boolean $doNotUnserialize       Do not serialize (even if automatic_serialization is true)
-     *                                         => for internal use
-     * @return mixed|false Cached data
-     */
-    public function load($cacheId, $doNotTestCache = false, $doNotUnserialize = false)
-    {
-        //decompression
-        if ($this->_isCompressionAllowed()) {
-            $data = parent::load($cacheId, $doNotTestCache, true);
-
-            if ($data===false) {
-                // no cache available
-                return false;
-            }
-            if ($this->_isDecompressionNeeded($data)) {
-                $data = self::_decompressData($data);
-            }
-
-            if ((!$doNotUnserialize) && $this->_options['automatic_serialization']) {
-                // we need to unserialize before sending the result
-                return unserialize($data);
-            }
-        } else {
-            return parent::load($cacheId, $doNotTestCache, $doNotUnserialize);
-        }
-        return $data;
-    }
-
-    /**
-     * Remove special prefix and decompress data
-     *
-     * @param string $data
-     * @return string
-     */
-    protected static function _decompressData($data)
-    {
-        return gzuncompress(substr($data, strlen(self::COMPRESSION_PREFIX)));
-    }
-
-    /**
-     * Get whether decompression is needed
-     *
-     * @param string $data
-     * @return bool
-     */
-    protected function _isDecompressionNeeded($data)
-    {
-        return (strpos($data, self::COMPRESSION_PREFIX) === 0);
+        return parent::save($data, $cacheId, $tags, $specificLifetime, $priority);
     }
 
     /**
@@ -247,5 +137,28 @@ class Varien_Cache_Core extends Zend_Cache_Core
     {
         $tags = $this->_tags($tags);
         return parent::getIdsNotMatchingTags($tags);
+    }
+
+    /**
+     * Decorate cache backend with additional functionality
+     *
+     * @return void
+     * @throws Varien_Exception
+     */
+    public function decorateBackend()
+    {
+        if (!($this->getBackend() instanceof Zend_Cache_Backend)) {
+            throw new Varien_Exception('Cache Backend class should be defined');
+        }
+        //For now decorator is needed only for compressing data
+        if ((bool)$this->_specificOptions['compression']) {
+            // To provide idempotence. If we would need recursive decorating, it should be removed
+            if (is_null($this->_backendDecorator)) {
+                $backend = $this->getBackend();
+                $this->_backendDecorator = new Varien_Cache_Backend_Decorator($this->_specificOptions);
+                $this->_backend = $this->_backendDecorator;
+                $this->getBackend()->setConcreteBackend($backend);
+            }
+        }
     }
 }
