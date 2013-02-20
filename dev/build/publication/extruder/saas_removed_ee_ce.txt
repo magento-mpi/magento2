@@ -1,6 +1,5 @@
 # Files or directories that are part of Magento EE and Magento CE, but not part of Go Edition.
 #
-app/code/community/Find
 app/code/community/Phoenix
 app/code/core/Enterprise/AdminGws
 app/code/core/Enterprise/CatalogEvent
@@ -30,7 +29,6 @@ app/design/frontend/enterprise/fixed/Mage_Persistent
 app/design/frontend/enterprise/iphone_html5/Enterprise_TargetRule
 app/design/frontend/enterprise/iphone_html5/Enterprise_Wishlist
 app/design/frontend/enterprise/iphone_html5/Mage_Persistent
-app/design/frontend/pro/fluid/Mage_Persistent
 app/etc/modules/XEnterprise_Enabler.xml.dist
 dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
 dev/tests/integration/testsuite/Enterprise/AdminGws
