@@ -65,7 +65,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
 
             /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
             $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
-            $themeCss->setDataForSave($customCssContent);
+            $themeCss->setDataForSave(
+                array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $customCssContent)
+            );
             $theme->setCustomization($themeCss)->save();
             $response = array('error' => false);
             $this->_session->addSuccess($this->__('Theme custom css was saved.'));
