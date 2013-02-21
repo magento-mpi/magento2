@@ -64,8 +64,8 @@ new_order_status:
         messages:
             success_saved_status:  //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been saved')]
             order_status_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Order status with the same status code already exist')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
-            wrong_status_view_code: //div[@id='advice-validate-code-status']
+            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.')]
+            wrong_status_view_code: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             
 # 'Assign Order Status to State' Page
 assign_order_status:
@@ -91,5 +91,5 @@ assign_order_status:
         checkboxes:
             use_order_status_as_default: //input[@id='is_default']
         messages:
-            empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
+            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.')]
             succes_assigned_status: //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been assigned')]
