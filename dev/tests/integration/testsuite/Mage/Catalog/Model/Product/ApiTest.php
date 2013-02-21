@@ -382,8 +382,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate()
     {
-        $this->markTestSkipped('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
-        $newData = array(
+        $newData = (object)array(
             'name'              => 'New Name',
             'description'       => 'New Description',
             'short_description' => 'New short description',
@@ -403,7 +402,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($updatedProduct, 'Product was not updated');
         $product->load(1);
 
-        $updatedProductData = array(
+        $updatedProductData = (object)array(
             'name' => $product->getName(),
             'description' => $product->getDescription(),
             'short_description' =>$product->getShortDescription(),
