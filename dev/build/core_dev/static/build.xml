@@ -69,7 +69,7 @@
             <target name="_sanity_check"/>
         </antcall>
     </target>
-    <target name="static_tests_go" description="Static tests for Go">
+    <target name="static_tests_saas" description="Static tests for Go">
         <antcall>
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="saas"/>
