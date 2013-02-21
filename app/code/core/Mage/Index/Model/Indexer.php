@@ -25,7 +25,15 @@ class Mage_Index_Model_Indexer
      */
     public function __construct()
     {
-        $this->_processesCollection = Mage::getResourceModel('Mage_Index_Model_Resource_Process_Collection');
+        $this->_processesCollection = $this->_createCollection();
+    }
+
+    /**
+     * @return Mage_Index_Model_Resource_Process_Collection
+     */
+    private function _createCollection()
+    {
+        return Mage::getResourceModel('Mage_Index_Model_Resource_Process_Collection');
     }
 
     /**
@@ -174,6 +182,37 @@ class Mage_Index_Model_Indexer
             Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
         }
         return $this;
+    }
+
+    /**
+     * Reindex all processes
+     */
+    public function reindexAll()
+    {
+        $this->_reindexCollection($this->_createCollection());
+    }
+
+    /**
+     * Reindex only processes that are invalidated
+     */
+    public function reindexRequired()
+    {
+        $collection = $this->_createCollection();
+        $collection->addFieldToFilter('status', Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        $this->_reindexCollection($collection);
+    }
+
+    /**
+     * Sub-routine for iterating collection and reindexing all processes of specified collection
+     *
+     * @param Mage_Index_Model_Resource_Process_Collection $collection
+     */
+    private function _reindexCollection(Mage_Index_Model_Resource_Process_Collection $collection)
+    {
+        /** @var $process Mage_Index_Model_Process */
+        foreach ($collection as $process) {
+            $process->reindexEverything();
+        }
     }
 
     /**

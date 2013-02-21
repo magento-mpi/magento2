@@ -14,15 +14,15 @@
  * Underlying implementation of the Application entry point may differ in future versions due to changes
  * in Application itself, but API should remain the same
  *
- * @param array $tenantData
+ * @param array $params
  * @throws LogicException
  */
-return function (array $tenantData)
+return function (array $params)
 {
     $rootDir = dirname(__DIR__);
     require $rootDir . '/app/bootstrap.php';
 
-    $config = new Saas_Saas_Model_Tenant_Config($rootDir, $tenantData);
+    $config = new Saas_Saas_Model_Tenant_Config($rootDir, $params);
 
     //Process robots.txt request
     if ($_SERVER['REQUEST_URI'] == '/robots.txt') {

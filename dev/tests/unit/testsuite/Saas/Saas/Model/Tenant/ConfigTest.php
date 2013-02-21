@@ -84,7 +84,7 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getApplicationParams();
         $result = $result[Mage::PARAM_CUSTOM_LOCAL_CONFIG];
-        $this->assertXmlStringEqualsXmlString($result, self::_wrapXml(self::XML_MEDIA_DIR . $expectedResult));
+        $this->assertXmlStringEqualsXmlString(self::_wrapXml(self::XML_MEDIA_DIR . $expectedResult), $result);
     }
 
     /**
