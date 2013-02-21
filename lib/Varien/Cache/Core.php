@@ -11,23 +11,16 @@
 class Varien_Cache_Core extends Zend_Cache_Core
 {
     /**
-     * Any string longer than threshold to be compressed during saving
-     */
-    const COMPRESSION_THRESHOLD = 512;
-
-    /**
      * Available options
      *
-     * ====> (bool) compression :
-     * - whether data should be compressed before save
-     *
-     * ====> (int) compression_threshold
-     * - any string, which length exceeds this threshold, will be compressed (if compression is allowed)
+     * ====> (array) backend_decorators :
+     * - array of decorators to decorate cache backend. Should contain::
+     * -- 'class' concrete decorator child of Varien_Cache_Backend_Decorator_Abstract
+     * -- 'options' - optional array of specific decorator options
      * @var array
      */
     protected $_specificOptions = array(
-        'compression'           => false,
-        'compression_threshold' => self::COMPRESSION_THRESHOLD,
+        'backend_decorators'    => array(),
     );
 
     /**
@@ -140,25 +133,45 @@ class Varien_Cache_Core extends Zend_Cache_Core
     }
 
     /**
+     * Set the backend
+     *
+     * @param  Zend_Cache_Backend $backendObject
+     * @return void
+     */
+    public function setBackend(Zend_Cache_Backend $backendObject)
+    {
+        $backendObject = $this->_decorateBackend($backendObject);
+        return parent::setBackend($backendObject);
+    }
+
+    /**
      * Decorate cache backend with additional functionality
      *
-     * @return void
-     * @throws Varien_Exception
+     * @param Zend_Cache_Backend
+     * @return Zend_Cache_Backend
+     * @throws Varien_Cache_Exception
      */
-    public function decorateBackend()
+    protected function _decorateBackend(Zend_Cache_Backend $backendObject)
     {
-        if (!($this->getBackend() instanceof Zend_Cache_Backend)) {
-            throw new Varien_Exception('Cache Backend class should be defined');
-        }
-        //For now decorator is needed only for compressing data
-        if ((bool)$this->_specificOptions['compression']) {
-            // To provide idempotence. If we would need recursive decorating, it should be removed
-            if (is_null($this->_backendDecorator)) {
-                $backend = $this->getBackend();
-                $this->_backendDecorator = new Varien_Cache_Backend_Decorator($this->_specificOptions);
-                $this->_backend = $this->_backendDecorator;
-                $this->getBackend()->setConcreteBackend($backend);
+        if (is_array($this->_specificOptions['backend_decorators'])) {
+            foreach ($this->_specificOptions['backend_decorators'] as $decoratorName => $decoratorOptions) {
+                if (is_array($decoratorOptions) && array_key_exists('class', $decoratorOptions)) {
+                    $classOptions =
+                        array_key_exists('options', $decoratorOptions) ? $decoratorOptions['options'] : array();
+                    $classOptions['concrete_backend'] = $backendObject;
+                    $backendObject = new $decoratorOptions['class']($classOptions);
+                    if (!($backendObject instanceof Varien_Cache_Backend_Decorator_DecoratorAbstract)) {
+                        throw new Varien_Cache_Exception(
+                            "Incorrect Backend Cache Decorator class selected in " . $decoratorName
+                        );
+                    }
+                } else {
+                    throw new Varien_Cache_Exception("Incorrect Backend Cache Decorator settings in " . $decoratorName);
+                }
             }
+        } else {
+            throw new Varien_Cache_Exception("Incorrect Backend Cache Decorator settings");
         }
+        return $backendObject;
     }
 }

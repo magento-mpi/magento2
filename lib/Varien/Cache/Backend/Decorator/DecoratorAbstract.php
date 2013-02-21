@@ -9,15 +9,11 @@
  */
 
 /**
- * Decorator class for Zend_Cache_Backend class and its children
+ * Abstract decorator class for Zend_Cache_Backend class and its children
  */
-class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_Cache_Backend_ExtendedInterface
+abstract class Varien_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Cache_Backend
+    implements Zend_Cache_Backend_ExtendedInterface
 {
-    /**
-     * Prefix of compressed strings
-     */
-    const COMPRESSION_PREFIX = 'CACHE_COMPRESSION';
-
     /**
      * Concrete Cache Backend class that is being decorated
      * @var Zend_Cache_Backend
@@ -32,34 +28,23 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
 
     /**
      * @param array $options
+     * @throws Varien_Cache_Exception
      */
     public function __construct(array $options = array())
     {
-        $this->_decoratorOptions = $options;
-    }
-
-    /**
-     * Set concrete Cache Backend which is being decorated
-     *
-     * @param Zend_Cache_Backend $backend
-     */
-    public function setConcreteBackend(Zend_Cache_Backend $backend)
-    {
-        $this->_backend = $backend;
-    }
-
-    /**
-     * Get concrete Cache Backend class that is being decorated
-     *
-     * @return Zend_Cache_Backend
-     * @throws Varien_Cache_Exception
-     */
-    protected function _getBackend()
-    {
-        if (is_null($this->_backend)) {
+        if (array_key_exists('concrete_backend', $options)
+            && ($options['concrete_backend'] instanceof Zend_Cache_Backend_Interface)
+        ) {
+            $this->_backend = $options['concrete_backend'];
+            unset($options['concrete_backend']);
+        } else {
             throw new Varien_Cache_Exception("Decorated Cache Backend is not defined");
         }
-        return $this->_backend;
+        foreach ($options as $optionName => $optionValue) {
+            if (array_key_exists($optionName, $this->_decoratorOptions)) {
+                $this->_decoratorOptions[$optionName] = $optionValue;
+            }
+        }
     }
 
     /**
@@ -70,7 +55,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function setDirectives($directives)
     {
-        $this->_getBackend()->setDirectives($directives);
+        $this->_backend->setDirectives($directives);
     }
 
     /**
@@ -78,31 +63,24 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      *
      * Note : return value is always "string" (unserialization is done by the core not by the backend)
      *
-     * @param  string  $id                     Cache id
-     * @param  boolean $doNotTestCacheValidity If set to true, the cache validity won't be tested
+     * @param  string  $cacheId                     Cache id
+     * @param  boolean $noTestCacheValidity If set to true, the cache validity won't be tested
      * @return string|false cached datas
      */
-    public function load($id, $doNotTestCacheValidity = false)
+    public function load($cacheId, $noTestCacheValidity = false)
     {
-        //decompression
-        $data = $this->_getBackend()->load($id, $doNotTestCacheValidity);
-
-        if ($this->_isDecompressionNeeded($data)) {
-            $data = self::_decompressData($data);
-        }
-
-        return $data;
+        return $this->_backend->load($cacheId, $noTestCacheValidity);
     }
 
     /**
      * Test if a cache is available or not (for the given id)
      *
-     * @param  string $id cache id
+     * @param  string $cacheId cache id
      * @return mixed|false (a cache is not available) or "last modified" timestamp (int) of the available cache record
      */
-    public function test($id)
+    public function test($cacheId)
     {
-        return $this->_getBackend()->test($id);
+        return $this->_backend->test($cacheId);
     }
 
     /**
@@ -122,33 +100,18 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function save($data, $cacheId, $tags = array(), $specificLifetime = false, $priority = 8)
     {
-        //compression
-        if ((bool)$this->_decoratorOptions['compression']) {
-
-            if ($this->_isCompressionNeeded($data)) {
-                $data = self::_compressData($data);
-            }
-        }
-        /**
-         * Classes which implement Zend_Cache_Backend_ExtendedInterface have 2 different signatures in save() method.
-         * The following logic covers this
-         */
-        if ($priority === 8) {
-            return $this->_getBackend()->save($data, $cacheId, $tags, $specificLifetime);
-        } else {
-            return $this->_getBackend()->save($data, $cacheId, $tags, $specificLifetime, $priority);
-        }
+        return $this->_backend->save($data, $cacheId, $tags, $specificLifetime, $priority);
     }
 
     /**
      * Remove a cache record
      *
-     * @param  string $id Cache id
+     * @param  string $cacheId Cache id
      * @return boolean True if no problem
      */
-    public function remove($id)
+    public function remove($cacheId)
     {
-        return $this->_getBackend()->remove($id);
+        return $this->_backend->remove($cacheId);
     }
 
     /**
@@ -170,7 +133,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, $tags = array())
     {
-        return $this->_getBackend()->clean($mode, $tags);
+        return $this->_backend->clean($mode, $tags);
     }
 
     /**
@@ -180,7 +143,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getIds()
     {
-        return $this->_getBackend()->getIds();
+        return $this->_backend->getIds();
     }
 
     /**
@@ -190,7 +153,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getTags()
     {
-        return $this->_getBackend()->getTags();
+        return $this->_backend->getTags();
     }
 
     /**
@@ -203,7 +166,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getIdsMatchingTags($tags = array())
     {
-        return $this->_getBackend()->getIdsMatchingTags($tags);
+        return $this->_backend->getIdsMatchingTags($tags);
     }
 
     /**
@@ -216,7 +179,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getIdsNotMatchingTags($tags = array())
     {
-        return $this->_getBackend()->getIdsNotMatchingTags($tags);
+        return $this->_backend->getIdsNotMatchingTags($tags);
     }
 
     /**
@@ -229,7 +192,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getIdsMatchingAnyTags($tags = array())
     {
-        return $this->_getBackend()->getIdsMatchingAnyTags($tags);
+        return $this->_backend->getIdsMatchingAnyTags($tags);
     }
 
     /**
@@ -239,7 +202,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getFillingPercentage()
     {
-        return $this->_getBackend()->getFillingPercentage();
+        return $this->_backend->getFillingPercentage();
     }
 
     /**
@@ -250,24 +213,24 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      * - tags : a string array of tags
      * - mtime : timestamp of last modification time
      *
-     * @param string $id cache id
+     * @param string $cacheId cache id
      * @return array array of metadatas (false if the cache id is not found)
      */
-    public function getMetadatas($id)
+    public function getMetadatas($cacheId)
     {
-        return $this->_getBackend()->getMetadatas($id);
+        return $this->_backend->getMetadatas($cacheId);
     }
 
     /**
      * Give (if possible) an extra lifetime to the given cache id
      *
-     * @param string $id cache id
+     * @param string $cacheId cache id
      * @param int $extraLifetime
      * @return boolean true if ok
      */
-    public function touch($id, $extraLifetime)
+    public function touch($cacheId, $extraLifetime)
     {
-        return $this->_getBackend()->touch($id, $extraLifetime);
+        return $this->_backend->touch($cacheId, $extraLifetime);
     }
 
     /**
@@ -286,7 +249,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getCapabilities()
     {
-        return $this->_getBackend()->getCapabilities();
+        return $this->_backend->getCapabilities();
     }
 
     /**
@@ -299,7 +262,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function setOption($name, $value)
     {
-        $this->_getBackend()->setOption($name, $value);
+        $this->_backend->setOption($name, $value);
     }
 
     /**
@@ -313,7 +276,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getLifetime($specificLifetime)
     {
-        return $this->_getBackend()->getLifetime($specificLifetime);
+        return $this->_backend->getLifetime($specificLifetime);
     }
 
     /**
@@ -326,7 +289,7 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function isAutomaticCleaningAvailable()
     {
-        return $this->_getBackend()->isAutomaticCleaningAvailable();
+        return $this->_backend->isAutomaticCleaningAvailable();
     }
 
     /**
@@ -339,51 +302,6 @@ class Varien_Cache_Backend_Decorator extends Zend_Cache_Backend implements Zend_
      */
     public function getTmpDir()
     {
-        return $this->_getBackend()->getTmpDir();
+        return $this->_backend->getTmpDir();
     }
-
-    /**
-     * Compress data and add specific prefix
-     *
-     * @param string $data
-     * @return string
-     */
-    protected static function _compressData($data)
-    {
-        return self::COMPRESSION_PREFIX . gzcompress($data);
-    }
-
-    /**
-     * Get whether compression is needed
-     *
-     * @param string $data
-     * @return bool
-     */
-    protected function _isCompressionNeeded($data)
-    {
-        return (strlen($data) > (int)$this->_specificOptions['compression_threshold']);
-    }
-
-    /**
-     * Remove special prefix and decompress data
-     *
-     * @param string $data
-     * @return string
-     */
-    protected static function _decompressData($data)
-    {
-        return gzuncompress(substr($data, strlen(self::COMPRESSION_PREFIX)));
-    }
-
-    /**
-     * Get whether decompression is needed
-     *
-     * @param string $data
-     * @return bool
-     */
-    protected function _isDecompressionNeeded($data)
-    {
-        return (strpos($data, self::COMPRESSION_PREFIX) === 0);
-    }
-
 }

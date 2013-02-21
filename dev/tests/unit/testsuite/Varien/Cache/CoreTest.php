@@ -21,23 +21,50 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
      */
     protected static $_cacheStorage = array();
 
+    /**
+     * Selected mock of Zend_Cache_Backend_File to have extended
+     * Zend_Cache_Backend and implemented Zend_Cache_Backend_Interface
+     *
+     * @var Zend_Cache_Backend_File
+     */
+    protected $_mockBackend;
+
     protected function setUp()
     {
-        $this->_core = new Varien_Cache_Core();
+        $this->_mockBackend = $this->getMock('Zend_Cache_Backend_File');
     }
 
     protected function tearDown()
     {
-        unset ($this->_core);
+        unset($this->_mockBackend);
     }
 
-    public function testDecorateBackend()
+    public function testSetBackendDefault()
     {
-        $this->_core->setOption('compression', false);
-        $this->_core->setBackend(new Zend_Cache_Backend());
-        $this->_core->decorateBackend();
+        $core = new Varien_Cache_Core();
+        $core->setBackend($this->_mockBackend);
 
-        $this->assertNotInstanceOf('Varien_Cache_Backend_Decorator', $this->_core->getBackend());
+        $this->assertNotInstanceOf('Varien_Cache_Backend_Decorator_DecoratorAbstract', $core->getBackend());
+        $this->assertEquals($this->_mockBackend, $core->getBackend());
     }
 
+    /**
+     * @dataProvider setBackendExceptionProvider
+     * @expectedException Varien_Cache_Exception
+     */
+    public function testSetBackendException($decorators)
+    {
+        $core = new Varien_Cache_Core(array('backend_decorators' => $decorators));
+        $core->setBackend($this->_mockBackend);
+    }
+
+    public function setBackendExceptionProvider()
+    {
+        return array(
+            'string' => array('string'),
+            'decorator setting is not an array' => array(array('decorator' => 'string')),
+            'decorator setting is empty array' => array(array('decorator' => array())),
+            'no class index in array' => array(array('decorator' => array('somedata'))),
+        );
+    }
 }
