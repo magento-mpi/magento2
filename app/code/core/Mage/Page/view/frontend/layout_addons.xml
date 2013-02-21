@@ -34,6 +34,7 @@
             <action method="addJs"><file>Mage_Page::js/global.js</file></action>
             <action method="addJs"><file>mage/common.js</file></action>
             <action method="addJs"><file>mage/toggle.js</file></action>
+            <action method="addJs"><file>mage/popup-window.js</file></action>
             <action method="addCss"><file>Mage_Page::css/tabs.css</file><params/></action>
             <action method="addJs"><file>mage/loader.js</file></action>
         </reference>
