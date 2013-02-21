@@ -113,6 +113,6 @@ class Mage_Core_Model_Cache_Type_Config
         if (!$this->_isEnabled()) {
             return true;
         }
-        return $this->_cache->clean(self::CACHE_TAG);
+        return $this->_cache->clean(array(self::CACHE_TAG));
     }
 }

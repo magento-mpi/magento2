@@ -92,7 +92,7 @@ class Mage_Core_Model_Cache_Types
      * Enable/disable a cache type in run-time
      *
      * @param string $cacheType
-     * @param bool $isEnabled self::
+     * @param bool $isEnabled
      */
     public function setEnabled($cacheType, $isEnabled)
     {
