@@ -36,6 +36,7 @@ if ($attribute) {
 
 $attribute = $this->getAttribute($entityTypeId, 'allow_open_amount');
 if ($attribute) {
+    $this->updateAttribute($entityTypeId, $attribute['attribute_id'], 'is_required', 0);
     $this->updateAttribute(
         $entityTypeId,
         $attribute['attribute_id'],

@@ -18,3 +18,7 @@ $attribute = $this->getAttribute($entityTypeId, 'gift_message_available');
 if ($attribute) {
     $this->addAttributeToGroup($entityTypeId, $attributeSetId, $groupName, $attribute['attribute_id'], 60);
 }
+
+if (!$this->getAttributesNumberInGroup($entityTypeId, $attributeSetId, 'Gift Options')) {
+    $this->removeAttributeGroup($entityTypeId, $attributeSetId, 'Gift Options');
+}

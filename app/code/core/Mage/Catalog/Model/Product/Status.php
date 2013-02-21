@@ -120,12 +120,7 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
      */
     static public function getAllOptions()
     {
-        $res = array(
-            array(
-                'value' => '',
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('-- Please Select --')
-            )
-        );
+        $res = array();
         foreach (self::getOptionArray() as $index => $value) {
             $res[] = array(
                'value' => $index,
