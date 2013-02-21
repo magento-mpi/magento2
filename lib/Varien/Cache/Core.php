@@ -15,18 +15,13 @@ class Varien_Cache_Core extends Zend_Cache_Core
      *
      * ====> (array) backend_decorators :
      * - array of decorators to decorate cache backend. Should contain::
-     * -- 'class' concrete decorator child of Varien_Cache_Backend_Decorator_Abstract
+     * -- 'class' concrete decorator child of Magento_Cache_Backend_Decorator_Abstract
      * -- 'options' - optional array of specific decorator options
      * @var array
      */
     protected $_specificOptions = array(
         'backend_decorators'    => array(),
     );
-
-    /**
-     * @var null|Varien_Cache_Backend_Decorator
-     */
-    protected $_backendDecorator;
 
     /**
      * Make and return a cache id
@@ -149,29 +144,27 @@ class Varien_Cache_Core extends Zend_Cache_Core
      *
      * @param Zend_Cache_Backend
      * @return Zend_Cache_Backend
-     * @throws Varien_Cache_Exception
      */
     protected function _decorateBackend(Zend_Cache_Backend $backendObject)
     {
-        if (is_array($this->_specificOptions['backend_decorators'])) {
-            foreach ($this->_specificOptions['backend_decorators'] as $decoratorName => $decoratorOptions) {
-                if (is_array($decoratorOptions) && array_key_exists('class', $decoratorOptions)) {
-                    $classOptions =
-                        array_key_exists('options', $decoratorOptions) ? $decoratorOptions['options'] : array();
-                    $classOptions['concrete_backend'] = $backendObject;
-                    $backendObject = new $decoratorOptions['class']($classOptions);
-                    if (!($backendObject instanceof Varien_Cache_Backend_Decorator_DecoratorAbstract)) {
-                        throw new Varien_Cache_Exception(
-                            "Incorrect Backend Cache Decorator class selected in " . $decoratorName
-                        );
-                    }
-                } else {
-                    throw new Varien_Cache_Exception("Incorrect Backend Cache Decorator settings in " . $decoratorName);
-                }
-            }
-        } else {
-            throw new Varien_Cache_Exception("Incorrect Backend Cache Decorator settings");
+        if (!is_array($this->_specificOptions['backend_decorators'])) {
+            Zend_Cache::throwException("'backend_decorator' option should be an array");
         }
+
+        foreach ($this->_specificOptions['backend_decorators'] as $decoratorName => $decoratorOptions) {
+            if (!is_array($decoratorOptions) || !array_key_exists('class', $decoratorOptions)) {
+                Zend_Cache::throwException("Concrete decorator options in " . $decoratorName
+                    . " should be an array containing 'class' key" );
+            }
+            $classOptions = array_key_exists('options', $decoratorOptions) ? $decoratorOptions['options'] : array();
+            $classOptions['concrete_backend'] = $backendObject;
+            $backendObject = new $decoratorOptions['class']($classOptions);
+            if (!($backendObject instanceof Magento_Cache_Backend_Decorator_DecoratorAbstract)) {
+                Zend_Cache::throwException("Decorator in " . $decoratorName
+                    . " should extend Magento_Cache_Backend_Decorator_DecoratorAbstract");
+            }
+        }
+
         return $backendObject;
     }
 }

@@ -7,12 +7,12 @@
  */
 
 /**
- * Varien_Cache_Backend_Decorator_Compression test case
+ * Magento_Cache_Backend_Decorator_Compression test case
  */
-class Varien_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_TestCase
+class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Cache_Backend_Decorator_Compression
+     * @var Magento_Cache_Backend_Decorator_Compression
      */
     protected $_decorator;
 
@@ -29,7 +29,7 @@ class Varien_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_T
             'concrete_backend' => $this->getMock('Zend_Cache_Backend_File'),
             'compression_threshold' => strlen($this->_testString)
         );
-        $this->_decorator = new Varien_Cache_Backend_Decorator_Compression($options);
+        $this->_decorator = new Magento_Cache_Backend_Decorator_Compression($options);
     }
 
     protected function tearDown()
@@ -40,7 +40,7 @@ class Varien_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_T
 
     public function testCompressData()
     {
-        $method = new ReflectionMethod('Varien_Cache_Backend_Decorator_Compression', '_compressData');
+        $method = new ReflectionMethod('Magento_Cache_Backend_Decorator_Compression', '_compressData');
         $method->setAccessible(true);
 
         $this->assertStringStartsWith('CACHE_COMPRESSION', $method->invoke($this->_decorator, $this->_testString));
@@ -48,10 +48,10 @@ class Varien_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_T
 
     public function testDecompressData()
     {
-        $methodCompress = new ReflectionMethod('Varien_Cache_Backend_Decorator_Compression', '_compressData');
+        $methodCompress = new ReflectionMethod('Magento_Cache_Backend_Decorator_Compression', '_compressData');
         $methodCompress->setAccessible(true);
 
-        $methodDecompress = new ReflectionMethod('Varien_Cache_Backend_Decorator_Compression', '_decompressData');
+        $methodDecompress = new ReflectionMethod('Magento_Cache_Backend_Decorator_Compression', '_decompressData');
         $methodDecompress->setAccessible(true);
 
         $this->assertEquals(
@@ -62,7 +62,7 @@ class Varien_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_T
 
     public function testIsCompressionNeeded()
     {
-        $method = new ReflectionMethod('Varien_Cache_Backend_Decorator_Compression', '_isCompressionNeeded');
+        $method = new ReflectionMethod('Magento_Cache_Backend_Decorator_Compression', '_isCompressionNeeded');
         $method->setAccessible(true);
 
         $this->assertFalse($method->invoke($this->_decorator, $this->_testString));
@@ -74,7 +74,7 @@ class Varien_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_T
     {
         $prefix = 'CACHE_COMPRESSION';
 
-        $method = new ReflectionMethod('Varien_Cache_Backend_Decorator_Compression', '_isDecompressionNeeded');
+        $method = new ReflectionMethod('Magento_Cache_Backend_Decorator_Compression', '_isDecompressionNeeded');
         $method->setAccessible(true);
 
         $this->assertFalse($method->invoke($this->_decorator, $this->_testString));
@@ -100,7 +100,7 @@ class Varien_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_T
             'compression_threshold' => strlen($this->_testString)
         );
 
-        $decorator = new Varien_Cache_Backend_Decorator_Compression($options);
+        $decorator = new Magento_Cache_Backend_Decorator_Compression($options);
 
         $decorator->setOption('write_control', false);
         $decorator->setOption('automatic_cleaning_factor', 0);

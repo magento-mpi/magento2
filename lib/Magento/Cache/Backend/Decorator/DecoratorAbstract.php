@@ -2,16 +2,14 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Cache
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
  * Abstract decorator class for Zend_Cache_Backend class and its children
  */
-abstract class Varien_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Cache_Backend
+abstract class Magento_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Cache_Backend
     implements Zend_Cache_Backend_ExtendedInterface
 {
     /**
@@ -28,7 +26,6 @@ abstract class Varien_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Cac
 
     /**
      * @param array $options
-     * @throws Varien_Cache_Exception
      */
     public function __construct(array $options = array())
     {
@@ -38,7 +35,7 @@ abstract class Varien_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Cac
             $this->_backend = $options['concrete_backend'];
             unset($options['concrete_backend']);
         } else {
-            throw new Varien_Cache_Exception("Decorated Cache Backend is not defined");
+            Zend_Cache::throwException("Decorated Cache Backend is not defined");
         }
         foreach ($options as $optionName => $optionValue) {
             if (array_key_exists($optionName, $this->_decoratorOptions)) {

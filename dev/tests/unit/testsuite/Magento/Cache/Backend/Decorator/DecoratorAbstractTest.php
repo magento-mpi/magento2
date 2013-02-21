@@ -7,9 +7,9 @@
  */
 
 /**
- * Varien_Cache_Backend_Decorator_DecoratorAbstract test case
+ * Magento_Cache_Backend_Decorator_DecoratorAbstract test case
  */
-class Varien_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Framework_TestCase
+class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Zend_Cache_Backend_File
@@ -31,15 +31,15 @@ class Varien_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Frame
         $options = array('concrete_backend' => $this->_mockBackend, 'testOption' => 'testOption');
 
         $decorator = $this->getMockForAbstractClass(
-            'Varien_Cache_Backend_Decorator_DecoratorAbstract',
+            'Magento_Cache_Backend_Decorator_DecoratorAbstract',
             array($options)
         );
 
-        $backendProperty = new ReflectionProperty('Varien_Cache_Backend_Decorator_DecoratorAbstract', '_backend');
+        $backendProperty = new ReflectionProperty('Magento_Cache_Backend_Decorator_DecoratorAbstract', '_backend');
         $backendProperty->setAccessible(true);
 
         $optionsProperty =
-            new ReflectionProperty('Varien_Cache_Backend_Decorator_DecoratorAbstract', '_decoratorOptions');
+            new ReflectionProperty('Magento_Cache_Backend_Decorator_DecoratorAbstract', '_decoratorOptions');
         $optionsProperty->setAccessible(true);
 
         $this->assertEquals($backendProperty->getValue($decorator), $this->_mockBackend);
@@ -49,13 +49,13 @@ class Varien_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Frame
     }
 
     /**
-     * @expectedException Varien_Cache_Exception
+     * @expectedException Zend_Cache_Exception
      * @dataProvider constructorExceptionProvider
      */
     public function testConstructorException($options)
     {
         $this->getMockForAbstractClass(
-            'Varien_Cache_Backend_Decorator_DecoratorAbstract',
+            'Magento_Cache_Backend_Decorator_DecoratorAbstract',
             array($options)
         );
     }
@@ -76,7 +76,7 @@ class Varien_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Frame
         $this->_mockBackend->expects($this->once())->method($methodName);
 
         $decorator = $this->getMockForAbstractClass(
-            'Varien_Cache_Backend_Decorator_DecoratorAbstract',
+            'Magento_Cache_Backend_Decorator_DecoratorAbstract',
             array(array('concrete_backend' => $this->_mockBackend))
         );
 

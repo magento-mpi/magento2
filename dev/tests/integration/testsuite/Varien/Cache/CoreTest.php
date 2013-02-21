@@ -17,7 +17,7 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
         $config = array(
             'backend_decorators' => array(
                 'test_decorator' => array(
-                    'class' => 'Varien_Cache_Backend_Decorator_Compression',
+                    'class' => 'Magento_Cache_Backend_Decorator_Compression',
                     'options' => array(
                         'compression_threshold' => '100',
                     )
@@ -28,11 +28,11 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
         $core = new Varien_Cache_Core($config);
         $core->setBackend($mockBackend);
 
-        $this->assertInstanceOf('Varien_Cache_Backend_Decorator_DecoratorAbstract', $core->getBackend());
+        $this->assertInstanceOf('Magento_Cache_Backend_Decorator_DecoratorAbstract', $core->getBackend());
     }
 
     /**
-     * @expectedException Varien_Cache_Exception
+     * @expectedException Zend_Cache_Exception
      */
     public function testSetBackendException()
     {

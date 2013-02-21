@@ -44,13 +44,13 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
         $core = new Varien_Cache_Core();
         $core->setBackend($this->_mockBackend);
 
-        $this->assertNotInstanceOf('Varien_Cache_Backend_Decorator_DecoratorAbstract', $core->getBackend());
+        $this->assertNotInstanceOf('Magento_Cache_Backend_Decorator_DecoratorAbstract', $core->getBackend());
         $this->assertEquals($this->_mockBackend, $core->getBackend());
     }
 
     /**
      * @dataProvider setBackendExceptionProvider
-     * @expectedException Varien_Cache_Exception
+     * @expectedException Zend_Cache_Exception
      */
     public function testSetBackendException($decorators)
     {

@@ -2,16 +2,14 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Cache
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
  * Decorator class for compressing data before storing in cache
  */
-class Varien_Cache_Backend_Decorator_Compression extends Varien_Cache_Backend_Decorator_DecoratorAbstract
+class Magento_Cache_Backend_Decorator_Compression extends Magento_Cache_Backend_Decorator_DecoratorAbstract
 {
     /**
      * Prefix of compressed strings
