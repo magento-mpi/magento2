@@ -382,7 +382,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate()
     {
-        $this->markTestSkipped('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
+        $this->markTestIncomplete('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
         $newData = array(
             'name'              => 'New Name',
             'description'       => 'New Description',
