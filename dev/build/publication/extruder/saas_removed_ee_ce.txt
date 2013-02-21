@@ -22,8 +22,8 @@ app/code/core/Mage/Ogone
 app/code/core/Mage/PageCache
 app/design/frontend/enterprise/iphone_html5/Enterprise_TargetRule
 app/design/frontend/enterprise/iphone_html5/Enterprise_Wishlist
-app/etc/modules/XEnterprise_Enabler.xml.dist
-dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
+app/etc/modules/XEnterprise_Edition.xml.dist
+dev/tests/integration/etc/modules/XEnterprise_Edition.xml
 dev/tests/integration/testsuite/Enterprise/AdminGws
 dev/tests/integration/testsuite/Enterprise/CatalogEvent
 dev/tests/integration/testsuite/Enterprise/CatalogPermissions
@@ -39,7 +39,7 @@ dev/tests/integration/testsuite/Mage/PageCache
 dev/tests/integration/testsuite/Mage/Webapi
 dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
-dev/tests/static/testsuite/Integrity/Enterprise/EnablerTest.php
+dev/tests/static/testsuite/Integrity/Enterprise/EditionTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws
 dev/tests/unit/testsuite/Enterprise/AdminGws
 dev/tests/unit/testsuite/Enterprise/CatalogEvent
