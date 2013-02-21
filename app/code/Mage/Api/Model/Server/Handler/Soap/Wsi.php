@@ -112,7 +112,7 @@ class Mage_Api_Model_Server_Handler_Soap_Wsi extends Mage_Api_Model_Server_Handl
 
         $modelName = $this->_prepareResourceModelName((string)$resources->$resourceName->model);
 
-        $modelClass = Mage::getConfig()->getModelClassName($modelName);
+        $modelClass = $modelName;
 
         $method = (isset($methodInfo->method) ? (string)$methodInfo->method : $methodName);
 
