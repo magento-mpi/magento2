@@ -56,12 +56,6 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         );
     }
 
-    protected function tearDown()
-    {
-        unset($this->_layout);
-        unset($this->_block);
-    }
-
     /**
      * @covers Mage_Backend_Block_Widget_Grid_Massaction::getItems
      * @covers Mage_Backend_Block_Widget_Grid_Massaction::getCount

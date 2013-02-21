@@ -21,11 +21,6 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends 
         $this->_model= Mage::getModel('Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testToOptionArray()
     {
         $options = $this->_model->toOptionArray();

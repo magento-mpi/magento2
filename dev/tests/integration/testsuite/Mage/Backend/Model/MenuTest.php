@@ -26,11 +26,6 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testMenuItemManipulation()
     {
         /* @var $menu Mage_Backend_Model_Menu */

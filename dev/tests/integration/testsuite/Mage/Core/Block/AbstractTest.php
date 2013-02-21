@@ -56,12 +56,6 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-        $this->_layout = null;
-    }
-
     /**
      * Checks, that not existing image in CSS not affected own publication
      *

@@ -29,11 +29,6 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
         ));
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testGetFilter()
     {
         $filter = $this->_model->getFilter();

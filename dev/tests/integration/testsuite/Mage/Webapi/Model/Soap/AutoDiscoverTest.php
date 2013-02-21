@@ -101,18 +101,6 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
-    protected function tearDown()
-    {
-        $this->_config = null;
-        $this->_autoDiscover = null;
-        $this->_helper = null;
-        $this->_resourceName = null;
-        $this->_resourceData = null;
-        $this->_dom = null;
-        $this->_xpath = null;
-    }
-
-
     /**
      * Test WSDL operations Generation.
      * Generate WSDL XML using AutoDiscover and prepared config.

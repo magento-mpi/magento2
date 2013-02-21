@@ -32,11 +32,6 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
         $this->_model->setFront($this->_frontMock);
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testRouterCannotProcessRequestsWithWrongFrontName()
     {
         $request = $this->getMock('Mage_Core_Controller_Request_Http');

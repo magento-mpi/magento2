@@ -25,11 +25,6 @@ class Mage_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Mage_Backend_Model_Auth');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * @expectedException Mage_Backend_Model_Auth_Exception
      */

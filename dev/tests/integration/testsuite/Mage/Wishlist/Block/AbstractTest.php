@@ -39,11 +39,6 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
             $this->_prepareConstructorArguments());
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-    }
-
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Catalog/_files/product_with_image.php

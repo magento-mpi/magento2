@@ -24,11 +24,6 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Mage_Backend_Model_Url');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * @covers Mage_Backend_Model_Url::getSecure
      */

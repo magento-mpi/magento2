@@ -24,12 +24,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_Framew
         $this->_block = $this->_layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Load');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-        $this->_layout = null;
-    }
-
     public function testToHtml()
     {
         $blockName        = 'block1';

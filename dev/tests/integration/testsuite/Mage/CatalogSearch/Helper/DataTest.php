@@ -21,11 +21,6 @@ class Mage_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_helper = Mage::helper('Mage_CatalogSearch_Helper_Data');
     }
 
-    protected function tearDown()
-    {
-        $this->_helper = null;
-    }
-
     public function testGetResultUrl()
     {
         $this->assertStringEndsWith('/catalogsearch/result/', $this->_helper->getResultUrl());

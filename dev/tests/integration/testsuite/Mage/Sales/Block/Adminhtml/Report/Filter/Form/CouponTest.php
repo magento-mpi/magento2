@@ -26,11 +26,6 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUnit_F
         $this->_application = Mage::getObjectManager()->get('Mage_Core_Model_App');
     }
 
-    protected function tearDown()
-    {
-        unset($this->_application);
-    }
-
     /**
      * @covers Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon::_afterToHtml
      */

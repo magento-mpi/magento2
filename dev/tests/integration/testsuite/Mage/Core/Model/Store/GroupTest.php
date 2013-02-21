@@ -23,11 +23,6 @@ class Mage_Core_Model_Store_GroupTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Store_Group($eventDispatcher, $cacheManager);
     }
 
-    public function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());

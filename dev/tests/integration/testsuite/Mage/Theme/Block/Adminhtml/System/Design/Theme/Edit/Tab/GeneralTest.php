@@ -27,13 +27,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest extend
         $this->_block = $this->_layout->createBlock('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General');
     }
 
-    protected function tearDown()
-    {
-        $this->_theme = null;
-        $this->_layout = null;
-        $this->_block = null;
-    }
-
     public function testToHtmlPreviewImageNote()
     {
         Mage::register('current_theme', $this->_theme);

@@ -35,14 +35,6 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * Clear block.
-     */
-    protected function tearDown()
-    {
-        unset($this->_objectManager, $this->_layout, $this->_block);
-    }
-
-    /**
      * Test _beforeToHtml method.
      */
     public function testBeforeToHtml()

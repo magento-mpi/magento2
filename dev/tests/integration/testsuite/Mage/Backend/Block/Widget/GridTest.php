@@ -54,13 +54,6 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
         $this->_block->setNameInLayout('grid');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-        $this->_layoutMock = null;
-        $this->_columnSetMock = null;
-    }
-
     /**
      * Retrieve the mocked column set block instance
      *

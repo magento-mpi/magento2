@@ -28,11 +28,6 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUni
             ->createBlock('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form');
     }
 
-    public function tearDown()
-    {
-        $this->_block = null;
-    }
-
     /**
      * Test Prepare Form in Single Store mode
      *

@@ -31,11 +31,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
             ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');
     }
 
-    public function tearDown()
-    {
-        $this->_block = null;
-    }
-
     /**
      * Test Prepare Form in Single Store mode
      *

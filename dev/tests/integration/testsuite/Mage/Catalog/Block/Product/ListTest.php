@@ -26,11 +26,6 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_List');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-    }
-
     public function testGetLayer()
     {
         $this->assertInstanceOf('Mage_Catalog_Model_Layer', $this->_block->getLayer());

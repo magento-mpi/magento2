@@ -24,11 +24,6 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
         $this->_model = Mage::getModel('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * @magentoDataFixture Mage/Downloadable/_files/product.php
      * @magentoDataFixture Mage/Downloadable/_files/order_with_downloadable_product.php

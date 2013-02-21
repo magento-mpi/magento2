@@ -28,11 +28,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
     }
 
-    protected function tearDown()
-    {
-        $this->_layout = null;
-    }
-
     /**
      * @param array $inputArguments
      * @param string $expectedArea

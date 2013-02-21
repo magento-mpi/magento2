@@ -45,11 +45,6 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_Fra
         $this->_model = Mage::app()->getLayout()->createBlock('Mage_ImportExport_Block_Adminhtml_Export_Edit_Form');
     }
 
-    public function tearDown()
-    {
-        unset($this->_model);
-    }
-
     /**
      * Test preparing of form
      *

@@ -36,12 +36,6 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
         );
     }
 
-    protected function tearDown()
-    {
-        unset($this->_layoutMock);
-        unset($this->_block);
-    }
-
     public function testAddColumnAddsChildToColumnSet()
     {
         $this->assertInstanceOf(

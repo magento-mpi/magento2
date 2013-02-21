@@ -24,11 +24,6 @@ class Mage_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Backend_Block_Template');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-    }
-
     /**
      * @covers Mage_Backend_Block_Template::getFormKey
      */

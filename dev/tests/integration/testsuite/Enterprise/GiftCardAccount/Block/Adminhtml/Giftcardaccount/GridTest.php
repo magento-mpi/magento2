@@ -24,11 +24,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_GridTest extend
         );
     }
 
-    public function tearDown()
-    {
-        $this->_block = null;
-    }
-
     /**
      * Test Prepare Columns for Single Store mode
      *

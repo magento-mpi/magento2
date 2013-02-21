@@ -24,11 +24,6 @@ class Mage_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Page_Header');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-    }
-
     public function testGetHomeLink()
     {
         $expected = Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();

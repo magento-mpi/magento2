@@ -18,11 +18,6 @@ class Mage_Adminhtml_Block_Catalog_Category_TreeTest extends PHPUnit_Framework_T
         $this->_block = Mage::getModel('Mage_Adminhtml_Block_Catalog_Category_Tree');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-    }
-
     public function testGetSuggestedCategoriesJson()
     {
         $this->assertEquals(
