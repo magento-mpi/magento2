@@ -1,4 +1,4 @@
-# Files or directories that are part of Magento EE and Magento CE, but not part of Go Edition.
+# Files or directories that are not part of Go Edition.
 #
 CHANGELOG.markdown
 app/code/community/Phoenix

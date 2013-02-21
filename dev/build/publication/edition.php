@@ -28,7 +28,7 @@ try {
             $lists[] = 'saas.txt';
             break;
         case 'saas':
-            $lists[] = 'saas_removed_ee_ce.txt';
+            $lists[] = 'not_saas.txt';
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
