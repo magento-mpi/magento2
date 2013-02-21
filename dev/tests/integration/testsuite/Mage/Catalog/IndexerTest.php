@@ -78,7 +78,7 @@ class Mage_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
      * Because that method depends on state of the object, which does not reflect changes in database
      *
      * @param string $typeCode
-     * @return Mage_Index_Model_Process|Mage_Core_Model_Abstract
+     * @return Mage_Index_Model_Process
      */
     private function _getProcessModel($typeCode)
     {
