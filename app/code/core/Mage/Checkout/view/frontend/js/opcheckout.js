@@ -13,21 +13,24 @@
     // Base widget, handle ajax events and first section(Checkout Method) in one page checkout accordion
     $.widget('mage.opcheckout', {
         options: {
-            loginGuestSelector: '#login\\:guest',
-            loginRegisterSelector: '#login\\:register',
-            continueSelector: '#onepage-guest-register-button',
-            registerCustomerPasswordSelector: '#register-customer-password',
+            checkout: {
+                loginGuestSelector: '#login\\:guest',
+                loginRegisterSelector: '#login\\:register',
+                continueSelector: '#onepage-guest-register-button',
+                registerCustomerPasswordSelector: '#register-customer-password'
+            },
             sectionSelectorPrefix: '#opc-',
             billingSection: 'billing',
             ajaxLoaderPlaceButton: false,
             updateSelectorPrefix: '#checkout-',
-            updateSelectorSuffix: '-load'
+            updateSelectorSuffix: '-load',
+            backSelector: '.back-link'
         },
 
         _create: function() {
             var _this = this;
             this.element
-                .on('click', this.options.continueSelector, function() {
+                .on('click', this.options.checkout.continueSelector, function() {
                     $.proxy(_this._continue($(this)), _this);
                 })
                 .on('gotoSection', function(event, section) {
@@ -36,7 +39,10 @@
                 })
                 .on('ajaxError', $.proxy(this._ajaxError, this))
                 .on('ajaxSend', $.proxy(this._ajaxSend, this))
-                .on('ajaxComplete', $.proxy(this._ajaxComplete, this));
+                .on('ajaxComplete', $.proxy(this._ajaxComplete, this))
+                .on('click', this.options.backSelector, function() {
+                    _this.element.trigger('enableSection', {selector: '#' + _this.element.find('.active').prev().attr('id')});
+                });
         },
 
         /**
@@ -78,12 +84,12 @@
         _continue: function(elem) {
             var json = elem.data('checkout');
             if (json.isGuestCheckoutAllowed) {
-                if ($(this.options.loginGuestSelector).is(':checked')) {
-                    this._ajaxContinue(this.options.saveMethodUrl, {method:'guest'}, this.options.billingSection);
-                    this.element.find(this.options.registerCustomerPasswordSelector).hide();
-                } else if ($(this.options.loginRegisterSelector).is(':checked')) {
-                    this._ajaxContinue(this.options.saveMethodUrl, {method:'register'}, this.options.billingSection);
-                    this.element.find(this.options.registerCustomerPasswordSelector).show();
+                if ($(this.options.checkout.loginGuestSelector).is(':checked')) {
+                    this._ajaxContinue(this.options.checkout.saveUrl, {method:'guest'}, this.options.billingSection);
+                    this.element.find(this.options.checkout.registerCustomerPasswordSelector).hide();
+                } else if ($(this.options.checkout.loginRegisterSelector).is(':checked')) {
+                    this._ajaxContinue(this.options.checkout.saveUrl, {method:'register'}, this.options.billingSection);
+                    this.element.find(this.options.checkout.registerCustomerPasswordSelector).show();
                 } else {
                     alert($.mage.__('Please choose to register or to checkout as a guest'));
                 }
@@ -122,7 +128,8 @@
                             }
                         }
                         if (response.update_section) {
-                            $(this.options.updateSelectorPrefix + response.update_section.name + this.options.updateSelectorSuffix).html(response.update_section.html);
+                            $(this.options.updateSelectorPrefix + response.update_section.name + this.options.updateSelectorSuffix)
+                                .html($(response.update_section.html));
                         }
                         if (response.allow_sections) {
                             response.allow_sections.each(function() {
@@ -167,52 +174,62 @@
     // Extension for mage.opcheckout - second section(Billing Information) in one page checkout accordion
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
-            billingAddressDropdownSelector: '#billing-address-select',
-            billingNewAddressFormSelector: '#billing-new-address-form',
-            billingContinueSelector: '#billing-buttons-container .button',
-            billingForm: '#co-billing-form'
+            billing: {
+                addressDropdownSelector: '#billing-address-select',
+                newAddressFormSelector: '#billing-new-address-form',
+                continueSelector: '#billing-buttons-container .button',
+                form: '#co-billing-form'
+            }
         },
 
         _create: function() {
             this._super();
             this.element
-                .on('change', this.options.billingAddressDropdownSelector, $.proxy(function(e) {
-                    this.element.find(this.options.billingNewAddressFormSelector).toggle(!$(e.target).val());
+                .on('change', this.options.billing.addressDropdownSelector, $.proxy(function(e) {
+                    this.element.find(this.options.billing.newAddressFormSelector).toggle(!$(e.target).val());
                 }, this))
-                .on('click', this.options.billingContinueSelector, $.proxy(function() {
-                    this._ajaxContinue(this.options.saveBillingUrl, $(this.options.billingForm).serialize());
-                }, this));
+                .on('click', this.options.billing.continueSelector, $.proxy(function() {
+                    if ($(this.options.billing.form).validation && $(this.options.billing.form).validation('isValid')) {
+                        this._ajaxContinue(this.options.billing.saveUrl, $(this.options.billing.form).serialize());
+                    }
+                }, this))
+                .find(this.options.billing.form).validation();
         }
     });
 
     // Extension for mage.opcheckout - third section(Shipping Information) in one page checkout accordion
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
-            shippingForm: '#co-shipping-form',
-            shippingAddressDropdownSelector: '#shipping-address-select',
-            shippingNewAddressFormSelector: '#shipping-new-address-form',
-            billingCopySelector: '#shipping\\:same_as_billing',
-            countrySelector: '#shipping\\:country_id',
-            shippingContinueSelector:'#shipping-buttons-container .button'
+            shipping: {
+                form: '#co-shipping-form',
+                addressDropdownSelector: '#shipping-address-select',
+                newAddressFormSelector: '#shipping-new-address-form',
+                copyBillingSelector: '#shipping\\:same_as_billing',
+                countrySelector: '#shipping\\:country_id',
+                continueSelector:'#shipping-buttons-container .button'
+            }
         },
 
         _create: function() {
             this._super();
             this.element
-                .on('change', this.options.shippingAddressDropdownSelector, $.proxy(function(e) {
-                    $(this.options.shippingNewAddressFormSelector).toggle(!$(e.target).val());
+                .on('change', this.options.shipping.addressDropdownSelector, $.proxy(function(e) {
+                    $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
                 }, this))
-                .on('input propertychange', this.options.shippingForm + ' :input[name]', $.proxy(function() {
-                    $(this.options.billingCopySelector).prop('checked', false);
+                .on('input propertychange', this.options.shipping.form + ' :input[name]', $.proxy(function() {
+                    $(this.options.shipping.copyBillingSelector).prop('checked', false);
                 }, this))
-                .on('click', this.options.billingCopySelector, $.proxy(function(e) {
+                .on('click', this.options.copyBillingSelector, $.proxy(function(e) {
                     if ($(e.target).is(':checked')) {
                         this._billingToShipping();
                     }
                 }, this))
-                .on('click', this.options.shippingContinueSelector, $.proxy(function() {
-                    this._ajaxContinue(this.options.saveShippingUrl, $(this.options.shippingForm).serialize());
-                }, this));
+                .on('click', this.options.shipping.continueSelector, $.proxy(function() {
+                    if ($(this.options.shipping.form).validation && $(this.options.shipping.form).validation('isValid')) {
+                        this._ajaxContinue(this.options.shipping.saveUrl, $(this.options.shipping.form).serialize());
+                    }
+                }, this))
+                .find(this.options.shipping.form).validation();
         },
 
         /**
@@ -220,14 +237,55 @@
          * @private
          */
         _billingToShipping: function() {
-            $(':input[name]', this.options.billingForm).each($.proxy(function(key, value) {
-                var jQfieldObj = $(value.id.replace('billing:', '#shipping\\:'));
-                jQfieldObj.val($(value).val());
-                if (jQfieldObj.is("select")) {
-                    jQfieldObj.trigger('change');
+            $(':input[name]', this.options.billing.form).each($.proxy(function(key, value) {
+                var fieldObj = $(value.id.replace('billing:', '#shipping\\:'));
+                fieldObj.val($(value).val());
+                if (fieldObj.is("select")) {
+                    fieldObj.trigger('change');
                 }
             }, this));
-            $(this.options.billingCopySelector).prop('checked', true);
+            $(this.options.shipping.copyBillingSelector).prop('checked', true);
+        }
+    });
+
+    // Extension for mage.opcheckout - fourth section(Shipping Method) in one page checkout accordion
+    $.widget('mage.opcheckout', $.mage.opcheckout, {
+        options: {
+            shippingMethod: {
+                continueSelector: '#shipping-method-buttons-container .button',
+                form: '#co-shipping-method-form'
+            }
+        },
+
+        _create: function() {
+            this._super();
+            this.element
+                .on('click', this.options.shippingMethod.continueSelector, $.proxy(function() {
+                    if (this._validateShippingMethod()&&
+                        $(this.options.shippingMethod.form).validation &&
+                        $(this.options.shippingMethod.form).validation('isValid')) {
+                        this._ajaxContinue(this.options.shippingMethod.saveUrl, $(this.options.shippingMethod.form).serialize());
+                    }
+                }, this))
+                .find(this.options.shippingMethod.form).validation();
+        },
+
+        /**
+         * Make sure at least one shipping method is selected
+         * @return {Boolean}
+         * @private
+         */
+        _validateShippingMethod: function() {
+            var methods = this.element.find('[name="shipping_method"]');
+            if (methods.length === 0) {
+                alert($.mage.__('Your order cannot be completed at this time as there is no shipping methods available for it. Please make necessary changes in your shipping address.'));
+                return false;
+            }
+            if (methods.filter(':checked').length) {
+                return true;
+            }
+            alert($.mage.__('Please specify shipping method.'));
+            return false;
         }
     });
 })(jQuery, window);

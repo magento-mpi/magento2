@@ -217,13 +217,7 @@
                     postcodeId: '#billing\\:postcode',
                     regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
                     defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
-                    countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>,
-                    clearError: function() {
-                        var selectorArr = ['#billing\\:region_id', '#billing\\:region', '#billing\\:postcode'];
-                        for (var i = 0; i < selectorArr.length; i++) {
-                            $(selectorArr[i]).removeClass('validation-failed').next("div.validation-advice").remove();
-                        }
-                    }
+                    countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
                 });
             });
     })(jQuery);

@@ -29,6 +29,10 @@
 <script type="text/javascript">
     (function($) {
         head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
             "<?php echo $this->getViewFileUrl('Mage_Checkout::js/opcheckout.js') ?>",
             "<?php echo $this->getViewFileUrl('Mage_Checkout::js/accordion.js') ?>",
             function() {
@@ -39,18 +43,30 @@
                     .opcheckout({
                         progressUrl: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
                         reviewUrl: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
-                        saveMethodUrl: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>',
                         failureUrl: '<?php echo $this->getUrl('checkout/cart') ?>',
-                        ajaxLoaderPlaceButton: true,
-                        checkoutProgressContainer: '#checkout-progress-wrapper',
                         getAddressUrl: '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/',
-                        saveBillingUrl: '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>',
-                        saveShippingUrl: '<?php echo $this->getUrl('checkout/onepage/saveShipping') ?>',
-                        saveShippingMethodUrl: "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>",
-                        savePaymentUrl: '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>',
-                        saveOrderUrl: '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
-                        checkoutSuccessUrl: '<?php echo $this->getUrl('checkout/onepage/success') ?>',
-                        checkoutAgreements: '#checkout-agreements'
+                        checkoutAgreements: '#checkout-agreements',
+                        checkoutProgressContainer: '#checkout-progress-wrapper',
+                        ajaxLoaderPlaceButton: true,
+                        checkout: {
+                            saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>'
+                        },
+                        billing: {
+                            saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>'
+                        },
+                        shipping: {
+                            saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveShipping') ?>'
+                        },
+                        shippingMethod: {
+                            saveUrl: "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>"
+                        },
+                        payment: {
+                            saveUrl: '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>'
+                        },
+                        review: {
+                            saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
+                            successUrl: '<?php echo $this->getUrl('checkout/onepage/success') ?>'
+                        }
                     });
             });
     })(jQuery);
