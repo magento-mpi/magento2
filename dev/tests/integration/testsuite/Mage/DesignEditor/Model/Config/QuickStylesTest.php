@@ -12,7 +12,7 @@
 class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_DesignEditor_Model_Config_QuickStyles
+     * @var Mage_DesignEditor_Model_Config_Control_QuickStyles
      */
     protected $_model;
 
@@ -27,10 +27,10 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_design = Mage::getObjectManager()->get('Mage_Core_Model_Design_Package');
-        $this->_design->setDesignTheme('package/test', Mage_Core_Model_App_Area::AREA_ADMINHTML);
-        $quickStylesPath = $this->_design->getFilename('quick_styles/quick_styles.xml');
+        $this->_design->setDesignTheme('package/test', Mage_Core_Model_Design_Package::DEFAULT_AREA);
+        $quickStylesPath = $this->_design->getFilename('Mage_DesignEditor::controls/quick_styles.xml');
         $this->assertFileExists($quickStylesPath);
-        $this->_model = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Config_QuickStyles',
+        $this->_model = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Config_Control_QuickStyles',
             array(array($quickStylesPath)));
     }
 
@@ -41,21 +41,23 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
      * @dataProvider getTestDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testLoadConfiguration($controlName, $controlData)
+    public function testLoadConfiguration($controlName, $expectedControlData)
     {
-        $this->assertEquals($this->_model->getGroupData($controlName), $controlData);
+        $this->assertEquals($expectedControlData, $this->_model->getControlData($controlName));
     }
 
     /**
-     * Data provider with sample data for
+     * Data provider with sample data for test controls
+     *
      * @return array
      */
     public function getTestDataProvider()
     {
         return array(
             array('headers', array(
-                'type'       => 'logo',
-                'components' => array (
+                'type'         => 'logo',
+                'layoutParams' => array('title' => 'Headers', 'column' => 'left'),
+                'components'   => array (
                     'logo-picker'   => array (
                         'type'      => 'color-picker',
                         'selector'  => '.body .div',
@@ -69,26 +71,28 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
                         'options'   => array('Arial, Verdana, Georgia', 'Tahoma'),
                         'var'       => 'test_var_key2',
                     ),
-                    'test-control'  => array (
+                    'test-control' => array (
                         'type'       => 'test-control',
                         'components' => array (
                             'image-uploader' => array (
-                                'type'    => 'logo-uploader',
-                                'var'     => 'test_var_key3',
+                                'type' => 'logo-uploader',
+                                'var'  => 'test_var_key3',
                             )
                         )
                     )
                 )
             )),
             array('logo-uploader', array(
-                'type'    => 'logo-uploader',
-                'var'     => 'test_var_key4',
+                'type'         => 'logo-uploader',
+                'layoutParams' => array('title' => 'Logo Uploader', 'column' => 'center'),
+                'var'          => 'test_var_key4',
             )),
             array('background-color-picker', array(
-                'type'      => 'color-picker',
-                'selector'  => '.body .div',
-                'attribute' => 'background-color',
-                'var'       => 'test_var_key5',
+                'type'         => 'color-picker',
+                'layoutParams' => array('title' => 'Background Color', 'column' => 'right'),
+                'selector'     => '.body .div',
+                'attribute'    => 'background-color',
+                'var'          => 'test_var_key5',
             )),
         );
     }

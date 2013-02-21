@@ -1061,17 +1061,19 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Render view config object for current package and theme
      *
+     * @param array $params
      * @return Magento_Config_View
      */
-    public function getViewConfig()
+    public function getViewConfig(array $params = array())
     {
-        $key = $this->getDesignTheme()->getId();
+        $this->_updateParamDefaults($params);
+        $key = $params['themeModel']->getId();
         if (isset($this->_viewConfigs[$key])) {
             return $this->_viewConfigs[$key];
         }
 
         $configFiles = $this->_moduleReader->getModuleConfigurationFiles('view.xml');
-        $themeConfigFile = $this->getFilename('view.xml', array());
+        $themeConfigFile = $this->getFilename('view.xml', $params);
         if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }
