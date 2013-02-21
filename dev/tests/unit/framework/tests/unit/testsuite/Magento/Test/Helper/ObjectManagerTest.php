@@ -47,7 +47,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         /** @var $template Mage_Core_Block_Template */
-        $template = $objectManager->getBlock('Mage_Core_Block_Template');
+        $template = $objectManager->getObject('Mage_Core_Block_Template');
         $this->assertInstanceOf('Mage_Core_Block_Template', $template);
         foreach ($this->_blockDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $template);
@@ -62,7 +62,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
 
         $arguments = array('layout' => $layoutMock);
         /** @var $template Mage_Core_Block_Template */
-        $template = $objectManager->getBlock('Mage_Core_Block_Template', $arguments);
+        $template = $objectManager->getObject('Mage_Core_Block_Template', $arguments);
         $this->assertEquals($area, $template->getArea());
     }
 
@@ -73,7 +73,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         /** @var $model Mage_Core_Model_Config_Data */
-        $model = $objectManager->getModel('Mage_Core_Model_Config_Data');
+        $model = $objectManager->getObject('Mage_Core_Model_Config_Data');
         $this->assertInstanceOf('Mage_Core_Model_Config_Data', $model);
         foreach ($this->_modelDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $model);
@@ -90,7 +90,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
             ->method('getIdFieldName')
             ->will($this->returnValue('id'));
         $arguments = array('resource' => $resourceMock);
-        $model = $objectManager->getModel('Mage_Core_Model_Config_Data', $arguments);
+        $model = $objectManager->getObject('Mage_Core_Model_Config_Data', $arguments);
         $this->assertFalse($model->getResource()->getDataVersion('test'));
     }
 }

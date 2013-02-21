@@ -90,7 +90,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
         );
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_block = $objectManagerHelper->getBlock('Mage_Backend_Block_Widget_Grid_Massaction', $arguments);
+        $this->_block = $objectManagerHelper->getObject('Mage_Backend_Block_Widget_Grid_Massaction', $arguments);
         $this->_block->setNameInLayout('test_grid_massaction');
     }
 

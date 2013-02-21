@@ -31,7 +31,7 @@ class Mage_Backend_Block_Widget_Grid_Column_MultistoreTest extends PHPUnit_Frame
         );
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getBlock('Mage_Backend_Block_Widget_Grid_Column_Multistore', $arguments);
+        $this->_model = $objectManagerHelper->getObject('Mage_Backend_Block_Widget_Grid_Column_Multistore', $arguments);
     }
 
     protected function tearDown()

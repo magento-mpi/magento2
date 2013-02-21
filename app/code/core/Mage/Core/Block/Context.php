@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Block_Context
+class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
 {
     /**
      * @param Mage_Core_Controller_Request_Http $request

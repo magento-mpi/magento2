@@ -73,6 +73,7 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
     }
 
     /**
+     * Get dirs instance
      * @return Mage_Core_Model_Dir
      */
     public function getDirs()
@@ -80,11 +81,21 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
         return $this->_dirs;
     }
 
+    /**
+     * Get filesystem instance
+     *
+     * @return Magento_Filesystem
+     */
     public function getFilesystem()
     {
         return $this->_filesystem;
     }
 
+    /**
+     * Get logger instance
+     *
+     * @return Mage_Core_Model_Logger
+     */
     public function getLogger()
     {
         return $this->_logger;

@@ -13,35 +13,14 @@
  */
 class Magento_Test_Helper_ObjectManager
 {
-    /**#@+
-     * Supported entities keys.
-     */
-    const BLOCK_ENTITY = 'block';
-    const MODEL_ENTITY = 'model';
-    /**#@-*/
-
     /**
-     * List of supported entities which can be initialized with their dependencies
-     * Example:
-     * array(
-     *     'entityName' => array(
-     *         'paramName' => 'Mage_Class_Name' or 'callbackMethod'
-     *     )
-     * );
+     * Special cases configuration
      *
      * @var array
      */
-    protected $_supportedEntities = array(
-        self::BLOCK_ENTITY => array(
-            'context' => '_getBlockTemplateContext',
-        ),
-        self::MODEL_ENTITY => array(
-            'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',
-            'cacheManager'       => 'Mage_Core_Model_Cache',
-            'resource'           => '_getResourceModelMock',
-            'resourceCollection' => 'Varien_Data_Collection_Db',
-            'filesystem'         => 'Magento_Filesystem',
-        )
+    protected $_specialCases = array(
+        'Mage_Core_Model_Resource_Abstract' => '_getResourceModelMock',
+        'Mage_Core_Model_Translate' => '_getTranslatorMock',
     );
 
     /**
@@ -62,63 +41,53 @@ class Magento_Test_Helper_ObjectManager
     }
 
     /**
-     * Get block instance
+     * Get mock for each argument
      *
-     * @param string $className
+     * @param array $constructArguments
      * @param array $arguments
-     * @return Mage_Core_Block_Abstract
-     */
-    public function getBlock($className, array $arguments = array())
-    {
-        $arguments = $this->getConstructArguments(self::BLOCK_ENTITY, $className, $arguments);
-        return $this->_getInstanceViaConstructor($className, $arguments);
-    }
-
-    /**
-     * Get model instance
-     *
-     * @param string $className
-     * @param array $arguments
-     * @return Mage_Core_Model_Abstract
-     */
-    public function getModel($className, array $arguments = array())
-    {
-        $arguments = $this->getConstructArguments(self::MODEL_ENTITY, $className, $arguments);
-        return $this->_getInstanceViaConstructor($className, $arguments);
-    }
-
-    /**
-     * Retrieve list of arguments that used for new block instance creation
-     *
-     * @param string $entityName
-     * @param string $className
-     * @param array $arguments
-     * @throws InvalidArgumentException
      * @return array
      */
-    public function getConstructArguments($entityName, $className = '', array $arguments = array())
+    protected function _createArgumentsMock($constructArguments, $arguments)
     {
-        if (!array_key_exists($entityName, $this->_supportedEntities)) {
-            throw new InvalidArgumentException('Unsupported entity type');
-        }
-
-        $constructArguments = array();
-        foreach ($this->_supportedEntities[$entityName] as $propertyName => $propertyType) {
-            if (!isset($arguments[$propertyName])) {
-                if (method_exists($this, $propertyType)) {
-                    $constructArguments[$propertyName] = $this->$propertyType($arguments);
+        foreach ($constructArguments as $name => $argument) {
+            if (is_array($argument) && isset($argument['isAutoTestValue'])) {
+                if ($argument['argumentClassName']) {
+                    $object = $this->_processSpecialCases($argument['argumentClassName'], $arguments);
+                    if (null !== $object) {
+                        $constructArguments[$name] = $object;
+                    } else {
+                        $constructArguments[$name] = $this->_getMockWithoutConstructorCall(
+                            $argument['argumentClassName']
+                        );
+                    }
                 } else {
-                    $constructArguments[$propertyName] = $this->_getMockWithoutConstructorCall($propertyType);
+                    $constructArguments[$name] = $argument['defaultValue'];
                 }
             }
         }
-        $constructArguments = array_merge($constructArguments, $arguments);
+        return $constructArguments;
+    }
 
-        if ($className) {
-            return $this->_sortConstructorArguments($className, $constructArguments);
-        } else {
-            return $constructArguments;
+    /**
+     * Process special cases
+     *
+     * @param string $className
+     * @param array $arguments
+     * @return null|object
+     */
+    protected function _processSpecialCases($className, $arguments)
+    {
+        $object = null;
+        $interfaces = class_implements($className);
+
+        if (in_array('Magento_ObjectManager_ContextInterface', $interfaces)) {
+            $object = $this->getObject($className, $arguments);
+        } elseif (isset($this->_specialCases[$className])) {
+            $method = $this->_specialCases[$className];
+            $object = $this->$method($className);
         }
+
+        return $object;
     }
 
     /**
@@ -139,144 +108,14 @@ class Magento_Test_Helper_ObjectManager
     }
 
     /**
-     * Create context object
-     * @param array $arguments
-     * @return Mage_Core_Block_Template_Context
-     */
-    protected function _getBlockTemplateContext(array $arguments)
-    {
-        $params = array(
-            'request' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Controller_Request_Http', array(), array(), '', false),
-                ),
-            ),
-            'layout' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Layout', array(), array(), '', false),
-                ),
-            ),
-            'eventManager' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-                ),
-            ),
-            'urlBuilder' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Url', array(), array(), '', false),
-                ),
-            ),
-            'translator' => array(
-                'default' => array(
-                    'object' => $this,
-                    'method' => '_getTranslatorMock',
-                    'params' => array(),
-                ),
-            ),
-            'cache' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Cache', array(), array(), '', false),
-                ),
-            ),
-            'designPackage' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Design_Package', array(), array(), '', false),
-                ),
-            ),
-            'session' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Session', array(), array(), '', false),
-                ),
-            ),
-            'storeConfig' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Store_Config', array(), array(), '', false),
-                ),
-            ),
-            'frontController' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
-                ),
-            ),
-            'helperFactory' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Factory_Helper', array(), array(), '', false)
-                ),
-            ),
-            'dirs' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Dir', array(), array(), '', false)
-                ),
-            ),
-            'logger' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Mage_Core_Model_Logger', array(), array(), '', false)
-                ),
-            ),
-            'filesystem' => array(
-                'default' => array(
-                    'object' => $this->_testObject,
-                    'method' => 'getMock',
-                    'params' => array('Magento_Filesystem', array(), array(), '', false)
-                ),
-            ),
-        );
-
-        $parameters = array();
-        foreach ($params as $name => $default) {
-            if (isset($arguments[$name])) {
-                $parameters[$name] = $arguments[$name];
-            } else {
-                $config = $default['default'];
-                $parameters[$name] = call_user_func_array(array($config['object'],
-                    $config['method']), $config['params']
-                );
-            }
-        }
-
-        list($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage, $session,
-            $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem) = array_values($parameters);
-
-        $context = new Mage_Core_Block_Template_Context($request, $layout, $eventManager, $urlBuilder, $translator,
-            $cache, $designPackage, $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger,
-            $filesystem
-        );
-        return $context;
-    }
-
-
-    /**
      * Retrieve mock of core translator model
      *
+     * @param string $className
      * @return Mage_Core_Model_Translate|PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getTranslatorMock()
+    protected function _getTranslatorMock($className)
     {
-        $translator = $this->_testObject->getMockBuilder('Mage_Core_Model_Translate')
+        $translator = $this->_testObject->getMockBuilder($className)
             ->disableOriginalConstructor()
             ->setMethods(array('translate'))
             ->getMock();
@@ -296,33 +135,6 @@ class Magento_Test_Helper_ObjectManager
     }
 
     /**
-     * Sort constructor arguments array as is defined for current class interface
-     *
-     * @param string $className
-     * @param array $arguments
-     * @return array
-     */
-    protected function _sortConstructorArguments($className, array $arguments)
-    {
-        $constructArguments = array();
-        $method = new ReflectionMethod($className, '__construct');
-        foreach ($method->getParameters() as $parameter) {
-            $parameterName = $parameter->getName();
-            if (isset($arguments[$parameterName])) {
-                $constructArguments[$parameterName] = $arguments[$parameterName];
-            } else {
-                if ($parameter->isDefaultValueAvailable()) {
-                    $constructArguments[$parameterName] = $parameter->getDefaultValue();
-                } else {
-                    $constructArguments[$parameterName] = null;
-                }
-            }
-        }
-
-        return $constructArguments;
-    }
-
-    /**
      * Get mock without call of original constructor
      *
      * @param string $className
@@ -330,19 +142,60 @@ class Magento_Test_Helper_ObjectManager
      */
     protected function _getMockWithoutConstructorCall($className)
     {
-        return $this->_testObject->getMock($className, array(), array(), '', false);
+        $class = new ReflectionClass($className);
+        $mock = null;
+        if ($class->isAbstract()) {
+            $mock = $this->_testObject->getMockForAbstractClass($className, array(), '', false, false);
+        } else {
+            $mock = $this->_testObject->getMock($className, array(), array(), '', false, false);
+        }
+        return $mock;
     }
 
     /**
-     * Get class instance via constructor
+     * Get class instance
      *
-     * @param string $className
+     * @param $className
      * @param array $arguments
      * @return object
      */
-    protected function _getInstanceViaConstructor($className, array $arguments = array())
+    public function getObject($className, array $arguments = array())
     {
+        $constructArguments = $this->getConstructArguments($className, $arguments);
         $reflectionClass = new ReflectionClass($className);
-        return $reflectionClass->newInstanceArgs($arguments);
+        return $reflectionClass->newInstanceArgs($constructArguments);
+    }
+
+    /**
+     * Retrieve list of arguments that used for new object instance creation
+     *
+     * @param string $className
+     * @param array $arguments
+     * @return array
+     */
+    public function getConstructArguments($className, array $arguments = array())
+    {
+        $constructArguments = array();
+        $method = new ReflectionMethod($className, '__construct');
+
+        foreach ($method->getParameters() as $parameter) {
+            $parameterName = $parameter->getName();
+            $parameter->getClass();
+            $argument = array();
+            $argument['argumentClassName'] = $parameter->getClass() ? $parameter->getClass()->getName() : null;
+            $argument['defaultValue'] = null;
+            $argument['isAutoTestValue'] = true;
+            if (isset($arguments[$parameterName])) {
+                $argument = $arguments[$parameterName];
+            } elseif ($parameter->isDefaultValueAvailable()) {
+                $argument['defaultValue'] = $parameter->getDefaultValue();
+            }
+
+            $constructArguments[$parameterName] = $argument;
+        }
+
+        $constructArguments = $this->_createArgumentsMock($constructArguments, $arguments);
+
+        return $constructArguments;
     }
 }

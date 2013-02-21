@@ -22,7 +22,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends PHP
         $objectManagerModel = $this->getMock('Magento_ObjectManager');
 
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            Magento_Test_Helper_ObjectManager::BLOCK_ENTITY,
             'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js',
             array(
                  'objectManager' => $objectManagerModel,
