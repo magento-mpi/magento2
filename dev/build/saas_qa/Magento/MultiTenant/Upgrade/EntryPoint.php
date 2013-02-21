@@ -12,9 +12,9 @@ namespace Magento\MultiTenant\Upgrade;
 class EntryPoint extends \Mage_Core_Model_EntryPointAbstract
 {
     /**
-     * Apply scheme & data updates
+     * Apply scheme updates
      */
-    protected function _processRequest()
+    public function processRequest()
     {
         /** @var $appState \Mage_Core_Model_App_State */
         $appState = $this->_objectManager->get('Mage_Core_Model_App_State');
@@ -23,6 +23,5 @@ class EntryPoint extends \Mage_Core_Model_EntryPointAbstract
         /** @var $updater \Mage_Core_Model_Db_Updater */
         $updater = $this->_objectManager->get('Mage_Core_Model_Db_Updater');
         $updater->updateScheme();
-        $updater->updateData();
     }
 }

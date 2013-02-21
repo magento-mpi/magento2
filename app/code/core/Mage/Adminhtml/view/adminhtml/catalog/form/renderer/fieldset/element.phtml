@@ -41,13 +41,13 @@ $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
     <?php else: ?>
     <div<?php echo $fieldAttributes ?>>
         <?php if ($elementBeforeLabel): ?>
-            <?php echo $element->getElementHtml() ?>
+            <?php echo $this->getElementHtml() ?>
             <?php echo $element->getLabelHtml() ?>
             <?php echo $note ?>
         <?php else: ?>
             <?php echo $element->getLabelHtml() ?>
             <div class="control">
-                <?php echo ($addOn) ? '<div class="addon">' . $element->getElementHtml() . '</div>' : $element->getElementHtml(); ?>
+                <?php echo ($addOn) ? '<div class="addon">' . $this->getElementHtml() . '</div>' : $this->getElementHtml(); ?>
                 <?php echo $note ?>
             </div>
         <?php endif; ?>

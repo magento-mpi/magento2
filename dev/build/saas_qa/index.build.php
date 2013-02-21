@@ -23,6 +23,7 @@ try {
     echo $e->getMessage();
     exit(1);
 }
+
 // Determine application configuration string for a tenant
 $appConfigString = serialize(array(
     'custom_local_config' => $localXml,

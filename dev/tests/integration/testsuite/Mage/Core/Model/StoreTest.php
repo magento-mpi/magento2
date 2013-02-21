@@ -300,7 +300,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture limitations/store 1
+     * @magentoConfigFixture global/functional_limitation/max_store_count 1
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      * @expectedException Mage_Core_Exception

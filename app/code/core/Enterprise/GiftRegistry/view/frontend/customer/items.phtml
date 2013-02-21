@@ -14,7 +14,7 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
 <?php if (count($this->getItems()) > 0): ?>
-<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post" id="gift-registry-items-form">
+<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post">
     <fieldset>
         <?php echo $this->getBlockHtml('formkey')?>
         <table id="shopping-cart-table" class="data-table">
@@ -48,16 +48,6 @@
         </div>
     </fieldset>
 </form>
-<script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('#gift-registry-items-form').validation();
-            });
-    })(jQuery);
-</script>
 <?php else: ?>
     <p><?php echo $this->__('Gift Registry has no items.') ?></p>
 <?php endif ?>

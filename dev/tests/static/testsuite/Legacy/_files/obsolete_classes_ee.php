@@ -24,5 +24,4 @@ return array(
     array('Enterprise_Search_Model_Indexer_Price'),
     array('Enterprise_Search_Model_Resource_Suggestions'),
     array('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid'),
-    array('Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid'),
 );

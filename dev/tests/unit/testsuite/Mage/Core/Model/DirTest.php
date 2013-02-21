@@ -8,13 +8,26 @@
 class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Helper_FileSystem
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_filesystemHelper;
+    protected $_fileSystemMock;
 
     public function setUp()
     {
-        $this->_filesystemHelper = new Magento_Test_Helper_FileSystem($this);
+        $this->_fileSystemMock = $this->getMock('Varien_Io_File',
+            array('checkAndCreateFolder'), array(), '', false, false
+        );
+    }
+
+    public function testGetWritableDirCodes()
+    {
+        $codes = Mage_Core_Model_Dir::getWritableDirCodes();
+        $this->assertInternalType('array', $codes);
+        $this->assertNotEmpty($codes);
+        $dir = new Mage_Core_Model_Dir(__DIR__, $this->_fileSystemMock);
+        foreach ($codes as $code) {
+            $this->assertNotEmpty($dir->getDir($code));
+        }
     }
 
     /**
@@ -25,7 +38,7 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidUri($code, $value)
     {
-        $this->_filesystemHelper->createDirInstance(__DIR__, array($code => $value));
+        new Mage_Core_Model_Dir(__DIR__, $this->_fileSystemMock, array($code => $value));
     }
 
     /**
@@ -48,11 +61,14 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
 
     public function testGetUri()
     {
-        $dir = $this->_filesystemHelper->createDirInstance(__DIR__, array(
-            Mage_Core_Model_Dir::PUB   => '',
-            Mage_Core_Model_Dir::MEDIA => 'test',
-            'custom' => 'test2'
-        ));
+        $dir = new Mage_Core_Model_Dir(__DIR__,
+            $this->_fileSystemMock,
+            array(
+                Mage_Core_Model_Dir::PUB   => '',
+                Mage_Core_Model_Dir::MEDIA => 'test',
+                'custom' => 'test2'
+            )
+        );
 
         // arbitrary custom value
         $this->assertEquals('test2', $dir->getUri('custom'));
@@ -64,22 +80,11 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
         // at the same time if another child has custom value, it must not be affected by its parent
         $this->assertEquals('test', $dir->getUri(Mage_Core_Model_Dir::MEDIA));
         $this->assertEquals('test/upload', $dir->getUri(Mage_Core_Model_Dir::UPLOAD));
-    }
 
-    /**
-     * Test that URIs are not affected by custom dirs
-     */
-    public function testGetUriIndependentOfDirs()
-    {
-        $fixtureDirs = array(
-            Mage_Core_Model_Dir::ROOT => __DIR__ . '/root',
-            Mage_Core_Model_Dir::MEDIA => __DIR__ . '/media',
-            'custom' => 'test2'
-        );
-        $default = $this->_filesystemHelper->createDirInstance(__DIR__);
-        $custom = $this->_filesystemHelper->createDirInstance(__DIR__, array(), $fixtureDirs);
-        foreach (array_keys($fixtureDirs) as $dirCode ) {
-            $this->assertEquals($default->getUri($dirCode), $custom->getUri($dirCode));
+        // dirs should not be affected (there is no getter for all directories, so use whatever getter is available)
+        $default = new Mage_Core_Model_Dir(__DIR__, $this->_fileSystemMock);
+        foreach (Mage_Core_Model_Dir::getWritableDirCodes() as $code) {
+            $this->assertEquals($default->getDir($code), $dir->getDir($code));
         }
     }
 
@@ -87,7 +92,7 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
     {
         $newRoot = __DIR__ . DIRECTORY_SEPARATOR . 'root';
         $newMedia = __DIR__ . DIRECTORY_SEPARATOR . 'media';
-        $dir = $this->_filesystemHelper->createDirInstance(__DIR__, array(), array(
+        $dir = new Mage_Core_Model_Dir(__DIR__, $this->_fileSystemMock, array(), array(
             Mage_Core_Model_Dir::ROOT => $newRoot,
             Mage_Core_Model_Dir::MEDIA => $newMedia,
             'custom' => 'test2'
@@ -103,22 +108,16 @@ class Mage_Core_Model_DirTest extends PHPUnit_Framework_TestCase
         // but it didn't affect the customized dirs
         $this->assertEquals($newMedia, $dir->getDir(Mage_Core_Model_Dir::MEDIA));
         $this->assertStringStartsWith($newMedia, $dir->getDir(Mage_Core_Model_Dir::UPLOAD));
-    }
 
-    /**
-     * Test that dirs are not affected by custom URIs
-     */
-    public function testGetDirIndependentOfUris()
-    {
-        $fixtureUris = array(
-            Mage_Core_Model_Dir::PUB   => '',
-            Mage_Core_Model_Dir::MEDIA => 'test',
-            'custom' => 'test2'
-        );
-        $default = $this->_filesystemHelper->createDirInstance(__DIR__);
-        $custom = $this->_filesystemHelper->createDirInstance(__DIR__, $fixtureUris);
-        foreach (array_keys($fixtureUris) as $dirCode ) {
-            $this->assertEquals($default->getDir($dirCode), $custom->getDir($dirCode));
+        // uris should not be affected
+        $default = new Mage_Core_Model_Dir(__DIR__, $this->_fileSystemMock);
+        foreach (array(
+            Mage_Core_Model_Dir::PUB,
+            Mage_Core_Model_Dir::PUB_LIB,
+            Mage_Core_Model_Dir::MEDIA,
+            Mage_Core_Model_Dir::UPLOAD) as $code
+        ) {
+            $this->assertEquals($default->getUri($code), $dir->getUri($code));
         }
     }
 }

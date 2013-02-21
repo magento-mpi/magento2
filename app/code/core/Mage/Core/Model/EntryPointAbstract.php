@@ -24,6 +24,7 @@ abstract class Mage_Core_Model_EntryPointAbstract
     public function __construct(
         $baseDir, array $params = array(), Magento_ObjectManager $objectManager = null
     ) {
+        Magento_Profiler::start('mage');
         if (!array_key_exists(Mage::PARAM_BASEDIR, $params)) {
             $params[Mage::PARAM_BASEDIR] = $baseDir;
         }
@@ -34,8 +35,17 @@ abstract class Mage_Core_Model_EntryPointAbstract
     }
 
     /**
+     * Entry point specific processing
+     */
+    abstract protected function _processRequest();
+
+    /**
      * Process request to application
      */
-    public abstract function processRequest();
+    final public function processRequest()
+    {
+        $this->_processRequest();
+        Magento_Profiler::stop('mage');
+    }
 }
 

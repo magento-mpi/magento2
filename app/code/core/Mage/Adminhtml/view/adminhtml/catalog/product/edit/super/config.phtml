@@ -65,7 +65,7 @@ jQuery(function($) {
         collapsableControl = $('> .fieldset-wrapper-title > [data-toggle="collapse"]', collapsableWrapper),
         stockAvailabilityField = $('#quantity_and_stock_status'),
         qtyField = $('#qty'),
-        currentProductTemplateContainer = $('#product-template-suggest-container .current-product-template-container'),
+        currentProductTemplateControl = $('#product-template-suggest-container .actions-split > .action-toggle'),
         attributesInput = $("input[name='attributes[]']", variationsContainer),
         hasVariations = <?php echo ($this->_getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>;
 
@@ -74,9 +74,9 @@ jQuery(function($) {
     collapsableArea
         .collapse(hasVariations ? 'show' : 'hide')
         .on('show', function() {
-            currentProductTemplateContainer
-                .off('click.product-template')
-                .addClass('disabled');
+            currentProductTemplateControl
+                .addClass('disabled')
+                .prop('disabled', true);
 
             attributesInput.prop('disabled', false);
 
@@ -92,12 +92,9 @@ jQuery(function($) {
             })
         })
         .on('hide', function() {
-            currentProductTemplateContainer
+            currentProductTemplateControl
                 .removeClass('disabled')
-                .off('click.product-template')
-                .on('click.product-template', function () {
-                    $(this).next('div').toggle();
-                });
+                .prop('disabled', false);
 
             qtyField
                 .prop('disabled', false)

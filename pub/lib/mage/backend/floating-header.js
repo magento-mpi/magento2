@@ -26,7 +26,6 @@
             var title = $(this.options.title).text();
             this._setVars();
             this._bind();
-            this.element.find('script').remove();
             this.element.wrapInner($('<div/>', {'class': 'page-actions-inner', 'data-title': title}));
         },
 

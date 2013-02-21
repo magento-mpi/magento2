@@ -37,16 +37,16 @@ interface Enterprise_PageCache_Model_Cache_SubProcessorInterface
     /**
      * Return cache page id with application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor);
+    public function getPageIdInApp(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor);
 
     /**
      * Return cache page id without application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor);
+    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor);
 }

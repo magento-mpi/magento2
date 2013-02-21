@@ -31,7 +31,7 @@ class Mage_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Explicit zero - don't allow creating
      *
-     * @magentoConfigFixture limitations/admin_account 0
+     * @magentoConfigFixture global/functional_limitation/max_admin_user_count 0
      */
     public function testCanCreateUserZero()
     {
@@ -41,7 +41,7 @@ class Mage_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Any other values - compare with users count
      *
-     * @magentoConfigFixture limitations/admin_account 1
+     * @magentoConfigFixture global/functional_limitation/max_admin_user_count 1
      */
     public function testCanCreateUserFalse()
     {

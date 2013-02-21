@@ -54,7 +54,7 @@ class Mage_Page_Block_Redirect extends Mage_Core_Block_Template
         if ($this->isHtmlFormRedirect()) {
             return $this->getHtmlFormRedirect();
         } else {
-            return $this->getRedirect();
+            return $this->getJsRedirect();
         }
     }
 
@@ -63,13 +63,12 @@ class Mage_Page_Block_Redirect extends Mage_Core_Block_Template
      *
      *  @return	  string
      */
-    public function getRedirect ()
+    public function getJsRedirect ()
     {
-        return '<script type="text/javascript">
-            (function($){
-                $($.mage.redirect("' . $this->getTargetURL() . '"));
-            })(jQuery);
-        </script>';
+        $js  = '<script type="text/javascript">';
+        $js .= 'document.location.href="' . $this->getTargetURL() . '";';
+        $js .= '</script>';
+        return $js;
     }
 
     /**
@@ -83,13 +82,14 @@ class Mage_Page_Block_Redirect extends Mage_Core_Block_Template
         $form->setAction($this->getTargetURL())
             ->setId($this->getFormId())
             ->setName($this->getFormId())
-            ->setAttr('data-auto-submit', 'true')
             ->setMethod($this->getMethod())
             ->setUseContainer(true);
         foreach ($this->_getFormFields() as $field => $value) {
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
-        return $form->toHtml();
+        $html = $form->toHtml();
+        $html.= '<script type="text/javascript">document.getElementById("' . $this->getFormId() . '").submit();</script>';
+        return $html;
     }
 
     /**

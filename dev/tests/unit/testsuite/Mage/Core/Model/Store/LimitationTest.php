@@ -9,7 +9,7 @@ class Mage_Core_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $totalCount
-     * @param string|int $configuredCount
+     * @param string $configuredCount
      * @param bool $expected
      * @dataProvider canCreateDataProvider
      */
@@ -21,7 +21,7 @@ class Mage_Core_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
         }
         $config = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
         $config->expects($this->any())->method('getNode')
-            ->with('limitations/store')
+            ->with('global/functional_limitation/max_store_count')
             ->will($this->returnValue($configuredCount));
         $model = new Mage_Core_Model_Store_Limitation($resource, $config);
         $this->assertEquals($expected, $model->canCreate());
@@ -39,9 +39,9 @@ class Mage_Core_Model_Store_LimitationTest extends PHPUnit_Framework_TestCase
             'no limit'       => array(0, '', true),
             'negative limit' => array(2, -1, false),
             'zero limit'     => array(2, 0, false),
-            'count > limit'  => array(2, 1, false),
-            'count = limit'  => array(2, 2, false),
-            'count < limit'  => array(2, 3, true),
+            'limit < count'  => array(2, 1, false),
+            'limit = count'  => array(2, 2, false),
+            'limit > count'  => array(2, 3, true),
         );
     }
 }

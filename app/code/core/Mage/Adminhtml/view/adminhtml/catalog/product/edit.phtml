@@ -14,27 +14,25 @@
  */
 ?>
 
-<!--
-    <h3 class="icon-head head-products"><?php echo $this->getHeader() ?></h3>
--->
-
 <div class="page-actions">
-    <div id="product-template-suggest-container" style="float:left; position: relative;padding: 5px 0 0 10px;">
-        <span class="current-product-template-container" style="cursor: pointer">
-            <span class="current-product-template"><?php echo $this->getAttributeSetName()?></span>
-            <div class="arrow" style="display: inline-block;height: 0;width: 0;border-left:5px solid transparent;border-right: 5px solid transparent;border-top:5px solid #000;"></div>
-        </span>
-        <div class="dropdown-wrapper" style="display: none; position: absolute; background: white; padding: 5px;">
-            <input type="text" id="product-template-suggest" placeholder="start typing to search product template"/>
+    <div id="product-template-suggest-container" class="suggest-expandable">
+        <div class="actions-split">
+            <button class="action-toggle" data-toggle="dropdown">
+                <span><?php echo $this->getAttributeSetName()?></span>
+            </button>
+            <ul class="dropdown-menu">
+                <input type="search" id="product-template-suggest" placeholder="start typing to search template"/>
+            </ul>
         </div>
     </div>
 
     <div class="switcher" onselectstart='return false;'>
-        <label class="switcher-label" for="product-online-switcher" title="Product online status">
-            <strong>Product online</strong>
-            <input type="checkbox" id="product-online-switcher" checked />
-            <span></span>
-        </label>
+        <input type="checkbox" id="product-online-switcher" name="product-online-switcher" />
+        <label class="switcher-label"
+               for="product-online-switcher"
+               data-text-on="<?php echo $this->__('Product online'); ?>"
+               data-text-off="<?php echo $this->__('Product offline'); ?>"
+               title="<?php echo $this->__('Product online status'); ?>"></label>
     </div>
 
     <?php if($this->getProductId()): ?>
@@ -177,6 +175,17 @@ jQuery(function($) {
         } else {
             updateSaveSplitButtonAvailability();
         }
+
+        $('#product-online-switcher').prop('checked', $('#status').val() == '1')
+            .siblings('#product-online-status')
+            .text($.mage.__($('#status').val() == '1' ? 'Product online' : 'Product offline'));
+    });
+
+    $('#product-online-switcher').on('change', function(event) {
+        $('#status').val($(this).prop('checked') ? '1' : '2');
+        $('#product-online-switcher').siblings('#product-online-status').text(
+            $.mage.__($(this).prop('checked') ? 'Product online' : 'Product offline')
+        );
     });
 });
 </script>

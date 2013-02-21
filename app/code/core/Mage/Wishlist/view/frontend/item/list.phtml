@@ -37,5 +37,11 @@
     <?php echo $column->getAdditionalHtml();?>
 <?php endforeach; ?>
 <script type="text/javascript">
-    jQuery('#wishlist-table').decorate('table');
+//<![CDATA[
+    (function($) {$('#wishlist-table').decorate('table')})(jQuery);
+
+<?php foreach ($columns as $column): ?>
+    <?php echo $column->getJs();?>
+<?php endforeach; ?>
+//]]>
 </script>

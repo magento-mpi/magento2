@@ -84,9 +84,11 @@
                     selected.push(element.val());
                     config.selected[parts[2]] = selected;
                 } else if (element.is('input')) {
-                    if (element.is(":radio:checked")) {
+                    if (element.is(":radio")) {
+                        if (element.is(":checked")) {
                             selected.push(element.val());
                             config.selected[parts[2]] = selected;
+                        }
                     }
                     if (element.is(":checkbox")) {
                         if (element.is(":checked")) {

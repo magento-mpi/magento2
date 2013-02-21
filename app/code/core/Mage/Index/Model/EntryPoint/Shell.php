@@ -29,7 +29,7 @@ class Mage_Index_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstra
     /**
      * Process request to application
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         /** @var $shell Mage_Index_Model_Shell */
         $shell = $this->_objectManager->create('Mage_Index_Model_Shell');

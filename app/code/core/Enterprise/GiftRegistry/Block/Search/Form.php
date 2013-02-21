@@ -65,7 +65,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
     {
         $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setData(array(
-                'id'    => 'params-type-id',
+                'id'    => 'params_type_id',
                 'class' => 'select'
             ))
             ->setName('params[type_id]')

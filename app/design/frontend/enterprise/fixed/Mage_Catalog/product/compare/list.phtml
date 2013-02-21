@@ -123,27 +123,24 @@
             <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Please wait...') ?>" title="<?php echo $this->__('Please wait...') ?>" class="v-middle" /> <?php echo $this->__('Please wait...') ?>
         </span>
     </div>
-<?php endif; ?>
-<script type="text/javascript">
-    (function($, window) {
-    <?php if ($_total): ?>
-        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/list.js')?>", function() {
-            $('#product-comparison').compareList({
-                productRemoveSelector: 'img.btn-remove',
-                ajaxSpinner: '#compare-list-please-wait',
-                windowCloseSelector: '#window-close',
-                windowPrintSelector: 'a.link-print',
-                selectors: {
-                    productSelector: 'h3.product-name > a',
-                    productImageSelector: 'a.product-image',
-                    productAddToCartSelector: 'button.btn-cart',
-                    productWishListSelector: 'a.link-wishlist'
-                }
+    <script type="text/javascript">
+        (function($) {
+            head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/list.js')?>", function() {
+                $('#product-comparison').compareList({
+                    productRemoveSelector: 'img.btn-remove',
+                    ajaxSpinner: '#compare-list-please-wait',
+                    windowCloseSelector: '#window-close',
+                    windowPrintSelector: 'a.link-print',
+                    selectors: {
+                        productSelector: 'h3.product-name > a',
+                        productImageSelector: 'a.product-image',
+                        productAddToCartSelector: 'button.btn-cart',
+                        productWishListSelector: 'a.link-wishlist'
+                    }
+                });
             });
-        });
-    <?php else: ?>
-        window.close();
-    <?php endif; ?>
-    })(jQuery, window);
-</script>
-
+        })(jQuery);
+    </script>
+<?php else: ?>
+    <script type="text/javascript">window.close();</script>
+<?php endif; ?>

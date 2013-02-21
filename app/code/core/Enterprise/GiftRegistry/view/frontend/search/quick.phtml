@@ -19,15 +19,15 @@
             <ul class="form-alt">
                 <li>
                     <?php echo $this->getBlockHtml('formkey')?>
-                    <label for="params-firstname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('First Name') ?> <em>*</em></label>
+                    <label for="params_firstname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('First Name') ?> <em>*</em></label>
                     <div class="input-box">
-                        <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="params-firstname" name="params[firstname]" />
+                        <input type="text" class="input-text required-entry validate-name-length" id="params_firstname" name="params[firstname]" />
                     </div>
                 </li>
                 <li>
-                    <label for="params-lastname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Last Name') ?> <em>*</em></label>
+                    <label for="params_lastname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Last Name') ?> <em>*</em></label>
                     <div class="input-box">
-                        <input type="text" class="input-text" data-validate="{required:true,minlength:2}" id="params-lastname" name="params[lastname]" />
+                        <input type="text" class="input-text required-entry validate-name-length" id="params_lastname" name="params[lastname]" />
                     </div>
                     <p class="note"><em>*</em> <?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Enter at least two letters of the name') ?></p>
                 </li>
@@ -76,13 +76,15 @@
     </div>
 </div>
 <script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('form[id^="gr-quick-search"]').validation();
-            });
-    })(jQuery);
+//<![CDATA[
+    var grQuickSearchForm = new VarienForm('gr-quick-search-form');
+    var grQuickSearchEmailForm = new VarienForm('gr-quick-search-email-form');
+    var grQuickSearchIdForm = new VarienForm('gr-quick-search-id-form');
+    Validation.addAllThese([
+        ['validate-name-length', '<?php echo $this->__('Please enter at least 2 letters.') ?>', function(v, elm) {
+            return (v.length >= 2);
+        }]
+    ]);
+//]]>
 </script>
 <?php endif; ?>
