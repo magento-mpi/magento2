@@ -29,8 +29,8 @@
                 if (this.name === options.paymentName && this.value === options.paymentValue) {
                     // Show 'No Payment Information Required' with checked radio button.
                     $(this).attr({'checked': true, 'disabled': false}).parent().show();
-                } else {
-                    // Show 'Check / Money order' with no radio button.
+                } else if ($(this).closest("div.buttons-set").length === 0) {
+                    // Hide all other objects beside the buttons.
                     $(this).parent().attr('disabled', true).hide();
                 }
             });
