@@ -13,22 +13,36 @@
   */
 class Mage_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Mage_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    protected function setUp()
+    {
+        $this->_indexer = Mage::getModel('Mage_Index_Model_Indexer');
+    }
+
+    protected function tearDown()
+    {
+        $this->_indexer = null;
+    }
+
     public function testReindexAll()
     {
-        /** @var $indexer Mage_Index_Model_Indexer */
-        $indexer = Mage::getModel('Mage_Index_Model_Indexer');
-        $process = $indexer->getProcessByCode('catalog_product_price');
-        $process->setStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        $process = $this->_getProcessModel('catalog_product_price');
+        $process->setStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX)->save();
+        $this->assertEquals(
+            Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX,
+            $this->_getProcessModel('catalog_product_price')->getStatus()
+        );
 
-        $indexer->reindexAll();
+        $this->_indexer->reindexAll();
 
-        /**
-         * The indexer model must be created again, in order to re-create collection. Once the collection is loaded,
-         * it will contain old object of processes. This is a design flaw of the Mage_Index_Model_Indexer
-         */
-        $indexer = Mage::getModel('Mage_Index_Model_Indexer');
-        $process = $indexer->getProcessByCode('catalog_product_price');
-        $this->assertEquals(Mage_Index_Model_Process::STATUS_PENDING, $process->getStatus());
+        $this->assertEquals(
+            Mage_Index_Model_Process::STATUS_PENDING,
+            $this->_getProcessModel('catalog_product_price')->getStatus()
+        );
     }
 
     /**
@@ -36,19 +50,40 @@ class Mage_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
      */
     public function testReindexRequired()
     {
-        /** @var $indexer Mage_Index_Model_Indexer */
-        $indexer = Mage::getModel('Mage_Index_Model_Indexer');
-        $process = $indexer->getProcessByCode('catalog_product_attribute');
-        $this->assertEquals(Mage_Index_Model_Process::STATUS_PENDING, $process->getStatus());
-        $process = $indexer->getProcessByCode('catalog_product_price');
-        $process->setStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        $process = $this->_getProcessModel('catalog_product_attribute');
+        $process->setStatus(Mage_Index_Model_Process::STATUS_RUNNING)->save();
+        $process = $this->_getProcessModel('catalog_product_price');
+        $process->setStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX)->save();
+        $this->assertEquals(
+            Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX,
+            $this->_getProcessModel('catalog_product_price')->getStatus()
+        );
 
-        $indexer->reindexRequired();
+        $this->_indexer->reindexRequired();
 
-        $indexer = Mage::getModel('Mage_Index_Model_Indexer');
-        $process = $indexer->getProcessByCode('catalog_product_attribute');
-        $this->assertEquals(Mage_Index_Model_Process::STATUS_PENDING, $process->getStatus());
-        $process = $indexer->getProcessByCode('catalog_product_price');
-        $this->assertEquals(Mage_Index_Model_Process::STATUS_PENDING, $process->getStatus());
+        $this->assertEquals(
+            Mage_Index_Model_Process::STATUS_RUNNING,
+            $this->_getProcessModel('catalog_product_attribute')->getStatus()
+        );
+        $this->assertEquals(
+            Mage_Index_Model_Process::STATUS_PENDING,
+            $this->_getProcessModel('catalog_product_price')->getStatus()
+        );
+    }
+
+    /**
+     * Load and instantiate index process model
+     *
+     * We want to load it every time instead of receiving using Mage_Index_Model_Indexer::getProcessByCode()
+     * Because that method depends on state of the object, which does not reflect changes in database
+     *
+     * @param string $typeCode
+     * @return Mage_Index_Model_Process|Mage_Core_Model_Abstract
+     */
+    private function _getProcessModel($typeCode)
+    {
+        $process = Mage::getModel('Mage_Index_Model_Process');
+        $process->load($typeCode, 'indexer_code');
+        return $process;
     }
 }
