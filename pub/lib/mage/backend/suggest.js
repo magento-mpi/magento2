@@ -707,6 +707,7 @@
             choiceTemplate: '<li class="mage-suggest-choice button"><div>${text}</div>' +
                 '<span class="mage-suggest-choice-close" tabindex="-1" ' +
                 'data-mage-init="{&quot;actionLink&quot;:{&quot;event&quot;:&quot;removeOption&quot;}}"></span></li>',
+            selectedClass: 'mage-suggest-selected'
         },
 
         /**
@@ -802,6 +803,8 @@
                     }
                     if (this._selectedItem !== this._nonSelectedItem) {
                         this._term = '';
+                        this.element.val(this._term);
+                        $(e.target).addClass(this.options.selectedClass);
                         this._addOption(e, this._selectedItem);
                     }
                 }

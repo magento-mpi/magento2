@@ -44,10 +44,10 @@
             this.get_container()
                 .show()
                 .on('keydown', $.proxy(function(e) {
-                if (e.keyCode === $.ui.keyCode.ENTER) {
-                    var o = this.data.ui.hovered || this.data.ui.last_selected || -1;
-                    this.select_node(o, true);
-                }
+                    if (e.keyCode === $.ui.keyCode.ENTER) {
+                        var o = this.data.ui.hovered || this.data.ui.last_selected || -1;
+                        this.select_node(o, true);
+                    }
             }, this));
             init.call(this);
         },
@@ -77,7 +77,9 @@
          */
         select_node: function(o) {
             select_node.apply(this, arguments);
-            (o ? $(o) : this.data.ui.last_selected).trigger('select_tree_node');
+            var node = this._get_node(o);
+            (node ? $(node) : this.data.ui.last_selected)
+                .trigger('select_tree_node');
         }
     });
 
@@ -91,7 +93,7 @@
                 '&quot;themes&quot;:{&quot;theme&quot;:&quot;default&quot;,&quot;dots&quot;:' +
                 'false,&quot;icons&quot;:false}}}">{{/if}}' +
                 '<ul>{{each items}}' +
-                '<li{{if $data.itemSelected($value)}} class="mage-suggest-selected"{{/if}}>' +
+                '<li{{if $data.itemSelected($value)}} rel="disabled" class="mage-suggest-selected"{{/if}}>' +
                 '<a href="#" {{html optionData($value)}}>${$value.label}</a>' +
                 '{{if $value.children && $value.children.length}}' +
                 '{{html renderTreeLevel($value.children)}}' +

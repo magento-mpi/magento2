@@ -431,9 +431,20 @@ button.primary.disabled,
 .mage-suggest-dropdown .jstree li a {
     display: inline-block;
 }
+.mage-suggest-dropdown .jstree .mage-suggest-selected > a{
+    color: #9ba8b5;
+}
+.mage-suggest-dropdown .jstree .mage-suggest-selected > a:hover,
+.mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-clicked
+{
+    color: #9ba8b5;
+    background: #f5f5f5;
+}
 
 .mage-suggest-dropdown .category-path {
     font-size: 11px;
+    margin-left: 10px;
     color: #9ba8b5;
 }
 
