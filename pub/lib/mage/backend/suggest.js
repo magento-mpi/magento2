@@ -706,7 +706,7 @@
                 '<li class="mage-suggest-search-field"></li></ul>',
             choiceTemplate: '<li class="mage-suggest-choice button"><div>${text}</div>' +
                 '<span class="mage-suggest-choice-close" tabindex="-1" ' +
-                'data-mage-init="{&quot;actionLink&quot;:{&quot;event&quot;:&quot;removeOption&quot;}}"></span></li>'
+                'data-mage-init="{&quot;actionLink&quot;:{&quot;event&quot;:&quot;removeOption&quot;}}"></span></li>',
         },
 
         /**
@@ -714,7 +714,6 @@
          */
         _create: function() {
             this._super();
-            this._selectedItems = [];
             if (this.options.multiselect) {
                 this.valueField.hide();
             }
@@ -728,11 +727,19 @@
             if (this.options.multiselect) {
                 this.element.wrap(this.options.multiSuggestWrapper);
                 this.elementWrapper = this.element.parent();
-                this.valueField.find('option').each($.proxy(function(i, option) {
+                this._getOptions().each($.proxy(function(i, option) {
                     option = $(option);
-                    this._renderOption({id: option.val(), label: option.text()});
+                    this._createOption({id: option.val(), label: option.text()});
                 }, this));
             }
+        },
+
+        /**
+         * @return {Array} array of DOM-elements
+         * @private
+         */
+        _getOptions: function() {
+            return this.valueField.find('option')
         },
         
         /**
@@ -747,7 +754,6 @@
                         switch (event.keyCode) {
                             case keyCode.BACKSPACE:
                                 if (!this._value()) {
-                                    event.preventDefault();
                                     this._removeLastAdded(event);
                                 }
                                 break;
@@ -787,7 +793,7 @@
         /**
          * @override
          */
-        _selectItem: function() {
+        _selectItem: function(e) {
             if (this.options.multiselect) {
                 if (this._focused) {
                     this._selectedItem = this._focused;
@@ -796,7 +802,7 @@
                     }
                     if (this._selectedItem !== this._nonSelectedItem) {
                         this._term = '';
-                        this._addOption(this._selectedItem);
+                        this._addOption(e, this._selectedItem);
                     }
                 }
             } else {
@@ -811,10 +817,10 @@
             var context = this._superApply(arguments);
             if(this.options.multiselect) {
                 return $.extend(context, {
-                    itemSelected:$.proxy(function(item) {
+                    itemSelected: $.proxy(function(item) {
                         var selected = false;
-                        $.each(this._selectedItems, function(i, selectedItem){
-                            if(item.id === selectedItem.id) {
+                        $.each(this._getOptions(), function(i, selectedItem){
+                            if(item.id === $(selectedItem).val()) {
                                 selected = true;
                                 return false;
                             }
@@ -833,7 +839,10 @@
          * @private
          */
         _createOption: function(item) {
-            return $('<option value="' + item.id + '" selected="selected">' + item.label + '</option>')
+            var option = this._getOption(item);
+            return (option.length ?
+                option :
+                $('<option value="' + item.id + '" selected="selected">' + item.label + '</option>'))
                 .data('renderedOption', this._renderOption(item));
         },
 
@@ -842,9 +851,8 @@
          * @param item
          * @private
          */
-        _addOption: function(item) {
-            this._selectedItems.push(this._selectedItem);
-            this.valueField.append(this._createOption(item));
+        _addOption: function(e, item) {
+            this.valueField.append(this._createOption(item).data('selectTarget', $(e.target)));
         },
 
         /**
@@ -864,9 +872,8 @@
          * @param {Object} e - event object
          */
         _removeLastAdded: function(e) {
-            var selectedLength = this._selectedItems.length,
-                lastAdded = selectedLength ? this._selectedItems[selectedLength - 1] : null;
-            if(lastAdded) {
+            var lastAdded = this._getOptions().last();
+            if(lastAdded.length) {
                 this.removeOption(e, lastAdded);
             }
         },
@@ -879,9 +886,10 @@
          */
         removeOption: function(e, item) {
             var option = this._getOption(item);
-            this._selectedItems = $.grep(this._selectedItems, function(selectedItem) {
-                return selectedItem.id !== item.id;
-            });
+            var selectTarget = option.data('selectTarget');
+            if (selectTarget && selectTarget.length) {
+                selectTarget.removeClass(this.options.selectedClass);
+            }
             option.data('renderedOption').remove();
             option.remove();
         },
