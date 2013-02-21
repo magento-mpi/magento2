@@ -813,6 +813,7 @@ option.placeholder {
 
 .form-inline .label {
     width: 20%;
+    padding-top: 6px;
 }
 
 .form-inline .label + .control {
@@ -1018,8 +1019,7 @@ option.placeholder {
     top: 9px;
 }
 
-.fieldset .fieldset-wrapper-title .draggable-handle,
-.fieldset-wrapper .fieldset-wrapper-title .draggable-handle {
+.fieldset .draggable-handle {
     position: absolute;
     left: 10px;
     top: 12px;
@@ -1031,13 +1031,11 @@ option.placeholder {
     color: #b2b0ad;
 }
 
-.fieldset .fieldset-wrapper-title .draggable-handle:hover,
-.fieldset-wrapper .fieldset-wrapper-title .draggable-handle:hover {
+.fieldset .draggable-handle:hover {
     color: #7e7e7e;
 }
 
-.fieldset .fieldset-wrapper-title .draggable-handle:before,
-.fieldset-wrapper .fieldset-wrapper-title .draggable-handle:before {
+.fieldset .draggable-handle:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -3797,7 +3795,9 @@ tr.dynamic-grid input.input-text {
 .col-display,
 .col-image,
 .col-price,
-.col-change-price {
+.col-change-price,
+.col-default,
+.col-uqty {
     text-align: center;
 }
 
@@ -3969,6 +3969,18 @@ tr.dynamic-grid input.input-text {
 .widget-layout-updates .chooser_container p img,
 .widget-layout-updates .chooser_container p input {
     vertical-align: middle;
+}
+
+/*
+    Global 'No Products found' block
+-------------------------------------- */
+.no-products-message {
+    background: #fbfaf6;
+    padding: 12px;
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 13px;
 }
 
 /*

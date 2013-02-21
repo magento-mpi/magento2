@@ -165,7 +165,6 @@
     margin-left: 0;
 }
 
-.image[data-image-hidden]:after,
 .image.hidden-for-front:after {
     position: absolute;
     left: 0;
@@ -173,7 +172,7 @@
     top: 0;
     bottom: 0;
     background: rgba(247, 242, 236, .8);
-    content: attr(data-image-hidden);
+    content: attr(data-image-hidden-label);
     text-align: center;
     text-transform: uppercase;
     color: #a69a8f;

@@ -52,7 +52,11 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends Varien_Dat
      */
     public function getElementHtml()
     {
-        $this->_element->setId($this->getHtmlId())->setName($this->getData('name'))->setChecked(true);
-        return $this->_element->getElementHtml() . ' ' . Mage::helper('Enterprise_GiftCard_Helper_Data')->__('allow');
+        $this->_element->setId($this->getHtmlId())->setName($this->getData('name'))
+            ->setChecked($this->getValue())->setValue(Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED);
+        $hiddenField = '<input type="hidden" name="' . $this->getName()
+            . '" value="' . Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED . '"/>';
+        return $hiddenField . $this->_element->getElementHtml()
+            . ' ' . Mage::helper('Enterprise_GiftCard_Helper_Data')->__('allow');
     }
 }

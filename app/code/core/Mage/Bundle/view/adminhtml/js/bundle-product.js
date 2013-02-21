@@ -9,7 +9,9 @@
 /*jshint browser:true jquery:true*/
 /*global FORM_KEY*/
 /*global bSelection*/
+/*global $H*/
 (function($) {
+    'use strict';
     $.widget('mage.bundleProduct', {
         _create: function () {
             this._initOptionBoxes();
@@ -22,7 +24,7 @@
         _initOptionBoxes: function () {
             this.element.sortable({
                 axis: 'y',
-                handle: '.entry-edit-head > .ui-icon-grip-dotted-vertical',
+                handle: '[data-role="grip"]',
                 items: '.option-box',
                 update: this._updateOptionBoxPositions,
                 tolerance: 'pointer'
@@ -32,12 +34,6 @@
                 $(event.target).closest('.option-box').find('.head-edit-form').text($(event.target).val());
             };
             this._on({
-                'click .remove':  function (event) {
-                    $(event.target).closest('.option-box').find('.delete-product-option').trigger('click');
-                },
-                'click .toggle': function (event) {
-                    $(event.target).closest('.option-box').find('.option-header,.form-list,.selection-search').toggle();
-                },
                 'change .option-box input[name$="[title]"]': syncOptionTitle,
                 'keyup .option-box input[name$="[title]"]': syncOptionTitle
             });
@@ -45,7 +41,7 @@
         _initSortableSelections: function () {
             this.element.find('.option-box .form-list tbody').sortable({
                 axis: 'y',
-                handle: '.ui-icon-grip-dotted-vertical',
+                handle: '[data-role="grip"]',
                 helper: function(event, ui) {
                     ui.children().each(function() {
                         $(this).width($(this).width());
@@ -54,9 +50,6 @@
                 },
                 update: this._updateSelectionsPositions,
                 tolerance: 'pointer'
-            });
-            this.element.find('.option-box').each(function () {
-                $(this).find('.add-selection').appendTo($(this));
             });
         },
         _bindAddSelectionDialog: function () {
@@ -71,7 +64,7 @@
                 $optionBox.find('[name$="[product_id]"]').each(function () {
                     if (!$(this).closest('tr').find('[name$="[delete]"]').val()) {
                         productIds.push($(this).val());
-                        productSkus.push($(this).closest('tr').find('.product-sku').text());
+                        productSkus.push($(this).closest('tr').find('.col-sku').text());
                     }
                 });
 
@@ -110,8 +103,8 @@
                             );
                             bSelection.gridRemoval.each(
                                 function(pair) {
-                                    $optionBox.find('.product-sku').filter(function () {
-                                        return $.trim($(this).text()) == pair.key; // find row by SKU
+                                    $optionBox.find('.col-sku').filter(function () {
+                                        return $.trim($(this).text()) === pair.key; // find row by SKU
                                     }).closest('tr').find('button.delete').trigger('click');
                                 }
                             );

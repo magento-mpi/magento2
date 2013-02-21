@@ -34,7 +34,10 @@ $elementName = $this->getElement()->getName() . '[images]';
 
 
     <script id="<?php echo $this->getHtmlId() ?>-template" type="text/x-jquery-tmpl">
-        <div class="image item {{if disabled == 1 }}disabled{{/if}}" data-image-label="<?php echo $this->__('Main') ?>" data-role="image">
+        <div class="image item {{if disabled == 1 }}hidden-for-front{{/if}}"
+            data-image-label="<?php echo $this->__('Main') ?>"
+            data-image-hidden-label="<?php echo $this->__('Hidden') ?>"
+            data-role="image">
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][position]" value="${position}" class="position"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][file]" value="${file}"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][value_id]" value="${value_id}"/>
@@ -73,7 +76,9 @@ $elementName = $this->getElement()->getName() . '[images]';
                     <span class="size">123 Kb</span>
                 </p>
 
-                <button type="button" class="action-remove" title="<?php echo $this->__('Remove image'); ?>">
+                <button type="button" class="action-remove"
+                    data-role="delete-button"
+                    title="<?php echo $this->__('Remove image'); ?>">
                     <span><?php echo $this->__('Remove image'); ?></span>
                 </button>
 

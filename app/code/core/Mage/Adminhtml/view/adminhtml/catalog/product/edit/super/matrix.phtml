@@ -116,10 +116,10 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     ?>
                     <td class="col-actions">
                         <div class="actions-split">
-                            <button class="action-default">
+                            <button type="button" class="action-default">
                                 <span>Edit</span>
                             </button>
-                            <button class="action-toggle" data-toggle="dropdown">
+                            <button type="button" class="action-toggle" data-toggle="dropdown">
                                 <span>Select</span>
                             </button>
                             <ul class="dropdown-menu">
@@ -128,17 +128,6 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                 </li>
                             </ul>
                         </div>
-
-                        <script type="text/javascript">
-                            (function ($) {
-                                'use strict';
-
-                                $('.actions-split')
-                                    .on('click.splitDefault', '.action-default', function () {
-                                        $(this).siblings('.dropdown-menu').find('.item-default').trigger('click');
-                                    });
-                            })(window.jQuery);
-                        </script>
                     </td>
                 </tr>
                     <?php
@@ -158,7 +147,8 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         </div>
                     </td>
                     <td class="col-name associated-matrix-product-name">
-                        <input id="variations-matrix-<?php echo $key?>-name"
+                        <input type="text"
+                               id="variations-matrix-<?php echo $key?>-name"
                                name="variations-matrix[<?php echo $key?>][name]"
                                value="<?php echo $this->escapeHtml($this->_getProduct()->getName()), '-', implode('-', $attributeLabels)?>"
                                class="<?php echo $this->getAttributeFrontendClass('name'); ?>"<?php echo $disabled?>/>
@@ -170,7 +160,8 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         </button>
                     </td>
                     <td class="col-sku associated-matrix-product-sku">
-                        <input id="variations-matrix-<?php echo $key?>-sku"
+                        <input type="text"
+                               id="variations-matrix-<?php echo $key?>-sku"
                                name="variations-matrix[<?php echo $key?>][sku]"
                                value="<?php echo $this->escapeHtml($this->_getProduct()->getSku()), '-', implode('-', $attributeLabels)?>"
                                class="<?php echo $this->getAttributeFrontendClass('sku'); ?>"<?php echo $disabled?>/>
@@ -179,13 +170,15 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         <?php echo $price ?>
                     </td>
                     <td class="col-qty associated-matrix-product-qty">
-                        <input id="variations-matrix-<?php echo $key?>-qty"
+                        <input type="text"
+                               id="variations-matrix-<?php echo $key?>-qty"
                                name="variations-matrix[<?php echo $key?>][quantity_and_stock_status][qty]"
                                class="validate-number"
                                value=""<?php echo $disabled?>>
                     </td>
                     <td class="col-weight associated-matrix-product-weight">
-                        <input id="variations-matrix-<?php echo $key?>-weight"
+                        <input type="text"
+                               id="variations-matrix-<?php echo $key?>-weight"
                                name="variations-matrix[<?php echo $key?>][weight]"
                                class="<?php echo str_replace('required-entry', '', $this->getAttributeFrontendClass('weight')); ?>"
                                value="<?php echo $this->_getProduct()->getWeight()?>"<?php echo $disabled?>>
@@ -198,10 +191,10 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     ?>
                     <td class="col-actions">
                         <div class="actions-split">
-                            <button class="action-default">
+                            <button type="button" class="action-default">
                                 <span>Edit</span>
                             </button>
-                            <button class="action-toggle" data-toggle="dropdown">
+                            <button type="button" class="action-toggle" data-toggle="dropdown">
                                 <span>Select</span>
                             </button>
                             <ul class="dropdown-menu">
@@ -210,17 +203,6 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                 </li>
                             </ul>
                         </div>
-
-                        <script type="text/javascript">
-                            (function ($) {
-                                'use strict';
-
-                                $('.actions-split')
-                                        .on('click.splitDefault', '.action-default', function () {
-                                            $(this).siblings('.dropdown-menu').find('.item-default').trigger('click');
-                                        });
-                            })(window.jQuery);
-                        </script>
                     </td>
                 </tr>
                     <?php
