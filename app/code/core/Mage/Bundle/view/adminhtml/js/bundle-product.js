@@ -9,7 +9,9 @@
 /*jshint browser:true jquery:true*/
 /*global FORM_KEY*/
 /*global bSelection*/
+/*global $H*/
 (function($) {
+    'use strict';
     $.widget('mage.bundleProduct', {
         _create: function () {
             this._initOptionBoxes();
@@ -102,7 +104,7 @@
                             bSelection.gridRemoval.each(
                                 function(pair) {
                                     $optionBox.find('.col-sku').filter(function () {
-                                        return $.trim($(this).text()) == pair.key; // find row by SKU
+                                        return $.trim($(this).text()) === pair.key; // find row by SKU
                                     }).closest('tr').find('button.delete').trigger('click');
                                 }
                             );
