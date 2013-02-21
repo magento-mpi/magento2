@@ -766,6 +766,35 @@
         },
 
         /**
+         * @param items
+         * @param context
+         * @return {*}
+         * @private
+         */
+        _filterSelected: function(items, context) {
+            var options = this._getOptions();
+            return $.grep(items, function(value) {
+                var itemSelected = false;
+                $.each(options, function(){
+                    if(value.id === $(this).val()) {
+                        itemSelected = true;
+                    }
+                })
+                return !itemSelected;
+            });
+        },
+
+        /**
+         * @override
+         */
+        _processResponse: function(e, items, context) {
+            if (this.options.multiselect) {
+                items = this._filterSelected(items, context);
+            }
+            this._superApply([e, items, context]);
+        },
+
+        /**
          * @override
          */
         _prepareValueField: function() {

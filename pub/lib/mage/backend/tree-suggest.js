@@ -143,6 +143,17 @@
         /**
          * @override
          */
+        _filterSelected: function(items, context) {
+            if(context._allShown) {
+                return items;
+            } else {
+                return this._superApply(arguments);
+            }
+        },
+
+        /**
+         * @override
+         */
         _prepareDropdownContext: function() {
             var context = this._superApply(arguments),
                 optionData = context.optionData,
