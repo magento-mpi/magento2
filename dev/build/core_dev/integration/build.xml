@@ -111,7 +111,7 @@
     <target name="integration_tests_saas_dev_mysql" depends="_go_edition" description="Integration tests in dev mode on MySQL for GO">
         <antcall target="_integration_tests_magento"/>
     </target>
-    <target name="integration_tests_saas_mysql" description="Integration tests on MySQL for GO">
+    <target name="integration_tests_saas_mysql" depends="_go_edition" description="Integration tests on MySQL for GO">
         <antcall target="_integration_tests_magento">
             <param name="developer_mode" value="disabled"/>
         </antcall>
