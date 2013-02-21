@@ -108,10 +108,10 @@
             <param name="developer_mode" value="disabled"/>
         </antcall>
     </target>
-    <target name="integration_tests_saas_dev_mysql" depends="_go_edition" description="Integration tests in dev mode on MySQL for GO">
+    <target name="integration_tests_saas_dev_mysql" depends="_saas_edition" description="Integration tests in dev mode on MySQL for GO">
         <antcall target="_integration_tests_magento"/>
     </target>
-    <target name="integration_tests_saas_mysql" depends="_go_edition" description="Integration tests on MySQL for GO">
+    <target name="integration_tests_saas_mysql" depends="_saas_edition" description="Integration tests on MySQL for GO">
         <antcall target="_integration_tests_magento">
             <param name="developer_mode" value="disabled"/>
         </antcall>
@@ -139,10 +139,10 @@
             <param name="developer_mode" value="disabled"/>
         </antcall>
     </target>
-    <target name="integration_integrity_tests_saas_dev_mysql" depends="_go_edition" description="Integration integrity tests in dev mode on MySQL for Go">
+    <target name="integration_integrity_tests_saas_dev_mysql" depends="_saas_edition" description="Integration integrity tests in dev mode on MySQL for Go">
         <antcall target="_integration_integrity_tests_magento"/>
     </target>
-    <target name="integration_integrity_tests_saas_mysql" depends="_go_edition" description="Integration integrity tests on MySQL for Go">
+    <target name="integration_integrity_tests_saas_mysql" depends="_saas_edition" description="Integration integrity tests on MySQL for Go">
         <antcall target="_integration_integrity_tests_magento">
             <param name="developer_mode" value="disabled"/>
         </antcall>
