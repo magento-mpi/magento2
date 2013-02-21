@@ -364,7 +364,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $data = require dirname(__FILE__) . DS . 'API' . DS . '_files' . DS . 'ProductData.php';
+        $data = require dirname(__FILE__) . DS . 'Api' . DS . '_files' . DS . 'ProductData.php';
 
         $productId = Magento_Test_Helper_Api::call(
             $this,
