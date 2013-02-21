@@ -2,7 +2,7 @@
 /**
  * SaaS "Application entry point", required by "SaaS entry point"
  *
- * {license_notice}
+ * {wwwlicense_notice}
  *
  * @copyright  {copyright}
  * @license    {license_link}
