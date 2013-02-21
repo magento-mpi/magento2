@@ -191,7 +191,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      * Test catalogProductInfo with a non-numeric id, identifierType not set.
      *
      * @magentoDataFixture Mage/Catalog/_files/categories.php
-     *
      */
     public function testInfoAlphaIdTypeNotSet()
     {
@@ -216,7 +215,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      * Should return an error because no product with that productId exists.
      *
      * @magentoDataFixture Mage/Catalog/_files/categories.php
-     *
      */
     public function testInfoNumericIdTypeNotSetError()
     {
@@ -249,7 +247,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      * Test catalogProductInfo with a numeric id, identifierType null.
      *
      * @magentoDataFixture Mage/Catalog/_files/categories.php
-     *
      */
     public function testInfoNumericIdTypeNotSet()
     {
@@ -273,7 +270,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      * Test catalogProductInfo with a non-numeric id, identifierType sku.
      *
      * @magentoDataFixture Mage/Catalog/_files/categories.php
-     *
      */
     public function testInfoAlphaIdTypeSku()
     {
@@ -300,7 +296,6 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      * Test catalogProductInfo with a numeric id, identifierType sku.
      *
      * @magentoDataFixture Mage/Catalog/_files/categories.php
-     *
      */
     public function testInfoNumericIdTypeSku()
     {
