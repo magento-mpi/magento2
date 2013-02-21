@@ -38,7 +38,7 @@ class Mage_Core_Model_Acl_LoaderPool implements IteratorAggregate
      */
     protected function _getLoaderClass($loaderType)
     {
-        $areaConfig = $this->_config->getAreaConfig();
+        $areaConfig = $this->_config->getAreaConfig(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         if (!isset($areaConfig['acl'])) {
             throw new LogicException('No acl configuration is specified');
         }

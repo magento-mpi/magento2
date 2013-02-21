@@ -60,6 +60,12 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     {
         $this->_assertSessionErrors = false;
         $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager->configure(array(
+            'preferences' => array(
+                'Mage_Core_Controller_Request_Http' => 'Magento_Test_Request',
+                'Mage_Core_Controller_Response_Http' => 'Magento_Test_Response'
+            )
+        ));
     }
 
     protected function tearDown()
