@@ -41,6 +41,7 @@ dev/tests/integration/testsuite/Enterprise/TargetRule
 dev/tests/integration/testsuite/Enterprise/Wishlist
 dev/tests/integration/testsuite/Mage/Authorizenet
 dev/tests/integration/testsuite/Mage/PageCache
+dev/tests/integration/testsuite/Mage/Webapi
 dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EnablerTest.php
@@ -51,4 +52,5 @@ dev/tests/unit/testsuite/Enterprise/ImportExport
 dev/tests/unit/testsuite/Enterprise/PricePermissions
 dev/tests/unit/testsuite/Enterprise/Rma
 dev/tests/unit/testsuite/Enterprise/Tag
+dev/tests/unit/testsuite/Mage/Webapi
 pub/lib/mage/directpost.js
