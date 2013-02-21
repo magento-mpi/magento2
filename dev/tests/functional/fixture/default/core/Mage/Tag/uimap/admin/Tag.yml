@@ -180,7 +180,7 @@ new_tag:
 # Pending Tags page
 pending_tags:
     mca: tag/pending
-    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='Pending Tags']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/tag/pending/')]
     title: Pending Tags / Tags / Catalog / Magento Admin
     uimap:
         form:

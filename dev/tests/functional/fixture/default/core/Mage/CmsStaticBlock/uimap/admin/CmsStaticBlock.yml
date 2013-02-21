@@ -11,7 +11,7 @@
 # 'Static Blocks' page
 manage_cms_static_blocks:
     mca: cms_block/
-    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/cms_block/')]
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/cms_block/')]
     title: Static Blocks / CMS / Magento Admin
     uimap:
         form: &searchStaticBlocksGrid
