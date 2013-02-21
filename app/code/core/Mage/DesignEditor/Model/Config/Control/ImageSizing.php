@@ -9,16 +9,16 @@
  */
 
 /**
- * Quick styles configuration
+ * Image Sizing configuration
  */
-class Mage_DesignEditor_Model_Config_Control_QuickStyles extends Mage_DesignEditor_Model_Config_Control_Abstract
+class Mage_DesignEditor_Model_Config_Control_ImageSizing extends Mage_DesignEditor_Model_Config_Control_Abstract
 {
     /**
      * Keys of layout params attributes
      *
      * @var array
      */
-    protected $_controlAttributes = array('title', 'column');
+    protected $_controlAttributes = array('title');
 
     /**
      * Path to quick_styles.xsd
@@ -27,6 +27,6 @@ class Mage_DesignEditor_Model_Config_Control_QuickStyles extends Mage_DesignEdit
      */
     public function getSchemaFile()
     {
-        return __DIR__ . '/../../../etc/quick_styles.xsd';
+        return __DIR__ . '/../../../etc/image_sizing.xsd';
     }
 }

@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
  -->
-<quick-styles>
+<controls>
     <!-- Complex control with components -->
     <control name="headers" title="Headers" column="left">
         <type>logo</type>
@@ -20,7 +20,7 @@
                 <type>color-picker</type>
                 <selector>.body .div</selector>
                 <attribute>background-color</attribute>
-                <var>test_var_key1</var>
+                <var>Mage_DesignEditor::test_var_key1</var>
             </control>
             <!-- Font selector for base fonts -->
             <control name="font-selector">
@@ -31,7 +31,7 @@
                     <option>Arial, Verdana, Georgia</option>
                     <option>Tahoma</option>
                 </options>
-                <var>test_var_key2</var>
+                <var>Mage_DesignEditor::test_var_key2</var>
             </control>
             <!-- Third control recursion -->
             <control name="test-control">
@@ -40,7 +40,7 @@
                     <!-- Simple control -->
                     <control name="image-uploader">
                         <type>logo-uploader</type>
-                        <var>test_var_key3</var>
+                        <var>Mage_DesignEditor::test_var_key3</var>
                     </control>
                 </components>
             </control>
@@ -49,13 +49,13 @@
     <!-- Simple control -->
     <control name="logo-uploader" title="Logo Uploader" column="center">
         <type>logo-uploader</type>
-        <var>test_var_key4</var>
+        <var>Mage_DesignEditor::test_var_key4</var>
     </control>
     <!-- Simple control -->
     <control name="background-color-picker" title="Background Color" column="right">
         <type>color-picker</type>
         <selector>.body .div</selector>
         <attribute>background-color</attribute>
-        <var>test_var_key5</var>
+        <var>Mage_DesignEditor::test_var_key5</var>
     </control>
-</quick-styles>
+</controls>

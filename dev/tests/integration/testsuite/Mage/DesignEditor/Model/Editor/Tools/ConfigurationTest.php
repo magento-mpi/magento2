@@ -55,7 +55,7 @@ class Mage_DesignEditor_Model_Editor_Tools_ConfigurationTest extends PHPUnit_Fra
             array(Mage_DesignEditor_Model_Config_Control_Factory::TYPE_QUICK_STYLES, 'logo-uploader', array(
                 'type'         => 'logo-uploader',
                 'layoutParams' => array('title' => 'Logo Uploader', 'column' => 'center'),
-                'var'          => 'test_var_key4',
+                'var'          => 'Mage_DesignEditor::test_var_key4',
                 'value'        => 'test_child_value4',
                 'default'      => 'test_value4'
             )),
@@ -64,9 +64,33 @@ class Mage_DesignEditor_Model_Editor_Tools_ConfigurationTest extends PHPUnit_Fra
                 'layoutParams' => array('title' => 'Background Color', 'column' => 'right'),
                 'selector'     => '.body .div',
                 'attribute'    => 'background-color',
-                'var'          => 'test_var_key5',
+                'var'          => 'Mage_DesignEditor::test_var_key5',
                 'value'        => 'test_child_value5',
                 'default'      => 'test_value5'
+            )),
+            array(Mage_DesignEditor_Model_Config_Control_Factory::TYPE_IMAGE_SIZING, 'product-list', array(
+                'type'         => 'image-sizing',
+                'layoutParams' => array('title' => 'Up Sell Product List'),
+                'components'   => array(
+                    'image-type'   => array(
+                        'type'    => 'image-type',
+                        'var'     =>  'Mage_DesignEditor::test_var_key1',
+                        'value'   => 'test_child_value1',
+                        'default' => 'test_value1'
+                    ),
+                    'image-height' => array(
+                        'type'    => 'image-height',
+                        'var'     =>  'Mage_DesignEditor::test_var_key2',
+                        'value'   => 'test_child_value2',
+                        'default' => 'test_value2'
+                    ),
+                    'image-width'  => array(
+                        'type'    => 'image-width',
+                        'var'     =>  'Mage_DesignEditor::test_var_key3',
+                        'value'   => 'test_child_value3',
+                        'default' => 'test_value3'
+                    ),
+                )
             ))
         );
     }

@@ -130,4 +130,24 @@ abstract class Mage_DesignEditor_Model_Config_Control_Abstract extends Magento_C
     {
         return $this->_data;
     }
+
+    /**
+     * Getter for initial view.xml contents
+     *
+     * @return string
+     */
+    protected function _getInitialXml()
+    {
+        return '<?xml version="1.0" encoding="UTF-8"?><controls></controls>';
+    }
+
+    /**
+     * Variables are identified by module and name
+     *
+     * @return array
+     */
+    protected function _getIdAttributes()
+    {
+        return array('/controls/control' => 'name', '/controls/control/components/control' => 'name');
+    }
 }

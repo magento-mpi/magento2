@@ -16,7 +16,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Module name used for saving data to the view configuration
      */
-    const CONF_MODULE_NAME = 'Mage_DesignEditor';
+    const SEPARATOR_MODULE = '::';
 
     /**
      * @var Mage_DesignEditor_Model_Config_Control_Abstract
@@ -91,7 +91,8 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
                 $this->_loadControlData($control, $paramName, $viewConfiguration);
             }
         } elseif (!empty($control['var'])) {
-            $control[$paramName] = $viewConfiguration->getVarValue(self::CONF_MODULE_NAME, $control['var']);
+            list($module, $varKey) = explode(self::SEPARATOR_MODULE, $control['var']);
+            $control[$paramName] = $viewConfiguration->getVarValue($module, $varKey);
         }
         return $this;
     }

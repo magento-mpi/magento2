@@ -13,17 +13,21 @@
  */
 class Mage_DesignEditor_Model_Config_Control_Factory
 {
-    /**
-     * File name for quick style tools
+    /**#@+
+     * Group of types
      */
     const TYPE_QUICK_STYLES = 'quick-style';
+    const TYPE_IMAGE_SIZING = 'image-sizing';
+    /**#@-*/
 
     /**
      * File names with
+     *
      * @var array
      */
     protected $_fileNames = array(
-        self::TYPE_QUICK_STYLES => 'Mage_DesignEditor::controls/quick_styles.xml'
+        self::TYPE_QUICK_STYLES => 'Mage_DesignEditor::controls/quick_styles.xml',
+        self::TYPE_IMAGE_SIZING => 'Mage_DesignEditor::controls/image_sizing.xml'
     );
 
     /**
@@ -78,6 +82,10 @@ class Mage_DesignEditor_Model_Config_Control_Factory
         switch ($type) {
             case self::TYPE_QUICK_STYLES:
                 return $this->_objectManager->get('Mage_DesignEditor_Model_Config_Control_QuickStyles',
+                    array($files));
+                break;
+            case self::TYPE_IMAGE_SIZING:
+                return $this->_objectManager->get('Mage_DesignEditor_Model_Config_Control_ImageSizing',
                     array($files));
                 break;
             default:

@@ -62,21 +62,21 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
                         'type'      => 'color-picker',
                         'selector'  => '.body .div',
                         'attribute' => 'background-color',
-                        'var'       => 'test_var_key1',
+                        'var'       => 'Mage_DesignEditor::test_var_key1',
                     ),
                     'font-selector' => array (
                         'type'      => 'font-selector',
                         'selector'  => '*',
                         'attribute' => 'font-family',
                         'options'   => array('Arial, Verdana, Georgia', 'Tahoma'),
-                        'var'       => 'test_var_key2',
+                        'var'       => 'Mage_DesignEditor::test_var_key2',
                     ),
                     'test-control' => array (
                         'type'       => 'test-control',
                         'components' => array (
                             'image-uploader' => array (
                                 'type' => 'logo-uploader',
-                                'var'  => 'test_var_key3',
+                                'var'  => 'Mage_DesignEditor::test_var_key3',
                             )
                         )
                     )
@@ -85,14 +85,14 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
             array('logo-uploader', array(
                 'type'         => 'logo-uploader',
                 'layoutParams' => array('title' => 'Logo Uploader', 'column' => 'center'),
-                'var'          => 'test_var_key4',
+                'var'          => 'Mage_DesignEditor::test_var_key4',
             )),
             array('background-color-picker', array(
                 'type'         => 'color-picker',
                 'layoutParams' => array('title' => 'Background Color', 'column' => 'right'),
                 'selector'     => '.body .div',
                 'attribute'    => 'background-color',
-                'var'          => 'test_var_key5',
+                'var'          => 'Mage_DesignEditor::test_var_key5',
             )),
         );
     }
