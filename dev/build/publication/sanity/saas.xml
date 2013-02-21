@@ -81,7 +81,7 @@
         <item>
             <!-- Must be refactored  -->
             <word>TargetRule</word>
-            <path>app/code/core/Enterprise/PageCache/etc/cache.xml </path>
+            <path>app/code/core/Enterprise/PageCache/etc/cache.xml</path>
         </item>
         <item>
             <!-- Must be modified to remove dependency on module, which doesn't exist in Saas -->
@@ -107,6 +107,7 @@
             <word>GiftWrapping</word>
             <word>GoogleOptimizer</word>
             <word>TargetRule</word>
+            <word>Enterprise_Reminder</word>
             <word>Mage_Ogone</word>
             <path>dev/tests/static/testsuite/Legacy/_files/</path>
         </item>
