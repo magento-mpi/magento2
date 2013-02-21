@@ -443,7 +443,7 @@
                 return $.mage.isEmptyNoTrim(v) || /^[A-Z][A-Z0-9_\/-]*$/i.test(v);
 
             },
-            'Please enter a valid URL. For example http://www.example.com or www.example.com'
+            'Please enter a valid XML-identifier. For example something_1, block5, id-4.'
         ],
         "validate-ssn": [
             function(v) {
@@ -492,7 +492,7 @@
                 return !isNaN(v) && v >= 0;
 
             },
-            'Please select one of the above options.'
+            'Please enter a number 0 or greater in this field.'
         ],
         // validate-not-negative-number should be replaced in all places with this one and then removed
         "validate-zero-or-greater": [
