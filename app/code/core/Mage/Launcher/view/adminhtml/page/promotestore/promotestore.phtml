@@ -17,7 +17,7 @@
         <a class="action-switch-to-analytics" href="<?php echo $this->getUrl('admin/dashboard/index')?>"><?php echo $this->__('Dashboard'); ?></a>
     </div>
 
-    <div id="promote-store" class="store-launcher-content store-launcher-alternative">
+    <div id="promote-store" class="store-launcher-content">
 
         <?php foreach($this->getTileBlocks() as $tile):?>
         <?php echo $tile->toHtml() ?>

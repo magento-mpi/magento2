@@ -12,217 +12,313 @@
 
 $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
 ?>
-<form action="" id="drawer-form" method="post">
-    <input type="checkbox" value="1" name="shipping_enabled" checked="checked" id="shipping_enabled" />
-    <label for="shipping_enabled" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping Enabled'); ?></span></label>
+<form action="" class="shipping-config-form" id="drawer-form" method="post">
 
-    <?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
-    <div class="shipping-method-config-form">
-        <div class="shipping-method-data">
-            <div style="display: block;" class="shipping-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Flat Rate'); ?></legend>
-                    <input type="hidden" name="shipping_method" value="carriers_flatrate">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-150">
-                            <div class="control">
-                                <input type="checkbox" name="groups[flatrate][fields][active][value]" value="1" id="pm-150" <?php if ($this->getConfigFlag('carriers/flatrate/active')) : ?> checked="checked" <?php endif; ?>>
-                            </div>
-                            <label for="pm-150" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-151">
-                            <label for="pm-151" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Display Name'); ?></span></label>
-                            <div class="control">
-                                <input type="text" class="input-text" id="pm-151" name="groups[flatrate][fields][name][value]" value="<?php echo $this->getConfigValue('carriers/flatrate/name'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-152">
-                            <label for="pm-152" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Price'); ?></span></label>
-                            <div class="control">
-                                <input type="text" class="input-text" id="pm-152" name="groups[flatrate][fields][price][value]" value="<?php echo $this->getConfigValue('carriers/flatrate/price'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-153">
-                            <label for="pm-153" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Type'); ?></span></label>
-                            <div class="control">
-                                <select id="pm-153" name="groups[flatrate][fields][type][value]">
-                                    <option<?php if ($this->getConfigValue('carriers/flatrate/type') == 'O'): ?> selected="selected"<?php endif; ?> value="O">Per Order</option>
-                                    <option<?php if ($this->getConfigValue('carriers/flatrate/type') == 'I'): ?> selected="selected"<?php endif; ?> value="I">Per Item</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
+    <div class="switcher drawer-switcher">
+        <input type="checkbox" id="shipping_enabled" name="shipping_enabled" checked="checked" value="1" />
+        <label class="switcher-label"
+               for="shipping_enabled"
+               data-text-on="<?php echo $this->__('Shipping enabled'); ?>"
+               data-text-off="<?php echo $this->__('Shipping disabled'); ?>"
+               title="<?php echo $this->__('Shipping status'); ?>">
+        </label>
+        <div class="drawer-switcher-tooltip">
+            <div class="tooltip-text-on">
+                <p><?php echo $this->__('You can completely disable shipping if your products are Virtual, Downloadable, or you sell a Service.'); ?></p>
             </div>
-            <div style="display: block;" class="shipping-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('FedEx'); ?></legend>
-                    <input type="hidden" name="shipping_method" value="carriers_fedex">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-100">
-                            <div class="control">
-                                <input type="checkbox" name="groups[fedex][fields][active][value]" value="1" id="pm-100" <?php if ($this->getConfigFlag('carriers/fedex/active')) : ?> checked="checked" <?php endif; ?>>
-                            </div>
-                            <label for="pm-100" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-101">
-                            <label for="pm-101" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Account ID'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-101" name="groups[fedex][fields][account][value]" value="<?php echo $this->getConfigValue('carriers/fedex/account'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-102">
-                            <label for="pm-102" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Meter Number'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-102" name="groups[fedex][fields][meter_number][value]" value="<?php echo $this->getConfigValue('carriers/fedex/meter_number'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-103">
-                            <label for="pm-103" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Key'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-103" name="groups[fedex][fields][key][value]" value="<?php echo $this->getConfigValue('carriers/fedex/key'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-104">
-                            <label for="pm-104" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-104" name="groups[fedex][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/fedex/password'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
-            </div>
-            <div style="display: block;" class="shipping-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('USPS'); ?></legend>
-                    <input type="hidden" name="shipping_method" value="carriers_usps">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-110">
-                            <div class="control">
-                                <input type="checkbox" name="groups[usps][fields][active][value]" value="1" id="pm-110" <?php if ($this->getConfigFlag('carriers/usps/active')) : ?> checked="checked" <?php endif; ?>>
-                            </div>
-                            <label for="pm-110" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-111">
-                            <label for="pm-111" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User ID'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-111" name="groups[usps][fields][userid][value]" value="<?php echo $this->getConfigValue('carriers/usps/userid'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-112">
-                            <label for="pm-112" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-112" name="groups[usps][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/usps/password'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
-            </div>
-            <div style="display: block;" class="shipping-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('DHL'); ?></legend>
-                    <input type="hidden" name="shipping_method" value="carriers_dhlint">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-120">
-                            <div class="control">
-                                <input type="checkbox" name="groups[dhlint][fields][active][value]" value="1" id="pm-120" <?php if ($this->getConfigFlag('carriers/dhlint/active')) : ?> checked="checked" <?php endif; ?>>
-                            </div>
-                            <label for="pm-120" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-121">
-                            <label for="pm-121" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Access ID'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-121" name="groups[dhlint][fields][id][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/id'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-122">
-                            <label for="pm-122" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-122" name="groups[dhlint][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/password'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-123">
-                            <label for="pm-123" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Account Number'); ?></span></label>
-                            <div class="control">
-                                <input type="text" class="input-text" id="pm-123" name="groups[dhlint][fields][account][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/account'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
-            </div>
-            <div style="display: block;" class="shipping-method-data-fields">
-                <fieldset>
-                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('UPS'); ?></legend>
-                    <input type="hidden" name="shipping_method" value="carriers_ups">
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-130">
-                            <div class="control">
-                                <input type="checkbox" name="groups[ups][fields][active][value]" value="1" id="pm-130" <?php if ($this->getConfigFlag('carriers/ups/active')) : ?> checked="checked" <?php endif; ?>>
-                            </div>
-                            <label for="pm-130" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Enabled for Checkout'); ?></span></label>
-                        </div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="field grid-6" id="field-pm-131">
-                            <label for="pm-131" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-131" name="groups[ups][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/ups/password'); ?>">
-                            </div>
-                        </div>
-                        <div class="field grid-6" id="field-pm-132">
-                            <label for="pm-132" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Access License Number'); ?></span></label>
-                            <div class="control">
-                                <input type="password" class="input-text" id="pm-132" name="groups[ups][fields][access_license_number][value]" value="<?php echo $this->getConfigValue('carriers/ups/access_license_number'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="buttons">
-                        <button type="button" class="button save-method-button" data-save-url="<?php echo $saveActionUrl; ?>"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span></button>
-                    </div>
-                </fieldset>
+            <div class="tooltip-text-off">
+                <p><?php echo $this->__('You can always choose to enable shipping again if you disabled it by mistake'); ?></p>
             </div>
         </div>
     </div>
 
+    <div class="shipping-vendors">
+        <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Shipping Carriers'); ?></h2>
+        <ul class="shipping-tabs-nav">
+            <li class="active">
+                <a href="#flat-rate-config" class="flat-rate-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Flat Rate'); ?></a>
+            </li>
+            <li>
+                <a href="#fedex-config" class="fedex-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('FedEx'); ?></a>
+            </li>
+            <li>
+                <a href="#usps-config" class="usps-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('USPS'); ?></a>
+            </li>
+            <li>
+                <a href="#dhl-config" class="dhl-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('DHL'); ?></a>
+            </li>
+            <li>
+                <a href="#ups-config" class="upc-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('UPS'); ?></a>
+            </li>
+        </ul>
+        <div class="shipping-tab-content">
+            <div class="shipping-config flat-rate-config active" id="flat-rate-config">
+                <fieldset class="fieldset">
+                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Flat-Rate Shipping'); ?></legend>
+                    <input type="hidden" name="shipping_method" value="carriers_flatrate">
+
+                    <div class="field field-flat-rate-name required">
+                        <label for="flat-rate-name" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Display Name'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="text" class="input-text" id="flat-rate-name" name="groups[flatrate][fields][name][value]" value="<?php echo $this->getConfigValue('carriers/flatrate/name'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-flat-rate-price required">
+                        <label for="flat-rate-price" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Price'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="text" class="input-text" id="flat-rate-price" name="groups[flatrate][fields][price][value]" value="<?php echo $this->getConfigValue('carriers/flatrate/price'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-flat-rate-type">
+                        <label for="flat-rate-type" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Type'); ?></span>
+                        </label>
+                        <div class="control">
+                            <select id="flat-rate-type" name="groups[flatrate][fields][type][value]">
+                                <option<?php if ($this->getConfigValue('carriers/flatrate/type') == 'O'): ?> selected="selected"<?php endif; ?> value="O">Per Order</option>
+                                <option<?php if ($this->getConfigValue('carriers/flatrate/type') == 'I'): ?> selected="selected"<?php endif; ?> value="I">Per Item</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span>
+                        </button>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="shipping-config fedex-config" id="fedex-config">
+                <fieldset class="fieldset">
+                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('FedEx'); ?></legend>
+                    <input type="hidden" name="shipping_method" value="carriers_fedex">
+
+                    <div class="field field-fedex-id required">
+                        <label for="fedex-id" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Account ID'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="fedex-id" name="groups[fedex][fields][account][value]" value="<?php echo $this->getConfigValue('carriers/fedex/account'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-fedex-meter-number required">
+                        <label for="fedex-meter-number" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Meter Number'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="fedex-meter-number" name="groups[fedex][fields][meter_number][value]" value="<?php echo $this->getConfigValue('carriers/fedex/meter_number'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-fedex-key required">
+                        <label for="fedex-key" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Key'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="fedex-key" name="groups[fedex][fields][key][value]" value="<?php echo $this->getConfigValue('carriers/fedex/key'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-fedex-password required">
+                        <label for="fedex-password" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="fedex-password" name="groups[fedex][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/fedex/password'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span>
+                        </button>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="shipping-config usps-config" id="usps-config">
+                <fieldset class="fieldset">
+                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('USPS'); ?></legend>
+                    <input type="hidden" name="shipping_method" value="carriers_usps">
+
+                    <div class="field field-usps-id required">
+                        <label for="usps-id" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User ID'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="usps-id" name="groups[usps][fields][userid][value]" value="<?php echo $this->getConfigValue('carriers/usps/userid'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-usps-password required">
+                        <label for="usps-password" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="usps-password" name="groups[usps][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/usps/password'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span>
+                        </button>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="shipping-config dhl-config" id="dhl-config">
+                <fieldset class="fieldset">
+                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('DHL'); ?></legend>
+                    <input type="hidden" name="shipping_method" value="carriers_dhlint">
+
+                    <div class="field field-dhl-id required">
+                        <label for="dhl-id" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Access ID'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="dhl-id" name="groups[dhlint][fields][id][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/id'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-dhl-password required">
+                        <label for="dhl-password" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="dhl-password" name="groups[dhlint][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/password'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-dhl-account-number required">
+                        <label for="dhl-account-number" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Account Number'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="text" class="input-text" id="dhl-account-number" name="groups[dhlint][fields][account][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/account'); ?>">
+                        </div>
+                    </div>
+
+                     <div class="actions">
+                        <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span>
+                        </button>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="shipping-config ups-config" id="ups-config">
+                <fieldset class="fieldset">
+                    <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('UPS'); ?></legend>
+                    <input type="hidden" name="shipping_method" value="carriers_ups">
+
+                    <div class="field field-ups-password required">
+                        <label for="ups-password" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="ups-password" name="groups[ups][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/ups/password'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="field field-ups-license-number required">
+                        <label for="ups-license-number" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Access License Number'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="ups-license-number" name="groups[ups][fields][access_license_number][value]" value="<?php echo $this->getConfigValue('carriers/ups/access_license_number'); ?>">
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span>
+                        </button>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+
+    <?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
+
 </form>
+
+<div class="shipping-disabled hidden">
+    <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping Disabled') ?></h2>
+    <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have disabled shipping. If your products are all Virtual, Downloadable, or you sell a Service then you don\'t need shipping set up on your Magento store') ?></p>
+    <div class="shipping-disabled-reasons">
+        <div class="reason-virtual">
+            <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Virtual') ?></h3>
+            <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inven') ?></p>
+        </div>
+        <div class="reason-downloadable">
+            <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Downloadable') ?></h3>
+            <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inven') ?></p>
+        </div>
+        <div class="reason-services">
+            <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Services') ?></h3>
+            <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inven') ?></p>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function() {
             'use strict';
-            $('.save-method-button')
+
+            var drawerForm = $('#drawer-form'),
+                shippingConfig = $('.shipping-config-form'),
+                noShipping = $('.shipping-disabled'),
+                drawerSwitcher = '.drawer-header-inner .drawer-switcher :checkbox',
+                shippingTabsNav = $('.shipping-tabs-nav'),
+                removeValidationMessage = function() {
+                    setTimeout(function() {
+                        $('.message-validation').slideUp(400);
+                    }, 3000);
+                };
+
+            $('body')
+                .on('change.drawerStatus', drawerSwitcher, function() {
+                    var elem = $(this),
+                        elemId = elem.prop('id').replace('copy-','');
+
+                    if (elem.is(':checked')) {
+                        drawerForm.removeClass('ignore-validate');
+                        shippingConfig.removeClass('hidden');
+                        noShipping.addClass('hidden');
+                        $('#'+elemId).prop('checked', true);
+                    } else {
+                        drawerForm.addClass('ignore-validate');
+                        shippingConfig.addClass('hidden');
+                        noShipping.removeClass('hidden');
+                        $('#'+elemId).prop('checked', false);
+                    }
+                });
+
+            $('.action-save-method')
                 .on('click.saveShippingMethod', function(event) {
                     var elem = $(this),
+                        legend = elem.closest('.fieldset').find('.legend'),
                         fields = elem
-                            .closest('.shipping-method-data-fields')
-                            .find(':input');
-                        event.preventDefault();
+                            .closest('.shipping-config')
+                            .find(':input'),
+                        insertValidationMessage = function(messageText, messageType) {
+                            $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
+                                .insertAfter(legend);
+                            removeValidationMessage();
+                        };
+
+                    event.preventDefault();
                     var ajaxOptions = {
                         type: 'POST',
                         showLoader: true,
@@ -232,11 +328,14 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                         success: function(result, status) {
                             if (result.success) {
                                 if (result && result.message) {
-                                    alert(result.message);
+                                    shippingTabsNav
+                                        .find('.active')
+                                        .addClass('configured');
+                                    insertValidationMessage(result.message,'success');
                                 }
                             } else {
                                 if (result && result.error_message) {
-                                    alert(result.error_message);
+                                    insertValidationMessage(result.error_message,'error');
                                 }
                             }
                         }

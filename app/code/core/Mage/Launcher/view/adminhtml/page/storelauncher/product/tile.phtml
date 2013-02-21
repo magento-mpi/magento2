@@ -10,7 +10,7 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Tile */
 ?>
-<article class="tile-store-settings tile-product <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>">
+<article class="tile-store-settings tile-product <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>" tabindex="0">
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Product') ?></h2>
     <div class="tile-teaser">
         <p>
@@ -19,15 +19,15 @@
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
             data-save-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/save') ?>"
             data-load-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Create Product') ?>
+            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Create Product') ?></span>
         </button>
     </div>
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have %s product(s)', $this->getProductCount()); ?></p>
-        <button class="button" onclick="window.location = '<?php echo $this->getUrl('adminhtml/catalog_product/index'); ?>';">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add more Products') ?>
+        <button class="action-add-more-products" onclick="window.location = '<?php echo $this->getUrl('adminhtml/catalog_product/index'); ?>';">
+            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add more Products') ?></span>
         </button>
         <?php endif; ?>
     </div>

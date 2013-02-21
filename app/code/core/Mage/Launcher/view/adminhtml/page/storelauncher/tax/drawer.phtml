@@ -13,19 +13,25 @@
 <form action="" id="drawer-form" method="post">
     <?php echo $this->getBlockHtml('formkey')?>
 
-    <div onselectstart="return false;" class="switcher drawer-switcher" id="field-no-tax">
-        <label for="tax-enabled" class="switcher-label">
-            <strong>
-                <em class="label-tax-enabled"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Tax rules enabled') ?></em>
-                <em class="label-tax-disabled hidden"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Tax rules disabled') ?></em>
-            </strong>
-            <input id="tax-enabled" name="use_tax" type="checkbox" checked="checked" value="tax-enabled">
-            <span></span>
+    <div class="switcher drawer-switcher" onselectstart="return false;">
+        <input type="checkbox" id="tax-enabled" name="use_tax" checked="checked" value="tax-enabled" />
+        <label class="switcher-label"
+               for="tax-enabled"
+               data-text-on="<?php echo $this->__('Tax rules enabled'); ?>"
+               data-text-off="<?php echo $this->__('Tax rules disabled'); ?>"
+               title="<?php echo $this->__('Tax Rules Status'); ?>">
         </label>
+        <div class="drawer-switcher-tooltip">
+            <div class="tooltip-text-on">
+                <p><?php echo $this->__('Turn off tax rules here if your business is legally exempt. Legal disclaimer text needed.'); ?></p>
+            </div>
+            <div class="tooltip-text-off">
+                <p><?php echo $this->__('You can always choose to enable tax rules again if you disabled it by mistake'); ?></p>
+            </div>
+        </div>
     </div>
 
     <div class="tax-rule-config">
-        <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Manage Tax Rules') ?></h2>
         <div class="tax-rule-info">
             <?php echo $this->getChildHtml('tax-rule-edit');?>
             <?php echo $this->getChildBlock('tax-rule-form')->setUseContainer(false)->toHtml();?>
@@ -47,35 +53,27 @@
 
 <script type="text/javascript">
     (function ($) {
-        $(document).ready(function () {
+        $(document).ready(function() {
             'use strict';
             var drawerForm = $('#drawer-form'),
                 taxRuleConfig = $('.tax-rule-config'),
                 noTaxInfo = $('.no-tax-info'),
-                taxEnabled = '.label-tax-enabled',
-                taxDisabled = '.label-tax-disabled';
+                drawerSwitcher = '.drawer-header-inner .drawer-switcher :checkbox';
 
-
-            $('#tax-enabled').on('change.use_tax', function () {
-                var elem = $(this);
+            $('body').on('change.drawerStatus', drawerSwitcher, function() {
+                var elem = $(this),
+                    elemId = elem.prop('id').replace('copy-','');
 
                 if (elem.is(':checked')) {
                     drawerForm.removeClass('ignore-validate');
-                    taxRuleConfig
-                        .add(taxEnabled)
-                        .removeClass('hidden');
-                    noTaxInfo
-                        .add(taxDisabled)
-                        .addClass('hidden');
-
+                    taxRuleConfig.removeClass('hidden');
+                    noTaxInfo.addClass('hidden');
+                    $('#' + elemId).prop('checked', true);
                 } else {
                     drawerForm.addClass('ignore-validate');
-                    taxRuleConfig
-                        .add(taxEnabled)
-                        .addClass('hidden');
-                    noTaxInfo
-                        .add(taxDisabled)
-                        .removeClass('hidden');
+                    taxRuleConfig.addClass('hidden');
+                    noTaxInfo.removeClass('hidden');
+                    $('#' + elemId).prop('checked', false);
                 }
             });
         });

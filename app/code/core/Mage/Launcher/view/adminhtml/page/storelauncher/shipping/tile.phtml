@@ -10,26 +10,26 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Tile */
 ?>
-<article class="tile-store-settings tile-shipping <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>">
+<article class="tile-store-settings tile-shipping <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>" tabindex="0">
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping') ?></h2>
     <div class="tile-teaser">
         <p>
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Flat Rate, No Shipping or from one of the many shipping vendors that Magento supports') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode() ?>"
-            data-save-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/save') ?>"
-            data-load-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm Info') ?>
+                data-save-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/load') ?>">
+            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm Info') ?></span>
         </button>
     </div>
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <p><strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have set up Shipping') ?></strong></p>
-        <button type="button" class="action-configure-shipping" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
-            data-save-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/save') ?>"
-            data-load-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Set Up More Shipping Options') ?>
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                data-save-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/load') ?>">
+            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Set Up More Shipping Options') ?></span>
         </button>
         <?php endif; ?>
     </div>

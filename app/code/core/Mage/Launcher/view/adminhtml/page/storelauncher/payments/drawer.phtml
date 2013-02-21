@@ -27,7 +27,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 
 <div class="payments-tiles">
 
-    <div class="payment-method payment-method-express-checkout active">
+    <div class="payment-method active" data-payment-method="express-checkout">
         <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
         <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Express Checkout'); ?></h3>
         <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Help boost sales with PayPal button'); ?></p>
@@ -47,17 +47,14 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Express Checkout'); ?>
             </strong>
             <div class="payment-status">
-                <span class="payment-status-success">Setup Successful</span>
-                <button type="button" class="action-edit" data-payment-config="express-checkout">
-                    <span>Edit</span>
-                </button>
+                <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
             </div>
         </footer>
     </div>
 
     <div class="payments-tab-content">
         <div class="tab-pane active" id="non-merchant-account">
-            <div class="payment-method payment-method-paypal-standard">
+            <div class="payment-method" data-payment-method="paypal-standard">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Standard'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('The fast and easy way to pay online'); ?></p>
@@ -77,14 +74,11 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Standard'); ?>
                     </strong>
                     <div class="payment-status">
-                        <span class="payment-status-success">Setup Successful</span>
-                        <button type="button" class="action-edit" data-payment-config="paypal-standard">
-                            <span>Edit</span>
-                        </button>
+                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
-            <div class="payment-method payment-method-payments-advanced">
+            <div class="payment-method" data-payment-method="payments-advanced">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Advanced'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
@@ -104,14 +98,11 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payments Advanced'); ?>
                     </strong>
                     <div class="payment-status">
-                        <span class="payment-status-success">Setup Successful</span>
-                        <button type="button" class="action-edit" data-payment-config="payments-advanced">
-                            <span>Edit</span>
-                        </button>
+                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
-            <div class="payment-method payment-method-payments-pro">
+            <div class="payment-method" data-payment-method="payments-pro">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Pro'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("You control your customers' checkout experience"); ?></p>
@@ -131,16 +122,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payments Pro'); ?>
                     </strong>
                     <div class="payment-status">
-                        <span class="payment-status-success">Setup Successful</span>
-                        <button type="button" class="action-edit" data-payment-config="payments-pro">
-                            <span>Edit</span>
-                        </button>
+                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
         </div>
         <div class="tab-pane" id="merchant-account">
-            <div class="payment-method payment-method-payflow-link">
+            <div class="payment-method" data-payment-method="payflow-link">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Link'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
@@ -160,14 +148,11 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payflow Link'); ?>
                     </strong>
                     <div class="payment-status">
-                        <span class="payment-status-success">Setup Successful</span>
-                        <button type="button" class="action-edit" data-payment-config="payflow-link">
-                            <span>Edit</span>
-                        </button>
+                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
-            <div class="payment-method payment-method-payflow-pro">
+            <div class="payment-method" data-payment-method="payflow-pro">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Pro'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("You control your customers' checkout experience"); ?></p>
@@ -187,15 +172,12 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payflow Pro'); ?>
                     </strong>
                     <div class="payment-status">
-                        <span class="payment-status-success">Setup Successful</span>
-                        <button type="button" class="action-edit" data-payment-config="payflow-pro">
-                            <span>Edit</span>
-                        </button>
+                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
-            <div class="payment-method payment-method-authorize">
-                <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
+            <div class="payment-method" data-payment-method="authorize">
+                <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/authorizenet-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Flexible, reliable and secure web transactions'); ?></p>
                 <ul class="payment-features">
@@ -214,10 +196,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Authorize.net'); ?>
                     </strong>
                     <div class="payment-status">
-                        <span class="payment-status-success">Setup Successful</span>
-                        <button type="button" class="action-edit" data-payment-config="authorize">
-                            <span>Edit</span>
-                        </button>
+                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
@@ -231,7 +210,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
         <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Just enter your PayPal account email address'); ?></legend>
         <input type="hidden" name="groups[global][fields][express][value]" value="1">
         <input type="hidden" name="payment_method" value="paypal_express_checkout">
-        <div class="field field-store-paypal-express-email with-note">
+        <div class="field field-store-paypal-express-email with-note required">
             <label for="store-paypal-express-email" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email'); ?></span>
             </label>
@@ -253,7 +232,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
         <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please email address associated with the PayPal account'); ?></legend>
         <input type="hidden" name="groups[global][fields][wps][value]" value="1">
         <input type="hidden" name="payment_method" value="paypal_payments_standard">
-        <div class="field field-store-paypal-standard-email with-note">
+        <div class="field field-store-paypal-standard-email with-note required">
             <label for="store-paypal-standard-email" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email'); ?></span>
             </label>
@@ -275,7 +254,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
         <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
         <input type="hidden" name="groups[global][fields][payflow_advanced][value]" value="1">
         <input type="hidden" name="payment_method" value="paypal_payments_advanced">
-        <div class="field field-advanced-partner">
+        <div class="field field-advanced-partner required">
             <label for="advanced-partner" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span>
             </label>
@@ -283,7 +262,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="text" name="groups[payflow_advanced][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/partner'); ?>" class="input-text" id="advanced-partner">
             </div>
         </div>
-        <div class="field field-advanced-vendor">
+        <div class="field field-advanced-vendor required">
             <label for="advanced-vendor" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
             </label>
@@ -291,7 +270,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="text" name="groups[payflow_advanced][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/vendor'); ?>" class="input-text" id="advanced-vendor">
             </div>
         </div>
-        <div class="field field-advanced-user">
+        <div class="field field-advanced-user required">
             <label for="advanced-user" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span>
             </label>
@@ -299,7 +278,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="text" name="groups[payflow_advanced][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_advanced/user'); ?>" class="input-text" id="advanced-user">
             </div>
         </div>
-        <div class="field field-advanced-password">
+        <div class="field field-advanced-password required">
             <label for="advanced-password" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
             </label>
@@ -321,7 +300,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
         <input type="hidden" name="groups[global][fields][express][value]" value="1">
         <input type="hidden" name="groups[global][fields][wpp][value]" value="1">
         <input type="hidden" name="payment_method" value="paypal_payments_pro">
-        <div class="field field-payments-pro-email">
+        <div class="field field-payments-pro-email required">
             <label for="payments-pro-email" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Email'); ?></span>
             </label>
@@ -342,7 +321,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
         <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
         <input type="hidden" name="groups[global][fields][payflow_link][value]" value="1">
         <input type="hidden" name="payment_method" value="paypal_payflow_link">
-        <div class="field field-payflow-link-partner">
+        <div class="field field-payflow-link-partner required">
             <label for="payflow-link-partner" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span>
             </label>
@@ -350,7 +329,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="text" class="input-text" id="payflow-link-partner" name="groups[payflow_link][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/partner'); ?>">
             </div>
         </div>
-        <div class="field field-payflow-link-vendor">
+        <div class="field field-payflow-link-vendor required">
             <label for="payflow-link-vendor" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
             </label>
@@ -358,7 +337,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="text" class="input-text" id="payflow-link-vendor" name="groups[payflow_link][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/vendor'); ?>">
             </div>
         </div>
-        <div class="field field-payflow-link-user">
+        <div class="field field-payflow-link-user required">
             <label for="payflow-link-user" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span>
             </label>
@@ -366,7 +345,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="text" class="input-text" id="payflow-link-user" name="groups[payflow_link][fields][user][value]" value="<?php echo $this->getConfigValue('payment/payflow_link/user'); ?>">
             </div>
         </div>
-        <div class="field field-payflow-link-password">
+        <div class="field field-payflow-link-password required">
             <label for="payflow-link-password" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
             </label>
@@ -388,7 +367,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
         <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
         <input type="hidden" name="groups[global][fields][verisign][value]" value="1">
         <input type="hidden" name="payment_method" value="paypal_payflow_pro">
-        <div class="field field-payflow-pro-partner">
+        <div class="field field-payflow-pro-partner required">
             <label for="payflow-pro-partner" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Partner'); ?></span>
             </label>
@@ -396,7 +375,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="text" class="input-text" id="payflow-pro-partner" name="groups[verisign][fields][partner][value]" value="<?php echo $this->getConfigValue('payment/verisign/partner'); ?>">
             </div>
         </div>
-        <div class="field field-payflow-pro-partner-vendor">
+        <div class="field field-payflow-pro-partner-vendor required">
             <label for="payflow-pro-partner-vendor" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Vendor / Merchant Login'); ?></span>
             </label>
@@ -404,7 +383,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="text" class="input-text" id="payflow-pro-partner-vendor" name="groups[verisign][fields][vendor][value]" value="<?php echo $this->getConfigValue('payment/verisign/vendor'); ?>">
             </div>
         </div>
-        <div class="field field-payflow-pro-partner-user">
+        <div class="field field-payflow-pro-partner-user required">
             <label for="payflow-pro-user" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span>
             </label>
@@ -412,7 +391,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="password" class="input-text" id="payflow-pro-user" name="groups[verisign][fields][user][value]" value="<?php echo $this->getObscuredValue('payment/verisign/user'); ?>">
             </div>
         </div>
-        <div class="field field-payflow-pro-password">
+        <div class="field field-payflow-pro-password required">
             <label for="payflow-pro-password" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
             <div class="control">
                 <input type="password" class="input-text" id="payflow-pro-password" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/verisign/pwd'); ?>">
@@ -431,7 +410,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
         <legend class="legend"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Please enter your account credentials'); ?></legend>
         <input type="hidden" name="groups[authorizenet][fields][active][value]" value="1">
         <input type="hidden" name="payment_method" value="authorize_net">
-        <div class="field field-authorize-login">
+        <div class="field field-authorize-login required">
             <label for="authorize-login" class="label">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('API Login ID'); ?></span>
             </label>
@@ -439,7 +418,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <input type="password" class="input-text" id="authorize-login" name="groups[authorizenet][fields][login][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/login'); ?>">
             </div>
         </div>
-        <div class="field field-authorize-key">
+        <div class="field field-authorize-key required">
             <label for="authorize-key" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Transaction Key'); ?></span></label>
             <div class="control">
                 <input type="password" class="input-text" id="authorize-key" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/trans_key'); ?>">
@@ -458,28 +437,24 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 
 </form>
 
-
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function() {
             'use strict';
 
-            $('[data-payment-config]')
-                .on('click.conigurePaymentMethod', function () {
+            $('.payment-method')
+                .on('click.configurePaymentMethod', function () {
                     var elem = $(this),
-                        paymentTiles = $('.payment-method').filter('.active'),
-                        paymentMethod = elem.attr('data-payment-config');
+                        activePaymentTile = $('.payment-method').filter('.active'),
+                        paymentMethod = elem.attr('data-payment-method');
 
-                    paymentTiles.removeClass('active');
-                    elem
-                        .closest('.payment-method')
-                        .addClass('active');
+                    activePaymentTile.removeClass('active');
+                    elem.addClass('active');
 
                     $('#'+paymentMethod)
                         .show()
                         .siblings()
                         .hide();
-
                 });
 
             $('.action-save-method')
@@ -487,7 +462,18 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     var elem = $(this),
                         form = elem.closest('.payment-config'),
                         fields = form.find(':input'),
-                        id = form.attr('id');
+                        legend = form.find('.legend'),
+                        id = form.attr('id'),
+                        removeValidationMessage = function() {
+                            setTimeout(function() {
+                                $('.message-validation').slideUp(400);
+                            }, 3000);
+                        },
+                        insertValidationMessage = function(messageText, messageType) {
+                            $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
+                                .insertAfter(legend);
+                            removeValidationMessage();
+                        };
 
                     event.preventDefault();
                     var ajaxOptions = {
@@ -499,13 +485,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                         success: function(result, status) {
                             if (result.success) {
                                 if (result && result.message) {
-                                    alert(result.message);
-                                    $('.payment-method-'+id)
+                                    insertValidationMessage(result.message,'success');
+                                    $('[data-payment-method=' + id + ']')
                                         .addClass('configured');
                                 }
                             } else {
                                 if (result && result.error_message) {
-                                    alert(result.error_message);
+                                    insertValidationMessage(result.error_message,'error');
                                 }
                             }
                         }

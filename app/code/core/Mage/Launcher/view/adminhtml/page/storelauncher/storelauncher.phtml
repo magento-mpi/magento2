@@ -16,8 +16,9 @@
     <div class="page-title">
         <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
         <div class="actions">
-            <a class="action-preview-store" target="_blank" href="<?php echo Mage::getBaseUrl(); ?>"><?php echo $this->__('Preview My Store'); ?></a>
-            <button class="action-launch-store <?php if (!$this->getPage()->isComplete()): ?>hidden<?php endif; ?>"><?php echo $this->__('Launch My Store'); ?></button>
+            <button class="action-launch-store primary <?php if (!$this->getPage()->isComplete()): ?>hidden<?php endif; ?>">
+                <span><?php echo $this->__('Launch My Store'); ?></span>
+            </button>
         </div>
     </div>
 

@@ -173,20 +173,13 @@
                 dialogClass: 'tax-rate-popup',
                 resizable: false,
                 buttons: [{
-                    text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Cancel'); ?>',
-                    id: '<?php echo $this->getJsId('close-button') ?>',
-                    'class' :'action-cancel',
-                    click: function() {
-                        $(this).dialogRates("close");
-                    }
-                }, {
                     text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Save'); ?>',
                     id: '<?php echo $this->getJsId('apply-button') ?>',
                     'class' :'action-save primary',
                     click: function() {
                         $(this).dialogRates('updateItemRate');
                         var itemRate = $(this).dialogRates('option').itemRate,
-                                itemRateData = $.extend({}, itemRate);
+                            itemRateData = $.extend({}, itemRate);
                         if (itemRateData.itemElement) {
                             delete itemRateData.itemElement;
                         }
@@ -205,14 +198,14 @@
                                         itemRate.itemElement.find('span').html(itemRate.code);
                                         var index = itemRate.itemElement.parent().index();
                                         itemRate.itemElement.closest('.mselect-list').prev().find('option').eq(index)
-                                                .html(itemRate.code)
-                                                .val(itemRate.tax_calculation_rate_id);
+                                            .html(itemRate.code)
+                                            .val(itemRate.tax_calculation_rate_id);
                                     } else {
                                         itemRate.tax_calculation_rate_id = result.tax_calculation_rate_id;
                                         taxRateField.find('.mselect-input').val(itemRate.code);
                                         taxRateField.find('.mselect-save').trigger('mousedown');
                                         taxRateField.find('option[value=""]:last')
-                                                .val(itemRate.tax_calculation_rate_id);
+                                            .val(itemRate.tax_calculation_rate_id);
                                     }
                                     taxRateForm.dialogRates("close");
                                     taxRateCollection.push(itemRate);
@@ -223,6 +216,13 @@
                             }
                         };
                         $.ajax(ajaxOptions);
+                    }
+                }, {
+                    text: '<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Cancel'); ?>',
+                    id: '<?php echo $this->getJsId('close-button') ?>',
+                    'class': 'action-cancel',
+                    click: function() {
+                        $(this).dialogRates("close");
                     }
                 }]
             });
