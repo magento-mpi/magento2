@@ -54,6 +54,7 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
 
     public function testCodeMess()
     {
+        $this->markTestIncomplete("Memory issues in PHP Depend");
         $reportFile = self::$_reportDir . '/phpmd_report.xml';
         $codeMessDetector = new CodingStandard_Tool_CodeMessDetector(realpath(__DIR__ . '/_files/phpmd/ruleset.xml'),
             $reportFile
@@ -103,6 +104,8 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
         foreach (glob($globPattern) as $list) {
             $patterns = array_merge($patterns, file($list, FILE_IGNORE_NEW_LINES));
         }
+
+        // Expand glob patterns
         $result = array();
         foreach ($patterns as $pattern) {
             if (0 === strpos($pattern, '#')) {
