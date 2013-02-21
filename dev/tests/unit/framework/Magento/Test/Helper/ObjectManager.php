@@ -33,20 +33,7 @@ class Magento_Test_Helper_ObjectManager
      */
     protected $_supportedEntities = array(
         self::BLOCK_ENTITY => array(
-            'request'            => 'Mage_Core_Controller_Request_Http',
-            'layout'             => 'Mage_Core_Model_Layout',
-            'eventManager'       => 'Mage_Core_Model_Event_Manager',
-            'urlBuilder'         => 'Mage_Core_Model_Url',
-            'translator'         => '_getTranslatorMock',
-            'cache'              => 'Mage_Core_Model_Cache',
-            'designPackage'      => 'Mage_Core_Model_Design_Package',
-            'session'            => 'Mage_Core_Model_Session',
-            'storeConfig'        => 'Mage_Core_Model_Store_Config',
-            'frontController'    => 'Mage_Core_Controller_Varien_Front',
-            'helperFactory'      => 'Mage_Core_Model_Factory_Helper',
-            'dirs'               => 'Mage_Core_Model_Dir',
-            'logger'             => 'Mage_Core_Model_Logger',
-            'filesystem'         => 'Magento_Filesystem',
+            'context' => '_getBlockTemplateContext',
         ),
         self::MODEL_ENTITY => array(
             'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',
@@ -119,7 +106,7 @@ class Magento_Test_Helper_ObjectManager
         foreach ($this->_supportedEntities[$entityName] as $propertyName => $propertyType) {
             if (!isset($arguments[$propertyName])) {
                 if (method_exists($this, $propertyType)) {
-                    $constructArguments[$propertyName] = $this->$propertyType();
+                    $constructArguments[$propertyName] = $this->$propertyType($arguments);
                 } else {
                     $constructArguments[$propertyName] = $this->_getMockWithoutConstructorCall($propertyType);
                 }
@@ -150,6 +137,137 @@ class Magento_Test_Helper_ObjectManager
 
         return $resourceMock;
     }
+
+    /**
+     * Create context object
+     * @param array $arguments
+     * @return Mage_Core_Block_Template_Context
+     */
+    protected function _getBlockTemplateContext(array $arguments)
+    {
+        $params = array(
+            'request' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Controller_Request_Http', array(), array(), '', false),
+                ),
+            ),
+            'layout' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Layout', array(), array(), '', false),
+                ),
+            ),
+            'eventManager' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Event_Manager', array(), array(), '', false),
+                ),
+            ),
+            'urlBuilder' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Url', array(), array(), '', false),
+                ),
+            ),
+            'translator' => array(
+                'default' => array(
+                    'object' => $this,
+                    'method' => '_getTranslatorMock',
+                    'params' => array(),
+                ),
+            ),
+            'cache' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Cache', array(), array(), '', false),
+                ),
+            ),
+            'designPackage' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Design_Package', array(), array(), '', false),
+                ),
+            ),
+            'session' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Session', array(), array(), '', false),
+                ),
+            ),
+            'storeConfig' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Store_Config', array(), array(), '', false),
+                ),
+            ),
+            'frontController' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
+                ),
+            ),
+            'helperFactory' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Factory_Helper', array(), array(), '', false)
+                ),
+            ),
+            'dirs' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Dir', array(), array(), '', false)
+                ),
+            ),
+            'logger' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Mage_Core_Model_Logger', array(), array(), '', false)
+                ),
+            ),
+            'filesystem' => array(
+                'default' => array(
+                    'object' => $this->_testObject,
+                    'method' => 'getMock',
+                    'params' => array('Magento_Filesystem', array(), array(), '', false)
+                ),
+            ),
+        );
+
+        $parameters = array();
+        foreach ($params as $name => $default) {
+            if (isset($arguments[$name])) {
+                $parameters[$name] = $arguments[$name];
+            } else {
+                $config = $default['default'];
+                $parameters[$name] = call_user_func_array(array($config['object'],
+                    $config['method']), $config['params']
+                );
+            }
+        }
+
+        list($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage, $session,
+            $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem) = array_values($parameters);
+
+        $context = new Mage_Core_Block_Template_Context($request, $layout, $eventManager, $urlBuilder, $translator,
+            $cache, $designPackage, $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger,
+            $filesystem
+        );
+        return $context;
+    }
+
 
     /**
      * Retrieve mock of core translator model
@@ -212,7 +330,6 @@ class Magento_Test_Helper_ObjectManager
      */
     protected function _getMockWithoutConstructorCall($className)
     {
-
         return $this->_testObject->getMock($className, array(), array(), '', false);
     }
 

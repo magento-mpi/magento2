@@ -27,7 +27,7 @@ class Mage_Core_Model_ObjectManager_ConfigTest extends PHPUnit_Framework_TestCas
         $configMock->expects($this->any())->method('getNode')->with($this->stringStartsWith('global'))
             ->will($this->returnValue($configuration));
         $objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $objectManagerMock->expects($this->exactly(2))->method('setConfiguration');
+        $objectManagerMock->expects($this->exactly(2))->method('configure');
         $objectManagerMock->expects($this->once())->method('get')->with('Mage_Core_Model_Config_Primary')
             -> will($this->returnValue($configMock));
         $configuratorMock = $this->getMock('Magento_ObjectManager_Configuration');

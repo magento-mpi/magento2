@@ -69,7 +69,8 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
      * @param Mage_Core_Block_Template_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Core_Block_Template_Context $context, array $data = array()) {
+    public function __construct(Mage_Core_Block_Template_Context $context, array $data = array())
+    {
         $this->_dirs = $context->getDirs();
         $this->_logger = $context->getLogger();
         $this->_filesystem = $context->getFilesystem();

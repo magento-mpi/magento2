@@ -105,16 +105,12 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     protected $_totals = null;
 
     /**
-     * Constructor
-     *
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Backend_Helper_Data $helper
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Mage_Backend_Model_Widget_Grid_SubTotals $subtotals
      * @param Mage_Backend_Model_Widget_Grid_Totals $totals
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,

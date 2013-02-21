@@ -30,9 +30,9 @@ class Mage_Core_Model_EntryPoint_HttpTest extends PHPUnit_Framework_TestCase
         $requestHandlerMock = $this->getMock('Magento_Http_HandlerInterface');
         $requestHandlerMock->expects($this->once())->method('handle')->with($request, $response);
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap(array(
-            array('Mage_Core_Controller_Request_Http', array(), $request),
-            array('Mage_Core_Controller_Response_Http', array(), $response),
-            array('Magento_Http_Handler_Composite', array(), $requestHandlerMock),
+            array('Mage_Core_Controller_Request_Http', $request),
+            array('Mage_Core_Controller_Response_Http', $response),
+            array('Magento_Http_Handler_Composite', $requestHandlerMock),
         )));
         $this->_model->processRequest();
     }
