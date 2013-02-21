@@ -5,6 +5,11 @@
  * Interface:
  * - SaaS infrastructure includes this file and executes as a callback
  * - The callback receives one argument: an array with various application configuration, adjusted for the tenant
+ *
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 /**
  * @param array $tenantData
