@@ -206,14 +206,6 @@ interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInter
     public function useCache($type = null);
 
     /**
-     * Save cache usage settings
-     *
-     * @param array $data
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function saveUseCache($data);
-
-    /**
      * Deletes all session files
      *
      * @return Mage_Core_Model_AppInterface

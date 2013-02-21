@@ -28,9 +28,9 @@ class Mage_Backend_Model_Acl_Config implements Mage_Core_Model_Acl_Config_Config
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_Cache_Type_Config
      */
-    protected $_cache;
+    protected $_configCacheType;
 
     /**
      * @var Magento_Acl_Config_Reader
@@ -46,16 +46,16 @@ class Mage_Backend_Model_Acl_Config implements Mage_Core_Model_Acl_Config_Config
 
     /**
      * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
         Mage_Core_Model_Config $config,
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
         $this->_config = $config;
-        $this->_cache  = $cache;
+        $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
     }
 
@@ -113,10 +113,7 @@ class Mage_Backend_Model_Acl_Config implements Mage_Core_Model_Acl_Config_Config
      */
     private function _loadAclResourcesFromCache()
     {
-        if ($this->_cache->canUse('config')) {
-            return $this->_cache->load(self::CACHE_ID);
-        }
-        return null;
+        return $this->_configCacheType->load(self::CACHE_ID);
     }
 
     /**
@@ -127,9 +124,7 @@ class Mage_Backend_Model_Acl_Config implements Mage_Core_Model_Acl_Config_Config
      */
     private function _saveAclResourcesToCache($data)
     {
-        if ($this->_cache->canUse('config')) {
-            $this->_cache->save($data, self::CACHE_ID, array(Mage_Core_Model_Config::CACHE_TAG));
-        }
+        $this->_configCacheType->save($data, self::CACHE_ID);
         return $this;
     }
 }

@@ -19,9 +19,14 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
             'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Updater',
             'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
             'Mage_Core_Model_Config_InvalidatorInterface' => 'Mage_Core_Model_Config_Invalidator_Proxy',
+            'Mage_Core_Model_CacheInterface' => 'Mage_Core_Model_Cache',
         ),
         'Mage_Core_Model_Cache' => array(
-            'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
+            'parameters' => array(
+                // @todo remove cache types proxy as soon as deprecated methods of Mage_Core_Model_Cache are removed
+                'cacheTypes' => 'Mage_Core_Model_Cache_Types_Proxy',
+                'config' => 'Mage_Core_Model_Config_Proxy',
+            )
         ),
         'Mage_Core_Model_Config' => array(
             'parameters' => array('storage' => 'Mage_Core_Model_Config_Storage')
@@ -98,7 +103,11 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 'Mage_Core_Model_Cache' => array(
                     'parameters' => array(
                         'options' => $this->_getParam(Mage::PARAM_CACHE_OPTIONS, array()),
-                        'banCache' => $this->_getParam(Mage::PARAM_BAN_CACHE, false),
+                    )
+                ),
+                'Mage_Core_Model_Cache_Types' => array(
+                    'parameters' => array(
+                        'banAll' => $this->_getParam(Mage::PARAM_BAN_CACHE, false),
                     )
                 ),
                 'Mage_Core_Model_StoreManager' => array(

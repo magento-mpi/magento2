@@ -122,17 +122,6 @@ class Mage_Core_Model_Cache_Proxy implements Mage_Core_Model_CacheInterface
     }
 
     /**
-     * Save cache usage options
-     *
-     * @param array $options
-     * @return Mage_Core_Model_Cache
-     */
-    public function saveOptions($options)
-    {
-        return $this->_getCache()->saveOptions($options);
-    }
-
-    /**
      * Check if cache can be used for specific data type
      *
      * @param string $typeCode

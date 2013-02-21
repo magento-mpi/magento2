@@ -11,6 +11,45 @@
 class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * @var Mage_Core_Model_Cache
+     */
+    private $_cache;
+
+    /**
+     * @var Mage_Core_Model_Cache_Types
+     */
+    private $_cacheTypes;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Cache_Types $cacheTypes
+     * @param null $areaCode
+     * @param array $invokeArgs
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Controller_Response_Http $response,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Cache_Types $cacheTypes,
+        $areaCode = null,
+        array $invokeArgs = array()
+    ) {
+        parent::__construct(
+            $request, $response, $objectManager, $frontController, $layoutFactory, $areaCode, $invokeArgs
+        );
+        $this->_cache = $cache;
+        $this->_cacheTypes = $cacheTypes;
+    }
+
+    /**
      * Retrieve session model
      *
      * @return Mage_Adminhtml_Model_Session
@@ -38,8 +77,10 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     public function flushAllAction()
     {
         Mage::dispatchEvent('adminhtml_cache_flush_all');
-        Mage::app()->getCacheInstance()->flush();
-        $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("The cache storage has been flushed."));
+        $this->_cache->flush();
+        $this->_getSession()->addSuccess(
+            Mage::helper('Mage_Adminhtml_Helper_Data')->__("The cache storage has been flushed.")
+        );
         $this->_redirect('*/*');
     }
 
@@ -50,51 +91,55 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     {
         Mage::app()->cleanCache();
         Mage::dispatchEvent('adminhtml_cache_flush_system');
-        $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("The Magento cache storage has been flushed."));
+        $this->_getSession()->addSuccess(
+            Mage::helper('Mage_Adminhtml_Helper_Data')->__("The Magento cache storage has been flushed.")
+        );
         $this->_redirect('*/*');
     }
 
     /**
-     * Mass action for cache enabeling
+     * Mass action for cache enabling
      */
     public function massEnableAction()
     {
         $types = $this->getRequest()->getParam('types');
-        $allTypes = Mage::app()->useCache();
-
+        $allTypes = array_keys($this->_cache->getTypes());
         $updatedTypes = 0;
         foreach ($types as $code) {
-            if (empty($allTypes[$code])) {
-                $allTypes[$code] = 1;
+            if (in_array($code, $allTypes) && !$this->_cacheTypes->isEnabled($code)) {
+                $this->_cacheTypes->setEnabled($code, true);
                 $updatedTypes++;
             }
         }
         if ($updatedTypes > 0) {
-            Mage::app()->saveUseCache($allTypes);
-            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes));
+            $this->_cacheTypes->persist();
+            $this->_getSession()->addSuccess(
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes)
+            );
         }
         $this->_redirect('*/*');
     }
 
     /**
-     * Mass action for cache disabeling
+     * Mass action for cache disabling
      */
     public function massDisableAction()
     {
         $types = $this->getRequest()->getParam('types');
-        $allTypes = Mage::app()->useCache();
-
+        $allTypes = array_keys($this->_cache->getTypes());
         $updatedTypes = 0;
         foreach ($types as $code) {
-            if (!empty($allTypes[$code])) {
-                $allTypes[$code] = 0;
+            if (in_array($code, $allTypes) && $this->_cacheTypes->isEnabled($code)) {
+                $this->_cacheTypes->setEnabled($code, false);
                 $updatedTypes++;
             }
-            $tags = Mage::app()->getCacheInstance()->cleanType($code);
+            $this->_cache->cleanType($code);
         }
         if ($updatedTypes > 0) {
-            Mage::app()->saveUseCache($allTypes);
-            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes));
+            $this->_cacheTypes->persist();
+            $this->_getSession()->addSuccess(
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes)
+            );
         }
         $this->_redirect('*/*');
     }
@@ -108,13 +153,15 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         $updatedTypes = 0;
         if (!empty($types)) {
             foreach ($types as $type) {
-                $tags = Mage::app()->getCacheInstance()->cleanType($type);
+                $this->_cache->cleanType($type);
                 Mage::dispatchEvent('adminhtml_cache_refresh_type', array('type' => $type));
                 $updatedTypes++;
             }
         }
         if ($updatedTypes > 0) {
-            $this->_getSession()->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) refreshed.", $updatedTypes));
+            $this->_getSession()->addSuccess(
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) refreshed.", $updatedTypes)
+            );
         }
         $this->_redirect('*/*');
     }

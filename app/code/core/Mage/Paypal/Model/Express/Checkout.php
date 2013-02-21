@@ -119,16 +119,25 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_order = null;
 
     /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
      * Set config, session and quote instances
      *
      * @param Mage_Customer_Model_Session $customerSession
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param array $params
+     * @throws Exception
      */
     public function __construct(
         Mage_Customer_Model_Session $customerSession,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
         $params = array()
     ) {
         $this->_customerSession = $customerSession;
+        $this->_configCacheType = $configCacheType;
 
         if (isset($params['config']) && $params['config'] instanceof Mage_Paypal_Model_Config) {
             $this->_config = $params['config'];
@@ -154,7 +163,7 @@ class Mage_Paypal_Model_Express_Checkout
         $pal = null;
         if ($this->_config->areButtonsDynamic()) {
             $cacheId = self::PAL_CACHE_ID . Mage::app()->getStore()->getId();
-            $pal = Mage::app()->loadCache($cacheId);
+            $pal = $this->_configCacheType->load($cacheId);
             if (-1 == $pal) {
                 $pal = null;
             } elseif (!$pal) {
@@ -163,9 +172,9 @@ class Mage_Paypal_Model_Express_Checkout
                 try {
                     $this->_api->callGetPalDetails();
                     $pal = $this->_api->getPal();
-                    Mage::app()->saveCache($pal, $cacheId, array(Mage_Core_Model_Config::CACHE_TAG));
+                    $this->_configCacheType->save($pal, $cacheId);
                 } catch (Exception $e) {
-                    Mage::app()->saveCache(-1, $cacheId, array(Mage_Core_Model_Config::CACHE_TAG));
+                    $this->_configCacheType->save(-1, $cacheId);
                     Mage::logException($e);
                 }
             }

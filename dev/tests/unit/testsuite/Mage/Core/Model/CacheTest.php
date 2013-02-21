@@ -41,9 +41,14 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     protected $_helperFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject;
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheFrontend;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_cacheTypesMock;
 
     protected function setUp()
     {
@@ -84,8 +89,10 @@ XML
         $this->_cacheFrontend = $this->getMock(
             'Zend_Cache_Core', array('load', 'test', 'save', 'remove', 'clean', '_getHelper')
         );
+        $this->_cacheTypesMock = $this->getMock('Mage_Core_Model_Cache_Types', array(), array(), '', false);
         $this->_model = new Mage_Core_Model_Cache(
-            $this->_configMock, $this->_primaryConfigMock, $this->_dirsMock, $this->_helperFactoryMock, false, array(
+            $this->_cacheTypesMock,
+            $this->_configMock, $this->_primaryConfigMock, $this->_dirsMock, $this->_helperFactoryMock, array(
                 'frontend' => $this->_cacheFrontend,
                 'backend'  => 'BlackHole',
             )
@@ -113,7 +120,7 @@ XML
         $this->_cacheFrontend
             ->expects($this->any())
             ->method('load')
-            ->with(strtoupper(Mage_Core_Model_Cache::OPTIONS_CACHE_ID))
+            ->with(strtoupper(Mage_Core_Model_Cache_Types::CACHE_ID))
             ->will($this->returnValue(serialize($cacheTypeOptions)))
         ;
     }
@@ -127,8 +134,9 @@ XML
     {
         $options += array('helper' => $this->_helperMock);
         $model = new Mage_Core_Model_Cache(
+            $this->getMock('Mage_Core_Model_Cache_Types', array(), array(), '', false),
             $this->_configMock, $this->_primaryConfigMock, $this->_dirsMock,
-            $this->_helperFactoryMock, false, $options
+            $this->_helperFactoryMock, $options
         );
 
         $backend = $model->getFrontend()->getBackend();
@@ -206,6 +214,7 @@ XML
     public function testSaveDisallowed()
     {
         $model = new Mage_Core_Model_Cache(
+            $this->getMock('Mage_Core_Model_Cache_Types', array(), array(), '', false),
             $this->_configMock, $this->_primaryConfigMock, $this->_dirsMock, $this->_helperFactoryMock, array(
             'frontend' => $this->_cacheFrontend,
             'backend'  => 'BlackHole',
@@ -296,41 +305,35 @@ XML
         $this->assertEquals($result, $this->_model->flush());
     }
 
-    /**
-     * @return Mage_Core_Model_Cache
-     */
     public function testCanUse()
     {
-        $this->_emulateCacheTypeOptions();
-        $this->assertEquals(array('config' => true), $this->_model->canUse(''));
+        $this->_cacheTypesMock
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->with('config')
+            ->will($this->returnValue(true))
+        ;
         $this->assertTrue($this->_model->canUse('config'));
-        return $this->_model;
     }
 
-    /**
-     * @depends testCanUse
-     * @param Mage_Core_Model_Cache $model
-     * @return Mage_Core_Model_CacheTest
-     */
-    public function testBanUse(Mage_Core_Model_Cache $model)
+    public function testBanUse()
     {
-        $this->_emulateCacheTypeOptions();
-        $this->assertTrue($model->canUse('config'));
-        $model->banUse('config');
-        $this->assertFalse($model->canUse('config'));
-        return $model;
+        $this->_cacheTypesMock
+            ->expects($this->once())
+            ->method('setEnabled')
+            ->with('config', false)
+        ;
+        $this->_model->banUse('config');
     }
 
-    /**
-     * @depends testBanUse
-     * @param Mage_Core_Model_Cache $model
-     */
-    public function testAllowUse(Mage_Core_Model_Cache $model)
+    public function testAllowUse()
     {
-        $this->_emulateCacheTypeOptions();
-        $this->assertFalse($model->canUse('config'));
-        $model->allowUse('config');
-        $this->assertTrue($model->canUse('config'));
+        $this->_cacheTypesMock
+            ->expects($this->once())
+            ->method('setEnabled')
+            ->with('config', true)
+        ;
+        $this->_model->allowUse('config');
     }
 
     /**
@@ -381,7 +384,11 @@ XML
 
     public function testGetInvalidatedTypes()
     {
-        $this->_model->allowUse('single_tag');
+        $this->_cacheTypesMock
+            ->expects($this->any())
+            ->method('isEnabled')
+            ->will($this->returnValue(true))
+        ;
         $this->_cacheFrontend
             ->expects($this->once())
             ->method('load')

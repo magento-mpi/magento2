@@ -17,6 +17,52 @@
  */
 class Mage_Directory_Block_Data extends Mage_Core_Block_Template
 {
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Model_Layout $layout
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Core_Model_Url $urlBuilder
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Session_Abstract $session
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Core_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session_Abstract $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
+        $this->_configCacheType = $configCacheType;
+    }
+
     public function getLoadrRegionUrl()
     {
         return $this->getUrl('directory/json/childRegion');
@@ -40,14 +86,12 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
         if (is_null($defValue)) {
             $defValue = $this->getCountryId();
         }
-        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+        if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
             $options = $this->getCountryCollection()->toOptionArray();
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
-            }
+            $this->_configCacheType->save(serialize($options), $cacheKey);
         }
         $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($name)
@@ -79,14 +123,12 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     public function getRegionHtmlSelect()
     {
         Magento_Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
-        $cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId();
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+        $cacheKey = 'DIRECTORY_REGION_SELECT_STORE' . Mage::app()->getStore()->getId();
+        if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
             $options = $this->getRegionCollection()->toOptionArray();
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
-            }
+            $this->_configCacheType->save(serialize($options), $cacheKey);
         }
         $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('region')
