@@ -9,19 +9,16 @@
  */
 
 /**
- * Quick styles configuration
+ * Controls configuration
  */
-class Mage_DesignEditor_Model_Config_QuickStyles extends Magento_Config_XmlAbstract
+abstract class Mage_DesignEditor_Model_Config_Control_Abstract extends Magento_Config_XmlAbstract
 {
     /**
-     * Path to quick_styles.xsd
+     * Keys of layout params attributes
      *
-     * @return string
+     * @var array
      */
-    public function getSchemaFile()
-    {
-        return __DIR__ . '/../../etc/quick_styles.xsd';
-    }
+    protected $_controlAttributes = array();
 
     /**
      * Extract configuration data from the DOM structure
@@ -57,8 +54,30 @@ class Mage_DesignEditor_Model_Config_QuickStyles extends Magento_Config_XmlAbstr
             } else {
                 $result[$controlName] =  $this->_extractParams($control);
             }
+            $controlLayoutParams = $this->_extractLayoutParams($control);
+            if (!empty($controlLayoutParams)) {
+                $result[$controlName]['layoutParams'] = $controlLayoutParams;
+            }
         }
         return $result;
+    }
+
+    /**
+     * Extract layout parameters which declare position of controls in layout
+     *
+     * @param DOMElement $control
+     * @return array
+     */
+    protected function _extractLayoutParams(DOMElement $control)
+    {
+        $layoutParams = array();
+        foreach ($this->_controlAttributes as $attributeName) {
+            $controlTitle = $control->getAttribute($attributeName);
+            if (!empty($controlTitle)) {
+                $layoutParams[$attributeName] = $controlTitle;
+            }
+        }
+        return $layoutParams;
     }
 
     /**
@@ -88,37 +107,27 @@ class Mage_DesignEditor_Model_Config_QuickStyles extends Magento_Config_XmlAbstr
     }
 
     /**
-     * Return group data
+     * Return control data
      *
-     * @param string $groupName
+     * @param string $controlName
      * @return array
      * @throws Magento_Exception
      */
-    public function getGroupData($groupName)
+    public function getControlData($controlName)
     {
-        if (!isset($this->_data[$groupName])) {
-           throw new Magento_Exception("Unknown group: \"{$groupName}\"");
-       }
-        return $this->_data[$groupName];
+        if (!isset($this->_data[$controlName])) {
+           throw new Magento_Exception("Unknown control: \"{$controlName}\"");
+        }
+        return $this->_data[$controlName];
     }
 
     /**
-     * Getter for initial view.xml contents
-     *
-     * @return string
-     */
-    protected function _getInitialXml()
-    {
-        return '<?xml version="1.0" encoding="UTF-8"?><quick-styles></quick-styles>';
-    }
-
-    /**
-     * Variables are identified by module and name
+     * Return all controls data
      *
      * @return array
      */
-    protected function _getIdAttributes()
+    public function getAllControlsData()
     {
-        return array('/quick-styles/control' => 'name', '/quick-styles/control/components/control' => 'name');
+        return $this->_data;
     }
 }

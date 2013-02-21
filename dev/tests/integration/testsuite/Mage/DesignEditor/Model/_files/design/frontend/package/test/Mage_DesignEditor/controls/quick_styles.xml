@@ -12,7 +12,7 @@
  -->
 <quick-styles>
     <!-- Complex control with components -->
-    <control name="headers" title="Headers">
+    <control name="headers" title="Headers" column="left">
         <type>logo</type>
         <components>
             <!-- Font picker -->
@@ -47,12 +47,12 @@
         </components>
     </control>
     <!-- Simple control -->
-    <control name="logo-uploader" title="Logo Uploader">
+    <control name="logo-uploader" title="Logo Uploader" column="center">
         <type>logo-uploader</type>
         <var>test_var_key4</var>
     </control>
     <!-- Simple control -->
-    <control name="background-color-picker">
+    <control name="background-color-picker" title="Background Color" column="right">
         <type>color-picker</type>
         <selector>.body .div</selector>
         <attribute>background-color</attribute>
