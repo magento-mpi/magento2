@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-/*global alert:true*/
+/*global alert*/
 (function($) {
     "use strict";
-    $.widget('mage.overview', {
+    $.widget('mage.orderOverview', {
         options: {
             opacity: 0.5, // CSS opacity for the 'Place Order' button when it's clicked and then disabled.
-            pleaseWaitLoader: '#review-please-wait', // 'Submitting order information...' Ajax loader.
-            placeOrderSubmit: '#review-buttons-container button[type="submit"]', // The 'Place Order' button.
+            pleaseWaitLoader: 'span.please-wait', // 'Submitting order information...' Ajax loader.
+            placeOrderSubmit: 'button[type="submit"]', // The 'Place Order' button.
             agreements: '#checkout-agreements' // Container for all of the checkout billing agreements.
         },
 
@@ -37,8 +37,8 @@
                 alert($.mage.__('Please agree to all Terms and Conditions before placing the orders.'));
                 return false;
             }
-            $(this.options.pleaseWaitLoader).show();
-            $(this.options.placeOrderSubmit).prop('disabled', true).css('opacity', this.options.opacity);
+            this.element.find(this.options.pleaseWaitLoader).show().end()
+                .find(this.options.placeOrderSubmit).prop('disabled', true).css('opacity', this.options.opacity);
             return true;
         }
     });
