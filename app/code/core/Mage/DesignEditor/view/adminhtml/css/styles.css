@@ -1444,9 +1444,26 @@
     width: 100%;
 }
 
+/* tools panel*/
 .fieldset.column {
     float: left;
     width: 25%;
+    margin-right: 10px;
+}
+
+.element-font .element-font-picker,
+.element-font .element-color-picker {
+    float:left;
+}
+
+.element-font .element-color-picker {
+    margin-top: 3px;
+    margin-left: 20px;
+}
+
+.element-color-picker input {
+    float:left;
+    width:60px;
 }
 
 /*

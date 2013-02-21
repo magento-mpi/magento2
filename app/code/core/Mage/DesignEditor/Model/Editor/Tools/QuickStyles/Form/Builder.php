@@ -11,11 +11,12 @@
 /**
  * VDE area model
  */
-class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Varien_Data_Form_Factory
+class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
 {
-    const COLUMN_RENDERER_LAYOUT_NAME = 'design_editor_tools_design_column';
-
-    const COLUMN_ELEMENT_RENDERER_LAYOUT_NAME = 'design_editor_tools_design_column_element';
+    /**
+     * @var Varien_Data_Form_Factory
+     */
+    protected $_formFactory;
 
     /**
      * @var Mage_Core_Model_Translate
@@ -23,9 +24,14 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
     protected $_translator;
 
     /**
-     * @var Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Factory
+     * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      */
     protected $_rendererFactory;
+
+    /**
+     * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
+     */
+    protected $_elementsFactory;
 
     protected $_xmlReader;
 
@@ -33,12 +39,16 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
      * Constructor
      */
     public function __construct(
+        Varien_Data_Form_Factory $formFactory,
         Mage_Core_Model_Translate $translator,
         Varien_Object $xmlReader,
-        Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Factory $rendererFactory
+        Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
+        Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
     ) {
+        $this->_formFactory = $formFactory;
         $this->_translator = $translator;
         $this->_rendererFactory = $rendererFactory;
+        $this->_elementsFactory = $elementsFactory;
 
         //@TODO remove xmlReader or use it
         $this->_xmlReader = $xmlReader;
@@ -54,7 +64,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
     public function create(array $data = array())
     {
         /** @var $form Varien_Data_Form */
-        $form = parent::create($data);
+        $form = $this->_formFactory->create($data);
 
         $this->addElementTypes($form);
 
@@ -62,8 +72,8 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
             throw new InvalidArgumentException((sprintf('Invalid controls group "%s".', $data['group'])));
         }
 
-        $columns = $this->initColumns($form, $data['group'], $data['layout'], $data['layout_name']);
-        $this->populateColumns($columns, $data['group'], $data['layout']);
+        $columns = $this->initColumns($form, $data['group']);
+        $this->populateColumns($columns, $data['group']);
 
         return $form;
     }
@@ -73,23 +83,29 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
      *
      * @param Varien_Data_Form $form
      * @param string $group
-     * @param Mage_Core_Model_Layout $layout
-     * @param string $parentName
      * @return array
      */
-    protected function initColumns($form, $group, $layout, $parentName)
+    protected function initColumns($form, $group)
     {
-        // NOTICE: Since column renderer is shared it's impossible to render nested columns
-        $columnRenderer = $this->getColumnRenderer($layout);
+        /** @var $columnLeft Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
+        $columnLeft = $form->addField('column-left-' . $group, 'column', array());
+        $columnLeft->setRendererFactory($this->_rendererFactory)
+            ->setElementsFactory($this->_elementsFactory);
 
-        $columnLeft = $form->addField('column-left-' . $group, 'column', array())->setRenderer($columnRenderer);
-        $columnMiddle = $form->addField('column-middle-' . $group, 'column', array())->setRenderer($columnRenderer);
-        $columnRight = $form->addField('column-right-' . $group, 'column', array())->setRenderer($columnRenderer);
+        /** @var $columnMiddle Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
+        $columnMiddle = $form->addField('column-middle-' . $group, 'column', array());
+        $columnMiddle->setRendererFactory($this->_rendererFactory)
+            ->setElementsFactory($this->_elementsFactory);
+
+        /** @var $columnRight Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
+        $columnRight = $form->addField('column-right-' . $group, 'column', array());
+        $columnRight->setRendererFactory($this->_rendererFactory)
+            ->setElementsFactory($this->_elementsFactory);
 
         $columns = array(
-            'column-left' => $columnLeft,
+            'column-left'   => $columnLeft,
             'column-middle' => $columnMiddle,
-            'column-right' => $columnRight
+            'column-right'  => $columnRight
         );
 
         return $columns;
@@ -100,37 +116,32 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
      *
      * @param array $columns
      * @param string $group
-     * @param Mage_Core_Model_Layout $layout
      */
-    protected function populateColumns($columns, $group, $layout)
+    protected function populateColumns($columns, $group)
     {
-        // NOTICE: Since column element renderer is shared it's impossible to render nested column elements
-        $columnElementRenderer = $this->getColumnElementRenderer($layout);
-
-        // Backup original renderer
-        $originalRenderer = Varien_Data_Form::getFieldsetElementRenderer();
-
-        // Level 3 element renderer
-        $fieldsetElementRenderer = $this->getColumnElementRenderer($layout);
-        Varien_Data_Form::setFieldsetElementRenderer($fieldsetElementRenderer);
-
         foreach ($this->getControlsLayout($group) as $id => $positionData) {
             $control = $this->getControls($id);
             $this->setDefaultValues($control, $id);
 
-            $htmlId = 'control-' . $id;
+            $htmlId = $id;
+            //$htmlId = 'control-' . $id;
+            //$htmlId = 'element-' . $id;
             $config = $this->buildElementConfig($htmlId, $positionData, $control);
-
 
             /** @var $column Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
             $column = $columns[$positionData['column']];
-            $column->addField($htmlId, $control['type'], $config)->setRenderer($columnElementRenderer);
+            $column->addField($htmlId, $control['type'], $config);
         }
-
-        // Restore original renderer
-        Varien_Data_Form::setFieldsetElementRenderer($originalRenderer);
     }
 
+    /**
+     * Create form element config
+     *
+     * @param string $htmlId
+     * @param array $positionData
+     * @param array $control
+     * @return array
+     */
     protected function buildElementConfig($htmlId, $positionData, $control)
     {
         $label = $this->__($positionData['title']);
@@ -157,46 +168,6 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
         }
 
         return $config;
-    }
-
-    /**
-     * Get column renderer
-     *
-     * @param Mage_Core_Model_Layout $layout
-     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column
-     */
-    protected function getColumnRenderer($layout)
-    {
-        /** @var $columnRenderer Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column|false */
-        $columnRenderer = $layout->getBlock(self::COLUMN_RENDERER_LAYOUT_NAME);
-        if (!$columnRenderer) {
-            $columnRenderer = $layout->createBlock(
-                'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column',
-                self::COLUMN_RENDERER_LAYOUT_NAME
-            );
-        }
-
-        return $columnRenderer;
-    }
-
-    /**
-     * Get column element renderer
-     *
-     * @param Mage_Core_Model_Layout $layout
-     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column_Element
-     */
-    protected function getColumnElementRenderer($layout)
-    {
-        /** @var $columnElementRenderer Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column_Element|false */
-        $columnElementRenderer = $layout->getBlock(self::COLUMN_ELEMENT_RENDERER_LAYOUT_NAME);
-        if (!$columnElementRenderer) {
-            $columnElementRenderer = $layout->createBlock(
-                'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column_Element',
-                self::COLUMN_ELEMENT_RENDERER_LAYOUT_NAME
-            );
-        }
-
-        return $columnElementRenderer;
     }
 
     /**
@@ -272,32 +243,32 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
     {
         $layoutDataByTab = array(
             'header'      => array(
-                'store-name'         => array(
+                'store-name' => array(
                     'title'  => 'Store Name',
                     'used'   => 'Global Header',
                     'column' => 'column-left',
                 ),
-                'header-background'         => array(
+                'header-background' => array(
                     'title'  => 'Background',
                     'used'   => 'Global Header',
                     'column' => 'column-left',
                 ),
-                'menu-background'    => array(
+                'menu-background' => array(
                     'title'  => 'Menu Background',
                     'used'   => 'Main Nav Drop-down BG, Language and Currency Drop-downs',
                     'column' => 'column-middle',
                 ),
-                'menu-links'         => array(
+                'menu-links' => array(
                     'title'  => 'Menu Links',
                     'used'   => 'Links in the drop down menu for main nav',
                     'column' => 'column-middle',
                 ),
-                'menu-links-hover'   => array(
+                'menu-links-hover' => array(
                     'title'  => 'Menu Links Hover',
                     'used'   => 'Links in the drop down menu for main nav',
                     'column' => 'column-middle',
                 ),
-                'header-links'       => array(
+                'header-links' => array(
                     'title'  => 'Header Links',
                     'used'   => 'Cart Icon, Header Links, Language and Currency Links, Main Nav Liks, Drop down arrow for language and currency, Drop down arrow for "More" menu',
                     'column' => 'column-right',
@@ -356,7 +327,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
                         'type'  => 'font',
                         'components' => array(
                             'store-name:font-picker' => array(
-                                'type'  => 'font-picker',
+                                'type'     => 'font-picker',
                                 'default'  => 'Tahoma, Geneva, sans-serif',
                                 'options'  => array(
                                     'Verdana, Geneva, sans-serif',
@@ -375,6 +346,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory extends Vari
                         )
                     ),
                     'store-name:logo-uploader' => array(
+                        'type'      => 'logo-uploader',
                         'default'   => 'logo.png',
                         'selector'  => '.logo',
                         'attribute' => 'background-image',

@@ -129,7 +129,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Unknown error.'));
+            
+            echo __FILE__.':'.__LINE__;
+            echo '<pre>';
+            var_dump($e->getMessage());
+            var_dump($e->getTraceAsString());
+            echo '</pre>';
+            exit;
+            
+             
+            $this->_getSession()->addException($e, $this->__('Unknown error'));
             $this->_redirect('*/*/');
             return;
         }

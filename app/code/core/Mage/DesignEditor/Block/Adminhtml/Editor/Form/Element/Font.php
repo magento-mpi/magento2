@@ -16,6 +16,8 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
 {
+    const CONTROL_TYPE = 'font';
+
     /**
      * Constructor helper
      */
@@ -25,6 +27,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
 
         $this->addElementTypes();
         $this->addFields();
+
+        $this->addClass('element-' . self::CONTROL_TYPE);
     }
 
     /**
@@ -60,6 +64,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
             'name'  => $colorHtmlId,
             'value' => $colorData['value'],
             'title' => $colorTitle,
+            'class' => '123class',
+            'css_class' => '456class',
             'label' => null,
         ));
     }
@@ -73,4 +79,3 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
         $this->addType('font-picker', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker');
     }
 }
-

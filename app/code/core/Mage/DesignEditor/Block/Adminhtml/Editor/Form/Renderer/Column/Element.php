@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+//@TODO remove it after removing referrenes in Renderer_Factory
 /**
  * Column element renderer
  */

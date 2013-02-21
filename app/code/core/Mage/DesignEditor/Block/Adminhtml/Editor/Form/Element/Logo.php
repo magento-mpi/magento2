@@ -16,6 +16,8 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
 {
+    const CONTROL_TYPE = 'logo';
+
     /**
      * Constructor helper
      */
@@ -25,6 +27,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
 
         $this->addElementTypes();
         $this->addFields();
+
+        $this->addClass('element-' . self::CONTROL_TYPE);
     }
 
     /**
@@ -32,17 +36,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
      */
     public function addFields()
     {
-        //@TODO remove hardcoded control ids
+        $uploaderData = $this->getComponent('logo-uploader');
+        $fontData = $this->getComponent('font');
 
-        $components = $this->getComponents();
-        $uploaderData = $components['store-name:logo-uploader'];
-        $fontData = $components['store-name:font'];
-
-        $this->addField(uniqid('logo-font-'), 'font', array(
-            //'title'      => $fontTitle,   //is not used with Mage_Backend_Block_Widget_Form_Renderer_Fieldset_Element
+        $this->addField($this->getComponentId('font'), 'font', array(
             'components' => $fontData['components'],
+            //'title'      => $fontTitle,   //templates not use this
             //'label'       => $groupName,
-            //'name'        => 'links',
+            //'name'        => 'q123456',     //templates not use this
             //'values'      => $files,
         ));
 
@@ -51,16 +52,15 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
             $uploaderData['attribute'],
             $uploaderData['value']
         );
+        $uploaderId = $this->getComponentId('logo-uploader');
         $uploaderConfig = array(
-            'name'     => 'logo_uploader',
+            'name'     => $uploaderId,
             'title'    => $uploaderTitle,
             //'onclick'  => "return confirm('Are you sure?');",
             //'label'       => $groupName,
             //'values'      => $files,
         );
-        $this->addField(uniqid('logo-uploader-'), 'logo-uploader', $uploaderConfig);
-
-
+        $this->addField($uploaderId, 'logo-uploader', $uploaderConfig);
     }
 
     /**
@@ -71,5 +71,32 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
         $this->addType('font', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font');
         $this->addType('logo-uploader', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader');
     }
-}
 
+    /**
+     * @param string $type
+     * @return array
+     * @throws Mage_Core_Exception
+     */
+    public function getComponent($type)
+    {
+        $components = $this->getComponents();
+        $componentId = $this->getComponentId($type);
+
+        if (!isset($components[$componentId])) {
+            throw new Mage_Core_Exception(sprintf(
+                'Component of the type "%s" is not found between elements of "%s"', $type, $this->getData('name')
+            ));
+        }
+
+        return $components[$componentId];
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function getComponentId($type)
+    {
+        return sprintf('%s:%s', $this->getData('name'), $type);
+    }
+}

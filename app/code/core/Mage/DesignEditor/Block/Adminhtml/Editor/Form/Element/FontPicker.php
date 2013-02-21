@@ -37,6 +37,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker extends V
 
         $options = array_intersect(array_combine($this->_defaultOptions, $this->_defaultOptions), $this->getOptions());
         $this->setOptions($options);
+
+        $this->setCssClass('element-font-picker');
     }
 }
 

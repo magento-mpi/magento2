@@ -16,7 +16,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Factory
+class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
 {
     //@TODO Concept of Renderer_Factory, responsibility, where to be used, dependencies
     /*
@@ -24,20 +24,42 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Factory
         Will be passed to constructor of new form elements?
             How to get $rendererBlockLayoutName then?
             And how to share it then?
-            It will be better to set renderer to elements from parent elements cause parent elements know it better fow which children renderer can be shared and when can't
-            Do we need then to create super-class for all VDE for elements? We could then override super-class contructor once and therefore pass renderer factory to all elements.
+            It will be better to set renderer to elements from parent elements cause parent elements know it better for which children renderer can be shared and when can't
+            Do we need then to create super-class for all VDE elements or just composite ones?
+                Tried to override VDE form elements' constructor in super-class and pass renderer factory,
+                but elements are added to form in Varien_Data_Form_Abstract::addField() and are created without passing renderer factory
+
 
         Remember that we need to override renderers set by default in constructors and fieldset::addField() method
         Remember to remove previous renderers management code.
 
         ways:
-        1. Renderer Factory passed to every element in constructor using DI. All elements are sub-classes of VDE_Form_Element_Abstract
-        2. Renderer Factory passed to 'fieldset' elements in constructor using DI. All such elements are sub-classes of VDE_Form_Element_Fieldset
-        3. Renderer Factory passed to elements in constructor using $config
-        4. Renderer Factory is created to elements constructor (where we get $layout then?)
-        5. Renderer passed to every element in constructor using $config
+        1. Renderer Factory passed to every element in constructor using DI
+            class Vde_Element extends Varien_Data_Form_Element_Abstract
+                public function __construct(Renderer_Factory $rendererFactory)
 
-        1 and 2 is impossible cause element is created in Varien_Data_Form_Abstract::addField()
+        2. Renderer Factory passed to 'composite' elements in constructor using DI.
+            class Composite extends Varien_Data_Form_Element_Fieldset
+                public function __construct(Renderer_Factory $rendererFactory)
+
+        3. Renderer Factory passed to elements in constructor using $config
+            $form->addField('id', 'font-selector', array('rendererFactory' => $rendererFactory));
+
+        4. Renderer Factory is created to elements constructor (where we get $layout then?)
+            class Vde_Element extends Varien_Data_Form_Element_Abstract
+                public function __construct()
+                {
+                    $rendererFactory = new Renderer_Factory();
+                    $this->_renderer = $rendererFactory->get(get_class($this));
+                }
+        5. Renderer passed to every element in constructor using $config
+            $form->addField('id', 'font-selector', array('renderer' => $renderer));
+
+        6. Before rendering form call method to recursively reset renderers to all elements
+
+        7. Renderer factory passed to column by setRendererFactory() (so we not refactor all forms) and later factory passed using DI
+
+        1 and 2 is impossible without refactoring Varien_Data_Form_Abstract::addField() cause element is created in
 
     */
     /**
@@ -47,11 +69,25 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Factory
      */
     protected $_layout;
 
+    //@TODO remove references to Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column_Element and remove renderer itself
     protected $_rendererByElement = array(
         'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column'
             => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column',
         'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker'
             => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker',
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo'
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font'
+            //=> 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Font',
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader'
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader',
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background'
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker'
+            => 'Mage_Backend_Block_Widget_Form_Renderer_Fieldset_Element',
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader',
     );
 
     /**
@@ -62,31 +98,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Factory
      */
     protected $_sharedRenderers = array();
 
-
-
     /**
      * @param Mage_Core_Model_Layout $layout
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    public function __construct(
-        Mage_Core_Model_Layout $layout
-        //Mage_Core_Controller_Request_Http $request,
-        //Mage_Core_Model_Event_Manager $eventManager,
-        //Mage_Backend_Model_Url $urlBuilder,
-        //Mage_Core_Model_Translate $translator,
-        //Mage_Core_Model_Cache $cache,
-        //Mage_Core_Model_Design_Package $designPackage,
-        //Mage_Core_Model_Session $session,
-        //Mage_Core_Model_Store_Config $storeConfig,
-        //Mage_Core_Controller_Varien_Front $frontController,
-        //Mage_Core_Model_Factory_Helper $helperFactory,
-        //Mage_Core_Model_Dir $dirs,
-        //Mage_Core_Model_Logger $logger,
-        //Magento_Filesystem $filesystem,
-        //Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Factory $formFactory,
-        //array $data = array()
-    ) {
+    public function __construct(Mage_Core_Model_Layout $layout)
+    {
         $this->_layout = $layout;
     }
 
