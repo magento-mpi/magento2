@@ -25,7 +25,8 @@ admin_header:
                     global_header:
                         xpath: //*[@class='header']
                         links:
-                            log_out: //a[@class='link-logout']
+                            account_avatar: //a[@class='account-avatar']
+                            log_out: //a[@class='account-signout']
                         pageelements:
                             admin_logo: //*[@class='logo' and @title='Magento Admin Panel']
                         fields:

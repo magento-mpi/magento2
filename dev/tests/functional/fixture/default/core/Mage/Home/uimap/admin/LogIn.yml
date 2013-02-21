@@ -57,7 +57,7 @@ forgot_password:
             fieldsets:
                 -
                     forgot_password:
-                        xpath: //div[@class='login-container']
+                        xpath: //form[@id='login-form']
                         buttons:
                             retrieve_password: //button[span="Retrieve Password"]
                             captcha_reload: //*[@id='captcha-reload']

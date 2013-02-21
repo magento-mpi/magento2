@@ -3621,10 +3621,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function logoutAdminUser()
     {
         $logOutLocator = $this->_getControlXpath('link', 'log_out');
-        $availableElement = $this->elementIsPresent($logOutLocator);
+        $adminUserLocator = $this->_getControlXpath('link', 'account_avatar');
+        $availableElement = $this->elementIsPresent($adminUserLocator);
         if ($availableElement) {
             $this->focusOnElement($availableElement);
             $availableElement->click();
+            $this->elementIsPresent($logOutLocator)->click();
             $this->waitForPageToLoad();
         }
         $this->validatePage('log_in_to_admin');
