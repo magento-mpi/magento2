@@ -11,11 +11,13 @@ class Mage_Backend_Block_Widget_Grid_ContainerTest extends PHPUnit_Framework_Tes
     {
         /** @var $block Mage_Backend_Block_Widget_Grid_Container */
         $block = Mage::app()->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Container', '', array(
-            Mage_Backend_Block_Widget_Container::PARAM_CONTROLLER => 'widget',
-            Mage_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => 'two',
-            Mage_Backend_Block_Widget_Grid_Container::PARAM_BLOCK_GROUP => 'Mage_Backend',
-            Mage_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_NEW => 'four',
-            Mage_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_BACK => 'five',
+            'data' => array(
+                Mage_Backend_Block_Widget_Container::PARAM_CONTROLLER => 'widget',
+                Mage_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => 'two',
+                Mage_Backend_Block_Widget_Grid_Container::PARAM_BLOCK_GROUP => 'Mage_Backend',
+                Mage_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_NEW => 'four',
+                Mage_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_BACK => 'five',
+            )
         ));
         $this->assertStringEndsWith('widget', $block->getHeaderCssClass());
         $this->assertContains('two', $block->getHeaderText());

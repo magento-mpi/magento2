@@ -126,7 +126,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
 
         Mage::getObjectManager()->configure(array(
             'Mage_Backend_Model_Config_Structure_Reader' => array(
-                'parameters' => array('config' => $configMock)
+                'parameters' => array('moduleReader' => $configMock)
             )
         ));
         /** @var Mage_Backend_Model_Config_Structure $structure  */
