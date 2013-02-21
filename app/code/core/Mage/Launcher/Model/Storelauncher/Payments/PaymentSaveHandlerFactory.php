@@ -16,43 +16,14 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactory
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
 {
     /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
-     * @param Magento_ObjectManager $objectManager
-     */
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
-        $this->_objectManager = $objectManager;
-    }
-
-    /**
-     * Create new payment configuration save handler based on given payment method ID
-     *
-     * @param string $paymentId
-     * @param array $arguments
-     * @return Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandler
-     * @throws Mage_Launcher_Exception
-     */
-    public function create($paymentId, array $arguments = array())
-    {
-        $saveHandlerMap = $this->getPaymentSaveHandlerMap();
-        if (!isset($saveHandlerMap[$paymentId])) {
-            throw new Mage_Launcher_Exception('Illegal payment method ID specified.');
-        }
-        return $this->_objectManager->create($saveHandlerMap[$paymentId], $arguments, false);
-    }
-
-    /**
-     * Retrieve payment ID - save handler map
+     * Retrieve save handler ID - save handler class name map
      *
      * @return array
      */
-    public function getPaymentSaveHandlerMap()
+    public function getSaveHandlerMap()
     {
         return array(
             'paypal_express_checkout'

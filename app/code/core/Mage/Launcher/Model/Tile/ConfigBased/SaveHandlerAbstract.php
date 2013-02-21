@@ -17,8 +17,16 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+    implements Mage_Launcher_Model_Tile_SaveHandler
 {
+    /**
+     * Config sections that the tile have to save
+     *
+     * @var array
+     */
+    protected $_sections = array();
+
     /**
      * @var Mage_Core_Model_Config
      */
@@ -52,18 +60,23 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstrac
     public function save(array $data)
     {
         $preparedData = $this->prepareData($data);
-        $this->_backendConfigModel->setSection($this->getRelatedConfigSection())
-            ->setGroups($preparedData)
-            ->save();
+        foreach ($this->getRelatedConfigSections() as $sectionName) {
+            if (isset($preparedData[$sectionName])) {
+                $this->_backendConfigModel->setSection($sectionName)
+                    ->setGroups($preparedData[$sectionName])
+                    ->save();
+            }
+        }
+
         $this->_config->reinit();
     }
 
     /**
-     * Retrieve name of the related configuration section
+     * Retrieve the list of names of the related configuration sections
      *
-     * @return string
+     * @return array
      */
-    abstract public function getRelatedConfigSection();
+    abstract public function getRelatedConfigSections();
 
 
     /**

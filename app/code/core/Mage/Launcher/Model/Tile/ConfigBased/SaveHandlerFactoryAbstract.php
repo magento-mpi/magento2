@@ -15,7 +15,7 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactoryAbstract
+abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
 {
     /**
      * @var Magento_ObjectManager
@@ -35,7 +35,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactory
      *
      * @param string $saveHandlerId
      * @param array $arguments
-     * @return Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      * @throws Mage_Launcher_Exception
      */
     public function create($saveHandlerId, array $arguments = array())

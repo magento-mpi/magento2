@@ -10,159 +10,78 @@
  */
 
 class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHandlerTest
-    extends Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_TestCaseAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
-     * @var Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHandler
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
-    protected $_saveHandler;
-
-    protected function setUp()
-    {
-        // Mock backend config model
-        $backendConfigModel = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false);
-        // Mock core configuration model
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_saveHandler = new Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHandler(
+    public function getSaveHandlerInstance(
+        Mage_Core_Model_Config $config,
+        Mage_Backend_Model_Config $backendConfigModel
+    ) {
+        return new Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHandler(
             $config,
             $backendConfigModel
         );
     }
 
-    protected function tearDown()
+    /**
+     * This data provider emulates valid input for prepareData method
+     *
+     * @return array
+     */
+    public function prepareDataValidInputDataProvider()
     {
-        $this->_saveHandler = null;
-    }
+        $data0 = array();
+        $data0['groups']['verisign']['fields']['partner']['value'] = 'PayPal Partner ';
+        $data0['groups']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor ';
+        $data0['groups']['verisign']['fields']['user']['value'] = 'user ';
+        $data0['groups']['verisign']['fields']['pwd']['value'] = 'password ';
 
-    public function testSave()
-    {
-        $data = array();
-        $data['groups']['verisign']['fields']['partner']['value'] = 'PayPal Partner ';
-        $data['groups']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $data['groups']['verisign']['fields']['user']['value'] = 'user ';
-        $data['groups']['verisign']['fields']['pwd']['value'] = 'password ';
+        $preparedData0 = array();
+        $preparedData0['paypal']['verisign']['fields']['partner']['value'] = 'PayPal Partner';
+        $preparedData0['paypal']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor';
+        $preparedData0['paypal']['verisign']['fields']['user']['value'] = 'user';
+        $preparedData0['paypal']['verisign']['fields']['pwd']['value'] = 'password';
+        $preparedData0['paypal']['global']['fields']['verisign']['value'] = 1;
 
-        $preparedData = array();
-        $preparedData['verisign']['fields']['partner']['value'] = 'PayPal Partner';
-        $preparedData['verisign']['fields']['vendor']['value'] = 'PayPal Vendor';
-        $preparedData['verisign']['fields']['user']['value'] = 'user';
-        $preparedData['verisign']['fields']['pwd']['value'] = 'password';
-        $preparedData['global']['fields']['verisign']['value'] = 1;
-
-        // Mock backend config model
-        $backendConfigModel = $this->_getBackendConfigModelMock();
-        $backendConfigModel->expects($this->once())
-            ->method('setSection')
-            ->with('paypal')
-            ->will($this->returnValue($backendConfigModel));
-
-        $backendConfigModel->expects($this->once())
-            ->method('setGroups')
-            ->with($preparedData)
-            ->will($this->returnValue($backendConfigModel));
-
-        $backendConfigModel->expects($this->once())
-            ->method('save');
-        // Mock core configuration model
-        $config = $this->getMock(
-            'Mage_Core_Model_Config',
-            array('reinit'),
-            array(),
-            '',
-            false
+        return array(
+            array($data0, $preparedData0, array('paypal')),
         );
+    }
 
-        $config->expects($this->once())
-            ->method('reinit')
-            ->will($this->returnValue($config));
+    /**
+     * This data provider emulates invalid input for prepareData method
+     *
+     * @return array
+     */
+    public function prepareDataInvalidInputDataProvider()
+    {
+        $validData = array();
+        $validData['groups']['verisign']['fields']['partner']['value'] = 'PayPal Partner ';
+        $validData['groups']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor ';
+        $validData['groups']['verisign']['fields']['user']['value'] = 'user ';
+        $validData['groups']['verisign']['fields']['pwd']['value'] = 'password ';
 
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHandler(
-            $config,
-            $backendConfigModel
+        $data0 = $validData;
+        unset($data0['groups']['verisign']['fields']['partner']);
+
+        $data1 = $validData;
+        unset($data1['groups']['verisign']['fields']['vendor']);
+
+        $data2 = $validData;
+        unset($data2['groups']['verisign']['fields']['user']);
+
+        $data3 = $validData;
+        unset($data3['groups']['verisign']['fields']['pwd']);
+
+        return array(
+            array($data0),
+            array($data1),
+            array($data2),
+            array($data3),
         );
-        $saveHandler->save($data);
-    }
-
-    public function testPrepareData()
-    {
-        $data = array();
-        $data['groups']['verisign']['fields']['partner']['value'] = 'PayPal Partner ';
-        $data['groups']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $data['groups']['verisign']['fields']['user']['value'] = 'user ';
-        $data['groups']['verisign']['fields']['pwd']['value'] = 'password ';
-
-        $preparedData = array();
-        $preparedData['verisign']['fields']['partner']['value'] = 'PayPal Partner';
-        $preparedData['verisign']['fields']['vendor']['value'] = 'PayPal Vendor';
-        $preparedData['verisign']['fields']['user']['value'] = 'user';
-        $preparedData['verisign']['fields']['pwd']['value'] = 'password';
-        $preparedData['global']['fields']['verisign']['value'] = 1;
-
-        $this->assertEquals($preparedData, $this->_saveHandler->prepareData($data));
-    }
-
-    /**
-     * @expectedException Mage_Launcher_Exception
-     * @expectedExceptionMessage Partner field is required.
-     */
-    public function testPrepareDataThrowsExceptionWhenPartnerIsNotSpecified()
-    {
-        $data = array();
-        $data['groups']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $data['groups']['verisign']['fields']['user']['value'] = 'user ';
-        $data['groups']['verisign']['fields']['pwd']['value'] = 'password ';
-        $this->_saveHandler->prepareData($data);
-    }
-
-    /**
-     * @expectedException Mage_Launcher_Exception
-     * @expectedExceptionMessage Vendor field is required.
-     */
-    public function testPrepareDataThrowsExceptionWhenVendorIsNotSpecified()
-    {
-        $data = array();
-        $data['groups']['verisign']['fields']['partner']['value'] = 'PayPal Partner ';
-        $data['groups']['verisign']['fields']['user']['value'] = 'user ';
-        $data['groups']['verisign']['fields']['pwd']['value'] = 'password ';
-        $this->_saveHandler->prepareData($data);
-    }
-
-    /**
-     * @expectedException Mage_Launcher_Exception
-     * @expectedExceptionMessage User field is required.
-     */
-    public function testPrepareDataThrowsExceptionWhenUserIsNotSpecified()
-    {
-        $data = array();
-        $data['groups']['verisign']['fields']['partner']['value'] = 'PayPal Partner ';
-        $data['groups']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $data['groups']['verisign']['fields']['pwd']['value'] = 'password ';
-        $this->_saveHandler->prepareData($data);
-    }
-
-    /**
-     * @expectedException Mage_Launcher_Exception
-     * @expectedExceptionMessage Password field is required.
-     */
-    public function testPrepareDataThrowsExceptionWhenPasswordIsNotSpecified()
-    {
-        $data = array();
-        $data['groups']['verisign']['fields']['partner']['value'] = 'PayPal Partner ';
-        $data['groups']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $data['groups']['verisign']['fields']['user']['value'] = 'user ';
-        $this->_saveHandler->prepareData($data);
-    }
-
-    /**
-     * @expectedException Mage_Launcher_Exception
-     * @expectedExceptionMessage Password field is required.
-     */
-    public function testSaveDoesNotCatchExceptionThrownByPrepareData()
-    {
-        $data = array();
-        $data['groups']['verisign']['fields']['partner']['value'] = 'PayPal Partner ';
-        $data['groups']['verisign']['fields']['vendor']['value'] = 'PayPal Vendor ';
-        $data['groups']['verisign']['fields']['user']['value'] = 'user ';
-        $this->_saveHandler->save($data);
     }
 }

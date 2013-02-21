@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactoryAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
 {
     /**
      * Retrieve save handler ID - save handler class name map

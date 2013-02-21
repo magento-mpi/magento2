@@ -16,16 +16,16 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * Retrieve name of the related configuration section
+     * Retrieve the list of names of the related configuration sections
      *
-     * @return string
+     * @return array
      */
-    public function getRelatedConfigSection()
+    public function getRelatedConfigSections()
     {
-        return 'carriers';
+        return array('carriers');
     }
 
     /**
@@ -51,18 +51,18 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandler
             throw new Mage_Launcher_Exception('Password is required.');
         }
 
-        $preparedData['fedex']['fields']['account']['value'] =
+        $preparedData['carriers']['fedex']['fields']['account']['value'] =
             trim($data['groups']['fedex']['fields']['account']['value']);
-        $preparedData['fedex']['fields']['meter_number']['value'] =
+        $preparedData['carriers']['fedex']['fields']['meter_number']['value'] =
             trim($data['groups']['fedex']['fields']['meter_number']['value']);
-        $preparedData['fedex']['fields']['key']['value'] =
+        $preparedData['carriers']['fedex']['fields']['key']['value'] =
             trim($data['groups']['fedex']['fields']['key']['value']);
-        $preparedData['fedex']['fields']['password']['value'] =
+        $preparedData['carriers']['fedex']['fields']['password']['value'] =
             trim($data['groups']['fedex']['fields']['password']['value']);
 
         // enable Fedex for checkout if needed
         $isMethodEnabled = empty($data['groups']['fedex']['fields']['active']['value']) ? 0 : 1;
-        $preparedData['fedex']['fields']['active']['value'] = $isMethodEnabled;
+        $preparedData['carriers']['fedex']['fields']['active']['value'] = $isMethodEnabled;
 
         return $preparedData;
     }

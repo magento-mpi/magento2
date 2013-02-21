@@ -10,103 +10,54 @@
  */
 
 class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSaveHandlerTest
-    extends Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_TestCaseAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
-     * @var Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSaveHandler
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
-    protected $_saveHandler;
-
-    protected function setUp()
-    {
-        // Mock backend config model
-        $backendConfigModel = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false);
-        // Mock core configuration model
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_saveHandler = new Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSaveHandler(
+    public function getSaveHandlerInstance(
+        Mage_Core_Model_Config $config,
+        Mage_Backend_Model_Config $backendConfigModel
+    ) {
+        return new Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSaveHandler(
             $config,
             $backendConfigModel
         );
     }
 
-    protected function tearDown()
+    /**
+     * This data provider emulates valid input for prepareData method
+     *
+     * @return array
+     */
+    public function prepareDataValidInputDataProvider()
     {
-        $this->_saveHandler = null;
-    }
+        $data0 = array();
+        $data0['groups']['account']['fields']['business_account']['value'] = 'john.doe@example.com';
 
-    public function testSave()
-    {
-        $data = array();
-        $data['groups']['account']['fields']['business_account']['value'] = 'test@example.com';
+        $preparedData0 = array();
+        $preparedData0['paypal']['account']['fields']['business_account']['value'] = 'john.doe@example.com';
+        $preparedData0['paypal']['global']['fields']['wps']['value'] = 1;
 
-        $preparedData = array();
-        $preparedData['account']['fields']['business_account']['value'] = 'test@example.com';
-        $preparedData['global']['fields']['wps']['value'] = 1;
-
-        // Mock backend config model
-        $backendConfigModel = $this->_getBackendConfigModelMock();
-        $backendConfigModel->expects($this->once())
-            ->method('setSection')
-            ->with('paypal')
-            ->will($this->returnValue($backendConfigModel));
-
-        $backendConfigModel->expects($this->once())
-            ->method('setGroups')
-            ->with($preparedData)
-            ->will($this->returnValue($backendConfigModel));
-
-        $backendConfigModel->expects($this->once())
-            ->method('save');
-        // Mock core configuration model
-        $config = $this->getMock(
-            'Mage_Core_Model_Config',
-            array('reinit'),
-            array(),
-            '',
-            false
+        return array(
+            array($data0, $preparedData0, array('paypal')),
         );
-
-        $config->expects($this->once())
-            ->method('reinit')
-            ->will($this->returnValue($config));
-
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSaveHandler(
-            $config,
-            $backendConfigModel
-        );
-        $saveHandler->save($data);
     }
 
     /**
-     * @expectedException Mage_Launcher_Exception
-     * @expectedExceptionMessage Email address must have correct format.
+     * This data provider emulates invalid input for prepareData method
+     *
+     * @return array
      */
-    public function testSaveThrowsExceptionWhenEmailIsNotValid()
+    public function prepareDataInvalidInputDataProvider()
     {
-        $data = array();
-        $data['groups']['account']['fields']['business_account']['value'] = 'invalid_email';
-        $this->_saveHandler->save($data);
-    }
+        $data0 = array();
+        $data0['groups']['account']['fields']['business_account']['value'] = 'email_invalid';
 
-    public function testPrepareData()
-    {
-        $data = array();
-        $data['groups']['account']['fields']['business_account']['value'] = 'test@example.com';
-
-        $preparedData = array();
-        $preparedData['account']['fields']['business_account']['value'] = 'test@example.com';
-        $preparedData['global']['fields']['wps']['value'] = 1;
-        $this->assertEquals($preparedData, $this->_saveHandler->prepareData($data));
-    }
-
-    /**
-     * @expectedException Mage_Launcher_Exception
-     * @expectedExceptionMessage Email address must have correct format.
-     */
-    public function testPrepareDataThrowsExceptionWhenEmailIsNotValid()
-    {
-        $data = array();
-        $data['groups']['account']['fields']['business_account']['value'] = 'invalid_email';
-        $this->_saveHandler->prepareData($data);
+        return array(
+            array($data0),
+        );
     }
 }

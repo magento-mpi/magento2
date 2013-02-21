@@ -26,7 +26,7 @@ class Mage_Launcher_Model_Tile_MinimalSaveHandler implements Mage_Launcher_Model
      * @param array $data request data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function save($data)
+    public function save(array $data)
     {
     }
 
@@ -36,7 +36,7 @@ class Mage_Launcher_Model_Tile_MinimalSaveHandler implements Mage_Launcher_Model
      * @param array $data
      * @return array
      */
-    public function prepareData($data)
+    public function prepareData(array $data)
     {
         return $data;
     }

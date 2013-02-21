@@ -16,16 +16,16 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * Retrieve name of the related configuration section
+     * Retrieve the list of names of the related configuration sections
      *
-     * @return string
+     * @return array
      */
-    public function getRelatedConfigSection()
+    public function getRelatedConfigSections()
     {
-        return 'carriers';
+        return array('carriers');
     }
 
     /**
@@ -45,14 +45,14 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandler
             throw new Mage_Launcher_Exception('Password is required.');
         }
 
-        $preparedData['usps']['fields']['userid']['value'] =
+        $preparedData['carriers']['usps']['fields']['userid']['value'] =
             trim($data['groups']['usps']['fields']['userid']['value']);
-        $preparedData['usps']['fields']['password']['value'] =
+        $preparedData['carriers']['usps']['fields']['password']['value'] =
             trim($data['groups']['usps']['fields']['password']['value']);
 
         // enable USPS for checkout if needed
         $isMethodEnabled = empty($data['groups']['usps']['fields']['active']['value']) ? 0 : 1;
-        $preparedData['usps']['fields']['active']['value'] = $isMethodEnabled;
+        $preparedData['carriers']['usps']['fields']['active']['value'] = $isMethodEnabled;
 
         return $preparedData;
     }

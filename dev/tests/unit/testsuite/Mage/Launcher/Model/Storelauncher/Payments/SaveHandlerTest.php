@@ -34,7 +34,7 @@ class Mage_Launcher_Model_Storelauncher_Payments_SaveHandlerTest extends PHPUnit
         $data = array('payment_method' => 'paypal_express_checkout');
         // Mock payments save handler
         $paymentSaveHandler = $this->getMock(
-            'Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandler',
+            'Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSaveHandler',
             array(),
             array(),
             '',

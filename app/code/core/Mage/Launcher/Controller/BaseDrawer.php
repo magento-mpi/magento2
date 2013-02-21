@@ -132,10 +132,7 @@ class Mage_Launcher_Controller_BaseDrawer
                 $tileBlock->getResponseContent()
             );
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => Mage::helper('Mage_Launcher_Helper_Data')->__($e->getMessage())
-            ));
+            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage()), false);
         }
         $this->getResponse()->setBody($responseContent);
     }
@@ -165,11 +162,29 @@ class Mage_Launcher_Controller_BaseDrawer
                 $drawerBlock->getResponseContent()
             );
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage())
-            ));
+            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage()), false);
         }
         $this->getResponse()->setBody($responseContent);
+    }
+
+    /**
+     * Compose AJAX response content
+     *
+     * @param string $message
+     * @param boolean $isSuccessful
+     * @param array $additionalData
+     * @return string
+     */
+    protected function _composeAjaxResponseContent($message, $isSuccessful, $additionalData = array())
+    {
+        $responseData = array('success' => $isSuccessful);
+        if ($isSuccessful) {
+            $responseData['message'] = $message;
+        } else {
+            $responseData['error_message'] = $message;
+        }
+        $responseData = array_merge($responseData, $additionalData);
+
+        return Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode($responseData);
     }
 }

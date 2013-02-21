@@ -16,16 +16,16 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * Retrieve name of the related configuration section
+     * Retrieve the list of names of the related configuration sections
      *
-     * @return string
+     * @return array
      */
-    public function getRelatedConfigSection()
+    public function getRelatedConfigSections()
     {
-        return 'carriers';
+        return array('carriers');
     }
 
     /**
@@ -50,16 +50,16 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
             throw new Mage_Launcher_Exception('Type is required.');
         }
 
-        $preparedData['flatrate']['fields']['name']['value'] =
+        $preparedData['carriers']['flatrate']['fields']['name']['value'] =
             trim($data['groups']['flatrate']['fields']['name']['value']);
-        $preparedData['flatrate']['fields']['price']['value'] =
+        $preparedData['carriers']['flatrate']['fields']['price']['value'] =
             trim($data['groups']['flatrate']['fields']['price']['value']);
-        $preparedData['flatrate']['fields']['type']['value'] =
+        $preparedData['carriers']['flatrate']['fields']['type']['value'] =
             trim($data['groups']['flatrate']['fields']['type']['value']);
 
         // enable Flat Rate for checkout if needed
         $isMethodEnabled = empty($data['groups']['flatrate']['fields']['active']['value']) ? 0 : 1;
-        $preparedData['flatrate']['fields']['active']['value'] = $isMethodEnabled;
+        $preparedData['carriers']['flatrate']['fields']['active']['value'] = $isMethodEnabled;
 
         return $preparedData;
     }

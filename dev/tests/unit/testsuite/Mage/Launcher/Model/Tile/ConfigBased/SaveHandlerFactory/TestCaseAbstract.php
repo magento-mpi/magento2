@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactory_TestCaseAbstract
+abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactory_TestCaseAbstract
     extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactoryAbstract
+     * @var Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
      */
     protected $_saveHandlerFactory;
 
@@ -31,7 +31,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactory
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @return Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactoryAbstract
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
      */
     abstract public function getSaveHandlerFactoryInstance(Magento_ObjectManager $objectManager);
 
@@ -42,7 +42,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactory
             $this->assertTrue(class_exists($saveHandlerClassName));
             $saveHandlerClass = new ReflectionClass($saveHandlerClassName);
             $this->assertTrue(
-                $saveHandlerClass->isSubclassOf('Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract')
+                $saveHandlerClass->isSubclassOf('Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract')
             );
         }
     }

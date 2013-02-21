@@ -10,12 +10,12 @@
  */
 
 class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandlerTest
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandler_TestCaseAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
-     * @return Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Mage_Core_Model_Config $config,
@@ -42,21 +42,21 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
         $data0['groups']['flatrate']['fields']['active']['value'] = '1';
 
         $preparedData0 = array();
-        $preparedData0['flatrate']['fields']['name']['value'] = 'flate rate method name';
-        $preparedData0['flatrate']['fields']['type']['value'] = 'O';
-        $preparedData0['flatrate']['fields']['price']['value'] = 'price';
-        $preparedData0['flatrate']['fields']['active']['value'] = 1;
+        $preparedData0['carriers']['flatrate']['fields']['name']['value'] = 'flate rate method name';
+        $preparedData0['carriers']['flatrate']['fields']['type']['value'] = 'O';
+        $preparedData0['carriers']['flatrate']['fields']['price']['value'] = 'price';
+        $preparedData0['carriers']['flatrate']['fields']['active']['value'] = 1;
 
         // data set #1
         $data1 = $data0;
         $preparedData1 = $preparedData0;
         $data1['groups']['flatrate']['fields']['active']['value'] = '0';
         $data1['groups']['flatrate']['fields']['type']['value'] = 'I';
-        $preparedData1['flatrate']['fields']['active']['value'] = 0;
-        $preparedData1['flatrate']['fields']['type']['value'] = 'I';
+        $preparedData1['carriers']['flatrate']['fields']['active']['value'] = 0;
+        $preparedData1['carriers']['flatrate']['fields']['type']['value'] = 'I';
         return array(
-            array($data0, $preparedData0, 'carriers'),
-            array($data1, $preparedData1, 'carriers'),
+            array($data0, $preparedData0, array('carriers')),
+            array($data1, $preparedData1, array('carriers')),
         );
 
     }

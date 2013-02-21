@@ -16,22 +16,16 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_AuthorizenetSaveHandler
-    extends Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandler
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * Save payment configuration data
+     * Retrieve the list of names of the related configuration sections
      *
-     * @param array $data
-     * @return null
-     * @throws Mage_Launcher_Exception
+     * @return array
      */
-    public function save(array $data)
+    public function getRelatedConfigSections()
     {
-        $preparedData = $this->prepareData($data);
-        $this->_backendConfigModel->setSection('payment')
-            ->setGroups($preparedData)
-            ->save();
-        $this->_config->reinit();
+        return array('payment');
     }
 
     /**
@@ -51,13 +45,13 @@ class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_AuthorizenetSaveHa
             throw new Mage_Launcher_Exception('Transaction Key is required.');
         }
 
-        $preparedData['authorizenet']['fields']['login']['value'] =
+        $preparedData['payment']['authorizenet']['fields']['login']['value'] =
             trim($data['groups']['authorizenet']['fields']['login']['value']);
-        $preparedData['authorizenet']['fields']['trans_key']['value'] =
+        $preparedData['payment']['authorizenet']['fields']['trans_key']['value'] =
             trim($data['groups']['authorizenet']['fields']['trans_key']['value']);
 
         // enable Authorize.net
-        $preparedData['authorizenet']['fields']['active']['value'] = 1;
+        $preparedData['payment']['authorizenet']['fields']['active']['value'] = 1;
         return $preparedData;
     }
 }

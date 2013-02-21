@@ -30,15 +30,9 @@ class Mage_Launcher_Adminhtml_Storelauncher_Payments_DrawerController
             $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create('payments');
             $saveHandler = $tileModel->getSaveHandler();
             $saveHandler->savePaymentMethod($data);
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-                'success' => true,
-                'message' => Mage::helper('Mage_Launcher_Helper_Data')->__('Configuration has been successfully saved.'),
-            ));
+            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Mage_Launcher_Helper_Data')->__('Configuration has been successfully saved.'), true);
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage()),
-            ));
+            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage()), false);
         }
         $this->getResponse()->setBody($responseContent);
     }

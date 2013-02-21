@@ -9,36 +9,16 @@
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactoryTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactoryTest
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactory_TestCaseAbstract
 {
     /**
-     * @var Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactory
+     * @param Magento_ObjectManager $objectManager
+     * @return Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactoryAbstract
      */
-    protected $_saveHandlerFactory;
-
-    protected function setUp()
+    public function getSaveHandlerFactoryInstance(Magento_ObjectManager $objectManager)
     {
-        // Mock payment save handler factory
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        $this->_saveHandlerFactory = new Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactory(
-            $objectManager
-        );
-    }
-
-    protected function tearDown()
-    {
-        $this->_saveHandlerFactory = null;
-    }
-
-    public function testGetPaymentSaveHandlerMapContainsValidPaymentSaveHandlers()
-    {
-        foreach ($this->_saveHandlerFactory->getPaymentSaveHandlerMap() as $saveHandlerClassName) {
-            $this->assertTrue(class_exists($saveHandlerClassName));
-            $saveHandlerClass = new ReflectionClass($saveHandlerClassName);
-            $this->assertTrue(
-                $saveHandlerClass->isSubclassOf('Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandler')
-            );
-        }
+        return new Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactory($objectManager);
     }
 
     public function testGetPaymentSaveHandlerMapContainsSaveHandlersForAllPaymentMethodsRelatedToPaymentsTile()
@@ -51,7 +31,7 @@ class Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactoryTest e
             array(),
             '',
             false);
-        $saveHandlerMap = $this->_saveHandlerFactory->getPaymentSaveHandlerMap();
+        $saveHandlerMap = $this->_saveHandlerFactory->getSaveHandlerMap();
         foreach ($tileSaveHandler->getRelatedPaymentMethods() as $paymentId) {
             $this->assertArrayHasKey($paymentId, $saveHandlerMap,
                 'There is no save handler for payment method with code "' . $paymentId. '".');

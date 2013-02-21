@@ -10,12 +10,12 @@
  */
 
 class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandlerTest
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandler_TestCaseAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
-     * @return Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Mage_Core_Model_Config $config,
@@ -43,20 +43,20 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandlerTe
         $data0['groups']['fedex']['fields']['active']['value'] = '1';
 
         $preparedData0 = array();
-        $preparedData0['fedex']['fields']['account']['value'] = 'fedex account';
-        $preparedData0['fedex']['fields']['meter_number']['value'] = 'meter number';
-        $preparedData0['fedex']['fields']['key']['value'] = 'fedex key';
-        $preparedData0['fedex']['fields']['password']['value'] = 'fedex password';
-        $preparedData0['fedex']['fields']['active']['value'] = 1;
+        $preparedData0['carriers']['fedex']['fields']['account']['value'] = 'fedex account';
+        $preparedData0['carriers']['fedex']['fields']['meter_number']['value'] = 'meter number';
+        $preparedData0['carriers']['fedex']['fields']['key']['value'] = 'fedex key';
+        $preparedData0['carriers']['fedex']['fields']['password']['value'] = 'fedex password';
+        $preparedData0['carriers']['fedex']['fields']['active']['value'] = 1;
 
         // data set #1
         $data1 = $data0;
         $preparedData1 = $preparedData0;
         $data1['groups']['fedex']['fields']['active']['value'] = '0';
-        $preparedData1['fedex']['fields']['active']['value'] = 0;
+        $preparedData1['carriers']['fedex']['fields']['active']['value'] = 0;
         return array(
-            array($data0, $preparedData0, 'carriers'),
-            array($data1, $preparedData1, 'carriers'),
+            array($data0, $preparedData0, array('carriers')),
+            array($data1, $preparedData1, array('carriers')),
         );
 
     }

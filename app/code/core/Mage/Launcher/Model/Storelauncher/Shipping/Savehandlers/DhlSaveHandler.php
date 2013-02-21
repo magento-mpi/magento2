@@ -16,16 +16,16 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_DhlSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * Retrieve name of the related configuration section
+     * Retrieve the list of names of the related configuration sections
      *
-     * @return string
+     * @return array
      */
-    public function getRelatedConfigSection()
+    public function getRelatedConfigSections()
     {
-        return 'carriers';
+        return array('carriers');
     }
 
     /**
@@ -48,16 +48,16 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_DhlSaveHandler
             throw new Mage_Launcher_Exception('Password is required.');
         }
 
-        $preparedData['dhlint']['fields']['id']['value'] =
+        $preparedData['carriers']['dhlint']['fields']['id']['value'] =
             trim($data['groups']['dhlint']['fields']['id']['value']);
-        $preparedData['dhlint']['fields']['account']['value'] =
+        $preparedData['carriers']['dhlint']['fields']['account']['value'] =
             trim($data['groups']['dhlint']['fields']['account']['value']);
-        $preparedData['dhlint']['fields']['password']['value'] =
+        $preparedData['carriers']['dhlint']['fields']['password']['value'] =
             trim($data['groups']['dhlint']['fields']['password']['value']);
 
         // enable DHL international for checkout if needed
         $isMethodEnabled = empty($data['groups']['dhlint']['fields']['active']['value']) ? 0 : 1;
-        $preparedData['dhlint']['fields']['active']['value'] = $isMethodEnabled;
+        $preparedData['carriers']['dhlint']['fields']['active']['value'] = $isMethodEnabled;
 
         return $preparedData;
     }

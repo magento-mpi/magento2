@@ -16,16 +16,16 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * Retrieve name of the related configuration section
+     * Retrieve the list of names of the related configuration sections
      *
-     * @return string
+     * @return array
      */
-    public function getRelatedConfigSection()
+    public function getRelatedConfigSections()
     {
-        return 'carriers';
+        return array('carriers');
     }
 
     /**
@@ -45,16 +45,16 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler
             throw new Mage_Launcher_Exception('Password is required.');
         }
 
-        $preparedData['ups']['fields']['access_license_number']['value'] =
+        $preparedData['carriers']['ups']['fields']['access_license_number']['value'] =
             trim($data['groups']['ups']['fields']['access_license_number']['value']);
-        $preparedData['ups']['fields']['password']['value'] =
+        $preparedData['carriers']['ups']['fields']['password']['value'] =
             trim($data['groups']['ups']['fields']['password']['value']);
 
         // always choose not-deprecated type of UPS API
-        $preparedData['ups']['fields']['type']['value'] = 'UPS_XML';
+        $preparedData['carriers']['ups']['fields']['type']['value'] = 'UPS_XML';
         // enable UPS for checkout if needed
         $isMethodEnabled = empty($data['groups']['ups']['fields']['active']['value']) ? 0 : 1;
-        $preparedData['ups']['fields']['active']['value'] = $isMethodEnabled;
+        $preparedData['carriers']['ups']['fields']['active']['value'] = $isMethodEnabled;
 
         return $preparedData;
     }

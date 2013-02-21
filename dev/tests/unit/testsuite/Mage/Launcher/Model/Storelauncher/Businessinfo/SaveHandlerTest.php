@@ -9,131 +9,60 @@
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandlerTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandlerTest
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
-     * Save function test
-     *
-     * @dataProvider generateSaveData
-     * @param array $data Request data
-     * @param array $expectedData
-     * @param int $timesToCall
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
-    public function testSave($data, $expectedData, $timesToCall)
-    {
-        $config = $this->getMock(
-            'Mage_Backend_Model_Config',
-            array('setSection', 'setGroups', 'save'),
-            array(),
-            '',
-            false
+    public function getSaveHandlerInstance(
+        Mage_Core_Model_Config $config,
+        Mage_Backend_Model_Config $backendConfigModel
+    ) {
+        return new Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler(
+            $config,
+            $backendConfigModel
         );
-
-        if (isset($expectedData['shipping'])) {
-            $setSectionWith = $this->logicalOr(
-                $this->equalTo('general'),
-                $this->equalTo('trans_email'),
-                $this->equalTo('shipping')
-            );
-
-            $setGroupsWith = $this->logicalOr(
-                $this->equalTo($expectedData['general']),
-                $this->equalTo($expectedData['trans_email']),
-                $this->equalTo($expectedData['shipping'])
-            );
-        } else {
-            $setSectionWith = $this->logicalOr(
-                $this->equalTo('general'),
-                $this->equalTo('trans_email')
-            );
-
-            $setGroupsWith = $this->logicalOr(
-                $this->equalTo($expectedData['general']),
-                $this->equalTo($expectedData['trans_email'])
-            );
-        }
-
-        $config->expects($this->exactly($timesToCall))
-            ->method('setSection')
-            ->with($setSectionWith)
-            ->will($this->returnValue($config));
-
-        $config->expects($this->exactly($timesToCall))
-            ->method('setGroups')
-            ->with($setGroupsWith)
-            ->will($this->returnValue($config));
-
-        $config->expects($this->exactly($timesToCall))
-            ->method('save');
-
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler(
-             $config
-        );
-        $saveHandler->save($data);
     }
 
     /**
-     * Prepare Address Data for system configuration test
-     *
-     * @dataProvider generatePrepareData
-     * @param array $data
-     * @param array $expectedData
-     */
-    public function testPrepareData($data, $expectedData)
-    {
-        $configStub = $this->getMock(
-            'Mage_Backend_Model_Config',
-            array(),
-            array(),
-            '',
-            false
-        );
-
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler(
-             $configStub
-        );
-
-        $result = $saveHandler->prepareData($data);
-        $this->assertEquals($expectedData, $result);
-    }
-
-    /**
-     * Data provider for testPrepareData method
+     * This data provider emulates valid input for prepareData method
      *
      * @return array
      */
-    public function generatePrepareData()
-    {
-        return array(
-            array(
-                $this->_getTestData(false),
-                $this->_getExpectedData(false)
-            ),
-            array(
-                $this->_getTestData(true),
-                $this->_getExpectedData(true)
-            ),
-        );
-    }
-
-    /**
-     * Data provider for testSave methods
-     *
-     * @return array
-     */
-    public function generateSaveData()
+    public function prepareDataValidInputDataProvider()
     {
         return array(
             array(
                 $this->_getTestData(false),
                 $this->_getExpectedData(false),
-                2
+                array('general', 'trans_email'),
             ),
             array(
                 $this->_getTestData(true),
                 $this->_getExpectedData(true),
-                3
+                array('general', 'trans_email', 'shipping'),
             ),
+        );
+    }
+
+    /**
+     * This data provider emulates invalid input for prepareData method
+     *
+     * @return array
+     */
+    public function prepareDataInvalidInputDataProvider()
+    {
+        $data0 = array();
+        $data0['groups']['general']['trans_email']['ident_general']['fields']['email']['value'] = 'wrong_email';
+
+        $data1 = array();
+
+        return array(
+            array($data0),
+            array($data1),
         );
     }
 
@@ -255,11 +184,10 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandlerTest extends PHP
                 'ident_custom2' => array(
                     'fields' => array(
                         'name' => array('value' => 'Custom'),
-                    'email' =>
-                    array (
-                      'value' => 'custom@example.com',
+                        'email' => array(
+                            'value' => 'custom@example.com',
+                        ),
                     ),
-                  ),
                 ),
             ),
         );

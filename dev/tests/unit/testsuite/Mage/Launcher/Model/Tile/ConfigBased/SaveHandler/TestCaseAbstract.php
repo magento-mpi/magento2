@@ -12,11 +12,11 @@
 /**
  * Abstract test case for configuration data save handlers tests
  */
-abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandler_TestCaseAbstract
+abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
     extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+     * @var Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     protected $_saveHandler;
 
@@ -37,7 +37,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandler_TestCa
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
-     * @return Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     abstract public function getSaveHandlerInstance(
         Mage_Core_Model_Config $config,
@@ -84,9 +84,9 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandler_TestCa
      * @dataProvider prepareDataValidInputDataProvider
      * @param array $data
      * @param array $preparedData
-     * @param string $configSection
+     * @param array $configSections
      */
-    public function testSave(array $data, array $preparedData, $configSection)
+    public function testSave(array $data, array $preparedData, array $configSections)
     {
         // Mock backend config model
         $backendConfigModel = $this->getMock(
@@ -97,18 +97,22 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandler_TestCa
             false
         );
 
-        $backendConfigModel->expects($this->once())
-            ->method('setSection')
-            ->with($configSection)
-            ->will($this->returnValue($backendConfigModel));
+        // set expectations for each config section (setSection, setGroups and save methods must be called in sequence)
+        for ($index = 0, $sectionsCount = count($configSections); $index < $sectionsCount; $index++) {
+            $backendConfigModel->expects($this->at($index * 3))
+                ->method('setSection')
+                ->with($configSections[$index])
+                ->will($this->returnValue($backendConfigModel));
 
-        $backendConfigModel->expects($this->once())
-            ->method('setGroups')
-            ->with($preparedData)
-            ->will($this->returnValue($backendConfigModel));
+            $backendConfigModel->expects($this->at($index * 3 + 1))
+                ->method('setGroups')
+                ->with($preparedData[$configSections[$index]])
+                ->will($this->returnValue($backendConfigModel));
 
-        $backendConfigModel->expects($this->once())
-            ->method('save');
+            $backendConfigModel->expects($this->at($index * 3 + 2))
+                ->method('save');
+        }
+
         // Mock core configuration model
         $config = $this->getMock(
             'Mage_Core_Model_Config',

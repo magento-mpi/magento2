@@ -55,7 +55,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Laun
      * @param array $data Request data
      * @throws Mage_Launcher_Exception
      */
-    public function save($data)
+    public function save(array $data)
     {
         $preparedData = $this->prepareData($data);
         /** @var $product Mage_Catalog_Model_Product */
@@ -104,7 +104,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Laun
      * @return array
      * @throws Mage_Launcher_Exception
      */
-    public function prepareData($data)
+    public function prepareData(array $data)
     {
         if (!isset($data['product']) || !is_array($data['product'])) {
             throw new Mage_Launcher_Exception('Product data is invalid.');

@@ -24,7 +24,7 @@ interface Mage_Launcher_Model_Tile_SaveHandler
      *
      * @param array $data Request data
      */
-    public function save($data);
+    public function save(array $data);
 
     /**
      * Prepare Data for storing
@@ -32,5 +32,5 @@ interface Mage_Launcher_Model_Tile_SaveHandler
      * @param array $data
      * @return array
      */
-    public function prepareData($data);
+    public function prepareData(array $data);
 }

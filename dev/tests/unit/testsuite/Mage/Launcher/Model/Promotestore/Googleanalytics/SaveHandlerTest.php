@@ -21,7 +21,7 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandlerTest extends P
      */
     public function testSave($data, $expectedData, $timesToCall)
     {
-        $config = $this->getMock(
+        $backendConfigModel = $this->getMock(
             'Mage_Backend_Model_Config',
             array('setSection', 'setGroups', 'save'),
             array(),
@@ -29,21 +29,26 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandlerTest extends P
             false
         );
 
-        $config->expects($this->exactly($timesToCall))
+        $backendConfigModel->expects($this->exactly($timesToCall))
             ->method('setSection')
             ->with($this->equalTo('google'))
-            ->will($this->returnValue($config));
+            ->will($this->returnValue($backendConfigModel));
 
-        $config->expects($this->exactly($timesToCall))
+        $backendConfigModel->expects($this->exactly($timesToCall))
             ->method('setGroups')
             ->with($this->equalTo($expectedData['google']))
-            ->will($this->returnValue($config));
+            ->will($this->returnValue($backendConfigModel));
 
-        $config->expects($this->exactly($timesToCall))
+        $backendConfigModel->expects($this->exactly($timesToCall))
             ->method('save');
 
+        // Mock core configuration model
+        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+
         $saveHandler = new Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandler(
-             $config
+            $config,
+            $backendConfigModel
+
         );
         $saveHandler->save($data);
     }
@@ -57,16 +62,19 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandlerTest extends P
      */
     public function testPrepareData($data, $expectedData)
     {
-        $configStub = $this->getMock(
+        $backendConfigModel = $this->getMock(
             'Mage_Backend_Model_Config',
             array(),
             array(),
             '',
             false
         );
+        // Mock core configuration model
+        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
 
         $saveHandler = new Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandler(
-             $configStub
+            $config,
+            $backendConfigModel
         );
 
         $result = $saveHandler->prepareData($data);

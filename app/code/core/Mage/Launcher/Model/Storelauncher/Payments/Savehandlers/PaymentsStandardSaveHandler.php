@@ -16,22 +16,16 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSaveHandler
-    extends Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandler
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * Save payment configuration data
+     * Retrieve the list of names of the related configuration sections
      *
-     * @param array $data
-     * @return null
-     * @throws Mage_Launcher_Exception
+     * @return array
      */
-    public function save(array $data)
+    public function getRelatedConfigSections()
     {
-        $preparedData = $this->prepareData($data);
-        $this->_backendConfigModel->setSection('paypal')
-            ->setGroups($preparedData)
-            ->save();
-        $this->_config->reinit();
+        return array('paypal');
     }
 
     /**
@@ -53,9 +47,9 @@ class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSa
             throw new Mage_Launcher_Exception('Email address must have correct format.');
         }
 
-        $preparedData['account']['fields']['business_account']['value'] = $accountEmail;
+        $preparedData['paypal']['account']['fields']['business_account']['value'] = $accountEmail;
         // enable PayPal Payments Standard
-        $preparedData['global']['fields']['wps']['value'] = 1;
+        $preparedData['paypal']['global']['fields']['wps']['value'] = 1;
         return $preparedData;
     }
 }

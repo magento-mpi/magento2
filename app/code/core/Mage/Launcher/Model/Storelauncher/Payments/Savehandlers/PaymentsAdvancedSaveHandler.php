@@ -16,22 +16,16 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsAdvancedSaveHandler
-    extends Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandler
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * Save payment configuration data
+     * Retrieve the list of names of the related configuration sections
      *
-     * @param array $data
-     * @return null
-     * @throws Mage_Launcher_Exception
+     * @return array
      */
-    public function save(array $data)
+    public function getRelatedConfigSections()
     {
-        $preparedData = $this->prepareData($data);
-        $this->_backendConfigModel->setSection('paypal')
-            ->setGroups($preparedData)
-            ->save();
-        $this->_config->reinit();
+        return array('paypal');
     }
 
     /**
@@ -57,17 +51,17 @@ class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsAdvancedSa
             throw new Mage_Launcher_Exception('Password field is required.');
         }
 
-        $preparedData['payflow_advanced']['fields']['partner']['value'] =
+        $preparedData['paypal']['payflow_advanced']['fields']['partner']['value'] =
             trim($data['groups']['payflow_advanced']['fields']['partner']['value']);
-        $preparedData['payflow_advanced']['fields']['vendor']['value'] =
+        $preparedData['paypal']['payflow_advanced']['fields']['vendor']['value'] =
             trim($data['groups']['payflow_advanced']['fields']['vendor']['value']);
-        $preparedData['payflow_advanced']['fields']['user']['value'] =
+        $preparedData['paypal']['payflow_advanced']['fields']['user']['value'] =
             trim($data['groups']['payflow_advanced']['fields']['user']['value']);
-        $preparedData['payflow_advanced']['fields']['pwd']['value'] =
+        $preparedData['paypal']['payflow_advanced']['fields']['pwd']['value'] =
             trim($data['groups']['payflow_advanced']['fields']['pwd']['value']);
 
         // enable PayPal Payments Advanced
-        $preparedData['global']['fields']['payflow_advanced']['value'] = 1;
+        $preparedData['paypal']['global']['fields']['payflow_advanced']['value'] = 1;
         return $preparedData;
     }
 }

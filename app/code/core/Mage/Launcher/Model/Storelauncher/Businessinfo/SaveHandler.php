@@ -15,42 +15,17 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler implements Mage_Launcher_Model_Tile_SaveHandler
+class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * @var Mage_Backend_Model_Config
-     */
-    protected $_config;
-
-    /**
-     * Constructor
+     * Retrieve the list of names of the related configuration sections
      *
-     * @param Mage_Backend_Model_Config $config
+     * @return array
      */
-    function __construct(
-        Mage_Backend_Model_Config $config
-    ) {
-        $this->_config = $config;
-    }
-
-    /**
-     * Save function handle the whole Tile save process
-     *
-     * @param array $data Request data
-     */
-    public function save($data)
+    public function getRelatedConfigSections()
     {
-        $sections = array('general', 'trans_email', 'shipping');
-        $preparedData = $this->prepareData($data);
-
-        //Write all config data on the GLOBAL scope
-        foreach ($sections as $section) {
-            if (!empty($preparedData[$section])) {
-                $this->_config->setSection($section)
-                    ->setGroups($preparedData[$section])
-                    ->save();
-            }
-        }
+        return array('general', 'trans_email', 'shipping');
     }
 
     /**
@@ -58,9 +33,19 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler implements Mage
      *
      * @param array $data
      * @return array
+     * @throws Mage_Launcher_Exception
      */
-    public function prepareData($data)
+    public function prepareData(array $data)
     {
+        if (!isset($data['groups']['trans_email']['ident_general']['fields']['email']['value'])) {
+            throw new Mage_Launcher_Exception('Store Contact Email address is required.');
+        }
+
+        $storeContactEmail = trim($data['groups']['trans_email']['ident_general']['fields']['email']['value']);
+        if (!Zend_Validate::is($storeContactEmail, 'EmailAddress')) {
+            throw new Mage_Launcher_Exception('Email address must have correct format.');
+        }
+
         $groups = $data['groups'];
         $data['region_id'] = isset($data['region_id']) ? $data['region_id'] : 0;
         $groups['general']['store_information']['fields']['street_line1']['value'] = $data['street_line1'];
@@ -83,4 +68,3 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler implements Mage
         return $groups;
     }
 }
-

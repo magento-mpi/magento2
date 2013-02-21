@@ -10,7 +10,7 @@
  */
 
 class Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactoryTest
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerFactory_TestCaseAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactory_TestCaseAbstract
 {
     /**
      * @param Magento_ObjectManager $objectManager

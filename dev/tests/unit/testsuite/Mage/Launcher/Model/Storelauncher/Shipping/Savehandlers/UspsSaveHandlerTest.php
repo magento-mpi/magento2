@@ -10,12 +10,12 @@
  */
 
 class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandlerTest
-    extends Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandler_TestCaseAbstract
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
-     * @return Mage_Launcher_Model_Tile_ConfigBased_ConfigDataSaveHandlerAbstract
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Mage_Core_Model_Config $config,
@@ -41,18 +41,18 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandlerTes
         $data0['groups']['usps']['fields']['active']['value'] = '1';
 
         $preparedData0 = array();
-        $preparedData0['usps']['fields']['userid']['value'] = 'user id';
-        $preparedData0['usps']['fields']['password']['value'] = 'usps password';
-        $preparedData0['usps']['fields']['active']['value'] = 1;
+        $preparedData0['carriers']['usps']['fields']['userid']['value'] = 'user id';
+        $preparedData0['carriers']['usps']['fields']['password']['value'] = 'usps password';
+        $preparedData0['carriers']['usps']['fields']['active']['value'] = 1;
 
         // data set #1
         $data1 = $data0;
         $preparedData1 = $preparedData0;
         $data1['groups']['usps']['fields']['active']['value'] = '0';
-        $preparedData1['usps']['fields']['active']['value'] = 0;
+        $preparedData1['carriers']['usps']['fields']['active']['value'] = 0;
         return array(
-            array($data0, $preparedData0, 'carriers'),
-            array($data1, $preparedData1, 'carriers'),
+            array($data0, $preparedData0, array('carriers')),
+            array($data1, $preparedData1, array('carriers')),
         );
 
     }

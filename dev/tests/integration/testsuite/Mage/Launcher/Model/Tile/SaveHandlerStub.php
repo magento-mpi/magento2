@@ -20,7 +20,7 @@ class Mage_Launcher_Model_Tile_SaveHandlerStub implements Mage_Launcher_Model_Ti
      * @param array $data Request data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function save($data)
+    public function save(array $data)
     {
     }
 
@@ -31,7 +31,7 @@ class Mage_Launcher_Model_Tile_SaveHandlerStub implements Mage_Launcher_Model_Ti
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function prepareData($data)
+    public function prepareData(array $data)
     {
         return $data;
     }
