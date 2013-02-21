@@ -41,7 +41,7 @@
          * @param event {Event} - Click event on the corresponding button.
          */
         _canContinue: function(event) {
-            $(this.options.canContinueFlag).val($(event.target).data('flag'));
+            $(this.options.canContinueFlag).val(parseInt($(event.currentTarget).data('flag'), 10));
         }
     });
 })(jQuery);
