@@ -180,14 +180,11 @@ class Magento_Test_Application
     /**
      * Run application normally, but with encapsulated initialization options
      */
-    public function run()
+    public function run(Magento_Test_Request $request, Magento_Test_Response $response)
     {
         $composer = Mage::getObjectManager();
         $handler = $composer->get('Magento_Http_Handler_Composite');
-        $handler->handle(
-            isset($params['request']) ? $params['request'] : $composer->get('Mage_Core_Controller_Request_Http'),
-            isset($params['response']) ? $params['response'] : $composer->get('Mage_Core_Controller_Response_Http')
-        );
+        $handler->handle($request, $response);
     }
 
     /**
