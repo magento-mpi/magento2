@@ -183,7 +183,7 @@
             <td><span class="nobr"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></span></td>
             <td>
                 <?php if ($_qna) : ?>
-                    <button class="l" data-mage-init="{toggleAdvanced: []}" data-toggle-label="<?php echo $this->__('Hide Details') ?>" data-toggle-selectors="#shf_<?php echo $key; ?>"><?php echo $this->__('Show Details') ?></button>
+                    <button class="l" data-mage-init='{toggleAdvanced: {newLabel: "<?php echo $this->__('Hide Details') ?>", toggleContainers: "#shf_<?php echo $key; ?>"}}'><?php echo $this->__('Show Details') ?></button>
                 <?php endif; ?>
             </td>
         </tr>
