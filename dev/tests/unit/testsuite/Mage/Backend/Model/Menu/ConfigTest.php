@@ -86,6 +86,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_objectManagerMock->expects($this->any())
             ->method('create')
+            ->will($this->returnCallback(array($this, 'getModelInstance')));
         $this->_objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnCallback(array($this, 'get')));
