@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  * @magentoDbIsolation enabled
-  */
+ */
 class Mage_Catalog_IndexerTest extends PHPUnit_Framework_TestCase
 {
     /**
