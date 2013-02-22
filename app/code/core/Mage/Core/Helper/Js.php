@@ -47,15 +47,23 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     protected $_configReader;
 
     /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      */
     public function __construct(
         Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Config_Modules_Reader $configReader
+        Mage_Core_Model_Config_Modules_Reader $configReader,
+        Mage_Core_Model_Cache_Type_Config $configCacheType
     ) {
         parent::__construct($translator);
         $this->_configReader = $configReader;
+        $this->_configCacheType = $configCacheType;
     }
 
     /**
@@ -138,19 +146,14 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     protected function _getXmlConfig()
     {
         if (is_null($this->_config)) {
-            $canUsaCache = Mage::app()->useCache('config');
-            $cachedXml = Mage::app()->loadCache(self::JAVASCRIPT_TRANSLATE_CONFIG_KEY);
-            if ($canUsaCache && $cachedXml) {
+            $cachedXml = $this->_configCacheType->load(self::JAVASCRIPT_TRANSLATE_CONFIG_KEY);
+            if ($cachedXml) {
                 $xmlConfig = new Varien_Simplexml_Config($cachedXml);
             } else {
                 $xmlConfig = new Varien_Simplexml_Config();
                 $xmlConfig->loadString('<?xml version="1.0"?><jstranslator></jstranslator>');
                 $this->_configReader->loadModulesConfiguration(self::JAVASCRIPT_TRANSLATE_CONFIG_FILENAME, $xmlConfig);
-
-                if ($canUsaCache) {
-                    Mage::app()->saveCache($xmlConfig->getXmlString(), self::JAVASCRIPT_TRANSLATE_CONFIG_KEY,
-                        array(Mage_Core_Model_Config::CACHE_TAG));
-                }
+                $this->_configCacheType->save($xmlConfig->getXmlString(), self::JAVASCRIPT_TRANSLATE_CONFIG_KEY);
             }
             $this->_config = $xmlConfig;
         }

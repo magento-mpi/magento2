@@ -47,20 +47,28 @@ class Mage_Install_Model_Installer extends Varien_Object
     protected $_config;
 
     /**
+     * @var Mage_Core_Model_Cache_Types
+     */
+    protected $_cacheTypes;
+
+    /**
      * @param Mage_Core_Model_ConfigInterface $config
      * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
      * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_Cache_Types $cacheTypes
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_ConfigInterface $config,
         Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
         Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Cache_Types $cacheTypes,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
         $this->_config = $config;
         $this->_cache = $cache;
+        $this->_cacheTypes = $cacheTypes;
         parent::__construct($data);
     }
 
@@ -320,11 +328,10 @@ class Mage_Install_Model_Installer extends Varien_Object
         Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpInstallDate();
         $this->_refreshConfig();
         /* Enable all cache types */
-        $cacheData = array();
-        foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type => $label) {
-            $cacheData[$type] = 1;
+        foreach (array_keys($this->_cache->getTypes()) as $cacheTypeCode) {
+            $this->_cacheTypes->setEnabled($cacheTypeCode, true);
         }
-        $this->_cache->saveOptions($cacheData);
+        $this->_cacheTypes->persist();
         return $this;
     }
 

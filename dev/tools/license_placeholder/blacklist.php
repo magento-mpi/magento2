@@ -18,6 +18,7 @@ return array(
     'app/design/frontend/enterprise/fixed/js/jqzoom',
     'app/etc/local.xml',
     'dev/build/publication/license',
+    'dev/build/saas_qa/tenants',
     'dev/tests/functional',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',

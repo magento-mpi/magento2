@@ -66,6 +66,22 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_optionalZipCountries = null;
 
     /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
+     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     */
+    public function __construct(
+        Mage_Core_Model_Translate $translator, Mage_Core_Model_Cache_Type_Config $configCacheType
+    ) {
+        parent::__construct($translator);
+        $this->_configCacheType = $configCacheType;
+    }
+
+    /**
      * Retrieve region collection
      *
      * @return Mage_Directory_Model_Resource_Region_Collection
@@ -104,10 +120,8 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
 
         Magento_Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
-            $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE'.Mage::app()->getStore()->getId();
-            if (Mage::app()->useCache('config')) {
-                $json = Mage::app()->loadCache($cacheKey);
-            }
+            $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . Mage::app()->getStore()->getId();
+            $json = $this->_configCacheType->load($cacheKey);
             if (empty($json)) {
                 $countryIds = array();
                 foreach ($this->getCountryCollection() as $country) {
@@ -133,9 +147,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                 }
                 $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($regions);
 
-                if (Mage::app()->useCache('config')) {
-                    Mage::app()->saveCache($json, $cacheKey, array('config'));
-                }
+                $this->_configCacheType->save($json, $cacheKey);
             }
             $this->_regionJson = $json;
         }

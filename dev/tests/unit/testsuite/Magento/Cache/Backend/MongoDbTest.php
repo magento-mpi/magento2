@@ -227,6 +227,10 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
      */
     public function testLoad($doNotTestValidity)
     {
+        if (!extension_loaded('mongo')) {
+            $this->markTestIncomplete('MAGETWO-7815');
+        }
+
         $cacheId = 'test_id';
         $expected = 'test_data';
         $validityCondition = $this->arrayHasKey('$or');
@@ -236,7 +240,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
         $this->_collection->expects($this->once())
             ->method('findOne')
             ->with($this->logicalAnd($this->arrayHasKey('_id'), $validityCondition))
-            ->will($this->returnValue(array('data' => $expected)));
+            ->will($this->returnValue(array('data' => new MongoBinData($expected, MongoBinData::BYTE_ARRAY))));
         $actual = $this->_model->load($cacheId, $doNotTestValidity);
         $this->assertSame($expected, $actual);
     }
@@ -278,6 +282,9 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
 
     public function testSave()
     {
+        if (!extension_loaded('mongo')) {
+            $this->markTestIncomplete('MAGETWO-7815');
+        }
         $inputAssertion = $this->logicalAnd(
             $this->arrayHasKey('_id'),
             $this->arrayHasKey('data'),

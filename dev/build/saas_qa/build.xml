@@ -8,6 +8,8 @@
  */
 -->
 <project name="SaaS QA Builds" basedir="../../../" default="multitenant_deployment">
+    <import file="../core_dev/util.xml"/>
+
     <property environment="env"/>
     <target name="multitenant_deployment" description="Basic multi-tenant environment QA setup">
         <fail unless="env.db_host" message="'db_host' must be defined"/>
@@ -20,6 +22,15 @@
         <condition property="env.bamboo_uninstall_ids" value="">
             <not><isset property="env.bamboo_uninstall_ids"/></not>
         </condition>
+
+        <delete file="${basedir}/index.build.php" quiet="true"/>
+
+        <antcall>
+            <param name="license_replacement_enabled" value="true"/>
+            <param name="product_edition_code" value="saas"/>
+            <target name="_product_edition"/>
+        </antcall>
+
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/saas_qa/deploy.php --
                 --url-template=${env.multitenant_url_template}

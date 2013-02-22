@@ -1,6 +1,6 @@
 <?php
 /**
- * Check whether XEnterprise_Enabler.xml.dist exactly corresponds to /app/code/core/Enterprise contents
+ * Check whether XEnterprise_Edition.xml.dist exactly corresponds to /app/code/core/Enterprise contents
  *
  * {license_notice}
  *
@@ -10,13 +10,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Integrity_Enterprise_EnablerTest extends PHPUnit_Framework_TestCase
+class Integrity_Enterprise_EditionTest extends PHPUnit_Framework_TestCase
 {
     public function testCongruence()
     {
         $root = Utility_Files::init()->getPathToSource();
 
-        $xmlFile = $root . '/app/etc/modules/XEnterprise_Enabler.xml.dist';
+        $xmlFile = $root . '/app/etc/modules/XEnterprise_Edition.xml.dist';
         $xml = simplexml_load_file($xmlFile);
         $xmlModuleNodes = $xml->xpath('/config/modules');
         $this->assertEquals(1, count($xmlModuleNodes));

@@ -20,7 +20,8 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     {
         $params = array(
             'eventDispatcher' => Mage::getObjectManager()->get('Mage_Core_Model_Event_Manager'),
-            'cacheManager'    => Mage::getObjectManager()->get('Mage_Core_Model_Cache')
+            'configCacheType' => Mage::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
+            'cacheManager'    => Mage::getObjectManager()->get('Mage_Core_Model_Cache'),
         );
 
         $this->_model = $this->getMock(

@@ -50,8 +50,7 @@ try {
         }
     } else {
         /** @var $appEntryPoint callback */
-        $appEntryPoint = require $magentoDir . '/saas.php';
-
+        $appEntryPoint = require $magentoDir . '/saas/webnode.php';
         $appEntryPoint($saasDb->getTenantData($codeBase->getId()));
     }
 

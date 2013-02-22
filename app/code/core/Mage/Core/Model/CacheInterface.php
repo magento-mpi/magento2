@@ -70,14 +70,6 @@ interface Mage_Core_Model_CacheInterface
     public function getDbAdapter();
 
     /**
-     * Save cache usage options
-     *
-     * @param array $options
-     * @return Mage_Core_Model_CacheInterface
-     */
-    public function saveOptions($options);
-
-    /**
      * Check if cache can be used for specific data type
      *
      * @param string $typeCode

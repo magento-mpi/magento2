@@ -397,17 +397,6 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Save cache usage settings
-     *
-     * @param array $data
-     * @return Mage_Core_Model_AppInterface
-     */
-    public function saveUseCache($data)
-    {
-        return $this->_getApp()->saveUseCache($data);
-    }
-
-    /**
      * Deletes all session files
      *
      * @return Mage_Core_Model_AppInterface

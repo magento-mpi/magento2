@@ -102,6 +102,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const BASE_URL_PLACEHOLDER            = '{{base_url}}';
 
     /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
      * Cache flag
      *
      * @var boolean
@@ -222,6 +227,26 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     /** Default url class name for current store */
     const DEFAULT_URL_MODEL_NAME = 'Mage_Core_Model_Url';
+
+    /**
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        $this->_configCacheType = $configCacheType;
+    }
 
     /**
      * Initialize object
@@ -393,24 +418,18 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if ($this->_configCache === null) {
             $code = $this->getCode();
             if ($code) {
-                $cache = Mage::getObjectManager()->get('Mage_Core_Model_Cache');
-                if ($cache->canUse('config')) {
-                    $cacheId = 'store_' . $code . '_config_cache';
-                    $data = $cache->load($cacheId);
-                    if ($data) {
-                        $data = unserialize($data);
-                    } else {
-                        $data = array();
-                        foreach ($this->_configCacheBaseNodes as $node) {
-                            $data[$node] = $this->getConfig($node);
-                        }
-                        $cache->save(serialize($data), $cacheId, array(
-                            self::CACHE_TAG,
-                            Mage_Core_Model_Config::CACHE_TAG
-                        ), false);
+                $cacheId = 'store_' . $code . '_config_cache';
+                $data = $this->_configCacheType->load($cacheId);
+                if ($data) {
+                    $data = unserialize($data);
+                } else {
+                    $data = array();
+                    foreach ($this->_configCacheBaseNodes as $node) {
+                        $data[$node] = $this->getConfig($node);
                     }
-                    $this->_configCache = $data;
+                    $this->_configCacheType->save(serialize($data), $cacheId, array(self::CACHE_TAG), false);
                 }
+                $this->_configCache = $data;
             }
         }
         return $this;
@@ -1178,7 +1197,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _afterDelete()
     {
         parent::_afterDelete();
-        Mage::getConfig()->removeCache();
+        $this->_configCacheType->flush();
         return $this;
     }
 

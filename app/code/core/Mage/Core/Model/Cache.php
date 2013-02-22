@@ -16,7 +16,6 @@
 class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
 {
     const DEFAULT_LIFETIME  = 7200;
-    const OPTIONS_CACHE_ID  = 'core_cache_options';
     const INVALIDATED_TYPES = 'core_cache_invalidate';
     const XML_PATH_TYPES    = 'global/cache/types';
 
@@ -85,31 +84,24 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     protected $_disallowSave = false;
 
     /**
-     * List of allowed cache options
-     *
-     * @var array
+     * @var Mage_Core_Model_Cache_Types
      */
-    protected $_allowedCacheOptions = null;
+    private $_cacheTypes;
 
     /**
-     * @var bool
-     */
-    protected $_globalBanUseCache = false;
-
-    /**
+     * @param Mage_Core_Model_Cache_Types $cacheTypes
      * @param Mage_Core_Model_ConfigInterface $config
      * @param Mage_Core_Model_Config_Primary $cacheConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param bool $banCache
      * @param array $options
      */
     public function __construct(
+        Mage_Core_Model_Cache_Types $cacheTypes,
         Mage_Core_Model_ConfigInterface $config,
         Mage_Core_Model_Config_Primary $cacheConfig,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        $banCache = false,
         array $options = array()
     ) {
         $configOptions = $cacheConfig->getNode('global/cache');
@@ -120,9 +112,9 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
         }
         $options = array_merge($configOptions, $options);
 
+        $this->_cacheTypes = $cacheTypes;
         $this->_config = $config;
         $this->_helperFactory = $helperFactory;
-        $this->_globalBanUseCache = $banCache;
 
         $this->_defaultBackendOptions['cache_dir'] = $dirs->getDir(Mage_Core_Model_Dir::CACHE);
         /**
@@ -541,78 +533,15 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     }
 
     /**
-     * Get cache resource model
-     *
-     * @return Mage_Core_Model_Resource_Cache
-     */
-    protected function _getResource()
-    {
-        return Mage::getResourceSingleton('Mage_Core_Model_Resource_Cache');
-    }
-
-    /**
-     * Initialize cache types options
-     *
-     * @return Mage_Core_Model_Cache
-     */
-    protected function _initOptions()
-    {
-        $options = $this->load(self::OPTIONS_CACHE_ID);
-        if ($options === false) {
-            $options = $this->_getResource()->getAllOptions();
-            if (is_array($options)) {
-                $this->_allowedCacheOptions = $options;
-                $this->save(serialize($this->_allowedCacheOptions), self::OPTIONS_CACHE_ID);
-            } else {
-                $this->_allowedCacheOptions = array();
-            }
-        } else {
-            $this->_allowedCacheOptions = unserialize($options);
-        }
-
-        if ($this->_globalBanUseCache) {
-            foreach ($this->_allowedCacheOptions as $key => $val) {
-                $this->_allowedCacheOptions[$key] = false;
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Save cache usage options
-     *
-     * @param array $options
-     * @return Mage_Core_Model_Cache
-     */
-    public function saveOptions($options)
-    {
-        $this->remove(self::OPTIONS_CACHE_ID);
-        $options = $this->_getResource()->saveAllOptions($options);
-        return $this;
-    }
-
-    /**
      * Check if cache can be used for specific data type
      *
      * @param string $typeCode
      * @return bool
+     * @deprecated deprecated after 2.0.0.0-dev42 in favour of Mage_Core_Model_Cache_Types::isEnabled()
      */
     public function canUse($typeCode)
     {
-        if (is_null($this->_allowedCacheOptions)) {
-            $this->_initOptions();
-        }
-
-        if (empty($typeCode)) {
-            return $this->_allowedCacheOptions;
-        } else {
-            if (isset($this->_allowedCacheOptions[$typeCode])) {
-                return (bool)$this->_allowedCacheOptions[$typeCode];
-            } else {
-                return false;
-            }
-        }
+        return $this->_cacheTypes->isEnabled($typeCode);
     }
 
     /**
@@ -620,10 +549,11 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      *
      * @param string $typeCode
      * @return Mage_Core_Model_Cache
+     * @deprecated deprecated after 2.0.0.0-dev42 in favour of Mage_Core_Model_Cache_Types::setEnabled()
      */
     public function banUse($typeCode)
     {
-        $this->_allowedCacheOptions[$typeCode] = false;
+        $this->_cacheTypes->setEnabled($typeCode, false);
         return $this;
     }
 
@@ -632,10 +562,11 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      *
      * @param string $typeCode
      * @return Mage_Core_Model_Cache
+     * @deprecated deprecated after 2.0.0.0-dev42 in favour of Mage_Core_Model_Cache_Types::setEnabled()
      */
     public function allowUse($typeCode)
     {
-        $this->_allowedCacheOptions[$typeCode] = true;
+        $this->_cacheTypes->setEnabled($typeCode, true);
         return $this;
     }
 

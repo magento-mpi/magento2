@@ -20,19 +20,19 @@ class Enterprise_PageCache_Model_Cache extends Mage_Core_Model_Cache
     const REQUEST_MESSAGE_GET_PARAM = 'frontend_message';
 
     /**
+     * @param Mage_Core_Model_Cache_Types $cacheTypes
      * @param Mage_Core_Model_ConfigInterface $config
      * @param Mage_Core_Model_Config_Primary $cacheConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param bool $banCache
      * @param array $options
      */
     public function __construct(
+        Mage_Core_Model_Cache_Types $cacheTypes,
         Mage_Core_Model_ConfigInterface $config,
         Mage_Core_Model_Config_Primary $cacheConfig,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Factory_Helper $helperFactory,
-        $banCache = false,
         array $options = array()
     ) {
         Magento_Profiler::start('enterprise_page_cache_create', array(
@@ -58,7 +58,7 @@ class Enterprise_PageCache_Model_Cache extends Mage_Core_Model_Cache
                 }
             }
         }
-        parent::__construct($config, $cacheConfig, $dirs, $helperFactory, $banCache, $options);
+        parent::__construct($cacheTypes, $config, $cacheConfig, $dirs, $helperFactory, $options);
         Magento_Profiler::stop('enterprise_page_cache_create');
     }
 }

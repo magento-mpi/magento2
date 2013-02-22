@@ -18,7 +18,7 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
-     * Initialize gift wrapping management page
+     * Initialize rma item management page
      *
      * @return void
      */

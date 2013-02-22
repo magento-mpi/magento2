@@ -9,7 +9,7 @@
  */
 
 /**
- * Invitation Adminhtml Block
+ * Customer Segment Adminhtml Block
  *
  * @category   Enterprise
  * @package    Enterprise_CustomerSegment
@@ -18,7 +18,7 @@
 class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment extends Mage_Backend_Block_Widget_Grid_Container
 {
     /**
-     * Initialize invitation manage page
+     * Initialize customer segment manage page
      *
      * @return void
      */
