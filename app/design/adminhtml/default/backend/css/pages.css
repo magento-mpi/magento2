@@ -258,7 +258,6 @@
     right: 5px;
 }
 
-
 .gallery .ui-state-highlight {
     background: #d7ebf5;
     border: 2px dotted #93dbff;
@@ -493,22 +492,23 @@
 }
 
 /* Weight field */
-.field-weight {
 
-}
-.field-weight input[type="text"] {
-    float: left;
-    width: 75%;
+.field-weight .control {
+    display: table;
+    width: 100%;
 }
 
-.field-weight .addafter {
-    padding-bottom: 1px;
-    color: #b2b2b2;
-}
-
-.field-weight .field:first-child {
+.field-weight .control .field:first-child {
     width: 36%;
     margin-right: 15px;
+}
+
+.field-weight .control .field:first-child .control {
+    width: 100%;
+}
+
+.field-weight .choice {
+    padding-top: 3px;
 }
 
 .field-weight .choice input {
