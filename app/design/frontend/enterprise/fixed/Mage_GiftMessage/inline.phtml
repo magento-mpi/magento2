@@ -21,6 +21,10 @@ if(!window.toogleVisibilityOnObjects) {
                 });
             });
         } else {
+            /**
+             * This is an incomplete(but correct) fix and will be refactored in a separate story
+             * The entire function needs to be refactored to use jQuery
+             */
             objects.each(function(item){
                 if ($(item)) {
                     $(item).hide();
@@ -31,13 +35,13 @@ if(!window.toogleVisibilityOnObjects) {
                         sitem.value = '';
                     });
                     $$('#' + item + ' .checkbox').each(function(sitem) {
-                        sitem.checked = false;
+                        if(sitem.checked) {
+                            jQuery('#' + sitem.id).click();
+                        }
                     });
                     $$('#' + item + ' .select').each(function(sitem) {
                         sitem.value = '';
-                    });
-                    $$('#' + item + ' .price-box').each(function(sitem) {
-                        sitem.addClassName('no-display');
+                        jQuery('#' + sitem.id).change();
                     });
                 }
             });

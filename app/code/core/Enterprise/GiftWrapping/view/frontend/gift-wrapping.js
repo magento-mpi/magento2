@@ -32,6 +32,7 @@
             noDisplayClass: "no-display",
             giftWrappingSelectPrefix: "giftwrapping-",
             imageBoxSelectorPrefix: '#image-box-',
+            priceBoxSelectorPrefix: '#price-box-',
             orderContainerPrefix: 'options-order-container',
             optionsItemContainerPrefix: 'options-items-container',
             extraOptionsContainerPrefix: 'extra-options-container',
@@ -149,9 +150,7 @@
          * @param {Object} data - substitution data
          */
         insertOptions: function(element, data) {
-            this._processTemplate(this.options.templateOptions, element, [
-                {_id_: data.id, _price_: data.price}
-            ]);
+            this._processTemplate(this.options.templateOptions, element, [data]);
         },
 
         /**

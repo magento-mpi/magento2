@@ -54,16 +54,16 @@
         <?php if ($this->getDisplayCardBothPrices()): ?>
         <span class="price-excluding-tax">
                     <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-                    <span class="price" id="price-card-excluding-tax-${_id_}">{{price_excl_tax}}</span>
+                    <span class="price" id="price-card-excluding-tax-${_id_}">${price_excl_tax}</span>
                 </span>
         <span class="price-including-tax">
                     <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-                    <span class="price" id="price-card-including-tax-${_id_}">{{price_incl_tax}}</span>
+                    <span class="price" id="price-card-including-tax-${_id_}">${price_incl_tax}</span>
                 </span>
         <?php else: ?>
         <span class="regular-price">
                     <span class="label"><?php echo $this->__('Price') ?>:</span>
-                    <span class="price" id="regular-card-price-${_id_}">${_price_}</span>
+                    <span class="price" id="regular-card-price-${_id_}">${price}</span>
                 </span>
         <?php endif;?>
     </p>
