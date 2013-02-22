@@ -7,20 +7,36 @@
  */
 class UniqueList
 {
-    protected $_itemsPerNumber = array();
+    /**
+     * List of stored items
+     *
+     * @var array
+     */
+    protected $_items = array();
 
+    /**
+     * Add item to list and retrieve auto-incremented item position
+     *
+     * @param mixed $item
+     * @return int|bool
+     */
     public function getNumber($item)
     {
-        if (in_array($item, $this->_itemsPerNumber)) {
-            return array_search($item, $this->_itemsPerNumber);
+        if (in_array($item, $this->_items)) {
+            return array_search($item, $this->_items);
         } else {
-            $this->_itemsPerNumber[] = $item;
-            return count($this->_itemsPerNumber)-1;
+            $this->_items[] = $item;
+            return count($this->_items)-1;
         }
     }
 
+    /**
+     * Represent list as array
+     *
+     * @return array
+     */
     public function asArray()
     {
-        return $this->_itemsPerNumber;
+        return $this->_items;
     }
 }

@@ -68,7 +68,7 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
     }
 
     /**
-     * Check whether method has parameters
+     * Retrieve method parameters for given class
      *
      * @param string $class
      * @param string $method
