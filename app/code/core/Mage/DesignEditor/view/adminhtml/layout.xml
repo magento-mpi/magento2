@@ -93,7 +93,7 @@
                         <block type="Mage_Backend_Block_Template" name="design_editor_tools_quick-styles_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/handle.phtml" />
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body" name="design_editor_tools_quick-styles_tab_body" as="tab_body" template="Mage_DesignEditor::editor/tools/tabs/body.phtml" />
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header" name="design_editor_tools_quick-styles_header" template="Mage_DesignEditor::editor/tools/quick-styles/header.phtml" />
-                        <block type="Mage_Backend_Block_Template" name="design_editor_tools_quick-styles_backgrounds" template="Mage_DesignEditor::editor/tools/quick-styles/backgrounds.phtml" />
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Background" name="design_editor_tools_quick-styles_backgrounds" template="Mage_DesignEditor::editor/tools/quick-styles/backgrounds.phtml" />
                         <block type="Mage_Backend_Block_Template" name="design_editor_tools_quick-styles_buttons" template="Mage_DesignEditor::editor/tools/quick-styles/buttons.phtml" />
                         <block type="Mage_Backend_Block_Template" name="design_editor_tools_quick-styles_tips" template="Mage_DesignEditor::editor/tools/quick-styles/tips.phtml" />
                         <block type="Mage_Backend_Block_Template" name="design_editor_tools_quick-styles_fonts" template="Mage_DesignEditor::editor/tools/quick-styles/fonts.phtml" />

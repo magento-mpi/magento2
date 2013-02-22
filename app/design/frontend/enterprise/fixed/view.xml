@@ -29,4 +29,28 @@
     <vars module="Mage_Bundle">
         <var name="product_summary_image_size">58</var>         <!-- New Product image size used for summary block-->
     </vars>
+    <vars module="Mage_DesignEditor">
+        <var name="store-name|font-picker">Tahoma, Geneva, sans-serif</var>
+        <var name="store-name|color-picker">#ccc</var>
+        <var name="store-name|logo-uploader">logo.png</var>
+
+        <var name="header-background|color-picker">transparent</var>
+        <var name="header-background|image-uploader">bg.gif</var>
+        <var name="header-background|tile">no-repeat</var>
+
+        <var name="menu-background">#f8f8f8</var>
+        <var name="menu-stroke">#c2c2c2</var>
+        <var name="menu-links">#675f55</var>
+        <var name="menu-links-hover">#f47a1F</var>
+
+        <var name="header-links">#837d75</var>
+        <var name="header-links-hover">#675f55</var>
+
+        <var name="scroll-bar-background">#ffffff</var>
+        <var name="scroll-bar-handle">#e5e5e5</var>
+
+        <var name="search-field">#ffffff</var>
+        <var name="search-field-stroke">#c2c2c2</var>
+    </vars>
+
 </view>

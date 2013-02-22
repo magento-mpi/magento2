@@ -481,6 +481,18 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $codeImageSizing->setTheme($theme);
         }
 
+        /** @var $headerQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
+        $headerQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_header');
+        if ($headerQuickStylesBlock) {
+            $headerQuickStylesBlock->setTheme($theme);
+        }
+
+        /** @var $backgroundQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
+        $backgroundQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_backgrounds');
+        if ($backgroundQuickStylesBlock) {
+            $backgroundQuickStylesBlock->setTheme($theme);
+        }
+
         return $this;
     }
 
