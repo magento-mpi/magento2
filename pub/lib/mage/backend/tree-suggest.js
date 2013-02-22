@@ -93,7 +93,8 @@
                 '&quot;themes&quot;:{&quot;theme&quot;:&quot;default&quot;,&quot;dots&quot;:' +
                 'false,&quot;icons&quot;:false}}}">{{/if}}' +
                 '<ul>{{each items}}' +
-                '<li{{if $data.itemSelected($value)}} rel="disabled" class="mage-suggest-selected"{{/if}}>' +
+                '<li class="{{if $data.itemSelected($value)}}mage-suggest-selected{{/if}}'+
+                '{{if $value.is_active == 0}} mage-suggest-not-active{{/if}}">' +
                 '<a href="#" {{html optionData($value)}}>${$value.label}</a>' +
                 '{{if $value.children && $value.children.length}}' +
                 '{{html renderTreeLevel($value.children)}}' +

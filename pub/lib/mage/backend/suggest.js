@@ -279,14 +279,14 @@
         /**
          * Handle focus event of options item
          * @param {Object} e - event object
-         * @param {Object} option
+         * @param {Object} ui - object that can contain information about focused item
          * @private
          */
-        _focusItem: function(e, option) {
-            if(option && option.item) {
-                this._focused = $(option.item).prop('tagName') ?
-                    this._readItemData(option.item) :
-                    option.item;
+        _focusItem: function(e, ui) {
+            if(ui && ui.item) {
+                this._focused = $(ui.item).prop('tagName') ?
+                    this._readItemData(ui.item) :
+                    ui.item;
 
                 this.element.val(this._focused.label);
                 this._trigger('focus', e, {item: this._focused});
@@ -337,12 +337,12 @@
 
         /**
          * Read option data from item element
-         * @param {Element} item
+         * @param {Element} element
          * @return {Object}
          * @private
          */
-        _readItemData: function(item) {
-            return item.data('suggestOption') || this._nonSelectedItem;
+        _readItemData: function(element) {
+            return element.data('suggestOption') || this._nonSelectedItem;
         },
 
         /**
@@ -447,13 +447,20 @@
                 optionData: function(item) {
                     return 'data-suggest-option="' + JSON.stringify(item).replace(/"/g, '&quot;') + '"';
                 },
-                itemSelected: $.proxy(function(item) {
-                    return item.id == (this._selectedItem && this._selectedItem.id ?
-                        this._selectedItem.id :
-                        this.options.currentlySelected);
-                }, this),
+                itemSelected: $.proxy(this._isItemSelected, this),
                 noRecordsText: $.mage.__('No records found')
             });
+        },
+
+        /**
+         * @param item
+         * @return {Boolean}
+         * @private
+         */
+        _isItemSelected: function(item) {
+            return item.id == (this._selectedItem && this._selectedItem.id ?
+                this._selectedItem.id :
+                this.options.currentlySelected);
         },
 
         /**
@@ -522,6 +529,7 @@
         },
 
         /**
+         * Abort search process
          * @private
          */
         _abortSearch: function() {
@@ -766,9 +774,9 @@
         },
 
         /**
-         * @param items
-         * @param context
-         * @return {*}
+         * @param {Array} items
+         * @param {Object} context
+         * @return {Array}
          * @private
          */
         _filterSelected: function(items, context) {
@@ -827,14 +835,18 @@
             if (this.options.multiselect) {
                 if (this._focused) {
                     this._selectedItem = this._focused;
-                    if (this.valueField.find('option[value=' + this._selectedItem.id + ']').length) {
-                        this._selectedItem = this._nonSelectedItem;
-                    }
+
                     if (this._selectedItem !== this._nonSelectedItem) {
                         this._term = '';
                         this.element.val(this._term);
-                        $(e.target).addClass(this.options.selectedClass);
-                        this._addOption(e, this._selectedItem);
+                        if(this._isItemSelected(this._selectedItem)) {
+                            $(e.target).removeClass(this.options.selectedClass);
+                            this.removeOption(e, this._selectedItem);
+                            this._selectedItem = this._nonSelectedItem;
+                        } else {
+                            $(e.target).addClass(this.options.selectedClass);
+                            this._addOption(e, this._selectedItem);
+                        }
                     }
                 }
             } else {
@@ -845,23 +857,12 @@
         /**
          * @override
          */
-        _prepareDropdownContext: function() {
-            var context = this._superApply(arguments);
+        _isItemSelected: function(item) {
             if(this.options.multiselect) {
-                return $.extend(context, {
-                    itemSelected: $.proxy(function(item) {
-                        var selected = false;
-                        $.each(this._getOptions(), function(i, selectedItem){
-                            if(item.id === $(selectedItem).val()) {
-                                selected = true;
-                                return false;
-                            }
-                        });
-                        return selected;
-                    }, this)
-                });
+                return this.valueField.find('option[value=' + item.id + ']').length;
+            } else {
+                return this._superApply(arguments);
             }
-            return context;
         },
 
         /**
@@ -913,7 +914,7 @@
         /**
          * Remove item from select options
          * @param {Object} e - event object
-         * @param item
+         * @param {Object} item
          * @private
          */
         removeOption: function(e, item) {
