@@ -51,7 +51,7 @@ class Mage_Launcher_Controller_BaseDrawer
         $areaCode = null,
         array $data = array()
     ) {
-        parent::__construct($request, $response, $areaCode, $objectManager, $frontController, $layoutFactory, $data);
+        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode, $data);
 
         if (isset($data['drawerBlockName'])) {
             $this->_drawerBlockName = $data['drawerBlockName'];

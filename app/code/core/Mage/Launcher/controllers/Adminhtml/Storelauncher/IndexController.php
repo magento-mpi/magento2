@@ -27,25 +27,25 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Backend
     /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
-     * @param string $areaCode
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_Core_Model_Config $configModel
+     * @param string $areaCode
      * @param array $invokeArgs
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Controller_Response_Http $response,
-        $areaCode = null,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_Core_Model_Config $configModel,
+        $areaCode = null,
         array $invokeArgs = array()
     ) {
-        parent::__construct($request, $response, $areaCode, $objectManager, $frontController,
-            $layoutFactory, $invokeArgs
+        parent::__construct($request, $response, $objectManager, $frontController,
+            $layoutFactory, $areaCode, $invokeArgs
         );
         $this->_configModel = $configModel;
     }
