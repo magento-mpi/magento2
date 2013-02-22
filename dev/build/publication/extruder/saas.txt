@@ -5,7 +5,7 @@ saas
 saas_infrastructure
 app/code/core/Saas
 app/etc/modules/XSaas_Edition.xml.dist
-dev/tests/integration/etc/modules/XSaas_Edition.xml
+dev/tests/integration/etc/modules/XSaas_Edition.xml.dist
 dev/tests/integration/testsuite/Saas
 dev/tests/js/testsuite/saas
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/saas.txt
