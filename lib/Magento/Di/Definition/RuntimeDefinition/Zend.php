@@ -80,6 +80,8 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
             $this->processClass($class);
         }
 
-        return $this->classes[$class]['parameters'][$method];
+        return isset($this->classes[$class]['parameters'][$method])
+            ? $this->classes[$class]['parameters'][$method]
+            : null;
     }
 }
