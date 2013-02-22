@@ -1028,8 +1028,7 @@ class Mage_Core_Model_Url extends Varien_Object
             return $this;
         }
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('Mage_Core_Model_Session', array('data' => $params));
-
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $sessionId = $session->getSessionIdForHost($url);
         if (Mage::app()->getUseSessionVar() && !$sessionId) {
             $this->setQueryParam('___SID', $this->isSecure() ? 'S' : 'U'); // Secure/Unsecure

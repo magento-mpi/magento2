@@ -22,13 +22,9 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
     /**
      * @param Zend\Di\Definition\IntrospectionStrategy $strategy
      * @param array $explicitClasses
-     * @param Magento_Di_Generator_Class $classGenerator
      */
-    public function __construct(
-        IntrospectionStrategy $strategy = null,
-        array $explicitClasses = null,
-        Magento_Di_Generator_Class $classGenerator = null
-    ) {
+    public function __construct(IntrospectionStrategy $strategy = null, array $explicitClasses = null)
+    {
         parent::__construct($strategy, $explicitClasses);
     }
 
@@ -76,7 +72,7 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
      *
      * @param string $class
      * @param string $method
-     * @return bool
+     * @return mixed
      */
     public function getMethodParameters($class, $method)
     {
@@ -84,8 +80,6 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
             $this->processClass($class);
         }
 
-        return isset($this->classes[$class]['parameters'][$method]) ?
-            $this->classes[$class]['parameters'][$method] :
-            null;
+        return $this->classes[$class]['parameters'][$method];
     }
 }

@@ -7,7 +7,11 @@
  */
 class Magento_Test_Di_Child_Circular extends Magento_Test_Di_Child
 {
-    function __construct(Magento_Test_Di_Aggregate_Parent $aggregateParent)
+    /**
+     * @param Magento_Test_Di_Aggregate_Parent $aggregateParent
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function __construct(Magento_Test_Di_Aggregate_Parent $aggregateParent)
     {
 
     }

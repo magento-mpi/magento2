@@ -63,7 +63,7 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
     {
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
         return $this->getMock('Mage_Backend_Block_Widget_Grid_ColumnSet', array(), array(
-            Mage::getSingleton('Mage_Core_Block_Template_Context', array(
+            Mage::getModel('Mage_Core_Block_Template_Context', array(
                 'dirs' => new Mage_Core_Model_Dir($filesystem, __DIR__),
                 'filesystem' => $filesystem
             )),

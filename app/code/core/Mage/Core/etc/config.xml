@@ -110,6 +110,13 @@
         </di>
     </global>
     <frontend>
+        <di>
+            <Mage_Core_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Core_Model_Session>
+        </di>
         <design>
             <theme>
                 <full_name>default/demo</full_name>
@@ -186,6 +193,11 @@
             <preferences>
                 <Mage_Core_Model_Url>Mage_Backend_Model_Url</Mage_Core_Model_Url>
             </preferences>
+            <Mage_Core_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Core_Model_Session>
         </di>
     </adminhtml>
     <install>
