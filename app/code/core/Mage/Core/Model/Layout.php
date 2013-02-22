@@ -1324,7 +1324,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         if ($block && is_string($block)) {
             if (class_exists($block)) {
-                $block = $this->_blockFactory->createBlock($block, $attributes);
+                $block = $this->_blockFactory->createBlock($block, array('data' => $attributes));
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
