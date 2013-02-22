@@ -291,7 +291,9 @@
     height: 100%;
     opacity: 0;
     border: 500px solid transparent;
+    font-size: 10em;
     z-index: 2;
+    cursor: pointer;
 }
 
 .image-placeholder .file-row {
