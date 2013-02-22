@@ -681,6 +681,8 @@
                         <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
                         <xsd:element minOccurs="1" maxOccurs="1" name="productIds" type="typens:ArrayOfString" />
                         <xsd:element minOccurs="1" maxOccurs="1" name="productData" type="typens:catalogProductCreateEntityArray" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="store" type="xsd:string" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="identifierType" type="xsd:string" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -2251,7 +2253,7 @@
             <wsdl:output message="typens:catalogProductUpdateResponse" />
         </wsdl:operation>
         <wsdl:operation name="catalogProductMultiUpdate">
-            <wsdl:documentation>Multi update product stock data</wsdl:documentation>
+            <wsdl:documentation>Product multi update</wsdl:documentation>
             <wsdl:input message="typens:catalogProductMultiUpdateRequest" />
             <wsdl:output message="typens:catalogProductMultiUpdateResponse" />
         </wsdl:operation>
