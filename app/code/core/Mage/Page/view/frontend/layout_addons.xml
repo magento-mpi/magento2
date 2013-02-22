@@ -31,6 +31,7 @@
             <action method="addJs"><file>mage/cookies.js</file></action>
             <action method="addJs"><file>jquery/jquery-ui.js</file></action>
             <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
+            <action method="addJs"><file>mage/bootstrap.js</file></action>
             <action method="addJs"><file>Mage_Page::js/global.js</file></action>
             <action method="addJs"><file>mage/common.js</file></action>
             <action method="addJs"><file>mage/toggle.js</file></action>

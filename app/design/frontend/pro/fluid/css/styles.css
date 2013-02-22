@@ -1257,7 +1257,7 @@ tr.summary-details-excluded { font-style:italic; }
 .sp-methods { margin:0 0 8px; }
 .sp-methods dt { margin:13px 0 5px; font-weight:bold; color:#000; }
 .sp-methods dd {}
-.sp-methods dd li { margin:5px 0; }
+.sp-methods dd li { margin:5px 0; position: relative;}
 .sp-methods label { font-weight:bold; color:#000; }
 .sp-methods .price { font-weight:bold; }
 .sp-methods .form-list { background:#f2f2f2; padding:10px 20px; margin:5px 0; }
@@ -1398,7 +1398,7 @@ tr.summary-details-excluded { font-style:italic; }
 /*.opc .active .step-title a { display:none; }*/
 
 .opc .step { padding:20px 40px 30px; position:relative; }
-.opc .step .tool-tip { right:30px; }
+.opc .step .tool-tip { right:20px; bottom: 0; margin: 0 0 30px 0; }
 
 #opc-login .reward-message { margin-bottom:15px; }
 #opc-login .buttons-set { border-top:0; margin-top:15px; padding-top:10px; }

@@ -1776,7 +1776,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .opc .active .step-title { margin:0 0 0; padding:0 0 0 0; }
 .opc .active .step-title h2 { background:#d12c01 url(../images/bkg_active-step.gif) repeat-x 0 0; color:#fff; text-transform:capitalize; font-weight:normal; border-bottom:1px solid #cfcfcf; cursor:default; font-size:16px; padding:5px 20px 2px; line-height:24px; height:24px; }
 .opc .step { padding:20px; min-height:300px; font-size:12px; background:#fcfcfc; border-top:0; }
-.opc .step .tool-tip { right:10px; }
+.opc .step .tool-tip { right:0; bottom: 0; margin: 0 0 30px 0; }
 .opc .order-review {}
 .opc .order-review .authentication { margin:0 auto; width:570px; }
 .opc .order-review .warning-message { color:#222; font-weight:bold; text-align:center; padding:10px 10px 0; }
@@ -1879,7 +1879,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* Shipping and Payment methods */
 .sp-methods dt { font-weight:bold; margin-bottom:5px; }
 .sp-methods dd { margin:0 0 7px; }
-.sp-methods dd li { margin:5px 0; }
+.sp-methods dd li { margin:5px 0; position: relative;}
 .sp-methods .price { font-weight:bold; }
 .sp-methods .form-list { padding-left:20px; margin:15px 0; }
 .sp-methods .form-list .input-text { width:250px; }

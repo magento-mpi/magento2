@@ -1015,7 +1015,7 @@ tr.summary-details-excluded { font-style:italic; }
 /*.opc .active .step-title a { display:none; }*/
 
 .opc .step { border-top:1px solid #ddd; padding:10px; position:relative; }
-.opc .step .tool-tip { right:10px; }
+.opc .step .tool-tip { right:0; bottom: 0; margin: 0 0 30px 0; }
 
 .opc .order-review {}
 .opc .order-review .authentication {}
