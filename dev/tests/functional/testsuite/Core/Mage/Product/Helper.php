@@ -20,7 +20,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
     public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
                                 'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'downloadable_information', 'general');
+                                'downloadable_information', 'general', 'autosettings');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -514,6 +514,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (isset($productData['product_attribute_set']) && $productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
+        if (isset($productData['product_online_status'])) {
+            $this->selectOnlineStatus($productData['product_online_status']);
+            unset($productData['product_online_status']);
+        }
         $this->fillProductInfo($productData);
         if ($isSave) {
             $this->saveProduct();
@@ -612,6 +616,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyProductInfo(array $productData, $skipElements = array('product_attribute_set'))
     {
+        if (isset($productData['product_online_status'])) {
+            $this->selectOnlineStatus($productData['product_online_status'], 'verify');
+            unset($productData['product_online_status']);
+        }
         $data = $this->formProductData($productData, $skipElements);
         foreach ($data as $tabName => $tabData) {
             $this->verifyProductTab($tabData, $tabName);
@@ -691,14 +699,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      * Fill Product Tab
      *
      * @param array $tabData
-     * @param string $tabName Value - general|prices|meta_information|images|recurring_profile
-     * |design|gift_options|inventory|websites|related|up_sells
+     * @param string $tabName Value - general|prices|meta_information|images|
+     * |design|advanced_settings|inventory|websites|related|up_sells
      * |cross_sells|custom_options|bundle_items|associated|downloadable_information
      *
      * @return bool
      */
     public function fillProductTab(array $tabData, $tabName = 'general')
     {
+        $basicSettings = array('general', 'meta_information');
+        if (!in_array($tabName, $basicSettings)
+            && $this->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected') == 'false'
+        ) {
+            $this->clickControl('fieldset', 'advanced_settings');
+        }
         switch ($tabName) {
             case 'general':
                 $this->fillGeneralTab($tabData);
@@ -742,6 +756,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyProductTab(array $tabData, $tabName = 'general')
     {
+        $basicSettings = array('general', 'meta_information');
+        if (!in_array($tabName, $basicSettings)
+            && $this->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected') == 'false'
+        ) {
+            $this->clickControl('fieldset', 'advanced_settings');
+        }
         switch ($tabName) {
             case 'general':
                 $this->verifyGeneralTab($tabData);
@@ -790,7 +810,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
-            $this->fillCheckbox('is_configurable', 'Yes');
+            if (strpos($this->getControlAttribute('link', 'is_configurable', 'class'), 'active') !== false) {
+                $this->clickControl('link', 'is_configurable', false);
+                $this->waitForControlVisible('field', 'general_configurable_attribute_title');
+            }
             $attributeTitle = $generalTab['general_configurable_attributes'];
             unset($generalTab['general_configurable_attributes']);
         }
@@ -845,6 +868,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->verifyForm($generalTab, 'general');
         $this->assertEmptyVerificationErrors();
+    }
+
+    public function selectOnlineStatus($statusData, $action = 'fill')
+    {
+        $script = "return jQuery('#product-online-switcher').prop('checked')";
+        $status = $this->execute(array('script' => $script, 'args' => array()));
+        if (($status && $statusData == 'Disabled') || (!$status && $statusData == 'Enabled')) {
+            if ($action == 'fill') {
+                $this->clickControl('pageelement', 'product_online_status');
+            }
+            else {
+                $this->addVerificationMessage('Product Online Status should be ' . $statusData);
+            }
+        }
     }
 
     /**
@@ -1090,23 +1127,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute')) {
             return;
         }
-        $this->clickControl(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title', false);
-        $resultElement = $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_search_result');
-        $searchResult = trim($resultElement->text());
-        if ($searchResult == 'No search results.') {
-            $this->fail('There is no any attribute for creation configurable product');
-        }
-        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
+        $titleElement = $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
+        $this->focusOnElement($titleElement);
+        $titleElement->value($attributeTitle);
+        $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'configurable_attributes_list');
         if (!$this->controlIsVisible(self::FIELD_TYPE_LINK, 'configurable_attribute_select')) {
-            $this->addParameter('searchResult', $searchResult);
-            $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title')
-                ->value($attributeTitle);
-            $resultElement =
-                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_search_specific_result');
-            $searchResult = trim($resultElement->text());
-            if ($searchResult == 'No search results.') {
-                $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
-            }
+            $this->fail('Attribute with title "' . $attributeTitle . '" is not present in list');
         }
         $this->getControlElement(self::FIELD_TYPE_LINK, 'configurable_attribute_select')->click();
         $this->waitForControlEditable(self::UIMAP_TYPE_FIELDSET, 'product_variation_attribute');
@@ -1179,7 +1205,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $names[] = $this->getChildElement($option, 'td')->text();
         }
 
-        return $names;
+        return array_diff($names, array(''));
     }
 
     /**
@@ -1444,7 +1470,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             return false;
         }
         foreach ($orderedBlocks as $key => $value) {
-            if ($value != $actualOrder[$key] && $value != 'noValue') {
+            if (isset($actualOrder[$key]) && $value != $actualOrder[$key] && $value != 'noValue') {
                 $this->addParameter($blockId, $key);
                 $attributeBlock1 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
                 $exchangeBlockName = array_search($value, $actualOrder);
@@ -1728,36 +1754,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Add products to group.
-     *
-     * @param array $data
-     */
-    public function addProductsToGroup(array $data)
-    {
-        //select associated products
-        $productOrder = array();
-        foreach ($data as $value) {
-            $this->clickButton('add_products_to_group', false);
-            $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
-            $this->searchAndChoose(array('associated_search_sku' => $value['associated_search_sku']),
-                'select_associated_product_option');
-            $this->clickButton('add_selected_products', false);
-            $this->addParameter('productSku', $value['associated_search_sku']);
-            if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product')){
-                if (isset($value['associated_product_position'])) {
-                    $productOrder[$value['associated_search_sku']] = $value['associated_product_position'];
-                    unset($value['associated_product_position']);
-                }
-            unset($value['associated_search_sku']);
-                if (!empty($value)) {
-                $this->fillFieldset($value, 'grouped_associated_products');
-                }
-            }
-        }
-        $this->orderBlocks($productOrder, 'productSku', 'move_grouped_product', 'grouped_assigned_products');
-    }
-
-    /**
      * Verify that product is assigned
      *
      * @param array $data
@@ -1782,38 +1778,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('productXpath', str_replace($fieldsetXpath, '', $xpathTR));
             $this->verifyForm($fillingData, $fieldSetName);
         }
-    }
-
-    /**
-     * Verify that product is assigned to grouped product
-     *
-     * @param array $data
-     */
-    public function isAssignedProductToGroup(array $data)
-    {
-        $productOrder = array();
-        foreach ($data as $value) {
-            if (!isset($value['associated_search_sku'])) {
-                $this->fail('Invalid grouped item data');
-            }
-            $this->addParameter('productSku', $value['associated_search_sku']);
-            if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product')) {
-                if (isset($value['associated_product_position'])) {
-                    $productOrder[$value['associated_search_sku']] = $value['associated_product_position'];
-                    unset($value['associated_product_position']);
-                } else {
-                    $productOrder[$value['associated_search_sku']] = 'noValue';
-                }
-                unset($value['associated_search_sku']);
-                if (!empty($value)) {
-                    $this->verifyForm($value, 'general');
-                }
-            } else {
-                $this->addVerificationMessage('general' . " tab: Product is not assigned with data: \n"
-                    . print_r($value['associated_search_sku'], true));
-            }
-        }
-        $this->verifyBlocksOrder($productOrder, 'grouped_assigned_products');
     }
 
     /**
@@ -2262,6 +2226,88 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
 
         return ($this->getParsedMessages('verification') == null);
+    }
+
+    #*********************************************************************************
+    #*                         Group Items Tab Helper Methods                       *
+    #*********************************************************************************
+
+    /**
+     * Form Grouped data array for filling in/verifying
+     *
+     * @param array $productsData
+     *
+     * @return array
+     */
+    public function formGroupedData(array $productsData)
+    {
+        $data = array('items' => array(), 'order' => array(), 'qty' => array());
+        foreach ($productsData as $product) {
+            $param = $product['associated_search_sku'];
+            if (isset($product['associated_product_default_qty'])) {
+                $data['qty'][$param] = $product['associated_product_default_qty'];
+                unset($product['associated_product_default_qty']);
+            }
+            if (isset($product['associated_product_position'])) {
+                $data['order'][$param] = $product['associated_product_position'];
+                unset($product['associated_product_position']);
+            } else {
+                $data['order'][$param] = 'noValue';
+            }
+            $data['items'][] = $product;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Add products to group product.
+     *
+     * @param array $data
+     */
+    public function addProductsToGroup(array $data)
+    {
+        $formedData = $this->formGroupedData($data);
+        $this->clickButton('add_products_to_group', false);
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
+        foreach ($formedData['items'] as $product) {
+            $this->searchAndChoose($product, 'select_associated_product_option');
+        }
+        $this->clickButton('add_selected_products', false);
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'grouped_associated_products');
+        if(!empty($formedData['qty'])) {
+            foreach ($formedData['qty'] as $productName => $qty) {
+                $this->addParameter('productSku', $productName);
+                $this->fillField('associated_product_default_qty', $qty);
+            }
+        }
+        $this->orderBlocks($formedData['order'], 'productSku', 'move_grouped_product', 'grouped_assigned_products');
+    }
+
+    /**
+     * Verify that product is assigned to grouped product
+     *
+     * @param array $data
+     */
+    public function isAssignedProductToGroup(array $data)
+    {
+        $formedData = $this->formGroupedData($data);
+        foreach ($formedData['items'] as $product) {
+            $this->addParameter('productSku', $product['associated_search_sku']);
+            if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_grouped_product')) {
+                if (isset($formedData['qty'][$product['associated_search_sku']])
+                    && $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'associated_product_default_qty', 'value')
+                       != $formedData['qty'][$product['associated_search_sku']]
+                ) {
+                    $this->addVerificationMessage("Invalid product qty with sku: \n"
+                        . print_r($product['associated_search_sku'], true));
+                }
+            } else {
+                $this->addVerificationMessage('general' . " tab: Product is not assigned with data: \n"
+                    . print_r($product['associated_search_sku'], true));
+            }
+        }
+        $this->verifyBlocksOrder($formedData['order'], 'grouped_assigned_products');
     }
 
     #*********************************************************************************

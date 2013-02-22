@@ -2385,7 +2385,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getTableHeadRowNames($tableLocator = '//table[@id]')
     {
-        $locator = $tableLocator . "//tr[normalize-space(@class)='headings']";
+        $locator = $tableLocator . "//tr[normalize-space(@class)='headings']|" . $tableLocator . '//thead/tr';
         if (!$this->elementIsPresent($locator)) {
             $this->fail('Incorrect table head xpath: ' . $locator);
         }
