@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: anton
- * Date: 1/20/13
- * Time: 2:24 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 require __DIR__ . '/../_files/Interface.php';
 require __DIR__ . '/../_files/Parent.php';

@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Abstract block context object. Will be used as block constructor modification point after release.
+ * Important: Should not be modified by extension developers.
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
 class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
 {
     /**

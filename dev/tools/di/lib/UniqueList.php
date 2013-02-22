@@ -1,12 +1,10 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: anton
- * Date: 2/18/13
- * Time: 11:43 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
-
 class UniqueList
 {
     protected $_itemsPerNumber = array();
