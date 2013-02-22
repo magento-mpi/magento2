@@ -8,6 +8,8 @@
  */
 -->
 <project name="SaaS QA Builds" basedir="../../../" default="multitenant_deployment">
+    <import file="../core_dev/util.xml"/>
+
     <property environment="env"/>
     <target name="multitenant_deployment" description="Basic multi-tenant environment QA setup">
         <fail unless="env.db_host" message="'db_host' must be defined"/>
