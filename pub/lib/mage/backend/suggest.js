@@ -371,7 +371,7 @@
          * @param {Object} e - event object
          */
         close: function(e) {
-            this.element.val(this._selectedItem.label);
+            this.element.val('');
             this._renderedContext = null;
             this.dropdown.hide().empty();
             this._trigger('close', e);
