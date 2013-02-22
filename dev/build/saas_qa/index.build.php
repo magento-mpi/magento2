@@ -25,7 +25,7 @@ try {
 }
 
 // Determine application configuration string for a tenant
-$appConfigString = serialize(array(
+$appConfig = array(
     'custom_local_config' => $localXml,
     'app_uris' => array(
         'media' => "pub/media.{$tenantId}",
@@ -34,9 +34,7 @@ $appConfigString = serialize(array(
         'media' => __DIR__ . "/pub/media.{$tenantId}",
         'var'   => __DIR__ . "/var.{$tenantId}",
     ),
-));
-// Locate the application entry point
-/** @var $appEntryPoint callable */
-$appEntryPoint = require __DIR__ . '/saas.php';
-// Delegate execution to the application entry point
-$appEntryPoint($appConfigString);
+);
+
+$entryPoint = new Mage_Core_Model_EntryPoint_Http(__DIR__, $appConfig);
+$entryPoint->processRequest();
