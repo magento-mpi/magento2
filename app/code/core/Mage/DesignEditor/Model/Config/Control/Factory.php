@@ -55,16 +55,18 @@ class Mage_DesignEditor_Model_Config_Control_Factory
      * Get file path by type
      *
      * @param string $type
+     * @param Mage_Core_Model_Theme $theme
      * @return string
      * @throws Magento_Exception
      */
-    protected function _getFilePathByType($type)
+    protected function _getFilePathByType($type, Mage_Core_Model_Theme $theme)
     {
         if (!isset($this->_fileNames[$type])) {
             throw new Magento_Exception("Unknown control configuration type: \"{$type}\"");
         }
         return $this->_design->getFilename($this->_fileNames[$type], array(
-            'area' => Mage_Core_Model_Design_Package::DEFAULT_AREA
+            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            'themeModel' => $theme
         ));
     }
 
@@ -72,13 +74,14 @@ class Mage_DesignEditor_Model_Config_Control_Factory
      * Create new instance
      *
      * @param string $type
+     * @param Mage_Core_Model_Theme $theme
      * @param array $files
      * @return Mage_DesignEditor_Model_Config_Control_Abstract
      * @throws Magento_Exception
      */
-    public function create($type, array $files = array())
+    public function create($type, Mage_Core_Model_Theme $theme = null, array $files = array())
     {
-        $files[] = $this->_getFilePathByType($type);
+        $files[] = $this->_getFilePathByType($type, $theme);
         switch ($type) {
             case self::TYPE_QUICK_STYLES:
                 $class = 'Mage_DesignEditor_Model_Config_Control_QuickStyles';
@@ -90,7 +93,6 @@ class Mage_DesignEditor_Model_Config_Control_Factory
                 throw new Magento_Exception("Unknown control configuration type: \"{$type}\"");
                 break;
         }
-
         return $this->_objectManager->get($class, array($files));
     }
 }

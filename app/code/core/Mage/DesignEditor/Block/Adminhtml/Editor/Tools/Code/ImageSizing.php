@@ -117,7 +117,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
 
         /** @var $configControl Mage_DesignEditor_Model_Config_Control_ImageSizing */
         $configControl = $this->_controlFactory->create(
-            Mage_DesignEditor_Model_Config_Control_Factory::TYPE_IMAGE_SIZING
+            Mage_DesignEditor_Model_Config_Control_Factory::TYPE_IMAGE_SIZING,
+            $this->getTheme()
         );
         /** @var $controlsConfig Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
         $controlsConfig = $this->_objectManager->create(
