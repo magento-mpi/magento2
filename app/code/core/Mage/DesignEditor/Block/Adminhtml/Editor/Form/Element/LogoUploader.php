@@ -12,17 +12,12 @@
  * Form element renderer to display logo uploader element for VDE
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader
-    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
 {
     const CONTROL_TYPE = 'logo-uploader';
 
     /**
-     * Default MIME types to accept
-     */
-    protected $_acceptTypesDefault = 'image/*';
-
-    /**
-     * Ability to upload mutiple files by default is disabed for backgrounds
+     * Ability to upload multiple files by default is disabled for logo
      */
     protected $_multipleFilesDefault = false;
 
@@ -34,11 +29,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader
         parent::_construct();
 
         //$this->addFields();
-
-        $this->setAccept($this->_acceptTypesDefault);
-        $this->setMultiple($this->_multipleFilesDefault);
-
-        $this->addClass('element-' . self::CONTROL_TYPE);
     }
 
     /**
@@ -47,9 +37,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader
     public function addFields()
     {
         $components = $this->getComponents();
-        $uploaderData = $components['header-background:background-uploader']['components']['header-background:image-uploader'];
-        $checkboxData = $components['header-background:background-uploader']['components']['header-background:tile'];
-        $colorData = $components['header-background:color-picker'];
+        //$uploaderData = $this->getCompo
+        $components['header-background|background-uploader']['components']['header-background|image-uploader'];
+        $checkboxData = $components['header-background|background-uploader']['components']['header-background|tile'];
+        $colorData = $components['header-background|color-picker'];
 
         $colorTitle = sprintf("%s {%s: %s}",
             $colorData['selector'],

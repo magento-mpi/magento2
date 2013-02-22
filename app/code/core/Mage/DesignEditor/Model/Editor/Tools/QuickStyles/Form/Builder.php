@@ -369,10 +369,10 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             'store-name' => array(
                 'type'       => 'logo',
                 'components' => array(
-                    'store-name:font' => array(
+                    'store-name|font' => array(
                         'type'  => 'font',
                         'components' => array(
-                            'store-name:font-picker' => array(
+                            'store-name|font-picker' => array(
                                 'type'     => 'font-picker',
                                 'default'  => 'Tahoma, Geneva, sans-serif',
                                 'options'  => array(
@@ -383,7 +383,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
                                 'selector' => '.logo',
                                 'attribute' => 'font-family',
                             ),
-                            'store-name:color-picker' => array(
+                            'store-name|color-picker' => array(
                                 'type'  => 'color-picker',
                                 'default'  => '#ccc',
                                 'selector' => '.logo',
@@ -391,7 +391,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
                             ),
                         )
                     ),
-                    'store-name:logo-uploader' => array(
+                    'store-name|logo-uploader' => array(
                         'type'      => 'logo-uploader',
                         'default'   => 'logo.png',
                         'selector'  => '.logo',
@@ -402,22 +402,22 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             'header-background' => array(
                 'type'       => 'background',
                 'components' => array(
-                    'header-background:color-picker' => array(
+                    'header-background|color-picker' => array(
                         'type'      => 'color-picker',
                         'default'   => 'transparent',
                         'selector'  => '.header',
                         'attribute' => 'background-color'
                     ),
-                    'header-background:background-uploader' => array(
+                    'header-background|background-uploader' => array(
                         'type'       => 'background-uploader',
                         'components' => array(
-                            'header-background:image-uploader' => array(
+                            'header-background|image-uploader' => array(
                                 'type'      => 'image-uploader',
                                 'default'   => 'bg.gif',
                                 'selector'  => '.header',
                                 'attribute' => 'background-image',
                             ),
-                            'header-background:tile' => array(
+                            'header-background|tile' => array(
                                 'type'      => 'checkbox',
                                 'default'   => 'no-repeat',
                                 'options'   => array('no-repeat', 'repeat', 'repeat-x', 'repeat-y', 'inherit'),
@@ -593,12 +593,12 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     protected function getControlsValue($id)
     {
         $values = array(
-            'store-name:font-picker'           => 'Georgia, serif',
-            'store-name:color-picker'          => 'green',
-            'store-name:logo-uploader'         => 'logo-new.png',
-            'header-background:color-picker'   => 'red',
-            'header-background:image-uploader' => 'header-new.png',
-            'header-background:tile'           => 'repeat',
+            'store-name|font-picker'           => 'Georgia, serif',
+            'store-name|color-picker'          => 'green',
+            'store-name|logo-uploader'         => 'logo-new.png',
+            'header-background|color-picker'   => 'red',
+            'header-background|image-uploader' => 'header-new.png',
+            'header-background|tile'           => 'repeat',
             'menu-background'                  => 'red',
             'menu-links'                       => 'red',
             'menu-links-hover'                 => 'red',

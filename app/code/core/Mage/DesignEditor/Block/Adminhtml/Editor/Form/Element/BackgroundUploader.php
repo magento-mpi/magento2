@@ -12,15 +12,12 @@
  * Form element renderer to display background uploader element for VDE
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
-    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
 {
-    /**
-     * Default MIME types to accept
-     */
-    protected $_acceptTypesDefault = 'image/*';
+    const CONTROL_TYPE = 'background-uploader';
 
     /**
-     * Ability to upload mutiple files by default is disabed for backgrounds
+     * Ability to upload multiple files by default is disabled for backgrounds
      */
     protected $_multipleFilesDefault = false;
 
@@ -30,9 +27,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
     public function _construct()
     {
         parent::_construct();
-
-        $this->setAccept($this->_acceptTypesDefault);
-        $this->setMultiple($this->_multipleFilesDefault);
     }
 }
 

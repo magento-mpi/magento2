@@ -37,11 +37,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
         $uploaderData = $this->getComponent('logo-uploader');
         $fontData = $this->getComponent('font');
 
-        $this->addField($this->getComponentId('font'), 'font', array(
+        $fontId = $this->getComponentId('font');
+        $this->addField($fontId, 'font', array(
             'components' => $fontData['components'],
+            'name'       => $fontId,     //templates not use this, but it used do get components
             //'title'      => $fontTitle,   //templates not use this
             //'label'       => $groupName,
-            //'name'        => 'q123456',     //templates not use this
             //'values'      => $files,
         ));
 

@@ -31,6 +31,8 @@
 abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
     extends Varien_Data_Form_Element_Fieldset
 {
+    const CONTROL_NAME_DELIMITER = '|';
+
     /**
      * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      */
@@ -131,7 +133,11 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
      */
     public function getComponentId($type)
     {
-        return sprintf('%s:%s', $this->getData('name'), $type);
+        return join('', array(
+            array_shift(explode(self::CONTROL_NAME_DELIMITER, $this->getData('name'))),
+            self::CONTROL_NAME_DELIMITER,
+            $type
+        ));
     }
 
     /**

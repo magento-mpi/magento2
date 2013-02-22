@@ -12,6 +12,6 @@
  * Color-picker form element renderer
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
-    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Uploader
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader
 {
 }

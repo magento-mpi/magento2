@@ -14,10 +14,10 @@
     <control name="store-name" title="Store Name" tab="header" column="left">
         <type>logo</type>
         <components>
-            <control name="store-name:font">
+            <control name="store-name|font">
                 <type>font</type>
                 <components>
-                    <control name="store-name:font-picker">
+                    <control name="store-name|font-picker">
                         <type>font-picker</type>
                         <!--default>Tahoma, Geneva, sans-serif</default-->
                         <selector>.logo</selector>
@@ -29,7 +29,7 @@
                         </options>
                         <var>Mage_DesignEditor::test_var_key1-1</var>
                     </control>
-                    <control name="store-name:color-picker">
+                    <control name="store-name|color-picker">
                         <type>color-picker</type>
                         <!--default>#ccc</default-->
                         <selector>.logo</selector>
@@ -38,7 +38,7 @@
                     </control>
                 </components>
             </control>
-            <control name="store-name:logo-uploader">
+            <control name="store-name|logo-uploader">
                 <type>logo-uploader</type>
                 <!--default>logo.png</default-->
                 <selector>.logo</selector>
@@ -50,24 +50,24 @@
     <control name="header-background" title="Background" tab="header" column="left">
         <type>background</type>
         <components>
-            <control name="header-background:color-picker">
+            <control name="header-background|color-picker">
                 <type>color-picker</type>
                 <!--default>transparent</default-->
                 <selector>.header</selector>
                 <attribute>background-color</attribute>
                 <var>Mage_DesignEditor::test_var_key2-1</var>
             </control>
-            <control name="header-background:background-uploader">
+            <control name="header-background|background-uploader">
                 <type>background-uploader</type>
                 <components>
-                    <control name="header-background:image-uploader">
+                    <control name="header-background|image-uploader">
                         <type>image-uploader</type>
                         <!--default>bg.gif</default-->
                         <selector>.header</selector>
                         <attribute>background-image</attribute>
                         <var>Mage_DesignEditor::test_var_key2-2</var>
                     </control>
-                    <control name="header-background:tile">
+                    <control name="header-background|tile">
                         <type>checkbox</type>
                         <!--default>no-repeat</default-->
                         <selector>.header</selector>
