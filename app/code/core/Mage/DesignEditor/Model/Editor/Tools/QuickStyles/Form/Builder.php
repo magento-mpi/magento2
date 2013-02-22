@@ -40,14 +40,14 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * Constructor
      *
      * @param Varien_Data_Form_Factory $formFactory
-     * @param Mage_DesignEditor_Model_Config_Control_Factory $configFactory
+     * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      * @param Mage_Core_Model_Translate $translator
      */
     public function __construct(
         Varien_Data_Form_Factory $formFactory,
-        Mage_DesignEditor_Model_Config_Control_Factory $configFactory,
+        Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
         Mage_Core_Model_Translate $translator
@@ -57,7 +57,9 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         $this->_elementsFactory = $elementsFactory;
         $this->_translator      = $translator;
 
-        $this->_config = $configFactory->create(Mage_DesignEditor_Model_Config_Control_Factory::TYPE_QUICK_STYLES);
+        $this->_config = $configFactory->create(
+            Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES
+        );
     }
 
     /**

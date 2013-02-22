@@ -25,14 +25,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     protected $_eavConfig;
 
     /**
-     * @var Mage_DesignEditor_Model_Config_Control_Factory
+     * @var Mage_DesignEditor_Model_Editor_Tools_Controls_Factory
      */
     protected $_controlFactory;
-
-    /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -50,8 +45,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Mage_Eav_Model_Config $eavConfig
-     * @param Mage_DesignEditor_Model_Config_Control_Factory $controlFactory
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -72,13 +66,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Mage_Eav_Model_Config $eavConfig,
-        Mage_DesignEditor_Model_Config_Control_Factory $controlFactory,
-        Magento_ObjectManager $objectManager,
+        Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_controlFactory = $controlFactory;
-        $this->_objectManager = $objectManager;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
     }
@@ -115,15 +107,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         $form->addType('image_sizing', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageSizing');
         $selectOptions = $this->_getSelectOptions();
 
-        /** @var $configControl Mage_DesignEditor_Model_Config_Control_ImageSizing */
-        $configControl = $this->_controlFactory->create(
-            Mage_DesignEditor_Model_Config_Control_Factory::TYPE_IMAGE_SIZING,
-            $this->getTheme()
-        );
         /** @var $controlsConfig Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
-        $controlsConfig = $this->_objectManager->create(
-            'Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration',
-            array($configControl, $this->getTheme())
+        $controlsConfig = $this->_controlFactory->create(
+            Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING,
+            $this->getTheme()
         );
 
         $controls = $controlsConfig->getAllControlsData();

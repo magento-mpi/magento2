@@ -11,7 +11,7 @@
 /**
  * Controls configuration factory
  */
-class Mage_DesignEditor_Model_Config_Control_Factory
+class Mage_DesignEditor_Model_Editor_Tools_Controls_Factory
 {
     /**#@+
      * Group of types
@@ -76,7 +76,7 @@ class Mage_DesignEditor_Model_Config_Control_Factory
      * @param string $type
      * @param Mage_Core_Model_Theme $theme
      * @param array $files
-     * @return Mage_DesignEditor_Model_Config_Control_Abstract
+     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      * @throws Magento_Exception
      */
     public function create($type, Mage_Core_Model_Theme $theme = null, array $files = array())
@@ -93,6 +93,10 @@ class Mage_DesignEditor_Model_Config_Control_Factory
                 throw new Magento_Exception("Unknown control configuration type: \"{$type}\"");
                 break;
         }
-        return $this->_objectManager->get($class, array($files));
+
+        $config = $this->_objectManager->get($class, array($files));
+        return Mage::getObjectManager()->create(
+            'Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration', array($config, $theme)
+        );
     }
 }
