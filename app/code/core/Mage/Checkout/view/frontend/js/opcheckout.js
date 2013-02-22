@@ -38,8 +38,8 @@
                     _this.element.trigger('enableSection', {selector: _this.options.sectionSelectorPrefix + section});
                 })
                 .on('ajaxError', $.proxy(this._ajaxError, this))
-                .on('ajaxSend', $.proxy(this._ajaxSend, this))
-                .on('ajaxComplete', $.proxy(this._ajaxComplete, this))
+                //.on('ajaxSend', $.proxy(this._ajaxSend, this))
+                //.on('ajaxComplete', $.proxy(this._ajaxComplete, this))
                 .on('click', this.options.backSelector, function() {
                     _this.element.trigger('enableSection', {selector: '#' + _this.element.find('.active').prev().attr('id')});
                 });
@@ -112,6 +112,8 @@
                 context: this,
                 data: data,
                 dataType: 'json',
+                beforeSend: this._ajaxSend,
+                complete: this._ajaxComplete,
                 success: function(response) {
                     if (successCallback) {
                         successCallback(response);
@@ -141,6 +143,9 @@
                         }
                         if (response.redirect) {
                             $.mage.redirect(response.redirect);
+                        }
+                        if (response.success) {
+                            $.mage.redirect(this.options.review.successUrl);
                         }
                         if (response.goto_section) {
                             this.element.trigger('gotoSection', response.goto_section);
@@ -286,6 +291,72 @@
             }
             alert($.mage.__('Please specify shipping method.'));
             return false;
+        }
+    });
+
+    // Extension for mage.opcheckout - fifth section(Payment Information) in one page checkout accordion
+    $.widget('mage.opcheckout', $.mage.opcheckout, {
+        options: {
+            payment: {
+                continueSelector: '#payment-buttons-container .button',
+                form: '#co-payment-form'
+            }
+        },
+
+        _create: function() {
+            this._super();
+            this.element
+                .on('click', this.options.payment.continueSelector, $.proxy(function() {
+                    if (this._validatePaymentMethod() &&
+                        $(this.options.payment.form).validation &&
+                        $(this.options.payment.form).validation('isValid')) {
+                        this._ajaxContinue(this.options.payment.saveUrl, $(this.options.payment.form).serialize());
+                    }
+                }, this))
+                .find(this.options.payment.form).validation();
+            this.element.on('click', this.options.payment.form + ' dt input:radio', $.proxy(this._paymentMethodHandler, this));
+        },
+
+        _paymentMethodHandler: function(e) {
+            var _this = $(e.target),
+                parentsDl = _this.closest('dl');
+            parentsDl.find('dt input:radio').prop('checked', false);
+            _this.prop('checked', true);
+            parentsDl.find('dd ul').hide();
+            _this.parent().nextUntil('dt').find('ul').show();
+        },
+
+        _validatePaymentMethod: function() {
+            var methods = this.element.find('[name="payment[method]"]');
+            if (methods.length === 0) {
+                alert($.mage.__('Your order cannot be completed at this time as there is no payment methods available for it.'));
+                return false;
+            }
+            if (methods.filter(':checked').length) {
+                return true;
+            }
+            alert($.mage.__('Please specify payment method.'));
+            return false;
+        }
+    });
+
+    // Extension for mage.opcheckout - last section(Order Review) in one page checkout accordion
+    $.widget('mage.opcheckout', $.mage.opcheckout, {
+        options: {
+            review: {
+                continueSelector: '#review-buttons-container .button'
+            }
+        },
+
+        _create: function() {
+            this._super();
+            this.element
+                .on('click', this.options.review.continueSelector, $.proxy(function() {
+                    if ($(this.options.payment.form).validation &&
+                        $(this.options.payment.form).validation('isValid')) {
+                        this._ajaxContinue(this.options.review.saveUrl, $(this.options.payment.form).serialize());
+                    }
+                }, this));
         }
     });
 })(jQuery, window);
