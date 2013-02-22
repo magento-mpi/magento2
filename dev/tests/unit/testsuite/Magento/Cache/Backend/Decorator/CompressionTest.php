@@ -16,6 +16,9 @@ class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_
      */
     protected $_decorator;
 
+    /**
+     * @var string
+     */
     protected $_testString = 'Any string';
 
     /**
@@ -34,7 +37,7 @@ class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_
 
     protected function tearDown()
     {
-        unset ($this->_decorator);
+        unset($this->_decorator);
         self::$_cacheStorage = array();
     }
 
@@ -123,6 +126,6 @@ class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_
 
     public static function mockLoad($cacheId)
     {
-        return array_key_exists($cacheId, self::$_cacheStorage) ? self::$_cacheStorage[$cacheId] : null;
+        return array_key_exists($cacheId, self::$_cacheStorage) ? self::$_cacheStorage[$cacheId] : false;
     }
 }

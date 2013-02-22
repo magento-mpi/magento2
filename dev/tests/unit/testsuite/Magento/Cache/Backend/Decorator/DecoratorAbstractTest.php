@@ -42,15 +42,16 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
             new ReflectionProperty('Magento_Cache_Backend_Decorator_DecoratorAbstract', '_decoratorOptions');
         $optionsProperty->setAccessible(true);
 
-        $this->assertEquals($backendProperty->getValue($decorator), $this->_mockBackend);
+        $this->assertSame($backendProperty->getValue($decorator), $this->_mockBackend);
 
         $this->assertArrayNotHasKey('concrete_backend', $optionsProperty->getValue($decorator));
         $this->assertArrayNotHasKey('testOption', $optionsProperty->getValue($decorator));
     }
 
     /**
+     * @param array options
      * @expectedException Zend_Cache_Exception
-     * @dataProvider constructorExceptionProvider
+     * @dataProvider constructorExceptionDataProvider
      */
     public function testConstructorException($options)
     {
@@ -60,7 +61,7 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
         );
     }
 
-    public function constructorExceptionProvider()
+    public function constructorExceptionDataProvider()
     {
         return array(
             'empty' => array(array()),
@@ -69,7 +70,7 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
     }
 
     /**
-     * @dataProvider allMethodsProvider
+     * @dataProvider allMethodsDataProvider
      */
     public function testAllMethods($methodName)
     {
@@ -83,7 +84,7 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
         call_user_func(array($decorator, $methodName), null, null);
     }
 
-    public function allMethodsProvider()
+    public function allMethodsDataProvider()
     {
         $return = array();
         $allMethods = array('setDirectives', 'load', 'test', 'save', 'remove', 'clean', 'getIds', 'getTags',

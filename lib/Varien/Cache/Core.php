@@ -14,8 +14,8 @@ class Varien_Cache_Core extends Zend_Cache_Core
      * Available options
      *
      * ====> (array) backend_decorators :
-     * - array of decorators to decorate cache backend. Should contain::
-     * -- 'class' concrete decorator child of Magento_Cache_Backend_Decorator_Abstract
+     * - array of decorators to decorate cache backend. Each element of this array should contain:
+     * -- 'class' - concrete decorator, descendant of Magento_Cache_Backend_Decorator_Abstract
      * -- 'options' - optional array of specific decorator options
      * @var array
      */
@@ -153,15 +153,20 @@ class Varien_Cache_Core extends Zend_Cache_Core
 
         foreach ($this->_specificOptions['backend_decorators'] as $decoratorName => $decoratorOptions) {
             if (!is_array($decoratorOptions) || !array_key_exists('class', $decoratorOptions)) {
-                Zend_Cache::throwException("Concrete decorator options in " . $decoratorName
-                    . " should be an array containing 'class' key" );
+                Zend_Cache::throwException("Concrete decorator options in '" . $decoratorName
+                    . "' should be an array containing 'class' key" );
             }
             $classOptions = array_key_exists('options', $decoratorOptions) ? $decoratorOptions['options'] : array();
             $classOptions['concrete_backend'] = $backendObject;
+
+            if (!class_exists($decoratorOptions['class'])) {
+                Zend_Cache::throwException("Class specified in '" . $decoratorName . "' does not exist");
+            }
+
             $backendObject = new $decoratorOptions['class']($classOptions);
             if (!($backendObject instanceof Magento_Cache_Backend_Decorator_DecoratorAbstract)) {
-                Zend_Cache::throwException("Decorator in " . $decoratorName
-                    . " should extend Magento_Cache_Backend_Decorator_DecoratorAbstract");
+                Zend_Cache::throwException("Decorator in '" . $decoratorName
+                    . "' should extend Magento_Cache_Backend_Decorator_DecoratorAbstract");
             }
         }
 

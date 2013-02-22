@@ -65,6 +65,7 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
             'decorator setting is not an array' => array(array('decorator' => 'string')),
             'decorator setting is empty array' => array(array('decorator' => array())),
             'no class index in array' => array(array('decorator' => array('somedata'))),
+            'non-existing class passed' => array(array('decorator' => array('class' => 'NonExistingClass'))),
         );
     }
 }

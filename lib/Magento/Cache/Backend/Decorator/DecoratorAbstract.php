@@ -7,7 +7,7 @@
  */
 
 /**
- * Abstract decorator class for Zend_Cache_Backend class and its children
+ * Abstract decorator class for Zend_Cache_Backend class and its descendants
  */
 abstract class Magento_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Cache_Backend
     implements Zend_Cache_Backend_ExtendedInterface
@@ -35,7 +35,9 @@ abstract class Magento_Cache_Backend_Decorator_DecoratorAbstract extends Zend_Ca
             $this->_backend = $options['concrete_backend'];
             unset($options['concrete_backend']);
         } else {
-            Zend_Cache::throwException("Decorated Cache Backend is not defined");
+            Zend_Cache::throwException(
+                "'concrete_backend' is not specified or it does not implement 'Zend_Cache_Backend_Interface' interface"
+            );
         }
         foreach ($options as $optionName => $optionValue) {
             if (array_key_exists($optionName, $this->_decoratorOptions)) {

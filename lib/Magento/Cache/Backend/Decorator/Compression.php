@@ -35,10 +35,9 @@ class Magento_Cache_Backend_Decorator_Compression extends Magento_Cache_Backend_
      */
     public function load($cacheId, $noTestCacheValidity = false)
     {
-        //decompression
         $data = $this->_backend->load($cacheId, $noTestCacheValidity);
 
-        if ($this->_isDecompressionNeeded($data)) {
+        if ($data && $this->_isDecompressionNeeded($data)) {
             $data = self::_decompressData($data);
         }
 
@@ -70,7 +69,7 @@ class Magento_Cache_Backend_Decorator_Compression extends Magento_Cache_Backend_
     }
 
     /**
-     * Compress data and add specific prefix
+     * Compress data and add specific prefix to distinguish compressed and non-compressed data
      *
      * @param string $data
      * @return string
