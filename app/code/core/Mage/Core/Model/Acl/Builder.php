@@ -18,9 +18,9 @@ class Mage_Core_Model_Acl_Builder
     /**
      * Acl object
      *
-     * @var Magento_Acl
+     * @var Magento_Acl[]
      */
-    protected $_acl;
+    protected $_aclPool;
 
     /**
      * Acl loader list
@@ -30,33 +30,35 @@ class Mage_Core_Model_Acl_Builder
     protected $_loaderPool;
 
     /**
-     * @param array $data
-     * @throws InvalidArgumentException
+     * @param Magento_AclFactory $aclFactory
+     * @param Mage_Core_Model_Acl_LoaderPool $loaderPool
      */
-    public function __construct(Magento_Acl $acl, Mage_Core_Model_Acl_LoaderPool $loaderPool)
+    public function __construct(Magento_AclFactory $aclFactory, Mage_Core_Model_Acl_LoaderPool $loaderPool)
     {
-        $this->_acl = $acl;
+        $this->_aclFactory = $aclFactory;
         $this->_loaderPool = $loaderPool;
     }
 
     /**
      * Build Access Control List
      *
+     * @param string areaCode
      * @return Magento_Acl
      * @throws LogicException
      */
-    public function getAcl()
+    public function getAcl($areaCode)
     {
-        if (!count($this->_acl->getResources())) {
+        if (!isset($this->_aclPool[$areaCode])) {
             try {
+                $this->_aclPool[$areaCode] = $this->_aclFactory->create();
                 /** @var $loader Magento_Acl_Loader */
-                foreach ($this->_loaderPool as $loader) {
-                    $loader->populateAcl($this->_acl);
+                foreach ($this->_loaderPool->getLoadersByArea($areaCode) as $loader) {
+                    $loader->populateAcl($this->_aclPool[$areaCode]);
                 }
             } catch (Exception $e) {
                 throw new LogicException('Could not create acl object: ' . $e->getMessage());
             }
         }
-        return $this->_acl;
+        return $this->_aclPool[$areaCode];
     }
 }

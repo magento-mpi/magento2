@@ -82,7 +82,7 @@ class Mage_Backend_Model_Auth_Session
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl($this->_aclBuilder->getAcl());
+            $this->setAcl($this->_aclBuilder->getAcl(Mage_Core_Model_App_Area::AREA_ADMINHTML));
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('password');
@@ -184,7 +184,7 @@ class Mage_Backend_Model_Auth_Session
             }
 
             $this->setIsFirstPageAfterLogin(true);
-            $this->setAcl($this->_aclBuilder->getAcl());
+            $this->setAcl($this->_aclBuilder->getAcl(Mage_Core_Model_App_Area::AREA_ADMINHTML));
             $this->setUpdatedAt(time());
         }
         return $this;

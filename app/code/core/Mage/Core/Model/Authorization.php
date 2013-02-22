@@ -53,7 +53,7 @@ class Mage_Core_Model_Authorization
         $aclBuilder = Mage::getSingleton('Mage_Core_Model_Acl_Builder');
 
         /** @var $policyObject Magento_Authorization_Policy **/
-        $policyObject = new $policyClassName($aclBuilder->getAcl());
+        $policyObject = new $policyClassName($aclBuilder->getAcl(Mage::getConfig()->getCurrentAreaCode()));
         if (false == ($policyObject instanceof Magento_Authorization_Policy)) {
             throw new InvalidArgumentException($policyClassName . ' is not instance of Magento_Authorization_Policy');
         }

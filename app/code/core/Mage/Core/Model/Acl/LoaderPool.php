@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Core_Model_Acl_LoaderPool implements IteratorAggregate
+class Mage_Core_Model_Acl_LoaderPool
 {
     /**
      * Application config
@@ -32,13 +32,14 @@ class Mage_Core_Model_Acl_LoaderPool implements IteratorAggregate
     /**
      * Retrieve ACL loader class from config or NullLoader if not defined
      *
+     * @param string $areaCode
      * @param string $loaderType
      * @return string
      * @throws LogicException
      */
-    protected function _getLoaderClass($loaderType)
+    protected function _getLoaderClass($areaCode, $loaderType)
     {
-        $areaConfig = $this->_config->getAreaConfig(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        $areaConfig = $this->_config->getAreaConfig($areaCode);
         if (!isset($areaConfig['acl'])) {
             throw new LogicException('No acl configuration is specified');
         }
@@ -49,14 +50,17 @@ class Mage_Core_Model_Acl_LoaderPool implements IteratorAggregate
     }
 
     /**
+     * Retrieve acl loaders by area
+     *
+     * @param string $areaCode
      * @return ArrayIterator|Traversable
      */
-    public function getIterator()
+    public function getLoadersByArea($areaCode)
     {
         return new ArrayIterator(array(
-            $this->_objectManager->get($this->_getLoaderClass('resource')),
-            $this->_objectManager->get($this->_getLoaderClass('role')),
-            $this->_objectManager->get($this->_getLoaderClass('rule')),
+            $this->_objectManager->get($this->_getLoaderClass($areaCode, 'resource')),
+            $this->_objectManager->get($this->_getLoaderClass($areaCode, 'role')),
+            $this->_objectManager->get($this->_getLoaderClass($areaCode, 'rule')),
         ));
     }
 }
