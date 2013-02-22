@@ -241,7 +241,9 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
                 $value = $this->getDefaultValue($id);
                 //$value = $data['default'];
             } else {
-                $isInvalidValue = is_array($data['options']) && array_search($value, $data['options']) === false;
+                $isInvalidValue = isset($data['options'])
+                    && is_array($data['options'])
+                    && array_search($value, $data['options']) === false;
                 if ($isInvalidValue) {
                     if ($fixValuesIfNotBetweenOptions) {
                         //temporary workaround
