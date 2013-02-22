@@ -32,7 +32,7 @@
         },
 
         _openPopupWindow: function(event) {
-            var $element = $(event.target),
+            var element = $(event.target),
                 settings = this.options,
                 windowFeatures =
                     'height=' + settings.height +
@@ -42,31 +42,32 @@
                         ',status=' + settings.status +
                         ',resizable=' + settings.resizable +
                         ',location=' + settings.location +
-                        ',menuBar=' + settings.menubar;
+                        ',menuBar=' + settings.menubar,
+                centeredX,
+                centeredY;
 
-            settings.windowName = settings.windowName || $element.attr('name');
-            settings.windowURL = settings.windowURL || $element.attr('href');
-
-            var centeredY, centeredX;
+            settings.windowName = settings.windowName || element.attr('name');
+            settings.windowURL = settings.windowURL || element.attr('href');
 
             if (settings.centerBrowser) {
                 if ($.browser.msie) { // Hacked together for IE browsers
-                    centeredY = (window.screenTop - 120) + ((((document.documentElement.clientHeight + 120)/2) - (settings.height/2)));
-                    centeredX = window.screenLeft + ((((document.body.offsetWidth + 20)/2) - (settings.width/2)));
+                    centeredY = (window.screenTop - 120) + ((((document.documentElement.clientHeight + 120) / 2) - (settings.height / 2)));
+                    centeredX = window.screenLeft + ((((document.body.offsetWidth + 20) / 2) - (settings.width / 2)));
                 } else {
-                    centeredY = window.screenY + (((window.outerHeight/2) - (settings.height/2)));
-                    centeredX = window.screenX + (((window.outerWidth/2) - (settings.width/2)));
+                    centeredY = window.screenY + (((window.outerHeight / 2) - (settings.height / 2)));
+                    centeredX = window.screenX + (((window.outerWidth / 2) - (settings.width / 2)));
                 }
-                window.open(settings.windowURL, settings.windowName, windowFeatures+',left=' + centeredX +',top=' + centeredY).focus();
+                windowFeatures += ',left=' + centeredX +',top=' + centeredY;
             } else if (settings.centerScreen) {
-                centeredY = (screen.height - settings.height)/2;
-                centeredX = (screen.width - settings.width)/2;
-                window.open(settings.windowURL, settings.windowName, windowFeatures+',left=' + centeredX +',top=' + centeredY).focus();
+                centeredY = (screen.height - settings.height) / 2;
+                centeredX = (screen.width - settings.width) / 2;
+                windowFeatures += ',left=' + centeredX +',top=' + centeredY;
             } else {
-                window.open(settings.windowURL, settings.windowName, windowFeatures+',left=' + settings.left +',top=' + settings.top).focus();
+                windowFeatures += ',left=' + settings.left +',top=' + settings.top;
             }
 
-            return false;
+            window.open(settings.windowURL, settings.windowName, windowFeatures).focus();
+            event.preventDefault();
         }
     });
 })(jQuery, window);
