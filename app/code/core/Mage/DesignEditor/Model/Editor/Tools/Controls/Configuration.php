@@ -34,9 +34,11 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_theme;
 
     /**
+     * Controls data
+     *
      * @var array
      */
-    protected $_controls = array();
+    protected $_data;
 
     /**
      * Initialize dependencies
@@ -54,26 +56,46 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Load control data
      *
-     * @param string $controlName
      * @return array
      */
-    public function getControlData($controlName)
+    public function getAllControlsData()
     {
-        $control = $this->_configuration->getControlData($controlName);
+        if ($this->_data !== null) {
+            return $this->_data;
+        }
 
         $configView = $this->_design->getViewConfig(array(
             'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
             'themeModel' => $this->_theme
         ));
-        $this->_loadControlData($control, 'value', $configView);
-
-        $configView = $this->_design->getViewConfig(array(
+        $configViewParent = $this->_design->getViewConfig(array(
             'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
             'themeModel' => $this->_theme->getParentTheme()
         ));
-        $this->_loadControlData($control, 'default', $configView);
 
-        return $control;
+        $this->_data = $this->_configuration->getAllControlsData();
+        foreach ($this->_data as &$control) {
+            $this->_loadControlData($control, 'value', $configView);
+            $this->_loadControlData($control, 'default', $configViewParent);
+        }
+
+        return $this->_data;
+    }
+
+    /**
+     * Get control data
+     *
+     * @param string $controlName
+     * @return array
+     * @throws Mage_Core_Exception
+     */
+    public function getControlData($controlName)
+    {
+        $data = $this->getAllControlsData();
+        if (!isset($data[$controlName])) {
+            throw new Mage_Core_Exception("Unknown control: \"{$controlName}\"");
+        }
+        return $data[$controlName];
     }
 
     /**

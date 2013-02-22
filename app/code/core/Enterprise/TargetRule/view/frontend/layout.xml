@@ -20,7 +20,9 @@
             <!-- remove name="product.info.upsell" / -->
             <block type="Enterprise_TargetRule_Block_Catalog_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
                 <action method="setColumnCount"><columns>4</columns></action>
-                <block type="Enterprise_TargetRule_Block_Catalog_Product_Item" name="catalog.product.upsell.item" template="catalog/product/list/upsell/item.phtml" />
+                <block type="Enterprise_TargetRule_Block_Catalog_Product_Item" name="catalog.product.upsell.item" template="catalog/product/list/upsell/item.phtml">
+                    <block type="Mage_Catalog_Block_Product_Image" name="catalog.product.upsell.image"/>
+                </block>
             </block>
         </reference>
     </catalog_product_view>

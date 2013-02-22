@@ -475,6 +475,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $jsTabBlock->setTheme($theme);
         }
 
+        /** @var $codeImageSizing Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing */
+        $codeImageSizing = $this->getLayout()->getBlock('design_editor_tools_code_image-sizing');
+        if ($codeImageSizing) {
+            $codeImageSizing->setTheme($theme);
+        }
+
         return $this;
     }
 

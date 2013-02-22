@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_DesignEditor
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+ -->
+<controls>
+    <!-- Up Sell Product List -->
+    <control name="upsell_products_list" title="Up Sell Product List">
+        <type>image-sizing</type>
+        <components>
+            <control name="image-type">
+                <type>image-type</type>
+                <var>Mage_Catalog::upsell_products_list_type</var>
+            </control>
+            <control name="image-width">
+                <type>image-width</type>
+                <var>Mage_Catalog::upsell_products_list_width</var>
+            </control>
+            <control name="image-height">
+                <type>image-height</type>
+                <var>Mage_Catalog::upsell_products_list_height</var>
+            </control>
+        </components>
+    </control>
+
+    <!-- Category page - view grid -->
+    <control name="category_page_grid" title="Category page - view grid">
+        <type>image-sizing</type>
+        <components>
+            <control name="image-type">
+                <type>image-type</type>
+                <var>Mage_Catalog::category_page_grid_type</var>
+            </control>
+            <control name="image-width">
+                <type>image-width</type>
+                <var>Mage_Catalog::category_page_grid_width</var>
+            </control>
+            <control name="image-height">
+                <type>image-height</type>
+                <var>Mage_Catalog::category_page_grid_height</var>
+            </control>
+        </components>
+    </control>
+</controls>
