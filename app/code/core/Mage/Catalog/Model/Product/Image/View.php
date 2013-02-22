@@ -29,9 +29,14 @@ class Mage_Catalog_Model_Product_Image_View extends Varien_Object
     const SUFFIX_HEIGHT = 'height';
 
     /**
-     * Name controls var for flag whether white image borders enable
+     * Name control var for flag whether white image borders enable
      */
     const WHITE_BORDERS = 'product_image_white_borders';
+
+    /**
+     * Module for control var for flag whether white image borders enable
+     */
+    const WHITE_BORDERS_MODULE = 'Mage_Catalog';
 
     /**
      * @var Mage_Core_Model_Design_Package
@@ -128,7 +133,7 @@ class Mage_Catalog_Model_Product_Image_View extends Varien_Object
      */
     public function isWhiteBorders()
     {
-        return (bool)$this->_getConfigView()->getVarValue('Mage_Catalog', self::WHITE_BORDERS);
+        return (bool)$this->_getConfigView()->getVarValue(self::WHITE_BORDERS_MODULE, self::WHITE_BORDERS);
     }
 
     /**

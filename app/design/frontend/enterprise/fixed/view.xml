@@ -18,6 +18,8 @@
         <var name="product_list_image_size">166</var>           <!-- New Product image size used in product list -->
         <var name="product_zoom_image_size">370</var>           <!-- New Product image size used for zooming -->
 
+        <var name="product_image_white_borders">0</var>
+
         <var name="category_page_grid_type">small_image</var>
         <var name="category_page_grid_width">135</var>
         <var name="category_page_grid_height">250</var>
