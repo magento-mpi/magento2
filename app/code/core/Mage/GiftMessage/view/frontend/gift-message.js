@@ -32,25 +32,25 @@
          * @param event - {Event} - Click event.
          */
         _toggleGiftMessage: function(event) {
-            var $element = $(event.target), // Click target. The 'Gift Message' link or 'Close' button.
+            var element = $(event.target), // Click target. The 'Gift Message' link or 'Close' button.
                 options = this.options, // Cached widget options.
-                itemId = $element.data('item-id'), // The individual item's numeric id.
-                $link = $(options.linkPrefix + itemId), // The 'Gift Message' expandable link.
-                $row = $(options.rowPrefix + itemId), // The item's row in the products table.
-                $region = $('#' + $element.attr('aria-controls')); // The gift message container region.
-            $region.toggle(options.duration, function() {
-                if ($region.attr('aria-expanded') === "true") {
-                    $region.attr('aria-expanded', "false");
-                    if ($region.hasClass(options.lastClass)) {
-                        $row.addClass(options.lastClass);
+                itemId = element.data('item-id'), // The individual item's numeric id.
+                link = $(options.linkPrefix + itemId), // The 'Gift Message' expandable link.
+                row = $(options.rowPrefix + itemId), // The item's row in the products table.
+                region = $('#' + element.attr('aria-controls')); // The gift message container region.
+            region.toggle(options.duration, function() {
+                if (region.attr('aria-expanded') === "true") {
+                    region.attr('aria-expanded', "false");
+                    if (region.hasClass(options.lastClass)) {
+                        row.addClass(options.lastClass);
                     }
                 } else {
-                    $region.attr('aria-expanded', "true");
-                    if ($region.hasClass(options.lastClass)) {
-                        $row.removeClass(options.lastClass);
+                    region.attr('aria-expanded', "true");
+                    if (region.hasClass(options.lastClass)) {
+                        row.removeClass(options.lastClass);
                     }
                 }
-                $link.toggleClass(options.expandedClass);
+                link.toggleClass(options.expandedClass);
             });
             event.preventDefault(); // Prevent event propagation and avoid going to the link's href.
         }
