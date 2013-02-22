@@ -149,7 +149,7 @@
                     </update>
                     <multiUpdate translate="title" module="Mage_Catalog">
                         <title>Multi update product</title>
-                        <acl>catalog/product/multi_update</acl>
+                        <acl>catalog/product/update</acl>
                     </multiUpdate>
                     <delete translate="title" module="Mage_Catalog">
                         <title>Delete product</title>
@@ -203,7 +203,7 @@
                     </multi_update_not_match>
                     <partially_updated>
                         <code>108</code>
-                        <message>Some or all products failed to update, see error message for details.</message>
+                        <message>There was an error during one or more products update. See error log for details.</message>
                     </partially_updated>
                 </faults>
             </catalog_product>
@@ -771,9 +771,6 @@
                         <update translate="title" module="Mage_Catalog">
                             <title>Update</title>
                         </update>
-                        <multi_update translate="title" module="Mage_Catalog">
-                            <title>Multi Update</title>
-                        </multi_update>
                         <delete translate="title" module="Mage_Catalog">
                             <title>Delete</title>
                         </delete>

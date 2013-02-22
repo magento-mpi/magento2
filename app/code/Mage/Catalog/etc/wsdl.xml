@@ -693,10 +693,10 @@
     </message>
     <message name="catalogProductMultiUpdateRequest">
         <part name="sessionId" type="xsd:string"/>
-        <part name="products" type="typens:ArrayOfString"/>
+        <part name="productIds" type="typens:ArrayOfString"/>
         <part name="productData" type="typens:catalogProductCreateEntityArray"/>
-        <part name="storeView" type="xsd:string"/>
-        <part name="productIdentifierType" type="xsd:string"/>
+        <part name="store" type="xsd:string"/>
+        <part name="identifierType" type="xsd:string"/>
     </message>
     <message name="catalogProductMultiUpdateResponse">
         <part name="result" type="xsd:boolean"/>
@@ -1328,7 +1328,7 @@
             <output message="typens:catalogProductUpdateResponse"/>
         </operation>
         <operation name="catalogProductMultiUpdate">
-            <documentation>Multi update product</documentation>
+            <documentation>Product multi update</documentation>
             <input message="typens:catalogProductMultiUpdateRequest"/>
             <output message="typens:catalogProductMultiUpdateResponse"/>
         </operation>
