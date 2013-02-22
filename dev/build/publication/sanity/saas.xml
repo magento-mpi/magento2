@@ -44,6 +44,9 @@
             <path>dev/build</path>
         </item>
         <item>
+            <path>dev/tools/license_placeholder</path>
+        </item>
+        <item>
             <path>lib/Zend</path>
         </item>
         <item>
