@@ -54,9 +54,6 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
                 'request' => new Magento_Test_Request(),
                 'response' => new Magento_Test_Response(),
                 'areaCode' => 'frontend',
-                'objectManager' => Mage::getObjectManager(),
-                'frontController' => Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Front'),
-                'layoutFactory' => Mage::getObjectManager()->get('Mage_Core_Model_Layout_Factory')
             )
         );
         Mage::app()->getFrontController()->setAction($action); // done in action's constructor

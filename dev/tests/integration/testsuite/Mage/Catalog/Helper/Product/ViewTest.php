@@ -37,9 +37,6 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
                 'request' => $request,
                 'response' => new Magento_Test_Response(),
                 'areaCode' => 'frontend',
-                'objectManager' => Mage::getObjectManager(),
-                'frontController' => Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Front'),
-                'layoutFactory' => Mage::getObjectManager()->get('Mage_Core_Model_Layout_Factory')
             )
         );
     }
