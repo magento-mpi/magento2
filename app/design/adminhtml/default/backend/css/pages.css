@@ -116,7 +116,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     float: left;
-    margin: 0 2.127659574% 10px 0;
+    margin: 5px 1%;
     overflow: hidden;
     background: #fff;
     -webkit-box-sizing: border-box;
@@ -242,10 +242,15 @@
     cursor: move;
     left: 0;
     right: 0;
-    margin: auto;
     bottom: 5px;
+    top: auto;
+    margin: auto;
     background: url(Mage_Backend::images/draggable-handle-bg.gif) no-repeat;
     z-index: 2;
+}
+
+.image .draggable-handle:before {
+    content: '';
 }
 
 .gallery .image .action-delete {
@@ -495,7 +500,7 @@
 }
 
 .field-weight .addafter {
-    padding-top: 1px;
+    padding-bottom: 1px;
     color: #b2b2b2;
 }
 
@@ -613,6 +618,10 @@
 
 #product-variations-matrix .col-actions {
     width: 60px;
+}
+
+#allow_open_amount {
+    margin-top: 8px;
 }
 
 /*
