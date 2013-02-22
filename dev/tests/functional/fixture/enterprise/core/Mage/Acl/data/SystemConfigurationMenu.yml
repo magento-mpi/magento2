@@ -189,7 +189,7 @@ configuration_menu_default:
         payment_bridge:
         saved_cc:
         ogone_direct_payment_bridge:
-        cash_on_delivery_payment:
+        cashondelivery:
         banktransfer_payment:
         check_money_order:
         zero_subtotal_checkout:
@@ -229,11 +229,6 @@ configuration_menu_default:
         przelewy24_powered_by_moneybookers_poland:
         moneybookers_ewallet:
         online_bank_transfer_powered_by_moneybookers:
-    services_magento_core_api:
-        general_settings:
-    services_oauth:
-        email:
-        cleanup_settings:
     advanced_admin:
         admin_user_emails:
         startup_page:
@@ -424,7 +419,7 @@ configuration_menu_website:
         payment_bridge:
         saved_cc:
         ogone_direct_payment_bridge:
-        cash_on_delivery_payment:
+        cashondelivery:
         banktransfer_payment:
         check_money_order:
         zero_subtotal_checkout:
@@ -462,10 +457,6 @@ configuration_menu_website:
         przelewy24_powered_by_moneybookers_poland:
         moneybookers_ewallet:
         online_bank_transfer_powered_by_moneybookers:
-    services_magento_core_api:
-        general_settings:
-    services_oauth:
-        email:
     advanced_system:
         mail_sending_settings:
         admin_actions_log_archiving:

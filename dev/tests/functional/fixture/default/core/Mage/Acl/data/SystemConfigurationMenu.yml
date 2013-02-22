@@ -303,7 +303,6 @@ configuration_menu_website:
         login_options:
         address_templates:
         customer_captcha:
-        account_sharing_options:
         online_customer_options:
     customers_wishlist:
         general_options_wishlist:

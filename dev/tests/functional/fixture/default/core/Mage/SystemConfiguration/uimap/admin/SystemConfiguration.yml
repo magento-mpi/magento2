@@ -28,7 +28,7 @@ system_configuration:
             tabs:
                 -
                     all_tabs:
-                        xpath: //*[@id='system_config_tabs']/li/dl/dd
+                        xpath: //*[@id='system_config_tabs']//li[@class='item']
                 -
                     general_general:
                         xpath: //a[contains(@href, 'edit/section/general/')]

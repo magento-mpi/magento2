@@ -404,7 +404,7 @@ cash_on_delivery_disable:
     tab_1:
         tab_name: sales_payment_methods
         configuration:
-            cash_on_delivery_payment:
+            cashondelivery:
                 cod_enabled: No
 
 #<-------------Purchase Order------------------------>

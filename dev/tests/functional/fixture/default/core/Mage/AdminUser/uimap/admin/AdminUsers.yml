@@ -50,7 +50,7 @@ manage_admin_users:
             success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been deleted.')]
             success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
             success_deleted_role: //div[@id='messages']//li[span='The role has been deleted.']
-            success_saved_role: //div[@id='messages']//li[span='The role has been successfully saved.']
+            success_saved_role: //span[(@data-ui-id)='messages-message-success' and contains(.,'The role has been successfully saved.')]
             delete_self_assigned_role: //li[normalize-space(@class)='error-msg' and contains(.,'Self-assigned roles cannot be deleted.')]
 
 # 'New User' page
