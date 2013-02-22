@@ -93,4 +93,3 @@ lib/Varien/Convert
 lib/Varien/Date.php
 lib/Varien/Object.php
 lib/Varien/Cache/Core.php
-lib/Varien/Cache/Backend/Decorator
