@@ -20,7 +20,7 @@
         },
 
         /**
-         * Process form elements, setting attribute values and showing/hiding their parent node.
+         * Process form elements, setting property values and showing/hiding their parent node.
          * @private
          */
         _create: function() {
@@ -28,10 +28,10 @@
             $.each(this.element[0].elements, function() {
                 if (this.name === options.paymentName && this.value === options.paymentValue) {
                     // Show 'No Payment Information Required' with checked radio button.
-                    $(this).attr({'checked': true, 'disabled': false}).parent().show();
+                    $(this).prop({'checked': true, 'disabled': false}).parent().show();
                 } else if ($(this).closest("div.buttons-set").length === 0) {
                     // Hide all other objects beside the buttons.
-                    $(this).parent().attr('disabled', true).hide();
+                    $(this).parent().prop('disabled', true).hide();
                 }
             });
         }
