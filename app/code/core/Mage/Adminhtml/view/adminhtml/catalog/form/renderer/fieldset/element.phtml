@@ -39,7 +39,7 @@ $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
     <?php if ($element->getType() == 'hidden'): ?>
         <?php echo $element->getElementHtml() ?>
     <?php else: ?>
-    <div<?php echo $fieldAttributes ?>>
+    <div<?php echo $fieldAttributes ?> data-element-id="<?php echo $element->getHtmlId() ?>">
         <?php if ($elementBeforeLabel): ?>
             <?php echo $this->getElementHtml() ?>
             <?php echo $element->getLabelHtml() ?>

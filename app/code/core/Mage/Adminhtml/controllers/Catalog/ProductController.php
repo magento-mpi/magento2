@@ -179,7 +179,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function newAction()
     {
-        if (!$this->getRequest()->getParam('set') || !$this->getRequest()->getParam('type')) {
+        if (!$this->getRequest()->getParam('set')) {
             $this->_forward('noroute');
             return;
         }
@@ -200,14 +200,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         } else {
             $_additionalLayoutPart = '';
             if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
-                && !($product->getTypeInstance()->getUsedProductAttributeIds($product)))
-            {
+                && !($product->getTypeInstance()->getUsedProductAttributeIds($product))
+            ) {
                 $_additionalLayoutPart = '_new';
             }
             $this->loadLayout(array(
                 'default',
                 strtolower($this->getFullActionName()),
-                'adminhtml_catalog_product_'.$product->getTypeId() . $_additionalLayoutPart
+                'adminhtml_catalog_product_' . $product->getTypeId() . $_additionalLayoutPart
             ));
             $this->_setActiveMenu('Mage_Catalog::catalog_products');
         }

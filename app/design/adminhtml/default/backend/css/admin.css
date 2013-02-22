@@ -1071,6 +1071,11 @@ option.placeholder {
     margin: 0 0 29px;
 }
 
+.tabs .removed,
+.fieldset .field.removed {
+    display: none !important;
+}
+
 [class^="fields-group-"] .field {
     margin-bottom: 0;
 }
@@ -1706,8 +1711,7 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Old loading popup */
 /* TODO: remove this popup after refactoring of "varienLoader.js" file */
-.loading-old,
-.loading-mask {
+.loading-old {
     border: 1px solid #d85909;
     position: fixed;
     z-index: 1003;
@@ -1722,6 +1726,16 @@ table tbody tr:nth-child(odd):hover th {
     font-weight: bold;
     text-align: center;
     padding: 100px 0 10px;
+}
+
+.loading-mask {
+    position: fixed;
+    z-index: 1003;
+    background: rgba(255, 255, 255, .8);
+    color: #d85909;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .loading-old:after,

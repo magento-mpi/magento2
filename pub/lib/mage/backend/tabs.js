@@ -86,7 +86,7 @@
          */
         _create: function() {
             this._super();
-            this._movePanelsInDestination(this.panels);
+            this._movePanelsInDestination(this.panels.eq(this.options.active));
         },
 
         /**
@@ -109,7 +109,6 @@
          * Move panels in destination element
          * @protected
          * @override
-         * @param {Array} panels - array of panels DOM elements
          */
         _movePanelsInDestination: function(panels) {
             if (this.options.destination && !panels.parents(this.options.destination).length) {
@@ -148,7 +147,7 @@
             /**
              * Replacing href attribute with loaded panel id
              * @param {Object} event - event object
-             * @param {Object}
+             * @param {Object} ui
              */
             load: function(event, ui) {
                 var panel = $(ui.panel);
@@ -170,21 +169,13 @@
          * @protected
          * @override
          */
-        _create: function() {
+        _refresh: function() {
             this._super();
-            this._bind();
-        },
-
-        /**
-         * Attach event handlers to tabs
-         * @protected
-         */
-        _bind: function() {
             $.each(this.panels, $.proxy(function(i, panel) {
                 $(panel)
                     .on('changed', {index: i}, $.proxy(this._onContentChange, this))
-                    .on('highlight.validate', {index: i}, $.proxy(this._onInvalid, this))
-                    .on('focusin', {index: i}, $.proxy(this._onFocus, this));
+                    .on('highlight.validate', {index: i}, $.proxy(this._onInvalid, this));
+                    //.on('focusin', {index: i}, $.proxy(this._onFocus, this)); //todo: fix this
             }, this));
 
             ($(this.options.destination).is('form') ?
@@ -252,16 +243,8 @@
          * @protected
          * @override
          */
-        _bind: function() {
+        _refresh: function() {
             this._super();
-            this._bindShadowTabs();
-        },
-
-        /**
-         * Process shadow tabs
-         * @protected
-         */
-        _bindShadowTabs: function() {
             var anchors = this.anchors,
                 shadowTabs = this.options.shadowTabs,
                 tabs = this.tabs;

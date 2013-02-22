@@ -93,19 +93,22 @@ jQuery(function($) {
         },
         bindAll: function(events) {
             var self = this;
-
-            $.each(self._masks, function(field, mask) {
-                var disabler = function() {
-                    $(this).data(self.data.disabled, $(this).val().replace(/\s/g, '') != '');
-                };
+            $('#product-edit-form').on(
+                'focus blur change keyup click',
+                _(this._masks).keys().map(function(key) {
+                    return '#' + key;
+                }).join(','),
+                $.proxy(function(event) {
+                    var $element = $(event.currentTarget);
+                    $element.data(this.data.disabled, $element.val().replace(/\s/g, '') != '');
+                }, this)
+            );
+            $.each(this._masks, function(field, mask) {
                 var $field = $('#' + field);
                 if (!$field.val() && mask.length > 0 && !self.varRegexp.test(mask)) {
                     $field.val(mask);
                 }
-                if ($field.length) {
-                    disabler.call($field);
-                    $field.bind('focus blur change keyup click', disabler);
-                }
+                $field.trigger('change');
             });
 
             $.each(self._fieldReverseIndex, function(field) {
@@ -127,7 +130,7 @@ jQuery(function($) {
                     });
                 };
                 if ($field.length) {
-                    $field.bind(events || 'keyup change blur click', filler);
+                    $field.bind(events || 'keyup change blur click paste', filler);
                     filler.call($field, true);
                 }
 
