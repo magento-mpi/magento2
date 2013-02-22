@@ -160,12 +160,6 @@
         <fail unless="env.https_host" message="Bamboo variable 'https_host' must be defined."/>
         <fail unless="env.build_scope_name" message="Bamboo variable 'env.build_scope_name' must be defined."/>
 
-        <antcall>
-            <param name="license_replacement_enabled" value="true"/>
-            <param name="product_edition_code" value="saas"/>
-            <target name="_product_edition"/>
-        </antcall>
-
         <property name="db.name" value="${env.build_scope_name}_${timestamp}_${env.build_number}"/>
 
         <property name="file.create_database" location="${dir.build_directory}/dev/build/bin/create-database.sh"/>

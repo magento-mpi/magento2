@@ -20,6 +20,13 @@
         <condition property="env.bamboo_uninstall_ids" value="">
             <not><isset property="env.bamboo_uninstall_ids"/></not>
         </condition>
+
+        <antcall>
+            <param name="license_replacement_enabled" value="true"/>
+            <param name="product_edition_code" value="saas"/>
+            <target name="_product_edition"/>
+        </antcall>
+
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/saas_qa/deploy.php --
                 --url-template=${env.multitenant_url_template}
