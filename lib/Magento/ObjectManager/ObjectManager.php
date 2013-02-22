@@ -196,56 +196,50 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
 
             case 11:
                 return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5],
-                    $args[6], $args[7], $args[8], $args[9], $args[10]
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10]
                 );
 
             case 12:
                 return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5],
-                    $args[6], $args[7], $args[8], $args[9], $args[10], $args[11]
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11]
                 );
 
             case 13:
                 return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5],
-                    $args[6], $args[7], $args[8], $args[9], $args[10], $args[11],
-                    $args[12]
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12]
                 );
 
             case 14:
                 return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5],
-                    $args[6], $args[7], $args[8], $args[9], $args[10], $args[11],
-                    $args[12], $args[13]
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13]
                 );
 
             case 15:
                 return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5],
-                    $args[6], $args[7], $args[8], $args[9], $args[10], $args[11],
-                    $args[12], $args[13], $args[14]
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13], $args[14]
                 );
 
             case 16:
                 return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5],
-                    $args[6], $args[7], $args[8], $args[9], $args[10], $args[11],
-                    $args[12], $args[13], $args[14], $args[15]
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15]
                 );
 
             case 17:
                 return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5],
-                    $args[6], $args[7], $args[8], $args[9], $args[10], $args[11],
-                    $args[12], $args[13], $args[14], $args[15], $args[16]
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16]
                 );
 
             case 18:
                 return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5],
-                    $args[6], $args[7], $args[8], $args[9], $args[10], $args[11],
-                    $args[12], $args[13], $args[14], $args[15], $args[16], $args[17]
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16], $args[17]
                 );
 
             default:
