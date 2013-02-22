@@ -10,8 +10,6 @@
 
 /**
  * Form element renderer to display composite font element for VDE
- *
- * @method array getComponents()
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract

@@ -30,17 +30,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
      */
     public function addFields()
     {
-        $components = $this->getComponents();
-        $uploaderData = $components['header-background:background-uploader']['components']['header-background:image-uploader'];
-        $checkboxData = $components['header-background:background-uploader']['components']['header-background:tile'];
-        $colorData = $components['header-background:color-picker'];
+        $uploaderData = $this->getComponent('background-uploader', 'image-uploader');
+        $checkboxData = $this->getComponent('background-uploader', 'tile');
+        $colorData = $this->getComponent('color-picker');
 
         $colorTitle = sprintf("%s {%s: %s}",
             $colorData['selector'],
             $colorData['attribute'],
             $colorData['value']
         );
-        $colorHtmlId = uniqid('color-picker-');
+        $colorHtmlId = $this->getComponentId('color-picker');
         $this->addField(uniqid('background-color-picker-'), 'color-picker', array(
             'name'  => $colorHtmlId,
             'value' => $colorData['value'],
@@ -53,7 +52,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
             $uploaderData['attribute'],
             $uploaderData['value']
         );
-        $uploaderHtmlId = uniqid('background-uploader-');
+        $uploaderHtmlId = $this->getComponentId('background-uploader');
         $uploaderConfig = array(
             'name'     => $uploaderHtmlId,
             'title'    => $uploaderTitle,
@@ -63,7 +62,17 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
         );
         $this->addField($uploaderHtmlId, 'background-uploader', $uploaderConfig);
 
-
+        $checkboxTitle = sprintf('%s {%s: %s}',
+            $checkboxData['selector'],
+            $checkboxData['attribute'],
+            $checkboxData['value']
+        );
+        $checkboxHtmlId = $this->getComponentId('tile');
+        $this->addField($checkboxHtmlId, 'checkbox', array(
+            'name'  => $checkboxHtmlId,
+            'title' => $checkboxTitle,
+            'label' => 'Tile Background',
+        ));
     }
 
     /**

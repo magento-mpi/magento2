@@ -112,9 +112,15 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      * @param string $elementClassName
      * @param string $rendererBlockLayoutName
      * @return Varien_Data_Form_Element_Renderer_Interface
+     * @throws Mage_Core_Exception
      */
     public function create($elementClassName, $rendererBlockLayoutName)
     {
+        if (!isset($this->_rendererByElement[$elementClassName])) {
+            throw new Mage_Core_Exception(
+                sprintf('No renderer registered for elements of class "%s"', $elementClassName)
+            );
+        }
         $rendererClass = $this->_rendererByElement[$elementClassName];
         $renderer = $this->_layout->createBlock($rendererClass, $rendererBlockLayoutName);
 

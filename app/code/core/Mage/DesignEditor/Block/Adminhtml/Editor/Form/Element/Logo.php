@@ -10,8 +10,6 @@
 
 /**
  * Form element renderer to display composite logo element for VDE
- *
- * @method array getComponents()
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
@@ -70,33 +68,5 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
     {
         $this->addType('font', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font');
         $this->addType('logo-uploader', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader');
-    }
-
-    /**
-     * @param string $type
-     * @return array
-     * @throws Mage_Core_Exception
-     */
-    public function getComponent($type)
-    {
-        $components = $this->getComponents();
-        $componentId = $this->getComponentId($type);
-
-        if (!isset($components[$componentId])) {
-            throw new Mage_Core_Exception(sprintf(
-                'Component of the type "%s" is not found between elements of "%s"', $type, $this->getData('name')
-            ));
-        }
-
-        return $components[$componentId];
-    }
-
-    /**
-     * @param string $type
-     * @return string
-     */
-    public function getComponentId($type)
-    {
-        return sprintf('%s:%s', $this->getData('name'), $type);
     }
 }

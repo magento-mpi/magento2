@@ -88,9 +88,59 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
         $this->addElement($element, $after);
 
         $layoutName = $element->getId() . '-renderer';
-        $renderer = $this->_rendererFactory->create($className, $layoutName);
-        $element->setRenderer($renderer);
+        try {
+            $renderer = $this->_rendererFactory->create($className, $layoutName);
+        } catch (Mage_Core_Exception $e) {
+            $renderer = null;
+        }
+        if ($renderer) {
+            $element->setRenderer($renderer);
+        }
         $element->setAdvanced($isAdvanced);
         return $element;
     }
+
+    /**
+     * @param string $type
+     * @param string|null $subtype
+     * @throws Mage_Core_Exception
+     * @return array
+     */
+    public function getComponent($type, $subtype = null)
+    {
+        $components = $this->getComponents();
+        $componentId = $this->getComponentId($type);
+        if (!isset($components[$componentId])) {
+            throw new Mage_Core_Exception(sprintf(
+                'Component of the type "%s" is not found between elements of "%s"', $type, $this->getData('name')
+            ));
+        }
+        $component = $components[$componentId];
+
+        if ($subtype) {
+            $subComponentId = $this->getComponentId($subtype);
+            $component = $component['components'][$subComponentId];
+        }
+
+        return $component;
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function getComponentId($type)
+    {
+        return sprintf('%s:%s', $this->getData('name'), $type);
+    }
+
+    /**
+     * Add form elements
+     */
+    abstract public function addFields();
+
+    /**
+     * Add element types used in composite font element
+     */
+    abstract public function addElementTypes();
 }

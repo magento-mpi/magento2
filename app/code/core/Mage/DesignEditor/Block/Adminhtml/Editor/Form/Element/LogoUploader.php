@@ -33,7 +33,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader
     {
         parent::_construct();
 
-        $this->addFields();
+        //$this->addFields();
 
         $this->setAccept($this->_acceptTypesDefault);
         $this->setMultiple($this->_multipleFilesDefault);
@@ -80,5 +80,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader
         $this->addField($uploaderHtmlId, 'background-uploader', $uploaderConfig);
 
 
+    }
+
+    /**
+     * Add element types used in composite font element
+     */
+    public function addElementTypes()
+    {
+        $this->addType('color-picker', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker');
+        $this->addType('background-uploader', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader');
     }
 }

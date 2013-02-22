@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_DesignEditor
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+ -->
+<controls>
+    <control name="store-name" title="Store Name" tab="header" column="left">
+        <type>logo</type>
+        <components>
+            <control name="store-name:font">
+                <type>font</type>
+                <components>
+                    <control name="store-name:font-picker">
+                        <type>font-picker</type>
+                        <!--default>Tahoma, Geneva, sans-serif</default-->
+                        <selector>.logo</selector>
+                        <attribute>font-family</attribute>
+                        <options>
+                            <option>Verdana, Geneva, sans-serif</option>
+                            <option>Tahoma, Geneva, sans-serif</option>
+                            <option>Georgia, serif</option>
+                        </options>
+                        <var>Mage_DesignEditor::test_var_key1-1</var>
+                    </control>
+                    <control name="store-name:color-picker">
+                        <type>color-picker</type>
+                        <!--default>#ccc</default-->
+                        <selector>.logo</selector>
+                        <attribute>color</attribute>
+                        <var>Mage_DesignEditor::test_var_key1-2</var>
+                    </control>
+                </components>
+            </control>
+            <control name="store-name:logo-uploader">
+                <type>logo-uploader</type>
+                <!--default>logo.png</default-->
+                <selector>.logo</selector>
+                <attribute>background-image</attribute>
+                <var>Mage_DesignEditor::test_var_key1-3</var>
+            </control>
+        </components>
+    </control>
+    <control name="header-background" title="Background" tab="header" column="left">
+        <type>background</type>
+        <components>
+            <control name="header-background:color-picker">
+                <type>color-picker</type>
+                <!--default>transparent</default-->
+                <selector>.header</selector>
+                <attribute>background-color</attribute>
+                <var>Mage_DesignEditor::test_var_key2-1</var>
+            </control>
+            <control name="header-background:background-uploader">
+                <type>background-uploader</type>
+                <components>
+                    <control name="header-background:image-uploader">
+                        <type>image-uploader</type>
+                        <!--default>bg.gif</default-->
+                        <selector>.header</selector>
+                        <attribute>background-image</attribute>
+                        <var>Mage_DesignEditor::test_var_key2-2</var>
+                    </control>
+                    <control name="header-background:tile">
+                        <type>checkbox</type>
+                        <!--default>no-repeat</default-->
+                        <selector>.header</selector>
+                        <attribute>background-repeat</attribute>
+                        <options>
+                            <option>no-repeat</option>
+                            <option>repeat</option>
+                            <option>repeat-x</option>
+                            <option>repeat-y</option>
+                            <option>inherit</option>
+                        </options>
+                        <var>Mage_DesignEditor::test_var_key2-3</var>
+                    </control>
+                </components>
+            </control>
+        </components>
+    </control>
+    <control name="menu-background" title="Menu Background" tab="header" column="middle">
+        <type>color-picker</type>
+        <!--default>#f8f8f8</default-->
+        <selector>.menu</selector>
+        <attribute>background-color</attribute>
+        <var>Mage_DesignEditor::test_var_key3</var>
+    </control>
+    <control name="menu-stroke" title="Menu Stroke" tab="header" column="middle">
+        <type>color-picker</type>
+        <!--default>#c2c2c2</default-->
+        <selector>.menu</selector>
+        <attribute>color</attribute>
+        <var>Mage_DesignEditor::test_var_key4</var>
+    </control>
+    <control name="menu-links" title="Menu Links" tab="header" column="middle">
+        <type>color-picker</type>
+        <!--default>#675f55</default-->
+        <selector>.menu a</selector>
+        <attribute>color</attribute>
+        <var>Mage_DesignEditor::test_var_key5</var>
+    </control>
+    <control name="menu-links-hover" title="Menu Links Hover" tab="header" column="middle">
+        <type>color-picker</type>
+        <!--default>#f47a1F</default-->
+        <selector>.menu a:hover</selector>
+        <attribute>color</attribute>
+        <var>Mage_DesignEditor::test_var_key6</var>
+    </control>
+    <control name="header-links" title="Header Links" tab="header" column="right">
+        <type>color-picker</type>
+        <!--default>#837d75</default-->
+        <selector>.header a</selector>
+        <attribute>color</attribute>
+        <var>Mage_DesignEditor::test_var_key7</var>
+    </control>
+    <control name="header-links-hover" title="Header Links Hover" tab="header" column="right">
+        <type>color-picker</type>
+        <!--default>#675f55</default-->
+        <selector>.header a:hover, .header a:active</selector>
+        <attribute>color</attribute>
+        <var>Mage_DesignEditor::test_var_key8</var>
+    </control>
+    <control name="scroll-bar-background" title="Scroll Bar Background" tab="header" column="right">
+        <type>color-picker</type>
+        <!--default>#ffffff</default-->
+        <selector>.scroll</selector>
+        <attribute>background-color</attribute>
+        <var>Mage_DesignEditor::test_var_key9</var>
+    </control>
+    <control name="scroll-bar-handle" title="Scroll Bar Handle" tab="header" column="right">
+        <type>color-picker</type>
+        <!--default>#e5e5e5</default-->
+        <selector>.scroll .handle</selector>
+        <attribute>background-color</attribute>
+        <var>Mage_DesignEditor::test_var_key10</var>
+    </control>
+    <control name="search-field" title="Search Field" tab="header" column="right">
+        <type>color-picker</type>
+        <!--default>#ffffff</default-->
+        <selector>.search</selector>
+        <attribute>background-color</attribute>
+        <var>Mage_DesignEditor::test_var_key11</var>
+    </control>
+    <control name="search-field-stroke" title="Search Field Stroke, Search Icon" tab="header" column="right">
+        <type>color-picker</type>
+        <!--default>#c2c2c2</default-->
+        <selector>.search</selector>
+        <attribute>color</attribute>
+        <var>Mage_DesignEditor::test_var_key12</var>
+    </control>
+</controls>

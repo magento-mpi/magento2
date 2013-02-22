@@ -18,7 +18,7 @@ class Mage_DesignEditor_Model_Config_Control_QuickStyles extends Mage_DesignEdit
      *
      * @var array
      */
-    protected $_controlAttributes = array('title', 'column');
+    protected $_controlAttributes = array('title', 'tab', 'column');
 
     /**
      * Path to quick_styles.xsd

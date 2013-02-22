@@ -33,25 +33,31 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     protected $_elementsFactory;
 
-    protected $_xmlReader;
+    /** @var Mage_DesignEditor_Model_Config_Control_QuickStyles */
+    protected $_config;
 
     /**
      * Constructor
+     *
+     * @param Varien_Data_Form_Factory $formFactory
+     * @param Mage_DesignEditor_Model_Config_Control_Factory $configFactory
+     * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
+     * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
+     * @param Mage_Core_Model_Translate $translator
      */
     public function __construct(
         Varien_Data_Form_Factory $formFactory,
-        Mage_Core_Model_Translate $translator,
-        Varien_Object $xmlReader,
+        Mage_DesignEditor_Model_Config_Control_Factory $configFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
-        Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
+        Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
+        Mage_Core_Model_Translate $translator
     ) {
-        $this->_formFactory = $formFactory;
-        $this->_translator = $translator;
+        $this->_formFactory     = $formFactory;
         $this->_rendererFactory = $rendererFactory;
         $this->_elementsFactory = $elementsFactory;
+        $this->_translator      = $translator;
 
-        //@TODO remove xmlReader or use it
-        $this->_xmlReader = $xmlReader;
+        $this->_config = $configFactory->create(Mage_DesignEditor_Model_Config_Control_Factory::TYPE_QUICK_STYLES);
     }
 
     /**
@@ -88,24 +94,24 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     protected function initColumns($form, $group)
     {
         /** @var $columnLeft Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnLeft = $form->addField('column-left-' . $group, 'column', array());
+        $columnLeft = $form->addField('left-' . $group, 'column', array());
         $columnLeft->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnMiddle Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnMiddle = $form->addField('column-middle-' . $group, 'column', array());
+        $columnMiddle = $form->addField('middle-' . $group, 'column', array());
         $columnMiddle->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnRight Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnRight = $form->addField('column-right-' . $group, 'column', array());
+        $columnRight = $form->addField('right-' . $group, 'column', array());
         $columnRight->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
         $columns = array(
-            'column-left'   => $columnLeft,
-            'column-middle' => $columnMiddle,
-            'column-right'  => $columnRight
+            'left'   => $columnLeft,
+            'middle' => $columnMiddle,
+            'right'  => $columnRight
         );
 
         return $columns;
@@ -118,6 +124,32 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * @param string $group
      */
     protected function populateColumns($columns, $group)
+    {
+        foreach ($this->_config->getAllControlsData() as $id => $control) {
+            $positionData = $control['layoutParams'];
+            unset($control['layoutParams']);
+
+            if ($positionData['tab'] != $group) {
+                continue;
+            }
+
+            $this->setDefaultValues($control, $id);
+
+            $config = $this->buildElementConfig($id, $positionData, $control);
+
+            /** @var $column Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
+            $column = $columns[$positionData['column']];
+            $column->addField($id, $control['type'], $config);
+        }
+    }
+
+    /**
+     * Populate columns with fields
+     *
+     * @param array $columns
+     * @param string $group
+     */
+    protected function populateColumnsOld($columns, $group)
     {
         foreach ($this->getControlsLayout($group) as $id => $positionData) {
             $control = $this->getControls($id);
@@ -198,14 +230,21 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
                 $this->setDefaultValues($component, $componentId);
             }
         } else {
+            unset($data['var']);
+
             $value = $this->getControlsValue($id);
             if ($value === null) {
-                $value = $data['default'];
+
+                //temporary workaround
+                $value = $this->getDefaultValue($id);
+                //$value = $data['default'];
             } else {
                 $isInvalidValue = is_array($data['options']) && array_search($value, $data['options']) === false;
                 if ($isInvalidValue) {
                     if ($fixValuesIfNotBetweenOptions) {
-                        $value = $data['default'];
+                        //temporary workaround
+                        $value = $this->getDefaultValue($id);
+                        //$value = $data['default'];
                     } else {
                         $message = sprintf('Invalid value "%s" for control "%s" while only possible options are ["%s"]',
                             $value, $id, join('", "', $data['options'])
@@ -246,59 +285,64 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
                 'store-name' => array(
                     'title'  => 'Store Name',
                     'used'   => 'Global Header',
-                    'column' => 'column-left',
+                    'column' => 'left',
                 ),
                 'header-background' => array(
                     'title'  => 'Background',
                     'used'   => 'Global Header',
-                    'column' => 'column-left',
+                    'column' => 'left',
                 ),
                 'menu-background' => array(
                     'title'  => 'Menu Background',
                     'used'   => 'Main Nav Drop-down BG, Language and Currency Drop-downs',
-                    'column' => 'column-middle',
+                    'column' => 'middle',
+                ),
+                'menu-stroke' => array(
+                    'title'  => 'Menu Stroke',
+                    'used'   => '',
+                    'column' => 'middle',
                 ),
                 'menu-links' => array(
                     'title'  => 'Menu Links',
                     'used'   => 'Links in the drop down menu for main nav',
-                    'column' => 'column-middle',
+                    'column' => 'middle',
                 ),
                 'menu-links-hover' => array(
                     'title'  => 'Menu Links Hover',
                     'used'   => 'Links in the drop down menu for main nav',
-                    'column' => 'column-middle',
+                    'column' => 'middle',
                 ),
                 'header-links' => array(
                     'title'  => 'Header Links',
                     'used'   => 'Cart Icon, Header Links, Language and Currency Links, Main Nav Liks, Drop down arrow for language and currency, Drop down arrow for "More" menu',
-                    'column' => 'column-right',
+                    'column' => 'right',
                 ),
                 'header-links-hover' => array(
                     'title'  => 'Header Links Hover',
                     'used'   => 'Header Links Hover, Cart Icon Hover, Main Nav Liks, Drop down arrow for language and currency',
-                    'column' => 'column-right',
+                    'column' => 'right',
                 ),
 
                 'scroll-bar-background' => array(
                     'title'  => 'Scroll Bar Background',
                     'used'   => 'In drop-down menus in header',
-                    'column' => 'column-right',
+                    'column' => 'right',
                 ),
                 'scroll-bar-handle' => array(
                     'title'  => 'Scroll Bar Handle',
                     'used'   => 'In drop-down menus in header',
-                    'column' => 'column-right',
+                    'column' => 'right',
                 ),
 
                 'search-field' => array(
                     'title'  => 'Search Field',
                     'used'   => 'Global Header',
-                    'column' => 'column-right',
+                    'column' => 'right',
                 ),
                 'search-field-stroke' => array(
                     'title'  => 'Search Field Stroke, Search Icon',
                     'used'   => 'Global Header',
-                    'column' => 'column-right',
+                    'column' => 'right',
                 ),
             ),
             'backgrounds' => array(),
@@ -386,7 +430,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
                 'type'      => 'color-picker',
                 'default'   => '#f8f8f8',
                 'selector'  => '.menu',
-                'attribute' => 'color',
+                'attribute' => 'background-color',
             ),
             'menu-stroke' => array(
                 'type'      => 'color-picker',
@@ -436,7 +480,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             'search-field' => array(
                 'type'      => 'color-picker',
                 'default'   => '#ffffff',
-                'selector'  => '.scroll',
+                'selector'  => '.search',
                 'attribute' => 'background-color',
             ),
             'search-field-stroke' => array(
@@ -566,5 +610,22 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             $value = null;
         }
         return $value;
+    }
+
+    /**
+     * Method for temporary workaround while default values for controls are not implemented
+     *
+     * @param string $id
+     * @return string
+     */
+    protected function getDefaultValue($id)
+    {
+        $steps = explode(':', $id);
+        $control = $this->getControls(array_shift($steps));
+        while ($step = array_shift($steps)) {
+            $control = $control['components'][$step];
+        }
+
+        return $control['default'];
     }
 }

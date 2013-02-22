@@ -81,16 +81,16 @@ class Mage_DesignEditor_Model_Config_Control_Factory
         $files[] = $this->_getFilePathByType($type);
         switch ($type) {
             case self::TYPE_QUICK_STYLES:
-                return $this->_objectManager->get('Mage_DesignEditor_Model_Config_Control_QuickStyles',
-                    array($files));
+                $class = 'Mage_DesignEditor_Model_Config_Control_QuickStyles';
                 break;
             case self::TYPE_IMAGE_SIZING:
-                return $this->_objectManager->get('Mage_DesignEditor_Model_Config_Control_ImageSizing',
-                    array($files));
+                $class = 'Mage_DesignEditor_Model_Config_Control_ImageSizing';
                 break;
             default:
                 throw new Magento_Exception("Unknown control configuration type: \"{$type}\"");
                 break;
         }
+
+        return $this->_objectManager->get($class, array($files));
     }
 }
