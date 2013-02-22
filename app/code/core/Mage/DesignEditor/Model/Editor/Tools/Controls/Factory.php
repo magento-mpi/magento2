@@ -59,7 +59,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Factory
      * @return string
      * @throws Magento_Exception
      */
-    protected function _getFilePathByType($type, Mage_Core_Model_Theme $theme)
+    protected function _getFilePathByType($type, $theme)
     {
         if (!isset($this->_fileNames[$type])) {
             throw new Magento_Exception("Unknown control configuration type: \"{$type}\"");

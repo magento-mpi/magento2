@@ -92,10 +92,15 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
 
         $fieldMessage = $this->__('Add the white borders to the images that do not match the container size.');
         $form->addField('add_white_borders', 'checkbox', array(
-            'checked' => $this->getVar('add_white_borders', 'Mage_Catalog'),
+            'name'    => Mage_Catalog_Model_Product_Image_View::WHITE_BORDERS_MODULE . '::'
+                . Mage_Catalog_Model_Product_Image_View::WHITE_BORDERS,
+            'checked' => $this->getVar(
+                Mage_Catalog_Model_Product_Image_View::WHITE_BORDERS,
+                Mage_Catalog_Model_Product_Image_View::WHITE_BORDERS_MODULE
+            ),
+            'value' => '1',
             'after_element_html' => $fieldMessage
         ));
-
 
         $hintMessage =  $this->__('If an image goes beyond the container edges')
             . $this->__(', it will be re-scaled to match the container size.')
@@ -103,48 +108,79 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             . $this->__('By default, the white borders will be added to an image to fill in the container space.');
         $form->addField('add_white_borders_hint', 'note', array('after_element_html' => $hintMessage));
 
+        try{
+            /** @var $controlsConfig Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
+            $controlsConfig = $this->_controlFactory->create(
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING,
+                $this->getTheme()
+            );
 
-        $form->addType('image_sizing', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageSizing');
+            $controls = $controlsConfig->getAllControlsData();
+        } catch (Magento_Exception $e) {
+            $controls = array();
+        }
+
         $selectOptions = $this->_getSelectOptions();
-
-        /** @var $controlsConfig Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
-        $controlsConfig = $this->_controlFactory->create(
-            Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING,
-            $this->getTheme()
-        );
-
-        $controls = $controlsConfig->getAllControlsData();
         foreach ($controls as $name => $control ) {
             $defaultValues = $this->_getDefaultValues($control);
-            $form->addField($name, 'image_sizing', array(
-                'name'                 => $name,
-                'label'                => $control['layoutParams']['title'],
-                'title'                => $control['layoutParams']['title'],
-                'select_options'       => $selectOptions,
-                'value'                => $this->_getValues($control, $defaultValues),
-                'default_values_event' => $this->_getDefaultValuesEvent($defaultValues, $name),
-                'default_values_label' => $this->__('Reset to Original')
+            $fieldset = $form->addFieldset($name, array(
+                'name'   => $name,
+                'fieldset_type' => 'field'
             ));
+            $fieldset->addField($name . '_label', 'label', array(
+                'value'  => $control['layoutParams']['title']
+            ));
+            $fieldset->addField($name . '_type', 'select', array(
+                'name'   => $control['components']['image-type']['var'],
+                'values' => $selectOptions,
+                'value'  => $this->_getValue('type', $control, $defaultValues)
+            ));
+            $fieldset->addField($name . '_width', 'text', array(
+                'name'   => $control['components']['image-width']['var'],
+                'value'  => $this->_getValue('width', $control, $defaultValues)
+            ));
+            $fieldset->addField($name . '_height', 'text', array(
+                'name'   => $control['components']['image-height']['var'],
+                'value'  => $this->_getValue('height', $control, $defaultValues)
+            ));
+            $fieldset->addField($name . '_reset', 'button', array(
+                'name'  => $name . '_reset',
+                'title' => $this->__('Reset to Original'),
+                'value' => $this->__('Reset to Original'),
+                'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
+                    'button' => array(
+                       'event'  => 'restoreDefaultData',
+                       'target' => 'body',
+                       'eventData' => array('location' => $name) + $defaultValues
+            ))))));
         }
+
+        $form->addField('save_image_sizing', 'button', array(
+            'name'  => 'save_image_sizing',
+            'title' => $this->__('Update'),
+            'value' => $this->__('Update'),
+            'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
+                'button' => array(
+                    'event'  => 'saveForm',
+                    'target' => 'body'
+        ))))));
 
         parent::_prepareForm();
         return $this;
     }
 
     /**
-     * Get values by location
+     * Get value
      *
-     * @param array $element
+     * @param string $suffix
+     * @param array $control
      * @param array $defaultValues
      * @return array
      */
-    protected function _getValues(array $element, array $defaultValues)
+    protected function _getValue($suffix, array $control, array $defaultValues)
     {
-        return array(
-            'type'   => $element['components']['image-type']['value']?:$defaultValues['type'],
-            'width'  => $element['components']['image-width']['value']?:$defaultValues['width'],
-            'height' => $element['components']['image-height']['value']?:$defaultValues['height']
-        );
+        $value = $control['components']['image-' . $suffix]['value'];
+        return $value === false ? $value : $defaultValues[$suffix];
     }
 
     /**
@@ -160,23 +196,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             'width'    => $element['components']['image-width']['default'],
             'height'   => $element['components']['image-height']['default']
         );
-    }
-
-    /**
-     * Get json string for default values event
-     *
-     * @param array $defaultValues
-     * @param $name
-     * @return string
-     */
-    protected function _getDefaultValuesEvent(array $defaultValues, $name)
-    {
-        $eventData = array('location' => $name) + $defaultValues;
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array('button' => array(
-            'event'     => 'restoreDefaultData',
-            'target'    => 'body',
-            'eventData' => $eventData
-        ))));
     }
 
     /**
