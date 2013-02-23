@@ -10,7 +10,7 @@
 
 /**
  * System cache proxy model
-  */
+ */
 class Mage_Core_Model_Cache_Proxy implements Mage_Core_Model_CacheInterface
 {
     /**
@@ -112,16 +112,6 @@ class Mage_Core_Model_Cache_Proxy implements Mage_Core_Model_CacheInterface
     }
 
     /**
-     * Get adapter for database cache backend model
-     *
-     * @return Zend_Db_Adapter_Abstract
-     */
-    public function getDbAdapter()
-    {
-        return $this->_getCache()->getDbAdapter();
-    }
-
-    /**
      * Check if cache can be used for specific data type
      *
      * @param string $typeCode
@@ -152,17 +142,6 @@ class Mage_Core_Model_Cache_Proxy implements Mage_Core_Model_CacheInterface
     public function allowUse($typeCode)
     {
         return $this->_getCache()->allowUse($typeCode);
-    }
-
-    /**
-     * Get cache tags by cache type from configuration
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getTagsByType($type)
-    {
-        return $this->_getCache()->getTagsByType($type);
     }
 
     /**

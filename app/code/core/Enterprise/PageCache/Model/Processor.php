@@ -16,7 +16,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
     const REQUEST_ID_PREFIX             = 'REQEST_';
-    const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
+    const CACHE_TAG                     = Enterprise_PageCache_Model_Cache_Type::CACHE_TAG;
     const DESIGN_EXCEPTION_KEY          = 'FPC_DESIGN_EXCEPTION_CACHE';
     const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
     const CACHE_SIZE_KEY                = 'FPC_CACHE_SIZE_CAHCE_KEY';

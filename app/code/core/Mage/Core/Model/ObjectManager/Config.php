@@ -100,9 +100,9 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 'Mage_Core_Model_Config_Loader_Modules' => array(
                     'parameters' => array('allowedModules' => $this->_getParam(Mage::PARAM_ALLOWED_MODULES, array()))
                 ),
-                'Mage_Core_Model_Cache' => array(
+                'Mage_Core_Model_Cache_Frontend_Factory' => array(
                     'parameters' => array(
-                        'options' => $this->_getParam(Mage::PARAM_CACHE_OPTIONS, array()),
+                        'enforcedOptions' => $this->_getParam(Mage::PARAM_CACHE_OPTIONS, array()),
                     )
                 ),
                 'Mage_Core_Model_Cache_Types' => array(

@@ -18,8 +18,6 @@
  */
 abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Data_Collection_Db
 {
-    const CACHE_TAG = 'COLLECTION_DATA';
-
     /**
      * Model name
      *
@@ -677,7 +675,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     {
         $tags = parent::_getCacheTags();
         $tags[] = Mage_Core_Model_AppInterface::CACHE_TAG;
-        $tags[] = self::CACHE_TAG;
+        $tags[] = Mage_Core_Model_Cache_Type_Collection::CACHE_TAG;
         return $tags;
     }
 

@@ -249,7 +249,7 @@ class Magento_Test_Application
         /* Enable configuration cache by default in order to improve tests performance */
         /** @var $cacheTypes Mage_Core_Model_Cache_Types */
         $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::CACHE_TYPE_CODE, true);
+        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
         $cacheTypes->persist();
 
         /* Fill installation date in local.xml to indicate that application is installed */

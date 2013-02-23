@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Core
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <cache>
+            <types>
+                <fixture_type>
+                    <label>Fixture Type One</label>
+                    <description>This is Fixture Type One</description>
+                    <class>Some_Cache_Type_Mock</class>
+                </fixture_type>
+            </types>
+        </cache>
+    </global>
+</config>

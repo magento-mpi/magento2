@@ -115,7 +115,7 @@ class Mage_Core_Model_Config_Cache
      */
     protected function _lock()
     {
-        $this->_configCacheType->save(time(), $this->_cacheLockId, array(), 60);
+        $this->_configCacheType->save((string)time(), $this->_cacheLockId, array(), 60);
     }
 
     /**
@@ -190,7 +190,7 @@ class Mage_Core_Model_Config_Cache
             $this->_lock();
             $this->clean();
             foreach ($this->_cachePartsForSave as $cacheId => $cacheData) {
-                $this->_configCacheType->save($cacheData, $cacheId, array(), $this->_cacheLifetime);
+                $this->_configCacheType->save((string)$cacheData, $cacheId, array(), $this->_cacheLifetime);
             }
             unset($this->_cachePartsForSave);
             $this->_unlock();

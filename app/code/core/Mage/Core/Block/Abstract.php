@@ -43,7 +43,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     /**
      * Cache group Tag
      */
-    const CACHE_GROUP = 'block_html';
+    const CACHE_GROUP = Mage_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER;
     /**
      * Block name in layout
      *

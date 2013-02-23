@@ -77,7 +77,10 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     public function flushAllAction()
     {
         Mage::dispatchEvent('adminhtml_cache_flush_all');
-        $this->_cache->flush();
+        $allTypes = array_keys($this->_cache->getTypes());
+        foreach ($allTypes as $code) {
+            $this->_cache->cleanType($code);
+        }
         $this->_getSession()->addSuccess(
             Mage::helper('Mage_Adminhtml_Helper_Data')->__("The cache storage has been flushed.")
         );

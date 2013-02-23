@@ -21,6 +21,7 @@ class Varien_Cache_Core extends Zend_Cache_Core
      */
     protected $_specificOptions = array(
         'backend_decorators'    => array(),
+        'disable_save'          => false,
     );
 
     /**
@@ -71,6 +72,9 @@ class Varien_Cache_Core extends Zend_Cache_Core
      */
     public function save($data, $cacheId = null, $tags = array(), $specificLifetime = false, $priority = 8)
     {
+        if ($this->getOption('disable_save')) {
+            return true;
+        }
         $tags = $this->_tags($tags);
         return parent::save($data, $cacheId, $tags, $specificLifetime, $priority);
     }

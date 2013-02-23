@@ -390,7 +390,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve cache object
      *
-     * @return Zend_Cache_Core
+     * @return Magento_Cache_FrontendInterface
      */
     public function getCache()
     {

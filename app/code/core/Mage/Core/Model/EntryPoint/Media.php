@@ -20,7 +20,7 @@ class Mage_Core_Model_EntryPoint_Media extends Mage_Core_Model_EntryPointAbstrac
     ) {
         if (empty($mediaDirectory)) {
             $params[Mage::PARAM_ALLOWED_MODULES] = array('Mage_Core');
-            $params[Mage::PARAM_CACHE_OPTIONS]['disable_save'] = true;
+            $params[Mage::PARAM_CACHE_OPTIONS]['frontend_options']['disable_save'] = true;
         }
         parent::__construct($baseDir, $params, $objectManagerClass);
     }

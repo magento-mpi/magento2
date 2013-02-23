@@ -9,7 +9,7 @@
  */
 
 /**
- * Cache types state management
+ * An ultimate accessor to cache types' statuses
  */
 class Mage_Core_Model_Cache_Types
 {
@@ -42,16 +42,20 @@ class Mage_Core_Model_Cache_Types
     /**
      * @param Mage_Core_Model_Resource_Cache $resource
      * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_App_State $appState
      * @param bool $banAll Whether all cache types are forced to be disabled
      */
     public function __construct(
         Mage_Core_Model_Resource_Cache $resource,
         Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Model_App_State $appState,
         $banAll = false
     ) {
         $this->_resource = $resource;
         $this->_cache = $cache;
-        $this->_loadTypeStatuses($banAll);
+        if ($appState->isInstalled()) {
+            $this->_loadTypeStatuses($banAll);
+        }
     }
 
     /**
