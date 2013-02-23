@@ -131,9 +131,7 @@
                         }
                         if (response.update_section) {
                             $(this.options.updateSelectorPrefix + response.update_section.name + this.options.updateSelectorSuffix)
-                                .html($(response.update_section.html))
-                                .trigger('contentUpdated');
-
+                                .html($(response.update_section.html)).trigger('contentUpdated');
                         }
                         if (response.allow_sections) {
                             response.allow_sections.each(function() {
