@@ -28,7 +28,7 @@
 
         _onRestoreDefaultData: function(event, data) {
             for (var elementId in data) {
-                $("#" + elementId).val(data[elementId]);
+                $(document.getElementById(elementId)).val(data[elementId] ? data[elementId] : '');
             }
         },
 

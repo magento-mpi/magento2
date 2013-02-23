@@ -196,10 +196,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         $themeId = $this->getRequest()->getParam('id');
         $imageSizing = $this->getRequest()->getParam('imagesizing');
+        /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
+        $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
         try {
-
-            /* TODO save */
-
+            $configuration = $configFactory->create(
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING, $this->_loadTheme($themeId)
+            );
+            $configuration->saveData($imageSizing);
             $this->_session->addSuccess('Image sizes are saved.');
             $result = array('success' => true);
         } catch (Mage_Core_Exception $e) {

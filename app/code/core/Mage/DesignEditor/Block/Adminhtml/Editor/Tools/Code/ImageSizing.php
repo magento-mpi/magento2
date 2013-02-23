@@ -146,7 +146,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             ));
             $form->addField('add_white_borders', 'checkbox', array(
                 'name'    => $name,
-                'checked' => !$component['value'],
+                'checked' => !empty($component['value']),
                 'value'   => '1',
                 'after_element_html' => $fieldMessage
             ));

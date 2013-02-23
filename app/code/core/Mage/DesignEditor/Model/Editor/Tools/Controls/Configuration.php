@@ -192,7 +192,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     {
         foreach ($controls as $controlName => $control) {
             if (!empty($control['components'])) {
-                $this->_prepareVarData($controlsData, $control['components']);
+                $this->_prepareVarData($controlsData, $control['components'], $result);
             } elseif (isset($controlsData[$controlName])) {
                 list($module, $varKey) = $this->_extractModuleKey($control['var']);
                 $result[$module][$varKey] = $controlsData[$controlName];
