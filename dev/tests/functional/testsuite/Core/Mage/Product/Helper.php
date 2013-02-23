@@ -515,10 +515,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (isset($productData['product_attribute_set']) && $productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
-        if (isset($productData['product_online_status'])) {
-            $this->selectOnlineStatus($productData['product_online_status']);
-            unset($productData['product_online_status']);
-        }
         $this->fillProductInfo($productData);
         if ($isSave) {
             $this->saveProduct();
@@ -603,6 +599,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillProductInfo(array $productData)
     {
+        if (isset($productData['product_online_status'])) {
+            $this->selectOnlineStatus($productData['product_online_status']);
+            unset($productData['product_online_status']);
+        }
         $data = $this->formProductData($productData);
         foreach ($data as $tabName => $tabData) {
             $this->fillProductTab($tabData, $tabName);
