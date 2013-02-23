@@ -11,18 +11,28 @@
  */
  -->
 <controls>
+    <control name="product_image_border" title="Product image white borders">
+        <type>white-border</type>
+        <components>
+            <control name="product_image_border:white-border">
+                <type>white-border</type>
+                <var>Mage_Catalog::product_image_white_borders</var>
+            </control>
+        </components>
+    </control>
+
     <control name="review_page_product_image" title="Review Page Product Image">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="review_page_product_image:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::review_page_product_image_type</var>
             </control>
-            <control name="image-width">
+            <control name="review_page_product_image:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::review_page_product_image_width</var>
             </control>
-            <control name="image-height">
+            <control name="review_page_product_image:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::review_page_product_image_height</var>
             </control>
@@ -32,15 +42,15 @@
     <control name="customer_account_product_review_page" title="Customer Account: Product Review Page">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="customer_account_product_review_page:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::customer_account_product_review_page_type</var>
             </control>
-            <control name="image-width">
+            <control name="customer_account_product_review_page:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::customer_account_product_review_page_width</var>
             </control>
-            <control name="image-height">
+            <control name="customer_account_product_review_page:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::customer_account_product_review_page_height</var>
             </control>
@@ -50,15 +60,15 @@
     <control name="category_page_list" title="Category Page - List View">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="category_page_list:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::category_page_list_type</var>
             </control>
-            <control name="image-width">
+            <control name="category_page_list:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::category_page_list_width</var>
             </control>
-            <control name="image-height">
+            <control name="category_page_list:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::category_page_list_height</var>
             </control>
@@ -68,15 +78,15 @@
     <control name="category_page_grid" title="Category Page - Grid View">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="category_page_grid:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::category_page_grid_type</var>
             </control>
-            <control name="image-width">
+            <control name="category_page_grid:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::category_page_grid_width</var>
             </control>
-            <control name="image-height">
+            <control name="category_page_grid:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::category_page_grid_height</var>
             </control>
@@ -86,15 +96,15 @@
     <control name="product_comparison_list" title="Product Comparison List">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="product_comparison_list:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::product_comparison_list_type</var>
             </control>
-            <control name="image-width">
+            <control name="product_comparison_list:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::product_comparison_list_width</var>
             </control>
-            <control name="image-height">
+            <control name="product_comparison_list:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::product_comparison_list_height</var>
             </control>
@@ -104,15 +114,15 @@
     <control name="related_products_list" title="Related Products List">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="related_products_list:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::related_products_list_type</var>
             </control>
-            <control name="image-width">
+            <control name="related_products_list:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::related_products_list_width</var>
             </control>
-            <control name="image-height">
+            <control name="related_products_list:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::related_products_list_height</var>
             </control>
@@ -122,15 +132,15 @@
     <control name="upsell_products_list" title="Upsell Products List">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="upsell_products_list:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::upsell_products_list_type</var>
             </control>
-            <control name="image-width">
+            <control name="upsell_products_list:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::upsell_products_list_width</var>
             </control>
-            <control name="image-height">
+            <control name="upsell_products_list:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::upsell_products_list_height</var>
             </control>
@@ -140,15 +150,15 @@
     <control name="product_page_main_image" title="Product Page Main Image">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="product_page_main_image:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::product_page_main_image_type</var>
             </control>
-            <control name="image-width">
+            <control name="product_page_main_image:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::product_page_main_image_width</var>
             </control>
-            <control name="image-height">
+            <control name="product_page_main_image:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::product_page_main_image_height</var>
             </control>
@@ -158,15 +168,15 @@
     <control name="product_page_main_image_default" title="Product Page Main Image (Default)">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="product_page_main_image_default:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::product_page_main_image_default_type</var>
             </control>
-            <control name="image-width">
+            <control name="product_page_main_image_default:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::product_page_main_image_default_width</var>
             </control>
-            <control name="image-height">
+            <control name="product_page_main_image_default:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::product_page_main_image_default_height</var>
             </control>
@@ -176,15 +186,15 @@
     <control name="product_page_more_views" title="Product Page - More Views">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="product_page_more_views:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::product_page_more_views_type</var>
             </control>
-            <control name="image-width">
+            <control name="product_page_more_views:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::product_page_more_views_width</var>
             </control>
-            <control name="image-height">
+            <control name="product_page_more_views:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::product_page_more_views_height</var>
             </control>
@@ -194,15 +204,15 @@
     <control name="side_column_widget_product_thumbnail" title="Side Column Widget Product thumbnail">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="side_column_widget_product_thumbnail:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::side_column_widget_product_thumbnail_type</var>
             </control>
-            <control name="image-width">
+            <control name="side_column_widget_product_thumbnail:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::side_column_widget_product_thumbnail_width</var>
             </control>
-            <control name="image-height">
+            <control name="side_column_widget_product_thumbnail:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::side_column_widget_product_thumbnail_height</var>
             </control>
@@ -212,15 +222,15 @@
     <control name="new_products_content_widget_list" title="New Products Content Widget List View">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="new_products_content_widget_list:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::new_products_content_widget_list_type</var>
             </control>
-            <control name="image-width">
+            <control name="new_products_content_widget_list:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::new_products_content_widget_list_width</var>
             </control>
-            <control name="image-height">
+            <control name="new_products_content_widget_list:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::new_products_content_widget_list_height</var>
             </control>
@@ -230,15 +240,15 @@
     <control name="new_products_content_widget_grid" title="New Products Content Widget Grid View">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="new_products_content_widget_grid:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::new_products_content_widget_grid_type</var>
             </control>
-            <control name="image-width">
+            <control name="new_products_content_widget_grid:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::new_products_content_widget_grid_width</var>
             </control>
-            <control name="image-height">
+            <control name="new_products_content_widget_grid:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::new_products_content_widget_grid_height</var>
             </control>
@@ -248,15 +258,15 @@
     <control name="recently_compared_products_images_names_widget" title="Recently Compared Products Images and Names Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="recently_compared_products_images_names_widget:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::recently_compared_products_images_names_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="recently_compared_products_images_names_widget:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_compared_products_images_names_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="recently_compared_products_images_names_widget:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_compared_products_images_names_widget_height</var>
             </control>
@@ -266,15 +276,15 @@
     <control name="recently_viewed_products_images_names_widget" title="Recently Viewed Products Images and Names Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="recently_viewed_products_images_names_widget:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::recently_viewed_products_images_names_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="recently_viewed_products_images_names_widget:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_viewed_products_images_names_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="recently_viewed_products_images_names_widget:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_viewed_products_images_names_widget_height</var>
             </control>
@@ -284,15 +294,15 @@
     <control name="recently_compared_products_images_only_widget" title="Recently Compared Products Images Only Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="recently_compared_products_images_only_widget:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::recently_compared_products_images_only_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="recently_compared_products_images_only_widget:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_compared_products_images_only_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="recently_compared_products_images_only_widget:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_compared_products_images_only_widget_height</var>
             </control>
@@ -302,15 +312,15 @@
     <control name="recently_viewed_products_images_only_widget" title="Recently Viewed Products Images Only Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="recently_viewed_products_images_only_widget:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::recently_viewed_products_images_only_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="recently_viewed_products_images_only_widget:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_viewed_products_images_only_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="recently_viewed_products_images_only_widget:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_viewed_products_images_only_widget_height</var>
             </control>
@@ -320,15 +330,15 @@
     <control name="bundled_product_customization_page" title="Bundled Product - Customization Page">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="bundled_product_customization_page:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::bundled_product_customization_page_type</var>
             </control>
-            <control name="image-width">
+            <control name="bundled_product_customization_page:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::bundled_product_customization_page_width</var>
             </control>
-            <control name="image-height">
+            <control name="bundled_product_customization_page:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::bundled_product_customization_page_height</var>
             </control>
@@ -338,15 +348,15 @@
     <control name="recently_compared_products_grid_content_widget" title="Recently Compared Products Grid View Content Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="recently_compared_products_grid_content_widget:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::recently_compared_products_grid_content_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="recently_compared_products_grid_content_widget:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_compared_products_grid_content_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="recently_compared_products_grid_content_widget:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_compared_products_grid_content_widget_height</var>
             </control>
@@ -356,15 +366,15 @@
     <control name="recently_compared_products_list_content_widget" title="Recently Compared Products List View Content Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="recently_compared_products_list_content_widget:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::recently_compared_products_list_content_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="recently_compared_products_list_content_widget:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_compared_products_list_content_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="recently_compared_products_list_content_widget:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_compared_products_list_content_widget_height</var>
             </control>
@@ -374,17 +384,17 @@
     <control name="recently_viewed_products_grid_content_widget" title="Recently Viewed Products Grid View Content Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="recently_viewed_products_grid_content_widget:type">
                 <type>image-type</type>
-                <var>Mage_Catalog::recently_compared_products_list_content_widget_type</var>
+                <var>Mage_Catalog::recently_viewed_products_grid_content_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="recently_viewed_products_grid_content_widget:width">
                 <type>image-width</type>
-                <var>Mage_Catalog::recently_compared_products_list_content_widget_width</var>
+                <var>Mage_Catalog::recently_viewed_products_grid_content_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="recently_viewed_products_grid_content_widget:height">
                 <type>image-height</type>
-                <var>Mage_Catalog::recently_compared_products_list_content_widget_height</var>
+                <var>Mage_Catalog::recently_viewed_products_grid_content_widget_height</var>
             </control>
         </components>
     </control>
@@ -392,15 +402,15 @@
     <control name="recently_viewed_products_list_content_widget" title="Recently Viewed Products List View Content Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="recently_viewed_products_list_content_widget:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::recently_viewed_products_list_content_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="recently_viewed_products_list_content_widget:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_viewed_products_list_content_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="recently_viewed_products_list_content_widget:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_viewed_products_list_content_widget_height</var>
             </control>
@@ -410,15 +420,15 @@
     <control name="customer_shared_wishlist" title="Customer's shared wishlist">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="customer_shared_wishlist:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::customer_shared_wishlist_type</var>
             </control>
-            <control name="image-width">
+            <control name="customer_shared_wishlist:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::customer_shared_wishlist_width</var>
             </control>
-            <control name="image-height">
+            <control name="customer_shared_wishlist:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::customer_shared_wishlist_height</var>
             </control>
@@ -428,15 +438,15 @@
     <control name="wishlist_thumbnail" title="Wishlist thumbnail">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="wishlist_thumbnail:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::wishlist_thumbnail_type</var>
             </control>
-            <control name="image-width">
+            <control name="wishlist_thumbnail:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::wishlist_thumbnail_width</var>
             </control>
-            <control name="image-height">
+            <control name="wishlist_thumbnail:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::wishlist_thumbnail_height</var>
             </control>
@@ -446,15 +456,15 @@
     <control name="wishlist_sidebar_block" title="Wishlist sidebar block">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="wishlist_sidebar_block:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::wishlist_sidebar_block_type</var>
             </control>
-            <control name="image-width">
+            <control name="wishlist_sidebar_block:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::wishlist_sidebar_block_width</var>
             </control>
-            <control name="image-height">
+            <control name="wishlist_sidebar_block:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::wishlist_sidebar_block_height</var>
             </control>
@@ -464,15 +474,15 @@
     <control name="shared_wishlist_email" title="Shared Wishlist email">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="shared_wishlist_email:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::shared_wishlist_email_type</var>
             </control>
-            <control name="image-width">
+            <control name="shared_wishlist_email:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::shared_wishlist_email_width</var>
             </control>
-            <control name="image-height">
+            <control name="shared_wishlist_email:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::shared_wishlist_email_height</var>
             </control>
@@ -482,15 +492,15 @@
     <control name="customer_account_my_tags_tag_view" title="Customer Account: My Tags - Tag view">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="customer_account_my_tags_tag_view:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::customer_account_my_tags_tag_view_type</var>
             </control>
-            <control name="image-width">
+            <control name="customer_account_my_tags_tag_view:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::customer_account_my_tags_tag_view_width</var>
             </control>
-            <control name="image-height">
+            <control name="customer_account_my_tags_tag_view:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::customer_account_my_tags_tag_view_height</var>
             </control>
@@ -500,15 +510,15 @@
     <control name="cart_cross_sell_products" title="Cart Cross Sell Products">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="cart_cross_sell_products:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::cart_cross_sell_products_type</var>
             </control>
-            <control name="image-width">
+            <control name="cart_cross_sell_products:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::cart_cross_sell_products_width</var>
             </control>
-            <control name="image-height">
+            <control name="cart_cross_sell_products:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::cart_cross_sell_products_height</var>
             </control>
@@ -518,15 +528,15 @@
     <control name="gift_messages_checkout_thumbnail" title="Gift messages on checkout (thumbnail)">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="gift_messages_checkout_thumbnail:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::gift_messages_checkout_thumbnail_type</var>
             </control>
-            <control name="image-width">
+            <control name="gift_messages_checkout_thumbnail:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::gift_messages_checkout_thumbnail_width</var>
             </control>
-            <control name="image-height">
+            <control name="gift_messages_checkout_thumbnail:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::gift_messages_checkout_thumbnail_height</var>
             </control>
@@ -536,15 +546,15 @@
     <control name="gift_messages_checkout_small_image" title="Gift messages on checkout (small image)">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="gift_messages_checkout_small_image:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::gift_messages_checkout_small_image_type</var>
             </control>
-            <control name="image-width">
+            <control name="gift_messages_checkout_small_image:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::gift_messages_checkout_small_image_width</var>
             </control>
-            <control name="image-height">
+            <control name="gift_messages_checkout_small_image:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::gift_messages_checkout_small_image_height</var>
             </control>
@@ -554,15 +564,15 @@
     <control name="mini_cart_product_thumbnail" title="Mini Cart Product Thumbnail">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="mini_cart_product_thumbnail:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::mini_cart_product_thumbnail_type</var>
             </control>
-            <control name="image-width">
+            <control name="mini_cart_product_thumbnail:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::mini_cart_product_thumbnail_width</var>
             </control>
-            <control name="image-height">
+            <control name="mini_cart_product_thumbnail:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::mini_cart_product_thumbnail_height</var>
             </control>
@@ -572,15 +582,15 @@
     <control name="new_products_images_only_widget" title="New Products Images Only Widget">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="new_products_images_only_widget:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::new_products_images_only_widget_type</var>
             </control>
-            <control name="image-width">
+            <control name="new_products_images_only_widget:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::new_products_images_only_widget_width</var>
             </control>
-            <control name="image-height">
+            <control name="new_products_images_only_widget:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::new_products_images_only_widget_height</var>
             </control>
@@ -590,15 +600,15 @@
     <control name="cart_page_product_thumbnail" title="Cart Page - Product Thumbnail">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="cart_page_product_thumbnail:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::cart_page_product_thumbnail_type</var>
             </control>
-            <control name="image-width">
+            <control name="cart_page_product_thumbnail:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::cart_page_product_thumbnail_width</var>
             </control>
-            <control name="image-height">
+            <control name="cart_page_product_thumbnail:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::cart_page_product_thumbnail_height</var>
             </control>
@@ -608,15 +618,15 @@
     <control name="product_stock_alert_email_product_image" title="Product Stock Alert Email Product Image">
         <type>image-sizing</type>
         <components>
-            <control name="image-type">
+            <control name="product_stock_alert_email_product_image:type">
                 <type>image-type</type>
                 <var>Mage_Catalog::product_stock_alert_email_product_image_type</var>
             </control>
-            <control name="image-width">
+            <control name="product_stock_alert_email_product_image:width">
                 <type>image-width</type>
                 <var>Mage_Catalog::product_stock_alert_email_product_image_width</var>
             </control>
-            <control name="image-height">
+            <control name="product_stock_alert_email_product_image:height">
                 <type>image-height</type>
                 <var>Mage_Catalog::product_stock_alert_email_product_image_height</var>
             </control>

@@ -17,12 +17,17 @@ class Mage_DesignEditor_Model_Editor_Tools_ConfigurationTest extends PHPUnit_Fra
     protected $_configFactory;
 
     /**
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_design;
+
+    /**
      * Initialize dependencies
      */
     protected function setUp()
     {
-        $design = Mage::getObjectManager()->get('Mage_Core_Model_Design_Package');
-        $design->setDesignTheme('package/test_child', Mage_Core_Model_Design_Package::DEFAULT_AREA);
+        $this->_design = Mage::getObjectManager()->get('Mage_Core_Model_Design_Package');
+        $this->_design->setDesignTheme('package/test_child', Mage_Core_Model_Design_Package::DEFAULT_AREA);
         $this->_configFactory = Mage::getObjectManager()->create(
             'Mage_DesignEditor_Model_Editor_Tools_Controls_Factory'
         );
@@ -91,6 +96,56 @@ class Mage_DesignEditor_Model_Editor_Tools_ConfigurationTest extends PHPUnit_Fra
                     ),
                 )
             ))
+        );
+    }
+
+    /**
+     * Test control data
+     *
+     * @magentoDataFixture Mage/DesignEditor/Model/_files/design/themes.php
+     * @dataProvider getSaveDataProvider
+     * @magentoAppIsolation enabled
+     */
+    public function testSaveConfiguration($saveData, $xpathData)
+    {
+        $type = Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES;
+        $theme = Mage::getDesign()->getDesignTheme();
+        $configuration = $this->_configFactory->create($type, $theme);
+        $configuration->saveData($saveData);
+        $this->assertFileExists($configuration->getCustomViewConfigPath());
+
+        $actual = new DOMDocument();
+        $actual->load($configuration->getCustomViewConfigPath());
+        $domXpath = new DOMXPath($actual);
+        foreach ($xpathData as $xpath => $isEmpty) {
+            if ($isEmpty) {
+                $this->assertEmpty($domXpath->query($xpath)->item(0));
+            } else {
+                $this->assertNotEmpty($domXpath->query($xpath)->item(0));
+            }
+        }
+    }
+
+    /**
+     * Data provider for testing save functionality
+     *
+     * @return array
+     */
+    public function getSaveDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'background-color-picker' => 'test_saved_value1',
+                    'logo-uploader'           => 'test_saved_value2',
+                    'image-uploader'          => 'test_saved_value_empty',
+                ),
+                array(
+                    '//var[text() = "test_saved_value1"]'      => false,
+                    '//var[text() = "test_saved_value2"]'      => false,
+                    '//var[text() = "test_saved_value_empty"]' => true,
+                )
+            )
         );
     }
 }

@@ -88,6 +88,11 @@ interface Mage_Core_Model_Design_PackageInterface
         = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
 
     /**
+     * Filename of view configuration
+     */
+    const FILENAME_VIEW_CONFIG = 'view.xml';
+
+    /**
      * Set package area
      *
      * @param string $area

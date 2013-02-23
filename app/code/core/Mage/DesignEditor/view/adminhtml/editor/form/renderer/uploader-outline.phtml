@@ -14,6 +14,29 @@
 $element = $this->getElement();
 ?>
 
-<div style="border:1px solid gray; padding:10px 5px;">
-    <?php echo $this->getHtml(); ?>
+<?php $elementId = uniqid('uploader-'); ?>
+<div id="<?php echo $elementId ?>" style="border:1px solid gray; padding:10px 5px;">
+    <div  class="no-display" id="<?php echo $element->getHtmlId(); ?>-container">
+        <?php echo $this->getHtml(); ?>
+    </div>
+
+    <div class="no-display" id="<?php echo $element->getHtmlId(); ?>-template">
+        <div class="file-row">
+            <span class="label">{{name}}</span>
+            <span id="{{remove-id}}">remove</span>
+        </div>
+    </div>
 </div>
+
+<script type="text/javascript">
+    (function($) {
+        $('#<?php echo $elementId ?>').quickStyleUploader({
+            uploader_id: '<?php echo $element->getHtmlId(); ?>',
+            container:   '<?php echo $elementId; ?>',
+            event:       '<?php echo $this->getEvent(); ?>:uploaded',
+            value:       '<?php echo $element->getValue(); ?>',
+            url:         '<?php echo $this->getImageUploadUrl(); ?>',
+            remove_url:  '<?php echo $this->getImageRemoveUrl(); ?>'
+        });
+    })(jQuery);
+</script>
