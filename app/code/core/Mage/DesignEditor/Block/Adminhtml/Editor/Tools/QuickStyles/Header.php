@@ -77,11 +77,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header extends 
     protected function _prepareForm()
     {
         $form = $this->_formBuilder->create(array(
-            'id'     => 'form123',
+            'id'     => 'quick-styles-form-header',
             'action' => '#',
             'method' => 'post',
-            'group'  => 'header',
-            'layout_name' => $this->getNameInLayout()
+            'tab'    => 'header',
+            'theme'  => $this->getTheme(),
+            //'layout_name' => $this->getNameInLayout()
         ));
         $form->setUseContainer(true);
 

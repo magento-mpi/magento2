@@ -133,8 +133,9 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
      */
     public function getComponentId($type)
     {
+        $names = explode(self::CONTROL_NAME_DELIMITER, $this->getData('name'));
         return join('', array(
-            array_shift(explode(self::CONTROL_NAME_DELIMITER, $this->getData('name'))),
+            array_shift($names),
             self::CONTROL_NAME_DELIMITER,
             $type
         ));

@@ -33,6 +33,9 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     protected $_elementsFactory;
 
+    /** @var Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
+    protected $_configFactory;
+
     /** @var Mage_DesignEditor_Model_Config_Control_QuickStyles */
     protected $_config;
 
@@ -53,13 +56,10 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         Mage_Core_Model_Translate $translator
     ) {
         $this->_formFactory     = $formFactory;
+        $this->_configFactory   = $configFactory;
         $this->_rendererFactory = $rendererFactory;
         $this->_elementsFactory = $elementsFactory;
         $this->_translator      = $translator;
-
-        $this->_config = $configFactory->create(
-            Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES
-        );
     }
 
     /**
@@ -71,17 +71,22 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     public function create(array $data = array())
     {
+        $this->_config = $this->_configFactory->create(
+            Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
+            $data['theme']
+        );
+
         /** @var $form Varien_Data_Form */
         $form = $this->_formFactory->create($data);
 
         $this->addElementTypes($form);
 
-        if (!isset($data['group'])) {
-            throw new InvalidArgumentException((sprintf('Invalid controls group "%s".', $data['group'])));
+        if (!isset($data['tab'])) {
+            throw new InvalidArgumentException((sprintf('Invalid controls tab "%s".', $data['tab'])));
         }
 
-        $columns = $this->initColumns($form, $data['group']);
-        $this->populateColumns($columns, $data['group']);
+        $columns = $this->initColumns($form, $data['tab']);
+        $this->populateColumns($columns, $data['tab']);
 
         return $form;
     }
@@ -90,23 +95,23 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * Add column elements to form
      *
      * @param Varien_Data_Form $form
-     * @param string $group
+     * @param string $tab
      * @return array
      */
-    protected function initColumns($form, $group)
+    protected function initColumns($form, $tab)
     {
         /** @var $columnLeft Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnLeft = $form->addField('left-' . $group, 'column', array());
+        $columnLeft = $form->addField('left-' . $tab, 'column', array());
         $columnLeft->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnMiddle Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnMiddle = $form->addField('middle-' . $group, 'column', array());
+        $columnMiddle = $form->addField('middle-' . $tab, 'column', array());
         $columnMiddle->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnRight Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnRight = $form->addField('right-' . $group, 'column', array());
+        $columnRight = $form->addField('right-' . $tab, 'column', array());
         $columnRight->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
@@ -123,19 +128,19 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * Populate columns with fields
      *
      * @param array $columns
-     * @param string $group
+     * @param string $tab
      */
-    protected function populateColumns($columns, $group)
+    protected function populateColumns($columns, $tab)
     {
         foreach ($this->_config->getAllControlsData() as $id => $control) {
             $positionData = $control['layoutParams'];
             unset($control['layoutParams']);
 
-            if ($positionData['tab'] != $group) {
+            if ($positionData['tab'] != $tab) {
                 continue;
             }
 
-            $this->setDefaultValues($control, $id);
+            //$this->setDefaultValues($control, $id);
 
             $config = $this->buildElementConfig($id, $positionData, $control);
 
@@ -149,11 +154,11 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * Populate columns with fields
      *
      * @param array $columns
-     * @param string $group
+     * @param string $tab
      */
-    protected function populateColumnsOld($columns, $group)
+    protected function populateColumnsOld($columns, $tab)
     {
-        foreach ($this->getControlsLayout($group) as $id => $positionData) {
+        foreach ($this->getControlsLayout($tab) as $id => $positionData) {
             $control = $this->getControls($id);
             $this->setDefaultValues($control, $id);
 

@@ -77,11 +77,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Background exte
     protected function _prepareForm()
     {
         $form = $this->_formBuilder->create(array(
-            'id'     => 'form123',
+            'id'     => 'quick-styles-form-background',
             'action' => '#',
             'method' => 'post',
-            'group'  => 'background',
-            'layout_name' => $this->getNameInLayout()
+            'tab'    => 'background',
+            'theme'  => $this->getTheme(),
+            //'layout_name' => $this->getNameInLayout()
         ));
         $form->setUseContainer(true);
 

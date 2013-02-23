@@ -192,6 +192,34 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
+    public function saveImageSizingAction()
+    {
+        $themeId = $this->getRequest()->getParam('id');
+        $imageSizing = $this->getRequest()->getParam('imagesizing');
+        /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
+        $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
+        try {
+            $configuration = $configFactory->create(
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING, $this->_loadTheme($themeId)
+            );
+            $configuration->saveData($imageSizing);
+            $this->_session->addSuccess('Image sizes are saved.');
+            $result = array('success' => true);
+        } catch (Mage_Core_Exception $e) {
+            $this->_session->addError($e->getMessage());
+            $result = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $errorMessage = $this->__('Cannot save image sises.');
+            $this->_session->addError($errorMessage);
+            $result = array('error' => true, 'message' => $errorMessage);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->loadLayout();
+        $result['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+
+    }
+
     /**
      * Upload quick style image
      */
