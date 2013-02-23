@@ -1861,7 +1861,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .multiple-checkout .col2-set { margin:0 0 15px; }
 .multiple-checkout .buttons-set { padding:15px 0; clear:both; width:auto; }
 .multiple-checkout .buttons-set .button { float:right; }
-.multiple-checkout .tool-tip { top:50%; margin-top:-120px; right:10px; }
+.multiple-checkout .tool-tip { top:50%; margin-top:-200px; right:-5px; }
 .multiple-checkout .grand-total { font-weight:normal; font-size:18px; color:#cd3800; text-align:right; display:block; margin:10px 0 15px; }
 .multiple-checkout .grand-total .price-label { font-weight:normal; }
 .multiple-checkout .grand-total .price { font-weight:bold; }

@@ -1459,7 +1459,7 @@ tr.summary-details-excluded { font-style:italic; }
 
 .multiple-checkout .gift-messages { margin:15px 0 0; }
 
-.multiple-checkout .tool-tip { top:50%; margin-top:-120px; right:20px; }
+.multiple-checkout .tool-tip { top:50%; margin-top:-230px; right:-5px; }
 
 .multiple-checkout .col2-set,
 .multiple-checkout .col3-set { margin:0 0 24px; padding:13px 13px 13px; border:1px solid #cfcfcf; }
