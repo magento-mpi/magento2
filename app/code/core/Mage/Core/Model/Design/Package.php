@@ -1072,8 +1072,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             return $this->_viewConfigs[$key];
         }
 
-        $configFiles = $this->_moduleReader->getModuleConfigurationFiles('view.xml');
-        $themeConfigFile = $this->getFilename('view.xml', $params);
+        $configFiles = $this->_moduleReader->getModuleConfigurationFiles(self::FILENAME_VIEW_CONFIG);
+        $themeConfigFile = $this->getFilename(self::FILENAME_VIEW_CONFIG, $params);
         if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }

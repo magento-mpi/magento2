@@ -93,10 +93,12 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Factory
                 throw new Magento_Exception("Unknown control configuration type: \"{$type}\"");
                 break;
         }
-
+        /** @var $config Mage_DesignEditor_Model_Config_Control_Abstract */
         $config = $this->_objectManager->get($class, array($files));
         return Mage::getObjectManager()->create(
-            'Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration', array($config, $theme)
-        );
+            'Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration', array(
+                'configuration' => $config,
+                'theme'         => $theme
+        ));
     }
 }

@@ -29,9 +29,24 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_design;
 
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @var Mage_Core_Model_Theme
      */
     protected $_theme;
+
+    /**
+     * @var Magento_Config_View
+     */
+    protected $_viewConfig;
+
+    /**
+     * @var Magento_Config_View
+     */
+    protected $_viewConfigParent;
 
     /**
      * Controls data
@@ -44,13 +59,39 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      * Initialize dependencies
      */
     public function __construct(
+        Mage_Core_Model_Design_Package $design,
+        Magento_Filesystem $filesystem,
         Mage_DesignEditor_Model_Config_Control_Abstract $configuration = null,
-        Mage_Core_Model_Theme $theme = null,
-        Mage_Core_Model_Design_Package $design
+        Mage_Core_Model_Theme $theme = null
     ) {
         $this->_configuration = $configuration;
         $this->_theme = $theme;
         $this->_design = $design;
+        $this->_filesystem = $filesystem;
+        $this->_configView = $this->_design->getViewConfig(array(
+            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            'themeModel' => $this->_theme
+        ));
+        $this->_configViewParent = $this->_design->getViewConfig(array(
+            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            'themeModel' => $this->_theme->getParentTheme()
+        ));
+        $this->_loadControlsData();
+    }
+
+    /**
+     * Load all control values
+     *
+     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     */
+    protected function _loadControlsData()
+    {
+        $this->_data = $this->_configuration->getAllControlsData();
+        foreach ($this->_data as &$control) {
+            $this->_loadControlData($control, 'value', $this->_configView);
+            $this->_loadControlData($control, 'default', $this->_configViewParent);
+        }
+        return $this;
     }
 
     /**
@@ -60,25 +101,6 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     public function getAllControlsData()
     {
-        if ($this->_data !== null) {
-            return $this->_data;
-        }
-
-        $configView = $this->_design->getViewConfig(array(
-            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
-            'themeModel' => $this->_theme
-        ));
-        $configViewParent = $this->_design->getViewConfig(array(
-            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
-            'themeModel' => $this->_theme->getParentTheme()
-        ));
-
-        $this->_data = $this->_configuration->getAllControlsData();
-        foreach ($this->_data as &$control) {
-            $this->_loadControlData($control, 'value', $configView);
-            $this->_loadControlData($control, 'default', $configViewParent);
-        }
-
         return $this->_data;
     }
 
@@ -91,11 +113,10 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     public function getControlData($controlName)
     {
-        $data = $this->getAllControlsData();
-        if (!isset($data[$controlName])) {
+        if (!isset($this->_data[$controlName])) {
             throw new Mage_Core_Exception("Unknown control: \"{$controlName}\"");
         }
-        return $data[$controlName];
+        return $this->_data[$controlName];
     }
 
     /**
@@ -113,9 +134,94 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
                 $this->_loadControlData($control, $paramName, $viewConfiguration);
             }
         } elseif (!empty($control['var'])) {
-            list($module, $varKey) = explode(self::SEPARATOR_MODULE, $control['var']);
+            list($module, $varKey) = $this->_extractModuleKey($control['var']);
             $control[$paramName] = $viewConfiguration->getVarValue($module, $varKey);
         }
+        return $this;
+    }
+
+    /**
+     * Extract module and key name
+     *
+     * @param string $value
+     * @return array
+     */
+    protected function _extractModuleKey($value)
+    {
+        return explode(self::SEPARATOR_MODULE, $value);
+    }
+
+    /**
+     * Save control values data
+     *
+     * @param array $controlsData
+     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     */
+    public function saveData(array $controlsData)
+    {
+        $configDom = $this->_configView->getConfigDomCopy()->getDom();
+        $varData = $this->_prepareVarData($controlsData, $this->_data);
+
+        /** @var $varsNode DOMElement */
+        foreach ($configDom->childNodes->item(0)->childNodes as $varsNode) {
+            $moduleName = $varsNode->getAttribute('module');
+            if (!isset($varData[$moduleName])) {
+                continue;
+            }
+            /** @var $varNode DOMElement */
+            foreach ($varsNode->getElementsByTagName('var') as $varNode) {
+                $varName = $varNode->getAttribute('name');
+                if (isset($varData[$moduleName][$varName])) {
+                    $varNode->nodeValue = $varData[$moduleName][$varName];
+                }
+            }
+        }
+        $this->_saveViewConfiguration($configDom);
+        return $this;
+    }
+
+    /**
+     * Extract var data keys for current controls configuration
+     *
+     * @param array $controlsData
+     * @param array $controls
+     * @param array $result
+     * @return array
+     */
+    protected function _prepareVarData(array $controlsData, array $controls, array &$result = array())
+    {
+        foreach ($controls as $controlName => $control) {
+            if (!empty($control['components'])) {
+                $this->_prepareVarData($controlsData, $control['components']);
+            } elseif (isset($controlsData[$controlName])) {
+                list($module, $varKey) = $this->_extractModuleKey($control['var']);
+                $result[$module][$varKey] = $controlsData[$controlName];
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Return path to view.xml in customization
+     *
+     * @return string
+     */
+    public function getCustomViewConfigPath()
+    {
+        return $this->_theme->getCustomizationPath() . DIRECTORY_SEPARATOR
+            . Mage_Core_Model_Design_Package::FILENAME_VIEW_CONFIG;
+    }
+
+    /**
+     * Save customized DOM of view configuration
+     *
+     * @param DOMDocument $config
+     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     */
+    protected function _saveViewConfiguration(DOMDocument $config)
+    {
+        $this->_filesystem->setIsAllowCreateDirectories(true)
+            ->write($this->getCustomViewConfigPath(), $config->saveXML());
         return $this;
     }
 }
