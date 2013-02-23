@@ -193,6 +193,96 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     }
 
     /**
+     * Upload quick style image
+     */
+    public function uploadQuickStyleImageAction()
+    {
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+
+        /** @var $uploaderModel Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader */
+        $uploaderModel = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
+        try {
+            foreach ($this->getRequest()->getFiles() as $key => $data) {
+                $result[] = $uploaderModel->setTheme($this->_loadTheme($themeId))->uploadFile($key);
+            }
+
+            /**
+             * @todo save images in quick_style css after safe
+             */
+
+            $response = array('error' => false, 'content' => $result);
+            $this->_session->addSuccess($this->__('Success: Image file was uploaded.'));
+        } catch (Mage_Core_Exception $e) {
+            $this->_session->addError($e->getMessage());
+            $response = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $errorMessage = $this->__('Cannot upload image file');
+            $this->_session->addError($errorMessage);
+            $response = array('error' => true, 'message' => $errorMessage);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+    }
+
+    /**
+     * Remove quick style image
+     */
+    public function removeQuickStyleImageAction()
+    {
+
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        $fileName = $this->getRequest()->getParam('file_name', false);
+
+        /** @var $uploaderModel Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader */
+        $uploaderModel = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
+        try {
+            $result = $uploaderModel->setTheme($this->_loadTheme($themeId))->removeFile($fileName);
+            $response = array('error' => false, 'content' => $result);
+        } catch (Mage_Core_Exception $e) {
+            $response = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $errorMessage = $this->__('Cannot upload image file');
+            $response = array('error' => true, 'message' => $errorMessage);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+    }
+
+    /**
+     * Upload store logo
+     *
+     * @throws Mage_Core_Exception
+     */
+    public function uploadStoreLogoAction()
+    {
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        try {
+            $theme = $this->_loadTheme($themeId);
+
+            /** @var $themeService Mage_Core_Model_Theme_Service */
+            $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+            $stores = $themeService->getStoresByThemes();
+
+            if (!isset($stores[$theme->getId()])) {
+                throw new Mage_Core_Exception($this->__('Theme is not assigned to any store.', $themeId));
+            }
+
+            foreach ($stores[$theme->getId()] as $store) {
+                $storeLogo = $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Image_Logo');
+                $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
+            }
+            $response = array('error' => false, 'content' => array());
+        } catch (Mage_Core_Exception $e) {
+            $response = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $errorMessage = $this->__('Cannot upload image file');
+            $response = array('error' => true, 'message' => $errorMessage);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+    }
+
+    /**
      * Load theme by theme id
      *
      * Method also checks if theme actually loaded and if theme is virtual or not

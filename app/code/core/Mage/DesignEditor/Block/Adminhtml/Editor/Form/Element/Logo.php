@@ -53,7 +53,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
         );
         $uploaderId = $this->getComponentId('logo-uploader');
         $uploaderConfig = array(
-            'name'     => $uploaderId,
+            'name'     => 'groups[header][fields][logo_src][value]',
             'title'    => $uploaderTitle,
             //'onclick'  => "return confirm('Are you sure?');",
             //'label'       => $groupName,

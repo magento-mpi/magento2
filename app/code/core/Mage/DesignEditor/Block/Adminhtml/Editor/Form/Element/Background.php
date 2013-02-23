@@ -58,7 +58,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
             'title'    => $uploaderTitle,
             'label'    => null,
             //'onclick'  => "return confirm('Are you sure?');",
-            //'values'   => $files,
+            //'value'   => $files,
         );
         $this->addField($uploaderHtmlId, 'background-uploader', $uploaderConfig);
 

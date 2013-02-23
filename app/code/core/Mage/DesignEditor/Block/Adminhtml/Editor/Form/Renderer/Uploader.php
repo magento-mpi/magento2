@@ -13,13 +13,10 @@
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Uploader
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
-    //extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite
 {
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/element/input.phtml',
         'Mage_DesignEditor::editor/form/renderer/uploader.phtml',
-        //'Mage_DesignEditor::editor/form/renderer/simple/wrapper.phtml',
-        //'Mage_DesignEditor::editor/form/renderer/simple.phtml'
     );
 
     //used here
@@ -63,5 +60,29 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Uploader
             . $this->getUiId('form-field', $element->getId());
 
         return $fieldAttributes;
+    }
+
+    /**
+     * Get image upload url
+     *
+     * @return string
+     */
+    public function getImageUploadUrl()
+    {
+        return $this->getUrl('*/system_design_editor_tools/uploadQuickStyleImage',
+            array('theme_id' => Mage::registry('theme')->getId())
+        );
+    }
+
+    /**
+     * Get image upload url
+     *
+     * @return string
+     */
+    public function getImageRemoveUrl()
+    {
+        return $this->getUrl('*/system_design_editor_tools/removeQuickStyleImage',
+            array('theme_id' => Mage::registry('theme')->getId())
+        );
     }
 }
