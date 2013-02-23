@@ -40,6 +40,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
         $uploaderId = $this->getComponentId('logo-uploader');
         $this->addField($uploaderId, 'logo-uploader', array(
             'name'     => $uploaderId,
+            //'name'     => 'groups[header][fields][logo_src][value]',
             'title'    => $uploaderTitle,
             'label'      => null
             //'onclick'  => "return confirm('Are you sure?');",

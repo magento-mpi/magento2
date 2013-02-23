@@ -67,6 +67,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$theme->getId()) {
                 throw new InvalidArgumentException(sprintf('Theme "%s" was not found.', $themeId));
             }
+            /** @todo replace register */
+            Mage::register('theme', $theme);
 
             if (!$theme->isVirtual()) {
                 $themeCustomization = $this->_getThemeCustomization($theme);
