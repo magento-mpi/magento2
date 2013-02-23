@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($, window) {
+(function($, window, document) {
     "use strict";
     $.widget('mage.popupWindow', {
         options: {
@@ -70,4 +70,4 @@
             event.preventDefault();
         }
     });
-})(jQuery, window);
+})(jQuery, window, document);
