@@ -14,25 +14,15 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
 {
-    /**
-     * Constructor helper
-     */
-    public function _construct()
-    {
-        parent::_construct();
-
-        $this->addElementTypes();
-        $this->addFields();
-    }
+    const CONTROL_TYPE = 'background';
 
     /**
      * Add form elements
      */
-    public function addFields()
+    protected function _addFields()
     {
-        $uploaderData = $this->getComponent('background-uploader', 'image-uploader');
-        $checkboxData = $this->getComponent('background-uploader', 'tile');
         $colorData = $this->getComponent('color-picker');
+        $uploaderData = $this->getComponent('background-uploader');
 
         $colorTitle = sprintf("%s {%s: %s}",
             $colorData['selector'],
@@ -47,20 +37,31 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
             'label' => null,
         ));
 
+
+
+
+        $uploaderId = $this->getComponentId('background-uploader');
+        $this->addField($uploaderId, 'background-uploader', array(
+            'components' => $uploaderData['components'],
+            'name'       => $uploaderId,
+            'label'      => null
+        ));
+
+        /*$uploaderData = $this->getComponent('background-uploader', 'image-uploader');
+        $checkboxData = $this->getComponent('background-uploader', 'tile');
         $uploaderTitle = sprintf('%s {%s: url(%s)}',
             $uploaderData['selector'],
             $uploaderData['attribute'],
             $uploaderData['value']
         );
-        $uploaderHtmlId = $this->getComponentId('background-uploader');
+        $uploaderId = $this->getComponentId('background-uploader');
         $uploaderConfig = array(
-            'name'     => $uploaderHtmlId,
+            'name'     => $uploaderId,
             'title'    => $uploaderTitle,
             'label'    => null,
-            //'onclick'  => "return confirm('Are you sure?');",
-            //'values'   => $files,
+            'value'    => $uploaderData['value'],
         );
-        $this->addField($uploaderHtmlId, 'background-uploader', $uploaderConfig);
+        $this->addField($uploaderId, 'background-uploader', $uploaderConfig);
 
         $checkboxTitle = sprintf('%s {%s: %s}',
             $checkboxData['selector'],
@@ -72,15 +73,17 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
             'name'  => $checkboxHtmlId,
             'title' => $checkboxTitle,
             'label' => 'Tile Background',
-        ));
+        ));*/
     }
 
     /**
      * Add element types used in composite font element
      */
-    public function addElementTypes()
+    protected function _addElementTypes()
     {
         $this->addType('color-picker', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker');
-        $this->addType('background-uploader', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader');
+        $this->addType('background-uploader',
+            'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
+        );
     }
 }

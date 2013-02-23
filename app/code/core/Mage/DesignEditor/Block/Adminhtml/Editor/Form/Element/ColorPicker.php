@@ -15,6 +15,8 @@
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker extends Varien_Data_Form_Element_Abstract
 {
+    const CONTROL_TYPE = 'color-picker';
+
     /**
      * Constructor helper
      */
@@ -22,6 +24,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker extends 
     {
         parent::_construct();
 
-        $this->setCssClass('element-color-picker');
+        $this->setCssClass('element-' . self::CONTROL_TYPE);
     }
 }

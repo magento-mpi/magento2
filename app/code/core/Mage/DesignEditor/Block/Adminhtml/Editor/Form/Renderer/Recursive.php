@@ -22,8 +22,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends M
      */
     protected $_element;
 
-    //@TODO do we really need to unset template, anyway it will not be used, cause it will be rewritten in self::render()
-    //protected $_template = null;
+    protected $_template = null;
 
     /**
      * Set of templates to render

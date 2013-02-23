@@ -12,7 +12,8 @@
  * Color-picker form element renderer
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Font
-    extends Mage_Backend_Block_Widget_Form_Renderer_Fieldset_Element
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer
+    //extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite
 {
     protected $_template = 'Mage_DesignEditor::editor/form/renderer/font.phtml';
 

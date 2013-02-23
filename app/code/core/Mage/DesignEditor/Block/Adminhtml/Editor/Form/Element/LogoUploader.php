@@ -38,9 +38,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader
     {
         $components = $this->getComponents();
         //$uploaderData = $this->getCompo
-        $components['header-background|background-uploader']['components']['header-background|image-uploader'];
-        $checkboxData = $components['header-background|background-uploader']['components']['header-background|tile'];
-        $colorData = $components['header-background|color-picker'];
+        $components['header-background:background-uploader']['components']['header-background:image-uploader'];
+        $checkboxData = $components['header-background:background-uploader']['components']['header-background:tile'];
+        $colorData = $components['header-background:color-picker'];
 
         $colorTitle = sprintf("%s {%s: %s}",
             $colorData['selector'],

@@ -69,25 +69,33 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      */
     protected $_layout;
 
-    //@TODO remove references to Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column_Element and remove renderer itself
     protected $_rendererByElement = array(
-        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column'
-            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column',
-        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker'
-            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker',
-        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo'
-            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
-        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font'
-            //=> 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
-            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Font',
-        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader'
-            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader',
-        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background'
-            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
-        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker'
-            => 'Mage_Backend_Block_Widget_Form_Renderer_Fieldset_Element',
-        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
-            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader',
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column'                      //fieldset
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column',             //fieldset
+
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker'                 //Element
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker',        //Recursive[simple.phtml]
+
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo'                        //Composite,Fieldset,Element
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',          //Composite,Recursive[composite.phtml]
+
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font'                        //Composite,Fieldset,Element
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Font',               //Font,Renderer[font.phtml]
+
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader'                //ImageUploader,File,Element
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader',       //ImageUploader,Uploader,Recursive[uploader.phtml]
+
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background'                  //Composite,Fieldset,Element
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',          //Composite,Recursive[composite.phtml]
+
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker'                  //Select,Element
+            => 'Mage_Backend_Block_Widget_Form_Renderer_Fieldset_Element',                  //fieldset element
+
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'          //Composite,Fieldset,Element
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader', //BackgroundUploader,Renderer[background-uploader.phtml]
+
+        'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader'               //File,Element
+            => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader'       //Uploader,Recursive[uploader.phtml]
     );
 
     /**

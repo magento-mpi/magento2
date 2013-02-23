@@ -17,22 +17,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
     const CONTROL_TYPE = 'font';
 
     /**
-     * Constructor helper
-     */
-    public function _construct()
-    {
-        parent::_construct();
-
-        $this->addElementTypes();
-        $this->addFields();
-
-        $this->addClass('element-' . self::CONTROL_TYPE);
-    }
-
-    /**
      * Add form elements
      */
-    public function addFields()
+    protected function _addFields()
     {
         $fontData = $this->getComponent('font-picker');
         $colorData = $this->getComponent('color-picker');
@@ -70,7 +57,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
     /**
      * Add element types used in composite font element
      */
-    public function addElementTypes()
+    protected function _addElementTypes()
     {
         $this->addType('color-picker', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker');
         $this->addType('font-picker', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker');

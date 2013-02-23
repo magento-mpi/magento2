@@ -16,6 +16,8 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
     extends Varien_Data_Form_Element_Fieldset
 {
+    //const CONTROL_TYPE = 'column';
+
     /**
      * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      */
@@ -129,4 +131,3 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
         return $element;
     }
 }
-

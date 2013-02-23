@@ -45,7 +45,8 @@ $advancedAfter = $element->getAdvancedPosition() == 'after'; // To place advance
             <div class="fields-group-<?php echo $count?>">
         <?php endif; ?>
 
-        <?php echo $element->getBasicChildrenHtml(); ?>
+        <?php echo $this->getHtml(); ?>
+        <?php //echo $element->getBasicChildrenHtml(); ?>
 
         <?php echo ($isField && $count > 1) ? '</div>' : '' ?>
 

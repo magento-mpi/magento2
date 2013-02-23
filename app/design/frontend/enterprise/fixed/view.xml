@@ -131,13 +131,13 @@
         <var name="product_summary_image_size">58</var>         <!-- New Product image size used for summary block-->
     </vars>
     <vars module="Mage_DesignEditor">
-        <var name="store-name|font-picker">Tahoma, Geneva, sans-serif</var>
-        <var name="store-name|color-picker">#ccc</var>
-        <var name="store-name|logo-uploader">logo.png</var>
+        <var name="store-name:font-picker">Tahoma, Geneva, sans-serif</var>
+        <var name="store-name:color-picker">#ccc</var>
+        <var name="store-name:logo-uploader">logo.png</var>
 
-        <var name="header-background|color-picker">transparent</var>
-        <var name="header-background|image-uploader">bg.gif</var>
-        <var name="header-background|tile">no-repeat</var>
+        <var name="header-background:color-picker">transparent</var>
+        <var name="header-background:image-uploader">bg.gif</var>
+        <var name="header-background:tile">no-repeat</var>
 
         <var name="menu-background">#f8f8f8</var>
         <var name="menu-stroke">#c2c2c2</var>

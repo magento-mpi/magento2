@@ -14,5 +14,4 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column
     extends Mage_Backend_Block_Widget_Form_Renderer_Fieldset
 {
-    //protected $_template = 'Mage_Backend::widget/form/renderer/fieldset/element.phtml';
 }

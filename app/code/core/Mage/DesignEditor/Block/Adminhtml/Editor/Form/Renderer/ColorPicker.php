@@ -14,6 +14,7 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
 {
+    //former fieldset/element.phtml but split into several templates
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/element/input.phtml',
         'Mage_DesignEditor::editor/form/renderer/color-picker.phtml',
@@ -30,7 +31,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker
         $addOn = $element->getBeforeElementHtml() || $element->getAfterElementHtml();
 
         //@TODO add class that show the control type 'color-picker' for this one
-        // mb use setExtType() ?
         $classes = array();
         $classes[] = 'field';
         $classes[] = 'field-' . $element->getId();

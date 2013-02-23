@@ -31,7 +31,7 @@
 abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
     extends Varien_Data_Form_Element_Fieldset
 {
-    const CONTROL_NAME_DELIMITER = '|';
+    const CONTROL_NAME_DELIMITER = ':';
 
     /**
      * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
@@ -62,10 +62,15 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
     /**
      * Constructor helper
      */
-    public function _construct()
+    protected function _construct()
     {
         parent::_construct();
         $this->setLegend($this->getLabel());
+
+        $this->_addElementTypes();
+        $this->_addFields();
+
+        $this->addClass('element-' . static::CONTROL_TYPE);
     }
 
     /**
@@ -133,8 +138,9 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
      */
     public function getComponentId($type)
     {
+        $nameParts = explode(self::CONTROL_NAME_DELIMITER, $this->getData('name'));
         return join('', array(
-            array_shift(explode(self::CONTROL_NAME_DELIMITER, $this->getData('name'))),
+            array_shift($nameParts),
             self::CONTROL_NAME_DELIMITER,
             $type
         ));
@@ -143,10 +149,10 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
     /**
      * Add form elements
      */
-    abstract public function addFields();
+    abstract protected function _addFields();
 
     /**
      * Add element types used in composite font element
      */
-    abstract public function addElementTypes();
+    abstract protected function _addElementTypes();
 }

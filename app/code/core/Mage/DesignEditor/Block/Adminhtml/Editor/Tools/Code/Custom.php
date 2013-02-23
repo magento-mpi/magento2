@@ -35,7 +35,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
         $this->setForm($form);
         $form->setUseContainer(true);
 
-        $form->addType('css_file', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File');
+        $form->addType('css_file', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader');
 
         $form->addField($this->getFileElementName(), 'css_file', array(
             'name'     => $this->getFileElementName(),

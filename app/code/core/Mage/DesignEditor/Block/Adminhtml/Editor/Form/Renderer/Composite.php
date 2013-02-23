@@ -14,9 +14,7 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
 {
-    //protected $_template = 'Mage_DesignEditor::editor/form/renderer/composite.phtml';
-    //protected $_template = 'Mage_Backend::widget/form/renderer/fieldset/element.phtml';
-
+    //former fieldset.phtml but split into several templates
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/composite/children.phtml',
         'Mage_DesignEditor::editor/form/renderer/composite.phtml',

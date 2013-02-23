@@ -16,6 +16,8 @@
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker extends Varien_Data_Form_Element_Select
 {
+    const CONTROL_TYPE = 'font-picker';
+
     /**
      * Default options which can be limited further by element's 'options' data
      *
@@ -38,7 +40,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker extends V
         $options = array_intersect(array_combine($this->_defaultOptions, $this->_defaultOptions), $this->getOptions());
         $this->setOptions($options);
 
-        $this->setCssClass('element-font-picker');
+        $this->setCssClass('element-' . self::CONTROL_TYPE);
     }
 }
 

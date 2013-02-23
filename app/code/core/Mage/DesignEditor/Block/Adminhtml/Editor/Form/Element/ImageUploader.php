@@ -12,7 +12,7 @@
  * Form element renderer to display logo uploader element for VDE
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
-    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader
 {
     const CONTROL_TYPE = 'image-uploader';
 
@@ -32,8 +32,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
     public function _construct()
     {
         parent::_construct();
-
-        //$this->addFields();
 
         $this->setAccept($this->_acceptTypesDefault);
         $this->setMultiple($this->_multipleFilesDefault);
