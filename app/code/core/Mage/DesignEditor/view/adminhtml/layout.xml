@@ -148,4 +148,12 @@
     <adminhtml_system_design_editor_tools_reorderjs>
         <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/message.phtml" />
     </adminhtml_system_design_editor_tools_reorderjs>
+
+    <adminhtml_system_design_editor_tools_savequickstyles>
+        <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/message.phtml" />
+    </adminhtml_system_design_editor_tools_savequickstyles>
+
+    <adminhtml_system_design_editor_tools_saveimagesizing>
+        <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/message.phtml" />
+    </adminhtml_system_design_editor_tools_saveimagesizing>
 </layout>

@@ -167,7 +167,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      */
     public function reorderJsAction()
     {
-        $themeId = $this->getRequest()->getParam('id');
+        $themeId = (int)$this->getRequest()->getParam('id');
         $reorderJsFiles = (array)$this->getRequest()->getParam('js_order', array());
         /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
         $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
@@ -192,9 +192,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
+    /**
+     * Save image sizes
+     */
     public function saveImageSizingAction()
     {
-        $themeId = $this->getRequest()->getParam('id');
+        $themeId = (int)$this->getRequest()->getParam('id');
         $imageSizing = $this->getRequest()->getParam('imagesizing');
         /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
         $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
@@ -209,7 +212,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_session->addError($e->getMessage());
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $errorMessage = $this->__('Cannot save image sises.');
+            $errorMessage = $this->__('Cannot save image sizes.');
             $this->_session->addError($errorMessage);
             $result = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
@@ -257,7 +260,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      */
     public function removeQuickStyleImageAction()
     {
-
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $fileName = $this->getRequest()->getParam('file_name', false);
 
@@ -310,11 +312,22 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
+    /**
+     * Save quick styles data
+     */
     public function saveQuickStylesAction()
     {
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        $controlId = $this->getRequest()->getParam('id');
+        $controlValue = $this->getRequest()->getParam('value');
         try {
+            /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
+            $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
+            $configuration = $configFactory->create(
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING, $this->_loadTheme($themeId)
+            );
+            $configuration->saveData(array($controlId => $controlValue));
             $response = array('success' => true);
-            //throw new Mage_Core_Exception('WTF!!!11');
         } catch (Mage_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -325,8 +338,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
 
-        //$this->loadLayout();
-        //$response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $this->loadLayout();
+        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
@@ -343,7 +356,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
-        if (!$themeId || !$theme->load($themeId)->getId()) {
+        if (!($themeId && $theme->load($themeId)->getId())) {
             throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
         }
         if (!$theme->isEditable()) {
