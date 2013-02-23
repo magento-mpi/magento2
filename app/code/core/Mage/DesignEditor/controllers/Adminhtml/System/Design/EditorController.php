@@ -495,6 +495,24 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $backgroundQuickStylesBlock->setTheme($theme);
         }
 
+        /** @var $buttonsQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
+        $buttonsQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_buttons');
+        if ($buttonsQuickStylesBlock) {
+            $buttonsQuickStylesBlock->setTheme($theme);
+        }
+
+        /** @var $tipsQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
+        $tipsQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_tips');
+        if ($tipsQuickStylesBlock) {
+            $tipsQuickStylesBlock->setTheme($theme);
+        }
+
+        /** @var $fontsQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
+        $fontsQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_fonts');
+        if ($fontsQuickStylesBlock) {
+            $fontsQuickStylesBlock->setTheme($theme);
+        }
+
         return $this;
     }
 

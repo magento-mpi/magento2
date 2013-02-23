@@ -134,10 +134,9 @@
         <var name="store-name:font-picker">Tahoma, Geneva, sans-serif</var>
         <var name="store-name:color-picker">#ccc</var>
         <var name="store-name:logo-uploader">logo.png</var>
-
         <var name="header-background:color-picker">transparent</var>
         <var name="header-background:image-uploader">bg.gif</var>
-        <var name="header-background:tile">no-repeat</var>
+        <var name="header-background:tile">repeat</var>
 
         <var name="menu-background">#f8f8f8</var>
         <var name="menu-stroke">#c2c2c2</var>
@@ -146,12 +145,77 @@
 
         <var name="header-links">#837d75</var>
         <var name="header-links-hover">#675f55</var>
-
-        <var name="scroll-bar-background">#ffffff</var>
-        <var name="scroll-bar-handle">#e5e5e5</var>
-
+        <var name="header-scroll-bar-background">#ffffff</var>
+        <var name="header-scroll-bar-handle">#e5e5e5</var>
         <var name="search-field">#ffffff</var>
         <var name="search-field-stroke">#c2c2c2</var>
+
+
+        <var name="page-background:color-picker">#ffffff</var>
+        <var name="page-background:image-uploader">page-bg.gif</var>
+        <var name="page-background:tile">no-repeat</var>
+
+        <var name="form-background">#f8f8f8</var>
+        <var name="form-stroke">aaaaaa</var>
+        <var name="form2-background">aaaaaa</var>
+        <var name="form2-stroke">aaaaaa</var>
+
+        <var name="form-field-stroke">aaaaaa</var>
+        <var name="form-field-stroke-clicked">aaaaaa</var>
+        <var name="image-stroke-keylines">aaaaaa</var>
+        <var name="scroll-bar-background">aaaaaa</var>
+        <var name="scroll-bar-handle">aaaaaa</var>
+
+        <var name="radio-checkbox-icon">aaaaaa</var>
+        <var name="radio-checkbox-background">aaaaaa</var>
+        <var name="radio-checkbox-stroke">aaaaaa</var>
+
+        <var name="button-background">aaaaaa</var>
+        <var name="button-text">aaaaaa</var>
+        <var name="button-color">aaaaaa</var>
+        <var name="icons">aaaaaa</var>
+        <var name="icons-hover">aaaaaa</var>
+        <var name="icons2">aaaaaa</var>
+
+        <var name="accents">aaaaaa</var>
+        <var name="size-swatches">aaaaaa</var>
+        <var name="size-swatches-unavailable">aaaaaa</var>
+        <var name="size-swatches-hover">aaaaaa</var>
+
+
+        <var name="tooltip-text">aaaaaa</var>
+        <var name="tooltip-box">aaaaaa</var>
+        <var name="tooltip-stroke">aaaaaa</var>
+        <var name="tooltip2-text">aaaaaa</var>
+        <var name="tooltip2-box">aaaaaa</var>
+        <var name="tooltip2-stroke">aaaaaa</var>
+
+        <var name="error-box">aaaaaa</var>
+        <var name="error-icon">aaaaaa</var>
+
+        <var name="success-box">aaaaaa</var>
+        <var name="success-icon">aaaaaa</var>
+
+
+        <var name="banner-text:font-picker">aaaaaa</var>
+        <var name="banner-text:color-picker">aaaaaa</var>
+        <var name="page-headings:font-picker">aaaaaa</var>
+        <var name="page-headings:color-picker">aaaaaa</var>
+        <var name="menu:font-picker">aaaaaa</var>
+        <var name="menu:color-picker">aaaaaa</var>
+
+        <var name="body-text:font-picker">aaaaaa</var>
+        <var name="body-text:color-picker">aaaaaa</var>
+
+        <var name="buttons:font-picker">aaaaaa</var>
+        <var name="buttons:color-picker">aaaaaa</var>
+
+        <var name="text-links">aaaaaa</var>
+        <var name="text-links-hover">aaaaaa</var>
+        <var name="text-links-active">aaaaaa</var>
+        <var name="text-links-product">aaaaaa</var>
+        <var name="small-links">aaaaaa</var>
+        <var name="small-links-hover">aaaaaa</var>
     </vars>
 
 </view>

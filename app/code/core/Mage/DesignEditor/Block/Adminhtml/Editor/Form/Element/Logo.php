@@ -24,13 +24,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
         $uploaderData = $this->getComponent('logo-uploader');
         $fontData = $this->getComponent('font');
 
-        $fontId = $this->getComponentId('font');
+        // it was asked to remove font element from store-logo
+        /*$fontId = $this->getComponentId('font');
         $this->addField($fontId, 'font', array(
             'components' => $fontData['components'],
             'name'       => $fontId,     //templates not use this, but it used do get components
             'label'      => null
             //'title'      => $fontTitle,   //templates not use this
-        ));
+        ));*/
 
         $uploaderTitle = sprintf('%s {%s: url(%s)}',
             $uploaderData['selector'],
@@ -43,9 +44,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
             //'name'     => 'groups[header][fields][logo_src][value]',
             'title'    => $uploaderTitle,
             'label'      => null
-            //'onclick'  => "return confirm('Are you sure?');",
-            //'label'       => $groupName,
-            //'values'      => $files,
         ));
     }
 

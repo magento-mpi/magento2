@@ -48,7 +48,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             'name'  => $checkboxHtmlId,
             'title' => $checkboxTitle,
             'label' => 'Tile Background',
-            'class' => 'element-'
+            'class' => 'element-checkbox'
         ));
     }
 

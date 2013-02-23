@@ -30,15 +30,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
             $colorData['value']
         );
         $colorHtmlId = $this->getComponentId('color-picker');
-        $this->addField(uniqid('background-color-picker-'), 'color-picker', array(
+        $this->addField($colorHtmlId, 'color-picker', array(
             'name'  => $colorHtmlId,
             'value' => $colorData['value'],
             'title' => $colorTitle,
             'label' => null,
         ));
-
-
-
 
         $uploaderId = $this->getComponentId('background-uploader');
         $this->addField($uploaderId, 'background-uploader', array(
@@ -46,34 +43,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
             'name'       => $uploaderId,
             'label'      => null
         ));
-
-        /*$uploaderData = $this->getComponent('background-uploader', 'image-uploader');
-        $checkboxData = $this->getComponent('background-uploader', 'tile');
-        $uploaderTitle = sprintf('%s {%s: url(%s)}',
-            $uploaderData['selector'],
-            $uploaderData['attribute'],
-            $uploaderData['value']
-        );
-        $uploaderId = $this->getComponentId('background-uploader');
-        $uploaderConfig = array(
-            'name'     => $uploaderId,
-            'title'    => $uploaderTitle,
-            'label'    => null,
-            'value'    => $uploaderData['value'],
-        );
-        $this->addField($uploaderId, 'background-uploader', $uploaderConfig);
-
-        $checkboxTitle = sprintf('%s {%s: %s}',
-            $checkboxData['selector'],
-            $checkboxData['attribute'],
-            $checkboxData['value']
-        );
-        $checkboxHtmlId = $this->getComponentId('tile');
-        $this->addField($checkboxHtmlId, 'checkbox', array(
-            'name'  => $checkboxHtmlId,
-            'title' => $checkboxTitle,
-            'label' => 'Tile Background',
-        ));*/
     }
 
     /**

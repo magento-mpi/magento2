@@ -16,7 +16,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header extends Mage_Backend_Block_Widget_Form
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Buttons extends Mage_Backend_Block_Widget_Form
 {
     /**
      * Form factory for VDE "Quick Styles" tab
@@ -30,7 +30,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header extends 
      *
      * @var string
      */
-    protected $_tab = 'header';
+    protected $_tab = 'buttons';
 
     /**
      * @param Mage_Core_Controller_Request_Http $request

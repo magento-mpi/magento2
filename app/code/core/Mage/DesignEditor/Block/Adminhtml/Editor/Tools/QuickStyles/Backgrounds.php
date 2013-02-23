@@ -16,7 +16,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header extends Mage_Backend_Block_Widget_Form
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Backgrounds extends Mage_Backend_Block_Widget_Form
 {
     /**
      * Form factory for VDE "Quick Styles" tab
@@ -30,7 +30,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header extends 
      *
      * @var string
      */
-    protected $_tab = 'header';
+    protected $_tab = 'backgrounds';
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -84,7 +84,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header extends 
     protected function _prepareForm()
     {
         $form = $this->_formBuilder->create(array(
-            'id'     => 'quick-styles-form-header',
+            'id'     => 'quick-styles-form-background',
             'action' => '#',
             'method' => 'post',
             'tab'    => $this->_tab,

@@ -16,7 +16,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Background extends Mage_Backend_Block_Widget_Form
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Fonts extends Mage_Backend_Block_Widget_Form
 {
     /**
      * Form factory for VDE "Quick Styles" tab
@@ -24,6 +24,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Background exte
      * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     protected $_formBuilder;
+
+    /**
+     * Controls group which will be rendered on the tab form
+     *
+     * @var string
+     */
+    protected $_tab = 'fonts';
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -77,10 +84,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Background exte
     protected function _prepareForm()
     {
         $form = $this->_formBuilder->create(array(
-            'id'     => 'quick-styles-form-background',
+            'id'     => 'quick-styles-form-header',
             'action' => '#',
             'method' => 'post',
-            'tab'    => 'background',
+            'tab'    => $this->_tab,
             'theme'  => $this->getTheme(),
             //'layout_name' => $this->getNameInLayout()
         ));
