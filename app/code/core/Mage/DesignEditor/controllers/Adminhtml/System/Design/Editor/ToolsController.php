@@ -229,14 +229,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
 
         /** @var $uploaderModel Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader */
         $uploaderModel = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
+        /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
+        $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
         try {
-            foreach ($this->getRequest()->getFiles() as $key => $data) {
-                $result[] = $uploaderModel->setTheme($this->_loadTheme($themeId))->uploadFile($key);
-            }
+            $keys = array_keys($this->getRequest()->getFiles());
+            $result = $uploaderModel->setTheme($this->_loadTheme($themeId))->uploadFile($keys[0]);
 
-            /**
-             * @todo save images in quick_style css after safe
-             */
+            $configuration = $configFactory->create(
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, $this->_loadTheme($themeId)
+            );
+            $configuration->saveData(array($keys[0] => $result['css_path']));
 
             $response = array('error' => false, 'content' => $result);
             $this->_session->addSuccess($this->__('Success: Image file was uploaded.'));

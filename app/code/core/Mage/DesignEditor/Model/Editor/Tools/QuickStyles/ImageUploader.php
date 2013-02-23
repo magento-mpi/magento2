@@ -123,7 +123,9 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
             /** @todo add translator */
             Mage::throwException('Cannot upload file.');
         }
-
+        $result['css_path'] = implode(
+            '/', array('..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName())
+        );
         $result['name'] = $uploader->getUploadedFileName();
         return $result;
     }

@@ -38,7 +38,7 @@
              */
             done: function (e, data) {
                 if (!data.result.error) {
-                    $(this).data('quickStyleUploader').setValue(data.result.content[0]['name']);
+                    $(this).data('quickStyleUploader').setValue(data.result.content['name']);
                 }
             },
 
