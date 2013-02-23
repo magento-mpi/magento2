@@ -54,13 +54,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      */
     public function saveCssContentAction()
     {
-        $themeId = $this->getRequest()->getParam('theme_id', false);
-        $customCssContent = $this->getRequest()->getParam('custom_css_content', null);
+        $themeId = (int)$this->getRequest()->getParam('theme_id', false);
+        $customCssContent = (string)$this->getRequest()->getParam('custom_css_content', '');
         try {
-            if (!$themeId || (null === $customCssContent)) {
-                throw new InvalidArgumentException('Param "stores" is not valid');
-            }
-
             $theme = $this->_loadTheme($themeId);
 
             /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
@@ -324,7 +320,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
             $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
             $configuration = $configFactory->create(
-                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING, $this->_loadTheme($themeId)
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, $this->_loadTheme($themeId)
             );
             $configuration->saveData(array($controlId => $controlValue));
             $response = array('success' => true);
