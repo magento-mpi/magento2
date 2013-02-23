@@ -139,7 +139,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $simpleProducts['simpleWithBackorders']['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_2']['admin_option_name'];
         $simpleProducts['simpleDisabled'] = $this->loadDataSet('Product', 'simple_sku',
-            array('general_status' => 'Disabled'));
+            array('product_online_status' => 'Disabled'));
         $simpleProducts['simpleCategory'] = $this->loadDataSet('Product', 'simple_sku',
             array('general_categories' => $category));
         $simpleProducts['simpleWebsite'] = $this->loadDataSet('Product', 'simple_sku',
@@ -147,9 +147,9 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $simpleProducts['simpleOutOfStock'] = $this->loadDataSet('Product', 'simple_sku',
             array('general_stock_availability' => 'Out of Stock'));
         $simpleProducts['simple_not_visible'] = $this->loadDataSet('Product', 'simple_sku',
-            array('general_visibility' => 'Not Visible Individually'));
+            array('autosettings_visibility' => 'Not Visible Individually'));
         $simpleProducts['simpleNotVisibleCustom'] = $this->loadDataSet('Product', 'simple_sku',
-            array('general_visibility' => 'Not Visible Individually'));
+            array('autosettings_visibility' => 'Not Visible Individually'));
         $simpleProducts['simpleNotVisibleCustom']['custom_options_data'][] = $customOptionsReq;
         $simpleProducts['simpleNotRequiredCustom'] = $this->loadDataSet('Product', 'simple_sku');
         $simpleProducts['simpleNotRequiredCustom']['custom_options_data'][] = $customOptionsNReq;

@@ -149,7 +149,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $data['prices_tier_price_data'] = $this->getFrontendProductTierPrices();
         $data['general_name'] = $this->getControlAttribute('pageelement', 'product_name', 'text');
         $data['general_description'] = $this->getControlAttribute('pageelement', 'description', 'text');
-        $data['general_short_description'] = $this->getControlAttribute('pageelement', 'short_description', 'text');
+        $data['autosettings_short_description'] =
+            $this->getControlAttribute('pageelement', 'short_description', 'text');
         if ($this->controlIsPresent('field', 'product_qty')) {
             $data['inventory_min_allowed_qty'] = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
         }

@@ -437,7 +437,7 @@ simple_product_required:
     general_name: Simple Product Required(%randomize%)
     general_sku: simple_sku_req_%randomize%
     general_description: %noValue%
-    general_short_description: %noValue%
+    autosettings_short_description: %noValue%
     general_weight: 1.13
     product_online_status: Enabled
     general_price: 9.99
@@ -447,7 +447,7 @@ simple_product_visible:
     product_attribute_set: Default
     general_name: Simple Product Visible(%randomize%)
     general_description: Description for Simple Product Visible
-    general_short_description: Short Description for Simple Product Visible
+    autosettings_short_description: Short Description for Simple Product Visible
     general_sku: simple_visible_sku_%randomize%
     general_weight: 1.14
     product_online_status: Enabled
@@ -464,7 +464,7 @@ simple_product:
     product_attribute_set: Default
     general_name: Simple Product(%randomize%)
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 2.56
     general_tax_class: None
@@ -536,7 +536,7 @@ duplicate_simple:
     product_attribute_set: Default
     general_name: Duplicate Simple Product(%randomize%)
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 2.56
     autosettings_news_from: %currentDate%
@@ -600,7 +600,7 @@ virtual_product_required:
     product_attribute_set: Default
     general_name: Virtual Product Required(%randomize%)
     general_description: Description for Virtual Product Required
-    general_short_description: Short Description for Virtual Product Required
+    autosettings_short_description: Short Description for Virtual Product Required
     general_sku: virtual_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -615,7 +615,7 @@ virtual_product_visible:
     product_attribute_set: Default
     general_name: Virtual Product Visible(%randomize%)
     general_description: Description for Virtual Product Visible
-    general_short_description: Short Description for Virtual Product Visible
+    autosettings_short_description: Short Description for Virtual Product Visible
     general_sku: virtual_visible_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -631,7 +631,7 @@ virtual_product:
     product_attribute_set: Default
     general_name: Virtual Product(%randomize%)
     general_description: Description for Virtual Product
-    general_short_description: Short Description for Virtual Product
+    autosettings_short_description: Short Description for Virtual Product
     general_sku: virtual_sku_%randomize%
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
@@ -702,7 +702,7 @@ duplicate_virtual:
     product_attribute_set: Default
     general_name: Duplicate Virtual Product(%randomize%)
     general_description: Description for Virtual Product
-    general_short_description: Short Description for Virtual Product
+    autosettings_short_description: Short Description for Virtual Product
     general_sku: virtual_sku_%randomize%
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
@@ -756,7 +756,7 @@ dynamic_bundle_required:
     product_attribute_set: Default
     general_name: Bundle(Dynamic) Product Required(%randomize%)
     general_description: Description for Bundle(Dynamic) Product Required
-    general_short_description: Short Description for Bundle(Dynamic) Product Required
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Required
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_sku_req_%randomize%
     general_weight_type: Dynamic
@@ -771,7 +771,7 @@ dynamic_bundle_visible:
     product_attribute_set: Default
     general_name: Bundle(Dynamic) Product Visible(%randomize%)
     general_description: Description for Bundle(Dynamic) Product Visible
-    general_short_description: Short Description for Bundle(Dynamic) Product Visible
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
     general_weight_type: Dynamic
@@ -787,7 +787,7 @@ fixed_bundle_required: &bundle
     product_attribute_set: Default
     general_name: Bundle(Fixed) Product Required(%randomize%)
     general_description: Description for Bundle(Fixed) Product Required
-    general_short_description: Short Description for Bundle(Fixed) Product Product Required
+    autosettings_short_description: Short Description for Bundle(Fixed) Product Product Required
     general_sku_type: Fixed
     general_sku: bundle_fixed_sku_req_%randomize%
     general_weight_type: Fixed
@@ -808,7 +808,7 @@ fixed_bundle_visible:
     product_attribute_set: Default
     general_name: Bundle(Fixed) Product Visible(%randomize%)
     general_description: Description for Bundle(Fixed) Product Visible
-    general_short_description: Short Description for Bundle(Fixed) Product Product Visible
+    autosettings_short_description: Short Description for Bundle(Fixed) Product Product Visible
     general_sku_type: Fixed
     general_sku: bundle_fixed_visible_sku_%randomize%
     general_weight_type: Fixed
@@ -828,7 +828,7 @@ dynamic_bundle:
     product_attribute_set: Default
     general_name: Bundle(Dynamic) Product(%randomize%)
     general_description: Description for Bundle(Dynamic) Product
-    general_short_description: Short Description for Bundle(Dynamic) Product
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product
     general_sku_type: Dynamic
     general_sku: bundle_sku_%randomize%
     general_weight_type: Dynamic
@@ -872,7 +872,7 @@ fixed_bundle:
     product_attribute_set: Default
     general_name: Bundle(Fixed) Product(%randomize%)
     general_description: Description for Bundle(Fixed) Product
-    general_short_description: Short Description for Bundle(Fixed) Product
+    autosettings_short_description: Short Description for Bundle(Fixed) Product
     general_sku_type: Fixed
     general_sku: bundle_sku_%randomize%
     general_weight_type: Fixed
@@ -919,7 +919,7 @@ duplicate_fixed_bundle:
     product_attribute_set: Default
     general_name: Duplicate Bundle(Fixed) Product(%randomize%)
     general_description: Description for Bundle(Fixed) Product
-    general_short_description: Short Description for Bundle(Fixed) Product
+    autosettings_short_description: Short Description for Bundle(Fixed) Product
     general_sku_type: Fixed
     general_sku: bundle_sku_%randomize%
     general_weight_type: Fixed
@@ -984,7 +984,7 @@ duplicate_dynamic_bundle:
     product_attribute_set: Default
     general_name: Duplicate Bundle(Dynamic) Product(%randomize%)
     general_description: Description for Bundle(Dynamic) Product
-    general_short_description: Short Description for Bundle(Dynamic) Product
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product
     general_sku_type: Dynamic
     general_sku: bundle_sku_%randomize%
     general_weight_type: Dynamic
@@ -1046,7 +1046,7 @@ grouped_product_required:
     product_attribute_set: Default
     general_name: Grouped Product Required(%randomize%)
     general_description: Description for Grouped Product Required
-    general_short_description: Short Description for Grouped Product Required
+    autosettings_short_description: Short Description for Grouped Product Required
     general_sku: grouped_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1057,7 +1057,7 @@ grouped_product_visible:
     product_attribute_set: Default
     general_name: Grouped Product Visible(%randomize%)
     general_description: Description for Grouped Product Visible
-    general_short_description: Short Description for Grouped Product Visible
+    autosettings_short_description: Short Description for Grouped Product Visible
     general_sku: grouped_visible_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1070,7 +1070,7 @@ grouped_product:
     product_attribute_set: Default
     general_name: Grouped Product(%randomize%)
     general_description: Description for Grouped Product
-    general_short_description: Short Description for Grouped Product
+    autosettings_short_description: Short Description for Grouped Product
     general_sku: grouped_sku_%randomize%
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
@@ -1108,7 +1108,7 @@ duplicate_grouped:
     product_attribute_set: Default
     general_name: Duplicate Grouped Product(%randomize%)
     general_description: Description for Grouped Product
-    general_short_description: Short Description for Grouped Product
+    autosettings_short_description: Short Description for Grouped Product
     general_sku: grouped_sku_%randomize%
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
@@ -1155,7 +1155,7 @@ configurable_product_required:
     product_attribute_set: Default
     general_name: Configurable Product Required(%randomize%)
     general_description: Description for Configurable Product Required
-    general_short_description: Short Description for Configurable Product Required
+    autosettings_short_description: Short Description for Configurable Product Required
     general_weight: 0.1
     general_sku: configurable_sku_req_%randomize%
     product_online_status: Enabled
@@ -1171,7 +1171,7 @@ configurable_product_visible:
     product_attribute_set: Default
     general_name: Configurable Product Visible(%randomize%)
     general_description: Description for Configurable Product Visible
-    general_short_description: Short Description for Configurable Product Visible
+    autosettings_short_description: Short Description for Configurable Product Visible
     general_weight: 1
     general_sku: configurable_visible_sku.req_%randomize%
     product_online_status: Enabled
@@ -1188,7 +1188,7 @@ configurable_product:
     product_attribute_set: Default
     general_name: Configurable Product(%randomize%)
     general_description: Description for Configurable Product
-    general_short_description: Short Description for Configurable Product
+    autosettings_short_description: Short Description for Configurable Product
     general_weight: 5
     general_sku: configurable_sku_%randomize%
     autosettings_news_from: %currentDate%
@@ -1237,7 +1237,7 @@ duplicate_configurable:
     product_attribute_set: Default
     general_name: Duplicate Configurable Product(%randomize%)
     general_description: Description for Configurable Product
-    general_short_description: Short Description for Configurable Product
+    autosettings_short_description: Short Description for Configurable Product
     general_weight: 3.17
     general_sku: configurable_sku_%randomize%
     autosettings_news_from: %currentDate%
@@ -1284,7 +1284,7 @@ downloadable_product_required:
     product_attribute_set: Default
     general_name: Downloadable Product Required(%randomize%)
     general_description: Description for Downloadable Product Required
-    general_short_description: Short Description for Downloadable Product Required
+    autosettings_short_description: Short Description for Downloadable Product Required
     general_sku: downloadable_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1300,7 +1300,7 @@ downloadable_product_visible:
     product_attribute_set: Default
     general_name: Downloadable Product Visible(%randomize%)
     general_description: Description for Downloadable Product Visible
-    general_short_description: Short Description for Downloadable Product Visible
+    autosettings_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1316,7 +1316,7 @@ downloadable_product:
     product_attribute_set: Default
     general_name: Downloadable Product(%randomize%)
     general_description: Description for Downloadable Product
-    general_short_description: Short Description for Downloadable Product
+    autosettings_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku_%randomize%
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
@@ -1373,7 +1373,7 @@ duplicate_downloadable:
     product_attribute_set: Default
     general_name: Duplicate Downloadable Product(%randomize%)
     general_description: Description for Downloadable Product
-    general_short_description: Short Description for Downloadable Product
+    autosettings_short_description: Short Description for Downloadable Product
     general_sku: downloadable_sku_%randomize%
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
@@ -1418,7 +1418,7 @@ frontend_simple_product_details_validation:
     product_attribute_set: Default
     general_name: Simple Product %randomize%
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 2.56
     product_online_status: Enabled
@@ -1441,7 +1441,7 @@ frontend_virtual_product_details_validation:
     product_attribute_set: Default
     general_name: Virtual Product %randomize%
     general_description: Description for Virtual Product
-    general_short_description: Short Description for Virtual Product
+    autosettings_short_description: Short Description for Virtual Product
     general_sku: virtual_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1467,7 +1467,7 @@ simple_product_related: &simple_product_related
     product_attribute_set: Default
     general_name: Linking Simple Product(%randomize%)
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: linking_simple_sku_%randomize%
     general_weight: 2.56
     product_online_status: Enabled
@@ -1483,7 +1483,7 @@ virtual_product_related: &virtual_product_related
     product_attribute_set: Default
     general_name: Linking Virtual Product(%randomize%)
     general_description: Description for Virtual Product
-    general_short_description: Short Description for Virtual Product
+    autosettings_short_description: Short Description for Virtual Product
     general_sku: linking_virtual_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1498,7 +1498,7 @@ downloadable_product_related: &downloadable_product_related
     product_attribute_set: Default
     general_name: Linking Downloadable Product(%randomize%)
     general_description: Description for Downloadable Product
-    general_short_description: Short Description for Downloadable Product
+    autosettings_short_description: Short Description for Downloadable Product
     general_sku: linking_downloadable_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1533,7 +1533,7 @@ bundle_product_related: &bundle_product_related
     product_attribute_set: Default
     general_name: Linking Bundle(Fixed) Product(%randomize%)
     general_description: Description for Bundle(Fixed) Product
-    general_short_description: Short Description for Bundle(Fixed) Product
+    autosettings_short_description: Short Description for Bundle(Fixed) Product
     general_sku_type: Fixed
     general_sku: linking_bundle_sku_%randomize%
     general_weight_type: Fixed
@@ -1564,7 +1564,7 @@ configurable_product_related: &configurable_product_related
     product_attribute_set: Default
     general_name: Linking Configurable Product(%randomize%)
     general_description: Description for Configurable Product
-    general_short_description: Short Description for Configurable Product
+    autosettings_short_description: Short Description for Configurable Product
     general_weight: 3.14
     general_sku: linking_configurable_sku_%randomize%
     product_online_status: Enabled
@@ -1581,7 +1581,7 @@ grouped_product_related: &grouped_product_related
     product_attribute_set: Default
     general_name: Linking Grouped Product(%randomize%)
     general_description: Description for Grouped Product
-    general_short_description: Short Description for Grouped Product
+    autosettings_short_description: Short Description for Grouped Product
     general_sku: linking_grouped_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1804,7 +1804,7 @@ simple_multi_checkout_options:
     product_attribute_set: Default
     general_name: Simple Multi Checkout Options(%randomize%)
     general_description: Description for Simple Multi Checkout Options
-    general_short_description: Short Description for Simple Multi Checkout Options
+    autosettings_short_description: Short Description for Simple Multi Checkout Options
     general_sku: simple_multi_checkout_options_sku.req_%randomize%
     general_weight: 1.14
     product_online_status: Enabled
@@ -1825,7 +1825,7 @@ virtual_multi_checkout_options:
     product_attribute_set: Default
     general_name: Virtual Product Options(%randomize%)
     general_description: Description for Virtual Multi Checkout Options
-    general_short_description: Short Description for Virtual Multi Checkout Options
+    autosettings_short_description: Short Description for Virtual Multi Checkout Options
     general_sku: virtual_multi_checkout_options_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1845,7 +1845,7 @@ downloadable_multi_checkout:
     product_attribute_set: Default
     general_name: Downloadable Product Visible Multi Checkout(%randomize%)
     general_description: Description for Downloadable Product Visible
-    general_short_description: Short Description for Downloadable Product Visible
+    autosettings_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_multi_checkout_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1880,7 +1880,7 @@ downloadable_product_visible_multi_checkout:
     product_attribute_set: Default
     general_name: Downloadable Multi Checkout Visible(%randomize%)
     general_description: Description for Downloadable Product Visible
-    general_short_description: Short Description for Downloadable Product Visible
+    autosettings_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1915,7 +1915,7 @@ downloadable_multi_checkout_options_no_links:
     product_attribute_set: Default
     general_name: %randomize%_Downloadable Product Visible With Options No Links
     general_description: Description for Downloadable Multi Checkout Visible
-    general_short_description: Short Description for Downloadable Multi Checkout Visible
+    autosettings_short_description: Short Description for Downloadable Multi Checkout Visible
     general_sku: %randomize%_downloadable_multi_checkout_options_no_links.req
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1939,7 +1939,7 @@ downloadable_multi_checkout_no_links:
     product_attribute_set: Default
     general_name: %randomize%_Downloadable Product Visible No Links
     general_description: Description for Downloadable Multi Checkout No Links
-    general_short_description: Short Description for Downloadable Multi Checkout No Links
+    autosettings_short_description: Short Description for Downloadable Multi Checkout No Links
     general_sku: %randomize%_downloadable_multi_checkout_no_links.req
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1962,7 +1962,7 @@ downloadable_multi_checkout_options_links:
     product_attribute_set: Default
     general_name: %randomize%_Downloadable Product Visible Links
     general_description: Description for Downloadable Product Options Links
-    general_short_description: Short Description for Downloadable Product Options Links
+    autosettings_short_description: Short Description for Downloadable Product Options Links
     general_sku: %randomize%_downloadable_visible_options_links_sku.req
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -1983,7 +1983,7 @@ grouped_multi_checkout_options:
     product_attribute_set: Default
     general_name: %randomize%_Grouped Product Options
     general_description: Description for Grouped Product Options
-    general_short_description: Short Description for Grouped Product Options
+    autosettings_short_description: Short Description for Grouped Product Options
     general_sku: %randomize%_grouped_options_sku.req
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -2047,7 +2047,7 @@ fixed_bundle_multi_checkout:
     product_attribute_set: Default
     general_name: %randomize%_Bundle(Fixed) Product Multi Checkout
     general_description: Description for Bundle(Fixed) Product Multi Checkout
-    general_short_description: Short Description for Bundle(Fixed) Product Multi Checkout
+    autosettings_short_description: Short Description for Bundle(Fixed) Product Multi Checkout
     general_sku_type: Fixed
     general_sku: %randomize%_bundle_fixed_multi_checkout_sku.req
     general_weight_type: Fixed
@@ -2066,7 +2066,7 @@ dynamic_bundle_multi_checkout:
     product_attribute_set: Default
     general_name: %randomize%_Bundle(Dynamic) Product Multi Checkout
     general_description: Description for Bundle(Dynamic) Product Multi Checkout
-    general_short_description: Short Description for Bundle(Dynamic) Product Multi Checkout
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Multi Checkout
     general_sku_type: Dynamic
     general_sku: %randomize%_bundle_dynamic_multi_checkout_sku.req
     general_weight_type: Dynamic
@@ -2081,7 +2081,7 @@ fixed_bundle_multi_checkout_options:
     product_attribute_set: Default
     general_name: %randomize%_Bundle(Fixed) Product Options
     general_description: Description for Bundle(Fixed) Product Options
-    general_short_description: Short Description for Bundle(Fixed) Product Product Options
+    autosettings_short_description: Short Description for Bundle(Fixed) Product Product Options
     general_sku_type: Fixed
     general_sku: %randomize%_bundle_fixed_options_sku.req
     general_weight_type: Fixed
@@ -2101,7 +2101,7 @@ dynamic_bundle_multi_checkout_options:
     product_attribute_set: Default
     general_name: %randomize%_Bundle(Dynamic) Product Options
     general_description: Description for Bundle(Dynamic) Product Options
-    general_short_description: Short Description for Bundle(Dynamic) Product Options
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Options
     general_sku_type: Dynamic
     general_sku: %randomize%_bundle_dynamic_options_sku.req
     general_weight_type: Dynamic
@@ -2121,7 +2121,7 @@ configurable_multi_checkout:
     product_attribute_set: Default
     general_name: %randomize%_Configurable Multi Checkout
     general_description: Description for Configurable Product Visible
-    general_short_description: Short Description for Configurable Product Visible
+    autosettings_short_description: Short Description for Configurable Product Visible
     general_weight: 15
     general_sku: %randomize%_configurable_multi_checkout_sku.req
     product_online_status: Enabled
@@ -2142,7 +2142,7 @@ configurable_multi_checkout_options:
     general_name: %randomize%_Configurable Multi Checkout Options
     general_description: Description for Configurable Multi Checkout Options
     general_weight: 3.14
-    general_short_description: Short Description for Configurable Multi Checkout Options
+    autosettings_short_description: Short Description for Configurable Multi Checkout Options
     general_sku: %randomize%_configurable_options_sku.req
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -2261,7 +2261,7 @@ simple_product_minimal:
     product_attribute_set: Minimal
     general_name: Simple Product Required(%randomize%)
     general_description: Description for Simple Product Required
-    general_short_description: Short Description for Simple Product Required
+    autosettings_short_description: Short Description for Simple Product Required
     general_sku: simple_sku_req_%randomize%
     general_weight: 1.13
     product_online_status: Enabled
@@ -2277,7 +2277,7 @@ virtual_product_minimal:
     product_attribute_set: Minimal
     general_name: Virtual Product Required(%randomize%)
     general_description: Description for Virtual Product Required
-    general_short_description: Short Description for Virtual Product Required
+    autosettings_short_description: Short Description for Virtual Product Required
     general_sku: virtual_sku_req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -2290,7 +2290,7 @@ configurable_product_minimal:
     product_attribute_set: Minimal
     general_name: Configurable Product Required(%randomize%)
     general_description: Description for Configurable Product Required
-    general_short_description: Short Description for Configurable Product Required
+    autosettings_short_description: Short Description for Configurable Product Required
     general_weight: 5.19
     general_sku: configurable_sku_req_%randomize%
     general_weight: 1.47
@@ -2306,7 +2306,7 @@ downloadable_product_minimal:
     product_attribute_set: Minimal
     general_name: Downloadable Product Required(%randomize%)
     general_description: Description for Downloadable Product Required
-    general_short_description: Short Description for Downloadable Product Required
+    autosettings_short_description: Short Description for Downloadable Product Required
     general_sku: downloadable_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -2320,7 +2320,7 @@ grouped_product_minimal:
     product_attribute_set: Minimal
     general_name: Grouped Product Visible(%randomize%)
     general_description: Description for Grouped Product Visible
-    general_short_description: Short Description for Grouped Product Visible
+    autosettings_short_description: Short Description for Grouped Product Visible
     general_sku: grouped_visible_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -2333,7 +2333,7 @@ fixed_bundle_minimal:
     product_attribute_set: Minimal
     general_name: Bundle(Fixed) Product Visible(%randomize%)
     general_description: Description for Bundle(Fixed) Product Visible
-    general_short_description: Short Description for Bundle(Fixed) Product Product Visible
+    autosettings_short_description: Short Description for Bundle(Fixed) Product Product Visible
     general_sku_type: Fixed
     general_sku: bundle_fixed_visible_sku_%randomize%
     general_weight_type: Fixed
@@ -2352,7 +2352,7 @@ dynamic_bundle_minimal:
     product_attribute_set: Minimal
     general_name: Bundle(Dynamic) Product Visible(%randomize%)
     general_description: Description for Bundle(Dynamic) Product Visible
-    general_short_description: Short Description for Bundle(Dynamic) Product Visible
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
     general_weight_type: Dynamic
@@ -2368,7 +2368,7 @@ simple_product_zero_price:
     product_attribute_set: Default
     general_name: Simple Product Zero(%randomize%)
     general_description: Description for Simple Product Zero
-    general_short_description: Short Description for Simple Product Zero
+    autosettings_short_description: Short Description for Simple Product Zero
     general_sku: simple_zero_sku_%randomize%
     general_weight: 1.14
     product_online_status: Enabled
@@ -2385,7 +2385,7 @@ simple_product_wcod:
     product_attribute_set: Default
     general_name: Simple Product Visible(%randomize%)
     general_description: Description for Simple Product Visible
-    general_short_description: Short Description for Simple Product Visible
+    autosettings_short_description: Short Description for Simple Product Visible
     general_sku: simple_visible_sku_%randomize%
     general_weight: 1.14
     product_online_status: Enabled
@@ -2402,7 +2402,7 @@ simple_product_sync_inventory:
     product_attribute_set: Default
     general_name: Simple Product Sync Inventory (%randomize%)
     general_description: Description for Simple Product Visible
-    general_short_description: Short Description for Simple Product Visible
+    autosettings_short_description: Short Description for Simple Product Visible
     general_sku: simple_sku_inventory_%randomize%
     general_weight: 1.14
     product_online_status: Enabled
@@ -2423,7 +2423,7 @@ bundle_product_visible:
     product_attribute_set: Default
     general_name: Bundle(Dynamic) Product Visible(%randomize%)
     general_description: Description for Bundle(Dynamic) Product Visible
-    general_short_description: Short Description for Bundle(Dynamic) Product Visible
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
     general_weight_type: Dynamic
@@ -2439,7 +2439,7 @@ simple_product_url_rewrite:
     product_attribute_set: Default
     general_name: Simple Product Required(%randomize%)
     general_description: Description for Simple Product Required
-    general_short_description: Short Description for Simple Product Required
+    autosettings_short_description: Short Description for Simple Product Required
     general_sku: simple_sku_req_%randomize%
     general_weight: 1.13
     autosettings_url_key: simple-product-url-key(%randomize%)
@@ -2457,7 +2457,7 @@ advanced_search_product:
     product_attribute_set: Default
     general_name: Simple Product(%randomize%)
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 2.56
     autosettings_news_from: %currentDate%
@@ -2480,7 +2480,7 @@ compare_simple_product:
     product_attribute_set: Default
     general_name: Simple Product Compare(%randomize%)
     general_description: Description for Simple Product Compare
-    general_short_description: Short Description for Simple Product Compare
+    autosettings_short_description: Short Description for Simple Product Compare
     general_sku: simple_sku_compare_%randomize%
     general_weight: 1.13
     product_online_status: Enabled
@@ -2497,7 +2497,7 @@ compare_virtual_product:
     product_attribute_set: Default
     general_name: Virtual Product Compare(%randomize%)
     general_description: Description for Virtual Product Compare
-    general_short_description: Short Description for Virtual Product Compare
+    autosettings_short_description: Short Description for Virtual Product Compare
     general_sku: virtual_sku_compare_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search

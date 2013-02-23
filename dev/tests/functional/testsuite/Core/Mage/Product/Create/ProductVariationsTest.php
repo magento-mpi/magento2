@@ -167,8 +167,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
                 'general_sku'        => $associated['associated_sku'],
                 'general_weight'     => $associated['associated_weight'],
                 'inventory_quantity' => $associated['associated_quantity'],
-                'general_visibility' => 'Not Visible Individually',
-                'general_status'     => 'Enabled'
+                'autosettings_visibility' => 'Not Visible Individually',
+                'product_online_status' => 'Enabled'
             )
         );
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
@@ -225,8 +225,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
                 'general_name' => $associated['associated_product_name'],
                 'general_sku' => $associated['associated_sku'],
                 'inventory_quantity' => $associated['associated_quantity'],
-                'general_visibility' => 'Not Visible Individually',
-                'general_status' => 'Enabled',
+                'autosettings_visibility' => 'Not Visible Individually',
+                'product_online_status' => 'Enabled',
             )
         );
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',

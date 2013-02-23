@@ -14,11 +14,11 @@ simple_product_with_param_for_configurable:
     product_attribute_set: Default
     general_name: Simple Product
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_%randomize%
     general_weight: 100
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_dropdown_goext: goext
     general_qty: 999
     general_stock_availability: In Stock

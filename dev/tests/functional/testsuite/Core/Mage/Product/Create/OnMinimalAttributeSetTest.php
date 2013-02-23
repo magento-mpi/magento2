@@ -162,12 +162,8 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
     {
         return array(
             array(array('general_name' => '%noValue%'), 'field'),
-            array(array('general_description' => '%noValue%'), 'field'),
-            array(array('general_short_description' => '%noValue%'), 'field'),
             array(array('general_sku' => ''), 'field'),
             array(array('general_weight' => '%noValue%'), 'field'),
-            array(array('general_status' => '-- Please Select --'), 'dropdown'),
-            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
             array(array('general_min_price' => '%noValue%'), 'field'),
             array(array('general_min_tax_class' => '-- Please Select --'), 'dropdown')
         );

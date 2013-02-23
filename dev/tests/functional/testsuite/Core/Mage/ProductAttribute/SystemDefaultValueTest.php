@@ -97,9 +97,9 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
             array('options_container', 'simple', 'design_display_product_options_in'),
             array('page_layout', 'simple', 'design_page_layout'),
             array('price_view', 'bundle', 'general_price_view_bundle'),
-            array('status', 'simple', 'general_status'),
+            array('status', 'simple', 'product_online_status'),
             array('tax_class_id', 'simple', 'general_tax_class'),
-            array('visibility', 'simple', 'general_visibility')
+            array('visibility', 'simple', 'autosettings_visibility')
         );
     }
 

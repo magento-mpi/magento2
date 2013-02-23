@@ -30,7 +30,7 @@ gift_card_required:
     product_attribute_set: Default
     general_name: Gift Card Required(%randomize%)
     general_description: Description for Gift Card Required
-    general_short_description: Short Description for Gift Card Required
+    autosettings_short_description: Short Description for Gift Card Required
     general_sku: giftcard_sku_req_%randomize%
     general_weight: 2.56
     product_online_status: Enabled
@@ -45,7 +45,7 @@ frontend_gift_card_validation:
     product_attribute_set: Default
     general_name: Gift Card frontend %randomize%
     general_description: Description for Gift Card frontend
-    general_short_description: Short Description for Gift Card frontend
+    autosettings_short_description: Short Description for Gift Card frontend
     general_sku: giftcard_frontend_sku_%randomize%
     general_weight: 2.56
     product_online_status: Enabled
@@ -165,7 +165,7 @@ gift_card:
     product_attribute_set: Default
     general_name: Gift Card(%randomize%)
     general_description: Description for Gift Card
-    general_short_description: Short Description for Gift Card
+    autosettings_short_description: Short Description for Gift Card
     general_sku: giftcard_sku_%randomize%
     general_weight: 2.56
     general_news_from: %currentDate%
@@ -227,7 +227,7 @@ simple_sku:
    product_attribute_set: Default
    general_name: Simple Product (%randomize%)
    general_description: Description for Simple Product
-   general_short_description: Short Description for Simple Product
+   autosettings_short_description: Short Description for Simple Product
    general_sku: simple_sku_%randomize%
    general_weight: 1.14
    product_online_status: Enabled
@@ -255,7 +255,7 @@ simple_product_website:
     product_attribute_set: Default
     general_name: Simple Product Visible(%randomize%)
     general_description: Description for Simple Product Visible
-    general_short_description: Short Description for Simple Product Visible
+    autosettings_short_description: Short Description for Simple Product Visible
     general_sku: simple_visible_sku_%randomize%
     general_weight: 1.14
     product_online_status: Enabled
@@ -275,7 +275,7 @@ virtual_product_website:
     product_attribute_set: Default
     general_name: Virtual Product Visible(%randomize%)
     general_description: Description for Virtual Product Visible
-    general_short_description: Short Description for Virtual Product Visible
+    autosettings_short_description: Short Description for Virtual Product Visible
     general_sku: virtual_visible_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -295,7 +295,7 @@ bundle_product_website:
     product_attribute_set: Default
     general_name: Bundle(Dynamic) Product Visible(%randomize%)
     general_description: Description for Bundle(Dynamic) Product Visible
-    general_short_description: Short Description for Bundle(Dynamic) Product Visible
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
     general_weight_type: Dynamic
@@ -314,7 +314,7 @@ grouped_product_website:
     product_attribute_set: Default
     general_name: Grouped Product Visible(%randomize%)
     general_description: Description for Grouped Product Visible
-    general_short_description: Short Description for Grouped Product Visible
+    autosettings_short_description: Short Description for Grouped Product Visible
     general_sku: grouped_visible_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -342,7 +342,7 @@ downloadable_product_website:
     product_attribute_set: Default
     general_name: Downloadable Product Visible(%randomize%)
     general_description: Description for Downloadable Product Visible
-    general_short_description: Short Description for Downloadable Product Visible
+    autosettings_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -379,7 +379,7 @@ simple_product_price:
     product_attribute_set: Default
     general_name: Simple Product Visible(%randomize%)
     general_description: Description for Simple Product Visible
-    general_short_description: Short Description for Simple Product Visible
+    autosettings_short_description: Short Description for Simple Product Visible
     general_sku: simple_visible_sku_%randomize%
     general_weight: 1.14
     product_online_status: Enabled
@@ -399,7 +399,7 @@ virtual_product_price:
     product_attribute_set: Default
     general_name: Virtual Product Visible(%randomize%)
     general_description: Description for Virtual Product Visible
-    general_short_description: Short Description for Virtual Product Visible
+    autosettings_short_description: Short Description for Virtual Product Visible
     general_sku: virtual_visible_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
@@ -418,7 +418,7 @@ downloadable_product_price:
     product_attribute_set: Default
     general_name: Downloadable Product Visible(%randomize%)
     general_description: Description for Downloadable Product Visible
-    general_short_description: Short Description for Downloadable Product Visible
+    autosettings_short_description: Short Description for Downloadable Product Visible
     general_sku: downloadable_visible_sku_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search

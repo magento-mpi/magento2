@@ -144,7 +144,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('Product', 'grouped_product_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
                   'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'general_short_description' => $this->generate('string', 32, ':punct:'),
+                  'autosettings_short_description' => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -172,7 +172,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('Product', 'grouped_product_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
                   'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                  'autosettings_short_description' => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:')));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));

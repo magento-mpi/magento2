@@ -13,11 +13,11 @@ simple_product_for_prices_validation_1:
     product_attribute_set: Default
     general_name: Simple Product For Prices Validation(%randomize%)
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 111.11
@@ -29,11 +29,11 @@ simple_product_for_prices_validation_2:
     product_attribute_set: Default
     general_name: Simple Product For Prices Validation(%randomize%)
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 100
@@ -45,11 +45,11 @@ simple_product_for_prices_validation_3:
     product_attribute_set: Default
     general_name: Simple Product For Prices Validation(%randomize%)
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 15.51
@@ -5968,11 +5968,11 @@ simple_product_for_prices_validation_front_1:
     product_attribute_set: Default
     general_name: Simple Product For Prices Validation %randomize%
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 111.11
@@ -5986,11 +5986,11 @@ simple_product_for_prices_validation_front_2:
     product_attribute_set: Default
     general_name: Simple Product For Prices Validation %randomize%
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 100
@@ -6004,11 +6004,11 @@ simple_product_for_prices_validation_front_3:
     product_attribute_set: Default
     general_name: Simple Product For Prices Validation %randomize%
     general_description: Description for Simple Product
-    general_short_description: Short Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
     general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 15.51
@@ -7710,11 +7710,11 @@ simple_product_for_price_rules_validation_front:
     product_attribute_set: Default
     general_name: Simple Product For Price Rule Validation(%randomize%)
     general_description: Description for Simple Product For Price Rule Validation
-    general_short_description: Short Description for Simple Product For Price Rule Validation
+    autosettings_short_description: Short Description for Simple Product For Price Rule Validation
     general_sku: simple_sku_price_rule_validation_%randomize%
     general_weight: 18.56
-    general_status: Enabled
-    general_visibility: Catalog, Search
+    product_online_status: Enabled
+    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     prices_price: 120

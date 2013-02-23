@@ -93,7 +93,7 @@ new_product:
                             product_attribute_set: //h3[@class='icon-head head-products' and contains(text(),'%attributeSet%')]
                             product_page_title: //h3[@class='icon-head head-products']
                             product_name: //h3[@class='icon-head head-products'][text()='%productName% (%attributeSet%)']
-                            product_online_status: //div[@class='switcher']/label/span
+                            product_online_status: //div[@class='switcher']/label
                 -
                     advanced_settings:
                         xpath: //*[@id='product_info_tabs-advanced']//h3
@@ -127,7 +127,7 @@ new_product:
                         fieldsets:
                             -
                                 product_general:
-                                    xpath: //div[contains(div/div/div,'Product Details')]
+                                    xpath: //div[div/strong/span='Product Details']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         new_category: //button[span='New Category']
@@ -146,7 +146,6 @@ new_product:
                                         general_sku: //input[@id='sku']
                                         general_price: //input[@id='price' and not(@disabled)]
                                         general_description: //textarea[@id='description']
-                                        general_short_description: //textarea[@id='short_description']
                                         general_weight: //input[@id='weight' and not(@disabled)]
                                         general_categories: //input[@id='category_ids-suggest']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
@@ -330,7 +329,7 @@ new_product:
                         fieldsets:
                             -
                                 product_prices:
-                                    xpath: //div[contains(div/div/div,'Advanced Pricing')]
+                                    xpath: //div[div/strong/span='Advanced Pricing']
                                     buttons:
                                         prices_group_add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
@@ -381,7 +380,7 @@ new_product:
                         fieldsets:
                             -
                                 product_meta_information:
-                                    xpath: //div[contains(div/div/div,'Search Optimization')]
+                                    xpath: //div[div/strong/span='Search Optimization']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     fields:
@@ -419,7 +418,7 @@ new_product:
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: //div[contains(div/div/div,'Autosettings')]
+                                    xpath: //div[div/strong/span='Autosettings']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
@@ -428,6 +427,7 @@ new_product:
                                         autosettings_allow_gift_message: //select[@id='gift_message_available']
                                         autosettings_visibility: //select[@id='visibility']
                                     fields:
+                                        autosettings_short_description: //textarea[@id='short_description']
                                         autosettings_news_from: //input[@id='news_from_date']
                                         autosettings_news_to: //input[@id='news_to_date']
                                         autosettings_url_key: //input[@id='url_key']
