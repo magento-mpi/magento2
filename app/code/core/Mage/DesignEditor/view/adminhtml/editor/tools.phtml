@@ -65,7 +65,7 @@
         //'#vde-tab-header .element-image-uploader' +   // Uploaders are special case
         '#vde-tab-header .element-background #header-background\\|tile'
     ).quickStyleElement({
-        saveQuickStylesUrl: '<?php echo $this->getUrl('*/system_design_editor_tools/saveQuickStyles') ?>'
+        saveQuickStylesUrl: '<?php echo $this->getSaveUrl(); ?>'
     });
 
     $('[class^="action-"][href="#vde-tab-custom"]').on('click.activateCustomCodeTab', function() {

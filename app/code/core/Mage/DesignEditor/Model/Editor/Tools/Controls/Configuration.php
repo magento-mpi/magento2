@@ -19,6 +19,13 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     const SEPARATOR_MODULE = '::';
 
     /**
+     * Application Event Dispatcher
+     *
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventDispatcher;
+
+    /**
      * @var Mage_DesignEditor_Model_Config_Control_Abstract
      */
     protected $_configuration;
@@ -57,10 +64,17 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
 
     /**
      * Initialize dependencies
+     *
+     * @param Mage_Core_Model_Design_Package $design
+     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_DesignEditor_Model_Config_Control_Abstract|null $configuration
+     * @param Mage_Core_Model_Theme|null $theme
      */
     public function __construct(
         Mage_Core_Model_Design_Package $design,
         Magento_Filesystem $filesystem,
+        Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_DesignEditor_Model_Config_Control_Abstract $configuration = null,
         Mage_Core_Model_Theme $theme = null
     ) {
@@ -68,15 +82,8 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
         $this->_theme = $theme;
         $this->_design = $design;
         $this->_filesystem = $filesystem;
-        $this->_configView = $this->_design->getViewConfig(array(
-            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
-            'themeModel' => $this->_theme
-        ));
-        $this->_configViewParent = $this->_design->getViewConfig(array(
-            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
-            'themeModel' => $this->_theme->getParentTheme()
-        ));
-        $this->_loadControlsData();
+        $this->_eventDispatcher = $eventDispatcher;
+        $this->_initViewConfigs()->_loadControlsData();
     }
 
     /**
@@ -88,9 +95,27 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     {
         $this->_data = $this->_configuration->getAllControlsData();
         foreach ($this->_data as &$control) {
-            $this->_loadControlData($control, 'value', $this->_configView);
-            $this->_loadControlData($control, 'default', $this->_configViewParent);
+            $this->_loadControlData($control, 'value', $this->_viewConfig);
+            $this->_loadControlData($control, 'default', $this->_viewConfigParent);
         }
+        return $this;
+    }
+
+    /**
+     * Initialize view configurations
+     *
+     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     */
+    protected function _initViewConfigs()
+    {
+        $this->_viewConfig = $this->_design->getViewConfig(array(
+            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            'themeModel' => $this->_theme
+        ));
+        $this->_viewConfigParent = $this->_design->getViewConfig(array(
+            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            'themeModel' => $this->_theme->getParentTheme()
+        ));
         return $this;
     }
 
@@ -159,7 +184,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     public function saveData(array $controlsData)
     {
-        $configDom = $this->_configView->getConfigDomCopy()->getDom();
+        $configDom = $this->_viewConfig->getConfigDomCopy()->getDom();
         $varData = $this->_prepareVarData($controlsData, $this->_data);
 
         /** @var $varsNode DOMElement */
@@ -177,7 +202,28 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
             }
         }
         $this->_saveViewConfiguration($configDom);
+        $this->_eventDispatcher->dispatch('save_xml_configuration', array('configuration' => $this));
         return $this;
+    }
+
+    /**
+     * Get control configuration
+     *
+     * @return Mage_DesignEditor_Model_Config_Control_Abstract
+     */
+    public function getControlConfig()
+    {
+        return $this->_configuration;
+    }
+
+    /**
+     * Get theme
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getTheme()
+    {
+        return $this->_theme;
     }
 
     /**

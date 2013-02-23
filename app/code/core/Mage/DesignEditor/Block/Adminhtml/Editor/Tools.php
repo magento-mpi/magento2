@@ -27,4 +27,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
             $this->getChildHtml('design_editor_tools_code'),
         );
     }
+
+    /**
+     * Get save url
+     *
+     * @return string
+     */
+    public function getSaveUrl()
+    {
+        return $this->getUrl('*/system_design_editor_tools/saveQuickStyles',
+            array('theme_id' => Mage::registry('theme')->getId())
+        );
+    }
 }

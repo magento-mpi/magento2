@@ -30,7 +30,7 @@ $element = $this->getElement();
 
 <script type="text/javascript">
     (function($) {
-        $('#<?php echo $elementId ?>').quickStyleUploader({
+        $(document.getElementById('<?php echo $elementId ?>')).quickStyleUploader({
             uploader_id: '<?php echo $element->getHtmlId(); ?>',
             container:   '<?php echo $elementId; ?>',
             event:       '<?php echo $this->getEvent(); ?>:uploaded',
