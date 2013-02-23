@@ -62,9 +62,6 @@
             <path>dev/build</path>
         </item>
         <item>
-            <path>dev/tools/license_placeholder</path>
-        </item>
-        <item>
             <word>enterprise</word>
             <path>dev/tools/migration/Acl/log</path>
         </item>
