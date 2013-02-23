@@ -241,13 +241,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $configuration->saveData(array($keys[0] => $result['css_path']));
 
             $response = array('error' => false, 'content' => $result);
-            $this->_session->addSuccess($this->__('Success: Image file was uploaded.'));
         } catch (Mage_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
             $errorMessage = $this->__('Cannot upload image file');
-            $this->_session->addError($errorMessage);
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }

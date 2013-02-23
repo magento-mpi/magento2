@@ -76,7 +76,7 @@
                     if (response.error) {
                         alert($.mage.__('Error') + ': "' + response.message + '".');
                     } else {
-                        $(this.escapeId(this.options.uploader_id + '-image')).remove();
+                        $(this._prepareId(this.options.uploader_id + '-image')).remove();
                         this.setValue(null);
                     }
                 }, this),
@@ -102,21 +102,21 @@
         _refreshControls: function () {
             if (this.options.value) {
                 var removeId = 'remove-button-' + Math.floor(Math.random() * 999);
-                var progressTmpl = $(this.escapeId(this.options.uploader_id + '-template')).clone();
+                var progressTmpl = $(this._prepareId(this.options.uploader_id + '-template')).clone();
                 progressTmpl.attr('id', this.options.uploader_id + '-image');
                 var fileInfoHtml = progressTmpl.html().replace('{{name}}', this.options.value)
                     .replace('{{remove-id}}', removeId);
                 progressTmpl.html(fileInfoHtml) ;
                 progressTmpl.removeClass('no-display');
-                progressTmpl.appendTo(this.escapeId(this.options.container));
+                progressTmpl.appendTo(this._prepareId(this.options.container));
 
                 if (this.options.remove_url) {
                     $('#' + removeId).click($.proxy(this._remove, this));
                 }
-                $(this.escapeId(this.options.uploader_id + '-container')).addClass('no-display');
+                $(this._prepareId(this.options.uploader_id + '-container')).addClass('no-display');
                 $(this).trigger(this.options.event);
             } else {
-                $(this.escapeId(this.options.uploader_id + '-container')).removeClass('no-display');
+                $(this._prepareId(this.options.uploader_id + '-container')).removeClass('no-display');
             }
         },
 
@@ -125,8 +125,8 @@
          * @param id
          * @return {String}
          */
-        escapeId: function(id) {
-            return '#' + id.replace('|', '\\|');
+        _prepareId: function(id) {
+            return document.getElementById(id);
         }
     });
 })(jQuery);
