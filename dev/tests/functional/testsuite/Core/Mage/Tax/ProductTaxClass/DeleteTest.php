@@ -109,7 +109,7 @@ class Core_Mage_Tax_ProductTaxClass_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $taxClass = $this->loadDataSet('Tax', 'new_product_tax_class');
         $product = $this->loadDataSet('Product', 'simple_product_required',
-            array('prices_tax_class' => $taxClass['product_class_name']));
+            array('general_tax_class' => $taxClass['product_class_name']));
         //Steps
         $this->navigate('manage_product_tax_class');
         $this->taxHelper()->createTaxItem($taxClass, 'product_class');

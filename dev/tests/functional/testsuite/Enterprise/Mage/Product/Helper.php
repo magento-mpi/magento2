@@ -20,7 +20,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
     public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
                                 'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'downloadable_information', 'giftcardinfo', 'general', 'autosettings');
+                                'downloadable_information', 'giftcardinfo', 'autosettings', 'general');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -64,7 +64,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function fillGeneralTab(array $generalTab)
     {
-        $this->openTab('general');
+        $this->openProductTab('general');
         parent::fillGeneralTab($generalTab);
         if (isset($generalTab['general_gift_card_data'])) {
             foreach ($generalTab['general_gift_card_data']['general_amounts'] as $value) {

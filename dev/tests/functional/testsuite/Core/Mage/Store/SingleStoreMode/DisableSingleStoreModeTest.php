@@ -212,7 +212,7 @@ class Core_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Se
         //Steps
         $this->clickButton('add_new_product_split');
         $this->productHelper()->fillProductInfo($productData);
-        $this->openTab('prices');
+        $this->productHelper()->openProductTab('prices');
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
         //Verifying
         $this->assertTrue((isset($columnsName['website'])), "Group Price table not contain 'Website' column");

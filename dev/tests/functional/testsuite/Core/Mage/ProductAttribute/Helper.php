@@ -80,8 +80,8 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
     public function createAttributeOnProductTab($attrData, $saveInAttributeSet = '')
     {
         // Defining and adding %fieldSetId% for Uimap pages.
-        $activeTabLocator = $this->_getActiveTabUimap()->getXPath();
-        $identifier = explode('_', $this->getElement($activeTabLocator)->attribute('name'));
+        $locator = $this->_getControlXpath('button', 'create_new_attribute', $this->_getActiveTabUimap());
+        $identifier = explode('_', $this->getElement($locator)->attribute('id'));
         foreach ($identifier as $value) {
             if (is_numeric($value)) {
                 $this->addParameter('tabId', $value);

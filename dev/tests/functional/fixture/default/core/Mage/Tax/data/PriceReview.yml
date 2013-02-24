@@ -20,8 +20,8 @@ simple_product_for_prices_validation_1:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 111.11
-    prices_tax_class: Taxable Goods
+    general_price: 111.11
+    general_tax_class: Taxable Goods
     websites: Main Website
     general_categories: Default Category
 
@@ -36,8 +36,8 @@ simple_product_for_prices_validation_2:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 100
-    prices_tax_class: Taxable Goods
+    general_price: 100
+    general_tax_class: Taxable Goods
     websites: Main Website
     general_categories: Default Category
 
@@ -52,8 +52,8 @@ simple_product_for_prices_validation_3:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 15.51
-    prices_tax_class: Taxable Goods
+    general_price: 15.51
+    general_tax_class: Taxable Goods
     websites: Main Website
     general_categories: Default Category
 
@@ -5975,8 +5975,8 @@ simple_product_for_prices_validation_front_1:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 111.11
-    prices_tax_class: Taxable Goods
+    general_price: 111.11
+    general_tax_class: Taxable Goods
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     websites: Main Website
@@ -5993,8 +5993,8 @@ simple_product_for_prices_validation_front_2:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 100
-    prices_tax_class: Taxable Goods
+    general_price: 100
+    general_tax_class: Taxable Goods
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 3
     websites: Main Website
@@ -6011,8 +6011,8 @@ simple_product_for_prices_validation_front_3:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 15.51
-    prices_tax_class: Taxable Goods
+    general_price: 15.51
+    general_tax_class: Taxable Goods
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 5
     websites: Main Website
@@ -7717,8 +7717,8 @@ simple_product_for_price_rules_validation_front:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 120
-    prices_tax_class: Taxable Goods
+    general_price: 120
+    general_tax_class: Taxable Goods
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 1
     websites: Main Website

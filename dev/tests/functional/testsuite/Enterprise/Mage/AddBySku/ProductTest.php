@@ -84,8 +84,8 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attrCode = $attrData['attribute_code'];
-        $associatedAttributes =
-            $this->loadDataSet('AttributeSet', 'associated_attributes', array('General' => $attrCode));
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+            array('Product Details' => $attrCode));
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_attributes');

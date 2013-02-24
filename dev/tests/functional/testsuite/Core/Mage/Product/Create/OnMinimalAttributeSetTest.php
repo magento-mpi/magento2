@@ -37,7 +37,7 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
         //Data for configurable attribute
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['attribute_code']));
         //Steps (attribute)
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -164,8 +164,8 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
             array(array('general_name' => '%noValue%'), 'field'),
             array(array('general_sku' => ''), 'field'),
             array(array('general_weight' => '%noValue%'), 'field'),
-            array(array('general_min_price' => '%noValue%'), 'field'),
-            array(array('general_min_tax_class' => '-- Please Select --'), 'dropdown')
+            array(array('general_price' => '%noValue%'), 'field'),
+            array(array('general_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 

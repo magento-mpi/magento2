@@ -38,7 +38,7 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown',
             array('apply_to' => 'Selected Product Types', 'apply_product_types' => 'Simple Product'));
         $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => $attributeData['attribute_code']));
+            array('Product Details' => $attributeData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attributeData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -95,7 +95,7 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple, 'simple', false);
         //Verifying presence for simple product type
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->addParameter('attributeCodeDropdown', $attribute['assigned_attribute']);
         $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "Dropdown $attributeTitle is absent in this product type, but should not");
@@ -103,7 +103,7 @@ class Core_Mage_ProductAttribute_Create_ApplyToTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($virtual, 'virtual', false);
         //Verifying absence for virtual product type
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "Dropdown $attributeTitle is present in this product type, but should not");
     }

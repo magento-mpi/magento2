@@ -135,11 +135,9 @@ new_product:
                                         general_tax_class: //select[@id='tax_class_id']
                                         general_sku_type: //select[@id='sku_type']
                                         general_weight_type: //select[@id='weight_type']
-                                        general_country_manufacture: //select[@id='country_of_manufacture']
                                         general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                         general_user_attr_dropdown: //select[@id='%attributeCodeDropdown%']
-                                        general_min_price_type: //select[@id='price_type']
-                                        general_min_tax_class: //select[@id='tax_class_id']
+                                        general_price_type: //select[@id='price_type']
                                         general_min_price_view_bundle: //select[@id='price_view']
                                     fields:
                                         general_name: //input[@id='name']
@@ -150,7 +148,6 @@ new_product:
                                         general_categories: //input[@id='category_ids-suggest']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
-                                        general_min_price: //input[@id='price' and not(@disabled)]
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
                                     checkboxes:
                                         general_weight_and_type_switcher: //input[@id='weight_and_type_switcher']
@@ -185,7 +182,7 @@ new_product:
                                         parent_category_search_result: //td[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-fieldset-element-cell-new-category-parent-value']/span[text()]
                             -
                                 product_variations:
-                                    xpath: //div[@id='config_super_product']
+                                    xpath: //div[@id='config_super_product-wrapper']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='configurable-attribute-selector']
                                         attribute_blocks_name: //input[contains(@name,'[label]')]
@@ -265,7 +262,7 @@ new_product:
                                         grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[contains(@class, 'grouped-product-sku')]
                             -
                                 bundle_items:
-                                    xpath: //div[contains(div/h4,'Bundle Items')]
+                                    xpath: //div[@id='bundle_product_container']
                                     buttons:
                                         add_new_option: //button[@id='add_new_option']
                                     dropdowns:
@@ -336,7 +333,6 @@ new_product:
                                         add_tier_price: //button[span='Add Tier']
                                         delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
                                     dropdowns:
-                                        prices_price_type: //select[@id='price_type']
                                         prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
                                         prices_price_view_bundle: //select[@id='price_view']
                                         prices_apply_map: //select[@id='msrp_enabled']
@@ -382,7 +378,7 @@ new_product:
                                 product_meta_information:
                                     xpath: //div[div/strong/span='Search Optimization']
                                     buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
+                                        create_new_attribute: //button[span='Add Attribute']
                                     fields:
                                         meta_information_meta_title: //input[@id='meta_title']
                                         meta_information_meta_keywords: //textarea[@id='meta_keyword']
@@ -426,6 +422,7 @@ new_product:
                                     dropdowns:
                                         autosettings_allow_gift_message: //select[@id='gift_message_available']
                                         autosettings_visibility: //select[@id='visibility']
+                                        autosettings_country_manufacture: //select[@id='country_of_manufacture']
                                     fields:
                                         autosettings_short_description: //textarea[@id='short_description']
                                         autosettings_news_from: //input[@id='news_from_date']

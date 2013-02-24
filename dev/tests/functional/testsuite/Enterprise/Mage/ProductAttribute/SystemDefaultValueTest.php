@@ -24,12 +24,12 @@ class Enterprise_Mage_ProductAttribute_SystemDefaultValueTest
     public function systemAttributeDataProvider()
     {
         return array(
-            array('country_of_manufacture', 'simple', 'general_country_manufacture'),
+            array('country_of_manufacture', 'simple', 'autosettings_country_manufacture'),
             array('custom_design', 'simple', 'design_custom_design'),
             array('enable_googlecheckout', 'simple', 'prices_enable_googlecheckout'),
-            array('gift_message_available', 'simple', 'gift_options_allow_gift_message'),
-            array('gift_wrapping_available', 'simple', 'gift_options_allow_gift_wrapping'),
-            array('is_recurring', 'simple', 'recurring_profile_enable_recurring_profile'),
+            array('gift_message_available', 'simple', 'autosettings_allow_gift_message'),
+            array('gift_wrapping_available', 'simple', 'autosettings_allow_gift_wrapping'),
+            array('is_recurring', 'simple', 'prices_enable_recurring_profile'),
             array('is_returnable', 'simple', 'general_enable_rma'),
             array('msrp_enabled', 'simple', 'prices_apply_map'),
             array('msrp_display_actual_price_type', 'simple', 'prices_display_actual_price'),
@@ -37,7 +37,7 @@ class Enterprise_Mage_ProductAttribute_SystemDefaultValueTest
             array('page_layout', 'simple', 'design_page_layout'),
             array('price_view', 'bundle', 'prices_price_view_bundle'),
             array('status', 'simple', 'product_online_status'),
-            array('tax_class_id', 'simple', 'prices_tax_class'),
+            array('tax_class_id', 'simple', 'general_tax_class'),
             array('visibility', 'simple', 'autosettings_visibility')
         );
     }

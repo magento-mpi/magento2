@@ -1077,7 +1077,7 @@ grouped_product:
     autosettings_url_key: grouped-product-url-key
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_country_manufacture: %noValue%
+    autosettings_country_manufacture: %noValue%
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Grouped Product
     meta_information_meta_keywords: Meta Keywords for Grouped Product
@@ -1115,7 +1115,7 @@ duplicate_grouped:
     autosettings_url_key: grouped-product-url-key
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_country_manufacture: %noValue%
+    autosettings_country_manufacture: %noValue%
     prices_enable_googlecheckout: No
     meta_information_meta_title: Meta Title for Grouped Product
     meta_information_meta_keywords: Meta Keywords for Grouped Product
@@ -1196,7 +1196,7 @@ configurable_product:
     autosettings_url_key: configurable-product-url-key
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_country_manufacture: %noValue%
+    autosettings_country_manufacture: %noValue%
     general_price: 4.95
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
@@ -1245,7 +1245,7 @@ duplicate_configurable:
     autosettings_url_key: configurable-product-url-key
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_country_manufacture: %noValue%
+    autosettings_country_manufacture: %noValue%
     general_price: 4.95
     prices_special_price: 3.99
     prices_special_price_from: %currentDate%
@@ -2266,8 +2266,8 @@ simple_product_minimal:
     general_weight: 1.13
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_min_price: 9.99
-    general_min_tax_class: None
+    general_price: 9.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     custom_options_data:
@@ -2281,8 +2281,8 @@ virtual_product_minimal:
     general_sku: virtual_sku_req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_min_price: 99.99
-    general_min_tax_class: None
+    general_price: 99.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
 
@@ -2296,8 +2296,8 @@ configurable_product_minimal:
     general_weight: 1.47
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_min_price: 14.95
-    general_min_tax_class: None
+    general_price: 14.95
+    general_tax_class: None
     general_categories: Default Category
     general_configurable_attributes: *general_configurable_attributes
     general_configurable_variations: *associatedProductsConfigurableData
@@ -2310,8 +2310,8 @@ downloadable_product_minimal:
     general_sku: downloadable_sku.req_%randomize%
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_min_price: 99.99
-    general_min_tax_class: None
+    general_price: 99.99
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     downloadable_information_data: *downloadableData
@@ -2340,9 +2340,9 @@ fixed_bundle_minimal:
     general_weight: 0.999
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_min_price_type: Fixed
-    general_min_price: 12.55
-    general_min_tax_class: None
+    general_price_type: Fixed
+    general_price: 12.55
+    general_tax_class: None
     websites: Main Website
     general_categories: Default Category
     general_bundle_items:
@@ -2358,7 +2358,7 @@ dynamic_bundle_minimal:
     general_weight_type: Dynamic
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_min_price_type: Dynamic
+    general_price_type: Dynamic
     websites: Main Website
     general_categories: Default Category
     general_bundle_items:

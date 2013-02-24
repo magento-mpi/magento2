@@ -20,7 +20,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
     public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
                                 'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'downloadable_information', 'general', 'autosettings');
+                                'downloadable_information', 'autosettings', 'general');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -193,7 +193,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $priceData = $this->getControlAttribute('fieldset', 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
-            return array('prices_price' => trim($priceData));
+            return array('general_price' => trim($priceData));
         }
         $priceData = explode("\n", $priceData);
         $additionalName = array();
@@ -276,7 +276,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                     ) {
                         $basePrice = (isset($productPrices['prices_special_price']))
                             ? $productPrices['prices_special_price']
-                            : $productPrices['prices_price'];
+                            : $productPrices['general_price'];
                         $fieldValue = $fieldValue * 100 / $basePrice;
                     }
                     $data[$fieldName] = $fieldValue;
@@ -485,6 +485,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         //Open product
         $this->url($productUrl);
         $this->validatePage('edit_product');
+    }
+
+    /**
+     * @param $tabName
+     */
+    public function openProductTab($tabName)
+    {
+        if (!$this->controlIsVisible('tab', $tabName)
+            && $this->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected') == 'false'
+        ) {
+            $this->clickControl('fieldset', 'advanced_settings', false);
+            $this->waitForControlVisible('tab', $tabName, 10);
+        }
+        $this->openTab($tabName);
     }
 
     /**
@@ -708,12 +722,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillProductTab(array $tabData, $tabName = 'general')
     {
-        $basicSettings = array('general', 'meta_information');
-        if (!in_array($tabName, $basicSettings)
-            && $this->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected') == 'false'
-        ) {
-            $this->clickControl('fieldset', 'advanced_settings');
-        }
         switch ($tabName) {
             case 'general':
                 $this->fillGeneralTab($tabData);
@@ -727,13 +735,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'related':
             case 'up_sells':
             case 'cross_sells':
-                $this->openTab($tabName);
+                $this->openProductTab($tabName);
                 foreach (array_pop($tabData) as $value) {
                     $this->assignProduct($value, $tabName);
                 }
                 break;
             case 'custom_options':
-                $this->openTab($tabName);
+                $this->openProductTab($tabName);
                 foreach ($tabData['custom_options_data'] as $value) {
                     $this->addCustomOption($value);
                 }
@@ -742,7 +750,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->fillDownloadableInformationTab($tabData['downloadable_information_data']);
                 break;
             default:
-                $this->openTab($tabName);
+                $this->openProductTab($tabName);
                 $this->fillTab($tabData, $tabName);
                 $this->fillUserAttributesOnTab($tabData, $tabName);
                 break;
@@ -757,12 +765,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyProductTab(array $tabData, $tabName = 'general')
     {
-        $basicSettings = array('general', 'meta_information');
-        if (!in_array($tabName, $basicSettings)
-            && $this->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected') == 'false'
-        ) {
-            $this->clickControl('fieldset', 'advanced_settings');
-        }
         switch ($tabName) {
             case 'general':
                 $this->verifyGeneralTab($tabData);
@@ -776,7 +778,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             case 'related':
             case 'up_sells':
             case 'cross_sells':
-                $this->openTab($tabName);
+                $this->openProductTab($tabName);
                 foreach (array_pop($tabData) as $value) {
                     $this->isAssignedProduct($value, $tabName);
                 }
@@ -788,7 +790,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->verifyDownloadableInformationTab($tabData);
                 break;
             default:
-                $this->openTab($tabName);
+                $this->openProductTab($tabName);
                 $this->verifyForm($tabData, $tabName);
                 break;
         }
@@ -804,14 +806,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillGeneralTab(array $generalTab)
     {
-        $this->openTab('general');
+        $this->openProductTab('general');
         $this->fillUserAttributesOnTab($generalTab, 'general');
         if (isset($generalTab['general_categories'])) {
             $this->selectProductCategories($generalTab['general_categories']);
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
-            if (strpos($this->getControlAttribute('link', 'is_configurable', 'class'), 'active') !== false) {
+            if (!$this->isFieldsetExpanded('product_variations')) {
                 $this->clickControl('link', 'is_configurable', false);
                 $this->waitForControlVisible('field', 'general_configurable_attribute_title');
             }
@@ -846,7 +848,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyGeneralTab(array $generalTab)
     {
-        $this->openTab('general');
+        $this->openProductTab('general');
         if (isset($generalTab['general_categories'])) {
             $this->isSelectedCategory($generalTab['general_categories']);
             unset($generalTab['general_categories']);
@@ -1157,7 +1159,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($optionsData['use_all_options']);
         }
         if (isset($optionsData['have_price_variation'])) {
-            $this->fillCheckbox('have_price_variation', $optionsData['have_price_variation']);
+            //$this->fillCheckbox('have_price_variation', $optionsData['have_price_variation']); @TODO
             unset($optionsData['have_price_variation']);
         }
         foreach ($optionsData as $optionData) {
@@ -1542,7 +1544,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillPricesTab(array $pricesTab)
     {
-        $this->openTab('prices');
+        $this->openProductTab('prices');
         if (isset($pricesTab['prices_tier_price_data'])) {
             foreach ($pricesTab['prices_tier_price_data'] as $value) {
                 $this->addTierPrice($value);
@@ -1568,7 +1570,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyPricesTab($pricesTab)
     {
-        $this->openTab('prices');
+        $this->openProductTab('prices');
         if (isset($pricesTab['prices_tier_price_data'])) {
             $this->verifyTierPrices($pricesTab['prices_tier_price_data']);
             unset($pricesTab['prices_tier_price_data']);
@@ -1693,7 +1695,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (!$this->controlIsPresent('tab', 'websites') && $websiteData == 'Main Website') {
             return;
         }
-        $this->openTab('websites');
+        $this->openProductTab('websites');
         $websites = explode(',', $websiteData);
         $websites = array_map('trim', $websites);
         foreach ($websites as $website) {
@@ -1714,7 +1716,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (!$this->controlIsPresent('tab', 'websites') && $websiteData == 'Main Website') {
             return;
         }
-        $this->openTab('websites');
+        $this->openProductTab('websites');
         $websites = explode(',', $websiteData);
         $websites = array_map('trim', $websites);
         foreach ($websites as $website) {
@@ -1789,7 +1791,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function unselectAssociatedProduct($type, $saveChanges = false)
     {
-        $this->openTab($type);
+        $this->openProductTab($type);
         $this->addParameter('tableXpath', $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, $type));
         if (!$this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found')) {
             $this->fillCheckbox($type . '_select_all', 'No');
@@ -1834,7 +1836,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyCustomOptions(array $customOptionData)
     {
-        $this->openTab('custom_options');
+        $this->openProductTab('custom_options');
         $optionsQty = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'custom_option_set');
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
@@ -1912,7 +1914,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function importCustomOptions(array $productData)
     {
-        $this->openTab('custom_options');
+        $this->openProductTab('custom_options');
         $this->clickButton('import_options', false);
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'select_product_custom_option');
         foreach ($productData as $value) {
@@ -1927,7 +1929,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteAllCustomOptions()
     {
-        $this->openTab('custom_options');
+        $this->openProductTab('custom_options');
         while ($this->controlIsPresent(self::UIMAP_TYPE_FIELDSET, 'custom_option_set')) {
             $this->assertTrue($this->buttonIsPresent('delete_custom_option'),
                 $this->locationToString() . "Problem with 'Delete Option' button.\n"
@@ -1946,7 +1948,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillDownloadableInformationTab(array $downloadableData)
     {
-        $this->openTab('downloadable_information');
+        $this->openProductTab('downloadable_information');
         if (!$this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'opened_downloadable_sample')) {
             $this->clickControl(self::FIELD_TYPE_LINK, 'downloadable_sample', false);
         }
@@ -1973,7 +1975,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyDownloadableInformationTab(array $downloadableData)
     {
-        $this->openTab('downloadable_information');
+        $this->openProductTab('downloadable_information');
         if (!$this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'opened_downloadable_sample')) {
             $this->clickControl(self::FIELD_TYPE_LINK, 'downloadable_sample', false);
         }
@@ -2017,7 +2019,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyDownloadableOptions(array $optionsData, $type)
     {
-        $this->openTab('downloadable_information');
+        $this->openProductTab('downloadable_information');
         $rowQty = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'downloadable_' . $type . '_row');
         $needCount = count($optionsData);
         if ($needCount != $rowQty) {
@@ -2041,7 +2043,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteDownloadableInformation($type)
     {
-        $this->openTab('downloadable_information');
+        $this->openProductTab('downloadable_information');
         if (!$this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'opened_downloadable_' . $type)) {
             $this->clickControl(self::FIELD_TYPE_LINK, 'downloadable_' . $type, false);
         }
@@ -2366,7 +2368,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet();
-        $this->attributeSetHelper()->addAttributeToSet(array('General' => $attrCode));
+        $this->attributeSetHelper()->addAttributeToSet(array('Product Details' => $attrCode));
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
         $this->navigate('manage_products');

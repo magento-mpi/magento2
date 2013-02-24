@@ -220,8 +220,8 @@ simple_low_qty:
     autosettings_visibility: Catalog, Search
     general_qty: 2
     general_stock_availability: In Stock
-    prices_price: 54.95
-    prices_tax_class: None
+    general_price: 54.95
+    general_tax_class: None
     websites: Main Website
 
 simple_with_increments:
@@ -235,8 +235,8 @@ simple_with_increments:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 54.95
-    prices_tax_class: None
+    general_price: 54.95
+    general_tax_class: None
     inventory_enable_qty_increments_default: No
     inventory_enable_qty_increments: Yes
     inventory_qty_increments_default: No
@@ -254,8 +254,8 @@ simple_out_of_stock:
     autosettings_visibility: Catalog, Search
     general_qty: 0
     general_stock_availability: Out of Stock
-    prices_price: 54.95
-    prices_tax_class: None
+    general_price: 54.95
+    general_tax_class: None
     websites: Main Website
 
 simple_min_allowed_qty:
@@ -269,8 +269,8 @@ simple_min_allowed_qty:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 54.95
-    prices_tax_class: None
+    general_price: 54.95
+    general_tax_class: None
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 10
     websites: Main Website
@@ -286,8 +286,8 @@ simple_max_allowed_qty:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 54.95
-    prices_tax_class: None
+    general_price: 54.95
+    general_tax_class: None
     inventory_max_allowed_qty_default: No
     inventory_max_allowed_qty: 10
     websites: Main Website
@@ -303,8 +303,8 @@ downloadable_product_for_order:
     autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_price: 14.95
-    prices_tax_class: None
+    general_price: 14.95
+    general_tax_class: None
     general_categories: %noValue%
     websites: Main Website
     custom_options_data: %noValue%
@@ -356,9 +356,9 @@ fixed_bundle_for_order:
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price_type: Fixed
-    prices_price: 12.55
-    prices_tax_class: None
+    general_price_type: Fixed
+    general_price: 12.55
+    general_tax_class: None
     general_categories: %noValue%
     websites: Main Website
     general_bundle_items:
@@ -419,8 +419,8 @@ configurable_product_for_order:
     product_online_status: Enabled
     autosettings_visibility: Catalog, Search
     general_stock_availability: In Stock
-    prices_price: 14.95
-    prices_tax_class: None
+    general_price: 14.95
+    general_tax_class: None
     general_categories: %noValue%
     websites: Main Website
     general_configurable_attributes:

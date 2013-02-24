@@ -154,7 +154,8 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
             $this->fail("This user doesn't have permission to watch Column Price");
         }
         //Data
-        $productData = $this->loadDataSet('Product', $type . '_product_visible', array('prices_price' => '%noValue%'));
+        $productData = $this->loadDataSet('Product', $type . '_product_visible',
+            array('general_price' => '%noValue%'));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, $type);

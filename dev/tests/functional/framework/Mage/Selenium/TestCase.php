@@ -2333,6 +2333,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $fieldsetName
+     * @return bool
+     */
+    public function isFieldsetExpanded($fieldsetName)
+    {
+        $fieldsetClass = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, $fieldsetName, 'class');
+        return strpos($fieldsetClass, 'opened') !== false || strpos($fieldsetClass, 'active') !== false;
+    }
+
+    /**
      * Open tab
      *
      * @param string $tabName tab id from uimap

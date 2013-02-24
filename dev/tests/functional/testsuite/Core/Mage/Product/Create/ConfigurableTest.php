@@ -39,7 +39,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['attribute_code']));
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -70,9 +70,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $attribute2 = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attribute3 = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => array($attribute3['attribute_code'])));
+            array('Product Details' => array($attribute3['attribute_code'])));
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
-            array('General' => array($attribute1['attribute_code'], $attribute2['attribute_code'])));
+            array('Product Details' => array($attribute1['attribute_code'], $attribute2['attribute_code'])));
         //Steps (attributes)
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attribute1);
@@ -558,7 +558,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                   'var1_attr_value1'    => $defaultAttribute['option_1']['admin_option_name']));
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
             array('product_sku'        => $configurable['general_sku'],
-                  'autosettings_visibility' => $configurable['autosettings_visibility']));
+                  'product_visibility' => $configurable['autosettings_visibility']));
         //Preconditions
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');

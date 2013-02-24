@@ -147,7 +147,7 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         //Data
         $searchData = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price',
             array('price_from' => $productData['prices_special_price'],
-                'price_to' => $productData['prices_price']));
+                'price_to' => $productData['general_price']));
         //Steps
         $this->advancedSearchHelper()->frontCatalogAdvancedSearch($searchData);
         $this->clickButton('search');
