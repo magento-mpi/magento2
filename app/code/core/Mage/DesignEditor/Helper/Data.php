@@ -23,12 +23,18 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_BLOCK_BLACK_LIST     = 'vde/design_editor/block/black_list';
     const XML_PATH_CONTAINER_WHITE_LIST = 'vde/design_editor/container/white_list';
     const XML_PATH_DAYS_TO_EXPIRE       = 'vde/design_editor/layout_update/days_to_expire';
+
     /**#@-*/
 
     /**
      * @var Mage_Core_Model_Config
      */
     protected $_configuration;
+
+    /**
+     * @var bool
+     */
+    protected $_isVdeRequest;
 
     /**
      * @param Mage_Core_Model_Translate $translator
@@ -128,5 +134,21 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     public function getDaysToExpire()
     {
         return (int)$this->_configuration->getNode(self::XML_PATH_DAYS_TO_EXPIRE);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVdeRequest()
+    {
+        return $this->_isVdeRequest;
+    }
+
+    /**
+     * @param $isVdeRequest
+     */
+    public function setVdeRequest($isVdeRequest)
+    {
+        $this->_isVdeRequest = $isVdeRequest;
     }
 }

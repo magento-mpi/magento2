@@ -23,6 +23,12 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     protected $_excludedRouters = array('admin', 'vde');
 
     /**
+     * An indicator of whether or not request is from vde.
+     * @var bool
+     */
+    protected $_isVde;
+
+    /**
      * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Filesystem $filesystem
@@ -94,9 +100,15 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      */
     protected function _isVdeRequest(Mage_Core_Controller_Request_Http $request)
     {
-        $url = trim($request->getOriginalPathInfo(), '/');
-        $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
-        return $url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0;
+        // Lazy load vde indicator.
+        if (null === $this->_isVde) {
+            $url = trim($request->getOriginalPathInfo(), '/');
+            $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
+            $this->_isVde = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
+        }
+        $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->setVdeRequest($this->_isVde);
+
+        return $this->_isVde;
     }
 
     /**

@@ -63,7 +63,8 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Translate', array(),
                 array(
                     $design,
-                    $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false)
+                    $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false),
+                    $this->getMock('Mage_Core_Model_Translate_Factory', array(), array(), '', false, false)
                 )
             ),
             $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),

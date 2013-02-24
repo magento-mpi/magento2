@@ -16,7 +16,7 @@
  * @package    Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Translate_Inline
+class Mage_Core_Model_Translate_Inline implements Mage_Core_Model_Translate_TranslateInterface
 {
     /**
      * Regular Expression for detected and replace translate

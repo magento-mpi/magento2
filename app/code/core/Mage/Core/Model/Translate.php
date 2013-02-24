@@ -108,6 +108,11 @@ class Mage_Core_Model_Translate
     protected $_translateInline;
 
     /**
+     * @var Mage_Core_Model_Translate_Factory
+     */
+    protected $_translateFactory;
+
+    /**
      * Configuration flag to local enable inline translations
      *
      * @var boolean
@@ -131,13 +136,16 @@ class Mage_Core_Model_Translate
      *
      * @param Mage_Core_Model_Design_Package $designPackage
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
+     * @param Mage_core_Model_Translate_Factory $translateFactory
      */
     public function __construct(
         Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Locale_Hierarchy_Loader $loader
+        Mage_Core_Model_Locale_Hierarchy_Loader $loader,
+        Mage_Core_Model_Translate_Factory $translateFactory
     ) {
         $this->_designPackage = $designPackage;
         $this->_localeHierarchy = $loader->load();
+        $this->_translateFactory = $translateFactory;
     }
 
     /**
@@ -151,7 +159,20 @@ class Mage_Core_Model_Translate
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
-        $this->_translateInline = Mage::getSingleton('Mage_Core_Model_Translate_Inline')
+        $dispatchResult = new Varien_Object(array(
+             'inline_type' => null,
+             'params' => array('area' => $area)
+        ));
+        $eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch(
+            'translate_initialization_before',
+            array(
+                'translate_object' => $this,
+                'result' => $dispatchResult
+        ));
+
+        $this->_translateInline = $this->_translateFactory
+            ->create($dispatchResult->getParams(), $dispatchResult->getInlineType())
             ->isAllowed($area == 'adminhtml' ? 'admin' : null);
 
         if (!$forceReload) {

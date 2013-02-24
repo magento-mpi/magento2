@@ -57,6 +57,16 @@ class Mage_Backend_Model_Observer
     }
 
     /**
+     * Default behavior.  Backend will always use base Mage_Core_Model_Translate_Inline class for translation.
+     *
+     * @return Mage_Backend_Model_Observer
+     */
+    public function initializeTranslation()
+    {
+        return $this;
+    }
+
+    /**
      * Set url class name for store 'admin'
      *
      * @param Varien_Event_Observer $observer
@@ -76,4 +86,6 @@ class Mage_Backend_Model_Observer
 
         return $this;
     }
+
+
 }
