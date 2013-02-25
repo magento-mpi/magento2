@@ -330,11 +330,10 @@ Billing.prototype = {
             if ((typeof response.message) == 'string') {
                 alert(response.message);
             } else {
-                /*if (window.billingRegionUpdater) {
+                if (window.billingRegionUpdater) {
                     billingRegionUpdater.update();
-                }*/
-                // billingRegionUpdater is replaced with jQuery regionUpdater widget which use change event to call update
-                jQuery('#billing\\:country_id').trigger('change');
+                }
+
                 alert(response.message.join("\n"));
             }
 
@@ -443,10 +442,7 @@ Shipping.prototype = {
                 }
             }
             //$('shipping:country_id').value = $('billing:country_id').value;
-            //shippingRegionUpdater.update();
-            // shippingRegionUpdater is replaced with jQuery regionUpdater widget which use change event to call update
-            jQuery('#shipping\\:country_id').trigger('change');
-            $('shipping:same_as_billing').checked = true;
+            shippingRegionUpdater.update();
             $('shipping:region_id').value = $('billing:region_id').value;
             $('shipping:region').value = $('billing:region').value;
             //shippingForm.elementChildLoad($('shipping:country_id'), this.setRegionValue.bind(this));
@@ -494,11 +490,9 @@ Shipping.prototype = {
             if ((typeof response.message) == 'string') {
                 alert(response.message);
             } else {
-                /*if (window.shippingRegionUpdater) {
+                if (window.shippingRegionUpdater) {
                     shippingRegionUpdater.update();
-                }*/
-                // shippingRegionUpdater is replaced with jQuery regionUpdater widget which use change event to call update
-                jQuery('#shipping\\:country_id').trigger('change');
+                }
                 alert(response.message.join("\n"));
             }
 

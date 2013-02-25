@@ -11,10 +11,10 @@
 <?php $entityValues = $this->getEntityValues() ?>
 
 <?php if ($this->getEnabled() && count($entityValues)): ?>
-<form action="<?php echo $this->getAddUrl();?>" method="post" id="add-cart-items-to-gift-registry">
+<form action="<?php echo $this->getAddUrl();?>" method="post" id="form-validate">
     <div class="btn-gift-registry">
         <div class="input-box">
-            <select id="giftregistry_entity" name="entity" title="<?php echo $this->__('Gift Registry') ?>" data-validate="{required:true}">
+            <select id="giftregistry_entity" name="entity" title="<?php echo $this->__('Gift Registry') ?>" class="required-entry">
                 <?php foreach ($entityValues as $_entity):?>
                     <option value="<?php echo $_entity->getValue()?>" title="<?php echo $_entity->getTitle()?>"><?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_String')->truncate($_entity->getTitle(), 40))?></option>
                 <?php endforeach;?>
@@ -24,13 +24,8 @@
     </div>
 </form>
 <script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('#add-cart-items-to-gift-registry').validation();
-            });
-    })(jQuery);
+//<![CDATA[
+var dataForm = new VarienForm('form-validate');
+//]]>
 </script>
 <?php endif; ?>

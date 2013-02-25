@@ -6,10 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint jquery:true*/
-/*global alert*/
 (function ($) {
-    "use strict";
     $.widget('mage.baseImage', {
         /**
          * Button creation
@@ -25,7 +22,7 @@
 
             var findElement = function(data) {
                 return $container.find('.image:not(.image-placeholder)').filter(function() {
-                    return $(this).data('image').file === data.file;
+                    return $(this).data('image').file == data.file;
                 }).first();
             };
             var updateVisibility = function() {
@@ -33,11 +30,11 @@
                 elementsList.each(function(index) {
                     $(this)[index < maximumImageCount ? 'show' : 'hide']();
                 });
-                $dropPlaceholder[elementsList.length >= maximumImageCount ? 'hide' : 'show']();
+                $dropPlaceholder[elementsList.length > maximumImageCount ? 'hide' : 'show']();
             };
 
             $galleryContainer.on('setImageType', function(event, data) {
-                if (data.type === 'image') {
+                if (data.type == 'image') {
                     $container.find('.' + mainClass).removeClass(mainClass);
                     if (data.imageData) {
                         findElement(data.imageData).addClass(mainClass);
@@ -71,13 +68,13 @@
 
             $container.on('click', '[data-role="make-main-button"]', function(event) {
                 event.preventDefault();
-                var data = $(this.target).closest('.image').data('image');
+                var data = $(event.target).closest('.image').data('image');
                 $galleryContainer.productGallery('setMain', data);
             });
 
             $container.on('click', '[data-role="delete-button"]', function(event) {
                 event.preventDefault();
-                $galleryContainer.trigger('removeItem', $(this.target).closest('.image').data('image'));
+                $galleryContainer.trigger('removeItem', $(event.target).closest('.image').data('image'));
             });
 
             $container.sortable({

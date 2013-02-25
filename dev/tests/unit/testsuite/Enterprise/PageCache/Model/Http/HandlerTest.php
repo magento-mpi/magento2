@@ -42,7 +42,7 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
         $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false, false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false, false);
         $this->_configMock = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false, false);
-        $this->_factoryMock = $this->getMock('Enterprise_PageCache_Model_RequestProcessorFactory',
+        $this->_factoryMock = $this->getMock('Enterprise_PageCache_Model_Cache_ProcessorFactory',
             array(), array(), '', false, false);
     }
 
@@ -68,11 +68,10 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
     public function testHandleWithProcessorsContent()
     {
         $processorMock = $this->getMock(
-            'Enterprise_PageCache_Model_Processor', array(), array(), '', false, false
+            'Enterprise_PageCache_Model_Cache_ProcessorInterface', array(), array(), '', false, false
         );
         $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false, false);
-        $nodeMock->expects($this->once())->method('asArray')
-            ->will($this->returnValue(array(array('sortOrder' => 10, 'class' => 'processor_class'))));
+        $nodeMock->expects($this->once())->method('asArray')->will($this->returnValue(array('processor_class')));
         $this->_factoryMock->expects($this->once())
             ->method('create')->with('processor_class')->will($this->returnValue($processorMock));
 
@@ -96,11 +95,10 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
     public function testHandleWithoutProcessorsContent()
     {
         $processorMock = $this->getMock(
-            'Enterprise_PageCache_Model_Processor', array(), array(), '', false, false
+            'Enterprise_PageCache_Model_Cache_ProcessorInterface', array(), array(), '', false, false
         );
         $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false, false);
-        $nodeMock->expects($this->once())->method('asArray')
-            ->will($this->returnValue(array(array('sortOrder' => 10, 'class' => 'processor_class'))));
+        $nodeMock->expects($this->once())->method('asArray')->will($this->returnValue(array('processor_class')));
         $this->_factoryMock->expects($this->once())
             ->method('create')->with('processor_class')->will($this->returnValue($processorMock));
 

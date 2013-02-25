@@ -155,9 +155,9 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     protected function _getPreviewImagePublishedRootDir()
     {
-        /** @var $dir Mage_Core_Model_Dir */
-        $dir = $this->_objectManager->get('Mage_Core_Model_Dir');
-        $dirPath = $dir->getDir(Mage_Core_Model_Dir::THEME);
+        /** @var $design Mage_Core_Model_Design_Package */
+        $design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+        $dirPath = $design->getPublicDir();
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($dirPath);
         $this->_filesystem->setWorkingDirectory($dirPath);

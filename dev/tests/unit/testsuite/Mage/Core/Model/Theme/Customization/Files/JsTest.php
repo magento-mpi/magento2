@@ -178,25 +178,25 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
             // case 1
             array(
                 array(
-                    array('id' => '1', 'sort_order' => '123'),
-                    array('id' => '2', 'sort_order' => '0'),
-                    array('id' => '3', 'sort_order' => '456')
+                    array('file_name' => '1.js', 'sort_order' => '123'),
+                    array('file_name' => '2.js', 'sort_order' => '0'),
+                    array('file_name' => '3.js', 'sort_order' => '456')
                 ),
-                array('2', '1', '3'),
+                array('1.js', '2.js', '3.js'),
                 array(
                     'totalRecords' => null,
                     'items'        => array(
                         array(
-                         'id'         => 1,
-                         'sort_order' => 2
+                         'file_name' => '1.js',
+                         'sort_order'     => 1
                         ),
                         array(
-                         'id'         => 2,
-                         'sort_order' => 1
+                         'file_name' => '2.js',
+                         'sort_order'     => 2
                         ),
                         array(
-                         'id'         => 3,
-                         'sort_order' => 3
+                         'file_name' => '3.js',
+                         'sort_order'     => 3
                         ),
                     )
                 )
@@ -204,25 +204,25 @@ class Mage_Core_Model_Theme_Customization_Files_JsTest extends PHPUnit_Framework
             // case 2
             array(
                 array(
-                    array('id' => '3', 'sort_order' => '0'),
-                    array('id' => '2', 'sort_order' => '0'),
-                    array('id' => '1', 'sort_order' => '0')
+                    array('file_name' => '3.js', 'sort_order' => '0'),
+                    array('file_name' => '2.js', 'sort_order' => '0'),
+                    array('file_name' => '1.js', 'sort_order' => '0')
                 ),
-                array('1', '2', '3'),
+                array('1.js', '2.js', '3.js'),
                 array(
                     'totalRecords' => null,
                     'items'        => array(
                         array(
-                         'id'         => 1,
-                         'sort_order' => 1
+                         'file_name' => '1.js',
+                         'sort_order'     => 1
                         ),
                         array(
-                         'id'         => 2,
-                         'sort_order' => 2
+                         'file_name' => '2.js',
+                         'sort_order'     => 2
                         ),
                         array(
-                         'id'         => 3,
-                         'sort_order' => 3
+                         'file_name' => '3.js',
+                         'sort_order'     => 3
                         ),
                     )
                 )

@@ -46,9 +46,7 @@ class Enterprise_PageCache_Model_Processor_Default implements Enterprise_PageCac
      * Replace block content to placeholder replacer
      *
      * @param string $content
-     *
      * @return string
-     * @throws Exception
      */
     public function replaceContentToPlaceholderReplacer($content)
     {
@@ -112,10 +110,10 @@ class Enterprise_PageCache_Model_Processor_Default implements Enterprise_PageCac
     /**
      * Return cache page id with application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
+    public function getPageIdInApp(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor)
     {
         return $this->getPageIdWithoutApp($processor);
     }
@@ -123,10 +121,10 @@ class Enterprise_PageCache_Model_Processor_Default implements Enterprise_PageCac
     /**
      * Return cache page id without application. Depends on GET super global array.
      *
-     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Enterprise_PageCache_Model_Cache_ProcessorInterface $processor
      * @return string
      */
-    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor)
+    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Cache_ProcessorInterface $processor)
     {
         $queryParams = $_GET;
         ksort($queryParams);

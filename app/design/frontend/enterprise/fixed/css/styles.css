@@ -13,9 +13,8 @@ body          { background:#fff; font:11px/1.35 Arial, Helvetica, sans-serif; co
 
 img           { border:0; vertical-align:top; }
 
-a,.l          { color:#444; text-decoration:underline; display: inline; border: 0; background: transparent;}
-a:hover,
-.l:hover      { text-decoration:none; cursor: pointer;}
+a             { color:#444; text-decoration:underline; }
+a:hover       { text-decoration:none; }
 :focus        { outline:0; }
 
 /* Headings */
@@ -68,7 +67,6 @@ ul,ol         { list-style:none; }
 .no-margin    { margin:0 !important; }
 .no-padding   { padding:0 !important; }
 .no-bg        { background:none !important; }
-.clear        { clear: both; }
 /* ======================================================================================= */
 
 /* Layout ================================================================================ */
@@ -907,10 +905,6 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 
 /* Block: Compare Products */
 .block-compare li {}
-
-/* Block: RMA */
-[id^="sh_"] > td { background:#F5F5F5; }
-table.data-table button.l {font-size: 0.9em;}
 
 /* Block: List */
 .block-list .block-content ol { margin:-5px -13px; }
@@ -2136,7 +2130,7 @@ li#remember-me-box.control .link-tip { display:inline-block; font-size:11px; lin
 .split-button.active { z-index:100; }
 .split-button strong { cursor:default; font-weight:bold; text-transform:uppercase; font-size:11px; background:url(../images/bkg_btn.gif) no-repeat 100% 0; height:19px; padding:3px 30px 0 5px; margin:0; display:block; overflow-x:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .split-button.clickable > strong,
-.split-button strong[onclick], .split-button strong span[data-wishlist-move-selected], .split-button strong span[data-wishlist-copy-selected]{ text-transform:uppercase; font-size:11px; color:#C73615; text-transform:uppercase; cursor:pointer; }
+.split-button strong[onclick] { text-transform:uppercase; font-size:11px; color:#C73615; text-transform:uppercase; cursor:pointer; }
 .split-button .change { display:inline-block; border:1px solid; border-color:transparent transparent transparent #999; background:url(../images/bkg_btn-split-change.png) 5px 50% no-repeat; text-indent:-999em; overflow:hidden; width:15px; cursor:pointer; height:11px; margin-left:8px; vertical-align:middle; }
 .split-button .change { position:absolute; right:5px; top:0px; height:19px; border-left-color:#ccc; }
 
@@ -2144,9 +2138,9 @@ li#remember-me-box.control .link-tip { display:inline-block; font-size:11px; lin
 .split-button.light.clickable:active { top:auto; left:auto; }
 .split-button.light strong { display:inline-block; font-size:11px; text-transform:none; background:none; font-weight:normal; padding:0; height:auto; overflow:visible; white-space:normal; text-overflow:visible; }
 .split-button.light.clickable > strong,
-.split-button.light strong[onclick], .split-button.light strong span[data-wishlist-move-item], .split-button.light strong span[data-wishlist-copy-item] { text-transform:none; text-decoration:underline; color:#999; }
+.split-button.light strong[onclick] { text-transform:none; text-decoration:underline; color:#999; }
 .split-button.light.clickable > strong:hover,
-.split-button.light strong[onclick]:hover, .split-button.light strong span[data-wishlist-move-item]:hover, .split-button.light strong span[data-wishlist-copy-item]:hover { text-decoration:none; cursor:pointer; }
+.split-button.light strong[onclick]:hover { text-decoration:none; }
 .split-button.light .change { position:static; right:auto; top:auto; height:11px; border-left-color:#999; }
 
 .split-button.active .change,

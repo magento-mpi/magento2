@@ -182,24 +182,10 @@
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-                <?php if ($this->getShowAddressFields()): ?>
-                    "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
-                <?php endif ?>
-                <?php if ($customerAttributes->hasUserDefinedAttributes()): ?>
-                    "<?php echo $this->getViewFileUrl('Enterprise_Customer::file-element.js') ?>",
-                <?php endif ?>
                 <?php if ($_dob->isEnabled()): ?>
-                    "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
                 <?php endif ?>
                 function() {
-                    var dataForm = $('#form-validate'), ignore;
-                    <?php if ($_dob->isEnabled()): ?>
-                        ignore = '#full';
-                    <?php endif ?>
-                    <?php if ($customerAttributes->hasUserDefinedAttributes()): ?>
-                        dataForm = dataForm.fileElement();
-                        ignore = ignore ? ignore + ', ' + 'input[id$="_value"]' : 'input[id$="_value"]';
-                    <?php endif ?>
                     $('#form-validate').validation({
                     <?php if ($_dob->isEnabled()): ?>
                         errorPlacement: function(error, element) {
@@ -214,21 +200,19 @@
                                 error.insertAfter(element);
                             }
                         },
-                        ignore: ':hidden:not(' + ignore + ')'
-                    <?php else: ?>
-                        ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
-                    <?php endif ?>
+                        ignore: ':hidden:not(#full)'
+                        <?php endif ?>
                     }).find('input:text').attr('autocomplete', 'off');
-                    <?php if ($this->getShowAddressFields()): ?>
-                        $('#country').regionUpdater({
-                            regionListId: '#region_id',
-                            regionInputId: '#region',
-                            postcodeId: '#zip',
-                            form: dataForm,
-                            regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
-                            defaultRegion: "<?php echo $this->getFormData()->getRegionId() ?>",
-                            countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
-                        });
+                    <?php if($this->getShowAddressFields()): ?>
+                    $('#country').regionUpdater({
+                        regionListId: '#region_id',
+                        regionInputId: '#region',
+                        postcodeId: '#zip',
+                        form: dataForm,
+                        regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
+                        defaultRegion: "<?php echo $this->getFormData()->getRegionId() ?>",
+                        countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
+                    });
                     <?php endif; ?>
                 });
         })(jQuery);

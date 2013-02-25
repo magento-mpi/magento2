@@ -97,14 +97,14 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     /**
      * Upload css file
      *
-     * @param string $file - Key in the $_FILES array
+     * @param string $type
      * @return Mage_Theme_Model_Uploader_Service
      * @throws Mage_Core_Exception
      */
-    public function uploadCssFile($file)
+    public function uploadCssFile($type)
     {
         /** @var $fileUploader Mage_Core_Model_File_Uploader */
-        $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($file));
+        $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($type));
         $fileUploader->setAllowedExtensions(array('css'));
         $fileUploader->setAllowRenameFiles(true);
         $fileUploader->setAllowCreateFolders(true);
@@ -124,16 +124,15 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     /**
      * Upload js file
      *
-     * @param string $file - Key in the $_FILES array
+     * @param string $type
      * @param Mage_Core_Model_Theme $theme
-     * @param bool $saveAsTmp
      * @return Mage_Theme_Model_Uploader_Service
      * @throws Mage_Core_Exception
      */
-    public function uploadJsFile($file, $theme, $saveAsTmp = true)
+    public function uploadJsFile($type, $theme)
     {
         /** @var $fileUploader Mage_Core_Model_File_Uploader */
-        $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($file));
+        $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($type));
         $fileUploader->setAllowedExtensions(array('js'));
         $fileUploader->setAllowRenameFiles(true);
         $fileUploader->setAllowCreateFolders(true);
@@ -149,19 +148,9 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
         $this->setFilePath($file['tmp_name']);
         $file['content'] = $this->getFileContent();
 
-        $this->_filesJs->saveJsFile($theme, $file, $saveAsTmp);
+        $this->_filesJs->saveJsFile($theme, $file, true);
 
         return $this;
-    }
-
-    /**
-     * Get js files object
-     *
-     * @return Mage_Core_Model_Theme_Customization_Files_Js
-     */
-    public function getJsFiles()
-    {
-        return $this->_filesJs;
     }
 
     /**
