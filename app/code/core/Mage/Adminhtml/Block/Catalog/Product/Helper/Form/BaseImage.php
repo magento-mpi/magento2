@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     data-max-file-size="{$this->_getFileMaxSize()}"
     >
     <div class="image image-placeholder">
-        <input type="file" name="image" data-url="{$uploadUrl}" multiple />
+        <input type="file" name="image" data-url="{$uploadUrl}" multiple="multiple" />
         <img class="spacer" src="{$spacerImage}"/>
         <p class="image-placeholder-text">{$this->__('Click here or drag and drop to add images')}</p>
     </div>
