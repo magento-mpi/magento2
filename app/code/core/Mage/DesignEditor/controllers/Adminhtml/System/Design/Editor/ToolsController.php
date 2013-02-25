@@ -197,10 +197,15 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $imageSizing = $this->getRequest()->getParam('imagesizing');
         /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
         $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
+        /** @var $imageSizingValidator Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator */
+        $imageSizingValidator = $this->_objectManager->get(
+            'Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator'
+        );
         try {
             $configuration = $configFactory->create(
                 Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING, $this->_loadTheme($themeId)
             );
+            $imageSizing = $imageSizingValidator->validate($configuration->getAllControlsData(), $imageSizing);
             $configuration->saveData($imageSizing);
             $this->_session->addSuccess('Image sizes are saved.');
             $result = array('success' => true);

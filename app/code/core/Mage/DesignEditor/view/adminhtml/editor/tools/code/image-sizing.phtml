@@ -22,7 +22,8 @@
     (function ($) {
         $('#product_image_sizing_form').vdeImageSizing({
             formId: '#product_image_sizing_form',
-            formUrl: '<?php echo $this->getUrl('*/system_design_editor_tools/saveImageSizing', array('id' => $this->getTheme()->getId())) ?>'
+            formUrl: '<?php echo $this->getUrl('*/system_design_editor_tools/saveImageSizing', array('id' => $this->getTheme()->getId())) ?>',
+            maxSizeValue: <?php echo Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator::MAX_SIZE_VALUE ?>
         });
     })(jQuery);
 </script>

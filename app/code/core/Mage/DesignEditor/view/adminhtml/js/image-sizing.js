@@ -12,6 +12,7 @@
         options: {
             restoreDefaultDataEvent: 'restoreDefaultData',
             saveFormEvent: 'saveForm',
+            maxSizeValue: 500,
             formUrl: '',
             formId: ''
         },
@@ -24,6 +25,16 @@
             var body = $('body');
             body.on(this.options.restoreDefaultDataEvent, $.proxy(this._onRestoreDefaultData, this));
             body.on(this.options.saveFormEvent, $.proxy(this._onSaveForm, this));
+            $(this.options.formId + " input[type='text']").live('keyup',  $.proxy(this._validateInput, this));
+        },
+
+        _validateInput: function(event, data)
+        {
+            var value = $(event.currentTarget).val();
+            value = parseInt(value);
+            value = isNaN(value) ? 0 : value;
+            value = value > this.options.maxSizeValue ? this.options.maxSizeValue : value;
+            $(event.currentTarget).val(value);
         },
 
         _onRestoreDefaultData: function(event, data) {
