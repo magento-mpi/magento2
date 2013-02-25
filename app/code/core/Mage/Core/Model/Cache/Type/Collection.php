@@ -26,9 +26,9 @@ class Mage_Core_Model_Cache_Type_Collection extends Magento_Cache_Frontend_Decor
     const CACHE_TAG = 'COLLECTION_DATA';
 
     /**
-     * @param Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool
+     * @param Mage_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool
      */
-    public function __construct(Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool)
+    public function __construct(Mage_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool)
     {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }

@@ -26,9 +26,9 @@ class Mage_Api_Model_Cache_Type extends Magento_Cache_Frontend_Decorator_TagScop
     const CACHE_TAG = 'CONFIG_API';
 
     /**
-     * @param Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool
+     * @param Mage_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool
      */
-    public function __construct(Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool)
+    public function __construct(Mage_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool)
     {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }

@@ -26,9 +26,9 @@ class Mage_Webapi_Model_Cache_Type extends Magento_Cache_Frontend_Decorator_TagS
     const CACHE_TAG = 'WEBSERVICE';
 
     /**
-     * @param Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool
+     * @param Mage_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool
      */
-    public function __construct(Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool)
+    public function __construct(Mage_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool)
     {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }

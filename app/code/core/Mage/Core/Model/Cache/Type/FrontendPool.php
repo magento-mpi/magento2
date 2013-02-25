@@ -9,9 +9,9 @@
  */
 
 /**
- * In-memory readonly pool of cache front-ends with enforced access control
+ * In-memory readonly pool of cache front-ends with enforced access control, specific to cache types
  */
-class Mage_Core_Model_Cache_Frontend_Pool_AccessGateway
+class Mage_Core_Model_Cache_Type_FrontendPool
 {
     /**
      * @var Magento_ObjectManager
