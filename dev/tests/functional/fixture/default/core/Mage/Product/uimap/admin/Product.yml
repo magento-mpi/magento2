@@ -11,14 +11,14 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_product/')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, '/catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: &manageProductsUimap
         form:
             fieldsets:
                 -
                     product_grid:
-                        xpath: //div[@id='productGrid']
+                        xpath: //*[@id='productGrid']
                         links:
                             selectall: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
                         buttons:

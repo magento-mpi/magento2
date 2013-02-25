@@ -55,7 +55,7 @@ class Core_Mage_Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
         $taxRate = $this->loadDataSet('Tax', 'tax_rate_create_test_zip_no');
         $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $taxRate['tax_identifier']));
         //Steps
-        $this->taxHelper()->createTaxItem($taxRate, 'rate');
+        $this->taxHelper()->createTaxRate($taxRate);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         //Steps
@@ -77,12 +77,12 @@ class Core_Mage_Tax_TaxRate_DeleteTest extends Mage_Selenium_TestCase
         $rule = $this->loadDataSet('Tax', 'new_tax_rule_required', array('tax_rate' => $rate['tax_identifier']));
         $searchRule = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $rule['name']));
         //Steps
-        $this->taxHelper()->createTaxItem($rate, 'rate');
+        $this->taxHelper()->createTaxRate($rate);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         //Steps
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxItem($rule, 'rule');
+        $this->taxHelper()->createTaxRule($rule);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->_ruleToBeDeleted = $searchRule;
