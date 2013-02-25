@@ -60,10 +60,10 @@
 
     $('.vde-tools').toolsPanel();
     $(
-        '#vde-tab-header .element-font-picker select,' +
-        '#vde-tab-header .element-color-picker input,' +
-        //'#vde-tab-header .element-image-uploader' +   // Uploaders are special case
-        '#vde-tab-header .element-background .element-checkbox'
+        '#vde-tab-quick-styles .element-font-picker select,' +
+        '#vde-tab-quick-styles .element-color-picker input,' +
+        //'#vde-tab-quick-styles .element-image-uploader' +   // Uploaders are special case
+        '#vde-tab-quick-styles .element-background .element-checkbox'
     ).quickStyleElement({
         saveQuickStylesUrl: '<?php echo $this->getSaveUrl(); ?>'
     });

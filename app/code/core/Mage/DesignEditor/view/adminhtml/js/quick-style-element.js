@@ -29,8 +29,6 @@
             this._send();
         },
         _send: function() {
-            console.log('_send');
-
             var data = {
                 id: this.element.attr('id'),
                 value: this.element.val()

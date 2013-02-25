@@ -156,66 +156,66 @@
         <var name="page-background:tile">no-repeat</var>
 
         <var name="form-background">#f8f8f8</var>
-        <var name="form-stroke">aaaaaa</var>
-        <var name="form2-background">aaaaaa</var>
-        <var name="form2-stroke">aaaaaa</var>
+        <var name="form-stroke">#c2c2c2</var>
+        <var name="form2-background">#e5e5e5</var>
+        <var name="form2-stroke">#c2c2c2</var>
 
-        <var name="form-field-stroke">aaaaaa</var>
-        <var name="form-field-stroke-clicked">aaaaaa</var>
-        <var name="image-stroke-keylines">aaaaaa</var>
-        <var name="scroll-bar-background">aaaaaa</var>
-        <var name="scroll-bar-handle">aaaaaa</var>
+        <var name="form-field-stroke">#c2c2c2</var>
+        <var name="form-field-stroke-clicked">#999</var>
+        <var name="image-stroke-keylines">#e5e5e5</var>
+        <var name="scroll-bar-background">#f8f8f8</var>
+        <var name="scroll-bar-handle">#c2c2c2</var>
 
-        <var name="radio-checkbox-icon">aaaaaa</var>
-        <var name="radio-checkbox-background">aaaaaa</var>
-        <var name="radio-checkbox-stroke">aaaaaa</var>
+        <var name="radio-checkbox-icon">#675f55</var>
+        <var name="radio-checkbox-background">#e5e5e5</var>
+        <var name="radio-checkbox-stroke">#999</var>
 
-        <var name="button-background">aaaaaa</var>
-        <var name="button-text">aaaaaa</var>
-        <var name="button-color">aaaaaa</var>
-        <var name="icons">aaaaaa</var>
-        <var name="icons-hover">aaaaaa</var>
-        <var name="icons2">aaaaaa</var>
+        <var name="button-background">#f47a1f</var>
+        <var name="button-text">#fff</var>
+        <var name="button-color">#ff953b</var>
+        <var name="icons">#c2c2c2</var>
+        <var name="icons-hover">#999</var>
+        <var name="icons2">#837d75</var>
 
-        <var name="accents">aaaaaa</var>
-        <var name="size-swatches">aaaaaa</var>
-        <var name="size-swatches-unavailable">aaaaaa</var>
-        <var name="size-swatches-hover">aaaaaa</var>
-
-
-        <var name="tooltip-text">aaaaaa</var>
-        <var name="tooltip-box">aaaaaa</var>
-        <var name="tooltip-stroke">aaaaaa</var>
-        <var name="tooltip2-text">aaaaaa</var>
-        <var name="tooltip2-box">aaaaaa</var>
-        <var name="tooltip2-stroke">aaaaaa</var>
-
-        <var name="error-box">aaaaaa</var>
-        <var name="error-icon">aaaaaa</var>
-
-        <var name="success-box">aaaaaa</var>
-        <var name="success-icon">aaaaaa</var>
+        <var name="accents">#55c2e6</var>
+        <var name="size-swatches">#f8f8f8</var>
+        <var name="size-swatches-unavailable">#e5e5e5</var>
+        <var name="size-swatches-hover">#675f55</var>
 
 
-        <var name="banner-text:font-picker">aaaaaa</var>
-        <var name="banner-text:color-picker">aaaaaa</var>
-        <var name="page-headings:font-picker">aaaaaa</var>
-        <var name="page-headings:color-picker">aaaaaa</var>
-        <var name="menu:font-picker">aaaaaa</var>
-        <var name="menu:color-picker">aaaaaa</var>
+        <var name="tooltip-text">#675f55</var>
+        <var name="tooltip-box">#fff</var>
+        <var name="tooltip-stroke">#c2c2c2</var>
+        <var name="tooltip2-text">#fff</var>
+        <var name="tooltip2-box">#000</var>
+        <var name="tooltip2-stroke">#c2c2c2</var>
 
-        <var name="body-text:font-picker">aaaaaa</var>
-        <var name="body-text:color-picker">aaaaaa</var>
+        <var name="error-box">#ff3200</var>
+        <var name="error-icon">#fff</var>
 
-        <var name="buttons:font-picker">aaaaaa</var>
-        <var name="buttons:color-picker">aaaaaa</var>
+        <var name="success-box">#42b649</var>
+        <var name="success-icon">#fff</var>
 
-        <var name="text-links">aaaaaa</var>
-        <var name="text-links-hover">aaaaaa</var>
-        <var name="text-links-active">aaaaaa</var>
-        <var name="text-links-product">aaaaaa</var>
-        <var name="small-links">aaaaaa</var>
-        <var name="small-links-hover">aaaaaa</var>
+
+        <var name="banner-text:font-picker">Marvel Regular</var>
+        <var name="banner-text:color-picker">#123456</var>
+        <var name="page-headings:font-picker">Source Sans Pro, Light</var>
+        <var name="page-headings:color-picker">#123456</var>
+        <var name="menu:font-picker">Source Sans Pro, Semibold</var>
+        <var name="menu:color-picker">#123456</var>
+
+        <var name="body-text:font-picker">Source Sans Pro, Regular</var>
+        <var name="body-text:color-picker">#675f55</var>
+
+        <var name="buttons:font-picker">Source Sans Pro, Semibold</var>
+        <var name="buttons:color-picker">#123456</var>
+
+        <var name="text-links">#675f55</var>
+        <var name="text-links-hover">#c2c2c2</var>
+        <var name="text-links-active">#f47a1f</var>
+        <var name="text-links-product">#675f55</var>
+        <var name="small-links">#675f55</var>
+        <var name="small-links-hover">#c2c2c2</var>
     </vars>
 
 </view>
