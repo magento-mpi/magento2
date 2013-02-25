@@ -23,18 +23,4 @@ class Mage_Wishlist_Block_Customer_Wishlist_ItemsTest extends PHPUnit_Framework_
         $layout->addBlock($child, 'child', 'test');
         $this->assertSame(array($child), $block->getColumns());
     }
-
-    /**
-     * List of block constructor arguments
-     *
-     * @return array
-     */
-    protected function _prepareConstructorArguments()
-    {
-        $arguments = array();
-        foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = Mage::getModel($injectionClass);
-        }
-        return $arguments;
-    }
 }

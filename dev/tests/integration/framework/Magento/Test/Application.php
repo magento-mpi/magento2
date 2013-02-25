@@ -179,6 +179,9 @@ class Magento_Test_Application
 
     /**
      * Run application normally, but with encapsulated initialization options
+     *
+     * @param Magento_Test_Request $request
+     * @param Magento_Test_Response $response
      */
     public function run(Magento_Test_Request $request, Magento_Test_Response $response)
     {

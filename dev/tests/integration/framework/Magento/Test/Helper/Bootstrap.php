@@ -120,6 +120,8 @@ class Magento_Test_Helper_Bootstrap
      * Perform the full request processing by the application instance optionally passing parameters to be overridden.
      * Intended to be used by the controller tests.
      *
+     * @param Magento_Test_Request $request
+     * @param Magento_Test_Response $response
      */
     public function runApp(Magento_Test_Request $request, Magento_Test_Response $response)
     {
