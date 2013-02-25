@@ -44,6 +44,7 @@
 </div>
 </form>
 
+<?php echo $this->getChildHtml('store_design.widget'); ?>
 <script type="text/javascript">
     (function($) {
         $(document).ready(function() {
@@ -53,6 +54,7 @@
                 .drawerPages()
                 .drawerPages('headerButtonCreate', {
                     name: 'skip',
+                    id: 'button_skip',
                     title: '<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Skip This for Now'); ?>',
                     click: function() {
                         $('#drawer').drawerPages('drawerPageSwitch', 'theme-page');
