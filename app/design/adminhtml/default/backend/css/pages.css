@@ -532,6 +532,10 @@
     box-shadow: 0 2px 1px 0 rgba(217, 210, 202, 0.5);
 }
 
+.address-item-edit-content .fieldset:last-child {
+    margin-bottom: 29px;
+}
+
 .address-item-edit .legend {
     border-bottom: 0;
     margin: 0 0 18px;
@@ -1236,6 +1240,24 @@
 .table-fieldset-alt tbody tr:nth-child(odd) td,
 .table-fieldset-alt tbody tr:nth-child(odd):hover td {
     background: #fff;
+}
+
+/*
+    Tags
+-------------------------------------- */
+.tag-title .page-actions {
+    float: right;
+}
+
+.tag-title .store-switcher {
+    padding: 14px 0 18px;
+}
+
+/*
+    Attribute Mapping
+-------------------------------------- */
+.field-attributes_box .control-value {
+    width:100%;
 }
 
 /*
