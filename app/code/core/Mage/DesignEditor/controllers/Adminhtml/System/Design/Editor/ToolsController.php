@@ -294,7 +294,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             }
 
             foreach ($stores[$theme->getId()] as $store) {
-                $storeLogo = $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Image_Logo');
+                /** @var $storeLogo Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
+                $storeLogo = $this->_objectManager
+                    ->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
                 $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
             }
             $response = array('error' => false, 'content' => array());

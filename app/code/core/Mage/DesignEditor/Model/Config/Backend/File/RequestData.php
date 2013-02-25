@@ -3,13 +3,15 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Backend
+ * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-class Mage_Backend_Model_Config_Backend_File_RequestData
+/**
+ * Design editor request data
+ */
+class Mage_DesignEditor_Model_Config_Backend_File_RequestData
     implements Mage_Backend_Model_Config_Backend_File_RequestData_Interface
 {
     /**
@@ -43,27 +45,11 @@ class Mage_Backend_Model_Config_Backend_File_RequestData
      */
     protected function _getParam($paramName, $path)
     {
-        $pathParts = explode('/', $path);
-        array_shift($pathParts);
-        $fieldId = array_pop($pathParts);
-        $firstGroupId = array_shift($pathParts);
-        if (!isset($_FILES['groups'][$paramName])) {
+        $logoImage = reset($_FILES);
+        if (empty($logoImage)) {
             return null;
         }
-        $groupData = $_FILES['groups'][$paramName];
-        if (isset($groupData[$firstGroupId])) {
-            $groupData = $groupData[$firstGroupId];
-        }
-        foreach ($pathParts as $groupId) {
-            if (isset($groupData['groups'][$groupId])) {
-                $groupData =  $groupData['groups'][$groupId];
-            } else {
-                return null;
-            }
-        }
-        if (isset($groupData['fields'][$fieldId]['value'])) {
-            return $groupData['fields'][$fieldId]['value'];
-        }
-        return null;
+        return $logoImage[$paramName];
     }
+
 }

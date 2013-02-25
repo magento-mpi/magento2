@@ -18,13 +18,13 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage
      * Render color picker attribute
      *
      * Return format:
-     * .content { background-image: url( 'path/image.png' ); }
+     * .content { background-image: url(path/image.png); }
      *
      * @param array $data
      * @return string
      */
     protected function _render($data)
     {
-        return "{$data['selector']} { {$data['attribute']}: url( '{$data['value']}' ); }";
+        return "{$data['selector']} { {$data['attribute']}: url({$data['value']}); }";
     }
 }
