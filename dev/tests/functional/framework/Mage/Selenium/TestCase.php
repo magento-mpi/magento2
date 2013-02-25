@@ -1619,7 +1619,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $pageText = $this->getElement('/*')->text();
         foreach ($errorMessages as $message) {
             if (strpos($pageText, $message) !== false) {
-                $this->fail('Error: ' . $message);
+                $this->fail('Page validation is not done, because there is  message "' . $message . '" on it');
             }
         }
     }
