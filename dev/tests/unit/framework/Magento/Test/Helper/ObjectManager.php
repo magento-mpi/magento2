@@ -41,31 +41,22 @@ class Magento_Test_Helper_ObjectManager
     }
 
     /**
-     * Get mock for each argument
+     * Get mock for argument
      *
-     * @param array $constructArguments
-     * @param array $arguments
-     * @return array
+     * @param string $argClassName
+     * @param array $originalArguments
+     * @return null|object|PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _createArgumentsMock($constructArguments, $arguments)
+    protected function _createArgumentMock($argClassName, array $originalArguments)
     {
-        foreach ($constructArguments as $name => $argument) {
-            if (is_array($argument) && isset($argument['isAutoTestValue'])) {
-                if ($argument['argumentClassName']) {
-                    $object = $this->_processSpecialCases($argument['argumentClassName'], $arguments);
-                    if (null !== $object) {
-                        $constructArguments[$name] = $object;
-                    } else {
-                        $constructArguments[$name] = $this->_getMockWithoutConstructorCall(
-                            $argument['argumentClassName']
-                        );
-                    }
-                } else {
-                    $constructArguments[$name] = $argument['defaultValue'];
-                }
+        $object = null;
+        if ($argClassName) {
+            $object = $this->_processSpecialCases($argClassName, $originalArguments);
+            if (null === $object) {
+                $object = $this->_getMockWithoutConstructorCall($argClassName);
             }
         }
-        return $constructArguments;
+        return $object;
     }
 
     /**
@@ -79,7 +70,6 @@ class Magento_Test_Helper_ObjectManager
     {
         $object = null;
         $interfaces = class_implements($className);
-
         if (in_array('Magento_ObjectManager_ContextInterface', $interfaces)) {
             $object = $this->getObject($className, $arguments);
         } elseif (isset($this->_specialCases[$className])) {
@@ -180,22 +170,18 @@ class Magento_Test_Helper_ObjectManager
 
         foreach ($method->getParameters() as $parameter) {
             $parameterName = $parameter->getName();
-            $parameter->getClass();
-            $argument = array();
-            $argument['argumentClassName'] = $parameter->getClass() ? $parameter->getClass()->getName() : null;
-            $argument['defaultValue'] = null;
-            $argument['isAutoTestValue'] = true;
+
             if (isset($arguments[$parameterName])) {
-                $argument = $arguments[$parameterName];
-            } elseif ($parameter->isDefaultValueAvailable()) {
-                $argument['defaultValue'] = $parameter->getDefaultValue();
+                $constructArguments[$parameterName] = $arguments[$parameterName];
+                continue;
             }
 
-            $constructArguments[$parameterName] = $argument;
+            $defaultValue = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
+            $argClassName = $parameter->getClass() ? $parameter->getClass()->getName() : null;
+            $object = $this->_createArgumentMock($argClassName, $arguments);
+            $object = null === $object ? $defaultValue : $object;
+            $constructArguments[$parameterName] = $object;
         }
-
-        $constructArguments = $this->_createArgumentsMock($constructArguments, $arguments);
-
         return $constructArguments;
     }
 }
