@@ -13,7 +13,7 @@
 <?php $_htmlName    = $this->getElement()->getName() ?>
 <?php $_readonly    = $this->getElement()->getReadonly() ?>
 <?php $_multiWebsite= $this->isMultiWebsites(); ?>
-<div id="attribute-<?php echo $_htmlId?>-container" class="field">
+<div class="field" id="attribute-<?php echo $_htmlId?>-container">
     <label class="label"><span><?php echo $this->getElement()->getLabel() ?></span></label>
     <div class="control">
         <table class="data-table" id="<?php echo $_htmlId; ?>_table">
@@ -39,7 +39,6 @@
                             class="<?php echo $_htmlClass ?> required-entry"
                             name="<?php echo $_htmlName ?>[__index__][website_id]"
                             id="#{prefix}_giftcard_amounts_row___index___website">
-
                             <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
                             <option value="<?php echo $_websiteId ?>"><?php echo $_info['name'] ?><?php if (!empty($_info['currency'])): ?> [<?php echo $_info['currency'] ?>]<?php endif; ?></option>
                             <?php endforeach ?>
@@ -126,10 +125,10 @@
         deleteItem : function(prefix, event) {
             var tr = Event.findElement(event, 'tr');
             if (tr) {
-                Element.select(tr, '.delete').each(function(elem){elem.value='1'});
+                Element.select(tr, '.action-delete').each(function(elem){elem.value='1'});
                 Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
                 Element.hide(tr);
-                Element.addClassName(tr, 'no-display template');
+                Element.addClassName(tr, 'hidden template');
             }
             itemsCount--;
             this.updateTotalAmounts();

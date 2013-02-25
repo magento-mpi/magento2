@@ -38,19 +38,22 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
         $this->addColumn('period', array(
             'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Period'),
             'index'             => 'period',
-            'width'             => 100,
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
             'renderer'          => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
             'totals_label'      => Mage::helper('Mage_Sales_Helper_Data')->__('Total'),
             'subtotals_label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
-            'html_decorators' => array('nobr'),
+            'html_decorators'   => array('nobr'),
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('shipping_description', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Carrier/Method'),
             'index'     => 'shipping_description',
-            'sortable'  => false
+            'sortable'  => false,
+            'header_css_class'  => 'col-method',
+            'column_css_class'  => 'col-method'
         ));
 
         $this->addColumn('orders_count', array(
@@ -58,8 +61,9 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
             'index'     => 'orders_count',
             'total'     => 'sum',
             'type'      => 'number',
-            'width'     => 100,
-            'sortable'  => false
+            'sortable'  => false,
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         if ($this->getFilterData()->getStoreIds()) {
@@ -77,6 +81,8 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
             'total'         => 'sum',
             'sortable'      => false,
             'rate'          => $rate,
+            'header_css_class'  => 'col-total-sales-shipping',
+            'column_css_class'  => 'col-total-sales-shipping'
         ));
 
         $this->addColumn('total_shipping_actual', array(
@@ -87,6 +93,8 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
             'total'         => 'sum',
             'sortable'      => false,
             'rate'          => $rate,
+            'header_css_class'  => 'col-total-shipping',
+            'column_css_class'  => 'col-total-shipping'
         ));
 
         $this->addExportType('*/*/exportShippingCsv', Mage::helper('Mage_Adminhtml_Helper_Data')->__('CSV'));

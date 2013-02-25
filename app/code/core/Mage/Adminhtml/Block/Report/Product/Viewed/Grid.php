@@ -56,13 +56,17 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
             'renderer'      => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
             'totals_label'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total'),
             'html_decorators' => array('nobr'),
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Product Name'),
             'index'     => 'product_name',
             'type'      => 'string',
-            'sortable'  => false
+            'sortable'  => false,
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         if ($this->getFilterData()->getStoreIds()) {
@@ -77,6 +81,8 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
             'index'         => 'product_price',
             'sortable'      => false,
             'rate'          => $this->getRate($currencyCode),
+            'header_css_class'  => 'col-price',
+            'column_css_class'  => 'col-price'
         ));
 
         $this->addColumn('views_num', array(
@@ -84,7 +90,9 @@ class Mage_Adminhtml_Block_Report_Product_Viewed_Grid extends Mage_Adminhtml_Blo
             'index'     => 'views_num',
             'type'      => 'number',
             'total'     => 'sum',
-            'sortable'  => false
+            'sortable'  => false,
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
 
