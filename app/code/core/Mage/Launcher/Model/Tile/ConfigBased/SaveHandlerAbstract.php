@@ -77,14 +77,4 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      * @return array
      */
     abstract public function getRelatedConfigSections();
-
-
-    /**
-     * Prepare configuration data for saving
-     *
-     * @param array $data
-     * @return array prepared data
-     * @throws Mage_Launcher_Exception
-     */
-    abstract public function prepareData(array $data);
 }
