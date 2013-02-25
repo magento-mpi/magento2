@@ -263,11 +263,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $fileName = $this->getRequest()->getParam('file_name', false);
+        $elementName = $this->getRequest()->getParam('element', false);
 
         /** @var $uploaderModel Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader */
         $uploaderModel = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
         try {
             $result = $uploaderModel->setTheme($this->_loadTheme($themeId))->removeFile($fileName);
+
+            /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
+            $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
+
+            $configuration = $configFactory->create(
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, $this->_loadTheme($themeId)
+            );
+            $configuration->saveData(array($elementName => ''));
+
             $response = array('error' => false, 'content' => $result);
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -298,12 +308,44 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
                 throw new Mage_Core_Exception($this->__('Theme is not assigned to any store.', $themeId));
             }
 
+            /** @var $storeLogo Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
+            $storeLogo = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
+
             foreach ($stores[$theme->getId()] as $store) {
-                /** @var $storeLogo Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
-                $storeLogo = $this->_objectManager
-                    ->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
                 $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
             }
+            $response = array('error' => false, 'content' => array('name' => $storeLogo->getValue()));
+        } catch (Mage_Core_Exception $e) {
+            $response = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $errorMessage = $this->__('Cannot upload image file');
+            $response = array('error' => true, 'message' => $errorMessage);
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+    }
+
+    public function removeStoreLogoAction()
+    {
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        try {
+            $theme = $this->_loadTheme($themeId);
+
+            /** @var $themeService Mage_Core_Model_Theme_Service */
+            $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+            $stores = $themeService->getStoresByThemes();
+
+            if (!isset($stores[$theme->getId()])) {
+                throw new Mage_Core_Exception($this->__('Theme is not assigned to any store.', $themeId));
+            }
+
+            foreach ($stores[$theme->getId()] as $store) {
+                $node = $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Store')
+                    ->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')
+                    ->setValue('')->save();
+                var_dump($node); die();
+            }
+
             $response = array('error' => false, 'content' => array());
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -324,10 +366,20 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $controlId = $this->getRequest()->getParam('id');
         $controlValue = $this->getRequest()->getParam('value');
         try {
+            //@TODO add validators here
+            /*$validatorFactory = $this->_objectManager
+                ->create('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Validator_Factory');
+            $validator = $validatorFactory->create($controlType);    //or $controlId
+            if (!$this->isValid($value))
+            {
+                //error
+            };*/
+
             /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
             $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
             $configuration = $configFactory->create(
-                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, $this->_loadTheme($themeId)
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
+                $this->_loadTheme($themeId)
             );
             $configuration->saveData(array($controlId => $controlValue));
             $response = array('success' => true);

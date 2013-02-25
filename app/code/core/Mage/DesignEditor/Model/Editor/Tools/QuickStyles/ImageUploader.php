@@ -142,8 +142,8 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
         $_filePath = $this->_filesystem->getAbsolutePath($path . Magento_Filesystem::DIRECTORY_SEPARATOR . $file);
 
         if ($this->_filesystem->isPathInDirectory($_filePath, $path)
-        && $this->_filesystem->isPathInDirectory($_filePath, $this->getStoragePath())
-    ) {
+            && $this->_filesystem->isPathInDirectory($_filePath, $this->getStoragePath())
+        ) {
             $this->_filesystem->delete($_filePath);
         }
 

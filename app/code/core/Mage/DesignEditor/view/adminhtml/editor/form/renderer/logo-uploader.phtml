@@ -15,13 +15,30 @@ $element = $this->getElement();
 ?>
 
 <div style="border:1px solid gray; padding:10px 5px;">
-    <?php echo $this->getHtml(); ?>
+    <div id="<?php echo $element->getHtmlId(); ?>-uploader">
+        <div id="<?php echo $element->getHtmlId(); ?>-container">
+            <?php echo $this->getHtml(); ?>
+        </div>
+
+        <div class="no-display" id="<?php echo $element->getHtmlId(); ?>-template">
+            <div class="file-row">
+                <span class="label">{{name}}</span>
+                <span id="{{remove-id}}">remove</span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
     (function($) {
-        $(document.getElementById('<?php echo $element->getHtmlId(); ?>')).quickStyleLogoUploader({
-            url: '<?php echo $this->getLogoUploadUrl(); ?>'
+        $(document.getElementById('<?php echo $element->getHtmlId(); ?>-uploader')).quickStyleUploader({
+            uploader_id:   '<?php echo $element->getHtmlId(); ?>',
+            container:     '<?php echo $element->getHtmlId(); ?>-uploader',
+            event:         '<?php echo $this->getEvent(); ?>:uploaded',
+            value:         '<?php echo $this->getLogoImage(); ?>',
+            url:           '<?php echo $this->getLogoUploadUrl(); ?>',
+            remove_url:    '<?php echo $this->getLogoRemoveUrl(); ?>',
+            hide_uploader: false
         });
     })(jQuery);
 </script>

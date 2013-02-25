@@ -18,7 +18,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/element/input.phtml',
         'Mage_DesignEditor::editor/form/renderer/color-picker.phtml',
-        'Mage_DesignEditor::editor/form/renderer/simple/wrapper.phtml',
+        'Mage_DesignEditor::editor/form/renderer/element/wrapper.phtml',
         'Mage_DesignEditor::editor/form/renderer/simple.phtml'
     );
 
