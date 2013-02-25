@@ -1,0 +1,82 @@
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     js
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+.trnslate-inline-area [data-translate], .trnslate-inline-area .translate-inline { /* background:black; font-weight:bold; color:red; */ outline: dashed 2px darkgray!important;}
+* html .translate-inline,
+*+html .translate-inline{ border: dotted 1px red !important;}
+.translate-inline-script, .translate-inline-title { background:yellow; color:black; font-weight:bold; }
+#translate-inline-trig { position:absolute;left:-1000px; opacity:.8; filter:alpha(opacity=80); cursor:pointer; margin-top:10px; z-index:2000;}
+
+.magento_table_container { background:#e7efef; margin:10px; padding:10px; }
+.magento_table_container table { width:100%; }
+.magento_table_container td { padding:2px 0 !important; text-align:left; }
+.magento_table_container th.label { width:150px; padding:2px 9px 2px 0 !important; font-weight:bold; }
+.magento_table_container td.value .input-text { width:98%; }
+.magento_table_container td.value textarea.input-text { height:8em; }
+p.accent { color:#d12c01; }
+
+.translateDialog .ui-dialog-titlebar {
+    height: 0;
+    display: none;
+}
+
+.translateDialog {
+    border: 0;
+}
+
+.translateDialog .ui-dialog-content {
+    background: white;
+    border: 5px rgba(223, 243, 250, 1.0) solid;
+    -webkit-border-radius: 5px;
+    -webkit-border-bottom-right-radius: 0px;
+    -moz-border-radius: 5px;
+    -moz-border-radius-bottomright: 0px;
+    border-radius: 5px;
+    border-bottom-right-radius: 0px;
+    padding: 0;
+}
+
+.translateDialog .ui-dialog-buttonpane {
+    border: 0;
+    margin-top: 0;
+    padding: 0;
+}
+
+.translateDialog .ui-dialog-buttonset {
+    padding-right: 0;
+    margin-right: 0;
+    float: right;
+    background: rgba(223, 243, 250, 1.0);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.translateDialog input {
+    background: white;
+    border: none;
+    outline: none;
+    /* height: 38px !important; */
+    width: 100%;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.translateDialog .ui-dialog-buttonpane button {
+    padding: 0;
+    margin: 0;
+}
