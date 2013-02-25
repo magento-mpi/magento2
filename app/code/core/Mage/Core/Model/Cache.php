@@ -80,62 +80,6 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     }
 
     /**
-     * Generate Magento Profiler tags
-     *
-     * @param string $operation
-     * @param string $frontendType
-     * @param string $backendType
-     * @return array
-     */
-    protected function _generateProfilerTags($operation, $frontendType = '', $backendType = '')
-    {
-        $profilerTags = array('group' => 'cache',
-            'operation' => 'cache:' . $operation);
-
-        if (!empty($frontendType)) {
-            $profilerTags['frontend_type'] = $frontendType;
-        } elseif ($this->_frontend) {
-            $profilerTags['frontend_type'] = get_class($this->_frontend);
-        }
-
-        if (!empty($backendType)) {
-            $profilerTags['backend_type'] = $backendType;
-        } elseif ($this->_frontend) {
-            $parsedBackendType = $this->_getBackendType();
-            if ($parsedBackendType) {
-                $profilerTags['backend_type'] = $parsedBackendType;
-            }
-        }
-
-        return $profilerTags;
-    }
-
-    /**
-     * Get cache backend type
-     *
-     * @return string
-     */
-    protected function _getBackendType()
-    {
-        $backendType = '';
-
-        if ($this->_frontend) {
-            $backend = $this->_frontend->getBackend();
-            $backendClass = get_class($backend);
-
-            $possibleCacheBackends = array('Zend_Cache_Backend_', 'Varien_Cache_Backend_');
-            foreach ($possibleCacheBackends as $backendClassStart) {
-                if (substr($backendClass, 0, strlen($backendClassStart)) == $backendClassStart) {
-                    $backendType = substr($backendClass, strlen($backendClassStart));
-                    break;
-                }
-            }
-        }
-
-        return $backendType;
-    }
-
-    /**
      * Get cache frontend API object
      *
      * @return Magento_Cache_FrontendInterface
@@ -153,11 +97,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      */
     public function load($id)
     {
-        Magento_Profiler::start('cache_load', $this->_generateProfilerTags('load'));
-        $result = $this->_frontend->load($id);
-        Magento_Profiler::stop('cache_load');
-
-        return $result;
+        return $this->_frontend->load($id);
     }
 
     /**
@@ -171,11 +111,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      */
     public function save($data, $id, $tags=array(), $lifeTime=null)
     {
-        Magento_Profiler::start('cache_save', $this->_generateProfilerTags('save'));
-        $result = $this->_frontend->save((string)$data, $id, $tags, $lifeTime);
-        Magento_Profiler::stop('cache_save');
-
-        return $result;
+        return $this->_frontend->save((string)$data, $id, $tags, $lifeTime);
     }
 
     /**
@@ -186,11 +122,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      */
     public function remove($id)
     {
-        Magento_Profiler::start('cache_remove', $this->_generateProfilerTags('remove'));
-        $result = $this->_frontend->remove($id);
-        Magento_Profiler::stop('cache_remove');
-
-        return $result;
+        return $this->_frontend->remove($id);
     }
 
     /**
@@ -201,23 +133,20 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      */
     public function clean($tags = array())
     {
-        Magento_Profiler::start('cache_clean', $this->_generateProfilerTags('clean'));
         if ($tags) {
-            $res = $this->_frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, (array)$tags);
+            $result = $this->_frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, (array)$tags);
         } else {
             /** @deprecated special case of cleaning by empty tags is deprecated after 2.0.0.0-dev42 */
-            $res = false;
+            $result = false;
             $markerCacheTag = Mage_Core_Model_AppInterface::CACHE_TAG;
             /** @var $cacheFrontend Magento_Cache_FrontendInterface */
             foreach ($this->_frontendPool as $cacheFrontend) {
                 if ($cacheFrontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($markerCacheTag))) {
-                    $res = true;
+                    $result = true;
                 }
             }
         }
-        Magento_Profiler::stop('cache_clean');
-
-        return $res;
+        return $result;
     }
 
     /**
