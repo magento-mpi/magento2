@@ -99,8 +99,8 @@
             var data = {},
                 instance = this;
             $('.' + instance.options.optionsItemContainerPrefix).each(function() {
-                var idArr = this.id.replace(instance.options.optionsItemContainerPrefix + '-', '').split('-');
-                var id = idArr[1];
+                var idArr = this.id.replace(instance.options.optionsItemContainerPrefix + '-', '').split('-'),
+                    id = idArr[1];
                 if (instance.options.itemsInfo[id]) {
                     data.id = id;
                     data.addrId = idArr[0];
