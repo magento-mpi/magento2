@@ -117,17 +117,6 @@ class Mage_Core_Model_Cache_Type_AccessProxy implements Magento_Cache_FrontendIn
     /**
      * {@inheritdoc}
      */
-    public function flush()
-    {
-        if (!$this->_isEnabled()) {
-            return true;
-        }
-        return $this->_frontend->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getBackend()
     {
         return $this->_frontend->getBackend();

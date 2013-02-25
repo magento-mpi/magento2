@@ -101,7 +101,7 @@ class Enterprise_Pbridge_Model_Observer
         if ($profileStatus !== null) {
             $scope = $observer->getEvent()->getData('website') ? 'websites' : 'default';
             $this->_configWriter->save('payment/pbridge/profilestatus', $profileStatus, $scope, $website->getId());
-            $this->_configCacheType->flush();
+            $this->_configCacheType->clean();
         }
         return $this;
     }

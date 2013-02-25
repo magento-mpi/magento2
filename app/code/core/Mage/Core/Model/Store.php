@@ -1197,7 +1197,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _afterDelete()
     {
         parent::_afterDelete();
-        $this->_configCacheType->flush();
+        $this->_configCacheType->clean();
         return $this;
     }
 

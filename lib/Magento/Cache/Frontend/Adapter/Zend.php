@@ -92,14 +92,6 @@ class Magento_Cache_Frontend_Adapter_Zend implements Magento_Cache_FrontendInter
     /**
      * {@inheritdoc}
      */
-    public function flush()
-    {
-        return $this->_frontend->clean();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getBackend()
     {
         return $this->_frontend->getBackend();

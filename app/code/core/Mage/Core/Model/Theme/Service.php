@@ -147,7 +147,7 @@ class Mage_Core_Model_Theme_Service
                 $this->_configWriter->save($configPath, $themeCustomization->getId(), $scope, $storeId);
             }
 
-            $this->_configCacheType->flush();
+            $this->_configCacheType->clean();
         }
         $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
         $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));

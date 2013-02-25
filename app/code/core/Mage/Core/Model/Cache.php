@@ -228,7 +228,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     public function flush()
     {
         Magento_Profiler::start('cache_flush', $this->_generateProfilerTags('flush'));
-        $res = $this->_frontend->flush();
+        $res = $this->_frontend->clean();
         Magento_Profiler::stop('cache_flush');
 
         return $res;
@@ -400,7 +400,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      */
     public function cleanType($typeCode)
     {
-        $this->_getTypeInstance($typeCode)->flush();
+        $this->_getTypeInstance($typeCode)->clean();
         $types = $this->_getInvalidatedTypes();
         unset($types[$typeCode]);
         $this->_saveInvalidatedTypes($types);

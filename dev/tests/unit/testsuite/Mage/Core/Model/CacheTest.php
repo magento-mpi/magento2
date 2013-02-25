@@ -46,7 +46,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($helperMock))
         ;
 
-        $this->_cacheTypeMock = $this->getMock('Magento_Cache_Frontend_TagDecorator', array('flush'), array(
+        $this->_cacheTypeMock = $this->getMock('Magento_Cache_Frontend_TagDecorator', array('clean'), array(
             $this->getMockForAbstractClass('Magento_Cache_FrontendInterface'), 'FIXTURE_TAG'
         ));
 
@@ -223,7 +223,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     {
         $this->_cacheFrontendMock
             ->expects($this->once())
-            ->method('flush')
+            ->method('clean')
             ->will($this->returnValue($result))
         ;
         $this->assertEquals($result, $this->_model->flush());
@@ -315,7 +315,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     {
         $this->_cacheTypeMock
             ->expects($this->once())
-            ->method('flush')
+            ->method('clean')
         ;
         $this->_model->cleanType('fixture_type');
     }

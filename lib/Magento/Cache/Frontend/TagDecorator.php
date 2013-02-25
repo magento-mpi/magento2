@@ -102,14 +102,6 @@ class Magento_Cache_Frontend_TagDecorator implements Magento_Cache_FrontendInter
     /**
      * {@inheritdoc}
      */
-    public function flush()
-    {
-        return $this->_frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($this->_tag));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getBackend()
     {
         return $this->_frontend->getBackend();

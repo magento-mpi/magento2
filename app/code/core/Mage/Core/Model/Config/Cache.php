@@ -205,7 +205,7 @@ class Mage_Core_Model_Config_Cache
     public function clean()
     {
         $this->_loadedConfig = null;
-        return $this->_configCacheType->flush();
+        return $this->_configCacheType->clean();
     }
 
     /**

@@ -47,20 +47,13 @@ interface Magento_Cache_FrontendInterface
     public function remove($id);
 
     /**
-     * Clean cache records MATCHING ALL specified tags
+     * Clean cache records matching specified tags
      *
      * @param string $mode
      * @param array $tags
      * @return bool
      */
     public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, array $tags = array());
-
-    /**
-     * Clean all cache records managed by a frontend
-     *
-     * @return bool
-     */
-    public function flush();
 
     /**
      * Retrieve backend instance
