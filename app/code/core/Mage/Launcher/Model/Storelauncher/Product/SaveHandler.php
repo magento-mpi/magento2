@@ -18,12 +18,6 @@
 class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Launcher_Model_Tile_SaveHandler
 {
     /**
-     * ID of the attribute set that is used by product created via Product Tile
-     * @todo ID  must not be hardcoded. For now it corresponds to "Minimal" attribute set, but it will change
-     */
-    const RELATED_ATTRIBUTE_SET_ID = 10;
-
-    /**
      * Application instance
      *
      * @var Mage_Core_Model_App
@@ -58,32 +52,21 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Laun
     public function save(array $data)
     {
         $preparedData = $this->prepareData($data);
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->_objectManager->create('Mage_Catalog_Model_Product', array(), false)
-            ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
-            // only simple product can be created via Product Tile
-            ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
-            ->addData($preparedData['product'])
-            ->setData('_edit_mode', true)
-            ->setAttributeSetId($this->getRelatedProductAttributeSetId())
-            ->setWebsiteIds($this->getRelatedWebsiteIds());
-        if ($product->validate() !== true) {
-            // validate method returns array of errors if some values are not valid
-            throw new Mage_Launcher_Exception('Product data is invalid.');
+        try {
+            /** @var $product Mage_Catalog_Model_Product */
+            $product = $this->_objectManager->create('Mage_Catalog_Model_Product', array(), false)
+                ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
+                // only simple product can be created via Product Tile
+                ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+                ->addData($preparedData['product'])
+                ->setData('_edit_mode', true)
+                ->setWebsiteIds($this->getRelatedWebsiteIds());
+            $product->setAttributeSetId($product->getDefaultAttributeSetId());
+            $product->validate();
+            $product->save();
+        } catch (Exception $e) {
+            throw new Mage_Launcher_Exception('Product data is invalid: ' . $e->getMessage());
         }
-        // catalog_product_prepare_save and catalog_product_transition_product_type are not dispatched on purpose
-        $product->save();
-    }
-
-    /**
-     * Retrieve ID of the product attribute set used by products created via Product Tile
-     *
-     * @return int
-     */
-    public function getRelatedProductAttributeSetId()
-    {
-        /** @todo attribute set ID  must not be hardcoded */
-        return self::RELATED_ATTRIBUTE_SET_ID;
     }
 
     /**

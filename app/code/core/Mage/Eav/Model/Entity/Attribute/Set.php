@@ -312,21 +312,4 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     {
         return $this->_resource ?: parent::_getResource();
     }
-
-    /**
-     * Get Minimal Attribute Set id by EntityTypeId
-     *
-     * @throws InvalidArgumentException
-     * @param int $entityTypeId
-     * @return int
-     */
-    public function getMinimalAttrSetId($entityTypeId)
-    {
-        if (!is_numeric($entityTypeId)) {
-            throw new InvalidArgumentException(
-                $this->_helper('Mage_Eav_Helper_Data')->__('Entity Type Id is empty.')
-            );
-        }
-        return $this->_getResource()->getMinimalAttrSetId($entityTypeId);
-    }
 }

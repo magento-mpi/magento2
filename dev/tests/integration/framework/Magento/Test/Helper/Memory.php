@@ -124,7 +124,7 @@ class Magento_Test_Helper_Memory
      */
     public static function convertToBytes($number)
     {
-        $number = preg_replace('/[^\d' . self::MEMORY_UNITS . ']/i', '', $number);
+        $number = str_replace(array(',', ' '), '', $number);
         $number = strtoupper($number);
         if (!preg_match('/^(\d+(?:\.\d+)?)([' . self::MEMORY_UNITS . ']?)$/', $number, $matches)) {
             throw new InvalidArgumentException("Number format '$number' is not recognized.");

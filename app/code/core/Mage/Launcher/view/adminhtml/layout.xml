@@ -62,6 +62,7 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/tree-suggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
+            <action method="addJs"><file>Mage_Catalog::js/product-gallery.js</file></action>
         </reference>
         <reference name="js">
             <block type="Mage_Backend_Block_Template" template="system/config/js.phtml"/>
@@ -126,8 +127,6 @@
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"/>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category"
                 template="Mage_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
-            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category-js"
-                template="Mage_Adminhtml::catalog/product/edit/category/new/js.phtml"/>
             <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml" name="wysiwyg-editor"/>
         </block>
     </launcher_storelauncher_product_drawer_load>

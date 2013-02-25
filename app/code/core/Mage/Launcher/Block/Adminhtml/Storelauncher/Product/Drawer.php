@@ -32,20 +32,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
      protected $_translateInline;
 
      /**
-      * EAV Entity Model
-      *
-      * @var Mage_Eav_Model_Entity
-      */
-     protected $_entityModel;
-
-     /**
-      * Entity Attribute Set model
-      *
-      * @var Mage_Eav_Model_Entity_Attribute_Set
-      */
-     protected  $_entityAttrSet;
-
-     /**
       * Entity Attribute Set Group Collection
       *
       * @var Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection
@@ -53,11 +39,11 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
      protected $_attrSetGroupColl;
 
      /**
-      * Minimal Attribute Set ID
+      * Default Attribute Set ID
       *
       * @var int
       */
-     protected $_minimalAttrSetId;
+     protected $_defaultAttrSetId;
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -77,8 +63,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
      * @param Mage_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Catalog_Model_Product $productModel,
      * @param Mage_Core_Model_Translate_Inline $translateInline,
-     * @param Mage_Eav_Model_Entity $entityModel,
-     * @param Mage_Eav_Model_Entity_Attribute_Set $entityAttrSet,
      * @param Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroup,
      * @param array $data
      *
@@ -102,8 +86,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
         Mage_Launcher_Model_LinkTracker $linkTracker,
         Mage_Catalog_Model_Product $productModel,
         Mage_Core_Model_Translate_Inline $translateInline,
-        Mage_Eav_Model_Entity $entityModel,
-        Mage_Eav_Model_Entity_Attribute_Set $entityAttrSet,
         Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl,
         array $data = array()
     ) {
@@ -112,12 +94,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
         );
         $this->_productModel = $productModel;
         $this->_translateInline = $translateInline;
-        $this->_entityModel = $entityModel;
-        $this->_entityAttrSet = $entityAttrSet;
         $this->_attrSetGroupColl = $attrSetGroupColl;
 
-        $this->_minimalAttrSetId = $this->_getMinimalAttrSetId();
-        $this->_initProduct(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE, $this->_minimalAttrSetId);
+        $this->_initProduct(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
     }
 
     /**
@@ -139,46 +118,54 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
     {
         Mage::dispatchEvent('catalog_product_new_action', array('product' => $this->_productModel));
 
-        $group = $this->_attrSetGroupColl
-            ->setAttributeSetFilter($this->_minimalAttrSetId)
+        $this->_attrSetGroupColl
+            ->setAttributeSetFilter($this->_defaultAttrSetId)
+            ->addFieldToFilter('attribute_group_code', array('in' => array(
+                Mage_Eav_Model_Resource_Entity_Attribute_Group::TAB_GENERAL_CODE,
+                Mage_Eav_Model_Resource_Entity_Attribute_Group::TAB_IMAGE_MANAGEMENT_CODE
+            )))
             ->setSortOrder()
-            ->fetchItem();
-
-        $attributes = $this->_productModel->getAttributes($group->getId(), true);
-
-        foreach ($attributes as $key => $attribute) {
-            if (!$attribute->getIsVisible()) {
-                unset($attributes[$key]);
-            }
-        }
+            ->load();
 
         Mage::register('use_wrapper', false);
         $tabAttributesBlock = $this->getLayout()->createBlock(
             'Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes',
             'product_tabs_attributes_tab'
         );
-        $content = $this->_translateHtml(
-            $tabAttributesBlock->setGroup($group)->setGroupAttributes($attributes)->toHtml()
-        );
+        $htmlContent = '';
+        foreach ($this->_attrSetGroupColl as $group) {
+            $attributes = $this->_productModel->getAttributes($group->getId(), true);
 
-        return $content;
+            foreach ($attributes as $key => $attribute) {
+                if (!$attribute->getIsVisible()) {
+                    unset($attributes[$key]);
+                }
+            }
+
+            if ($attributes) {
+                $htmlContent .= $this->_translateHtml(
+                    $tabAttributesBlock->setGroup($group)->setGroupAttributes($attributes)->toHtml()
+                );
+            }
+        }
+        return $htmlContent;
     }
 
     /**
      * Initialize product
      *
      * @param string $typeId
-     * @param int $setId
      * @return Mage_Catalog_Model_Product
      * @TODO This function should be placed in ProductFactory Model or Product Model
      */
-    protected function _initProduct($typeId, $setId)
+    protected function _initProduct($typeId)
     {
         $this->_productModel->setStoreId(null);
 
         $this->_productModel->setTypeId($typeId);
         $this->_productModel->setData('_edit_mode', true);
-        $this->_productModel->setAttributeSetId($setId);
+        $this->_defaultAttrSetId = $this->_productModel->getDefaultAttributeSetId();
+        $this->_productModel->setAttributeSetId($this->_defaultAttrSetId);
 
         Mage::register('product', $this->_productModel);
         Mage::register('current_product', $this->_productModel);
@@ -195,19 +182,5 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
     {
         $this->_translateInline->processResponseBody($html);
         return $html;
-    }
-
-    /**
-     * Get Minimal Attribute Set Id
-     *
-     * @return int
-     */
-    protected function _getMinimalAttrSetId()
-    {
-        $entityTypeId = $this->_entityModel
-            ->setType(Mage_Catalog_Model_Product::ENTITY)
-            ->getTypeId();
-
-        return $this->_entityAttrSet->getMinimalAttrSetId($entityTypeId);
     }
 }

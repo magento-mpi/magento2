@@ -108,7 +108,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
      * @param array $data
      * @param array $preparedData
      * @expectedException Mage_Launcher_Exception
-     * @expectedExceptionMessage Product data is invalid.
+     * @expectedExceptionMessage Product data is invalid:
      */
     public function testSaveThrowsExceptionWhenProductDataValidationFails(array $data, array $preparedData)
     {
@@ -145,7 +145,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
         $product = $this->getMock('Mage_Catalog_Model_Product',
             array(
                 'save', 'setStoreId', 'setTypeId', 'addData', 'setData', 'setAttributeSetId', 'setWebsiteIds',
-                'validate',
+                'validate', 'getDefaultAttributeSetId'
             ),
             array(),
             '',
@@ -155,9 +155,15 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
             ->method('setStoreId')
             ->with(Mage_Core_Model_App::ADMIN_STORE_ID)
             ->will($this->returnValue($product));
-        $product->expects($this->once())
-            ->method('validate')
-            ->will($this->returnValue($isDataValid));
+        if ($isDataValid) {
+            $product->expects($this->once())
+                ->method('validate')
+                ->will($this->returnValue($isDataValid));
+        } else {
+            $product->expects($this->once())
+                ->method('validate')
+                ->will($this->throwException(new Mage_Launcher_Exception('Product data is invalid:')));
+        }
         $product->expects($this->once())
             ->method('setWebsiteIds')
             ->with(array($websiteId))
@@ -175,7 +181,11 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
             ->with($preparedData['product'])
             ->will($this->returnValue($product));
         $product->expects($this->once())
+            ->method('getDefaultAttributeSetId')
+            ->will($this->returnValue(4));
+        $product->expects($this->once())
             ->method('setAttributeSetId')
+            ->with(4)
             ->will($this->returnValue($product));
 
         $saveExpectation = ($isDataValid) ? $this->once() : $this->never();
