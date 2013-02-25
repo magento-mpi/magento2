@@ -2148,8 +2148,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButton('add_new_option', false);
         $this->waitForControlVisible('fieldset', 'new_bundle_option');
         $data = $this->formBundleItemData($bundleOptionData);
-        if (!strstr($this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', 'class'), 'active')) {
-            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed');
+        if ($this->isFieldsetExpanded('new_bundle_option')) {
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', false);
         }
         $this->fillFieldset($data['general'], 'new_bundle_option');
         foreach ($data['items'] as $item) {

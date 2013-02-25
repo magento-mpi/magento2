@@ -280,7 +280,7 @@ new_product:
                                         bundle_item_row: //div[@class='option-box']
                             -
                                 new_bundle_option:
-                                    xpath: //div[@id='bundle_option_%optionId%']
+                                    xpath: //div[@id='bundle_option_%optionId%-wrapper']
                                     buttons:
                                         delete_option: //*[@class='ui-icon ui-icon-circle-close remove']
                                         add_selection: //button[@id='bundle_option_%optionId%_add_button']

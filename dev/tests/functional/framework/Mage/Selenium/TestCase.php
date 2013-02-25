@@ -1608,19 +1608,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
     public function assertEmptyPageErrors()
     {
-        $this->assertFalse($this->textIsPresent('Fatal error'), 'Fatal error on page');
-        $this->assertFalse($this->textIsPresent('There has been an error processing your request'),
-            'Fatal error on page: "There has been an error processing your request"');
-        $this->assertFalse($this->textIsPresent('The page you requested was not found'),
-            'The page you requested was not found');
-        $this->assertFalse($this->textIsPresent('Notice:'), 'PHP Notice error on page');
-        $this->assertFalse($this->textIsPresent('Parse error'), 'Parse error on page');
-        $this->assertFalse($this->textIsPresent('If you typed the URL directly'), 'The requested page was not found.');
-        $this->assertFalse($this->textIsPresent('Service Temporarily Unavailable'), 'Service Temporarily Unavailable');
-        $this->assertFalse($this->textIsPresent("The page isn't redirecting properly"),
-            'The page is not redirecting properly');
-        $this->assertFalse($this->textIsPresent('Internal server error'), 'HTTP Error 500 Internal server error');
-        $this->assertFalse($this->textIsPresent('was not found'), 'Something was not found:)');
+        $errorMessages = array(
+            'Fatal error', 'Parse error', 'was not found', 'Unable to connect',
+            'There has been an error processing your request',
+            'The page you requested was not found',
+            "The page isn't redirecting properly",
+            'If you typed the URL directly',
+            'Internal server error',
+        );
+        $pageText = $this->getElement('/*')->text();
+        foreach ($errorMessages as $message) {
+            if (strpos($pageText, $message) !== false) {
+                $this->fail('Error: ' . $message);
+            }
+        }
     }
 
     ################################################################################
@@ -4096,56 +4097,47 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function textIsPresent($pageText)
     {
-        $isPresent = $this->execute(array('script' => 'return window.find("' . $pageText . '");', 'args' => array()));
-        if ($isPresent) {
-            $clearSelectedText = 'function clearSelection(){ if(document.selection && document.selection.empty){'
-                                 . 'document.selection.empty();} else if(window.getSelection){'
-                                 . 'var sel = window.getSelection();sel.removeAllRanges();}}clearSelection();';
-            $this->execute(array('script' => $clearSelectedText, 'args' => array()));
-        }
-        return $isPresent;
+        return (strpos($this->getElement('/*')->text(), $pageText) !== false);
     }
 
     /**
-     * @param $pageText
+     * @param string $pageText
      * @param null $timeout
-     *
-     * @throws RuntimeException
      */
     public function waitForTextPresent($pageText, $timeout = null)
     {
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
-        $iStartTime = time();
-        while ($timeout > time() - $iStartTime) {
-            if ($this->textIsPresent($pageText)) {
-                return;
-            }
-            usleep(500000);
-        }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        $this->waitUntil(
+            function ($testCase) use ($pageText) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                if ($testCase->textIsPresent($pageText)) {
+                    return true;
+                }
+            },
+            $timeout * 1000
+        );
     }
 
     /**
-     * @param $pageText
+     * @param string $pageText
      * @param null $timeout
-     *
-     * @throws RuntimeException
      */
     public function waitForTextNotPresent($pageText, $timeout = null)
     {
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
-        $iStartTime = time();
-        while ($timeout > time() - $iStartTime) {
-            if (!$this->textIsPresent($pageText)) {
-                return;
-            }
-            usleep(500000);
-        }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        $this->waitUntil(
+            function ($testCase) use ($pageText) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                if (!$testCase->textIsPresent($pageText)) {
+                    return true;
+                }
+            },
+            $timeout * 1000
+        );
     }
 
     /**
