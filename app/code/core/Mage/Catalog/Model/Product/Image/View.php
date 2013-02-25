@@ -163,7 +163,7 @@ class Mage_Catalog_Model_Product_Image_View extends Varien_Object
      */
     public function getHeight()
     {
-        return $this->_getImageVar(self::SUFFIX_HEIGHT);
+        return $this->_getImageVar(self::SUFFIX_HEIGHT) ?: $this->getWidth();
     }
 
     /**
