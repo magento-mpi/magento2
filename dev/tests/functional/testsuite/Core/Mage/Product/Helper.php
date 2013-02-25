@@ -326,9 +326,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             //Define option type
             $optionType = '';
             $elementBody = $this->getChildElement($option, '//following-sibling::dd[1]');
-            $elementInput = $this->getPresentChildElement($elementBody, "//input[not(@type='hidden')]");
-            $elementTextarea = $this->getPresentChildElement($elementBody, '//textarea');
-            $elementSelect = $this->getPresentChildElement($elementBody, '//select');
+            $elementInput = $this->childElementIsPresent($elementBody, "//input[not(@type='hidden')]");
+            $elementTextarea = $this->childElementIsPresent($elementBody, '//textarea');
+            $elementSelect = $this->childElementIsPresent($elementBody, '//select');
             if ($elementInput) {
                 $optionType = $fieldTypes[$elementInput->attribute('type')];
             }
@@ -1393,7 +1393,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $cellElements = $this->getChildElements($rowElement, 'td');
             foreach ($cellElements as $key => $tdElement) {
                 $cellName = trim($cellNames[$key], ' *');
-                $inputElement = $this->getPresentChildElement($tdElement, 'input[not(@type="hidden")]');
+                $inputElement = $this->childElementIsPresent($tdElement, 'input[not(@type="hidden")]');
                 if (!$inputElement) {
                     $lineData[$cellName] = trim(str_replace('Choose', '', $tdElement->text()));
                 } elseif ($cellName == 'Include') {
@@ -1893,7 +1893,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $optionElements = $this->getControlElements(self::UIMAP_TYPE_FIELDSET, 'custom_option_set', null, false);
         /** @var $optionElement PHPUnit_Extensions_Selenium2TestCase_Element */
         foreach ($optionElements as $optionElement) {
-            $optionTitle = $this->getPresentChildElement($optionElement, "//input[@value='{$optionTitle}']");
+            $optionTitle = $this->childElementIsPresent($optionElement, "//input[@value='{$optionTitle}']");
             if ($optionTitle) {
                 $elementId = $optionTitle->attribute('id');
                 foreach (explode('_', $elementId) as $value) {
