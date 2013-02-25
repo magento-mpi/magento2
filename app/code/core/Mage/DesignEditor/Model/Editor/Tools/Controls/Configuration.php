@@ -63,6 +63,13 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_data;
 
     /**
+     * List of controls
+     *
+     * @var array
+     */
+    protected $_controlList = array();
+
+    /**
      * Initialize dependencies
      *
      * @param Mage_Core_Model_Design_Package $design
@@ -87,21 +94,6 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     }
 
     /**
-     * Load all control values
-     *
-     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
-     */
-    protected function _loadControlsData()
-    {
-        $this->_data = $this->_configuration->getAllControlsData();
-        foreach ($this->_data as &$control) {
-            $this->_loadControlData($control, 'value', $this->_viewConfig);
-            $this->_loadControlData($control, 'default', $this->_viewConfigParent);
-        }
-        return $this;
-    }
-
-    /**
      * Initialize view configurations
      *
      * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
@@ -116,6 +108,56 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
             'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
             'themeModel' => $this->_theme->getParentTheme()
         ));
+        return $this;
+    }
+
+    /**
+     * Load all control values
+     *
+     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     */
+    protected function _loadControlsData()
+    {
+        $this->_data = $this->_configuration->getAllControlsData();
+        $this->_prepareControlList($this->_data);
+        foreach ($this->_controlList as &$control) {
+            $this->_loadControlData($control, 'value', $this->_viewConfig);
+            $this->_loadControlData($control, 'default', $this->_viewConfigParent);
+        }
+        return $this;
+    }
+
+    /**
+     * Prepare list of control links
+     *
+     * @param array $controls
+     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     */
+    protected function _prepareControlList(array &$controls)
+    {
+        foreach ($controls as $controlName => &$control) {
+            if (!empty($control['components'])) {
+                $this->_prepareControlList($control['components']);
+            }
+            $this->_controlList[$controlName] = &$control;
+        }
+        return $this;
+    }
+
+    /**
+     * Load data item values and default values from the view configuration
+     *
+     * @param array $control
+     * @param string $paramName
+     * @param Magento_Config_View $viewConfiguration
+     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     */
+    protected function _loadControlData(array &$control, $paramName, Magento_Config_View $viewConfiguration)
+    {
+        if (!empty($control['var'])) {
+            list($module, $varKey) = $this->_extractModuleKey($control['var']);
+            $control[$paramName] = $viewConfiguration->getVarValue($module, $varKey);
+        }
         return $this;
     }
 
@@ -138,31 +180,10 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     public function getControlData($controlName)
     {
-        if (!isset($this->_data[$controlName])) {
+        if (!isset($this->_controlList[$controlName])) {
             throw new Mage_Core_Exception("Unknown control: \"{$controlName}\"");
         }
-        return $this->_data[$controlName];
-    }
-
-    /**
-     * Load data item values and default values from the view configuration
-     *
-     * @param array $control
-     * @param string $paramName
-     * @param Magento_Config_View $viewConfiguration
-     * @return Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
-     */
-    protected function _loadControlData(array &$control, $paramName, Magento_Config_View $viewConfiguration)
-    {
-        if (!empty($control['components'])) {
-            foreach ($control['components'] as &$control) {
-                $this->_loadControlData($control, $paramName, $viewConfiguration);
-            }
-        } elseif (!empty($control['var'])) {
-            list($module, $varKey) = $this->_extractModuleKey($control['var']);
-            $control[$paramName] = $viewConfiguration->getVarValue($module, $varKey);
-        }
-        return $this;
+        return $this->_controlList[$controlName];
     }
 
     /**
@@ -177,6 +198,26 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     }
 
     /**
+     * Extract var data keys for current controls configuration
+     * array(module => array(varKey => array(controlName, controlValue)))
+     *
+     * @param array $controlsData
+     * @param array $controls
+     * @return array
+     */
+    protected function _prepareVarData(array $controlsData, array $controls)
+    {
+        $result = array();
+        foreach ($controlsData as $controlName => $controlValue) {
+            if (isset($controls[$controlName])) {
+                list($module, $varKey) = $this->_extractModuleKey($controls[$controlName]['var']);
+                $result[$module][$varKey] = array($controlName, $controlValue);
+            }
+        }
+        return $result;
+    }
+
+    /**
      * Save control values data
      *
      * @param array $controlsData
@@ -184,8 +225,8 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     public function saveData(array $controlsData)
     {
-        $configDom = $this->_viewConfig->getConfigDomCopy()->getDom();
-        $varData = $this->_prepareVarData($controlsData, $this->_data);
+        $configDom = $this->_viewConfig->getDomConfigCopy()->getDom();
+        $varData = $this->_prepareVarData($controlsData, $this->_controlList);
 
         /** @var $varsNode DOMElement */
         foreach ($configDom->childNodes->item(0)->childNodes as $varsNode) {
@@ -197,7 +238,9 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
             foreach ($varsNode->getElementsByTagName('var') as $varNode) {
                 $varName = $varNode->getAttribute('name');
                 if (isset($varData[$moduleName][$varName])) {
-                    $varNode->nodeValue = $varData[$moduleName][$varName];
+                    list($controlName, $controlValue) = $varData[$moduleName][$varName];
+                    $varNode->nodeValue = $controlValue;
+                    $this->_controlList[$controlName]['value'] = $controlValue;
                 }
             }
         }
@@ -227,27 +270,6 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     }
 
     /**
-     * Extract var data keys for current controls configuration
-     *
-     * @param array $controlsData
-     * @param array $controls
-     * @param array $result
-     * @return array
-     */
-    protected function _prepareVarData(array $controlsData, array $controls, array &$result = array())
-    {
-        foreach ($controls as $controlName => $control) {
-            if (!empty($control['components'])) {
-                $this->_prepareVarData($controlsData, $control['components'], $result);
-            } elseif (isset($controlsData[$controlName])) {
-                list($module, $varKey) = $this->_extractModuleKey($control['var']);
-                $result[$module][$varKey] = $controlsData[$controlName];
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Return path to view.xml in customization
      *
      * @return string
@@ -266,8 +288,12 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     protected function _saveViewConfiguration(DOMDocument $config)
     {
-        $this->_filesystem->setIsAllowCreateDirectories(true)
-            ->write($this->getCustomViewConfigPath(), $config->saveXML());
+        $targetPath = $this->getCustomViewConfigPath();
+        $params = array('area' => Mage_Core_Model_Design_Package::DEFAULT_AREA, 'themeModel' => $this->_theme);
+        $this->_design->updateFilePathInMap(
+            $targetPath, Mage_Core_Model_Design_Package::FILENAME_VIEW_CONFIG, $params, 'theme'
+        );
+        $this->_filesystem->setIsAllowCreateDirectories(true)->write($targetPath, $config->saveXML());
         return $this;
     }
 }

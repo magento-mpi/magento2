@@ -76,7 +76,7 @@ class Magento_Config_View extends Magento_Config_XmlAbstract
      *
      * @return Magento_Config_Dom
      */
-    public function getConfigDomCopy()
+    public function getDomConfigCopy()
     {
         return clone $this->_getDomConfigModel();
     }

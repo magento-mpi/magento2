@@ -54,6 +54,7 @@
                     if (response.message_html) {
                         $('#vde-tab-imagesizing-messages-placeholder').append(response.message_html);
                     }
+                    this.element.trigger('refreshIframe');
                 }, this),
                 error: $.proxy(function() {
                     alert($.mage.__('Error: unknown error.'));
