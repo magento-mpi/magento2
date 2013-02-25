@@ -338,6 +338,7 @@ th.required:before {
 
 /* TODO: set color for messages in Cache Storage Management */
 .grid-severity-critical,
+.grid-severity-major,
 .grid-severity-notice,
 .grid-severity-minor {
     display: block;
@@ -347,6 +348,12 @@ th.required:before {
 }
 
 .grid-severity-critical {
+    border-color: #6e1313;
+    background: #f7bfbf;
+    color: #6e1313;
+}
+
+.grid-severity-major {
     border-color: #963535;
     background: #f3dcd8;
     color: #963535;
@@ -476,6 +483,8 @@ th.required:before {
     background: transparent;
     border: 0;
     border-radius: 0;
+    max-width: 1300px;
+    min-width: 960px;
 }
 
 .sidebar-actions {
@@ -614,4 +623,5 @@ th.required:before {
 -------------------------------------- */
 .adminhtml-catalog-product-index .page-actions {
     float: right;
+    padding: 0;
 }
