@@ -9,7 +9,7 @@
  */
 
 /**
- * Renderer for Payflow Link information
+ * Renderer for Payments Advanced information
  *
  * @category   Mage
  * @package    Mage_Paypal
