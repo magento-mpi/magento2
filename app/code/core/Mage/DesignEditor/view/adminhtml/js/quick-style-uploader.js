@@ -22,6 +22,7 @@
             container:         null,
             event:             null,
             tile_container:    null,
+            hide_uploader:     true,
 
             /**
              * Add file
@@ -73,7 +74,7 @@
             $.ajax({
                 type: 'POST',
                 url:  this.options.remove_url,
-                data: { file_name: this.options.value },
+                data: { file_name: this.options.value, element: this.options.uploader_id },
                 dataType: 'json',
                 success: $.proxy(function(response) {
                     if (response.error) {
@@ -103,7 +104,9 @@
          * @protected
          */
         _refreshControls: function () {
+            this.element.trigger('refreshIframe');
             if (this.options.value) {
+                $(this._prepareId(this.options.uploader_id + '-image')).remove();
                 var removeId = 'remove-button-' + Math.floor(Math.random() * 999);
                 var progressTmpl = $(this._prepareId(this.options.uploader_id + '-template')).clone();
                 progressTmpl.attr('id', this.options.uploader_id + '-image');
@@ -116,7 +119,9 @@
                 if (this.options.remove_url) {
                     $('#' + removeId).click($.proxy(this._remove, this));
                 }
-                $(this._prepareId(this.options.uploader_id + '-container')).addClass('no-display');
+                if (this.options.hide_uploader == true) {
+                    $(this._prepareId(this.options.uploader_id + '-container')).addClass('no-display');
+                }
                 $(this._prepareId(this.options.uploader_id + '-tile-container')).removeClass('no-display');
                 $(this).trigger(this.options.event);
             } else {
