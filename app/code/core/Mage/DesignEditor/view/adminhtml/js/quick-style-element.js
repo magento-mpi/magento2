@@ -26,6 +26,10 @@
             this.element.on(this.options.changeEvent, $.proxy(this._onChange, this));
         },
         _onChange: function() {
+            if (this.element.attr('type') == 'checkbox') {
+                this.element.trigger('quickStyleElementBeforeChange');
+            }
+
             this._send();
         },
         _send: function() {
