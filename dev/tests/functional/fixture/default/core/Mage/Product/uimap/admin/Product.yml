@@ -135,6 +135,7 @@ new_product:
                                         general_tax_class: //select[@id='tax_class_id']
                                         general_sku_type: //select[@id='sku_type']
                                         general_weight_type: //select[@id='weight_type']
+                                        general_price_type: //select[@id='price_type']
                                         general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                         general_user_attr_dropdown: //select[@id='%attributeCodeDropdown%']
                                         general_price_type: //select[@id='price_type']
@@ -262,17 +263,17 @@ new_product:
                                         grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[contains(@class, 'grouped-product-sku')]
                             -
                                 bundle_items:
-                                    xpath: //div[@id='bundle_product_container']
+                                    xpath: //*[@id='bundle_product-wrapper']
                                     buttons:
                                         add_new_option: //button[@id='add_new_option']
+                                        delete_product_bundle_item: //div[//*[text()='%itemTitle%']]//*[@data-ui-id='adminhtml-catalog-product-edit-tab-bundle-option-option-delete-button']
                                     dropdowns:
                                         ship_bundle_items: //select[@id='shipment_type']
                                     fields:
                                         bundle_items_names: //input[@class='input-text required-entry']
                                     links:
-                                        delete_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-grip-dotted-vertical']
-                                        expand_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-triangle-s']
+                                        move_product_bundle_item: //div[strong/*[text()='%itemTitle%']]/*[@class='draggable-handle']
+                                        expand_product_bundle_item: //*[@data-toggle='collapse']/*[text()='%itemTitle%']
                                     pageelements:
                                         bundle_item_grid: //div[@class='option-box' and not(contains(@style,'display: none;'))]
                                         bundle_item_grid_index_product: //div[@id='bundle_option_%optionId%']//tr[@class='selection']/td[text()='%productSku%']
@@ -295,12 +296,13 @@ new_product:
                                         selection_item_price: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_price_value')]
                                         selection_item_default_qty: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_qty')]
                                     links:
-                                        move_bundle_product: //tr[contains(.,'%productSku%')]//span[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        move_bundle_product: //tr[contains(.,'%productSku%')]//span[@class='draggable-handle']
                                     radiobuttons:
                                         selection_item_default: //tr[contains(.,'%productSku%')]//input[contains(@name,'[is_default]')]
                                     pageelements:
                                         selected_option_product: //tr[contains(.,'%productSku%')]
-                                        bundle_assigned_products: //td[@class='product-sku']
+                                        bundle_assigned_products: //td[@class='col-sku']
+                                        is_collapsed: //*[@data-target='#bundle_option_%optionId%-content']
                             #Select product grid for bundle and grouped
                             -
                                 select_associated_product_option:

@@ -293,15 +293,15 @@ virtual_product_website:
 # Product that has all needed fields and website.
 bundle_product_website:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Bundle(Dynamic) Product Visible(%randomize%)
-    general_description: Description for Bundle(Dynamic) Product Visible
-    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
+    general_stock_availability: In Stock
     general_weight_type: Dynamic
-    product_online_status: Enabled
+    general_description: Description for Bundle(Dynamic) Product Visible
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     autosettings_visibility: Catalog, Search
-    inventory_stock_availability: In Stock
     websites: Main Website
     general_bundle_items:
         item_1: %noValue%

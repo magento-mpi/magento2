@@ -1469,7 +1469,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $fieldType = $blockId == 'productSku' ? self::FIELD_TYPE_PAGEELEMENT : self::FIELD_TYPE_INPUT;
         $actualOrder = $this->_getActualItemOrder($fieldType, $fieldName);
-        if (count($orderedBlocks) < 1) {
+        if (count($orderedBlocks) < 2) {
             return false;
         }
         foreach ($orderedBlocks as $key => $value) {
@@ -1529,7 +1529,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
-        if (array_diff_assoc(array_keys($actualOrder), $expectedOrder)) {
+        if (array_diff(array_keys($actualOrder), $expectedOrder)) {
             $this->addVerificationMessage('Invalid block order');
         }
     }
@@ -2148,6 +2148,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButton('add_new_option', false);
         $this->waitForControlVisible('fieldset', 'new_bundle_option');
         $data = $this->formBundleItemData($bundleOptionData);
+        if (!strstr($this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', 'class'), 'active')) {
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed');
+        }
         $this->fillFieldset($data['general'], 'new_bundle_option');
         foreach ($data['items'] as $item) {
             if (!isset($item['search'])) {
@@ -2209,6 +2212,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             ) {
                 $optionId = $itemDataOrder[$option['bundle_items_default_title']];
                 $this->addParameter('optionId', $optionId - 1);
+                if (!strstr($this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', 'class'), 'active')) {
+                    $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed');
+                }
             } else {
                 $this->fail('Bundle item with name ' . $option['bundle_items_default_title'] . ' is absent');
             }
