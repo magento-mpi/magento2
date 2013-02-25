@@ -29,6 +29,11 @@ $element = $this->getElement();
         </div>
     </div>
 
+    <div class="no-display" id="<?php echo $imageUploader->getHtmlId(); ?>-tile-container">
+        <hr />
+        <?php echo $element->getCheckboxElement()->toHtml() ?>
+    </div>
+
     <script type="text/javascript">
         (function($) {
             $(document.getElementById('<?php echo $imageUploader->getHtmlId(); ?>-uploader')).quickStyleUploader({
@@ -41,8 +46,4 @@ $element = $this->getElement();
             });
         })(jQuery);
     </script>
-
-    <hr />
-
-    <?php echo $element->getCheckboxElement()->toHtml() ?>
 </div>

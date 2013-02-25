@@ -21,6 +21,7 @@
             value:             null,
             container:         null,
             event:             null,
+            tile_container:    null,
 
             /**
              * Add file
@@ -116,9 +117,11 @@
                     $('#' + removeId).click($.proxy(this._remove, this));
                 }
                 $(this._prepareId(this.options.uploader_id + '-container')).addClass('no-display');
+                $(this._prepareId(this.options.uploader_id + '-tile-container')).removeClass('no-display');
                 $(this).trigger(this.options.event);
             } else {
                 $(this._prepareId(this.options.uploader_id + '-container')).removeClass('no-display');
+                $(this._prepareId(this.options.uploader_id + '-tile-container')).addClass('no-display');
             }
         },
 
