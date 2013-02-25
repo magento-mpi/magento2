@@ -107,12 +107,10 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'tax_rule_info_additional_link');
         $taxClass = $this->generate('string', 26);
         $newProductTaxClass = $this->generate('string', 26);
-        $this->addCompositeMultiselectValue('product_tax_class', $taxClass);
+        $this->fillCompositeMultiselect('product_tax_class', $taxClass);
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', $taxClass));
         $this->editCompositeMultiselectOption('product_tax_class', $taxClass, $newProductTaxClass);
-        $this->addParameter('optionName', $newProductTaxClass);
-        $elementXpath = $this->_getControlXpath('pageelement', 'product_tax_class_option');
-         $this->assertTrue((bool)$this->elementIsPresent($elementXpath),
-            'Tax class is not saved');
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', $newProductTaxClass));
     }
 
     /**

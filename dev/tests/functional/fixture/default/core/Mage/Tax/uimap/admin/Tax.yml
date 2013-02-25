@@ -203,11 +203,8 @@ create_tax_rule:
                             priority: //input[@id='priority']
                             sort_order: //input[@id='position']
                         composite_multiselects:
-                            customer_tax_class: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-customer-class']//section
-                            product_tax_class: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-product-class']//section
-                        pageelements:
-                            product_tax_class_option: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-product-class']//section//div[normalize-space(label/span)='%optionName%']
-                            customer_tax_class_option: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-product-class']//section//div[normalize=space(label/span)='%optionName%']
+                            customer_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-customer-class']//section
+                            product_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-product-class']//section
                 -
                     import_tax_rates:
                         xpath: //form[div/h4='Import Tax Rates']

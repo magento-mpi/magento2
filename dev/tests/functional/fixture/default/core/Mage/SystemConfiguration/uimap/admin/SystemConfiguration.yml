@@ -3705,6 +3705,17 @@ system_configuration:
                                     checkboxes:
                                         allowed_ips_comma_separated_use_default: //input[@name='groups[restrict][fields][allow_ips][inherit]']
                             -
+                                debug:
+                                    xpath: //fieldset[@id='dev_debug']
+                                    links:
+                                        debug_link: //parent::div//a[@id='dev_debug-head']
+                                    dropdowns:
+                                        profiler: //select[@name='groups[debug][fields][profiler][value]']
+                                        template_path_hints: //select[@name='groups[debug][fields][template_hints][value]']
+                                        add_block_names_to_hints: //select[@name='groups[debug][fields][template_hints_blocks][value]']
+                                    checkboxes:
+                                        profiler_use_default: //input[@name='groups[debug][fields][profiler][inherit]']
+                            -
                                 template_settings:
                                     xpath: //fieldset[@id='dev_template']
                                     links:

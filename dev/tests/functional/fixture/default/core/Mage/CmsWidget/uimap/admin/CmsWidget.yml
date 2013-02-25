@@ -87,7 +87,7 @@ add_widget_options:
                                         assign_to_store_views: //*[@id='store_ids']
                             -
                                 layout_updates_header:
-                                    xpath: //div[@class='entry-edit-head' and h4='Layout Updates']
+                                    xpath: //fieldset[legend/span='Layout Updates']
                                     buttons:
                                         add_layout_update: //button[span='Add Layout Update']
                             -
