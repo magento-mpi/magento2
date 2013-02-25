@@ -11,15 +11,8 @@
 /**
  * Cache frontend decorator that performs profiling of cache operations
  */
-class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_FrontendInterface
+class Magento_Cache_Frontend_Decorator_Profiler extends Magento_Cache_Frontend_Decorator_Bare
 {
-    /**
-     * Cache frontend instance to delegate actual cache operations to
-     *
-     * @var Magento_Cache_FrontendInterface
-     */
-    private $_frontend;
-
     /**
      * Backend class prefixes to be striped from profiler tags
      *
@@ -33,7 +26,7 @@ class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_Fronten
      */
     public function __construct(Magento_Cache_FrontendInterface $frontend, $backendPrefixes = array())
     {
-        $this->_frontend = $frontend;
+        parent::__construct($frontend);
         $this->_backendPrefixes = $backendPrefixes;
     }
 
@@ -48,7 +41,7 @@ class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_Fronten
         return array(
             'group'         => 'cache',
             'operation'     => 'cache:' . $operation,
-            'frontend_type' => get_class($this->_frontend->getLowLevelFrontend()),
+            'frontend_type' => get_class($this->getLowLevelFrontend()),
             'backend_type'  => $this->_getBackendType(),
         );
     }
@@ -60,7 +53,7 @@ class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_Fronten
      */
     protected function _getBackendType()
     {
-        $result = get_class($this->_frontend->getBackend());
+        $result = get_class($this->getBackend());
         foreach ($this->_backendPrefixes as $backendClassPrefix) {
             if (substr($result, 0, strlen($backendClassPrefix)) == $backendClassPrefix) {
                 $result = substr($result, strlen($backendClassPrefix));
@@ -76,7 +69,7 @@ class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_Fronten
     public function test($id)
     {
         Magento_Profiler::start('cache_test', $this->_getProfilerTags('test'));
-        $result = $this->_frontend->test($id);
+        $result = parent::test($id);
         Magento_Profiler::stop('cache_test');
         return $result;
     }
@@ -87,7 +80,7 @@ class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_Fronten
     public function load($id)
     {
         Magento_Profiler::start('cache_load', $this->_getProfilerTags('load'));
-        $result = $this->_frontend->load($id);
+        $result = parent::load($id);
         Magento_Profiler::stop('cache_load');
         return $result;
     }
@@ -100,7 +93,7 @@ class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_Fronten
     public function save($data, $id, array $tags = array(), $lifeTime = null)
     {
         Magento_Profiler::start('cache_save', $this->_getProfilerTags('save'));
-        $result = $this->_frontend->save($data, $id, $tags, $lifeTime);
+        $result = parent::save($data, $id, $tags, $lifeTime);
         Magento_Profiler::stop('cache_save');
         return $result;
     }
@@ -111,7 +104,7 @@ class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_Fronten
     public function remove($id)
     {
         Magento_Profiler::start('cache_remove', $this->_getProfilerTags('remove'));
-        $result = $this->_frontend->remove($id);
+        $result = parent::remove($id);
         Magento_Profiler::stop('cache_remove');
         return $result;
     }
@@ -122,24 +115,8 @@ class Magento_Cache_Frontend_Decorator_Profiler implements Magento_Cache_Fronten
     public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
     {
         Magento_Profiler::start('cache_clean', $this->_getProfilerTags('clean'));
-        $result = $this->_frontend->clean($mode, $tags);
+        $result = parent::clean($mode, $tags);
         Magento_Profiler::stop('cache_clean');
         return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBackend()
-    {
-        return $this->_frontend->getBackend();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLowLevelFrontend()
-    {
-        return $this->_frontend->getLowLevelFrontend();
     }
 }

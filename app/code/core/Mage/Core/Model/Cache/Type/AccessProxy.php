@@ -9,17 +9,12 @@
  */
 
 /**
- * Proxy that delegates execution to an original cache type instance, if access is allowed at the moment
+ * Proxy that delegates execution to an original cache type instance, if access is allowed at the moment.
+ * It's typical for "access proxies" to have a decorator-like implementation, the difference is logical -
+ * controlling access rather than attaching additional responsibility to a subject.
  */
-class Mage_Core_Model_Cache_Type_AccessProxy implements Magento_Cache_FrontendInterface
+class Mage_Core_Model_Cache_Type_AccessProxy extends Magento_Cache_Frontend_Decorator_Bare
 {
-    /**
-     * Cache type instance to delegate actual cache operations to
-     *
-     * @var Magento_Cache_FrontendInterface
-     */
-    private $_frontend;
-
     /**
      * Cache types manager
      *
@@ -44,7 +39,7 @@ class Mage_Core_Model_Cache_Type_AccessProxy implements Magento_Cache_FrontendIn
         Mage_Core_Model_Cache_Types $cacheTypes,
         $identifier
     ) {
-        $this->_frontend = $frontend;
+        parent::__construct($frontend);
         $this->_cacheTypes = $cacheTypes;
         $this->_identifier = $identifier;
     }
@@ -67,7 +62,7 @@ class Mage_Core_Model_Cache_Type_AccessProxy implements Magento_Cache_FrontendIn
         if (!$this->_isEnabled()) {
             return false;
         }
-        return $this->_frontend->test($id);
+        return parent::test($id);
     }
 
     /**
@@ -78,7 +73,7 @@ class Mage_Core_Model_Cache_Type_AccessProxy implements Magento_Cache_FrontendIn
         if (!$this->_isEnabled()) {
             return false;
         }
-        return $this->_frontend->load($id);
+        return parent::load($id);
     }
 
     /**
@@ -89,7 +84,7 @@ class Mage_Core_Model_Cache_Type_AccessProxy implements Magento_Cache_FrontendIn
         if (!$this->_isEnabled()) {
             return true;
         }
-        return $this->_frontend->save($data, $id, $tags, $lifeTime);
+        return parent::save($data, $id, $tags, $lifeTime);
     }
 
     /**
@@ -100,7 +95,7 @@ class Mage_Core_Model_Cache_Type_AccessProxy implements Magento_Cache_FrontendIn
         if (!$this->_isEnabled()) {
             return true;
         }
-        return $this->_frontend->remove($id);
+        return parent::remove($id);
     }
 
     /**
@@ -111,22 +106,6 @@ class Mage_Core_Model_Cache_Type_AccessProxy implements Magento_Cache_FrontendIn
         if (!$this->_isEnabled()) {
             return true;
         }
-        return $this->_frontend->clean($mode, $tags);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBackend()
-    {
-        return $this->_frontend->getBackend();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLowLevelFrontend()
-    {
-        return $this->_frontend->getLowLevelFrontend();
+        return parent::clean($mode, $tags);
     }
 }
