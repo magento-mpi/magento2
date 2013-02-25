@@ -46,7 +46,7 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($helperMock))
         ;
 
-        $this->_cacheTypeMock = $this->getMock('Magento_Cache_Frontend_TagDecorator', array('clean'), array(
+        $this->_cacheTypeMock = $this->getMock('Magento_Cache_Frontend_Decorator_TagScope', array('clean'), array(
             $this->getMockForAbstractClass('Magento_Cache_FrontendInterface'), 'FIXTURE_TAG'
         ));
 

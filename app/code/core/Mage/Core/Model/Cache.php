@@ -294,7 +294,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
             $helper = $this->_helperFactory->get('Mage_Core_Helper_Data');
             foreach ($config->children() as $type => $node) {
                 $typeInstance = $this->_getTypeInstance($type);
-                if ($typeInstance instanceof Magento_Cache_Frontend_TagDecorator) {
+                if ($typeInstance instanceof Magento_Cache_Frontend_Decorator_TagScope) {
                     $typeTags = $typeInstance->getTag();
                 } else {
                     $typeTags = '';

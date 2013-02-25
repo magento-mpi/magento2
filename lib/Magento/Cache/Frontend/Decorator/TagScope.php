@@ -9,7 +9,7 @@
 /**
  * Cache frontend decorator that enforces association of cache entries with a tag
  */
-class Magento_Cache_Frontend_TagDecorator implements Magento_Cache_FrontendInterface
+class Magento_Cache_Frontend_Decorator_TagScope implements Magento_Cache_FrontendInterface
 {
     /**
      * Cache frontend instance to delegate actual cache operations to
@@ -26,12 +26,12 @@ class Magento_Cache_Frontend_TagDecorator implements Magento_Cache_FrontendInter
     private $_tag;
 
     /**
-     * @param Magento_Cache_FrontendInterface $type
+     * @param Magento_Cache_FrontendInterface $frontend
      * @param string $tag Cache tag name
      */
-    public function __construct(Magento_Cache_FrontendInterface $type, $tag)
+    public function __construct(Magento_Cache_FrontendInterface $frontend, $tag)
     {
-        $this->_frontend = $type;
+        $this->_frontend = $frontend;
         $this->_tag = $tag;
     }
 
@@ -86,8 +86,9 @@ class Magento_Cache_Frontend_TagDecorator implements Magento_Cache_FrontendInter
         if ($mode == Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG) {
             $result = false;
             foreach ($tags as $tag) {
-                $result = $result
-                    || $this->_frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($tag, $this->_tag));
+                if ($this->_frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($tag, $this->_tag))) {
+                    $result = true;
+                }
             }
         } else {
             if ($mode == Zend_Cache::CLEANING_MODE_ALL) {

@@ -28,9 +28,9 @@ class Mage_Core_Model_Cache_Types
     /**
      * Cache frontend to delegate actual cache operations to
      *
-     * @var Mage_Core_Model_CacheInterface
+     * @var Magento_Cache_FrontendInterface
      */
-    private $_cache;
+    private $_cacheFrontend;
 
     /**
      * Associative array of cache type codes and their statuses (enabled/disabled)
@@ -41,18 +41,18 @@ class Mage_Core_Model_Cache_Types
 
     /**
      * @param Mage_Core_Model_Resource_Cache $resource
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
      * @param Mage_Core_Model_App_State $appState
      * @param bool $banAll Whether all cache types are forced to be disabled
      */
     public function __construct(
         Mage_Core_Model_Resource_Cache $resource,
-        Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
         Mage_Core_Model_App_State $appState,
         $banAll = false
     ) {
         $this->_resource = $resource;
-        $this->_cache = $cache;
+        $this->_cacheFrontend = $cacheFrontendPool->get(Mage_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID);
         if ($appState->isInstalled()) {
             $this->_loadTypeStatuses($banAll);
         }
@@ -65,13 +65,13 @@ class Mage_Core_Model_Cache_Types
      */
     private function _loadTypeStatuses($forceDisableAll = false)
     {
-        $typeOptions = $this->_cache->load(self::CACHE_ID);
+        $typeOptions = $this->_cacheFrontend->load(self::CACHE_ID);
         if ($typeOptions !== false) {
             $typeOptions = unserialize($typeOptions);
         } else {
             $typeOptions = $this->_resource->getAllOptions();
             if ($typeOptions !== false) {
-                $this->_cache->save(serialize($typeOptions), self::CACHE_ID);
+                $this->_cacheFrontend->save(serialize($typeOptions), self::CACHE_ID);
             }
         }
         if ($typeOptions) {
@@ -109,6 +109,6 @@ class Mage_Core_Model_Cache_Types
     public function persist()
     {
         $this->_resource->saveAllOptions($this->_typeStatuses);
-        $this->_cache->remove(self::CACHE_ID);
+        $this->_cacheFrontend->remove(self::CACHE_ID);
     }
 }

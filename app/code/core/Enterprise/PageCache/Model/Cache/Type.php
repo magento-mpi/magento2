@@ -13,7 +13,7 @@
  *
  * @todo utilize the class for all manipulations with the cache type
  */
-class Enterprise_PageCache_Model_Cache_Type extends Magento_Cache_Frontend_TagDecorator
+class Enterprise_PageCache_Model_Cache_Type extends Magento_Cache_Frontend_Decorator_TagScope
 {
     /**
      * Cache type code unique among all cache types
@@ -26,10 +26,10 @@ class Enterprise_PageCache_Model_Cache_Type extends Magento_Cache_Frontend_TagDe
     const CACHE_TAG = 'FPC';
 
     /**
-     * @param Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $frontendPoolGateway
+     * @param Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool
      */
-    public function __construct(Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $frontendPoolGateway)
+    public function __construct(Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool)
     {
-        parent::__construct($frontendPoolGateway->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
+        parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }
 }

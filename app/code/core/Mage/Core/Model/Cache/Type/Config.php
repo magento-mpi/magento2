@@ -11,7 +11,7 @@
 /**
  * System / Cache Management / Cache type "Configuration"
  */
-class Mage_Core_Model_Cache_Type_Config extends Magento_Cache_Frontend_TagDecorator
+class Mage_Core_Model_Cache_Type_Config extends Magento_Cache_Frontend_Decorator_TagScope
 {
     /**
      * Cache type code unique among all cache types
@@ -24,10 +24,10 @@ class Mage_Core_Model_Cache_Type_Config extends Magento_Cache_Frontend_TagDecora
     const CACHE_TAG = 'CONFIG';
 
     /**
-     * @param Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $frontendPoolGateway
+     * @param Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool
      */
-    public function __construct(Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $frontendPoolGateway)
+    public function __construct(Mage_Core_Model_Cache_Frontend_Pool_AccessGateway $cacheFrontendPool)
     {
-        parent::__construct($frontendPoolGateway->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
+        parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }
 }

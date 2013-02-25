@@ -19,7 +19,6 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
             'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Updater',
             'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
             'Mage_Core_Model_Config_InvalidatorInterface' => 'Mage_Core_Model_Config_Invalidator_Proxy',
-            'Mage_Core_Model_CacheInterface' => 'Mage_Core_Model_Cache',
         ),
         'Mage_Core_Model_Cache' => array(
             'parameters' => array(
