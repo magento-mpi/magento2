@@ -145,7 +145,7 @@ class Enterprise_CustomerSegment_Model_Observer
             'disabled' => $model->getIsReadonly(),
             'after_element_html' => $this->_getChangeNoteMessageScript(
                 'rule_use_customer_segment',
-                'note_use_customer_segment'
+                'use_customer_segment-note'
             )
         ));
 
@@ -197,7 +197,7 @@ class Enterprise_CustomerSegment_Model_Observer
             'disabled' => (bool)$model->getIsReadonly(),
             'after_element_html' => $this->_getChangeNoteMessageScript(
                 'banner_properties_use_customer_segment',
-                'note_use_customer_segment'
+                'use_customer_segment-note'
             )
         ));
 
@@ -243,11 +243,14 @@ class Enterprise_CustomerSegment_Model_Observer
     protected function _getChangeNoteMessageScript($selectBoxId, $noteMessageBlockId)
     {
         return "<script type=\"text/javascript\">\r\n"
-            . "noteMessages=[\"{$this->_getAllSegmentsMessage()}\", \"{$this->_getSpecificSegmentMessage()}\"];\r\n"
-            . "Event.observe('$selectBoxId', 'change', function(event) { \r\n"
-            . "noteMessage = window.noteMessages[\$('$selectBoxId').value];\r\n"
-            . "\$('$noteMessageBlockId').update('<span>' + noteMessage + '</span>');\r\n"
+            . "(function($) {\r\n"
+            . "'use strict';\r\n"
+            . "var notes = [\"{$this->_getAllSegmentsMessage()}\", \"{$this->_getSpecificSegmentMessage()}\"];\r\n"
+            . "\$('#$selectBoxId').change(function() {\r\n"
+            . "var note = notes[\$('#$selectBoxId').val()];\r\n"
+            . "\$('#$noteMessageBlockId').html(note);\r\n"
             . "});\r\n"
+            . "})(jQuery);\r\n"
             . "</script>\r\n";
     }
 }
