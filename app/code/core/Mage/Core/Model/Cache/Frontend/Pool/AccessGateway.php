@@ -9,7 +9,7 @@
  */
 
 /**
- * In-memory pool of cache front-ends with enforced access control
+ * In-memory readonly pool of cache front-ends with enforced access control
  */
 class Mage_Core_Model_Cache_Frontend_Pool_AccessGateway
 {
@@ -49,14 +49,18 @@ class Mage_Core_Model_Cache_Frontend_Pool_AccessGateway
     public function get($identifier)
     {
         if (!isset($this->_instances[$identifier])) {
-            /** @var $instance Mage_Core_Model_Cache_Type_AccessProxy */
-            $instance = $this->_objectManager->create(
+            $frontendInstance = $this->_frontendPool->get($identifier);
+            if (!$frontendInstance) {
+                $frontendInstance = $this->_frontendPool->get(Mage_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID);
+            }
+            /** @var $frontendInstance Mage_Core_Model_Cache_Type_AccessProxy */
+            $frontendInstance = $this->_objectManager->create(
                 'Mage_Core_Model_Cache_Type_AccessProxy', array(
-                    'frontend' => $this->_frontendPool->get($identifier),
+                    'frontend' => $frontendInstance,
                     'identifier' => $identifier,
                 ), false
             );
-            $this->_instances[$identifier] = $instance;
+            $this->_instances[$identifier] = $frontendInstance;
         }
         return $this->_instances[$identifier];
     }

@@ -9,7 +9,7 @@
  */
 
 /**
- * In-memory pool of cache front-end instances, specified in the configuration
+ * In-memory readonly pool of cache front-end instances, specified in the configuration
  */
 class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
 {
@@ -31,25 +31,26 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
     private $_instances = array();
 
     /**
+     * Load frontend instances from the configuration
+     *
      * @param Mage_Core_Model_Config_Primary $cacheConfig
      * @param Mage_Core_Model_Cache_Frontend_Factory $frontendFactory
-     * @throws UnexpectedValueException
      */
     public function __construct(
         Mage_Core_Model_Config_Primary $cacheConfig,
         Mage_Core_Model_Cache_Frontend_Factory $frontendFactory
     ) {
-        $defaultFrontendNode = $cacheConfig->getNode(self::XML_PATH_SETTINGS_DEFAULT);
-        if (!$defaultFrontendNode) {
-            throw new UnexpectedValueException('Default caching settings have to be defined.');
-        }
-        $this->_instances[self::DEFAULT_FRONTEND_ID] = $frontendFactory->create($defaultFrontendNode->asArray());
+        $frontendNode = $cacheConfig->getNode(self::XML_PATH_SETTINGS_DEFAULT);
+        $frontendOptions = $frontendNode ? $frontendNode->asArray() : array();
+        $this->_instances[self::DEFAULT_FRONTEND_ID] = $frontendFactory->create($frontendOptions);
 
-        $customFrontendNodes = $cacheConfig->getNode(self::XML_PATH_SETTINGS_CUSTOM);
-        if ($customFrontendNodes) {
+        $frontendNodes = $cacheConfig->getNode(self::XML_PATH_SETTINGS_CUSTOM);
+        if ($frontendNodes) {
             /** @var $frontendNode Varien_Simplexml_Element */
-            foreach ($customFrontendNodes->children() as $frontendNode) {
-                $this->_instances[$frontendNode->getName()] = $frontendFactory->create($frontendNode->asArray());
+            foreach ($frontendNodes->children() as $frontendNode) {
+                $frontendId = $frontendNode->getName();
+                $frontendOptions = $frontendNode->asArray();
+                $this->_instances[$frontendId] = $frontendFactory->create($frontendOptions);
             }
         }
     }
@@ -97,7 +98,7 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
     }
 
     /**
-     * Retrieve frontend instance by its unique identifier, or the default one, if identifier is not recognized
+     * Retrieve frontend instance by its unique identifier, or return NULL, if identifier is not recognized
      *
      * @param string $identifier Cache frontend identifier
      * @return Magento_Cache_FrontendInterface Cache frontend instance
@@ -107,6 +108,6 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
         if (isset($this->_instances[$identifier])) {
             return $this->_instances[$identifier];
         }
-        return $this->_instances[self::DEFAULT_FRONTEND_ID];
+        return null;
     }
 }
