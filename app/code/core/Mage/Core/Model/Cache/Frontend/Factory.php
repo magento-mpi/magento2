@@ -41,6 +41,17 @@ class Mage_Core_Model_Cache_Frontend_Factory
     private $_enforcedOptions = array();
 
     /**
+     * Configuration of decorators that are to be applied to every cache frontend being instantiated, format:
+     * array(
+     *  array('class' => '<decorator_class>', 'arguments' => array()),
+     *  ...
+     * )
+     *
+     * @var array
+     */
+    private $_decorators = array();
+
+    /**
      * Default cache backend type
      *
      * @var string
@@ -63,17 +74,20 @@ class Mage_Core_Model_Cache_Frontend_Factory
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dirs
      * @param array $enforcedOptions
+     * @param array $decorators
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dirs,
-        array $enforcedOptions = array()
+        array $enforcedOptions = array(),
+        array $decorators = array()
     ) {
         $this->_objectManager = $objectManager;
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
         $this->_enforcedOptions = $enforcedOptions;
+        $this->_decorators = $decorators;
     }
 
     /**
@@ -124,6 +138,7 @@ class Mage_Core_Model_Cache_Frontend_Factory
                 $frontend['type'], $backend['type'], $frontend, $backend['options'], true, true, true
             ),
         ), false);
+        $result = $this->_applyDecorators($result);
 
         // stop profiling
         Magento_Profiler::stop('cache_frontend_create');
@@ -139,6 +154,31 @@ class Mage_Core_Model_Cache_Frontend_Factory
     private function _getExpandedOptions(array $options)
     {
         return array_replace_recursive($options, $this->_enforcedOptions);
+    }
+
+    /**
+     * Apply decorators to a cache frontend instance and return the topmost one
+     *
+     * @param Magento_Cache_FrontendInterface $frontend
+     * @return Magento_Cache_FrontendInterface
+     * @throws LogicException
+     * @throws UnexpectedValueException
+     */
+    private function _applyDecorators(Magento_Cache_FrontendInterface $frontend)
+    {
+        foreach ($this->_decorators as $decoratorConfig) {
+            if (!isset($decoratorConfig['class'])) {
+                throw new LogicException('Class has to be specified for a cache frontend decorator.');
+            }
+            $decoratorClass = $decoratorConfig['class'];
+            $decoratorParams = isset($decoratorConfig['parameters']) ? $decoratorConfig['parameters'] : array();
+            $decoratorParams[0] = $frontend; // conventionally, first argument is a decoration subject
+            $frontend = $this->_objectManager->create($decoratorClass, $decoratorParams, false);
+            if (!($frontend instanceof Magento_Cache_FrontendInterface)) {
+                throw new UnexpectedValueException('Decorator has to implement the cache frontend interface.');
+            }
+        }
+        return $frontend;
     }
 
     /**

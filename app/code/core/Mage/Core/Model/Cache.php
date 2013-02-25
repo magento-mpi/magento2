@@ -39,6 +39,11 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     protected $_frontendIdentifier = Mage_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID;
 
     /**
+     * @var Mage_Core_Model_Cache_Frontend_Pool
+     */
+    protected $_frontendPool;
+
+    /**
      * Cache frontend API
      *
      * @var Magento_Cache_FrontendInterface
@@ -67,6 +72,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
         Mage_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_objectManager = $objectManager;
+        $this->_frontendPool = $frontendPool;
         $this->_frontend = $frontendPool->get($this->_frontendIdentifier);
         $this->_cacheTypes = $cacheTypes;
         $this->_config = $config;
@@ -165,13 +171,6 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      */
     public function save($data, $id, $tags=array(), $lifeTime=null)
     {
-        /**
-         * Add global magento cache tag to all cached data exclude config cache
-         */
-        if (!in_array(Mage_Core_Model_Config::CACHE_TAG, $tags)) {
-            $tags[] = Mage_Core_Model_AppInterface::CACHE_TAG;
-        }
-
         Magento_Profiler::start('cache_save', $this->_generateProfilerTags('save'));
         $result = $this->_frontend->save((string)$data, $id, $tags, $lifeTime);
         Magento_Profiler::stop('cache_save');
@@ -203,18 +202,19 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     public function clean($tags = array())
     {
         Magento_Profiler::start('cache_clean', $this->_generateProfilerTags('clean'));
-
-        $mode = Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG;
-        if (!empty($tags)) {
-            if (!is_array($tags)) {
-                $tags = array($tags);
-            }
-            $res = $this->_frontend->clean($mode, $tags);
+        if ($tags) {
+            $res = $this->_frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, (array)$tags);
         } else {
-            $res = $this->_frontend->clean($mode, array(Mage_Core_Model_AppInterface::CACHE_TAG));
-            $res = $res && $this->_frontend->clean($mode, array(Mage_Core_Model_Config::CACHE_TAG));
+            /** @deprecated special case of cleaning by empty tags is deprecated after 2.0.0.0-dev42 */
+            $res = false;
+            $markerCacheTag = Mage_Core_Model_AppInterface::CACHE_TAG;
+            /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+            foreach ($this->_frontendPool as $cacheFrontend) {
+                if ($cacheFrontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($markerCacheTag))) {
+                    $res = true;
+                }
+            }
         }
-
         Magento_Profiler::stop('cache_clean');
 
         return $res;
@@ -294,7 +294,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
             $helper = $this->_helperFactory->get('Mage_Core_Helper_Data');
             foreach ($config->children() as $type => $node) {
                 $typeInstance = $this->_getTypeInstance($type);
-                if ($typeInstance instanceof Magento_Cache_Frontend_Decorator_TagScope) {
+                if ($typeInstance instanceof Magento_Cache_Frontend_Decorator_TagMarker) {
                     $typeTags = $typeInstance->getTag();
                 } else {
                     $typeTags = '';

@@ -7,86 +7,23 @@
  */
 
 /**
- * Cache frontend decorator that enforces association of cache entries with a tag
+ * Cache frontend decorator that limits the cleaning scope within a tag
  */
-class Magento_Cache_Frontend_Decorator_TagScope implements Magento_Cache_FrontendInterface
+class Magento_Cache_Frontend_Decorator_TagScope extends Magento_Cache_Frontend_Decorator_TagMarker
 {
     /**
-     * Cache frontend instance to delegate actual cache operations to
+     * Limit the cleaning scope within a tag
      *
-     * @var Magento_Cache_FrontendInterface
-     */
-    private $_frontend;
-
-    /**
-     * Tag to associate cache entries with
-     *
-     * @var string
-     */
-    private $_tag;
-
-    /**
-     * @param Magento_Cache_FrontendInterface $frontend
-     * @param string $tag Cache tag name
-     */
-    public function __construct(Magento_Cache_FrontendInterface $frontend, $tag)
-    {
-        $this->_frontend = $frontend;
-        $this->_tag = $tag;
-    }
-
-    /**
-     * Retrieve cache tag name
-     *
-     * @return string
-     */
-    public function getTag()
-    {
-        return $this->_tag;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function test($id)
-    {
-        return $this->_frontend->test($id);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load($id)
-    {
-        return $this->_frontend->load($id);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function save($data, $id, array $tags = array(), $lifeTime = null)
-    {
-        $tags[] = $this->_tag;
-        return $this->_frontend->save($data, $id, $tags, $lifeTime);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove($id)
-    {
-        return $this->_frontend->remove($id);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
     {
+        $frontend = $this->_getFrontend();
+        $enforcedTag = $this->getTag();
         if ($mode == Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG) {
             $result = false;
             foreach ($tags as $tag) {
-                if ($this->_frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($tag, $this->_tag))) {
+                if ($frontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($tag, $enforcedTag))) {
                     $result = true;
                 }
             }
@@ -94,25 +31,9 @@ class Magento_Cache_Frontend_Decorator_TagScope implements Magento_Cache_Fronten
             if ($mode == Zend_Cache::CLEANING_MODE_ALL) {
                 $mode = Zend_Cache::CLEANING_MODE_MATCHING_TAG;
             }
-            $tags[] = $this->_tag;
-            $result = $this->_frontend->clean($mode, $tags);
+            $tags[] = $enforcedTag;
+            $result = $this->_getFrontend()->clean($mode, $tags);
         }
         return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBackend()
-    {
-        return $this->_frontend->getBackend();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLowLevelFrontend()
-    {
-        return $this->_frontend->getLowLevelFrontend();
     }
 }

@@ -100,7 +100,11 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function flushSystemAction()
     {
-        Mage::app()->cleanCache();
+        $markerCacheTag = Mage_Core_Model_AppInterface::CACHE_TAG;
+        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        foreach ($this->_cacheFrontendPool as $cacheFrontend) {
+            $cacheFrontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($markerCacheTag));
+        }
         Mage::dispatchEvent('adminhtml_cache_flush_system');
         $this->_getSession()->addSuccess(
             Mage::helper('Mage_Adminhtml_Helper_Data')->__("The Magento cache storage has been flushed.")

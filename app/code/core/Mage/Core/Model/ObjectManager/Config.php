@@ -102,6 +102,12 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
                 'Mage_Core_Model_Cache_Frontend_Factory' => array(
                     'parameters' => array(
                         'enforcedOptions' => $this->_getParam(Mage::PARAM_CACHE_OPTIONS, array()),
+                        'decorators' => array(
+                            array(
+                                'class' => 'Magento_Cache_Frontend_Decorator_TagMarker',
+                                'parameters' => array('tag' => Mage_Core_Model_AppInterface::CACHE_TAG),
+                            ),
+                        ),
                     )
                 ),
                 'Mage_Core_Model_Cache_Types' => array(

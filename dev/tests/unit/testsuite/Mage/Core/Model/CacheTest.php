@@ -65,6 +65,16 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $frontendPoolMock = $this->getMock('Mage_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
         $frontendPoolMock
             ->expects($this->any())
+            ->method('valid')
+            ->will($this->onConsecutiveCalls(true, false))
+        ;
+        $frontendPoolMock
+            ->expects($this->any())
+            ->method('current')
+            ->will($this->returnValue($this->_cacheFrontendMock))
+        ;
+        $frontendPoolMock
+            ->expects($this->any())
             ->method('get')
             ->with(Mage_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
             ->will($this->returnValue($this->_cacheFrontendMock))
@@ -134,19 +144,18 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     public function saveDataProvider()
     {
         $configTag = Mage_Core_Model_Config::CACHE_TAG;
-        $appTag = Mage_Core_Model_AppInterface::CACHE_TAG;
         return array(
             'default tags' => array(
-                'test_data', 'test_id', array(), 'test_data', 'test_id', array($appTag)
+                'test_data', 'test_id', array(), 'test_data', 'test_id', array()
             ),
             'config tags' => array(
                 'test_data', 'test_id', array($configTag), 'test_data', 'test_id', array($configTag)
             ),
             'lowercase tags' => array(
-                'test_data', 'test_id', array('test_tag'), 'test_data', 'test_id', array('test_tag', $appTag)
+                'test_data', 'test_id', array('test_tag'), 'test_data', 'test_id', array('test_tag')
             ),
             'non-string data' => array(
-                1234567890, 'test_id', array(), '1234567890', 'test_id', array(Mage_Core_Model_AppInterface::CACHE_TAG)
+                1234567890, 'test_id', array(), '1234567890', 'test_id', array()
             ),
         );
     }
@@ -174,45 +183,27 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider cleanDataProvider
-     * @param array $inputTags
-     * @param array $expectedTags
-     */
-    public function testClean(array $inputTags, array $expectedTags)
+    public function testCleanByTags()
     {
+        $expectedTags = array('test_tag');
         $this->_cacheFrontendMock
             ->expects($this->once())
             ->method('clean')
             ->with(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, $expectedTags)
-            ->will($this->returnValue(false))
-        ;
-        $this->_model->clean($inputTags);
-    }
-
-    public function cleanDataProvider()
-    {
-        return array(
-            'default tags' => array(array(), array(Mage_Core_Model_AppInterface::CACHE_TAG)),
-            'custom tags'  => array(array('test_tag'), array('test_tag')),
-        );
-    }
-
-    public function testCleanByConfig()
-    {
-        $this->_cacheFrontendMock
-            ->expects($this->at(1))
-            ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array(Mage_Core_Model_AppInterface::CACHE_TAG))
             ->will($this->returnValue(true))
         ;
+        $this->assertTrue($this->_model->clean($expectedTags));
+    }
+
+    public function testCleanByEmptyTags()
+    {
         $this->_cacheFrontendMock
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array(Mage_Core_Model_Config::CACHE_TAG))
+            ->with(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(Mage_Core_Model_AppInterface::CACHE_TAG))
             ->will($this->returnValue(true))
         ;
-        $this->_model->clean();
+        $this->assertTrue($this->_model->clean());
     }
 
     public function testCanUse()

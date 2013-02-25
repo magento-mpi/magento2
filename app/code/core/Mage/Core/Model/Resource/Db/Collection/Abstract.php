@@ -674,7 +674,6 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     protected function _getCacheTags()
     {
         $tags = parent::_getCacheTags();
-        $tags[] = Mage_Core_Model_AppInterface::CACHE_TAG;
         $tags[] = Mage_Core_Model_Cache_Type_Collection::CACHE_TAG;
         return $tags;
     }
