@@ -30,6 +30,16 @@
                 </setup>
             </designeditor_setup>
         </resources>
+        <events>
+            <save_xml_configuration>
+                <observers>
+                    <save_xml_configuration_observer>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>saveQuickStyles</method>
+                    </save_xml_configuration_observer>
+                </observers>
+            </save_xml_configuration>
+        </events>
     </global>
     <default>
         <web>

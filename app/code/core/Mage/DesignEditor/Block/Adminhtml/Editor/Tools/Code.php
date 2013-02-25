@@ -11,7 +11,8 @@
 /**
  * Block that renders Code tab (or Scripts tab)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code extends Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code
+    extends Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract
 {
     /**
      * Tab HTML identifier

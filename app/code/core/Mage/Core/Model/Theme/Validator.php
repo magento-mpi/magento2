@@ -10,6 +10,11 @@
 class Mage_Core_Model_Theme_Validator
 {
     /**
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_helper;
+
+    /**
      * Validators list by data key
      *
      * array('dataKey' => array('validator_name' => [validators], ...), ...)
@@ -30,8 +35,9 @@ class Mage_Core_Model_Theme_Validator
     /**
      * Initialize validators
      */
-    public function __construct()
+    public function __construct(Mage_Core_Helper_Data $helper)
     {
+        $this->_helper = $helper;
         $this->_setThemeValidators();
     }
 
@@ -42,14 +48,12 @@ class Mage_Core_Model_Theme_Validator
      */
     protected function _setThemeValidators()
     {
-        $helper = Mage::helper('Mage_Core_Helper_Data');
-
         $versionValidators = array(
             array('name' => 'not_empty', 'class' => 'Zend_Validate_NotEmpty', 'break' => true, 'options' => array(),
-                  'message' => $helper->__('Field can\'t be empty')),
+                  'message' => $this->_helper->__('Field can\'t be empty')),
             array('name' => 'available', 'class' => 'Zend_Validate_Regex', 'break' => true,
                   'options' => array('pattern' => '/^(\d+\.\d+\.\d+\.\d+(\-[a-zA-Z0-9]+)?)$|^\*$/'),
-                  'message' => $helper->__('Theme version has not compatible format'))
+                  'message' => $this->_helper->__('Theme version has not compatible format'))
         );
 
         $this->addDataValidators('theme_version', $versionValidators)

@@ -104,7 +104,9 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
 
         try {
             if ($this->getRequest()->getPost()) {
-                $themeCss->setDataForSave($customCssData);
+                $themeCss->setDataForSave(
+                    array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $customCssData)
+                );
                 $theme->setCustomization($themeCss);
 
                 $themeJs->setDataForSave($uploadJsFiles);
@@ -237,14 +239,14 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
 
             if ($customCssFile->getContent()) {
-                $this->_prepareDownloadResponse(Mage_Core_Model_Theme_Customization_Files_Css::FILE_PATH, array(
+                $this->_prepareDownloadResponse(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS, array(
                     'type'  => 'filename',
                     'value' => $customCssFile->getFullPath()
                 ));
             }
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                $this->__('File "%s" is not found.', Mage_Core_Model_Theme_Customization_Files_Css::FILE_PATH));
+                $this->__('File "%s" is not found.', Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS));
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
