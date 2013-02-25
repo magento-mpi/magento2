@@ -589,6 +589,13 @@
                     <xsd:element minOccurs="1" maxOccurs="1" name="frontend_label" type="typens:catalogProductAttributeFrontendLabelArray" />
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="catalogProductSpecialPriceReturnEntity">
+                <xsd:sequence>
+                    <xsd:element minOccurs="1" maxOccurs="1" name="special_price" type="xsd:string" />
+                    <xsd:element minOccurs="1" maxOccurs="1" name="special_from_date" type="xsd:string" />
+                    <xsd:element minOccurs="1" maxOccurs="1" name="special_to_date" type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:element name="catalogProductCurrentStoreRequestParam">
                 <xsd:complexType>
                     <xsd:sequence>
@@ -724,7 +731,7 @@
             <xsd:element name="catalogProductGetSpecialPriceResponseParam">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:catalogProductReturnEntity" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="result" type="typens:catalogProductSpecialPriceReturnEntity" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
