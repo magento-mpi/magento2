@@ -37,7 +37,9 @@
              * @param data
              */
             done: function (e, data) {
-                if (!data.result.error) {
+                if (data.result.error) {
+                    alert(data.result.message);
+                } else {
                     $(this).data('quickStyleUploader').setValue(data.result.content['name']);
                 }
             },
