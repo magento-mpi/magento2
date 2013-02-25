@@ -343,7 +343,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
                 $node = $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Store')
                     ->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')
                     ->setValue('')->save();
-                var_dump($node); die();
             }
 
             $response = array('error' => false, 'content' => array());
