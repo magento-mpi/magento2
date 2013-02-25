@@ -15,42 +15,17 @@
  * @package    Mage_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Design_SaveHandler extends Mage_Launcher_Model_Tile_MinimalSaveHandler
+class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
-     * @var Mage_Backend_Model_Config
-     */
-    protected $_config;
-
-    /**
-     * Constructor
+     * Retrieve the list of names of the related configuration sections
      *
-     * @param Mage_Backend_Model_Config $config
+     * @return array
      */
-    function __construct(
-        Mage_Backend_Model_Config $config
-    ) {
-        $this->_config = $config;
-    }
-
-    /**
-     * Save function handle the whole Tile save process
-     *
-     * @param array $data Request data
-     */
-    public function save($data)
+    public function getRelatedConfigSections()
     {
-        $sections = array('general', 'design');
-        $preparedData = $this->prepareData($data);
-
-        //Write all config data on the GLOBAL scope
-        foreach ($sections as $section) {
-            if (!empty($preparedData[$section])) {
-                $this->_config->setSection($section)
-                    ->setGroups($preparedData[$section])
-                    ->save();
-            }
-        }
+        return array('design');
     }
 
     /**
@@ -60,12 +35,13 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler extends Mage_Launcher
      * @return array
      * @throws Mage_Launcher_Exception
      */
-    public function prepareData($data)
+    public function prepareData(array $data)
     {
-        $groups = $data['groups'];
-        if (empty($groups['design']['theme']['fields']['theme_id']['value'])) {
+        if (!isset($data['groups']['design']['theme']['fields']['theme_id']['value']) ||
+            !is_numeric($data['groups']['design']['theme']['fields']['theme_id']['value'])
+        ) {
             throw new Mage_Launcher_Exception('Theme is required.');
         }
-        return $groups;
+        return $data['groups'];
     }
 }

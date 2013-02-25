@@ -9,107 +9,54 @@
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
+    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
-     * Save function test
-     *
-     * @dataProvider generateSaveData
-     * @param array $data Request data
-     * @param array $expectedData
-     * @param int $timesToCall
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
-    public function testSave($data, $expectedData, $timesToCall)
-    {
-        $configStub = $this->getMock(
-            'Mage_Backend_Model_Config',
-            array('setSection', 'setGroups', 'save'),
-            array(),
-            '',
-            false
+    public function getSaveHandlerInstance(
+        Mage_Core_Model_Config $config,
+        Mage_Backend_Model_Config $backendConfigModel
+    ) {
+        return new Mage_Launcher_Model_Storelauncher_Design_SaveHandler(
+            $config,
+            $backendConfigModel
         );
-
-        $setSectionWith = $this->logicalOr(
-            $this->equalTo('general'),
-            $this->equalTo('design')
-        );
-
-        $setGroupsWith = $this->logicalOr(
-            $this->equalTo($expectedData['general']),
-            $this->equalTo($expectedData['design'])
-        );
-
-        $configStub->expects($this->exactly($timesToCall))
-            ->method('setSection')
-            ->with($setSectionWith)
-            ->will($this->returnValue($configStub));
-
-        $configStub->expects($this->exactly($timesToCall))
-            ->method('setGroups')
-            ->with($setGroupsWith)
-            ->will($this->returnValue($configStub));
-
-        $configStub->expects($this->exactly($timesToCall))
-            ->method('save');
-
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Design_SaveHandler(
-            $configStub
-        );
-        $saveHandler->save($data);
     }
 
     /**
-     * Data provider for testSave methods
+     * This data provider emulates invalid input for prepareData method
      *
      * @return array
      */
-    public function generateSaveData()
+    public function prepareDataInvalidInputDataProvider()
+    {
+        $data0 = array();
+        $data0['groups']['design']['theme']['fields']['theme_id']['value'] = '';
+
+        $data1 = array();
+
+        return array(
+            array($data0),
+            array($data1),
+        );
+    }
+
+    /**
+     * This data provider emulates valid input for prepareData method
+     *
+     * @return array
+     */
+    public function prepareDataValidInputDataProvider()
     {
         return array(
             array(
                 $this->_getTestData(),
                 $this->_getExpectedData(),
-                2
-            ),
-        );
-    }
-
-    /**
-     * Prepare Address Data for system configuration test
-     *
-     * @dataProvider generatePrepareData
-     * @param array $data
-     * @param array $expectedData
-     */
-    public function testPrepareData($data, $expectedData)
-    {
-        $configStub = $this->getMock(
-            'Mage_Backend_Model_Config',
-            array(),
-            array(),
-            '',
-            false
-        );
-
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Design_SaveHandler(
-            $configStub
-        );
-
-        $result = $saveHandler->prepareData($data);
-        $this->assertEquals($expectedData, $result);
-    }
-
-    /**
-     * Data provider for testPrepareData method
-     *
-     * @return array
-     */
-    public function generatePrepareData()
-    {
-        return array(
-            array(
-                $this->_getTestData(),
-                $this->_getExpectedData()
+                array('design')
             ),
         );
     }
@@ -123,13 +70,6 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest extends PHPUnit_F
     {
         $result = array(
             'groups' => array(
-                'general' => array(
-                    'store_information' => array(
-                        'fields' => array(
-                            'name' => array('value' => 'Store Name 1'),
-                        ),
-                    ),
-                ),
                 'design' => array(
                     'theme' => array(
                         'fields' => array(
@@ -153,13 +93,6 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest extends PHPUnit_F
     protected function _getExpectedData()
     {
         $result = array(
-            'general' => array(
-                'store_information' => array(
-                    'fields' => array(
-                        'name' => array('value' => 'Store Name 1'),
-                    ),
-                ),
-            ),
             'design' => array(
                 'theme' => array(
                     'fields' => array(
