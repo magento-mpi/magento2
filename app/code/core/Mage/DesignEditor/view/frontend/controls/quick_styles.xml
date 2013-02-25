@@ -494,37 +494,37 @@
         </components>
     </control>
 
-    <control name="text-links" title="Text Links" tab="fonts" column="left">
+    <control name="text-links" title="Text Links" tab="fonts" column="right">
         <type>color-picker</type>
         <selector>.menu a:hover</selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::text-links</var>
     </control>
-    <control name="text-links-hover" title="Text Links Hover" tab="fonts" column="left">
+    <control name="text-links-hover" title="Text Links Hover" tab="fonts" column="right">
         <type>color-picker</type>
         <selector>.menu a:hover</selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::text-links-hover</var>
     </control>
-    <control name="text-links-active" title="Text Links Active" tab="fonts" column="left">
+    <control name="text-links-active" title="Text Links Active" tab="fonts" column="right">
         <type>color-picker</type>
         <selector>.menu a:hover</selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::text-links-active</var>
     </control>
-    <control name="text-links-product" title="Text Links Product Name" tab="fonts" column="left">
+    <control name="text-links-product" title="Text Links Product Name" tab="fonts" column="right">
         <type>color-picker</type>
         <selector>.menu a:hover</selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::text-links-product</var>
     </control>
-    <control name="small-links" title="Small Links" tab="fonts" column="left">
+    <control name="small-links" title="Small Links" tab="fonts" column="right">
         <type>color-picker</type>
         <selector>.menu a:hover</selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::small-links</var>
     </control>
-    <control name="small-links-hover" title="Small Links Hover" tab="fonts" column="left">
+    <control name="small-links-hover" title="Small Links Hover" tab="fonts" column="right">
         <type>color-picker</type>
         <selector>.menu a:hover</selector>
         <attribute>color</attribute>
