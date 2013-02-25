@@ -155,8 +155,7 @@ class Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
                     array('class' => 'Zend_Validate_Int', 'options' => array()),
                     array('class' => 'Zend_Validate_Between', 'options' => array(
                         'min' => 0, 'max' => 1, 'inclusive' => true
-                    ))
-                );
+                )));
                 break;
             case self::FIELD_IMAGE_WIDTH:
             case self::FIELD_IMAGE_HEIGHT:
@@ -164,15 +163,13 @@ class Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
                     array('class' => 'Zend_Validate_Int', 'options' => array()),
                     array('class' => 'Zend_Validate_Between', 'options' => array(
                         'min' => 0, 'max' => self::MAX_SIZE_VALUE, 'inclusive' => true
-                    ))
-                );
+                )));
                 break;
             case self::FIELD_IMAGE_TYPE:
                 $validators = array(
                     array('class' => 'Zend_Validate_InArray', 'options' => array('haystack' => array(
                         'image', 'small_image', 'thumbnail'
-                    )))
-                );
+                ))));
                 break;
         }
         $this->_instantiateValidators($validators);
