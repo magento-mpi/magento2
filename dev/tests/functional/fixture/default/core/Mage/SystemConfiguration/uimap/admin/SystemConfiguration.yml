@@ -2227,7 +2227,7 @@ system_configuration:
                                         method_use_default: //input[@name='groups[checkout_shipping_virtual][fields][method][inherit]']
                 -
                     sales_paypal:
-                        xpath: //a[contains(@href, 'edit/section/paypal/')]
+                        xpath: //a[contains(@href, 'edit/section/paypal/') and contains(@class, 'item-nav')]
                         fieldsets:
                             -
                                 merchant_account:

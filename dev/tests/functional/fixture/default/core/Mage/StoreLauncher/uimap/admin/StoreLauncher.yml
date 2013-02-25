@@ -10,7 +10,7 @@
 
 # 'Store Launcher' page
 store_launcher:
-    mca: launcher/storelauncher_index/#
+    mca: launcher/storelauncher_index/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'launcher/storelauncher')]
     title: Magento Admin
     uimap: &store_launcher
@@ -120,6 +120,54 @@ store_launcher:
                             zip_is_range: //input[@id='zip_is_range']
                         buttons:
                             save_rate: //button[@id='tax-rule-edit-apply-button']
+                -
+                    payment_tile:
+                        xpath: //article[@id='tile-payments']
+                        buttons:
+                            open_payment_drawer: //button[normalize-space()='Payment Methods']
+                            configure_other_payment_method: //button[normalize-space()='Configure Other Payment Methods']
+                -
+                    payment_drawer:
+                        xpath: //div[@id='drawer']
+                        buttons:
+                            choose_paypal_express: //button[span='Choose PayPal Express']
+                            choose_paypal_standard: //button[span='Chose Standard']
+                            choose_paypal_advanced: //button[span='Chose Advanced']
+                            choose_paypal_payments_pro: //button[span='Chose Payments Pro']
+                            choose_paypal_payflow_link: //button[span='Chose Payflow Link']
+                            choose_paypal_payflow_pro: //button[span='Chose Payflow Pro']
+                            choose_authorize: //button[span='Choose Authorize.net']
+                            confirm_paypal_express: //div[@id='express-checkout']//button[span='Confirm']
+                            confirm_paypal_standard: //div[@id='paypal-standard']//button[span='Confirm']
+                            confirm_paypal_advanced: //div[@id='payments-advanced']//button[span='Confirm']
+                            confirm_paypal_payments_pro: //div[@id='payments-pro']//button[span='Confirm']
+                            confirm_paypal_payflow_link: //div[@id='payflow-link']//button[span='Confirm']
+                            confirm_paypal_payflow_pro: //div[@id='payflow-pro']//button[span='Confirm']
+                            confirm_authorize: //div[@id='authorize']//button[span='Confirm']
+                        fields:
+                            paypal_express_email: //input[@id='store-paypal-express-email']
+                            paypal_standard_email: //input[@id='store-paypal-standard-email']
+                            advanced_partner: //input[@id='advanced-partner']
+                            advanced_vendor:  //input[@id='advanced-vendor']
+                            advanced_user:  //input[@id='advanced-user']
+                            advanced_password:  //input[@id='advanced-password']
+                            payments_pro_email: //input[@id='payments-pro-email']
+                            payflow_link_partner: //input[@id='payflow-link-partner']
+                            payflow_link_vendor: //input[@id='payflow-link-vendor']
+                            payflow_link_user: //input[@id='payflow-link-user']
+                            payflow_link_password: //input[@id='payflow-link-password']
+                            payflow_pro_partner: //input[@id='payflow-pro-partner']
+                            payflow_pro_vendor: //input[@id='payflow-pro-partner-vendor']
+                            payflow_pro_user: //input[@id='payflow-pro-user']
+                            payflow_pro_password: //input[@id='payflow-pro-password']
+                            authorize_login_id: //input[@id='authorize-login']
+                            authorize_transaction_key: //input[@id='authorize-key']
+                        links:
+                            solutions_for_everyone: //ul[@class='payments-tabs-nav']//a[contains(.,'Solutions for Everyone')]
+                            solutions_for_bank_accounts: //ul[@class='payments-tabs-nav']//a[contains(.,'Solutions for Merchant Bank Accounts')]
+                            additional_payment: //div[@class='drawer-content-inner']//a[contains(.,'Additional Payment Methods Settings')]
+                        pageelements:
+                            setup_seccessful: //div[@class='payment-method payment-method-%paymentMethod% configured active']//div[@class='payment-status']
         messages: &newTaxRuleMessages
             enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"

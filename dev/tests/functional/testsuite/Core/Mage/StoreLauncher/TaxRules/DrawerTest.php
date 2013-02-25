@@ -73,7 +73,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $this->clickButton('tax_rules_enabled', false);
         $this->storeLauncherHelper()->saveDrawer();
         $this->assertEquals('tile-store-settings tile-tax tile-complete',
-            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state in Equal to Complete');
+            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state is not Equal to Complete');
         $tileElement = $this->storeLauncherHelper()->mouseOverDrawer('tax_rules_tile');
         $this->getChildElement($tileElement, $this->_getControlXpath('link', 'additional_action'), false)->click();
         $this->waitForPageToLoad();
@@ -88,7 +88,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function tileStateOnAddTaxRule()
     {
         $this->assertEquals('tile-store-settings tile-tax tile-todo',
-            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state in Equal to Complete');
+            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state is not Equal to TODO');
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required');
         $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
         $this->navigate('manage_tax_rule');
@@ -295,7 +295,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $this->storeLauncherHelper()->saveDrawer();
         $this->_ruleToBeDeleted = $searchTaxRuleData;
         $this->assertEquals('tile-store-settings tile-tax tile-complete',
-            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state in Equal to Complete');
+            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state is not Equal to Complete');
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->openTaxItem($searchTaxRuleData, 'rule');
         $this->clickControl('link', 'tax_rule_info_additional_link');

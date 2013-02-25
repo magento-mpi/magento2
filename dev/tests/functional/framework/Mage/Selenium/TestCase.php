@@ -1654,7 +1654,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $baseUrl = preg_replace('#backend/(backend|admin)/$#', 'backend/', $baseUrl);
         $currentUrl = preg_replace('#backend/(backend|admin)/#', 'backend/', $currentUrl);
         if (strpos($currentUrl, $baseUrl) !== false) {
-            $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
+            $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\#");
         }
 
         if ($mca && $mca[0] != '/') {
