@@ -50,7 +50,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             'class'   => 'element-checkbox',
             'value'   => 'repeat',
             'checked' => $checkboxData['value'] == 'repeat'
-        ));
+        ))->setUncheckedValue('no-repeat');
     }
 
     /**

@@ -366,10 +366,20 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $controlId = $this->getRequest()->getParam('id');
         $controlValue = $this->getRequest()->getParam('value');
         try {
+            //@TODO add validators here
+            /*$validatorFactory = $this->_objectManager
+                ->create('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Validator_Factory');
+            $validator = $validatorFactory->create($controlType);    //or $controlId
+            if (!$this->isValid($value))
+            {
+                //error
+            };*/
+
             /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
             $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
             $configuration = $configFactory->create(
-                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, $this->_loadTheme($themeId)
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
+                $this->_loadTheme($themeId)
             );
             $configuration->saveData(array($controlId => $controlValue));
             $response = array('success' => true);
