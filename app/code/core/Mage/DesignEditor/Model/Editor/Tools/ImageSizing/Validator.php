@@ -160,7 +160,7 @@ class Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
             case self::FIELD_IMAGE_WIDTH:
             case self::FIELD_IMAGE_HEIGHT:
                 $validators = array(
-                    array('class' => 'Zend_Validate_Int', 'options' => array()),
+                    //array('class' => 'Zend_Validate_Int', 'options' => array()), TODO int or empty string
                     array('class' => 'Zend_Validate_Between', 'options' => array(
                         'min' => 0, 'max' => self::MAX_SIZE_VALUE, 'inclusive' => true
                 )));
