@@ -21,7 +21,10 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $params = array(
             'layout' => Mage::getObjectManager()->create('Mage_Core_Model_Layout', array(), false)
         );
-        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Template', '', $params);
+        $context = Mage::getObjectManager()->create('Mage_Core_Block_Template_Context', $params);
+        $this->_block = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Template', '',
+            array('context' => $context)
+        );
     }
 
     public function testConstruct()

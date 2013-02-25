@@ -283,7 +283,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function addChild($alias, $block, $data = array())
     {
-        $block = $this->getLayout()->createBlock($block, $this->getNameInLayout() . '.' . $alias, $data);
+        $block = $this->getLayout()->createBlock($block, $this->getNameInLayout() . '.' . $alias,
+            array('data' => $data)
+        );
         $this->setChild($alias, $block);
         return $block;
     }

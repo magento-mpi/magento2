@@ -1242,7 +1242,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $block->setType(get_class($block));
         $block->setNameInLayout($name);
-        $block->addData($attributes);
+        $block->addData(isset($attributes['data']) ? $attributes['data'] : array());
         $block->setLayout($this);
 
         $this->_blocks[$name] = $block;
@@ -1324,7 +1324,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         if ($block && is_string($block)) {
             if (class_exists($block)) {
-                $block = $this->_blockFactory->createBlock($block, array('data' => $attributes));
+                $block = $this->_blockFactory->createBlock($block, $attributes);
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {

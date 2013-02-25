@@ -79,21 +79,25 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                 break;
             case self::CATEGORY_MODE:
                 $editBlock = $this->getLayout()
-                    ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', array(
+                    ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', array('data' => array(
                         'category' => $this->_getCategory(),
                         'url_rewrite' => $this->_getUrlRewrite()
-                    ));
+                    )));
                 break;
             case self::CMS_PAGE_MODE:
-                $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '', array(
-                    'cms_page'    => $this->_getCmsPage(),
-                    'url_rewrite' => $this->_getUrlRewrite()
-                ));
+                $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '',
+                    array(
+                        'data' => array(
+                            'cms_page'    => $this->_getCmsPage(),
+                            'url_rewrite' => $this->_getUrlRewrite(),
+                        ),
+                    )
+                );
                 break;
             case self::ID_MODE:
             default:
                 $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit', '', array(
-                    'url_rewrite' => $this->_getUrlRewrite()
+                    'data' => array('url_rewrite' => $this->_getUrlRewrite())
                 ));
                 break;
         }

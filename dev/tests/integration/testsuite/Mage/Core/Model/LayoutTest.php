@@ -174,7 +174,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $expectedData = $blockData + array('type' => $blockType);
 
-        $block = $this->_layout->createBlock($blockType, $blockName, $blockData);
+        $block = $this->_layout->createBlock($blockType, $blockName, array('data' => $blockData));
 
         $this->assertEquals($this->_layout, $block->getLayout());
         $this->assertRegExp($expectedName, $block->getNameInLayout());
