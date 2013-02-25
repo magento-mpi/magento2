@@ -213,9 +213,11 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             'Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content',
             '',
             array(
-                'editor_element_id' => $elementId,
-                'store_id'          => $storeId,
-                'store_media_url'   => $storeMediaUrl,
+                'data' => array(
+                    'editor_element_id' => $elementId,
+                    'store_id'          => $storeId,
+                    'store_media_url'   => $storeMediaUrl,
+                )
             )
         );
 

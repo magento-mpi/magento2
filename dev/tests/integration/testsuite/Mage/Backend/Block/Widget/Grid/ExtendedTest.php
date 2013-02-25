@@ -24,8 +24,9 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         $this->_layoutMock = Mage::getModel('Mage_Core_Model_Layout');
+        $context = Mage::getModel('Mage_Core_Block_Template_Context', array('layout' => $this->_layoutMock));
         $this->_block = $this->_layoutMock->createBlock(
-            'Mage_Backend_Block_Widget_Grid_Extended', 'grid', array('layout' => $this->_layoutMock)
+            'Mage_Backend_Block_Widget_Grid_Extended', 'grid', array('context' => $context)
         );
 
         $this->_block->addColumn('column1',

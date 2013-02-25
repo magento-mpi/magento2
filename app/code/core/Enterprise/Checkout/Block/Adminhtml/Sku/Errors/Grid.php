@@ -78,7 +78,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
             $descriptionBlock = $this->getLayout()->createBlock(
                 'Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description',
                 '',
-                array('product' => $product, 'item' => $item)
+                array('data' => array('product' => $product, 'item' => $item))
             );
             $item->setDescription($descriptionBlock->toHtml());
             $item->setRemoveButton($removeButtonHtml);
