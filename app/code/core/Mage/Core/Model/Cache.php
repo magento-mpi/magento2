@@ -221,20 +221,6 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     }
 
     /**
-     * Clean cached data by specific tag
-     *
-     * @return bool
-     */
-    public function flush()
-    {
-        Magento_Profiler::start('cache_flush', $this->_generateProfilerTags('flush'));
-        $res = $this->_frontend->clean();
-        Magento_Profiler::stop('cache_flush');
-
-        return $res;
-    }
-
-    /**
      * Check if cache can be used for specific data type
      *
      * @param string $typeCode

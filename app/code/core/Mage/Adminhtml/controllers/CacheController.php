@@ -21,6 +21,11 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     private $_cacheTypes;
 
     /**
+     * @var Mage_Core_Model_Cache_Frontend_Pool
+     */
+    private $_cacheFrontendPool;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
@@ -28,6 +33,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Cache_Types $cacheTypes
+     * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
      * @param null $areaCode
      * @param array $invokeArgs
      */
@@ -39,6 +45,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_Core_Model_Cache $cache,
         Mage_Core_Model_Cache_Types $cacheTypes,
+        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
         $areaCode = null,
         array $invokeArgs = array()
     ) {
@@ -47,6 +54,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         );
         $this->_cache = $cache;
         $this->_cacheTypes = $cacheTypes;
+        $this->_cacheFrontendPool = $cacheFrontendPool;
     }
 
     /**
@@ -77,9 +85,9 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     public function flushAllAction()
     {
         Mage::dispatchEvent('adminhtml_cache_flush_all');
-        $allTypes = array_keys($this->_cache->getTypes());
-        foreach ($allTypes as $code) {
-            $this->_cache->cleanType($code);
+        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        foreach ($this->_cacheFrontendPool as $cacheFrontend) {
+            $cacheFrontend->clean();
         }
         $this->_getSession()->addSuccess(
             Mage::helper('Mage_Adminhtml_Helper_Data')->__("The cache storage has been flushed.")

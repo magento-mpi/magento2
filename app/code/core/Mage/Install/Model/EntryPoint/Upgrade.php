@@ -35,8 +35,7 @@ class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAb
      */
     public function __construct(
         $baseDir, array $params = array(), Magento_ObjectManager $objectManager = null
-    )
-    {
+    ) {
         $this->_params = $params;
         parent::__construct($baseDir, $params, $objectManager);
     }
@@ -46,9 +45,12 @@ class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAb
      */
     protected function _processRequest()
     {
-        /** @var $cache Mage_Core_Model_Cache */
-        $cache = $this->_objectManager->get('Mage_Core_Model_Cache');
-        $cache->flush();
+        /** @var $cacheFrontendPool Mage_Core_Model_Cache_Frontend_Pool */
+        $cacheFrontendPool = $this->_objectManager->get('Mage_Core_Model_Cache_Frontend_Pool');
+        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        foreach ($cacheFrontendPool as $cacheFrontend) {
+            $cacheFrontend->clean();
+        }
 
         /** @var $appState \Mage_Core_Model_App_State */
         $appState = $this->_objectManager->get('Mage_Core_Model_App_State');

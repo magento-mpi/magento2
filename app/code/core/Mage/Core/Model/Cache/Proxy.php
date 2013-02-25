@@ -102,16 +102,6 @@ class Mage_Core_Model_Cache_Proxy implements Mage_Core_Model_CacheInterface
     }
 
     /**
-     * Clean cached data by specific tag
-     *
-     * @return bool
-     */
-    public function flush()
-    {
-        return $this->_getCache()->flush();
-    }
-
-    /**
      * Check if cache can be used for specific data type
      *
      * @param string $typeCode

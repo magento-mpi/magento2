@@ -56,13 +56,6 @@ interface Mage_Core_Model_CacheInterface
     public function clean($tags = array());
 
     /**
-     * Clean cached data by specific tag
-     *
-     * @return bool
-     */
-    public function flush();
-
-    /**
      * Check if cache can be used for specific data type
      *
      * @param string $typeCode

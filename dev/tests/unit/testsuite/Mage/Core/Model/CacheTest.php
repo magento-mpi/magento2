@@ -215,20 +215,6 @@ class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->_model->clean();
     }
 
-    /**
-     * @dataProvider successFailureDataProvider
-     * @param bool $result
-     */
-    public function testFlush($result)
-    {
-        $this->_cacheFrontendMock
-            ->expects($this->once())
-            ->method('clean')
-            ->will($this->returnValue($result))
-        ;
-        $this->assertEquals($result, $this->_model->flush());
-    }
-
     public function testCanUse()
     {
         $this->_cacheTypesMock
