@@ -17,9 +17,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Uploader
 {
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/element/input.phtml',
-        'Mage_DesignEditor::editor/form/renderer/uploader-outline.phtml',
-        //'Mage_DesignEditor::editor/form/renderer/simple/wrapper.phtml',
-        //'Mage_DesignEditor::editor/form/renderer/simple.phtml'
+        //'Mage_DesignEditor::editor/form/renderer/uploader-outline.phtml',
     );
 
     //used here

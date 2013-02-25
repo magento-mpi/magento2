@@ -30,13 +30,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             $uploaderData['value']
         );
         $uploaderId = $this->getComponentId('image-uploader');
-        $uploaderConfig = array(
+        $this->addField($uploaderId, 'image-uploader', array(
             'name'     => $uploaderId,
             'title'    => $uploaderTitle,
             'label'    => null,
-            'value'    => $uploaderData['value'],
-        );
-        $this->addField($uploaderId, 'image-uploader', $uploaderConfig);
+            'value'    => $uploaderData['value'] == $uploaderData['default'] ? '' : $uploaderData['value'],
+        ));
 
         $checkboxTitle = sprintf('%s {%s: %s}',
             $checkboxData['selector'],
@@ -45,10 +44,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
         );
         $checkboxHtmlId = $this->getComponentId('tile');
         $this->addField($checkboxHtmlId, 'checkbox', array(
-            'name'  => $checkboxHtmlId,
-            'title' => $checkboxTitle,
-            'label' => 'Tile Background',
-            'class' => 'element-checkbox'
+            'name'    => $checkboxHtmlId,
+            'title'   => $checkboxTitle,
+            'label'   => 'Tile Background',
+            'class'   => 'element-checkbox',
+            'value'   => 'repeat',
+            'checked' => $checkboxData['value'] == 'repeat'
         ));
     }
 

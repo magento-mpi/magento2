@@ -14,7 +14,8 @@
 $element = $this->getElement();
 ?>
 
-<div style="border: 1px solid gray;">
+<div style="padding:8px; border-radius:5px; background:#32312c;">
     <?php echo $element->getImageUploaderElement()->toHtml() ?>
+    <hr />
     <?php echo $element->getCheckboxElement()->toHtml() ?>
 </div>
