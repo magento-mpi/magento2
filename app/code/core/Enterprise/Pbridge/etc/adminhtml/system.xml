@@ -379,18 +379,18 @@
             </group>
 
             <group id="paypal_payments">
-                <field id="wpp">
-                    <field id="wpp_required_settings">
-                        <field id="wpp_and_express_checkout">
+                <group id="wpp">
+                    <group id="wpp_required_settings">
+                        <group id="wpp_and_express_checkout">
                             <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                                 <label>Use via Payment Bridge</label>
                                 <comment>Gives effect only when payment bridge is active.</comment>
                                 <config_path>payment/paypal_direct/using_pbridge</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             </field>
-                        </field>
-                    </field>
-                    <field id="wpp_settings">
+                        </group>
+                    </group>
+                    <group id="wpp_settings">
                         <field id="heading_cc">
                             <depends>
                                 <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
@@ -401,7 +401,7 @@
                                 <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
                             </depends>
                         </field>
-                        <field id="wpp_settings_advanced">
+                        <group id="wpp_settings_advanced">
                             <field id="verify_peer">
                                 <depends>
                                     <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
@@ -437,21 +437,21 @@
                                     <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
                                 </depends>
                             </field>
-                        </field>
-                    </field>
-                </field>
-                <field id="payments_pro_payflow_edition">
-                    <field id="pp_pe_required_settings">
-                        <field id="pp_pe_api_settings">
+                        </group>
+                    </group>
+                </group>
+                <group id="payments_pro_payflow_edition">
+                    <group id="pp_pe_required_settings">
+                        <group id="pp_pe_api_settings">
                             <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                                 <label>Use via Payment Bridge</label>
                                 <comment>Gives effect only when payment bridge is active.</comment>
                                 <config_path>payment/paypaluk_direct/using_pbridge</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             </field>
-                        </field>
-                    </field>
-                    <field id="settings_pp_pe">
+                        </group>
+                    </group>
+                    <group id="settings_pp_pe">
                         <field id="heading_cc">
                             <depends>
                                 <field id="*/pp_pe_api_settings/using_pbridge">0</field>
@@ -462,7 +462,7 @@
                                 <field id="*/pp_pe_api_settings/using_pbridge">0</field>
                             </depends>
                         </field>
-                        <field id="settings_pp_pe_advanced">
+                        <group id="settings_pp_pe_advanced">
                             <field id="verify_peer">
                                 <depends>
                                     <field id="*/pp_pe_api_settings/using_pbridge">0</field>
@@ -493,21 +493,21 @@
                                     <field id="*/pp_pe_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
-                        </field>
-                    </field>
-                </field>
-                <field id="paypal_verisign">
-                    <field id="paypal_payflow_required">
-                        <field id="paypal_payflow_api_settings">
+                        </group>
+                    </group>
+                </group>
+                <group id="paypal_verisign">
+                    <group id="paypal_payflow_required">
+                        <group id="paypal_payflow_api_settings">
                             <field id="using_pbridge" translate="label comment" module="Enterprise_Pbridge" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                                 <label>Use via Payment Bridge</label>
                                 <comment>Gives effect only when payment bridge is active.</comment>
                                 <config_path>payment/verisign/using_pbridge</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             </field>
-                        </field>
-                    </field>
-                    <field id="settings_paypal_payflow">
+                        </group>
+                    </group>
+                    <group id="settings_paypal_payflow">
                         <field id="cctypes">
                             <depends>
                                 <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
@@ -518,7 +518,7 @@
                                 <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
                             </depends>
                         </field>
-                        <field id="settings_paypal_payflow_advanced">
+                        <group id="settings_paypal_payflow_advanced">
                             <field id="verify_peer">
                                 <depends>
                                     <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
@@ -549,9 +549,9 @@
                                     <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
-                        </field>
-                    </field>
-                </field>
+                        </group>
+                    </group>
+                </group>
             </group>
         </section>
     </system>
