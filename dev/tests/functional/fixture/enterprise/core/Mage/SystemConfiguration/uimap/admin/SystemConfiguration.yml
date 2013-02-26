@@ -190,6 +190,8 @@ system_configuration:
                                     xpath: //fieldset[@id='customer_enterprise_customersegment']
                                     links:
                                         customer_customer_segment_link: //parent::div//a[@id='customer_enterprise_customersegment-head']
+                                    dropdowns:
+                                        enable_customer_segment: //select[@id='customer_enterprise_customersegment_is_enabled']
                 -
                     sales_sales:
                         fieldsets:

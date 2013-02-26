@@ -58,13 +58,13 @@ create_cms_banner:
                         fieldsets:
                             -
                                 banner_properties_fieldset:
-                                    xpath: //div[@id='banner_properties_base_fieldset']
+                                    xpath: //fieldset[@id='banner_properties_base_fieldset']
                                     fields:
                                         banner_properties_name: //input[@name='name']
                                     dropdowns:
                                         active: //select[@name='is_enabled']
                                         applies_to: //select[@id='banner_properties_is_types']
-                                        customer_segments: //select[@name='use_customer_segment']
+                                        customer_segments: //select[@id='banner_properties_use_customer_segment']
                                     multiselects:
                                         specify_types: //select[@id='banner_properties_types']
                                         specified_customer_segments: //select[@name='customer_segment_ids[]']
