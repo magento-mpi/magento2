@@ -115,6 +115,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         </div>
     </script>
 </div>
+<span class="action-manage-images" data-activate-tab="image-management">
+    <span>{$this->helper('Mage_Catalog_Helper_Data')->__('Image Management')}</span>
+</span>
+<script>
+    (function($) {
+        'use strict';
+
+        $('[data-activate-tab="image-management"]')
+            .on('click.toggleImageManagementTab', function() {
+                $('#product_info_tabs_image-management').trigger('click');
+            });
+    })(window.jQuery);
+</script>
+
 HTML;
         return $html;
     }
