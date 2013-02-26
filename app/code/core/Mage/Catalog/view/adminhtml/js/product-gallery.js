@@ -92,12 +92,17 @@
                     return el.value == baseImage.value;
                 }
             );
+            var isImageOpened = this.findElement(imageData).hasClass('active');
 
             $.each(sameImages, $.proxy(function(index, image) {
                 this.element.trigger('setImageType', {
                     type: image.code,
                     imageData: imageData
                 });
+                if (isImageOpened) {
+                    this.element.find('.item').addClass('selected');
+                    this.element.find('[data-role="type-selector"]').prop({'checked': true});
+                }
             }, this));
         },
 
