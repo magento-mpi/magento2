@@ -140,7 +140,7 @@ class Varien_Cache_Core extends Zend_Cache_Core
     public function setBackend(Zend_Cache_Backend $backendObject)
     {
         $backendObject = $this->_decorateBackend($backendObject);
-        return parent::setBackend($backendObject);
+        parent::setBackend($backendObject);
     }
 
     /**
@@ -164,7 +164,8 @@ class Varien_Cache_Core extends Zend_Cache_Core
             $classOptions['concrete_backend'] = $backendObject;
 
             if (!class_exists($decoratorOptions['class'])) {
-                Zend_Cache::throwException("Class specified in '" . $decoratorName . "' does not exist");
+                Zend_Cache::throwException("Class '" . $decoratorOptions['class'] . "' specified in '"
+                    . $decoratorName . "' does not exist");
             }
 
             $backendObject = new $decoratorOptions['class']($classOptions);
