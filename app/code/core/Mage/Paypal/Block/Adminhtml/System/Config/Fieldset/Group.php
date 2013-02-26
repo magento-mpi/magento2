@@ -43,7 +43,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
      */
     protected function _isCollapseState($element)
     {
-        $extra = Mage::getSingleton('Mage_Backend_Model_Session')->getUser()->getExtra();
+        $extra = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }
