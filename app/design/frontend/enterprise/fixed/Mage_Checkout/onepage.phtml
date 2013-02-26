@@ -8,6 +8,10 @@
  * @license     {license_link}
  */
 ?>
+<?php
+  $giftRegistryHelper = $this->helper('Enterprise_GiftRegistry_Helper_Data');
+  $giftRegistryBlock = $this->getLayout()->getBlock('giftregistry.customer.checkout');
+?>
 <div class="opc-wrapper">
     <div class="page-title">
         <?php echo $this->getChildHtml('checkoutCallout') ?>
@@ -39,6 +43,7 @@
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('Mage_Checkout::js/opcheckout.js') ?>",
+                "<?php echo $this->getViewFileUrl('js/ee-opcheckout.js') ?>",
                 "<?php echo $this->getViewFileUrl('Mage_Checkout::js/accordion.js') ?>",
                 function() {
                     $('#checkoutSteps')
@@ -70,6 +75,9 @@
                             review: {
                                 saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
                                 successUrl: '<?php echo $this->getUrl('checkout/onepage/success') ?>'
+                            },
+                            giftRegistry:{
+                                enable:<?php echo ($giftRegistryHelper->isEnabled()&& $giftRegistryBlock->getItem()) ?>
                             }
                         });
                 });

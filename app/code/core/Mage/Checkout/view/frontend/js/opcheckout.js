@@ -199,13 +199,17 @@
                 }, this))
                 .on('click', this.options.billing.continueSelector, $.proxy(function() {
                     if ($(this.options.billing.form).validation && $(this.options.billing.form).validation('isValid')) {
-                    this._ajaxContinue(this.options.billing.saveUrl, $(this.options.billing.form).serialize(), false, function() {
-                        //Trigger indicating billing save. eg. GiftMessage listens to this to inject gift options
-                        this.element.trigger('billingSave');
-                    });
+                        this._billingSave();
                     }
                 }, this))
                 .find(this.options.billing.form).validation();
+        } ,
+
+        _billingSave: function() {
+            this._ajaxContinue(this.options.billing.saveUrl, $(this.options.billing.form).serialize(), false, function() {
+                //Trigger indicating billing save. eg. GiftMessage listens to this to inject gift options
+                this.element.trigger('billingSave');
+            });
         }
     });
 

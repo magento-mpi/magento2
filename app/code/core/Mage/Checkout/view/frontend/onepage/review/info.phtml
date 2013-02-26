@@ -1,4 +1,4 @@
-<?php
+\<?php
 /**
  * {license_notice}
  *
@@ -60,16 +60,4 @@
             <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
         </span>
     </div>
-    <script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/review.js') ?>",
-            function() {
-                $('[role="review-save"]').review({
-                    saveMethodUrl:'<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
-                    successUrl:'<?php echo $this->getUrl('checkout/onepage/success') ?>'
-                });
-            });
-    })(jQuery);
-    </script>
 </div>
