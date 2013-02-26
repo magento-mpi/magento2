@@ -61,8 +61,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
         Mage_Launcher_Model_LinkTracker $linkTracker,
         Mage_Core_Model_Theme_Service $themeService,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
             $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $linkTracker, $data
         );
@@ -91,24 +90,15 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
     }
 
     /**
-     * Retrieve Store Config
-     *
-     * @param string $path
-     * @return mixed
-     */
-    public function getConfigValue($path)
-    {
-        return $this->_storeConfig->getConfig($path);
-    }
-
-    /**
-     * Get current theme_id
+     * Retrieve current theme ID
      *
      * @return int|null
      */
     public function getCurrentThemeId()
     {
-        return $this->getConfigValue('design/theme/theme_id');
+        $store = $this->_helperFactory->get('Mage_Launcher_Helper_Data')->getCurrentStoreView();
+        $storeId = $store ? $store->getId() : null;
+        return $this->getConfigValue('design/theme/theme_id', $storeId);
     }
 
     /**

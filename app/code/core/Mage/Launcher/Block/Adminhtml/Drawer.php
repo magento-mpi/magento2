@@ -173,29 +173,31 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
      */
     public function getConfigFlag($path, $store = null)
     {
-        return $this->_storeConfig->getConfigFlag($path);
+        return $this->_storeConfig->getConfigFlag($path, $store);
     }
 
     /**
      * Retrieve store configuration parameter
      *
      * @param string $path
+     * @param mixed $store
      * @return string|null
      */
-    public function getConfigValue($path)
+    public function getConfigValue($path, $store = null)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_storeConfig->getConfig($path, $store);
     }
 
     /**
      * Retrieve store configuration parameter (not-empty value is represented by asterisk sequence)
      *
      * @param string $configPath
+     * @param mixed $store
      * @return string|null
      */
-    public function getObscuredConfigValue($configPath)
+    public function getObscuredConfigValue($configPath, $store = null)
     {
-        $value = $this->getConfigValue($configPath);
+        $value = $this->getConfigValue($configPath, $store);
         if (!empty($value)) {
             return self::SECRET_DATA_DISPLAY_VALUE;
         }

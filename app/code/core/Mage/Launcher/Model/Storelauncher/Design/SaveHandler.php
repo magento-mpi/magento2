@@ -19,6 +19,28 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
     extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
+     * Helper factory
+     *
+     * @var Mage_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     */
+    public function __construct(
+        Mage_Core_Model_Config $config,
+        Mage_Backend_Model_Config $backendConfigModel,
+        Mage_Core_Model_Factory_Helper $helperFactory
+    ) {
+        parent::__construct($config, $backendConfigModel);
+        $this->_helperFactory = $helperFactory;
+    }
+
+
+    /**
      * Retrieve the list of names of the related configuration sections
      *
      * @return array
@@ -42,6 +64,11 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
         ) {
             throw new Mage_Launcher_Exception('Theme is required.');
         }
+        $store = $this->_helperFactory->get('Mage_Launcher_Helper_Data')->getCurrentStoreView();
+        if ($store) {
+            $this->_backendConfigModel->setStore($store->getCode());
+        }
+
         return $data['groups'];
     }
 }

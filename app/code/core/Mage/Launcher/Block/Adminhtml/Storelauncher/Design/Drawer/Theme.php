@@ -25,7 +25,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme extends Ma
      */
     public function getPreviewUrl($themeId)
     {
-        return $this->getUrl('adminhtml/system_design_editor/launch', array(
+        return $this->getUrl('adminhtml/system_design_editor/preview', array(
             'theme_id' => $themeId,
             'mode' => Mage_DesignEditor_Model_State::MODE_NAVIGATION
         ));

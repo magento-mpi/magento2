@@ -222,26 +222,33 @@
                 url:  this.options.assignSaveUrl,
                 data: data,
                 dataType: 'json',
-                success: $.proxy(function(response) {
-                    if (response.error) {
-                        alert($.mage.__('Error') + ': "' + response.message + '".');
-                    } else {
-                        var defaultStore = 0;
-                        var url = [
-                            this.options.afterAssignSaveUrl + 'store_id',
-                            stores ? stores[0] : defaultStore,
-                            'theme_id',
-                            response.themeId
-                        ].join('/');
-                        this.options.storesByThemes[themeId] = stores;
-
-                        document.location = url;
-                    }
-                }, this),
+                success: $.proxy(this.assignSaveThemeSuccess, this),
                 error: function() {
                     alert($.mage.__('Error: unknown error.'));
                 }
             });
+        },
+
+        /**
+         * Assign Save Theme AJAX call Success handler
+         *
+         * @param response
+         */
+        assignSaveThemeSuccess: function(response) {
+            if (response.error) {
+                alert($.mage.__('Error') + ': "' + response.message + '".');
+            } else {
+                var defaultStore = 0;
+                var url = [
+                    this.options.afterAssignSaveUrl + 'store_id',
+                    stores ? stores[0] : defaultStore,
+                    'theme_id',
+                    response.themeId
+                ].join('/');
+                this.options.storesByThemes[themeId] = stores;
+
+                document.location = url;
+            }
         },
 
         /**

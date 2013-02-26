@@ -21,9 +21,21 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
      */
     protected $_drawerBlock;
 
+    /**
+     * Config data array, used in configCallback method
+     *
+     * @var array
+     */
+    protected $_configData;
+
     public function setUp()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
+        $config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $config->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnCallback(array($this, 'configCallback')));
 
         $layout = $this->getMock('Mage_Core_Model_Layout', array('getBlock', 'getChildName'), array(), '', false);
 
@@ -46,9 +58,30 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             ->method('getAllThemes')
             ->will($this->returnValue($this->_getThemes()));
 
+        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(1));
+        $store->expects($this->any())
+            ->method('getCode')
+            ->will($this->returnValue('default'));
+
+        $helperMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
+        $helperMock->expects($this->any())
+            ->method('getCurrentStoreView')
+            ->will($this->returnValue($store));
+
+        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper',
+            array(), array(), '', false, false
+        );
+        $helperFactoryMock->expects($this->any())->method('get')->with('Mage_Launcher_Helper_Data')
+            ->will($this->returnValue($helperMock));
+
         $arguments = array(
             'layout' => $layout,
             'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+            'storeConfig' => $config,
+            'helperFactory' => $helperFactoryMock,
             'linkTracker' => $this->getMock('Mage_Launcher_Model_LinkTracker', array(), array(), '', false),
             'themeService' => $themeService
         );
@@ -57,6 +90,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer',
             $arguments
         );
+
+        $this->_configData = array();
     }
 
     public function tearDown()
@@ -64,6 +99,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
         unset($this->_drawerBlock);
     }
 
+    /**
+     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer::getThemesBlocks
+     */
     public function testGetThemesBlocks()
     {
         $themesBlocks = $this->_drawerBlock->getThemesBlocks();
@@ -83,4 +121,42 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
         }
         return $themes;
     }
+
+    /**
+     * Callback function for getConfig method
+     *
+     * @param string $path
+     * @param mixed $store
+     * @return string
+     */
+    public function configCallback($path, $store = null)
+    {
+        return isset($this->_configData[$store][$path]) ? $this->_configData[$store][$path] : '';
+    }
+
+    /**
+     * Get Config Source data
+     *
+     * @return array
+     */
+    protected function _getConfigSource()
+    {
+        return array(
+            1 => array('design/theme/theme_id' => '118'),
+            null => array('design/theme/theme_id' => '272'),
+        );
+    }
+
+    /**
+     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer::getCurrentThemeId
+     */
+    public function testGetCurrentThemeId()
+    {
+        $this->_configData = $this->_getConfigSource();
+
+        $result = $this->_drawerBlock->getCurrentThemeId();
+
+        $this->assertEquals($result, 118);
+    }
+
 }

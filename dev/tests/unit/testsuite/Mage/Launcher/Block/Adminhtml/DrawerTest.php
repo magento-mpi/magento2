@@ -129,6 +129,7 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
      *
      * @param array $configMap
      * @return Mage_Launcher_Block_Adminhtml_Drawer
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _getDrawerInstanceForGetConfigValueTest(array $configMap)
     {
@@ -139,7 +140,7 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
         $config->expects($this->any())
             ->method('getConfig')
             ->will($this->returnCallback(
-                function ($configPath) use ($configMap) {
+                function ($configPath, $store) use ($configMap) {
                     return isset($configMap[$configPath]) ? $configMap[$configPath] : null;
                 }
             ));
