@@ -53,19 +53,20 @@
     <div id="product-edit-form-tabs"></div>
     <?php echo $this->getChildHtml('product-type-tabs') ?>
     <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
+    <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
 </form>
 <script type="text/javascript">
 
 jQuery(function($) {
+    var $form = $('#product-edit-form');
+
     $('#meta_description').on('change keyup paste', function () {
         var maxLength = $(this).data('maxLength') || 255;
         if ($(this).val().length >= maxLength) {
             $(this).val($(this).val().substr(0, maxLength));
         }
     });
-    $('#product-edit-form')
-        .mage('form')
-        .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+    $form.mage('form').mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
     <?php if ($this->getSelectedTabId()): ?>
     if($('#<?php echo $this->getSelectedTabId() ?>').length) {
@@ -130,8 +131,8 @@ jQuery(function($) {
                     });
                 };
                 if ($field.length) {
-                    $field.bind(events || 'keyup change blur click paste', filler);
-                    filler.call($field, true);
+                    $('#product-edit-form').on(events || 'keyup change blur click paste', '#' + field, filler);
+                    $field.trigger('change');
                 }
 
             });
@@ -157,8 +158,7 @@ jQuery(function($) {
     new TypeSwitcher(<?php echo $this->getTypeSwitcherData();?>).bindAll();
 
     $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
-    var $form = $('#product-edit-form'),
-        fieldSelector = '.required-entry, .required-option-select',
+    var fieldSelector = '.required-entry, .required-option-select',
         updateSaveSplitButtonAvailability = function () {
             var disabled = false;
             $.each($form.find(fieldSelector), function () {

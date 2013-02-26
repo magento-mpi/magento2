@@ -27,13 +27,17 @@
 <script>
     jQuery(function ($) {
         $('#product-template-suggest')
+            //.proxyEvent({events: {suggestselect: {to: '#product-edit-form'}}})
             .suggest(<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
             .on('suggestselect', function (e, selectedItem) {
                 if (selectedItem.id) {
                     var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace(/#[^#]*$/, '');
                     uri += /\?/.test(uri) ? '&' : '?';
                     uri += 'set=' + window.encodeURIComponent(selectedItem.id);
-                    var $form = $('#product-edit-form').attr('action', uri);
+
+                    var $form = $('#product-edit-form');
+                    $form.attr('action', $form.attr('action').replace(/(\/|&|\?)?\bset(\/|=)\d+/g, ''));
+                    $form.find('#attribute_set_id').attr('name', 'set').val(selectedItem.id);
                     $.ajax({
                         url: uri.replace('/edit/', '/new/') + '&popup=1',
                         type: 'post',
@@ -122,7 +126,8 @@
                                     _.difference(elementNames, $newElements.map(nameDataMaper).toArray()),
                                     function(index, elementId) {
                                         $page.find('#attribute-' + elementId + '-container')
-                                            .addClass(removedElementClass);
+                                            .addClass(removedElementClass)
+                                            .addClass('.ignore-validate');
                                     }
                                 );
 
@@ -143,7 +148,7 @@
                                         $elementToMove.insertAfter($elements.get(index - 1))
                                     }
                                     $elementToMove.trigger('contentUpdated');
-                                    $elementToMove.removeClass(removedElementClass);
+                                    $elementToMove.removeClass(removedElementClass).removeClass('.ignore-validate');
                                     $elements = $(fieldSet).find('>.field:not(.' + removedElementClass + ')');
                                 });
                             });
@@ -156,6 +161,7 @@
                     $('#product-template-suggest')
                         .suggest('option', "ajaxData", {current_template_id: selectedItem.id})
                         .val('')
+                        .trigger('change')
                         .trigger('blur');
                 }
 
