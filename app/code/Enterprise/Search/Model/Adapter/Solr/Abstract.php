@@ -357,7 +357,11 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         // Field type defining
         $attributeCode = $attribute->getAttributeCode();
         if (in_array($attributeCode, array('sku'))) {
-            return $attributeCode;
+            if ($target == 'sort') {
+                return 'attr_sort_sku';
+            } else {
+                return $attributeCode;
+            }
         }
 
         if ($attributeCode == 'price') {
