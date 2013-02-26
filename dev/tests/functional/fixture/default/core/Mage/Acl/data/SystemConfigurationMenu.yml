@@ -160,7 +160,7 @@ configuration_menu_default:
         dhl:
     sales_payment_methods:
         saved_cc:
-        cash_on_delivery_payment:
+        cashondelivery:
         banktransfer_payment:
         check_money_order:
         zero_subtotal_checkout:
@@ -359,7 +359,7 @@ configuration_menu_website:
         dhl:
     sales_payment_methods:
         saved_cc:
-        cash_on_delivery_payment:
+        cashondelivery:
         banktransfer_payment:
         check_money_order:
         zero_subtotal_checkout:
