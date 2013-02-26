@@ -32,7 +32,7 @@
         {
             var value = $(event.currentTarget).val();
             value = parseInt(value);
-            value = isNaN(value) ? 0 : value;
+            value = isNaN(value) ? '' : value;
             value = value > this.options.maxSizeValue ? this.options.maxSizeValue : value;
             $(event.currentTarget).val(value);
         },

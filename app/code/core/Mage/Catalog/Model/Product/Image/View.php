@@ -14,6 +14,11 @@
 class Mage_Catalog_Model_Product_Image_View extends Varien_Object
 {
     /**
+     * Separator between location and suffix
+     */
+    const VARNAME_SEPARATOR = ':';
+
+    /**
      * Location suffix for image type
      */
     const SUFFIX_TYPE = 'type';
@@ -119,7 +124,7 @@ class Mage_Catalog_Model_Product_Image_View extends Varien_Object
      */
     public function getLabel()
     {
-        $label = $this->_product->getData($this->getType() . '_label');
+        $label = $this->_product->getData($this->getType() . self::VARNAME_SEPARATOR . 'label');
         if (empty($label)) {
             $label = $this->_product->getName();
         }
@@ -187,6 +192,9 @@ class Mage_Catalog_Model_Product_Image_View extends Varien_Object
      */
     protected function _getImageVar($suffix)
     {
-        return $this->_getConfigView()->getVarValue($this->_module, $this->_location . '_' . $suffix);
+        return $this->_getConfigView()->getVarValue(
+            $this->_module,
+            $this->_location . self::VARNAME_SEPARATOR . $suffix
+        );
     }
 }
