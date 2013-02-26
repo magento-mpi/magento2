@@ -2,6 +2,13 @@
 /**
  * Proxy class for Mage_Backend_Model_Url
  *
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Backend
+ * @copyright   {copyright}
+ * @license     {license_link}
+ *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Mage_Backend_Model_Url_Proxy extends Mage_Backend_Model_Url
