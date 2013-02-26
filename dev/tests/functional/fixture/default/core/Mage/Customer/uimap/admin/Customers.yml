@@ -39,7 +39,7 @@ manage_customers:
                             zip_code: //input[@name='billing_postcode']
                             state: //input[@name='billing_region']
                         links:
-                            open_customer_by_value:
+                            open_customer_by_value: ~
                         pageelements:
                             customer_grid_head: //table[@id='customerGrid_table']/thead/tr[@class='headings']
         buttons:

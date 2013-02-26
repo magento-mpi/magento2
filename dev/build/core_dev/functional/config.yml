@@ -15,33 +15,33 @@
 ################################################################################
 browsers:
     googlechrome: &googlechrome
-         browser: 'Google Chrome'
-         browserName: 'chrome'
-         host: 'localhost'
-         port: 4444
-         seleniumServerRequestsTimeout: 90
-         sessionStrategy: shared
-         desiredCapabilities:
+        browser: 'Google Chrome'
+        browserName: 'chrome'
+        host: '{{selenium_host}}'
+        port: {{selenium_port}}
+        seleniumServerRequestsTimeout: {{selenium_timeout}}
+        sessionStrategy: shared
+        desiredCapabilities:
             platform: ANY
     firefox: &firefox
-         browser: 'Firefox'
-         browserName: 'firefox'
-         host: 'localhost'
-         port: 4444
-         seleniumServerRequestsTimeout: 90
-         sessionStrategy: shared
-         desiredCapabilities:
+        browser: 'Firefox'
+        browserName: 'firefox'
+        host: '{{selenium_host}}'
+        port: {{selenium_port}}
+        seleniumServerRequestsTimeout: {{selenium_timeout}}
+        sessionStrategy: shared
+        desiredCapabilities:
             platform: ANY
     iexplorer: &iexplorer
-         browser: 'Internet Explorer'
-         browserName: 'iexplore'
-         host: 'localhost'
-         port: 4444
-         seleniumServerRequestsTimeout: 90
-         sessionStrategy: shared
-         desiredCapabilities:
+        browser: 'Internet Explorer'
+        browserName: 'iexplore'
+        host: '{{selenium_host}}'
+        port: {{selenium_port}}
+        seleniumServerRequestsTimeout: {{selenium_timeout}}
+        sessionStrategy: shared
+        desiredCapabilities:
             platform: ANY
-    default: *firefox
+    default: *{{selenium_browser}}
 ################################################################################
 #                                                                              #
 #                     Framework configuration                                  #
@@ -62,7 +62,7 @@ framework:
 #                                                                              #
 ################################################################################
 applications:
-    magento2community: &m2ce
+    ce: &ce
         fallbackOrderFixture: 'default'
         fallbackOrderHelper: 'Core'
         design_theme: Default/Magento Demo
@@ -73,13 +73,13 @@ applications:
             password: '123123q'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento2_community/backend/backend/'
+                url: '{{admin_url}}'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento2_community/'
+                url: '{{url}}'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: &paypalSandbox
@@ -92,36 +92,36 @@ applications:
                 url: 'https://developer.paypal.com/'
                 base_page_uimap: 'paypal_developer_home'
                 uimap_path: 'paypal_developer'
-                login: 'paypal_developer_login'
-                password: 'paypal_developer_password'
-    magento2enterprise: &m2ee
+                login: 'ssergunin@ebay.com'
+                password: 'magentoTAF1'
+    ee: &ee
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:
             admin:
-                url: 'http://www.localhost.com/magento2_enterprise/backend/backend/'
+                url: '{{enterprise_admin_url}}'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento2_enterprise/'
+                url: '{{enterprise_url}}'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
     saas: &saas
-        fallbackOrderFixture: 'Saas, enterprise, default'
+        fallbackOrderFixture: 'saas, enterprise, default'
         fallbackOrderHelper: 'Saas, Enterprise, Core'
         application:
             adminLogin: admin
             adminPassword: 123123q
             storeName: Store 1
             failures:
-              tries: 2
-              sleep: 30
+                tries: 2
+                sleep: 30
             basePath: ''
             # overrideRoot (for our server usage only) is a code root as it's seen by browser machine
             overrideRoot: 'D:'
@@ -133,22 +133,22 @@ applications:
             downloadDir: 'var\testdownload'
         areas:
             admin:
-                url: 'http://localhost/Mage2/index.php/backend/admin'
+                url: '{{saas_admin_url}}'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://localhost/Mage2/index.php'
+                url: '{{saas_url}}'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''
                 password: ''
                 mca_preg_replace:
                     replace_1:
-                      pattern: '|(?<=sales/billing_agreement/view/agreement/)([0-9]*)|'
-                      replacement: 'any'
+                        pattern: '|(?<=sales/billing_agreement/view/agreement/)([0-9]*)|'
+                        replacement: 'any'
                     replace_2:
-                      pattern: '|(?<=customer/account/login/)([a-zA-Z\d\-\_\.\?\=]+)|'
-                      replacement: ''
-    default: *m2ee
+                        pattern: '|(?<=customer/account/login/)([a-zA-Z\d\-\_\.\?\=]+)|'
+                        replacement: ''
+    default: *{{selenium_testsuite}}

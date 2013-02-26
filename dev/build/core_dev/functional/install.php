@@ -2,9 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     selenium
- * @subpackage  configuration
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
