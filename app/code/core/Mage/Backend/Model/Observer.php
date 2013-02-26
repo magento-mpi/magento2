@@ -69,7 +69,7 @@ class Mage_Backend_Model_Observer
         /** @var $store Mage_Core_Model_Store */
         foreach ($storeCollection as $store) {
             if ($store->getId() == 0) {
-                $store->setUrlClassName('Mage_Backend_Model_Url');
+                $store->setUrlModel(Mage::getSingleton('Mage_Backend_Model_Url_Proxy'));
                 break;
             }
         }
