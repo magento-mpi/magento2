@@ -149,11 +149,9 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             $template = Mage::getModel('Saas_PrintedTemplate_Model_Template')
                 ->setEntityType($this->getRequest()->getParam('entity_type'));
             $this->_updateTemplate($template);
-
             try {
                 $template->validate();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->getResponse()->setBody($this->__($e->getMessage()));
                 return;
             }
@@ -161,13 +159,14 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
 
         try {
             $mockModel = Mage::getModel(
-                'Saas_PrintedTemplate_Model_Converter_Preview_Mock_' . ucfirst($template->getEntityType()))
-                ->setOrder(Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order'));;
+                'Saas_PrintedTemplate_Model_Converter_Preview_Mock_' . ucfirst($template->getEntityType())
+            )->setOrder(Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order'));
             $pdf = Mage::helper('Saas_PrintedTemplate_Helper_Locator')->getConverter($mockModel, $template)->getPdf();
 
             $this->_prepareDownloadResponse(
                 'preview' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
-                $pdf, 'application/pdf'
+                $pdf,
+                'application/pdf'
             );
         } catch (Mage_Core_Exception $e) {
             // @todo Create AJAX validation to display this error in the 'alert' window
@@ -269,7 +268,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      * Updates content, footer, header, page size and orientation from request
      *
      * @param Saas_PrintedTemplate_Model_Template $template
-     * @return Saas_PrintedTemplate_Adminhtml_TemplateController this
+     * @return Saas_PrintedTemplate_Adminhtml_TemplateController
      */
     protected function _updateTemplate(Saas_PrintedTemplate_Model_Template $template)
     {
@@ -285,25 +284,29 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
 
         $template->setHeaderAutoHeight(!is_null($request->getParam('header_auto_height')));
         if ($template->getHeaderAutoHeight() !== true) {
-            $headerHeight = ($request->getParam('header_height_measurement') == $lengthType)
-                ? Mage::getModel('Saas_PrintedTemplate_Model_RelativeLength',
-                    array('percent' => $request->getParam('header_height')))
-                : new Zend_Measure_Length(
+            if ($request->getParam('header_height_measurement') == $lengthType) {
+                $headerHeight = Mage::getModel('Saas_PrintedTemplate_Model_RelativeLength',
+                    array('percent' => $request->getParam('header_height')));
+            } else {
+                $headerHeight = new Zend_Measure_Length(
                     (float)$request->getParam('header_height'),
                     $request->getParam('header_height_measurement')
                 );
+            }
             $template->setHeaderHeight($headerHeight);
         }
 
-        $template->setFooterAutoHeight(!is_null($request->getParam('footer_auto_height')));
+        $template->setFooterAutoHeight(null !== $request->getParam('footer_auto_height'));
         if ($template->getFooterAutoHeight() !== true) {
-            $footerHeight = ($request->getParam('footer_height_measurement') == $lengthType)
-                ? Mage::getModel('Saas_PrintedTemplate_Model_RelativeLength',
-                    array('percent' => $request->getParam('footer_height')))
-                : new Zend_Measure_Length(
+            if ($request->getParam('footer_height_measurement') == $lengthType) {
+                $footerHeight = Mage::getModel('Saas_PrintedTemplate_Model_RelativeLength',
+                    array('percent' => $request->getParam('footer_height')));
+            } else {
+                $footerHeight = new Zend_Measure_Length(
                     (float)$request->getParam('footer_height'),
                     $request->getParam('footer_height_measurement')
                 );
+            }
             $template->setFooterHeight($footerHeight);
         }
 
@@ -398,7 +401,6 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
 
     /**
      * WYSIWYG Plugin variables
-     *
      */
     public function wysiwygVariablesAction()
     {
