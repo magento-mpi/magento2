@@ -73,21 +73,20 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      */
     public function __construct(
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_App $app,
         Mage_Core_Model_Config $config,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Translate $translator
+        Mage_Core_Helper_Context $context
     ) {
-    
         $this->_dirs = $dirs;
         $this->_app = $app;
         $this->_config = $config;
         $this->_filesystem = $filesystem;
-        parent::__construct($translator);
+        parent::__construct($context);
     }
 
     /**

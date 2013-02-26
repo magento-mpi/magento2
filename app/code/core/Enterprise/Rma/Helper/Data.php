@@ -72,20 +72,20 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Directory_Model_CountryFactory $countryFactory
      * @param Mage_Directory_Model_RegionFactory $regionFactory
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      */
     public function __construct(
         Mage_Core_Model_App $app,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Directory_Model_CountryFactory $countryFactory,
         Mage_Directory_Model_RegionFactory $regionFactory,
-        Mage_Core_Model_Translate $translator
+        Mage_Core_Helper_Context $context
     ) {
         $this->_app = $app;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
-        parent::__construct($translator);
+        parent::__construct($context);
     }
 
     /**

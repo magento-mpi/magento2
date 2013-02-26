@@ -17,9 +17,13 @@
  */
 class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
 {
-    public function __construct(Mage_Core_Model_Translate $translator, Mage_Core_Model_Config $config)
+    /**
+     * @param Mage_Core_Helper_Context $context
+     * @param Mage_Core_Model_Config $config
+     */
+    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $config)
     {
-        parent::__construct($translator);
+        parent::__construct($context);
         $nodes = $config->getNode('global/mime/types');
         if ($nodes) {
             $nodes = (array)$nodes;
