@@ -98,7 +98,7 @@
                 type: 'POST',
                 dataType: 'json',
                 data: this.element.serialize(),
-                context: $(document),
+                context: $('body'),
                 success: $.proxy(this._onSuccess, this),
                 error: $.proxy(this._onError, this),
                 showLoader: true

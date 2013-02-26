@@ -25,7 +25,7 @@ class Enterprise_PageCache_Model_Observer
     /**
      * Page Cache Processor
      *
-     * @var Enterprise_PageCache_Model_Processor
+     * @var Enterprise_PageCache_Model_Cache_ProcessorInterface
      */
     protected $_processor;
 
@@ -63,54 +63,24 @@ class Enterprise_PageCache_Model_Observer
     protected $_fpcCache;
 
     /**
-     * FPC processor restriction model
-     *
-     * @var Enterprise_PageCache_Model_Processor_RestrictionInterface
-     */
-    protected $_restriction;
-
-    /**
-     * Request identifier model
-     *
-     * @var Enterprise_PageCache_Model_Request_Identifier
-     */
-    protected $_requestIdentifier;
-
-    /**
-     * Design rules
-     *
-     * @var Enterprise_PageCache_Model_DesignPackage_Rules
-     */
-    protected $_designRules;
-
-    /**
      * @param Enterprise_PageCache_Model_Processor $processor
-     * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
      * @param Mage_Core_Model_Cache $cache
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Cookie $cookie
-     * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
-     * @param Enterprise_PageCache_Model_DesignPackage_Rules $designRules
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor $processor,
-        Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier,
         Enterprise_PageCache_Model_Config $config,
         Mage_Core_Model_Cache $cache,
         Enterprise_PageCache_Model_Cache $fpcCache,
-        Enterprise_PageCache_Model_Cookie $cookie,
-        Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
-        Enterprise_PageCache_Model_DesignPackage_Rules $designRules
+        Enterprise_PageCache_Model_Cookie $cookie
     ) {
         $this->_processor = $processor;
         $this->_config    = $config;
         $this->_cache = $cache;
         $this->_fpcCache = $fpcCache;
         $this->_cookie = $cookie;
-        $this->_restriction = $restriction;
-        $this->_requestIdentifier = $_requestIdentifier;
-        $this->_designRules = $designRules;
         $this->_isEnabled = $this->_cache->canUse('full_page');
     }
 
@@ -181,12 +151,13 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $cacheId = Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY;
+        $cacheId = Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY;
+
         $exception = $this->_fpcCache->load($cacheId);
         if (!$exception) {
             $exception = Mage::getStoreConfig(self::XML_PATH_DESIGN_EXCEPTION);
             $this->_fpcCache->save($exception, $cacheId);
-            $this->_requestIdentifier->refreshRequestIds();
+            $this->_processor->refreshRequestIds();
         }
         return $this;
     }
@@ -228,7 +199,8 @@ class Enterprise_PageCache_Model_Observer
          * Categories with category event can't be cached
          */
         if ($category && $category->getEvent()) {
-            $this->_restriction->setIsDenied();
+            $request = $observer->getEvent()->getControllerAction()->getRequest();
+            $request->setParam('no_cache', true);
         }
         return $this;
     }
@@ -249,7 +221,8 @@ class Enterprise_PageCache_Model_Observer
          * Categories with category event can't be cached
          */
         if ($product && $product->getEvent()) {
-            $this->_restriction->setIsDenied();
+            $request = $observer->getEvent()->getControllerAction()->getRequest();
+            $request->setParam('no_cache', true);
         }
         return $this;
     }
@@ -609,7 +582,7 @@ class Enterprise_PageCache_Model_Observer
     public function registerDesignExceptionsChange(Varien_Event_Observer $observer)
     {
         $object = $observer->getDataObject();
-        $this->_fpcCache->save($object->getValue(), Enterprise_PageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY,
+        $this->_fpcCache->save($object->getValue(), Enterprise_PageCache_Model_Processor::DESIGN_EXCEPTION_KEY,
                 array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         return $this;
     }
@@ -686,7 +659,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->set(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE, '1', 0);
+        $this->_cookie->set(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE, '1', 0);
         return $this;
     }
 
@@ -701,26 +674,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->delete(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE);
-        return $this;
-    }
-
-    /**
-     * Invalidate design changes cache when design change was added/deleted
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_PageCache_Model_Observer
-     */
-    public function invalidateDesignChange(Varien_Event_Observer $observer)
-    {
-        if (!$this->isCacheEnabled()) {
-            return $this;
-        }
-        /** @var $design Mage_Core_Model_Design */
-        $design = $observer->getEvent()->getObject();
-        $cacheId = $this->_designRules->getCacheId($design->getStoreId());
-        $this->_fpcCache->remove($cacheId);
-
+        $this->_cookie->delete(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
         return $this;
     }
 }

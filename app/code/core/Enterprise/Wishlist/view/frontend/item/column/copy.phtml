@@ -13,16 +13,16 @@
     $wishlists = $this->getWishlists();
 ?>
 <?php if ($this->isMultipleEnabled() && (count($wishlists) || $this->canCreateWishlists($wishlists))): ?>
-    <div class="split-button light" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
-        <strong><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'><?php echo $this->__('Add to Wishlist');?></span></strong>
+    <div class="split-button light">
+        <strong onclick="Enterprise.Wishlist.copyItemTo(<?php echo $item->getId();?>, $(this).up('tr').down('input.qty').value, <?php echo $this->getDefaultWishlist()->getId();?>);"><span><?php echo $this->__('Add to Wishlist');?></span></strong>
         <a href="#" class="change"><?php echo $this->__('Add to:') ?></a>
         <div class="list-container">
             <ul>
                 <?php foreach ($wishlists as $wishlist): ?>
-                    <li><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $wishlist->getId();?>"}' title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
+                    <li onclick="Enterprise.Wishlist.copyItemTo(<?php echo $item->getId();?>, $(this).up('tr').down('input.qty').value, <?php echo $wishlist->getId();?>);"><span title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
                 <?php endforeach;?>
                 <?php if ($this->canCreateWishlists($wishlists)): ?>
-                    <li class="new"><span data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "new":true}' title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
+                    <li class="new" onclick="Enterprise.Wishlist.copyItemToNew(<?php echo $item->getId();?>, $(this).up('tr').down('input.qty').value);"><span title="<?php echo $this->__('Create New Wishlist')?>"><?php echo $this->__('Create New Wishlist')?></span></li>
                 <?php endif;?>
             </ul>
         </div>

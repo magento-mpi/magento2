@@ -140,9 +140,9 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                 'options' => array(
                     'title'   => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Insert Header Separator'),
                     'onclick' => "tinymce.plugins.MagentoheaderfooterPlugin.insertSeparatorToTextarea(
-                        'printedtemplate_content',
-                        '{$this->getHeaderSeparator()}',
-                        '{$this->getHeaderErrorMessage()}');",
+                            'printedtemplate_content',
+                            '{$this->getHeaderSeparator()}',
+                            '{$this->getHeaderErrorMessage()}');",
                     'class'   => 'plugin'
                 ),
             ),
@@ -166,7 +166,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
      */
     protected function getWysiwygJsPluginSrc()
     {
-        return Mage::getBaseUrl('js') . 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
+        return Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentovariable/editor_plugin.js';
     }
 
     /**

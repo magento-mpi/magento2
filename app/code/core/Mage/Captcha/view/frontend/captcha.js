@@ -7,45 +7,30 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($, undefined) {
-    "use strict";
+(function ($, undefined) {
     $.widget('mage.captcha', {
         options: {
-            refreshClass: 'refreshing',
-            reloadSelector: '.captcha-reload',
-            imageSelector: '.captcha-img'
+            refreshClass: 'refreshing'
         },
-
-        /**
-         * Method binds click event to reload image
-         * @private
-         */
-        _create: function() {
-            this.element.on('click', this.options.reloadSelector, $.proxy(this.refresh, this));
+        _create: function () {
+            this.element.on('click', $.proxy(this.refresh, this));
         },
-
-        /**
-         * Method triggeres an AJAX request to refresh the CAPTCHA image
-         * @param e - Event
-         */
-        refresh: function(e) {
-            var reloadImage = $(e.currentTarget);
-            reloadImage.addClass(this.options.refreshClass);
+        refresh: function () {
+            this.element.addClass(this.options.refreshClass);
             $.ajax({
                 url: this.options.url,
                 type: 'post',
                 dataType: 'json',
                 context: this,
-                data: {
-                    'formId': this.options.type
-                },
+                data: {'formId': this.options.formSelector.replace(/^(#|.)/, "")},
                 success: function (response) {
                     if (response.imgSrc) {
-                        this.element.find(this.options.imageSelector).attr('src', response.imgSrc);
+                        $(this.options.formSelector).attr('src', response.imgSrc);
                     }
+                    this.element.removeClass(this.options.refreshClass);
                 },
-                complete: function() {
-                    reloadImage.removeClass(this.options.refreshClass);
+                error: function () {
+                    this.element.removeClass(this.options.refreshClass);
                 }
             });
         }

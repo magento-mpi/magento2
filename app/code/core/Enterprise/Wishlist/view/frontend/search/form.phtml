@@ -13,7 +13,7 @@
 </div>
 
 <?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
-<form action="<?php echo $this->getActionUrl() ?>" method="get" id="wishlist-search-form">
+<form action="<?php echo $this->getActionUrl() ?>" method="get" id="wishlist_search_form">
     <div class="fieldset">
         <h2 class="legend"><?php echo $this->__('Search Options') ?></h2>
         <ul class="form-list">
@@ -43,7 +43,7 @@
 
 <div class="divider"></div>
 
-<form action="<?php echo $this->getActionUrl() ?>" method="get" id="wishlist-search-email-form">
+<form action="<?php echo $this->getActionUrl() ?>" method="get" id="wishlist_search_email_form">
     <div class="fieldset">
         <ul class="form-list">
             <li>
@@ -64,15 +64,8 @@
 <div class="divider"></div>
 
 <script type="text/javascript">
-                (function($) {
-                    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-                        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-                        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-                        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                            $('#wishlist-search-form')
-                                .add('#wishlist-search-email-form').validation();
-                        });
-                })(jQuery);
+//<![CDATA[
+var wishlistSearchForm = new VarienForm('wishlist_search_form');
+var wishlistSearchEmailForm = new VarienForm('wishlist_search_email_form');
+//]]>
 </script>
-
-

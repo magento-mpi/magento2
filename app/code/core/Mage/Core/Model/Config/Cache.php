@@ -65,13 +65,6 @@ class Mage_Core_Model_Config_Cache
     protected $_cacheLifetime;
 
     /**
-     * Config container
-     *
-     * @var Mage_Core_Model_Config_Container
-     */
-    protected $_loadedConfig = null;
-
-    /**
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Config_Sections $configSections
      * @param Mage_Core_Model_Config_ContainerFactory $containerFactory
@@ -166,17 +159,14 @@ class Mage_Core_Model_Config_Cache
      */
     public function load()
     {
-        $canUse = $this->_cache->canUse('config');
-        if (!$this->_loadedConfig) {
-            $config = ($canUse && false == $this->_isLocked())
-                ? $this->_cache->load($this->_cacheId)
-                : false;
+        $config = ($this->_cache->canUse('config') && false == $this->_isLocked())
+            ? $this->_cache->load($this->_cacheId)
+            : false;
 
-            if ($config) {
-                $this->_loadedConfig = $this->_containerFactory->create(array('sourceData' => $config));
-            }
+        if ($config) {
+            $config = $this->_containerFactory->create(array('sourceData' => $config));
         }
-        return $canUse && $this->_loadedConfig ? $this->_loadedConfig: false;
+        return $config;
     }
 
     /**
@@ -217,7 +207,6 @@ class Mage_Core_Model_Config_Cache
      */
     public function clean()
     {
-        $this->_loadedConfig = null;
         return $this->_cache->clean(array(Mage_Core_Model_Config::CACHE_TAG));
     }
 

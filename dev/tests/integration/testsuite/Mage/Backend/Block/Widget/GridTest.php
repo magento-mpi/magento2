@@ -68,7 +68,6 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
      */
     protected function _getColumnSetMock()
     {
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
         return $this->getMock('Mage_Backend_Block_Widget_Grid_ColumnSet', array(), array(
             Mage::getModel('Mage_Core_Controller_Request_Http'),
             Mage::getModel('Mage_Core_Model_Layout'),
@@ -81,9 +80,9 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             Mage::getModel('Mage_Core_Model_Store_Config'),
             Mage::getModel('Mage_Core_Controller_Varien_Front'),
             Mage::getModel('Mage_Core_Model_Factory_Helper'),
-            new Mage_Core_Model_Dir($filesystem, __DIR__),
+            new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File()),
             Mage::getModel('Mage_Core_Model_Logger'),
-            $filesystem,
+            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
             Mage::getModel('Mage_Backend_Helper_Data'),
             Mage::getModel('Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory'),
             Mage::getModel('Mage_Backend_Model_Widget_Grid_SubTotals'),

@@ -32,13 +32,6 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     const CACHE_TAG              = 'CORE_DESIGN';
 
     /**
-     * Prefix of model events names
-     *
-     * @var string
-     */
-    protected $_eventPrefix = 'core_design';
-
-    /**
      * Model cache tag for clear cache in after save and after delete
      *
      * When you use true - all cache will be clean
@@ -69,13 +62,13 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
         }
 
         $changeCacheId = 'design_change_' . md5($storeId . $date);
-        $result = $this->_cacheManager->load($changeCacheId);
+        $result = Mage::app()->loadCache($changeCacheId);
         if ($result === false) {
             $result = $this->getResource()->loadChange($storeId, $date);
             if (!$result) {
                 $result = array();
             }
-            $this->_cacheManager->save(serialize($result), $changeCacheId, array(self::CACHE_TAG), 86400);
+            Mage::app()->saveCache(serialize($result), $changeCacheId, array(self::CACHE_TAG), 86400);
         } else {
             $result = unserialize($result);
         }
@@ -90,14 +83,13 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     /**
      * Apply design change from self data into specified design package instance
      *
-     * @param Mage_Core_Model_Design_PackageInterface $packageInto
+     * @param Mage_Core_Model_Design_Package $packageInto
      * @return Mage_Core_Model_Design
      */
-    public function changeDesign(Mage_Core_Model_Design_PackageInterface $packageInto)
+    public function changeDesign(Mage_Core_Model_Design_Package $packageInto)
     {
-        $design = $this->getDesign();
-        if ($design) {
-            $packageInto->setDesignTheme($design);
+        if ($this->getDesign()) {
+            $packageInto->setDesignTheme($this->getDesign());
         }
         return $this;
     }

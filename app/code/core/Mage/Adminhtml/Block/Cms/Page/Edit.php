@@ -125,6 +125,14 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
                         .tabs('option', 'tabIdArgument', 'active_tab');
                 });
             })(jQuery);
+            jQuery(function() {
+                var tabsElement = jQuery(\"#" . $tabsBlock->getId() ."\");
+                tabsElement.on('tabscreate', function() {
+                    tabsElement
+                        .tabs('option', 'tabsBlockPrefix', '" . $tabsBlockPrefix . "')
+                        .tabs('option', 'tabIdArgument', 'active_tab');
+                });
+            });
         ";
         return parent::_prepareLayout();
     }

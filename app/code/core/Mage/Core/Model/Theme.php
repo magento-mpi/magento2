@@ -161,7 +161,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $validator = $this->_objectManager->get('Mage_Core_Model_Theme_Validator');
         if (!$validator->validate($this)) {
             $messages = $validator->getErrorMessages();
-            throw new Mage_Core_Exception(implode(PHP_EOL, reset($messages)));
+            Mage::throwException(implode(PHP_EOL, reset($messages)));
         }
         return $this;
     }
@@ -273,9 +273,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _applyCustomizationFiles()
     {
-        if (!$this->isCustomized()) {
-            return $this;
-        }
         /** @var $link Mage_Core_Model_Theme_Customization_Link */
         $link = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Link');
         $link->setThemeId($this->getId())->changeCustomFilesUpdate();
@@ -314,7 +311,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $this->_applyCustomizationFiles();
         }
 
-        $this->_checkAssignedThemeChanged();
+        /** @var $service Mage_Core_Model_Theme_Service */
+        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
+        if ($service->isThemeAssignedToStore($this)) {
+            $this->_eventDispatcher->dispatch('assigned_theme_save_after');
+        }
         return parent::_afterSave();
     }
 
@@ -332,31 +333,16 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Processing theme before deleting data
      *
-     * @return Mage_Core_Model_Theme
      * @throws Mage_Core_Exception
+     * @return Mage_Core_Model_Theme
      */
     protected function _beforeDelete()
     {
         if (!$this->isDeletable()) {
-            throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
+            Mage::throwException($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->getThemeImage()->removePreviewImage();
         return parent::_beforeDelete();
-    }
-
-    /**
-     * Check is theme assigned to store and dispatch event if that was changed
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _checkAssignedThemeChanged()
-    {
-        /** @var $service Mage_Core_Model_Theme_Service */
-        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-        if ($service->isThemeAssignedToStore($this)) {
-            $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
-        }
-        return $this;
     }
 
     /**

@@ -15,7 +15,7 @@ class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_
     public function processAction()
     {
         /**
-         * @var $processor Enterprise_PageCache_Model_Processor
+         * @var $processor Enterprise_PageCache_Model_Cache_ProcessorInterface
          */
         $processor  = $this->_objectManager->get('Enterprise_PageCache_Model_Processor');
 

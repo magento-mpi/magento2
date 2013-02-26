@@ -76,7 +76,7 @@
         <label>Customer GiftRegistry Search Form</label>
         <update handle="page_calendar"/>
         <reference name="content">
-            <block type="Enterprise_GiftRegistry_Block_Search_Form" name="giftregistry.search.form"  template="search/form.phtml"></block>
+            <block type="Enterprise_GiftRegistry_Block_Search_Form" name="giftregistry.search.form" template="search/form.phtml"></block>
         </reference>
     </enterprise_giftregistry_search_index>
 
@@ -92,7 +92,7 @@
 
     <enterprise_giftregistry_search_advanced translate="label" type="page" parent="enterprise_giftregistry_search_index">
         <label>Customer GiftRegistry Advanced Search Form</label>
-        <block type="Enterprise_GiftRegistry_Block_Search_Advanced" name="root" output="1" template="search/advanced.phtml"></block>
+        <block type="Enterprise_GiftRegistry_Block_Search_Advanced" name="root" template="search/advanced.phtml"></block>
     </enterprise_giftregistry_search_advanced>
 
     <enterprise_giftregistry_view_index translate="label" type="page" parent="enterprise_giftregistry_index_share">

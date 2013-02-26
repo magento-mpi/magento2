@@ -78,11 +78,10 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $config->expects($this->once())
             ->method('getModelInstance')
             ->with('Mage_Captcha_Model_Zend')
-            ->will($this->returnValue(
-            new Mage_Captcha_Model_Default($objectManager, array('formId' => 'user_create'))));
+            ->will($this->returnValue(new Mage_Captcha_Model_Zend($objectManager, array('formId' => 'user_create'))));
 
         $helper = $this->_getHelper($store, $config);
-        $this->assertInstanceOf('Mage_Captcha_Model_Default', $helper->getCaptcha('user_create'));
+        $this->assertInstanceOf('Mage_Captcha_Model_Zend', $helper->getCaptcha('user_create'));
     }
 
     /**
@@ -121,7 +120,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Default::getImgDir
+     * @covers Mage_Captcha_Model_Zend::getImgDir
      * @covers Mage_Captcha_Helper_Data::getImgDir
      */
     public function testGetImgDir()
@@ -140,7 +139,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Captcha_Model_Default::getImgUrl
+     * @covers Mage_Captcha_Model_Zend::getImgUrl
      * @covers Mage_Captcha_Helper_Data::getImgUrl
      */
     public function testGetImgUrl()

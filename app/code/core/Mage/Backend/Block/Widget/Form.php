@@ -12,6 +12,7 @@
  * Backend form widget
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.numberOfChildren)
  */
 class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
 {

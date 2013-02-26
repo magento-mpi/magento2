@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Enterprise_PageCache_Model_ObjectManager_Configurator extends Mage_Core_Model_ObjectManager_ConfigAbstract
 {
     /**
@@ -20,7 +21,7 @@ class Enterprise_PageCache_Model_ObjectManager_Configurator extends Mage_Core_Mo
             'Enterprise_PageCache_Model_Cache' => array(
                 'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
             ),
-            'Enterprise_PageCache_Model_Request_Identifier' => array(
+            'Enterprise_PageCache_Model_Processor' => array(
                 'parameters' => array('scopeCode' => $this->_getParam(Mage::PARAM_RUN_CODE, '')),
             ),
         ));
