@@ -10,34 +10,31 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer */
 ?>
-<form action="" id="drawer-form" method="post">
-    <span>
-        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Get started by adding a single product') ?>
-    </span>
-    <?php echo $this->getGeneralTabContent();?>
-
-    <?php echo $this->getChildBlock('new-category')->setUseContainer(false)->toHtml();?>
-    <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>
-
-    <!-- Field below used by TypeSwitcher to hide unneeded attributes for Simple product -->
-    <input type="hidden" value="simple" name="type_id" id="type_id" />
-    <?php echo $this->getChildBlock('product_edit')->setUseContainer(false)->toHtml();?>
-
-    <div>
-        <h4 class="title">Import Products to Catalog</h4>
-        <ul>
+<form action="" id="drawer-form" class="add-product-form" method="post">
+    <div class="add-product">
+        <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Create Simple Product') ?></h2>
+        <?php  echo $this->getGeneralTabContent();?>
+        <?php echo $this->getChildBlock('new-category')->setUseContainer(false)->toHtml();?>
+        <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>
+        <!-- Field below used by TypeSwitcher to hide unneeded attributes for Simple product -->
+        <input type="hidden" value="simple" name="type_id" id="type_id" />
+        <?php echo $this->getChildBlock('product_edit')->setUseContainer(false)->toHtml();?>
+    </div>
+    <div class="import-products">
+        <h2 class="title">Import Products to Catalog</h2>
+        <ul class="import-options">
             <li>
-                Create the relevant product
+                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Create the relevant product') ?>
                 <a target="_blank" href="<?php echo $this->getUrl('adminhtml/catalog_category'); ?>"><?php echo $this->__('categories'); ?></a>
-                for your products
+                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('for your products') ?>
             </li>
             <li>
                 <a target="_blank" href="<?php echo $this->getUrl('adminhtml/export'); ?>"><?php echo $this->__('Export the guideline'); ?></a>
-                for products
+                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('for products') ?>
             </li>
             <li>
                 <a target="_blank" href="<?php echo $this->getUrl('adminhtml/import'); ?>"><?php echo $this->__('Import the products'); ?></a>
-                to the system
+                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('to the system') ?>
             </li>
         </ul>
     </div>

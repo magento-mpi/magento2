@@ -22,13 +22,13 @@
             <p><?php echo $this->__('We recommend that you configure the Homepage on you new site following these steps') ?></p>
             <ul class="checklist">
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/report_product/viewed'); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Products - Most Viewed Report') ?></a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Products - Most Viewed Report') ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/report/search'); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Search Terms') ?></a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Search Terms') ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/report_shopcart/abandoned'); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Abandoned Carts') ?></a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Abandoned Carts') ?></a></li>
             </ul>
         </div>
     </form>

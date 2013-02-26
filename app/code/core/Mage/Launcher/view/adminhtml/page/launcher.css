@@ -80,9 +80,15 @@
 
 /* For browsers without css3 selectors support */
 .tile-store-settings:first-child + .tile-store-settings + .tile-store-settings + .tile-store-settings,
-.tile-store-settings:first-child {
+.tile-store-settings:first-child,
+.eq-ie8 .tile-home-page,
+.eq-ie8 .tile-customer-communication {
     margin-left: 0;
     clear: left;
+}
+
+.eq-ie8 .tile-home-page {
+
 }
 
 .tile-teaser,
@@ -320,7 +326,7 @@
     color: #666;
     font-size: 13px;
     margin-left: 0;
-}
+ }
 
 .drawer-content .field .label .required {
     display: none;
@@ -601,7 +607,7 @@
 }
 
 .tax-rule-info .field .control {
-    width: 47%;
+    width: 60%;
     margin: 0;
 }
 
@@ -834,6 +840,7 @@
 
 .store-info-form .label {
     width: 30%;
+    padding-right: 20px;
 }
 
 .store-info-form .legend {
@@ -2332,6 +2339,438 @@
     left: 63%;
 }
 
+/* Product drawer */
+.add-product {
+    float: left;
+    width: 72%;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+}
+
+.add-product .title {
+    margin: 0 20px;
+    padding: 10px 0;
+    font-size: 20px;
+    color: #676056;
+    border-bottom: 1px solid #ededed;
+}
+
+.add-product .fieldset {
+    padding: 20px 15px;
+}
+
+.add-product .field .label {
+    padding-right: 20px;
+}
+
+.import-products {
+    width: 25%;
+    float: right;
+}
+
+.import-products .title {
+    margin: 11px 0 14px 0;
+    font-size: 20px;
+    color: #676056;
+}
+
+.add-product .field-weight .input-text {
+    width: 80%;
+}
+
+.add-product .field-weight .field:first-child {
+    width: 45%;
+}
+
+.add-product .field-weight .choice,
+.add-product .field-service {
+    display: none;
+}
+
+.add-product .label {
+    width: 26%;
+}
+
+.add-product .field-category_ids .category-select {
+    width: 99%;
+}
+
+.add-product .field-price .control {
+    position: relative;
+}
+
+.add-product .field-price label.mage-error {
+    position: absolute;
+    left: 0;
+    top: 30px;
+}
+
+.import-products .field-service {
+    display: none;
+}
+
+.import-products .import-options {
+    margin: 14px 0;
+    padding: 0 0 0 18px;
+}
+
+.import-options li {
+    margin-bottom: 10px;
+}
+
+/* TODO@ Remove after merge with master and OWLS */
+
+.mage-new-category-dialog.ui-dialog {
+    background: #fff;
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .4);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .4);
+}
+
+.mage-new-category-dialog.dialog.ui-dialog {
+    border: 1px solid #555;
+    display: none;
+    padding: 0;
+}
+
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-titlebar {
+    background: #f3efea;
+    height: 58px;
+    padding: 0;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-title {
+    color: #676056;
+    font: normal 20px/1 'CallunaSans';
+    display: block;
+    padding: 19px 0 19px 20px;
+    cursor: move;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-icon {
+    text-indent: -99999px;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-titlebar-close {
+    background: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 18px;
+    right: 16px;
+    height: 16px;
+    width: 16px;
+    z-index: 1000;
+    text-decoration: none;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-titlebar-close:before {
+    color: #676056;
+    content: "\e07d";
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-titlebar-close .ui-icon {
+    display: none;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-titlebar-close.ui-state-hover {
+    border: none;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-content {
+    padding: 10px 10px 0;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-content .fieldset {
+    border-radius: 0;
+    border: none;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-content {
+    overflow: auto;
+    padding: 25px 25px 0;
+    background: #fff;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-content form {
+    display: block;
+    overflow: hidden;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-buttonpane {
+    margin: 0;
+    padding: 25px;
+    border: none;
+    background: #fff;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-buttonset {
+    text-align: right;
+    padding: 0;
+}
+
+.mage-new-category-dialog.ui-dialog .ui-dialog-buttonset button {
+    margin-left: 10px;
+}
+
+/*
+    Styles for tables in popup window
+-------------------------------------- */
+.dialog .bot {
+    display: none !important;
+}
+
+.overlay_magento {
+    background-color: #000;
+    filter: alpha(opacity = 44);
+    -moz-opacity: .44;
+    -webkit-opacity: .44;
+    opacity: .44;
+}
+
+#catalog-wysiwyg-editor .top.table_window td,
+#catalog-wysiwyg-editor .top.table_window td:hover {
+    background: #f3efea;
+    border: 0;
+}
+
+#catalog-wysiwyg-editor .mid.table_window td,
+#catalog-wysiwyg-editor .mid.table_window td:hover {
+    background: #fff;
+    border: 0;
+}
+
+#catalog-wysiwyg-editor .magento_nw,
+#catalog-wysiwyg-editor .magento_ne,
+#catalog-wysiwyg-editor .magento_w,
+#catalog-wysiwyg-editor .magento_e,
+#catalog-wysiwyg-editor .magento_sw,
+#catalog-wysiwyg-editor .magento_se {
+    display: none;
+}
+
+#catalog-wysiwyg-editor .magento_sizer {
+    background: #deebf0;
+    width: 5px;
+    height: 3px;
+}
+
+#catalog-wysiwyg-editor .magento_sizer {
+    cursor: se-resize;
+}
+
+#catalog-wysiwyg-editor .magento_close {
+    background: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 18px;
+    right: 16px;
+    height: 16px;
+    width: 16px;
+    z-index: 1000;
+    text-decoration: none;
+}
+
+#catalog-wysiwyg-editor .magento_close:before {
+    color: #676056;
+    content: "\e07d";
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+#catalog-wysiwyg-editor .magento_title {
+    color: #676056;
+    font: 20px/1 'CallunaSans', Arial, Helvetica, sans-serif;
+    padding: 20px 0 19px 20px;
+}
+
+#catalog-wysiwyg-editor .magento_content {
+    height: auto !important;
+    margin: 0 auto;
+    background: #fff;
+}
+
+#catalog-wysiwyg-editor .magento_buttons {
+    padding: 10px;
+    text-align: right;
+}
+
+#catalog-wysiwyg-editor.popup-window .main-col,
+#catalog-wysiwyg-editor.popup-window .side-col {
+    float: left;
+}
+
+#catalog-wysiwyg-editor.popup-window .main-col:after,
+#catalog-wysiwyg-editor.popup-window .side-col:after {
+    display: none;
+}
+
+#catalog-wysiwyg-editor.popup-window .main-col {
+    padding-right: 0;
+}
+
+.magento_message {
+    padding: 19px;
+    position: relative;
+}
+.magento_message > .page-actions {
+    padding-top: 0;
+}
+
+#catalog-wysiwyg-editor.popup-window .magento_message .fieldset {
+    border: 0;
+}
+
+#catalog-wysiwyg-editor.popup-window .magento_message .fieldset select {
+    border-radius: 4px;
+}
+
+#catalog-wysiwyg-editor.popup-window .magento_message .fieldset select {
+    border-radius: 4px;
+}
+
+#catalog-wysiwyg-editor.popup-window .magento_message .fieldset .addon select {
+    display: block;
+}
+
+#catalog-wysiwyg-editor.popup-window .magento_message .fieldset .addon .addafter {
+    border: 0;
+    color: #666;
+    display: block;
+}
+
+#catalog-wysiwyg-editor.popup-window .magento_message .fieldset .nm {
+    margin: 4px 0 0;
+}
+
+#catalog-wysiwyg-editor.popup-window .magento_message .fieldset .nm small {
+    font-size: 11px;
+    font-weight: normal;
+}
+
+#catalog-wysiwyg-editor.popup-window .magento_message .fieldset .widget-option-label {
+    padding: 5px 0 0;
+}
+
+#catalog-wysiwyg-editor.popup-window [id$="_focus_anchor"]:focus {
+    outline: none;
+}
+
+#catalog-wysiwyg-editor.popup-window .page-actions {
+    padding: 0;
+    position: absolute;
+    right: 19px;
+    top: 29px;
+    z-index: 2;
+}
+
+#catalog-wysiwyg-editor.popup-window label.mage-error {
+    display: block;
+    margin: -29px 0 5px;
+}
+
+#catalog-wysiwyg-editor.popup-window .select + .mage-error {
+    margin: 5px 0 0;
+}
+
+#catalog-wysiwyg-editor.popup-window .data {
+    border-collapse: inherit; /* do not remove this! without this rule in FF when table has only 1 row bottom and side borders disappear */
+    width: 100%;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid .data {
+    border-left: 1px solid #c0bbaf;
+    border-right: 1px solid #c0bbaf;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid .data tr:last-child td {
+    border-bottom-color: #c0bbaf;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tr.headings th,
+#catalog-wysiwyg-editor.popup-window .grid tr.filter th {
+    background: #fff;
+    border-color: #c9c2b8;
+    border-width: 0 0 1px;
+    color: #666;
+    padding: 3px 7px;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tr.headings th a {
+    color: #666;
+}
+
+#catalog-wysiwyg-editor.popup-window .data tr.headings th:hover > span {
+    border-color: #cac2b5;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tr.headings th a:after {
+    color: #dbd6ce;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tr.headings th a:hover:after {
+    color: #cac2b5;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid .filter input.input-text,
+#catalog-wysiwyg-editor.popup-window .grid .filter select {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #666;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tr th:first-child {
+    border: 0;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tbody tr:first-child td {
+    border-top: 1px solid #eae8e4;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tbody tr td,
+#catalog-wysiwyg-editor.popup-window .grid tbody tr td:hover {
+    border-bottom: 1px solid #eae8e4;
+    padding: 3px 7px;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tbody tr:nth-child(odd) td,
+#catalog-wysiwyg-editor.popup-window .grid tbody tr:nth-child(odd):hover td {
+    background: #fbfaf6;
+}
+
+#catalog-wysiwyg-editor.popup-window .grid tr.on-mouse td,
+#catalog-wysiwyg-editor.popup-window .grid table tbody tr.on-mouse:hover td,
+#catalog-wysiwyg-editor.popup-window .grid table tbody tr.on-mouse:nth-child(odd):hover td {
+    background-color: #f3efea;
+}
+
+#catalog-wysiwyg-editor.popup-window .data .col-id {
+    width: 35px;
+}
+
+#catalog-wysiwyg-editor.popup-window .data .col-sku {
+    width: 27%;
+}
+
+#catalog-wysiwyg-editor_table_content {
+    padding: 0;
+}
+
+#catalog-wysiwyg-editor .defaultSkin table.mceLayout {
+    border: 1px solid #ccc;
+}
+
 /* Clearfix */
 .store-launcher-content:before,
 .store-launcher-content:after,
@@ -2411,7 +2850,7 @@
     display: none;
 }
 
-/* TODO@ Remove after merge with master*/
+/* TODO@ Remove after merge with master */
 .switcher {
     -webkit-touch-callout: none;
     -webkit-user-select: none;

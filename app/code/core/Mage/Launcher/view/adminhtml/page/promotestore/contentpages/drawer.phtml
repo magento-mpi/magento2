@@ -22,19 +22,19 @@
             <p><?php echo $this->__('We recommend that you configure the Homepage on you new site following these steps') ?></p>
             <ul class="checklist">
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/cms_page/edit', array('page_id' => 3)); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Configure About Us') ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Configure About Us') ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/cms_page/edit', array('page_id' => 4)); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Configure Customer Service') ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Configure Customer Service') ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/cms_page/edit', array('page_id' => 6)); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Configure Privacy Policy') ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Configure Privacy Policy') ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/checkout_agreement/new'); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Configure Terms and Conditions') ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Configure Terms and Conditions') ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/cms_page/edit', array('page_id' => 1)); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>"><?php echo $this->__('Configure Customer 404') ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Configure Customer 404') ?></a></li>
             </ul>
         </div>
     </form>

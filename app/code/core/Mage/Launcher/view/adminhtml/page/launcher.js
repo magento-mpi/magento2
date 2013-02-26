@@ -127,6 +127,7 @@
                 bodyHeight = $('body').outerHeight() + 500;
 
             this._drawerMinHeight();
+            window.scrollTo(0, 0);
 
             elem
                 .css('top', bodyHeight)
@@ -196,7 +197,6 @@
                     drawerSwitcherCheckbox.prop('id', drawerSwitcherId);
                     this.drawerHeaderInner.append(drawerSwitcherCopy);
                 }
-                $('body').trigger('hideLoadingPopup');
             } else if (result && result.error_message) {
                 alert(result.error_message);
             }
@@ -218,7 +218,6 @@
             try {
                 var hashString = $(this).closest('.tile-store-settings').attr('id');
                 window.location.hash = hashString.replace('tile-', '');
-                $('body').loadingPopup();
             } catch(err) {
                 return false;
             }
