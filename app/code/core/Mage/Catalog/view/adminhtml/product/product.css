@@ -504,8 +504,8 @@
     width: 45%;
 }
 
-#configurable-attributes-container .pricing-value {
-    text-align: right;
+#configurable-attributes-container .field-change-pricing .fields-group-2 > .field:first-child {
+    margin-right: 5px;
 }
 
 #generate-variations-button {
