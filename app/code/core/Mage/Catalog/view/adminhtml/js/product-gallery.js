@@ -46,12 +46,13 @@
                 setImageType: '_setImageType',
                 setPosition: '_setPosition',
                 resort: '_resort',
-                'click [data-role="delete-button"]': function(event) {
+                'mouseup [data-role="delete-button"]': function(event) {
                     event.preventDefault();
                     var $imageContainer = $(event.currentTarget).closest(this.options.imageSelector);
+                    this.element.find('[data-role="dialog"]').trigger('close');
                     this.element.trigger('removeItem', $imageContainer.data('imageData'));
                 },
-                'click [data-role="make-main-button"]': function(event) {
+                'mouseup [data-role="make-main-button"]': function(event) {
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     var $imageContainer = $(event.currentTarget).closest(this.options.imageSelector);
@@ -164,11 +165,15 @@
          * @param data
          * @private
          */
-        _setImageType: function(event, data){
-            this.element.find('.base-image').removeClass('base-image');
+        _setImageType: function(event, data) {
+            if (data.type === 'image') {
+                this.element.find('.base-image').removeClass('base-image');
+            }
             if (data.imageData) {
                 this.options.types[data.type].value = data.imageData.file;
-                this.findElement(data.imageData).addClass('base-image');
+                if (data.type === 'image') {
+                    this.findElement(data.imageData).addClass('base-image');
+                }
             } else {
                 this.options.types[data.type].value = 'no_selection';
             }
@@ -235,9 +240,16 @@
             events['click .action-close'] = function() {
                 this.element.find('[data-role="dialog"]').trigger('close');
             };
-            events['click ' + this.options.imageSelector] = function(event) {
-                $(event.currentTarget).addClass('active');
-                this._showDialog($(event.currentTarget).data('imageData'));
+            events['mouseup ' + this.options.imageSelector] = function(event) {
+                if (!$(event.currentTarget).is('.ui-sortable-helper')) {
+                    $(event.currentTarget).addClass('active');
+                    this._showDialog($(event.currentTarget).data('imageData'));
+                }
+            };
+            events['click .action-remove'] = function (event) {
+                var $imageContainer = $(event.currentTarget).closest('[data-role="dialog"]').data('imageContainer');
+                this.element.find('[data-role="dialog"]').trigger('close');
+                this.element.trigger('removeItem', $imageContainer.data('imageData'));
             };
             this._on(events);
             this.element.on('sortstart addItem', $.proxy(function() {
@@ -306,11 +318,15 @@
                         $(event.target)
                             .find('[data-role="type-selector"]')
                             .each($.proxy(function(index, checkbox) {
-                                var $checkbox = $(checkbox);
+                                var $checkbox = $(checkbox),
+                                    parent = $checkbox.closest('.item'),
+                                    selectedClass = 'selected',
+                                    isChecked = this.options.types[$checkbox.val()].value == imageData.file;
                                 $checkbox.prop(
                                     'checked',
-                                    this.options.types[$checkbox.val()].value == imageData.file
+                                    isChecked
                                 );
+                                parent.toggleClass(selectedClass, isChecked);
                             }, this));
                         this._setImagePointerPosition($imageContainer, dialogElement);
 
