@@ -39,7 +39,7 @@ class Mage_Core_Model_Theme_Customization_Files_CssTest extends PHPUnit_Framewor
             ->method('addData')
             ->with(array(
                 'theme_id'  => $themeId,
-                'file_path' => Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS,
+                'file_path' => 'css/custom.css',
                 'file_type' => Mage_Core_Model_Theme_Files::TYPE_CSS,
                 'content'   => $cssContent
             ))
@@ -55,7 +55,7 @@ class Mage_Core_Model_Theme_Customization_Files_CssTest extends PHPUnit_Framewor
         $themeModel = $this->_getMockThemeModel($themeId);
 
         $modelCssFile = new Mage_Core_Model_Theme_Customization_Files_Css($filesModel);
-        $modelCssFile->setDataForSave($cssContent);
+        $modelCssFile->setDataForSave(array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $cssContent));
         $modelCssFile->saveData($themeModel);
     }
 
@@ -78,6 +78,11 @@ class Mage_Core_Model_Theme_Customization_Files_CssTest extends PHPUnit_Framewor
             ->expects($this->at(1))
             ->method('addFilter')
             ->with('file_type', Mage_Core_Model_Theme_Files::TYPE_CSS)
+            ->will($this->returnValue($filesCollection));
+        $filesCollection
+            ->expects($this->at(2))
+            ->method('addFilter')
+            ->with('file_path', 'css/custom.css')
             ->will($this->returnValue($filesCollection));
         $filesCollection
             ->expects($this->once())

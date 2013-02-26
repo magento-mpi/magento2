@@ -117,7 +117,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
             'layout' => $layoutMock,
             'urlBuilder' => $this->_urlModelMock,
             'configStructure' => $this->_systemConfigMock,
-            'configFactory' => $configFactoryMock,
+            'configBuilder' => $configFactoryMock,
             'formFactory' => $this->_formFactoryMock,
             'cloneModelFactory' => $cloneFactoryMock,
             'fieldsetFactory' => $this->_fieldsetFactoryMock,
