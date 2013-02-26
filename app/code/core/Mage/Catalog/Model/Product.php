@@ -97,20 +97,18 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_calculatePrice = true;
 
     /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Mage_Catalog_Model_Resource_Product $resource
      * @param Mage_Catalog_Model_Resource_Product_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Mage_Catalog_Model_Resource_Product $resource,
         Mage_Catalog_Model_Resource_Product_Collection $resourceCollection,
         array $data = array()
     ) {
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
