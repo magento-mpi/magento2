@@ -60,6 +60,7 @@
     hierarchyNodes = {
         nodes: <?php echo $treeNodes ?>,
         removedNodes: $A(),
+
         initialize: function(){
             this.increment = 0;
             this.pageIdentifiers = $H({});
@@ -266,7 +267,7 @@
             this._changeNodePropShow(hasPageId);
 
             // change main fieldset title
-            $('node_properties_fieldset').previous().down('.icon-head').innerHTML = hasPageId
+            $('node_properties_fieldset').down('.legend span').innerHTML = hasPageId
                 ? '<?php echo $this->getPageFieldsetLegend()?>'
                 : '<?php echo $this->getNodeFieldsetLegend()?>';
 
@@ -284,13 +285,13 @@
             if ((isStoreViewLevel || isNodePreviewAvailable) && isNodeSaved) {
                 var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
                 if (nodeUrlInfo != false) {
-                    $('node_preview').up(1).show();
+                    $('node_preview').up('.field').show();
                     $('node_preview').writeAttribute('target', '_blank');
                     $('node_preview').writeAttribute('href', nodeUrlInfo.url);
                     $('node_preview').innerHTML = nodeUrlInfo.path;
                 }
             } else {
-                $('node_preview').up(1).hide();
+                $('node_preview').up('.field').hide();
             }
 
             if (!hasPageId) {
@@ -350,7 +351,7 @@
             if ($('add_cms_pages').hasClassName('disabled')) {
                 return false;
             }
-            var rows = $$('#cms_page_grid .grid table tbody tr');
+            var rows = $$('#cms_page_grid_table tbody tr');
             rows.each(function(tr){
                 var checkbox = tr.down('.checkbox');
                 if (!checkbox || !checkbox.checked) {
@@ -456,17 +457,17 @@
             var pageElements = ['node_identifier_text','node_label_text'];
             pageElements.each(function(id){
                 if (!hasPageId) {
-                    $(id).up('tr').hide();
+                    $(id).up('.field').hide();
                 } else {
-                    $(id).up('tr').show();
+                    $(id).up('.field').show();
                 }
                 $(id).innerHTML = '';
             });
             nodeElements.each(function(id){
                 if (hasPageId) {
-                    $(id).up('tr').hide();
+                    $(id).up('.field').hide();
                 } else {
-                    $(id).up('tr').show();
+                    $(id).up('.field').show();
                 }
                 $(id).value = '';
             });
@@ -496,7 +497,7 @@
             }
             <?php endif; ?>
 
-            $('node_preview').up(1).hide();
+            $('node_preview').up('.field').hide();
             $('delete_node_button').hide();
             $('node_prop_container').show();
             $('cancel_node_button').show();
@@ -627,7 +628,7 @@
                     identifiers.set(child.attributes.identifier, true);
                 });
 
-                var rows = $$('#cms_page_grid .grid table tbody tr');
+                var rows = $$('#cms_page_grid_table tbody tr');
                 rows.each(function(tr){
                     if (fullReset) {
                         tr.removeClassName('invalid');
@@ -657,12 +658,10 @@
 
         hideFieldSet: function(id) {
             $(id).hide();
-            $(id).previous(0).hide();
         },
 
         showFieldSet: function(id) {
             $(id).show();
-            $(id).previous(0).show();
         },
 
         resetFieldSet: function(id) {
@@ -699,9 +698,9 @@
 
                 if (save != undefined) {
                     if (save) {
-                        btn.down(2).update('<?php echo $this->getButtonSaveLabel() ?>');
+                        btn.down(0).update('<?php echo $this->getButtonSaveLabel() ?>');
                     } else {
-                        btn.down(2).update('<?php echo $this->getButtonUpdateLabel() ?>');
+                        btn.down(0).update('<?php echo $this->getButtonUpdateLabel() ?>');
                     }
                 }
             } else {
@@ -881,12 +880,12 @@
 
             var pagerVisibility = $('pager_visibility');
             if (isRootParent) {
-                if (pagerVisibility.down().selected) {
+                if (pagerVisibility.down('option').selected) {
                     pagerVisibility.down(2).selected=true;
                 }
-                pagerVisibility.down().hide();
+                pagerVisibility.down('option').hide();
             } else {
-                pagerVisibility.down().show();
+                pagerVisibility.down('option').show();
             }
         },
 
