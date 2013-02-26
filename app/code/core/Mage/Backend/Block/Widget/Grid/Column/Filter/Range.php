@@ -19,16 +19,16 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Range extends Mage_Backend_Bl
 {
     public function getHtml()
     {
-        $html = '<div class="range"><div class="range-line"><span class="label">'
-            . Mage::helper('Mage_Backend_Helper_Data')->__('From')
-            . ':</span> <input type="text" name="' . $this->_getHtmlName()
-            . '[from]" id="'.$this->_getHtmlId() . '_from" value="' . $this->getEscapedValue('from')
+        $html = '<div class="range"><div class="range-line">'
+            . '<input type="text" name="' . $this->_getHtmlName()
+            . '[from]" id="'.$this->_getHtmlId() . '_from" placeholder="'
+            . Mage::helper('Mage_Backend_Helper_Data')->__('From') . '" value="' . $this->getEscapedValue('from')
             . '" class="input-text no-changes" '
             . $this->getUiId('filter', $this->_getHtmlName(), 'from') . '/></div>';
-        $html .= '<div class="range-line"><span class="label">'
-            . Mage::helper('Mage_Backend_Helper_Data')->__('To')
-            . ' : </span><input type="text" name="' . $this->_getHtmlName() . '[to]" id="'
-            . $this->_getHtmlId() . '_to" value="' . $this->getEscapedValue('to') . '" class="input-text no-changes" '
+        $html .= '<div class="range-line">'
+            . '<input type="text" name="' . $this->_getHtmlName() . '[to]" id="'
+            . $this->_getHtmlId() . '_to" placeholder="'
+            . Mage::helper('Mage_Backend_Helper_Data')->__('To') . '" value="' . $this->getEscapedValue('to') . '" class="input-text no-changes" '
             . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/></div></div>';
         return $html;
     }

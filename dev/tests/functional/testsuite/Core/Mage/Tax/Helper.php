@@ -19,54 +19,60 @@
 class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Define Store View id in Table by name
+     * Create Product Tax Rule
      *
-     * @param string $storeView
-     *
-     * @return integer
+     * @param array|string $taxItemData
      */
-    public function findTaxTitleByName($storeView)
+    public function createTaxRule($taxItemData)
     {
-        $taxTitleQty = $this->getControlCount('pageelement', 'tax_title_header');
-        for ($i = 1; $i <= $taxTitleQty; $i++) {
-            $this->addParameter('index', $i);
-            $text = $this->getControlAttribute('pageelement', 'tax_title_header_index', 'text');
-            if ($text == $storeView) {
-                return $i;
-            }
-        }
-        return 0;
+        $taxItemData = $this->fixtureDataToArray($taxItemData);
+        $this->clickButton('add_rule');
+        $this->fillFieldset($taxItemData, 'tax_rule_info', false);
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
+        $this->saveForm('save_rule');
     }
 
     /**
-     * Create Product Tax Class|Customer Tax Class|Tax Rate|Tax Rule
+     * Create Product Tax Class|Customer Tax Class
      *
-     * @param array|string $taxItemData
-     * @param string $type search type rate|rule|customer_class|product_class
+     * @param $taxClassData
      */
-    public function createTaxItem($taxItemData, $type)
+    public function createTaxClass($taxClassData)
     {
-        $taxItemData = $this->fixtureDataToArray($taxItemData);
-        $this->clickButton('add_' . $type);
-        $this->fillForm($taxItemData);
+        $taxItemData = $this->fixtureDataToArray($taxClassData);
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->fillFieldset($taxItemData, 'tax_rule_info_additional', false);
+    }
 
+    /**
+     * Create Tax Rate
+     *
+     * @param $taxRateData
+     */
+    public function createTaxRate($taxRateData)
+    {
+        $taxItemData = $this->fixtureDataToArray($taxRateData);
+        $this->clickButton('add_rate');
+        $this->fillFieldset($taxItemData, 'tax_rate_info');
         $rateTitles = (isset($taxItemData['tax_titles'])) ? $taxItemData['tax_titles'] : array();
-        if ($rateTitles && $type == 'rate') {
+        if ($rateTitles) {
             $this->assertTrue($this->controlIsPresent('fieldset', 'tax_titles'),
                 'Tax Titles for store views are defined, but cannot be set.');
             foreach ($rateTitles as $key => $value) {
-                $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
+                $this->addParameter('storeName', $key);
                 $this->fillField('tax_title', $value);
             }
         }
-        $this->saveForm('save_' . $type);
+        $this->saveForm('save_rate');
     }
 
     /**
-     * Open Product Tax Class|Customer Tax Class|Tax Rate|Tax Rule
+     * Open Tax Rate|Tax Rule
      *
      * @param array $taxSearchData Data for search
-     * @param string $type search type rate|rule|customer_class|product_class
+     * @param string $type search type rate|rule
      *
      * @throws OutOfRangeException
      */
@@ -108,7 +114,40 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
     public function deleteTaxItem(array $taxSearchData, $type)
     {
         $this->openTaxItem($taxSearchData, $type);
-        $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete_' . $type);
+    }
+
+    /**
+     * Delete Tax Class
+     *
+     * @param string $optionLabel
+     * @param string $multiselect
+     * @param string $msg
+     */
+    public function deleteTaxClass($optionLabel, $multiselect, $msg)
+    {
+        //delete tax class
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $containerXpath = $this->_getControlXpath('composite_multiselect', $multiselect);
+        $labelLocator = "//div[normalize-space(label/span)='$optionLabel']";
+        $generalElement = $this->getElement($containerXpath);
+        $optionElement = $this->getChildElement($generalElement, $labelLocator);
+        $optionElement->click();
+        $deleteButton = $this->getChildElement($optionElement, "//span[@title='Delete']");
+        $this->moveto($deleteButton);
+        $deleteButton->click();
+        //First message
+        $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
+        $alertText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertSame($this->_getMessageXpath('confirmation_for_delete_class'), $alertText,
+            'Confirmation message is incorrect');
+        //Second message
+        $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
+        $alertText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertSame($this->_getMessageXpath($msg), $alertText, 'Confirmation message is incorrect');
     }
 
     /**

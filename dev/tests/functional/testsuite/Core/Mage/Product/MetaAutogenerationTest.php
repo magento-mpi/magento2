@@ -112,7 +112,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $this->assertEquals($testData, $this->getControlAttribute('field', $metaField, 'value'));
     }
 
@@ -146,7 +146,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $metaKeywords = $this->getControlAttribute('field', 'meta_information_meta_keywords', 'value');
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
@@ -159,7 +159,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->verifyProductInfo(array('general_name'=> 'Name#2',
             'general_sku' => $productData['general_sku']));
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $this->assertEquals($metaKeywords,
             $this->getControlAttribute('field', 'meta_information_meta_keywords', 'value'));
     }
@@ -191,7 +191,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $this->assertEquals($testData, $this->getControlAttribute('field', $metaField, 'value'));
     }
 
@@ -253,14 +253,14 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $testData = $this->_formFieldValueFromMask($metaMask, self::$placeholders);
         $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->assertEquals($productData['general_name'], $this->getControlAttribute('field', 'general_sku', 'value'));
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $this->assertEquals($testData, $this->getControlAttribute('field', $metaField, 'value'));
     }
 
@@ -295,7 +295,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $this->assertEquals($editedElement, $this->getControlAttribute('field', $metaField, 'value'));
     }
 
@@ -332,7 +332,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $this->fillField($metaField, $metaMask);
         $this->productHelper()->saveProduct();
         //Verifying
@@ -395,7 +395,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'simple', false);
         //Verifying
         $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->openTab('meta_information');
+//        $this->productHelper()->openProductTab('meta_information');
 //        $this->addFieldIdToMessage('field', $metaField);
 //        $this->assertMessagePresent('validation', 'empty_required_field');
     }
@@ -410,7 +410,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
      */
     protected function _formFieldValueFromMask($mask, array $placeholders)
     {
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         foreach ($placeholders as $value) {
             $productField = 'general_' . str_replace(array('{{', '}}'), '', $value);
             $maskData = $this->getControlAttribute('field', $productField, 'value');

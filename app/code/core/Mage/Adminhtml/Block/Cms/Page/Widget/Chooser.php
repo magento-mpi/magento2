@@ -106,21 +106,23 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
     {
         $this->addColumn('chooser_id', array(
             'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('ID'),
-            'align'     => 'right',
             'index'     => 'page_id',
-            'width'     => 50
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('chooser_title', array(
             'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
-            'align'     => 'left',
             'index'     => 'title',
+            'header_css_class'  => 'col-title',
+            'column_css_class'  => 'col-title'
         ));
 
         $this->addColumn('chooser_identifier', array(
             'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
-            'align'     => 'left',
-            'index'     => 'identifier'
+            'index'     => 'identifier',
+            'header_css_class'  => 'col-url',
+            'column_css_class'  => 'col-url'
         ));
 
         $this->addColumn('chooser_root_template', array(
@@ -128,7 +130,8 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
             'index'     => 'root_template',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Page_Model_Source_Layout')->getOptions(),
-            'width'   => '100',
+            'header_css_class'  => 'col-layout',
+            'column_css_class'  => 'col-layout'
         ));
 
         $this->addColumn('chooser_is_active', array(
@@ -136,7 +139,8 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Cms_Model_Page')->getAvailableStatuses(),
-            'width'     => '100',
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         return parent::_prepareColumns();

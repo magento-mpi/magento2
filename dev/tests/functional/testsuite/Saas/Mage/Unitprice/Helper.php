@@ -27,7 +27,7 @@ class Saas_Mage_Unitprice_Helper extends Mage_Selenium_AbstractHelper
     public function setProductUnitPrice($productData, $unitPriceData)
     {
         $this->productHelper()->openProduct($productData);
-        $this->openTab('prices');
+        $this->productHelper()->openProductTab('prices');
         $this->fillFieldset($unitPriceData, 'unit_price_fields');
         $this->saveForm('save');
     }

@@ -52,6 +52,7 @@
     <?php echo $this->getBlockHtml('formkey')?>
     <div id="product-edit-form-tabs"></div>
     <?php echo $this->getChildHtml('product-type-tabs') ?>
+    <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
     <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
 </form>
 <script type="text/javascript">
@@ -176,13 +177,16 @@ jQuery(function($) {
             updateSaveSplitButtonAvailability();
         }
 
-        $('#product-online-switcher').prop('checked', $('#status').val() == '1');
+        $('#product-online-switcher').prop('checked', $('#status').val() == '1')
+            .siblings('#product-online-status')
+            .text($.mage.__($('#status').val() == '1' ? 'Product online' : 'Product offline'));
     });
-
-    $('#attribute-status-container').hide();
 
     $('#product-online-switcher').on('change', function(event) {
         $('#status').val($(this).prop('checked') ? '1' : '2');
+        $('#product-online-switcher').siblings('#product-online-status').text(
+            $.mage.__($(this).prop('checked') ? 'Product online' : 'Product offline')
+        );
     });
 });
 </script>

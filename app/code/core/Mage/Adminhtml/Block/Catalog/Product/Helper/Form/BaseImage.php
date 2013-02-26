@@ -95,7 +95,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     data-max-file-size="{$this->_getFileMaxSize()}"
     >
     <div class="image image-placeholder">
-        <input type="file" name="image" data-url="{$uploadUrl}" multiple />
+        <input type="file" name="image" data-url="{$uploadUrl}" multiple="multiple" />
         <img class="spacer" src="{$spacerImage}"/>
         <p class="image-placeholder-text">{$this->__('Click here or drag and drop to add images')}</p>
     </div>
@@ -115,6 +115,20 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         </div>
     </script>
 </div>
+<span class="action-manage-images" data-activate-tab="image-management">
+    <span>{$this->helper('Mage_Catalog_Helper_Data')->__('Image Management')}</span>
+</span>
+<script>
+    (function($) {
+        'use strict';
+
+        $('[data-activate-tab="image-management"]')
+            .on('click.toggleImageManagementTab', function() {
+                $('#product_info_tabs_image-management').trigger('click');
+            });
+    })(window.jQuery);
+</script>
+
 HTML;
         return $html;
     }

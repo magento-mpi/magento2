@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
             . parent::getElementHtml()
             . '<label class="addafter" for="'
             . $this->getHtmlId()
-            . '"><strong>.lbs</strong></label>'
+            . '"><strong>'. Mage::helper('Mage_Adminhtml_Helper_Data')->__('lbs') .'</strong></label>'
             . '</div></div></div><div class="field choice">'
             . $this->_virtual->getElementHtml() . $this->_virtual->getLabelHtml()
             . '</div></div>';

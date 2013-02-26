@@ -14,7 +14,7 @@ $installer = $this;
 $installer->startSetup();
 
 $connection = $installer->getConnection();
-$tableName = $connection->getTableName('eav_attribute_group');
+$tableName = $installer->getTable('eav_attribute_group');
 
 $connection->addColumn($tableName, 'attribute_group_code', array(
     'type' => Varien_Db_Ddl_Table::TYPE_TEXT,

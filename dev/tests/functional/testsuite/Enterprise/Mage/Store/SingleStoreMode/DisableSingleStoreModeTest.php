@@ -31,14 +31,13 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
-
         return $userData;
     }
 
@@ -47,7 +46,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6217
+     * @TestLinkId TL-MAGE-6217
      */
     public function verificationManageHierarchy()
     {
@@ -64,7 +63,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6220
+     * @TestLinkId TL-MAGE-6220
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
@@ -93,7 +92,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6221
+     * @TestLinkId TL-MAGE-6221
      */
     public function verificationBanners()
     {
@@ -115,16 +114,16 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6227
+     * @TestLinkId TL-MAGE-6227
      */
     public function verificationCustomerSegments()
     {
         $this->navigate('manage_customer_segments');
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'),
             'There is no "Website" dropdown on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'add_segment'),
+        $this->assertTrue($this->controlIsPresent('button', 'add_new_segment'),
             'There is no "Add Segment" button on the page');
-        $this->clickButton('add_segment');
+        $this->clickButton('add_new_segment');
         $this->assertTrue($this->controlIsPresent('multiselect', 'assigned_to_website'),
             'There is no "Assigned to Website" selector on the page');
     }
@@ -135,7 +134,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      * @param $userData
      * @depends preconditionsForTests
      * @test
-     * @TestlinkId TL-MAGE-6258
+     * @TestLinkId TL-MAGE-6258
      */
     public function editCustomer($userData)
     {
@@ -143,9 +142,9 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         $rewardGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('reward_points_head');
-        $this->assertTrue((isset($rewardGrid['website'])), "Sales Statistics table not contain 'Website' column");
+        $this->assertTrue((isset($rewardGrid['website'])), "Reward Points table not contain 'Website' column");
         $storeCreditGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('store_credit_head');
-        $this->assertTrue((isset($storeCreditGrid['website'])), "Sales Statistics table not contain 'website' column");
+        $this->assertTrue((isset($storeCreditGrid['website'])), "Store Credit table not contain 'website' column");
         $salesGrid = $this->shoppingCartHelper()->getColumnNamesAndNumbers('sales_statistics_head');
         $this->assertTrue((isset($salesGrid['website']) && isset($salesGrid['store'])
             && isset($salesGrid['store_view'])), "Sales Statistics table not contain all columns");
@@ -165,14 +164,14 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
             "Table is not contain 'visible_in' column");
         $this->openTab('store_credit');
         $storeCredit2 = $this->shoppingCartHelper()->getColumnNamesAndNumbers('store_credit_balance_head');
-        $this->assertTrue((isset($storeCredit2['website'])), "Sales Statistics table is not contain 'website' column");
+        $this->assertTrue((isset($storeCredit2['website'])), "Store Credit table is not contain 'website' column");
         $this->assertTrue($this->controlIsPresent('dropdown', 'website'), "Dropdown 'website' is absent");
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'), "Dropdown 'filter_website' is absent");
         $this->openTab('gift_regystry');
         $this->assertTrue($this->controlIsPresent('dropdown', 'filter_website'), "Dropdown 'filter_website' is absent");
         $this->openTab('reward_points');
         $rewardGrid2 = $this->shoppingCartHelper()->getColumnNamesAndNumbers('reward_points_balance_head');;
-        $this->assertTrue((isset($rewardGrid2['website'])), "Sales Statistics table is not contain 'website' column");
+        $this->assertTrue((isset($rewardGrid2['website'])), "Reward Points table is not contain 'website' column");
         $this->assertTrue($this->controlIsPresent('dropdown', 'store'), "Dropdown 'store' is absent");
         $this->clickControl('link', 'reward_points_history_link', false);
         $this->waitForAjax();
@@ -184,7 +183,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6239
+     * @TestLinkId TL-MAGE-6239
      */
     public function verificationGiftCardAccounts()
     {
@@ -208,7 +207,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6262
+     * @TestLinkId TL-MAGE-6262
      */
     public function verificationCatalogPriceRule()
     {
@@ -232,7 +231,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6263
+     * @TestLinkId TL-MAGE-6263
      */
     public function verificationShoppingCartPriceRule()
     {
@@ -256,7 +255,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6234
+     * @TestLinkId TL-MAGE-6234
      */
     public function verificationRewardExchangeRates()
     {
@@ -274,7 +273,7 @@ class Enterprise_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends M
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6278
+     * @TestLinkId TL-MAGE-6278
      */
     public function verificationGiftWrapping()
     {

@@ -54,7 +54,7 @@ create_tax_rate:
             fieldsets:
                 -
                     tax_rate_info:
-                        xpath: //div[@id='base_fieldset']
+                        xpath: //fieldset[@id='base_fieldset']
                         dropdowns:
                             country: //select[@id='tax_country_id']
                             state: //select[@id='tax_region_id']
@@ -68,9 +68,9 @@ create_tax_rate:
                         required: [tax_identifier, country, rate_percent]
                 -
                     tax_titles:
-                        xpath: //div[contains(h4,'Tax Titles')]/following-sibling::*[1]
+                        xpath: //fieldset[legend/span='Tax Titles']
                         fields:
-                            tax_title: //td[%storeNumber%]/input
+                            tax_title: //div[label/span='%storeName%']//input
                         pageelements:
                             tax_title_header: //table[@class='form-list']//tbody/tr[@class='dynamic-grid']/th
                             tax_title_header_index: //table[@class='form-list']//tbody/tr[@class='dynamic-grid']/th[%index%]
@@ -81,11 +81,12 @@ create_tax_rate:
         messages: &newTaxRateMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
             error_delete_tax_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Tax rate cannot be removed. It exists in tax rule')]
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
-            enter_valid_digits: "//div[@id='advice-validate-digits-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field:  //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.') and not(contains(@style, 'display: none;'))]
+            enter_not_negative_number: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please select one of the above options.')]
+            enter_valid_digits: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please enter a valid number in this field.')]
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
+            confirmation_for_delete_rate: Are you sure you want to do this?
 
 # 'Edit Tax Rate' Page
 edit_tax_rate:
@@ -96,7 +97,7 @@ edit_tax_rate:
             fieldsets:
                 -
                     tax_rate_info:
-                        xpath: //div[@id='base_fieldset']
+                        xpath: //fieldset[@id='base_fieldset']
                         dropdowns:
                             country: //select[@id='tax_country_id']
                             state: //select[@id='tax_region_id']
@@ -188,22 +189,22 @@ create_tax_rule:
             fieldsets:
                 -
                     tax_rule_info:
-                        xpath: //form[div/h4='Tax Rule Information']
+                        xpath: //form[@id='edit_form']
                         fields:
                             name: //input[@id='code']
                         composite_multiselects:
-                            tax_rate: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-rate']//section
+                            tax_rate: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-rate']//section
                 -
                     tax_rule_info_additional:
-                        xpath: //div[h3='Additional Settings']
+                        xpath: //details[@id='detailsbase_fieldset']
                         links:
-                            tax_rule_info_additional_link: /h3/span
+                            tax_rule_info_additional_link: /summary/span
                         fields:
                             priority: //input[@id='priority']
                             sort_order: //input[@id='position']
                         composite_multiselects:
-                            customer_tax_class: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-customer-class']//section
-                            product_tax_class: //tr[@data-ui-id='tax-rate-form-fieldset-element-form-row-tax-product-class']//section
+                            customer_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-customer-class']//section
+                            product_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-product-class']//section
                 -
                     import_tax_rates:
                         xpath: //form[div/h4='Import Tax Rates']
@@ -224,12 +225,16 @@ create_tax_rule:
             save_and_continue_edit: //button[@data-ui-id='content-schedule-block-save-and-continue-button']
         messages: &newTaxRuleMessages
             code_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
-            empty_required_field:  "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
-            enter_not_negative_number: "//div[@id='advice-validate-not-negative-number-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field:  //label[@class='mage-error' and contains(.,'This field is required.')]
+            enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
+            tax_class_exists: An error occurred while saving this tax class. A class with the same name already exists.
             confirmation_for_delete_rule: Are you sure you want to do this?
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
             confirmation_for_delete_class: Do you really want to delete this tax class?
+            used_in_rule_error: You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.
+            used_in_product_error: You cannot delete this tax class as it is used for 1 products.
+            used_in_customer_group_error: You cannot delete this tax class as it is used for 1 customer groups.
 
 # Edit Tax Rule page
 edit_tax_rule:

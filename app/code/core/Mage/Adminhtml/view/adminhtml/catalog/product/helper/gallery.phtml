@@ -79,11 +79,11 @@ $elementName = $this->getElement()->getName() . '[images]';
 
                 <fieldset class="fieldset fieldset-alt">
                     <div class="field field-image-description">
-                        <label class="label" for="image-desciption">
+                        <label class="label" for="image-description">
                             <span><?php echo $this->__('Alt text')?></span>
                         </label>
                         <div class="control">
-                            <textarea id="image-desciption"
+                            <textarea id="image-description"
                                       rows="3"
                                       name="<?php echo $elementName ?>[${file_id}][label]">${label}</textarea>
                         </div>
@@ -124,7 +124,7 @@ $elementName = $this->getElement()->getName() . '[images]';
                 </fieldset>
             </div>
 
-            <button type="button" class="action-close" title="<?php echo $this->__('Close panel'); ?>">
+            <button type="button" class="action-close" data-role="close-panel" title="<?php echo $this->__('Close panel'); ?>">
                 <span><?php echo $this->__('Close panel'); ?></span>
             </button>
             <div class="image-pointer"></div>

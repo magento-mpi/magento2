@@ -199,7 +199,6 @@ function switchDefaultValueField()
 
     switch (currentValue) {
         case 'media_image':
-            $('front_fieldset').previous().hide();
             $('front_fieldset').hide();
 
             setRowVisibility('is_required', false);
@@ -211,7 +210,6 @@ function switchDefaultValueField()
             case '<?php echo $type; ?>':
                 <?php foreach ($fields as $one): ?>
                     <?php if ($one == '_front_fieldset'): ?>
-                        $('front_fieldset').previous().hide();
                         $('front_fieldset').hide();
                     <?php elseif ($one == '_default_value'): ?>
                         defaultValueTextVisibility =
@@ -228,7 +226,6 @@ function switchDefaultValueField()
         <?php endforeach; ?>
 
         default:
-            $('front_fieldset').previous().show();
             $('front_fieldset').show();
             setRowVisibility('is_required', true);
             setRowVisibility('is_unique', true);
