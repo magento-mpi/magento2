@@ -38,11 +38,15 @@
                     _this.element.trigger('enableSection', {selector: _this.options.sectionSelectorPrefix + section});
                 })
                 .on('ajaxError', $.proxy(this._ajaxError, this))
-                //.on('ajaxSend', $.proxy(this._ajaxSend, this))
-                //.on('ajaxComplete', $.proxy(this._ajaxComplete, this))
                 .on('click', this.options.backSelector, function() {
                     _this.element.trigger('enableSection', {selector: '#' + _this.element.find('.active').prev().attr('id')});
                 });
+            $(this.options.checkoutProgressContainer).on('click', '[data-goto-section]', $.proxy(function(e) {
+                var gotoSection = $(e.target).data('goto-section');
+                this._ajaxUpdateProgress(gotoSection);
+                this.element.trigger('enableSection', {selector: _this.options.sectionSelectorPrefix + gotoSection});
+                return false;
+            }, this));
         },
 
         /**
