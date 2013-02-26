@@ -116,7 +116,7 @@
                 complete: this._ajaxComplete,
                 success: function(response) {
                     if (successCallback) {
-                        successCallback(response);
+                        successCallback.call(this, response);
                     }
                     if ($.type(response) === 'object' && !$.isEmptyObject(response)) {
                         if (response.error) {
@@ -195,7 +195,10 @@
                 }, this))
                 .on('click', this.options.billing.continueSelector, $.proxy(function() {
                     if ($(this.options.billing.form).validation && $(this.options.billing.form).validation('isValid')) {
-                        this._ajaxContinue(this.options.billing.saveUrl, $(this.options.billing.form).serialize());
+                    this._ajaxContinue(this.options.billing.saveUrl, $(this.options.billing.form).serialize(), false, function() {
+                        //Trigger indicating billing save. eg. GiftMessage listens to this to inject gift options
+                        this.element.trigger('billingSave');
+                    });
                     }
                 }, this))
                 .find(this.options.billing.form).validation();
@@ -231,7 +234,10 @@
                 }, this))
                 .on('click', this.options.shipping.continueSelector, $.proxy(function() {
                     if ($(this.options.shipping.form).validation && $(this.options.shipping.form).validation('isValid')) {
-                        this._ajaxContinue(this.options.shipping.saveUrl, $(this.options.shipping.form).serialize());
+                    this._ajaxContinue(this.options.shipping.saveUrl, $(this.options.shipping.form).serialize(), false, function() {
+                        //Trigger indicating shipping save. eg. GiftMessage listens to this to inject gift options
+                        this.element.trigger('shippingSave');
+                    });
                     }
                 }, this))
                 .find(this.options.shipping.form).validation();

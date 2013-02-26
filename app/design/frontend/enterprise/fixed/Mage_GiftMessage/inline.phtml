@@ -94,22 +94,22 @@ if(!window.toogleRequired) {
         }
     }
 }
+/**
+ * Removing global reference of shipping and billing prototype objects.
+ * This function expression can be moved into a widget once this file is completely refactored to use jQuery.
+ */
+(function($) {
+    $('body').on('billingSave,shippingSave', function() {
+        $.ajax({
+            url: '<?php echo $this->getAdditionalUrl(); ?>',
+            type: 'post',
+            success: function(response) {
+                $('#onepage-checkout-shipping-method-additional-load').html(response);
+            }
+        });
+    });
+})(jQuery)
 
-if(window.shipping) {
-
-shipping.onSave = function(evt){
-    new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?php echo $this->getAdditionalUrl(); ?>', {onSuccess: function() {
-          this.nextStep(evt);
-    }.bind(this), evalScripts:true});
-}.bindAsEventListener(shipping);
-
-billing.onSave = function(evt){
-    new Ajax.Updater('onepage-checkout-shipping-method-additional-load', '<?php echo $this->getAdditionalUrl(); ?>', {onSuccess: function() {
-          this.nextStep(evt);
-    }.bind(this), evalScripts:true});
-}.bindAsEventListener(billing);
-
-}
 //]]>
 </script>
 <?php endif ?>
