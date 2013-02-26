@@ -41,7 +41,7 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
     /**
      * Run http application
      */
-    protected function _processRequest()
+    public function processRequest()
     {
         /**
          * @var $installer Mage_Install_Model_Installer_Console
@@ -63,7 +63,7 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
                 $config = (array) include($this->_params['config']);
                 $this->_params = array_merge((array)$config, $this->_params);
             }
-            $isUninstallMode = isset($args['uninstall']);
+            $isUninstallMode = isset($this->_params['uninstall']);
             if ($isUninstallMode) {
                 $result = $installer->uninstall();
             } else {

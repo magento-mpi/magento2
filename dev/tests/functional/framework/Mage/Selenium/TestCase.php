@@ -2333,6 +2333,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $fieldsetName
+     * @return bool
+     */
+    public function isFieldsetExpanded($fieldsetName)
+    {
+        $fieldsetClass = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, $fieldsetName, 'class');
+        return strpos($fieldsetClass, 'opened') !== false || strpos($fieldsetClass, 'active') !== false;
+    }
+
+    /**
      * Open tab
      *
      * @param string $tabName tab id from uimap
@@ -2385,11 +2395,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getTableHeadRowNames($tableLocator = '//table[@id]')
     {
-        $locator = $tableLocator . "//tr[normalize-space(@class)='headings']";
-        if (!$this->elementIsPresent($locator)) {
-            $this->fail('Incorrect table head xpath: ' . $locator);
+        $headElements = $this->getElements($tableLocator . "//thead/tr");
+        list($headElement) = $headElements;
+        if (count($headElements) > 1) {
+            foreach ($headElements as $element) {
+                if ($element->attribute('class') == 'headings') {
+                    $headElement = $element;
+                    break;
+                }
+            }
         }
-        $headNames = $this->getElementsValue($locator . '/th', 'text');
+        $headNames = array();
+        foreach ($this->getChildElements($headElement, 'th') as $element) {
+            $headNames[] = $element->text();
+        }
 
         return array_diff($headNames, array(''));
     }

@@ -75,3 +75,47 @@
     top: 0;
     float: left;
 }
+
+
+/* Sku, Price, Weight Fields */
+.field-sku .control .sku {
+    display: inline-block;
+    width: 36%;
+    margin-right: 15px;
+}
+
+.field-sku .control .sku > input[type='text'] {
+    width: 100%;
+}
+
+.field-sku .control .sku + .select {
+    vertical-align: middle;
+}
+
+.field-price .addon > .price {
+    display: table;
+    direction: rtl;
+    float: left;
+    width: 36%;
+    margin-right: 15px;
+}
+
+.field-price .addon > .price > * {
+    direction: ltr;
+}
+
+.field-price .addon > .price + .select {
+    width: 96px;
+    float: left;
+    border-radius: 4px;
+}
+
+.field-weight .weight {
+    width: 36%;
+    margin-right: 15px;
+    float: left;
+}
+
+.field-weight .weight .field:first-child {
+    width: 100%;
+}

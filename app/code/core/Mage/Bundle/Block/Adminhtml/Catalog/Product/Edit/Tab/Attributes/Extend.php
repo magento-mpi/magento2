@@ -57,7 +57,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend
         if (!($this->getAttribute()->getAttributeCode() == 'price'
             && $this->getCanReadPrice() === false)
         ) {
-            $html .= '<span class="next-toselect">' . $elementHtml . '</span>';
+            $html = '<div class="' . $this->getAttribute()->getAttributeCode() .' ">' . $elementHtml . '</div>' . $html;
         }
         if ($this->getDisableChild() && !$this->getElement()->getReadonly()) {
             $html .= "<script type=\"text/javascript\">

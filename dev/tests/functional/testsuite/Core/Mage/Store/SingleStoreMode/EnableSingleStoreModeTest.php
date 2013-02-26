@@ -167,7 +167,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $this->assertFalse($this->controlIsPresent('tab', 'websites'),
             "'Websites' tab is present on the page ");
         //Steps
-        $this->openTab('prices');
+        $this->productHelper()->openProductTab('prices');
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
         //Veryfying
         $this->assertFalse((isset($columnsName['website'])), "Group Price table contains 'Website' column");

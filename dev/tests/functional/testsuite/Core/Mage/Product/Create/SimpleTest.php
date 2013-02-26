@@ -19,8 +19,8 @@
 class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
+     * Preconditions:
+     * Navigate to Catalog -> Manage Products
      */
     protected function assertPreConditions()
     {
@@ -34,7 +34,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with required fields only</p>
+     * Creating product with required fields only
      *
      * @return array $productData
      *
@@ -54,7 +54,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with all fields</p>
+     * Creating product with all fields
      *
      * @ depends onlyRequiredFieldsInSimple
      *
@@ -81,7 +81,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with existing SKU</p>
+     * Creating product with existing SKU
      *
      * @param $productData
      *
@@ -93,8 +93,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function existSkuInSimple($productData)
     {
         //Steps
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->addParameter('elementTitle', $productData['general_name']);
         $this->productHelper()->saveProduct('continueEdit');
@@ -105,14 +103,13 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'sku_autoincremented');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct($productSearch);
         //Verifying
         $productData['general_sku'] = $newSku;
         $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
-     * <p>Creating product with empty required fields</p>
+     * Creating product with empty required fields
      *
      * @param $emptyField
      * @param $fieldType
@@ -141,32 +138,26 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     {
         return array(
             array(array('general_name' => '%noValue%'), 'field'),
-            array(array('general_description' => '%noValue%'), 'field'),
-            array(array('general_short_description' => '%noValue%'), 'field'),
             array(array('general_sku' => ''), 'field'),
-            array(array('general_weight' => '%noValue%'), 'field'),
-            array(array('general_status' => '-- Please Select --'), 'dropdown'),
-            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
-            array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
+            array(array('general_price' => '%noValue%'), 'field'),
         );
     }
 
     /**
-     * <p>Creating product with special characters into required fields</p>
+     * Creating product with special characters in text fields
      *
      * @depends onlyRequiredFieldsInSimple
      *
      * @TestlinkId TL-MAGE-3423
      * @test
      */
-    public function specialCharactersInRequiredFields()
+    public function specialCharactersInTextFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
                   'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'general_short_description' => $this->generate('string', 32, ':punct:'),
+                  'autosettings_short_description' => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -181,20 +172,20 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with long values from required fields</p>
+     * Creating product with long values in fields
      *
      * @depends onlyRequiredFieldsInSimple
      *
      * @TestlinkId TL-MAGE-3421
      * @test
      */
-    public function longValuesInRequiredFields()
+    public function longValuesInFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
                   'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                  'autosettings_short_description' => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:'),
                   'general_weight'            => 99999999.9999));
         $productSearch =
@@ -210,7 +201,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with SKU length more than 64 characters.</p>
+     * Creating product with SKU length more than 64 characters.
      *
      * @depends onlyRequiredFieldsInSimple
      *
@@ -230,7 +221,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with invalid weight</p>
+     * Creating product with invalid weight
      *
      * @TestlinkId TL-MAGE-3420
      * @test
@@ -249,7 +240,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with invalid price</p>
+     * Creating product with invalid price
      *
      * @param $invalidPrice
      *
@@ -262,17 +253,18 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function invalidPriceInSimple($invalidPrice)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'simple_product_required', array('prices_price' => $invalidPrice));
+        $productData = $this->loadDataSet('Product', 'simple_product_required',
+            array('general_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->addFieldIdToMessage('field', 'general_price');
         $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
-     * <p>Creating product with invalid special price</p>
+     * Creating product with invalid special price
      *
      * @param $invalidValue
      *
@@ -285,8 +277,8 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function invalidSpecialPriceInSimple($invalidValue)
     {
         //Data
-        $productData =
-            $this->loadDataSet('Product', 'simple_product_required', array('prices_special_price' => $invalidValue));
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData['prices_special_price'] = $invalidValue;
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -296,7 +288,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with empty tier price</p>
+     * Creating product with empty tier price
      *
      * @param $emptyTierPrice
      *
@@ -330,7 +322,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with invalid Tier Price Data</p>
+     * Creating product with invalid Tier Price Data
      *
      * @param $invalidTierData
      *
@@ -358,7 +350,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with invalid Qty</p>
+     * Creating product with invalid Qty
      *
      * @param $invalidQty
      *

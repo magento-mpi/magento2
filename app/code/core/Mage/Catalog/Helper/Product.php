@@ -83,15 +83,15 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     /**
      * Retrieve base image url
      *
-     * @return string
+     * @param Mage_Catalog_Model_Product|Varien_Object $product
+     * @return string|bool
      */
     public function getImageUrl($product)
     {
         $url = false;
         if (!$product->getImage()) {
             $url = Mage::getDesign()->getViewFileUrl('Mage_Catalog::images/product/placeholder/image.jpg');
-        }
-        elseif ($attribute = $product->getResource()->getAttribute('image')) {
+        } elseif ($attribute = $product->getResource()->getAttribute('image')) {
             $url = $attribute->getFrontend()->getUrl($product);
         }
         return $url;
@@ -100,15 +100,15 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     /**
      * Retrieve small image url
      *
-     * @return unknown
+     * @param Mage_Catalog_Model_Product|Varien_Object $product
+     * @return string|bool
      */
     public function getSmallImageUrl($product)
     {
         $url = false;
         if (!$product->getSmallImage()) {
             $url = Mage::getDesign()->getViewFileUrl('Mage_Catalog::images/product/placeholder/small_image.jpg');
-        }
-        elseif ($attribute = $product->getResource()->getAttribute('small_image')) {
+        } elseif ($attribute = $product->getResource()->getAttribute('small_image')) {
             $url = $attribute->getFrontend()->getUrl($product);
         }
         return $url;
@@ -117,7 +117,8 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     /**
      * Retrieve thumbnail image url
      *
-     * @return unknown
+     * @param Mage_Catalog_Model_Product|Varien_Object $product
+     * @return string
      */
     public function getThumbnailUrl($product)
     {
@@ -139,7 +140,8 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getStatuses()
     {
         if(is_null($this->_statuses)) {
-            $this->_statuses = array();//Mage::getModel('Mage_Catalog_Model_Product_Status')->getResourceCollection()->load();
+            $this->_statuses = array();
+            // Mage::getModel('Mage_Catalog_Model_Product_Status')->getResourceCollection()->load();
         }
 
         return $this->_statuses;

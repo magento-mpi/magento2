@@ -219,6 +219,21 @@ button.primary.disabled,
 .fieldset-wrapper-title .action-add:active,
 .fieldset-wrapper-title .action-add.active,
 .fieldset-wrapper-title .action-add:disabled,
+#store-view-window [class^='action-close'],
+#store-view-window [class^='action-close']:hover,
+#store-view-window [class^='action-close']:active,
+#store-view-window [class^='action-close'].active,
+#store-view-window [class^='action-close']:disabled,
+.custom-file > .action-add,
+.custom-file > .action-add:hover,
+.custom-file > .action-add:active,
+.custom-file > .action-add.active,
+.custom-file > .action-add:disabled,
+.vde-tools-header .action-close,
+.vde-tools-header .action-close:hover,
+.vde-tools-header .action-close:active,
+.vde-tools-header .action-close.active,
+.vde-tools-header .action-close:disabled,
 .action-delete,
 .action-delete:hover,
 .action-delete:active,
@@ -292,10 +307,6 @@ button.primary.disabled,
     z-index: 990;
 }
 
-.dropdown-menu > li {
-    white-space: nowrap;
-}
-
 .dropdown-menu > li,
 .ui-autocomplete > li {
     padding: 5px;
@@ -304,12 +315,12 @@ button.primary.disabled,
 
 .dropdown-menu > li.selected,
 .ui-autocomplete > li.selected {
-    background: #f5f5f5;
+    background: #eef8fc;
 }
 
 .dropdown-menu > li:hover,
 .ui-autocomplete > li:hover {
-    background: #f5f5f5;
+    background: #eef8fc;
 }
 
 .dropdown-menu > li:last-child,
@@ -587,6 +598,16 @@ button.primary.disabled,
 
 .actions-split.active .dropdown-menu {
     display: block;
+    white-space: nowrap;
+}
+
+.actions-split.active .dropdown-menu > li {
+    padding: 0;
+}
+
+.actions-split.active .dropdown-menu > li > .item {
+    display: block;
+    padding: 6px 10px 5px;
 }
 
 /*
@@ -704,11 +725,6 @@ textarea,
     box-sizing: border-box;
     border-radius: 4px;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -webkit-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -moz-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -ms-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -o-transition: border linear 0.5s, box-shadow linear 0.2s;
-    transition: border linear 0.5s, box-shadow linear 0.2s;
 }
 
 textarea,
@@ -721,11 +737,6 @@ select {
     margin: 0 0 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    -webkit-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -moz-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -ms-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -o-transition: border linear 0.5s, box-shadow linear 0.2s;
-    transition: border linear 0.5s, box-shadow linear 0.2s;
 }
 
 select[multiple],
@@ -831,6 +842,11 @@ option.placeholder {
     white-space: nowrap;
     display: block;
     margin-bottom: 5px;
+}
+
+.form-inline .field-service .checkbox {
+    margin: 0;
+    vertical-align: middle;
 }
 
 .control > input {
@@ -1016,6 +1032,11 @@ option.placeholder {
     top: 9px;
 }
 
+.fieldset-wrapper-content .fieldset > .title {
+    margin-top: 0;
+    padding-left: 22px;
+}
+
 .fieldset .draggable-handle {
     position: absolute;
     left: 10px;
@@ -1057,6 +1078,7 @@ option.placeholder {
 
 .fieldset-wrapper-title > .actions {
     float: right;
+    padding-top: 6px;
 }
 
 .fieldset > .legend + br {
@@ -1104,6 +1126,7 @@ option.placeholder {
 .fieldset .control .addon .textarea {
     border-radius: 4px;
     width: 100%;
+    resize: vertical;
 }
 
 .fieldset > .field > input[type="checkbox"] {
@@ -1234,21 +1257,17 @@ option.placeholder {
 .addon input:focus + label {
     border-color: #75b9f0;
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
-    -webkit-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -moz-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -ms-transition: border linear 0.5s, box-shadow linear 0.2s;
-    -o-transition: border linear 0.5s, box-shadow linear 0.2s;
-    transition: border linear 0.5s, box-shadow linear 0.2s;
 }
 
 .addon input + label strong {
     background: #fff;
     display: block;
-    line-height: 25px;
-    margin: 1px 3px 0 -2px;
+    line-height: 24px;
+    margin: 0 3px 0 -2px;
     padding-left: 4px;
     padding-right: 4px;
     position: relative;
+    top: 1px;
 }
 
 .addon input:focus + label strong {
@@ -1262,6 +1281,15 @@ option.placeholder {
     border-radius: 4px 4px 0 0;
     padding: 0;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
+}
+
+.field .control input[type='text']:disabled + .addafter {
+    background: #eee;
+    border-color: #ddd;
+}
+
+.field .control input[type='text']:disabled + .addafter strong {
+    background: #eee;
 }
 
 .field-price .addon,
@@ -3126,7 +3154,6 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .page-actions.fixed .page-actions-inner {
-    background: #f7f2ec;
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIxJSIgc3RvcC1jb2xvcj0iI2Y3ZjJlYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iI2ZjZmFmNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top, rgba(247, 242, 236, 1) 1%, rgba(252, 250, 247, 1) 70%, rgba(255, 255, 255, 0) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, rgba(247, 242, 236, 1)), color-stop(70%, rgba(252, 250, 247, 1)), color-stop(100%, rgba(255, 255, 255, 0)));
@@ -3139,6 +3166,10 @@ table tbody tr:nth-child(odd):hover th {
     margin: 0 auto;
     min-width: 916px;
     max-width: 1259px;
+}
+
+.lt-ie9 .page-actions.fixed .page-actions-inner {
+    background: #f7f2ec;
 }
 
 .page-actions.fixed .page-actions-inner:before {
@@ -3889,6 +3920,7 @@ tr.dynamic-grid input.input-text {
 -------------------------------------- */
 
 /* left */
+.col-website,
 .col-name,
 .col-sku,
 .col-color,

@@ -221,7 +221,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreModeTes
         //Steps
         $this->productHelper()->selectTypeProduct('simple');
         $this->productHelper()->fillProductInfo($productData);
-        $this->openTab('prices');
+        $this->productHelper()->openProductTab('prices');
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
         //Verifying
         $this->assertTrue((isset($columnsName['website'])), "Group Price table not contain 'Website' column");

@@ -18,55 +18,72 @@
     <div class="control">
         <table class="data-table" id="<?php echo $_htmlId; ?>_table">
             <thead>
-                <tr>
-                    <th class="col-name <?php if (!$_multiWebsite): ?>hidden<?php endif; ?>"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?></th>
-                    <th class="col-amount required-entry"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Amount') ?></th>
-                    <th class="col-actions"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action') ?></th>
+                <tr class="headings">
+                    <?php if ($_multiWebsite): ?>
+                    <th class="col-website">
+                        <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?>
+                    </th>
+                    <?php endif; ?>
+                    <th class="col-amount required-entry">
+                        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Amount') ?>
+                    </th>
+                    <th class="col-actions">
+                        <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action') ?>
+                    </th>
                 </tr>
-                <tr id="<?php echo $_htmlId ?>_add_template" class="template hidden">
-                    <td class="col-name <?php if (!$_multiWebsite): ?>hidden<?php endif; ?>">
-                        <div class="field">
-                            <div class="control">
-                                <select disabled="no-template" class="<?php echo $_htmlClass ?> required-entry" name="<?php echo $_htmlName ?>[__index__][website_id]" id="#{prefix}_giftcard_amounts_row___index___website">
-                                    <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
-                                    <option value="<?php echo $_websiteId ?>"><?php echo $_info['name'] ?><?php if (!empty($_info['currency'])): ?> [<?php echo $_info['currency'] ?>]<?php endif; ?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                        </div>
+                <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
+                    <?php if ($_multiWebsite): ?>
+                    <td class="col-website">
+                        <select
+                            disabled="no-template"
+                            class="<?php echo $_htmlClass ?> required-entry"
+                            name="<?php echo $_htmlName ?>[__index__][website_id]"
+                            id="#{prefix}_giftcard_amounts_row___index___website">
+                            <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
+                            <option value="<?php echo $_websiteId ?>"><?php echo $_info['name'] ?><?php if (!empty($_info['currency'])): ?> [<?php echo $_info['currency'] ?>]<?php endif; ?></option>
+                            <?php endforeach ?>
+                        </select>
                     </td>
+                    <?php endif; ?>
                     <td class="col-amount">
-                        <div class="field">
-                            <div class="control">
-                                <input disabled="no-template" class="<?php echo $_htmlClass ?> required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[__index__][price]" value="'#{price}'" />
-                            </div>
-                        </div>
+                        <input
+                            disabled="no-template"
+                            class="<?php echo $_htmlClass ?> required-entry validate-greater-than-zero"
+                            type="text"
+                            name="<?php echo $_htmlName ?>[__index__][price]"
+                            value="'#{price}'" />
                     </td>
                     <td class="col-actions">
-                        <input type="hidden" name="<?php echo $_htmlName ?>[__index__][delete]" class="delete" disabled="no-template" value=""  id="#{prefix}_giftcard_amounts_row___index___delete" />
-                        <button title="<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Delete Amount'); ?>"
-                                class="action-delete"
-                                onclick="giftcardAmountsControl.deleteItem('<?php echo $_htmlId ?>', event); return false;">
-                            <span>
-                                <?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Delete'); ?>
-                            </span>
+                        <input
+                            type="hidden"
+                            name="<?php echo $_htmlName ?>[__index__][delete]"
+                            class="delete"
+                            disabled="no-template"
+                            value=""
+                            id="#{prefix}_giftcard_amounts_row___index___delete" />
+
+                        <button
+                            title="<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Delete Amount'); ?>"
+                            class="action-delete delete-product-option"
+                            onclick="giftcardAmountsControl.deleteItem('<?php echo $_htmlId ?>', event);return false">
+
+                            <span><?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Delete'); ?></span>
                         </button>
                     </td>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td class="col-name <?php if (!$_multiWebsite): ?>hidden<?php endif; ?>"></td>
-                    <td colspan="2" class="col-actions"><?php echo $this->getAddButtonHtml() ?></td>
+                    <td class="col-actions" colspan="<?php echo $_multiWebsite ? 3 : 2 ?>">
+                        <?php echo $this->getAddButtonHtml() ?>
+                    </td>
                 </tr>
             </tfoot>
-            <tbody id="<?php echo $_htmlId ?>_container"></tbody>
+            <tbody id="<?php echo $_htmlId ?>_container">
+            </tbody>
         </table>
         <input type="hidden" id="giftcard_amounts_total" name="giftcard_amounts_total" value="" <?php if (!$_readonly): ?>class="required-entry"<?php endif; ?>>
-
     </div>
-</div>
-
 <script type="text/javascript">
 //<![CDATA[
     if (typeof itemsCount == 'undefined') {
@@ -150,3 +167,4 @@
     <?php endif; ?>
 //]]>
 </script>
+</div>

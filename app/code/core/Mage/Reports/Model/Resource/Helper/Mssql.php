@@ -19,12 +19,12 @@
 class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Helper_Mssql
     implements Mage_Reports_Model_Resource_Helper_Interface
 {
-
     /**
      * Merge Index data
      *
      * @param string $mainTable
      * @param array $data
+     * @param array $matchFields
      * @return string
      */
     public function mergeVisitorProductIndex($mainTable, $data, $matchFields)

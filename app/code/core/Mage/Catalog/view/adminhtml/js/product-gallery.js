@@ -63,7 +63,7 @@
 
             this.element.sortable({
                 distance: 8,
-                placeholder: "ui-state-highlight",
+                placeholder: 'ui-state-highlight',
                 items: this.options.imageSelector,
                 tolerance: "pointer",
                 cancel: 'input, button, .uploader',
@@ -232,9 +232,9 @@
                 'change [data-role="type-selector"]': '_changeType'
             };
 
-            events['click .action-close'] = function() {
+            events['click [data-role="close-panel"]'] = $.proxy(function() {
                 this.element.find('[data-role="dialog"]').trigger('close');
-            };
+            }, this);
             events['click ' + this.options.imageSelector] = function(event) {
                 $(event.currentTarget).addClass('active');
                 this._showDialog($(event.currentTarget).data('imageData'));
@@ -262,8 +262,8 @@
                 posX = position.left,
                 imageWidth = image.width(),
                 pointer = $('.image-pointer', panel),
-                pointerWidth = 20,
-                padding = 9,
+                pointerWidth = pointer.width(),
+                padding = 15,
                 pointerOffset = posX + padding + pointerWidth / 2 + imageWidth / 2;
 
             pointer.css({left: pointerOffset});
@@ -283,7 +283,7 @@
             this.element.find('[data-role="dialog"]').trigger('close');
             if (!dialogElement) {
                 var $template = this.element.find(this.options.dialogTemplate),
-                    imageCountInLine = 5;
+                    imageCountInRow = 5;
 
                 dialogElement = $template.tmpl(imageData);
 
@@ -292,12 +292,11 @@
                     .on('open', $.proxy(function(event) {
                         var imagesList = this.element.find(this.options.imageSelector + ':not(.removed), .image-placeholder');
                         var index = imagesList.index($imageContainer);
-                        var positionIndex = Math.floor(index / imageCountInLine + 1) * imageCountInLine - 1;
+                        var positionIndex = Math.floor(index / imageCountInRow + 1) * imageCountInRow - 1;
                         if (positionIndex > imagesList.length - 1) {
                             positionIndex = imagesList.length - 1;
                         }
                         var afterElement = imagesList.get(positionIndex);
-
 
                         $(event.target)
                             .insertAfter(afterElement)
@@ -322,7 +321,6 @@
                     }, this));
 
                 $imageContainer.data('dialog', dialogElement);
-
             }
             dialogElement.trigger('open');
         },
