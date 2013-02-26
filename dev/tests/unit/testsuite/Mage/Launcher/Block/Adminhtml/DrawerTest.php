@@ -110,4 +110,97 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
             )
         );
     }
+
+    /**
+     * @dataProvider getConfigValueDataProvider
+     * @param array $configMap
+     * @param string $configPath
+     * @param string $expectedValue
+     */
+    public function testGetConfigValue(array $configMap, $configPath, $expectedValue)
+    {
+        $result = $this->_getDrawerInstanceForGetConfigValueTest($configMap)->getConfigValue($configPath);
+
+        $this->assertEquals($expectedValue, $result);
+    }
+
+    /**
+     * Retrieve drawer instance for getConfigValue method test
+     *
+     * @param array $configMap
+     * @return Mage_Launcher_Block_Adminhtml_Drawer
+     */
+    protected function _getDrawerInstanceForGetConfigValueTest(array $configMap)
+    {
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
+        // mock system configuration instance
+        $config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $config->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnCallback(
+                function ($configPath) use ($configMap) {
+                    return isset($configMap[$configPath]) ? $configMap[$configPath] : null;
+                }
+            ));
+
+        $arguments = array(
+            'storeConfig' => $config,
+            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+            'linkTracker' => $this->getMock('Mage_Launcher_Model_LinkTracker', array(), array(), '', false)
+        );
+
+        return $objectManagerHelper->getBlock('Mage_Launcher_Block_Adminhtml_Drawer', $arguments);
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigValueDataProvider()
+    {
+        return array(
+            array(
+                array('valid/config/path' => 'config_value'),
+                'valid/config/path',
+                'config_value'
+            ),
+            array(
+                array(),
+                'valid/config/path',
+                null
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider getObscuredConfigValueDataProvider
+     * @param array $configMap
+     * @param string $configPath
+     * @param string $expectedValue
+     */
+    public function testGetObscuredConfigValue(array $configMap, $configPath, $expectedValue)
+    {
+        $result = $this->_getDrawerInstanceForGetConfigValueTest($configMap)->getObscuredConfigValue($configPath);
+
+        $this->assertEquals($expectedValue, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function getObscuredConfigValueDataProvider()
+    {
+        return array(
+            array(
+                array('valid/config/path' => 'config_value'),
+                'valid/config/path',
+                Mage_Launcher_Block_Adminhtml_Drawer::SECRET_DATA_DISPLAY_VALUE
+            ),
+            array(
+                array(),
+                'valid/config/path',
+                null
+            ),
+        );
+    }
 }

@@ -283,7 +283,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
             </label>
             <div class="control">
-                <input type="password" name="groups[payflow_advanced][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/payflow_advanced/pwd'); ?>" class="input-text" id="advanced-password">
+                <input type="password" name="groups[payflow_advanced][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/payflow_advanced/pwd'); ?>" class="input-text" id="advanced-password">
             </div>
         </div>
         <div class="actions">
@@ -350,7 +350,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
             </label>
             <div class="control">
-                <input type="password" class="input-text" id="payflow-link-password" name="groups[payflow_link][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/payflow_link/pwd'); ?>">
+                <input type="password" class="input-text" id="payflow-link-password" name="groups[payflow_link][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/payflow_link/pwd'); ?>">
             </div>
         </div>
 
@@ -388,13 +388,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User'); ?></span>
             </label>
             <div class="control">
-                <input type="password" class="input-text" id="payflow-pro-user" name="groups[verisign][fields][user][value]" value="<?php echo $this->getObscuredValue('payment/verisign/user'); ?>">
+                <input type="password" class="input-text" id="payflow-pro-user" name="groups[verisign][fields][user][value]" value="<?php echo $this->getObscuredConfigValue('payment/verisign/user'); ?>">
             </div>
         </div>
         <div class="field field-payflow-pro-password required">
             <label for="payflow-pro-password" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span></label>
             <div class="control">
-                <input type="password" class="input-text" id="payflow-pro-password" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getObscuredValue('payment/verisign/pwd'); ?>">
+                <input type="password" class="input-text" id="payflow-pro-password" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/verisign/pwd'); ?>">
             </div>
         </div>
         <div class="actions">
@@ -415,13 +415,13 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('API Login ID'); ?></span>
             </label>
             <div class="control">
-                <input type="password" class="input-text" id="authorize-login" name="groups[authorizenet][fields][login][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/login'); ?>">
+                <input type="password" class="input-text" id="authorize-login" name="groups[authorizenet][fields][login][value]" value="<?php echo $this->getObscuredConfigValue('payment/authorizenet/login'); ?>">
             </div>
         </div>
         <div class="field field-authorize-key required">
             <label for="authorize-key" class="label"><span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Transaction Key'); ?></span></label>
             <div class="control">
-                <input type="password" class="input-text" id="authorize-key" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getObscuredValue('payment/authorizenet/trans_key'); ?>">
+                <input type="password" class="input-text" id="authorize-key" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getObscuredConfigValue('payment/authorizenet/trans_key'); ?>">
             </div>
         </div>
         <div class="actions">

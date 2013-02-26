@@ -21,6 +21,11 @@
 class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_Form
 {
     /**
+     * Display value for secret configuration parameters
+     */
+    const SECRET_DATA_DISPLAY_VALUE = '******';
+
+    /**
      * @var Mage_Launcher_Model_LinkTracker
      */
     protected $_linkTracker;
@@ -169,6 +174,32 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     public function getConfigFlag($path, $store = null)
     {
         return $this->_storeConfig->getConfigFlag($path);
+    }
+
+    /**
+     * Retrieve store configuration parameter
+     *
+     * @param string $path
+     * @return string|null
+     */
+    public function getConfigValue($path)
+    {
+        return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
+     * Retrieve store configuration parameter (not-empty value is represented by asterisk sequence)
+     *
+     * @param string $configPath
+     * @return string|null
+     */
+    public function getObscuredConfigValue($configPath)
+    {
+        $value = $this->getConfigValue($configPath);
+        if (!empty($value)) {
+            return self::SECRET_DATA_DISPLAY_VALUE;
+        }
+        return $value;
     }
 
     /**

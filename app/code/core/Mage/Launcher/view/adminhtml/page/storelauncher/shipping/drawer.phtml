@@ -104,7 +104,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Account ID'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="fedex-id" name="groups[fedex][fields][account][value]" value="<?php echo $this->getConfigValue('carriers/fedex/account'); ?>">
+                            <input type="password" class="input-text" id="fedex-id" name="groups[fedex][fields][account][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/account'); ?>">
                         </div>
                     </div>
 
@@ -113,7 +113,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Meter Number'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="fedex-meter-number" name="groups[fedex][fields][meter_number][value]" value="<?php echo $this->getConfigValue('carriers/fedex/meter_number'); ?>">
+                            <input type="password" class="input-text" id="fedex-meter-number" name="groups[fedex][fields][meter_number][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/meter_number'); ?>">
                         </div>
                     </div>
 
@@ -122,7 +122,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Key'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="fedex-key" name="groups[fedex][fields][key][value]" value="<?php echo $this->getConfigValue('carriers/fedex/key'); ?>">
+                            <input type="password" class="input-text" id="fedex-key" name="groups[fedex][fields][key][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/key'); ?>">
                         </div>
                     </div>
 
@@ -131,7 +131,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="fedex-password" name="groups[fedex][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/fedex/password'); ?>">
+                            <input type="password" class="input-text" id="fedex-password" name="groups[fedex][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/password'); ?>">
                         </div>
                     </div>
 
@@ -153,7 +153,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User ID'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="usps-id" name="groups[usps][fields][userid][value]" value="<?php echo $this->getConfigValue('carriers/usps/userid'); ?>">
+                            <input type="password" class="input-text" id="usps-id" name="groups[usps][fields][userid][value]" value="<?php echo $this->getObscuredConfigValue('carriers/usps/userid'); ?>">
                         </div>
                     </div>
 
@@ -162,7 +162,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="usps-password" name="groups[usps][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/usps/password'); ?>">
+                            <input type="password" class="input-text" id="usps-password" name="groups[usps][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/usps/password'); ?>">
                         </div>
                     </div>
 
@@ -184,7 +184,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Access ID'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="dhl-id" name="groups[dhlint][fields][id][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/id'); ?>">
+                            <input type="password" class="input-text" id="dhl-id" name="groups[dhlint][fields][id][value]" value="<?php echo $this->getObscuredConfigValue('carriers/dhlint/id'); ?>">
                         </div>
                     </div>
 
@@ -193,7 +193,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="dhl-password" name="groups[dhlint][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/password'); ?>">
+                            <input type="password" class="input-text" id="dhl-password" name="groups[dhlint][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/dhlint/password'); ?>">
                         </div>
                     </div>
 
@@ -224,7 +224,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="ups-password" name="groups[ups][fields][password][value]" value="<?php echo $this->getConfigValue('carriers/ups/password'); ?>">
+                            <input type="password" class="input-text" id="ups-password" name="groups[ups][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/password'); ?>">
                         </div>
                     </div>
 
@@ -233,7 +233,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Access License Number'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="ups-license-number" name="groups[ups][fields][access_license_number][value]" value="<?php echo $this->getConfigValue('carriers/ups/access_license_number'); ?>">
+                            <input type="password" class="input-text" id="ups-license-number" name="groups[ups][fields][access_license_number][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/access_license_number'); ?>">
                         </div>
                     </div>
 
