@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 /* @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier */
+$element = $this->getElement();
 ?>
 <?php $_htmlId      = $this->getElement()->getHtmlId() ?>
 <?php $_htmlClass   = $this->getElement()->getClass() ?>
@@ -20,7 +21,12 @@
 
 <?php $_showWebsite = $this->isShowWebsiteColumn(); ?>
 <?php $_showWebsite= $this->isMultiWebsites(); ?>
-<div class="field" id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>">
+<div class="field" id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>"
+     data-apply-to="<?php echo $this->escapeHtml(
+         $this->helper('Mage_Core_Helper_Data')->jsonEncode(
+             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
+         )
+     )?>">
     <label class="label"><span><?php echo $this->getElement()->getLabel() ?></span></label>
     <div class="control">
         <table cellspacing="0" class="data-table" id="tiers_table">

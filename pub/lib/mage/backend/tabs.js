@@ -22,9 +22,11 @@
          * @protected
          */
         _create: function() {
-            var activeIndex = this._getTabIndex(this.options.active);
-            this.options.active = activeIndex >= 0 ? activeIndex : 0;
             this._super();
+            var activeIndex = this._getTabIndex(this.options.active);
+            if (activeIndex >= 0) {
+                this._setOption('active', activeIndex);
+            }
         },
 
         /**
@@ -112,6 +114,7 @@
          */
         _movePanelsInDestination: function(panels) {
             if (this.options.destination && !panels.parents(this.options.destination).length) {
+                this.element.trigger('beforePanelsMove', panels)
                 panels
                     .find('script[type!="text/x-jquery-tmpl"]').remove();
                 panels.appendTo(this.options.destination)

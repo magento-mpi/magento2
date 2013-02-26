@@ -59,6 +59,7 @@
 
 jQuery(function($) {
     var $form = $('#product-edit-form');
+    $form.data('typeSwitcher', new TypeSwitcher(<?php echo $this->getTypeSwitcherData();?>).bindAll());
 
     $('#meta_description').on('change keyup paste', function () {
         var maxLength = $(this).data('maxLength') || 255;
@@ -153,9 +154,7 @@ jQuery(function($) {
         }
     });
 
-    new Autogenerator(masks).bindAll();
-
-    new TypeSwitcher(<?php echo $this->getTypeSwitcherData();?>).bindAll();
+    $form.data('autogenerator', new Autogenerator(masks).bindAll());
 
     $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
     var fieldSelector = '.required-entry, .required-option-select',

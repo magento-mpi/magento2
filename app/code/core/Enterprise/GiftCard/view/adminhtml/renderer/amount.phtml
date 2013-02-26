@@ -7,13 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 ?>
 <?php $_htmlId      = $this->getElement()->getHtmlId() ?>
 <?php $_htmlClass   = $this->getElement()->getClass() ?>
 <?php $_htmlName    = $this->getElement()->getName() ?>
 <?php $_readonly    = $this->getElement()->getReadonly() ?>
 <?php $_multiWebsite= $this->isMultiWebsites(); ?>
-<div id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>" class="field">
+<div id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>" class="field"
+     data-apply-to="<?php echo $this->escapeHtml(
+         $this->helper('Mage_Core_Helper_Data')->jsonEncode(
+             $this->getElement()->hasEntityAttribute() ? $this->getElement()->getEntityAttribute()->getApplyTo() : array()
+         )
+     )?>">
     <label class="label"><span><?php echo $this->getElement()->getLabel() ?></span></label>
     <div class="control">
         <table class="data-table" id="<?php echo $_htmlId; ?>_table">

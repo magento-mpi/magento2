@@ -15,7 +15,13 @@
     Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::BASIC_TAB_GROUP_CODE,
     Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::ADVANCED_TAB_GROUP_CODE
 );?>
-<div id="<?php echo $this->getId() ?>">
+<div id="<?php echo $this->getId() ?>"
+    data-mage-init="{tabs:{
+        active: '<?php echo $this->getActiveTabId() ?>',
+        destination: '#<?php echo $this->getDestElementId() ?>',
+        shadowTabs: <?php echo $this->getAllShadowTabs()?>,
+        groups: 'ul.tabs'
+    }}">
     <?php foreach ($tabGroups as $tabGroupCode): ?>
     <?php $tabGroupId = $this->getId() . '-' . $tabGroupCode; ?>
     <?php $isBasic = $tabGroupCode == Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::BASIC_TAB_GROUP_CODE; ?>
@@ -55,14 +61,4 @@
     </div>
     <?php endforeach; ?>
 </div>
-<script type="text/javascript">
-jQuery(function($) {
-    $('#<?php echo $this->getId() ?>').tabs({
-        active: '<?php echo $this->getActiveTabId() ?>',
-        destination: '#<?php echo $this->getDestElementId() ?>',
-        shadowTabs: <?php echo $this->getAllShadowTabs()?>,
-        groups: 'ul.tabs'
-    });
-});
-</script>
 <?php endif; ?>
