@@ -27,9 +27,13 @@
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <copy file="${basedir}/dev/build/core_dev/static/pdepend.xml"
               tofile="${product_root_dir}/dev/tests/static/pdepend.xml" overwrite="true"/>
+        <replace file="${product_root_dir}/dev/tests/static/pdepend.xml">
+            <replacefilter token="{{pdepend_cache_path}}" value="${product_root_dir}/var/pdepend"/>
+        </replace>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_no_js.xml"/>
         </exec>
+        <delete dir="${product_root_dir}/var/pdepend"/>
     </target>
 
     <target name="_code_legacy_tests" depends="_product_location" description="Code Legacy Tests">
