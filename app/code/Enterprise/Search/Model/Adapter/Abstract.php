@@ -73,7 +73,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected $_defaultQueryParams = array(
         'offset' => 0,
-        'limit' => 100,
+        'limit' => 40000,
         'sort_by' => array(array('score' => 'desc')),
         'store_id' => null,
         'locale_code' => null,
