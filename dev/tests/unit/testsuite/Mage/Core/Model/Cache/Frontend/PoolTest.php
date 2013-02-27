@@ -50,6 +50,22 @@ class Mage_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Cache_Frontend_Pool($cacheConfig, $frontendFactory);
     }
 
+    /**
+     * Test that constructor delays object initialization (does not perform any initialization of its own)
+     */
+    public function testConstructorNoInitialization()
+    {
+        $frontendFactory = $this->getMock('Mage_Core_Model_Cache_Frontend_Factory', array(), array(), '', false);
+        $frontendFactory
+            ->expects($this->never())
+            ->method('create')
+        ;
+        new Mage_Core_Model_Cache_Frontend_Pool(
+            $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false),
+            $frontendFactory
+        );
+    }
+
     public function testCurrent()
     {
         $this->assertEquals(

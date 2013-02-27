@@ -26,12 +26,22 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
     const DEFAULT_FRONTEND_ID = 'generic';
 
     /**
-     * @var Magento_Cache_FrontendInterface[]
+     * @var Mage_Core_Model_ConfigInterface
      */
-    private $_instances = array();
+    private $_config;
 
     /**
-     * Load frontend instances from the configuration
+     * @var Mage_Core_Model_Cache_Frontend_Factory
+     */
+    private $_factory;
+
+    /**
+     * @var Magento_Cache_FrontendInterface[]
+     */
+    private $_instances;
+
+    /**
+     * Store references to objects, necessary to perform delayed initialization
      *
      * @param Mage_Core_Model_Config_Primary $cacheConfig
      * @param Mage_Core_Model_Cache_Frontend_Factory $frontendFactory
@@ -40,17 +50,30 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
         Mage_Core_Model_Config_Primary $cacheConfig,
         Mage_Core_Model_Cache_Frontend_Factory $frontendFactory
     ) {
-        $frontendNode = $cacheConfig->getNode(self::XML_PATH_SETTINGS_DEFAULT);
-        $frontendOptions = $frontendNode ? $frontendNode->asArray() : array();
-        $this->_instances[self::DEFAULT_FRONTEND_ID] = $frontendFactory->create($frontendOptions);
+        $this->_config = $cacheConfig;
+        $this->_factory = $frontendFactory;
+    }
 
-        $frontendNodes = $cacheConfig->getNode(self::XML_PATH_SETTINGS_CUSTOM);
-        if ($frontendNodes) {
-            /** @var $frontendNode Varien_Simplexml_Element */
-            foreach ($frontendNodes->children() as $frontendNode) {
-                $frontendId = $frontendNode->getName();
-                $frontendOptions = $frontendNode->asArray();
-                $this->_instances[$frontendId] = $frontendFactory->create($frontendOptions);
+    /**
+     * Load frontend instances from the configuration, to be used for delayed initialization
+     */
+    protected function _initialize()
+    {
+        if ($this->_instances === null) {
+            $this->_instances = array();
+            // default front-end
+            $frontendNode = $this->_config->getNode(self::XML_PATH_SETTINGS_DEFAULT);
+            $frontendOptions = $frontendNode ? $frontendNode->asArray() : array();
+            $this->_instances[self::DEFAULT_FRONTEND_ID] = $this->_factory->create($frontendOptions);
+            // additional front-ends
+            $frontendNodes = $this->_config->getNode(self::XML_PATH_SETTINGS_CUSTOM);
+            if ($frontendNodes) {
+                /** @var $frontendNode Varien_Simplexml_Element */
+                foreach ($frontendNodes->children() as $frontendNode) {
+                    $frontendId = $frontendNode->getName();
+                    $frontendOptions = $frontendNode->asArray();
+                    $this->_instances[$frontendId] = $this->_factory->create($frontendOptions);
+                }
             }
         }
     }
@@ -62,6 +85,7 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
      */
     public function current()
     {
+        $this->_initialize();
         return current($this->_instances);
     }
 
@@ -70,6 +94,7 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
      */
     public function key()
     {
+        $this->_initialize();
         return key($this->_instances);
     }
 
@@ -78,6 +103,7 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
      */
     public function next()
     {
+        $this->_initialize();
         next($this->_instances);
     }
 
@@ -86,6 +112,7 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
      */
     public function rewind()
     {
+        $this->_initialize();
         reset($this->_instances);
     }
 
@@ -94,6 +121,7 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
      */
     public function valid()
     {
+        $this->_initialize();
         return (bool)current($this->_instances);
     }
 
@@ -105,6 +133,7 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
      */
     public function get($identifier)
     {
+        $this->_initialize();
         if (isset($this->_instances[$identifier])) {
             return $this->_instances[$identifier];
         }
