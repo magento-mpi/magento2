@@ -14,15 +14,13 @@
     <form id="drawer-form">
         <h2 class="title"><?php echo $this->__('Guidelines and Best Practices') ?> </h2>
         <article class="entry">
-            <p><?php echo $this->__('Lorem ipsum dolor sit amet, consectetur adipiscing elit. In velit libero, dictum a ultrices non, tempor non dui. Ut volutpat blandit nulla, scelerisque mattis libero cursus id. Donec eu leo justo, at tincidunt urna. Duis interdum, velit ut lobortis dignissim, odio enim commodo ante, placerat viverra lectus eros sed diam. Vivamus scelerisque, tellus nec gravida consectetur, orci lacus pretium felis, vel convallis magna neque ultrices leo. In a leo nec lectus scelerisque fringilla sed ut sapien. Integer tincidunt risus in arcu blandit dapibus.') ?> </p>
-            <p><?php echo $this->__('Integer ac nibh nunc. Duis est justo, feugiat ut elementum eget, commodo a orci. Pellentesque et massa leo, vitae faucibus sapien. Proin sed metus non neque pellentesque aliquet eu congue felis. Curabitur bibendum blandit rutrum. Nunc vel rutrum urna. Pellentesque tempus sapien non mauris ultrices pharetra tristique elit laoreet. Pellentesque nulla leo, placerat ac sollicitudin ac, aliquam in justo. Phasellus a sapien lorem. Quisque mi nulla, adipiscing quis tincidunt vel, pulvinar in orci. Duis sodales odio in justo scelerisque consectetur. Aliquam erat volutpat. Etiam hendrerit, purus a rutrum condimentum, lorem quam ultrices erat, ut condimentum est purus eget mi.') ?> </p>
+            <p><?php echo $this->__('Really Simple Syndication (RSS) is exactly that: an easy-to-use technology that automatically sends messages to customers. RSS is the hassle-free way to alert customers to secret sales, new products, special events and more. Use RSS to build loyalty with subscribers by sending daily store deals, blog feeds and free “insider” info such as brand new cart rules. It’s a cost-free contact strategy your store can’t afford to skip. Stay close to your customers – set up your RSS feed today.') ?> </p>
         </article>
         <div class="go-do">
             <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
-            <p><?php echo $this->__('We recommend that you configure the RSS on you new site following these steps') ?></p>
             <ul class="checklist">
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'rss', '_fragment' => 'rss_config-link')); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Configure RSS') ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create RSS Feeds') ?></a></li>
             </ul>
         </div>
     </form>

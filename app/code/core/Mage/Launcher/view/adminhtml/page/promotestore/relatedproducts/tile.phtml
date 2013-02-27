@@ -14,7 +14,7 @@
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Cross-Sells, Up-Sells, Related Products') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Get the most out of your shopping cart – and your customers.') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_relatedproducts_drawer/save') ?>"
@@ -25,11 +25,11 @@
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
-        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Completed.') ?></p>
+        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Get the most out of your shopping cart – and your customers.') ?></p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_relatedproducts_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_relatedproducts_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Content Pages') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
         </button>
         <?php endif; ?>
     </div>
