@@ -51,7 +51,7 @@
                 self.$is_virtual.trigger('change');
             });
 
-            $("#product_info_tabs").on("beforePanelsMove tabscreate", function(event) {
+            $("#product_info_tabs").on("beforePanelsMove tabscreate tabsactivate", function(event) {
                 self._switchToType($type.val());
                 self.$is_virtual.trigger('change');
             });
