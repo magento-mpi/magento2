@@ -131,6 +131,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     }
 
     /**
+     * Add white border checkbox to form
+     *
      * @param array $control
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
      */
@@ -161,6 +163,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     }
 
     /**
+     * Add one image sizing item to form
+     *
      * @param string $name
      * @param array $control
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing

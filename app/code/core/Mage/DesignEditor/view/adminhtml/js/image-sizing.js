@@ -13,8 +13,9 @@
             restoreDefaultDataEvent: 'restoreDefaultData',
             saveFormEvent: 'saveForm',
             maxSizeValue: 500,
-            formUrl: '',
-            formId: ''
+            formUrl: null,
+            formId: null,
+            messagesContainer: null
         },
 
         /**
@@ -78,7 +79,7 @@
                 showLoader: false,
                 success: $.proxy(function(response) {
                     if (response.message_html) {
-                        $('#vde-tab-imagesizing-messages-placeholder').append(response.message_html);
+                        $(this.options.messagesContainer).append(response.message_html);
                     }
                     this.element.trigger('refreshIframe');
                 }, this),
