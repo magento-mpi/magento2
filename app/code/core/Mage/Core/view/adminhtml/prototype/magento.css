@@ -331,7 +331,7 @@
 .insert-variable {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0 25px;
 }
 
 .insert-variable li {
@@ -340,6 +340,8 @@
 
 .insert-variable li b {
     margin-left: -20px;
+    margin-top: 5px;
+    display: inline-block;
 }
 
 /*
