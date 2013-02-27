@@ -90,9 +90,12 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
      * @param bool $banAll
      * @return Mage_Core_Model_Cache_Types
      */
-    protected function _buildModel($typeOptionsViaCache, $typeOptionsViaResource = false,
-                                   $appInstalled = true, $banAll = false)
-    {
+    protected function _buildModel(
+        $typeOptionsViaCache,
+        $typeOptionsViaResource = false,
+        $appInstalled = true,
+        $banAll = false
+    ) {
         $this->_cacheFrontend = $this->getMock('Magento_Cache_FrontendInterface');
         $this->_cacheFrontend->expects($this->any())
             ->method('load')
