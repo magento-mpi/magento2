@@ -39,10 +39,10 @@
             var newCategoryForm = new Validation(this.element.get(0));
 
             this.element.dialog({
-                title: 'Create New Category',
+                title: 'Create Category',
                 autoOpen: false,
                 minWidth: 560,
-                dialogClass: 'mage-new-category-dialog',
+                dialogClass: 'mage-new-category-dialog form-inline',
                 modal: true,
                 multiselect: true,
                 resizable: false,
@@ -60,13 +60,8 @@
                     $('#category_ids + .category-selector-container .category-selector-input').focus();
                 },
                 buttons: [{
-                    text: 'Cancel',
-                    id: 'mage-new-category-dialog-close-button',
-                    click: function() {
-                        $(this).dialog('close');
-                    }
-                }, {
-                    text: 'Save',
+                    text: 'Create Category',
+                    class: 'action-create primary',
                     id: 'mage-new-category-dialog-save-button',
                     click: function() {
                         if (!newCategoryForm.validate()) {
@@ -105,6 +100,14 @@
                                     }
                                 }
                             );
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    class: 'action-cancel',
+                    id: 'mage-new-category-dialog-close-button',
+                    click: function() {
+                        $(this).dialog('close');
                     }
                 }]
             });

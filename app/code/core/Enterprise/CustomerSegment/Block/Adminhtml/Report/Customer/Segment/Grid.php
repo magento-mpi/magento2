@@ -56,44 +56,46 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
 
         $this->addColumn('segment_id', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ID'),
-            'align'     =>'right',
-            'width'     => 50,
             'index'     => 'segment_id',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('name', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Name'),
-            'align'     => 'left',
             'index'     => 'name',
+            'header_css_class'  => 'col-segment',
+            'column_css_class'  => 'col-segment'
         ));
 
         $this->addColumn('is_active', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
-            'align'     => 'left',
-            'width'     => 80,
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
                 1 => 'Active',
                 0 => 'Inactive',
             ),
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website', array(
                 'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Website'),
-                'align'     => 'left',
-                'width'     => 200,
                 'index'     => 'website_ids',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash()
+                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'header_css_class'  => 'col-website',
+                'column_css_class'  => 'col-website'
             ));
         }
 
         $this->addColumn('customer_count', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Number of Customers'),
             'index'     =>'customer_count',
-            'width'     => 200
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         return $this;

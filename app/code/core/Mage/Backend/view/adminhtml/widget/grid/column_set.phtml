@@ -16,9 +16,11 @@
 $numColumns = sizeof($this->getColumns());
 ?>
 <?php if($this->getCollection()): ?>
-    <?php foreach ($this->getColumns() as $_column): ?>
+    <?php
+    /* This part is commented to remove all <col> tags from the code. */
+    /* foreach ($this->getColumns() as $_column): ?>
         <col <?php echo $_column->getHtmlProperty() ?> />
-    <?php endforeach; ?>
+    <?php endforeach; */ ?>
     <?php if ($this->isHeaderVisible() || $this->isFilterVisible()): ?>
         <thead>
             <?php if ($this->isHeaderVisible()): ?>

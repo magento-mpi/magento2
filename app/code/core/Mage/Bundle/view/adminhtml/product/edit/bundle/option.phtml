@@ -12,7 +12,7 @@
 ?>
 <script id="bundle-option-template" type="text/x-jquery-tmpl">
     <div id="<?php echo $this->getFieldId() ?>_{{index}}" class="option-box">
-        <div class="fieldset-wrapper" id="<?php echo $this->getFieldId() ?>_{{index}}-wrapper">
+        <div class="fieldset-wrapper collapsable-wrapper" id="<?php echo $this->getFieldId() ?>_{{index}}-wrapper">
             <div class="fieldset-wrapper-title">
                 <strong class="title" data-toggle="collapse" data-target="#<?php echo $this->getFieldId() ?>_{{index}}-content">
                     <span>{{default_title}}</span>
@@ -50,7 +50,7 @@
                                 <input type="hidden"
                                        name="<?php echo $this->getFieldName() ?>[{{index}}][delete]"
                                        value=""
-                                       class="delete" />
+                                       class="isdeleted" />
                             </div>
                         </div>
                         <?php if (!$this->isDefaultStore()): ?>
@@ -182,7 +182,7 @@ Bundle.Option.prototype = {
         var element = Event.findElement(event, 'div').up('.option-box');
 
         if(element){
-            Element.select(element, '.action-delete').each(function(elem) {
+            Element.select(element, '.isdeleted').each(function(elem) {
                 elem.value = '1';
             });
 

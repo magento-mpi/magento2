@@ -68,12 +68,16 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
 
         $this->addColumn('subscriber_id', array(
             'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('ID'),
-            'index'     => 'subscriber_id'
+            'index'     => 'subscriber_id',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('email', array(
             'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Email'),
-            'index'     => 'subscriber_email'
+            'index'     => 'subscriber_email',
+            'header_css_class'  => 'col-email',
+            'column_css_class'  => 'col-email'
         ));
 
         $this->addColumn('type', array(
@@ -83,19 +87,25 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
             'options'   => array(
                 1  => Mage::helper('Mage_Newsletter_Helper_Data')->__('Guest'),
                 2  => Mage::helper('Mage_Newsletter_Helper_Data')->__('Customer')
-            )
+            ),
+            'header_css_class'  => 'col-type',
+            'column_css_class'  => 'col-type'
         ));
 
         $this->addColumn('firstname', array(
             'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Customer First Name'),
             'index'     => 'customer_firstname',
-            'default'   =>    '----'
+            'default'   =>    '----',
+            'header_css_class'  => 'col-first-name',
+            'column_css_class'  => 'col-first-name'
         ));
 
         $this->addColumn('lastname', array(
             'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Customer Last Name'),
             'index'     => 'customer_lastname',
-            'default'   =>    '----'
+            'default'   =>    '----',
+            'header_css_class'  => 'col-last-name',
+            'column_css_class'  => 'col-last-name'
         ));
 
         $this->addColumn('status', array(
@@ -107,7 +117,9 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
                 Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribed'),
                 Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => Mage::helper('Mage_Newsletter_Helper_Data')->__('Unsubscribed'),
                 Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED => Mage::helper('Mage_Newsletter_Helper_Data')->__('Unconfirmed'),
-            )
+            ),
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         if (!$this->_app->isSingleStoreMode()) {
@@ -115,21 +127,27 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
                 'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Website'),
                 'index'     => 'website_id',
                 'type'      => 'options',
-                'options'   => $this->_getWebsiteOptions()
+                'options'   => $this->_getWebsiteOptions(),
+                'header_css_class'  => 'col-website',
+                'column_css_class'  => 'col-website'
             ));
 
             $this->addColumn('group', array(
                 'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Store'),
                 'index'     => 'group_id',
                 'type'      => 'options',
-                'options'   => $this->_getStoreGroupOptions()
+                'options'   => $this->_getStoreGroupOptions(),
+                'header_css_class'  => 'col-store',
+                'column_css_class'  => 'col-store'
             ));
 
             $this->addColumn('store', array(
                 'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Store View'),
                 'index'     => 'store_id',
                 'type'      => 'options',
-                'options'   => $this->_getStoreOptions()
+                'options'   => $this->_getStoreOptions(),
+                'header_css_class'  => 'col-store-view',
+                'column_css_class'  => 'col-store-view'
             ));
         }
 

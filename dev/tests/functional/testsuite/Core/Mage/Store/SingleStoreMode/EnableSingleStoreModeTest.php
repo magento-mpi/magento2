@@ -57,7 +57,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6180
+     * @TestLinkId TL-MAGE-6180
      */
     public function systemConfigurationVerificationScopeSelector()
     {
@@ -71,7 +71,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6181
+     * @TestLinkId TL-MAGE-6181
      */
     public function systemConfigurationVerificationTableRatesExport()
     {
@@ -86,7 +86,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6183
+     * @TestLinkId TL-MAGE-6183
      */
     public function systemConfigurationVerificationAccountSharingOptions()
     {
@@ -101,7 +101,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6183
+     * @TestLinkId TL-MAGE-6183
      */
     public function systemConfigurationVerificationCatalogPrice()
     {
@@ -115,7 +115,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6184
+     * @TestLinkId TL-MAGE-6184
      */
     public function systemConfigurationVerificationDebugOptions()
     {
@@ -129,7 +129,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6185
+     * @TestLinkId TL-MAGE-6185
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationVerificationHints()
@@ -149,7 +149,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6317
+     * @TestLinkId TL-MAGE-6317
      */
     public function verificationManageProducts()
     {
@@ -161,7 +161,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
-        $this->clickButton('add_new_product_split');
+        $this->productHelper()->selectTypeProduct('simple');
         $this->productHelper()->fillProductInfo($productData);
         //Veryfying
         $this->assertFalse($this->controlIsPresent('tab', 'websites'),
@@ -182,7 +182,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6316
+     * @TestLinkId TL-MAGE-6316
      */
     public function verificationSearchTerms()
     {
@@ -203,7 +203,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6318
+     * @TestLinkId TL-MAGE-6318
      */
     public function verificationReviewRatings()
     {
@@ -230,7 +230,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6319
+     * @TestLinkId TL-MAGE-6319
      */
     public function verificationTags()
     {
@@ -240,6 +240,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $this->assertFalse($this->controlIsPresent('dropdown', 'store_view'),
             "There is 'Store View' column on the page");
         //Steps
+        $this->addParameter('storeId', '1');
         $this->clickButton('add_new_tag');
         //Veryfying
         $this->assertFalse($this->controlIsPresent('dropdown', 'switch_store'),
@@ -256,7 +257,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6320
+     * @TestLinkId TL-MAGE-6320
      */
     public function verificationUrlRewrite()
     {
@@ -272,10 +273,11 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6167
+     * @TestLinkId TL-MAGE-6167
      */
     public function verificationManageContent()
     {
+        $this->markTestSkipped('Skipped due to bug MAGETWO-7394');
         $this->navigate('manage_cms_pages');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_page'),
             'There is no "Add New Page" button on the page');
@@ -292,7 +294,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6168
+     * @TestLinkId TL-MAGE-6168
      */
     public function verificationStaticBlocks()
     {
@@ -316,7 +318,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6169
+     * @TestLinkId TL-MAGE-6169
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
     {
@@ -348,7 +350,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6171
+     * @TestLinkId TL-MAGE-6171
      */
     public function verificationPolls()
     {
@@ -368,7 +370,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6302
+     * @TestLinkId TL-MAGE-6302
      */
     public function verificationDashboardPage()
     {
@@ -382,7 +384,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6229
+     * @TestLinkId TL-MAGE-6229
      */
     public function newCustomer()
     {
@@ -400,7 +402,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * @param $userData
      * @depends preconditionsForTests
      * @test
-     * @TestlinkId TL-MAGE-6230
+     * @TestLinkId TL-MAGE-6230
      */
     public function editCustomer($userData)
     {
@@ -431,7 +433,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6311
+     * @TestLinkId TL-MAGE-6311
      */
     public function verificationNewsletterSubscribers()
     {
@@ -449,7 +451,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6266
+     * @TestLinkId TL-MAGE-6266
      */
     public function verificationCatalogPriceRule()
     {
@@ -468,7 +470,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6267
+     * @TestLinkId TL-MAGE-6267
      */
     public function verificationShoppingCartPriceRule()
     {
@@ -488,7 +490,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * @depends preconditionsForTests
      *
      * @test
-     * @TestlinkId TL-MAGE-6288
+     * @TestLinkId TL-MAGE-6288
      */
     public function allReportPages($page)
     {
@@ -528,14 +530,14 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @depends preconditionsForTests
      * @test
-     * @TestlinkId TL-MAGE-6271
+     * @TestLinkId TL-MAGE-6271
      */
     public function verificationSelectStoreDuringOrderCreation($userData)
     {
         //Steps
         $this->navigate('manage_sales_orders');
         $this->clickButton('create_new_order');
-        $this->orderHelper()->searchAndOpen(array('email' => $userData['email']), false, 'order_customer_grid');
+        $this->searchAndOpen(array('email' => $userData['email']), 'order_customer_grid', true);
         $this->waitForAjax();
         $this->assertFalse($this->controlIsVisible('fieldset', 'order_store_selector'),
             'There is "Please Select a Store" field set on the page');
@@ -546,7 +548,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6272
+     * @TestLinkId TL-MAGE-6272
      */
     public function verificationRecurringProfiles()
     {
@@ -561,11 +563,11 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6273
+     * @TestLinkId TL-MAGE-6273
      */
     public function verificationTermsAndConditions()
     {
-        $this->navigate('manage_checkout_terms_and_conditions');
+        $this->navigate('manage_sales_checkout_terms_conditions');
         $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store_view'),
             'There is no "Store View" column on the page');
         $this->assertTrue($this->controlIsPresent('button', 'create_new_terms_and_conditions'),
@@ -579,7 +581,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6321
+     * @TestLinkId TL-MAGE-6321
      */
     public function verificationDesignSchedule()
     {
@@ -589,21 +591,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
             'There is no "Add Design Change" button on the page');
         $this->clickButton('add_design_change');
         $this->assertFalse($this->controlIsPresent('dropdown', 'store'),
-            'There is no "Store" multi selector on the page');
-    }
-
-    /**
-     * <p>"Content Information" field set is not displayed in the Design-Editor area.</p>
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6322
-     */
-    public function verificationDesignEditor()
-    {
-        $this->navigate('system_design_editor');
-        $this->assertFalse($this->controlIsPresent('fieldset', 'context_information'),
-            'There is no "Content Information" field set on the page');
+            'There is "Store" multi selector on the page');
     }
 
     /**
@@ -611,7 +599,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-6324
+     * @TestLinkId TL-MAGE-6324
      */
     public function verificationOrderStatuses()
     {

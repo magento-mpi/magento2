@@ -46,12 +46,13 @@
                 setImageType: '_setImageType',
                 setPosition: '_setPosition',
                 resort: '_resort',
-                'click [data-role="delete-button"]': function(event) {
+                'mouseup [data-role="delete-button"]': function(event) {
                     event.preventDefault();
                     var $imageContainer = $(event.currentTarget).closest(this.options.imageSelector);
+                    this.element.find('[data-role="dialog"]').trigger('close');
                     this.element.trigger('removeItem', $imageContainer.data('imageData'));
                 },
-                'click [data-role="make-main-button"]': function(event) {
+                'mouseup [data-role="make-main-button"]': function(event) {
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     var $imageContainer = $(event.currentTarget).closest(this.options.imageSelector);
@@ -63,7 +64,7 @@
 
             this.element.sortable({
                 distance: 8,
-                placeholder: "ui-state-highlight",
+                placeholder: 'ui-state-highlight',
                 items: this.options.imageSelector,
                 tolerance: "pointer",
                 cancel: 'input, button, .uploader',
@@ -91,12 +92,17 @@
                     return el.value == baseImage.value;
                 }
             );
+            var isImageOpened = this.findElement(imageData).hasClass('active');
 
             $.each(sameImages, $.proxy(function(index, image) {
                 this.element.trigger('setImageType', {
                     type: image.code,
                     imageData: imageData
                 });
+                if (isImageOpened) {
+                    this.element.find('.item').addClass('selected');
+                    this.element.find('[data-role="type-selector"]').prop({'checked': true});
+                }
             }, this));
         },
 
@@ -164,11 +170,15 @@
          * @param data
          * @private
          */
-        _setImageType: function(event, data){
-            this.element.find('.base-image').removeClass('base-image');
+        _setImageType: function(event, data) {
+            if (data.type === 'image') {
+                this.element.find('.base-image').removeClass('base-image');
+            }
             if (data.imageData) {
                 this.options.types[data.type].value = data.imageData.file;
-                this.findElement(data.imageData).addClass('base-image');
+                if (data.type === 'image') {
+                    this.findElement(data.imageData).addClass('base-image');
+                }
             } else {
                 this.options.types[data.type].value = 'no_selection';
             }
@@ -232,12 +242,19 @@
                 'change [data-role="type-selector"]': '_changeType'
             };
 
-            events['click .action-close'] = function() {
+            events['click [data-role="close-panel"]'] = $.proxy(function() {
                 this.element.find('[data-role="dialog"]').trigger('close');
+            }, this);
+            events['mouseup ' + this.options.imageSelector] = function(event) {
+                if (!$(event.currentTarget).is('.ui-sortable-helper')) {
+                    $(event.currentTarget).addClass('active');
+                    this._showDialog($(event.currentTarget).data('imageData'));
+                }
             };
-            events['click ' + this.options.imageSelector] = function(event) {
-                $(event.currentTarget).addClass('active');
-                this._showDialog($(event.currentTarget).data('imageData'));
+            events['click .action-remove'] = function (event) {
+                var $imageContainer = $(event.currentTarget).closest('[data-role="dialog"]').data('imageContainer');
+                this.element.find('[data-role="dialog"]').trigger('close');
+                this.element.trigger('removeItem', $imageContainer.data('imageData'));
             };
             this._on(events);
             this.element.on('sortstart addItem', $.proxy(function() {
@@ -283,7 +300,7 @@
             this.element.find('[data-role="dialog"]').trigger('close');
             if (!dialogElement) {
                 var $template = this.element.find(this.options.dialogTemplate),
-                    imageCountInLine = 5;
+                    imageCountInRow = 5;
 
                 dialogElement = $template.tmpl(imageData);
 
@@ -292,12 +309,11 @@
                     .on('open', $.proxy(function(event) {
                         var imagesList = this.element.find(this.options.imageSelector + ':not(.removed), .image-placeholder');
                         var index = imagesList.index($imageContainer);
-                        var positionIndex = Math.floor(index / imageCountInLine + 1) * imageCountInLine - 1;
+                        var positionIndex = Math.floor(index / imageCountInRow + 1) * imageCountInRow - 1;
                         if (positionIndex > imagesList.length - 1) {
                             positionIndex = imagesList.length - 1;
                         }
                         var afterElement = imagesList.get(positionIndex);
-
 
                         $(event.target)
                             .insertAfter(afterElement)
@@ -306,11 +322,15 @@
                         $(event.target)
                             .find('[data-role="type-selector"]')
                             .each($.proxy(function(index, checkbox) {
-                                var $checkbox = $(checkbox);
+                                var $checkbox = $(checkbox),
+                                    parent = $checkbox.closest('.item'),
+                                    selectedClass = 'selected',
+                                    isChecked = this.options.types[$checkbox.val()].value == imageData.file;
                                 $checkbox.prop(
                                     'checked',
-                                    this.options.types[$checkbox.val()].value == imageData.file
+                                    isChecked
                                 );
+                                parent.toggleClass(selectedClass, isChecked);
                             }, this));
                         this._setImagePointerPosition($imageContainer, dialogElement);
 
@@ -322,7 +342,6 @@
                     }, this));
 
                 $imageContainer.data('dialog', dialogElement);
-
             }
             dialogElement.trigger('open');
         },

@@ -210,4 +210,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
             ? $attribute->getFrontend()->getClass()
             : '';
     }
+
+    /**
+     * Get url to upload files
+     *
+     * @return string
+     */
+    protected function _getImageUploadUrl()
+    {
+        return $this->getUrl('*/catalog_product_gallery/upload');
+    }
 }

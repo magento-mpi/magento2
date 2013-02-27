@@ -24,6 +24,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
+        $this->currentWindow()->maximize();
         $this->loginAdminUser();
         $this->navigate('manage_tax_zones_and_rates');
     }
@@ -44,7 +45,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $rate = $this->loadDataSet('Tax', $taxRateDataSetName);
         $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $rate['tax_identifier']));
         //Steps
-        $this->taxHelper()->createTaxItem($rate, 'rate');
+        $this->taxHelper()->createTaxRate($rate);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         //Steps
@@ -72,9 +73,9 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $taxRateData = $this->loadDataSet('Tax', 'tax_rate_create_test_zip_no');
         //Steps
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->taxHelper()->createTaxRate($taxRateData);
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->taxHelper()->createTaxRate($taxRateData);
         //Verifying
         $this->assertMessagePresent('error', 'code_already_exists');
     }
@@ -93,7 +94,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         //Data
         $taxRateData = $this->loadDataSet('Tax', 'tax_rate_create_test_zip_yes', array($emptyFieldName => ''));
         //Steps
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->taxHelper()->createTaxRate($taxRateData);
         //Verifying
         $this->addFieldIdToMessage('field', $emptyFieldName);
         $this->assertMessagePresent('error', 'empty_required_field');
@@ -124,7 +125,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $taxRate = $this->loadDataSet('Tax', 'tax_rate_create_test_zip_no', array('tax_identifier' => $specialValue));
         $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $taxRate['tax_identifier']));
         //Steps
-        $this->taxHelper()->createTaxItem($taxRate, 'rate');
+        $this->taxHelper()->createTaxRate($taxRate);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         //Steps
@@ -158,7 +159,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
             $this->loadDataSet('Tax', 'tax_rate_create_test_zip_yes', array('zip_range_from' => $specialValue,
                                                                             'zip_range_to'   => $specialValue));
         //Steps
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->taxHelper()->createTaxRate($taxRateData);
         //Verifying
         $this->addFieldIdToMessage('field', 'zip_range_from');
         $this->assertMessagePresent('error', 'enter_valid_digits');
@@ -191,7 +192,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $taxRateData =
             $this->loadDataSet('Tax', 'tax_rate_create_test_zip_yes', array('rate_percent' => $specialValue));
         //Steps
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->taxHelper()->createTaxRate($taxRateData);
         //Verifying
         $this->addFieldIdToMessage('field', 'rate_percent');
         $this->assertMessagePresent('error', 'enter_not_negative_number');
@@ -218,7 +219,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $taxRate = $this->loadDataSet('Tax', 'tax_rate_create_with_custom_state');
         $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $taxRate['tax_identifier']));
         //Steps
-        $this->taxHelper()->createTaxItem($taxRate, 'rate');
+        $this->taxHelper()->createTaxRate($taxRate);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         //Steps
@@ -247,7 +248,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
         $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $taxRate['tax_identifier']));
         //Steps
         $this->navigate('manage_tax_zones_and_rates');
-        $this->taxHelper()->createTaxItem($taxRate, 'rate');
+        $this->taxHelper()->createTaxRate($taxRate);
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
         $this->taxHelper()->openTaxItem($search, 'rate');
         //Verification
