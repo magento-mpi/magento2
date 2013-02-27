@@ -171,7 +171,7 @@ tinyMceWysiwygSetup.prototype =
 
         MediabrowserUtility.openDialog(wUrl, false, false, typeTitle, {
             onBeforeShow: function(win) {
-                win.element.setStyle({zIndex: 300200});
+                win.element.setStyle({zIndex: 1100});
             }
         });
     },

@@ -33,15 +33,13 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Date extends Mage_Backend_Blo
         $htmlId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($this->_getHtmlId());
         $format = $this->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
-            . '<span class="label">' . $this->__('From') . ':</span>'
             . '<input type="text" name="' . $this->_getHtmlName() . '[from]" id="' . $htmlId . '_from"'
-                . ' value="' . $this->getEscapedValue('from') . '" class="input-text no-changes" '
+                . ' value="' . $this->getEscapedValue('from') . '" class="input-text no-changes" placeholder="' . $this->__('From') . '" '
                 . $this->getUiId('filter', $this->_getHtmlName(), 'from') . '/>'
             . '</div>';
         $html .= '<div class="range-line date">'
-            . '<span class="label">' . $this->__('To') . ' :</span>'
             . '<input type="text" name="' . $this->_getHtmlName() . '[to]" id="' . $htmlId . '_to"'
-                . ' value="' . $this->getEscapedValue('to') . '" class="input-text no-changes" '
+                . ' value="' . $this->getEscapedValue('to') . '" class="input-text no-changes" placeholder="' . $this->__('To') . '" '
                 . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/>'
             . '</div></div>';
         $html .= '<input type="hidden" name="' . $this->_getHtmlName() . '[locale]"'

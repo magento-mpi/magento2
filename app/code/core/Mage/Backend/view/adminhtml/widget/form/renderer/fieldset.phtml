@@ -35,7 +35,7 @@ if ($isField) {
 */ ?>
 
 <?php if ($isWrapped): ?>
-    <div class="fieldset-wrapper" id="<?php echo $containerId ? $containerId : $id . '-wrapper';?>">
+    <div class="fieldset-wrapper <?php echo ($isCollapsable) ? 'collapsable-wrapper ' : ''; ?>" id="<?php echo $containerId ? $containerId : $id . '-wrapper';?>">
         <div class="fieldset-wrapper-title">
             <strong class="title"<?php echo ($isCollapsable) ? ' data-toggle="collapse" data-target="#' . $id . '-content"' : ''; ?>>
                 <span><?php echo $element->getLegend() ?></span>

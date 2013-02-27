@@ -130,7 +130,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($categoryName);
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
         //Verifying
@@ -235,7 +235,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->clickControl('link', 'delete_category', false);
         $this->productHelper()->saveProduct();
         //Verifying

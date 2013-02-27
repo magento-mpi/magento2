@@ -13,12 +13,12 @@
  *
  * @category   Mage
  * @package    Mage_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
 {
     /**
-     * tabs structure
+     * Tabs structure
      *
      * @var array
      */
@@ -38,6 +38,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
      */
     protected $_destElementId = 'content';
 
+    /** @var string */
     protected $_template = 'Mage_Backend::widget/tabs.phtml';
 
     /**
@@ -82,6 +83,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
      * @param   string $tabId
      * @param   array|Varien_Object|string $tab
      * @return  Mage_Backend_Block_Widget_Tabs
+     * @throws  Exception
      */
     public function addTab($tabId, $tab)
     {

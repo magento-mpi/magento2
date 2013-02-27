@@ -116,7 +116,7 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $this->selectStoreScope('dropdown', 'choose_store_view',
             'Main Website/Main Website Store/' . $storeViewData['store_view_name'], true);
         $this->waitForPageToLoad();
-        $this->openTab('custom_options');
+        $this->productHelper()->openProductTab('custom_options');
         //Need to update custom option, get optionId by Title
         $optionId = $this->productHelper()->getCustomOptionIdByTitle('Custom Option Field');
         $this->addParameter('optionId', $optionId);

@@ -187,7 +187,7 @@ create_cms_banner:
                                         close_variable_insertion: //div[@id='variables-chooser_close']
                             -
                                 specific_content:
-                                    xpath: //div[@id='banner_content_scopes_fieldset']
+                                    xpath: //fieldset[@id='banner_content_scopes_fieldset']
                                     checkboxes:
                                         specific_content_use_default: //input[@id='banner_content_store_1_content_use']
                                     buttons:

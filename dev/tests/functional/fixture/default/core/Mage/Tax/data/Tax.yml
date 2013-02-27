@@ -32,13 +32,13 @@ new_tax_rule_required:
 #*           Customer Tax Class              *
 #*********************************************
 new_customer_tax_class:
-    customer_class_name: Customer Tax Class Name %randomize%
+    customer_tax_class: Customer Tax Class Name %randomize%
 
 #*********************************************
 #*            Product Tax Class              *
 #*********************************************
 new_product_tax_class:
-    product_class_name: Product Tax Class Name %randomize%
+    product_tax_class: Product Tax Class Name %randomize%
 
 #*********************************************
 #*                     Tax Rate              *

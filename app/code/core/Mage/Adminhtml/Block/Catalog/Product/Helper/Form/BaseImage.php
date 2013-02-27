@@ -87,6 +87,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     {
         $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
+        $spacerImage = Mage::getDesign()->getViewFileUrl('Mage_Backend::images/spacer.gif');
         /** @var $product Mage_Catalog_Model_Product */
         $html = <<<HTML
 <div id="{$htmlId}-container" class="images"
@@ -94,12 +95,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     data-max-file-size="{$this->_getFileMaxSize()}"
     >
     <div class="image image-placeholder">
-        <input type="file" name="image"  data-url="{$uploadUrl}"  />
+        <input type="file" name="image" data-url="{$uploadUrl}" multiple="multiple" />
+        <img class="spacer" src="{$spacerImage}"/>
         <p class="image-placeholder-text">{$this->__('Click here or drag and drop to add images')}</p>
     </div>
     <script id="{$htmlId}-template" class="image-template" type="text/x-jquery-tmpl">
         <div class="image" data-image-label="{$this->__('Main')}">
-            <img class="base-image-uploader" src="\${url}" data-position="\${position}" alt="\${label}" />
+            <img class="spacer" src="{$spacerImage}"/>
+            <img class="product-image" src="\${url}" data-position="\${position}" alt="\${label}" />
             <div class="actions">
                 <button class="action-delete" data-role="delete-button" title="{$this->__('Delete image')}">
                     <span>{$this->__('Delete image')}</span>
