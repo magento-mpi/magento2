@@ -151,7 +151,7 @@ newsletter_queue:
                             filter_queue_recipients_to: //input[@id='queueGrid_filter_subscribers_total_to']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-                            queue_status:
+                            queue_status: ~
                         buttons: *gridButtons
         messages: *newsTemplateMessages
 

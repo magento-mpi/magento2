@@ -12,7 +12,7 @@
 # 'Manage Customers' page
 manage_customers:
     mca: customer/
-    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='Manage Customers']
+    click_xpath: //div[@class='submenu']//a[normalize-space(span)='Manage Customers']
     title: Manage Customers / Customers / Magento Admin
     uimap:
         form: &searchCustomerGrid
@@ -39,7 +39,7 @@ manage_customers:
                             zip_code: //input[@name='billing_postcode']
                             state: //input[@name='billing_region']
                         links:
-                            open_customer_by_value:
+                            open_customer_by_value: ~
                         pageelements:
                             customer_grid_head: //table[@id='customerGrid_table']/thead/tr[@class='headings']
         buttons:
@@ -73,15 +73,15 @@ create_customer:
                         fieldsets:
                             -
                                 account_info:
-                                    xpath: //div[@id='_accountbase_fieldset']
+                                    xpath: //fieldset[@id='_accountbase_fieldset']
                                     checkboxes:
                                         send_welcome_email: //input[@id='_accountsendemail']
                                         disable_automatic_group_change: //input[@id='disable_auto_group_change']
                                     dropdowns:
-                                        associate_to_website: //select[@id='_accountwebsite_id']
+                                        associate_to_website: //*[@id='_accountwebsite_id'][not(@type='hidden')]
                                         group: //select[@id='_accountgroup_id']
                                         gender: //select[@id='_accountgender']
-                                        send_from: //select[@id='_accountsendemail_store_id']
+                                        send_from: //*[@id='_accountsendemail_store_id'][not(@type='hidden')]
                                     fields:
                                         prefix: //input[@id='_accountprefix']
                                         first_name: //input[@id='_accountfirstname']
@@ -95,7 +95,7 @@ create_customer:
                                     required: [associate_to_website, group, first_name, last_name, email]
                             -
                                 password:
-                                    xpath: //div[@id='_accountpassword_fieldset']
+                                    xpath: //fieldset[@id='_accountpassword_fieldset']
                                     checkboxes:
                                         auto_generated_password: //input[@id='account-send-pass']
                                     fields:
@@ -120,7 +120,7 @@ create_customer:
                                         list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
-                                    xpath: //div[@id='_item%address_number%address_fieldset']
+                                    xpath: //fieldset[@id='_item%address_number%address_fieldset']
                                     dropdowns:
                                         country: //select[@id='_item%address_number%country_id']
                                         state: //select[@id='_item%address_number%region_id']
@@ -161,7 +161,7 @@ edit_customer:
                         fieldsets:
                             -
                                 sales_statistics:
-                                    xpath: //div[div/h4='Sales Statistics']
+                                    xpath: //div[div/span='Sales Statistics']
                                     pageelements:
                                         sales_statistics_head: //table/thead
                             -
@@ -179,7 +179,7 @@ edit_customer:
                         fieldsets:
                             -
                                 account_info:
-                                    xpath: //div[@id='_accountbase_fieldset']
+                                    xpath: //fieldset[@id='_accountbase_fieldset']
                                     dropdowns:
                                         associate_to_website: //select[@id='_accountwebsite_id']
                                         group: //select[@id='_accountgroup_id']
@@ -331,7 +331,7 @@ edit_customer:
             save_customer: //button[@data-ui-id='customer-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='customer-edit-save-and-continue-button']
         pageelements:
-            customer_header: //div[@data-ui-id='customer-edit-content-header']/h3
+            customer_header: //div[@class='page-title']//h1
         messages: *customerMessages
 
 edit_customer_save_and_continue:

@@ -24,12 +24,13 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_ProductAlert_Block_Email_
     /**
      * Product thumbnail image url getter
      *
-     * @param Mage_Core_Model_Product $product
+     * @param Mage_Catalog_Model_Product $product
      * @return string
      */
     public function getThumbnailUrl($product)
     {
-        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize($this->getThumbnailSize());
+        return (string)$this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')
+            ->resize($this->getThumbnailSize());
     }
 
     /**

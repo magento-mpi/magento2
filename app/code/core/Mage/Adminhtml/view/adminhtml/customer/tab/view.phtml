@@ -21,13 +21,11 @@ $createDateAdmin    = $this->getCreateDate();
 $createDateStore    = $this->getStoreCreateDate();
 ?>
 
-<div class="fieldset-wrapper customer-iformation">
-
+<div class="fieldset-wrapper customer-information">
     <div class="fieldset-wrapper-title">
         <span class="title"><?php echo Mage::helper('Mage_Customer_Helper_Data')->__('Personal Information') ?></span>
     </div>
-
-    <table>
+    <table class="data-table">
         <tbody>
             <tr>
                 <th><?php echo $this->__('Last Logged In:') ?></th>

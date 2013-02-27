@@ -7,20 +7,19 @@
 # @copyright   {copyright}
 # @license     {license_link}
 #
----
+#---
 manage_cms_static_blocks_page_elements:
     button:
-        reset_filter:
-        search:
-        add_new_block:
+        reset_filter: ~
+        search: ~
+        add_new_block: ~
     dropdown:
-        filter_store_view:
-        filter_block_status:
+        filter_store_view: ~
+        filter_block_status: ~
     field:
-        filter_block_title:
-        filter_block_identifier:
-        filter_block_created_from:
-        filter_block_created_to:
-        filter_block_modified_from:
-        filter_block_modified_to:
-
+        filter_block_title: ~
+        filter_block_identifier: ~
+        filter_block_created_from: ~
+        filter_block_created_to: ~
+        filter_block_modified_from: ~
+        filter_block_modified_to: ~
