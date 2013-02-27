@@ -35,7 +35,7 @@ class Magento_Cache_Frontend_Decorator_BareTest extends PHPUnit_Framework_TestCa
         return array(
             array('test', array('record_id'), 111),
             array('load', array('record_id'), '111'),
-            array('save', array('record_vale', 'record_id', array('tag'), 555), true),
+            array('save', array('record_value', 'record_id', array('tag'), 555), true),
             array('remove', array('record_id'), true),
             array('clean', array(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array('tag')), true),
             array('getBackend', array(), PHPUnit_Framework_MockObject_Generator::getMock('Zend_Cache_Backend')),
