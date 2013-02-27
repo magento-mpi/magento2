@@ -38,7 +38,7 @@ class Mage_Backend_Model_Config_Backend_Admin_Custom extends Mage_Core_Model_Con
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
-     * @param array $datas
+     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
