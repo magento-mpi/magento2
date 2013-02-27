@@ -85,7 +85,7 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
 
     }
 
-    public function testCreateFromArray()
+    public function testcreate()
     {
         $this->_objectFactoryMock->expects($this->once())
             ->method('create')
@@ -105,14 +105,14 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
                     )
                 ))
             );
-        $this->_model->createFromArray(array(
+        $this->_model->create(array(
             'module' => 'Mage_User_Helper_Data',
             'title' => 'item1',
             'dependsOnModule' => 'Mage_User_Helper_Data'
         ));
     }
 
-    public function testCreateFromArrayProvidesDefaultHelper()
+    public function testcreateProvidesDefaultHelper()
     {
         $this->_objectFactoryMock->expects($this->once())
             ->method('create')
@@ -131,6 +131,6 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
                     )
                 ))
         );
-        $this->_model->createFromArray(array());
+        $this->_model->create(array());
     }
 }

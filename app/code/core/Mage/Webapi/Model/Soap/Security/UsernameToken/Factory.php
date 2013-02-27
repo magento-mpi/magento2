@@ -28,7 +28,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_Factory
      * @param array $arguments
      * @return Mage_Webapi_Model_Soap_Security_usernameToken
      */
-    public function createFromArray($arguments = array())
+    public function create($arguments = array())
     {
         return $this->_objectManager->create('Mage_Webapi_Model_Soap_Security_UsernameToken', $arguments);
     }

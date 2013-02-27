@@ -173,7 +173,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     public function getStoreCollection($group)
     {
         if (!$group instanceof Mage_Core_Model_Store_Group) {
-            $group = $this->_storeGroupFactory->createFromArray()->load($group);
+            $group = $this->_storeGroupFactory->create()->load($group);
         }
         $stores = $group->getStoreCollection();
         $_storeIds = $this->getStoreIds();

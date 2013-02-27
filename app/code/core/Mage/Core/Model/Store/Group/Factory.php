@@ -11,7 +11,7 @@
 /**
  * Store Group factory
  */
-class Mage_Core_Model_Store_Group_Factory implements Magento_ObjectManager_Factory
+class Mage_Core_Model_Store_Group_Factory
 {
     /**
      * Store group model class name
@@ -37,7 +37,7 @@ class Mage_Core_Model_Store_Group_Factory implements Magento_ObjectManager_Facto
      * @param array $arguments
      * @return mixed
      */
-    public function createFromArray(array $arguments = array())
+    public function create(array $arguments = array())
     {
         return $this->_objectManager->get(self::CLASS_NAME, $arguments);
     }

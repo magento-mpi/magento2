@@ -96,7 +96,7 @@ class Mage_Backend_Model_Menu_Item_Factory
      * @param array $data
      * @return Mage_Backend_Model_Menu_Item
      */
-    public function createFromArray(array $data = array())
+    public function create(array $data = array())
     {
         $module = 'Mage_Backend_Helper_Data';
         if (isset($data['module'])) {

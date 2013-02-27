@@ -72,7 +72,7 @@ class Mage_Backend_Model_Menu_Builder
         // Create menu items
         foreach ($this->_commands as $id => $command) {
             $params[$id] = $command->execute();
-            $item = $this->_itemFactory->createFromArray($params[$id]);
+            $item = $this->_itemFactory->create($params[$id]);
             $items[$id] = $item;
         }
 

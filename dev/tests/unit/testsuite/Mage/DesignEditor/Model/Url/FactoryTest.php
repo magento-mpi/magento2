@@ -40,13 +40,13 @@ class Mage_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_model, $this->_model->replaceClassName('TestClass'));
     }
 
-    public function testCreateFromArray()
+    public function testcreate()
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
             ->with('Mage_Core_Model_Url', array())
             ->will($this->returnValue('ModelInstance'));
 
-        $this->assertEquals('ModelInstance', $this->_model->createFromArray());
+        $this->assertEquals('ModelInstance', $this->_model->create());
     }
 }

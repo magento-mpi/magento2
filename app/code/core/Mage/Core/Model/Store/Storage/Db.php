@@ -351,7 +351,7 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
         $websiteCollection->setLoadDefault(true);
 
         /** @var $groupCollection Mage_Core_Model_Resource_Store_Group_Collection */
-        $groupCollection = $this->_groupFactory->createFromArray()->getCollection();
+        $groupCollection = $this->_groupFactory->create()->getCollection();
         $groupCollection->initCache($this->_cache, 'app', array(Mage_Core_Model_Store_Group::CACHE_TAG));
         $groupCollection->setLoadDefault(true);
 
@@ -583,7 +583,7 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
             return $id;
         }
         if (empty($this->_groups[$id])) {
-            $group = $this->_groupFactory->createFromArray();
+            $group = $this->_groupFactory->create();
             if (is_numeric($id)) {
                 $group->load($id);
                 if (!$group->hasGroupId()) {

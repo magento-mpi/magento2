@@ -17,20 +17,17 @@ abstract class Mage_Core_Model_EntryPointAbstract
     protected $_objectManager;
 
     /**
-     * @param string $baseDir
-     * @param array $params
+     * @param Mage_Core_Model_Config_Primary $config
      * @param Magento_ObjectManager $objectManager
      */
-    public function __construct(
-        $baseDir, array $params = array(), Magento_ObjectManager $objectManager = null
-    ) {
-        if (!array_key_exists(Mage::PARAM_BASEDIR, $params)) {
-            $params[Mage::PARAM_BASEDIR] = $baseDir;
+    public function __construct(Mage_Core_Model_Config_Primary $config, Magento_ObjectManager $objectManager = null)
+    {
+        if (!$objectManager) {
+            $definitionFactory = new Magento_ObjectManager_DefinitionFactory();
+            $definitions = $definitionFactory->create($config);
+            $objectManager = new Magento_ObjectManager_ObjectManager($definitions, $config);
         }
-        $this->_objectManager = $objectManager ?: new Mage_Core_Model_ObjectManager(
-            new Mage_Core_Model_ObjectManager_Config($params),
-            $baseDir
-        );
+        $this->_objectManager = $objectManager;
     }
 
     /**

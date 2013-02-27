@@ -64,9 +64,7 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         /** @var $factory Magento_ObjectManager_Factory */
         $factory = Mage::getObjectManager()->create($factoryClassName);
-        $this->assertInstanceOf('Magento_ObjectManager_Factory', $factory);
-
-        $object = $factory->createFromArray();
+        $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
     }
 
@@ -77,9 +75,8 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         /** @var $factory Magento_ObjectManager_Factory */
         $factory = Mage::getObjectManager()->create($factoryClassName);
-        $this->assertInstanceOf('Magento_ObjectManager_Factory', $factory);
 
-        $object = $factory->createFromArray();
+        $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $object);
     }
 

@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-class Mage_Core_Model_Url_RewriteFactory implements Magento_ObjectManager_Factory
+class Mage_Core_Model_Url_RewriteFactory
 {
     /**
      * Entity class name
@@ -32,7 +32,7 @@ class Mage_Core_Model_Url_RewriteFactory implements Magento_ObjectManager_Factor
      * @param array $arguments
      * @return Mage_Core_Model_Url_Rewrite
      */
-    public function createFromArray(array $arguments = array())
+    public function create(array $arguments = array())
     {
         return $this->_objectManager->create(self::CLASS_NAME, $arguments, false);
     }

@@ -33,14 +33,9 @@ class Mage_Core_Model_Config_Loader_Primary implements Mage_Core_Model_Config_Lo
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_Loader_Local $localLoader
      */
-    public function __construct(
-        Mage_Core_Model_Config_BaseFactory $prototypeFactory,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Config_Loader_Local $localLoader
-    ) {
-        $this->_dirs = $dirs;
+    public function __construct(Mage_Core_Model_Config_Loader_Local $localLoader)
+    {
         $this->_localLoader = $localLoader;
-        $this->_prototypeFactory = $prototypeFactory;
     }
 
     /**

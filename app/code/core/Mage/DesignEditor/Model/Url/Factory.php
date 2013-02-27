@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_DesignEditor_Model_Url_Factory implements Magento_ObjectManager_Factory
+class Mage_DesignEditor_Model_Url_Factory
 {
     /**
      * Default url model class name
@@ -47,7 +47,7 @@ class Mage_DesignEditor_Model_Url_Factory implements Magento_ObjectManager_Facto
      * @param array $arguments
      * @return Mage_Core_Model_Url
      */
-    public function createFromArray(array $arguments = array())
+    public function create(array $arguments = array())
     {
         return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }

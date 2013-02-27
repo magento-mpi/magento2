@@ -51,7 +51,7 @@ class Mage_Index_Model_Lock_Storage
     public function getFile($processId)
     {
         if (!isset($this->_fileHandlers[$processId])) {
-            $file = $this->_fileFactory->createFromArray();
+            $file = $this->_fileFactory->create();
             $varDirectory = $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
             $file->setAllowCreateFolders(true);
 

@@ -45,7 +45,7 @@ class Mage_Core_Model_Store_Storage_Default implements Mage_Core_Model_Store_Sto
         $this->_store->setId(Mage_Core_Model_AppInterface::DISTRO_STORE_ID);
         $this->_store->setCode(Mage_Core_Model_AppInterface::DISTRO_STORE_CODE);
         $this->_website = $websiteFactory->create();
-        $this->_group = $groupFactory->createFromArray();
+        $this->_group = $groupFactory->create();
     }
 
     /**

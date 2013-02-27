@@ -48,7 +48,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Authentication
     public function authenticate($usernameToken)
     {
         try {
-            $token = $this->_tokenFactory->createFromArray();
+            $token = $this->_tokenFactory->create();
             $request = $usernameToken;
             // @codingStandardsIgnoreStart
             $user = $token->authenticate($request->Username, $request->Password, $request->Created, $request->Nonce);

@@ -219,7 +219,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object implements Mage_Co
         if (!$request->isStraight()) {
             Magento_Profiler::start('db_url_rewrite');
             /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
-            $urlRewrite = $this->_rewriteFactory->createFromArray();
+            $urlRewrite = $this->_rewriteFactory->create();
             $urlRewrite->rewrite($request);
             Magento_Profiler::stop('db_url_rewrite');
         }
