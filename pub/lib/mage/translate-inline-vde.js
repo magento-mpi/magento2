@@ -7,23 +7,20 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true */
-(function($) {
+(function($, window) {
+    /**
+     * Widget for a dialog to edit translations.
+     */
     $.widget("mage.translateInlineDialogVde", {
         options: {
             translateForm: {
-                template: '<form id="${data.id}">{{each(i, item) data.items}}' +
-                    '<input id="perstore_${i}" name="translate[${i}][perstore]" type="hidden" value="0"/>' +
-                    '<input name="translate[${i}][original]" type="hidden"' +
-                    ' value="${item.scope}::${escape(item.original)}"/>' +
-                    '<input id="custom_${i}" name="translate[${i}][custom]" value="${escape(item.translated)}"' +
-                    ' class="translate-dialog-translate-value-input"/>' +
-                    '{{/each}}</form>',
+                id: "#translate-inline-dialog-form",
                 data: {
-                    id: "translate-inline-form"
+                    id: "#translate-inline-form"
                 }
             },
             dialog: {
-                id: "translate-dialog",
+                id: "#translate-dialog",
                 autoOpen : false,
                 dialogClass: "translate-dialog",
                 draggable: false,
@@ -32,11 +29,11 @@
                 height: "auto",
                 minHeight: 0,
                 buttons: [{
-                    text: "Cancel",
+                    text: $.mage.__('Cancel'),
                     "class" : "translate-dialog-cancel",
                 },
                 {
-                    text: "Save",
+                    text: $.mage.__('Save'),
                     "class" : "translate-dialog-save",
                 }]
             },
@@ -50,9 +47,8 @@
          * Creates the translation dialog widget. Fulfills jQuery WidgetFactory _create hook.
          */
         _create: function() {
-	          $.template(this.options.templateName, this.options.translateForm.template);
-            this.translateDialog = jQuery("<div />", { id: this.options.dialog.id })
-                .prependTo("body")
+	          $.template(this.options.templateName, $(this.options.translateForm.id));
+            this.translateDialog = $(this.options.dialog.id)
                 .dialog($.extend(true, {
                     buttons : [
                         {
@@ -102,7 +98,7 @@
                 }));
 
             var self = this;
-            this.translateDialog.find("input.translate-dialog-translate-value-input").each(function(count, input) {
+            this.translateDialog.find("input[data-translate-input=true]").each(function(count, input) {
                 /* discard changes if pressing esc */
                 $(input).keydown(function(e) {
                     if (e.keyCode == 27) {
@@ -121,7 +117,7 @@
         _positionDialog: function(element) {
             this.translateDialog.dialog("option", {
                 position: { of : element, my: "left top", at: "left-3 top-9" },
-                width: $(element).width(),
+                width: $(element).width()
             });
         },
 
@@ -129,8 +125,8 @@
          * Submits the form.
          */
         _formSubmit: function() {
-            var parameters = jQuery.param({area: this.options.area}) +
-                "&" + jQuery("#" + this.options.translateForm.data.id).serialize();
+            var parameters = $.param({area: this.options.area}) +
+                "&" + $(this.options.translateForm.data.id).serialize();
             $.ajax({
                 url: this.options.ajaxUrl,
                 type: "POST",
@@ -148,17 +144,17 @@
             this.translateDialog.find("input").each(function(count, elem) {
                 var id = elem.id;
                 if (id.indexOf("custom_") === 0) {
-                   var index = id.substring(7), 
-                       value = elem.value,
-                       translateData = $(self.translateElement).data("translate"),
-                       innerHtmlStr = $(self.translateElement).html();
+                    var index = id.substring(7),
+                        value = elem.value,
+                        translateData = $(self.translateElement).data(self.options.dataAttrName),
+                        innerHtmlStr = $(self.translateElement).html();
 
-                   innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
-                   $(self.translateElement).html(innerHtmlStr);
+                    innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
+                    $(self.translateElement).html(innerHtmlStr);
 
-                   translateData[index]["shown"] = value;
-                   translateData[index]["translated"] = value;
-                   $(self.translateElement).attr("data-translate", JSON.stringify(translateData));
+                    translateData[index]["shown"] = value;
+                    translateData[index]["translated"] = value;
+                    $(self.translateElement).data(self.options.dataAttrName, translateData);
                 }
             });
 
@@ -168,13 +164,16 @@
         }
     });
 
+    /**
+     * Widget for an icon to be displayed indicating that text can be translated.
+     */
     $.widget("mage.translateInlineIconVde", {
         options: {
             img: null,
             area: "vde",
             ajaxUrl: null,
             offsetLeft: -16,
-            template: '<img src="${img}" height="16" width="16">',
+            templateId: "#translate-inline-icon",
             onClick: function(element) { },
         },
 
@@ -193,14 +192,14 @@
          */
         show: function() {
             this._positionTemplate();
-            this.template.show();
+            this.template.removeClass('hidden');
         },
 
         /**
          * Hides the widget.
          */
         hide: function() {
-            this.template.hide();
+            this.template.addClass('hidden');
         },
 
         /**
@@ -208,11 +207,9 @@
          * respond to events.
          */
         _initTemplate: function() {
-            this.template = $.tmpl(this.options.template, this.options).css({
-	              position: "absolute",
-                cursor: "pointer",
-                "z-index": 2000,
-            }).appendTo("body");
+            this.template = $(this.options.templateId).tmpl(this.options)
+                .addClass("translate-edit-icon")
+                .appendTo("body");
             this._positionTemplate();
 
             var self = this;
@@ -222,7 +219,9 @@
         },
 
         /**
-         * Positions the template to the correct location.
+         * Positions the template to the correct location. Moves template to the
+         * absolute upper right of the element. Called when icon is first displayed
+         * and when window is resized.
          */
         _positionTemplate: function() {
             var offset = this.element.offset();
@@ -246,11 +245,9 @@
     $.extend(true, $, {
         mage: {
             escapeHTML: function(str) {
-                return str ?
-                    jQuery("<div/>").text(str).html().replace(/"/g, "&quot;"):
-                    false;
+                return str ? str.replace(/"/g, '&quot;') : null;
             }
         }
     });
-})(jQuery);
+})(jQuery, window);
 

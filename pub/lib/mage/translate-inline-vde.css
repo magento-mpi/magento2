@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-.trnslate-inline-area [data-translate], .trnslate-inline-area .translate-inline { /* background:black; font-weight:bold; color:red; */ outline: dashed 2px darkgray!important;}
+.trnslate-inline-area [data-translate], .trnslate-inline-area .translate-inline { outline: dashed 2px darkgray!important;}
 
 .translate-dialog {
     border: 0;
@@ -100,5 +100,11 @@
 .translate-dialog .ui-dialog-buttonpane button.translate-dialog-save .ui-button-text {
     background-color: #fe7834;
     color: white;
+}
+
+.translate-edit-icon {
+    position: absolute;
+    cursor: pointer;
+    z-index: 2000;
 }
 
