@@ -29,8 +29,10 @@ class Magento_Cache_Frontend_Decorator_TagScope extends Magento_Cache_Frontend_D
         } else {
             if ($mode == Zend_Cache::CLEANING_MODE_ALL) {
                 $mode = Zend_Cache::CLEANING_MODE_MATCHING_TAG;
+                $tags = array($enforcedTag);
+            } else {
+                $tags[] = $enforcedTag;
             }
-            $tags[] = $enforcedTag;
             $result = parent::clean($mode, $tags);
         }
         return $result;
