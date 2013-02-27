@@ -19,11 +19,9 @@
         <table class="data-table" id="<?php echo $_htmlId; ?>_table">
             <thead>
                 <tr class="headings">
-                    <?php if ($_multiWebsite): ?>
-                    <th class="col-website">
+                    <th class="col-website <?php if (!$_multiWebsite): ?>no-display<?php endif; ?>">
                         <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?>
                     </th>
-                    <?php endif; ?>
                     <th class="col-amount required-entry">
                         <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Amount') ?>
                     </th>
@@ -32,8 +30,7 @@
                     </th>
                 </tr>
                 <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
-                    <?php if ($_multiWebsite): ?>
-                    <td class="col-website">
+                    <td class="col-website <?php if (!$_multiWebsite): ?>no-display<?php endif; ?>">
                         <select
                             disabled="no-template"
                             class="<?php echo $_htmlClass ?> required-entry"
@@ -44,7 +41,6 @@
                             <?php endforeach ?>
                         </select>
                     </td>
-                    <?php endif; ?>
                     <td class="col-amount">
                         <input
                             disabled="no-template"
