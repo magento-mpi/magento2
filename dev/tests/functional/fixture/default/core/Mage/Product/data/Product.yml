@@ -797,7 +797,7 @@ dynamic_bundle_visible:
     general_weight_type: Dynamic
     general_categories: Default Category
     general_description: Description for Bundle(Dynamic) Product Visible
-    autosettings_short_description: dynamic_bundle_required
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     autosettings_visibility: Catalog, Search
     websites: Main Website
     general_bundle_items:

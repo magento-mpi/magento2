@@ -2212,8 +2212,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             ) {
                 $optionId = $itemDataOrder[$option['bundle_items_default_title']];
                 $this->addParameter('optionId', $optionId - 1);
-                if (!strstr($this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', 'class'), 'active')) {
-                    $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed');
+                if ($this->isFieldsetExpanded('new_bundle_option')) {
+                    $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', false);
                 }
             } else {
                 $this->fail('Bundle item with name ' . $option['bundle_items_default_title'] . ' is absent');
