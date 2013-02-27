@@ -31,7 +31,7 @@ AdminOrder.prototype = {
             this.dataArea = new OrderFormArea('data', $(this.getAreaId('data')), this);
             this.itemsArea = Object.extend(new OrderFormArea('items', $(this.getAreaId('items')), this), {
                 addControlButton: function(button){
-                    var controlButtonArea = $(this.node).select('.form-buttons')[0];
+                    var controlButtonArea = $(this.node).select('.actions')[0];
                     if (typeof controlButtonArea != 'undefined') {
                         var buttons = controlButtonArea.childElements();
                         for (var i = 0; i < buttons.length; i++) {
@@ -1235,7 +1235,7 @@ ControlButton.prototype = {
     initialize: function(label){
         this._label = label;
         this._node = new Element('button', {
-            'class': 'scalable add',
+            'class': 'scalable action-add',
             'type':  'button'
         });
     },

@@ -25,13 +25,11 @@ else:
     </script>
     <?php
 endif; ?>
-<div class="entry-edit">
 
-    <div class="entry-edit-head">
-        <h4 class="icon-head fieldset-legend <?php echo $this->getHeaderCssClass() ?>"><?php echo $this->getHeaderText() ?></h4>
-     </div>
 
-    <fieldset class="np">
+
+<fieldset class="fieldset">
+    <legend class="legend <?php echo $this->getHeaderCssClass() ?>"><span><?php echo $this->getHeaderText() ?></span></legend>
     <div id = "<?php echo $_addressChoiceContainerId ?>" class="order-choose-address">
         <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Select from existing customer addresses:') ?><br/>
         <?php $_id = $this->getForm()->getHtmlIdPrefix() . 'customer_address_id' ?>
@@ -73,5 +71,5 @@ endif; ?>
         order.disableShippingAddress(true);
         <?php endif; ?>
     </script>
-    </fieldset>
-</div>
+</fieldset>
+

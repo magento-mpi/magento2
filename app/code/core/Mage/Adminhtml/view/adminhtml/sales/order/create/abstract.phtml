@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <div style="float: right;"><?php echo $this->getButtonsHtml() ?></div>
-        <h4 class="fieldset-legend <?php echo ($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : '' ?>"><?php echo $this->getHeaderText() ?></h4>
-    </div>
-    <div class="fieldset">
-        <?php echo $this->getChildHtml('', true) ?>
-    </div>
-</div>
+
+<?php if (!empty($this->_buttonData))
+	echo $this->getButtonsHtml();
+?>
+<?php echo $this->getChildHtml('', true) ?>

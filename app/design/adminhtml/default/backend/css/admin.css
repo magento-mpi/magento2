@@ -1055,7 +1055,8 @@ option.placeholder {
 .ui-sortable .entry-edit .fieldset-wrapper-title > .title {
 }
 
-.fieldset-wrapper-title > .actions {
+.fieldset-wrapper-title > .actions,
+.fieldset .legend > .actions {
     float: right;
 }
 

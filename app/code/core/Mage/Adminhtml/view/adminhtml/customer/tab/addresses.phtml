@@ -169,14 +169,6 @@ addressesModel.prototype = {
         if( initial ) {
             this.itemCount = this.itemList.length;
         }
-        // if(!this.itemList.length){
-        //     if($('no_address_message')){
-        //         $('no_address_message').show();
-        //     }
-        //     else {
-        //         this.formContainer.innerHTML+= '<div id="no_address_message"><?php echo addslashes(Mage::helper('Mage_Customer_Helper_Data')->__('This customer has no saved addresses.')) ?></div>'
-        //     }
-        // }
     },
 
     initItem : function(item){
@@ -203,9 +195,7 @@ addressesModel.prototype = {
     addNewAddress : function(event){
         if(this.canCreateNewAddress){
             this.itemCount++;
-            // if($('no_address_message')){
-            //     $('no_address_message').hide();
-            // }
+
             // preventing duplication of ids for fields and blocks
             while ($$("div[id='form_address_item_" + this.itemCount + "']").length) {
                 this.itemCount++;
@@ -471,7 +461,6 @@ addressesModel.prototype = {
     },
 
     bindCountryRegionRelation : function(parentId){
-        //alert('OK');
         if(parentId){
             var countryElements = $(parentId).getElementsByClassName('countries');
         }
