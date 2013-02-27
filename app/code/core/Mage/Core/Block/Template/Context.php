@@ -34,7 +34,7 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Model_Layout $layout
      * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_Url $urlBuilder
+     * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Design_Package $designPackage
@@ -50,7 +50,7 @@ class Mage_Core_Block_Template_Context extends Mage_Core_Block_Context
         Mage_Core_Controller_Request_Http $request,
         Mage_Core_Model_Layout $layout,
         Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Url $urlBuilder,
+        Mage_Core_Model_UrlInterface $urlBuilder,
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_Cache $cache,
         Mage_Core_Model_Design_Package $designPackage,

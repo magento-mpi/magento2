@@ -46,6 +46,12 @@ class Mage_Adminhtml_Block_System_Email_Template_Preview extends Mage_Adminhtml_
         Magento_Profiler::start("email_template_proccessing");
         $vars = array();
 
+        $template->setDesignConfig(
+            array(
+                'area' => Mage::getDesign()->getArea(),
+                'store' => Mage::getSingleton('Mage_Core_Model_StoreManager')->getDefaultStoreView()->getId()
+            )
+        );
         $templateProcessed = $template->getProcessedTemplate($vars, true);
 
         if ($template->isPlain()) {

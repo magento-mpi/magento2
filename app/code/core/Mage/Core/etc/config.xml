@@ -104,11 +104,6 @@
                     <config>Mage_Core_Model_Config_Proxy</config>
                 </parameters>
             </Mage_Core_Model_Store_StorageFactory>
-            <Mage_Core_Model_Store>
-                <parameters>
-                    <urlModel>Mage_Core_Model_Url_Proxy</urlModel>
-                </parameters>
-            </Mage_Core_Model_Store>
             <Mage_Core_Model_Theme_Image>
                 <shared>0</shared>
             </Mage_Core_Model_Theme_Image>
@@ -196,7 +191,7 @@
         </design>
         <di>
             <preferences>
-                <Mage_Core_Model_Url>Mage_Backend_Model_Url</Mage_Core_Model_Url>
+                <Mage_Core_Model_UrlInterface>Mage_Backend_Model_Url</Mage_Core_Model_UrlInterface>
             </preferences>
             <Mage_Core_Model_Session>
                 <parameters>
