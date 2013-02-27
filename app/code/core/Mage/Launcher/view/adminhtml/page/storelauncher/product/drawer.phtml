@@ -21,7 +21,7 @@
         <?php echo $this->getChildBlock('product_edit')->setUseContainer(false)->toHtml();?>
     </div>
     <div class="import-products">
-        <h2 class="title">Import Products to Catalog</h2>
+        <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Import Products to Catalog') ?></h2>
         <ul class="import-options">
             <li>
                 <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Create the relevant product') ?>

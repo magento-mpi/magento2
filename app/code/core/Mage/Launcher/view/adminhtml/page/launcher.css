@@ -640,6 +640,7 @@
     margin: 5px 20px 0 0;
     position: relative;
     overflow: visible;
+    z-index: 1;
 }
 
 .drawer-switcher .switcher-label {
@@ -2355,12 +2356,29 @@
     border-bottom: 1px solid #ededed;
 }
 
+.add-product > .entry-edit + .entry-edit .fieldset {
+    margin: 0;
+    padding: 0;
+}
+
+.add-product #media_gallery_content {
+   display: none;
+}
+
 .add-product .fieldset {
     padding: 20px 15px;
 }
 
 .add-product .field .label {
     padding-right: 20px;
+}
+
+.add-product .field-quantity_and_stock_status input[type="text"] {
+    width: 41.5%;
+}
+
+.add-product .field-quantity_and_stock_status select {
+    width: auto;
 }
 
 .import-products {
