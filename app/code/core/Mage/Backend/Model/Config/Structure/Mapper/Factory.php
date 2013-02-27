@@ -53,7 +53,7 @@ class Mage_Backend_Model_Config_Structure_Mapper_Factory
         $className = $this->_getMapperClassNameByType($type);
 
         /** @var Mage_Backend_Model_Config_Structure_MapperInterface $mapperInstance  */
-        $mapperInstance =  $this->_objectManager->get($className, $arguments);
+        $mapperInstance =  $this->_objectManager->create($className, $arguments);
 
         if (false == ($mapperInstance instanceof Mage_Backend_Model_Config_Structure_MapperInterface)) {
             throw new Exception('Mapper object is not instance on Mage_Backend_Model_Config_Structure_MapperInterface');

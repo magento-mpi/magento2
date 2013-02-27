@@ -496,14 +496,13 @@ final class Mage
      * Retrieve model object singleton
      *
      * @param   string $modelClass
-     * @param   array $arguments
      * @return  Mage_Core_Model_Abstract
      */
-    public static function getSingleton($modelClass = '', array $arguments=array())
+    public static function getSingleton($modelClass = '')
     {
         $registryKey = '_singleton/'.$modelClass;
         if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($modelClass, $arguments));
+            self::register($registryKey, self::getObjectManager()->get($modelClass));
         }
         return self::registry($registryKey);
     }
@@ -548,17 +547,16 @@ final class Mage
     }
 
     /**
-     * Retrieve resource vodel object singleton
+     * Retrieve resource model object singleton
      *
      * @param   string $modelClass
-     * @param   array $arguments
      * @return  object
      */
-    public static function getResourceSingleton($modelClass = '', array $arguments = array())
+    public static function getResourceSingleton($modelClass = '')
     {
         $registryKey = '_resource_singleton/'.$modelClass;
         if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($modelClass, $arguments));
+            self::register($registryKey, self::getObjectManager()->get($modelClass));
         }
         return self::registry($registryKey);
     }
