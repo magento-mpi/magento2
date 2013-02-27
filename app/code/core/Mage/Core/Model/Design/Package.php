@@ -498,7 +498,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             if (strpos($file, $dir) === 0) {
                 $relativePath = ltrim(substr($file, strlen($dir)), DIRECTORY_SEPARATOR);
                 $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
-                return Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
+                return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA, $isSecure) . $relativePath;
+//                return Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
             }
         }
         throw new Magento_Exception(
@@ -585,9 +586,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if (!$this->_filesystem->has($sourcePath)) {
             throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
         }
-        if (!$this->_needToProcessFile($sourcePath)) {
-            return $sourcePath;
-        }
+//        if (!$this->_needToProcessFile($sourcePath)) {
+//            return $sourcePath;
+//        }
 
         $allowPublication = (string)Mage::getConfig()->getNode(self::XML_PATH_ALLOW_DUPLICATION);
         if ($allowPublication || $this->_getExtension($themeFile) == self::CONTENT_TYPE_CSS) {
