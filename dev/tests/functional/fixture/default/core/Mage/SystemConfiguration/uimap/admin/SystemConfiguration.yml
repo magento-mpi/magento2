@@ -42,7 +42,7 @@ system_configuration:
                                 countries_options:
                                     xpath: //fieldset[@id='general_country']
                                     links:
-                                        countries_options_link: //parent::div//a[@id='general_country-head']
+                                        countries_options_link: //parent::div//div[@id='general_country-head']/a
                                     dropdowns:
                                         default_country: //select[@name='groups[country][fields][default][value]']
                                     multiselects:
