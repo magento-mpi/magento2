@@ -147,6 +147,13 @@
                 </Mage_Weee>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <weee module='Mage_Weee'>
+                    <file>layout.xml</file>
+                </weee>
+            </updates>
+        </layout>
     </adminhtml>
     <default>
         <sales>
