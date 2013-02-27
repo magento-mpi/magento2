@@ -8,20 +8,20 @@
 # @license     {license_link}
 #
 #---
-#manage_cms_poll_elements:
-#    button:
-#        add_new_poll:
-#        reset_filter:
-#        search:
-#    field:
-#        filter_id:
-#        filter_question:
-#        filter_number_of_responses_from:
-#        filter_umber_of_responses_to:
-#        filter_date_posted_from:
-#        filter_date_posted_to:
-#        filter_date_closed_from:
-#        filter_date_closed_to:
-#    dropdown:
-#        filter_visible_in:
-#        filter_status:
+manage_cms_poll_elements:
+    button:
+        add_new_poll: ~
+        reset_filter: ~
+        search:
+    field:
+        filter_id: ~
+        filter_question: ~
+        filter_number_of_responses_from: ~
+        filter_umber_of_responses_to: ~
+        filter_date_posted_from: ~
+        filter_date_posted_to: ~
+        filter_date_closed_from: ~
+        filter_date_closed_to: ~
+    dropdown:
+        filter_visible_in: ~
+        filter_status: ~
