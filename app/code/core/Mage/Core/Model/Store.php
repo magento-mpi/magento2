@@ -214,23 +214,21 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_urlModel;
 
     /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Url $urlModel
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Mage_Core_Model_Url $urlModel,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_urlModel = $urlModel;
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
