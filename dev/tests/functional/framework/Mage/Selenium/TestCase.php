@@ -214,11 +214,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     ################################################################################
     #                             Else variables                                   #
     ################################################################################
-    /**
-     * Loads holder XPath
-     * @staticvar string
-     */
-    protected static $_maskXpath = "//div[@id='loading-mask'][contains(@style,'display:') and contains(@style,'none')]";
 
     /**
      * Constructs a test case with the given name and browser to test execution
@@ -1770,8 +1765,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $tabsOnPage = true;
             $availableElement = $this->elementIsPresent($tabUimap->getXPath());
             if ($availableElement) {
-                $parentClass = $this->getChildElement($availableElement, '..')->attribute('class');
                 $tabClass = $availableElement->attribute('class');
+                $parentClass = $this->getChildElement($availableElement, '..')->attribute('class');
                 if (strpos($tabClass, 'active') !== false || strpos($parentClass, 'active') !== false) {
                     return $tabUimap;
                 }
@@ -3638,8 +3633,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function pleaseWait($waitDisappear = 30)
     {
+        $startTime = time();
         $this->waitForAjax();
-        $this->waitForElement(self::$_maskXpath, $waitDisappear);
+        $this->waitUntil(
+            function ($testCase) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                if (!$testCase->getElement($testCase->_getControlXpath('pageelement', 'loadingHolder'))->displayed()) {
+                    return true;
+                }
+            },
+            ($waitDisappear - (time() - $startTime)) * 1000
+        );
     }
 
     /**
