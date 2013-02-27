@@ -69,11 +69,11 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_app;
 
     /**
+     * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Helper_Context $context
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
