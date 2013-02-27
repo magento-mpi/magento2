@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Model_Sales_Order_CreateTest extends Mage_Backend_Area_TestCase
 {
     /**
      * Model instance
@@ -20,7 +20,8 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        /** @var _model Mage_Adminhtml_Model_Sales_Order_Create */
+        parent::setUp();
+
         $this->_model = Mage::getModel('Mage_Adminhtml_Model_Sales_Order_Create');
     }
 

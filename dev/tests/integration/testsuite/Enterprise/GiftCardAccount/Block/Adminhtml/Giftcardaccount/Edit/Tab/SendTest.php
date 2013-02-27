@@ -9,19 +9,21 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest extends PHPUnit_Framework_TestCase
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest extends Mage_Backend_Area_TestCase
 {
     /** @var Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send */
     protected $_block;
 
     public static function setUpBeforeClass()
     {
+        parent::setUpBeforeClass();
         $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         Mage::register('current_giftcardaccount', $model);
     }
 
     public function setUp()
     {
+        parent::setUp();
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout

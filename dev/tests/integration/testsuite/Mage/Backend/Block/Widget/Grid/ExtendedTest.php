@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_Widget_Grid_ExtendedTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Backend_Block_Widget_Grid_Extended
@@ -23,6 +23,8 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_layoutMock = Mage::getModel('Mage_Core_Model_Layout');
         $context = Mage::getModel('Mage_Core_Block_Template_Context', array('layout' => $this->_layoutMock));
         $this->_block = $this->_layoutMock->createBlock(

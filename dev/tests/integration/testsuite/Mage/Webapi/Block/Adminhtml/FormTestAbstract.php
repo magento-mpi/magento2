@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends Mage_Backend_Area_TestCase
 {
     /**
      * Form class must be defined in children.
@@ -43,6 +43,7 @@ class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
+        parent::setUp();
         $this->_objectManager = Mage::getObjectManager();
         $this->_urlBuilder = $this->getMockBuilder('Mage_Backend_Model_Url')
             ->disableOriginalConstructor()

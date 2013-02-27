@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Usa_Block_Adminhtml_Dhl_UnitofmeasureTest extends PHPUnit_Framework_TestCase
+class Mage_Usa_Block_Adminhtml_Dhl_UnitofmeasureTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @magentoAppIsolation enabled

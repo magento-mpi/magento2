@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Backend_Block_Widget_Grid_ColumnSet
@@ -28,6 +28,8 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_columnMock = $this->getMock('Mage_Backend_Block_Widget_Grid_Column',
             array('setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass', 'setGrid'),
             array(), '', false

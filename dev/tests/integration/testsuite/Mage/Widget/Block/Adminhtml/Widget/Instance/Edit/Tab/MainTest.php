@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_MainTest extends Mage_Backend_Area_TestCase
 {
     public function testPackageThemeElement()
     {

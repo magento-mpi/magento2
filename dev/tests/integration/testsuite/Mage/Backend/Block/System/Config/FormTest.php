@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_System_Config_FormTest extends Mage_Backend_Area_TestCase
 {
     public function testDependenceHtml()
     {

@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Backend_Model_Auth.
  */
-class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Model_MenuTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Backend_Model_Menu
@@ -21,6 +21,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
         Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_model = Mage::getModel('Mage_Backend_Model_Auth');
         Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Controller_Router_DefaultTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Backend_Controller_Router_Default
@@ -23,6 +23,8 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
+        parent::setUp();
+
         $options = array(
             'areaCode'        => Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(),
             'baseController'  => 'Mage_Backend_Controller_ActionAbstract',
