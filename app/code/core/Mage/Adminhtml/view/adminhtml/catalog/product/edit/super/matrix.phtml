@@ -52,7 +52,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         echo '<th class="col-' . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">', $attribute->getStoreLabel(), '</th>', PHP_EOL;
                     }
                     ?>
-                    <th class="col-actions"></th>
+                    <th class="col-actions hidden"></th>
                 </tr>
             </thead>
             <tbody>
@@ -124,7 +124,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                             $this->escapeHtml($variation[$attribute->getId()]['label']), '</td>', PHP_EOL;
                     }
                     ?>
-                    <td class="col-actions">
+                    <td class="col-actions hidden">
                         <div class="actions-split">
                             <button type="button" class="action-default">
                                 <span>Edit</span>
@@ -134,7 +134,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#">Reset Variation</a>
+                                    <a href="#" class="item">Reset Variation</a>
                                 </li>
                             </ul>
                         </div>
@@ -259,6 +259,16 @@ jQuery(function ($) {
                 } else {
                     alert($.mage.__('File extension not known or unsupported type.'));
                 }
+            },
+            start: function(event, data) {
+                var uploaderContainer = $(event.target).closest('.action-upload');
+
+                uploaderContainer.addClass('loading');
+            },
+            stop: function(event, data) {
+                var uploaderContainer = $(event.target).closest('.action-upload');
+
+                uploaderContainer.removeClass('loading');
             }
         });
     });

@@ -313,6 +313,7 @@ button.primary.disabled,
     right: 0;
     bottom: 0;
     opacity: 0;
+    font-size: 10em;
 }
 
 /*
@@ -1072,23 +1073,9 @@ option.placeholder {
     width: 8px;
     height: 14px;
     line-height: 14px;
-    background: none;
+    background: url(Mage_Backend::images/dragable-handler-vertical.gif) no-repeat 0 0;
     cursor: pointer;
     color: #b2b0ad;
-}
-
-.fieldset .draggable-handle:hover {
-    color: #7e7e7e;
-}
-
-.fieldset .draggable-handle:before {
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    content: '\e022';
-    font-size: 16px;
 }
 
 .fieldset .fieldset-wrapper .fieldset-wrapper-content,
