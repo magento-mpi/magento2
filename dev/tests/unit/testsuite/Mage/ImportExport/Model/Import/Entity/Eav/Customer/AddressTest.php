@@ -185,7 +185,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             'connection'                   => $connection,
             'json_helper'                  => 'not_used',
             'string_helper'                => new Mage_Core_Helper_String(
-                $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false)
+                $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false)
             ),
             'page_size'                    => 1,
             'max_data_size'                => 1,
