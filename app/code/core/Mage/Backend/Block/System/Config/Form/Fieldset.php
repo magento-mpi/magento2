@@ -55,7 +55,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
         $html = '';
-        $html .= '<div  class="entry-edit-head collapseable" >'
+        $html = '<div class="entry-edit-head collapseable" id="' . $element->getHtmlId() . '-head">'
             . '<span id="' . $element->getHtmlId() . '-link" class="entry-edit-head-link"></span>'
             . '<a id="' . $element->getHtmlId() . '-head" href="#' . $element->getHtmlId()
             . '-link" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
