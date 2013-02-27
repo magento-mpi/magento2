@@ -183,6 +183,24 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
         foreach ($postData as $key => $val) {
             $this->getResponse()->setData(strtolower($key), $val);
         }
+        foreach ($this->_responseParamsMappings as $originKey => $key) {
+            $data = $this->getResponse()->getData($key);
+            if (isset($data)) {
+                $this->getResponse()->setData($originKey, $data);
+            }
+        }
+        // process AVS data separately
+        $avsAddr = $this->getResponse()->getData('avsaddr');
+        $avsZip = $this->getResponse()->getData('avszip');
+        if (isset($avsAddr) && isset($avsZip)) {
+            $this->getResponse()->setData('avsdata', $avsAddr . $avsZip);
+        }
+        // process Name separately
+        $firstnameParameter = $this->getResponse()->getData('billtofirstname');
+        $lastnameParameter = $this->getResponse()->getData('billtolastname');
+        if (isset($firstnameParameter) && isset($lastnameParameter)) {
+            $this->getResponse()->setData('name', $firstnameParameter . ' ' . $lastnameParameter);
+        }
         return $this;
     }
 
@@ -410,6 +428,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
             ->setPartner($this->getConfigData('partner', $this->_getStoreId()))
             ->setPwd($this->getConfigData('pwd', $this->_getStoreId()))
             ->setVerbosity($this->getConfigData('verbosity', $this->_getStoreId()))
+            ->setData('BNCODE', $this->getConfigData('bncode'))
             ->setTender(self::TENDER_CC)
             ->setCancelurl($this->_getCallbackUrl('cancelPayment'))
             ->setErrorurl($this->_getCallbackUrl('returnUrl'))
