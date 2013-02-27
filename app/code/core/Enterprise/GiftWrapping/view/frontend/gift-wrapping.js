@@ -95,7 +95,7 @@
          * @public
          * @param {Object} instance - widget instance
          */
-        processGiftOptionItems: function(instance) {
+        processGiftOptionItems: function() {
             var data = {},
                 instance = this;
             $('.' + instance.options.optionsItemContainerPrefix).each(function() {
@@ -116,7 +116,7 @@
          * @public
          * @param {Object} instance - widget instance
          */
-        processGiftReceiptCardOptions: function(instance) {
+        processGiftReceiptCardOptions: function() {
             var instance = this;
             $('.' + instance.options.extraOptionsContainerPrefix).each(function() {
                 var id = this.id.replace(instance.options.extraOptionsContainerPrefix + '-', ''),
@@ -150,7 +150,9 @@
          * @param {Object} data - substitution data
          */
         insertOptions: function(element, data) {
-            this._processTemplate(this.options.templateOptions, element, [data]);
+            this._processTemplate(this.options.templateOptions, element, [
+                {_id_: data.id, price: data.price}
+            ]);
         },
 
         /**
@@ -161,7 +163,7 @@
          * @param {Object} data - template data
          */
         _processTemplate: function(templateSelector, element, data) {
-            var $tmpl = $(templateSelector)
+            var $tmpl = $(templateSelector);
             if ($tmpl.length && element && data) {
                 $tmpl.tmpl(data).appendTo(element);
             }
