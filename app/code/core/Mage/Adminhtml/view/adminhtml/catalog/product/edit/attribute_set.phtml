@@ -51,7 +51,7 @@
                         var $page = $('body');
                         var $newPage = $(data);
 
-                        var nameMaper = function() {
+                        var nameMapper = function() {
                             return $(this).attr('name');
                         };
 
@@ -66,11 +66,11 @@
                                 var $tabs = $(tabContainer)
                                     .find('li:not(.' + removedElementClass + ')  .tab-item-link:not(.ajax)');
                                 var $newTabs = $(newTabContainer).find('.tab-item-link:not(.ajax)'),
-                                    tabsNames = $tabs.map(nameMaper).toArray();
+                                    tabsNames = $tabs.map(nameMapper).toArray();
 
                                 //hide not exists elements
                                 $.each(
-                                    _.difference(tabsNames, $newTabs.map(nameMaper).toArray()),
+                                    _.difference(tabsNames, $newTabs.map(nameMapper).toArray()),
                                     function(index, tabName) {
                                         $tabContainer.find('[name=' + tabName + ']').closest('li')
                                             .addClass(removedElementClass);
@@ -81,15 +81,15 @@
 
                                 $(newTabContainer).find('.tab-item-link:not(.ajax)').each(function(index, tab) {
                                     var $tab = $(tab),
-                                        tabName = nameMaper.apply($tab),
+                                        tabName = nameMapper.apply($tab),
                                         $tabsContent = $tab.closest('li').clone();
                                     $tabsContent.find('.fieldset>.field').remove();
-                                    if (nameMaper.apply($tabs.eq(index)) == tabName) {
+                                    if (nameMapper.apply($tabs.eq(index)) == tabName) {
                                         return true;
                                     }
                                     var $tabToMove = $.inArray(tabName, tabsNames) !== -1
                                         ? $tabs.filter(function() {
-                                            return nameMaper.apply(this) === tabName;
+                                            return nameMapper.apply(this) === tabName;
                                         }).closest('li')
                                         : $tabsContent;
                                     if (index === 0) {
@@ -104,7 +104,7 @@
                         });
 
 
-                        var nameDataMaper = function() {
+                        var nameDataMapper = function() {
                             return $(this).data('elementId');
                         };
                         //add new element elements or reorder
@@ -119,11 +119,11 @@
 
                                 $elements.removeClass(removedElementClass);
 
-                                var elementNames = $elements.map(nameDataMaper).toArray();
+                                var elementNames = $elements.map(nameDataMapper).toArray();
 
                                 //hide not exists elements
                                 $.each(
-                                    _.difference(elementNames, $newElements.map(nameDataMaper).toArray()),
+                                    _.difference(elementNames, $newElements.map(nameDataMapper).toArray()),
                                     function(index, elementId) {
                                         $page.find('#attribute-' + elementId + '-container')
                                             .addClass(removedElementClass)
@@ -134,8 +134,8 @@
 
                                 $newElements.each(function(index, element) {
                                     var $element = $(element),
-                                        elementId = nameDataMaper.apply($element);
-                                    if (nameDataMaper.apply($elements.get(index)) == elementId) {
+                                        elementId = nameDataMapper.apply($element);
+                                    if (nameDataMapper.apply($elements.get(index)) == elementId) {
                                         return true;
                                     }
                                     var $elementToMove = $('.fieldset>.field[data-element-id="' + elementId +'"]');
