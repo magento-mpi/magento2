@@ -127,7 +127,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         ))))));
 
         parent::_prepareForm();
-        return $this;
+        return parent::_prepareForm();
     }
 
     /**
@@ -228,7 +228,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      */
     protected function _getSelectOptions()
     {
-        $options   = array();
+        $options = array();
         foreach ($this->getImageTypes() as $imageType) {
             $attribute = $this->_eavConfig->getAttribute('catalog_product', $imageType);
             $options[] = array(
