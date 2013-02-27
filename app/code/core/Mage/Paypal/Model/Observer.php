@@ -102,43 +102,4 @@ class Mage_Paypal_Model_Observer
 
         return $this;
     }
-
-
-    /**
-     * Load country dependent PayPal solutions system configuration
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function loadCountryDependentSolutionsConfig(Varien_Event_Observer $observer)
-    {
-        $requestParam = Mage_Paypal_Block_Adminhtml_System_Config_Field_Country::REQUEST_PARAM_COUNTRY;
-        $countryCode  = Mage::app()->getRequest()->getParam($requestParam);
-        if (is_null($countryCode) || preg_match('/^[a-zA-Z]{2}$/', $countryCode) == 0) {
-            $countryCode = (string)Mage::getSingleton('Mage_Backend_Model_Config')
-                ->getConfigDataValue('paypal/general/merchant_country');
-        }
-        if (empty($countryCode)) {
-                $countryCode = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
-        }
-
-        $paymentGroups   = $observer->getEvent()->getConfig()->getNode('sections/payment/groups');
-        $paymentsConfigs = $paymentGroups->xpath('paypal_payments/*/backend_config/' . $countryCode);
-        if ($paymentsConfigs) {
-            foreach ($paymentsConfigs as $config) {
-                $parent = $config->getParent()->getParent();
-                $parent->extend($config, true);
-            }
-        }
-
-        $payments = $paymentGroups->xpath('paypal_payments/*');
-        foreach ($payments as $payment) {
-            if ((int)$payment->include) {
-                $fields = $paymentGroups->xpath((string)$payment->group . '/fields');
-                if (isset($fields[0])) {
-                    $fields[0]->appendChild($payment, true);
-                }
-            }
-        }
-    }
 }

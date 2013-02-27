@@ -115,16 +115,6 @@
         </events>
     </frontend>
     <adminhtml>
-        <events>
-            <adminhtml_init_system_config>
-                <observers>
-                    <paypal>
-                        <class>paypal/observer</class>
-                        <method>loadCountryDependentSolutionsConfig</method>
-                    </paypal>
-                </observers>
-            </adminhtml_init_system_config>
-        </events>
         <translate>
             <modules>
                 <Mage_Paypal>

@@ -51,22 +51,14 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
         $output = array();
 
         foreach ($dependencies as $depend) {
-            /* @var array $depend */
-            $fieldId = $fieldPrefix . array_pop($depend['dependPath']);
-            $depend['dependPath'][] = $fieldId;
-            $dependentId = implode('_', $depend['dependPath']);
-
+            /** @var $field Mage_Backend_Model_Config_Structure_Element_Dependency_Field */
+            $field = Mage::getModel('Mage_Backend_Model_Config_Structure_Element_Dependency_Field', array(
+                'depends_field_data' => $depend,
+                'field_prefix' => $fieldPrefix,
+            ));
             $shouldAddDependency = true;
-
-            $dependentValue = $depend['value'];
-
-            if (isset($depend['separator'])) {
-                $dependentValue = explode($depend['separator'], $dependentValue);
-            }
-
             /** @var Mage_Backend_Model_Config_Structure_Element_Field $dependentField  */
             $dependentField = $this->_fieldLocator->getElement($depend['id']);
-
             /*
             * If dependent field can't be shown in current scope and real dependent config value
             * is not equal to preferred one, then hide dependence fields by adding dependence
@@ -76,14 +68,10 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
                 $valueInStore = $this->_application
                     ->getStore($storeCode)
                     ->getConfig($dependentField->getPath($fieldPrefix));
-                if (is_array($dependentValue)) {
-                    $shouldAddDependency = !in_array($valueInStore, $dependentValue);
-                } else {
-                    $shouldAddDependency = $dependentValue != $valueInStore;
-                }
+                $shouldAddDependency = !$field->isValueSatisfy($valueInStore);
             }
             if ($shouldAddDependency) {
-                $output[$dependentId] = $dependentValue;
+                $output[$field->getDependentId()] = $field;
             }
         }
         return $output;

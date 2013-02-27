@@ -25,7 +25,6 @@
                     <label>Merchant Country</label>
                     <config_path>paypal/general/merchant_country</config_path>
                     <comment>If not specified, Default Country from General Config will be used</comment>
-                    <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Field_Country</frontend_model>
                     <source_model>Mage_Paypal_Model_System_Config_Source_MerchantCountry</source_model>
                     <backend_model>Mage_Paypal_Model_System_Config_Backend_MerchantCountry</backend_model>
                 </field>
@@ -39,6 +38,67 @@
                 <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Group</frontend_model>
                 <comment>Choose a secure bundled payment solution for your business.</comment>
                 <help_url>https://www.paypal-marketing.com/emarketing/partner/na/merchantlineup/home.page#mainTab=checkoutlineup</help_url>
+                <group id="payflow_advanced" extends="*/paypal_payments/payflow_advanced">
+                    <depends>
+                        <field id="*/account/merchant_country">US</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_hosted_solution_with_express_checkout" extends="*/paypal_payments/payments_pro_hosted_solution_with_express_checkout">
+                    <group id="pphs_required_settings">
+                        <field id="pphs_enable">
+                            <frontend_class>paypal-enabler</frontend_class>
+                        </field>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">GB</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_payflow_edition" extends="*/paypal_payments/payments_pro_payflow_edition">
+                    <depends>
+                        <field id="*/account/merchant_country">GB</field>
+                    </depends>
+                </group>
+                <group id="wpp" translate="label comment" sortOrder="20" extends="*/paypal_payments/wpp">
+                    <fieldset_css>pp-general-uk</fieldset_css>
+                    <more_url>https://www.paypal-business.co.uk/process-online-payments-with-paypal/index.htm</more_url>
+                    <demo_link>http://www.youtube.com/watch?v=LBe-TW87eGI</demo_link>
+                    <comment>Accept payments with a completely customizable checkout page.</comment>
+                    <depends>
+                        <field id="*/account/merchant_country">GB</field>
+                    </depends>
+                </group>
+                <group id="wpp" translate="label" extends="*/paypal_payments/wpp">
+                    <label>Payments Pro (Includes Express Checkout)</label>
+                    <group id="wpp_required_settings">
+                        <group id="wpp_and_express_checkout" translate="label">
+                            <label>Payments Pro and Express Checkout</label>
+                        </group>
+                    </group>
+                    <group id="wpp_settings" translate="label">
+                        <label>Basic Settings - PayPal Payments Pro</label>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">US</field>
+                    </depends>
+                </group>
+                <group id="wps" translate="label" extends="*/paypal_payments/wps">
+                    <label>Payments Standard</label>
+                    <group id="settings_payments_standart" translate="label">
+                        <label>Basic Settings - PayPal Payments Standard</label>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">US</field>
+                    </depends>
+                </group>
+                <group id="wps" translate="comment" sortOrder="10" extends="*/paypal_payments/wps">
+                    <fieldset_css>pp-general-uk</fieldset_css>
+                    <more_url>https://www.paypal-business.co.uk/accept-online-payments-with-paypal/index.htm</more_url>
+                    <demo_link>http://www.youtube.com/watch?v=mdPjvziH_rk</demo_link>
+                    <comment>Accept credit cards, debit cards and PayPal payments securely.</comment>
+                    <depends>
+                        <field id="*/account/merchant_country">GB</field>
+                    </depends>
+                </group>
             </group>
             <group id="paypal_payment_gateways" translate="label comment paypal_title" module="Mage_Paypal" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>PayPal Payment Gateways</label>
@@ -46,6 +106,27 @@
                 <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Group</frontend_model>
                 <comment>Process payments using your own internet merchant account.</comment>
                 <help_url>https://merchant.paypal.com/cgi-bin/marketingweb?cmd=_render-content</help_url>
+                <group id="payflow_link" extends="*/paypal_payments/payflow_link">
+                    <depends>
+                        <field id="*/account/merchant_country">US</field>
+                    </depends>
+                </group>
+                <group id="paypal_verisign_with_express_checkout" extends="*/paypal_payments/paypal_verisign_with_express_checkout">
+                    <group id="paypal_payflow_required">
+                        <group id="paypal_payflow_api_settings">
+                            <field id="business_account" extends="//paypal_payments/payflow_advanced//business_account" translate="label" sortOrder="10">
+                                <frontend_class>not-required</frontend_class>
+                                <label>Email Associated with PayPal Merchant Account (Optional)</label>
+                            </field>
+                        </group>
+                        <field id="enable_paypal_payflow">
+                            <frontend_class>paypal-enabler paypal-ec-pe</frontend_class>
+                        </field>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">US</field>
+                    </depends>
+                </group>
             </group>
             <group id="paypal_alternative_payment_methods" translate="label comment attribute" module="Mage_Paypal" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>PayPal Express Checkout</label>
@@ -55,6 +136,19 @@
                 <comment>Add another payment method to your existing solution or as a stand-alone option.</comment>
                 <attribute type="paypal_title">Select a Payment Solution</attribute>
                 <help_url>https://merchant.paypal.com/cgi-bin/marketingweb?cmd=_render-content</help_url>
+                <group id="express_checkout" extends="*/paypal_payments/express_checkout">
+                    <depends>
+                        <field id="*/account/merchant_country">US</field>
+                    </depends>
+                </group>
+                <group translate="comment" id="express_checkout" extends="*/paypal_payments/express_checkout">
+                    <more_url>https://www.paypal-business.co.uk/add-paypal-to-online-shop/index.htm</more_url>
+                    <demo_link>http://www.youtube.com/watch?v=WgnfZ2Bj6hQ</demo_link>
+                    <comment>Add PayPal as an additional payment method to your checkout page to increase your sales.</comment>
+                    <depends>
+                        <field id="*/account/merchant_country">GB</field>
+                    </depends>
+                </group>
             </group>
             <group id="paypal_payment_solutions" translate="label comment attribute" module="Mage_Paypal" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>PayPal Payment Solutions</label>
@@ -64,6 +158,107 @@
                 <comment>Add another payment method to your existing solution or as a stand-alone option.</comment>
                 <attribute type="paypal_title">Select a Payment Solution</attribute>
                 <help_url>https://www.paypal-marketing.com/emarketing/partner/na/merchantlineup/home.page#mainTab=checkoutlineup</help_url>
+                <group id="express_checkout" extends="*/paypal_payments/express_checkout">
+                    <depends>
+                        <field id="*/account/merchant_country" negative="1" separator=",">US,GB</field>
+                    </depends>
+                </group>
+                <group id="payflow_link" sortOrder="40" extends="*/paypal_payments/payflow_link">
+                    <depends>
+                        <field id="*/account/merchant_country">CA</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_hosted_solution" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
+                    <label>Website Payments Plus</label>
+                    <group id="pphs_required_settings">
+                        <group id="pphs_required_settings_pphs" translate="label">
+                            <label>Website Payments Plus</label>
+                        </group>
+                    </group>
+                    <group id="pphs_settings" translate="label">
+                        <label>Basic Settings - PayPal Website Payments Plus</label>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">JP</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_hosted_solution" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
+                    <label>Integral Evolution</label>
+                    <group id="pphs_required_settings">
+                        <group id="pphs_required_settings_pphs" translate="label">
+                            <label>Integral Evolution</label>
+                        </group>
+                    </group>
+                    <group id="pphs_settings" translate="label">
+                        <label>Basic Settings - PayPal Integral Evolution</label>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">FR</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_hosted_solution" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
+                    <label>Pro</label>
+                    <group id="pphs_required_settings">
+                        <group id="pphs_required_settings_pphs" translate="label">
+                            <label>PayPal Pro</label>
+                        </group>
+                    </group>
+                    <group id="pphs_settings" translate="label">
+                        <label>Basic Settings - PayPal Pro</label>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">IT</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_hosted_solution" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
+                    <label>Pasarela integral</label>
+                    <group id="pphs_required_settings">
+                        <group id="pphs_required_settings_pphs" translate="label">
+                            <label>Pasarela integral</label>
+                        </group>
+                    </group>
+                    <group id="pphs_settings" translate="label">
+                        <label>Basic Settings - PayPal Pasarela integral</label>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">ES</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_hosted_solution" extends="*/paypal_payments/payments_pro_hosted_solution">
+                    <depends>
+                        <field id="*/account/merchant_country">HK</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_hosted_solution" sortOrder="30" extends="*/paypal_payments/payments_pro_hosted_solution">
+                    <depends>
+                        <field id="*/account/merchant_country">AU</field>
+                    </depends>
+                </group>
+                <group id="paypal_verisign" sortOrder="30" extends="*/paypal_payments/paypal_verisign">
+                    <depends>
+                        <field id="*/account/merchant_country">CA</field>
+                    </depends>
+                </group>
+                <group id="paypal_verisign" sortOrder="20" extends="*/paypal_payments/paypal_verisign">
+                    <depends>
+                        <field id="*/account/merchant_country" separator=",">AU,NZ</field>
+                    </depends>
+                </group>
+                <group id="wpp" sortOrder="10" extends="*/paypal_payments/wpp">
+                    <depends>
+                        <field id="*/account/merchant_country">CA</field>
+                    </depends>
+                </group>
+                <group id="wps" sortOrder="20" extends="*/paypal_payments/wps">
+                    <depends>
+                        <field id="*/account/merchant_country" separator=",">CA,AU</field>
+                    </depends>
+                </group>
+                <group id="wps" extends="*/paypal_payments/wps">
+                    <depends>
+                        <field id="*/account/merchant_country" negative="1" separator=",">AU,CA,US,GB</field>
+                    </depends>
+                </group>
             </group>
             <group id="paypal_payments">
                 <group id="payflow_advanced" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
@@ -72,13 +267,7 @@
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <more_url>https://www.paypal.com/webapps/mpp/referral/paypal-payments-advanced?partner_id=NB9WWHYEMVUMS</more_url>
                     <comment>Accept payments with a PCI-compliant checkout that keeps customers on your site.</comment>
-                    <attribute type="group">paypal_group_all_in_one</attribute>
                     <attribute type="activity_path">payment/payflow_advanced/active</attribute>
-                    <attribute type="paypal_backend_config">
-                        <US>
-                            <attribute type="include">1</attribute>
-                        </US>
-                    </attribute>
                     <group id="required_settings" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
@@ -615,38 +804,11 @@
                 </group>
                 <group id="wpp" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
                     <label>Website Payments Pro (Includes Express Checkout)</label>
-                    <attribute type="group">paypal_payment_solutions</attribute>
                     <fieldset_css>pp-method-general</fieldset_css>
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <comment>Accept payments with a completely customizable checkout.</comment>
                     <attribute type="activity_path">payment/paypal_direct/active</attribute>
                     <more_url>https://www.paypal.com/webapps/mpp/referral/website-payments-pro?partner_id=NB9WWHYEMVUMS</more_url>
-                    <attribute type="paypal_backend_config">
-                        <CA sortOrder="10">
-                            <attribute type="include">1</attribute>
-                        </CA>
-                        <GB translate="label comment" sortOrder="20">
-                            <attribute type="include">1</attribute>
-                            <attribute type="group">paypal_group_all_in_one</attribute>
-                            <frontend_class>pp-general-uk</frontend_class>
-                            <more_url>https://www.paypal-business.co.uk/process-online-payments-with-paypal/index.htm</more_url>
-                            <demo_link>http://www.youtube.com/watch?v=LBe-TW87eGI</demo_link>
-                            <comment>Accept payments with a completely customizable checkout page.</comment>
-                        </GB>
-                        <US translate="label">
-                            <label>Payments Pro (Includes Express Checkout)</label>
-                            <attribute type="include">1</attribute>
-                            <attribute type="group">paypal_group_all_in_one</attribute>
-                            <group id="wpp_required_settings">
-                                <group id="wpp_and_express_checkout" translate="label">
-                                    <label>Payments Pro and Express Checkout</label>
-                                </group>
-                            </group>
-                            <group id="wpp_settings" translate="label">
-                                <label>Basic Settings - PayPal Payments Pro</label>
-                            </group>
-                        </US>
-                    </attribute>
                     <group id="wpp_required_settings" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
@@ -826,31 +988,11 @@
                 </group>
                 <group id="wps" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
                     <label>Website Payments Standard</label>
-                    <attribute type="group">paypal_payment_solutions</attribute>
-                    <attribute type="include">1</attribute>
                     <fieldset_css>pp-method-general</fieldset_css>
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <comment>Accept credit card and PayPal payments securely.</comment>
                     <attribute type="activity_path">payment/paypal_standard/active</attribute>
                     <more_url>https://www.paypal.com/webapps/mpp/referral/website-payments-standard?partner_id=NB9WWHYEMVUMS</more_url>
-                    <attribute type="paypal_backend_config">
-                        <AU sortOrder="20"></AU>
-                        <CA sortOrder="20"></CA>
-                        <US translate="label">
-                            <label>Payments Standard</label>
-                            <attribute type="group">paypal_group_all_in_one</attribute>
-                            <group id="settings_payments_standart" translate="label">
-                                <label>Basic Settings - PayPal Payments Standard</label>
-                            </group>
-                        </US>
-                        <GB translate="comment" sortOrder="10">
-                            <attribute type="group">paypal_group_all_in_one</attribute>
-                            <frontend_class>pp-general-uk</frontend_class>
-                            <more_url>https://www.paypal-business.co.uk/accept-online-payments-with-paypal/index.htm</more_url>
-                            <demo_link>http://www.youtube.com/watch?v=mdPjvziH_rk</demo_link>
-                            <comment>Accept credit cards, debit cards and PayPal payments securely.</comment>
-                        </GB>
-                    </attribute>
                     <group id="wps_required_settings" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
@@ -927,22 +1069,10 @@
                     <label>Payflow Pro</label>
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <fieldset_css>pp-method-payflow</fieldset_css>
-                    <attribute type="group">paypal_payment_solutions</attribute>
                     <comment>Connect your merchant account with a fully customizable gateway that lets customers pay without leaving your site.</comment>
                     <attribute type="activity_path">payment/verisign/active</attribute>
                     <more_url>https://www.paypal.com/webapps/mpp/referral/paypal-payflow-pro?partner_id=NB9WWHYEMVUMS</more_url>
                     <attribute type="paypal_ec_separate">1</attribute>
-                    <attribute type="paypal_backend_config">
-                        <CA sortOrder="30">
-                            <attribute type="include">1</attribute>
-                        </CA>
-                        <AU sortOrder="20">
-                            <attribute type="include">1</attribute>
-                        </AU>
-                        <NZ sortOrder="20">
-                            <attribute type="include">1</attribute>
-                        </NZ>
-                    </attribute>
                     <group id="paypal_payflow_required" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
@@ -1102,32 +1232,6 @@
                 <group id="paypal_verisign_with_express_checkout" type="group" translate="label comment" extends="//paypal_payments/paypal_verisign">
                     <label>Payflow Pro (Includes Express Checkout)</label>
                     <attribute type="paypal_ec_separate">0</attribute>
-                    <attribute type="paypal_backend_config">
-                        <AU>
-                            <attribute type="include">0</attribute>
-                        </AU>
-                        <CA>
-                            <attribute type="include">0</attribute>
-                        </CA>
-                        <US>
-                            <attribute type="include">1</attribute>
-                            <attribute type="group">paypal_payment_gateways</attribute>
-                            <group id="paypal_payflow_required">
-                                <group id="paypal_payflow_api_settings">
-                                    <field id="business_account" extends="//paypal_payments/payflow_advanced//business_account" translate="label" sortOrder="10">
-                                        <frontend_class>not-required</frontend_class>
-                                        <label>Email Associated with PayPal Merchant Account (Optional)</label>
-                                    </field>
-                                </group>
-                                <field id="enable_paypal_payflow">
-                                    <frontend_class>paypal-enabler paypal-ec-pe</frontend_class>
-                                </field>
-                            </group>
-                        </US>
-                        <NZ>
-                            <attribute type="include">0</attribute>
-                        </NZ>
-                    </attribute>
                     <group id="paypal_payflow_required" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <group id="paypal_payflow_api_settings" type="group" translate="label">
@@ -1213,21 +1317,11 @@
                 </group>
                 <group id="payflow_link" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
                     <label>Payflow Link (Includes Express Checkout)</label>
-                    <attribute type="group">paypal_payment_solutions</attribute>
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <fieldset_css>pp-method-payflow</fieldset_css>
                     <comment>Connect your merchant account with a PCI-compliant gateway that lets customers pay without leaving your site.</comment>
                     <attribute type="activity_path">payment/payflow_link/active</attribute>
                     <more_url>https://www.paypal.com/webapps/mpp/referral/paypal-payflow-link?partner_id=NB9WWHYEMVUMS</more_url>
-                    <attribute type="paypal_backend_config">
-                        <CA sortOrder="40">
-                            <attribute type="include">1</attribute>
-                        </CA>
-                        <US>
-                            <attribute type="include">1</attribute>
-                            <attribute type="group">paypal_payment_gateways</attribute>
-                        </US>
-                    </attribute>
                     <group id="payflow_link_required" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
@@ -1438,16 +1532,10 @@
                 </group>
                 <group id="payments_pro_payflow_edition" type="group" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
                     <label>Website Payments Pro Payflow Edition (Includes Express Checkout)</label>
-                    <attribute type="group">paypal_group_all_in_one</attribute>
                     <fieldset_css>pp-general-uk</fieldset_css>
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <attribute type="activity_path">payment/paypaluk_direct/active</attribute>
                     <comment>Accept payments in your shopping cart. PayPal will process your card payments through the Payflow Gateway.</comment>
-                    <attribute type="paypal_backend_config">
-                        <GB>
-                            <attribute type="include">1</attribute>
-                        </GB>
-                    </attribute>
                     <group id="pp_pe_required_settings" type="group" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
@@ -1630,68 +1718,11 @@
                 </group>
                 <group id="payments_pro_hosted_solution" type="group" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
                     <label>Website Payments Pro Hosted Solution</label>
-                    <attribute type="group">paypal_payment_solutions</attribute>
                     <fieldset_css>pp-method-general</fieldset_css>
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <attribute type="activity_path">payment/hosted_pro/active</attribute>
                     <comment>Accept payments with a PCI compliant checkout that keeps customers on your site.</comment>
                     <attribute type="paypal_ec_separate">1</attribute>
-                    <attribute type="paypal_backend_config">
-                        <JP translate="label">
-                            <label>Website Payments Plus</label>
-                            <attribute type="include">1</attribute>
-                            <group id="pphs_required_settings">
-                                <group id="pphs_required_settings_pphs" translate="label">
-                                    <label>Website Payments Plus</label>
-                                </group>
-                            </group>
-                            <group id="pphs_settings" translate="label">
-                                <label>Basic Settings - PayPal Website Payments Plus</label>
-                            </group>
-                        </JP>
-                        <FR translate="label">
-                            <label>Integral Evolution</label>
-                            <attribute type="include">1</attribute>
-                            <group id="pphs_required_settings">
-                                <group id="pphs_required_settings_pphs" translate="label">
-                                    <label>Integral Evolution</label>
-                                </group>
-                            </group>
-                            <group id="pphs_settings" translate="label">
-                                <label>Basic Settings - PayPal Integral Evolution</label>
-                            </group>
-                        </FR>
-                        <IT translate="label">
-                            <label>Pro</label>
-                            <attribute type="include">1</attribute>
-                            <group id="pphs_required_settings">
-                                <group id="pphs_required_settings_pphs" translate="label">
-                                    <label>PayPal Pro</label>
-                                </group>
-                            </group>
-                            <group id="pphs_settings" translate="label">
-                                <label>Basic Settings - PayPal Pro</label>
-                            </group>
-                        </IT>
-                        <ES translate="label">
-                            <label>Pasarela integral</label>
-                            <attribute type="include">1</attribute>
-                            <group id="pphs_required_settings">
-                                <group id="pphs_required_settings_pphs" translate="label">
-                                    <label>Pasarela integral</label>
-                                </group>
-                            </group>
-                            <group id="pphs_settings" translate="label">
-                                <label>Basic Settings - PayPal Pasarela integral</label>
-                            </group>
-                        </ES>
-                        <HK>
-                            <attribute type="include">1</attribute>
-                        </HK>
-                        <AU sortOrder="30">
-                            <attribute type="include">1</attribute>
-                        </AU>
-                    </attribute>
                     <group id="pphs_required_settings" type="group" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
@@ -1780,38 +1811,9 @@
                 </group>
                 <group id="payments_pro_hosted_solution_with_express_checkout" type="group" translate="label comment" extends="//paypal_payments/payments_pro_hosted_solution" sortOrder="30">
                     <label>Website Payments Pro Hosted Solution (Includes Express Checkout)</label>
-                    <attribute type="group">paypal_group_all_in_one</attribute>
                     <fieldset_css>pp-general-uk</fieldset_css>
                     <more_url>https://cms.paypal.com/cms_content/GB/en_GB/files/developer/HostedSolution.pdf</more_url>
                     <attribute type="paypal_ec_separate">0</attribute>
-                    <attribute type="paypal_backend_config">
-                        <JP>
-                            <attribute type="include">0</attribute>
-                        </JP>
-                        <FR>
-                            <attribute type="include">0</attribute>
-                        </FR>
-                        <IT>
-                            <attribute type="include">0</attribute>
-                        </IT>
-                        <ES>
-                            <attribute type="include">0</attribute>
-                        </ES>
-                        <HK>
-                            <attribute type="include">0</attribute>
-                        </HK>
-                        <AU>
-                            <attribute type="include">0</attribute>
-                        </AU>
-                        <GB>
-                            <attribute type="include">1</attribute>
-                            <group id="pphs_required_settings">
-                                <field id="pphs_enable">
-                                    <frontend_class>paypal-enabler</frontend_class>
-                                </field>
-                            </group>
-                        </GB>
-                    </attribute>
                     <group id="pphs_required_settings" type="group">
                         <group id="pphs_required_settings_pphs" type="group" translate="label">
                             <label>Website Payments Pro Hosted Solution and Express Checkout</label>
@@ -1872,24 +1874,11 @@
                 </group>
                 <group id="express_checkout" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
                     <label>Express Checkout</label>
-                    <attribute type="group">paypal_payment_solutions</attribute>
                     <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment</frontend_model>
                     <fieldset_css>pp-method-express</fieldset_css>
-                    <attribute type="include">1</attribute>
                     <comment>Add PayPal as an additional payment method to your checkout page.</comment>
                     <attribute type="activity_path">payment/paypal_express/active</attribute>
                     <more_url>https://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</more_url>
-                    <attribute type="paypal_backend_config">
-                        <US>
-                            <attribute type="group">paypal_alternative_payment_methods</attribute>
-                        </US>
-                        <GB translate="comment">
-                            <attribute type="group">paypal_alternative_payment_methods</attribute>
-                            <more_url>https://www.paypal-business.co.uk/add-paypal-to-online-shop/index.htm</more_url>
-                            <demo_link>http://www.youtube.com/watch?v=WgnfZ2Bj6hQ</demo_link>
-                            <comment>Add PayPal as an additional payment method to your checkout page to increase your sales.</comment>
-                        </GB>
-                    </attribute>
                     <group id="express_checkout_required" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>

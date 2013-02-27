@@ -415,14 +415,11 @@ FormElementDependenceController.prototype = {
         var shouldShowUp = true;
         for (var idFrom in valuesFrom) {
             var from = $(idFrom);
-            if (valuesFrom[idFrom] instanceof Array) {
-                if (!from || valuesFrom[idFrom].indexOf(from.value) == -1) {
-                    shouldShowUp = false;
-                }
-            } else {
-                if (!from || from.value != valuesFrom[idFrom]) {
-                    shouldShowUp = false;
-                }
+            var values = valuesFrom[idFrom]['values'];
+            var isInArray = values.indexOf(from.value) != -1;
+            var isNegative = valuesFrom[idFrom]['negative'];
+            if (!from || isInArray && isNegative || !isInArray && !isNegative) {
+                shouldShowUp = false;
             }
         }
 

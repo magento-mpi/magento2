@@ -137,6 +137,7 @@
                     <xs:element name="expanded" type="xs:int" />
                     <xs:element name="help_url" type="typeUrl" />
                     <xs:element name="more_url" type="typeUrl" />
+                    <xs:element name="demo_link" type="typeUrl" />
                     <xs:element name="comment" type="xs:string" />
                     <xs:element name="hide_in_single_store_mode" type="xs:int" />
                     <xs:element ref="field" />
@@ -323,6 +324,7 @@
                             <xs:extension base="xs:string">
                                 <xs:attribute name="id" type="typeElementPath" use="required" />
                                 <xs:attribute name="separator" type='xs:string' use='optional' />
+                                <xs:attribute name="negative" type='xs:int' use='optional' />
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
