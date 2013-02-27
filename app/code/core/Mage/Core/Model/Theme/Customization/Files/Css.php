@@ -104,7 +104,8 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
      * @return Mage_Core_Model_Resource_Theme_Files_Collection
      */
     public function getCollectionByTheme(
-        Mage_Core_Model_Theme_Customization_CustomizedInterface $theme, $type = null
+        Mage_Core_Model_Theme_Customization_CustomizedInterface $theme,
+        $type = Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS
     ) {
         return (null === $type)
             ? parent::getCollectionByTheme($theme)
