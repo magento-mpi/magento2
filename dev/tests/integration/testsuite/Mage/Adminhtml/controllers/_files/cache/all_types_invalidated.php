@@ -13,5 +13,3 @@ $types = array_keys($cache->getTypes());
 /** @var $cacheTypes Mage_Core_Model_Cache_Types */
 $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
 $cache->invalidateType($types);
-Magento_Test_Helper_Bootstrap::getInstance()
-    ->reinitialize(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());

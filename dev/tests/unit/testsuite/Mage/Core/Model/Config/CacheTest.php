@@ -97,6 +97,7 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
         );
         $this->_cacheMock->expects($this->at(0))
             ->method('load')
+            ->with('config_global.lock')
             ->will($this->returnValue(false));
         $this->_configSectionsMock->expects($this->once())
             ->method('getSections')
@@ -123,6 +124,7 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
     {
         $this->_cacheMock->expects($this->at(0))
             ->method('load')
+            ->with('config_global.lock')
             ->will($this->returnValue(true));
         $this->_cacheMock->expects($this->never())
             ->method('save');

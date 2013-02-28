@@ -71,9 +71,11 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
 
     public function testSaveDisabled()
     {
-        $frontend = $this->getMock('Varien_Cache_Core', array('_tags'), array(array('disable_save' => true)));
-        $frontend->expects($this->never())
-            ->method('_tags');
+        $backendMock = $this->getMock('Zend_Cache_Backend_BlackHole');
+        $backendMock->expects($this->never())
+            ->method('save');
+        $frontend = new Varien_Cache_Core(array('disable_save' => true));
+        $frontend->setBackend($backendMock);
         $result = $frontend->save('data', 'id');
         $this->assertTrue($result);
     }

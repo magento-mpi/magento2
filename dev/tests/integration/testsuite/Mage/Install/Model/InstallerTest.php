@@ -162,7 +162,7 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDbIsolation enabled
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
      */
     public function testFinish()
     {
@@ -170,18 +170,11 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         $configFile = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
         copy($configFile, self::$_tmpConfigFile);
 
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
-
-        $types = array_keys(Mage::getModel('Mage_Core_Model_Cache')->getTypes());
-        foreach ($types as $type) {
-            $cacheTypes->setEnabled($type, false);
-        }
-        $cacheTypes->persist();
-
         $this->_model->finish();
 
+        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
         $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
+        $types = array_keys(Mage::getModel('Mage_Core_Model_Cache')->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(
                 $cacheTypes->isEnabled($type),

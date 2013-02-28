@@ -11,10 +11,8 @@ $cache = Mage::getModel('Mage_Core_Model_Cache');
 $types = array_keys($cache->getTypes());
 
 /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-$cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
+$cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
 foreach ($types as $type) {
     $cacheTypes->setEnabled($type, false);
 }
 $cacheTypes->persist();
-Magento_Test_Helper_Bootstrap::getInstance()
-    ->reinitialize(Magento_Test_Helper_Bootstrap::getInstance()->getAppInitParams());
