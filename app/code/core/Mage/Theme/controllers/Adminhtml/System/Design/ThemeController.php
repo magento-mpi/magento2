@@ -239,10 +239,13 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
 
             if ($customCssFile->getContent()) {
-                $this->_prepareDownloadResponse(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS, array(
-                    'type'  => 'filename',
-                    'value' => $customCssFile->getFullPath()
-                ));
+                $this->_prepareDownloadResponse(
+                    $filesCss->getFileNameByName(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS),
+                    array(
+                        'type'  => 'filename',
+                        'value' => $customCssFile->getFullPath()
+                    )
+                );
             }
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
