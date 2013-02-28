@@ -10,6 +10,8 @@
 
 /**
  * Logo uploader element renderer
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader

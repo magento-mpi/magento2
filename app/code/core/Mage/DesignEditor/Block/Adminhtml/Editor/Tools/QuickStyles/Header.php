@@ -15,6 +15,7 @@
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_AbstractTab
