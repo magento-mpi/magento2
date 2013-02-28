@@ -19,10 +19,6 @@ class Mage_Core_Model_Cache_Type_AccessProxyTest extends PHPUnit_Framework_TestC
         $identifier = 'cache_type_identifier';
 
         $frontendMock = $this->getMock('Magento_Cache_FrontendInterface');
-        $builder = $frontendMock->expects($this->once())
-            ->method($method);
-        $builder = call_user_func_array(array($builder, 'with'), $params);
-        $builder->will($this->returnValue($enabledResult));
 
         $cacheEnabler = $this->getMock('Mage_Core_Model_Cache_Types', array(), array(), '', false);
         $cacheEnabler->expects($this->at(0))
@@ -35,13 +31,14 @@ class Mage_Core_Model_Cache_Type_AccessProxyTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue(true));
 
         $object = new Mage_Core_Model_Cache_Type_AccessProxy($frontendMock, $cacheEnabler, $identifier);
+        $helper = new Magento_Test_Helper_ProxyTesting();
 
         // For the first call the cache is disabled - so fake default result is returned
-        $result = call_user_func_array(array($object, $method), $params);
+        $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $enabledResult);
         $this->assertSame($disabledResult, $result);
 
         // For the second call the cache is enabled - so real cache result is returned
-        $result = call_user_func_array(array($object, $method), $params);
+        $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $enabledResult);
         $this->assertSame($enabledResult, $result);
     }
 

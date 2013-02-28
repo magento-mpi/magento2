@@ -17,14 +17,10 @@ class Magento_Cache_Frontend_Adapter_ZendTest extends PHPUnit_Framework_TestCase
     public function testProxyMethod($method, $params, $expectedParams, $expectedResult)
     {
         $frontendMock = $this->getMock('Zend_Cache_Core');
-
-        $builder = $frontendMock->expects($this->once())
-            ->method($method);
-        $builder = call_user_func_array(array($builder, 'with'), $expectedParams);
-        $builder->will($this->returnValue($expectedResult));
-
         $object = new Magento_Cache_Frontend_Adapter_Zend($frontendMock);
-        $result = call_user_func_array(array($object, $method), $params);
+        $helper = new Magento_Test_Helper_ProxyTesting();
+        $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $expectedResult, $method,
+            $expectedParams);
         $this->assertSame($expectedResult, $result);
     }
 

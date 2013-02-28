@@ -54,7 +54,11 @@ class Mage_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_Test
 
     public function testGetFallbackToDefaultId()
     {
-        $instanceMock = $this->getMock('Magento_Cache_FrontendInterface');
+        /**
+         * Setup cache pool to have knowledge only about default cache instance. Also check appropriate sequence
+         * of calls.
+         */
+        $defaultInstance = $this->getMock('Magento_Cache_FrontendInterface');
         $this->_cachePool->expects($this->at(0))
             ->method('get')
             ->with('cache_type')
@@ -62,16 +66,38 @@ class Mage_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_Test
         $this->_cachePool->expects($this->at(1))
             ->method('get')
             ->with(Mage_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
-            ->will($this->returnValue($instanceMock));
+            ->will($this->returnValue($defaultInstance));
 
-        $this->_objectManager->expects($this->once())
+        $this->_cachePool->expects($this->at(2))
+            ->method('get')
+            ->with('another_cache_type')
+            ->will($this->returnValue(null));
+        $this->_cachePool->expects($this->at(3))
+            ->method('get')
+            ->with(Mage_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
+            ->will($this->returnValue($defaultInstance));
+
+        /**
+         * Setup object manager to create new access proxies. We expect two calls.
+         */
+        $this->_objectManager->expects($this->at(0))
             ->method('create')
             ->with('Mage_Core_Model_Cache_Type_AccessProxy',
-                array('frontend' => $instanceMock, 'identifier' => 'cache_type'))
+                array('frontend' => $defaultInstance, 'identifier' => 'cache_type'))
             ->will($this->returnValue(
                 $this->getMock('Mage_Core_Model_Cache_Type_AccessProxy', array(), array(), '', false)
-            ));
+        ));
+        $this->_objectManager->expects($this->at(1))
+            ->method('create')
+            ->with('Mage_Core_Model_Cache_Type_AccessProxy',
+                array('frontend' => $defaultInstance, 'identifier' => 'another_cache_type'))
+            ->will($this->returnValue(
+                $this->getMock('Mage_Core_Model_Cache_Type_AccessProxy', array(), array(), '', false)
+        ));
 
-        $instance = $this->_model->get('cache_type');
+        $cacheInstance = $this->_model->get('cache_type');
+        $anotherInstance = $this->_model->get('another_cache_type');
+        $this->assertNotSame($cacheInstance, $anotherInstance,
+            'Different cache instances must be returned for different identifiers');
     }
 }

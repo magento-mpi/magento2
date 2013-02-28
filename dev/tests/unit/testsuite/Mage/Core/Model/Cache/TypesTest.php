@@ -101,7 +101,7 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
             ->method('load')
             ->with(Mage_Core_Model_Cache_Types::CACHE_ID)
             ->will($this->returnValue(
-            $typeOptionsViaCache === false ? $typeOptionsViaCache : serialize($typeOptionsViaCache)
+            $typeOptionsViaCache === false ? false : serialize($typeOptionsViaCache)
         ));
         $cacheFrontendPool = $this->getMock('Mage_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
         $cacheFrontendPool->expects($this->any())
@@ -125,9 +125,10 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * The model must fetch data from DB, if the cache type list is not cached (e.g. cache load result is FALSE)
+     * The model must fetch data via its resource, if the cache type list is not cached
+     * (e.g. cache load result is FALSE)
      */
-    public function testIsEnabledFallbackToDb()
+    public function testIsEnabledFallbackToResource()
     {
         $model = $this->_buildModel(array(), array('cache_type' => true));
         $this->assertFalse($model->isEnabled('cache_type'));
@@ -136,7 +137,7 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($model->isEnabled('cache_type'));
     }
 
-    public function testSetEnabled()
+    public function testSetEnabledIsEnabled()
     {
         $model = $this->_buildModel(array('cache_type' => false));
         $model->setEnabled('cache_type', true);

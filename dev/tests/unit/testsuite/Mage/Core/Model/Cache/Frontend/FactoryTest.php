@@ -7,28 +7,31 @@
  */
 class Mage_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        require_once __DIR__ . '/_files/CacheDecoratorDummy.php';
+    }
+
     public function testCreate()
     {
         $model = $this->_buildModelForCreate();
         $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
 
-        $this->assertInstanceOf('Magento_Cache_FrontendInterface', $result);
-    }
-
-    public function testCreateFrontendClass()
-    {
-        $model = $this->_buildModelForCreate();
-        $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
-
-        $this->assertInstanceOf('Varien_Cache_Core', $result->getLowLevelFrontend());
-    }
-
-    public function testCreateBackendClass()
-    {
-        $model = $this->_buildModelForCreate();
-        $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
-
-        $this->assertInstanceOf('Zend_Cache_Backend_BlackHole', $result->getBackend());
+        $this->assertInstanceOf(
+            'Magento_Cache_FrontendInterface',
+            $result,
+            'Created object must implement Magento_Cache_FrontendInterface'
+        );
+        $this->assertInstanceOf(
+            'Varien_Cache_Core',
+            $result->getLowLevelFrontend(),
+            'Created object must have Varien_Cache_Core frontend by default'
+        );
+        $this->assertInstanceOf(
+            'Zend_Cache_Backend_BlackHole',
+            $result->getBackend(),
+            'Created object must have backend as configured in backend options'
+        );
     }
 
     public function testCreateOptions()
@@ -104,7 +107,6 @@ class Mage_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_TestC
 
     public function testCreateDecorators()
     {
-        include_once __DIR__ . '/_files/CacheDecoratorDummy.php';
         $model = $this->_buildModelForCreate(
             array(),
             array(array('class' => 'CacheDecoratorDummy', 'parameters' => array('param' => 'value')))
@@ -119,6 +121,8 @@ class Mage_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_TestC
     }
 
     /**
+     * Create the model to be tested, providing it with all required dependencies
+     *
      * @param array $enforcedOptions
      * @param array $decorators
      * @return Mage_Core_Model_Cache_Frontend_Factory
@@ -155,7 +159,7 @@ class Mage_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_TestC
             array(Mage_Core_Model_Dir::CACHE, 'CACHE_DIR'),
             array(Mage_Core_Model_Dir::CONFIG, 'CONFIG_DIR'),
         );
-        $dirs = $this->getMock('Mage_Core_Model_Dir', array('getDir'), array($filesystem, '/base/dir'));
+        $dirs = $this->getMock('Mage_Core_Model_Dir', array('getDir'), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValueMap($map));

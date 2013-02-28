@@ -23,6 +23,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
      * @param Zend_Cache_Backend $cacheBackend
      * @param Zend_Cache_Core $cacheFrontend
      * @param string $expectedProfileId
+     * @param array $expectedProfilerTags
      * @param mixed $expectedResult
      * @dataProvider proxyMethodDataProvider
      */
@@ -31,10 +32,6 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
     ) {
         // Cache frontend setup
         $frontendMock = $this->getMock('Magento_Cache_FrontendInterface');
-        $builder = $frontendMock->expects($this->once())
-            ->method($method);
-        $builder = call_user_func_array(array($builder, 'with'), $params);
-        $builder->will($this->returnValue($expectedResult));
 
         $frontendMock->expects($this->any())
             ->method('getBackend')
@@ -56,7 +53,8 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
 
         // Test
         $object = new Magento_Cache_Frontend_Decorator_Profiler($frontendMock, array('Zend_Cache_Backend_'));
-        $result = call_user_func_array(array($object, $method), $params);
+        $helper = new Magento_Test_Helper_ProxyTesting();
+        $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $expectedResult);
         $this->assertSame($expectedResult, $result);
     }
 
