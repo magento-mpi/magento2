@@ -704,6 +704,29 @@
     background-color: #000;
 }
 
+.vde-tab-controls > .item-translate > a:hover span {
+    background: url(../images/translate-on.png) no-repeat;
+}
+
+.vde-tab-controls > .item-translate > a:active span {
+    background: url(../images/translate-on.png) no-repeat;
+}
+
+.vde-tab-controls > .item-translate > a span {
+    background: url(../images/translate-off.png) no-repeat;
+}
+
+.vde-tools-tabs {
+    left: 0;
+    position: absolute;
+    right: 20%;
+}
+
+.vde-tools-button {
+    left: 80%;
+    position: absolute;
+    right: 0;
+}
 .tab-panel {
     position: relative;
     display: none;
