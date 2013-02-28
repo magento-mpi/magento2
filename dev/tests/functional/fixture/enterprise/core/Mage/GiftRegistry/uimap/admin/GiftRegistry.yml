@@ -55,7 +55,7 @@ new_gift_registry:
                         fieldsets:
                             -
                                 general_info: &generalInformationTab
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     dropdowns:
                                         is_listed: //select[@id='is_listed']
                                     fields:
@@ -94,16 +94,16 @@ new_gift_registry:
                                         attributes_label: //input[@id='registry_attribute_%attributeId%_select_%optionId%_label']
                                         attributes_sort_order: //input[@id='registry_attribute_%attributeId%_sort_order']
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_gift_registry: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_gift_registry: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: &newGiftRegistryMessages
             confirmation_for_delete: Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.')]
             incorrect_attributes_code: "//div[@id='advice-attribute-code-%fieldId%' and not(contains(@style,'display: none;'))]"
             empty_option: //div[@id='advice-required-option-select-rows-validation_1_result']
-            invalid_code: //div[@id='advice-validate-code-code']
+            invalid_code: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             exist_code: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
 
 # 'Edit Gift Registry' page
@@ -113,9 +113,9 @@ edit_gift_registry:
     uimap:
         form: *giftRegistryForm
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            delete: //button[span='Delete']
-            save_gift_registry: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            delete: //button[@id='delete']
+            save_gift_registry: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: *newGiftRegistryMessages
