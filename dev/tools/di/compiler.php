@@ -11,11 +11,16 @@
 require __DIR__ . '/../../../app/bootstrap.php';
 require __DIR__ . '/lib/ArrayDefinitionReader.php';
 require __DIR__ . '/lib/UniqueList.php';
+error_reporting(E_ERROR);
+$opt = new Zend_Console_Getopt(array(
+    'compressor|c-w'    => 'apple option, with no parameter',
+));
 
 $objectManager = new Mage_Core_Model_ObjectManager(
     new Magento_ObjectManager_Definition_Runtime(),
     new Mage_Core_Model_Config_Primary(BP, array(Mage::PARAM_BAN_CACHE => true))
 );
+Mage::setObjectManager($objectManager);
 $config = $objectManager->get('Mage_Core_Model_Config');
 
 $definitions = array();

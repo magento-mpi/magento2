@@ -37,6 +37,9 @@ class UniqueList
      */
     public function asArray()
     {
+        foreach ($this->_items as &$item) {
+            $item = serialize($item);
+        }
         return $this->_items;
     }
 }

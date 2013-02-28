@@ -39,8 +39,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
                 $definitionsFile = isset($definitionConfig['path']) ?
                     $definitionConfig['path'] :
                     $config->getDirectories()->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
-                $definitions = include $definitionsFile;
-                break;
+                $definitions = file_get_contents($definitionsFile);
         };
         $format = isset($definitionConfig['format']) ? $definitionConfig['format'] : 'serialized';
         switch ($format) {

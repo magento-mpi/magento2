@@ -13,6 +13,11 @@
  */
 class Mage_Backend_Model_Config_Structure_Mapper_Path extends Mage_Backend_Model_Config_Structure_MapperAbstract
 {
+    public function __construct(Mage_Core_Model_Dir $dirs)
+    {
+        $this->_dirs = $dirs;
+    }
+
     /**
      * Apply map
      *
