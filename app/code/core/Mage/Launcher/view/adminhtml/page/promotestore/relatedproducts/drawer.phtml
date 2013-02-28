@@ -23,7 +23,7 @@
             <ul class="checklist">
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/targetrule/new'); ?>
                 <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Product Relations Rule'); ?></a></li>
-                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'catalog', '_fragment' => 'catalog_enterprise_targetrule-link')); ?>
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'catalog')); ?>
                 <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Configure Rule-Based Product Relations'); ?></a></li>
             </ul>
         </div>
