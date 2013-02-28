@@ -12,10 +12,10 @@ require __DIR__ . '/../../../app/bootstrap.php';
 require __DIR__ . '/lib/ArrayDefinitionReader.php';
 require __DIR__ . '/lib/UniqueList.php';
 
-$objectManager = new Mage_Core_Model_ObjectManager(new Mage_Core_Model_ObjectManager_Config(array(
-    Mage::PARAM_BASEDIR => BP,
-    Mage::PARAM_BAN_CACHE => true
-)), null);
+$objectManager = new Mage_Core_Model_ObjectManager(
+    new Magento_ObjectManager_Definition_Runtime(),
+    new Mage_Core_Model_Config_Primary(BP, array(Mage::PARAM_BAN_CACHE => true))
+);
 $config = $objectManager->get('Mage_Core_Model_Config');
 
 $definitions = array();
@@ -58,6 +58,30 @@ if (!file_exists(BP . '/var/di/')) {
     mkdir(BP . '/var/di', 0777, true);
 }
 
-file_put_contents(
-    BP . '/var/di/definitions.php', serialize(array($signatureList->asArray(), $resultDefinitions))
-);
+$definitionFormat = (string) $config->getNode('global/di/definitions/format');
+$content = array($signatureList->asArray(), $resultDefinitions);
+$output = '';
+switch ($definitionFormat) {
+    case 'igbinary':
+        $output = igbinary_serialize($content);
+        break;
+
+    case 'serialize':
+    default:
+        $output = serialize($content);
+        break;
+}
+
+$storageType = (string) $config->getNode('global/di/definitions/storage/type');
+$storagePath = (string) $config->getNode('global/di/definitions/storage/path');
+switch ($storageType) {
+    case 'memcached':
+        break;
+
+    case 'file':
+    default:
+        $dirs = $objectManager->get('Mage_Core_Model_Dir');
+        $path = $storagePath ?: $dirs->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
+        file_put_contents($path, $output);
+        break;
+}

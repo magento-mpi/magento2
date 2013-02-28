@@ -4,7 +4,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
 {
     public function create(Mage_Core_Model_Config_Primary $config)
     {
-        $definitionConfig = $config->getNode('global/di/definition');
+        $definitionConfig = $config->getNode('global/di/definitions');
         if (empty($definitionConfig) && !isset($definitionConfig['type'])) {
             return new Magento_ObjectManager_Definition_Runtime();
         }
@@ -16,7 +16,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
             default:
                 $definitionsFile = isset($definitionConfig['path']) ?
                     $definitionConfig['path'] :
-                    $config->getDirectories()->getDir(Mage_Core_Model_Dir::DI) . '/definitions';
+                    $config->getDirectories()->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
                 $definitions = include $definitionsFile;
         };
         $format = isset($definitionConfig['format']) ? $definitionConfig['format'] : 'serialized';
