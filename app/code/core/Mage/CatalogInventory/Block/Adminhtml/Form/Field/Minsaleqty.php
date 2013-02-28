@@ -33,7 +33,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty
         if (!$this->_groupRenderer) {
             $this->_groupRenderer = $this->getLayout()->createBlock(
                 'Mage_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup', '',
-                array('is_render_to_js_template' => true)
+                array('data' => array('is_render_to_js_template' => true))
             );
             $this->_groupRenderer->setClass('customer_group_select');
             $this->_groupRenderer->setExtraParams('style="width:120px"');

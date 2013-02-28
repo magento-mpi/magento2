@@ -22,15 +22,10 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
     /**
      * @param Zend\Di\Definition\IntrospectionStrategy $strategy
      * @param array $explicitClasses
-     * @param Magento_Di_Generator_Class $classGenerator
      */
-    public function __construct(
-        IntrospectionStrategy $strategy = null,
-        array $explicitClasses = null,
-        Magento_Di_Generator_Class $classGenerator = null
-    ) {
+    public function __construct(IntrospectionStrategy $strategy = null, array $explicitClasses = null)
+    {
         parent::__construct($strategy, $explicitClasses);
-        $this->_classGenerator = $classGenerator ?: new Magento_Di_Generator_Class();
     }
 
     /**
@@ -73,12 +68,20 @@ class Magento_Di_Definition_RuntimeDefinition_Zend extends Zend\Di\Definition\Ru
     }
 
     /**
+     * Retrieve method parameters for given class
+     *
      * @param string $class
-     * @return array|string
+     * @param string $method
+     * @return mixed
      */
-    public function getInstantiator($class)
+    public function getMethodParameters($class, $method)
     {
-        $this->_classGenerator->generateForConstructor($class);
-        return parent::getInstantiator($class);
+        if (!array_key_exists($class, $this->classes)) {
+            $this->processClass($class);
+        }
+
+        return isset($this->classes[$class]['parameters'][$method])
+            ? $this->classes[$class]['parameters'][$method]
+            : null;
     }
 }

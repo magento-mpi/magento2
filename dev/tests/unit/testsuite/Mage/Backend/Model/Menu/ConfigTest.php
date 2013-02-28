@@ -83,15 +83,13 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false
         );
 
-        $this->_objectManagerMock = $this->getMock(
-            'Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false
-        );
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_objectManagerMock->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
         $this->_objectManagerMock->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(array($this, 'getModelInstance')));
+            ->will($this->returnCallback(array($this, 'get')));
 
         $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
 
@@ -369,6 +367,31 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             return $appMock;
         } else {
             return $this->getMock($model, array(), $arguments, '', false);
+        }
+    }
+
+    /**
+     * Callback method for mock object Mage_Core_Model_Config object
+     *
+     * @param mixed $model
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    public function get($model)
+    {
+        if ($model == 'Mage_Backend_Model_Menu_Director_Dom') {
+            return $this->_directorDomMock;
+        } elseif ($model == 'Mage_Backend_Model_Menu_Config_Menu') {
+            return $this->_configMenuMock;
+        } elseif ($model == 'Mage_Backend_Model_Menu_Builder') {
+            return $this->_menuBuilderMock;
+        } elseif ($model == 'Mage_Core_Model_App') {
+            $appMock = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
+            $appMock->expects($this->any())
+                ->method('getStore')
+                ->will($this->returnValue($this->getMock('Mage_Core_Model_Store', array(), array(), '', false)));
+            return $appMock;
+        } else {
+            return $this->getMock($model, array(), array(), '', false);
         }
     }
 }

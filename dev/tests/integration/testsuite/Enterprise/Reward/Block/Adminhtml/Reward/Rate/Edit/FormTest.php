@@ -9,28 +9,25 @@
  * @license     {license_link}
  */
 
-class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUnit_Framework_TestCase
+class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends Mage_Backend_Area_TestCase
 {
     /** @var Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form */
     protected $_block;
 
     public static function setUpBeforeClass()
     {
+        parent::setUpBeforeClass();
         $rate = Mage::getModel('Enterprise_Reward_Model_Reward_Rate');
         Mage::register('current_reward_rate', $rate);
     }
 
     public function setUp()
     {
+        parent::setUp();
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout
             ->createBlock('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form');
-    }
-
-    public function tearDown()
-    {
-        $this->_block = null;
     }
 
     /**

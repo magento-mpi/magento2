@@ -16,11 +16,11 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Webapi_Helper_Config $configHelper
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      */
-    public function __construct(Mage_Webapi_Helper_Config $configHelper, Mage_Core_Model_Translate $translator)
+    public function __construct(Mage_Webapi_Helper_Config $configHelper, Mage_Core_Helper_Context $context)
     {
-        parent::__construct($translator);
+        parent::__construct($context);
         $this->_configHelper = $configHelper;
     }
 

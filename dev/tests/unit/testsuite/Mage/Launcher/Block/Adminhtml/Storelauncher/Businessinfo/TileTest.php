@@ -104,10 +104,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             'storeConfig' => $this->_config,
             'countryModel' => $countryModel,
             'regionModel' => $regionModel,
-            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
         );
 
-        $tileBlock = $objectManagerHelper->getBlock(
+        $tileBlock = $objectManagerHelper->getObject(
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
             $arguments
         );
@@ -136,10 +135,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             'storeConfig' => $this->_config,
             'countryModel' => $countryModel,
             'regionModel' => $regionModel,
-            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
         );
 
-        $tileBlock = $objectManagerHelper->getBlock(
+        $tileBlock = $objectManagerHelper->getObject(
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
             $arguments
         );

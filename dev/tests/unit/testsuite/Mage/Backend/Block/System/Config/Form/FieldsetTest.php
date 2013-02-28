@@ -59,7 +59,7 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
             )
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_object = $helper->getBlock('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
+        $this->_object = $helper->getObject('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',

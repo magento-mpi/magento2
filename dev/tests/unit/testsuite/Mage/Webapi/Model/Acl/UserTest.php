@@ -58,7 +58,7 @@ class Mage_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     protected function _createModel($userResource, $resourceCollection = null)
     {
-        return $this->_helper->getModel('Mage_Webapi_Model_Acl_User', array(
+        return $this->_helper->getObject('Mage_Webapi_Model_Acl_User', array(
             'eventDispatcher' => $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
             'cacheManager' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
             'resource' => $userResource,

@@ -25,17 +25,17 @@ class Enterprise_Tag_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_rewardModel;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Core_Model_Translate $translator, array $data = array())
+    public function __construct(Mage_Core_Helper_Context $context, array $data = array())
     {
         if (isset($data['reward_model'])) {
             $this->_rewardModel = $data['reward_model'];
         } else {
             $this->_rewardModel = Mage::getSingleton('Enterprise_Reward_Model_Reward');
         }
-        parent::__construct($translator);
+        parent::__construct($context);
     }
 
     /**

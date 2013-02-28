@@ -18,7 +18,7 @@
 class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
 {
     /**
-     * @var Mage_Backend_Model_Config_Backend_File_RequestData
+     * @var Mage_Backend_Model_Config_Backend_File_RequestData_Interface
      */
     protected $_requestData;
 
@@ -35,8 +35,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Mage_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Resource_Abstract $resource
@@ -44,15 +43,14 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Mage_Backend_Model_Config_Backend_File_RequestData_Interface $requestData,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_requestData = $requestData;
         $this->_filesystem = $filesystem;
     }

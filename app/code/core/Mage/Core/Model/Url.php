@@ -60,26 +60,8 @@
  * @package    Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Url extends Varien_Object
+class Mage_Core_Model_Url extends Varien_Object implements Mage_Core_Model_UrlInterface
 {
-    /**
-     * Default controller name
-     */
-    const DEFAULT_CONTROLLER_NAME   = 'index';
-
-    /**
-     * Default action name
-     */
-    const DEFAULT_ACTION_NAME       = 'index';
-
-    /**
-     * Configuration paths
-     */
-    const XML_PATH_UNSECURE_URL     = 'web/unsecure/base_url';
-    const XML_PATH_SECURE_URL       = 'web/secure/base_url';
-    const XML_PATH_SECURE_IN_ADMIN  = 'default/web/secure/use_in_adminhtml';
-    const XML_PATH_SECURE_IN_FRONT  = 'web/secure/use_in_frontend';
-
     /**
      * Configuration data cache
      *
@@ -1028,8 +1010,7 @@ class Mage_Core_Model_Url extends Varien_Object
             return $this;
         }
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('Mage_Core_Model_Session', array('data' => $params));
-
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         $sessionId = $session->getSessionIdForHost($url);
         if (Mage::app()->getUseSessionVar() && !$sessionId) {
             $this->setQueryParam('___SID', $this->isSecure() ? 'S' : 'U'); // Secure/Unsecure

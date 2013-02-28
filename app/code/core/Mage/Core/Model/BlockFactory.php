@@ -30,6 +30,6 @@ class Mage_Core_Model_BlockFactory
      */
     public function createBlock($blockName, array $arguments = array())
     {
-        return $this->_objectManager->create($blockName, $arguments, false);
+        return $this->_objectManager->create($blockName, $arguments);
     }
 }

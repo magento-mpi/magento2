@@ -101,7 +101,7 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      *
      * @param array $data
      * @param bool $unsetOldParams
-     * @return Mage_Core_Model_Url
+     * @return Mage_Backend_Model_Url
      */
     public function setRouteParams(array $data, $unsetOldParams=true)
     {

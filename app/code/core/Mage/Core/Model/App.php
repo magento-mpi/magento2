@@ -247,7 +247,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
                 }
             }
         }
-        return $this->_objectManager->create($frontControllerClass);
+        return $this->_objectManager->get($frontControllerClass);
     }
 
     /**

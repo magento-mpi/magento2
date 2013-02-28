@@ -12,7 +12,7 @@
 /**
  * Test class for Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
  */
-class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
+class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php

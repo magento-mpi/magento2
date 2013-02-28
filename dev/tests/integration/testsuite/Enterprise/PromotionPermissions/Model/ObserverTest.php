@@ -20,11 +20,6 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
     }
 
-    protected function tearDown()
-    {
-        $this->_layout = null;
-    }
-
     /**
      * @dataProvider blockHtmlBeforeDataProvider
      */

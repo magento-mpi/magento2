@@ -47,10 +47,7 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     protected $_saveHandler;
 
     /**
-     * Class constructor
-     *
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param Mage_Launcher_Model_Tile_StateResolver $resolver
@@ -58,15 +55,14 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         Mage_Launcher_Model_Tile_StateResolver $resolver = null,
         Mage_Launcher_Model_Tile_SaveHandler $handler = null,
         array $data = array()
     ) {
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_init('Mage_Launcher_Model_Resource_Tile');
         $this->_stateResolver = $resolver;
         $this->_saveHandler = $handler;

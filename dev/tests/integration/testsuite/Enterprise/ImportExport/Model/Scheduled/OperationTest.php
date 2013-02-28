@@ -23,13 +23,6 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
         $this->_model = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation');
     }
 
-    /**
-     * Tear down before test
-     */
-    protected function tearDown()
-    {
-        unset($this->_model);
-    }
 
     /**
      * Get possible operation types

@@ -26,12 +26,6 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
             ->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-        $this->_layout = null;
-    }
-
     public function testGetAddButtonId()
     {
         $block = $this->_block->getChildBlock('add_button');

@@ -73,13 +73,10 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddressT
         $arguments = array(
             'storeConfig' => $config,
             'regionModel' => $regionModel,
-            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
-            'countryConfigModel' =>
-            $this->getMock('Mage_Directory_Model_Config_Source_Country', array(), array(), '', false),
             'countryModel' => $countryModel,
         );
 
-        $this->_addressBlock = $objectManagerHelper->getBlock(
+        $this->_addressBlock = $objectManagerHelper->getObject(
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress',
             $arguments
         );

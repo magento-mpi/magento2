@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends PHPUnit_Framework_TestCase
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends Mage_Backend_Area_TestCase
 {
     /** @var Mage_Core_Block_Abstract */
     protected $_block;
@@ -19,11 +19,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends 
         parent::setUp();
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products');
-    }
-
-    protected function tearDown()
-    {
-        $this->_block = null;
     }
 
     public function testPrepareLayout()

@@ -12,7 +12,7 @@
 /**
  * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Page
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_PageTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Block_Adminhtml_Storelauncher_PageTest extends Mage_Backend_Area_TestCase
 {
     public function testGetPage()
     {

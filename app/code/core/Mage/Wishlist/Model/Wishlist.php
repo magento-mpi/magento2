@@ -55,20 +55,18 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     protected $_storeIds = null;
 
     /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
-     * @param array $data
+     * @param Mage_Core_Model_Context $context
      * @param Mage_Wishlist_Model_Resource_Wishlist $resource
      * @param Mage_Wishlist_Model_Resource_Wishlist_Collection $resourceCollection
+     * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Mage_Wishlist_Model_Resource_Wishlist $resource,
         Mage_Wishlist_Model_Resource_Wishlist_Collection $resourceCollection,
         array $data = array()
     ) {
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**

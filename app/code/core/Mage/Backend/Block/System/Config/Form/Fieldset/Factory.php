@@ -34,6 +34,6 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Factory
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->get('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
+        return $this->_objectManager->create('Mage_Backend_Block_System_Config_Form_Fieldset', $data);
     }
 }

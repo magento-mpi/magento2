@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_LayoutTest extends PHPUnit_Framework_TestCase
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_LayoutTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
@@ -18,17 +18,14 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_LayoutTest exten
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_block = Mage::app()->getLayout()->createBlock(
             'Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout',
             '',
             array('data' => array('widget_instance' => Mage::getModel('Mage_Widget_Model_Widget_Instance')))
         );
         $this->_block->setLayout(Mage::app()->getLayout());
-    }
-
-    protected function tearDown()
-    {
-        $this->_block = null;
     }
 
     /**
