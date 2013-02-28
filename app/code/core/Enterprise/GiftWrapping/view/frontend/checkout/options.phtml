@@ -71,11 +71,7 @@
 </script>
 
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-        "<?php echo $this->getViewFileUrl('Enterprise_GiftWrapping::gift-wrapping.js') ?>",
+    head.js("<?php echo $this->getViewFileUrl('Enterprise_GiftWrapping::gift-wrapping.js') ?>",
         function() {
             jQuery('#checkoutSteps, #shipping_method_form').giftWrapping({
                 designsInfo: <?php echo $this->getDesignsInfo()->toJson() ?>,
@@ -85,7 +81,7 @@
                 allowGiftReceipt: <?php echo (int)$this->getAllowGiftReceipt() ?>,
                 allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>,
                 imgBoxSrc: '<?php echo $this->getViewFileUrl('images/spacer.gif')?>'
-            }).validation();
+            });
         });
 </script>
 <?php endif; ?>

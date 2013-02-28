@@ -87,10 +87,8 @@
                                 saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
                                 successUrl: '<?php echo $this->getUrl('checkout/onepage/success') ?>'
                             },
-                            giftRegistry:{
-                                <?php if ($giftRegistryHelper->isEnabled()&& $giftRegistryBlock->getItem()): ?>
-                                    enable:true
-                                <?php endif ?>
+                            giftRegistry: {
+                                enable: <?php echo ($giftRegistryHelper->isEnabled() && $giftRegistryBlock->getItem()) ? "true" : "false" ?>
                             }
                         });
                 });

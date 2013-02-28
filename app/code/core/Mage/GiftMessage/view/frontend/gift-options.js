@@ -58,6 +58,7 @@
                             .next('div.' + _this.options.mageError).remove();
                     }).end()
                     .find('.giftmessage-area').val('').change().end()
+                    .find('.select').val('').change().end()
                     .find('.checkbox:checked').prop('checked', false).click().prop('checked', false).end()
                     .find('div a').parent().next().addClass(this.options.noDisplay).end()
                     .find('.price-box').addClass(this.options.noDisplay).end();

@@ -10,90 +10,6 @@
 ?>
 <?php if(!$this->getDontDisplayContainer()): ?>
 <script type="text/javascript">
-//<![CDATA[
-if(!window.toogleVisibilityOnObjects) {
-    var toogleVisibilityOnObjects = function(source, objects) {
-        if($(source) && $(source).checked) {
-            objects.each(function(item){
-                $(item).show();
-                $$('#' + item + ' .input-text').each(function(item) {
-                    item.removeClassName('validation-passed');
-                });
-            });
-        } else {
-            /**
-             * This is an incomplete(but correct) fix and will be refactored in a separate story
-             * The entire function needs to be refactored to use jQuery
-             */
-            objects.each(function(item){
-                if ($(item)) {
-                    $(item).hide();
-                    $$('#' + item + ' .input-text').each(function(sitem) {
-                        sitem.addClassName('validation-passed');
-                    });
-                    $$('#' + item + ' .giftmessage-area').each(function(sitem) {
-                        sitem.value = '';
-                    });
-                    $$('#' + item + ' .checkbox').each(function(sitem) {
-                        if(sitem.checked) {
-                            jQuery('#' + sitem.id).click();
-                        }
-                    });
-                    $$('#' + item + ' .select').each(function(sitem) {
-                        sitem.value = '';
-                        jQuery('#' + sitem.id).change();
-                    });
-                }
-            });
-        }
-    }
-}
-
-if(!window.toogleVisibility) {
-    var toogleVisibility = function(objects, show) {
-        objects.each(function(item){
-            if (show) {
-                $(item).show();
-                $(item).removeClassName('no-display');
-            }
-            else {
-                $(item).hide();
-                $(item).addClassName('no-display');
-            }
-        });
-    }
-}
-
-if(!window.displayContainer) {
-    var displayContainer = function(source) {
-       if ($(source)) {
-           if ($(source).hasClassName('no-display')) {
-               $(source).removeClassName('no-display');
-           } else {
-               $(source).addClassName('no-display');
-           }
-       }
-       return false;
-    }
-}
-
-if(!window.toogleRequired) {
-    var toogleRequired = function (source, objects)
-    {
-        if(!$(source).value.blank()) {
-            objects.each(function(item) {
-               $(item).addClassName('required-entry');
-            });
-        } else {
-            objects.each(function(item) {
-                if (typeof shippingMethod != 'undefined' && shippingMethod.validator) {
-                   shippingMethod.validator.reset(item);
-                }
-                $(item).removeClassName('required-entry');
-            });
-        }
-    }
-}
 /**
  * Removing global reference of shipping and billing prototype objects.
  * This function expression can be moved into a widget once this file is completely refactored to use jQuery.
@@ -109,8 +25,6 @@ if(!window.toogleRequired) {
         });
     });
 })(jQuery)
-
-//]]>
 </script>
 <?php endif ?>
 
@@ -171,8 +85,8 @@ if(!window.toogleRequired) {
            </div>
            <?php endif ?>
         </div>
-
-    <div id="add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>" class="no-display">
+    <?php if ($this->isItemsAvailable()): ?>
+    <div id="add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>">
         <h4><?php echo $this->__('Gift Options for Individual Items'); ?></h4>
         <p>
             <input type="checkbox" name="allow_gift_options_for_items" id="allow_gift_options_for_items" value="1" data-selector='{"id":"#allow-gift-options-for-items-container"}'<?php if($this->getItemsHasMesssages()): ?> checked="checked"<?php endif; ?> class="checkbox" />
@@ -232,6 +146,7 @@ if(!window.toogleRequired) {
         <?php endforeach; ?>
         </ol>
     </div>
+    <?php endif; ?>
     <div class="extra-options-container" id="extra-options-container-<?php echo $this->getEntity()->getId() ?>"></div>
 
     </div>
@@ -239,8 +154,8 @@ if(!window.toogleRequired) {
     <script type="text/javascript">
         head.js("<?php echo $this->getViewFileUrl('Mage_GiftMessage::gift-options.js')?>", function() {
             jQuery('#allow_gift_options')
-                .add('allow_gift_options_for_order')
-                .add('allow_gift_options_for_items').giftOptions();
+                .add('#allow_gift_options_for_order')
+                .add('#allow_gift_options_for_items').giftOptions();
         });
     </script>
 <?php break; ?>
@@ -272,6 +187,7 @@ if(!window.toogleRequired) {
             <div class="options-order-container" id="options-order-container-<?php echo $this->getEntity()->getId() ?>"></div>
             <input type="hidden" name="giftoptions[<?php echo $this->getEntity()->getId() ?>][type]" value="quote_address" />
             <?php if ($this->isMessagesAvailable()): ?>
+                <?php $_giftMessage = true; ?>
                 <div><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#gift-messages-for-order-container-<?php echo $this->getEntity()->getId() ?>"}}'><?php echo $this->__('Gift Message') ?></a></div>
                 <div id="gift-messages-for-order-container-<?php echo $this->getEntity()->getId() ?>" class="no-display">
                 <p><?php echo $this->__('You can leave this box blank if you do not wish to add a gift message for this address.') ?></p>
@@ -280,14 +196,14 @@ if(!window.toogleRequired) {
                 <ul class="form-list">
                      <li class="fields">
                         <div class="field">
+                            <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-from"><?php echo $this->__('From') ?></label>
                             <div class="input-box">
-                                <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-from"><?php echo $this->__('From') ?></label>
                                 <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][from]" id="gift-message-<?php echo $this->getEntity()->getId() ?>-from" title="<?php echo $this->__('From') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
                             </div>
                         </div>
                         <div class="field">
+                            <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-to"><?php echo $this->__('To') ?></label>
                             <div class="input-box">
-                                <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-to"><?php echo $this->__('To') ?></label>
                                 <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][to]" id="gift-message-<?php echo $this->getEntity()->getId() ?>-to" title="<?php echo $this->__('To') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
                             </div>
                         </div>
@@ -304,6 +220,7 @@ if(!window.toogleRequired) {
              <?php endif; ?>
         </div>
 
+        <?php if ($this->isItemsAvailable()): ?>
         <div id="add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>" class="no-display">
             <h4><?php echo $this->__('Gift Options for Individual Items'); ?></h4>
             <p>
@@ -328,6 +245,7 @@ if(!window.toogleRequired) {
                          <input type="hidden" name="giftoptions[<?php echo $_item->getId() ?>][address]" value="<?php echo $this->getEntity()->getId()?>" />
 
                          <?php if ($this->isItemMessagesAvailable($_item)): ?>
+                         <?php $_giftMessage = true; ?>
                          <div><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#gift-messages-for-item-container-<?php echo $_item->getId() ?>"}}'><?php echo $this->__('Gift Message') ?></a></div>
                          <div id="gift-messages-for-item-container-<?php echo $_item->getId() ?>" class="no-display">
                          <p><small><?php echo $this->__('You can leave this box blank if you do not wish to add a gift message for the item.') ?></small></p>
@@ -363,6 +281,7 @@ if(!window.toogleRequired) {
              <?php endforeach; ?>
              </ol>
         </div>
+        <?php endif; ?>
         <div class="extra-options-container" id="extra-options-container-<?php echo $this->getEntity()->getId() ?>"></div>
     </div>
     </div>
@@ -377,3 +296,13 @@ if(!window.toogleRequired) {
     </script>
     <?php break; ?>
 <?php endswitch ?>
+<?php if ($_giftMessage): ?>
+<script type="text/javascript">
+    head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
+            jQuery("#shipping_method_form").validation();
+        });
+</script>
+<?php endif; ?>
