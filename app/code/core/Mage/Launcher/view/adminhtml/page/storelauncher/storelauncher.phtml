@@ -1,0 +1,134 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Page */
+ ?>
+
+<section class="store-launcher">
+
+    <div class="page-title">
+        <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
+        <div class="actions">
+            <button class="action-launch-store primary <?php if (!$this->getPage()->isComplete()): ?>hidden<?php endif; ?>">
+                <span><?php echo $this->__('Launch My Store'); ?></span>
+            </button>
+        </div>
+    </div>
+
+    <div id="store-launcher-content" class="store-launcher-content">
+
+        <?php foreach($this->getTileBlocks() as $tile):?>
+        <?php echo $tile->toHtml() ?>
+        <?php endforeach;?>
+
+    </div>
+
+
+    <div id="drawer" class="drawer">
+
+        <header class="drawer-header">
+            <div class="drawer-header-inner">
+                <h1 class="title"></h1>
+                <div class="actions">
+                    <button type="button" class="action-save-settings primary" data-save-url=""><?php echo $this->__('Save'); ?></button>
+                    <button type="button" class="action-close-drawer" title="<?php echo $this->__('Close'); ?>"></button>
+                </div>
+            </div>
+        </header>
+
+        <section class="drawer-content">
+            <div class="drawer-content-inner"></div>
+        </section>
+
+        <footer class="drawer-footer">
+            <div class="drawer-footer-inner"></div>
+        </footer>
+
+    </div>
+
+</section>
+
+<div class="fade">
+    <div class="store-launcher-popup store-launcher-popup-ready">
+        <div>
+            <div class="store-launcher-popup-content">
+                <h2><?php echo $this->__('Congratulations!'); ?></h2>
+                <p><?php echo $this->__('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint'); ?></p>
+                <a id="start-store" href="<?php echo Mage::getBaseUrl(); ?>" target="_blank" class="store-launcher-popup-btn"><?php echo $this->__('Launch Your Store'); ?></a>
+            </div>
+            <div class="store-launcher-popup-footer">
+                <a href="#" class="btn-final-checks"><?php echo $this->__('Want to run a few final checks?'); ?></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="store-launcher-popup store-launcher-popup-final-checks">
+        <div class="store-launcher-popup-content">
+            <h2><?php echo $this->__('A Few Final Checks'); ?></h2>
+            <p><?php echo $this->__('Before opening, you can run a few final checks or continue to add more products to your store.'); ?></p>
+            <p><?php echo $this->__('Return to the Store Launcher and run a test transaction from your store preview. Or continue to add products.'); ?></p>
+            <a href="#" class="store-launcher-popup-btn store-launcher-cancel-launch"><?php echo $this->__('Back to Store Launcher'); ?></a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function($) {
+        $('#start-store').on('click.startStore', function(event) {
+            var startSuccess = false,
+                launchUrl = '<?php echo $this->getUrl('*/storelauncher_index/launch'); ?>',
+                ajaxOptions = {
+                    type: 'get',
+                    showLoader: true,
+                    dataType: 'json',
+                    async: false,
+                    context: $('.store-launcher-popup>div'),
+                    url: launchUrl,
+                    success: function(result, status) {
+                        if (result.success) {
+                            startSuccess = true;
+                            setTimeout(function() {
+                                document.location.href = "<?php echo $this->getUrl('*/promotestore_index/index'); ?>";
+                            }, 100);
+                        } else {
+                            alert(result.error_message);
+                        }
+                    }
+                };
+            $.ajax(ajaxOptions);
+            if (!startSuccess) {
+                event.preventDefault();
+            }
+        });
+        $('.action-launch-store ').on('click.showConfirmDialog', function() {
+            $('.store-launcher-popup-ready')
+                .show()
+                .siblings()
+                .hide();
+            $('.fade').show();
+        });
+        $('.btn-final-checks').on('click.showConfirmDialog', function() {
+            $('.store-launcher-popup-final-checks')
+                .show()
+                .siblings()
+                .hide();
+            $('.fade').show();
+        });
+        $('#launch-store')
+            .add('#cancel-launch')
+            .add('.store-launcher-cancel-launch')
+            .add('.store-launcher-confirm-dialog .close')
+            .on('click.launchStore', function() {
+                $('.store-launcher-confirm-dialog')
+                    .add('.fade')
+                    .hide();
+            });
+    })(jQuery);
+</script>

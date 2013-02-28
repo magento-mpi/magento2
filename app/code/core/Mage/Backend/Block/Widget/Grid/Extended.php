@@ -406,8 +406,9 @@ class Mage_Backend_Block_Widget_Grid_Extended
             'filter_index' => $this->getMassactionIdFilter(),
             'type'         => 'massaction',
             'name'         => $this->getMassactionBlock()->getFormFieldName(),
-            'align'        => 'center',
-            'is_system'    => true
+            'is_system'    => true,
+            'header_css_class'  => 'col-select',
+            'column_css_class'  => 'col-select'
         ));
 
         if ($this->getNoFilterMassactionColumn()) {

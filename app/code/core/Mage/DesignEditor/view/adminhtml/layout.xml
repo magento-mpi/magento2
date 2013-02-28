@@ -155,4 +155,11 @@
     <adminhtml_system_design_editor_tools_saveimagesizing>
         <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/message.phtml" />
     </adminhtml_system_design_editor_tools_saveimagesizing>
+
+    <adminhtml_system_design_editor_preview>
+        <update handle="adminhtml_system_design_editor_launch"/>
+        <reference name="design_editor_toolbar">
+                <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/preview_buttons.phtml" />
+        </reference>
+    </adminhtml_system_design_editor_preview>
 </layout>

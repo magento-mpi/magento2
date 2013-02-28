@@ -57,7 +57,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $baseAttributeSet = $productData['product_attribute_set'];
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $newAttributeSet);
         //Verifying
         $this->navigate('manage_attribute_sets');
@@ -85,7 +85,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
         //Verifying
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
@@ -120,7 +120,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
         //Verifying
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
@@ -135,7 +135,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
     }
 
     /**
-     * New Attribute created from Product page to new set from Meta Information tab
+     * New Attribute created from Product page to new set from Search Optimization tab
      *
      * @test
      * @depends preconditionsForTests
@@ -153,7 +153,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $this->productAttributeHelper()->createAttributeOnProductTab($attributeData, $attributeSetName);
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
         $this->productHelper()->saveProduct();
@@ -161,7 +161,7 @@ class Core_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_Te
         $this->assertEquals($attributeSetName, $this->productHelper()->getProductDataFromGrid($search,
             'Attrib. Set Name'), 'Attribute Set of product has not been changed');
         $this->productHelper()->openProduct($productSkuDefault);
-        $this->openTab('meta_information');
+        $this->productHelper()->openProductTab('meta_information');
         $this->addParameter('attributeCodeField', $attributeData['attribute_code']);
         $this->assertFalse($this->controlIsPresent('field', 'meta_information_user_attr_field'),
             'Created attribute was added to Default attribute set');

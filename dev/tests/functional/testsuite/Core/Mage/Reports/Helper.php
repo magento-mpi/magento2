@@ -31,7 +31,7 @@ class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
     {
         $rowNumbers = array();
         $fieldsetLocator = $this->_getControlXpath('fieldset', $gridXpath);
-        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
+        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
         $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
         $xpathTR = $this->formSearchXpath($data);
         $availableElement = $this->elementIsPresent($xpathTR);

@@ -37,8 +37,8 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         $this->navigate('manage_attributes');
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attrCode = $attrData['attribute_code'];
-        $associatedAttributes =
-            $this->loadDataSet('AttributeSet', 'associated_attributes', array('General' => $attrCode));
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+            array('Product Details' => $attrCode));
         $this->productAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->navigate('manage_attribute_sets');

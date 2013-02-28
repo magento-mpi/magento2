@@ -17,15 +17,13 @@
 ?>
 <?php echo $this->getChildHtml('wysiwyg_images.js') ?>
 
-<div class="content-header skip-header" id="content_header">
-    <table cellspacing="0">
-        <tr>
-            <td><h3 id="content_header_text"><?php echo $this->getHeaderText() ?></h3></td>
-            <td class="form-buttons">
-                <?php echo $this->getButtonsHtml() ?>
-            </td>
-        </tr>
-    </table>
+<div class="insert-title" id="content_header">
+    <div class="insert-title-inner">
+        <div class="insert-actions">
+            <?php echo $this->getButtonsHtml() ?>
+        </div>
+        <div class="title"><?php echo $this->getHeaderText() ?></div>
+    </div>
 </div>
 
 <div id="contents-uploader"><?php echo $this->getChildHtml('wysiwyg_images.uploader') ?></div>

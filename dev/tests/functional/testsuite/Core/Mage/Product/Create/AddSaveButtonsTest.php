@@ -38,7 +38,7 @@ class Core_Mage_Product_Create_AddSaveButtonsTest extends Mage_Selenium_TestCase
         $attribute = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield',
             array('values_required' => 'Yes'));
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
-            array('General' => array($attribute['attribute_code'])));
+            array('Product Details' => array($attribute['attribute_code'])));
         //Creating attribute
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attribute);
@@ -130,7 +130,7 @@ class Core_Mage_Product_Create_AddSaveButtonsTest extends Mage_Selenium_TestCase
         $this->productHelper()->fillProductInfo($productData);
         //Verifying
         $this->assertTrue($this->controlIsVisible('button', 'save_disabled'), 'Save button is available');
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->productHelper()->fillUserAttributesOnTab($userAttribute, 'general');
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');

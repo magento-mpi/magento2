@@ -18,9 +18,9 @@ log_in_to_admin:
             fieldsets:
                 -
                     log_in:
-                        xpath: //*[@class='fieldset']
+                        xpath: //div[@class='form-login form-inline']
                         buttons:
-                            login: //*[@title='Login']
+                            login: //button[@title='Login']
                             captcha_reload: //*[@id='captcha-reload']
                         fields:
                             user_name: //input[@id='username']

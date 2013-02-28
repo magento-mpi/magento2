@@ -52,7 +52,7 @@ return array(
      array('refreshRequestIds', 'Enterprise_PageCache_Model_Processor',
          'Enterprise_PageCache_Model_Request_Identifier::refreshRequestIds'
      ),
-    array('prepareCacheId', 'Enterprise_PageCache_Model_Processor',
+     array('prepareCacheId', 'Enterprise_PageCache_Model_Processor',
          'Enterprise_PageCache_Model_Request_Identifier::prepareCacheId'
      ),
 );

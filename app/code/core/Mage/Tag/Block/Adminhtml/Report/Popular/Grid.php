@@ -49,20 +49,21 @@ class Mage_Tag_Block_Adminhtml_Report_Popular_Grid extends Mage_Adminhtml_Block_
     {
         $this->addColumn('name', array(
             'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Tag Name'),
-            'index'     =>'name'
+            'index'     =>'name',
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('taged', array(
             'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Popularity'),
-            'width'     =>'50px',
-            'align'     =>'right',
-            'index'     =>'popularity'
+            'index'     =>'popularity',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         $this->addColumn('action',
             array(
                 'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Action'),
-                'width'     => '100%',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
@@ -78,6 +79,8 @@ class Mage_Tag_Block_Adminhtml_Report_Popular_Grid extends Mage_Adminhtml_Block_
                 'filter'    => false,
                 'sortable'  => false,
                 'index'     => 'stores',
+                'header_css_class'  => 'col-actions',
+                'column_css_class'  => 'col-actions'
         ));
         $this->setFilterVisibility(false);
 

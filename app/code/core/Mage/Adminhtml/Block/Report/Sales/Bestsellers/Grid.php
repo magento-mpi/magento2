@@ -35,19 +35,22 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
         $this->addColumn('period', array(
             'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Period'),
             'index'         => 'period',
-            'width'         => 100,
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
             'renderer'      => 'Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
             'totals_label'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total'),
             'html_decorators' => array('nobr'),
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'index'     => 'product_name',
             'type'      => 'string',
-            'sortable'  => false
+            'sortable'  => false,
+            'header_css_class'  => 'col-product',
+            'column_css_class'  => 'col-product'
         ));
 
         if ($this->getFilterData()->getStoreIds()) {
@@ -62,6 +65,8 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
             'index'         => 'product_price',
             'sortable'      => false,
             'rate'          => $this->getRate($currencyCode),
+            'header_css_class'  => 'col-price',
+            'column_css_class'  => 'col-price'
         ));
 
         $this->addColumn('qty_ordered', array(
@@ -69,7 +74,9 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
             'index'     => 'qty_ordered',
             'type'      => 'number',
             'total'     => 'sum',
-            'sortable'  => false
+            'sortable'  => false,
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
 

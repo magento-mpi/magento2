@@ -28,6 +28,7 @@ abstract class Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
         return $this;
     }
 
+    /** @return Mage_Backend_Block_Widget_Grid_Column */
     public function getColumn()
     {
         return $this->_column;

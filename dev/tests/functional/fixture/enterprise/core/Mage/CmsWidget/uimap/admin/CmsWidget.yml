@@ -15,6 +15,14 @@ add_widget_options:
         form: 
             tabs:
                 -
+                    frontend_properties:
+                        fieldsets:
+                            -
+                                layout_updates_header:
+                                    xpath: //div[@class='entry-edit-head' and h4='Layout Updates']
+                                    buttons:
+                                        add_layout_update: //button[span='Add Layout Update']
+                -
                     widgets_options:
                         fieldsets:
                             -

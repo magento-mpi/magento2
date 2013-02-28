@@ -18,11 +18,6 @@
  */
 class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
-    {
-        $this->loginAdminUser();
-    }
-
     protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
@@ -38,6 +33,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
     public function roleResourceAccessCmsWidget()
     {
         //create specific role with test roleResource
+        $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
             array('resource_1' => 'CMS/Widgets'));
@@ -65,7 +61,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
     public function verifyScopeCmsWidgetOneRoleResource($loginData)
     {
         //Steps
-        $this->admin('log_in_to_admin', false);
+        $this->admin('log_in_to_admin');
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_widgets');
         // Verify that navigation menu has only 1 parent element
@@ -82,8 +78,8 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
         }
         foreach ($resultElementsArray as $elementName => $elementType) {
             if (!$this->controlIsVisible($elementType, $elementName)) {
-                $this->addVerificationMessage("Element type = '$elementType' name = '" . $elementName
-                                              . "' is not present on the page");
+                $this->addVerificationMessage(
+                    "Element type = '$elementType' name = '" . $elementName . "' is not present on the page");
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -109,7 +105,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
     public function createNewWidget($loginData)
     {
         //Steps
-        $this->admin('log_in_to_admin', false);
+        $this->admin('log_in_to_admin');
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_widgets');
         $widgetData = $this->loadDataSet('CmsWidget', 'cms_page_link_widget_req');
@@ -146,12 +142,12 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
     public function editWidget($loginData, $widgetToDelete)
     {
         //Steps
-        $this->admin('log_in_to_admin', false);
+        $this->admin('log_in_to_admin');
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_widgets');
         $this->cmsWidgetsHelper()->openWidget($widgetToDelete);
         $this->fillField('sort_order', '1');
-        $this->clickControlAndWaitMessage('button', 'save_and_continue_edit', false);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
         $this->assertMessagePresent('success', 'successfully_saved_widget');
     }
@@ -179,7 +175,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
     public function deleteNewWidget($loginData, $widgetToDelete)
     {
         //Steps
-        $this->admin('log_in_to_admin', false);
+        $this->admin('log_in_to_admin');
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_cms_widgets');
         $this->cmsWidgetsHelper()->deleteWidget($widgetToDelete);
