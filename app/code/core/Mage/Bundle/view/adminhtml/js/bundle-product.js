@@ -20,7 +20,6 @@
             this._bindAddSelectionDialog();
             this._hideProductTypeSwitcher();
             this._bindPanelVisibilityToggler();
-            this._bindChangeOptionTitle();
         },
         _initOptionBoxes: function () {
             this.element.sortable({
@@ -32,11 +31,17 @@
             });
 
             var syncOptionTitle = function (event) {
-                $(event.target).closest('.option-box').find('.head-edit-form').text($(event.target).val());
+                var originalValue = $(event.target).attr('data-original-value'),
+                    currentValue = $(event.target).val(),
+                    optionBoxTitle = $('.title > span', $(event.target).closest('.option-box')),
+                    newOptionTitle = $.mage.__('New Option');
+
+                optionBoxTitle.text(currentValue == '' && !originalValue.length ? newOptionTitle : currentValue);
             };
             this._on({
-                'change .option-box input[name$="[title]"]': syncOptionTitle,
-                'keyup .option-box input[name$="[title]"]': syncOptionTitle
+                'change .field-option-title input[name$="[title]"]': syncOptionTitle,
+                'keyup .field-option-title input[name$="[title]"]': syncOptionTitle,
+                'paste .field-option-title input[name$="[title]"]': syncOptionTitle
             });
         },
         _initSortableSelections: function () {
@@ -180,17 +185,6 @@
             this._updateOptionBoxPositions.apply(this.element);
             this._initSortableSelections();
             return this;
-        },
-        _bindChangeOptionTitle: function() {
-            $(document)
-                .on('keyup.optionValue change.optionValue paste.optionValue', '.field-option-title input[type="text"]', function() {
-                    var origValue = $(this).attr('data-orig-value'),
-                        curValue = $(this).val(),
-                        optionBoxTitle = $('.title > span', $(this).closest('.option-box')),
-                        newOptionTitle = jQuery.mage.__('New Option');
-
-                    optionBoxTitle.text(curValue == '' && !origValue.length ? newOptionTitle : curValue);
-                });
         }
     });
 })(jQuery);

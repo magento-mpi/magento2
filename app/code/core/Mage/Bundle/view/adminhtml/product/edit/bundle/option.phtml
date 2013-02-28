@@ -36,14 +36,14 @@
                                        name="<?php echo $this->getFieldName() ?>[{{index}}][title]"
                                        id="id_<?php echo $this->getFieldName() ?>_{{index}}_title"
                                        value="{{title}}"
-                                       data-orig-value="{{title}}" />
+                                       data-original-value="{{title}}" />
                                 <?php else: ?>
                                 <input class="input-text required-entry"
                                        type="text"
                                        name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]"
                                        id="id_<?php echo $this->getFieldName() ?>_{{index}}_default_title"
                                        value="{{default_title}}"
-                                       data-orig-value="{{default_title}}" />
+                                       data-original-value="{{default_title}}" />
                                 <?php endif; ?>
                                 <input type="hidden"
                                        id="<?php echo $this->getFieldId() ?>_id_{{index}}"
