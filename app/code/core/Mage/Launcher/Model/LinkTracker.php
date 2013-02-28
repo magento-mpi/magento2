@@ -20,7 +20,7 @@ class Mage_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
     /**
      * Url Builder
      *
-     * @var Mage_Core_Model_Url
+     * @var Mage_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
 
@@ -33,14 +33,14 @@ class Mage_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
 
     /**
      * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Url $urlBuilder
+     * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
-        Mage_Core_Model_Url $urlBuilder,
+        Mage_Core_Model_UrlInterface $urlBuilder,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
