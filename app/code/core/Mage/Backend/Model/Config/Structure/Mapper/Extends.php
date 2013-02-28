@@ -28,6 +28,21 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
     protected $_extendedNodesList = array();
 
     /**
+     * Class that can convert relative paths from "extends" node to absolute
+     *
+     * @var Mage_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
+     */
+    protected $_pathConverter;
+
+    /**
+     * @param Mage_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted
+     */
+    public function __construct(Mage_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted)
+    {
+        $this->_pathConverter = $pathConverted;
+    }
+
+    /**
      * Apply map
      *
      * @param array $data
@@ -109,7 +124,7 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
             return $currentNodeData;
         }
 
-        $extendSourceNodeRealPath = $this->_transformExtendsPathToRealPath($path, $extendSourceNode);
+        $extendSourceNodeRealPath = $this->_pathConverter->convert($path, $extendSourceNode);
         $data = $this->_getDataByPath($extendSourceNodeRealPath);
 
         if (!$data) {
@@ -130,7 +145,8 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
     }
 
     /**
-     * Recursively merge two arrays (overwrites scalars and merges arrays)
+     * Recursively merge two arrays (it overwrites scalars in $arr1 with appropriate scalars from $arr2
+     * and merges array values)
      *
      * @param array $arr1
      * @param array $arr2
@@ -158,15 +174,12 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
     protected function _replaceData($path, $newData)
     {
         $pathParts = $this->_transformPathToKeysList($path);
-
         $result = &$this->_systemConfiguration;
 
         foreach ($pathParts as $part) {
-
             if (!isset($result[$part])) {
                 return;
             }
-
             $result = &$result[$part];
         }
 
@@ -183,33 +196,5 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
     {
         $path = str_replace('/', '/children/', $path);
         return explode('/', $path);
-    }
-
-    /**
-     * Transform path from "extends" attribute (that can be relative) to actual absolute path
-     *
-     * @param string $nodePath
-     * @param string $extendsValue
-     * @return string
-     * @throws InvalidArgumentException
-     */
-    protected function _transformExtendsPathToRealPath($nodePath, $extendsValue)
-    {
-        $extendsPathParts = explode('/', $extendsValue);
-        $pathParts = explode('/', $nodePath);
-
-        $realPath = array();
-        foreach ($extendsPathParts as $index => $path) {
-            if ($path === '*') {
-                if (false == array_key_exists($index, $pathParts)) {
-                    throw new InvalidArgumentException(
-                        sprintf('Invalid relative path in extends section of config/system/sections/%s', $nodePath));
-                }
-                $path = $pathParts[$index];
-            }
-            $realPath[$index] = $path;
-        }
-
-        return implode('/', $realPath);
     }
 }

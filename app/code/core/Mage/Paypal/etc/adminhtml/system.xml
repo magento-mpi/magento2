@@ -114,7 +114,7 @@
                 <group id="paypal_verisign_with_express_checkout" extends="*/paypal_payments/paypal_verisign_with_express_checkout">
                     <group id="paypal_payflow_required">
                         <group id="paypal_payflow_api_settings">
-                            <field id="business_account" extends="//paypal_payments/payflow_advanced//business_account" translate="label" sortOrder="10">
+                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account" translate="label" sortOrder="10">
                                 <frontend_class>not-required</frontend_class>
                                 <label>Email Associated with PayPal Merchant Account (Optional)</label>
                             </field>
