@@ -468,12 +468,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $jsTabBlock->setTheme($theme);
         }
 
-        /** @var $codeImageSizing Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing */
-        $codeImageSizing = $this->getLayout()->getBlock('design_editor_tools_code_image-sizing');
-        if ($codeImageSizing) {
-            $codeImageSizing->setTheme($theme);
-        }
-
         $blocks = array(
             'design_editor_tools_code_image-sizing',
             'design_editor_tools_quick-styles_header',
@@ -488,36 +482,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if ($block) {
                 $block->setTheme($theme);
             }
-        }
-
-        /** @var $headerQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
-        $headerQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_header');
-        if ($headerQuickStylesBlock) {
-            $headerQuickStylesBlock->setTheme($theme);
-        }
-
-        /** @var $backgroundQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
-        $backgroundQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_backgrounds');
-        if ($backgroundQuickStylesBlock) {
-            $backgroundQuickStylesBlock->setTheme($theme);
-        }
-
-        /** @var $buttonsQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
-        $buttonsQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_buttons');
-        if ($buttonsQuickStylesBlock) {
-            $buttonsQuickStylesBlock->setTheme($theme);
-        }
-
-        /** @var $tipsQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
-        $tipsQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_tips');
-        if ($tipsQuickStylesBlock) {
-            $tipsQuickStylesBlock->setTheme($theme);
-        }
-
-        /** @var $fontsQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */
-        $fontsQuickStylesBlock = $this->getLayout()->getBlock('design_editor_tools_quick-styles_fonts');
-        if ($fontsQuickStylesBlock) {
-            $fontsQuickStylesBlock->setTheme($theme);
         }
 
         return $this;

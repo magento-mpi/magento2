@@ -27,7 +27,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
     /**
      * Ability to upload multiple files by default is disabled for backgrounds
      */
-    protected $_multipleFilesDefault = true;
+    protected $_multipleFiles = true;
 
     /**
      * Constructor helper
@@ -37,7 +37,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
         parent::_construct();
 
         $this->setAccept($this->_acceptTypesDefault);
-        $this->setMultiple($this->_multipleFilesDefault);
+        $this->setMultiple($this->_multipleFiles);
 
         $this->addClass('element-' . self::CONTROL_TYPE);
     }

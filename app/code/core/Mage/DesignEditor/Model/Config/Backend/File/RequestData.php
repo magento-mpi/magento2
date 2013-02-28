@@ -40,10 +40,9 @@ class Mage_DesignEditor_Model_Config_Backend_File_RequestData
      * Get $_FILES superglobal value by path
      *
      * @param string $paramName
-     * @param string $path
      * @return string
      */
-    protected function _getParam($paramName, $path)
+    protected function _getParam($paramName)
     {
         $logoImage = reset($_FILES);
         if (empty($logoImage)) {
@@ -51,5 +50,4 @@ class Mage_DesignEditor_Model_Config_Backend_File_RequestData
         }
         return $logoImage[$paramName];
     }
-
 }

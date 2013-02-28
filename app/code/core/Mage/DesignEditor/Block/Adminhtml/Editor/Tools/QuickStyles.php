@@ -72,6 +72,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles
      * Active tab is showed, while inactive tabs are hidden
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsActive()
     {

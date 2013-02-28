@@ -82,11 +82,11 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      * Get renderer for element
      *
      * @param string $elementClassName
-     * @param string $rendererBlockLayoutName
+     * @param string $rendererName
      * @return Varien_Data_Form_Element_Renderer_Interface
      * @throws Mage_Core_Exception
      */
-    public function create($elementClassName, $rendererBlockLayoutName)
+    public function create($elementClassName, $rendererName)
     {
         if (!isset($this->_rendererByElement[$elementClassName])) {
             throw new Mage_Core_Exception(
@@ -94,7 +94,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
             );
         }
         $rendererClass = $this->_rendererByElement[$elementClassName];
-        $renderer = $this->_layout->createBlock($rendererClass, $rendererBlockLayoutName);
+        $renderer = $this->_layout->createBlock($rendererClass, $rendererName);
 
         return $renderer;
     }
@@ -106,16 +106,16 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      *   cause an error. Cause internal Renderer01 property '_element' will be overwritten with Element02 during
      *   reuse of renderer and then will not be restored.
      */
-    public function getSharedInstance($elementClassName, $rendererBlockLayoutName = null)
+    public function getSharedInstance($elementClassName, $rendererName = null)
     {
         $rendererClass = $this->_rendererByElement[$elementClassName];
         if (isset($this->_sharedRenderers[$rendererClass])) {
             $renderer = $this->_sharedRenderers[$rendererClass];
         } else {
-            if ($rendererBlockLayoutName === null) {
-                $rendererBlockLayoutName = uniqid('renderer-');
+            if ($rendererName === null) {
+                $rendererName = uniqid('renderer-');
             }
-            $renderer = $this->create($elementClassName, $rendererBlockLayoutName);
+            $renderer = $this->create($elementClassName, $rendererName);
         }
 
         return $renderer;
