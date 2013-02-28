@@ -14,13 +14,13 @@
     $.widget("mage.translateInlineDialogVde", {
         options: {
             translateForm: {
-                id: "#translate-inline-dialog-form",
+                id: "translate-inline-dialog-form-template",
                 data: {
-                    id: "#translate-inline-form"
+                    id: "translate-inline-dialog-form"
                 }
             },
             dialog: {
-                id: "#translate-dialog",
+                id: "translate-dialog",
                 autoOpen : false,
                 dialogClass: "translate-dialog",
                 draggable: false,
@@ -44,11 +44,18 @@
         },
 
         /**
+         * Identifies if the form is already being submitted.
+         *
+         * @type {boolean}
+         */
+        isSubmitting : false,
+
+        /**
          * Creates the translation dialog widget. Fulfills jQuery WidgetFactory _create hook.
          */
         _create: function() {
-	          $.template(this.options.templateName, $(this.options.translateForm.id));
-            this.translateDialog = $(this.options.dialog.id)
+	          $.template(this.options.templateName, $("#" + this.options.translateForm.id));
+            this.translateDialog = $("#" + this.options.dialog.id)
                 .dialog($.extend(true, {
                     buttons : [
                         {
@@ -107,6 +114,14 @@
                     }
                 });
             });
+
+            this.translateDialog.find("#" + this.options.translateForm.data.id).each(function(count, form) {
+                form.on('submit', function(e) {
+                    e.preventDefault();
+                    $.proxy(self._formSubmit, self)();
+                    return true;
+                });
+            });
         },
 
         /**
@@ -125,8 +140,13 @@
          * Submits the form.
          */
         _formSubmit: function() {
+            if (this.isSubmitting) {
+                return;
+            }
+            this.isSubmitting = true;
+
             var parameters = $.param({area: this.options.area}) +
-                "&" + $(this.options.translateForm.data.id).serialize();
+                "&" + $("#" + this.options.translateForm.data.id).serialize();
             $.ajax({
                 url: this.options.ajaxUrl,
                 type: "POST",
@@ -161,6 +181,8 @@
             this.translateDialog.dialog("close");
 
             this.options.onSubmitComplete();
+
+            this.isSubmitting = false;
         }
     });
 
@@ -173,7 +195,7 @@
             area: "vde",
             ajaxUrl: null,
             offsetLeft: -16,
-            templateId: "#translate-inline-icon",
+            templateId: "translate-inline-icon",
             onClick: function(element) { },
         },
 
@@ -207,7 +229,7 @@
          * respond to events.
          */
         _initTemplate: function() {
-            this.template = $(this.options.templateId).tmpl(this.options)
+            this.template = $("#" + this.options.templateId).tmpl(this.options)
                 .addClass("translate-edit-icon")
                 .appendTo("body");
             this._positionTemplate();
