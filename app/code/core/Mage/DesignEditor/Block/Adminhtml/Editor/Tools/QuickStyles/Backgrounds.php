@@ -89,13 +89,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Backgrounds ext
             'method' => 'post',
             'tab'    => $this->_tab,
             'theme'  => $this->getTheme(),
-            //'layout_name' => $this->getNameInLayout()
         ));
-        $form->setUseContainer(true);
 
+        $form->setUseContainer(true);
         $this->setForm($form);
 
-        parent::_prepareForm();
-        return $this;
+        return parent::_prepareForm();
     }
 }
