@@ -1466,6 +1466,14 @@
     width:60px;
 }
 
+.element-color-picker .color-box {
+    width:20px;
+    height:20px;
+    float: left;
+    margin-right:10px;
+    border:1px solid black;
+}
+
 /*
     Clearfix
 -------------------------------------- */

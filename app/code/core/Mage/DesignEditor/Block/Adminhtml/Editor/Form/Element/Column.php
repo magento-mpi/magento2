@@ -15,8 +15,12 @@
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
     extends Varien_Data_Form_Element_Fieldset
+    implements Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ContainerInterface
 {
-    //const CONTROL_TYPE = 'column';
+    /**
+     * Control type
+     */
+    const CONTROL_TYPE = 'column';
 
     /**
      * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
@@ -35,14 +39,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
     {
         parent::_construct();
 
-        $this->addElementTypes();
-        $this->setClass('column');
+        $this->_addElementTypes();
+        $this->addClass(self::CONTROL_TYPE);
     }
 
     /**
-     * Add element types used in composite font element
+     * Add element types that can be added to 'column' element
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
      */
-    public function addElementTypes()
+    protected function _addElementTypes()
     {
         //contains composite font element and logo uploader
         $this->addType('logo', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo');
@@ -56,7 +62,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
         $this->addType('color-picker', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker');
         $this->addType('font-picker', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker');
         $this->addType('logo-uploader', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader');
-        $this->addType('background-uploader', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader');
+        $this->addType('background-uploader',
+            'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
+        );
+
+        return $this;
     }
 
     /**
@@ -104,7 +114,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
     }
 
     /**
-     * Add fields to composite column
+     * Add fields to column element
      *
      * @param string $elementId
      * @param string $type

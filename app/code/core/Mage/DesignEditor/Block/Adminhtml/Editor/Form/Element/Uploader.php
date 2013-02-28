@@ -10,6 +10,9 @@
 
 /**
  * Form element renderer to display file element for VDE
+ *
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader setAccept($accept)
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader setMultiple(bool $isMultiple)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader extends Varien_Data_Form_Element_File
 {

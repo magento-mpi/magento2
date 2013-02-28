@@ -14,10 +14,15 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
 {
+    /**
+     * Control type
+     */
     const CONTROL_TYPE = 'background-uploader';
 
     /**
      * Add form elements
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
      */
     protected function _addFields()
     {
@@ -51,17 +56,25 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             'value'   => 'repeat',
             'checked' => $checkboxData['value'] == 'repeat'
         ))->setUncheckedValue('no-repeat');
+
+        return $this;
     }
 
     /**
      * Add element types used in composite font element
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
      */
     protected function _addElementTypes()
     {
         $this->addType('image-uploader', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader');
+
+        return $this;
     }
 
     /**
+     * Get component of 'checkbox' type (actually 'tile')
+     *
      * @return Varien_Data_Form_Element_Checkbox
      * @throws Mage_Core_Exception
      */
@@ -69,19 +82,21 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
     {
         $checkboxId = $this->getComponentId('tile');
 
-        /** @var $e Varien_Data_Form_Element_Abstract */
-        foreach ($this->getElements() as $e) {
-            if ($e->getData('name') == $checkboxId) {
-                return $e;
+        /** @var $element Varien_Data_Form_Element_Abstract */
+        foreach ($this->getElements() as $element) {
+            if ($element->getData('name') == $checkboxId) {
+                return $element;
             }
         }
 
         throw new Mage_Core_Exception(
-            sprintf('Element "%s" is not found in "%s"', $checkboxId, $this->getData('name'))
+            $this->_helper->__('Element "%s" is not found in "%s"', $checkboxId, $this->getData('name'))
         );
     }
 
     /**
+     * Get component of 'image-uploader' type
+     *
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
      * @throws Mage_Core_Exception
      */
@@ -95,7 +110,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             }
         }
         throw new Mage_Core_Exception(
-            sprintf('Element "%s" is not found in "%s"', $imageUploaderId, $this->getData('name'))
+            $this->_helper->__('Element "%s" is not found in "%s"', $imageUploaderId, $this->getData('name'))
         );
     }
 }

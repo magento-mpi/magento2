@@ -9,7 +9,7 @@
  */
 
 /**
- * Color-picker form element renderer
+ * Image uploader element renderer
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Uploader

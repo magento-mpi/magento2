@@ -101,17 +101,17 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     protected function _initColumns($form, $tab)
     {
         /** @var $columnLeft Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnLeft = $form->addField('left-' . $tab, 'column', array());
+        $columnLeft = $form->addField('column-left-' . $tab, 'column', array());
         $columnLeft->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnMiddle Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnMiddle = $form->addField('middle-' . $tab, 'column', array());
+        $columnMiddle = $form->addField('column-middle-' . $tab, 'column', array());
         $columnMiddle->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnRight Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column */
-        $columnRight = $form->addField('right-' . $tab, 'column', array());
+        $columnRight = $form->addField('column-right-' . $tab, 'column', array());
         $columnRight->setRendererFactory($this->_rendererFactory)
             ->setElementsFactory($this->_elementsFactory);
 
@@ -168,8 +168,6 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             $config['components'] = $control['components'];
             $config['title'] = $label;
         } else {
-            //$control should contain 'default', 'selector' and 'attribute'; may contain 'options';
-
             $config['value'] = $control['value'];
             $config['title'] = sprintf('%s {%s: %s}',
                 $control['selector'],
@@ -185,7 +183,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     }
 
     /**
-     * Add custom element types for VDE "Tools" panel "Quick Styles" tab
+     * Add custom element types
      *
      * @param Varien_Data_Form $form
      */

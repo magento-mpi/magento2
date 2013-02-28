@@ -11,7 +11,7 @@
 /**
  * Parent composite form element for VDE
  *
- * This elements know about renderer factory and use it to render itself
+ * This elements know about renderer factory and use it to set renders to its children
  *
  * @method array getComponents()
  * @method string getFieldsetContainerId()
@@ -30,31 +30,49 @@
  */
 abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
     extends Varien_Data_Form_Element_Fieldset
+    implements Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ContainerInterface
 {
+    /**
+     * Delimiter for name parts in composite controls
+     */
     const CONTROL_NAME_DELIMITER = ':';
 
     /**
+     * Factory that creates renderer for element by element class
+     *
      * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      */
     protected $_rendererFactory;
 
     /**
+     * Factory that creates element by element type
+     *
      * @var Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
      */
     protected $_elementsFactory;
 
     /**
+     * Helper
+     *
+     * @var Mage_DesignEditor_Helper_Data
+     */
+    protected $_helper;
+
+    /**
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
+     * @param Mage_DesignEditor_Helper_Data $helper
      * @param array $attributes
      */
     public function __construct(
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
+        Mage_DesignEditor_Helper_Data $helper,
         $attributes = array()
     ) {
         $this->_elementsFactory = $elementsFactory;
         $this->_rendererFactory = $rendererFactory;
+        $this->_helper = $helper;
 
         parent::__construct($attributes);
     }
@@ -88,7 +106,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
         if (isset($this->_types[$type])) {
             $className = $this->_types[$type];
         } else {
-            $className = 'Varien_Data_Form_Element_'.ucfirst(strtolower($type));
+            $className = 'Varien_Data_Form_Element_' . ucfirst(strtolower($type));
         }
         $element = $this->_elementsFactory->create($className, $config);
         $element->setId($elementId);
@@ -108,17 +126,19 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
     }
 
     /**
+     * Get controls component of given type
+     *
      * @param string $type
      * @param string|null $subtype
-     * @throws Mage_Core_Exception
      * @return array
+     * @throws Mage_Core_Exception
      */
     public function getComponent($type, $subtype = null)
     {
         $components = $this->getComponents();
         $componentId = $this->getComponentId($type);
         if (!isset($components[$componentId])) {
-            throw new Mage_Core_Exception(sprintf(
+            throw new Mage_Core_Exception($this->_helper->__(
                 'Component of the type "%s" is not found between elements of "%s"', $type, $this->getData('name')
             ));
         }
@@ -133,26 +153,28 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
     }
 
     /**
+     * Get id that component of given type should have
+     *
      * @param string $type
      * @return string
      */
     public function getComponentId($type)
     {
         $names = explode(self::CONTROL_NAME_DELIMITER, $this->getData('name'));
-        return join('', array(
-            array_shift($names),
-            self::CONTROL_NAME_DELIMITER,
-            $type
-        ));
+        return join('', array(array_shift($names), self::CONTROL_NAME_DELIMITER, $type));
     }
 
     /**
      * Add form elements
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
      */
     abstract protected function _addFields();
 
     /**
      * Add element types used in composite font element
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
      */
     abstract protected function _addElementTypes();
 }

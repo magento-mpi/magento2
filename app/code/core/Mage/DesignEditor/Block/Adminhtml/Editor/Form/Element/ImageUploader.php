@@ -14,6 +14,9 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader
 {
+    /**
+     * Control type
+     */
     const CONTROL_TYPE = 'image-uploader';
 
     /**

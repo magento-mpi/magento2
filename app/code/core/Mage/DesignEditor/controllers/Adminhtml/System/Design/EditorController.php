@@ -67,7 +67,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$theme->getId()) {
                 throw new InvalidArgumentException(sprintf('Theme "%s" was not found.', $themeId));
             }
-            /** @todo replace register */
+            /** @todo replace registry usage */
             Mage::register('theme', $theme);
 
             if (!$theme->isVirtual()) {
@@ -472,6 +472,22 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $codeImageSizing = $this->getLayout()->getBlock('design_editor_tools_code_image-sizing');
         if ($codeImageSizing) {
             $codeImageSizing->setTheme($theme);
+        }
+
+        $blocks = array(
+            'design_editor_tools_code_image-sizing',
+            'design_editor_tools_quick-styles_header',
+            'design_editor_tools_quick-styles_backgrounds',
+            'design_editor_tools_quick-styles_buttons',
+            'design_editor_tools_quick-styles_tips',
+            'design_editor_tools_quick-styles_fonts',
+        );
+        foreach ($blocks as $blockName) {
+            /** @var $block Mage_Core_Block_Abstract */
+            $block = $this->getLayout()->getBlock($blockName);
+            if ($block) {
+                $block->setTheme($theme);
+            }
         }
 
         /** @var $headerQuickStylesBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header */

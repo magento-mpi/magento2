@@ -9,11 +9,18 @@
  */
 
 /**
- * Color-picker form element renderer
+ * Logo uploader element renderer
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader
 {
+    /**
+     * Set of templates to render
+     *
+     * Upper is rendered first and is inserted into next using <?php echo $this->getHtml() ?>
+     *
+     * @var array
+     */
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/element/input.phtml',
         'Mage_DesignEditor::editor/form/renderer/logo-uploader.phtml',
@@ -26,6 +33,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
      */
     public function getLogoUploadUrl()
     {
+        //@TODO get rid of registry usage
+
         return $this->getUrl('*/system_design_editor_tools/uploadStoreLogo',
             array('theme_id' => Mage::registry('theme')->getId())
         );
@@ -38,6 +47,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
      */
     public function getLogoRemoveUrl()
     {
+        //@TODO get rid of registry usage
+
         return $this->getUrl('*/system_design_editor_tools/removeStoreLogo',
             array('theme_id' => Mage::registry('theme')->getId())
         );
@@ -54,6 +65,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
          * @todo Temporary solution.
          * Discuss logo uploader with PO and remove this method.
          * Logo should assigned to store view level, but not theme.
+         * Get rid of registry usage
          */
         $stores = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Service')->getStoresByThemes();
         if (isset($stores[Mage::registry('theme')->getId()])) {

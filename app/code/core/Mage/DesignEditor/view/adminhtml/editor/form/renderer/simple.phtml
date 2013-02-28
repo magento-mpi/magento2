@@ -23,7 +23,7 @@ $addOn = $element->getBeforeElementHtml() || $element->getAfterElementHtml();
     <?php if ($element->getType() == 'hidden'): ?>
         <?php echo $this->getHtml() ?>
     <?php else: ?>
-    <div<?php echo $this->getFieldAttributes() ?>>
+    <div <?php echo $this->getFieldAttributes() ?>>
         <?php if ($elementBeforeLabel): ?>
             <?php echo $this->getHtml() ?>
             <?php echo $element->getLabelHtml() ?>

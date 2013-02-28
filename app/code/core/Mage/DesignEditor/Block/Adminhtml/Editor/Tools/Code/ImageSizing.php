@@ -124,7 +124,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
                 'button' => array(
                     'event'  => 'saveForm',
                     'target' => 'body'
-        ))))));
+                )
+            )))
+        ));
 
         parent::_prepareForm();
         return $this;
@@ -201,11 +203,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             'title' => $this->__('Reset to Original'),
             'value' => $this->__('Reset to Original'),
             'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
-            'button' => array(
-                'event'     => 'restoreDefaultData',
-                'target'    => 'body',
-                'eventData' => $defaultValues
-        ))))));
+                'button' => array(
+                    'event'     => 'restoreDefaultData',
+                    'target'    => 'body',
+                    'eventData' => $defaultValues
+                )
+            ))))
+        );
 
         return $this;
     }

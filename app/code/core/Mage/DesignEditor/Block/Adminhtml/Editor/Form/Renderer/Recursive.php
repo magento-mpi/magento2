@@ -18,10 +18,19 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends M
     implements Varien_Data_Form_Element_Renderer_Interface
 {
     /**
+     * Form element to render
+     *
      * @var Varien_Data_Form_Element_Abstract
      */
     protected $_element;
 
+    /**
+     * Path to template file in theme.
+     *
+     * Recursive renderer use '_template' property for rendering templates one by one
+     *
+     * @var string
+     */
     protected $_template = null;
 
     /**
@@ -34,6 +43,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends M
     protected $_templates = array();
 
     /**
+     * Get element renderer bound to
+     *
      * @return Varien_Data_Form_Element_Abstract
      */
     public function getElement()
@@ -42,6 +53,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends M
     }
 
     /**
+     * Render form element as HTML
+     *
      * @param Varien_Data_Form_Element_Abstract $element
      * @return string
      */

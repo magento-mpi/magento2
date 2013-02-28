@@ -9,12 +9,19 @@
  */
 
 /**
- * Color-picker form element renderer
+ * Composite form element renderer
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
 {
-    //former fieldset.phtml but split into several templates
+    /**
+     * Set of templates to render
+     *
+     * Upper is rendered first and is inserted into next using <?php echo $this->getHtml() ?>
+     * This templates are made of fieldset.phtml but split into several templates
+     *
+     * @var array
+     */
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/composite/children.phtml',
         'Mage_DesignEditor::editor/form/renderer/composite.phtml',
@@ -22,6 +29,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite
     );
 
     /**
+     * Get CSS classes for element
+     *
+     * Used in composite.phtml
+     *
      * @return array
      */
     public function getCssClasses()

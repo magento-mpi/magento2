@@ -14,18 +14,24 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
 {
+    /**
+     * Control type
+     */
     const CONTROL_TYPE = 'logo';
 
     /**
      * Add form elements
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
      */
     protected function _addFields()
     {
         $uploaderData = $this->getComponent('logo-uploader');
-        $fontData = $this->getComponent('font');
 
-        // it was asked to remove font element from store-logo
-        /*$fontId = $this->getComponentId('font');
+        // it was asked to remove font element from store-logo for now
+        /*
+        $fontData = $this->getComponent('font');
+        $fontId = $this->getComponentId('font');
         $this->addField($fontId, 'font', array(
             'components' => $fontData['components'],
             'name'       => $fontId,     //templates not use this, but it used do get components
@@ -45,14 +51,20 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
             'title'    => $uploaderTitle,
             'label'      => null
         ));
+
+        return $this;
     }
 
     /**
      * Add element types used in composite font element
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
      */
     protected function _addElementTypes()
     {
         $this->addType('font', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font');
         $this->addType('logo-uploader', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader');
+
+        return $this;
     }
 }

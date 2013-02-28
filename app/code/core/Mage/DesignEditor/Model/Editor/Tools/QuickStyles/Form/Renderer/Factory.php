@@ -25,6 +25,11 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      */
     protected $_layout;
 
+    /**
+     * List of form elements and renderers for them
+     *
+     * @var array
+     */
     protected $_rendererByElement = array(
         'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column'
             => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column',

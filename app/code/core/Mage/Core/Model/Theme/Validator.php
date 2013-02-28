@@ -10,6 +10,8 @@
 class Mage_Core_Model_Theme_Validator
 {
     /**
+     * Helper
+     *
      * @var Mage_Core_Helper_Data
      */
     protected $_helper;

@@ -14,7 +14,14 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
 {
-    //former fieldset/element.phtml but split into several templates
+    /**
+     * Set of templates to render
+     *
+     * Upper is rendered first and is inserted into next using <?php echo $this->getHtml() ?>
+     * Templates used are based fieldset/element.phtml but split into several templates
+     *
+     * @var array
+     */
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/element/input.phtml',
         'Mage_DesignEditor::editor/form/renderer/color-picker.phtml',
@@ -22,9 +29,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker
         'Mage_DesignEditor::editor/form/renderer/simple.phtml'
     );
 
-    //used here
+    /**
+     * Get HTMl class of a field
+     *
+     * Actually it will be added to a field wrapper
+     *
+     * @return array
+     */
     public function getFieldClass()
     {
+        /** @var $element Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker */
         $element = $this->getElement();
 
         $elementBeforeLabel = $element->getExtType() == 'checkbox' || $element->getExtType() == 'radio';
@@ -51,16 +65,25 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker
         return $classes;
     }
 
-    //used in Mage_DesignEditor::editor/form/renderer/simple.phtml
+    /**
+     * Get field attributes string
+     *
+     * Actually it will be added to a field wrapper
+     *
+     * @see Mage_DesignEditor::editor/form/renderer/simple.phtml
+     * @return string
+     */
     public function getFieldAttributes()
     {
         $element = $this->getElement();
 
-        $fieldId = ($element->getHtmlContainerId()) ? ' id="' . $element->getHtmlContainerId() . '"' : '';
+        $fieldAttributes = array();
+        if ($element->getHtmlContainerId()) {
+            $fieldAttributes[] = sprintf('id="%s"', $element->getHtmlContainerId());
+        }
+        $fieldAttributes[] = sprintf('class="%s"', join(' ', $this->getFieldClass()));
+        $fieldAttributes[] = $this->getUiId('form-field', $element->getId());
 
-        $fieldAttributes = $fieldId . ' class="' . join(' ', $this->getFieldClass()) . '" '
-            . $this->getUiId('form-field', $element->getId());
-
-        return $fieldAttributes;
+        return join(' ', $fieldAttributes);
     }
 }

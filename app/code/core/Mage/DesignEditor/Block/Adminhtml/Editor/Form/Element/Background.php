@@ -14,10 +14,15 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
 {
+    /**
+     * Control type
+     */
     const CONTROL_TYPE = 'background';
 
     /**
      * Add form elements
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
      */
     protected function _addFields()
     {
@@ -43,10 +48,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
             'name'       => $uploaderId,
             'label'      => null
         ));
+
+        return $this;
     }
 
     /**
      * Add element types used in composite font element
+     *
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
      */
     protected function _addElementTypes()
     {
@@ -54,5 +63,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
         $this->addType('background-uploader',
             'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
         );
+
+        return $this;
     }
 }

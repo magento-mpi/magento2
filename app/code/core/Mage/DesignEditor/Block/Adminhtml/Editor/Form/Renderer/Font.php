@@ -9,19 +9,26 @@
  */
 
 /**
- * Color-picker form element renderer
+ * Composite 'font' element renderer
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Font
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer
-    //extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite
 {
+    /**
+     * Path to template file in theme.
+     *
+     * @var string
+     */
     protected $_template = 'Mage_DesignEditor::editor/form/renderer/font.phtml';
 
     /**
+     * Get element CSS classes
+     *
      * @return array
      */
     public function getClasses()
     {
+        /** @var $element Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font */
         $element = $this->getElement();
 
         $classes = array();
