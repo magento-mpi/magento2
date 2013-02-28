@@ -143,13 +143,6 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
     {
         Magento_Profiler::start('initial');
         $objectManager->configure(array(
-            'Mage_Core_Model_Dir' => array(
-                'parameters' => array(
-                    'baseDir' => $this->_getParam(Mage::PARAM_BASEDIR),
-                    'uris' => $this->_getParam(MAGE::PARAM_APP_URIS, array()),
-                    'dirs' => $this->_getParam(Mage::PARAM_APP_DIRS, array())
-                )
-            ),
             'Mage_Core_Model_Config_Loader_Local' => array(
                 'parameters' => array(
                     'customFile' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_FILE),

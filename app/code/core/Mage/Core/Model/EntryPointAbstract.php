@@ -28,6 +28,7 @@ abstract class Mage_Core_Model_EntryPointAbstract
             $objectManager = new Mage_Core_Model_ObjectManager($definitions, $config);
         }
         $this->_objectManager = $objectManager;
+        Mage::setObjectManager($objectManager);
     }
 
     /**

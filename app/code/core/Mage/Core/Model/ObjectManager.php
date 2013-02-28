@@ -20,6 +20,5 @@ class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
             'Mage_Core_Model_Dir' => $config->getDirectories()
         ));
         $config->configure($this);
-        Mage::setObjectManager($this);
     }
 }
