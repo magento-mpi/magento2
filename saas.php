@@ -52,8 +52,7 @@ return function (array $appConfigArray) {
     if (!array_key_exists(Mage::PARAM_BASEDIR, $entryPointParams)) {
         $entryPointParams[Mage::PARAM_BASEDIR] = BP;
     }
-    $config = new Saas_Core_Model_ObjectManager_Config(BP, $entryPointParams);
-    $entryPoint = new Mage_Core_Model_EntryPoint_Http($config);
+    $entryPoint = new Mage_Core_Model_EntryPoint_Http(new Mage_Core_Model_Config_Primary(BP, $entryPointParams));
     $entryPoint->processRequest();
     Magento_Profiler::stop('mage');
 };
