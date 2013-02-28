@@ -34,7 +34,6 @@ $element = $this->getElement();
         $(document.getElementById('<?php echo $element->getHtmlId(); ?>-uploader')).quickStyleUploader({
             uploader_id:   '<?php echo $element->getHtmlId(); ?>',
             container:     '<?php echo $element->getHtmlId(); ?>-uploader',
-            event:         '<?php echo $this->getEvent(); ?>:uploaded',
             value:         '<?php echo $this->getLogoImage(); ?>',
             url:           '<?php echo $this->getLogoUploadUrl(); ?>',
             remove_url:    '<?php echo $this->getLogoRemoveUrl(); ?>',

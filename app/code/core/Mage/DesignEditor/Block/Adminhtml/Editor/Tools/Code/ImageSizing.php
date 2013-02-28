@@ -129,10 +129,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         ));
 
         parent::_prepareForm();
-        return $this;
+        return parent::_prepareForm();
     }
 
     /**
+     * Add white border checkbox to form
+     *
      * @param array $control
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
      */
@@ -163,6 +165,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     }
 
     /**
+     * Add one image sizing item to form
+     *
      * @param string $name
      * @param array $control
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
@@ -232,7 +236,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      */
     protected function _getSelectOptions()
     {
-        $options   = array();
+        $options = array();
         foreach ($this->getImageTypes() as $imageType) {
             $attribute = $this->_eavConfig->getAttribute('catalog_product', $imageType);
             $options[] = array(

@@ -237,9 +237,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         if (!isset($this->_themeCustomizations[$type])) {
             throw new InvalidArgumentException('Customization is not present');
         }
-        return $this->_themeCustomizations[$type]->getCollectionByTheme(
-            $this, Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS
-        );
+        return $this->_themeCustomizations[$type]->getCollectionByTheme($this);
     }
 
     /**

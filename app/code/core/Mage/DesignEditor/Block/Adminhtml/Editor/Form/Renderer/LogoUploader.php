@@ -64,7 +64,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
         /**
          * @todo Temporary solution.
          * Discuss logo uploader with PO and remove this method.
-         * Logo should assigned to store view level, but not theme.
+         * Logo should be assigned to store view level, but not theme.
          * Get rid of registry usage
          */
         $stores = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Service')->getStoresByThemes();

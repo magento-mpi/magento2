@@ -40,6 +40,8 @@
                     <!-- Simple control -->
                     <control name="image-uploader">
                         <type>logo-uploader</type>
+                        <selector>.test-logo-1</selector>
+                        <attribute>background-image</attribute>
                         <var>Mage_DesignEditor::test_var_key3</var>
                     </control>
                 </components>
@@ -49,6 +51,8 @@
     <!-- Simple control -->
     <control name="logo-uploader" title="Logo Uploader" column="center">
         <type>logo-uploader</type>
+        <selector>.test-logo-2</selector>
+        <attribute>background-image</attribute>
         <var>Mage_DesignEditor::test_var_key4</var>
     </control>
     <!-- Simple control -->

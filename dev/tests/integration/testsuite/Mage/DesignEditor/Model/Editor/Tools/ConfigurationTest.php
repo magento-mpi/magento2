@@ -57,6 +57,8 @@ class Mage_DesignEditor_Model_Editor_Tools_ConfigurationTest extends PHPUnit_Fra
             array(Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, 'logo-uploader', array(
                 'type'         => 'logo-uploader',
                 'layoutParams' => array('title' => 'Logo Uploader', 'column' => 'center'),
+                'attribute'    => 'background-image',
+                'selector'     => '.test-logo-2',
                 'var'          => 'Mage_DesignEditor::test_var_key4',
                 'value'        => 'test_child_value4',
                 'default'      => 'test_value4'
@@ -138,7 +140,7 @@ class Mage_DesignEditor_Model_Editor_Tools_ConfigurationTest extends PHPUnit_Fra
                 array(
                     'background-color-picker' => 'test_saved_value1',
                     'logo-uploader'           => 'test_saved_value2',
-                    'image-uploader'          => 'test_saved_value_empty',
+                    'image-uploader-empty'    => 'test_saved_value_empty',
                 ),
                 array(
                     '//var[text() = "test_saved_value1"]'      => false,
