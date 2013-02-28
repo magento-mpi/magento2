@@ -14,22 +14,22 @@
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Magento to eBay') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Integrates your Magento store into eBay and Amazon.') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Join forces with a titan of commerce.') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_ebay_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_ebay_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Integrate') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
         </button>
     </div>
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
-        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Completed.') ?></p>
+        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Join forces with a titan of commerce.') ?></p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_ebay_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_ebay_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Integrate') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
         </button>
         <?php endif; ?>
     </div>

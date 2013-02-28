@@ -1415,7 +1415,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $areaUrl =
                 preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url']));
             //@TODO Fix for StoreLauncher tests
-            $areaUrl = preg_replace('#backend/(backend|admin)/$#', 'backend/', $areaUrl);
+            $areaUrl = preg_replace('#backend/(backend|admin)/?$#', 'backend/', $areaUrl);
             if (strpos($currentUrl, $areaUrl) === 0) {
                 $possibleAreas[$area] = $areaUrl;
             }
@@ -1651,7 +1651,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl)));
 
         //@TODO Fix for StoreLauncher tests
-        $baseUrl = preg_replace('#backend/(backend|admin)/$#', 'backend/', $baseUrl);
+        $baseUrl = preg_replace('#backend/(backend|admin)/?$#', 'backend/', $baseUrl);
         $currentUrl = preg_replace('#backend/(backend|admin)/#', 'backend/', $currentUrl);
         if (strpos($currentUrl, $baseUrl) !== false) {
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\#");

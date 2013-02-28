@@ -24,6 +24,6 @@ class Mage_Launcher_Block_Adminhtml_Promotestore_Contentpages_Drawer extends Mag
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Content Pages');
+        return $this->helper('Mage_Launcher_Helper_Data')->__('Recommended Content Pages');
     }
 }

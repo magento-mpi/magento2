@@ -111,4 +111,20 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
             ? parent::getCollectionByTheme($theme)
             : parent::getCollectionByTheme($theme)->addFilter('file_path', $this->_getFileName($type));
     }
+
+    /**
+     * Get file name by type
+     *
+     * @param string $type
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    public function getFileNameByName($type)
+    {
+        if (!array_key_exists($type, $this->_cssFiles)) {
+            throw new InvalidArgumentException('Invalid CSS file type');
+        }
+
+        return $type . '.css';
+    }
 }
