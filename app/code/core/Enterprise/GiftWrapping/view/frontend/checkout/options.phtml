@@ -74,7 +74,7 @@
     head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
         "<?php echo $this->getViewFileUrl('Enterprise_GiftWrapping::gift-wrapping.js') ?>",
         function() {
-            jQuery('#shipping_method_form').giftWrapping({
+            jQuery('#checkoutSteps, #shipping_method_form').giftWrapping({
                 designsInfo: <?php echo $this->getDesignsInfo()->toJson() ?>,
                 itemsInfo: <?php echo $this->getItemsInfo()->toJson() ?>,
                 cardInfo: <?php echo $this->getCardInfo()->toJson() ?>,
