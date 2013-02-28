@@ -11,33 +11,37 @@
 
 /**
  * Backend event observer
- *
- * @category   Mage
- * @package    Mage_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Model_Observer
 {
-
+    /**
+     * Bind locale
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Backend_Model_Observer
+     */
     public function bindLocale($observer)
     {
-        if ($locale=$observer->getEvent()->getLocale()) {
-            if ($choosedLocale = Mage::getSingleton('Mage_Backend_Model_Session')->getLocale()) {
-                $locale->setLocaleCode($choosedLocale);
+        $locale = $observer->getEvent()->getLocale();
+        if ($locale) {
+            $selectedLocale = Mage::getSingleton('Mage_Backend_Model_Session')->getLocale();
+            if ($selectedLocale) {
+                $locale->setLocaleCode($selectedLocale);
             }
         }
         return $this;
     }
 
     /**
-     * Prepare massaction separated data
+     * Prepare mass action separated data
      *
      * @return Mage_Backend_Model_Observer
      */
     public function massactionPrepareKey()
     {
         $request = Mage::app()->getFrontController()->getRequest();
-        if ($key = $request->getPost('massaction_prepare_key')) {
+        $key = $request->getPost('massaction_prepare_key');
+        if ($key) {
             $postData = $request->getPost($key);
             $value = is_array($postData) ? $postData : explode(',', $postData);
             $request->setPost($key, $value ? $value : null);
@@ -57,7 +61,7 @@ class Mage_Backend_Model_Observer
     }
 
     /**
-     * Default behavior.  Backend will always use base Mage_Core_Model_Translate_Inline class for translation.
+     * Backend will always use base class for translation.
      *
      * @return Mage_Backend_Model_Observer
      */

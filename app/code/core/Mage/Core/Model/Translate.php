@@ -113,6 +113,11 @@ class Mage_Core_Model_Translate
     protected $_translateFactory;
 
     /**
+     * @var Mage_Core_Model_Translate_TranslateInterface
+     */
+    protected $_translateObject;
+
+    /**
      * Configuration flag to local enable inline translations
      *
      * @var boolean
@@ -171,9 +176,10 @@ class Mage_Core_Model_Translate
                 'result' => $dispatchResult
         ));
 
-        $this->_translateInline = $this->_translateFactory
-            ->create($dispatchResult->getParams(), $dispatchResult->getInlineType())
-            ->isAllowed($area == 'adminhtml' ? 'admin' : null);
+        $this->_translateObject = $this->_translateFactory
+            ->create($dispatchResult->getParams(), $dispatchResult->getInlineType());
+
+        $this->_translateObject->isAllowed($area == 'adminhtml' ? 'admin' : null);
 
         if (!$forceReload) {
             if ($this->_canUseCache()) {
@@ -254,6 +260,51 @@ class Mage_Core_Model_Translate
             return $this->_config[$key];
         }
         return null;
+    }
+
+    /**
+     * Determine if translation is enabled and allowed.
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function isAllowed($store = null)
+    {
+        /** @todo ACB fix implementation */
+        return $this->_translateObject->isAllowed($store);
+    }
+
+    /**
+     * Parse and save edited translate
+     *
+     * @param array $translate
+     * @return Mage_Core_Model_Translate_TranslateInterface
+     */
+    public function processAjaxPost($translate)
+    {
+        return $this->_translateObject->processAjaxPost($translate);
+    }
+
+    /**
+     * Replace translation templates with HTML fragments
+     *
+     * @param array|string $body
+     * @return Mage_Core_Model_Translate_TranslateInterface
+     */
+    public function processResponseBody(&$body)
+    {
+        return $this->_translateObject->processResponseBody($body);
+    }
+
+    /**
+     * Set indicator of whether or not content is Json
+     *
+     * @param bool $flag
+     * @return Mage_Core_Model_Translate_TranslateInterface
+     */
+    public function setIsJson($flag)
+    {
+        return $this->_translateObject->setIsJson($flag);
     }
 
     /**
@@ -503,7 +554,7 @@ class Mage_Core_Model_Translate
             $translated = $this->_getTranslatedString($text, $code);
         }
 
-        $result = @vsprintf($translated, $args);
+        $result = vsprintf($translated, $args);
         if ($result === false) {
             $result = $translated;
         }
@@ -546,6 +597,7 @@ class Mage_Core_Model_Translate
      */
     public function setTranslateInline($flag = null)
     {
+        /** @todo ACB verify that only called with boolean and remove cast */
         $this->_canUseInline = (bool)$flag;
         return $this;
     }
@@ -569,6 +621,7 @@ class Mage_Core_Model_Translate
     public function getCacheId()
     {
         if (is_null($this->_cacheId)) {
+            /** @todo ACB create or use const for that */
             $this->_cacheId = 'translate';
             if (isset($this->_config[self::CONFIG_KEY_LOCALE])) {
                 $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_LOCALE];
@@ -589,7 +642,7 @@ class Mage_Core_Model_Translate
     /**
      * Loading data cache
      *
-     * @return  array | false
+     * @return  array|false
      */
     protected function _loadCache()
     {

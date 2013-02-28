@@ -130,9 +130,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 ));
             }
 
-            if( $this->getRequest()->getParam('id', false) ) {
+            if ($this->getRequest()->getParam('id', false)) {
                 if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Review')) {
-                    if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Review::reviews_ratings')){
+                    if (Mage::getSingleton('Mage_Core_Model_Authorization')
+                        ->isAllowed('Mage_Review::reviews_ratings')
+                    ) {
                         $this->addTab('reviews', array(
                             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Reviews'),
                             'url'   => $this->getUrl('*/*/reviews', array('_current' => true)),
@@ -156,7 +158,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                     'group_code' => self::ADVANCED_TAB_GROUP_CODE,
                 ));
             }
-
         }
 
         return parent::_prepareLayout();
@@ -212,7 +213,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
      */
     protected function _translateHtml($html)
     {
-        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($html);
+        Mage::getObjectManager()->get('Mage_Core_Model_Translate')->processResponseBody($html);
         return $html;
     }
 }

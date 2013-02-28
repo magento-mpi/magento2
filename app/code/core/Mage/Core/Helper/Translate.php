@@ -9,16 +9,14 @@
  */
 
 /**
- * Core data helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Core translate helper
  */
 class Mage_Core_Helper_Translate extends Mage_Core_Helper_Abstract
 {
     /**
      * Save translation data to database for specific area
      *
-     * @param array  $translate
+     * @param array $translate
      * @param string $area
      * @param string $returnType
      * @return string
@@ -29,10 +27,12 @@ class Mage_Core_Helper_Translate extends Mage_Core_Helper_Abstract
             if ($area) {
                 Mage::getDesign()->setArea($area);
             }
-            Mage::getModel('Mage_Core_Model_Translate_Inline')->processAjaxPost($translate);
-            return $returnType == 'json' ? "{success:true}" : true;
+
+            $this->_translator->processAjaxPost($translate);
+            $result = $returnType == 'json' ? "{success:true}" : true;
         } catch (Exception $e) {
-            return $returnType == 'json' ? "{error:true,message:'" . $e->getMessage() . "'}" : false;
+            $result = $returnType == 'json' ? "{error:true,message:'" . $e->getMessage() . "'}" : false;
         }
+        return $result;
     }
 }

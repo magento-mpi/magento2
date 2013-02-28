@@ -16,8 +16,31 @@ interface Mage_Core_Model_Translate_TranslateInterface
     /**
      * Is enabled and allowed Inline Translates
      *
-     * @param mixed $store
      * @return bool
      */
-    public function isAllowed($store = null);
+    public function isAllowed();
+
+    /**
+     * Parse and save edited translate
+     *
+     * @param array $translate
+     * @return Mage_Core_Model_Translate_TranslateInterface
+     */
+    public function processAjaxPost($translate);
+
+    /**
+     * Replace translation templates with HTML fragments
+     *
+     * @param array|string $body
+     * @return Mage_Core_Model_Translate_TranslateInterface
+     */
+    public function processResponseBody(&$body);
+
+    /**
+     * Set indicator of whether or not content is Json
+     *
+     * @param bool $flag
+     * @return Mage_Core_Model_Translate_TranslateInterface
+     */
+    public function setIsJson($flag);
 }
