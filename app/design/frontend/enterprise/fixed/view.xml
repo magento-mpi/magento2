@@ -98,7 +98,7 @@
 
         <var name="recently_compared_products_list_content_widget:type">small_image</var>
         <var name="recently_compared_products_list_content_widget:width">166</var>
-        <var name="recently_compared_products_list_content_widget:width"/>
+        <var name="recently_compared_products_list_content_widget:height"/>
 
         <var name="recently_viewed_products_grid_content_widget:type">small_image</var>
         <var name="recently_viewed_products_grid_content_widget:width">135</var>
@@ -148,13 +148,7 @@
         <var name="new_products_images_only_widget:width">76</var>
         <var name="new_products_images_only_widget:height"/>
 
-        <var name="cart_page_product_thumbnail:type">thumbnail</var>
-        <var name="cart_page_product_thumbnail:width">75</var>
-        <var name="cart_page_product_thumbnail:height"/>
 
-        <var name="product_stock_alert_email_product_image:type">thumbnail</var>
-        <var name="product_stock_alert_email_product_image:width">75</var>
-        <var name="product_stock_alert_email_product_image:height">75</var>
     </vars>
     <vars module="Mage_Bundle">
         <var name="product_summary_image_size">58</var>         <!-- New Product image size used for summary block-->
