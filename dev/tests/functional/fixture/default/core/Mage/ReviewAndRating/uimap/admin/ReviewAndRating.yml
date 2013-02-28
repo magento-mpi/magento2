@@ -138,7 +138,7 @@ manage_all_reviews:
 
 manage_pending_reviews:
     mca: catalog_product_review/pending/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/pending/')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, 'catalog_product_review/pending/')]
     title: Pending Reviews / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
     uimap:
         form: *manageReviews

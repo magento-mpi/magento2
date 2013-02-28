@@ -9,11 +9,9 @@
  */
 ?>
 
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-account"><?php echo $this->helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance History')?></h4>
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo $this->helper('Enterprise_CustomerBalance_Helper_Data')->__('Balance History')?></span>
     </div>
-    <div class="fieldset">
-        <?php echo $this->getChildHtml('grid'); ?>
-    </div>
+    <?php echo $this->getChildHtml('grid'); ?>
 </div>

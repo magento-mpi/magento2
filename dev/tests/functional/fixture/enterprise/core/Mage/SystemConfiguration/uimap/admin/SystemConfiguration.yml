@@ -29,23 +29,6 @@ system_configuration:
                                         http_response: //*[@id='general_restriction_http_status']
                                     links:
                                         website_restriction_link: //parent::div//a[@id='general_restriction-head']
-                            -
-                                single_store_mode:
-                                    dropdowns:
-                                        enable_single_store_mode: //*[@id='general_single_store_mode_enabled']
-                                    links:
-                                        single_store_mode_link: //parent::div//a[@id='general_single_store_mode-head']
-                -
-                    general_design:
-                        fieldsets:
-                            -
-                                design_theme:
-                                    dropdowns:
-                                        design_theme: //*[@id='design_theme_full_name']
-                            -
-                                transaction_emails:
-                                    links:
-                                        transaction_emails_link: //parent::div//a[@id='design_email-head']
                 -
                     general_content_management:
                         fieldsets:
@@ -54,11 +37,17 @@ system_configuration:
                                     xpath: //fieldset[@id='cms_hierarchy']
                                     links:
                                         general_cms_page_hierarchy_link: //parent::div//a[@id='cms_hierarchy-head']
+                                    dropdowns:
+                                        enable_hierarchy_functionality: //select[@id="cms_hierarchy_enabled"]
+                                        enable_hierarchy_metadata: //select[@id="cms_hierarchy_metadata_enabled"]
+                                        default_layout_for_hierarchy_menu: //select[@id="cms_hierarchy_menu_layout"]
                             -
                                 general_cms_versioning:
                                     xpath: //fieldset[@id='cms_content']
                                     links:
                                         general_cms_versioning_link: //parent::div//a[@id='cms_content-head']
+                                    dropdowns:
+                                        cms_page_default_versioning: //select[@id="cms_content_versioning"]
                 -
                     catalog_catalog:
                         fieldsets:
@@ -82,12 +71,29 @@ system_configuration:
                                 catalog_catalog_event:
                                     xpath: //fieldset[@id='catalog_enterprise_catalogevent']
                                     links:
-                                        states_options_link: //parent::div//a[@id='catalog_enterprise_catalogevent-head']
+                                        catalog_catalog_event_link: //parent::div//a[@id='catalog_enterprise_catalogevent-head']
+                                    fields:
+                                        number_of_events:  //input[@id="catalog_enterprise_catalogevent_lister_widget_limit"]
+                                        events_to_scroll:  //input[@id="catalog_enterprise_catalogevent_lister_widget_scroll"]
+                                    dropdowns:
+                                        enable_catalog_events: //select[@id="catalog_enterprise_catalogevent_enabled"]
+                                        enable_catalog_event_widget: //select[@id="catalog_enterprise_catalogevent_lister_output"]
                             -
                                 catalog_rule_based_product_relations:
                                     xpath: //fieldset[@id='catalog_enterprise_targetrule']
                                     links:
-                                        catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_enterprise_catalogevent-head']
+                                        catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_enterprise_targetrule-head']
+                                    fields:
+                                        maximum_number_in_related_list: //input[@id="catalog_enterprise_targetrule_related_position_limit"]
+                                        maximum_number_in_cross_sell: //input[@id="catalog_enterprise_targetrule_crosssell_position_limit"]
+                                        maximum_number_inupsell: //input[@id="catalog_enterprise_targetrule_upsell_position_limit"]
+                                    dropdowns:
+                                        show_related_products:  //select[@id="catalog_enterprise_targetrule_related_position_behavior"]
+                                        rotation_mode_related_product: //select[@id="catalog_enterprise_targetrule_related_rotation_mode"]
+                                        show_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_position_behavior"]
+                                        rotation_mode_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_rotation_mode"]
+                                        show_upsell: //select[@id="catalog_enterprise_targetrule_upsell_position_behavior"]
+                                        rotation_mode_upsell: //select[@id="catalog_enterprise_targetrule_upsell_rotation_mode"]
                 -
                     customer_invitations:
                         xpath: //a[contains(@href, 'edit/section/enterprise_invitation/')]
@@ -97,11 +103,22 @@ system_configuration:
                                     xpath: //fieldset[@id='enterprise_invitation_general']
                                     links:
                                         general_invitation_link: //parent::div//a[@id='enterprise_invitation_general-head']
+                                    fields:
+                                        max_invitations_allowed: //input[@id="enterprise_invitation_general_max_invitation_amount_per_send"]
+                                    dropdowns:
+                                        enable_invitations_functionality: //select[@id="enterprise_invitation_general_enabled"]
+                                        enable_invitations_on_frontend: //select[@id="enterprise_invitation_general_enabled_on_front"]
+                                        referred_customer_group: //select[@id="enterprise_invitation_general_registration_use_inviter_group"]
+                                        new_account_registration: //select[@id="enterprise_invitation_general_registration_required_invitation"]
+                                        allow_customers_to_add_messege: //select[@id="enterprise_invitation_general_allow_customer_message"]
                             -
                                 email_invitations:
                                     xpath: //fieldset[@id='enterprise_invitation_email']
                                     links:
                                         email_invitations_link: //parent::div//a[@id='enterprise_invitation_email-head']
+                                    dropdowns:
+                                        customer_invitation_email_sender: //select[@id="enterprise_invitation_email_identity"]
+                                        customer_invitation_email_template: //select[@id="enterprise_invitation_email_template"]
                 -
                     customer_reward_points:
                         xpath: //a[contains(@href, 'edit/section/enterprise_reward/')]
@@ -111,18 +128,50 @@ system_configuration:
                                     xpath: //fieldset[@id='enterprise_reward_general']
                                     links:
                                         reward_reward_points_link: //parent::div//a[@id='enterprise_reward_general-head']
+                                    fields:
+                                        minimum_reward_points_balance: //input[@id="enterprise_reward_general_min_points_balance"]
+                                        cap_rewerd_points: //input[@id="enterprise_reward_general_max_points_balance"]
+                                        reward_points_expire: //input[@id="enterprise_reward_general_expiration_days"]
+                                    dropdowns:
+                                        enable_reward_points: //select[@id="enterprise_reward_general_is_enabled"]
+                                        enable_reward_points_on_frontend: //select[@id="enterprise_reward_general_is_enabled_on_front"]
+                                        customer_may_see_reward_points_history: //select[@id="enterprise_reward_general_publish_history"]
+                                        reward_points_expiry_calculation: //select[@id="enterprise_reward_general_expiry_calculation"]
+                                        refund_reward_points_automatically: //select[@id="enterprise_reward_general_refund_automatically"]
+                                        landing_page: //select[@id="enterprise_reward_general_landing_page"]
                             -
                                 reward_reward_actions:
                                     xpath: //fieldset[@id='enterprise_reward_points']
                                     links:
                                         reward_reward_actions_link: //parent::div//a[@id='enterprise_reward_points-head']
+                                    fields:
+                                        registration: //input[@id="enterprise_reward_points_register"]
+                                        newsletter_signup: //input[@id="enterprise_reward_points_newsletter"]
+                                        converting_invitatio_to_customer: //input[@id="enterprise_reward_points_invitation_customer"]
+                                        invitation_to_customer_conversions_quantity_limit: //input[@id="enterprise_reward_points_invitation_customer_limit"]
+                                        converting_invitation_to_order: //input[@id="enterprise_reward_points_invitation_order"]
+                                        invitation_to_order_conversions_quantity_limit: //input[@id="enterprise_reward_points_invitation_order_limit"]
+                                        review_submission: //input[@id="enterprise_reward_points_review"]
+                                        rewarded_reviews_submission_quantity_limit: //input[@id="enterprise_reward_points_review_limit"]
+                                        new_tag_submission: //input[@id="enterprise_reward_points_tag"]
+                                        rewarded_tag_submission_quantity_limit: //input[@id="enterprise_reward_points_tag_limit"]
+                                    dropdowns:
+                                        purchase: //select[@id="enterprise_reward_points_order"]
+                                        invitation_conversion_to_order_reward: //select[@id="enterprise_reward_points_invitation_order_frequency"]
                             -
                                 reward_email:
                                     xpath: //fieldset[@id='enterprise_reward_notification']
                                     links:
                                         reward_email_link: //parent::div//a[@id='enterprise_reward_notification-head']
+                                    fields:
+                                        expiry_warning_before: //input[@id="enterprise_reward_notification_expiry_day_before"]
+                                    dropdowns:
+                                        email_sender: //select[@id="enterprise_reward_notification_email_sender"]
+                                        subscribe_customer_by_default: //select[@id="enterprise_reward_notification_subscribe_by_default"]
+                                        balance_update_email: //select[@id="enterprise_reward_notification_balance_update_template"]
+                                        reward_points_expiry_warning_email: //select[@id="enterprise_reward_notification_expiry_warning_template"]
                 -
-                    customer_promotions:
+                    customers_promotions:
                         xpath: //a[contains(@href, 'edit/section/promo')]
                         fieldsets:
                             -
@@ -130,11 +179,17 @@ system_configuration:
                                     xpath: //fieldset[@id='promo_enterprise_reminder']
                                     links:
                                         customer_automated_email_rule_link: //parent::div//a[@id='promo_enterprise_reminder-head']
-                            -
-                                auto_generated_specific_coupon_codes:
-                                    xpath: //fieldset[@id='promo_auto_generated_coupon_codes']
-                                    links:
-                                        customer_auto_generated_codes_link: //parent::div//a[@id='promo_auto_generated_coupon_codes-head']
+                                    dropdowns:
+                                        enable_reminder_emails: //select[@id="promo_enterprise_reminder_enabled"]
+                                        frequency: //select[@id="promo_enterprise_reminder_frequency"]
+                                        interval: //select[@id="promo_enterprise_reminder_interval"]
+                                        start_time_hour: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-hour"]
+                                        start_time_minute: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-minute"]
+                                        start_time_second: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-second"]
+                                        reminder_email_sender: //select[@id="promo_enterprise_reminder_identity"]
+                                    fields:
+                                        maximum_emails_per_run: //input[@id="promo_enterprise_reminder_limit"]
+                                        email_send_failure_threshold: //input[@id="promo_enterprise_reminder_threshold"]
                 -
                     customer_reward_points:
                         xpath: //a[contains(@href, '/edit/section/enterprise_reward/')]
@@ -163,42 +218,49 @@ system_configuration:
                                     xpath: //fieldset[@id='enterprise_giftregistry_general']
                                     links:
                                         gift_registry_general_link: //parent::div//a[@id='enterprise_giftregistry_general-head']
+                                    fields:
+                                        max_recipients_limit: //input[@id="enterprise_giftregistry_general_max_registrant"]
+                                    dropdowns:
+                                        enable_gift_registry: //select[@id="enterprise_giftregistry_general_enabled"]
                             -
                                 order_notification:
                                     xpath: //fieldset[@id='enterprise_giftregistry_owner_email']
                                     links:
                                         order_notification_link: //parent::div//a[@id='enterprise_giftregistry_owner_email-head']
+                                    dropdowns:
+                                        email_template: //select[@id="enterprise_giftregistry_owner_email_template"]
+                                        email_sender: //select[@id="enterprise_giftregistry_owner_email_identity"]
                             -
                                 gift_registry_sharing:
                                     xpath: //fieldset[@id='enterprise_giftregistry_sharing_email']
                                     links:
                                         gift_registry_sharing_link: //parent::div//a[@id='enterprise_giftregistry_sharing_email-head']
+                                    fields:
+                                        max_email_allowed_to_be_sent: //input[@id="enterprise_giftregistry_sharing_email_send_limit"]
+                                    dropdowns:
+                                        email_template: //select[@id="enterprise_giftregistry_sharing_email_template"]
+                                        email_sender: //select[@id="enterprise_giftregistry_sharing_email_identity"]
                             -
                                 gift_registry_update:
                                     xpath: //fieldset[@id='enterprise_giftregistry_update_email']
                                     links:
                                         gift_registry_update_link: //parent::div//a[@id='enterprise_giftregistry_update_email-head']
+                                    dropdowns:
+                                        email_template: //select[@id="enterprise_giftregistry_update_email_template"]
+                                        email_sender: //select[@id="enterprise_giftregistry_update_email_identity"]
                 -
                     customers_customer_configuration:
                         fieldsets:
                             -
-                                captcha:
-                                    fields:
-                                        captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']
-                            -
                                 customer_customer_segment:
                                     xpath: //fieldset[@id='customer_enterprise_customersegment']
-                                    links:
+                                    links:                
                                         customer_customer_segment_link: //parent::div//div[@id='customer_enterprise_customersegment-head']/a
                                     dropdowns:
                                         enable_customer_segment: //select[@id='customer_enterprise_customersegment_is_enabled']
                 -
                     sales_sales:
                         fieldsets:
-                            -
-                                general:
-                                    links:
-                                        general_link: //parent::div//a[@id='sales_general-head']
                             -
                                 gift_options:
                                     dropdowns:
@@ -228,6 +290,12 @@ system_configuration:
                                     xpath: //fieldset[@id='sales_enterprise_salesarchive']
                                     links:
                                         orders_invoices_shipments_archiving_link: //parent::div//a[@id='sales_enterprise_salesarchive-head']
+                                    dropdowns:
+                                        enable_archiving: //select[@id="sales_enterprise_salesarchive_active"]
+                                    fields:
+                                        archive_orders_purchased: //select[@id="sales_enterprise_salesarchive_age"]
+                                    multiselects:
+                                        order_statuses_to_be_archived: //select[@id="sales_enterprise_salesarchive_order_statuses"]
                             -
                                 rma_settings:
                                     xpath: //*[@id='sales_enterprise_rma']
@@ -237,46 +305,6 @@ system_configuration:
                                         use_store_address: //*[@id='sales_enterprise_rma_use_store_address']
                                     links:
                                         rma_settings_link: //parent::div//a[@id='sales_enterprise_rma-head']
-                -
-                    sales_pdf_print_outs:
-                        xpath: //a[contains(@href, 'edit/section/sales_pdf/')]
-                        fieldsets:
-                            -
-                                general:
-                                    xpath: //div/fieldset[legend='General']
-                                    links:
-                                        general_link: //a[text()='General']
-                                    dropdowns:
-                                        pdf_print_outs_enable: //select[@name='groups[general][fields][enable_printed_templates][value]']
-                            -
-                                invoice:
-                                    xpath: //div/fieldset[legend='Invoice']
-                                    links:
-                                        invoice_link: //a[text()='Invoice']
-                                    dropdowns:
-                                        invoice_display_order_id_in_header: //div/fieldset[legend='Invoice']//select[@name='groups[invoice][fields][put_order_id][value]' and contains(@class, 'select') and not(contains(@class, 'disabled'))]
-                                        invoice_display_order_id_in_header_disabled: //select[@name='groups[invoice][fields][put_order_id][value]' and @disabled]
-                                        invoice_printed_template: //select[@name='groups[invoice][fields][printed_template][value]']
-                            -
-                                shipment:
-                                    xpath: //div/fieldset[legend='Shipment']
-                                    links:
-                                        shipment_link: //a[text()='Shipment']
-                                    dropdowns:
-                                        shipment_display_order_id_in_header: //select[@name='groups[shipment][fields][put_order_id][value]' and contains(@class, 'select') and not(contains(@class, 'disabled'))]
-                                        shipment_display_order_id_in_header_disabled: //select[@name='groups[shipment][fields][put_order_id][value]' and @disabled]
-                                        shipment_printed_template: //select[@name='groups[shipment][fields][printed_template][value]']
-                            -
-                                credit_memo:
-                                    xpath: //div/fieldset[legend='Credit Memo']
-                                    links:
-                                        credit_memo_link: //a[text()='Credit Memo']
-                                    dropdowns:
-                                        credit_memo_display_order_id_in_header: //select[@name='groups[creditmemo][fields][put_order_id][value]']
-                                        credit_memo_display_order_id_in_header_disabled: //select[@name='groups[creditmemo][fields][put_order_id][value]' and @disabled]
-                                        credit_memo_printed_template: //select[@name='groups[creditmemo][fields][printed_template][value]']
-                                    checkboxes:
-                                        credit_memo_display_order_id_in_header_use_default: //input[@name='groups[creditmemo][fields][put_order_id][inherit]']
                 -
                     sales_tax:
                         fieldsets:
@@ -309,28 +337,45 @@ system_configuration:
                                     xpath:  //fieldset[@id='giftcard_email']
                                     links:
                                         gift_card_email_settings_link: //parent::div//a[@id='giftcard_email-head']
+                                    dropdowns:
+                                        gift_card_notifivation_email_sender: //select[@id="giftcard_email_identity"]
+                                        gift_card_notifivation_email_template: //select[@id="giftcard_email_template"]
                             -
                                 gift_card_general_settings:
                                     xpath: //fieldset[@id='giftcard_general']
                                     links:
                                         gift_card_general_settings_link: //parent::div//a[@id='giftcard_general-head']
+                                    dropdowns:
+                                        redeemable: //select[@id="giftcard_general_is_redeemable"]
+                                        allow_gift_message: //select[@id="giftcard_general_allow_message"]
+                                        generate_gift_card_account: //select[@id="giftcard_general_order_item_status"]
+                                    fields:
+                                        lifetime: //input[@id="giftcard_general_lifetime"]
+                                        gift_message_maximum_length: //input[@id="giftcard_general_message_max_length"]
                             -
                                 gift_card_email_sent:
                                     xpath: //fieldset[@id='giftcard_giftcardaccount_email']
                                     links:
                                         gift_card_email_sent_link: //parent::div//a[@id='giftcard_giftcardaccount_email-head']
+                                    dropdowns:
+                                        gift_card_email_sender: //select[@id="giftcard_giftcardaccount_email_identity"]
+                                        gift_card_template: //select[@id="giftcard_giftcardaccount_email_template"]
                             -
                                 gift_card_account:
                                     xpath: //fieldset[@id='giftcard_giftcardaccount_general']
                                     links:
                                         gift_card_account_link: //parent::div//a[@id='giftcard_giftcardaccount_general-head']
-                -
-                    sales_google_api:
-                        fieldsets:
-                            -
-                                google_shopping:
-                                    links:
-                                        google_shopping_link: //parent::div//a[@id='google_googleshopping-head']
+                                    fields:
+                                        code_length: //input[@id="giftcard_giftcardaccount_general_code_length"]
+                                        code_prefix: //input[@id="giftcard_giftcardaccount_general_code_prefix"]
+                                        code_suffix: //input[@id="giftcard_giftcardaccount_general_code_suffix"]
+                                        dash_evry_x_characters: //input[@id="giftcard_giftcardaccount_general_code_split"]
+                                        new_poll_size: //input[@id="giftcard_giftcardaccount_general_pool_size"]
+                                        low_code_poll_threshold: //input[@id="giftcard_giftcardaccount_general_pool_threshold"]
+                                    dropdowns:
+                                        code_format: //select[@id="giftcard_giftcardaccount_general_code_format"]
+                                    buttons:
+                                        generate_code_pool: //button[span='Generate']
                 -
                     sales_payment_methods:
                         fieldsets:
@@ -404,32 +449,53 @@ system_configuration:
                                     xpath: //fieldset[@id='sales_email_enterprise_rma']
                                     links:
                                         rma_sales_link: //parent::div//a[@id='sales_email_enterprise_rma-head']
+                                    dropdowns:
+                                        enable_sales_rma: //select[@id="sales_email_enterprise_rma_enabled"]
+                                        rma_email_sender: //select[@id="sales_email_enterprise_rma_identity"]
+                                        rma_email_template: //select[@id="sales_email_enterprise_rma_template"]
+                                        rma_email_template_for_guest: //select[@id="sales_email_enterprise_rma_guest_template"]
+                                        send_rma_email_copy_method: //select[@id="sales_email_enterprise_rma_copy_method"]
+                                    fields:
+                                        send_rma_email_copy_to: //input[@id="sales_email_enterprise_rma_copy_to"]
                             -
                                 rma_authorization:
                                     xpath: //fieldset[@id='sales_email_enterprise_rma_auth']
                                     links:
                                         rma_authorization_link: //parent::div//a[@id='sales_email_enterprise_rma_auth-head']
+                                    dropdowns:
+                                        enable_authorization_rma: //select[@id="sales_email_enterprise_rma_auth_enabled"]
+                                        rma_authorization_email_sender: //select[@id="sales_email_enterprise_rma_auth_identity"]
+                                        rma_authorization_email_template: //select[@id="sales_email_enterprise_rma_auth_template"]
+                                        rma_authorization_email_template_for_guest: //select[@id="sales_email_enterprise_rma_auth_guest_template"]
+                                        send_authorization_rma_email_copy_method: //select[@id="sales_email_enterprise_rma_auth_copy_method"]
+                                    fields:
+                                        send_authorization_rma_email_copy_to: //input[@id="sales_email_enterprise_rma_auth_copy_to"]
                             -
                                 rma_admin_comments:
                                     xpath: //fieldset[@id='sales_email_enterprise_rma_comment']
                                     links:
                                         rma_admin_comments_link: //parent::div//a[@id='sales_email_enterprise_rma_comment-head']
+                                    dropdowns:
+                                        enable_admin_comment_rma: //select[@id="sales_email_enterprise_rma_comment_enabled"]
+                                        rma_admin_commen_email_sender: //select[@id="sales_email_enterprise_rma_comment_identity"]
+                                        rma_admin_commen_email_template: //select[@id="sales_email_enterprise_rma_comment_template"]
+                                        rma_admin_commen_email_template_for_guest: //select[@id="sales_email_enterprise_rma_comment_guest_template"]
+                                        send_admin_commen_rma_email_copy_method: //select[@id="sales_email_enterprise_rma_comment_copy_method"]
+                                    fields:
+                                        send_admin_commen_rma_email_copy_to: //input[@id="sales_email_enterprise_rma_comment_copy_to"]
                             -
                                 rma_customer_comments:
                                     xpath: //fieldset[@id='sales_email_enterprise_rma_customer_comment']
                                     links:
                                         rma_customer_comments_link: //parent::div//a[@id='sales_email_enterprise_rma_customer_comment-head']
-                -
-                    advanced_developer:
-                        fieldsets:
-                            -
-                                image_processing_settings:
-                                    links:
-                                        image_processing_settings_link: //parent::div//a[@id='dev_image-head']
-                            -
-                                static_files_settings:
-                                    links:
-                                        static_files_settings_link: //parent::div//a[@id='dev_static-head']
+                                    dropdowns:
+                                        enable_customer_comment_rma: //select[@id="sales_email_enterprise_rma_customer_comment_enabled"]
+                                        rma_customer_comment_email_sender: //select[@id="sales_email_enterprise_rma_customer_comment_identity"]
+                                        rma_customer_comment_email_template: //select[@id="sales_email_enterprise_rma_customer_comment_recipient"]
+                                        rma_customer_comment_email_template_for_guest: //select[@id="sales_email_enterprise_rma_customer_comment_template"]
+                                        send_customer_comment_rma_email_copy_method: //select[@id="sales_email_enterprise_rma_customer_comment_copy_method"]
+                                    fields:
+                                        send_customer_comment_rma_email_copy_to: //input[@id="sales_email_enterprise_rma_customer_comment_copy_to"]
                 -
                     advanced_admin:
                         fieldsets:
@@ -437,6 +503,10 @@ system_configuration:
                                 security:
                                     fields:
                                         maximum_login_failures: //input[@name="groups[security][fields][lockout_failures][value]"]
+                                        lockout_time: //input[@id="admin_security_lockout_threshold"]
+                                        password_lifetime: //input[@id="admin_security_password_lifetime"]
+                                    dropdowns:
+                                        password_change: //select[@id="admin_security_password_is_forced"]
                 -
                     advanced_system:
                         fieldsets:
@@ -445,26 +515,121 @@ system_configuration:
                                     xpath: //fieldset[@id='system_rotation']
                                     links:
                                         admin_actions_log_archiving_link: //parent::div//a[@id='system_rotation-head']
-                            -
-                                scheduled_backup_settings:
-                                    xpath: //fieldset[@id='system_backup']
-                                    links:
-                                        scheduled_backup_settings_link: //parent::div//a[@id='system_backup-head']
+                                    fields:
+                                        log_entry_lifetime: //input[@id="system_rotation_lifetime"]
+                                    dropdowns:
+                                        log_archiving_frequency: //select[@id="system_rotation_frequency"]
                             -
                                 full_page_cache_settings:
                                     xpath: //fieldset[@id='system_page_cache']
                                     links:
                                         full_page_cache_settings_link: //parent::div//a[@id='system_page_cache-head']
+                                    fields:
+                                        max_allow_page_depth: //input[@id="system_page_cache_allowed_depth"]
+                                        max_cache_size: //input[@id="system_page_cache_max_cache_size"]
+                                    dropdowns:
+                                        enable_cache_for_non_default_currencies: //select[@id="system_page_cache_multicurrency"]
                             -
                                 full_page_cache_auto_generator:
                                     xpath: //fieldset[@id='system_page_crawl']
                                     links:
                                         full_page_cache_auto_generator_link: //parent::div//a[@id='system_page_crawl-head']
+                                    dropdowns:
+                                        enable_page_cache_auto_enerator: //select[@id="system_page_crawl_enable"]
+                                        generate_page_cache_for_not_default_currencies: //select[@id="system_page_crawl_multicurrency"]
+                                    fields:
+                                        crawler_thread_number: //input[@id="system_page_crawl_threads"]
                             -
                                 scheduled_import_export:
                                     xpath: //fieldset[@id='system_enterprise_import_export_log']
                                     links:
                                         scheduled_import_export_link: //parent::div//a[@id='system_enterprise_import_export_log-head']
+                                    fields:
+                                        save_files_days: //input[@id="system_enterprise_import_export_log_save_days"]
+                                        error_email_recipient: //input[@id="system_enterprise_import_export_log_error_email"]
+                                    dropdowns:
+                                        enable_scheduled_file_history_cleaning: //select[@id="system_enterprise_import_export_log_enabled"]
+                                        start_time_hour: //select[@data-ui-id="time-groups-enterprise-import-export-log-fields-time-value-hour"]
+                                        start_time_minute: //select[@data-ui-id="time-groups-enterprise-import-export-log-fields-time-value-minute"]
+                                        start_time_second: //select[@data-ui-id="time-groups-enterprise-import-export-log-fields-time-value-second"]
+                                        frequency: //select[@id="system_enterprise_import_export_log_frequency"]
+                                        error_email_sender: //select[@id="system_enterprise_import_export_log_error_email_identity"]
+                                        error_email_template: //select[@id="system_enterprise_import_export_log_error_email_template"]
+                                    buttons:
+                                        clean_now: //button[span='Clean Now']
+                -
+                    advanced_advanced:
+                        fieldsets:
+                            -
+                                disable_modules_output:
+                                    dropdowns:
+                                        enterprise_admingws: //select[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][value]']
+                                        enterprise_banner: //select[@name='groups[modules_disable_output][fields][Enterprise_Banner][value]']
+                                        enterprise_catalogevent: //select[@name='groups[modules_disable_output][fields][Enterprise_CatalogEvent][value]']
+                                        enterprise_catalogpermissions: //select[@name='groups[modules_disable_output][fields][Enterprise_CatalogPermissions][value]']
+                                        enterprise_checkout: //select[@name='groups[modules_disable_output][fields][Enterprise_Checkout][value]']
+                                        enterprise_cms: //select[@name='groups[modules_disable_output][fields][Enterprise_Cms][value]']
+                                        enterprise_customer: //select[@name='groups[modules_disable_output][fields][Enterprise_Customer][value]']
+                                        enterprise_customerbalance: //select[@name='groups[modules_disable_output][fields][Enterprise_CustomerBalance][value]']
+                                        enterprise_customersegment: //select[@name='groups[modules_disable_output][fields][Enterprise_CustomerSegment][value]']
+                                        enterprise_eav: //select[@name='groups[modules_disable_output][fields][Enterprise_Eav][value]']
+                                        enterprise_enterprise: //select[@name='groups[modules_disable_output][fields][Enterprise_Enterprise][value]']
+                                        enterprise_giftcard: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftCard][value]']
+                                        enterprise_giftcardaccount: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftCardAccount][value]']
+                                        enterprise_giftregistry: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftRegistry][value]']
+                                        enterprise_giftwrapping: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftWrapping][value]']
+                                        enterprise_importexport: //select[@name='groups[modules_disable_output][fields][Enterprise_ImportExport][value]']
+                                        enterprise_invitation: //select[@name='groups[modules_disable_output][fields][Enterprise_Invitation][value]']
+                                        enterprise_license: //select[@name='groups[modules_disable_output][fields][Enterprise_License][value]']
+                                        enterprise_logging: //select[@name='groups[modules_disable_output][fields][Enterprise_Logging][value]']
+                                        enterprise_pagecache: //select[@name='groups[modules_disable_output][fields][Enterprise_PageCache][value]']
+                                        enterprise_pbridge: //select[@name='groups[modules_disable_output][fields][Enterprise_Pbridge][value]']
+                                        enterprise_pci: //select[@name='groups[modules_disable_output][fields][Enterprise_Pci][value]']
+                                        enterprise_persistent: //select[@name='groups[modules_disable_output][fields][Enterprise_Persistent][value]']
+                                        enterprise_pricepermissions: //select[@name='groups[modules_disable_output][fields][Enterprise_PricePermissions][value]']
+                                        enterprise_promotionpermissions: //select[@name='groups[modules_disable_output][fields][Enterprise_PromotionPermissions][value]']
+                                        enterprise_reminder: //select[@name='groups[modules_disable_output][fields][Enterprise_Reminder][value]']
+                                        enterprise_reward: //select[@name='groups[modules_disable_output][fields][Enterprise_Reward][value]']
+                                        enterprise_rma: //select[@name='groups[modules_disable_output][fields][Enterprise_Rma][value]']
+                                        enterprise_salesarchive: //select[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][value]']
+                                        enterprise_search: //select[@name='groups[modules_disable_output][fields][Enterprise_Search][value]']
+                                        enterprise_targetrule: //select[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][value]']
+                                        enterprise_websiterestriction: //select[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][value]']
+                                        enterprise_wishlist: //select[@id='Enterprise_Wishlist']
+                                    checkboxes:
+                                        enterprise_admingws_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][inherit]']
+                                        enterprise_banner_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Banner][inherit]']
+                                        enterprise_catalogevent_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CatalogEvent][inherit]']
+                                        enterprise_catalogpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CatalogPermissions][inherit]']
+                                        enterprise_checkout_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Checkout][inherit]']
+                                        enterprise_cms_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Cms][inherit]']
+                                        enterprise_customer_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Customer][inherit]']
+                                        enterprise_customerbalance_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CustomerBalance][inherit]']
+                                        enterprise_customersegment_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CustomerSegment][inherit]']
+                                        enterprise_eav_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Eav][inherit]']
+                                        enterprise_enterprise_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Enterprise][inherit]']
+                                        enterprise_giftcard_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftCard][inherit]']
+                                        enterprise_giftcardaccount_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftCardAccount][inherit]']
+                                        enterprise_giftregistry_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftRegistry][inherit]']
+                                        enterprise_giftwrapping_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftWrapping][inherit]']
+                                        enterprise_importexport_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_ImportExport][inherit]']
+                                        enterprise_invitation_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Invitation][inherit]']
+                                        enterprise_license_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_License][inherit]']
+                                        enterprise_logging_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Logging][inherit]']
+                                        enterprise_pagecache_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_PageCache][inherit]']
+                                        enterprise_pbridge_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Pbridge][inherit]']
+                                        enterprise_pci_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Pci][inherit]']
+                                        enterprise_persistent_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Persistent][inherit]']
+                                        enterprise_pricepermissions_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_PricePermissions][inherit]']
+                                        enterprise_promotionpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_PromotionPermissions][inherit]']
+                                        enterprise_reminder_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Reminder][inherit]']
+                                        enterprise_reward_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Reward][inherit]']
+                                        enterprise_rma_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Rma][inherit]']
+                                        enterprise_salesarchive_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][inherit]']
+                                        enterprise_search_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Search][inherit]']
+                                        enterprise_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][inherit]']
+                                        enterprise_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][inherit]']
+                                        enterprise_wishlist_use_default: //input[@id='Enterprise_Wishlist_inherit']
 
 system_configuration_tabs:
     uimap: *system_configuration_uimap

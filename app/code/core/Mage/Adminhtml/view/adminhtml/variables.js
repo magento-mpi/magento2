@@ -31,13 +31,13 @@ var Variables = {
 
     openVariableChooser: function(variables) {
         if (this.variablesContent == null && variables) {
-            this.variablesContent = '<ul>';
+            this.variablesContent = '<ul class="insert-variable">';
             variables.each(function(variableGroup) {
                 if (variableGroup.label && variableGroup.value) {
                     this.variablesContent += '<li><b>' + variableGroup.label + '</b></li>';
                     (variableGroup.value).each(function(variable){
                         if (variable.value && variable.label) {
-                            this.variablesContent += '<li style="padding-left: 20px;">' +
+                            this.variablesContent += '<li>' +
                                 this.prepareVariableRow(variable.value, variable.label) + '</li>';
                         }
                     }.bind(this));

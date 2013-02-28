@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
             ->setUrl(
                 Mage::getModel('Mage_Backend_Model_Url')
                     ->addSessionParam()
-                    ->getUrl('*/catalog_product_gallery/upload')
+                    ->getUrl('adminhtml/catalog_product_gallery/upload')
             )
             ->setFileField('image')
             ->setFilters(array(

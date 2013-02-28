@@ -125,7 +125,8 @@ HTML;
     protected function _getSelectorOptions()
     {
         return array(
-            'source' => Mage::helper('Mage_Backend_Helper_Data')->getUrl('*/catalog_category/suggestCategories'),
+            'source' => Mage::helper('Mage_Backend_Helper_Data')
+                ->getUrl('adminhtml/catalog_category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'template' => '#' . $this->getHtmlId() . '-template',
             'control' => 'jstree',

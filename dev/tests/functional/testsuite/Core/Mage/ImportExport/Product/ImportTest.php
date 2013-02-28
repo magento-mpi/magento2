@@ -194,7 +194,7 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->openTab('custom_options');
+        $this->productHelper()->openProductTab('custom_options');
         $this->assertEquals(0, $this->getControlCount('fieldset', 'custom_option_set'),
             'Custom options were not deleted');
     }

@@ -20,16 +20,24 @@ edit_customer:
                             -
                                 sales_statistics:
                                     pageelements:
-                                        sales_statistics_head: //div/div[div/h4[@class='icon-head head-customer-sales-statistics']]/div[@class='grid']/table/thead
-                                        reward_points_head: //div[@id='customer_info_tabs_customer_edit_tab_view_content']//div[@id='rewardPointsBalanceGrid']/div[@class='grid']//thead
-                                        store_credit_head: //div[@id='balanceGrid']/div[@class='grid']//thead
+                                        sales_statistics_head: //div[@class='grid']//table//thead
+                            -
+                                reward_points:
+                                    xpath: //*[@id='customer_info_tabs_customer_edit_tab_view_content']
+                                    pageelements:
+                                        reward_points_head: //div[@id='rewardPointsBalanceGrid']//div[@class='grid']//thead
+                            -
+                                store_credit_balance:
+                                    xpath: //*[@id='customer_info_tabs_customer_edit_tab_view_content']
+                                    pageelements:
+                                        store_credit_head: //div[@id='balanceGrid']//table[@id='balanceGrid_table']//thead
                 -
                     store_credit:
                         xpath: //a[@id='customer_info_tabs_customerbalance']
                         fieldsets:
                             -
                                 update_store_balance:
-                                    xpath: //div[@id='_customerbalancestorecreidt_fieldset']
+                                    xpath: //fieldset[@id='_customerbalancestorecreidt_fieldset']
                                     dropdowns:
                                         website: //select[@id='_customerbalancewebsite_id']
                                         store: //select[@id='_customerbalancestore_id']
@@ -43,13 +51,13 @@ edit_customer:
                                     xpath: //div[@id='customer_info_tabs_customerbalance_content']//div[@id='balanceGrid']
                                     fields:
                                         current_balance: //table[@id='balanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
-                                    pageelements:
-                                        store_credit_balance_head: //div[@class='grid']//thead
                             -
                                 balance_history:
                                     xpath: //div[@id='historyGrid']
                                     dropdowns:
                                        filter_website: //select[@id='historyGrid_filter_website_id']
+                        pageelements:
+                            store_credit_balance_head: //div[@id='Store_Credit']//div[@id='balanceGrid']//div[@class='grid']//thead
                 -
                     gift_regystry:
                         xpath: //a[@id='customer_info_tabs_giftregistry']
@@ -65,7 +73,7 @@ edit_customer:
                         fieldsets:
                             -
                                 update_reward_balance:
-                                    xpath: //div[@id='reward_update_fieldset']
+                                    xpath: //fieldset[@id='reward_update_fieldset']
                                     fields:
                                         update_balance: //input[@id='reward_points_delta']
                                         comment: //input[@id='reward_comment']
@@ -77,8 +85,6 @@ edit_customer:
                                     fields:
                                         current_balance: //table[@id='rewardPointsBalanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[2]
                                         balance_is_present: //table[@id='rewardPointsBalanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
-                                    pageelements:
-                                        reward_points_balance_head: //div[@class='grid']//thead
                             -
                                 reward_points_history:
                                     xpath: //dl[dt/a='Reward Points History']
@@ -88,6 +94,8 @@ edit_customer:
                                         filter_website: //select[@id='rewardPointsHistoryGrid_filter_website']
                                     links:
                                         reward_points_history_link: //a[contains(.,'Reward Points History')]
+                        pageelements:
+                            reward_points_balance_head: //div[@id='customer_info_tabs_customer_edit_tab_reward_content']//div[@id='rewardPointsBalanceGrid']//div[@class='grid']//thead
         buttons:
             manage_shopping_cart: //button[span='Manage Shopping Cart']
 
@@ -232,7 +240,7 @@ new_gift_card_account:
                         fieldsets:
                             -
                                 gift_card_information:
-                                    xpath: //div[@id='_infobase_fieldset']
+                                    xpath:  //fieldset[@id='_infobase_fieldset']
                                     dropdowns:
                                         active: //select[@id='_infostatus']
                                         redeemable: //select[@id='_infois_redeemable']
@@ -247,7 +255,7 @@ new_gift_card_account:
                         fieldsets:
                             -
                                 send_gift_card:
-                                    xpath: //div[@id='_sendbase_fieldset']
+                                    xpath: //fieldset[@id='_sendbase_fieldset']
                                     fields:
                                         recipient_email: //input[@id='_sendrecipient_email=']
                                         recipient_name: //input[@id='_sendrecipient_name']
@@ -297,7 +305,7 @@ new_reward_rate:
             fieldsets:
                 -
                     reward_rate_properties:
-                        xpath: //div[@id='base_fieldset']
+                        xpath: //fieldset[@id='base_fieldset']
                         dropdowns:
                             website: //select[@id='website_id']
                             customer_groups: //select[@id='customer_group_id']

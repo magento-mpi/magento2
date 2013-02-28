@@ -156,6 +156,7 @@
                             <filter>0</filter>
                             <sortable>1</sortable>
                             <column_css_class>associated-product-id</column_css_class>
+                            <renderer>Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id</renderer>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">

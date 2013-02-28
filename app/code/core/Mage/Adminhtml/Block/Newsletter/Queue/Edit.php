@@ -70,12 +70,12 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
         $this->addChild('preview_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Preview Template'),
             'onclick'   => 'queueControl.preview();',
-            'class'     => 'task'
+            'class'     => 'preview'
         ));
 
         $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save Newsletter'),
-            'class'     => 'save',
+            'class'     => 'save primary',
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array('event' => 'save', 'target' => '#queue_edit_form'),
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit extends Mage_Adminhtml_Block_Te
             'label'   => Mage::helper('Mage_Newsletter_Helper_Data')->__('Back'),
             'onclick' => "window.location.href = '" . $this->getUrl((
                 $this->getTemplateId() ? '*/newsletter_template/' : '*/*')) . "'",
-            'class'   => 'back'
+            'class'   => 'action-back'
         ));
 
         return parent::_prepareLayout();

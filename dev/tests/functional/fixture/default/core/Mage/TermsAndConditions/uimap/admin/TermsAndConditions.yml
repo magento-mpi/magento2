@@ -11,7 +11,7 @@
 #Sales Terms and Conditions page
 manage_sales_checkout_terms_conditions:
     mca: checkout_agreement/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'checkout_agreement/')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, 'checkout_agreement/')]
     title: Terms and Conditions / Sales / Magento Admin
     uimap:
         form: &salesCheckoutTermsConditions
@@ -51,7 +51,7 @@ create_condition:
             fieldsets:
                 -
                     sales_new_condition:
-                        xpath: //fieldset[@id='base_fieldset']
+                        xpath: //*[@id='base_fieldset']
                         fields:
                             condition_name: //input[@name='name']
                             checkbox_text: //textarea[@name='checkbox_text']

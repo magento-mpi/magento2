@@ -92,7 +92,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         return array('user'   => array('email' => $userData['email'], 'password' => $userData['password']),
-                     'product'=> array('name' => $simple['general_name'], 'price' => $simple['prices_price']),
+                     'product'=> array('name' => $simple['general_name'], 'price' => $simple['general_price']),
                      'catName'=> $category['name']);
     }
 

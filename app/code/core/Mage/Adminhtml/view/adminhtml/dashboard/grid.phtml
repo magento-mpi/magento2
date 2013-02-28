@@ -13,11 +13,13 @@
 $numColumns = sizeof($this->getColumns());
 ?>
 <?php if($this->getCollection()): ?>
-<div class="grid np">
-<table cellspacing="0" style="border:0;" id="<?php echo $this->getId() ?>_table">
-    <?php foreach ($this->getColumns() as $_column): ?>
+<div class="grid">
+<table cellspacing="0" id="<?php echo $this->getId() ?>_table">
+    <?php
+    /* This part is commented to remove all <col> tags from the code. */
+    /* foreach ($this->getColumns() as $_column): ?>
     <col <?php echo $_column->getHtmlProperty() ?> />
-    <?php endforeach; ?>
+    <?php endforeach; */ ?>
     <?php if ($this->getHeadersVisibility() || $this->getFilterVisibility()): ?>
         <thead>
             <?php if ($this->getHeadersVisibility()): ?>

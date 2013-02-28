@@ -42,7 +42,7 @@ class Goext_Mage_Unitprice_GeneralConiguration_DisplayUnitPriceOnProductPageTest
             'Product', 'simple_product_with_param_for_configurable',
             array(
                 'general_name' => '%randomize% simple_product_for_order',
-                'prices_price' => '100',
+                'general_price' => '100',
             )
         );
 

@@ -47,7 +47,8 @@
                         <arguments>
                             <header translate='true' module='Mage_Newsletter'>ID</header>
                             <index>queue_id</index>
-                            <width>10px</width>
+                            <header_css_class>col-id</header_css_class>
+                            <column_css_class>col-id</column_css_class>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='start_at'>
@@ -57,6 +58,8 @@
                             <index>queue_start_at</index>
                             <gmtoffset>1</gmtoffset>
                             <default> ---- </default>
+                            <header_css_class>col-start</header_css_class>
+                            <column_css_class>col-start</column_css_class>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='finish_at'>
@@ -66,12 +69,16 @@
                             <index>queue_finish_at</index>
                             <gmtoffset>1</gmtoffset>
                             <default> ---- </default>
+                            <header_css_class>col-finish</header_css_class>
+                            <column_css_class>col-finish</column_css_class>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='newsletter_subject'>
                         <arguments>
                             <header translate='true' module='Mage_Newsletter'>Subject</header>
                             <index>newsletter_subject</index>
+                            <header_css_class>col-subject</header_css_class>
+                            <column_css_class>col-subject</column_css_class>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='status'>
@@ -80,7 +87,8 @@
                             <index>queue_status</index>
                             <type>options</type>
                             <options type='options'>Mage_Newsletter_Model_Queue_Options_Status</options>
-                            <width>100px</width>
+                            <header_css_class>col-status</header_css_class>
+                            <column_css_class>col-status</column_css_class>
                         </arguments>
                     </block>
 
@@ -90,6 +98,8 @@
                             <header translate='true' module='Mage_Newsletter'>Processed</header>
                             <type>number</type>
                             <index>subscribers_sent</index>
+                            <header_css_class>col-processed</header_css_class>
+                            <column_css_class>col-processed</column_css_class>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='subscribers_total'>
@@ -97,6 +107,8 @@
                             <header translate='true' module='Mage_Newsletter'>Recipients</header>
                             <type>number</type>
                             <index>subscribers_total</index>
+                            <header_css_class>col-recipients</header_css_class>
+                            <column_css_class>col-recipients</column_css_class>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='action'>
@@ -105,8 +117,9 @@
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <no_link>1</no_link>
-                            <width>100px</width>
                             <renderer>Mage_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action</renderer>
+                            <header_css_class>col-actions</header_css_class>
+                            <column_css_class>col-actions</column_css_class>
                         </arguments>
                     </block>
                 </block>

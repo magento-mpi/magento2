@@ -64,37 +64,38 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
                             <header translate="true" module="Mage_Tag">ID</header>
-                            <width>50px</width>
-                            <align>right</align>
                             <index>entity_id</index>
+                            <column_css_class>col-id</column_css_class>
+                            <header_css_class>col-id</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true" module="Mage_Tag">Product Name</header>
                             <index>name</index>
+                            <column_css_class>col-product</column_css_class>
+                            <header_css_class>col-product</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="utaged">
                         <arguments>
                             <header translate="true" module="Mage_Tag">Number of Unique Tags</header>
-                            <width>50px</width>
-                            <align>right</align>
                             <index>utaged</index>
+                            <column_css_class>col-unique-numbers</column_css_class>
+                            <header_css_class>col-unique-numbers</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="taged">
                         <arguments>
                             <header translate="true" module="Mage_Tag">Number of Total Tags</header>
-                            <width>50px</width>
-                            <align>right</align>
                             <index>taged</index>
+                            <column_css_class>col-total-numbers</column_css_class>
+                            <header_css_class>col-total-numbers</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <header translate="true" module="Mage_Tag">Action</header>
-                            <width>100%</width>
                             <type>action</type>
                             <getter>getId</getter>
                             <index>stores</index>
@@ -110,6 +111,8 @@
                                     <field>id</field>
                                 </show_tag>
                             </actions>
+                            <column_css_class>col-actions</column_css_class>
+                            <header_css_class>col-actions</header_css_class>
                         </arguments>
                     </block>
                 </block>
@@ -244,34 +247,37 @@
                         <arguments>
                             <header translate="true" module="Mage_Tag">ID</header>
                             <index>entity_id</index>
-                            <align>right</align>
-                            <width>50px</width>
+                            <column_css_class>col-id</column_css_class>
+                            <header_css_class>col-id</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="firstname">
                         <arguments>
                             <header translate="true" module="Mage_Tag">First Name</header>
                             <index>firstname</index>
+                            <column_css_class>col-first-name</column_css_class>
+                            <header_css_class>col-first-name</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="lastname">
                         <arguments>
                             <header translate="true" module="Mage_Tag">Last Name</header>
                             <index>lastname</index>
+                            <column_css_class>col-last-name</column_css_class>
+                            <header_css_class>col-last-name</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="taged">
                         <arguments>
                             <header translate="true" module="Mage_Tag">Total Tags</header>
                             <index>taged</index>
-                            <width>50px</width>
-                            <align>right</align>
+                            <column_css_class>col-qty</column_css_class>
+                            <header_css_class>col-qty</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <header translate="true" module="Mage_Tag">Action</header>
-                            <width>100%</width>
                             <type>action</type>
                             <getter>getId</getter>
                             <index>stores</index>
@@ -287,6 +293,8 @@
                                     <field>id</field>
                                 </show_tag>
                             </actions>
+                            <column_css_class>col-actions</column_css_class>
+                            <header_css_class>col-actions</header_css_class>
                         </arguments>
                     </block>
                 </block>
