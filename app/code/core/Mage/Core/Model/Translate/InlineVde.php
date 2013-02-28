@@ -111,35 +111,51 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
     <script type="text/javascript" src="<?php echo $design->getViewFileUrl('mage/translate-inline-vde.js') ?>"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('mage/translate-inline-vde.css') ?>"/>
 
+    <script id="translate-inline-dialog-form-template" type="text/x-jQuery-tmpl">
+        <form id="${data.id}">
+            {{each(i, item) data.items}}
+                <input id="perstore_${i}" name="translate[${i}][perstore]" type="hidden" value="0"/>
+                <input name="translate[${i}][original]" type="hidden" value="${item.scope}::${escape(item.original)}"/>
+                <input id="custom_${i}" name="translate[${i}][custom]" value="${escape(item.translated)}" data-translate-input="true"/>
+            {{/each}}
+        </form>
+    </script>
+
+    <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+      <img src="${img}" height="16" width="16">
+    </script>
+
+    <div id="translate-dialog"></div>
+
     <script type="text/javascript">
-        (function($) {
-            $(window).load(function() {
-                $('body').addClass('trnslate-inline-area');
+        (function($){
+           $(window).load(function() {
+               $('body').addClass('trnslate-inline-area');
 
-                $('body').translateInlineDialogVde({
-                    onSubmitComplete: function() {
-                        $('body').addClass('trnslate-inline-area');
-                        $('[data-translate]').translateInlineIconVde('show');
-                    },
-
-                    onCancel: function() {
-                        $('body').addClass('trnslate-inline-area');
-                        $('[data-translate]').translateInlineIconVde('show');
-                    }
-                });
-
-                $('[data-translate]').translateInlineIconVde({
-                    img: '<?php echo $trigImg ?>',
+               $('body').translateInlineDialogVde({
                     ajaxUrl: '<?php echo $ajaxUrl ?>',
                     area: '<?php echo Mage::getDesign()->getArea() ?>',
-                    onClick: function(element) {
-                        $('body').removeClass('trnslate-inline-area');
-                        $('[data-translate]').translateInlineIconVde('hide');
-                        $('body').translateInlineDialogVde('open', element);
-                    },
-                });
-            });
-        })(jQuery);
+                   onSubmitComplete: function() {
+                      $('body').addClass('trnslate-inline-area');
+                      $('[data-translate]').translateInlineIconVde('show');
+                   },
+
+                   onCancel: function() {
+                      $('body').addClass('trnslate-inline-area');
+                      $('[data-translate]').translateInlineIconVde('show');
+                   }
+               });
+
+               $('[data-translate]').translateInlineIconVde({
+                   img: '<?php echo $trigImg ?>',
+                   onClick: function(element) {
+                       $('body').removeClass('trnslate-inline-area');
+                       $('[data-translate]').translateInlineIconVde('hide');
+                       $('body').translateInlineDialogVde('open', element);
+                   },
+               });
+             });
+           })(jQuery);
     </script>
     <?php
         $html = ob_get_clean();
