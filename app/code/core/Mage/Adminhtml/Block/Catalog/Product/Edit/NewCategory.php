@@ -46,6 +46,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
     }
 
     /**
+     * Category save action URL
+     *
+     * @return string
+     */
+    public function getSaveCategoryUrl()
+    {
+        return $this->getUrl('adminhtml/catalog_category/save');
+    }
+
+    /**
      * Attach new category dialog widget initialization
      *
      * @return string
@@ -57,14 +67,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
         $widgetUrl = $coreHelper->jsonEncode($this->getViewFileUrl('Mage_Catalog::js/new-category-dialog.js'));
         $widgetOptions = $coreHelper->jsonEncode(array(
             'suggestOptions' => array(
-                'source' => $this->getUrl('*/catalog_category/suggestCategories'),
+                'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
                 'valueField' => '#new_category_parent',
                 'template' => '#category_ids-template',
                 'control' => 'jstree',
                 'multiselect' => true,
                 'className' => 'category-select',
             ),
-            'saveCategoryUrl' => $this->getUrl('*/catalog_category/save'),
+            'saveCategoryUrl' => $this->getUrl('adminhtml/catalog_category/save'),
         ));
         return <<<HTML
 <script>

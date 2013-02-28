@@ -118,7 +118,6 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 ->save();
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
-                'error' => false,
                 'error_message' => '',
                 'tax_calculation_rate_id' => $rate->getId(),
                 'code' => $rate->getCode(),
@@ -126,7 +125,6 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         } catch (Mage_Core_Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => $e->getMessage(),
                 'tax_calculation_rate_id' => '',
                 'code' => '',
@@ -134,7 +132,6 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__('There was an error saving tax rate.'),
                 'tax_calculation_rate_id' => '',
                 'code' => '',
@@ -247,19 +244,16 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             $rate->delete();
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
-                'error' => false,
                 'error_message' => ''
             ));
         } catch (Mage_Core_Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => $e->getMessage()
             ));
         } catch (Exception $e) {
             $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error' => true,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this tax rate.')
             ));
         }
@@ -328,7 +322,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         if ($this->getRequest()->isPost() && !empty($_FILES['import_rates_file']['tmp_name'])) {
             try {
-                $this->_importRates();
+                /** @var $importHandler Mage_Tax_Model_Rate_CsvImportHandler */
+                $importHandler = $this->_objectManager->create('Mage_Tax_Model_Rate_CsvImportHandler');
+                $importHandler->importFromCsvFile($this->getRequest()->getFiles('import_rates_file'));
 
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been imported.'));
             } catch (Mage_Core_Exception $e) {
@@ -340,124 +336,6 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
         }
         $this->_redirectReferer();
-    }
-
-    protected function _importRates()
-    {
-        $fileName   = $_FILES['import_rates_file']['tmp_name'];
-        $csvObject  = new Varien_File_Csv();
-        $csvData = $csvObject->getData($fileName);
-
-        /** checks columns */
-        $csvFields  = array(
-            0   => Mage::helper('Mage_Tax_Helper_Data')->__('Code'),
-            1   => Mage::helper('Mage_Tax_Helper_Data')->__('Country'),
-            2   => Mage::helper('Mage_Tax_Helper_Data')->__('State'),
-            3   => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post Code'),
-            4   => Mage::helper('Mage_Tax_Helper_Data')->__('Rate'),
-            5   => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post is Range'),
-            6   => Mage::helper('Mage_Tax_Helper_Data')->__('Range From'),
-            7   => Mage::helper('Mage_Tax_Helper_Data')->__('Range To')
-        );
-
-
-        $stores = array();
-        $unset = array();
-        $storeCollection = Mage::getModel('Mage_Core_Model_Store')->getCollection()->setLoadDefault(false);
-        $cvsFieldsNum = count($csvFields);
-        $cvsDataNum   = count($csvData[0]);
-        for ($i = $cvsFieldsNum; $i < $cvsDataNum; $i++) {
-            $header = $csvData[0][$i];
-            $found = false;
-            foreach ($storeCollection as $store) {
-                if ($header == $store->getCode()) {
-                    $csvFields[$i] = $store->getCode();
-                    $stores[$i] = $store->getId();
-                    $found = true;
-                }
-            }
-            if (!$found) {
-                $unset[] = $i;
-            }
-
-        }
-
-        $regions = array();
-
-        if ($unset) {
-            foreach ($unset as $u) {
-                unset($csvData[0][$u]);
-            }
-        }
-        if ($csvData[0] == $csvFields) {
-            /** @var $helper Mage_Adminhtml_Helper_Data */
-            $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
-
-            foreach ($csvData as $k => $v) {
-                if ($k == 0) {
-                    continue;
-                }
-
-                //end of file has more then one empty lines
-                if (count($v) <= 1 && !strlen($v[0])) {
-                    continue;
-                }
-                if ($unset) {
-                    foreach ($unset as $u) {
-                        unset($v[$u]);
-                    }
-                }
-
-                if (count($csvFields) != count($v)) {
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
-                }
-
-                $country = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($v[1], 'iso2_code');
-                if (!$country->getId()) {
-                    Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('One of the country has invalid code.'));
-                    continue;
-                }
-
-                if (!isset($regions[$v[1]])) {
-                    $regions[$v[1]]['*'] = '*';
-                    $regionCollection = Mage::getModel('Mage_Directory_Model_Region')->getCollection()
-                        ->addCountryFilter($v[1]);
-                    if ($regionCollection->getSize()) {
-                        foreach ($regionCollection as $region) {
-                            $regions[$v[1]][$region->getCode()] = $region->getRegionId();
-                        }
-                    }
-                }
-
-                if (!empty($regions[$v[1]][$v[2]])) {
-                    $rateData  = array(
-                        'code'           => $v[0],
-                        'tax_country_id' => $v[1],
-                        'tax_region_id'  => ($regions[$v[1]][$v[2]] == '*') ? 0 : $regions[$v[1]][$v[2]],
-                        'tax_postcode'   => (empty($v[3]) || $v[3]=='*') ? null : $v[3],
-                        'rate'           => $v[4],
-                        'zip_is_range'   => $v[5],
-                        'zip_from'       => $v[6],
-                        'zip_to'         => $v[7]
-                    );
-
-                    $rateModel = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->loadByCode($rateData['code']);
-                    foreach($rateData as $dataName => $dataValue) {
-                        $rateModel->setData($dataName, $dataValue);
-                    }
-
-                    $titles = array();
-                    foreach ($stores as $field=>$id) {
-                        $titles[$id] = $v[$field];
-                    }
-
-                    $rateModel->setTitle($titles);
-                    $rateModel->save();
-                }
-            }
-        } else {
-            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file format upload attempt'));
-        }
     }
 
     /**

@@ -51,6 +51,7 @@
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
+ * @method Core_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper                                                                       tagsHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
@@ -1413,6 +1414,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         foreach ($areasConfig as $area => $areaConfig) {
             $areaUrl =
                 preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url']));
+            //@TODO Fix for StoreLauncher tests
+            $areaUrl = preg_replace('#backend/(backend|admin)/$#', 'backend/', $areaUrl);
             if (strpos($currentUrl, $areaUrl) === 0) {
                 $possibleAreas[$area] = $areaUrl;
             }
@@ -1647,8 +1650,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $currentUrl = preg_replace('|^www\.|', '',
             preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl)));
 
+        //@TODO Fix for StoreLauncher tests
+        $baseUrl = preg_replace('#backend/(backend|admin)/$#', 'backend/', $baseUrl);
+        $currentUrl = preg_replace('#backend/(backend|admin)/#', 'backend/', $currentUrl);
         if (strpos($currentUrl, $baseUrl) !== false) {
-            $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
+            $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\#");
         }
 
         if ($mca && $mca[0] != '/') {
@@ -2648,6 +2654,42 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Waits for the element(s) to be invisible
+     *
+     * @param string|array $locator XPath locator or array of locator's
+     * @param int $timeout Timeout period in seconds (by default = null)
+     *
+     * @return bool
+     */
+    public function waitForElementInvisible($locator, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeout;
+        }
+        if (is_array($locator)) {
+            $locator = self::combineLocatorsToOne($locator);
+        }
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+            /**
+             * @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement
+             */
+            $availableElements = $this->getElements($locator, false);
+            foreach ($availableElements as $availableElement) {
+                try {
+                    if (!$availableElement->displayed()) {
+                        return true;
+                    }
+                } catch (RuntimeException $e) {
+                }
+            }
+            usleep(500000);
+        }
+        $this->assertEmptyPageErrors();
+        return false;
+    }
+
+    /**
      * Wait for control is visible
      *
      * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
@@ -3426,6 +3468,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $fieldValue = array_map('trim', $fieldValue);
         $generalElement = $this->getElement($locator);
+        $generalElement->click();
         //Get all available options
         /* @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
         $existValues = array();
@@ -3566,6 +3609,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($this->alertIsPresent()) {
             $this->fail($this->alertText());
         }
+        $this->waitForAjax();
         $this->assertEmpty($this->getChildElements($generalElement, $labelLocator, false), 'Option is not deleted');
     }
 

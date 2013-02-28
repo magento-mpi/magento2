@@ -37,6 +37,13 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
     protected $_calculationModel    = null;
 
     /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'tax_rule';
+
+    /**
      * Helper
      *
      * @var Mage_Tax_Helper_Data

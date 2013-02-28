@@ -548,4 +548,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         return $vdeUrlModel->getUrl(ltrim($url, '/'));
     }
+
+    /**
+     * Simple Theme preview
+     */
+    public function previewAction()
+    {
+        $this->launchAction();
+    }
 }

@@ -260,6 +260,21 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
+     * Return frontend theme collection by page. Theme customizations are not included, only phisical themes.
+     *
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function getAllThemes()
+    {
+        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
+        $collection = $this->_themeFactory->create()->getCollection();
+        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
+            ->addFilter('theme_path', 'theme_path IS NOT NULL', 'string');
+        return $collection;
+    }
+
+
+    /**
      * Return theme customizations which are assigned to store views
      *
      * @see self::_prepareThemeCustomizations()
@@ -285,6 +300,17 @@ class Mage_Core_Model_Theme_Service
             $this->_prepareThemeCustomizations();
         }
         return $this->_unassignedThemeCustomizations;
+    }
+
+    /**
+     * Get theme by id
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme
+     */
+    public function getThemeById($themeId)
+    {
+        return $this->_themeFactory->create()->load($themeId);
     }
 
     /**

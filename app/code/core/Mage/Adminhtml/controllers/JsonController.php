@@ -27,17 +27,18 @@ class Mage_Adminhtml_JsonController extends Mage_Adminhtml_Controller_Action
         $arrRes = array();
 
         $countryId = $this->getRequest()->getParam('parent');
-        $arrRegions = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection')
-            ->addCountryFilter($countryId)
-            ->load()
-            ->toOptionArray();
+        if (!empty($countryId)) {
+            $arrRegions = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection')
+                ->addCountryFilter($countryId)
+                ->load()
+                ->toOptionArray();
 
-        if (!empty($arrRegions)) {
-            foreach ($arrRegions as $region) {
-                $arrRes[] = $region;
+            if (!empty($arrRegions)) {
+                foreach ($arrRegions as $region) {
+                    $arrRes[] = $region;
+                }
             }
         }
-
         $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($arrRes));
     }
 }

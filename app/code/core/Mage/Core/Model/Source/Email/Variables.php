@@ -81,8 +81,28 @@ class Mage_Core_Model_Source_Email_Variables
                 'label' => Mage::helper('Mage_Core_Helper_Data')->__('Store Contact Telephone')
             ),
             array(
-                'value' => 'general/store_information/address',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Store Contact Address')
+                'value' => 'general/store_information/country_id',
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Country')
+            ),
+            array(
+                'value' => 'general/store_information/region_id',
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Region/State')
+            ),
+            array(
+                'value' => 'general/store_information/postcode',
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Zip/Postal Code')
+            ),
+            array(
+                'value' => 'general/store_information/city',
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('City')
+            ),
+            array(
+                'value' => 'general/store_information/street_line1',
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Street Address 1')
+            ),
+            array(
+                'value' => 'general/store_information/street_line2',
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Street Address 2')
             )
         );
     }

@@ -19,7 +19,7 @@
 class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     const FORM_ELEMENT_ID = 'rate-form';
-    
+
     protected $_titles = null;
 
     protected $_template = 'tax/rate/form.phtml';
@@ -89,13 +89,10 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             'values' => $regions
         ));
 
-        $fieldset->addField('zip_is_range', 'select', array(
+        $fieldset->addField('zip_is_range', 'checkbox', array(
             'name'    => 'zip_is_range',
             'label'   => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post is Range'),
-            'options' => array(
-                '0' => Mage::helper('Mage_Tax_Helper_Data')->__('No'),
-                '1' => Mage::helper('Mage_Tax_Helper_Data')->__('Yes'),
-            )
+            'value'   => '1'
         ));
 
         if (!$rateObject->hasTaxPostcode()) {
@@ -113,7 +110,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Range From'),
             'required'  => true,
             'maxlength' => 9,
-            'class'     => 'validate-digits'
+            'class'     => 'validate-digits',
+            'css_class'     => 'hidden',
         ));
 
         $fieldset->addField('zip_to', 'text', array(
@@ -121,7 +119,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Range To'),
             'required'  => true,
             'maxlength' => 9,
-            'class'     => 'validate-digits'
+            'class'     => 'validate-digits',
+            'css_class'     => 'hidden',
         ));
 
         $fieldset->addField('rate', 'text', array(
@@ -132,7 +131,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             'class'    => 'validate-not-negative-number'
         ));
 
-        $form->setAction($this->getUrl('*/tax_rate/save'));
+        $form->setAction($this->getUrl('adminhtml/tax_rate/save'));
         $form->setUseContainer(true);
         $form->setId(self::FORM_ELEMENT_ID);
         $form->setMethod('post');
@@ -151,18 +150,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         }
         $form->setValues($rateData);
         $this->setForm($form);
-
-        $this->setChild(
-            'form_after',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Element_Dependence')
-                ->addFieldMap('zip_is_range', 'zip_is_range')
-                ->addFieldMap('tax_postcode', 'tax_postcode')
-                ->addFieldMap('zip_from', 'zip_from')
-                ->addFieldMap('zip_to', 'zip_to')
-                ->addFieldDependence('zip_from', 'zip_is_range', '1')
-                ->addFieldDependence('zip_to', 'zip_is_range', '1')
-                ->addFieldDependence('tax_postcode', 'zip_is_range', '0')
-        );
 
         return parent::_prepareForm();
     }
