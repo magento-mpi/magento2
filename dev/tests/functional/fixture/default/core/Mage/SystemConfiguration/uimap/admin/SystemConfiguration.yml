@@ -1109,7 +1109,7 @@ system_configuration:
                                 customer_captcha:
                                       xpath: //fieldset[@id='customer_captcha']
                                       links:
-                                          customer_captcha_link: //parent::div//a[@id='customer_captcha-head']
+                                          customer_captcha_link: //parent::div//div[@id='customer_captcha-head']
                                       dropdowns:
                                           captcha_enable_frontend: //select[@id='customer_captcha_enable']
                                           captcha_font: //select[@id='customer_captcha_font']
@@ -3447,7 +3447,7 @@ system_configuration:
                                 captcha_admin:
                                     xpath: //fieldset[@id='admin_captcha']
                                     links:
-                                        captcha_admin_link: //parent::div//a[@id='admin_captcha-head']
+                                        captcha_admin_link: //parent::div//div[@id='admin_captcha-head']
                                     dropdowns:
                                         captcha_enable_admin: //select[@id='admin_captcha_enable']
                                         captcha_font: //select[@id='admin_captcha_font']
