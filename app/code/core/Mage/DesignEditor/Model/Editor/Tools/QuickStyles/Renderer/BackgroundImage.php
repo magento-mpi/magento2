@@ -25,6 +25,6 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage
      */
     protected function _render($data)
     {
-        return "{$data['selector']} { {$data['attribute']}: url({$data['value']}); }";
+        return "{$data['selector']} { {$data['attribute']}: url('{$data['value']}'); }";
     }
 }

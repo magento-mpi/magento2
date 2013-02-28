@@ -65,7 +65,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException(sprintf('Theme "%s" was not found.', $themeId));
+                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
             /** @todo replace register */
             Mage::register('theme', $theme);
@@ -131,15 +131,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-
-            echo __FILE__.':'.__LINE__;
-            echo '<pre>';
-            var_dump($e->getMessage());
-            var_dump($e->getTraceAsString());
-            echo '</pre>';
-            exit;
-
-
             $this->_getSession()->addException($e, $this->__('Unknown error'));
             $this->_redirect('*/*/');
             return;

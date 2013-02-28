@@ -20,6 +20,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_RendererTest
      */
     public function testRender($expectedResult, $data)
     {
+        /** @var $rendererModel Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer */
         $rendererModel = $this->getMock(
             'Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer', null, array(), '', false
         );
@@ -43,6 +44,9 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_RendererTest
         $this->assertEquals($expectedResult, $rendererModel->render($data));
     }
 
+    /**
+     * @return array
+     */
     public function sampleData()
     {
         return array(array(
@@ -55,7 +59,8 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_RendererTest
                             'type'      => 'color-picker',
                             'default'   => 'transparent',
                             'selector'  => '.header',
-                            'attribute' => 'background-color'
+                            'attribute' => 'background-color',
+                            'value'     => '#FFFFFF'
                         ),
                         'header-background:background-uploader' => array(
                             'type'       => 'background-uploader',
@@ -65,6 +70,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_RendererTest
                                     'default'   => 'bg.gif',
                                     'selector'  => '.header',
                                     'attribute' => 'background-image',
+                                    'value'     => '../image.jpg'
                                 ),
                                 'header-background:tile' => array(
                                     'type'      => 'checkbox',
@@ -72,6 +78,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_RendererTest
                                     'options'   => array('no-repeat', 'repeat', 'repeat-x', 'repeat-y', 'inherit'),
                                     'selector'  => '.header',
                                     'attribute' => 'background-repeat',
+                                    'value'     => 'checked'
                                 ),
                             )
                         ),
@@ -82,6 +89,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_RendererTest
                     'default'   => '#f8f8f8',
                     'selector'  => '.menu',
                     'attribute' => 'color',
+                    'value'     => '#000000'
                 ),
         )));
     }

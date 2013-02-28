@@ -21,6 +21,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImageT
      */
     public function testToCss($expectedResult, $data)
     {
+        /** @var $rendererModel Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage */
         $rendererModel = $this->getMock(
             'Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage', null, array(), '', false
         );
@@ -28,10 +29,13 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImageT
         $this->assertEquals($expectedResult, $rendererModel->toCss($data));
     }
 
+    /**
+     * @return array
+     */
     public function backgroundImageData()
     {
         return array(array(
-            'expected_result' => ".header { background-image: url( 'path/image.gif' ); }",
+            'expected_result' => ".header { background-image: url('path/image.gif'); }",
             'data'            => array(
                 'type'      => 'image-uploader',
                 'default'   => 'bg.gif',
