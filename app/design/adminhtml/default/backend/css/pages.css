@@ -900,6 +900,18 @@
 }
 
 /*
+    CMS -> Static Blocks
+-------------------------------------- */
+
+#buttonsblock_content.buttons-set {
+    margin-bottom: 9px;
+}
+
+#buttonsblock_content.buttons-set button {
+    margin-right: 4px;
+}
+
+/*
     Reports
 -------------------------------------- */
 .reports-title .page-actions {
