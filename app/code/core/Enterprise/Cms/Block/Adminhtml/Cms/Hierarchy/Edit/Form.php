@@ -406,7 +406,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'cancel_node_button',
             'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
-            'class'     => 'delete'
+            'class'     => 'cancel'
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
             'id'        => 'save_node_button',
