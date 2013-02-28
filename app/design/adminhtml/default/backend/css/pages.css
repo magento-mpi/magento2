@@ -837,6 +837,55 @@
 }
 
 /*
+    CMS -> Manage Hierarchy
+-------------------------------------- */
+
+.cms-hierarchy .cms-scope {
+    float: right;
+    margin-right: 25px;
+    position: relative;
+    top: 2px;
+}
+
+.cms-hierarchy #tree-container {
+    margin: 5px 0 10px 0;
+}
+
+.cms-hierarchy .buttons-set {
+    margin-bottom: 10px;
+}
+
+.cms-hierarchy #cms_page_grid_container .actions {
+    position: relative;
+    top: 4px;
+}
+
+.cms-hierarchy .cms-hierarchy-tree {
+    width: 48.93617020799999%;
+    float: left;
+    margin: 10px 0 8px 0;
+}
+
+.cms-hierarchy .cms-hierarchy-node {
+    width: 48.93617020799999%;
+    float: left;
+    margin: 10px 0 8px 2.127659574%;
+}
+
+.cms-hierarchy #cms_page_grid_container {
+    clear: both;
+}
+
+.cms-hierarchy .switcher {
+    position: relative;
+    top: 10px;
+}
+
+.cms-hierarchy .switcher label {
+    margin-right: 8px;
+}
+
+/*
     Reports
 -------------------------------------- */
 .reports-title .page-actions {
