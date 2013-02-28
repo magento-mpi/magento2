@@ -75,8 +75,10 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
                         'type'       => 'test-control',
                         'components' => array (
                             'image-uploader' => array (
-                                'type' => 'logo-uploader',
-                                'var'  => 'Mage_DesignEditor::test_var_key3',
+                                'type'      => 'logo-uploader',
+                                'selector'  => '.test-logo-1',
+                                'attribute' => 'background-image',
+                                'var'       => 'Mage_DesignEditor::test_var_key3',
                             )
                         )
                     )
@@ -84,6 +86,8 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
             )),
             array('logo-uploader', array(
                 'type'         => 'logo-uploader',
+                'selector'     => '.test-logo-2',
+                'attribute'    => 'background-image',
                 'layoutParams' => array('title' => 'Logo Uploader', 'column' => 'center'),
                 'var'          => 'Mage_DesignEditor::test_var_key4',
             )),

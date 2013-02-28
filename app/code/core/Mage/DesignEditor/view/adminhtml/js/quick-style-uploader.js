@@ -15,14 +15,12 @@
             dataType: 'json',
             replaceFileInput:  true,
             sequentialUploads: true,
+            hide_uploader:     true,
             url:               null,
             remove_url:        null,
             uploader_id:       null,
             value:             null,
             container:         null,
-            event:             null,
-            tile_container:    null,
-            hide_uploader:     true,
 
             /**
              * Add file
@@ -73,7 +71,7 @@
         _remove: function (event) {
             $.ajax({
                 type: 'POST',
-                url:  this.options.remove_url,
+                url: this.options.remove_url,
                 data: { file_name: this.options.value, element: this.options.uploader_id },
                 dataType: 'json',
                 success: $.proxy(function(response) {
@@ -104,30 +102,45 @@
          * @protected
          */
         _refreshControls: function () {
+            this.options.value ? this._displayUploadedFile() : this._displayUploader();
             this.element.trigger('refreshIframe');
-            if (this.options.value) {
-                $(this._prepareId(this.options.uploader_id + '-image')).remove();
-                var removeId = 'remove-button-' + Math.floor(Math.random() * 999);
-                var progressTmpl = $(this._prepareId(this.options.uploader_id + '-template')).clone();
-                progressTmpl.attr('id', this.options.uploader_id + '-image');
-                var fileInfoHtml = progressTmpl.html().replace('{{name}}', this.options.value)
-                    .replace('{{remove-id}}', removeId);
-                progressTmpl.html(fileInfoHtml) ;
-                progressTmpl.removeClass('no-display');
-                progressTmpl.appendTo(this._prepareId(this.options.container));
+        },
 
-                if (this.options.remove_url) {
-                    $('#' + removeId).click($.proxy(this._remove, this));
-                }
-                if (this.options.hide_uploader == true) {
-                    $(this._prepareId(this.options.uploader_id + '-container')).addClass('no-display');
-                }
-                $(this._prepareId(this.options.uploader_id + '-tile-container')).removeClass('no-display');
-                $(this).trigger(this.options.event);
-            } else {
-                $(this._prepareId(this.options.uploader_id + '-container')).removeClass('no-display');
-                $(this._prepareId(this.options.uploader_id + '-tile-container')).addClass('no-display');
+        /**
+         * Display uploader
+         * @protected
+         */
+        _displayUploader: function() {
+            $(this._prepareId(this.options.uploader_id + '-container')).removeClass('no-display');
+            $(this._prepareId(this.options.uploader_id + '-tile-container')).addClass('no-display');
+        },
+
+        /**
+         * Display uploaded file
+         * @protected
+         */
+        _displayUploadedFile: function() {
+            $(this._prepareId(this.options.uploader_id + '-image')).remove();
+            var removeId = 'remove-button-' + Math.floor(Math.random() * 999);
+
+            var fileTemplate = $(this._prepareId(this.options.uploader_id + '-template')).clone();
+            fileTemplate.attr('id', this.options.uploader_id + '-image');
+
+            var fileInfoHtml = fileTemplate.html().replace('{{name}}', this.options.value)
+                .replace('{{remove-id}}', removeId);
+
+            fileTemplate.html(fileInfoHtml) ;
+            fileTemplate.removeClass('no-display');
+            fileTemplate.appendTo(this._prepareId(this.options.container));
+
+            if (this.options.remove_url) {
+                $('#' + removeId).click($.proxy(this._remove, this));
             }
+
+            if (this.options.hide_uploader == true) {
+                $(this._prepareId(this.options.uploader_id + '-container')).addClass('no-display');
+            }
+            $(this._prepareId(this.options.uploader_id + '-tile-container')).removeClass('no-display');
         },
 
         /**

@@ -14,6 +14,11 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader
 {
+    /**
+     * Logo uploader templates
+     *
+     * @var array
+     */
     protected $_templates = array(
         'Mage_DesignEditor::editor/form/renderer/element/input.phtml',
         'Mage_DesignEditor::editor/form/renderer/logo-uploader.phtml',
@@ -53,7 +58,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
         /**
          * @todo Temporary solution.
          * Discuss logo uploader with PO and remove this method.
-         * Logo should assigned to store view level, but not theme.
+         * Logo should assigned on store view level, but not theme.
          */
         $stores = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Service')->getStoresByThemes();
         if (isset($stores[Mage::registry('theme')->getId()])) {
