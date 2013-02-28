@@ -27,11 +27,11 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Core_Model_Config $applicationConfig
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      */
-    public function __construct(Mage_Core_Model_Config $applicationConfig, Mage_Core_Model_Translate $translator)
+    public function __construct(Mage_Core_Model_Config $applicationConfig, Mage_Core_Helper_Context $context)
     {
-        parent::__construct($translator);
+        parent::__construct($context);
         $this->_config = $applicationConfig;
     }
 

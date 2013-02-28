@@ -29,19 +29,12 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->_model = $this->getMockBuilder('Mage_Core_Model_Email_Template')
             ->setMethods(array('_getMail'))
             ->setConstructorArgs(array(
-                $this->getMockBuilder('Mage_Core_Model_Event_Manager')->disableOriginalConstructor()->getMock(),
-                $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock(),
+                Mage::getSingleton('Mage_Core_Model_Context'),
                 Mage::getObjectManager()->create('Magento_Filesystem')
             ))
             ->getMock();
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
         $this->_model->setSenderName('sender')->setSenderEmail('sender@example.com')->setTemplateSubject('Subject');
-    }
-
-    protected function tearDown()
-    {
-        $this->_model = null;
-        $this->_mail = null;
     }
 
     /**

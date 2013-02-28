@@ -38,7 +38,9 @@ class Enterprise_Cms_Adminhtml_Cms_Hierarchy_WidgetController extends Mage_Admin
     protected function _getTreeBlock()
     {
         return $this->getLayout()->createBlock('Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser', '', array(
-            'id' => $this->getRequest()->getParam('uniq_id')
+            'data' => array(
+                'id' => $this->getRequest()->getParam('uniq_id')
+            )
         ));
     }
 }

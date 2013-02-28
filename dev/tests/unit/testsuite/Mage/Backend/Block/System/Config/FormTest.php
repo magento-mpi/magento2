@@ -126,7 +126,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         );
 
         $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_object = $helper->getBlock('Mage_Backend_Block_System_Config_Form', $data);
+        $this->_object = $helper->getObject('Mage_Backend_Block_System_Config_Form', $data);
         $this->_object->setData('scope_id', 1);
     }
 

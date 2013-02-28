@@ -40,17 +40,19 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attrCode = $attrData['attribute_code'];
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-                                                   array('General' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['attribute_code']));
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
         $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
-                                       array('downloadable_links_purchased_separately' => 'No'));
+            array('downloadable_links_purchased_separately' => 'No'));
         $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', null,
-                                     array('add_product_1' => $simple['general_sku'],
-                                           'add_product_2' => $virtual['general_sku']));
+            array(
+                'add_product_1' => $simple['general_sku'],
+                'add_product_2' => $virtual['general_sku']
+            ));
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order', null,
             array(
                 'general_attribute_1' => $attrData['admin_title'],
@@ -58,12 +60,13 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                 'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
                 'var1_attr_value3' => $attrData['option_3']['admin_option_name']
-            )
-        );
+            ));
         $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', null,
-                                      array('associated_1' => $simple['general_sku'],
-                                            'associated_2' => $virtual['general_sku'],
-                                            'associated_3' => $download['general_sku']));
+            array(
+                'associated_1' => $simple['general_sku'],
+                'associated_2' => $virtual['general_sku'],
+                'associated_3' => $download['general_sku']
+            ));
         //Steps and Verification
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);

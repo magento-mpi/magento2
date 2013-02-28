@@ -77,7 +77,7 @@ oauth_admin_token:
 # Design: Design page
 system_design:
     mca: system_design/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design/')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, 'system_design/')]
     title: Design / System / Magento Admin
     uimap:
         form:
@@ -110,9 +110,9 @@ new_system_design:
             fieldsets:
                 -
                     general_settings:
-                        xpath: //div[@id='general']
+                        xpath: //fieldset[@id='general']
                         dropdowns:
-                            store: //select[@name='design[store_id]']
+                            store: //*[@id='store_id'][not(@type='hidden')]
 
 # Design: Visual Design Editor page
 system_design_editor:

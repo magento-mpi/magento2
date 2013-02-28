@@ -12,7 +12,7 @@
 /**
  * Tests for block Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest
  */
-class Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends Mage_Backend_Area_TestCase
 {
     /**
      * List of expected fieldsets in import edit form
@@ -31,6 +31,8 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_Fra
      */
     public static function setUpBeforeClass()
     {
+        parent::setUpBeforeClass();
+
         $uniqueBehaviors = Mage_ImportExport_Model_Import::getUniqueEntityBehaviors();
         foreach (array_keys($uniqueBehaviors) as $behavior) {
             self::$_expectedFieldsets[] = $behavior . '_fieldset';

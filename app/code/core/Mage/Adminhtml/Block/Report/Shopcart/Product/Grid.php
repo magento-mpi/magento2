@@ -38,40 +38,46 @@ class Mage_Adminhtml_Block_Report_Shopcart_Product_Grid extends Mage_Adminhtml_B
     {
         $this->addColumn('entity_id', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
-            'width'     =>'50px',
             'align'     =>'right',
-            'index'     =>'entity_id'
+            'index'     =>'entity_id',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('name', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product Name'),
-            'index'     =>'name'
+            'index'     =>'name',
+            'header_css_class'  => 'col-product',
+            'column_css_class'  => 'col-product'
         ));
 
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('price', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Price'),
-            'width'     =>'80px',
             'type'      =>'currency',
             'currency_code' => $currencyCode,
             'index'     =>'price',
             'renderer'  =>'Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
             'rate'          => $this->getRate($currencyCode),
+            'header_css_class'  => 'col-price',
+            'column_css_class'  => 'col-price'
         ));
 
         $this->addColumn('carts', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Carts'),
-            'width'     =>'80px',
             'align'     =>'right',
-            'index'     =>'carts'
+            'index'     =>'carts',
+            'header_css_class'  => 'col-carts',
+            'column_css_class'  => 'col-carts'
         ));
 
         $this->addColumn('orders', array(
             'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Orders'),
-            'width'     =>'80px',
             'align'     =>'right',
-            'index'     =>'orders'
+            'index'     =>'orders',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         $this->setFilterVisibility(false);

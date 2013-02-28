@@ -168,17 +168,13 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         return array(
             array(array('general_name' => '%noValue%'), 'field'),
-            array(array('general_description' => '%noValue%'), 'field'),
-            array(array('general_short_description' => '%noValue%'), 'field'),
             array(array('general_sku_type' => '-- Select --'), 'dropdown'),
             array(array('general_sku' => ''), 'field'),
             array(array('general_weight_type' => '-- Select --'), 'dropdown'),
             array(array('general_weight' => '%noValue%'), 'field'),
-            array(array('general_status' => '%noValue%'), 'dropdown'),
-            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
-            array(array('prices_price_type' => '-- Select --'), 'dropdown'),
-            array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
+            array(array('general_price_type' => '-- Select --'), 'dropdown'),
+            array(array('general_price' => '%noValue%'), 'field'),
+            array(array('general_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 
@@ -195,7 +191,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
                   'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'general_short_description' => $this->generate('string', 32, ':punct:'),
+                  'autosettings_short_description' => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -222,7 +218,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
                   'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                  'autosettings_short_description' => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:'),
                   'general_weight'            => 99999999.9999));
         $productSearch =
@@ -288,11 +284,11 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function invalidPriceInBundle($invalidPrice)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'fixed_bundle_required', array('prices_price' => $invalidPrice));
+        $productData = $this->loadDataSet('Product', 'fixed_bundle_required', array('general_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->addFieldIdToMessage('field', 'general_price');
         $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }

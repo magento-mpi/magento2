@@ -12,7 +12,7 @@
 # 'Manage Customer Groups' page
 manage_customer_groups:
     mca: customer_group/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/customer_group/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/customer_group/')]
     title: Customer Groups / Customers / Magento Admin
     uimap:
         form: &searchCustomerGroupsGrid

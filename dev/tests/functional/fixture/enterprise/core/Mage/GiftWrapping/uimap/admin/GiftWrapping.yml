@@ -58,7 +58,7 @@ add_gift_wrapping:
             fieldsets:
                 -
                     gift_wrapping_info: &giftWrappingInfo
-                        xpath: //div[@id='base_fieldset']
+                        xpath: //fieldset[@id='base_fieldset']
                         buttons:
                             upload_file: //button[span='Upload File']
                         dropdowns:

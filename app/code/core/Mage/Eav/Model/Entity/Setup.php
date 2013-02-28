@@ -584,6 +584,26 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         return $this->getConnection()->fetchOne($select, $bind);
     }
 
+    /**
+     * Get number of all attributes in group
+     *
+     * @param int|string $entityTypeId
+     * @param int|string $setId
+     * @param int|string $groupId
+     *
+     * @return string
+     */
+    public function getAttributesNumberInGroup($entityTypeId, $setId, $groupId)
+    {
+        $select = $this->_conn->select()
+            ->from($this->getTable('eav_entity_attribute'), array('count' => 'COUNT(*)'))
+            ->where('attribute_group_id = ?', $this->getAttributeGroupId($entityTypeId, $setId, $groupId))
+            ->where('entity_type_id = ?', $entityTypeId)
+            ->where('attribute_set_id = ?', $setId);
+
+        return $this->_conn->fetchOne($select);
+    }
+
 /******************* ATTRIBUTES *****************/
 
     /**

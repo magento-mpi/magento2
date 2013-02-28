@@ -41,12 +41,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
         if ($group) {
             $form = new Varien_Data_Form();
             $product = Mage::registry('product');
+            $isWrapped = Mage::registry('use_wrapper');
+            if (!isset($isWrapped)) {
+                $isWrapped = true;
+            }
+            $isCollapsable = $isWrapped;
+            $legend = $isWrapped ? Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()) : null;
             // Initialize product object as form property to use it during elements generation
             $form->setDataObject($product);
 
             $fieldset = $form->addFieldset('group_fields' . $group->getId(), array(
-                'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
-                'collapsable' => true
+                'legend' => $legend,
+                'collapsable' => $isCollapsable
             ));
 
             $attributes = $this->getGroupAttributes();
@@ -84,6 +90,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             // Add new attribute button if it is not an image tab
             if (!$form->getElement('media_gallery')
                 && Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::attributes_attributes')
+                && $isWrapped
             ) {
                 $headerBar = $this->getLayout()
                     ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create');

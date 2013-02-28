@@ -8,9 +8,10 @@
  * @license     {license_link}
  */
 
-
 /**
- * Enter description here ...
+ * @category    Mage
+ * @package     Mage_Eav
+ * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method Mage_Eav_Model_Resource_Entity_Attribute_Group _getResource()
  * @method Mage_Eav_Model_Resource_Entity_Attribute_Group getResource()
@@ -22,10 +23,10 @@
  * @method Mage_Eav_Model_Entity_Attribute_Group setSortOrder(int $value)
  * @method int getDefaultId()
  * @method Mage_Eav_Model_Entity_Attribute_Group setDefaultId(int $value)
- *
- * @category    Mage
- * @package     Mage_Eav
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method string getAttributeGroupCode()
+ * @method Mage_Eav_Model_Entity_Attribute_Group setAttributeGroupCode(string $value)
+ * @method string getTabGroupCode()
+ * @method Mage_Eav_Model_Entity_Attribute_Group setTabGroupCode(string $value)
  */
 class Mage_Eav_Model_Entity_Attribute_Group extends Mage_Core_Model_Abstract
 {
@@ -55,5 +56,21 @@ class Mage_Eav_Model_Entity_Attribute_Group extends Mage_Core_Model_Abstract
     public function deleteGroups()
     {
         return $this->_getResource()->deleteGroups($this);
+    }
+
+    /**
+     * Processing object before save data
+     *
+     * @return Mage_Eav_Model_Entity_Attribute_Group
+     */
+    protected function _beforeSave()
+    {
+        if (!$this->getAttributeGroupCode()) {
+            $groupName = $this->getAttributeGroupName();
+            if ($groupName) {
+                $this->setAttributeGroupCode(trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($groupName)), '-'));
+            }
+        }
+        return parent::_beforeSave();
     }
 }

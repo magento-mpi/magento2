@@ -51,6 +51,7 @@
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
+ * @method Core_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper                                                                       tagsHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
@@ -1413,6 +1414,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         foreach ($areasConfig as $area => $areaConfig) {
             $areaUrl =
                 preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url']));
+            //@TODO Fix for StoreLauncher tests
+            $areaUrl = preg_replace('#backend/(backend|admin)/$#', 'backend/', $areaUrl);
             if (strpos($currentUrl, $areaUrl) === 0) {
                 $possibleAreas[$area] = $areaUrl;
             }
@@ -1647,8 +1650,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $currentUrl = preg_replace('|^www\.|', '',
             preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl)));
 
+        //@TODO Fix for StoreLauncher tests
+        $baseUrl = preg_replace('#backend/(backend|admin)/$#', 'backend/', $baseUrl);
+        $currentUrl = preg_replace('#backend/(backend|admin)/#', 'backend/', $currentUrl);
         if (strpos($currentUrl, $baseUrl) !== false) {
-            $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\");
+            $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\#");
         }
 
         if ($mca && $mca[0] != '/') {
@@ -2333,6 +2339,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param string $fieldsetName
+     * @return bool
+     */
+    public function isFieldsetExpanded($fieldsetName)
+    {
+        $fieldsetClass = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, $fieldsetName, 'class');
+        return strpos($fieldsetClass, 'opened') !== false || strpos($fieldsetClass, 'active') !== false;
+    }
+
+    /**
      * Open tab
      *
      * @param string $tabName tab id from uimap
@@ -2385,11 +2401,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getTableHeadRowNames($tableLocator = '//table[@id]')
     {
-        $locator = $tableLocator . "//tr[normalize-space(@class)='headings']";
-        if (!$this->elementIsPresent($locator)) {
-            $this->fail('Incorrect table head xpath: ' . $locator);
+        $headElements = $this->getElements($tableLocator . "//thead/tr");
+        list($headElement) = $headElements;
+        if (count($headElements) > 1) {
+            foreach ($headElements as $element) {
+                if ($element->attribute('class') == 'headings') {
+                    $headElement = $element;
+                    break;
+                }
+            }
         }
-        $headNames = $this->getElementsValue($locator . '/th', 'text');
+        $headNames = array();
+        foreach ($this->getChildElements($headElement, 'th') as $element) {
+            $headNames[] = $element->text();
+        }
 
         return array_diff($headNames, array(''));
     }
@@ -2626,6 +2651,42 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
+    }
+
+    /**
+     * Waits for the element(s) to be invisible
+     *
+     * @param string|array $locator XPath locator or array of locator's
+     * @param int $timeout Timeout period in seconds (by default = null)
+     *
+     * @return bool
+     */
+    public function waitForElementInvisible($locator, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeout;
+        }
+        if (is_array($locator)) {
+            $locator = self::combineLocatorsToOne($locator);
+        }
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+            /**
+             * @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement
+             */
+            $availableElements = $this->getElements($locator, false);
+            foreach ($availableElements as $availableElement) {
+                try {
+                    if (!$availableElement->displayed()) {
+                        return true;
+                    }
+                } catch (RuntimeException $e) {
+                }
+            }
+            usleep(500000);
+        }
+        $this->assertEmptyPageErrors();
+        return false;
     }
 
     /**
@@ -3186,6 +3247,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                         $resultFlag = false;
                     }
                     break;
+                case self::FIELD_TYPE_COMPOSITE_MULTISELECT:
+                    $result = $this->verifyCompositeMultiselect($formFieldName, array($formField['value']));
+                    $resultFlag = ($result) ? $resultFlag : false;
+                    break;
                 case self::FIELD_TYPE_PAGEELEMENT:
                     $actualValue = trim($availableElement->text());
                     if ($actualValue != $formField['value']) {
@@ -3392,8 +3457,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $fieldName
      * @param string|array $fieldValue
      * @param null|string $locator
-     *
-     * @throws RuntimeException
      */
     public function fillCompositeMultiselect($fieldName, $fieldValue, $locator = null)
     {
@@ -3405,6 +3468,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $fieldValue = array_map('trim', $fieldValue);
         $generalElement = $this->getElement($locator);
+        $generalElement->click();
         //Get all available options
         /* @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
         $existValues = array();
@@ -3430,30 +3494,58 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         //Add new Options
         if ($isNeedAdd) {
-            $saveValueWithoutForm = "//span[@title='Add']";
-            $newButtonLocator = '//footer/span';
-            $newValueLocator = "//input[@title='Enter new option']";
-            //Define filling in type
-            $this->getChildElement($generalElement, $newButtonLocator)->click();
-            $newValueField = $this->elementIsPresent($locator . $newValueLocator);
-            //Add new options
-            if ($newValueField && $newValueField->enabled() && $newValueField->displayed()) {
-                //by field
-                foreach ($isNeedAdd as $key => $label) {
-                    $this->getChildElement($generalElement, $newValueLocator)->value($label);
-                    $this->getChildElement($generalElement, $saveValueWithoutForm)->click();
-                    $this->pleaseWait();
-                    //@TODO remove sleep() when locator //div[@class='loading-mask'] will be removed after save action;
-                    sleep(3);
-                    if (isset($isNeedAdd[$key + 1])) {
-                        $this->getChildElement($generalElement, $newButtonLocator)->click();
-                    }
+            foreach ($isNeedAdd as $key => $label) {
+                if (!empty($label)) {
+                    $this->addCompositeMultiselectValue(null, $label, $locator);
                 }
-            } else {
-                //by new form
-                throw new RuntimeException('@TODO fillCompositeMultiselect() - add new value in new form');
             }
         }
+    }
+
+    /**
+     * Add value to CompositeMultiselect
+     *
+     * @param $fieldName
+     * @param $fieldValue
+     * @param null $locator
+     * @param bool $failIfNotAded
+     *
+     * @return bool
+     * @throws RuntimeException
+     */
+    public function addCompositeMultiselectValue($fieldName, $fieldValue, $locator = null, $failIfNotAded = true)
+    {
+        if (is_null($locator)) {
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_COMPOSITE_MULTISELECT, $fieldName);
+        }
+
+        $isAdded = false;
+        $generalElement = $this->getElement($locator);
+        $saveValueWithoutForm = "//span[@title='Add']";
+        $newButtonLocator = '//footer/span';
+        $newValueLocator = "//input[@title='Enter new option']";
+        $optionLocator = "//label[span='%s']/%s";
+        //Define filling in type
+        $this->getChildElement($generalElement, $newButtonLocator)->click();
+        $newValueField = $this->elementIsPresent($locator . $newValueLocator);
+        //Add new options
+        if ($newValueField && $newValueField->enabled() && $newValueField->displayed()) {
+            //by field
+            $this->getChildElement($generalElement, $newValueLocator)->value($fieldValue);
+            $this->getChildElement($generalElement, $saveValueWithoutForm)->click();
+            $isAdded = $this->waitForElementOrAlert($locator . sprintf($optionLocator, $fieldValue, 'span'));
+            if ($isAdded && !$this->alertIsPresent()) {
+                return $isAdded;
+            } elseif ($this->alertIsPresent() && $failIfNotAded) {
+                $this->fail("Value is not added to multiselect");
+            }
+            //@TODO remove sleep() when locator //div[@class='loading-mask'] will be removed after save action;
+            sleep(3);
+        } else {
+            //by new form
+            throw new RuntimeException('@TODO fillCompositeMultiselect() - add new value in new form');
+        }
+        return $isAdded;
     }
 
     /**
@@ -3473,6 +3565,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $labelLocator = "//div[normalize-space(label/span)='%s']";
         $generalElement = $this->getElement($locator);
         $optionElement = $this->getChildElement($generalElement, sprintf($labelLocator, $optionName));
+        $this->moveto($optionElement);
         $optionElement->click();
         $this->getChildElement($optionElement, "//span[@title='Edit']")->click();
         $editOptionElement = $this->getChildElements($optionElement, '//input[@name="class_name"]', false);
@@ -3508,6 +3601,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $labelLocator = "//div[normalize-space(label/span)='$optionName']";
         $generalElement = $this->getElement($locator);
         $optionElement = $this->getChildElement($generalElement, $labelLocator);
+//        $this->moveto($optionElement);
         $optionElement->click();
         $this->getChildElement($optionElement, "//span[@title='Delete']")->click();
         $this->assertSame($this->_getMessageXpath($message), $this->alertText(), 'Confirmation massage is incorrect');
@@ -3515,6 +3609,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($this->alertIsPresent()) {
             $this->fail($this->alertText());
         }
+        $this->waitForAjax();
         $this->assertEmpty($this->getChildElements($generalElement, $labelLocator, false), 'Option is not deleted');
     }
 

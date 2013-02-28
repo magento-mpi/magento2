@@ -31,10 +31,12 @@ class Mage_Adminhtml_Catalog_Product_WidgetController extends Mage_Adminhtml_Con
             'Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser',
             '',
             array(
-                'id'              => $uniqId,
-                'use_massaction'  => $massAction,
-                'product_type_id' => $productTypeId,
-                'category_id'     => $this->getRequest()->getParam('category_id')
+                'data' => array(
+                    'id'              => $uniqId,
+                    'use_massaction'  => $massAction,
+                    'product_type_id' => $productTypeId,
+                    'category_id'     => $this->getRequest()->getParam('category_id')
+                )
             )
         );
 
@@ -45,9 +47,11 @@ class Mage_Adminhtml_Catalog_Product_WidgetController extends Mage_Adminhtml_Con
                 'Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser',
                 '',
                 array(
-                    'id'                  => $uniqId.'Tree',
-                    'node_click_listener' => $productsGrid->getCategoryClickListenerJs(),
-                    'with_empty_node'     => true
+                    'data' => array(
+                        'id'                  => $uniqId . 'Tree',
+                        'node_click_listener' => $productsGrid->getCategoryClickListenerJs(),
+                        'with_empty_node'     => true
+                    )
                 )
             );
 

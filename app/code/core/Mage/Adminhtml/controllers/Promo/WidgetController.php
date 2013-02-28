@@ -24,7 +24,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
             case 'sku':
                 $block = $this->getLayout()->createBlock(
                     'Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku', 'promo_widget_chooser_sku',
-                    array('js_form_object' => $request->getParam('form'),
+                    array('data' => array('js_form_object' => $request->getParam('form')),
                 ));
                 break;
 
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Promo_WidgetController extends Mage_Adminhtml_Controller_Ac
 
                 $block = $this->getLayout()->createBlock(
                         'Mage_Adminhtml_Block_Catalog_Category_Checkboxes_Tree', 'promo_widget_chooser_category_ids',
-                        array('js_form_object' => $request->getParam('form'))
+                        array('data' => array('js_form_object' => $request->getParam('form')))
                     )
                     ->setCategoryIds($ids)
                 ;

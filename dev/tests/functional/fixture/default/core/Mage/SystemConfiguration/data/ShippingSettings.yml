@@ -16,6 +16,21 @@ store_information:
             store_information:
                 store_name: Test Store Name
 
+store_information_empty:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_general
+        configuration:
+            store_information:
+                store_name: ''
+                store_contact_telephone: ''
+                store_street_address: ''
+                store_street_address2: ''
+                store_city: ''
+                store_zip: ''
+                store_country: --Please Select--
+                billing_vat_number: ''
+
 shipping_settings_usa:
     configuration_scope: Default Config
     tab_1:

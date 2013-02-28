@@ -35,7 +35,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
         $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label'     => Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Add Amount'),
             'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
-            'class'     => 'add',
+            'class'     => 'action-add',
             'disabled'  => $isAddButtonDisabled
         ));
 

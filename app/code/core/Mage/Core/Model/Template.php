@@ -67,20 +67,16 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
     protected $_store;
 
     /**
-     * Initialize data
-     *
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         array $data = array()
     ) {
         $this->_area = isset($data['area']) ? $data['area'] : null;
         $this->_store = isset($data['store']) ? $data['store'] : null;
-        parent::__construct($eventDispatcher, $cacheManager, null, null, $data);
+        parent::__construct($context, null, null, $data);
     }
 
     /**

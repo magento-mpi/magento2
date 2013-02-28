@@ -42,7 +42,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
         $customerId = $this->getRequest()->getParam('id', 0);
         $history = $this->getLayout()
             ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History', '',
-                array('customer_id' => $customerId));
+                array('data' => array('customer_id' => $customerId)));
         $this->getResponse()->setBody($history->toHtml());
     }
 
@@ -55,7 +55,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
         $customerId = $this->getRequest()->getParam('id', 0);
         $history = $this->getLayout()
             ->createBlock('Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid', '',
-                array('customer_id' => $customerId));
+                array('data' => array('customer_id' => $customerId)));
         $this->getResponse()->setBody($history->toHtml());
     }
 

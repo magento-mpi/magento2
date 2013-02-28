@@ -11,7 +11,7 @@
 #Sales Terms and Conditions page
 manage_sales_checkout_terms_conditions:
     mca: checkout_agreement/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'checkout_agreement/')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, 'checkout_agreement/')]
     title: Terms and Conditions / Sales / Magento Admin
     uimap:
         form: &salesCheckoutTermsConditions
@@ -38,10 +38,11 @@ manage_sales_checkout_terms_conditions:
             save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: &conditionMessages
             condition_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been saved.')]
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             condition_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been deleted')]
             confirmation_for_delete: Are you sure you want to do this?
-            content_height: //label[@class='mage-error' and @for='content_height' and contains(.,'Please enter a number greater than 0 in this field')]
+            content_height: //div[@id='advice-validate-css-length-content_height']
+
 # Create new condition agreement
 create_condition:
     mca: checkout_agreement/new/
@@ -51,7 +52,7 @@ create_condition:
             fieldsets:
                 -
                     sales_new_condition:
-                        xpath: //fieldset[@id='base_fieldset']
+                        xpath: //*[@id='base_fieldset']
                         fields:
                             condition_name: //input[@name='name']
                             checkbox_text: //textarea[@name='checkbox_text']
@@ -77,6 +78,6 @@ edit_condition:
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
-            delete_condition: //button[@id='delete']
+            delete_condition: //p[@class='form-buttons']//button[span='Delete Condition']
             save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: *conditionMessages

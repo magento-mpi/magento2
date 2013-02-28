@@ -90,7 +90,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             $layoutCollection->addItem($layout);
         }
 
-        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array('create'), array(), '', false);
+        $objectManager = $this->getMock('Magento_ObjectManager');
         $objectManager->expects($this->at(0))
             ->method('create')
             ->with('Mage_Core_Model_Resource_Layout_Link_Collection')

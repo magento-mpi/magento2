@@ -27,12 +27,6 @@ class Enterprise_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
         $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Invitation_Block_Form');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-        $this->_rememberedConfig = null;
-    }
-
     /**
      * @param int $num
      * @param int $expected

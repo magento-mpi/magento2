@@ -58,13 +58,13 @@ create_cms_banner:
                         fieldsets:
                             -
                                 banner_properties_fieldset:
-                                    xpath: //fieldset[@id='banner_properties_base_fieldset']
+                                    xpath: //div[@id='banner_properties_base_fieldset']
                                     fields:
                                         banner_properties_name: //input[@name='name']
                                     dropdowns:
                                         active: //select[@name='is_enabled']
                                         applies_to: //select[@id='banner_properties_is_types']
-                                        customer_segments: //select[@id='banner_properties_use_customer_segment']
+                                        customer_segments: //select[@name='use_customer_segment']
                                     multiselects:
                                         specify_types: //select[@id='banner_properties_types']
                                         specified_customer_segments: //select[@name='customer_segment_ids[]']
@@ -187,7 +187,7 @@ create_cms_banner:
                                         close_variable_insertion: //div[@id='variables-chooser_close']
                             -
                                 specific_content:
-                                    xpath: //div[@id='banner_content_scopes_fieldset']
+                                    xpath: //fieldset[@id='banner_content_scopes_fieldset']
                                     checkboxes:
                                         specific_content_use_default: //input[@id='banner_content_store_1_content_use']
                                     buttons:

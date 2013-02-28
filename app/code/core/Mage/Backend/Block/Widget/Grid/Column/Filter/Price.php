@@ -35,49 +35,18 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
     protected $_currencyLocator = null;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Layout $layout
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Backend_Model_Url $urlBuilder
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Design_Package $designPackage
-     * @param Mage_Core_Model_Session $session
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Directory_Model_Currency $currencyModel
      * @param Mage_Directory_Model_Currency_DefaultLocator $currencyLocator
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Backend_Model_Url $urlBuilder,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Session $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
+        Mage_Core_Block_Template_Context $context,
         Mage_Directory_Model_Currency $currencyModel,
         Mage_Directory_Model_Currency_DefaultLocator $currencyLocator,
         array $data = array()
     ) {
-        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
-        );
-
+        parent::__construct($context, $data);
         $this->_currencyModel = $currencyModel;
         $this->_currencyLocator = $currencyLocator;
     }
@@ -90,23 +59,20 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Price extends Mage_Backend_Bl
     public function getHtml()
     {
         $html  = '<div class="range">';
-        $html .= '<div class="range-line"><span class="label">'
-            . Mage::helper('Mage_Backend_Helper_Data')->__('From')
-            . ':</span> <input type="text" name="'
+        $html .= '<div class="range-line">'
+            . '<input type="text" name="'
             . $this->_getHtmlName()
-            . '[from]" id="' . $this->_getHtmlId() . '_from" value="'
+            . '[from]" id="' . $this->_getHtmlId() . '_from" placeholder="' . Mage::helper('Mage_Backend_Helper_Data')->__('From') . '" value="'
             . $this->getEscapedValue('from') . '" class="input-text no-changes"  '
             . $this->getUiId('filter', $this->_getHtmlName(), 'from') . '/></div>';
-        $html .= '<div class="range-line"><span class="label">'
-            . Mage::helper('Mage_Backend_Helper_Data')->__('To')
-            . ' : </span><input type="text" name="'
-            . $this->_getHtmlName() . '[to]" id="' . $this->_getHtmlId() . '_to" value="'.$this->getEscapedValue('to')
+        $html .= '<div class="range-line">'
+            . '<input type="text" name="'
+            . $this->_getHtmlName() . '[to]" id="' . $this->_getHtmlId() . '_to" placeholder="' . Mage::helper('Mage_Backend_Helper_Data')->__('To')
+            . '" value="'.$this->getEscapedValue('to')
             . '" class="input-text no-changes" ' . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/></div>';
 
         if ($this->getDisplayCurrencySelect()) {
-            $html .= '<div class="range-line"><span class="label">'
-                . Mage::helper('Mage_Backend_Helper_Data')->__('In') . ' : </span>'
-                . $this->_getCurrencySelectHtml() . '</div>';
+            $html .= '<div class="range-line">' . $this->_getCurrencySelectHtml() . '</div>';
         }
 
         $html .= '</div>';

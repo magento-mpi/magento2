@@ -81,7 +81,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             )
         );
         $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => array($attributeThird['attribute_code'], $attributeForth['attribute_code'],
+            array('Product Details' => array($attributeThird['attribute_code'], $attributeForth['attribute_code'],
                 $xssAttribute['attribute_code'], $specialCharacters['attribute_code'])));
         //Steps (attributes)
         $this->navigate('manage_attributes');
@@ -123,7 +123,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
-        $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
+        $this->assertTrue($this->isFieldsetExpanded('product_variations'));
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute1']['admin_title']);
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute2']['admin_title']);
         $this->clickButton('generate_product_variations', false);
@@ -167,8 +167,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
                 'general_sku'        => $associated['associated_sku'],
                 'general_weight'     => $associated['associated_weight'],
                 'inventory_quantity' => $associated['associated_quantity'],
-                'general_visibility' => 'Not Visible Individually',
-                'general_status'     => 'Enabled'
+                'autosettings_visibility' => 'Not Visible Individually',
+                'product_online_status' => 'Enabled'
             )
         );
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
@@ -225,8 +225,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
                 'general_name' => $associated['associated_product_name'],
                 'general_sku' => $associated['associated_sku'],
                 'inventory_quantity' => $associated['associated_quantity'],
-                'general_visibility' => 'Not Visible Individually',
-                'general_status' => 'Enabled',
+                'autosettings_visibility' => 'Not Visible Individually',
+                'product_online_status' => 'Enabled',
             )
         );
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
@@ -326,7 +326,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $field = $result[1];
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->addParameter('field', $field);
         //Verifying
         $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
@@ -368,7 +368,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         );
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         //Verifying
         $this->addParameter('attributeSearch', "contains(.,$option)");
         $this->assertSame($verifyData['associated_product_name'],
@@ -398,10 +398,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         );
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
-        $this->openTab('prices');
-        $this->openTab('general');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
-        $this->assertTrue($this->getControlAttribute('checkbox', 'is_configurable', 'selectedValue'));
+        $this->assertTrue($this->isFieldsetExpanded('product_variations'));
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute1']['admin_title']);
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute2']['admin_title']);
         $this->productHelper()->unselectConfigurableAttributeOptions($options,
@@ -859,7 +857,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->productHelper()->changeAttributeValueSelection($attributeData['attribute1']['admin_title'],
             $newOptionTitle);
         $this->clickButton('generate_product_variations', false);

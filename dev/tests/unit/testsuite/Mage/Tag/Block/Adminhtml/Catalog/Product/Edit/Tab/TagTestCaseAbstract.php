@@ -56,7 +56,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract exte
             'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
             'data'        => array('helpers' => array('Mage_Tag_Helper_Data' => $helperMock))
         );
-        $this->_model = $objectManagerHelper->getBlock($this->_modelName, $data);
+        $this->_model = $objectManagerHelper->getObject($this->_modelName, $data);
     }
 
     protected function tearDown()

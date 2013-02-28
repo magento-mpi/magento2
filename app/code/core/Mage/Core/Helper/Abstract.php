@@ -42,16 +42,17 @@ abstract class Mage_Core_Helper_Abstract
     protected $_translator;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      */
-    public function __construct(Mage_Core_Model_Translate $translator)
+    public function __construct(Mage_Core_Helper_Context $context)
     {
-        $this->_translator = $translator;
+        $this->_translator = $context->getTranslator();
     }
 
     /**
      * Retrieve request object
      *
+     * @return Zend_Controller_Request_Http
      * @return Zend_Controller_Request_Http
      */
     protected function _getRequest()

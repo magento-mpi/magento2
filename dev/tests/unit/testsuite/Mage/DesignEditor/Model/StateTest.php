@@ -79,7 +79,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_dataHelper;
 
     /**
-     * @var Magento_ObjectManager_Zend|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -115,10 +115,10 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
             array(), '', false
         );
-        $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array('addAlias'),
+        $this->_objectManager = $this->getMock('Magento_ObjectManager');
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array('getConfigPathByArea'),
             array(), '', false
         );
-        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
         $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore'),
             array(), '', false
         );
@@ -201,10 +201,11 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with(array('area' => self::AREA_CODE), self::LAYOUT_DESIGN_CLASS_NAME);
 
         $this->_objectManager->expects($this->once())
-            ->method('addAlias')
-            ->with(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
-            self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME);
-
+            ->method('configure')
+            ->with(array('preferences' => array(
+                self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME => self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME
+            )));
+        
         $store = $this->getMock('Mage_Core_Model_Store', array('setConfig'), array(), '', false);
         $store->expects($this->once())
             ->method('setConfig')
@@ -278,9 +279,10 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with(array('area' => self::AREA_CODE), self::LAYOUT_NAVIGATION_CLASS_NAME);
 
         $this->_objectManager->expects($this->once())
-            ->method('addAlias')
-            ->with(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
-            self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME);
+            ->method('configure')
+            ->with(array('preferences' => array(
+                self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME => self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME
+            )));
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }
