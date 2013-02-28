@@ -20,6 +20,7 @@
             this._bindAddSelectionDialog();
             this._hideProductTypeSwitcher();
             this._bindPanelVisibilityToggler();
+            this._bindChangeOptionTitle();
         },
         _initOptionBoxes: function () {
             this.element.sortable({
@@ -179,6 +180,17 @@
             this._updateOptionBoxPositions.apply(this.element);
             this._initSortableSelections();
             return this;
+        },
+        _bindChangeOptionTitle: function() {
+            $(document)
+                .on('keyup.optionValue change.optionValue paste.optionValue', '.field-option-title input[type="text"]', function() {
+                    var origValue = $(this).attr('data-orig-value'),
+                        curValue = $(this).val(),
+                        optionBoxTitle = $('.title > span', $(this).closest('.option-box')),
+                        newOptionTitle = jQuery.mage.__('New Option');
+
+                    optionBoxTitle.text(curValue == '' && !origValue.length ? newOptionTitle : curValue);
+                });
         }
     });
 })(jQuery);

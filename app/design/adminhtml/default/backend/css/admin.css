@@ -1041,6 +1041,7 @@ option.placeholder {
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    min-height: 39px;
 }
 
 .fieldset .fieldset-wrapper .fieldset-wrapper-title .actions,
