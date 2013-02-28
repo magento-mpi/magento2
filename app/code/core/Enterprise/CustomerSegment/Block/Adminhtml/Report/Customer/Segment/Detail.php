@@ -27,9 +27,11 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
         $this->_blockGroup = 'Enterprise_CustomerSegment';
         $this->_controller = 'adminhtml_report_customer_segment_detail';
         if ($this->getCustomerSegment() && $name = $this->getCustomerSegment()->getName()) {
-            $this->_headerText = $this->__('Customer Segment Report \'%s\'', $this->escapeHtml($name));
+            $this->getLayout()->getBlock('page-title')
+                ->setPageTitle($this->__('Customer Segment Report \'%s\'', $this->escapeHtml($name)));
         } else {
-            $this->_headerText = $this->__('Customer Segments Report');
+            $this->getLayout()->getBlock('page-title')
+                ->setPageTitle($this->__('Customer Segments Report'));
         }
 
         parent::_construct();

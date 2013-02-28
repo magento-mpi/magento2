@@ -2706,7 +2706,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .adminhtml-dashboard-index .main-col {
-    width: 58%;
+    width: 60%;
 }
 
 /* Sidebar and main column vertical separator */
@@ -2739,16 +2739,16 @@ table tbody tr:nth-child(odd):hover th {
 /* Sidebar title and store view switcher*/
 /* TODO: temporary styles */
 .side-col h3,
-.side-col > .switcher {
+.side-col > .store-switcher {
     padding: 0 17px;
     margin-top: 16px;
 }
 
-.side-col > .switcher {
+.side-col > .store-switcher {
     padding-top: 6px;
 }
 
-.side-col > .switcher > a {
+.side-col > .store-switcher > a {
     white-space: nowrap;
 }
 

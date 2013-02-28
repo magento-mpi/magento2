@@ -876,12 +876,12 @@
     clear: both;
 }
 
-.cms-hierarchy .switcher {
+.cms-hierarchy .store-switcher {
     position: relative;
     top: 10px;
 }
 
-.cms-hierarchy .switcher label {
+.cms-hierarchy .store-switcher label {
     margin-right: 8px;
 }
 
@@ -1088,6 +1088,27 @@
 
 .adminhtml-report-customer-wishlist-wishlist .grid .range {
     text-align: left;
+}
+
+/*
+    Reports - Customer Segment Report
+-------------------------------------- */
+.filter-segments {
+    list-style: none;
+    padding: 0;
+}
+
+.adminhtml-report-customer-customersegment-detail .col-id {
+    width: 35px;
+}
+
+.adminhtml-report-customer-customersegment-detail .col-period {
+    white-space: nowrap;
+    width: 70px;
+}
+
+.adminhtml-report-customer-customersegment-detail .col-zip {
+    width: 50px;
 }
 
 /*
@@ -1534,6 +1555,31 @@
 -------------------------------------- */
 .field-attributes_box .control-value {
     width:100%;
+}
+
+/*
+    Dashboard
+-------------------------------------- */
+.dashboard-inner {
+    border:1px solid #ccc;
+}
+
+.dashboard-container .dashboard-diagram {
+    margin: 20px;
+}
+
+.dashboard-container .store-switcher {
+    margin: 20px 0 10px;
+}
+
+.dashboard-container .dashboard-diagram .store-switcher {
+    margin-top: 0;
+}
+
+.dashboard-diagram-nodata {
+    border: 1px solid #ccc;
+    padding: 20px 0;
+    text-align: center;
 }
 
 /*

@@ -71,18 +71,22 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
     {
         $this->addColumn('grid_entity_id', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ID'),
-            'width'     => 50,
             'index'     => 'entity_id',
             'type'      => 'number',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
         $this->addColumn('grid_name', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Name'),
-            'index'     => 'name'
+            'index'     => 'name',
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
         $this->addColumn('grid_email', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Email'),
-            'width'     => 150,
-            'index'     => 'email'
+            'index'     => 'email',
+            'header_css_class'  => 'col-mail',
+            'column_css_class'  => 'col-mail'
         ));
 
         $groups = Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')
@@ -92,44 +96,49 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
 
         $this->addColumn('grid_group', array(
             'header'    =>  Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Group'),
-            'width'     =>  100,
             'index'     =>  'group_id',
             'type'      =>  'options',
             'options'   =>  $groups,
+            'header_css_class'  => 'col-group',
+            'column_css_class'  => 'col-group'
         ));
 
         $this->addColumn('grid_telephone', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Telephone'),
-            'width'     => 100,
-            'index'     => 'billing_telephone'
+            'index'     => 'billing_telephone',
+            'header_css_class'  => 'col-phone',
+            'column_css_class'  => 'col-phone'
         ));
 
         $this->addColumn('grid_billing_postcode', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ZIP'),
-            'width'     => 90,
             'index'     => 'billing_postcode',
+            'header_css_class'  => 'col-zip',
+            'column_css_class'  => 'col-zip'
         ));
 
         $this->addColumn('grid_billing_country_id', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Country'),
-            'width'     => 100,
             'type'      => 'country',
             'index'     => 'billing_country_id',
+            'header_css_class'  => 'col-country',
+            'column_css_class'  => 'col-country'
         ));
 
         $this->addColumn('grid_billing_region', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('State/Province'),
-            'width'     => 100,
             'index'     => 'billing_region',
+            'header_css_class'  => 'col-state',
+            'column_css_class'  => 'col-state'
         ));
 
         $this->addColumn('grid_customer_since', array(
             'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Since'),
-            'width'     => 200,
             'type'      => 'datetime',
-            'align'     => 'center',
             'index'     => 'created_at',
-            'gmtoffset' => true
+            'gmtoffset' => true,
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('CSV'));
