@@ -14,6 +14,11 @@
 class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * @var bool
+     */
+    protected $_hasRedirectOnAssign = true;
+
+    /**
      * Display the design editor launcher page
      */
     public function indexAction()
@@ -124,6 +129,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $currentUrl = $this->_getCurrentHandleUrl();
             }
             $editorBlock->setFrameUrl($currentUrl);
+
+            /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
+            $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
+            $storeViewBlock->setData('redirectToVdeOnAssign', $this->_hasRedirectOnAssign);
 
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
@@ -525,6 +534,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                     $themeService->getUnassignedThemeCustomizations()
                 );
             }
+            /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
+            $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
+            $storeViewBlock->setData('redirectToVdeOnAssign', $this->_hasRedirectOnAssign);
             $this->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot load list of themes.'));
@@ -572,6 +584,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function previewAction()
     {
+        $this->_hasRedirectOnAssign = false;
         $this->launchAction();
     }
 }
