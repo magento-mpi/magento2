@@ -99,7 +99,7 @@ if(!window.toogleRequired) {
  * This function expression can be moved into a widget once this file is completely refactored to use jQuery.
  */
 (function($) {
-    $('body').on('billingSave,shippingSave', function() {
+    $('#checkoutSteps').on('billingSave shippingSave', function() {
         $.ajax({
             url: '<?php echo $this->getAdditionalUrl(); ?>',
             type: 'post',
