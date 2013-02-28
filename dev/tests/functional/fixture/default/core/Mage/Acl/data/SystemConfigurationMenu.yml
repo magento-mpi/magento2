@@ -191,11 +191,6 @@ configuration_menu_default:
         przelewy24_powered_by_moneybookers_poland:
         moneybookers_ewallet:
         online_bank_transfer_powered_by_moneybookers:
-    services_magento_core_api:
-        general_settings:
-    services_oauth:
-        email:
-        cleanup_settings:
     advanced_admin:
         admin_user_emails:
         startup_page:
@@ -303,7 +298,6 @@ configuration_menu_website:
         login_options:
         address_templates:
         customer_captcha:
-        online_customer_options:
     customers_wishlist:
         general_options_wishlist:
         share_options:
@@ -390,10 +384,6 @@ configuration_menu_website:
         przelewy24_powered_by_moneybookers_poland:
         moneybookers_ewallet:
         online_bank_transfer_powered_by_moneybookers:
-    services_magento_core_api:
-        general_settings:
-    services_oauth:
-        email:
     advanced_system:
         mail_sending_settings:
     advanced_advanced:
