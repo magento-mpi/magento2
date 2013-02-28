@@ -261,7 +261,9 @@
     margin: 0 0 18px;
 }
 
-.insert-actions {
+.insert-actions,
+.insert-actions .action-.delete,
+.insert-actions .action-delete {
     float: right;
 }
 
@@ -277,11 +279,20 @@
 /*
     Upload images
 -------------------------------------- */
-.magento_message .main-col-inner .insert-title + div {
+.magento_message .main-col-inner .uploader {
     background: #fbfaf6;
     border: 1px solid #cac2b5;
     margin: 0 0 10px;
     padding: 5px;
+}
+
+.magento_message .breadcrumbs {
+    padding-left: 0;
+}
+
+.magento_message .breadcrumbs li:after {
+    content: "";
+    margin: 0 5px 0 0;
 }
 
 .magento_message .fileinput-button {
@@ -323,6 +334,10 @@
 
 .magento_message #contents-uploader:after {
     clear: both;
+}
+
+.magento_message .x-tree {
+    margin-bottom: 20px;
 }
 
 /*
