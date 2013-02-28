@@ -210,6 +210,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                     $message
                 );
                 if ($this->_isSubclassOf($content, $class)) {
+                    $this->_assertNotRegExp('/ion\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                     $this->_assertNotRegExp('/this->' . $quotedMethod . '\s*\(/iS', $content, $message);
                     $this->_assertNotRegExp('/(self|static)::\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                 }
