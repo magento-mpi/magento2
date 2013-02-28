@@ -125,6 +125,13 @@
 
     $.validator.addMethod(
         "validate-cc-type-select",
+        /**
+         * Validate credit card type matches credit card number
+         * @param value - select credit card type
+         * @param element - element contains the select box for credit card types
+         * @param params - selector for credit card number
+         * @return {boolean}
+         */
         function(value, element, params) {
             if (value && params && creditCartTypes[value]) {
                 return creditCartTypes[value][0].test($(params).val());
@@ -136,6 +143,11 @@
 
     $.validator.addMethod(
         "validate-cc-number",
+        /**
+         * Validate credit card number based on mod 10
+         * @param value - credit card number
+         * @return {boolean}
+         */
         function(value) {
             if (value) {
                 return validateCreditCard(value);
@@ -147,6 +159,13 @@
 
     $.validator.addMethod(
         "validate-cc-type",
+        /**
+         * Validate credit card number is for the currect credit card type
+         * @param value - credit card number
+         * @param element - element contains credit card number
+         * @param params - selector for credit card type
+         * @return {boolean}
+         */
         function(value, element, params) {
             if (value && params) {
                 var ccType = $(params).val();
@@ -164,6 +183,13 @@
 
     $.validator.addMethod(
         "validate-cc-exp",
+        /**
+         * Validate credit card expiration date, make sure it's within the year and not before current month
+         * @param value - month
+         * @param element - element contains month
+         * @param params - year selector
+         * @return {Boolean}
+         */
         function(value, element, params) {
             if (value && params) {
                 var month = value,
@@ -185,6 +211,13 @@
 
     $.validator.addMethod(
         "validate-cc-cvn",
+        /**
+         * Validate credit card cvn based on credit card type
+         * @param value - credit card cvn
+         * @param element - element contains credit card cvn
+         * @param params - credit card type selector
+         * @return {*}
+         */
         function(value, element, params) {
             if (value && params) {
                 var ccType = $(params).val();
@@ -194,7 +227,7 @@
             }
             return false;
         },
-        'Incorrect credit card expiration date.'
+        'Please enter a valid credit card verification number.'
     );
 
     $.widget("mage.validation", $.mage.validation, {

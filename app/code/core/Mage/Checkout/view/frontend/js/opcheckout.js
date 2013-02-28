@@ -17,7 +17,8 @@
                 loginGuestSelector: '#login\\:guest',
                 loginRegisterSelector: '#login\\:register',
                 continueSelector: '#onepage-guest-register-button',
-                registerCustomerPasswordSelector: '#register-customer-password'
+                registerCustomerPasswordSelector: '#register-customer-password',
+                checkRegister: false
             },
             sectionSelectorPrefix: '#opc-',
             billingSection: 'billing',
@@ -29,6 +30,11 @@
 
         _create: function() {
             var _this = this;
+            this.checkoutPrice = this.options.quoteBaseGrandTotal;
+            if (this.options.checkout.checkRegister) {
+                $(this.options.checkout.loginGuestSelector).attr('checked', false);
+                $(this.options.checkout.loginRegisterSelector).attr('checked', true);
+            }
             this.element
                 .on('click', this.options.checkout.continueSelector, function() {
                     $.proxy(_this._continue($(this)), _this);
@@ -131,16 +137,14 @@
                                 }
                                 $(this.options.countrySelector).trigger('change');
                                 alert($.mage.__(msg));
+                            } else {
+                                alert($.mage.__(response.error));
                             }
+                            return;
                         }
                         if (response.update_section) {
                             $(this.options.updateSelectorPrefix + response.update_section.name + this.options.updateSelectorSuffix)
                                 .html($(response.update_section.html)).trigger('contentUpdated');
-                        }
-                        if (response.allow_sections) {
-                            response.allow_sections.each(function() {
-                                $(this).addClass('allow');
-                            });
                         }
                         if (response.duplicateBillingInfo) {
                             $(this.options.billingCopySelector).prop('checked', true).trigger('click');
@@ -278,6 +282,7 @@
 
         _create: function() {
             this._super();
+            var _this = this;
             this.element
                 .on('click', this.options.shippingMethod.continueSelector, $.proxy(function() {
                     if (this._validateShippingMethod()&&
@@ -285,6 +290,16 @@
                         $(this.options.shippingMethod.form).validation('isValid')) {
                         this._ajaxContinue(this.options.shippingMethod.saveUrl, $(this.options.shippingMethod.form).serialize());
                     }
+                }, this))
+                .on('click', 'input[name="shipping_method"]', function() {
+                    var selectedPrice = _this.shippingCodePrice[$(this).val()] || 0,
+                        oldPrice = _this.shippingCodePrice[_this.currentShippingMethod] || 0;
+                    _this.checkoutPrice = _this.checkoutPrice - oldPrice + selectedPrice;
+                    _this.currentShippingMethod = $(this).val();
+                })
+                .on('contentUpdated', $.proxy(function() {
+                    this.currentShippingMethod = this.element.find('input[name="shipping_method"]:checked').val();
+                    this.shippingCodePrice = $('[data-shipping-code-price]').data('shipping-code-price');
                 }, this))
                 .find(this.options.shippingMethod.form).validation();
         },

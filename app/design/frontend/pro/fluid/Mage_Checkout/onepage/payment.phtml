@@ -8,12 +8,6 @@
  * @license     {license_link}
  */
 ?>
-<script type="text/javascript">
-    var quoteBaseGrandTotal = <?php echo (float)$this->getQuoteBaseGrandTotal(); ?>;
-    var checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
-    var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>');
-    var lastPrice;
-</script>
 <form action="" id="co-payment-form">
     <fieldset>
         <?php echo $this->getChildChildHtml('methods_additional') ?>
@@ -28,6 +22,3 @@
         <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading next step...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
     </span>
 </div>
-<script type="text/javascript">
-    payment.currentMethod = "<?php echo $this->getChildBlock('methods')->getSelectedMethodCode() ?>";
-</script>

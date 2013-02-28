@@ -63,7 +63,7 @@
         <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
         <div class="input-box">
             <div class="v-fix">
-                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" data-validate='{required:true, "validate-cc-cvn":"#<?php echo $_code ?>_cc_type"}' />
+                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" data-validate='{required:true, "validate-cc-cvn":"#<?php echo $_code ?>_cc_type"}' />
             </div>
             <a href="#" class="cvv-what-is-this" data-mage-init='{toggleAdvanced: {toggleContainers: "#<?php echo $_code ?>_cc_type_cvv_div .tool-tip"}}'><?php echo $this->__('What is this?') ?></a>
             <div class="tool-tip hidden">
