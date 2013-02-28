@@ -18,15 +18,15 @@
 class Mage_Core_Model_Layout_Argument_Handler_Url extends Mage_Core_Model_Layout_Argument_HandlerAbstract
 {
     /**
-     * @var Mage_Core_Model_Url
+     * @var Mage_Core_Model_UrlInterface
      */
     protected $_urlModel;
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Url $urlModel
+     * @param Mage_Core_Model_UrlInterface $urlModel
      */
-    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_Url $urlModel)
+    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_UrlInterface $urlModel)
     {
         parent::__construct($objectManager);
 
