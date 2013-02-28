@@ -116,7 +116,7 @@
             });
 
             this.translateDialog.find("#" + this.options.translateForm.data.id).each(function(count, form) {
-                form.on('submit', function(e) {
+                $(form).on('submit', function(e) {
                     e.preventDefault();
                     $.proxy(self._formSubmit, self)();
                     return true;
