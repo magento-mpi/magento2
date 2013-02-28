@@ -32,8 +32,8 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         $this->setElement($element);
         $this->_setAddButton();
         $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'id' => '${prefix}_delete_row_${index}',
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Tax'),
+            'data_attribute' => array('action' => 'delete-fpt-item'),
             'class' => 'delete'
         ));
         return $this->toHtml();
@@ -131,6 +131,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'id' => $this->getElement()->getHtmlId() . '_add_new_tax_item',
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Tax'),
+            'data_attribute' => array('action' => 'add-fpt-item'),
             'class' => 'add'
         ));
     }
