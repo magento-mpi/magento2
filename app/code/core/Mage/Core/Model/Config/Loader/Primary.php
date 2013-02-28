@@ -29,13 +29,13 @@ class Mage_Core_Model_Config_Loader_Primary implements Mage_Core_Model_Config_Lo
     protected $_prototypeFactory;
 
     /**
-     * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
-     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_Loader_Local $localLoader
+     * @param $dir
      */
-    public function __construct(Mage_Core_Model_Config_Loader_Local $localLoader)
+    public function __construct(Mage_Core_Model_Config_Loader_Local $localLoader, $dir)
     {
         $this->_localLoader = $localLoader;
+        $this->_dir = $dir;
     }
 
     /**
@@ -45,7 +45,7 @@ class Mage_Core_Model_Config_Loader_Primary implements Mage_Core_Model_Config_Lo
      */
     public function load(Mage_Core_Model_Config_Base $config)
     {
-        $etcDir = $this->_dirs->getDir(Mage_Core_Model_Dir::CONFIG);
+        $etcDir = $this->_dir;
         if (!$config->getNode()) {
             $config->loadString('<config/>');
         }
@@ -57,7 +57,7 @@ class Mage_Core_Model_Config_Loader_Primary implements Mage_Core_Model_Config_Lo
                 continue;
             }
             $baseConfigFile = $etcDir . DIRECTORY_SEPARATOR . $filename;
-            $baseConfig = $this->_prototypeFactory->create('<config/>');
+            $baseConfig = new Mage_Core_Model_Config_Base('<config/>');
             $baseConfig->loadFile($baseConfigFile);
             $config->extend($baseConfig);
         }

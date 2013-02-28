@@ -150,12 +150,10 @@ class Magento_Test_Application
         $overriddenParams[Mage::PARAM_BASEDIR] = BP;
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
         Mage::$headersSentThrowsException = false;
-        $config = new Mage_Core_Model_ObjectManager_Config(
-            $this->_customizeParams($overriddenParams)
-        );
+        $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
             /** @var $app Mage_Core_Model_App */
-            new Magento_Test_ObjectManager($config, BP);
+            new Magento_Test_ObjectManager(new Magento_ObjectManager_Definition_Runtime(), $config);
         } else {
             $config->configure(Mage::getObjectManager());
         }

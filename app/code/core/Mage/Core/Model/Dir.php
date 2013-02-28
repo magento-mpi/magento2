@@ -93,6 +93,12 @@ class Mage_Core_Model_Dir
     const SESSION = 'session';
 
     /**
+     * Dependency injection related file directory
+     *
+     */
+    const DI = 'di';
+
+    /**
      * Temporary directory for uploading files by end-user
      */
     const UPLOAD = 'upload';
@@ -117,6 +123,7 @@ class Mage_Core_Model_Dir
         self::CACHE   => 'var/cache',
         self::LOG     => 'var/log',
         self::SESSION => 'var/session',
+        self::DI      => 'var/di',
         self::PUB     => 'pub',
         self::PUB_LIB => 'pub/lib',
         self::MEDIA   => 'pub/media',

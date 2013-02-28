@@ -49,7 +49,7 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
      * @param string $baseDir
      * @param array $params
      */
-    public function __construct($baseDir,  array $params)
+    public function __construct($baseDir, array $params)
     {
         parent::__construct('<config/>');
         $this->_params = $params;
@@ -60,7 +60,12 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
             $this->_getParam(Mage::PARAM_APP_DIRS, array())
         );
         $this->_loader = new Mage_Core_Model_Config_Loader_Primary(
-            new Mage_Core_Model_Config_Loader_Local($this->_dir)
+            new Mage_Core_Model_Config_Loader_Local(
+                $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG),
+                $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
+                $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_FILE)
+            ),
+            $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG)
         );
         $this->_loader->load($this);
         $this->_loadInstallDate();
@@ -117,6 +122,16 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
         $this->loadString('<config/>');
         $this->_loader->load($this);
         $this->_loadInstallDate();
+    }
+
+    /**
+     * Retrieve class definition config
+     *
+     * @return array
+     */
+    public function getDefinitionConfig()
+    {
+        return (array) $this->getNode('global/di/definitions');
     }
 
     /**

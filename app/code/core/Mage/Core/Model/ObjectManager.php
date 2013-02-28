@@ -9,13 +9,17 @@
  */
 class Mage_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManager
 {
-
     /**
-     * @param Magento_ObjectManager_Definition $definition
+     * @param Magento_ObjectManager_Definition $definitions
+     * @param Mage_Core_Model_Config_Primary $config
      */
-    public function __construct(Magento_ObjectManager_Definition $definitions)
+    public function __construct(Magento_ObjectManager_Definition $definitions, Mage_Core_Model_Config_Primary $config)
     {
-        parent::__construct($definitions);
+        parent::__construct($definitions, array(), array(
+            'Mage_Core_Model_Config_Primary' => $config,
+            'Mage_Core_Model_Dir' => $config->getDirectories()
+        ));
+        $config->configure($this);
         Mage::setObjectManager($this);
     }
 }

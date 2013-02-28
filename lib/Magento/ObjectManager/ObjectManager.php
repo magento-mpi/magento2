@@ -44,13 +44,16 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
 
     /**
      * @param Magento_ObjectManager_Definition $definitions
-     * @param Magento_ObjectManager_Config $configuration
+     * @param array $configuration
+     * @param array $sharedInstances
      */
     public function __construct(
         Magento_ObjectManager_Definition $definitions = null,
-        array $configuration = array()
+        array $configuration = array(),
+        array $sharedInstances = array()
     ) {
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
+        $this->_sharedInstances = $sharedInstances;
         $this->_sharedInstances['Magento_ObjectManager'] = $this;
         $this->_configuration = $configuration;
     }
