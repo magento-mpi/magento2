@@ -31,7 +31,7 @@ manage_gift_registry:
                         fields:
                             id: //input[@id='giftregistryGrid_filter_type_id']
                             code: //input[@id='giftregistryGrid_filter_code']
-                            label: //input[@id='giftregistryGrid_filter_label']
+                            filter_label: //input[@id='giftregistryGrid_filter_label']
                             sort_order: //input[@id='giftregistryGrid_filter_sort_order']
                             page: //input[@name='page']
                         links:
@@ -51,7 +51,7 @@ new_gift_registry:
             tabs:
                 -
                     general_information:
-                        xpath: //a[@id='enterprise_gift_registry_tabs_general_section' ]
+                        xpath: //a[@id='enterprise_giftregistry_tabs_general_section']
                         fieldsets:
                             -
                                 general_info: &generalInformationTab
@@ -69,12 +69,12 @@ new_gift_registry:
                         fieldsets:
                             -
                                 attributes:
-                                    xpath: //div[contains(div/div/h4,'Attributes')]
+                                    xpath: //div[@id='enterprise_giftregistry_tabs_registry_attributes_content']
                                     buttons:
                                         add_attribute: //button[@id='registry_add_new_attribute']
                             -
                                 attributes_set:
-                                    xpath: //div[@class='option-box']
+                                    xpath: //div[@class='fieldset-wrapper opened option-box collapsable-wrapper']
                                     buttons:
                                         delete_attribute: //div[@id='registry_option_%attributeId%']//button[span='Delete Attribute']
                                         add_option: //button[span='Add New Option']
@@ -109,7 +109,7 @@ new_gift_registry:
 # 'Edit Gift Registry' page
 edit_gift_registry:
     mca: giftregistry/edit/id/%id%/
-    title: Edit '%elementTitle%' Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
+    title: Edit '%elementLabel%' Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
     uimap:
         form: *giftRegistryForm
         buttons:
