@@ -310,24 +310,20 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     }
                 });
 
-                var originalFormValidation = configForm.validator.options.onFormValidate;
-                configForm.validator.options.onFormValidate = function(result, form) {
-                    originalFormValidation(result, form);
-                    if (result) {
-                        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
-                        if (typeof ecPayflowEnabler == "undefined") {
-                            return;
-                        }
-                        var ecPayflowScopeElement = adminSystemConfig.getScopeElement(ecPayflowEnabler);
-                        if ((typeof ecPayflowScopeElement == "undefined" || !ecPayflowScopeElement.checked)
-                            && ecPayflowEnabler.value == 1
-                        ) {
-                            $$(".paypal-ec-enabler").each(function(ecEnabler) {
-                                ecEnabler.value = 0;
-                            });
-                        }
+                configForm.on(\'afterValidate\', function() {
+                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
+                    if (typeof ecPayflowEnabler == "undefined") {
+                        return;
                     }
-                }
+                    var ecPayflowScopeElement = adminSystemConfig.getScopeElement(ecPayflowEnabler);
+                    if ((typeof ecPayflowScopeElement == "undefined" || !ecPayflowScopeElement.checked)
+                        && ecPayflowEnabler.value == 1
+                    ) {
+                        $$(".paypal-ec-enabler").each(function(ecEnabler) {
+                            ecEnabler.value = 0;
+                        });
+                    }
+                });
             });
         ';
         return parent::_getExtraJs($element, $tooltipsExist)

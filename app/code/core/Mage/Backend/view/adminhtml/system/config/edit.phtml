@@ -25,17 +25,19 @@
     </div>
 </form>
 <script type="text/javascript">
-    var configForm = jQuery('#config-edit-form').mage('form').mage('validation');
-    configForm.validator.options.onFormValidate = function(result, form) {
-        if (result) {
+    var configForm = jQuery('#config-edit-form').mage('form').mage('validation', {
+        submitHandler: function(form)
+        {
             $$('.requires').each(function(element) {
                 var scopeElement = adminSystemConfig.getScopeElement(element);
                 if (!scopeElement || !scopeElement.checked) {
                     $(element).disabled = false;
                 }
             });
+            jQuery(form).trigger('afterValidate');
+            form.submit();
         }
-    };
+    });
 
     var adminSystemConfig = {
         getUp: function (element, tag) {

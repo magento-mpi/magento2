@@ -389,6 +389,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $dependencies = $field->getDependencies($fieldPrefix, $this->getStoreCode());
         $this->_populateDependenciesBlock($dependencies, $elementId, $elementName);
 
+        $sharedClass = '';
+        if ($field->getAttribute('shared') && $field->getConfigPath()) {
+            $sharedClass = ' shared shared-' . str_replace('/', '-', $field->getConfigPath());
+        }
 
         $formField = $fieldset->addField($elementId, $field->getType(), array(
             'name' => $elementName,
@@ -398,7 +402,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             'hint' => $field->getHint(),
             'value' => $data,
             'inherit' => $inherit,
-            'class' => $field->getFrontendClass(),
+            'class' => $field->getFrontendClass() . $sharedClass,
             'field_config' => $field->getData(),
             'scope' => $this->getScope(),
             'scope_id' => $this->getScopeId(),
