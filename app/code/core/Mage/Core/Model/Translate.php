@@ -177,7 +177,7 @@ class Mage_Core_Model_Translate
         $this->_translateObject = $this->_translateFactory
             ->create($dispatchResult->getParams(), $dispatchResult->getInlineType());
 
-        $this->_translateObject->isAllowed($area == 'adminhtml' ? 'admin' : null);
+        $this->_translateInline = $this->_translateObject->isAllowed($area == 'adminhtml' ? 'admin' : null);
 
         if (!$forceReload) {
             if ($this->_canUseCache()) {

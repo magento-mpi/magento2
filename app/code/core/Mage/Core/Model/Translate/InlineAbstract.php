@@ -133,6 +133,72 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     }
 
     /**
+     * Parse and save edited translate
+     *
+     * @param array $translate
+     * @return Mage_Core_Model_Translate_Inline
+     */
+    public function processAjaxPost($translate)
+    {
+        if (!$this->isAllowed()) {
+            return $this;
+        }
+
+        /* @var $resource Mage_Core_Model_Resource_Translate_String */
+        $resource = Mage::getResourceModel('Mage_Core_Model_Resource_Translate_String');
+        /** @todo fix variable name ACB */
+        foreach ($translate as $t) {
+            if (Mage::getDesign()->getArea() == 'adminhtml') {
+                $storeId = 0;
+            } else if (empty($t['perstore'])) {
+                $resource->deleteTranslate($t['original'], null, false);
+                $storeId = 0;
+            } else {
+                $storeId = Mage::app()->getStore()->getId();
+            }
+
+            $resource->saveTranslate($t['original'], $t['custom'], null, $storeId);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Replace translation templates with HTML fragments
+     *
+     * @param array|string $body
+     * @param bool $isJson
+     * @return Mage_Core_Model_Translate_Inline
+     */
+    public function processResponseBody(&$body, $isJson)
+    {
+        $this->_setIsJson($isJson);
+        if (!$this->isAllowed()) {
+            if (Mage::getDesign()->getArea() == 'adminhtml') {
+                $this->stripInlineTranslations($body);
+            }
+            return $this;
+        }
+
+        if (is_array($body)) {
+            foreach ($body as &$part) {
+                $this->processResponseBody($part, $isJson);
+            }
+        } elseif (is_string($body)) {
+            $this->_content = $body;
+
+            $this->_specialTags();
+            $this->_tagAttributes();
+            $this->_otherText();
+            $this->_insertInlineScriptsHtml();
+
+            $body = $this->_content;
+        }
+        $this->_setIsJson(self::JSON_FLAG_DEFAULT_STATE);
+        return $this;
+    }
+
+    /**
      * Add translate js to body
      */
     protected function _insertInlineScriptsHtml()
@@ -325,7 +391,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      * Format translate for special tags
      *
      * @param string $tagHtml
-     * @param string  $tagName
+     * @param string $tagName
      * @param array $trArr
      * @return string
      */
@@ -397,8 +463,8 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
                 $tagHtml,
                 array($this, '_getTagLocation'),
                 array(
-                     'tagName' => $tagName,
-                     'tagList' => $tagsList
+                    'tagName' => $tagName,
+                    'tagList' => $tagsList
                 )
             );
 

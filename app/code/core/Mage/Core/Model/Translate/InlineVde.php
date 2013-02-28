@@ -21,7 +21,7 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
      */
     public function isAllowed($store = null)
     {
-        /** @todo add verification of this default value ACB */
+        /** @todo ACB move to helper and get state from client */
         return false;
     }
 
@@ -66,7 +66,7 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
             foreach ($body as &$part) {
                 $this->processResponseBody($part, $isJson);
             }
-        } else if (is_string($body)) {
+        } elseif (is_string($body)) {
             $this->_content = $body;
 
             $this->_specialTags();
