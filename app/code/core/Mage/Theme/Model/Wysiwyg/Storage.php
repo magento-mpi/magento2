@@ -88,7 +88,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
     public function uploadFile($targetPath)
     {
         /** @var $uploader Mage_Core_Model_File_Uploader */
-        $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader', array('file'));
+        $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader', array('fileId' => 'file'));
         $uploader->setAllowedExtensions($this->_helper->getAllowedExtensionsByType());
         $uploader->setAllowRenameFiles(true);
         $uploader->setFilesDispersion(false);
