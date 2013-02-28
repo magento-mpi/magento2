@@ -88,9 +88,8 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
         if ($this->_isScriptInserted || stripos($this->_content, '</body>') === false) {
             return;
         }
-
-        $store = Mage_Core_Model_StoreManager::getStore();
-        if ($store->isAdmin()) {
+        /** @todo ACB shouldn't care about adminhtml.  determine if isAdmin check is needed. */
+        if (Mage::app()->getStore()->isAdmin()) {
             $urlPrefix = 'adminhtml';
             $urlModel = Mage::getModel('Mage_Backend_Model_Url');
         } else {
@@ -98,7 +97,7 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
             $urlModel = Mage::getModel('Mage_Core_Model_Url');
         }
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
-            array('_secure'=>$store->isCurrentlySecure()));
+            array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
         $trigImg = Mage::getDesign()->getViewFileUrl('Mage_Core::translate_edit_icon.png');
 
         ob_start();
