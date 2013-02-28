@@ -536,8 +536,11 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
         /** Prepare arguments for SUT constructor. */
         /** @var Mage_Core_Model_Cache $cache */
         $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+
         /** @var Mage_Webapi_Model_Config_Reader_Soap $reader */
-        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap', array('cache' => $cache));
+        $reader = $objectManager->create('Mage_Webapi_Model_Config_Reader_Soap', array(
+            'cache' => $cache
+        ));
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */

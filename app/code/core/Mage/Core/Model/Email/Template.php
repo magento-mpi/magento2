@@ -81,21 +81,17 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     static protected $_defaultTemplates;
 
     /**
-     * Initialize data
-     *
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
-        parent::__construct($eventDispatcher, $cacheManager);
+        parent::__construct($context);
     }
 
     /**

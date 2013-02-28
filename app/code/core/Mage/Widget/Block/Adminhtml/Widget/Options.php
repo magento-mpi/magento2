@@ -176,7 +176,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
 
         // extra html preparations
         if ($helper = $parameter->getHelperBlock()) {
-            $helperBlock = $this->getLayout()->createBlock($helper->getType(), '', $helper->getData());
+            $helperBlock = $this->getLayout()->createBlock($helper->getType(), '', array('data' => $helper->getData()));
             if ($helperBlock instanceof Varien_Object) {
                 $helperBlock->setConfig($helper->getData())
                     ->setFieldsetId($fieldset->getId())

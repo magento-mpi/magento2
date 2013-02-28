@@ -93,8 +93,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         );
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments(
-            Magento_Test_Helper_ObjectManager::MODEL_ENTITY, 'Mage_Catalog_Model_Product',
+        $arguments = $objectManagerHelper->getConstructArguments('Mage_Catalog_Model_Product',
             array('resource' => $this->_productResource, 'resourceCollection' => $productCollection)
         );
         $this->_product = $this->getMock(
@@ -106,7 +105,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $this->_customOptions = array();
 
         for ($i = 1; $i <= 3; $i++) {
-            $option = $objectManagerHelper->getModel('Mage_Catalog_Model_Product_Option',
+            $option = $objectManagerHelper->getObject('Mage_Catalog_Model_Product_Option',
                 array('resource' => $this->_optionResource)
             );
             $option->setIdFieldName('id');

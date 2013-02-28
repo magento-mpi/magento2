@@ -15,7 +15,7 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
      * @var array
      */
     protected $_initialConfig = array(
-        'preference' => array(
+        'preferences' => array(
             'Mage_Core_Model_Db_UpdaterInterface' => 'Mage_Core_Model_Db_Updater',
             'Mage_Core_Model_AppInterface' => 'Mage_Core_Model_App_Proxy',
             'Mage_Core_Model_Config_InvalidatorInterface' => 'Mage_Core_Model_Config_Invalidator_Proxy',
@@ -76,7 +76,7 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
     public function configure(Magento_ObjectManager $objectManager)
     {
         Magento_Profiler::start('initial');
-        $objectManager->setConfiguration(array_replace_recursive(
+        $objectManager->configure(array_replace_recursive(
             $this->_initialConfig,
             array(
                 'Mage_Core_Model_Dir' => array(
@@ -129,7 +129,7 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         Magento_Profiler::start('global_primary');
         $diConfig = $config->getNode('global/di');
         if ($diConfig) {
-            $objectManager->setConfiguration($diConfig->asArray());
+            $objectManager->configure($diConfig->asArray());
         }
         Magento_Profiler::stop('global_primary');
     }

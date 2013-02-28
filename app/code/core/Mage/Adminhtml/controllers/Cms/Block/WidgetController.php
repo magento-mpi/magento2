@@ -25,7 +25,7 @@ class Mage_Adminhtml_Cms_Block_WidgetController extends Mage_Adminhtml_Controlle
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
         $pagesGrid = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Cms_Block_Widget_Chooser', '', array(
-            'id' => $uniqId,
+            'data' => array('id' => $uniqId)
         ));
         $this->getResponse()->setBody($pagesGrid->toHtml());
     }

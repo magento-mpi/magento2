@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHPUnit_Framework_TestCase
+class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine
@@ -18,12 +18,8 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends 
 
     protected function setUp()
     {
+        parent::setUp();
         $this->_model= Mage::getModel('Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine');
-    }
-
-    protected function tearDown()
-    {
-        $this->_model = null;
     }
 
     public function testToOptionArray()

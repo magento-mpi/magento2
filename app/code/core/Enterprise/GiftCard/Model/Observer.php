@@ -20,14 +20,14 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     protected $_emailTemplateModel;
 
     /**
-     * Class constructor
-     *
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
      * @param array $data
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
         array $data = array()
@@ -41,7 +41,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
             $this->_emailTemplateModel = $data['email_template_model'];
             unset($data['email_template_model']);
         }
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -26,11 +26,12 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($storeConfigData));
 
         $model = new Enterprise_Rma_Helper_Data(
+            $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false),
             $this->_getAppMock($mockConfig),
             $storeConfigMock,
             $this->_getCountryFactoryMock($mockConfig),
-            $this->_getRegionFactoryMock($mockConfig),
-            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false, false)
+            $this->_getRegionFactoryMock($mockConfig)
+
         );
         $this->assertEquals($model->getReturnAddressData(), $expectedResult);
     }

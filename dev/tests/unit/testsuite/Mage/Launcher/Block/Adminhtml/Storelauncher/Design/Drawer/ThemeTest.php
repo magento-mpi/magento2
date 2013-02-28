@@ -34,7 +34,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_ThemeTest extend
         );
 
         /** @var $themeBlock Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme */
-        $themeBlock = $objectManagerHelper->getBlock(
+        $themeBlock = $objectManagerHelper->getObject(
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
             $arguments
         );

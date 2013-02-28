@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_ContentTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_ContentTest extends Mage_Backend_Area_TestCase
 {
     public function testGetUploader()
     {

@@ -88,7 +88,6 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
      * @param Mage_Core_Model_Layout_Argument_Processor $argumentProcessor
      * @param Mage_Core_Model_Layout_Translator $translator
      * @param Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure
-     * @param Mage_DesignEditor_Block_Template $wrapperBlock
      * @param Mage_DesignEditor_Helper_Data $helper
      * @param string $area
      */
@@ -98,11 +97,9 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
-        Mage_DesignEditor_Block_Template $wrapperBlock,
         Mage_DesignEditor_Helper_Data $helper,
         $area = Mage_Core_Model_Design_Package::DEFAULT_AREA
     ) {
-        $this->_wrapperBlock = $wrapperBlock;
         $this->_helper       = $helper;
         parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $area);
     }
@@ -404,6 +401,9 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     protected function _wrapElement($elementContent, $elementName, $isContainer = false, $canManipulate = false)
     {
         $elementId = 'vde_element_' . rtrim(strtr(base64_encode($elementName), '+/', '-_'), '=');
+        if (!$this->_wrapperBlock) {
+            $this->_wrapperBlock = $this->_blockFactory->createBlock('Mage_DesignEditor_Block_Template');
+        }
         $this->_wrapperBlock->setData(array(
             'element_id'              => $elementId,
             'element_title'           => $this->getElementProperty($elementName, 'label') ?: $elementName,

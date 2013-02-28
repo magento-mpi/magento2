@@ -16,6 +16,15 @@ class Magento_Di_Generator_Proxy extends Magento_Di_Generator_EntityAbstract
     const ENTITY_TYPE = 'proxy';
 
     /**
+     * @param string $modelClassName
+     * @return string
+     */
+    protected function _getDefaultResultClassName($modelClassName)
+    {
+        return $modelClassName . '_' . ucfirst(static::ENTITY_TYPE);
+    }
+
+    /**
      * @return array
      */
     protected function _getClassMethods()

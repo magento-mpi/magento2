@@ -41,15 +41,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
         $arguments = array(
             'storeConfig' => $config,
             'regionModel' => $regionModel,
-            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
-            'countryModel' => $this->getMock('Mage_Directory_Model_Config_Source_Country', array(), array(), '', false),
-            'validateVat' => $this->getMock('Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory',
-                array(), array(), '', false
-            ),
-            'linkTracker' => $this->getMock('Mage_Launcher_Model_LinkTracker', array(), array(), '', false)
         );
 
-        $this->_drawerBlock = $objectManagerHelper->getBlock(
+        $this->_drawerBlock = $objectManagerHelper->getObject(
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer',
             $arguments
         );

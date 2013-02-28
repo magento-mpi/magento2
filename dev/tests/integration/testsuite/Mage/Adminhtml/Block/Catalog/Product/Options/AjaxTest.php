@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Adminhtml_Block_Catalog_Product_Options_Ajax
@@ -17,6 +17,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_Fram
 
     public function setUp()
     {
+        parent::setUp();
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Options_Ajax');
     }
 

@@ -32,28 +32,24 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
     protected $_designPackage;
 
     /**
-     * Initialize dependencies
-     *
+     * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Theme_Files $themeFiles
      * @param Mage_Core_Model_Design_Package $designPackage
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Resource_Theme_Customization_Link $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Mage_Core_Model_Context $context,
         Mage_Core_Model_Theme_Files $themeFiles,
         Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Resource_Theme_Customization_Link $resource,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_objectManager = $objectManager;
         $this->_themeFiles = $themeFiles;
         $this->_designPackage = $designPackage;

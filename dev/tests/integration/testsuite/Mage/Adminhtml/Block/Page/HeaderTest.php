@@ -12,7 +12,7 @@
 /**
  * Test Mage_Adminhtml_Block_Page_Header
  */
-class Mage_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Page_HeaderTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Adminhtml_Block_Page_Header
@@ -21,12 +21,8 @@ class Mage_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        parent::setUp();
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Page_Header');
-    }
-
-    protected function tearDown()
-    {
-        $this->_block = null;
     }
 
     public function testGetHomeLink()

@@ -25,7 +25,6 @@ class Mage_Core_Model_Layout_Argument_Handler_UrlFactory
     public function createHandler()
     {
         return Mage::getModel('Mage_Core_Model_Layout_Argument_Handler_Url', array(
-            'objectFactory' => Mage::app()->getConfig(),
             'urlModel' => Mage::app()->getStore()->getUrlModel()
         ));
     }
