@@ -152,10 +152,12 @@ class Magento_Test_Application
         Mage::$headersSentThrowsException = false;
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
-            /** @var $app Mage_Core_Model_App */
-            new Magento_Test_ObjectManager(new Magento_ObjectManager_Definition_Runtime(), $config);
+            $objectManager = new Magento_Test_ObjectManager(new Magento_ObjectManager_Definition_Runtime(), $config);
+            Mage::setObjectManager($objectManager);
         } else {
             $config->configure(Mage::getObjectManager());
+            Mage::getObjectManager()->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
+            Mage::getObjectManager()->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
         }
 
         Mage::getObjectManager()->get('Mage_Core_Model_Resource')
