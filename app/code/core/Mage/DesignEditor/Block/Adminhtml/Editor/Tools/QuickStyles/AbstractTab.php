@@ -16,7 +16,8 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_AbstractTab extends Mage_Backend_Block_Widget_Form
+abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_AbstractTab
+    extends Mage_Backend_Block_Widget_Form
 {
     /**
      * Form factory for VDE "Quick Styles" tab
