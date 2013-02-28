@@ -114,7 +114,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
     {
         $result = array();
         /** @var $uploader Mage_Core_Model_File_Uploader */
-        $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader', array($key));
+        $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader', array('fileId' => $key));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->setAllowRenameFiles(true);
         $uploader->setAllowCreateFolders(true);

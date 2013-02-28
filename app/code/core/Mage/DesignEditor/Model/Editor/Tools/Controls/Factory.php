@@ -94,7 +94,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Factory
                 break;
         }
         /** @var $config Mage_DesignEditor_Model_Config_Control_Abstract */
-        $config = $this->_objectManager->get($class, array($files));
+        $config = $this->_objectManager->create($class, array('configFiles' => $files));
         return Mage::getObjectManager()->create(
             'Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration', array(
                 'configuration' => $config,
