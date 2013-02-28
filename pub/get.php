@@ -41,7 +41,13 @@ if ($mediaDirectory) {
     sendFile($filePath);
 }
 try {
-    $entryPoint = new Mage_Core_Model_EntryPoint_Media(dirname(__DIR__), $mediaDirectory, $_SERVER);
+    if (empty($mediaDirectory)) {
+        $_SERVER[Mage::PARAM_ALLOWED_MODULES] = array('Mage_Core');
+        $_SERVER[Mage::PARAM_CACHE_OPTIONS]['disable_save'] = true;
+    }
+
+    $config = new Mage_Core_Model_Config_Primary(dirname(__DIR__), $_SERVER);
+    $entryPoint = new Mage_Core_Model_EntryPoint_Media($config);
     $entryPoint->processRequest();
     if (!Mage::isInstalled()) {
         sendNotFoundPage();

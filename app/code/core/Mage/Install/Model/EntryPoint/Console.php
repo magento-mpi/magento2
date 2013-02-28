@@ -16,7 +16,8 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
     public function __construct($baseDir, array $params = array())
     {
         $this->_params = $this->_buildInitParams($params);
-        parent::__construct($baseDir, $this->_params);
+        $config = new Mage_Core_Model_Config_Primary($baseDir, $this->_params);
+        parent::__construct($config);
     }
 
     /**
@@ -46,7 +47,7 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
         /**
          * @var $installer Mage_Install_Model_Installer_Console
          */
-        $installer = $this->_objectManager->get(
+        $installer = $this->_objectManager->create(
             'Mage_Install_Model_Installer_Console',
             array('installArgs' => $this->_params)
         );
