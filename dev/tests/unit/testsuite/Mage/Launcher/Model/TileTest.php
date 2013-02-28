@@ -18,16 +18,14 @@ class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
-        $cacheManager = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+        $helper = new Magento_Test_Helper_ObjectManager($this);
         $resource = $this->getMock('Mage_Launcher_Model_Resource_Tile', array(), array(), '', false);
         $resource->expects($this->any())
             ->method('addCommitCallback')
             ->will($this->returnValue($resource));
 
         $this->_tile = new Mage_Launcher_Model_Tile(
-            $eventManager,
-            $cacheManager,
+            $helper->getObject('Mage_Core_Model_Context'),
             $resource,
             null,
             null,

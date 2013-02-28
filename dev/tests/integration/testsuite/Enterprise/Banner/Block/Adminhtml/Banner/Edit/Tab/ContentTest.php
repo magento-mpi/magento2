@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_ContentTest extends PHPUnit_Framework_TestCase
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_ContentTest extends Mage_Backend_Area_TestCase
 {
     public function testConstruct()
     {

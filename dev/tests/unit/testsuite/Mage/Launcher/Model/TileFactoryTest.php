@@ -12,29 +12,13 @@
 class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Mock methods for Object Manager
-     *
-     * @var array
-     */
-    protected $_mockMethods = array(
-        'create',
-        'get',
-        'setConfiguration',
-        'addSharedInstance',
-        'removeSharedInstance',
-        'hasSharedInstance',
-        'addAlias',
-        'getClassFromAlias'
-    );
-
-    /**
      * This test covers the case of creation an empty Tile model without Save handler and State resolver.
      *
      * @covers Mage_Launcher_Model_TileFactory::create
      */
     public function testCreateEmptyTile()
     {
-        $objectManager = $this->getMock('Magento_ObjectManager', $this->_mockMethods, array(), '', false);
+        $objectManager = $this->getMock('Magento_ObjectManager');
         $applicationConfig = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
 
         $tile = $this->getMock('Mage_Launcher_Model_Tile', array(), array(), '', false);
@@ -58,7 +42,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $objectManager = $this->getMock('Magento_ObjectManager', $this->_mockMethods, array(), '', false);
+        $objectManager = $this->getMock('Magento_ObjectManager');
         $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
 
         $tile = $this->getMock(
@@ -134,7 +118,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetStateResolverClassName()
     {
-        $objectManagerStub = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManagerStub = $this->getMock('Magento_ObjectManager');
         $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
 
         $applicationConfig->expects($this->once())
@@ -154,7 +138,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testGetStateResolverClassNameThrowsException()
     {
-        $objectManagerStub = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManagerStub = $this->getMock('Magento_ObjectManager');
         $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
 
         $applicationConfig->expects($this->once())
@@ -168,7 +152,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetSaveHandlerClassName()
     {
-        $objectManagerStub = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManagerStub = $this->getMock('Magento_ObjectManager');
         $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
 
         $applicationConfig->expects($this->once())
@@ -188,7 +172,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSaveHandlerClassNameThrowsException()
     {
-        $objectManagerStub = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $objectManagerStub = $this->getMock('Magento_ObjectManager');
         $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
 
         $applicationConfig->expects($this->once())

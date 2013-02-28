@@ -35,48 +35,18 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected $_customCssFile;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Layout $layout
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Backend_Model_Url $urlBuilder
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Design_Package $designPackage
-     * @param Mage_Core_Model_Session $session
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Theme_Model_Uploader_Service $uploaderService
-     * @param Magento_Filesystem $filesystem
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Backend_Model_Url $urlBuilder,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Session $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
+        Mage_Core_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Mage_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
-        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $objectManager, $data
+        parent::__construct($context, $objectManager, $data
         );
         $this->_uploaderService = $uploaderService;
     }

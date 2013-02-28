@@ -66,19 +66,17 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     protected $_objectManager;
 
     /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Varien_Io_File $fileIo
-     * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
      * @param Magento_File_Size $fileSize
      * @param Mage_Core_Model_Theme_Customization_Files_Js $filesJs
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Varien_Io_File $fileIo,
         Magento_File_Size $fileSize,
         Mage_Core_Model_Theme_Customization_Files_Js $filesJs,
@@ -91,7 +89,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
         $this->_fileSize = $fileSize;
         $this->_filesJs = $filesJs;
         $this->_objectManager = $objectManager;
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -104,7 +102,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     public function uploadCssFile($file)
     {
         /** @var $fileUploader Mage_Core_Model_File_Uploader */
-        $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($file));
+        $fileUploader = Mage::getObjectManager()->create('Mage_Core_Model_File_Uploader', array('fileId' => $file));
         $fileUploader->setAllowedExtensions(array('css'));
         $fileUploader->setAllowRenameFiles(true);
         $fileUploader->setAllowCreateFolders(true);
@@ -133,7 +131,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     public function uploadJsFile($file, $theme, $saveAsTmp = true)
     {
         /** @var $fileUploader Mage_Core_Model_File_Uploader */
-        $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($file));
+        $fileUploader = Mage::getObjectManager()->create('Mage_Core_Model_File_Uploader', array('fileId' => $file));
         $fileUploader->setAllowedExtensions(array('js'));
         $fileUploader->setAllowRenameFiles(true);
         $fileUploader->setAllowCreateFolders(true);

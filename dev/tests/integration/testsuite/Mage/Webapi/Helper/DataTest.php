@@ -44,7 +44,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             /** Prepare arguments for SUT constructor. */
             $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
             /** @var Mage_Webapi_Model_Config_Reader_Soap $reader */
-            $reader = $objectManager->get(
+            $reader = $objectManager->create(
                 'Mage_Webapi_Model_Config_Reader_Soap',
                 array(
                     'cache' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false)

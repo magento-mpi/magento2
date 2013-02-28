@@ -39,12 +39,12 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
-     * Constructor
-     *
+     * @param Mage_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      */
-    public function __construct(Magento_Filesystem $filesystem)
+    public function __construct(Mage_Core_Helper_Context $context, Magento_Filesystem $filesystem)
     {
+        parent::__construct($context);
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($this->getStorageRoot());

@@ -8,7 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once __DIR__ . '/Generator/TestAsset/SourceClassWithNamespace.php';
+require_once __DIR__ . '/Generator/TestAsset/ParentClassWithNamespace.php';
 /**
  * @magentoAppIsolation enabled
  */
@@ -42,7 +43,7 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
             new Magento_Autoload_IncludePath(),
             $generationDirectory
         );
-        $this->_generator = Mage::getObjectManager()->get('Magento_Di_Generator', array('ioObject' => $ioObject));
+        $this->_generator = Mage::getObjectManager()->create('Magento_Di_Generator', array('ioObject' => $ioObject));
     }
 
     protected function tearDown()

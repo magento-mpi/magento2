@@ -25,9 +25,9 @@
         </full_page_cache>
         <skip_process_modules_updates>0</skip_process_modules_updates>
         <di>
-            <preference>
+            <preferences>
                 <Enterprise_PageCache_Model_Processor_RestrictionInterface>Enterprise_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
-            </preference>
+            </preferences>
             <Enterprise_PageCache_Model_Processor>
                 <parameters>
                     <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>

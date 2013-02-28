@@ -18,14 +18,6 @@
 class Mage_Core_Helper_Url extends Mage_Core_Helper_Abstract
 {
     /**
-     * @param Mage_Core_Model_Translate $translate
-     */
-    public function __construct(Mage_Core_Model_Translate $translate)
-    {
-        parent::__construct($translate);
-    }
-
-    /**
      * Retrieve current url
      *
      * @return string

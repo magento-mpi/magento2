@@ -52,7 +52,7 @@ class Mage_Widget_Model_Template_Filter extends Mage_Cms_Model_Template_Filter
         }
         
         // define widget block and check the type is instance of Widget Interface
-        $widget = Mage::app()->getLayout()->createBlock($type, $name, $params);
+        $widget = Mage::app()->getLayout()->createBlock($type, $name, array('data' => $params));
         if (!$widget instanceof Mage_Widget_Block_Interface) {
             return '';
         }

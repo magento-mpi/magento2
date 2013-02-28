@@ -23,13 +23,8 @@ class Mage_Launcher_Block_Adminhtml_TileTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
-
-        $arguments = array(
-            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
-        );
-        $this->_block = $objectManager->getBlock('Mage_Launcher_Block_Adminhtml_Tile', $arguments);
-
-        $this->_tile = $objectManager->getModel('Mage_Launcher_Model_Tile');
+        $this->_block = $objectManager->getObject('Mage_Launcher_Block_Adminhtml_Tile');
+        $this->_tile = $objectManager->getObject('Mage_Launcher_Model_Tile');
         $this->_block->setTile($this->_tile);
     }
 

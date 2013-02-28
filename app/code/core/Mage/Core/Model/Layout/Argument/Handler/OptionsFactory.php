@@ -24,8 +24,6 @@ class Mage_Core_Model_Layout_Argument_Handler_OptionsFactory
      */
     public function createHandler()
     {
-        return Mage::getModel('Mage_Core_Model_Layout_Argument_Handler_Options', array(
-            'objectFactory' => Mage::app()->getConfig()
-        ));
+        return Mage::getModel('Mage_Core_Model_Layout_Argument_Handler_Options');
     }
 }

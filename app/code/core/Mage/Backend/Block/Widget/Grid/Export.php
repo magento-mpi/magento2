@@ -272,6 +272,7 @@ class Mage_Backend_Block_Widget_Grid_Export
         $file = $this->_exportPath . DS . $name . '.csv';
 
         $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->ensureDirectoryExists($this->_exportPath);
         $stream = $this->_filesystem->createAndOpenStream($file, 'w+', $this->_exportPath);
 
         $stream->writeCsv($this->_getExportHeaders());
@@ -398,6 +399,7 @@ class Mage_Backend_Block_Widget_Grid_Export
         $file = $this->_exportPath . DS . $name . '.xml';
 
         $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->ensureDirectoryExists($this->_exportPath);
         $stream = $this->_filesystem->createAndOpenStream($file, 'w+', $this->_exportPath);
         $stream->lock(true);
 

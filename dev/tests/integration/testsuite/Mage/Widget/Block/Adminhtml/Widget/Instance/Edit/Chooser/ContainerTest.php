@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest extends PHPUnit_Framework_TestCase
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container
@@ -18,14 +18,11 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest ext
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_block = Mage::app()->getLayout()->createBlock(
             'Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container'
         );
-    }
-
-    protected function tearDown()
-    {
-        $this->_block = null;
     }
 
     public function testSetGetAllowedContainers()

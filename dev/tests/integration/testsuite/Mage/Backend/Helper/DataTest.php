@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Helper_DataTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Backend_Helper_Data
@@ -23,6 +23,9 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        parent::setUp();
+
+        Mage::getConfig()->setCurrentAreaCode(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_helper = Mage::helper('Mage_Backend_Helper_Data');
     }
 
@@ -30,6 +33,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper = null;
         $this->_auth = null;
+        Mage::getConfig()->setCurrentAreaCode(null);
     }
 
     /**

@@ -85,7 +85,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     /**
      * Url Builder
      *
-     * @var Mage_Core_Model_Url
+     * @var Mage_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
 
@@ -105,47 +105,22 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_frontController;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Layout $layout
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_Url $urlBuilder
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Design_Package $designPackage
-     * @param Mage_Core_Model_Session_Abstract $session
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Core_Block_Context $context
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Url $urlBuilder,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Session_Abstract $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        array $data = array()
-    ) {
-        $this->_request         = $request;
-        $this->_layout          = $layout;
-        $this->_eventManager    = $eventManager;
-        $this->_urlBuilder      = $urlBuilder;
-        $this->_translator      = $translator;
-        $this->_cache           = $cache;
-        $this->_designPackage   = $designPackage;
-        $this->_session         = $session;
-        $this->_storeConfig     = $storeConfig;
-        $this->_frontController = $frontController;
-        $this->_helperFactory   = $helperFactory;
-
+    public function __construct(Mage_Core_Block_Context $context, array $data = array())
+    {
+        $this->_request         = $context->getRequest();
+        $this->_layout          = $context->getLayout();
+        $this->_eventManager    = $context->getEventManager();
+        $this->_urlBuilder      = $context->getUrlBuilder();
+        $this->_translator      = $context->getTranslator();
+        $this->_cache           = $context->getCache();
+        $this->_designPackage   = $context->getDesignPackage();
+        $this->_session         = $context->getSession();
+        $this->_storeConfig     = $context->getStoreConfig();
+        $this->_frontController = $context->getFrontController();
+        $this->_helperFactory   = $context->getHelperFactory();
         parent::__construct($data);
         $this->_construct();
     }
@@ -308,7 +283,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function addChild($alias, $block, $data = array())
     {
-        $block = $this->getLayout()->createBlock($block, $this->getNameInLayout() . '.' . $alias, $data);
+        $block = $this->getLayout()->createBlock($block, $this->getNameInLayout() . '.' . $alias,
+            array('data' => $data)
+        );
         $this->setChild($alias, $block);
         return $block;
     }

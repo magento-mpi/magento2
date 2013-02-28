@@ -27,8 +27,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager_Zend',
-            array('create', 'get'), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
 
         $this->_model = $this->getMock('Mage_DesignEditor_Adminhtml_System_Design_EditorController',
             array('_forward', '_title', '__', 'loadLayout', '_setActiveMenu', 'renderLayout'),
