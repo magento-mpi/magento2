@@ -159,4 +159,34 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         $this->assertRegExp('/^[a-f0-9]{32}$/', $actualKey);
         $this->assertNotEquals($actualKey, $this->_model->getValidEncryptionKey());
     }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
+     */
+    public function testFinish()
+    {
+        $this->_emulateInstallerConfigDir(self::$_tmpDir);
+        $configFile = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
+        copy($configFile, self::$_tmpConfigFile);
+
+        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
+        $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
+
+        $types = array_keys(Mage::getModel('Mage_Core_Model_Cache')->getTypes());
+        foreach ($types as $type) {
+            $cacheTypes->setEnabled($type, false);
+        }
+        $cacheTypes->persist();
+
+        $this->_model->finish();
+
+        $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
+        foreach ($types as $type) {
+            $this->assertTrue(
+                $cacheTypes->isEnabled($type),
+                "'$type' cache type has not been enabled after installation"
+            );
+        }
+    }
 }

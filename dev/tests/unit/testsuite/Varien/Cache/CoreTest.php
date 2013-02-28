@@ -68,4 +68,13 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
             'non-existing class passed' => array(array('decorator' => array('class' => 'NonExistingClass'))),
         );
     }
+
+    public function testSaveDisabled()
+    {
+        $frontend = $this->getMock('Varien_Cache_Core', array('_tags'), array(array('disable_save' => true)));
+        $frontend->expects($this->never())
+            ->method('_tags');
+        $result = $frontend->save('data', 'id');
+        $this->assertTrue($result);
+    }
 }

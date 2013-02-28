@@ -14,11 +14,16 @@
     <global>
         <cache>
             <types>
-                <fixture_type>
+                <fixture_type_tag_scope>
                     <label>Fixture Type One</label>
                     <description>This is Fixture Type One</description>
-                    <class>Some_Cache_Type_Mock</class>
-                </fixture_type>
+                    <class>Magento_Cache_Frontend_Decorator_TagScope</class>
+                </fixture_type_tag_scope>
+                <fixture_type_bare>
+                    <label>Fixture Type Two</label>
+                    <description>This is Fixture Type Two</description>
+                    <class>Magento_Cache_Frontend_Decorator_Bare</class>
+                </fixture_type_bare>
             </types>
         </cache>
     </global>

@@ -117,19 +117,29 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function massEnableAction()
     {
-        $types = $this->getRequest()->getParam('types');
-        $allTypes = array_keys($this->_cache->getTypes());
-        $updatedTypes = 0;
-        foreach ($types as $code) {
-            if (in_array($code, $allTypes) && !$this->_cacheTypes->isEnabled($code)) {
-                $this->_cacheTypes->setEnabled($code, true);
-                $updatedTypes++;
+        try {
+            $types = $this->getRequest()->getParam('types');
+            $updatedTypes = 0;
+            $this->_validateTypes($types);
+            foreach ($types as $code) {
+                if (!$this->_cacheTypes->isEnabled($code)) {
+                    $this->_cacheTypes->setEnabled($code, true);
+                    $updatedTypes++;
+                }
             }
+            if ($updatedTypes > 0) {
+                $this->_cacheTypes->persist();
+                $this->_getSession()->addSuccess(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes)
+                );
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
         }
-        if ($updatedTypes > 0) {
-            $this->_cacheTypes->persist();
-            $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes)
+        catch (Exception $e) {
+            $this->_getSession()->addException(
+                $e,
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while enabling cache.')
             );
         }
         $this->_redirect('*/*');
@@ -140,20 +150,30 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function massDisableAction()
     {
-        $types = $this->getRequest()->getParam('types');
-        $allTypes = array_keys($this->_cache->getTypes());
-        $updatedTypes = 0;
-        foreach ($types as $code) {
-            if (in_array($code, $allTypes) && $this->_cacheTypes->isEnabled($code)) {
-                $this->_cacheTypes->setEnabled($code, false);
-                $updatedTypes++;
+        try {
+            $types = $this->getRequest()->getParam('types');
+            $updatedTypes = 0;
+            $this->_validateTypes($types);
+            foreach ($types as $code) {
+                if ($this->_cacheTypes->isEnabled($code)) {
+                    $this->_cacheTypes->setEnabled($code, false);
+                    $updatedTypes++;
+                }
+                $this->_cache->cleanType($code);
             }
-            $this->_cache->cleanType($code);
+            if ($updatedTypes > 0) {
+                $this->_cacheTypes->persist();
+                $this->_getSession()->addSuccess(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes)
+                );
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
         }
-        if ($updatedTypes > 0) {
-            $this->_cacheTypes->persist();
-            $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes)
+        catch (Exception $e) {
+            $this->_getSession()->addException(
+                $e,
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while disabling cache.')
             );
         }
         $this->_redirect('*/*');
@@ -164,21 +184,48 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function massRefreshAction()
     {
-        $types = $this->getRequest()->getParam('types');
-        $updatedTypes = 0;
-        if (!empty($types)) {
+        try {
+            $types = $this->getRequest()->getParam('types');
+            $updatedTypes = 0;
+            $this->_validateTypes($types);
             foreach ($types as $type) {
                 $this->_cache->cleanType($type);
                 Mage::dispatchEvent('adminhtml_cache_refresh_type', array('type' => $type));
                 $updatedTypes++;
             }
+            if ($updatedTypes > 0) {
+                $this->_getSession()->addSuccess(
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) refreshed.", $updatedTypes)
+                );
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
         }
-        if ($updatedTypes > 0) {
-            $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) refreshed.", $updatedTypes)
+        catch (Exception $e) {
+            $this->_getSession()->addException(
+                $e,
+                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while refreshing cache.')
             );
         }
         $this->_redirect('*/*');
+    }
+
+    /**
+     * Check whether specified cache types exist
+     *
+     * @param array $types
+     */
+    protected function _validateTypes(array $types)
+    {
+        if (empty($types)) {
+            return;
+        }
+        $allTypes = array_keys($this->_cache->getTypes());
+        $invalidTypes = array_diff($types, $allTypes);
+        if (count($invalidTypes) > 0) {
+            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')
+                ->__("Specified cache type(s) don't exist: " . join(', ', $invalidTypes)));
+        }
     }
 
     /**
