@@ -56,14 +56,14 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
         $this->_dir = new Mage_Core_Model_Dir(
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local()),
             $baseDir,
-            $this->_getParam(Mage::PARAM_APP_URIS, array()),
-            $this->_getParam(Mage::PARAM_APP_DIRS, array())
+            $this->getParam(Mage::PARAM_APP_URIS, array()),
+            $this->getParam(Mage::PARAM_APP_DIRS, array())
         );
         $this->_loader = new Mage_Core_Model_Config_Loader_Primary(
             new Mage_Core_Model_Config_Loader_Local(
                 $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG),
-                $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
-                $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_FILE)
+                $this->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
+                $this->getParam(Mage::PARAM_CUSTOM_LOCAL_FILE)
             ),
             $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG)
         );
@@ -78,7 +78,7 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
      * @param mixed $defaultValue
      * @return mixed
      */
-    protected function _getParam($name, $defaultValue = null)
+    public function getParam($name, $defaultValue = null)
     {
         return isset($this->_params[$name]) ? $this->_params[$name] : $defaultValue;
     }
@@ -145,25 +145,25 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
         $objectManager->configure(array(
             'Mage_Core_Model_Config_Loader_Local' => array(
                 'parameters' => array(
-                    'customFile' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_FILE),
-                    'customConfig' => $this->_getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG)
+                    'customFile' => $this->getParam(Mage::PARAM_CUSTOM_LOCAL_FILE),
+                    'customConfig' => $this->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG)
                 )
             ),
             'Mage_Core_Model_Config_Loader_Modules' => array(
                 'parameters' => array(
-                    'allowedModules' => $this->_getParam(Mage::PARAM_ALLOWED_MODULES, array())
+                    'allowedModules' => $this->getParam(Mage::PARAM_ALLOWED_MODULES, array())
                 )
             ),
             'Mage_Core_Model_Cache' => array(
                 'parameters' => array(
-                    'options' => $this->_getParam(Mage::PARAM_CACHE_OPTIONS, array()),
-                    'banCache' => $this->_getParam(Mage::PARAM_BAN_CACHE, false),
+                    'options' => $this->getParam(Mage::PARAM_CACHE_OPTIONS, array()),
+                    'banCache' => $this->getParam(Mage::PARAM_BAN_CACHE, false),
                 )
             ),
             'Mage_Core_Model_StoreManager' => array(
                 'parameters' => array(
-                    'scopeCode' => $this->_getParam(Mage::PARAM_RUN_CODE, ''),
-                    'scopeType' => $this->_getParam(Mage::PARAM_RUN_TYPE, 'store'),
+                    'scopeCode' => $this->getParam(Mage::PARAM_RUN_CODE, ''),
+                    'scopeType' => $this->getParam(Mage::PARAM_RUN_TYPE, 'store'),
                 )
             )
         ));

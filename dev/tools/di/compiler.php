@@ -75,9 +75,6 @@ switch ($definitionFormat) {
 $storageType = (string) $config->getNode('global/di/definitions/storage/type');
 $storagePath = (string) $config->getNode('global/di/definitions/storage/path');
 switch ($storageType) {
-    case 'memcached':
-        break;
-
     case 'file':
     default:
         $dirs = $objectManager->get('Mage_Core_Model_Dir');
