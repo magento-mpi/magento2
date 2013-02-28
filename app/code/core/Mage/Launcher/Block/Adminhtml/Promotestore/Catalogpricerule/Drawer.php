@@ -24,6 +24,6 @@ class Mage_Launcher_Block_Adminhtml_Promotestore_Catalogpricerule_Drawer extends
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Catalog Price Rule');
+        return $this->helper('Mage_Launcher_Helper_Data')->__('Catalog Price Rules');
     }
 }

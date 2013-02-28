@@ -14,22 +14,22 @@
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Promotion') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Offer promotional coupons and discounted pricing.') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_promotion_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_promotion_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Confirm Info') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
         </button>
     </div>
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
-        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?></p>
+        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Offer promotional coupons and discounted pricing.') ?></p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_promotion_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_promotion_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Content Pages') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
         </button>
         <?php endif; ?>
     </div>

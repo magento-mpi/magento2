@@ -14,24 +14,24 @@
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Wishlist') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('We recommend that you configure these pages on your new site.') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Activate the wishlist feature for your customers.') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_wishlist_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_wishlist_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure Wishlist options') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
         </button>
     </div>
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <p>
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Wishlist is configured.') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Activate the wishlist feature for your customers.') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_wishlist_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_wishlist_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Wishlist options') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
         </button>
         <?php endif; ?>
     </div>

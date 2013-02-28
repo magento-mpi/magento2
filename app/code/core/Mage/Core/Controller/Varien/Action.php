@@ -1125,6 +1125,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 while ($buffer = $stream->read(1024)) {
                     print $buffer;
                 }
+                flush();
                 $stream->close();
                 if (!empty($content['rm'])) {
                     $filesystem->delete($file);

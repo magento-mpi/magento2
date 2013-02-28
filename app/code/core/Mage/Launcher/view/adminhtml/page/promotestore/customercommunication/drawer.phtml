@@ -14,26 +14,22 @@
     <form id="drawer-form">
         <h2 class="title"><?php echo $this->__('Guidelines and Best Practices') ?> </h2>
         <article class="entry">
-            <p><?php echo $this->__('Lorem ipsum dolor sit amet, consectetur adipiscing elit. In velit libero, dictum a ultrices non, tempor non dui. Ut volutpat blandit nulla, scelerisque mattis libero cursus id. Donec eu leo justo, at tincidunt urna. Duis interdum, velit ut lobortis dignissim, odio enim commodo ante, placerat viverra lectus eros sed diam. Vivamus scelerisque, tellus nec gravida consectetur, orci lacus pretium felis, vel convallis magna neque ultrices leo. In a leo nec lectus scelerisque fringilla sed ut sapien. Integer tincidunt risus in arcu blandit dapibus.') ?> </p>
-
-            <p><?php echo $this->__('Integer ac nibh nunc. Duis est justo, feugiat ut elementum eget, commodo a orci. Pellentesque et massa leo, vitae faucibus sapien. Proin sed metus non neque pellentesque aliquet eu congue felis. Curabitur bibendum blandit rutrum. Nunc vel rutrum urna. Pellentesque tempus sapien non mauris ultrices pharetra tristique elit laoreet. Pellentesque nulla leo, placerat ac sollicitudin ac, aliquam in justo. Phasellus a sapien lorem. Quisque mi nulla, adipiscing quis tincidunt vel, pulvinar in orci. Duis sodales odio in justo scelerisque consectetur. Aliquam erat volutpat. Etiam hendrerit, purus a rutrum condimentum, lorem quam ultrices erat, ut condimentum est purus eget mi.') ?> </p>
+            <p><?php echo $this->__('Every customer touchpoint deserves careful thought and planning, no matter what size your business. Since emails are often your primary way to communicate with customers, pay special attention to this channel. A consistent, positive voice and tone boosts loyalty and bonds customers to your brand. Use these links to set up addresses and titles and customize content of emails to your customers.') ?> </p>
         </article>
         <div class="go-do">
             <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
-
-            <p><?php echo $this->__('We recommend that you configure these settings:') ?></p>
             <ul class="checklist">
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'trans_email', '_fragment' => 'trans_email_ident_general-link')); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Store Email Addresses'); ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Email Addresses'); ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'design', '_fragment' => 'design_email-link')); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Logo for Transactional Email'); ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Email Logo'); ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'sales_email', '_fragment' => 'sales_email_order-link')); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Sales Emails'); ?> </a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Sales Emails'); ?></a></li>
 
                 <?php $trackerLink = $this->getTrackerLink('adminhtml/system_email_template'); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Transactional Emails'); ?></a></li>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Transactional Email'); ?></a></li>
             </ul>
         </div>
     </form>
