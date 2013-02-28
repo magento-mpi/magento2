@@ -86,10 +86,12 @@ class Mage_Core_Model_Translate_Inline extends Mage_Core_Model_Translate_InlineA
      * Replace translation templates with HTML fragments
      *
      * @param array|string $body
+     * @param bool $isJson
      * @return Mage_Core_Model_Translate_Inline
      */
-    public function processResponseBody(&$body)
+    public function processResponseBody(&$body, $isJson)
     {
+        $this->_setIsJson($isJson);
         if (!$this->isAllowed()) {
             if (Mage::getDesign()->getArea() == 'adminhtml') {
                 $this->stripInlineTranslations($body);
@@ -99,7 +101,7 @@ class Mage_Core_Model_Translate_Inline extends Mage_Core_Model_Translate_InlineA
 
         if (is_array($body)) {
             foreach ($body as &$part) {
-                $this->processResponseBody($part);
+                $this->processResponseBody($part, $isJson);
             }
         } elseif (is_string($body)) {
             $this->_content = $body;
@@ -111,7 +113,7 @@ class Mage_Core_Model_Translate_Inline extends Mage_Core_Model_Translate_InlineA
 
             $body = $this->_content;
         }
-
+        $this->_setIsJson(self::JSON_FLAG_DEFAULT_STATE);
         return $this;
     }
 

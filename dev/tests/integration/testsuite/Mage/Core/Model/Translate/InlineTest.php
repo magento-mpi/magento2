@@ -133,8 +133,15 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetIsJson()
     {
-        $this->assertFalse($this->_model->getIsJson());
-        $this->_model->setIsJson(true);
-        $this->assertTrue($this->_model->getIsJson());
+        $isJsonProperty = new ReflectionProperty(get_class($this->_model), '_isJson');
+        $isJsonProperty->setAccessible(true);
+
+        $this->assertFalse($isJsonProperty->getValue($this->_model));
+
+        $setIsJsonMethod = new ReflectionMethod($this->_model, '_setIsJson');
+        $setIsJsonMethod->setAccessible(true);
+        $setIsJsonMethod->invoke($this->_model, true);
+
+        $this->assertTrue($isJsonProperty->getValue($this->_model));
     }
 }

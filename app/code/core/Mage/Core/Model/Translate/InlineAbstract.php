@@ -14,6 +14,11 @@
 abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Model_Translate_TranslateInterface
 {
     /**
+     * Default state for jason flag
+     */
+    const JSON_FLAG_DEFAULT_STATE = false;
+
+    /**
      * Regular Expression for detected and replace translate
      *
      * @var string
@@ -39,7 +44,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      *
      * @var bool
      */
-    protected $_isJson              = false;
+    protected $_isJson              = self::JSON_FLAG_DEFAULT_STATE;
 
     /**
      * Get max translate block in same tag
@@ -261,7 +266,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      */
     protected function _prepareTagAttributesForContent(&$content)
     {
-        if ($this->getIsJson()) {
+        if ($this->_isJson) {
             $quoteHtml   = '\"';
         } else {
             $quoteHtml   = '"';
@@ -300,7 +305,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      */
     protected function _getHtmlQuote()
     {
-        if ($this->getIsJson()) {
+        if ($this->_isJson) {
             return '\"';
         } else {
             return '"';
@@ -418,7 +423,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     private function findEndOfTag($body, $tagName, $from)
     {
         $openTag = '<' . $tagName;
-        $closeTag =  ($this->getIsJson() ? '<\\/' : '</') . $tagName;
+        $closeTag =  ($this->_isJson ? '<\\/' : '</') . $tagName;
         $tagLength = strlen($tagName);
         $length = $tagLength + 1;
         $end = $from + 1;
@@ -441,7 +446,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      */
     protected function _otherText()
     {
-        if ($this->getIsJson()) {
+        if ($this->_isJson) {
             $quoteHtml = '\"';
         } else {
             $quoteHtml = '"';
@@ -467,25 +472,14 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     }
 
     /**
-     * Retrieve flag about parsed content is Json
-     *
-     * @return bool
-     */
-    public function getIsJson()
-    {
-        return $this->_isJson;
-    }
-
-    /**
      * Set flag about parsed content is Json
      *
      * @param bool $flag
      * @return Mage_Core_Model_Translate_InlineAbstract
      */
-    public function setIsJson($flag)
+    protected function _setIsJson($flag)
     {
-        /** @todo ACB verify that only called with bool and remove cast */
-        $this->_isJson = (bool)$flag;
+        $this->_isJson = $flag;
         return $this;
     }
 

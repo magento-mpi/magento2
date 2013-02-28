@@ -113,6 +113,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      * Set body to response
      *
      * @param string $body
+     * @return null
      */
     private function setBody($body)
     {
@@ -232,7 +233,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         /* @var $serializer Mage_Adminhtml_Block_Widget_Grid_Serializer */
         $serializer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Serializer');
         $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
-        $this->setBody($chooser->toHtml().$serializer->toHtml());
+        $this->setBody($chooser->toHtml() . $serializer->toHtml());
     }
 
     /**

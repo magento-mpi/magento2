@@ -57,13 +57,14 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
      * Replace VDE specific translation templates with HTML fragments
      *
      * @param array|string $body
+     * @param bool $isJson
      * @return Mage_Core_Model_Translate_InlineVde
      */
-    public function processResponseBody(&$body)
+    public function processResponseBody(&$body, $isJson)
     {
         if (is_array($body)) {
             foreach ($body as &$part) {
-                $this->processResponseBody($part);
+                $this->processResponseBody($part, $isJson);
             }
         } else if (is_string($body)) {
             $this->_content = $body;

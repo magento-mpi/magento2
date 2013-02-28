@@ -634,9 +634,7 @@ XML;
     {
         $json = Zend_Json::encode($valueToEncode, $cycleCheck, $options);
         if ($this->_translator->isAllowed()) {
-            $this->_translator->setIsJson(true);
-            $this->_translator->processResponseBody($json);
-            $this->_translator->setIsJson(false);
+            $this->_translator->processResponseBody($json, true);
         }
 
         return $json;

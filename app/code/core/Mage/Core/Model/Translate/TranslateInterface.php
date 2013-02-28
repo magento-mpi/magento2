@@ -32,15 +32,8 @@ interface Mage_Core_Model_Translate_TranslateInterface
      * Replace translation templates with HTML fragments
      *
      * @param array|string $body
+     * @param bool $isJson
      * @return Mage_Core_Model_Translate_TranslateInterface
      */
-    public function processResponseBody(&$body);
-
-    /**
-     * Set indicator of whether or not content is Json
-     *
-     * @param bool $flag
-     * @return Mage_Core_Model_Translate_TranslateInterface
-     */
-    public function setIsJson($flag);
+    public function processResponseBody(&$body, $isJson);
 }

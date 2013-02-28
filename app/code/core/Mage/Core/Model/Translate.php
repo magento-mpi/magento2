@@ -169,11 +169,9 @@ class Mage_Core_Model_Translate
              'params' => array('area' => $area)
         ));
         $eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch(
-            'translate_initialization_before',
-            array(
-                'translate_object' => $this,
-                'result' => $dispatchResult
+        $eventManager->dispatch('translate_initialization_before', array(
+            'translate_object' => $this,
+            'result' => $dispatchResult
         ));
 
         $this->_translateObject = $this->_translateFactory
@@ -289,22 +287,13 @@ class Mage_Core_Model_Translate
      * Replace translation templates with HTML fragments
      *
      * @param array|string $body
+     * @param bool $isJson
      * @return Mage_Core_Model_Translate_TranslateInterface
      */
-    public function processResponseBody(&$body)
-    {
-        return $this->_translateObject->processResponseBody($body);
-    }
-
-    /**
-     * Set indicator of whether or not content is Json
-     *
-     * @param bool $flag
-     * @return Mage_Core_Model_Translate_TranslateInterface
-     */
-    public function setIsJson($flag)
-    {
-        return $this->_translateObject->setIsJson($flag);
+    public function processResponseBody(&$body,
+        $isJson = Mage_Core_Model_Translate_InlineAbstract::JSON_FLAG_DEFAULT_STATE
+    ) {
+        return $this->_translateObject->processResponseBody($body, $isJson);
     }
 
     /**
@@ -595,10 +584,9 @@ class Mage_Core_Model_Translate
      * @param bool $flag
      * @return Mage_Core_Model_Translate
      */
-    public function setTranslateInline($flag = null)
+    public function setTranslateInline($flag = false)
     {
-        /** @todo ACB verify that only called with boolean and remove cast */
-        $this->_canUseInline = (bool)$flag;
+        $this->_canUseInline = $flag;
         return $this;
     }
 
