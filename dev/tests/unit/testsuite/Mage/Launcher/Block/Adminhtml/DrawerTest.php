@@ -33,7 +33,7 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
             'urlBuilder' => $urlBuilder,
             'linkTracker' => $linkTracker
         );
-        $this->_drawer = $objectManager->getBlock('Mage_Launcher_Block_Adminhtml_Drawer', $arguments);
+        $this->_drawer = $objectManager->getObject('Mage_Launcher_Block_Adminhtml_Drawer', $arguments);
     }
 
     /**
@@ -147,11 +147,9 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
 
         $arguments = array(
             'storeConfig' => $config,
-            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
-            'linkTracker' => $this->getMock('Mage_Launcher_Model_LinkTracker', array(), array(), '', false)
         );
 
-        return $objectManagerHelper->getBlock('Mage_Launcher_Block_Adminhtml_Drawer', $arguments);
+        return $objectManagerHelper->getObject('Mage_Launcher_Block_Adminhtml_Drawer', $arguments);
     }
 
     /**

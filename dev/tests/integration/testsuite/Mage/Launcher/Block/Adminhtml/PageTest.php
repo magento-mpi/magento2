@@ -15,7 +15,7 @@
  * @magentoDataFixture Mage/Launcher/_files/pages.php
  * @magentoDataFixture Mage/Launcher/_files/config_bootstrap.php
  */
-class Mage_Launcher_Block_Adminhtml_PageTest extends PHPUnit_Framework_TestCase
+class Mage_Launcher_Block_Adminhtml_PageTest extends Mage_Backend_Area_TestCase
 {
     public function testGetTileBlocks()
     {

@@ -19,7 +19,7 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
-        $this->_page = $objectManager->getModel('Mage_Launcher_Model_Page');
+        $this->_page = $objectManager->getObject('Mage_Launcher_Model_Page');
     }
 
     protected function tearDown()

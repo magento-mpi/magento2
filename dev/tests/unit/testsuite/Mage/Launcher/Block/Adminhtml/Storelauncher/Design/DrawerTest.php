@@ -79,14 +79,12 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
 
         $arguments = array(
             'layout' => $layout,
-            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
             'storeConfig' => $config,
             'helperFactory' => $helperFactoryMock,
-            'linkTracker' => $this->getMock('Mage_Launcher_Model_LinkTracker', array(), array(), '', false),
             'themeService' => $themeService
         );
 
-        $this->_drawerBlock = $objectManagerHelper->getBlock(
+        $this->_drawerBlock = $objectManagerHelper->getObject(
             'Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer',
             $arguments
         );
