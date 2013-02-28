@@ -20,11 +20,6 @@ class CacheScopeCleanVerification
     );
 
     /**
-     * @var array
-     */
-    protected $_oldRecordIds = array('elephant', 'turkey');
-
-    /**
      * Clean records according to tags and mode
      *
      * @param string $mode
@@ -43,21 +38,12 @@ class CacheScopeCleanVerification
                 $filterFunc = function ($recTags) use ($tags) {
                     return !array_intersect($recTags, $tags);
                 };
+                break;
             case Zend_Cache::CLEANING_MODE_ALL:
                 $filterFunc = function () {
                     return false;
                 };
                 break;
-            case Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
-                $filterFunc = function ($recTags) use ($tags) {
-                    return array_intersect($recTags, $tags);
-                };
-                break;
-            case Zend_Cache::CLEANING_MODE_OLD:
-                foreach ($this->_oldRecordIds as $oldRecordId) {
-                    unset($this->_records[$oldRecordId]);
-                }
-                return true;
             default:
                 return false;
         }

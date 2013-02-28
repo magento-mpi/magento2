@@ -271,16 +271,6 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
-     * Clean expired entities in full page cache
-     * @return Enterprise_PageCache_Model_Observer
-     */
-    public function cleanExpiredCache()
-    {
-        $this->_fpcCache->getFrontend()->clean(Zend_Cache::CLEANING_MODE_OLD);
-        return $this;
-    }
-
-    /**
      * Invalidate full page cache
      * @return Enterprise_PageCache_Model_Observer
      */

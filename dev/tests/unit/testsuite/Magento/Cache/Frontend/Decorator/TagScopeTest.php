@@ -31,13 +31,6 @@ class Magento_Cache_Frontend_Decorator_TagScopeTest extends PHPUnit_Framework_Te
      */
     public function testClean($mode, $tags, $expectedRecordsLeft)
     {
-        if ($mode == Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG) {
-            $this->markTestIncomplete('MAGETWO-8033');
-        }
-        if ($mode == Zend_Cache::CLEANING_MODE_OLD) {
-            $this->markTestIncomplete('MAGETWO-8034');
-        }
-
         $frontend = $this->getMock('Magento_Cache_FrontendInterface');
         $frontend->expects($this->any())
             ->method('clean')
@@ -70,16 +63,6 @@ class Magento_Cache_Frontend_Decorator_TagScopeTest extends PHPUnit_Framework_Te
                 Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
                 array('big', 'small'),
                 array('elephant', 'man', 'raccoon', 'turkey')
-            ),
-            Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG => array(
-                Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG,
-                array('big', 'small'),
-                array('elephant', 'man', 'raccoon', 'ostrich', 'pigeon')
-            ),
-            Zend_Cache::CLEANING_MODE_OLD => array(
-                Zend_Cache::CLEANING_MODE_OLD,
-                array(),
-                array('elephant', 'man', 'raccoon', 'ostrich', 'pigeon')
             ),
         );
     }
