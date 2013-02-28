@@ -90,28 +90,6 @@ jQuery(function($) {
             $.each($('#configurable-attributes-container').variationsAttributes('getAttributes'), function() {
                 $('#attribute-' + this.code + '-container select').prop('disabled', true);
             })
-        })
-        .on('hide', function() {
-            currentProductTemplateControl
-                .removeClass('disabled')
-                .prop('disabled', false);
-
-            qtyField
-                .prop('disabled', false)
-                .trigger('change');
-
-            if (qtyField.val() == '') {
-                stockAvailabilityField
-                    .val(0)
-                    .trigger('change');
-
-                stockAvailabilityField.prop('disabled', true);
-            }
-            variationsContainer.find('.entry-edit').remove();
-            $.each($('#configurable-attributes-container').variationsAttributes('getAttributes'), function() {
-                $('#attribute-' + this.code + '-container select').prop('disabled', false);
-            });
-            $('#product-variations-matrix').trigger('disable');
         });
 
     var $gridDialog = $('#associated-products-container').dialog({
