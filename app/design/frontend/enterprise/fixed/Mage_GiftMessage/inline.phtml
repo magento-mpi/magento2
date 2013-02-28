@@ -81,6 +81,10 @@
                             </div>
                         </li>
                     </ul>
+                    <script type="text/javascript">
+                        jQuery('#add-gift-options-<?php echo $this->getEntity()->getId() ?>')
+                            .add('#add-gift-options-for-order-<?php echo $this->getEntity()->getId() ?>').removeClass('no-display');
+                    </script>
                 </div>
            </div>
            <?php endif ?>
@@ -146,6 +150,10 @@
         <?php endforeach; ?>
         </ol>
     </div>
+    <script type="text/javascript">
+        jQuery('#add-gift-options-<?php echo $this->getEntity()->getId() ?>')
+            .add('#add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>').removeClass('no-display');
+    </script>
     <?php endif; ?>
     <div class="extra-options-container" id="extra-options-container-<?php echo $this->getEntity()->getId() ?>"></div>
 
