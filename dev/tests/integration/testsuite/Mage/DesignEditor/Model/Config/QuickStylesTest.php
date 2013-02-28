@@ -31,7 +31,7 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
         $quickStylesPath = $this->_design->getFilename('Mage_DesignEditor::controls/quick_styles.xml');
         $this->assertFileExists($quickStylesPath);
         $this->_model = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Config_Control_QuickStyles',
-            array(array($quickStylesPath)));
+            array('configFiles' => array($quickStylesPath)));
     }
 
     /**
@@ -40,6 +40,8 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
      * @magentoDataFixture Mage/DesignEditor/Model/_files/design/themes.php
      * @dataProvider getTestDataProvider
      * @magentoAppIsolation enabled
+     * @param string $controlName
+     * @param array $expectedControlData
      */
     public function testLoadConfiguration($controlName, $expectedControlData)
     {
