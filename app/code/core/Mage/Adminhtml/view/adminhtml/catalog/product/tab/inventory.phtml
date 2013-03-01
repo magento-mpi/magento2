@@ -280,8 +280,8 @@
 
     function applyEnableQtyIncrements() {
         var enableQtyIncrements = $('inventory_use_config_enable_qty_increments').checked
-                ? $('inventory_enable_qty_increments_default').value
-                : $('inventory_enable_qty_increments').value;
+            ? $('inventory_enable_qty_increments_default').value
+            : $('inventory_enable_qty_increments').value;
 
         $('inventory_qty_increments').up('.field')[enableQtyIncrements == 1 ? 'show' : 'hide']();
     }
@@ -311,7 +311,9 @@
             changeManageStockOption();
         }
         if ($('inventory_enable_qty_increments') && $('inventory_use_config_enable_qty_increments')) {
-            Event.observe($('inventory_enable_qty_increments'), 'change', applyEnableQtyIncrements);
+            //Delegation is used because of events, which are not firing while the input is disabled
+            jQuery('#inventory_enable_qty_increments').parent()
+                .on('change', '#inventory_enable_qty_increments', applyEnableQtyIncrements);
             Event.observe($('inventory_use_config_enable_qty_increments'), 'change', applyEnableQtyIncrements);
             applyEnableQtyIncrements();
         }
