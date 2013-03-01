@@ -9,7 +9,8 @@
  */
 ?>
 <?php
-$paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
+$_paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
+$_registerParam = $this->getRequest()->getParam('register');
 ?>
 <div class="page-title">
     <h1><?php echo $this->__('Checkout') ?></h1>
@@ -44,7 +45,7 @@ $paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
                         activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'
                     })
                     .opcheckout({
-                        quoteBaseGrandTotal: <?php echo (float)$paymentBlock->getQuoteBaseGrandTotal() ?>,
+                        quoteBaseGrandTotal: <?php echo (float)$_paymentBlock->getQuoteBaseGrandTotal() ?>,
                         progressUrl: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
                         reviewUrl: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
                         failureUrl: '<?php echo $this->getUrl('checkout/cart') ?>',
@@ -53,12 +54,7 @@ $paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
                         checkoutProgressContainer: '#checkout-progress-wrapper',
                         ajaxLoaderPlaceButton: true,
                         checkout: {
-                            <?php
-                                $registerParam = $this->getRequest()->getParam('register');
-                                if ($registerParam || $registerParam === ''):
-                            ?>
-                                checkRegister: true,
-                            <?php endif; ?>
+                            suggestRegistration: <?php echo ($_registerParam || $_registerParam === '') ? 'true' : 'false' ?>,
                             saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>'
                         },
                         billing: {
@@ -71,8 +67,8 @@ $paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
                             saveUrl: "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>"
                         },
                         payment: {
-                            <?php if ($paymentBlock->getChildBlock('methods')->getSelectedMethodCode()): ?>
-                                defaultPaymentMethod: "<?php echo $paymentBlock->getChildBlock('methods')->getSelectedMethodCode() ?>",
+                            <?php if ($_paymentBlock->getChildBlock('methods')->getSelectedMethodCode()): ?>
+                                defaultPaymentMethod: "<?php echo $_paymentBlock->getChildBlock('methods')->getSelectedMethodCode() ?>",
                             <?php endif ?>
                             saveUrl: '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>'
                         },

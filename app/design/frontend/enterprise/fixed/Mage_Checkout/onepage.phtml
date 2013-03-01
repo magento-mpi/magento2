@@ -9,9 +9,10 @@
  */
 ?>
 <?php
-  $giftRegistryHelper = $this->helper('Enterprise_GiftRegistry_Helper_Data');
-  $giftRegistryBlock = $this->getLayout()->getBlock('giftregistry.customer.checkout');
-  $paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
+$_giftRegistryHelper = $this->helper('Enterprise_GiftRegistry_Helper_Data');
+$_giftRegistryBlock = $this->getLayout()->getBlock('giftregistry.customer.checkout');
+$_paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
+$_registerParam = $this->getRequest()->getParam('register');
 ?>
 <div class="opc-wrapper">
     <div class="page-title">
@@ -52,7 +53,7 @@
                             activeSelector: '#opc-<?php echo $this->getActiveStep() ?>'
                         })
                         .opcheckout({
-                            quoteBaseGrandTotal: <?php echo (float)$paymentBlock->getQuoteBaseGrandTotal() ?>,
+                            quoteBaseGrandTotal: <?php echo (float)$_paymentBlock->getQuoteBaseGrandTotal() ?>,
                             progressUrl: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
                             reviewUrl: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
                             failureUrl: '<?php echo $this->getUrl('checkout/cart') ?>',
@@ -60,12 +61,7 @@
                             checkoutAgreements: '#checkout-agreements',
                             checkoutProgressContainer: '#col-right-opcheckout',
                             checkout: {
-                                <?php
-                                    $registerParam = $this->getRequest()->getParam('register');
-                                    if ($registerParam || $registerParam === ''):
-                                ?>
-                                    checkRegister: true,
-                                <?php endif; ?>
+                                suggestRegistration: <?php echo ($_registerParam || $_registerParam === '') ? 'true' : 'false' ?>,
                                 saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>'
                             },
                             billing: {
@@ -78,8 +74,8 @@
                                 saveUrl: "<?php echo $this->getUrl('checkout/onepage/saveShippingMethod') ?>"
                             },
                             payment: {
-                                <?php if ($paymentBlock->getChildBlock('methods')->getSelectedMethodCode()): ?>
-                                    defaultPaymentMethod: "<?php echo $paymentBlock->getChildBlock('methods')->getSelectedMethodCode() ?>",
+                                <?php if ($_paymentBlock->getChildBlock('methods')->getSelectedMethodCode()): ?>
+                                    defaultPaymentMethod: "<?php echo $_paymentBlock->getChildBlock('methods')->getSelectedMethodCode() ?>",
                                 <?php endif ?>
                                 saveUrl: '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>'
                             },
@@ -88,7 +84,7 @@
                                 successUrl: '<?php echo $this->getUrl('checkout/onepage/success') ?>'
                             },
                             giftRegistry: {
-                                enable: <?php echo ($giftRegistryHelper->isEnabled() && $giftRegistryBlock->getItem()) ? "true" : "false" ?>
+                                enable: <?php echo ($_giftRegistryHelper->isEnabled() && $_giftRegistryBlock->getItem()) ? "true" : "false" ?>
                             }
                         });
                 });

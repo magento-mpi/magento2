@@ -16,9 +16,10 @@
             checkout: {
                 loginGuestSelector: '#login\\:guest',
                 loginRegisterSelector: '#login\\:register',
+                loginFormSelector: '#login-form',
                 continueSelector: '#onepage-guest-register-button',
                 registerCustomerPasswordSelector: '#register-customer-password',
-                checkRegister: false
+                suggestRegistration: false
             },
             sectionSelectorPrefix: '#opc-',
             billingSection: 'billing',
@@ -31,9 +32,9 @@
         _create: function() {
             var _this = this;
             this.checkoutPrice = this.options.quoteBaseGrandTotal;
-            if (this.options.checkout.checkRegister) {
-                $(this.options.checkout.loginGuestSelector).attr('checked', false);
-                $(this.options.checkout.loginRegisterSelector).attr('checked', true);
+            if (this.options.checkout.suggestRegistration) {
+                $(this.options.checkout.loginGuestSelector).prop('checked', false);
+                $(this.options.checkout.loginRegisterSelector).prop('checked', true);
             }
             this.element
                 .on('click', this.options.checkout.continueSelector, function() {
@@ -46,6 +47,9 @@
                 .on('ajaxError', $.proxy(this._ajaxError, this))
                 .on('click', this.options.backSelector, function() {
                     _this.element.trigger('enableSection', {selector: '#' + _this.element.find('.active').prev().attr('id')});
+                })
+                .on('click', '[data-role="login-form-submit"]', function() {
+                    $(_this.options.checkout.loginFormSelector).submit();
                 });
             $(this.options.checkoutProgressContainer).on('click', '[data-goto-section]', $.proxy(function(e) {
                 var gotoSection = $(e.target).data('goto-section');
@@ -299,7 +303,7 @@
                 })
                 .on('contentUpdated', $.proxy(function() {
                     this.currentShippingMethod = this.element.find('input[name="shipping_method"]:checked').val();
-                    this.shippingCodePrice = $('[data-shipping-code-price]').data('shipping-code-price');
+                    this.shippingCodePrice = this.element.find('[data-shipping-code-price]').data('shipping-code-price');
                 }, this))
                 .find(this.options.shippingMethod.form).validation();
         },
@@ -340,6 +344,14 @@
                         $(this.options.payment.form).validation &&
                         $(this.options.payment.form).validation('isValid')) {
                         this._ajaxContinue(this.options.payment.saveUrl, $(this.options.payment.form).serialize());
+                    }
+                }, this))
+                .on('updateCheckoutPrice', $.proxy(function(event, data) {
+                    if (data.price) {
+                        this.checkoutPrice += data.price;
+                    }
+                    if (data.totalPrice) {
+                        data.totalPrice = this.checkoutPrice;
                     }
                 }, this))
                 .find(this.options.payment.form).validation();
