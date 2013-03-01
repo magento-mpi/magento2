@@ -210,13 +210,13 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                     $message
                 );
                 if ($this->_isSubclassOf($content, $class)) {
-                    $this->_assertNotRegExp('/ion\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
+                    $this->_assertNotRegExp('/function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                     $this->_assertNotRegExp('/this->' . $quotedMethod . '\s*\(/iS', $content, $message);
-                    $this->_assertNotRegExp('/(self|static)::\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
+                    $this->_assertNotRegExp('/(self|static|parent)::\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                 }
             } else {
                 $message = $this->_suggestReplacement("Function or method '{$method}()' is obsolete.", $replacement);
-                $this->_assertNotRegExp('/ion\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
+                $this->_assertNotRegExp('/function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                 $this->_assertNotRegExp('/[^a-z\d_]' . $quotedMethod . '\s*\(/iS', $content, $message);
             }
         }
@@ -339,7 +339,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                 $fullyQualified = "{$class}::{$constant}";
                 $regex = preg_quote($fullyQualified, '/');
                 if ($this->_isSubclassOf($content, $class)) {
-                    $regex = preg_quote("self::{$constant}", '/')
+                    $regex .= '|' . preg_quote("self::{$constant}", '/')
                         . '|' . preg_quote("parent::{$constant}", '/')
                         . '|' . preg_quote("static::{$constant}", '/');
                 }
