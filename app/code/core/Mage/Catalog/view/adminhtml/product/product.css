@@ -500,12 +500,40 @@
     margin-bottom: 23px;
 }
 
-#configurable-attributes-container .col-name {
-    width: 45%;
+#configurable-attributes-container .col-include {
+    width: 80px;
 }
 
-#configurable-attributes-container .field-change-pricing .fields-group-2 > .field:first-child {
-    margin-right: 5px;
+#configurable-attributes-container .col-actions {
+    width: 80px;
+}
+
+#configurable-attributes-container .col-change-price {
+    width: 150px;
+    white-space: nowrap;
+}
+
+#configurable-attributes-container .field-change-pricing .field {
+    float: left;
+}
+
+#configurable-attributes-container .field-pricing-value .control {
+    width: 75px;
+}
+
+#configurable-attributes-container .field-pricing-value .pricing-value {
+    width: 100%;
+    padding: 4px;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+
+#configurable-attributes-container .field-pricing-measure {
+
+}
+
+#configurable-attributes-container .field-pricing-measure select {
+    border-radius: 0 4px 4px 0;
 }
 
 #generate-variations-button {
@@ -548,10 +576,11 @@
     display: none;
 }
 
-#product-variations-matrix .action-choose {
+#product-variations-matrix .action-choose,
+#product-variations-matrix .action-choose:hover {
     color: #b8b3a7;
     float: right;
-    margin: 5px 0 0 5px;
+    margin: 0 0 0 5px;
 }
 
 #product-variations-matrix .action-choose:hover {
@@ -578,6 +607,19 @@
 
 #product-variations-matrix .col-actions {
     width: 60px;
+}
+
+#product-variations-matrix .col-name {
+    width: 30%;
+}
+#product-variations-matrix .col-sku {
+    width: 20%;
+}
+
+#product-variations-matrix .col-display,
+#product-variations-matrix .col-qty,
+#product-variations-matrix .col-weight {
+    width: 5%;
 }
 
 #allow_open_amount {

@@ -12,7 +12,7 @@
 ?>
 <script id="bundle-option-template" type="text/x-jquery-tmpl">
     <div id="<?php echo $this->getFieldId() ?>_{{index}}" class="option-box">
-        <div class="fieldset-wrapper collapsable-wrapper" id="<?php echo $this->getFieldId() ?>_{{index}}-wrapper">
+        <div class="fieldset-wrapper collapsable-wrapper opened" id="<?php echo $this->getFieldId() ?>_{{index}}-wrapper">
             <div class="fieldset-wrapper-title">
                 <strong class="title" data-toggle="collapse" data-target="#<?php echo $this->getFieldId() ?>_{{index}}-content">
                     <span>{{default_title}}</span>
@@ -22,7 +22,7 @@
                 </div>
                 <div data-role="grip" class="draggable-handle"></div>
             </div>
-            <div class="fieldset-wrapper-content collapse" id="<?php echo $this->getFieldId() ?>_{{index}}-content">
+            <div class="fieldset-wrapper-content in collapse" id="<?php echo $this->getFieldId() ?>_{{index}}-content">
                 <fieldset class="fieldset">
                     <fieldset class="fieldset-alt">
                         <div class="field field-option-title required">
@@ -35,13 +35,15 @@
                                        type="text"
                                        name="<?php echo $this->getFieldName() ?>[{{index}}][title]"
                                        id="id_<?php echo $this->getFieldName() ?>_{{index}}_title"
-                                       value="{{title}}" />
+                                       value="{{title}}"
+                                       data-original-value="{{title}}" />
                                 <?php else: ?>
                                 <input class="input-text required-entry"
                                        type="text"
                                        name="<?php echo $this->getFieldName() ?>[{{index}}][default_title]"
                                        id="id_<?php echo $this->getFieldName() ?>_{{index}}_default_title"
-                                       value="{{default_title}}" />
+                                       value="{{default_title}}"
+                                       data-original-value="{{default_title}}" />
                                 <?php endif; ?>
                                 <input type="hidden"
                                        id="<?php echo $this->getFieldId() ?>_id_{{index}}"
@@ -50,7 +52,7 @@
                                 <input type="hidden"
                                        name="<?php echo $this->getFieldName() ?>[{{index}}][delete]"
                                        value=""
-                                       class="isdeleted" />
+                                       data-state="deleted" />
                             </div>
                         </div>
                         <?php if (!$this->isDefaultStore()): ?>
@@ -182,7 +184,7 @@ Bundle.Option.prototype = {
         var element = Event.findElement(event, 'div').up('.option-box');
 
         if(element){
-            Element.select(element, '.isdeleted').each(function(elem) {
+            Element.select(element, '[data-state="deleted"]').each(function(elem) {
                 elem.value = '1';
             });
 
