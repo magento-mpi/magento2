@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_CacheTest extends Mage_Backend_Utility_Controller
+class Mage_Adminhtml_CacheControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/application_cache.php
