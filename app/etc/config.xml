@@ -68,11 +68,6 @@
             </connection>
         </resource>
         <di>
-            <definitions>
-                <storage>
-                    <type>file</type>
-                </storage>
-            </definitions>
             <preferences>
                 <Mage_Core_Model_Db_UpdaterInterface>Mage_Core_Model_Db_Updater</Mage_Core_Model_Db_UpdaterInterface>
                 <Mage_Core_Model_AppInterface>Mage_Core_Model_App_Proxy</Mage_Core_Model_AppInterface>

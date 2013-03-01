@@ -3,54 +3,78 @@
 class Mage_Core_Model_ObjectManager_DefinitionFactory
 {
     /**
-     * Predefined definitions
+     * Get definition model name
      *
-     * @var mixed
+     * @param string $format
+     * @return string
      */
-    protected $_inputDefinitions;
-
-    /**
-     * @param mixed $definitions
-     */
-    public function __construct($definitions = null)
+    protected function _getDefinitionModel($format)
     {
-        $this->_inputDefinitions = $definitions;
-    }
-
-    /**
-     * @param Mage_Core_Model_Config_Primary $config
-     * @return Magento_ObjectManager_Definition_Compiled|Magento_ObjectManager_Definition_Runtime
-     */
-    public function create(Mage_Core_Model_Config_Primary $config)
-    {
-        $definitionConfig = $config->getNode('global/di/definitions');
-        if (empty($definitionConfig) || !isset($definitionConfig['storage'])) {
-            return new Magento_ObjectManager_Definition_Runtime();
-        }
-        $definitions = null;
-        $storageType = isset($definitionConfig['type']) ? $definitionConfig['type'] : null;
-        switch ($storageType) {
-            case 'input':
-                $definitions = $this->_inputDefinitions;
-                break;
-
-            case 'file':
-            default:
-                $definitionsFile = isset($definitionConfig['path']) ?
-                    $definitionConfig['path'] :
-                    $config->getDirectories()->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
-                $definitions = file_get_contents($definitionsFile);
-        };
-        $format = isset($definitionConfig['format']) ? $definitionConfig['format'] : null;
         switch ($format) {
             case 'igbinary':
-                return new Magento_ObjectManager_Definition_Compiled_Binary(igbinary_unserialize($definitions));
-                break;
+                return 'Magento_ObjectManager_Definition_Compiled_Binary';
 
             case 'serialized':
             default:
-                return new Magento_ObjectManager_Definition_Compiled_Serialized(unserialize($definitions));
-                break;
+                return 'Magento_ObjectManager_Definition_Compiled_Serialized';
         }
+    }
+
+    /**
+     * Get value from array
+     *
+     * @param array $source
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function _getValue($source, $key, $default = null)
+    {
+        return array_key_exists($key, $source) ? $source['key'] : $default;
+    }
+    
+    /**
+     * @param Mage_Core_Model_Config_Primary $config
+     * @return Magento_ObjectManager_Definition
+     */
+    public function create(Mage_Core_Model_Config_Primary $config)
+    {
+        $configElement = $config->getNode('global/di/definitions');
+
+        $definitionConfig = $configElement ? $configElement->asArray() : array();
+        $format = $this->_getValue($definitionConfig, 'format', 'serialized');
+        $storageConfig = $this->_getValue($definitionConfig, 'storage', array());
+        $storageType = $this->_getValue($storageConfig, 'type', 'file');
+        $definitionModel = $this->_getDefinitionModel($format);
+
+        $definitions = $config->getParam('definitions', false);
+        if (false === $definitions) {
+            switch ($storageType) {
+                case 'file':
+                default:
+                    $definitionsFile = $this->_getValue($definitionConfig, 'path', false) ?:
+                        $config->getDirectories()->getDir(Mage_Core_Model_Dir::DI)
+                            . DIRECTORY_SEPARATOR
+                            . 'definitions.php';
+                    if (is_readable($definitionsFile)) {
+                        $definitions = file_get_contents($definitionsFile);
+                    } else {
+                        return new Magento_ObjectManager_Definition_Runtime();
+                    }
+                    break;
+            };
+
+            switch ($format) {
+                case 'igbinary':
+                    $definitions = igbinary_unserialize($definitions);
+                    break;
+
+                case 'serialized':
+                default:
+                    $definitions = unserialize($definitions);
+                    break;
+            }
+        }
+        return new $definitionModel($definitions);
     }
 }

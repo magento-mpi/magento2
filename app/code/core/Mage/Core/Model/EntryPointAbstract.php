@@ -23,9 +23,7 @@ abstract class Mage_Core_Model_EntryPointAbstract
     public function __construct(Mage_Core_Model_Config_Primary $config, Magento_ObjectManager $objectManager = null)
     {
         if (!$objectManager) {
-            $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory(
-                $config->getParam('definitions', null)
-            );
+            $definitionFactory = new Mage_Core_Model_ObjectManager_DefinitionFactory();
             $definitions =  $definitionFactory->create($config);
             $objectManager = new Mage_Core_Model_ObjectManager($definitions, $config);
         }
