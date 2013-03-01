@@ -36,9 +36,9 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_isVdeRequest;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config $configuration
+     * @internal param \Mage_Core_Model_Translate $translator
      */
     public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $configuration)
     {
