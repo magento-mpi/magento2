@@ -18,7 +18,7 @@
 class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
 {
     /**
-     * @var Mage_Backend_Model_Config_Backend_File_RequestData
+     * @var Mage_Backend_Model_Config_Backend_File_RequestData_Interface
      */
     protected $_requestData;
 
@@ -36,7 +36,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
 
     /**
      * @param Mage_Core_Model_Context $context
-     * @param Mage_Backend_Model_Config_Backend_File_RequestData $requestData
+     * @param Mage_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
@@ -44,7 +44,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
-        Mage_Backend_Model_Config_Backend_File_RequestData $requestData,
+        Mage_Backend_Model_Config_Backend_File_RequestData_Interface $requestData,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,

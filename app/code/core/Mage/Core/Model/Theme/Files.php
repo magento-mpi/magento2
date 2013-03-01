@@ -12,7 +12,6 @@
  * Theme files model class
  *
  * @method int getThemeId()
- * @method string getFileName()
  * @method string getFileType()
  * @method string getContent()
  * @method string getOrder()
@@ -26,7 +25,6 @@
  * @method Mage_Core_Model_Theme_Files setUpdatedAt($time)
  * @method Mage_Core_Model_Theme_Files setLayoutLinkId($id)
  * @method string getFilePath() Relative path to file
- * @method string getContent()
  * @method int getLayoutLinkId()
  */
 class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract

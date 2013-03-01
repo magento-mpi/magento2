@@ -9,9 +9,9 @@
  */
 
 /**
- * Block that renders Design tab
+ * Column renderer
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Design extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column
+    extends Mage_Backend_Block_Widget_Form_Renderer_Fieldset
 {
-
 }

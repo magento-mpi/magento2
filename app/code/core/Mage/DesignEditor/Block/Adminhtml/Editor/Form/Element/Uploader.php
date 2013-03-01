@@ -3,16 +3,21 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Theme
+ * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Form element renderer to display file element for VDE
+ *
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader setAccept($accept)
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader setMultiple(bool $isMultiple)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File extends Varien_Data_Form_Element_File
+class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader extends Varien_Data_Form_Element_File
 {
+    //const CONTROL_TYPE = 'uploader';
+
     /**
      * Additional html attributes
      *
@@ -31,4 +36,3 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File extends Varien_
         return array_merge($attributes, $this->_htmlAttributes);
     }
 }
-

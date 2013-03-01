@@ -65,8 +65,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException(sprintf('Theme "%s" was not found.', $themeId));
+                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
+            /** @todo replace registry usage */
+            Mage::register('theme', $theme);
 
             if (!$theme->isVirtual()) {
                 $themeCustomization = $this->_getThemeCustomization($theme);
@@ -129,7 +131,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('The theme was not found.'));
+            $this->_getSession()->addException($e, $this->__('Unknown error'));
             $this->_redirect('*/*/');
             return;
         }
@@ -464,6 +466,22 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $theme->setCustomization($jsFileModel);
 
             $jsTabBlock->setTheme($theme);
+        }
+
+        $blocks = array(
+            'design_editor_tools_code_image-sizing',
+            'design_editor_tools_quick-styles_header',
+            'design_editor_tools_quick-styles_backgrounds',
+            'design_editor_tools_quick-styles_buttons',
+            'design_editor_tools_quick-styles_tips',
+            'design_editor_tools_quick-styles_fonts',
+        );
+        foreach ($blocks as $blockName) {
+            /** @var $block Mage_Core_Block_Abstract */
+            $block = $this->getLayout()->getBlock($blockName);
+            if ($block) {
+                $block->setTheme($theme);
+            }
         }
 
         return $this;
