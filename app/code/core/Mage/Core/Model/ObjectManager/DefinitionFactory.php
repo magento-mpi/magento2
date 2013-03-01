@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * Object manager definition factory
+ *
+ * {license_notice}
+ *
+ * @copyright {@copyright}
+ * @license   {@license_link}
+ */
 class Mage_Core_Model_ObjectManager_DefinitionFactory
 {
     /**
