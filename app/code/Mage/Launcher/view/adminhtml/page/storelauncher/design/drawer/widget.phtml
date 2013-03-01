@@ -41,6 +41,16 @@
                 });
             },
 
+            destroy: function() {
+                $.each(this.headerButtons, $.proxy(function(buttonName) {
+                    if (buttonName == 'save' || buttonName == 'close') {
+                        this.headerButtonShow(buttonName);
+                    } else {
+                        this.headerButtons[buttonName].remove();
+                    }
+                }, this));
+            },
+
             headerButtonCreate: function(buttonOptions) {
                 var buttonObject;
                 if (this.headerButtons[buttonOptions.name]) {
@@ -64,7 +74,7 @@
                     buttonObject = $('#' + buttonOptions.id);
                 }
 
-                if (!buttonObject) {
+                if (!buttonObject || buttonObject.length < 1) {
                     buttonObject =
                         $.tmpl('<button type="${type}" class="${cssClass}" id="${id}">${title}</button>', buttonVars);
                 }

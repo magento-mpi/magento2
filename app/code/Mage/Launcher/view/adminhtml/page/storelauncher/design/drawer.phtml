@@ -23,14 +23,14 @@
 </div>
 
 <div class="theme-page hidden">
-    <input type="hidden" name="groups[design][theme][fields][theme_id][value]" id="theme-id" value="<?php echo $this->getConfigValue('design/theme/theme_id'); ?>">
+    <input type="hidden" name="groups[design][theme][fields][theme_id][value]" id="theme-id" value="<?php echo $this->getCurrentThemeId(); ?>">
     <h2><?php echo $this->__('You\'ve created your store theme, name, and logo'); ?></h2>
     <dl class="theme-selected-thumbnail">
         <dt>
             <?php echo $this->__('Your Theme'); ?> <a href="#" class="button btn-edit edit-theme" id="edit-theme"><?php echo $this->__('Edit'); ?></a>
         </dt>
         <dd>
-            <img src="<?php echo $this->getCurrentTheme()->getPreviewImageUrl() ?>" id="theme-image">
+            <img src="<?php echo $this->getCurrentTheme()->getThemeImage()->getPreviewImageUrl() ?>" id="theme-image">
         </dd>
     </dl>
     <dl class="theme-selected-info">
@@ -49,7 +49,7 @@
     (function($) {
         $(document).ready(function() {
             'use strict';
-            var currentThemeId = <?php echo $this->getCurrentThemeId() ? $this->getCurrentThemeId() : 'null'; ?>;
+            var currentThemeId = $('#theme-id').val();
             $('#drawer')
                 .drawerPages()
                 .drawerPages('headerButtonCreate', {
