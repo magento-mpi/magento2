@@ -1,8 +1,8 @@
 /**
 * {license_notice}
 *
-* @category    design
-* @package     enterprise_default
+* @category    mage gift message
+* @package     mage
 * @copyright   {copyright}
 * @license     {license_link}
 */
