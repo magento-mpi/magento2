@@ -912,6 +912,20 @@
 }
 
 /*
+    CMS -> Manage Content
+-------------------------------------- */
+
+/* Content */
+
+.cms-manage-content-actions .buttons-set {
+    margin-bottom: 9px;
+}
+
+.cms-manage-content-actions .buttons-set button {
+    margin-right: 4px;
+}
+
+/*
     Reports
 -------------------------------------- */
 .reports-title .page-actions {
