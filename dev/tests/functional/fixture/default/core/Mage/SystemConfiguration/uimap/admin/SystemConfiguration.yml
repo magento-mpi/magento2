@@ -28,7 +28,7 @@ system_configuration:
             tabs:
                 -
                     all_tabs:
-                        xpath: //*[@id='system_config_tabs']/li/dl/dd
+                        xpath: //*[@id='system_config_tabs']//li[@class='item']
                 -
                     general_general:
                         xpath: //a[contains(@href, 'edit/section/general/')]
@@ -44,7 +44,7 @@ system_configuration:
                                 countries_options:
                                     xpath: //fieldset[@id='general_country']
                                     links:
-                                        countries_options_link: //parent::div//a[@id='general_country-head']
+                                        countries_options_link: //parent::div//div[@id='general_country-head']
                                     dropdowns:
                                         default_country: //select[@name='groups[country][fields][default][value]']
                                     multiselects:
@@ -80,16 +80,19 @@ system_configuration:
                                     links:
                                         store_information_link: //parent::div//a[@id='general_store_information-head']
                                     dropdowns:
-                                        store_country: //select[@id='general_store_information_merchant_country']
+                                        store_country: //select[@id='general_store_information_country_id']
+                                        store_state_region: //select[@name='groups[store_information][fields][region_id][value]']
                                     fields:
                                         billing_vat_number: //input[@name='groups[store_information][fields][merchant_vat_number][value]']
                                         store_name: //input[@name='groups[store_information][fields][name][value]']
                                         store_contact_telephone: //input[@name='groups[store_information][fields][phone][value]']
-                                        store_contact_address: //textarea[@name='groups[store_information][fields][address][value]']
+                                        store_street_address: //input[@name='groups[store_information][fields][street_line1][value]']
+                                        store_street_address2: //input[@name='groups[store_information][fields][street_line2][value]']
+                                        store_city: //input[@name='groups[store_information][fields][city][value]']
+                                        store_zip: //input[@name='groups[store_information][fields][postcode][value]']
                                     checkboxes:
                                         store_name_use_default: //input[@name='groups[store_information][fields][name][inherit]']
                                         store_contact_telephone_use_default: //input[@name='groups[store_information][fields][phone][inherit]']
-                                        store_contact_address_use_default: //input[@name='groups[store_information][fields][address][inherit]']
                             -
                                 states_options:
                                     xpath: //fieldset[@id='general_region']
@@ -1106,7 +1109,7 @@ system_configuration:
                                 customer_captcha:
                                       xpath: //fieldset[@id='customer_captcha']
                                       links:
-                                          customer_captcha_link: //parent::div//a[@id='customer_captcha-head']
+                                          customer_captcha_link: //parent::div//div[@id='customer_captcha-head']
                                       dropdowns:
                                           captcha_enable_frontend: //select[@id='customer_captcha_enable']
                                           captcha_font: //select[@id='customer_captcha_font']
@@ -2224,13 +2227,13 @@ system_configuration:
                                         method_use_default: //input[@name='groups[checkout_shipping_virtual][fields][method][inherit]']
                 -
                     sales_paypal:
-                        xpath: //a[contains(@href, 'edit/section/paypal/')]
+                        xpath: //a[contains(@href, 'edit/section/paypal/') and contains(@class, 'item-nav')]
                         fieldsets:
                             -
                                 merchant_account:
                                     xpath: //fieldset[@id='paypal_account']
                                     links:
-                                        merchant_account_link: //parent::div//a[@id='paypal_account-head']
+                                        merchant_account_link: //parent::div//div[@id='paypal_account-head']
                                     fields:
                                         email_associated_with_paypal_merchant_account: //input[@name='groups[account][fields][business_account][value]']
                                     dropdowns:
@@ -2806,7 +2809,7 @@ system_configuration:
                                 authorize_net:
                                     xpath: //fieldset[@id='payment_authorizenet']
                                     links:
-                                        authorize_net_link: //parent::div//a[@id='payment_authorizenet-head']
+                                        authorize_net_link: //parent::div//div[@id='payment_authorizenet-head']
                                     fields:
                                         an_title: //input[@name='groups[authorizenet][fields][title][value]']
                                         an_api_login_id: //input[@name='groups[authorizenet][fields][login][value]']
@@ -2910,7 +2913,7 @@ system_configuration:
                                 ogone:
                                     xpath: //fieldset[@id='payment_ogone']
                                     links:
-                                        ogone_link: //parent::div//a[@id='payment_ogone-head']
+                                        ogone_link: //parent::div//div[@id='payment_ogone-head']
                                     fields:
                                         o_title: //input[@name='groups[ogone][fields][title][value]']
                                         o_pspid: //input[@name='groups[ogone][fields][pspid][value]']
@@ -2964,7 +2967,7 @@ system_configuration:
                                 3d_secure_credit_card_validation:
                                     xpath: //fieldset[@id='payment_services_centinel']
                                     links:
-                                        3d_secure_credit_card_validation_link: //parent::div//a[@id='payment_services_centinel-head']
+                                        3d_secure_credit_card_validation_link: //parent::div//div[@id='payment_services_centinel-head']
                                     fields:
                                         processor_id: //input[@name='groups[centinel][fields][processor_id][value]']
                                         merchant_id: //input[@name='groups[centinel][fields][merchant_id][value]']
@@ -2986,7 +2989,7 @@ system_configuration:
                                 moneybookers_settings:
                                     xpath: //fieldset[@id='moneybookers_settings']
                                     links:
-                                        moneybookers_settings_link: //parent::div//a[@id='moneybookers_settings-head']
+                                        moneybookers_settings_link: //parent::div//div[@id='moneybookers_settings-head']
                                     fields:
                                         email_address_of_your_moneybookers_account: //input[@name='groups[settings][fields][moneybookers_email][value]']
                                         customer_id: //input[@name='groups[settings][fields][customer_id][value]']
@@ -2999,7 +3002,7 @@ system_configuration:
                                 all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_acc']
                                     links:
-                                        all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international_link: //parent::div//a[@id='moneybookers_moneybookers_acc-head']
+                                        all_credit_cards_visa_mastercard_amex_jcb_diners_powered_by_moneybookers_international_link: //parent::div//div[@id='moneybookers_moneybookers_acc-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_acc][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_acc][fields][title][value]']
@@ -3018,7 +3021,7 @@ system_configuration:
                                 lastschrift_elv_powered_by_moneybookers_germany:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_did']
                                     links:
-                                        lastschrift_elv_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_did-head']
+                                        lastschrift_elv_powered_by_moneybookers_germany_link: //parent::div//div[@id='moneybookers_moneybookers_did-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_did][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_did][fields][title][value]']
@@ -3037,7 +3040,7 @@ system_configuration:
                                 giropay_powered_by_moneybookers_germany:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_gir']
                                     links:
-                                        giropay_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_gir-head']
+                                        giropay_powered_by_moneybookers_germany_link: //parent::div//div[@id='moneybookers_moneybookers_gir-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_gir][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_gir][fields][title][value]']
@@ -3075,7 +3078,7 @@ system_configuration:
                                 laser_powered_by_moneybookers_ireland:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_lsr']
                                     links:
-                                        laser_powered_by_moneybookers_ireland_link: //parent::div//a[@id='moneybookers_moneybookers_lsr-head']
+                                        laser_powered_by_moneybookers_ireland_link: //parent::div//div[@id='moneybookers_moneybookers_lsr-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_lsr][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_lsr][fields][title][value]']
@@ -3094,7 +3097,7 @@ system_configuration:
                                 maestro_powered_by_moneybookers_united_kingdom_austria_spain:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_mae']
                                     links:
-                                        maestro_powered_by_moneybookers_united_kingdom_austria_spain_link: //parent::div//a[@id='moneybookers_moneybookers_mae-head']
+                                        maestro_powered_by_moneybookers_united_kingdom_austria_spain_link: //parent::div//div[@id='moneybookers_moneybookers_mae-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_mae][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_mae][fields][title][value]']
@@ -3113,7 +3116,7 @@ system_configuration:
                                 carte_bleue_powered_by_moneybookers_france:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_gcb']
                                     links:
-                                        carte_bleue_powered_by_moneybookers_france_link: //parent::div//a[@id='moneybookers_moneybookers_gcb-head']
+                                        carte_bleue_powered_by_moneybookers_france_link: //parent::div//div[@id='moneybookers_moneybookers_gcb-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_gcb][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_gcb][fields][title][value]']
@@ -3444,7 +3447,7 @@ system_configuration:
                                 captcha_admin:
                                     xpath: //fieldset[@id='admin_captcha']
                                     links:
-                                        captcha_admin_link: //parent::div//a[@id='admin_captcha-head']
+                                        captcha_admin_link: //parent::div//div[@id='admin_captcha-head']
                                     dropdowns:
                                         captcha_enable_admin: //select[@id='admin_captcha_enable']
                                         captcha_font: //select[@id='admin_captcha_font']

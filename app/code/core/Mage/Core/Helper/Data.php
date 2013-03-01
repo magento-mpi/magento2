@@ -36,7 +36,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Config pathes to merchant country code and merchant VAT number
      */
-    const XML_PATH_MERCHANT_COUNTRY_CODE = 'general/store_information/merchant_country';
+    const XML_PATH_MERCHANT_COUNTRY_CODE = 'general/store_information/country_id';
     const XML_PATH_MERCHANT_VAT_NUMBER = 'general/store_information/merchant_vat_number';
     const XML_PATH_EU_COUNTRIES_LIST = 'general/country/eu_countries';
 
@@ -70,12 +70,12 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config_Modules $config
      */
-    public function __construct(Mage_Core_Model_Translate $translator, Mage_Core_Model_Config_Modules $config)
+    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config_Modules $config)
     {
-        parent::__construct($translator);
+        parent::__construct($context);
         $this->_config = $config;
     }
 

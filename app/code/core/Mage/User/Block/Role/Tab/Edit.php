@@ -72,14 +72,9 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 
-        $acl = Mage::getSingleton('Mage_Core_Model_Acl_Builder',
-            array('data' =>
-                array(
-                    'areaConfig' => Mage::getConfig()->getAreaConfig(),
-                    'objectFactory' => Mage::getConfig()
-                )
-            )
-        )->getAcl();
+        $acl = Mage::getSingleton('Mage_Core_Model_Acl_Builder')->getAcl(
+            Mage_Core_Model_App_Area::AREA_ADMINHTML
+        );
         $rulesSet = Mage::getResourceModel('Mage_User_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
 
         $selectedResourceIds = array();

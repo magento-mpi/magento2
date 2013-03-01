@@ -36,13 +36,13 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
         $itemSku = $this->escapeHtml(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getItem()->getSku()));
 
         /* @var $button Mage_Adminhtml_Block_Widget_Button */
-        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
+        $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array('data' => array(
             'class'    => $canConfigure ? '' : 'disabled',
             'onclick'  => $canConfigure ? "addBySku.configure({$productId}, {$itemSku})" : '',
             'disabled' => !$canConfigure,
             'label'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Configure'),
             'type'     => 'button',
-        ));
+        )));
 
         return $button->toHtml();
     }

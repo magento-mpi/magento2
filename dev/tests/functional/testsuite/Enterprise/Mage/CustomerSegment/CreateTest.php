@@ -18,6 +18,11 @@
  */
 class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
 {
+    protected function assertPreconditions()
+    {
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>

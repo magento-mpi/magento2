@@ -12,7 +12,6 @@
  * Theme files model class
  *
  * @method int getThemeId()
- * @method string getFileName()
  * @method string getFileType()
  * @method string getContent()
  * @method string getOrder()
@@ -26,7 +25,6 @@
  * @method Mage_Core_Model_Theme_Files setUpdatedAt($time)
  * @method Mage_Core_Model_Theme_Files setLayoutLinkId($id)
  * @method string getFilePath() Relative path to file
- * @method string getContent()
  * @method int getLayoutLinkId()
  */
 class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
@@ -57,10 +55,7 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     protected $_objectManager;
 
     /**
-     * Initialize dependencies
-     *
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Varien_Io_File $ioFile
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Resource_Abstract $resource
@@ -68,15 +63,14 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Varien_Io_File $ioFile,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
 
         $this->_ioFile = $ioFile;
         $this->_objectManager = $objectManager;

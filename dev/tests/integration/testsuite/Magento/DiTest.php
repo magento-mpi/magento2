@@ -15,7 +15,6 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
      * Test classes for basic instantiation
      */
     const TEST_CLASS           = 'Magento_Di_TestAsset_Basic';
-    const TEST_CLASS_ALIAS     = 'Magento_Di_TestAsset_BasicAlias';
     const TEST_CLASS_INJECTION = 'Magento_Di_TestAsset_BasicInjection';
     /**#@-*/
 
@@ -71,10 +70,13 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $magentoDi = new Magento_Di_Zend();
-        $magentoDi->instanceManager()->addTypePreference(self::TEST_INTERFACE, self::TEST_INTERFACE_IMPLEMENTATION);
-        $magentoDi->instanceManager()->addAlias(self::TEST_CLASS_ALIAS, self::TEST_CLASS);
-        self::$_objectManager = new Magento_ObjectManager_Zend(null, $magentoDi);
+        self::$_objectManager = new Magento_ObjectManager_ObjectManager();
+        self::$_objectManager->configure(array(
+            'preferences' => array(
+                self::TEST_INTERFACE => self::TEST_INTERFACE_IMPLEMENTATION
+            )
+        ));
+
     }
 
     public static function tearDownAfterClass()
@@ -97,11 +99,6 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
             'model with interface' => array(
                 '$actualClassName' => self::TEST_CLASS_WITH_INTERFACE,
                 '$properties'      => array('_object' => self::TEST_INTERFACE_IMPLEMENTATION),
-            ),
-            'model with alias' => array(
-                '$actualClassName'   => self::TEST_CLASS_ALIAS,
-                '$properties'        => array(),
-                '$expectedClassName' => self::TEST_CLASS,
             ),
         );
 

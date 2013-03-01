@@ -33,7 +33,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
             'urlBuilder' => $this->_urlBuilder
         );
 
-        $this->_block = $helper->getBlock('Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons', $arguments);
+        $this->_block = $helper->getObject('Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons', $arguments);
     }
 
     public function testGetThemeId()

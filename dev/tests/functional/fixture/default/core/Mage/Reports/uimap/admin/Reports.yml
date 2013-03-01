@@ -96,7 +96,7 @@ report_sales_coupons:
 # Sales: PayPal Settlement Reports page
 paypal_reports:
     mca: paypal_reports/
-    click_xpath: //div[@class='nav-bar']//a[span='PayPal Settlement Reports']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/paypal_reports/')]
     title:  PayPal Settlement Reports / Sales / Reports / Magento Admin
     uimap:
         form:

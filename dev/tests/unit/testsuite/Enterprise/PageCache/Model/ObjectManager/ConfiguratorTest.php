@@ -35,7 +35,7 @@ class Enterprise_PageCache_Model_ObjectManager_ConfiguratorTest extends PHPUnit_
             'Enterprise_PageCache_Model_Request_Identifier' => array(
                 'parameters' => array('scopeCode' => 'run_code'),
             ));
-        $objectManager->expects($this->once())->method('setConfiguration')->with($expectedParams);
+        $objectManager->expects($this->once())->method('configure')->with($expectedParams);
         $this->_model->configure($objectManager);
     }
 

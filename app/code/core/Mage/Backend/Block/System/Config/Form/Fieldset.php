@@ -54,8 +54,11 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
     {
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
-        $html = '<div class="entry-edit-head collapseable" id="' . $element->getHtmlId()
-            . '-head"><a href="#" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
+        $html = '';
+        $html = '<div class="entry-edit-head collapseable" id="' . $element->getHtmlId() . '-head">'
+            . '<span id="' . $element->getHtmlId() . '-link" class="entry-edit-head-link"></span>'
+            . '<a id="' . $element->getHtmlId() . '-head" href="#' . $element->getHtmlId()
+            . '-link" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
             . $this->getUrl('*/*/state') . '\'); return false;">' . $element->getLegend() . '</a></div>';
         $html .= '<input id="'.$element->getHtmlId() . '-state" name="config_state[' . $element->getId()
             . ']" type="hidden" value="' . (int)$this->_isCollapseState($element) . '" />';

@@ -33,11 +33,6 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testAddUpdate()
     {
         $this->assertEmpty($this->_model->asArray());

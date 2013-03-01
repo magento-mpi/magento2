@@ -207,9 +207,11 @@ class Mage_DesignEditor_Model_State
      */
     protected function _injectLayoutUpdateResourceModel()
     {
-        $this->_objectManager->addAlias(self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME,
-            self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME
-        );
+        $this->_objectManager->configure(array(
+            'preferences' => array(
+                self::LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME => self::LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME
+            )
+        ));
     }
 
     /**

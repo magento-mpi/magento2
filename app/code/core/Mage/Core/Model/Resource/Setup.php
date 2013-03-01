@@ -97,6 +97,13 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     protected $_config;
 
     /**
+     * Query modifier
+     *
+     * @var Mage_Core_Model_Resource_Setup_Query_Modifier
+     */
+    protected $_queryModifier;
+
+    /**
      * Initialize resource configurations, setup connection, etc
      *
      * @param Mage_Core_Model_Config_Resource $resourcesConfig
@@ -306,9 +313,12 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
      */
     public function callbackQueryHook(&$sql, &$bind)
     {
-        Mage::getSingleton('Mage_Core_Model_Resource_Setup_Query_Modifier',
-            array('adapter' => $this->getConnection()))
-            ->processQuery($sql, $bind);
+        if (!$this->_queryModifier) {
+            $this->_queryModifier = Mage::getModel(
+                'Mage_Core_Model_Resource_Setup_Query_Modifier', array('adapter' => $this->getConnection())
+            );
+        }
+        $this->_queryModifier->processQuery($sql, $bind);
         return $this;
     }
 

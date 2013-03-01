@@ -23,7 +23,6 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_BLOCK_BLACK_LIST     = 'vde/design_editor/block/black_list';
     const XML_PATH_CONTAINER_WHITE_LIST = 'vde/design_editor/container/white_list';
     const XML_PATH_DAYS_TO_EXPIRE       = 'vde/design_editor/layout_update/days_to_expire';
-
     /**#@-*/
 
     /**
@@ -38,11 +37,12 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config $configuration
      */
-    public function __construct(Mage_Core_Model_Translate $translator, Mage_Core_Model_Config $configuration)
+    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $configuration)
     {
-        parent::__construct($translator);
+        parent::__construct($context);
         $this->_configuration = $configuration;
     }
 

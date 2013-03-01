@@ -14,6 +14,7 @@
     <div class="header-inner">
         <a href="<?php echo $this->getHomeLink() ?>" class="logo" title="<?php echo $this->__('Magento Admin Panel') ?>"><span><?php echo $this->__('Magento Admin Panel') ?></span></a>
         <div class="header-panel">
+            <?php echo $this->getChildHtml(); ?>
             <div class="account">
                 <a href="<?php echo $this->getUrl('adminhtml/system_account/index') ?>" class="account-avatar" title="<?php echo $this->__('My Account') ?>" data-toggle="dropdown">
                     <?php echo $this->escapeHtml($this->getUser()->getUsername()); ?>

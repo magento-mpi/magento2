@@ -25,5 +25,9 @@
             <path>app/code/core/Enterprise/Enterprise/sql/enterprise_enterprise_setup/upgrade-1.11.0.1-1.11.0.2.php</path>
             <word>staging</word>
         </item>
+        <item>
+            <path>app/code/core/Mage/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
+            <word>staging</word>
+        </item>
     </whitelist>
 </config>

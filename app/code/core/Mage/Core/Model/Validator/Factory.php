@@ -76,7 +76,7 @@ class Mage_Core_Model_Validator_Factory
      */
     public function getValidatorConfig()
     {
-        return $this->_objectManager->get('Magento_Validator_Config', array('configFiles' => $this->_configFiles));
+        return $this->_objectManager->create('Magento_Validator_Config', array('configFiles' => $this->_configFiles));
     }
 
     /**

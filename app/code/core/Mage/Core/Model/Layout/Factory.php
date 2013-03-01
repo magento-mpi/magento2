@@ -35,26 +35,17 @@ class Mage_Core_Model_Layout_Factory
      */
     public function createLayout(array $arguments = array(), $className = self::CLASS_NAME)
     {
-        // because layout singleton was used everywhere in magento code, in observers, models, blocks, etc.
-        // the only way how we can replace default layout object with custom one is to save instance of custom layout
-        // to instance manager storage using default layout class name as alias
-        $createLayout = true;
-        if (isset($arguments['area'])) {
-            if ($this->_objectManager->hasSharedInstance(self::CLASS_NAME)) {
-                /** @var $layout Mage_Core_Model_Layout */
-                $layout = $this->_objectManager->get(self::CLASS_NAME);
-                if ($arguments['area'] != $layout->getArea()) {
-                    $this->_objectManager->removeSharedInstance(self::CLASS_NAME);
-                } else {
-                    $createLayout = false;
-                }
-            }
+        $configuration = array(
+            $className => array(
+                'parameters' => $arguments
+            )
+        );
+        if ($className != self::CLASS_NAME) {
+            $configuration['preferences'] = array(
+                self::CLASS_NAME => $className,
+            );
         }
-        if ($createLayout) {
-            $layout = $this->_objectManager->create($className, $arguments, false);
-            $this->_objectManager->addSharedInstance($layout, self::CLASS_NAME);
-        }
-
+        $this->_objectManager->configure($configuration);
         return $this->_objectManager->get(self::CLASS_NAME);
     }
 }

@@ -55,7 +55,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $formLocator = $this->getControlElement('fieldset', $fieldsetName);
         if ($formLocator->name() == 'fieldset') {
             $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
-            if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+            if (strpos($fieldsetLink->attribute('class'), 'entry-edit-head collapseable open') === false) {
                 $this->focusOnElement($fieldsetLink);
                 $fieldsetLink->click();
                 $this->clearActiveFocus();

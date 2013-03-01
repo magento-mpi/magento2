@@ -4528,6 +4528,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     protected function _getInsteadTriggerBody($tableName)
     {
         $pkColumns = $this->_getPrimaryKeyColumns($tableName);
+        $uniqueColumns = $this->_getUniqueIndexColumns($tableName);
+        $columns = array_merge($pkColumns, $uniqueColumns);
+
         $query = sprintf(" SELECT CAST(OBJECT_DEFINITION (object_id) AS VARCHAR(MAX)) \n"
                     . " FROM sys.triggers t                \n"
                     . " WHERE t.is_instead_of_trigger = 1 \n"
@@ -4535,7 +4538,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $tableName
         );
         $deletedRows = array();
-        foreach ($pkColumns as $column) {
+        foreach ($columns as $column) {
             $deletedRows[] = sprintf('%s %s', $column, $this->_getColumnDataType($tableName, $column));
         }
         $triggerBody = str_replace('CREATE TRIGGER', 'ALTER TRIGGER', $this->fetchOne($query));
@@ -4543,11 +4546,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (empty($triggerBody)) {
             $triggerName = $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL);
             $pKeysCond = array();
-            foreach ($pkColumns as $column) {
+            foreach ($columns as $column) {
                 $pKeysCond[] = sprintf('t.%s = d.%s', $column, $column);
             }
 
-            $fields = implode(', ', $pkColumns);
+            $fields = implode(', ', $columns);
             $triggerBody = "CREATE TRIGGER [{$triggerName}]                 \n"
                 . "    ON  {$tableName}                                     \n"
                 . "    INSTEAD OF DELETE                                    \n"

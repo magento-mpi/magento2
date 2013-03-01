@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Newsletter_SubscriberTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Newsletter_SubscriberTest extends Mage_Backend_Area_TestCase
 {
     public function testGetShowQueueAdd()
     {

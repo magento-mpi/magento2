@@ -37,12 +37,6 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_mageModel   = Mage::app();
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-        $this->_mageModel = null;
-    }
-
     public function testGetCookie()
     {
         $this->assertInstanceOf('Mage_Core_Model_Cookie', $this->_model->getCookie());

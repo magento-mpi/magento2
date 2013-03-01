@@ -124,12 +124,6 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         $this->_model = self::$_objectManager->create('Mage_Catalog_Model_Category');
     }
 
-    protected function tearDown()
-    {
-        unset($this->_store);
-        unset($this->_model);
-    }
-
     public function testGetUrlInstance()
     {
         $instance = $this->_model->getUrlInstance();

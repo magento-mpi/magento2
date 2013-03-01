@@ -20,14 +20,14 @@
 class Mage_Adminhtml_Helper_Media_Js extends Mage_Core_Helper_Js
 {
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config_Modules_Reader $configReader
      */
     public function __construct(
-        Mage_Core_Model_Translate $translator,
+        Mage_Core_Helper_Context $context,
         Mage_Core_Model_Config_Modules_Reader $configReader
     ) {
-        parent::__construct($translator, $configReader);
+        parent::__construct($context, $configReader);
 
         $this->_translateData = array(
             'Complete' => $this->__('Complete'),

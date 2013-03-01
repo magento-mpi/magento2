@@ -101,7 +101,7 @@ class Mage_Core_Model_Store_StorageFactory
 
         if (false == isset($this->_cache[$className])) {
             /** @var $instance Mage_Core_Model_Store_StorageInterface */
-            $instance = $this->_objectManager->get($className, $arguments);
+            $instance = $this->_objectManager->create($className, $arguments);
 
             if (false === ($instance instanceof Mage_Core_Model_Store_StorageInterface)) {
                 throw new InvalidArgumentException($className

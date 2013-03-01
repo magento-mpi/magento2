@@ -22,9 +22,9 @@ search_tax_rule:
 
 new_tax_rule_required:
     name: test_tax_id_%randomize%
+    tax_rate: US-CA-*-Rate 1
     customer_tax_class: Retail Customer
     product_tax_class: Taxable Goods
-    tax_rate: US-CA-*-Rate 1
     priority: 10
     sort_order: 1
 

@@ -329,16 +329,17 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param string $targetPath
      * @param string $themeFile
      * @param array $params
+     * @param string $type
      * @return Mage_Core_Model_Design_Package
      */
-    public function updateFilePathInMap($targetPath, $themeFile, $params)
+    public function updateFilePathInMap($targetPath, $themeFile, $params, $type = null)
     {
         $themeFile = $this->_extractScope($themeFile, $params);
         $this->_updateParamDefaults($params);
         $fallback = $this->_getFallback($params);
         /** @var $fallback Mage_Core_Model_Design_Fallback_CachingProxy */
         if ($fallback instanceof Mage_Core_Model_Design_Fallback_CachingProxy) {
-            $fallback->setFilePathToMap($targetPath, $themeFile, $params['module']);
+            $fallback->setFilePathToMap($targetPath, $themeFile, $params['module'], $type);
         }
         return $this;
     }
@@ -377,27 +378,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         }
         return $this->_fallback[$cacheKey];
-    }
-
-    /**
-     * Create fallback model
-     *
-     * @param array $params
-     * @return Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_CachingProxy
-     */
-    protected function _createFallback($params)
-    {
-        $model = 'Mage_Core_Model_Design_Fallback_CachingProxy';
-        if (isset($params['skipProxy']) && $params['skipProxy']) {
-            $model = 'Mage_Core_Model_Design_Fallback';
-        }
-
-        $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
-            ->getNode('global/dev/design_fallback/allow_map_update');
-        $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
-        $params['baseDir'] = Mage::getBaseDir();
-
-        return Mage::getModel($model, array('data' => $params));
     }
 
     /**
@@ -1061,17 +1041,19 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Render view config object for current package and theme
      *
+     * @param array $params
      * @return Magento_Config_View
      */
-    public function getViewConfig()
+    public function getViewConfig(array $params = array())
     {
-        $key = $this->getDesignTheme()->getId();
+        $this->_updateParamDefaults($params);
+        $key = $params['themeModel']->getId();
         if (isset($this->_viewConfigs[$key])) {
             return $this->_viewConfigs[$key];
         }
 
-        $configFiles = $this->_moduleReader->getModuleConfigurationFiles('view.xml');
-        $themeConfigFile = $this->getFilename('view.xml', array());
+        $configFiles = $this->_moduleReader->getModuleConfigurationFiles(self::FILENAME_VIEW_CONFIG);
+        $themeConfigFile = $this->getFilename(self::FILENAME_VIEW_CONFIG, $params);
         if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }

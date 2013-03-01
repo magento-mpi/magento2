@@ -23,11 +23,6 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
             ->getMockForAbstractClass();
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testGetRelationInfo()
     {
         $info = $this->_model->getRelationInfo();

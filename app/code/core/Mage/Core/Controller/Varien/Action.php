@@ -487,9 +487,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 && !$this->getRequest()->getParam('nocookie', false);
             $cookies = Mage::getSingleton('Mage_Core_Model_Cookie')->get();
             /** @var $session Mage_Core_Model_Session */
-            $session = Mage::getSingleton('Mage_Core_Model_Session',
-                array('data' => array('name' => $this->_sessionNamespace)))
-                ->start();
+            $session = Mage::getSingleton('Mage_Core_Model_Session')->start();
 
             if (empty($cookies)) {
                 if ($session->getCookieShouldBeReceived()) {
@@ -749,8 +747,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     public function setRedirectWithCookieCheck($path, array $arguments = array())
     {
         /** @var $session Mage_Core_Model_Session */
-        $session = Mage::getSingleton('Mage_Core_Model_Session',
-            array('data' => array('name' => $this->_sessionNamespace)));
+        $session = Mage::getSingleton('Mage_Core_Model_Session');
         if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()
             && $this->_sessionNamespace != Mage_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
         ) {
@@ -1132,6 +1129,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 while ($buffer = $stream->read(1024)) {
                     print $buffer;
                 }
+                flush();
                 $stream->close();
                 if (!empty($content['rm'])) {
                     $filesystem->delete($file);

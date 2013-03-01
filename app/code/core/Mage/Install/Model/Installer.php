@@ -191,7 +191,7 @@ class Mage_Install_Model_Installer extends Varien_Object
          * Saving host information into DB
          */
         $setupModel = Mage::getObjectManager()
-            ->get('Mage_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
+            ->create('Mage_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
 
         if (!empty($data['use_rewrites'])) {
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_USE_REWRITES, 1);

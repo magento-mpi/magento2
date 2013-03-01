@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_System_Store_EditTest extends Mage_Backend_Area_TestCase
 {
     public function tearDown()
     {

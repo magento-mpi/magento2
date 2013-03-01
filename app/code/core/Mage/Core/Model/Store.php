@@ -209,19 +209,27 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**
      * Url model for current store
      *
-     * @var Mage_Core_Model_Url
+     * @var Mage_Core_Model_UrlInterface
      */
-    protected $_urlModel = null;
+    protected $_urlModel;
 
     /**
-     * Url class name for current store
-     *
-     * @var bool
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Url $urlModel
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
      */
-    protected $_urlClassName = null;
-
-    /** Default url class name for current store */
-    const DEFAULT_URL_MODEL_NAME = 'Mage_Core_Model_Url';
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_Url $urlModel,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_urlModel = $urlModel;
+        parent::__construct($context, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize object
@@ -1239,14 +1247,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Set url class name for current store
+     * Set url model for current store
      *
-     * @param string $urlClassName
+     * @param Mage_Core_Model_Url $urlModel
      * @return Mage_Core_Model_Store
      */
-    public function setUrlClassName($urlClassName)
+    public function setUrlModel($urlModel)
     {
-        $this->_urlClassName = $urlClassName;
+        $this->_urlModel = $urlModel;
         return $this;
     }
 
@@ -1257,13 +1265,6 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function getUrlModel()
     {
-        if (null === $this->_urlModel) {
-            if (null === $this->_urlClassName) {
-                $this->_urlClassName = self::DEFAULT_URL_MODEL_NAME;
-            }
-            $this->_urlModel = Mage::getModel($this->_urlClassName);
-        }
-
         return $this->_urlModel;
     }
 }
