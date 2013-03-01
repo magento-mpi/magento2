@@ -2,7 +2,6 @@
 # See also common.txt and dev_build.txt for items that are not part of any edition
 #
 saas
-saas_infrastructure
 app/code/core/Saas
 app/etc/modules/XSaas_Edition.xml.dist
 dev/tests/integration/etc/modules/XSaas_Edition.xml.dist
