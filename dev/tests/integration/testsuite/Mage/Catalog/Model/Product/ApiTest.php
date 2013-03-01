@@ -379,6 +379,12 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate()
     {
+        /*
+         * Some product attributes (e.g. tier_price) rely on _origData to determine whether attributes are new (thus,
+         * should be INSERTed into the DB) or updated. Real-world requests works fine because same code contained in
+         * Mage_Api_Controller_Action::preDispatch().
+         */
+        Mage::app()->setCurrentStore('admin');
         $newData = (object)array(
             'name'              => 'New Name',
             'description'       => 'New Description',
