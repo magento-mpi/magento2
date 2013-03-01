@@ -13,7 +13,7 @@ require __DIR__ . '/lib/ArrayDefinitionReader.php';
 require __DIR__ . '/lib/UniqueList.php';
 error_reporting(E_ERROR);
 $opt = new Zend_Console_Getopt(array(
-    'compressor|c-w'    => 'apple option, with no parameter',
+    'serializer|c-w'    => 'apple option, with no parameter',
 ));
 
 $objectManager = new Mage_Core_Model_ObjectManager(
@@ -64,16 +64,16 @@ if (!file_exists(BP . '/var/di/')) {
 }
 
 $definitionFormat = (string) $config->getNode('global/di/definitions/format');
-$content = array($signatureList->asArray(), $resultDefinitions);
 $output = '';
 switch ($definitionFormat) {
     case 'igbinary':
-        $output = igbinary_serialize($content);
+        $output = igbinary_serialize(array($signatureList->asArray('igbinary_serialize'), $resultDefinitions));
+    );
         break;
 
     case 'serialize':
     default:
-        $output = serialize($content);
+        $output = serialize(array($signatureList->asArray('serialize'), $resultDefinitions));
         break;
 }
 

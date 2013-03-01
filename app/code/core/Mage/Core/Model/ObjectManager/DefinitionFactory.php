@@ -41,17 +41,16 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
                     $config->getDirectories()->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
                 $definitions = file_get_contents($definitionsFile);
         };
-        $format = isset($definitionConfig['format']) ? $definitionConfig['format'] : 'serialized';
+        $format = isset($definitionConfig['format']) ? $definitionConfig['format'] : null;
         switch ($format) {
             case 'igbinary':
-                $definitions = igbinary_unserialize($definitions);
+                return new Magento_ObjectManager_Definition_Compiled_Binary(igbinary_unserialize($definitions));
                 break;
 
-            case 'serialize':
+            case 'serialized':
             default:
-                $definitions = unserialize($definitions);
+                return new Magento_ObjectManager_Definition_Compiled_Serialized(unserialize($definitions));
                 break;
         }
-        return new Magento_ObjectManager_Definition_Compiled($definitions);
     }
 }

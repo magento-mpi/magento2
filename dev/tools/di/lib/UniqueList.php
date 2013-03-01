@@ -35,10 +35,10 @@ class UniqueList
      *
      * @return array
      */
-    public function asArray()
+    public function asArray($serializer)
     {
         foreach ($this->_items as &$item) {
-            $item = serialize($item);
+            $item = $serializer($item);
         }
         return $this->_items;
     }
