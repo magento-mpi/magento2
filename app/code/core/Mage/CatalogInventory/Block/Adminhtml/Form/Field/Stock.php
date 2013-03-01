@@ -148,7 +148,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
             <script>
                 jQuery(function($) {
                     var qty = $('#{$quantityFieldId}'),
-                        productType = $('#type_id').val(),
+                        productType = $('#product_type_id').val(),
                         stockAvailabilityField = $('#{$inStockFieldId}'),
                         manageStockField = $('#inventory_manage_stock'),
                         useConfigManageStockField = $('#inventory_use_config_manage_stock');
