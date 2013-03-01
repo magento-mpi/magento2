@@ -11,14 +11,14 @@
 /**
  * Theme files collection
  */
-class Mage_Core_Model_Resource_Theme_Files_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Core_Model_Resource_Theme_File_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection initialization
      */
     protected function _construct()
     {
-        $this->_init('Mage_Core_Model_Theme_Files', 'Mage_Core_Model_Resource_Theme_Files');
+        $this->_init('Mage_Core_Model_Theme_File', 'Mage_Core_Model_Resource_Theme_File');
     }
 
     /**
@@ -28,7 +28,7 @@ class Mage_Core_Model_Resource_Theme_Files_Collection extends Mage_Core_Model_Re
      *
      * @param string $field
      * @param string $direction
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection|Varien_Data_Collection|Varien_Data_Collection_Db
+     * @return Mage_Core_Model_Resource_Theme_File_Collection|Varien_Data_Collection|Varien_Data_Collection_Db
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -39,7 +39,7 @@ class Mage_Core_Model_Resource_Theme_Files_Collection extends Mage_Core_Model_Re
      * Set default order
      *
      * @param string $direction
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
      */
     public function setDefaultOrder($direction)
     {

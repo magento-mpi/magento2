@@ -22,7 +22,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Theme_Files
+     * @var Mage_Core_Model_Theme_File
      */
     protected $_themeFiles;
 
@@ -33,7 +33,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
 
     /**
      * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Theme_Files $themeFiles
+     * @param Mage_Core_Model_Theme_File $themeFiles
      * @param Mage_Core_Model_Design_Package $designPackage
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Resource_Theme_Customization_Link $resource
@@ -42,7 +42,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
      */
     public function __construct(
         Mage_Core_Model_Context $context,
-        Mage_Core_Model_Theme_Files $themeFiles,
+        Mage_Core_Model_Theme_File $themeFiles,
         Mage_Core_Model_Design_Package $designPackage,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Resource_Theme_Customization_Link $resource,
@@ -108,7 +108,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
     /**
      * Get files collection for current theme
      *
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
      */
     protected function _getFilesCollection()
     {
@@ -172,7 +172,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
     public function _prepareUpdate(Mage_Core_Model_Layout_Update $update, array $customFiles)
     {
         $xmlActions = '';
-        /** @var $customFile Mage_Core_Model_Theme_Files */
+        /** @var $customFile Mage_Core_Model_Theme_File */
         foreach ($customFiles as $customFile) {
             if ($customFile->hasContent()) {
                 $xmlActions .= $this->_getInclusionAction($customFile);
@@ -196,17 +196,17 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
     /**
      * Generate piece of layout update
      *
-     * @param Mage_Core_Model_Theme_Files $customFile
+     * @param Mage_Core_Model_Theme_File $customFile
      * @throws Magento_Exception
      * @return string
      */
-    public function _getInclusionAction(Mage_Core_Model_Theme_Files $customFile)
+    public function _getInclusionAction(Mage_Core_Model_Theme_File $customFile)
     {
         switch ($customFile->getFileType()) {
-            case Mage_Core_Model_Theme_Files::TYPE_CSS:
+            case Mage_Core_Model_Theme_File::TYPE_CSS:
                 $action =  "<action method=\"addCss\"><file>{$customFile->getRelativePath()}</file></action>";
                 break;
-            case Mage_Core_Model_Theme_Files::TYPE_JS:
+            case Mage_Core_Model_Theme_File::TYPE_JS:
                 $action =  "<action method=\"addJs\"><file>{$customFile->getRelativePath()}</file></action>";
                 break;
             default:
