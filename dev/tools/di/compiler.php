@@ -82,7 +82,9 @@ switch ($opt->getOption('format')) {
 
 if ($opt->getOption('file')) {
     $dirs = $objectManager->get('Mage_Core_Model_Dir');
-    $fileName = $opt->getOption('file') ?: $dirs->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
+    $fileName = strlen($opt->getOption('file')) > 1 ?
+        $opt->getOption('file') :
+        $dirs->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
     file_put_contents($fileName, $output);
 } else {
     echo $output;
