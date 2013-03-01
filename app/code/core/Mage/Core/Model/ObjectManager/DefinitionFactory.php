@@ -51,12 +51,11 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
 
         $definitionConfig = $configElement ? $configElement->asArray() : array();
         $format = $this->_getValue($definitionConfig, 'format', 'serialized');
-        $storageConfig = $this->_getValue($definitionConfig, 'storage', array());
-        $storageType = $this->_getValue($storageConfig, 'type', 'file');
         $definitionModel = $this->_getDefinitionModel($format);
-
         $definitions = $config->getParam('definitions', false);
         if (false === $definitions) {
+            $storageConfig = $this->_getValue($definitionConfig, 'storage', array());
+            $storageType = $this->_getValue($storageConfig, 'type', 'file');
             switch ($storageType) {
                 case 'file':
                 default:
