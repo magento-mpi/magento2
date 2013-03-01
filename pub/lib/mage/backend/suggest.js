@@ -497,7 +497,7 @@
                 return this._renderDropdown(e, items, context || {});
             }, this);
             if (this._trigger("response", e, [items, renderer]) === false) {
-                return
+                return;
             }
             this._renderDropdown(e, items, context);
         },
@@ -526,7 +526,7 @@
                     data: ajaxData,
                     success: response
                 }, o.ajaxOptions || {}));
-            } else {
+            } else if ($.type(o.source) === 'function') {
                 o.source.apply(o.source, arguments);
             }
         },
