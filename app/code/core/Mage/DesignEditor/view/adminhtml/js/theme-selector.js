@@ -25,7 +25,8 @@
             afterAssignSaveUrl: null,
             storesByThemes: {},
             isMultipleStoreViewMode: null,
-            frameSelector: 'iframe#vde_container_frame'
+            frameSelector: 'iframe#vde_container_frame',
+            redirectToVdeOnAssign: false
         },
 
         /**
@@ -222,7 +223,9 @@
                 url:  this.options.assignSaveUrl,
                 data: data,
                 dataType: 'json',
-                success: $.proxy(this.assignSaveThemeSuccess, this),
+                success: $.proxy(function(response) {
+                    this.assignSaveThemeSuccess(response, stores, themeId);
+                }, this),
                 error: function() {
                     alert($.mage.__('Error: unknown error.'));
                 }
@@ -233,11 +236,13 @@
          * Assign Save Theme AJAX call Success handler
          *
          * @param response
+         * @param stores
+         * @param themeId
          */
-        assignSaveThemeSuccess: function(response) {
+        assignSaveThemeSuccess: function(response, stores, themeId) {
             if (response.error) {
                 alert($.mage.__('Error') + ': "' + response.message + '".');
-            } else {
+            } else if (this.options.redirectToVdeOnAssign) {
                 var defaultStore = 0;
                 var url = [
                     this.options.afterAssignSaveUrl + 'store_id',

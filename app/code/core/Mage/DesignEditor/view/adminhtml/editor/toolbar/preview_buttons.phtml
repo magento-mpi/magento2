@@ -15,15 +15,3 @@
         <?php echo $this->__('Quit'); ?>
     </a>
 </div>
-
-<script type="text/javascript">
-    (function($) {
-        $(document).ready(function() {
-            $.vde.themeSelector.prototype.assignSaveThemeSuccess = function (response) {
-                if (response.error) {
-                    alert($.mage.__('Error') + ': "' + response.message + '".');
-                }
-            };
-        });
-    })(jQuery);
-</script>
