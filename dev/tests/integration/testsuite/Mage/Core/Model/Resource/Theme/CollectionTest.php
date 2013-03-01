@@ -184,7 +184,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'test_area'
+                'area'                 => 'test_area',
+                'type'                 => 'physical',
             ),
             array(
                 'parent_id'            => '0',
@@ -195,7 +196,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'test_area2'
+                'area'                 => 'test_area2',
+                'type'                 => 'physical',
             ),
         );
     }

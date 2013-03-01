@@ -234,7 +234,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
 
             /** @var $filesCss Mage_Core_Model_Theme_Customization_Files_Css */
             $filesCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
-            /** @var $customCssFile Mage_Core_Model_Theme_Files */
+            /** @var $customCssFile Mage_Core_Model_Theme_File */
             $customCssFile = $theme->setCustomization($filesCss)
                 ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
 

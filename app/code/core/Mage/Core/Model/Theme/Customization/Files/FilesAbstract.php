@@ -15,7 +15,7 @@ abstract class Mage_Core_Model_Theme_Customization_Files_FilesAbstract extends V
     implements Mage_Core_Model_Theme_Customization_CustomizationInterface
 {
     /**
-     * @var Mage_Core_Model_Theme_Files
+     * @var Mage_Core_Model_Theme_File
      */
     protected $_themeFiles;
 
@@ -27,9 +27,9 @@ abstract class Mage_Core_Model_Theme_Customization_Files_FilesAbstract extends V
     protected $_dataForSave;
 
     /**
-     * @param Mage_Core_Model_Theme_Files $themeFiles
+     * @param Mage_Core_Model_Theme_File $themeFiles
      */
-    public function __construct(Mage_Core_Model_Theme_Files $themeFiles)
+    public function __construct(Mage_Core_Model_Theme_File $themeFiles)
     {
         $this->_themeFiles = $themeFiles;
     }
@@ -64,11 +64,11 @@ abstract class Mage_Core_Model_Theme_Customization_Files_FilesAbstract extends V
      * Save data
      *
      * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
      */
     public function getCollectionByTheme(Mage_Core_Model_Theme_Customization_CustomizedInterface $theme)
     {
-        /** @var $filesCollection Mage_Core_Model_Resource_Theme_Files_Collection */
+        /** @var $filesCollection Mage_Core_Model_Resource_Theme_File_Collection */
         $filesCollection = $this->_themeFiles->getCollection()->addFilter('theme_id', $theme->getId())
             ->addFilter('file_type', $this->_getFileType());
 

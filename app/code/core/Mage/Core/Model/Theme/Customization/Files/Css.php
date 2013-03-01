@@ -55,7 +55,7 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
      */
     protected function _getFileType()
     {
-        return Mage_Core_Model_Theme_Files::TYPE_CSS;
+        return Mage_Core_Model_Theme_File::TYPE_CSS;
     }
 
     /**
@@ -82,7 +82,7 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
     protected function _save($theme)
     {
         foreach ($this->_dataForSave as $type => $cssFileContent) {
-            /** @var $cssFiles Mage_Core_Model_Theme_Files */
+            /** @var $cssFiles Mage_Core_Model_Theme_File */
             $cssFile = $this->getCollectionByTheme($theme, $type)->getFirstItem();
 
             $cssFile->addData(array(
@@ -101,7 +101,7 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
      *
      * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
      * @param null|string $type
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
      */
     public function getCollectionByTheme(
         Mage_Core_Model_Theme_Customization_CustomizedInterface $theme,

@@ -30,7 +30,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Theme custom css file
      *
-     * @var Mage_Core_Model_Theme_Files
+     * @var Mage_Core_Model_Theme_File
      */
     protected $_customCssFile;
 

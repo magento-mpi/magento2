@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Theme_FileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test crud operations for theme files model using valid data
      */
     public function testCrud()
     {
-        /** @var $filesModel Mage_Core_Model_Theme_Files */
-        $filesModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Files');
+        /** @var $filesModel Mage_Core_Model_Theme_File */
+        $filesModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme_File');
         $filesData = $this->_getThemeFilesValidData();
 
         /** @var $themeModel Mage_Core_Model_Theme */
