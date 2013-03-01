@@ -12,9 +12,16 @@ require __DIR__ . '/../../../app/bootstrap.php';
 require __DIR__ . '/lib/ArrayDefinitionReader.php';
 require __DIR__ . '/lib/UniqueList.php';
 error_reporting(E_ERROR);
-$opt = new Zend_Console_Getopt(array(
-    'serializer|c-w'    => 'apple option, with no parameter',
-));
+try{
+    $opt = new Zend_Console_Getopt(array(
+        'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
+        'file|f-s'       => 'write output to file (default = var/di/definitions.php)',
+    ));
+    $opt->parse();
+} catch (Zend_Console_Getopt_Exception $e) {
+    echo $e->getUsageMessage();
+    exit;
+}
 
 $objectManager = new Mage_Core_Model_ObjectManager(
     new Magento_ObjectManager_Definition_Runtime(),
@@ -30,21 +37,16 @@ foreach (glob(BP . '/app/code/*') as $codePoolDir) {
         foreach (glob($vendorDir . '/*') as $moduleDir) {
             $moduleName = basename($vendorDir) . '_' . basename($moduleDir);
             if (is_dir($moduleDir) && $config->isModuleEnabled($moduleName)) {
-                echo "Compiling module " . $moduleName . "\n";
                 $definitions = array_merge_recursive($definitions, $compiler->compileModule($moduleDir));
             }
         }
     }
 }
 
-echo "Compiling Varien\n";
 $definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/lib/Varien'));
-echo "Compiling Magento\n";
 $definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/lib/Magento'));
-echo "Compiling Mage\n";
 $definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/lib/Mage'));
 if (is_readable(BP . '/var/generation')) {
-    echo "Compiling generated entities\n";
     $definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/var/generation'));
 }
 
@@ -63,12 +65,13 @@ if (!file_exists(BP . '/var/di/')) {
     mkdir(BP . '/var/di', 0777, true);
 }
 
-$definitionFormat = (string) $config->getNode('global/di/definitions/format');
 $output = '';
-switch ($definitionFormat) {
+switch ($opt->getOption('format')) {
     case 'igbinary':
+        if (!function_exists('igbinary_serialize')) {
+            die('Error: Igbinary extension is not installed');
+        }
         $output = igbinary_serialize(array($signatureList->asArray('igbinary_serialize'), $resultDefinitions));
-    );
         break;
 
     case 'serialize':
@@ -77,13 +80,10 @@ switch ($definitionFormat) {
         break;
 }
 
-$storageType = (string) $config->getNode('global/di/definitions/storage/type');
-$storagePath = (string) $config->getNode('global/di/definitions/storage/path');
-switch ($storageType) {
-    case 'file':
-    default:
-        $dirs = $objectManager->get('Mage_Core_Model_Dir');
-        $path = $storagePath ?: $dirs->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
-        file_put_contents($path, $output);
-        break;
+if ($opt->getOption('file')) {
+    $dirs = $objectManager->get('Mage_Core_Model_Dir');
+    $fileName = $opt->getOption('file') ?: $dirs->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
+    file_put_contents($fileName, $output);
+} else {
+    echo $output;
 }
