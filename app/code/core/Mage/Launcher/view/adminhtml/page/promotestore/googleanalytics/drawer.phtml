@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Drawer */
+?>
+<div class="drawer-header-content">
+    <form id="drawer-form">
+        <h2 class="title"><?php echo $this->__('Powerful features of Google Analytics') ?> </h2>
+        <article class="entry">
+            <p><?php echo $this->__('Your new online business has a powerful asset: data. Leverage your store data with Google Analytics to track and evaluate customer conversions, clicks, purchases and browsing. Google Analytics helps turn all this info into meaningful, actionable insight for staging your store and selling more products.') ?> </p>
+        </article>
+        <div class="go-do">
+            <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
+            <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_TODO) :?>
+                <p><?php echo $this->__('Log in to your Google account.') ?></p>
+                <input id="google_analytics_account" name="groups[google][analytics][fields][account][value]" data-ui-id="text-groups-analytics-fields-account-value" value="" class=" input-text" type="text">
+            <?php endif; ?>
+            <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
+                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'google', '_fragment' => 'google_analytics-link'))?>" target="_blank"><?php echo $this->__('Edit Google Analytics Settings'); ?></a></li>
+            <?php endif; ?>
+        </div>
+    </form>
+</div>

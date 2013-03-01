@@ -302,8 +302,9 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
             'filter_index' => $this->getMassactionIdFilter(),
             'type'         => 'massaction',
             'name'         => $this->getFormFieldName(),
-            'align'        => 'center',
-            'is_system'    => true
+            'is_system'    => true,
+            'header_css_class'  => 'col-select',
+            'column_css_class'  => 'col-select'
         ));
 
         if ($this->getNoFilterMassactionColumn()) {

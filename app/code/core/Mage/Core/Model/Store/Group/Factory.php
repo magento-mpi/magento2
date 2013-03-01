@@ -39,6 +39,6 @@ class Mage_Core_Model_Store_Group_Factory
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->get(self::CLASS_NAME, $arguments);
+        return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }
 }

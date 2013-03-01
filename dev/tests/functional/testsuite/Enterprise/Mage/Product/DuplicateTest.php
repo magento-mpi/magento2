@@ -49,6 +49,6 @@ class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Verifying
         $productData['inventory_qty'] = '0';
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $this->productHelper()->verifyProductInfo($productData, array('general_sku', 'general_status'));
+        $this->productHelper()->verifyProductInfo($productData, array('general_sku', 'product_online_status'));
     }
 }

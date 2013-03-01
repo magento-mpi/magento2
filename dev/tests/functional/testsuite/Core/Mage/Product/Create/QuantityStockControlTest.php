@@ -51,7 +51,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Data
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => $attributeData['attribute_code']));
+            array('Product Details' => $attributeData['attribute_code']));
         $productData['general_user_attr_dropdown'] = $attributeData['option_1']['admin_option_name'];
         //Steps (attribute)
         $this->navigate('manage_attributes');
@@ -146,10 +146,10 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $productData['inventory_manage_stock'] = 'Yes';
         $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
         $this->productHelper()->verifyProductInfo($productData);
-        $this->openTab('inventory');
+        $this->productHelper()->openProductTab('inventory');
         $this->assertTrue($this->controlIsEditable('field', 'inventory_qty'),
             'Quantity control is editable on Inventory Tab');
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->assertTrue($this->controlIsEditable('field', 'general_qty'),
             'Quantity control is editable on General Tab');
     }
@@ -187,7 +187,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
         //Verifying
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->assertFalse($this->controlIsEditable('dropdown', 'general_stock_availability'),
             'Stock Availability dropdown on Product Details tab is editable but should not');
         $this->assertEquals($defaultValue['default_stock_status'],
@@ -213,7 +213,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->openTab('inventory');
+        $this->productHelper()->openProductTab('inventory');
         $this->addFieldIdToMessage('field', 'inventory_qty');
         $this->assertMessagePresent('validation', 'enter_valid_number');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());

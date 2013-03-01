@@ -14,14 +14,29 @@
 class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Theme_Customization_Files_FilesAbstract
 {
     /**
-     * Css file name
+     * Custom css type
      */
-    const FILE_PATH = 'css/custom.css';
+    const CUSTOM_CSS = 'custom';
+
+    /**
+     * Quick style css type
+     */
+    const QUICK_STYLE_CSS = 'quick_style';
 
     /**
      * Css file type customization
      */
     const TYPE = 'css_file';
+
+    /**
+     * Css files by type
+     *
+     * @var array
+     */
+    protected $_cssFiles = array(
+        self::CUSTOM_CSS      => 'css/custom.css',
+        self::QUICK_STYLE_CSS => 'css/quick_style.css'
+    );
 
     /**
      * Return css file customization type
@@ -44,6 +59,21 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
     }
 
     /**
+     * Get CSS file name by type
+     *
+     * @param string $type
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    protected function _getFileName($type)
+    {
+        if (!array_key_exists($type, $this->_cssFiles)) {
+            throw new InvalidArgumentException('Invalid CSS file type');
+        }
+        return $this->_cssFiles[$type];
+    }
+
+    /**
      * Save data
      *
      * @param $theme Mage_Core_Model_Theme
@@ -51,15 +81,50 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
      */
     protected function _save($theme)
     {
-        /** @var $cssFile Mage_Core_Model_Theme_Files */
-        $cssFile = $this->getCollectionByTheme($theme)->getFirstItem();
-        $cssFile->addData(array(
-            'theme_id'  => $theme->getId(),
-            'file_path' => self::FILE_PATH,
-            'file_type' => $this->_getFileType(),
-            'content'   => $this->_dataForSave
-        ))->save();
+        foreach ($this->_dataForSave as $type => $cssFileContent) {
+            /** @var $cssFiles Mage_Core_Model_Theme_Files */
+            $cssFile = $this->getCollectionByTheme($theme, $type)->getFirstItem();
+
+            $cssFile->addData(array(
+                'theme_id'  => $theme->getId(),
+                'file_path' => $this->_getFileName($type),
+                'file_type' => $this->_getFileType(),
+                'content'   => $cssFileContent
+            ))->save();
+        }
 
         return $this;
+    }
+
+    /**
+     * Get theme collection
+     *
+     * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
+     * @param null|string $type
+     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     */
+    public function getCollectionByTheme(
+        Mage_Core_Model_Theme_Customization_CustomizedInterface $theme,
+        $type = Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS
+    ) {
+        return (null === $type)
+            ? parent::getCollectionByTheme($theme)
+            : parent::getCollectionByTheme($theme)->addFilter('file_path', $this->_getFileName($type));
+    }
+
+    /**
+     * Get file name by type
+     *
+     * @param string $type
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    public function getFileNameByName($type)
+    {
+        if (!array_key_exists($type, $this->_cssFiles)) {
+            throw new InvalidArgumentException('Invalid CSS file type');
+        }
+
+        return $type . '.css';
     }
 }

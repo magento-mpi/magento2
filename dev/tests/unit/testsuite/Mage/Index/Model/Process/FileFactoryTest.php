@@ -31,7 +31,7 @@ class Mage_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_TestCas
         'key' => 'value'
     );
 
-    public function testcreate()
+    public function testCreate()
     {
         $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManagerMock->expects($this->once())

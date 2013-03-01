@@ -54,8 +54,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
         if (!$this->getForm()->getDataObject()->getTypeInstance()->hasWeight()) {
             $this->_virtual->setChecked('checked');
         }
-        return '<div class="fields-group-2"><div class="field"><div class="control">'
-            . parent::getElementHtml() . '</div></div><div class="field choice">'
+        return '<div class="fields-group-2"><div class="field"><div class="addon"><div class="control">'
+            . parent::getElementHtml()
+            . '<label class="addafter" for="'
+            . $this->getHtmlId()
+            . '"><strong>'. Mage::helper('Mage_Adminhtml_Helper_Data')->__('lbs') .'</strong></label>'
+            . '</div></div></div><div class="field choice">'
             . $this->_virtual->getElementHtml() . $this->_virtual->getLabelHtml()
             . '</div></div>';
     }

@@ -41,12 +41,13 @@ if ($mediaDirectory) {
     sendFile($filePath);
 }
 try {
+    $params = $_SERVER;
     if (empty($mediaDirectory)) {
-        $_SERVER[Mage::PARAM_ALLOWED_MODULES] = array('Mage_Core');
-        $_SERVER[Mage::PARAM_CACHE_OPTIONS]['disable_save'] = true;
+        $params[Mage::PARAM_ALLOWED_MODULES] = array('Mage_Core');
+        $params[Mage::PARAM_CACHE_OPTIONS]['disable_save'] = true;
     }
 
-    $config = new Mage_Core_Model_Config_Primary(dirname(__DIR__), $_SERVER);
+    $config = new Mage_Core_Model_Config_Primary(dirname(__DIR__), $params);
     $entryPoint = new Mage_Core_Model_EntryPoint_Media($config);
     $entryPoint->processRequest();
     if (!Mage::isInstalled()) {

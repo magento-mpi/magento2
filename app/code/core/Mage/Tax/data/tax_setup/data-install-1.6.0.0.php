@@ -29,17 +29,6 @@ foreach ($data as $row) {
 }
 
 /**
- * install tax calculation rule
- */
-$data = array(
-    'tax_calculation_rule_id'   => 1,
-    'code'                      => 'Retail Customer-Taxable Goods-Rate 1',
-    'priority'                  => 1,
-    'position'                  => 1
-);
-$installer->getConnection()->insertForce($installer->getTable('tax_calculation_rule'), $data);
-
-/**
  * install tax calculation rates
  */
 $data = array(
@@ -63,23 +52,3 @@ $data = array(
 foreach ($data as $row) {
     $installer->getConnection()->insertForce($installer->getTable('tax_calculation_rate'), $row);
 }
-
-/**
- * install tax calculation
- */
-$data = array(
-    array(
-        'tax_calculation_rate_id'   => 1,
-        'tax_calculation_rule_id'   => 1,
-        'customer_tax_class_id'     => 3,
-        'product_tax_class_id'      => 2
-    ),
-    array(
-        'tax_calculation_rate_id'   => 2,
-        'tax_calculation_rule_id'   => 1,
-        'customer_tax_class_id'     => 3,
-        'product_tax_class_id'      => 2
-    )
-);
-$installer->getConnection()->insertMultiple($installer->getTable('tax_calculation'), $data);
-

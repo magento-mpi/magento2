@@ -191,7 +191,7 @@
         </design>
         <di>
             <preferences>
-                <Mage_Core_Model_Url>Mage_Backend_Model_Url</Mage_Core_Model_Url>
+                <Mage_Core_Model_UrlInterface>Mage_Backend_Model_Url</Mage_Core_Model_UrlInterface>
             </preferences>
             <Mage_Core_Model_Session>
                 <parameters>

@@ -131,7 +131,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
     public function uploadJsFile($file, $theme, $saveAsTmp = true)
     {
         /** @var $fileUploader Mage_Core_Model_File_Uploader */
-        $fileUploader = Mage::getObjectManager()->get('Mage_Core_Model_File_Uploader', array($file));
+        $fileUploader = Mage::getObjectManager()->create('Mage_Core_Model_File_Uploader', array('fileId' => $file));
         $fileUploader->setAllowedExtensions(array('js'));
         $fileUploader->setAllowRenameFiles(true);
         $fileUploader->setAllowCreateFolders(true);

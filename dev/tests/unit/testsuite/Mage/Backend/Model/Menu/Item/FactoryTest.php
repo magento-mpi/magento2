@@ -85,7 +85,7 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
 
     }
 
-    public function testcreate()
+    public function testCreate()
     {
         $this->_objectFactoryMock->expects($this->once())
             ->method('create')
@@ -112,7 +112,7 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
         ));
     }
 
-    public function testcreateProvidesDefaultHelper()
+    public function testCreateProvidesDefaultHelper()
     {
         $this->_objectFactoryMock->expects($this->once())
             ->method('create')

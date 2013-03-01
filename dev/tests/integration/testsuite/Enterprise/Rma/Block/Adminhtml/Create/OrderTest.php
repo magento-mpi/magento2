@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Adminhtml_Create_OrderTest extends PHPUnit_Framework_TestCase
+class Enterprise_Rma_Block_Adminhtml_Create_OrderTest extends Mage_Backend_Area_TestCase
 {
     public function testToHtml()
     {

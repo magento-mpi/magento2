@@ -20,10 +20,9 @@ $coreHelper = Mage::helper('Mage_Core_Helper_Data');
 <script type="text/javascript">
 //<![CDATA[
 OptionTemplateSelect =
-'<div class="grid">'+
-    '<table class="border" cellpadding="0" cellspacing="0">'+
+    '<table class="data-table">'+
         '<thead>'+
-        '<tr class="headings">'+
+        '<tr>'+
             '<th>' + <?php echo $coreHelper->jsonEncode(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Code')) ?> + '<span class="required">*</span></th>'+
             '<th>' + <?php echo $coreHelper->jsonEncode(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label')) ?> + '<span class="required">*</span></th>'+
             '<th>' + <?php echo $coreHelper->jsonEncode(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Default')) ?> +'</th>'+
@@ -35,8 +34,7 @@ OptionTemplateSelect =
             '<tr><td colspan="10" class="a-right scope-item">' + $('ui\:button\:add').innerHTML + '</td></tr>'+
         '</tfoot>'+
     '</table>'+
-    '<input type="hidden" class="required-option-select-rows" name="validation_{{id}}_result" value="" >'+
-'</div>';
+    '<input type="hidden" class="required-option-select-rows" name="validation_{{id}}_result" value="" >';
 
 OptionTemplateSelectRow =
     '<tr id="{{prefix}}_attribute_{{id}}_select_{{select_id}}">'+

@@ -72,7 +72,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->assertSame($productData['general_name'], $this->getControlAttribute('field', 'general_sku', 'value'),
             'SKU is not equal to product name.');
     }
@@ -113,7 +113,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->fillField('general_sku', $productSku);
         $this->productHelper()->saveProduct();
         //Verifying

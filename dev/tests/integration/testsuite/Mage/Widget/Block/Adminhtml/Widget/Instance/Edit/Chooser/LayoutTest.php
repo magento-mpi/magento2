@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest extends PHPUnit_Framework_TestCase
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout|PHPUnit_Framework_MockObject_MockObject
@@ -18,6 +18,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest extend
 
     protected function setUp()
     {
+        parent::setUp();
+
         $layoutUtility = new Mage_Core_Utility_Layout($this);
         $pageTypesFixture = __DIR__ . '/_files/_page_types_with_containers.xml';
         $args = array(

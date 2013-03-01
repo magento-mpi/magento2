@@ -25,5 +25,33 @@
     </div>
 </form>
 <script type="text/javascript">
-    jQuery('#config-edit-form').mage('form').mage('validation');
+(function($, window) {
+    $(function() {
+        $('#config-edit-form').mage('form').mage('validation');
+
+        var handleHash = function () {
+            if (window.location.hash == '') {
+                return false;
+            }
+            try {
+                var hashString = window.location.hash.replace('#', ''),
+                    containerId = hashString.replace('-link', ''),
+                    state = $('#' + containerId + '-state'),
+                    head = $('#' + containerId + '-head');
+                if (state.length) {
+                    state.val(1);
+                }
+                if (head.length) {
+                    head.collapsed = 0;
+                }
+                Fieldset.applyCollapse(containerId);
+            } catch(err) {
+            }
+            return false;
+        }
+
+        $(window).hashchange(handleHash);
+        handleHash();
+    });
+})(jQuery, window);
 </script>

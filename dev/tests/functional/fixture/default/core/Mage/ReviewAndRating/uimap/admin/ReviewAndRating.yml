@@ -37,7 +37,7 @@ manage_ratings:
         messages: &ratingMessages
             success_saved_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been saved.')]
             success_deleted_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been deleted.')]
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This field is required.')]
             existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
             confirmation_for_delete: Are you sure you want to do this?
 
@@ -53,13 +53,13 @@ new_rating:
                         fieldsets:
                             -
                                 rating_title:
-                                    xpath: //div[@id='rating_form']
+                                    xpath: //fieldset[@id='rating_form']
                                     fields:
                                         default_value: //input[@name='rating_code']
-                                        store_view_title: //tr[*/label='%storeViewName%']/td[@class='value']/input
+                                        store_view_title: //div[*/span='%storeViewName%']/div[@class='control']/input
                             -
                                 rating_visibility:
-                                    xpath: //div[@id='visibility_form']
+                                    xpath: //fieldset[@id='visibility_form']
                                     multiselects:
                                         visible_in: //select[@name='stores[]']
                                     checkboxes:
@@ -132,13 +132,13 @@ manage_all_reviews:
             success_deleted_review_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'record(s) have been deleted.')]
             confirmation_for_delete_all: Are you sure?
             confirmation_for_delete: Are you sure you want to do this?
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This field is required.')]
             empty_validate_rating: "//div[@id='advice-validate-rating-validate_rating' and not(contains(@style,'display: none;'))]"
             not_available_rating: //*[@id='rating_detail'][normalize-space(text())="Rating isn't Available"]
 
 manage_pending_reviews:
     mca: catalog_product_review/pending/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/pending/')]
+    click_xpath: //div[@class='submenu']//a[contains(@href, 'catalog_product_review/pending/')]
     title: Pending Reviews / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
     uimap:
         form: *manageReviews

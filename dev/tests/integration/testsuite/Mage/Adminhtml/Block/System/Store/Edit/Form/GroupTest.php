@@ -12,13 +12,15 @@
 /**
  * @magentoAppIsolation enabled
  */
-class Mage_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends Mage_Backend_Area_TestCase
 {
     /** @var Mage_Adminhtml_Block_System_Store_Edit_Form_Group */
     protected $_block;
 
     public static function setUpBeforeClass()
     {
+        parent::setUpBeforeClass();
+
         $registryData = array(
             'store_type' => 'group',
             'store_data' => Mage::getModel('Mage_Core_Model_Store_Group'),
@@ -38,6 +40,8 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_Fram
 
     public function setUp()
     {
+        parent::setUp();
+
         /** @var $layout Mage_Core_Model_Layout */
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 

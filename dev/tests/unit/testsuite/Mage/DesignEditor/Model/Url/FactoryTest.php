@@ -40,7 +40,7 @@ class Mage_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_model, $this->_model->replaceClassName('TestClass'));
     }
 
-    public function testcreate()
+    public function testCreate()
     {
         $this->_objectManager->expects($this->once())
             ->method('create')

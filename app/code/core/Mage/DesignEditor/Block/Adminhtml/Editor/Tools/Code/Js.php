@@ -51,7 +51,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
         $this->setForm($form);
         $form->setUseContainer(true);
 
-        $form->addType('js_files', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_File');
+        $form->addType('js_files', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader');
 
         $jsConfig = array(
             'name'     => 'js_files_uploader',

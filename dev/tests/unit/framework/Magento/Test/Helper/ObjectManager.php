@@ -170,17 +170,24 @@ class Magento_Test_Helper_ObjectManager
 
         foreach ($method->getParameters() as $parameter) {
             $parameterName = $parameter->getName();
+            $argClassName = null;
+            $defaultValue = null;
 
             if (isset($arguments[$parameterName])) {
                 $constructArguments[$parameterName] = $arguments[$parameterName];
                 continue;
             }
 
-            $defaultValue = $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null;
-            $argClassName = $parameter->getClass() ? $parameter->getClass()->getName() : null;
+            if ($parameter->isDefaultValueAvailable()) {
+                $defaultValue =  $parameter->getDefaultValue();
+            }
+
+            if ($parameter->getClass()) {
+                $argClassName =  $parameter->getClass()->getName();
+            }
+
             $object = $this->_createArgumentMock($argClassName, $arguments);
-            $object = null === $object ? $defaultValue : $object;
-            $constructArguments[$parameterName] = $object;
+            $constructArguments[$parameterName] = null === $object ? $defaultValue : $object;
         }
         return $constructArguments;
     }

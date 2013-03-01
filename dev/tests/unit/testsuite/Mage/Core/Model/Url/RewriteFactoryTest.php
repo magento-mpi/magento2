@@ -28,7 +28,7 @@ class Mage_Core_Model_Url_RewriteFactoryTest extends PHPUnit_Framework_TestCase
         'key' => 'value'
     );
 
-    public function testcreate()
+    public function testCreate()
     {
         $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManagerMock->expects($this->once())

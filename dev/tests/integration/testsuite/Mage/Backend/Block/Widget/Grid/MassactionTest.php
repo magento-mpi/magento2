@@ -12,7 +12,7 @@
 /**
  * @magentoDataFixture Mage/Backend/Block/_files/backend_theme.php
  */
-class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_Widget_Grid_MassactionTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Backend_Block_Widget_Grid_Massaction
@@ -27,6 +27,9 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     protected function setUp()
     {
         $this->markTestIncomplete('MAGETWO-6406');
+
+        parent::setUp();
+
         $this->_setFixtureTheme();
 
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'adminhtml'));

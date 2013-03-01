@@ -12,7 +12,7 @@
 /**
  * Test class for Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
  */
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php

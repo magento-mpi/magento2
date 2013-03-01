@@ -85,7 +85,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     /**
      * Url Builder
      *
-     * @var Mage_Core_Model_Url
+     * @var Mage_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
 

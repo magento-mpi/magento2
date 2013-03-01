@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_Widget_GridTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Backend_Block_Widget_Grid_ColumnSet
