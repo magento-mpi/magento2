@@ -27,8 +27,8 @@
         this.each(function () {
             var $element = $(
                     '<div class="category-selector-container category-selector-container-multi">' +
-                    '<ul class="category-selector-choices">' +
-                    '<li class="category-selector-search-field">' +
+                    '<ul class="mage-suggest-choices">' +
+                    '<li class="mage-suggest-search-field">' +
                     '<input type="text" autocomplete="off" ' +
                         'data-ui-id="category-selector-input" class="category-selector-input">' +
                     '</li></ul></div>' +
@@ -39,7 +39,7 @@
                 $list = $element.children(),
                 $this = $(this),
                 name = $this.attr('name'),
-                $searchField = $list.find('.category-selector-search-field'),
+                $searchField = $list.find('.mage-suggest-search-field'),
                 $input = $element.find('.category-selector-input'),
                 elementPresent = function(item) {
                     var selector = '[name="product[category_ids][]"][value=' + parseInt(item.value, 10) + ']';
@@ -47,12 +47,12 @@
                 };
 
             $this.bind('categorySelector:add', function(event, args) {
-                $('<li class="category-selector-search-choice"/>')
+                $('<li class="mage-suggest-choice"/>')
                     .data(args.data || {})
                     .append($('<input type="hidden" />').attr('name', name).val(args.value))
                     .append($('<strong/>').text(args.text))
                     .append('<span ' +
-                        'class="category-selector-search-choice-close" tabindex="-1"></span>'
+                        'class="mage-suggest-choice-close" tabindex="-1"></span>'
                     )
                     .insertBefore($searchField);
             });
@@ -67,7 +67,7 @@
             $this.attr('disabled', 'disabled').hide();
             $this.data('category-selector-element', $element);
             $element.insertAfter($this);
-            $list.delegate('.category-selector-search-choice-close', 'click', function() {
+            $list.delegate('.mage-suggest-choice-close', 'click', function() {
                 $(this).parent().remove();
             });
             $input.bind('ajaxSend ajaxComplete', function(e) {

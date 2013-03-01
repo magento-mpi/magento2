@@ -455,9 +455,19 @@ button.primary.disabled,
 
 .mage-suggest-dropdown li a {
     display: block;
+}
+.mage-suggest-dropdown li a,
+.mage-suggest-dropdown .jstree li a:hover,
+.mage-suggest-dropdown .jstree .jstree-hovered,
+.mage-suggest-dropdown .jstree .jstree-clicked {
     padding: 6px 10px 5px;
     text-decoration: none;
     color: #333;
+}
+.mage-suggest-dropdown .jstree li a:hover,
+.mage-suggest-dropdown .jstree .jstree-hovered,
+.mage-suggest-dropdown .jstree .jstree-clicked {
+    border: none;
 }
 
 .mage-suggest-dropdown li a.ui-state-focus {
@@ -471,9 +481,31 @@ button.primary.disabled,
 .mage-suggest-dropdown .jstree li a {
     display: inline-block;
 }
+.mage-suggest-dropdown .jstree .mage-suggest-selected > a {
+    color: #000000;
+    background: #F1FFEB;
+}
+.mage-suggest-dropdown .jstree .mage-suggest-selected > a:hover,
+.mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-clicked,
+.mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-clicked
+{
+    background: #E5FFD9;
+}
+
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > a {
+    color: #D4D4D4;
+}
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > a:hover,
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > .jstree-clicked {
+    background: #F5F5F5;
+}
 
 .mage-suggest-dropdown .category-path {
     font-size: 11px;
+    margin-left: 10px;
     color: #9ba8b5;
 }
 

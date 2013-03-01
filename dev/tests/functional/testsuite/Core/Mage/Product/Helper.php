@@ -902,7 +902,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $element = $this->getElement($locator);
         $script = 'Element.prototype.documentOffsetTop = function()'
                   . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
-                  . 'var element = document.getElementsByClassName("category-selector-choices");'
+                  . 'var element = document.getElementsByClassName("mage-suggest-choices");'
                   . 'var top = element[0].documentOffsetTop() - (window.innerHeight / 2);'
                   . 'element[0].focus();window.scrollTo( 0, top );';
         $this->execute(array('script' => $script, 'args' => array()));

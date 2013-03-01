@@ -17,7 +17,7 @@
          * @todo refactor parent widget to make this possible without method overriding
          */
         _selectItem: function() {
-            $(this.elementWrapper).siblings('.category-selector-search-choice').trigger('removeOption');
+            $(this.elementWrapper).siblings('.mage-suggest-choice').trigger('removeOption');
             this._superApply(arguments);
             this._hideDropdown();
         }
@@ -30,7 +30,7 @@
                 id: 'new_category_parent-suggest',
                 placeholder: 'start typing to search category'
             }));
-            $('#new_category_parent-suggest').treeSuggestOneChoice(this.options.suggestOptions);
+            $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions);
 
             /* @todo rewrite using jQuery validation */
             Validation.add('validate-parent-category', 'Choose existing category.', function() {
@@ -88,7 +88,7 @@
                             .success(
                                 function (data) {
                                     if (!data.error) {
-                                        $('#category_ids-suggest').treeSuggest('selectItem', {
+                                        $('#category_ids-suggest').trigger('select', {
                                             id: data.category.entity_id,
                                             label: data.category.name
                                         });

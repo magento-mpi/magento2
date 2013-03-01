@@ -34,11 +34,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'required' => true,
         ));
 
-        $fieldset->addField('new_category_parent', 'select', array(
+        $fieldset->addField('new_category_parent', 'text', array(
             'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
             'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
             'required' => true,
-            'options'  => array(),
             'class'    => 'validate-parent-category',
         ));
 
@@ -59,10 +58,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'suggestOptions' => array(
                 'source' => $this->getUrl('*/catalog_category/suggestCategories'),
                 'valueField' => '#new_category_parent',
-                'template' => '#category_ids-template',
                 'control' => 'jstree',
-                'multiselect' => true,
                 'className' => 'category-select',
+                'showAll' => true
             ),
             'saveCategoryUrl' => $this->getUrl('*/catalog_category/save'),
         ));
