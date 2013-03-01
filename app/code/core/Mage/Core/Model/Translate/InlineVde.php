@@ -95,12 +95,12 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
             $urlPrefix = 'core';
             $urlModel = Mage::getModel('Mage_Core_Model_Url');
         }
-        /** @todo ACB temporary solution */
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure'=>Mage::app()->getStore()->isCurrentlySecure(),
-                '_useRealRoute' => true,
-                '_useVdeFrontend' => true));
+                  '_useRealRoute' => true,
+                  '_useVdeFrontend' => true));
         $trigImg = Mage::getDesign()->getViewFileUrl('Mage_Core::translate_edit_icon.png');
+        $trigImgHover = Mage::getDesign()->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png');
 
         ob_start();
         $design = Mage::getDesign();
@@ -150,6 +150,7 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
 
                $('[data-translate]').translateInlineIconVde({
                    img: '<?php echo $trigImg ?>',
+                   imgHover: '<?php echo $trigImgHover ?>',
                    onClick: function(element) {
                        $('body').removeClass('trnslate-inline-area');
                        $('[data-translate]').translateInlineIconVde('hide');
