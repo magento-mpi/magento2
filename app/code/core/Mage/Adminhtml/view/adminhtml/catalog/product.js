@@ -264,6 +264,44 @@ Product.AttributesBridge = {
     }
 };
 
+(function($){
+    $.widget("mage.productAttributes", {
+        /**
+         * Proxy creation
+         * @protected
+         */
+        _create: function() {
+            this._on({'click': '_showPopup'});
+        },
+
+        _showPopup: function(event) {
+            var iframe = $('<iframe>').attr({
+                src: this.options.url,
+                width: '100%',
+                height: '100%'
+            });
+            var wraper = $('<div/>')
+                .hide()
+                .appendTo('body');
+
+            iframe.on(
+                'load',
+                function() {
+                    wraper.show().dialog({
+                        modal:true,
+                        width:900,
+                        height:700
+                    });
+                }
+            )
+            wraper.append(iframe);
+/*            var win = window.open(this.options.url, 'new_attribute',
+                'width=900,height=600,resizable=1,scrollbars=1');
+            win.focus();*/
+        }
+    });
+})(jQuery)
+
 Product.Attributes = Class.create();
 Product.Attributes.prototype = {
     config : {},
@@ -279,9 +317,9 @@ Product.Attributes.prototype = {
         return this.config;
     },
     create : function() {
-        var win = window.open(this.getConfig().url, 'new_attribute',
-                'width=900,height=600,resizable=1,scrollbars=1');
-        win.focus();
+//        var win = window.open(this.getConfig().url, 'new_attribute',
+//                'width=900,height=600,resizable=1,scrollbars=1');
+//        win.focus();
     },
     addRow : function(html) {
         var attributesContainer = $$('#group_fields' + this.getConfig().group_id + ' .form-list tbody')[0];

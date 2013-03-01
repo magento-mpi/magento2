@@ -44,7 +44,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Ma
             ->setOnClick($this->getJsObjectName() . '.create();')
             ->setType('button')
             ->setClass('action-add')
-            ->setLabel(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add Attribute'));
+            ->setLabel(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add Attribute'))
+            ->setDataAttribute(array('mage-init' =>
+                array('productAttributes' =>
+                    array(
+                        'url' => $this->getUrl(
+                            '*/catalog_product_attribute/new',
+                            array(
+                                'group' => $this->getConfig()->getGroupId(),
+                                'product_tab' => $this->getConfig()->getTabId(),
+                                'store' => $this->getConfig()->getStoreId(),
+                                'product' => $this->getConfig()->getProductId(),
+                                'set' => $this->getConfig()->getAttributeSetId(),
+                                'type' => $this->getConfig()->getTypeId(),
+                                'popup' => 1
+                            )
+                        )
+                    )
+                )
+            ));
 
         $this->getConfig()
             ->setUrl($this->getUrl(
