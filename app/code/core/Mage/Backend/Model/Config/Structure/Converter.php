@@ -22,6 +22,7 @@ class Mage_Backend_Model_Config_Structure_Converter
      */
     protected $_mapperList = array(
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_PATH,
+        Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_EXTENDS,
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_DEPENDENCIES,
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_ATTRIBUTE_INHERITANCE,
         Mage_Backend_Model_Config_Structure_Mapper_Factory::MAPPER_IGNORE,
