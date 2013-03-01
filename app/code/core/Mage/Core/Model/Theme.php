@@ -49,6 +49,14 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
+     * Theme 'type' possible values
+     */
+    const TYPE_PHYSICAL  = 'physical';
+    const TYPE_VIRTUAL   = 'virtual';
+    const TYPE_TEMPORARY = 'temporary';
+    const TYPE_STAGING   = 'staging';
+
+    /**
      * Path prefix to customized theme files
      */
     const PATH_PREFIX_CUSTOMIZATION = 'customization';
@@ -74,6 +82,18 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @var Mage_Core_Helper_Data
      */
     protected $_helper;
+
+    /**
+     * All possible types of a theme
+     *
+     * @var array
+     */
+    public static $types = array(
+        self::TYPE_PHYSICAL,
+        self::TYPE_VIRTUAL,
+        self::TYPE_TEMPORARY,
+        self::TYPE_STAGING,
+    );
 
     /**
      * Array of theme customizations for save
