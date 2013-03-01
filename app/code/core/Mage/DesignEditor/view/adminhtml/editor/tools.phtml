@@ -53,8 +53,8 @@
             <div class="vde-tools-button">
                 <ul class="vde-tab-controls">
                     <li class="item item-translate">
-                        <a id="vde-translate" title="<?php echo $this->__('Edit Text'); ?>">
-                            <span><?php echo $this->__('Edit Text'); ?></span>
+                        <a id="vde-translate" title="<?php echo $this->__('Edit Text'); ?>" onmouseover="this.style.cursor='pointer'">
+                            <span onclick="document.location.href = '<?php echo $this->getUrl('*/system_design_editor_tools/toggleInlineTranslation'); ?>'"><?php echo $this->__('Edit Text'); ?></span>
                         </a>
                     </li>
                 </ul>

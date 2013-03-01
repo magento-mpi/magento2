@@ -21,8 +21,7 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
      */
     public function isAllowed($store = null)
     {
-        /** @todo ACB move to helper and get state from client */
-        return false;
+        return Mage::getObjectManager()->get('Mage_Backend_Model_Session')->getVdeInlineTranslationEnabled();
     }
 
     /**
@@ -96,8 +95,11 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
             $urlPrefix = 'core';
             $urlModel = Mage::getModel('Mage_Core_Model_Url');
         }
+        /** @todo ACB temporary solution */
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
-            array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
+            array('_secure'=>Mage::app()->getStore()->isCurrentlySecure(),
+                '_useRealRoute' => true,
+                '_useVdeFrontend' => true));
         $trigImg = Mage::getDesign()->getViewFileUrl('Mage_Core::translate_edit_icon.png');
 
         ob_start();
