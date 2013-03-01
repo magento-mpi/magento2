@@ -123,7 +123,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
-        $this->assertTrue($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'));
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'));
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute1']['admin_title']);
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute2']['admin_title']);
         $this->clickButton('generate_product_variations', false);
@@ -399,7 +399,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
-        $this->assertTrue($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'));
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'));
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute1']['admin_title']);
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute2']['admin_title']);
         $this->productHelper()->unselectConfigurableAttributeOptions($options,

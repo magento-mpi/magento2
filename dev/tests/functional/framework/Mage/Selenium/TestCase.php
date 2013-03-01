@@ -204,6 +204,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
     const UIMAP_TYPE_FIELDSET = 'fieldset';
     const UIMAP_TYPE_MESSAGE = 'message';
+    const UIMAP_TYPE_TAB = 'tab';
     /**
      * Message types
      */
@@ -2324,7 +2325,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $controlName Name of a control from UIMap
      * @return bool
      */
-    public function isFieldsetExpanded($controlType, $controlName)
+    public function isControlExpanded($controlType, $controlName)
     {
         $fieldsetClass = $this->getControlAttribute($controlType, $controlName, 'class');
         return strpos($fieldsetClass, 'opened') !== false || strpos($fieldsetClass, 'active') !== false;
@@ -4123,7 +4124,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
-     * @param $pageText
+     * @param string $pageText
      *
      * @return bool
      */

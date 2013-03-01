@@ -18,10 +18,6 @@
  */
 class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
-    public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
-                                'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'downloadable_information', 'giftcardinfo', 'autosettings', 'general');
-
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
     #**************************************************************************************

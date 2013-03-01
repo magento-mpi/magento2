@@ -307,7 +307,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
-        $this->assertTrue($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
@@ -335,7 +335,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $simple['general_sku']));
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
-        $this->assertTrue($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
@@ -349,7 +349,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals('Simple Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
-        $this->assertFalse($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
+        $this->assertFalse($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
             'Product variation checkbox is selected');
         $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is present');
@@ -384,7 +384,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals('Simple Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
-        $this->assertFalse($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
+        $this->assertFalse($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
             'Product variation checkbox is selected');
     }
 
@@ -419,7 +419,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
-        $this->assertTrue($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
@@ -444,7 +444,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('sku' => $configurable['general_sku']));
-        $this->assertTrue($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');
@@ -455,7 +455,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals('Configurable Product', $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
-        $this->assertTrue($this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'),
             'Product variation checkbox is not checked');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
             'Product variation block is absent');

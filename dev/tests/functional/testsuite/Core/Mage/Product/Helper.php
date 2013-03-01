@@ -18,9 +18,8 @@
  */
 class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
-    public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
-                                'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'downloadable_information', 'autosettings', 'general');
+    public $productTabs = array('images', 'meta_information', 'prices', 'design', 'autosettings', 'inventory',
+        'websites', 'related', 'up_sells', 'cross_sells', 'custom_options', 'downloadable_information', 'general');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -147,14 +146,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $data = $this->getFrontendProductPrices();
         $data['prices_tier_price_data'] = $this->getFrontendProductTierPrices();
-        $data['general_name'] = $this->getControlAttribute('pageelement', 'product_name', 'text');
-        $data['general_description'] = $this->getControlAttribute('pageelement', 'description', 'text');
-        $data['autosettings_short_description'] =
-            $this->getControlAttribute('pageelement', 'short_description', 'text');
-        if ($this->controlIsPresent('field', 'product_qty')) {
-            $data['inventory_min_allowed_qty'] = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
+        $data['general_name'] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'product_name', 'text');
+        $data['general_description'] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'description', 'text');
+        $data['autosettings_short_description'] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT,
+            'short_description', 'text');
+        if ($this->controlIsPresent(self::FIELD_TYPE_INPUT, 'product_qty')) {
+            $data['inventory_min_allowed_qty'] = $this->getControlAttribute(self::FIELD_TYPE_INPUT,
+                'product_qty', 'selectedValue');
         }
-        $availability = $this->getControlAttribute('pageelement', 'availability', 'text');
+        $availability = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'availability', 'text');
         $data['general_stock_availability'] = str_replace('stock', 'Stock', $availability);
         $data['custom_options_data'] = $this->getFrontendCustomOptionsInfo();
 
@@ -167,7 +167,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getFrontendProductTierPrices()
     {
-        $tierPrices = $this->getControlElements('pageelement', 'tier_price_line', null, false);
+        $tierPrices = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'tier_price_line', null, false);
         $data = array();
         $index = 0;
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tierPrice */
@@ -191,7 +191,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getFrontendProductPrices()
     {
-        $priceData = $this->getControlAttribute('fieldset', 'product_prices', 'text');
+        $priceData = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
             return array('general_price' => trim($priceData));
         }
@@ -369,9 +369,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             if (isset($typesWitOptions[$optionType])) {
                 $type = $typesWitOptions[$optionType];
                 $values = array();
-                if ($type == 'multiselect' || $type == 'dropdown') {
+                if ($type == self::FIELD_TYPE_MULTISELECT || $type == self::FIELD_TYPE_DROPDOWN) {
                     $values = $this->select($elementSelect)->selectOptionLabels();
-                } elseif ($type == 'radiobutton' || $type == 'checkbox') {
+                } elseif ($type == self::FIELD_TYPE_RADIOBUTTON || $type == self::FIELD_TYPE_CHECKBOX) {
                     $elementsValues = $this->getChildElements($elementBody, "//*[input[not(@type='hidden')]]");
                     foreach ($elementsValues as $value) {
                         $values[] = $value->text();
@@ -488,15 +488,17 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param $tabName
+     * Open tab on product page
+     *
+     * @param string $tabName
      */
     public function openProductTab($tabName)
     {
-        if (!$this->controlIsVisible('tab', $tabName)
-            && $this->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected') == 'false'
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_TAB, $tabName)
+            && $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'advanced_settings', 'aria-selected') == 'false'
         ) {
-            $this->clickControl('fieldset', 'advanced_settings', false);
-            $this->waitForControlVisible('tab', $tabName, 10);
+            $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_settings', false);
+            $this->waitForControlVisible(self::UIMAP_TYPE_TAB, $tabName, 10);
         }
         $this->openTab($tabName);
     }
@@ -552,10 +554,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('additionalAction', $additionalAction);
             $this->waitForControlVisible('button', 'save_product_by_action');
             $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
-            $waitConditions[] = $this->_getControlXpath('fieldset', 'choose_affected_attribute_set');
+            $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
             $this->clickButton('save_product_by_action', false);
             $this->waitForElementVisible($waitConditions);
-            if ($this->controlIsVisible('fieldset', 'choose_affected_attribute_set')) {
+            if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set')) {
                 if (strtolower($saveNewAttributeInSet) == 'current') {
                     $this->fillRadiobutton('current_attribute_set', 'Yes');
                 } elseif ($saveNewAttributeInSet === null) {
@@ -813,9 +815,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
-            if (!$this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations')) {
-                $this->clickControl('link', 'is_configurable', false);
-                $this->waitForControlVisible('field', 'general_configurable_attribute_title');
+            if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations')) {
+                $this->clickControl(self::FIELD_TYPE_LINK, 'is_configurable', false);
+                $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'general_configurable_attribute_title');
             }
             $attributeTitle = $generalTab['general_configurable_attributes'];
             unset($generalTab['general_configurable_attributes']);
@@ -879,7 +881,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $status = $this->execute(array('script' => $script, 'args' => array()));
         if (($status && $statusData == 'Disabled') || (!$status && $statusData == 'Enabled')) {
             if ($action == 'fill') {
-                $this->clickControl('pageelement', 'product_online_status');
+                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'product_online_status');
             }
             else {
                 $this->addVerificationMessage('Product Online Status should be ' . $statusData);
@@ -1038,7 +1040,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->unselectConfigurableAttributeOptions(array_diff($optionNames, $selected), $title);
             }
         }
-        $waitLocator = $this->_getControlXpath('fieldset', 'variations_matrix_grid') . '//thead/tr[';
+        $waitLocator = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'variations_matrix_grid') . '//thead/tr[';
         $lastTittle = end($allTitles);
         foreach ($allTitles as $title) {
             $value = (strpos($title, "'")) ? "concat('" . str_replace('\'', "',\"'\",'", $title) . "')" : "'$title'";
@@ -1250,11 +1252,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 if ($this->elementIsPresent($productTable . $trLocator . "[$selectParam]")) {
                     $select = true;
                     break;
-                } elseif ($this->controlIsVisible('link', 'next_page')) {
-                    $pageIndex = $this->getControlAttribute('link', 'product_page', 'value') + 1;
+                } elseif ($this->controlIsVisible(self::FIELD_TYPE_LINK, 'next_page')) {
+                    $pageIndex = $this->getControlAttribute(self::FIELD_TYPE_LINK, 'product_page', 'value') + 1;
                     $this->addParameter('pageIndex', $pageIndex);
-                    $this->clickControl('link', 'next_page', false);
-                    $this->waitForControlEditable('pageelement', 'opened_product_page');
+                    $this->clickControl(self::FIELD_TYPE_LINK, 'next_page', false);
+                    $this->waitForControlEditable(self::FIELD_TYPE_PAGEELEMENT, 'opened_product_page');
                 } else {
                     break;
                 }
@@ -1447,6 +1449,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $actualOrder = array();
         $blocks = $this->getControlElements($fieldType, $fieldName, null, false);
         $position = 1;
+        /** @var $item PHPUnit_Extensions_Selenium2TestCase_Element */
         foreach ($blocks as $item) {
             $key = $fieldType == self::FIELD_TYPE_INPUT ? $item->value() : $item->text();
             $actualOrder[$key] = $position++;
@@ -1692,7 +1695,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function fillWebsitesTab($websiteData)
     {
-        if (!$this->controlIsPresent('tab', 'websites') && $websiteData == 'Main Website') {
+        if (!$this->controlIsPresent(self::UIMAP_TYPE_TAB, 'websites') && $websiteData == 'Main Website') {
             return;
         }
         $this->openProductTab('websites');
@@ -1713,7 +1716,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyWebsitesTab($websiteData)
     {
-        if (!$this->controlIsPresent('tab', 'websites') && $websiteData == 'Main Website') {
+        if (!$this->controlIsPresent(self::UIMAP_TYPE_TAB, 'websites') && $websiteData == 'Main Website') {
             return;
         }
         $this->openProductTab('websites');
@@ -2146,9 +2149,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $optionsCount = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'bundle_item_row');
         $this->addParameter('optionId', $optionsCount);
         $this->clickButton('add_new_option', false);
-        $this->waitForControlVisible('fieldset', 'new_bundle_option');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'new_bundle_option');
         $data = $this->formBundleItemData($bundleOptionData);
-        if (!$this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'new_bundle_option')) {
+        if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'new_bundle_option')) {
             $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', false);
         }
         $this->fillFieldset($data['general'], 'new_bundle_option');
@@ -2212,7 +2215,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             ) {
                 $optionId = $itemDataOrder[$option['bundle_items_default_title']];
                 $this->addParameter('optionId', $optionId - 1);
-                if (!$this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'new_bundle_option')) {
+                if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'new_bundle_option')) {
                     $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', false);
                 }
             } else {
@@ -2358,7 +2361,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         );
         $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
             array('downloadable_links_purchased_separately' => 'No', 'general_categories' => $returnCategory['path']));
-        $download['general_user_attr']['dropdown'][$attrCode] = $adminOptionsNames[2];
+        $download['general_user_attr'][self::FIELD_TYPE_DROPDOWN][$attrCode] = $adminOptionsNames[2];
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_categories' => $returnCategory['path']),
             array(
