@@ -813,7 +813,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
-            if (!$this->isFieldsetExpanded('product_variations')) {
+            if (!$this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations')) {
                 $this->clickControl('link', 'is_configurable', false);
                 $this->waitForControlVisible('field', 'general_configurable_attribute_title');
             }
@@ -2148,7 +2148,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButton('add_new_option', false);
         $this->waitForControlVisible('fieldset', 'new_bundle_option');
         $data = $this->formBundleItemData($bundleOptionData);
-        if (!$this->isFieldsetExpanded('new_bundle_option')) {
+        if (!$this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'new_bundle_option')) {
             $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', false);
         }
         $this->fillFieldset($data['general'], 'new_bundle_option');
@@ -2212,7 +2212,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             ) {
                 $optionId = $itemDataOrder[$option['bundle_items_default_title']];
                 $this->addParameter('optionId', $optionId - 1);
-                if (!$this->isFieldsetExpanded('new_bundle_option')) {
+                if (!$this->isFieldsetExpanded(self::UIMAP_TYPE_FIELDSET, 'new_bundle_option')) {
                     $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'is_collapsed', false);
                 }
             } else {

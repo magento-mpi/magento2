@@ -110,7 +110,7 @@
  * @method array                    getTableHeadRowNames(string $tableLocator = '//table[@id]')
  * @method Mage_Selenium_Uimap_Page getUimapPage(string $area, string $pageKey)
  * @method Mage_Selenium_TestCase   goToArea(string $area = 'frontend', string $page = '', bool $validatePage = true)
- * @method bool                     isFieldsetExpanded(string $fieldsetName)
+ * @method bool                     isFieldsetExpanded(string $controlType, string $controlName)
  * @method Mage_Selenium_TestCase   helper(string $className)
  * @method bool                     httpResponseIsOK(string $url)
  * @method array                    loadDataSet(string $dataFile, string $dataSource, $overrideByKey = null, $overrideByValueParam = null)
