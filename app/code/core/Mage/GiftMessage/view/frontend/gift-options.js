@@ -47,7 +47,7 @@
                     .find('.giftmessage-area:not(:visible)').each(function(x, element) {
                         if ($(element).val().length > 0) {
                             $(element).change();
-                            container.find('div a').click();
+                            container.find('a').click();
                         }
                     });
             } else {
@@ -60,7 +60,7 @@
                     .find('.giftmessage-area').val('').change().end()
                     .find('.select').val('').change().end()
                     .find('.checkbox:checked').prop('checked', false).click().prop('checked', false).end()
-                    .find('div a').parent().next().addClass(this.options.noDisplay).end()
+                    .find('a').parent().next().addClass(this.options.noDisplay).end()
                     .find('.price-box').addClass(this.options.noDisplay).end();
             }
         },
