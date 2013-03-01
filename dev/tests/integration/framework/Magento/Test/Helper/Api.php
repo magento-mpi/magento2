@@ -19,13 +19,6 @@ class Magento_Test_Helper_Api
      */
     public static function call(PHPUnit_Framework_TestCase $testCase, $path, $params = array())
     {
-        /*
-         * Some product attributes (e.g. tier_price) rely on _origData to determine whether attributes are new (thus,
-         * should be INSERTed into the DB) or updated. Real-world requests works fine because same code contained in
-         * Mage_Api_Controller_Action::preDispatch().
-         */
-        Mage::app()->setCurrentStore('admin');
-
         $soapAdapterMock = $testCase->getMock('Mage_Api_Model_Server_Adapter_Soap', array('fault'));
         $soapAdapterMock->expects($testCase->any())->method('fault')->will(
             $testCase->returnCallback(array(__CLASS__, 'soapAdapterFaultCallback'))
