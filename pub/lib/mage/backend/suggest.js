@@ -147,7 +147,10 @@
                 keyCode: event.keyCode,
                 which: event.keyCode
             });
-            this.dropdown.find(this._control.selector).trigger(fakeEvent);
+            (this._control.selector ?
+                this.dropdown.find(this._control.selector):
+                this.dropdown)
+                    .trigger(fakeEvent);
         },
 
         /**
@@ -668,7 +671,7 @@
          */
         _selectItem: function() {
             this._superApply(arguments);
-            if (this._selectedItem.id && this.options.showRecent) {
+            if (this._selectedItem && this._selectedItem.id && this.options.showRecent) {
                 this._addRecent(this._selectedItem);
             }
         },
@@ -734,13 +737,21 @@
         _render: function() {
             this._super();
             if (this.options.multiselect) {
-                this.element.wrap(this.options.multiSuggestWrapper);
-                this.elementWrapper = this.element.parent();
-                this._getOptions().each($.proxy(function(i, option) {
-                    option = $(option);
-                    this._createOption({id: option.val(), label: option.text()});
-                }, this));
+                this._renderMultiselect();
             }
+        },
+
+        /**
+         * Render selected options
+         * @private
+         */
+        _renderMultiselect: function() {
+            this.element.wrap(this.options.multiSuggestWrapper);
+            this.elementWrapper = this.element.parent();
+            this._getOptions().each($.proxy(function(i, option) {
+                option = $(option);
+                this._createOption({id: option.val(), label: option.text()});
+            }, this));
         },
 
         /**
@@ -784,7 +795,7 @@
             return $.grep(items, function(value) {
                 var itemSelected = false;
                 $.each(options, function(){
-                    if(value.id === $(this).val()) {
+                    if(value.id == $(this).val()) {
                         itemSelected = true;
                     }
                 })
@@ -859,7 +870,7 @@
          */
         _isItemSelected: function(item) {
             if(this.options.multiselect) {
-                return this.valueField.find('option[value=' + item.id + ']').length;
+                return this.valueField.find('option[value=' + item.id + ']').length > 0;
             } else {
                 return this._superApply(arguments);
             }

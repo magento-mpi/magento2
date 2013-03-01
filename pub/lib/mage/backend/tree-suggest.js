@@ -133,6 +133,7 @@
                                 event.preventDefault();
                                 this._proxyEvents(event);
                             }
+                            break;
                     }
                 }
             });
