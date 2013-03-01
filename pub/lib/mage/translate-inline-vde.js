@@ -215,6 +215,10 @@
         show: function() {
             this._positionTemplate();
             this.template.removeClass('hidden');
+            var self = this;
+            this.element.on("dblclick", function() {
+                self.options.onClick(self.element);
+            });
         },
 
         /**
@@ -222,6 +226,7 @@
          */
         hide: function() {
             this.template.addClass('hidden');
+            this.element.off("dblclick");
         },
 
         /**
@@ -235,7 +240,11 @@
             this._positionTemplate();
 
             var self = this;
-            this.template.on("click", function() {
+            this.template.on("dblclick", function() {
+                self.options.onClick(self.element);
+            });
+
+            this.element.on("dblclick", function() {
                 self.options.onClick(self.element);
             });
         },
