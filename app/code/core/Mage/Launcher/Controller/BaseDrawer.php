@@ -113,12 +113,14 @@ class Mage_Launcher_Controller_BaseDrawer
     {
         $responseContent = '';
         try {
+            // Generate blocks before Refresh State to prevent DI preferences overloading
+            $layout = $this->loadLayout();
+
             $data = $this->getRequest()->getParams();
             /** @var $tileModel Mage_Launcher_Model_Tile */
             $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create($data['tileCode']);
             $tileModel->refreshState($data);
 
-            $layout = $this->loadLayout();
             /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Tile */
             $tileBlock = $layout->getLayout()->getBlock($data['tileCode'] . '.tile');
             if (empty($tileBlock)) {
