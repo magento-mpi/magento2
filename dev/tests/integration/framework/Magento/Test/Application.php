@@ -13,6 +13,8 @@
  * Encapsulates application installation, initialization and uninstall
  *
  * @todo Implement MAGETWO-1689: Standard Installation Method for Integration Tests
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Test_Application
 {
