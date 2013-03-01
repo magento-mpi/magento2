@@ -36,7 +36,7 @@ class Mage_DesignEditor_Model_Url_Factory implements Magento_ObjectManager_Facto
      */
     public function replaceClassName($className)
     {
-        $this->_objectManager->addAlias(self::CLASS_NAME, $className);
+        $this->_objectManager->configure(array('preferences' => array(self::CLASS_NAME => $className)));
 
         return $this;
     }
@@ -49,6 +49,6 @@ class Mage_DesignEditor_Model_Url_Factory implements Magento_ObjectManager_Facto
      */
     public function createFromArray(array $arguments = array())
     {
-        return $this->_objectManager->create(self::CLASS_NAME, $arguments, false);
+        return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }
 }

@@ -111,6 +111,14 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     }
 
     /**
+     * @return string
+     */
+    public function getGroupCode()
+    {
+        return Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::ADVANCED_TAB_GROUP_CODE;
+    }
+
+    /**
      * Render block HTML
      *
      * @return string

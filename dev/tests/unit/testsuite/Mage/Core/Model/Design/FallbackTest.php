@@ -619,7 +619,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     protected function _getObjectManagerMock()
     {
         /** @var $objectManager Magento_ObjectManager_Zend */
-        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
+        $objectManager = $this->getMock('Magento_ObjectManager');
         return $objectManager;
     }
 

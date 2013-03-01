@@ -41,7 +41,7 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
         $this->clickButton('add_new_gift_registry_type');
         $this->assertTrue($this->checkCurrentPage('new_gift_registry'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_gift_registry'), 'There is no "Save User" button on the page');
+        $this->assertTrue($this->buttonIsPresent('save_gift_registry'), 'There is no "Save" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_and_continue_edit'), 'There is no "Reset" button on the page');
     }
@@ -212,6 +212,7 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
         $giftRegistryData = $this->loadDataSet('GiftRegistry', 'new_gift_registry', $incorrectValue);
         //Steps
         $this->giftRegistryHelper()->createGiftRegistry($giftRegistryData);
+        $this->addFieldIdToMessage('field','code');
         //Verification
         $this->assertMessagePresent('validation', 'invalid_code');
     }
@@ -274,6 +275,7 @@ class Enterprise_Mage_GiftRegistry_CreateTest extends Mage_Selenium_TestCase
      */
     public function withEmptyOption()
     {
+        $this->markTestIncomplete('Bug MAGETWO-8067');
         //Data
         $option = $this->loadDataSet('GiftRegistry', 'attributes_select_empty_option');
         $giftRegistryData = $this->loadDataSet('GiftRegistry', 'new_gift_registry', array('attribute_one' => $option));

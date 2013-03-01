@@ -169,9 +169,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', '', array(
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', '', array('data' => array(
             'url_rewrite' => $this->_getUrlRewrite()
-        ));
+        )));
     }
 
     /**

@@ -8,11 +8,9 @@
  * @license     {license_link}
  */
 ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-customer-view"><?php echo Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points Balance') ?></h4>
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo Mage::helper('Enterprise_Reward_Helper_Data')->__('Reward Points Balance') ?></span>
     </div>
-    <fieldset>
-        <?php echo $this->getChildHtml('grid') ?>
-    </fieldset>
+    <?php echo $this->getChildHtml('grid') ?>
 </div>

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Sales_Items_AbstractTest extends Mage_Backend_Area_TestCase
 {
     public function testGetItemExtraInfoHtml()
     {

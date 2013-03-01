@@ -17,11 +17,6 @@ class Enterprise_GiftRegistry_Model_Resource_Item_CollectionTest extends PHPUnit
         $this->_collection = new Enterprise_GiftRegistry_Model_Resource_Item_Collection;
     }
 
-    protected function tearDown()
-    {
-        unset($this->_collection);
-    }
-
     public function testAddProductFilter()
     {
         $select = $this->_collection->getSelect();

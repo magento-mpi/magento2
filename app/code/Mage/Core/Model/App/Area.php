@@ -210,7 +210,7 @@ class Mage_Core_Model_App_Area
         $configurationNode = $this->_config->getNode($this->_code . '/di');
         if ($configurationNode) {
             $configuration = $configurationNode->asArray();
-            $this->_objectManager->setConfiguration($configuration);
+            $this->_objectManager->configure($configuration);
         }
 
     }

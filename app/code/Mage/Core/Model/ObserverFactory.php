@@ -27,12 +27,11 @@ class Mage_Core_Model_ObserverFactory
      * Get observer model instance
      *
      * @param string $className
-     * @param array $arguments
      * @return Mage_Core_Model_Abstract|bool
      */
-    public function get($className, array $arguments = array())
+    public function get($className)
     {
-        return $this->_objectManager->get($className, $arguments);
+        return $this->_objectManager->get($className);
     }
 
     /**

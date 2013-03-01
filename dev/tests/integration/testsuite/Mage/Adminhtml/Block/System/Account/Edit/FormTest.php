@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_System_Account_Edit_FormTest extends Mage_Backend_Area_TestCase
 {
     public function testPrepareForm()
     {

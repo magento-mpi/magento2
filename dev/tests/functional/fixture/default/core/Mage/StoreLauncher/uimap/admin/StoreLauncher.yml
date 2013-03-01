@@ -1,0 +1,176 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_StoreManagement
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+
+# 'Store Launcher' page
+store_launcher:
+    mca: launcher/storelauncher_index/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'launcher/storelauncher')]
+    title: Magento Admin
+    uimap: &store_launcher
+        form:
+            fieldsets:
+                -
+                    store_launcher:
+                        xpath: //section[@class='store-launcher']
+                        pageelements:
+                            page_title: //div[@class='page-title']//h1[@class='title']
+                -
+                    common_tile:
+                        xpath:
+                        buttons:
+                            open_drawer: //div[@class='tile-teaser']//button[@class='action-open-drawer']
+                            edit_drawer: //div[@class='tile-done']//button[@class='action-open-drawer']
+                        links:
+                            additional_action: //div[@class='tile-done']//a[@class='action-more-settings']
+                -
+                    common_drawer:
+                        xpath: //div[@id='drawer']
+                        buttons:
+                            close_drawer: //button[@class='action-close-drawer']
+                            save_my_settings: //button[@class='action-save-settings primary']
+                        pageelements:
+                            drawer_footer: //footer[@class='drawer-footer' and contains(@style, 'bottom: 0px')]
+                -
+                    bussines_info_tile:
+                        xpath: //article[@id='tile-business_info']
+                        buttons:
+                            confirm_info: //button[normalize-space()='Confirm Info']
+                            edit_store_info: //button[normalize-space()='Edit Store Info']
+                        pageelements:
+                            title: //h2
+                            text: //div[@class='tile-teaser']//p
+                            bussines_info_text: //div[@class='tile-done' and contains(., '%addressData%')]
+                -
+                    bussines_info_drawer_form:
+                        xpath: //section[@class='drawer-content']//form[@class='store-info-form']
+                        fields:
+                            store_name: //input[@id='store_name']
+                            store_contact_email: //input[@id='store_email']
+                            store_contact_telephone: //input[@id='store_phone']
+                            store_street_address:  //input[@id='street_line1']
+                            store_street_address2:  //input[@id='street_line2']
+                            store_city:  //input[@id='city']
+                            store_zip:  //input[@id='postcode']
+                            billing_vat_number: //input[@id='vat_number']
+                            store_state_region_field: //input[@id='region_id']
+                            sales_sender_email: //input[@id='sender_email_representative']
+                            customer_support_sender_email: //input[@id='sender_email_support']
+                            custom1_sender_email: //input[@id='sender_email_custom1']
+                            custom2_sender_email: //input[@id='sender_email_custom2']
+                        dropdowns:
+                            store_country: //select[@id='country_id']
+                            store_state_region: //select[@name='region_id']
+                        buttons:
+                            validate_vat_number: //button[@id='validate_vat_number']
+                            vat_number_is_valid: //button[span='VAT Number is Valid']
+                            vat_number_is_invalid: //button[span='VAT Number is Invalid']
+                        pageelements:
+                            add_store_email_addressess: //details[@id='detailsstore_info']/summary
+                            additional_content: //div[@id='details-contentstore_info']
+                -
+                    tax_rules_tile:
+                        xpath: //article[@id='tile-tax']
+                        buttons:
+                            confirm_info: //button[normalize-space()='Set Tax Rules']
+                            edit_store_info: //button[normalize-space()='Set Additional Tax Rules']
+                        pageelements:
+                            title: //h2
+                            text: //div[@class='tile-teaser']//p
+                            tax_rules_text: //div[@class='tile-done' and contains(., '%taxData%')]
+                -
+                    tax_rules_drawer:
+                        xpath: //div[@id='drawer']
+                        buttons:
+                            tax_rules_enabled: //label[strong/em[@class='label-tax-enabled']]
+                            tax_rules_disabled: //label[strong/em[@class='label-tax-disabled']]
+                            add_rate: //span[contains(text(), 'Add New Tax Rate')]
+                        links:
+                            tax_rule_info_additional_link: //summary/span
+                        fields:
+                            name: //input[@id='code']
+                            priority: //input[@id='priority']
+                            sort_order: //input[@id='position']
+                        composite_multiselects:
+                            tax_rate: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-rate']//section
+                            customer_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-customer-class']//section
+                            product_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-product-class']//section
+                        pageelements:
+                            no_tax_title: //div[@class='no-tax-info']//h2
+                            tax_title: //div[@class='tax-rule-config']//h2
+                -
+                    tax_rate_form:
+                        xpath: //div[contains(@class, 'tax-rate-popup')]
+                        dropdowns:
+                            country: //select[@id='tax_country_id']
+                            state: //select[@id='tax_region_id']
+                        fields:
+                            tax_identifier: //input[@id='code']
+                            zip_postal_code: //input[@id='tax_postcode']
+                            zip_range_from: //input[@id='zip_from']
+                            zip_range_to: //input[@id='zip_to']
+                            rate_percent: //input[@id='rate']
+                        checkboxes:
+                            zip_is_range: //input[@id='zip_is_range']
+                        buttons:
+                            save_rate: //button[@id='tax-rule-edit-apply-button']
+                -
+                    payment_tile:
+                        xpath: //article[@id='tile-payments']
+                        buttons:
+                            open_payment_drawer: //button[normalize-space()='Payment Methods']
+                            configure_other_payment_method: //button[normalize-space()='Configure Other Payment Methods']
+                -
+                    payment_drawer:
+                        xpath: //div[@id='drawer']
+                        buttons:
+                            choose_paypal_express: //button[span='Choose PayPal Express']
+                            choose_paypal_standard: //button[span='Chose Standard']
+                            choose_paypal_advanced: //button[span='Chose Advanced']
+                            choose_paypal_payments_pro: //button[span='Chose Payments Pro']
+                            choose_paypal_payflow_link: //button[span='Chose Payflow Link']
+                            choose_paypal_payflow_pro: //button[span='Chose Payflow Pro']
+                            choose_authorize: //button[span='Choose Authorize.net']
+                            confirm_paypal_express: //div[@id='express-checkout']//button[span='Confirm']
+                            confirm_paypal_standard: //div[@id='paypal-standard']//button[span='Confirm']
+                            confirm_paypal_advanced: //div[@id='payments-advanced']//button[span='Confirm']
+                            confirm_paypal_payments_pro: //div[@id='payments-pro']//button[span='Confirm']
+                            confirm_paypal_payflow_link: //div[@id='payflow-link']//button[span='Confirm']
+                            confirm_paypal_payflow_pro: //div[@id='payflow-pro']//button[span='Confirm']
+                            confirm_authorize: //div[@id='authorize']//button[span='Confirm']
+                        fields:
+                            paypal_express_email: //input[@id='store-paypal-express-email']
+                            paypal_standard_email: //input[@id='store-paypal-standard-email']
+                            advanced_partner: //input[@id='advanced-partner']
+                            advanced_vendor:  //input[@id='advanced-vendor']
+                            advanced_user:  //input[@id='advanced-user']
+                            advanced_password:  //input[@id='advanced-password']
+                            payments_pro_email: //input[@id='payments-pro-email']
+                            payflow_link_partner: //input[@id='payflow-link-partner']
+                            payflow_link_vendor: //input[@id='payflow-link-vendor']
+                            payflow_link_user: //input[@id='payflow-link-user']
+                            payflow_link_password: //input[@id='payflow-link-password']
+                            payflow_pro_partner: //input[@id='payflow-pro-partner']
+                            payflow_pro_vendor: //input[@id='payflow-pro-partner-vendor']
+                            payflow_pro_user: //input[@id='payflow-pro-user']
+                            payflow_pro_password: //input[@id='payflow-pro-password']
+                            authorize_login_id: //input[@id='authorize-login']
+                            authorize_transaction_key: //input[@id='authorize-key']
+                        links:
+                            solutions_for_everyone: //ul[@class='payments-tabs-nav']//a[contains(.,'Solutions for Everyone')]
+                            solutions_for_bank_accounts: //ul[@class='payments-tabs-nav']//a[contains(.,'Solutions for Merchant Bank Accounts')]
+                            additional_payment: //div[@class='drawer-content-inner']//a[contains(.,'Additional Payment Methods Settings')]
+                        pageelements:
+                            setup_seccessful: //div[@class='payment-method payment-method-%paymentMethod% configured active']//div[@class='payment-status']
+        messages: &newTaxRuleMessages
+            enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
+            generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
+            empty_required_field:  //label[@class='mage-error' and contains(.,'This field is required.')]
+            confirmation_for_delete_class: Do you really want to delete this tax class?
+            confirmation_for_delete_rate: Do you really want to delete this tax rate?

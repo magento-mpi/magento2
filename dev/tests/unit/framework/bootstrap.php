@@ -17,7 +17,7 @@ Magento_Autoload_IncludePath::addIncludePath(array(
     realpath(__DIR__ . '/../../../../app/code'),
     realpath(__DIR__ . '/../../../../lib'),
 ));
-
+define('BP', realpath(__DIR__ . '/../../../../'));
 define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 define('DS', DIRECTORY_SEPARATOR);
 if (is_dir(TESTS_TEMP_DIR)) {

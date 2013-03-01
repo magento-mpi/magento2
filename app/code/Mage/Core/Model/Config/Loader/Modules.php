@@ -121,7 +121,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Magento_Profiler::stop('load_modules');
         Magento_Profiler::stop('config');
         $this->_resourceConfig->setConfig($config);
-        $this->_objectManager->setConfiguration($config->getNode('global/di')->asArray());
+        $this->_objectManager->configure($config->getNode('global/di')->asArray());
         $this->_modulesCache = array();
     }
 

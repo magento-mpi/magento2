@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Block_Notification_BaseurlTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Notification_BaseurlTest extends Mage_Backend_Area_TestCase
 {
     public function testGetConfigUrl()
     {

@@ -36,6 +36,25 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Mage_Core_Model_Theme_Service::getAllThemes
+     */
+    public function testGetAllThemes()
+    {
+        /** @var $themeService Mage_Core_Model_Theme_Service */
+        $themeService = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Service');
+        $collection = $themeService->getAllThemes();
+
+        $this->assertGreaterThan(0, $collection->count());
+
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($collection as $theme) {
+            $this->assertEquals('frontend', $theme->getArea());
+            $this->assertFalse($theme->isVirtual());
+        }
+    }
+
+
+    /**
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      * @covers Mage_Core_Model_Theme_Service::assignThemeToStores

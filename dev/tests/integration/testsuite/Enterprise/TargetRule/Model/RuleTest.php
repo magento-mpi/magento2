@@ -21,11 +21,6 @@ class Enterprise_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Enterprise_TargetRule_Model_Rule');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testValidateDataOnEmpty()
     {
         $data = new Varien_Object();

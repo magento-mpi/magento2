@@ -158,6 +158,7 @@ class Core_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestCase
      */
     public function withContentHeight()
     {
+        $this->markTestIncomplete('MAGETWO-7803');
         //Data
         $termsData = $this->loadDataSet('TermsAndConditions', 'generic_terms_required',
             array('content_height' => $this->generate('string', 25, ':alnum:')));

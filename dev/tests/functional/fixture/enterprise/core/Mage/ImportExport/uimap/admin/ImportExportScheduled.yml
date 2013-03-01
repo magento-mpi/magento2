@@ -13,7 +13,7 @@
 
 scheduled_import_export:
     mca: scheduled_operation/
-    click_xpath: //div[@class='nav-bar']//a[span='Scheduled Import/Export']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/scheduled_operation/')]
     title: Scheduled Imports/Exports / Magento Admin
     uimap: &scheduledImportExport
         form:

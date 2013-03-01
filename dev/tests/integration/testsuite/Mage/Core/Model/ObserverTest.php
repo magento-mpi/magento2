@@ -63,8 +63,8 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _createEventObserverForThemeRegistration()
     {
-        $response = Mage::getModel('Varien_Object', array('additional_options' => array()));
-        $event = Mage::getModel('Varien_Event', array('response_object' => $response));
-        return Mage::getModel('Varien_Event_Observer', array('event' => $event));
+        $response = Mage::getModel('Varien_Object', array('data' => array('additional_options' => array())));
+        $event = Mage::getModel('Varien_Event', array('data' => array('response_object' => $response)));
+        return Mage::getModel('Varien_Event_Observer', array('data' => array('event' => $event)));
     }
 }

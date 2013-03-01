@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @param string $type

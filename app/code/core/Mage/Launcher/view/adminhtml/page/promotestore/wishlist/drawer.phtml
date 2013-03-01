@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Wishlist_Drawer */
+?>
+<div class="drawer-item">
+    <form id="drawer-form">
+        <h2 class="title"><?php echo $this->__('Guidelines and Best Practices') ?> </h2>
+        <article class="entry">
+            <p><?php echo $this->__('Online shoppers love keeping wish lists – for gift ideas, deferred purchases, or simply to dream over. Let customers create and share their wish lists to increase loyalty and bring new customers to your site. It\'s easy to activate the wish list feature. Try it now.') ?> </p>
+        </article>
+        <div class="go-do">
+            <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
+            <ul class="checklist">
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'wishlist', '_fragment' => 'wishlist_general-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Activate Wish List') ?></a></li>
+            </ul>
+        </div>
+    </form>
+</div>

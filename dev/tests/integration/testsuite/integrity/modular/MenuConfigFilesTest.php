@@ -31,11 +31,6 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * Get Configuration File List
      * @return array

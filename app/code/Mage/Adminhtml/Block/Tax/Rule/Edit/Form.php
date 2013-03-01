@@ -28,6 +28,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
 
         $this->setId('taxRuleForm');
         $this->setTitle(Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information'));
+        $this->setUseContainer(true);
     }
 
     /**
@@ -150,7 +151,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
 
         $form->addValues($model->getData());
         $form->setAction($this->getUrl('*/tax_rule/save'));
-        $form->setUseContainer(true);
+        $form->setUseContainer($this->getUseContainer());
         $this->setForm($form);
 
         return parent::_prepareForm();
@@ -177,9 +178,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
     public function getTaxClassSelectConfig($classType)
     {
         $config = array(
-            'new_url' => $this->getUrl('*/tax_class/ajaxSave/'),
-            'save_url' => $this->getUrl('*/tax_class/ajaxSave/'),
-            'delete_url' => $this->getUrl('*/tax_class/ajaxDelete/'),
+            'new_url' => $this->getUrl('adminhtml/tax_class/ajaxSave/'),
+            'save_url' => $this->getUrl('adminhtml/tax_class/ajaxSave/'),
+            'delete_url' => $this->getUrl('adminhtml/tax_class/ajaxDelete/'),
             'delete_confirm_message' => Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax class?'),
             'target_select_id' => $this->getTaxClassSelectHtmlId($classType),
             'add_button_caption' => Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Class'),
@@ -201,7 +202,7 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
      */
     public function getTaxRateDeleteUrl()
     {
-        return $this->getUrl('*/tax_rate/ajaxDelete/');
+        return $this->getUrl('admin/tax_rate/ajaxDelete/');
     }
 
     /**
@@ -211,6 +212,6 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widget_
      */
     public function getTaxRateSaveUrl()
     {
-        return $this->getUrl('*/tax_rate/ajaxSave/');
+        return $this->getUrl('admin/tax_rate/ajaxSave/');
     }
 }

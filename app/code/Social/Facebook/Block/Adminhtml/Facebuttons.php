@@ -25,7 +25,7 @@ class Social_Facebook_Block_Adminhtml_Facebuttons extends Mage_Backend_Block_Sys
         if (!$this->_selectRenderer) {
             $this->_selectRenderer = $this->getLayout()->createBlock(
                 'Social_Facebook_Block_Adminhtml_Select', $this->getNameInLayout() . '_customer_group_select',
-                array('is_render_to_js_template' => true)
+                array('data' => array('is_render_to_js_template' => true))
             );
             $this->_selectRenderer->setClass('customer_group_select');
             $this->_selectRenderer->setExtraParams('style="width:120px"');

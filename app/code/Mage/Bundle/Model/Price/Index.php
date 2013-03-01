@@ -65,7 +65,7 @@ class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
     /**
      * Reindex Bundle product Price Index
      *
-     * @param Mage_Core_Model_Product|Mage_Catalog_Model_Product_Condition_Interface|array|int $products
+     * @param Mage_Catalog_Model_Product|Mage_Catalog_Model_Product_Condition_Interface|array|int $products
      * @return Mage_Bundle_Model_Price_Index
      */
     public function reindex($products = null)

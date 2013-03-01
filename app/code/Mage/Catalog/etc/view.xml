@@ -11,6 +11,7 @@
 -->
 <view>
     <vars module="Mage_Catalog">
+        <var name="product_image_white_borders">1</var>
         <var name="product_thumbnail_image_sidebar_size">50</var>   <!-- Product thumbnail image size in sidebar -->
         <var name="product_thumbnail_image_size">75</var>           <!-- Main size for product thumbnail image -->
         <var name="product_small_image_sidebar_size">85</var>       <!-- Size for small product image in sidebar -->

@@ -539,10 +539,11 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
+        $placeholder = Mage::getSingleton('Enterprise_PageCache_Model_Container_PlaceholderFactory')
+            ->create('WISHLISTS');
 
         $blockContainer = Mage::getModel(
-            'Enterprise_PageCache_Model_Container_Wishlists',
-            array('placeholder' => 'WISHLISTS')
+            'Enterprise_PageCache_Model_Container_Wishlists', array('placeholder' => $placeholder)
         );
         $this->_fpcCache->remove($blockContainer->getCacheId());
 

@@ -28,22 +28,20 @@ class Mage_Backend_Model_Config_Backend_Admin_Robots extends Mage_Core_Model_Con
     protected $_filePath;
 
     /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_filesystem = $filesystem;
         $this->_filePath = Magento_Filesystem::getAbsolutePath(Mage::getBaseDir() . DS . 'robots.txt');
     }

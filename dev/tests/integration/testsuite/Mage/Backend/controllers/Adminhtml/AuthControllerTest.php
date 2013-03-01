@@ -24,11 +24,18 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     protected $_auth;
 
+    protected function setUp()
+    {
+        Mage::getConfig()->setCurrentAreaCode(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        parent::setUp();
+    }
+
     protected function tearDown()
     {
         $this->_session = null;
         $this->_auth = null;
         parent::tearDown();
+        Mage::getConfig()->setCurrentAreaCode(null);
     }
 
     /**

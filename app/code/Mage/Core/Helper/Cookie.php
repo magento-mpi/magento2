@@ -48,13 +48,13 @@ class Mage_Core_Helper_Cookie extends Mage_Core_Helper_Abstract
     protected $_website;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      * @param array $data
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Core_Model_Translate $translator, array $data = array())
+    public function __construct(Mage_Core_Helper_Context $context, array $data = array())
     {
-        parent::__construct($translator);
+        parent::__construct($context);
         $this->_currentStore = isset($data['current_store']) ? $data['current_store'] : Mage::app()->getStore();
 
         if (!($this->_currentStore instanceof Mage_Core_Model_Store)) {

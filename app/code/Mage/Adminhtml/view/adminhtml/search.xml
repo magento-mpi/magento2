@@ -64,16 +64,19 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="query_id">
                         <arguments>
                             <header translate="true" module="Mage_Reports">ID</header>
-                            <width>50px</width>
                             <filter>0</filter>
                             <index>query_id</index>
                             <type>number</type>
+                            <column_css_class>col-id</column_css_class>
+                            <header_css_class>col-id</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="query_text">
                         <arguments>
                             <header translate="true" module="Mage_Reports">Search Query</header>
                             <index>query_text</index>
+                            <column_css_class>col-query</column_css_class>
+                            <header_css_class>col-query</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
@@ -83,24 +86,26 @@
                             <type>store</type>
                             <store_view>1</store_view>
                             <sortable>0</sortable>
+                            <column_css_class>col-store</column_css_class>
+                            <header_css_class>col-store</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="num_results">
                         <arguments>
                             <header translate="true" module="Mage_Reports">Results</header>
-                            <width>50px</width>
-                            <align>right</align>
                             <type>number</type>
                             <index>num_results</index>
+                            <column_css_class>col-results</column_css_class>
+                            <header_css_class>col-results</header_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="popularity">
                         <arguments>
                             <header translate="true" module="Mage_Reports">Hits</header>
-                            <width>50px</width>
-                            <align>right</align>
                             <type>number</type>
                             <index>popularity</index>
+                            <column_css_class>col-hits</column_css_class>
+                            <header_css_class>col-hits</header_css_class>
                         </arguments>
                     </block>
                 </block>

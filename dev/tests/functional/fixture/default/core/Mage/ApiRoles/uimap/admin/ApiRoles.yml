@@ -28,7 +28,7 @@
 
 api_roles_management:
     mca: webapi_role/
-    click_xpath: //div[@class='nav-bar']//a[span='API Roles']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/webapi_role/')]
     title: API Roles / Web Api / System / Magento Admin
     uimap:
         form:

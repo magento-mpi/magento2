@@ -43,11 +43,6 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Mage_Install_Model_Installer');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * Emulate configuration directory for the installer config model.
      * Method usage should be accompanied with '@magentoAppIsolation enabled' because of the object manager pollution.

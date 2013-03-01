@@ -25,11 +25,11 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
     protected $_templateProcessor = null;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      */
-    public function __construct(Mage_Core_Model_Translate $translator)
+    public function __construct(Mage_Core_Helper_Context $context)
     {
-        parent::__construct($translator);
+        parent::__construct($context);
         Mage::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));
     }
 

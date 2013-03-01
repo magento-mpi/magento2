@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extends Mage_Backend_Area_TestCase
 {
     public function testGetOptionValuesCaching()
     {

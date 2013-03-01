@@ -13,58 +13,24 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Application instance
+     * Store manager instance
      *
-     * @var Mage_Core_Model_App
+     * @var Mage_Core_Model_StoreManager
      */
-    protected $_app;
+    protected $_storeManager;
 
     /**
-     * Constructor
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Layout $layout
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Backend_Model_Url $urlBuilder
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Design_Package $designPackage
-     * @param Mage_Core_Model_Session $session
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_App $app
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_StoreManager $storeManager
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
-    public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Backend_Model_Url $urlBuilder,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Session $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
-        Mage_Core_Model_App $app,
+    public function __construct(Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        $this->_app = $app;
-        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data
-        );
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $data);
     }
-
 
     /**
      * Prepare content for tab
@@ -89,7 +55,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     /**
      * Returns status flag about this tab can be showen or not
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -99,7 +65,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return bool
      */
     public function isHidden()
     {
@@ -124,7 +90,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
             'value'     => isset($labels[0]) ? $labels[0] : '',
         ));
 
-        if (!$this->_app->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $fieldset = $this->_createStoreSpecificFieldset($form, $labels);
         }
 

@@ -29,11 +29,6 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
     /**
      * Tear down
      */
-    protected function tearDown()
-    {
-        $this->_collection = null;
-    }
-
     /**
      * @magentoConfigFixture current_store design/theme/full_name default/demo
      * @magentoDataFixture Saas/PrintedTemplate/_files/order.php

@@ -35,44 +35,16 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
     protected $_productType;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Layout $layout
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_Url $urlBuilder
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Design_Package $designPackage
-     * @param Mage_Core_Model_Session $session
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
-     * @param Mage_Core_Model_Registry $registryManager,
-     * @param Mage_Catalog_Model_Product_Type_Configurable $productType
+     * @param Mage_Core_Model_Registry $registryManager
      * @param Mage_Backend_Model_Widget_Grid_SubTotals $subtotals
      * @param Mage_Backend_Model_Widget_Grid_Totals $totals
+     * @param Mage_Catalog_Model_Product_Type_Configurable $productType
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Url $urlBuilder,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Session $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
+        Mage_Core_Block_Template_Context $context,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Mage_Core_Model_Registry $registryManager,
         Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
@@ -80,9 +52,9 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
         Mage_Catalog_Model_Product_Type_Configurable $productType,
         array $data = array()
     ) {
-        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem,
-            $helperFactory->get('Mage_Backend_Helper_Data'), $generatorFactory, $subtotals, $totals, $data);
+        parent::__construct($context, $context->getHelperFactory()->get('Mage_Backend_Helper_Data'),
+            $generatorFactory, $subtotals, $totals, $data
+        );
 
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;

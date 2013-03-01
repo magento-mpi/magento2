@@ -162,8 +162,15 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         $appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $appMock->expects($this->any())->method('getConfig')->will($this->returnValue($configMock));
         self::$_appClone = clone $appMock;
+        $objectManager->configure(array(
+            'Mage_Webapi_Model_Config_Reader_Rest' => array(
+                'parameters' => array(
+                    'cache' => $cache
+                )
+            )
+        ));
         /** @var Mage_Webapi_Model_Config_Reader_Rest $reader */
-        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Rest', array('cache' => $cache));
+        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Rest');
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */

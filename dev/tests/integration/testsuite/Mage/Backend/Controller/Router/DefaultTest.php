@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Controller_Router_DefaultTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Backend_Controller_Router_Default
@@ -23,6 +23,8 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
+        parent::setUp();
+
         $options = array(
             'areaCode'        => Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(),
             'baseController'  => 'Mage_Backend_Controller_ActionAbstract',
@@ -30,11 +32,6 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
         $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
         $this->_model = Mage::getModel('Mage_Backend_Controller_Router_Default', $options);
         $this->_model->setFront($this->_frontMock);
-    }
-
-    protected function tearDown()
-    {
-        $this->_model = null;
     }
 
     public function testRouterCannotProcessRequestsWithWrongFrontName()

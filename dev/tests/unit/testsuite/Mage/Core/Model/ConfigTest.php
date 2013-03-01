@@ -60,7 +60,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $configBase = new Mage_Core_Model_Config_Base($xml);
         $objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $objectManagerMock->expects($this->once())->method('setConfiguration')->with(array(
+        $objectManagerMock->expects($this->once())->method('configure')->with(array(
             'Mage_Core_Model_Cache' => array(
                 'parameters' => array('one' => 'two')
             )

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_GridTest extends PHPUnit_Framework_TestCase
+class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_GridTest extends Mage_Backend_Area_TestCase
 {
     public function testPrepareColumns()
     {

@@ -15,20 +15,17 @@
  * @see Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
  */
 ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-            <h4 class="icon-head head-invitation"><?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Status History') ?></h4>
+<div class="fieldset-wrapper invitations-history">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo $this->helper('Enterprise_Invitation_Helper_Data')->__('Status History') ?></span>
     </div>
-    <div class="fieldset">
-        <ul class="note-list">
-        <?php foreach ($this->getHistoryCollection() as $_history): ?>
-            <li>
-                <strong><?php echo $this->formatDate($_history->getInvitationDate(), 'medium') ?></strong>
-                <?php echo $this->formatTime($_history->getInvitationDate(), 'medium') ?><span class="separator">|</span>
-                <strong><?php echo $_history->getStatusText()?></strong>
-            </li>
-        <?php endforeach; ?>
-        </ul>
-    </div>
+    <ul>
+    <?php foreach ($this->getHistoryCollection() as $_history): ?>
+        <li>
+            <strong><?php echo $this->formatDate($_history->getInvitationDate(), 'medium') ?></strong>
+            <?php echo $this->formatTime($_history->getInvitationDate(), 'medium') ?>
+            <strong class="status"><?php echo $_history->getStatusText()?></strong>
+        </li>
+    <?php endforeach; ?>
+    </ul>
 </div>
-<div class="clear"></div>
