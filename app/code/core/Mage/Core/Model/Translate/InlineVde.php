@@ -96,8 +96,11 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
             $urlPrefix = 'core';
             $urlModel = Mage::getModel('Mage_Core_Model_Url');
         }
+
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
-            array('_secure'=>Mage::app()->getStore()->isCurrentlySecure()));
+            array('_secure'=>Mage::app()->getStore()->isCurrentlySecure(),
+                  '_useRealRoute' => true,
+                  '_useVdeFrontend' => true));
         $trigImg = Mage::getDesign()->getViewFileUrl('Mage_Core::translate_edit_icon.png');
 
         ob_start();
@@ -122,7 +125,7 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
     </script>
 
     <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
-      <img src="${img}" height="16" width="16">
+        <img src="${img}" height="16" width="16">
     </script>
 
     <div id="translate-dialog"></div>
@@ -133,8 +136,8 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
                $('body').addClass('trnslate-inline-area');
 
                $('body').translateInlineDialogVde({
-                    ajaxUrl: '<?php echo $ajaxUrl ?>',
-                    area: '<?php echo Mage::getDesign()->getArea() ?>',
+                   ajaxUrl: '<?php echo $ajaxUrl ?>',
+                   area: '<?php echo Mage::getDesign()->getArea() ?>',
                    onSubmitComplete: function() {
                       $('body').addClass('trnslate-inline-area');
                       $('[data-translate]').translateInlineIconVde('show');
