@@ -39,6 +39,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
      */
     public function create(Mage_Core_Model_Config_Primary $config)
     {
+        Magento_Profiler::start('di_definitions_create');
         $configElement = $config->getNode('global/di/definitions');
 
         $definitionConfig = $configElement ? $configElement->asArray() : array();
@@ -63,7 +64,6 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
                     }
                     break;
             };
-
             switch ($format) {
                 case 'igbinary':
                     $definitions = igbinary_unserialize($definitions);
@@ -75,6 +75,8 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
                     break;
             }
         }
-        return new $definitionModel($definitions);
+        $output = new $definitionModel($definitions);
+        Magento_Profiler::stop('di_definitions_create');
+        return $output;
     }
 }
