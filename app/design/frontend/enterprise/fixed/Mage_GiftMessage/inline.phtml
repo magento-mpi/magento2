@@ -10,21 +10,9 @@
 ?>
 <?php if(!$this->getDontDisplayContainer()): ?>
 <script type="text/javascript">
-/**
- * Removing global reference of shipping and billing prototype objects.
- * This function expression can be moved into a widget once this file is completely refactored to use jQuery.
- */
-(function($) {
-    $('#checkoutSteps').on('billingSave shippingSave', function() {
-        $.ajax({
-            url: '<?php echo $this->getAdditionalUrl(); ?>',
-            type: 'post',
-            success: function(response) {
-                $('#onepage-checkout-shipping-method-additional-load').html(response);
-            }
-        });
+    head.js("<?php echo $this->getViewFileUrl('Mage_GiftMessage::extra-options.js') ?>", function() {
+        jQuery('#checkoutSteps').extraOptions({additionalUrl: '<?php echo $this->getAdditionalUrl(); ?>'});
     });
-})(jQuery)
 </script>
 <?php endif ?>
 
