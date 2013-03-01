@@ -31,7 +31,9 @@ class Magento_Test_ObjectManager extends Mage_Core_Model_ObjectManager
             }
         }
 
-        Mage::getSingleton('Mage_Core_Model_Config_Base')->destroy();
+        if (isset($this->_sharedInstances['Mage_Core_Model_Config_Base'])) {
+            $this->_sharedInstances['Mage_Core_Model_Config_Base']->destroy();
+        }
         $sharedInstances = array('Magento_ObjectManager' => $this);
         if (isset($this->_sharedInstances['Mage_Core_Model_Resource'])) {
             $sharedInstances['Mage_Core_Model_Resource'] = $this->_sharedInstances['Mage_Core_Model_Resource'];
