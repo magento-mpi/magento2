@@ -212,7 +212,9 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                 if ($this->_isSubclassOf($content, $class)) {
                     $this->_assertNotRegExp('/function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                     $this->_assertNotRegExp('/this->' . $quotedMethod . '\s*\(/iS', $content, $message);
-                    $this->_assertNotRegExp('/(self|static|parent)::\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
+                    $this->_assertNotRegExp(
+                        '/(self|static|parent)::\s*' . $quotedMethod . '\s*\(/iS', $content, $message
+                    );
                 }
             } else {
                 $message = $this->_suggestReplacement("Function or method '{$method}()' is obsolete.", $replacement);
