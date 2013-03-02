@@ -14,7 +14,6 @@
         <Mage_Launcher>
             <version>2.0.0.0</version>
             <active>true</active>
-            <codePool>core</codePool>
         </Mage_Launcher>
     </modules>
     <adminhtml>
