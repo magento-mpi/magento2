@@ -10,6 +10,7 @@
 -->
 <config>
     <global>
+<!--
         <cache>
             <request_processors>
                 <ee>
@@ -17,7 +18,7 @@
                     <class>Enterprise_PageCache_Model_Processor</class>
                 </ee>
             </request_processors>
-        </cache>
+        </cache>-->
         <full_page_cache>
             <backend_options>
                 <cache_dir>full_page_cache</cache_dir>

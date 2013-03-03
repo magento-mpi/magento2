@@ -351,6 +351,8 @@ final class Mage
         }
     }
 
+    protected static $_dirs;
+
     /**
      * Retrieve application root absolute path
      *
@@ -359,9 +361,10 @@ final class Mage
      */
     public static function getBaseDir($type = Mage_Core_Model_Dir::ROOT)
     {
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = self::$_objectManager->get('Mage_Core_Model_Dir');
-        return $dirs->getDir($type);
+        if (!self::$_dirs) {
+            self::$_dirs = self::$_objectManager->get('Mage_Core_Model_Dir');
+        }
+        return self::$_dirs->getDir($type);
     }
 
     /**
@@ -458,6 +461,8 @@ final class Mage
         return self::$_config;
     }
 
+    public static $_eventManager;
+
     /**
      * Dispatch event
      *
@@ -471,9 +476,10 @@ final class Mage
      */
     public static function dispatchEvent($name, array $data = array())
     {
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
-        $eventManager = self::$_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch($name, $data);
+        if (!self::$_eventManager) {
+            self::$_eventManager = self::$_objectManager->get('Mage_Core_Model_Event_Manager');
+        }
+        self::$_eventManager->dispatch($name, $data);
     }
 
     /**
@@ -661,6 +667,8 @@ final class Mage
         return self::$_app;
     }
 
+    public static $_isInstalled = null;
+
     /**
      * Check if application is installed
      *
@@ -669,7 +677,10 @@ final class Mage
      */
     public static function isInstalled()
     {
-       return (bool) self::$_objectManager->get('Mage_Core_Model_Config_Primary')->getInstallDate();
+	    if (self::$_isInstalled === null) {
+            self::$_isInstalled = (bool) self::$_objectManager->get('Mage_Core_Model_Config_Primary')->getInstallDate();
+        }
+        return self::$_isInstalled;
     }
 
     /**

@@ -21,12 +21,11 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     protected $_definitions;
 
-    /**
-     * Runtime configuration
-     *
-     * @var Magento_ObjectManager_Config
-     */
-    protected $_configuration;
+    protected $_arguments = array();
+    
+    protected $_nonShared = array();
+
+    protected $_preferences = array();
 
     /**
      * List of classes being created
@@ -74,8 +73,8 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected function _resolveArguments($className, array $parameters, array $arguments = array())
     {
         $resolvedArguments = array();
-        if (isset($this->_configuration[$className]['parameters'])) {
-            $arguments = array_replace($this->_configuration[$className]['parameters'], $arguments);
+        if (isset($this->_arguments[$className])) {
+            $arguments = array_replace($this->_arguments[$className], $arguments);
         }
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
@@ -101,9 +100,9 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                 }
 
                 $this->_creationStack[$className] = 1;
-                $argument = $this->_isShared($argument) ?
-                    $this->get($argument) :
-                    $this->create($argument);
+                $argument = isset($this->_nonShared[$argument]) ?
+                    $this->create($argument) :
+                    $this->get($argument);
                 unset($this->_creationStack[$className]);
             }
             $resolvedArguments[] = $argument;
@@ -118,27 +117,17 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected function _resolveClassName($className)
     {
         $preferencePath = array();
-        while (isset($this->_configuration['preferences'][$className])) {
-            if (isset($preferencePath[$this->_configuration['preferences'][$className]])) {
+        while (isset($this->_preferences[$className])) {
+            if (isset($preferencePath[$this->_preferences[$className]])) {
                 throw new LogicException(
                     'Circular type preference: ' . $className . ' relates to '
-                        . $this->_configuration['preferences'][$className] . ' and viceversa.'
+                        . $this->_preferences[$className] . ' and viceversa.'
                 );
             }
-            $className = $this->_configuration['preferences'][$className];
+            $className = $this->_preferences[$className];
             $preferencePath[$className] = 1;
         }
         return $className;
-    }
-
-    /**
-     * @param $className
-     * @return bool
-     */
-    protected function _isShared($className)
-    {
-        return !(isset($this->_configuration[$className]['shared'])
-            && $this->_configuration[$className]['shared'] == false);
     }
 
     /**
@@ -159,96 +148,8 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
             return new $resolvedClassName();
         }
         $args = $this->_resolveArguments($resolvedClassName, $parameters, $arguments);
-
-        switch(count($args)) {
-            case 1:
-                return new $resolvedClassName($args[0]);
-
-            case 2:
-                return new $resolvedClassName($args[0], $args[1]);
-
-            case 3:
-                return new $resolvedClassName($args[0], $args[1], $args[2]);
-
-            case 4:
-                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3]);
-
-            case 5:
-                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4]);
-
-            case 6:
-                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4], $args[5]);
-
-            case 7:
-                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
-
-            case 8:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7]
-                );
-
-            case 9:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8]
-                );
-
-            case 10:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9]
-                );
-
-            case 11:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10]
-                );
-
-            case 12:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11]
-                );
-
-            case 13:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12]
-                );
-
-            case 14:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13]
-                );
-
-            case 15:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13], $args[14]
-                );
-
-            case 16:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15]
-                );
-
-            case 17:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16]
-                );
-
-            case 18:
-                return new $resolvedClassName(
-                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
-                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16], $args[17]
-                );
-
-            default:
-                $reflection = new \ReflectionClass($resolvedClassName);
-                return $reflection->newInstanceArgs($args);
-        }
+        $reflection = new \ReflectionClass($resolvedClassName);
+        return $reflection->newInstanceArgs($args);
     }
 
     /**
@@ -260,7 +161,10 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function create($className, array $arguments = array())
     {
-        return $this->_create($this->_resolveClassName($className), $arguments);
+        if (isset($this->_preferences[$className])) {
+            $className = $this->_resolveClassName($className);
+        }
+        return $this->_create($className, $arguments);
     }
 
     /**
@@ -271,11 +175,13 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function get($className)
     {
-        $resolvedName = $this->_resolveClassName($className);
-        if (!isset($this->_sharedInstances[$resolvedName])) {
-            $this->_sharedInstances[$resolvedName] = $this->_create($resolvedName);
+        if (isset($this->_preferences[$className])) {
+            $className = $this->_resolveClassName($className);
         }
-        return $this->_sharedInstances[$resolvedName];
+        if (!isset($this->_sharedInstances[$className])) {
+            $this->_sharedInstances[$className] = $this->_create($className);
+        }
+        return $this->_sharedInstances[$className];
     }
 
     /**
@@ -285,6 +191,29 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function configure(array $configuration)
     {
-        $this->_configuration = array_replace_recursive($this->_configuration, $configuration);
+        foreach ($configuration as $key => $curConfig) {
+            switch ($key) {
+                case 'preferences':
+                    $this->_preferences = array_replace($this->_preferences, $curConfig);
+                    break;
+
+                default:
+                    if (isset($curConfig['parameters'])) {
+                        if (isset($this->_arguments[$key])) {
+                            $this->_arguments[$key] = array_replace($this->_arguments[$key], $curConfig['parameters']);
+                        } else {
+                            $this->_arguments[$key] = $curConfig['parameters'];
+                        }
+                    }
+                    if (isset($curConfig['shared'])) {
+                        if (!$curConfig['shared'] || $curConfig['shared'] == 'false') {
+                            $this->_nonShared[$key] = 1;
+                        } else {
+                            unset($this->_nonShared[$key]);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }
