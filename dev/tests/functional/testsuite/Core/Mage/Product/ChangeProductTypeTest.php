@@ -46,9 +46,9 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
+        $this->productHelper()->expandAdvancedSettings();
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'),
             'Weight field is editable or is not visible');
-        $this->clickControl('fieldset', 'advanced_settings', false);
         $this->assertTrue($this->controlIsVisible('tab', 'downloadable_information'),
             'Downloadable Information is absent');
     }
@@ -98,15 +98,14 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
+        $this->productHelper()->expandAdvancedSettings();
         if ($changedProduct == 'simple') {
             $this->assertTrue($this->controlIsVisible('field', 'general_weight'), 'Weight field is not editable');
-            $this->clickControl('fieldset', 'advanced_settings', false);
             $this->assertFalse($this->controlIsVisible('tab', 'downloadable_information'),
                 'Downloadable Information is absent');
         } else {
             $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'),
                 'Weight field is editable or is not visible');
-            $this->clickControl('fieldset', 'advanced_settings', false);
             $this->assertTrue($this->controlIsVisible('tab', 'downloadable_information'),
                 'Downloadable Information is absent');
         }
@@ -155,9 +154,9 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
+        $this->productHelper()->expandAdvancedSettings();
         $this->assertTrue($this->controlIsVisible('field', 'general_weight_disabled'),
             'Weight field is editable or is not visible');
-        $this->clickControl('fieldset', 'advanced_settings', false);
         $this->assertTrue($this->controlIsVisible('tab', 'downloadable_information'),
             'Downloadable Information is absent');
     }
@@ -200,6 +199,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->assertEquals($changedType, $this->productHelper()->getProductDataFromGrid($search, 'Type'),
             'Incorrect product type has been created');
         $this->productHelper()->openProduct($search);
+        $this->productHelper()->expandAdvancedSettings();
         if ($changedProduct == 'simple') {
             $this->assertTrue($this->controlIsVisible('field', 'general_weight'), 'Weight field is not editable');
             $this->assertFalse($this->controlIsVisible('tab', 'downloadable_information'),

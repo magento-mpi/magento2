@@ -494,13 +494,30 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openProductTab($tabName)
     {
-        if (!$this->controlIsVisible(self::UIMAP_TYPE_TAB, $tabName)
-            && $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'advanced_settings', 'aria-selected') == 'false'
-        ) {
-            $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_settings', false);
-            $this->waitForControlVisible(self::UIMAP_TYPE_TAB, $tabName, 10);
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_TAB, $tabName)) {
+            $this->expandAdvancedSettings();
         }
         $this->openTab($tabName);
+    }
+
+    /**
+     * Expand Advanced Settings tab container
+     */
+    public function expandAdvancedSettings()
+    {
+        if ($this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'advanced_settings', 'aria-selected') == 'false') {
+            $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_settings', false);
+            $this->waitUntil(
+                function ($testCase) {
+                    /** @var Mage_Selenium_TestCase $testCase */
+                    $isExpanded = $testCase->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected');
+                    if ($isExpanded == 'true') {
+                        return true;
+                    }
+                },
+                10000
+            );
+        }
     }
 
     /**
@@ -1106,10 +1123,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->addVerificationMessage('Attribute "' . $title . '" is not selected');
                 continue;
             }
-            if (isset($attributeData['have_price_variation'])) {
-                $this->verifyForm(array('have_price_variation' => $attributeData['have_price_variation']), 'general');
-                unset($attributeData['have_price_variation']);
-            }
             foreach ($attributeData as $optionData) {
                 if (isset($optionData['associated_attribute_value'])) {
                     $this->addParameter('attributeOption', $optionData['associated_attribute_value']);
@@ -1159,10 +1172,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->fillCheckbox('include_variation_attribute', 'Yes');
             }
             unset($optionsData['use_all_options']);
-        }
-        if (isset($optionsData['have_price_variation'])) {
-            //$this->fillCheckbox('have_price_variation', $optionsData['have_price_variation']); @TODO
-            unset($optionsData['have_price_variation']);
         }
         foreach ($optionsData as $optionData) {
             if (isset($optionData['associated_attribute_value'])) {
@@ -1394,6 +1403,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $lineData = array();
             $cellElements = $this->getChildElements($rowElement, 'td');
             foreach ($cellElements as $key => $tdElement) {
+                if (!isset($cellNames[$key])) {
+                    continue;
+                }
                 $cellName = trim($cellNames[$key], ' *');
                 $inputElement = $this->childElementIsPresent($tdElement, 'input[not(@type="hidden")]');
                 if (!$inputElement) {

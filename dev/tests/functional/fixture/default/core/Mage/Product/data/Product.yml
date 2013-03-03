@@ -270,7 +270,6 @@ general_grouped_data: &associatedProductsGroupedData
 #*************************Attributes Data****************************
 general_configurable_attribute_with_price: &general_configurable_attribute_with_price
     general_configurable_attribute_title: %general_attribute_2%
-    have_price_variation: Yes
     use_all_options: %allOptions%
     attribute_position: %noValue%
     option_1:
@@ -291,7 +290,6 @@ general_configurable_attribute_with_price: &general_configurable_attribute_with_
 
 general_configurable_attribute_without_price: &general_configurable_attribute_without_price
     general_configurable_attribute_title: %general_attribute_1%
-    have_price_variation: No
     use_all_options: %allOptions%
     attribute_position: %noValue%
     option_1:

@@ -666,8 +666,6 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     protected function _setVariationPriceRule($attributeTitle, $option, $ruleType, $price)
     {
         $this->addParameter('attributeTitle', $attributeTitle);
-        $this->fillCheckbox('have_price_variation', 'Yes');
-        $this->waitForControlVisible('field', 'variation_attribute_price');
         $this->addParameter('attributeOption', $option);
         $this->fillField('variation_attribute_price', $price);
         $this->fillDropdown('variation_attribute_price_type', $ruleType);

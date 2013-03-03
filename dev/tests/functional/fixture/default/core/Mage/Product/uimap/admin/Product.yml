@@ -171,12 +171,12 @@ new_product:
                                         category_name: /*[text()='%categoryName%']
                             -
                                 new_category_form:
-                                    xpath: //div[div/span='Create New Category']
+                                    xpath: //div[div/span='Create Category']
                                     fields:
                                         name: //input[@id='new_category_name']
-                                        parent_category: //input[@id='new_category_parent'][not(contains(@class, 'ui-autocomplete-loading'))]
+                                        parent_category: //input[@id='new_category_parent-suggest']
                                     buttons:
-                                        new_category_close: //a[@class='ui-icon ui-icon-closethick']
+                                        new_category_close: ///a[span='close']
                                         new_category_save: //button[@id='mage-new-category-dialog-save-button']
                                         new_category_cancel: //button[@id='mage-new-category-dialog-close-button']
                                     pageelements:
@@ -200,7 +200,6 @@ new_product:
                                 product_variation_attribute:
                                     xpath: //div[div/strong/span='%attributeTitle%']
                                     checkboxes:
-                                        have_price_variation: //label[contains(.,'Have price variation')]/input
                                         include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
                                         use_default_label: //label[span='Use Default']
                                     fields:
@@ -216,7 +215,7 @@ new_product:
                                         option_line: //tbody/tr
                             -
                                 variations_matrix_grid:
-                                    xpath: //div[@id='product-variations-matrix']
+                                    xpath: //div[@id='product-variations-matrix']//table
                                     checkboxes:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
                                         assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
@@ -224,7 +223,7 @@ new_product:
                                         variations_matrix_header: //thead/tr
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%']
-                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='col-price associated-matrix-product-price']
                                     buttons:
                                         choose: //tbody/tr[%attributeSearch%]//button[@title='Choose']
                                     fields:
@@ -564,7 +563,7 @@ new_product:
                                         import_options: //*[@id='import_new_defined_option']
                             -
                                 custom_option_set:
-                                    xpath: //div[contains(div/div,'Custom Options')]//*[@id='product_options_container']//*[@class='fieldset']
+                                    xpath: //div[contains(div/div,'Custom Options')]//*[@id='product_options_container']/div[contains(@id,'option_')]
                                     buttons:
                                         delete_custom_option: //button[span='Delete Option']
                                         delete_option: //div[@id='option_%optionId%']//button[@title='Delete Option']
