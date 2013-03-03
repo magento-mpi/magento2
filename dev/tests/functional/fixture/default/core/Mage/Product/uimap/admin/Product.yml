@@ -95,8 +95,11 @@ new_product:
                             product_name: //h3[@class='icon-head head-products'][text()='%productName% (%attributeSet%)']
                             product_online_status: //div[@class='switcher']/label
                 -
-                    advanced_settings:
-                        xpath: //*[@id='product_info_tabs-advanced']//h3
+                    advanced_settings_tabs:
+                        xpath: //*[@id='product_info_tabs-advanced']
+                        pageelements:
+                            advanced_settings_header: /h3[@id='ui-accordion-product_info_tabs-advanced-header-0']
+                            advanced_settings_panel: /ul[@id='ui-accordion-product_info_tabs-advanced-panel-0']
                 -
                     change_attribute_set:
                         xpath: //div[div/span='Select Attribute Set']

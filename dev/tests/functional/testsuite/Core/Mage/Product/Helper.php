@@ -496,6 +496,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         if (!$this->controlIsVisible(self::UIMAP_TYPE_TAB, $tabName)) {
             $this->expandAdvancedSettings();
+            $this->waitForControlVisible(self::UIMAP_TYPE_TAB, $tabName, 5);
         }
         $this->openTab($tabName);
     }
@@ -505,18 +506,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function expandAdvancedSettings()
     {
-        if ($this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'advanced_settings', 'aria-selected') == 'false') {
-            $this->clickControl(self::UIMAP_TYPE_FIELDSET, 'advanced_settings', false);
-            $this->waitUntil(
-                function ($testCase) {
-                    /** @var Mage_Selenium_TestCase $testCase */
-                    $isExpanded = $testCase->getControlAttribute('fieldset', 'advanced_settings', 'aria-selected');
-                    if ($isExpanded == 'true') {
-                        return true;
-                    }
-                },
-                10000
-            );
+        $isExpanded = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT,
+            'advanced_settings_header', 'aria-selected');
+        if ($isExpanded == 'false') {
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'advanced_settings_header', false);
+            $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'advanced_settings_panel', 5);
         }
     }
 
