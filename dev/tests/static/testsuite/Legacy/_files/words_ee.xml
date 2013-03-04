@@ -26,7 +26,7 @@
             <word>staging</word>
         </item>
         <item>
-            <path>app/code/core/Mage/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
+            <path>app/code/Mage/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
             <word>staging</word>
         </item>
     </whitelist>
