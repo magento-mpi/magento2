@@ -68,6 +68,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                                 ->setGroupAttributes($attributes)
                                 ->toHtml()
                         ),
+                        'class' => 'user-defined',
                         'group_code' => !in_array($group->getAttributeGroupCode(), array(
                             'advanced-pricing', 'design', 'autosettings'
                         )) ? self::BASIC_TAB_GROUP_CODE : self::ADVANCED_TAB_GROUP_CODE
