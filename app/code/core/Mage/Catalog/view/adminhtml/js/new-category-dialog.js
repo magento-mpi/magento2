@@ -61,7 +61,7 @@
                 },
                 buttons: [{
                     text: 'Create Category',
-                    class: 'action-create primary',
+                    'class': 'action-create primary',
                     id: 'mage-new-category-dialog-save-button',
                     click: function() {
                         if (!newCategoryForm.validate()) {
@@ -104,7 +104,7 @@
                 },
                 {
                     text: 'Cancel',
-                    class: 'action-cancel',
+                    'class': 'action-cancel',
                     id: 'mage-new-category-dialog-close-button',
                     click: function() {
                         $(this).dialog('close');

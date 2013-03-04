@@ -60,17 +60,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
     {
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
-        $treeOptions = $coreHelper->escapeHtml($coreHelper->jsonEncode(array(
-            'jstree' => array(
-                'plugins' => array('themes', 'html_data', 'ui', 'hotkeys'),
-                'themes' => array(
-                    'theme' => 'default',
-                    'dots' => false,
-                    'icons' => false,
-                ),
-            )
-        )));
-
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = Mage::helper('Mage_Catalog_Helper_Data')->__('start typing to search category');
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());

@@ -36,7 +36,7 @@
                     optionBoxTitle = $('.title > span', $(event.target).closest('.option-box')),
                     newOptionTitle = $.mage.__('New Option');
 
-                optionBoxTitle.text(currentValue == '' && !originalValue.length ? newOptionTitle : currentValue);
+                optionBoxTitle.text(currentValue === '' && !originalValue.length ? newOptionTitle : currentValue);
             };
             this._on({
                 'change .field-option-title input[name$="[title]"]': syncOptionTitle,
