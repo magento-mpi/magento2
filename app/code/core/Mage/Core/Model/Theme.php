@@ -19,6 +19,7 @@
  * @method string getArea()
  * @method string getThemeTitle()
  * @method int getThemeId()
+ * @method string getType()
  * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
  * @method array getAssignedStores()
  * @method Mage_Core_Model_Theme addData(array $data)
@@ -32,12 +33,33 @@
  * @method Mage_Core_Model_Theme setThemeTitle(string $themeTitle)
  * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
  * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
+ * @method Mage_Core_Model_Theme setType(string $type)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     implements Mage_Core_Model_Theme_Customization_CustomizedInterface
 {
+    /**
+     * Physical theme type
+     */
+    const TYPE_PHYSICAL = 'physical';
+
+    /**
+     * Virtual theme type
+     */
+    const TYPE_VIRTUAL = 'virtual';
+
+    /**
+     * Temporary theme type
+     */
+    const TYPE_TEMPORARY = 'temporary';
+
+    /**
+     * Stage theme type
+     */
+    const TYPE_STAGING = 'staging';
+
     /**
      * Cache tag for empty theme
      */
@@ -47,14 +69,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Separator between theme_path elements
      */
     const PATH_SEPARATOR = '/';
-
-    /**
-     * Theme 'type' possible values
-     */
-    const TYPE_PHYSICAL  = 'physical';
-    const TYPE_VIRTUAL   = 'virtual';
-    const TYPE_TEMPORARY = 'temporary';
-    const TYPE_STAGING   = 'staging';
 
     /**
      * Path prefix to customized theme files
@@ -209,8 +223,13 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isVirtual()
     {
-        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
-        return !($this->getThemePath() && isset($collection[$this->getFullPath()]));
+        if ($this->getType()) {
+            $isVirtual = self::TYPE_VIRTUAL == $this->getType();
+        } else {
+            $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
+            $isVirtual = !($this->getThemePath() && isset($collection[$this->getFullPath()]));
+        }
+        return $isVirtual;
     }
 
     /**
@@ -415,7 +434,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         if (isset($themeData['theme_id'])) {
             $this->load($themeData['theme_id']);
-            if ($this->getId() && !$this->isEditable()) {
+            if ($this->getId() && self::TYPE_VIRTUAL != $this->getType()) {
                 Mage::throwException($this->_helper->__('Theme isn\'t editable.'));
             }
         }
@@ -431,7 +450,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         $this->getThemeImage()->uploadPreviewImage('preview_image');
-        $this->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->save();
+        $this->setType(self::TYPE_VIRTUAL)->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->save();
         return $this;
     }
 

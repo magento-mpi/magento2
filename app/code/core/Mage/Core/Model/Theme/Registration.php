@@ -118,6 +118,7 @@ class Mage_Core_Model_Theme_Registration
         }
 
         $theme->getThemeImage()->savePreviewImage();
+        $theme->setType(Mage_Core_Model_Theme::TYPE_PHYSICAL);
         $theme->save();
 
         return $this;
