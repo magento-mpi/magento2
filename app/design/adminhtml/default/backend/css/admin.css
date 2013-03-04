@@ -234,6 +234,11 @@ button.primary.disabled,
 .fieldset-wrapper-title .actions .action-delete:active,
 .fieldset-wrapper-title .actions .action-delete.active,
 .fieldset-wrapper-title .actions .action-delete:disabled,
+.address-list-item-actions .action-delete,
+.address-list-item-actions .action-delete:hover,
+.address-list-item-actions .action-delete:active,
+.address-list-item-actions .action-delete.active,
+.address-list-item-actions .action-delete:disabled,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
@@ -606,14 +611,16 @@ button.primary.disabled,
 .data-table .action-.delete span,
 .data-table .action-delete span,
 .image .action-delete span,
-.fieldset-wrapper-title .actions .action-delete span {
+.fieldset-wrapper-title .actions .action-delete span,
+.address-list-item-actions .action-delete span {
     display: none;
 }
 
 .data-table .action-.delete:before,
 .data-table .action-delete:before,
 .image .action-delete:before,
-.fieldset-wrapper-title .actions .action-delete:before {
+.fieldset-wrapper-title .actions .action-delete:before,
+.address-list-item-actions .action-delete:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -627,7 +634,8 @@ button.primary.disabled,
 .data-table .action-.delete:hover:before,
 .data-table .action-delete:hover:before,
 .image .action-delete:hover:before,
-.fieldset-wrapper-title .actions .action-delete:hover:before {
+.fieldset-wrapper-title .actions .action-delete:hover:before,
+.address-list-item-actions .action-delete:hover:before {
     color: #7e7e7e;
 }
 
