@@ -43,22 +43,17 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Physical theme type
      */
-    const TYPE_PHYSICAL = 'physical';
+    const TYPE_PHYSICAL = 0;
 
     /**
      * Virtual theme type
      */
-    const TYPE_VIRTUAL = 'virtual';
-
-    /**
-     * Temporary theme type
-     */
-    const TYPE_TEMPORARY = 'temporary';
+    const TYPE_VIRTUAL = 1;
 
     /**
      * Stage theme type
      */
-    const TYPE_STAGING = 'staging';
+    const TYPE_STAGING = 2;
 
     /**
      * Cache tag for empty theme
@@ -105,7 +100,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public static $types = array(
         self::TYPE_PHYSICAL,
         self::TYPE_VIRTUAL,
-        self::TYPE_TEMPORARY,
         self::TYPE_STAGING,
     );
 
