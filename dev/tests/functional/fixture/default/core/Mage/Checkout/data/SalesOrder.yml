@@ -430,19 +430,19 @@ configurable_product_for_order:
             option_1:
                 associated_attribute_value: %var1_attr_value1%
                 variation_attribute_price: 1.99
-                variation_attribute_price_type: Fixed
+                variation_attribute_price_type: USD
                 include_variation_attribute: Yes
             option_2:
                 associated_attribute_value: %var1_attr_value2%
                 variation_attribute_price: 50
-                variation_attribute_price_type: Percentage
+                variation_attribute_price_type: %
                 include_variation_attribute: Yes
             option_3:
                 associated_attribute_value: %var1_attr_value3%
                 include_variation_attribute: Yes
     general_configurable_variations:
         configurable_1:
-            associated_product_name: simple_variation_%randomize%
+            associated_name: simple_variation_%randomize%
             associated_sku: simple_variation_sku_%randomize%
             associated_quantity: 999
             associated_weight: 18
@@ -451,7 +451,7 @@ configurable_product_for_order:
                     associated_attribute_name: %general_attribute_1%
                     associated_attribute_value: %var1_attr_value1%
         configurable_2:
-            associated_product_name: virtual_variation_%randomize%
+            associated_name: virtual_variation_%randomize%
             associated_sku: virtual_variation_sku_%randomize%
             associated_quantity: 999
             associated_weight: ''
@@ -460,7 +460,7 @@ configurable_product_for_order:
                     associated_attribute_name: %general_attribute_1%
                     associated_attribute_value: %var1_attr_value2%
         configurable_3:
-            associated_product_name: %associated_3%
+            associated_name: %associated_3%
             associated_attributes:
                 attribute_1:
                     associated_attribute_name: %general_attribute_1%

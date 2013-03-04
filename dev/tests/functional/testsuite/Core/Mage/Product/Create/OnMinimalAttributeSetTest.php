@@ -180,11 +180,11 @@ class Core_Mage_Product_Create_OnMinimalAttributeSetTest extends Mage_Selenium_T
     {
         $configurable = $this->loadDataSet('Product', 'configurable_product_minimal',
             array(
-                'associated_sku'          => $testData['simple_sku'],
-                'associated_product_name' => $testData['simple_name']
+                'associated_sku' => $testData['simple_sku'],
+                'associated_name' => $testData['simple_name']
             ),
             array(
-                'var1_attr_value1'    => $testData['attributeValue'],
+                'var1_attr_value1' => $testData['attributeValue'],
                 'general_attribute_1' => $testData['attribute']
             )
         );

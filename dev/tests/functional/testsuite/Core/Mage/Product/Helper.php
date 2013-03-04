@@ -676,16 +676,23 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function changeAttributeSet($newAttributeSet)
     {
-        $this->clickButton('change_attribute_set', false);
-        $this->waitForControlEditable(self::FIELD_TYPE_DROPDOWN, 'choose_attribute_set');
-        $this->fillDropdown('choose_attribute_set', $newAttributeSet);
-        $param = $this->getControlAttribute(self::FIELD_TYPE_DROPDOWN, 'choose_attribute_set', 'selectedValue');
-        $this->addParameter('setId', $param);
-        $this->clickButton('apply');
-        $this->waitForElementVisible("//*[@id='product-edit-form-tabs']");
-        $this->addParameter('attributeSet', $newAttributeSet);
-        $this->waitForElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set'));
-        $this->validatePage();
+        $this->clickButton('attribute_set_toggle', false);
+        $attributeSetField = $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
+        $attributeSetField->value($newAttributeSet);
+        $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
+        if (!$this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_no_records')) {
+            $this->addParameter('attributeSet', $newAttributeSet);
+            $attributeSet = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'attribute_set'));
+            if ($attributeSet) {
+                $this->moveto($attributeSet);
+                $attributeSet->click();
+                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set');
+            } else {
+                $this->fail("'$newAttributeSet' attribute set is absent in attribute set list.");
+            }
+        } else {
+            $this->fail('Attribute set list is empty. No records found.');
+        }
     }
 
     /**
@@ -838,7 +845,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_configurable_variations']);
         }
         if (isset($generalTab['general_bundle_items'])) {
-            $this->fillBundleItems($generalTab['general_bundle_items']);
+            $bundleItems = $generalTab['general_bundle_items'];
             unset($generalTab['general_bundle_items']);
         }
         if (isset($generalTab['general_grouped_data'])) {
@@ -851,6 +858,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         if (isset($configurableData)) {
             $this->assignConfigurableVariations($configurableData);
+        }
+        if (isset($bundleItems)) {
+            $this->fillBundleItems($bundleItems);
         }
     }
 
@@ -1271,7 +1281,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             } else {
                 //Fill in data for new product
                 $this->clickControl(self::FIELD_TYPE_LINK, 'close_select_associated_product', false);
-                if (!$this->controlIsPresent(self::FIELD_TYPE_INPUT, 'associated_product_name')) {
+                if (!$this->controlIsPresent(self::FIELD_TYPE_INPUT, 'associated_name')) {
                     $this->fail('Product is not exist and you can not create it(already another product is selected)');
                 }
                 $this->fillFieldset($assignProduct, 'variations_matrix_grid');
@@ -1354,7 +1364,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         foreach ($matrixData as $line => $lineData) {
             $actualLine = $actualData[$line];
-            $lineData['associated_include'] = ($isAssignedData) ? 'Yes' : 'No';
+            $lineData['associated_display'] = ($isAssignedData) ? 'Yes' : 'No';
             foreach ($lineData as $fieldName => $fieldValue) {
                 if ($fieldName != 'associated_attributes' && $actualLine[$fieldName] != $fieldValue) {
                     $this->addVerificationMessage(
@@ -2394,7 +2404,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 
         return array(
             'simple'             => array(
-                'product_name' => $associatedPr['configurable_1']['associated_product_name'],
+                'product_name' => $associatedPr['configurable_1']['associated_name'],
                 'product_sku'  => $associatedPr['configurable_1']['associated_sku']
             ),
             'downloadable'       => array(
@@ -2402,7 +2412,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'product_sku'  => $download['general_sku']
             ),
             'virtual'            => array(
-                'product_name' => $associatedPr['configurable_2']['associated_product_name'],
+                'product_name' => $associatedPr['configurable_2']['associated_name'],
                 'product_sku'  => $associatedPr['configurable_2']['associated_sku']
             ),
             'configurable'       => array(

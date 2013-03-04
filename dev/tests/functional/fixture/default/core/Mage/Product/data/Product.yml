@@ -275,17 +275,17 @@ general_configurable_attribute_with_price: &general_configurable_attribute_with_
     option_1:
         associated_attribute_value: %var2_attr_value1%
         variation_attribute_price: 1.99
-        variation_attribute_price_type: Fixed
+        variation_attribute_price_type: USD
         include_variation_attribute: Yes
     option_2:
         associated_attribute_value: %var2_attr_value2%
         variation_attribute_price: 15
-        variation_attribute_price_type: Percentage
+        variation_attribute_price_type: %
         include_variation_attribute: Yes
     option_3:
         associated_attribute_value: %var2_attr_value3%
         variation_attribute_price: 0.25
-        variation_attribute_price_type: Fixed
+        variation_attribute_price_type: USD
         include_variation_attribute: Yes
 
 general_configurable_attribute_without_price: &general_configurable_attribute_without_price
@@ -308,7 +308,7 @@ general_configurable_attributes: &general_configurable_attributes
 
 #*************************Variations Data****************************
 product_variation: &configurableAssociatedProduct1
-    associated_product_name: Product Variation Name (%randomize%)
+    associated_name: Product Variation Name (%randomize%)
     associated_sku: sku_variation_%randomize%
     associated_quantity: %noValue%
     associated_weight: %noValue%
@@ -326,7 +326,7 @@ general_configurable_variations: &associatedProductsConfigurableData
     configurable_2: %noValue%
 
 generate_simple_associated:
-    associated_product_name: simple_associated_%randomize%
+    associated_name: simple_associated_%randomize%
     associated_price: %noValue%
     associated_sku: simple_associated_sku_%randomize%
     associated_quantity: 999
@@ -334,7 +334,7 @@ generate_simple_associated:
     associated_attributes: *confirurableAttributesValues
 
 generate_virtual_associated:
-    associated_product_name: virtual_associated_%randomize%
+    associated_name: virtual_associated_%randomize%
     associated_price: %noValue%
     associated_sku: simple_associated_sku_%randomize%
     associated_quantity: 999
