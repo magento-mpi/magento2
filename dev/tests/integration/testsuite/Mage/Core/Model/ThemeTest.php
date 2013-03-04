@@ -21,7 +21,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         Mage::getConfig();
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $themeModel->setData($this->_getThemeValidData(Mage_Core_Model_Theme::TYPE_VIRTUAL));
+        $themeModel->setData($this->_getThemeValidData());
 
         $crud = new Magento_Test_Entity($themeModel, array('theme_version' => '2.0.0.1'));
         $crud->testCrud();
@@ -72,10 +72,9 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * Get theme valid data
      *
-     * @param int $type
      * @return array
      */
-    protected function _getThemeValidData($type = Mage_Core_Model_Theme::TYPE_PHYSICAL)
+    protected function _getThemeValidData()
     {
         return array(
             'area'                 => 'space_area',
@@ -87,7 +86,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'magento_version_to'   => '*',
             'theme_path'           => 'default/space',
             'preview_image'        => 'images/preview.png',
-            'type'                 => $type
+            'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
         );
     }
 
@@ -103,7 +102,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $themeModel->setData($this->_getThemeValidData());
 
-        $this->assertTrue($themeModel->isPresentInFilesystem());
+        $this->assertTrue(!$themeModel->isPresentInFilesystem());
     }
 
     public function testGetLabelsCollection()
