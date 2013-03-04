@@ -1386,7 +1386,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getConfigurableVariationsData()
     {
-        $generalFields = array('Product Name', 'Price', 'SKU', 'Quantity', 'Include', 'Weight');
+        $generalFields = array('Display', 'Name', 'Price', 'SKU', 'Quantity', 'Weight');
         $data = array();
         $option = 0;
         $lineElements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'variation_line');

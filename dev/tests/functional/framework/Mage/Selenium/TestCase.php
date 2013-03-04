@@ -3630,7 +3630,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function pleaseWait($waitDisappear = 30)
     {
-        $startTime = time();
         $this->waitForAjax();
         $this->waitUntil(
             function ($testCase) {
@@ -3639,7 +3638,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     return true;
                 }
             },
-            ($waitDisappear - (time() - $startTime)) * 1000
+            $waitDisappear * 1000
         );
     }
 
