@@ -99,8 +99,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      */
     public function applyFilterToCollection($filter, $value)
     {
-        if (empty($value) || (isset($value['from']) && empty($value['from']) && isset($value['to'])
-            && empty($value['to']))
+        if (empty($value) || (is_array($value) && isset($value['from']) && empty($value['from'])
+            && isset($value['to']) && empty($value['to']))
         ) {
             $value = array();
         }
