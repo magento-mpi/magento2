@@ -355,14 +355,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $addressData['country_id'] = $this->_storeConfig->getConfig('general/store_information/country_id');
         $addressData['region_id'] = $this->_storeConfig->getConfig('general/store_information/region_id');
 
-        $useForShipping = true;
-        foreach ($addressData as $key => $val) {
-            if ($val != $this->_storeConfig->getConfig('shipping/origin/' . $key)) {
-                $useForShipping = false;
-                break;
-            }
-        }
-        $addressData['use_for_shipping'] = $useForShipping;
+        $addressData['use_for_shipping'] = $this->_isStoreAddressUsedForShipping($addressData);
 
         $addressData['name'] = $this->_storeConfig->getConfig('general/store_information/name');
         $addressData['phone'] = $this->_storeConfig->getConfig('general/store_information/phone');
@@ -370,6 +363,30 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $addressData['merchant_vat_number'] =
             $this->_storeConfig->getConfig('general/store_information/merchant_vat_number');
         return $addressData;
+    }
+
+    /**
+     * Check if store business address is used for shipping
+     *
+     * @param array $storeAddressData
+     * @return boolean
+     */
+    protected function _isStoreAddressUsedForShipping(array $storeAddressData)
+    {
+        // always use business address for shipping if tile is not complete
+        if (!$this->getTile()->isComplete()) {
+            return true;
+        }
+        // for complete tile, check if business address is equal to shipping origin
+        $useForShipping = true;
+        foreach ($storeAddressData as $key => $value) {
+            if ($value != $this->_storeConfig->getConfig('shipping/origin/' . $key)) {
+                $useForShipping = false;
+                break;
+            }
+        }
+
+        return $useForShipping;
     }
 
     /**
