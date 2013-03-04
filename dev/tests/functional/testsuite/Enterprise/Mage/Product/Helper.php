@@ -65,6 +65,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
         if (isset($generalTab['general_gift_card_data'])) {
             foreach ($generalTab['general_gift_card_data']['general_amounts'] as $value) {
                 $this->addGiftCardAmount($value);
+                unset($generalTab['general_gift_card_data']['general_amounts']);
             }
             $this->fillFieldset($generalTab['general_gift_card_data'], 'general_gift_card_data');
             unset($generalTab['general_gift_card_data']);
@@ -94,11 +95,14 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function addGiftCardAmount(array $giftCardData)
     {
-        $rowNumber = $this->getControlCount('fieldset', 'general_amounts');
+        $rowNumber = $this->getControlCount('pageelement', 'general_gift_card_amount_line');
         $this->addParameter('giftCardId', $rowNumber);
         $this->clickButton('add_gift_card_amount', false);
         $this->waitForAjax();
-        $this->fillTab($giftCardData, 'general');
+        if ($this->controlIsVisible('dropdown', 'general_gift_card_website')) {
+            $this->fillDropdown('general_gift_card_website', $giftCardData['general_gift_card_website']);
+        }
+        $this->fillField('general_gift_card_amount', $giftCardData['general_gift_card_amount']);
     }
 
     /**
@@ -110,7 +114,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function verifyGiftCardAmounts(array $giftCardData)
     {
-        $rowQty = count($this->getControlElements('fieldset', 'general_gift_card_amounts', null, false));
+        $rowQty = count($this->getControlElements('pageelement', 'general_gift_card_amount_line', null, false));
         $needCount = count($giftCardData);
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(
@@ -120,7 +124,9 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
         $index = $rowQty - 1;
         foreach ($giftCardData as $value) {
             $this->addParameter('giftCardId', $index);
-            $this->verifyForm($value, 'prices');
+            $this->verifyForm($value, 'gift_card_amount');
+            $this->verifyForm($value, 'general_amounts');
+            $this->verifyForm($value, 'general_gift_card_information');
             --$index;
         }
         $this->assertEmptyVerificationErrors();

@@ -9,17 +9,17 @@
 # @license     {license_link}
 #
 ---
-# Test Datasets for Add New Product for each types for minimal attribute set
+# Test Datasets for Add New Product for each types
 #*********************************************
-#*         Gift Card Price Data              *
+#*         Gift Card Amount Data              *
 #*********************************************
-prices_gift_card_amount1: &giftCardAmount1
-    prices_gift_card_website: All Websites [USD]
-    prices_gift_card_amount: 1.11
+general_gift_card_amount1: &giftCardAmount1
+    general_gift_card_website: All Websites [USD]
+    general_gift_card_amount: 1.11
 
-prices_gift_card_amount2: &giftCardAmount2
-    prices_gift_card_website: All Websites [USD]
-    general_amount: 5.55
+general_gift_card_amount2: &giftCardAmount2
+    general_gift_card_website: All Websites [USD]
+    general_gift_card_amount: 5.55
 
 general_amounts: &giftCardAmounts
     general_amount1: *giftCardAmount1
@@ -28,32 +28,30 @@ general_amounts: &giftCardAmounts
 # Test Datasets for Add New Product Gift card type
 gift_card_required:
     product_attribute_set: Default
-    general_name: Gift Card Required(%randomize%)
-    general_description: Description for Gift Card Required
-    autosettings_short_description: Short Description for Gift Card Required
-    general_sku: giftcard_sku_req_%randomize%
-    general_weight: 2.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    general_name: Gift Card Required(%randomize%)
+    general_sku: giftcard_sku_req_%randomize%
+    general_description: Description for Gift Card Required
     general_gift_card_data:
         general_allow_open_amount: Yes
         general_card_type: %noValue%
         general_amounts: *giftCardAmounts
     inventory_qty: 111
+    autosettings_visibility: Catalog, Search
+    autosettings_short_description: Short Description for Gift Card Required
 
 frontend_gift_card_validation:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Gift Card frontend %randomize%
     general_description: Description for Gift Card frontend
     autosettings_short_description: Short Description for Gift Card frontend
     general_sku: giftcard_frontend_sku_%randomize%
     general_weight: 2.56
-    product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
-    prices_gift_card_amounts: *giftCardAmounts
-    prices_gift_card_allow_open_amount: Yes
+    general_gift_card_amounts: *giftCardAmounts
+    general_gift_card_allow_open_amount: Yes
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     inventory_max_allowed_qty_default: No
@@ -62,6 +60,7 @@ frontend_gift_card_validation:
     inventory_backorders: Allow Qty Below 0
     websites: Main Website
     general_categories: Default Category
+    autosettings_visibility: Catalog, Search
     custom_options_data: &customOptionsData
         option_1: &field
             custom_options_general_title: Custom Option Field
@@ -163,16 +162,14 @@ frontend_gift_card_validation:
 
 gift_card:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Gift Card(%randomize%)
     general_description: Description for Gift Card
-    autosettings_short_description: Short Description for Gift Card
     general_sku: giftcard_sku_%randomize%
     general_weight: 2.56
     general_news_from: %currentDate%
     general_news_to: %currentDate%
     general_url_key: giftcard-url-key
-    product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
     general_qty: 120
     general_stock_availability: In Stock
     general_gift_card_data:
@@ -189,7 +186,7 @@ gift_card:
     general_allow_message_default: No
     general_allow_message: No
     general_email_template_default: No
-    general_enable_googlecheckout: Yes
+    prices_enable_googlecheckout: Yes
     meta_information_meta_title: Meta Title for Gift Card
     meta_information_meta_keywords: Meta Keywords for Gift Card
     meta_information_meta_description: Meta Description for Gift Card
@@ -199,8 +196,8 @@ gift_card:
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_options_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -220,6 +217,8 @@ gift_card:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
+    autosettings_short_description: Short Description for Gift Card
+    autosettings_visibility: Catalog, Search
     general_categories: Default Category
 
 #<----------------------Product for Order by SKU functionality----------------->
