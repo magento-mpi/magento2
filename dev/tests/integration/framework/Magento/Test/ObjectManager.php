@@ -39,7 +39,10 @@ class Magento_Test_ObjectManager extends Mage_Core_Model_ObjectManager
             $sharedInstances['Mage_Core_Model_Resource'] = $this->_sharedInstances['Mage_Core_Model_Resource'];
         }
         $this->_sharedInstances = $sharedInstances;
-        $this->_configuration = array();
+        $this->_nonShared = array();
+        $this->_arguments = array();
+        $this->_preferences = array();
+        $this->_creationStack = array();
 
         return $this;
     }

@@ -21,10 +21,25 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     protected $_definitions;
 
+    /**
+     * List of configured arguments
+     *
+     * @var array
+     */
     protected $_arguments = array();
-    
+
+    /**
+     * List of not shared classes
+     *
+     * @var array
+     */
     protected $_nonShared = array();
 
+    /**
+     * Interface preferences
+     *
+     * @var array
+     */
     protected $_preferences = array();
 
     /**
@@ -54,7 +69,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
         $this->_sharedInstances = $sharedInstances;
         $this->_sharedInstances['Magento_ObjectManager'] = $this;
-        $this->_configuration = $configuration;
+        $this->configure($configuration);
     }
 
 
