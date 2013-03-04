@@ -189,11 +189,11 @@ button.primary.disabled,
 .pager .action-previous,
 .pager .action-next:hover,
 .pager .action-previous:hover,
-.action-.delete,
-.action-.delete:hover,
-.action-.delete:active,
-.action-.delete.active,
-.action-.delete:disabled,
+.data-table .action-.delete,
+.data-table .action-.delete:hover,
+.data-table .action-.delete:active,
+.data-table .action-.delete.active,
+.data-table .action-.delete:disabled,
 #product-variations-matrix .action-choose,
 #product-variations-matrix .action-choose:hover,
 #product-variations-matrix .action-choose:active,
@@ -219,11 +219,11 @@ button.primary.disabled,
 .fieldset-wrapper-title .action-add:active,
 .fieldset-wrapper-title .action-add.active,
 .fieldset-wrapper-title .action-add:disabled,
-.action-delete,
-.action-delete:hover,
-.action-delete:active,
-.action-delete.active,
-.action-delete:disabled,
+.data-table .action-delete,
+.data-table .action-delete:hover,
+.data-table .action-delete:active,
+.data-table .action-delete.active,
+.data-table .action-delete:disabled,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
@@ -593,13 +593,13 @@ button.primary.disabled,
     Action delete icon
 -------------------------------------- */
 /* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
-.action-.delete span,
-.action-delete span {
+.data-table .action-.delete span,
+.data-table .action-delete span {
     display: none;
 }
 
-.action-.delete:before,
-.action-delete:before {
+.data-table .action-.delete:before,
+.data-table .action-delete:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -610,39 +610,39 @@ button.primary.disabled,
     color: #b7b3ad;
 }
 
-.action-.delete:hover:before,
-.action-delete:hover:before {
+.data-table .action-.delete:hover:before,
+.data-table .action-delete:hover:before {
     color: #7e7e7e;
 }
 
-input.action-.delete[type="button"],
-input.action-.delete[type="submit"],
-input.action-.delete[type="reset"],
-button.action-.delete,
-input.action-.delete[type="button"]:visited,
-input.action-.delete[type="submit"]:visited,
-input.action-.delete[type="reset"]:visited,
-button.action-.delete:visited,
-input.action-.delete[type="button"]:hover,
-input.action-.delete[type="submit"]:hover,
-input.action-.delete[type="reset"]:hover,
-button.action-.delete:hover,
-input.action-.delete[type="button"]:active,
-input.action-.delete[type="submit"]:active,
-input.action-.delete[type="reset"]:active,
-button.action-.delete:active {
+.data-table input.action-.delete[type="button"],
+.data-table input.action-.delete[type="submit"],
+.data-table input.action-.delete[type="reset"],
+.data-table button.action-.delete,
+.data-table input.action-.delete[type="button"]:visited,
+.data-table input.action-.delete[type="submit"]:visited,
+.data-table input.action-.delete[type="reset"]:visited,
+.data-table button.action-.delete:visited,
+.data-table input.action-.delete[type="button"]:hover,
+.data-table input.action-.delete[type="submit"]:hover,
+.data-table input.action-.delete[type="reset"]:hover,
+.data-table button.action-.delete:hover,
+.data-table input.action-.delete[type="button"]:active,
+.data-table input.action-.delete[type="submit"]:active,
+.data-table input.action-.delete[type="reset"]:active,
+.data-table button.action-.delete:active {
     background: transparent;
     padding: 3px 7px 0;
 }
 
-input.action-.delete[type=button]:hover:before,
-input.action-.delete[type=submit]:hover:before,
-input.action-.delete[type=reset]:hover:before,
-button.action-.delete:hover:before,
-input.action-.delete[type=button]:focus:before,
-input.action-.delete[type=submit]:focus:before,
-input.action-.delete[type=reset]:focus:before,
-button.action-.delete:focus:before {
+.data-table input.action-.delete[type=button]:hover:before,
+.data-table input.action-.delete[type=submit]:hover:before,
+.data-table input.action-.delete[type=reset]:hover:before,
+.data-table button.action-.delete:hover:before,
+.data-table input.action-.delete[type=button]:focus:before,
+.data-table input.action-.delete[type=submit]:focus:before,
+.data-table input.action-.delete[type=reset]:focus:before,
+.data-table button.action-.delete:focus:before {
     background: transparent;
     color: #a5a29d;
 }
