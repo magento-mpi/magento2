@@ -51,8 +51,10 @@ class Mage_Core_Model_Config_Base extends Varien_Simplexml_Config implements Mag
      */
     public static function destroy()
     {
-        foreach (self::$instances  as $instance) {
-            $instance->_xml = null;
+        if (is_array(self::$instances)) {
+            foreach (self::$instances  as $instance) {
+                $instance->_xml = null;
+            }
         }
         self::$instances = array();
     }
