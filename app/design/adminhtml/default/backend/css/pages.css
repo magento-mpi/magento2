@@ -921,6 +921,10 @@
     margin-right: 4px;
 }
 
+.cms-manage-content-actions textarea {
+    width: 100%;
+}
+
 /*
     Reports
 -------------------------------------- */
