@@ -223,13 +223,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isVirtual()
     {
-        if ($this->getType()) {
-            $isVirtual = self::TYPE_VIRTUAL == $this->getType();
-        } else {
-            $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
-            $isVirtual = !($this->getThemePath() && isset($collection[$this->getFullPath()]));
-        }
-        return $isVirtual;
+        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
+        return !($this->getThemePath() && isset($collection[$this->getFullPath()]));
     }
 
     /**

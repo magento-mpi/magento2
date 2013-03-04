@@ -174,6 +174,7 @@ class Mage_Core_Model_Theme_Service
         $themeData['theme_path'] = null;
         $themeData['theme_title'] = $theme->getThemeTitle() . ' - ' . $this->_helper->__('Copy') . ' #'
             . ($themeCopyCount + 1);
+        $themeData['type'] = Mage_Core_Model_Theme::TYPE_VIRTUAL;
 
         /** @var $themeCustomization Mage_Core_Model_Theme */
         $themeCustomization = $this->_themeFactory->create()->setData($themeData);
