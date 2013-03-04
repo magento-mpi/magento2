@@ -143,4 +143,104 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $themeMock->setCustomization($jsFile);
         $this->assertInstanceOf('Mage_Core_Model_Theme', $themeMock->saveThemeCustomization());
     }
+
+    /**
+     * @dataProvider IsVirtualDataProvider
+     * @param int $type
+     * @param string $isVirtual
+     * @covers Mage_Core_Model_Theme::isVirtual
+     */
+    public function testIsVirtual($type, $isVirtual)
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+        $themeModel->setType($type);
+        $this->assertEquals($isVirtual, $themeModel->isVirtual());
+    }
+
+    /**
+     * @return array
+     */
+    public function IsVirtualDataProvider()
+    {
+        return array(
+            array('type' => Mage_Core_Model_Theme::TYPE_VIRTUAL, 'isVirtual' => true),
+            array('type' => Mage_Core_Model_Theme::TYPE_STAGING, 'isVirtual' => false),
+            array('type' => Mage_Core_Model_Theme::TYPE_PHYSICAL, 'isVirtual' => false)
+        );
+    }
+
+    /**
+     * Test id deletable
+     *
+     * @dataProvider isDeletableDataProvider
+     * @param bool $isVirtual
+     * @covers Mage_Core_Model_Theme::isDeletable
+     */
+    public function testIsDeletable($isVirtual)
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('isVirtual'), array(), '', false);
+        $themeModel->expects($this->once())
+            ->method('isVirtual')
+            ->will($this->returnValue($isVirtual));
+        $this->assertEquals($isVirtual, $themeModel->isDeletable());
+    }
+
+    /**
+     * @return array
+     */
+    public function isDeletableDataProvider()
+    {
+        return array(array(true), array(false));
+    }
+
+    public function testIsThemeCompatible()
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+
+        $themeModel->setMagentoVersionFrom('2.0.0.0')->setMagentoVersionTo('*');
+        $this->assertFalse($themeModel->isThemeCompatible());
+
+        $themeModel->setMagentoVersionFrom('1.0.0.0')->setMagentoVersionTo('*');
+        $this->assertTrue($themeModel->isThemeCompatible());
+    }
+
+    /**
+     * @dataProvider checkThemeCompatibleDataProvider
+     * @covers Mage_Core_Model_Theme::checkThemeCompatible
+     */
+    public function testCheckThemeCompatible($versionFrom, $versionTo, $title, $resultTitle)
+    {
+        $helper = $this->getMockBuilder('Mage_Core_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('__'))
+            ->getMock();
+        $helper->expects($this->any())
+            ->method('__')
+            ->will($this->returnValue(sprintf('%s (incompatible version)', $title)));
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme', array(
+            'helper' => $helper
+        ));
+
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', null, $arguments);
+        $themeModel->setMagentoVersionFrom($versionFrom)->setMagentoVersionTo($versionTo)->setThemeTitle($title);
+        $themeModel->checkThemeCompatible();
+        $this->assertEquals($resultTitle, $themeModel->getThemeTitle());
+    }
+
+    /**
+     * @return array
+     */
+    public function checkThemeCompatibleDataProvider()
+    {
+        return array(
+            array('2.0.0.0', '*', 'Title', 'Title (incompatible version)'),
+            array('1.0.0.0', '*', 'Title', 'Title')
+        );
+    }
 }

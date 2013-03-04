@@ -45,20 +45,13 @@
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     implements Mage_Core_Model_Theme_Customization_CustomizedInterface
 {
-    /**
-     * Physical theme type
+    /**#@+
+     * Theme types group
      */
     const TYPE_PHYSICAL = 0;
-
-    /**
-     * Virtual theme type
-     */
     const TYPE_VIRTUAL = 1;
-
-    /**
-     * Stage theme type
-     */
     const TYPE_STAGING = 2;
+    /**#@-*/
 
     /**
      * Cache tag for empty theme

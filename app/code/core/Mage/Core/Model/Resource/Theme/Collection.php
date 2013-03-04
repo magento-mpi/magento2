@@ -74,44 +74,6 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     }
 
     /**
-     * Check whether all themes have non virtual parent theme
-     *
-     * @return Mage_Core_Model_Resource_Theme_Collection
-     */
-    public function checkParentInThemes()
-    {
-        /** @var $theme Mage_Core_Model_Theme */
-        foreach ($this as $theme) {
-            if ($theme->getParentId()) {
-                $newParentId = $this->_getParentThemeRecursively($theme->getParentId());
-                if ($newParentId != $theme->getParentId()) {
-                    $theme->setParentId($newParentId);
-                    $theme->save();
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Get parent non virtual theme recursively
-     *
-     * @param int $parentId
-     * @return int|null
-     */
-    protected function _getParentThemeRecursively($parentId)
-    {
-        /** @var $parentTheme Mage_Core_Model_Theme */
-        $parentTheme = $this->getItemById($parentId);
-        if (!$parentTheme->getId() || ($parentTheme->isVirtual() && !$parentTheme->getParentId())) {
-            $parentId = null;
-        } else if ($parentTheme->isVirtual()) {
-            $parentId = $this->_getParentThemeRecursively($parentTheme->getParentId());
-        }
-        return $parentId;
-    }
-
-    /**
      * Get theme from DB by area and theme_path
      *
      * @param string $fullPath
