@@ -50,9 +50,8 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandler
         $preparedData['carriers']['usps']['fields']['password']['value'] =
             trim($data['groups']['usps']['fields']['password']['value']);
 
-        // enable USPS for checkout if needed
-        $isMethodEnabled = empty($data['groups']['usps']['fields']['active']['value']) ? 0 : 1;
-        $preparedData['carriers']['usps']['fields']['active']['value'] = $isMethodEnabled;
+        // Enable USPS for checkout
+        $preparedData['carriers']['usps']['fields']['active']['value'] = 1;
 
         return $preparedData;
     }

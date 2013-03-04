@@ -50,9 +50,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
         // data set #1
         $data1 = $data0;
         $preparedData1 = $preparedData0;
-        $data1['groups']['flatrate']['fields']['active']['value'] = '0';
         $data1['groups']['flatrate']['fields']['type']['value'] = 'I';
-        $preparedData1['carriers']['flatrate']['fields']['active']['value'] = 0;
         $preparedData1['carriers']['flatrate']['fields']['type']['value'] = 'I';
         return array(
             array($data0, $preparedData0, array('carriers')),

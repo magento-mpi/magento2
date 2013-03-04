@@ -52,9 +52,8 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler
 
         // always choose not-deprecated type of UPS API
         $preparedData['carriers']['ups']['fields']['type']['value'] = 'UPS_XML';
-        // enable UPS for checkout if needed
-        $isMethodEnabled = empty($data['groups']['ups']['fields']['active']['value']) ? 0 : 1;
-        $preparedData['carriers']['ups']['fields']['active']['value'] = $isMethodEnabled;
+        // Enable UPS for checkout if needed
+        $preparedData['carriers']['ups']['fields']['active']['value'] = 1;
 
         return $preparedData;
     }
