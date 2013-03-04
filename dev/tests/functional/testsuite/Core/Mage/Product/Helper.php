@@ -506,9 +506,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function expandAdvancedSettings()
     {
-        $isExpanded = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT,
-            'advanced_settings_header', 'aria-selected');
-        if ($isExpanded == 'false') {
+        if (!$this->isControlExpanded(self::FIELD_TYPE_PAGEELEMENT, 'advanced_settings_header')) {
             $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'advanced_settings_header', false);
             $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'advanced_settings_panel', 5);
         }
