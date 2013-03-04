@@ -224,6 +224,11 @@ button.primary.disabled,
 .data-table .action-delete:active,
 .data-table .action-delete.active,
 .data-table .action-delete:disabled,
+.image .action-delete,
+.image .action-delete:hover,
+.image .action-delete:active,
+.image .action-delete.active,
+.image .action-delete:disabled,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
@@ -594,12 +599,14 @@ button.primary.disabled,
 -------------------------------------- */
 /* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
 .data-table .action-.delete span,
-.data-table .action-delete span {
+.data-table .action-delete span,
+.image .action-delete span {
     display: none;
 }
 
 .data-table .action-.delete:before,
-.data-table .action-delete:before {
+.data-table .action-delete:before,
+.image .action-delete:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -611,7 +618,8 @@ button.primary.disabled,
 }
 
 .data-table .action-.delete:hover:before,
-.data-table .action-delete:hover:before {
+.data-table .action-delete:hover:before,
+.image .action-delete:hover:before {
     color: #7e7e7e;
 }
 
