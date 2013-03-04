@@ -596,25 +596,6 @@ Validation.addAllThese([
     }]
 ]);
 
-function truncateOptions() {
-    $$('.truncated').each(function(element){
-        Event.observe(element, 'mouseover', function(){
-            if (element.down('div.truncated_full_value')) {
-                element.down('div.truncated_full_value').addClassName('show')
-            }
-        });
-        Event.observe(element, 'mouseout', function(){
-            if (element.down('div.truncated_full_value')) {
-                element.down('div.truncated_full_value').removeClassName('show')
-            }
-        });
-
-    });
-}
-Event.observe(window, 'load', function(){
-   truncateOptions();
-});
-
 Element.addMethods({
     getInnerText: function(element)
     {
