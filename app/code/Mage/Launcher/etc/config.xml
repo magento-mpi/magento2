@@ -52,6 +52,11 @@
                 <demonotice>1</demonotice>
             </head>
         </design>
+        <launcher>
+            <store>
+                <phase>store_launcher</phase>
+            </store>
+        </launcher>
     </default>
     <adminhtml>
         <events>

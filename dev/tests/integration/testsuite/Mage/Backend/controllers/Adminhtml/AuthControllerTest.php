@@ -84,7 +84,8 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
         $this->dispatch('backend/admin/auth/login');
         /** @var $backendUrlModel Mage_Backend_Model_Url */
         $backendUrlModel = Mage::getObjectManager()->get('Mage_Backend_Model_Url');
-        $expected = $backendUrlModel->getUrl('adminhtml/dashboard');
+        $url = $backendUrlModel->getStartupPageUrl();
+        $expected = $backendUrlModel->getUrl($url);
         $this->assertRedirect($this->stringStartsWith($expected));
 
         $this->_logout();

@@ -64,10 +64,10 @@ class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
     }
 
     /**
-     * Sets Page
+     * Set Page Model
      *
      * @param $page Mage_Launcher_Model_Page
-     * @return Mage_Launcher_Block_LandingPage
+     * @return Mage_Launcher_Block_Adminhtml_Page
      */
     public function setPage($page)
     {
