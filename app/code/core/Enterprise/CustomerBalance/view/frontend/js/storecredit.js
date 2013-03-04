@@ -19,10 +19,10 @@
             minBalance: 0.0001,
             customerBalanceSubstracted: true,
             customerBalanceCheckBoxSelector: '#use-customer-balance',
-            customerBalancePaymentSelector: '#customerbalance-hidden-payment',
             customerBalanceBlockSelector: '#customerbalance-block',
             paymentMethodsSelector: '#payment-methods',
-            paymentForm: '#multishipping-billing-form'
+            paymentForm: '#multishipping-billing-form',
+            paymentMethodTemplate: '<input type="${type}" data-payment-method-hidden value="${value}" name="${name}" />'
         },
 
         /**
@@ -85,13 +85,12 @@
          * Append a hidden element to the block.
          * @private
          */
+
         _appendHiddenElement: function() {
-            $('<input>').attr({
-                type: 'hidden',
-                id: this.options.customerBalancePaymentSelector.replace(/^(#|.)/, ""),
-                name: 'payment[method]',
-                value: 'free'
-            }).appendTo(this.options.customerBalanceBlockSelector);
+            $(this.options.customerBalanceBlockSelector).append($.proxy(function() {
+                $.template('paymentMethodTemplate', this.options.paymentMethodTemplate);
+                return $.tmpl('paymentMethodTemplate', {type: 'hidden', name:'payment[method]', value:'free'});
+            }, this));
         },
 
         /**
@@ -112,14 +111,14 @@
          * @private
          */
         _showPaymentMethod: function() {
-            $("input:radio[name='payment[method]'][value='free']").prop("disabled", true).parent().hide();
-            $("input[name='payment[method]']:not([value='free'])").removeAttr("disabled");
-            var selectRadio = $("input:radio[name='payment[method]']:not(disabled, [value='free'])");
+            $(this.options.paymentMethodsSelector).find("input:radio[name='payment[method]'][value='free']").prop("disabled", true).parent().hide();
+            $(this.options.paymentMethodsSelector).find("input[name='payment[method]']:not([value='free'])").removeAttr("disabled");
+            var selectRadio = $(this.options.paymentMethodsSelector).find("input:radio[name='payment[method]']:not(disabled, [value='free'])");
             selectRadio.first().attr('checked', true);
             if (selectRadio.length === 1) {
                 selectRadio.hide();
             }
-            $(this.options.customerBalancePaymentSelector).remove();
+            $('[data-payment-method-hidden]').remove();
             $(this.options.paymentMethodsSelector).show();
         },
 

@@ -8,21 +8,21 @@
  */
 
 /*jshint browser:true jquery:true*/
-(function($, undefined) {
+(function($) {
     "use strict";
-    $.widget('mage.customerReqards', {
-
+    $.widget('mage.customerRewards', {
         /**
          * options with default values
          */
         options: {
             minBalance: 0.0001,
-            rewardPointsSubstracted: true,
+            useRewardPoints: true,
             rewardPointsCheckBoxSelector: '#use-reward-points',
             rewardPointsPaymentSelector: '#reward-hidden-payment',
             rewardPointsBlockSelector: '#reward-block',
             paymentMethodsSelector: '#payment-methods',
-            paymentForm: '#multishipping-billing-form'
+            paymentForm: '#multishipping-billing-form',
+            paymentMethodTemplate: '<input type="${type}" data-payment-method-hidden value="${value}" name="${name}" />'
         },
 
         /**
@@ -31,9 +31,9 @@
          */
         _create: function() {
             $(this.options.rewardPointsCheckBoxSelector).on('click', $.proxy(this._switchRewardPointsCheckbox, this));
-            if (this.options.rewardPointsSubstracted) {
+            if (this.options.useRewardPoints) {
                 this.options.quoteBaseGrandTotal += this.options.baseRewardCurrencyAmount;
-                this.options.rewardPointsSubstracted = false;
+                this.options.useRewardPoints = false;
             }
             this._switchRewardPointsCheckbox();
             this._setUseRewardPointsEnabled();
@@ -45,13 +45,13 @@
          */
         _switchRewardPointsCheckbox: function() {
             this.isRewardPointsSelectorChecked = $(this.options.rewardPointsCheckBoxSelector).is(':checked');
-            if (!this.options.rewardPointsSubstracted && this.isRewardPointsSelectorChecked) {
+            if (!this.options.useRewardPoints && this.isRewardPointsSelectorChecked) {
                 this.options.quoteBaseGrandTotal -= this.options.balance;
-                this.options.rewardPointsSubstracted = true;
+                this.options.useRewardPoints = true;
             }
-            if (this.options.rewardPointsSubstracted && !this.isRewardPointsSelectorChecked) {
+            if (this.options.useRewardPoints && !this.isRewardPointsSelectorChecked) {
                 this.options.quoteBaseGrandTotal += this.options.balance;
-                this.options.rewardPointsSubstracted = false;
+                this.options.useRewardPoints = false;
             }
             if (this.options.quoteBaseGrandTotal < this.options.minBalance) {
                 $(this.options.paymentForm).find(':input').each($.proxy(function(index, element) {
@@ -66,18 +66,15 @@
         /**
          * Toggle element visibility based on the checkbox state
          * @private
+         * @param element {Object} - Payment method Input element.
          */
         _switchElement: function(element) {
-            if (this.isRewardPointsSelectorChecked) {
-                if (element.attr('name') === 'payment[method]') {
-                    if (element.val() === 'free' && element.is(':radio')) {
-                        element.prop('checked', true).removeAttr("disabled").parent().hide();
-                    }
-                }
-            } else {
-                if (element.attr('name') === 'payment[method]' && element.val() !== 'free') {
-                    element.removeAttr('disabled');
-                }
+            if (this.isRewardPointsSelectorChecked &&
+                element.attr('name') === 'payment[method]' &&
+                (element.val() === 'free' && element.is(':radio'))) {
+                element.prop('checked', true).removeAttr("disabled").parent().hide();
+            } else if (element.attr('name') === 'payment[method]' && element.val() !== 'free') {
+                element.removeAttr('disabled');
             }
         },
 
@@ -86,12 +83,10 @@
          * @private
          */
         _appendHiddenElement: function() {
-            $('<input>').attr({
-                type: 'hidden',
-                id: this.options.rewardPointsPaymentSelector.replace(/^(#|.)/, ""),
-                name: 'payment[method]',
-                value: 'free'
-            }).appendTo(this.options.rewardPointsBlockSelector);
+            $(this.options.rewardPointsBlockSelector).append($.proxy(function() {
+                $.template('paymentMethodTemplate', this.options.paymentMethodTemplate);
+                return $.tmpl('paymentMethodTemplate', {type: 'hidden', name: 'payment[method]', value: 'free'});
+            }, this));
         },
 
         /**
@@ -112,14 +107,14 @@
          * @private
          */
         _showPaymentMethod: function() {
-            $("input:radio[name='payment[method]'][value='free']").prop("disabled", true).parent().hide();
-            $("input[name='payment[method]']:not([value='free'])").removeAttr("disabled");
-            var selectRadio = $("input:radio[name='payment[method]']:not(disabled, [value='free'])");
-            selectRadio.first().attr('checked', true);
+            $(this.options.paymentMethodsSelector).find("input:radio[name='payment[method]'][value='free']").prop("disabled", true).parent().hide();
+            $(this.options.paymentMethodsSelector).find("input[name='payment[method]']:not([value='free'])").removeAttr("disabled");
+            var selectRadio = $(this.options.paymentMethodsSelector).find("input:radio[name='payment[method]']:not(disabled, [value='free'])");
+            selectRadio.first().prop('checked', true);
             if (selectRadio.length === 1) {
                 selectRadio.hide();
             }
-            $(this.options.rewardPointsPaymentSelector).remove();
+            $('[data-payment-method-hidden]').remove();
             $(this.options.paymentMethodsSelector).show();
         },
 
@@ -131,5 +126,4 @@
             $(this.options.rewardPointsCheckBoxSelector).removeAttr('disabled');
         }
     });
-
 })(jQuery);

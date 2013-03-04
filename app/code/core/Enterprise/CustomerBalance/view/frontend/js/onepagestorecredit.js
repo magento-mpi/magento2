@@ -34,7 +34,6 @@
                     this._appendHiddenElement();
                 }
                 $(this.options.paymentMethodsSelector).hide().prop("disabled", "disabled").find(":input").attr('disabled', 'disabled');
-                this.options.payment.switchMethod();
             }
         },
 
@@ -43,16 +42,15 @@
          * @private
          */
         _showPaymentMethod: function() {
-            $("input:radio[name='payment[method]'][value='free']").prop("disabled",true).parent().hide();
-            $("input[name='payment[method]']:not([value='free'])").removeAttr("disabled");
-            var selectRadio = $("input:radio[name='payment[method]']:not(disabled, [value='free'])");
+            $(this.options.paymentMethodsSelector).find("input:radio[name='payment[method]'][value='free']").prop("disabled",true).parent().hide();
+            $(this.options.paymentMethodsSelector).find("input[name='payment[method]']:not([value='free'])").removeAttr("disabled");
+            var selectRadio = $(this.options.paymentMethodsSelector).find("input:radio[name='payment[method]']:not(disabled, [value='free'])");
             selectRadio.first().attr('checked', true);
             if (selectRadio.length === 1) {
                 selectRadio.hide();
             }
-            $(this.options.customerBalancePaymentSelector).remove();
+            $('[data-payment-method-hidden]').remove();
             $(this.options.paymentMethodsSelector).show();
-            this.options.payment.switchMethod(this.options.payment.lastUsedMethod);
         }
     });
 
