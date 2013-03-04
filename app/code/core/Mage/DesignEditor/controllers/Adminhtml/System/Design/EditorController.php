@@ -72,6 +72,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             if (!$theme->getId()) {
                 throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
+
+            if ($theme->getType()==Mage_Core_Model_Theme::TYPE_VIRTUAL) {
+                $this->_redirect('*/*/launch', array(
+                    'theme_id' => $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+                        ->getStagingTheme()->getId(),
+                    'mode'     => Mage_DesignEditor_Model_State::MODE_DESIGN
+                ));
+                return;
+            }
+
             /** @todo replace registry usage */
             Mage::register('theme', $theme);
 
@@ -140,6 +150,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
+
+            echo __FILE__.':'.__LINE__;
+            echo '<pre>';
+            var_dump($e->getMessage());
+            echo '</pre>';
+            exit;
+
+
             $this->_getSession()->addException($e, $this->__('Unknown error'));
             $this->_redirect('*/*/');
             return;

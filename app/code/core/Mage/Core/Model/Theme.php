@@ -18,10 +18,15 @@
  * @method string getParentId()
  * @method string getArea()
  * @method string getThemeTitle()
+ * @method string getThemeVersion()
+ * @method string getPreviewImage()
+ * @method string getMagentoVersionFrom()
+ * @method string getMagentoVersionTo()
+ * @method bool getIsFeatured()
  * @method int getThemeId()
- * @method string getType()
- * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
+ * @method int getType()
  * @method array getAssignedStores()
+ * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
  * @method Mage_Core_Model_Theme addData(array $data)
  * @method Mage_Core_Model_Theme setParentId(int $id)
  * @method Mage_Core_Model_Theme setParentTheme($parentTheme)
@@ -93,17 +98,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_helper;
 
     /**
-     * All possible types of a theme
-     *
-     * @var array
-     */
-    public static $types = array(
-        self::TYPE_PHYSICAL,
-        self::TYPE_VIRTUAL,
-        self::TYPE_STAGING,
-    );
-
-    /**
      * Array of theme customizations for save
      *
      * @var array
@@ -116,12 +110,29 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_themeImage;
 
     /**
+     * @var Mage_Core_Model_Theme_Domain_Factory
+     */
+    protected $_domainFactory;
+
+    /**
+     * All possible types of a theme
+     *
+     * @var array
+     */
+    public static $types = array(
+        self::TYPE_PHYSICAL,
+        self::TYPE_VIRTUAL,
+        self::TYPE_STAGING,
+    );
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_Image $themeImage
      * @param Mage_Core_Model_Resource_Theme $resource
+     * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
      *
@@ -134,6 +145,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_Image $themeImage,
         Mage_Core_Model_Resource_Theme $resource,
+        Mage_Core_Model_Theme_Domain_Factory $domainFactory,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {
@@ -141,8 +153,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $this->_objectManager = $objectManager;
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
-        $this->_themeImage = $themeImage;
-        $this->_themeImage->setTheme($this);
+        $this->_domainFactory = $domainFactory;
+        $this->_themeImage = $themeImage->setTheme($this);
     }
 
     /**
@@ -550,5 +562,27 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function __clone()
     {
         $this->unsetData()->setOrigData();
+    }
+
+    /**
+     * Get one of theme domain models
+     *
+     * @param int|null $type
+     * @return Mage_Core_Model_Theme_Domain_Physical|Mage_Core_Model_Theme_Domain_Virtual|Mage_Core_Model_Theme_Domain_Staging
+     * @throws Mage_Core_Exception
+     */
+    public function getDomainModel($type = null)
+    {
+        if ($type !== null) {
+            if ($type != $this->getType()) {
+                throw new Mage_Core_Exception(
+                    sprintf('Invalid domain model "%s" requested for theme "%s" of type "%s"',
+                        $type,$this->getId(), $this->getType()
+                    )
+                );
+            }
+        }
+
+        return $this->_domainFactory->create($this);
     }
 }
