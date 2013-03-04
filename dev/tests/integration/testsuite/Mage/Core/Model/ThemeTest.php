@@ -21,7 +21,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         Mage::getConfig();
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $themeModel->setData($this->_getThemeValidData());
+        $themeModel->setData($this->_getThemeValidData(Mage_Core_Model_Theme::TYPE_VIRTUAL));
 
         $crud = new Magento_Test_Entity($themeModel, array('theme_version' => '2.0.0.1'));
         $crud->testCrud();
@@ -72,86 +72,38 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * Get theme valid data
      *
+     * @param int $type
      * @return array
      */
-    protected function _getThemeValidData()
+    protected function _getThemeValidData($type = Mage_Core_Model_Theme::TYPE_PHYSICAL)
     {
         return array(
-            'theme_code'           => 'space',
             'area'                 => 'space_area',
             'theme_title'          => 'Space theme',
             'theme_version'        => '2.0.0.0',
             'parent_id'            => null,
-            'parent_theme_path'    => null,
             'is_featured'          => false,
             'magento_version_from' => '2.0.0.0-dev1',
             'magento_version_to'   => '*',
             'theme_path'           => 'default/space',
             'preview_image'        => 'images/preview.png',
+            'type'                 => $type
         );
     }
 
     /**
-     * Test is virtual
+     * Test is theme present in file system
      *
      * @magentoAppIsolation enabled
+     * @covers Mage_Core_Model_Theme::isPresentInFilesystem
      */
-    public function testIsVirtual()
+    public function testIsPresentInFilesystem()
     {
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $themeModel->setData($this->_getThemeValidData());
 
-        $this->assertTrue($themeModel->isVirtual());
-    }
-
-    /**
-     * Test id deletable
-     *
-     * @dataProvider isDeletableDataProvider
-     * @param bool $isVirtual
-     */
-    public function testIsDeletable($isVirtual)
-    {
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('isVirtual'), array(), '', false);
-        $themeModel->expects($this->once())
-            ->method('isVirtual')
-            ->will($this->returnValue($isVirtual));
-        $this->assertEquals($isVirtual, $themeModel->isDeletable());
-    }
-
-    /**
-     * @return array
-     */
-    public function isDeletableDataProvider()
-    {
-        return array(array(true), array(false));
-    }
-
-    public function testIsThemeCompatible()
-    {
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
-
-        $themeModel->setMagentoVersionFrom('2.0.0.0')->setMagentoVersionTo('*');
-        $this->assertFalse($themeModel->isThemeCompatible());
-
-        $themeModel->setMagentoVersionFrom('1.0.0.0')->setMagentoVersionTo('*');
-        $this->assertTrue($themeModel->isThemeCompatible());
-    }
-
-    public function testCheckThemeCompatible()
-    {
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getModel('Mage_Core_Model_Theme');
-
-        $themeModel->setMagentoVersionFrom('2.0.0.0')->setMagentoVersionTo('*')->setThemeTitle('Title');
-        $themeModel->checkThemeCompatible();
-        $this->assertEquals('Title (incompatible version)', $themeModel->getThemeTitle());
-
-        $themeModel->setMagentoVersionFrom('1.0.0.0')->setMagentoVersionTo('*')->setThemeTitle('Title');
-        $themeModel->checkThemeCompatible();
-        $this->assertEquals('Title', $themeModel->getThemeTitle());
+        $this->assertTrue($themeModel->isPresentInFilesystem());
     }
 
     public function testGetLabelsCollection()
