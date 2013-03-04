@@ -53,12 +53,16 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
     public function expandFieldSet($fieldsetName)
     {
         $formLocator = $this->getControlElement('fieldset', $fieldsetName);
-        if ($formLocator->name() == 'fieldset') {
+        if ($formLocator->name() != 'fieldset') {
+            return;
+        }
+        if (!$formLocator->displayed()) {
             $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
-            if (strpos($fieldsetLink->attribute('class'), 'entry-edit-head collapseable open') === false) {
-                $this->focusOnElement($fieldsetLink);
-                $fieldsetLink->click();
-                $this->clearActiveFocus();
+            $this->focusOnElement($fieldsetLink);
+            $fieldsetLink->click();
+            $this->clearActiveFocus();
+            if (!$formLocator->displayed()) {
+                $this->fail('Could not expand System Configuration section');
             }
         }
     }
