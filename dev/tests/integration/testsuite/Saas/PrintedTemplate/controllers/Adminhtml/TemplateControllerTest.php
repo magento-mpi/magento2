@@ -9,26 +9,8 @@
  * @license     {license_link}
  */
 
-class Saas_PrintedTemplate_Adminhtml_TemplateControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Saas_PrintedTemplate_Adminhtml_TemplateControllerTest extends Mage_Backend_Utility_Controller
 {
-    protected function setUp()
-    {
-        parent::setUp();
-        /** @var $auth Mage_Backend_Model_Auth */
-        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
-        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
-        $auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
-    }
-
-    protected function tearDown()
-    {
-        /** @var $auth Mage_Backend_Model_Auth */
-        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
-        $auth->logout();
-        Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
-        parent::tearDown();
-    }
-
     public function testPrintedTemplateIsInstalled()
     {
         $this->markTestIncomplete('MAGETWO-7075');

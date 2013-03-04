@@ -40,6 +40,7 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
      */
     public static function authenticateAndAuthorizeAdmin(Mage_Core_Controller_Front_Action $controller, $aclResource)
     {
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
         /** @var $auth Mage_Backend_Model_Auth */
         $auth = Mage::getModel('Mage_Backend_Model_Auth');
         $session = $auth->getAuthStorage();

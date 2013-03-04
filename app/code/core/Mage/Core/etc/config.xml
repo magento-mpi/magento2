@@ -189,16 +189,6 @@
                 <full_name>default/backend</full_name>
             </theme>
         </design>
-        <di>
-            <preferences>
-                <Mage_Core_Model_UrlInterface>Mage_Backend_Model_Url</Mage_Core_Model_UrlInterface>
-            </preferences>
-            <Mage_Core_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Core_Model_Session>
-        </di>
     </adminhtml>
     <install>
         <translate>
