@@ -148,8 +148,96 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
             return new $resolvedClassName();
         }
         $args = $this->_resolveArguments($resolvedClassName, $parameters, $arguments);
-        $reflection = new \ReflectionClass($resolvedClassName);
-        return $reflection->newInstanceArgs($args);
+
+        switch(count($args)) {
+            case 1:
+                return new $resolvedClassName($args[0]);
+
+            case 2:
+                return new $resolvedClassName($args[0], $args[1]);
+
+            case 3:
+                return new $resolvedClassName($args[0], $args[1], $args[2]);
+
+            case 4:
+                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3]);
+
+            case 5:
+                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4]);
+
+            case 6:
+                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4], $args[5]);
+
+            case 7:
+                return new $resolvedClassName($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
+
+            case 8:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7]
+                );
+
+            case 9:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8]
+                );
+
+            case 10:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9]
+                );
+
+            case 11:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10]
+                );
+
+            case 12:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11]
+                );
+
+            case 13:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12]
+                );
+
+            case 14:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13]
+                );
+
+            case 15:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13], $args[14]
+                );
+
+            case 16:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15]
+                );
+
+            case 17:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16]
+                );
+
+            case 18:
+                return new $resolvedClassName(
+                    $args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9],
+                    $args[10], $args[11], $args[12], $args[13], $args[14], $args[15], $args[16], $args[17]
+                );
+
+            default:
+                $reflection = new \ReflectionClass($resolvedClassName);
+                return $reflection->newInstanceArgs($args);
+        }
     }
 
     /**
