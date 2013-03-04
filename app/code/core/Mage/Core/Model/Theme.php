@@ -217,11 +217,21 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check theme is existing in filesystem
+     * Check theme is virtual
      *
      * @return bool
      */
     public function isVirtual()
+    {
+        return self::TYPE_VIRTUAL == $this->getType();
+    }
+
+    /**
+     * Check theme is existing in filesystem
+     *
+     * @return bool
+     */
+    public function isPresentInFilesystem()
     {
         $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
         return !($this->getThemePath() && isset($collection[$this->getFullPath()]));
@@ -429,7 +439,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         if (isset($themeData['theme_id'])) {
             $this->load($themeData['theme_id']);
-            if ($this->getId() && self::TYPE_VIRTUAL != $this->getType()) {
+            if ($this->getId() && $this->isEditable()) {
                 Mage::throwException($this->_helper->__('Theme isn\'t editable.'));
             }
         }
