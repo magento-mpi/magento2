@@ -2,7 +2,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_StoreManagement
+# @package     Mage_StoreLauncher
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -88,8 +88,7 @@ store_launcher:
                     tax_rules_drawer:
                         xpath: //div[@id='drawer']
                         buttons:
-                            tax_rules_enabled: //label[strong/em[@class='label-tax-enabled']]
-                            tax_rules_disabled: //label[strong/em[@class='label-tax-disabled']]
+                            tax_rules_switcher: //div[input[@id='copy-tax-enabled']]/label
                             add_rate: //span[contains(text(), 'Add New Tax Rate')]
                         links:
                             tax_rule_info_additional_link: //summary/span
@@ -103,7 +102,6 @@ store_launcher:
                             product_tax_class: //div[@data-ui-id='tax-rate-form-fieldset-element-form-field-tax-product-class']//section
                         pageelements:
                             no_tax_title: //div[@class='no-tax-info']//h2
-                            tax_title: //div[@class='tax-rule-config']//h2
                 -
                     tax_rate_form:
                         xpath: //div[contains(@class, 'tax-rate-popup')]

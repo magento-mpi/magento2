@@ -3578,6 +3578,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($this->alertIsPresent()) {
                 $this->fail($this->alertText());
             }
+            $this->waitForAjax();
             $this->getChildElement($generalElement, sprintf($labelLocator, $editData))->click();
         } else {
             //by edit form
