@@ -41,10 +41,12 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
 
     /**
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Dir $dir
      */
-    public function __construct(Magento_Filesystem $filesystem)
+    public function __construct(Magento_Filesystem $filesystem, Mage_Core_Model_Dir $dir)
     {
         $this->_filesystem = $filesystem;
+        $this->setBaseDir($dir->getDir(Mage_Core_Model_Dir::THEMES));
         parent::__construct();
     }
 
@@ -80,9 +82,6 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
      */
     public function getBaseDir()
     {
-        if (empty($this->_baseDir)) {
-            $this->setBaseDir(Mage::getBaseDir('design'));
-        }
         return $this->_baseDir;
     }
 

@@ -54,6 +54,23 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     }
 
     /**
+     * Add type filter in relations
+     *
+     * @param int $typeParent
+     * @param int $typeChild
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function addTypeRelationFilter($typeParent, $typeChild)
+    {
+        $this->getSelect()->join(
+            array('parent' => $this->getMainTable()),
+            'main_table.parent_id = parent.theme_id',
+            array('parent_type' => 'parent.type')
+        )->where('parent.type = ?', $typeParent)->where('main_table.type = ?', $typeChild);
+        return $this;
+    }
+
+    /**
      * Return array for select field
      *
      * @return array

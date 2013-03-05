@@ -26,6 +26,7 @@
  * @method int getThemeId()
  * @method int getType()
  * @method array getAssignedStores()
+ * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
  * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
  * @method Mage_Core_Model_Theme addData(array $data)
  * @method Mage_Core_Model_Theme setParentId(int $id)
@@ -233,7 +234,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function isPresentInFilesystem()
     {
         $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
-        return !($this->getThemePath() && isset($collection[$this->getFullPath()]));
+        return $this->getThemePath() && isset($collection[$this->getFullPath()]);
     }
 
     /**
