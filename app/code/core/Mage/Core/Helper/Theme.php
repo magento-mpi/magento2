@@ -188,7 +188,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      *
      * @param array $file
      * @param string $designDir
-     * @return Mage_Theme_Helper_Data
+     * @return Mage_Core_Helper_Theme
      * @throws Mage_Core_Exception
      */
     protected function _detectTheme(&$file, $designDir)
@@ -224,7 +224,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      * Detect group where file should be placed and set it to file data under "group" key
      *
      * @param array $file
-     * @return Mage_Theme_Helper_Data
+     * @return Mage_Core_Helper_Theme
      * @throws Mage_Core_Exception
      */
     protected function _detectGroup(&$file)
