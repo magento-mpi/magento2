@@ -4294,4 +4294,26 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         return $suite;
     }
+
+    /**
+     * Run mass action on selected items
+     *
+     * Add following elements to UIMap with grid to get method work:
+     * dropdowns: mass_action_select_action
+     * buttons: submit
+     * message: confirmation_for_delete
+     * links: mass_action_select_all|mass_action_select_visible
+     * See manage_products as example
+     *
+     * @param string $action Action to perform(From Actions dropdown)
+     * @param string $select Specify 'all' or  only 'visible' items
+     */
+    public function runMassAction($action, $select = null)
+    {
+        if ($select) {
+            $this->clickControl(self::FIELD_TYPE_LINK, 'mass_action_select_' . strtolower($select));
+        }
+        $this->fillDropdown('mass_action_select_action', $action);
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
+    }
 }

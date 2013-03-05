@@ -45,7 +45,7 @@ class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer($tile);
-        $this->assertTrue($this->controlIsVisible('fieldset', 'common_drawer'));
+        $this->assertTrue($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'common_drawer'));
         $this->assertTrue($this->controlIsVisible('button', 'close_drawer'));
         $this->assertTrue($this->controlIsVisible('button', 'save_my_settings'));
     }
@@ -64,12 +64,12 @@ class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
          * @var Core_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
-        $this->assertContains('tile-todo',
-            $this->getControlAttribute('fieldset', $tile, 'class'), 'Tile state is not TODO. Tile code: ' . $tile);
+        $this->assertContains('tile-todo', $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, $tile, 'class'),
+            'Tile state is not TODO. Tile code: ' . $tile);
         $helper->openDrawer($tile);
         $this->assertTrue($helper->closeDrawer(), 'Failed to close drawer');
-        $this->assertContains('tile-todo',
-            $this->getControlAttribute('fieldset', $tile, 'class'), 'Tile state changed. Tile code: ' . $tile);
+        $this->assertContains('tile-todo', $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, $tile, 'class'),
+            'Tile state changed. Tile code: ' . $tile);
     }
 
     /**
@@ -83,6 +83,7 @@ class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
             array('bussines_info_tile'),
             array('tax_rules_tile'),
             array('payment_tile'),
+            array('product_tile'), //TL-MAGE-6821, TL-MAGE-6822
             array('shipping_tile')
         );
     }

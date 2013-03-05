@@ -216,9 +216,59 @@ store_launcher:
                             usps_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='usps-tab-nav']
                             dhl_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='dhl-tab-nav']
                             ups_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='upc-tab-nav']
+                -
+                    product_tile:
+                      xpath: //article[@id='tile-product']
+                -
+                    product_drawer:
+                        xpath: //div[@id='drawer']
+                        links:
+                            categories: //ul[@class='import-options']//a[contains(@href, 'catalog_category')]
+                            import: //ul[@class='import-options']//a[contains(@href, 'import')]
+                            export: //ul[@class='import-options']//a[contains(@href, 'export')]
+                -
+                    product_drawer_form:
+                        xpath: //form[@class='add-product-form']
+                        fields:
+                            general_name: //input[@id='name']
+                            general_sku: //input[@id='sku']
+                            general_price: //input[@id='price' and not(@disabled)]
+                            general_qty: //input[@name='product[quantity_and_stock_status][qty]']
+                            general_weight: //input[@id='weight' and not(@disabled)]
+                            general_categories: //input[@id='category_ids-suggest']
+                            general_description: //textarea[@id='description']
+                        dropdowns:
+                            general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
+#=============================================Required for productHelper()->selectProductCategories()==================
+                -
+                    category_search:
+                        xpath: //*[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']/ul[@role='menu']
+                        links:
+                            category: //*[@role='menuitem']//span[text()='%categoryPath%']
+                            selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                        pageelements:
+                            category_list: //*[@class='ui-menu-item']
+                -
+                    chosen_category:
+                        xpath: //*[@class='category-selector-search-choice button']
+                        links:
+                            delete_category: "[div='%categoryName%']//*[@class='category-selector-search-choice-close']"
+                        pageelements:
+                            category_name: /*[text()='%categoryName%']
+#=============================================Required for productHelper()->selectProductCategories()==================
         messages: &newTaxRuleMessages
             enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             empty_required_field:  //label[@class='mage-error' and contains(.,'This field is required.')]
             confirmation_for_delete_class: Do you really want to delete this tax class?
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
+
+store_launcher_product_drawer_index:
+    mca: launcher/storelauncher_index/index/#product
+    title: Magento Admin
+    uimap: *store_launcher
+
+store_launcher_product_drawer:
+    mca: launcher/storelauncher_index/#product
+    title: Magento Admin
+    uimap: *store_launcher
