@@ -150,7 +150,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             'Vendor_Module_Controller_Webapi_Resource_Subresource',
             'createV1',
             array('param1' => 1, 'param2' => 2, 'param3' => 'not_array', 'param4' => 4),
-            $this->_getApiConfig()
+            $this->_apiConfig
         );
     }
 
@@ -168,7 +168,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             'Vendor_Module_Controller_Webapi_Resource_Subresource',
             'updateV1',
             array('param1' => 1, 'param2' => 'Non array complex data'),
-            $this->_getApiConfig()
+            $this->_apiConfig
         );
     }
 
@@ -188,7 +188,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $exceptionMessage
     ) {
         $this->setExpectedException($exceptionClass, $exceptionMessage);
-        $this->_helper->prepareMethodParams($class, $methodName, $requestData, $this->_getApiConfig());
+        $this->_helper->prepareMethodParams($class, $methodName, $requestData, $this->_apiConfig);
     }
 
     public static function dataProviderForTestPrepareMethodParamsNegative()
