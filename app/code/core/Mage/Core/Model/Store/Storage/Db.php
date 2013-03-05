@@ -339,6 +339,7 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
      */
     protected function _initStores()
     {
+        $this->_store    = null;
         $this->_stores   = array();
         $this->_groups   = array();
         $this->_websites = array();
