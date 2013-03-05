@@ -122,8 +122,8 @@ Varien_Io_File::rmdirRecursive($testOutput);
 mkdir($testOutput);
 
 $command
-    = 'java -jar "' . $jsTestDriver . '" --config "' . $jsTestDriverConf . '" --port ' . $port .
-    ' --browser "' . $browser . '" --tests all --testOutput "' . $testOutput . '"';
+    = 'java -jar "' . $jsTestDriver . '" --config "' . $jsTestDriverConf . '" --reset --port ' . $port .
+    ' --browser "' . $browser . '" --raiseOnFailure true --tests all --testOutput "' . $testOutput . '"';
 
 echo $command . PHP_EOL;
 
@@ -131,8 +131,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     system($command);
 } else {
     $shellCommand
-        = '#!/bin/bash
-        LSOF=`/usr/sbin/lsof -i :' . $port . ' -t`
+        = 'LSOF=`/usr/sbin/lsof -i :' . $port . ' -t`
         if [ "$LSOF" != "" ];
         then
             kill -9 $LSOF
