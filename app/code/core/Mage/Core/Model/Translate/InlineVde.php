@@ -155,8 +155,16 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
                        $('body').removeClass('trnslate-inline-area');
                        $('[data-translate]').translateInlineIconVde('hide');
                        $('body').translateInlineDialogVde('open', element);
-                   },
+                   }
                });
+
+               parent.jQuery('#vde-translate').translateInlineToggle({
+                   onClick: function(element) {
+                       //alert(element.state);
+                       //alert('You clicked my translate toggle anchor!');
+                   }
+               });
+
              });
            })(jQuery);
     </script>

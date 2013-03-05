@@ -85,5 +85,21 @@
         $('#custom_code').focus();
     });
 
+    $.widget("mage.translateInlineToggle", {
+        options: {
+            state: "disabled"
+        },
+
+        _create: function() {
+            //alert("Create widget");
+
+            this.element.on('click', $.proxy(this.options.onClick, this));
+        },
+
+        _init: function() {
+            //alert("Initialized widget");
+        }
+    });
+
 })(window.jQuery);
 </script>
