@@ -24,14 +24,12 @@ umask(0);
 /**
  * Require necessary files
  */
-require_once BP . '/app/code/core/Mage/Core/functions.php';
+require_once BP . '/app/code/Mage/Core/functions.php';
 require_once BP . '/app/Mage.php';
 
 require_once __DIR__ . '/autoload.php';
 Magento_Autoload_IncludePath::addIncludePath(array(
-    BP . DS . 'app' . DS . 'code' . DS . 'local',
-    BP . DS . 'app' . DS . 'code' . DS . 'community',
-    BP . DS . 'app' . DS . 'code' . DS . 'core',
+    BP . DS . 'app' . DS . 'code',
     BP . DS . 'lib',
     BP . DS . 'var' . DS . 'generation',
 ));

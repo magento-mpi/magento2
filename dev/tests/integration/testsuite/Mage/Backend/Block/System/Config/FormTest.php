@@ -123,7 +123,7 @@ class Mage_Backend_Block_System_Config_FormTest extends Mage_Backend_Area_TestCa
         $configMock->expects($this->any())->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
         $configMock->expects($this->any())->method('getModuleDir')
-            ->will($this->returnValue(BP . '/app/code/core/Mage/Backend/etc'));
+            ->will($this->returnValue(BP . '/app/code/Mage/Backend/etc'));
 
         Mage::getObjectManager()->configure(array(
             'Mage_Backend_Model_Config_Structure_Reader' => array(

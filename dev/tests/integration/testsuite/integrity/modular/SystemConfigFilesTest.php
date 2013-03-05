@@ -13,7 +13,7 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     public function testConfiguration()
     {
-        $fileList = glob(Mage::getBaseDir('app') . '/*/*/*/*/etc/adminhtml/system.xml');
+        $fileList = glob(Mage::getBaseDir('app') . '/*/*/*/etc/adminhtml/system.xml');
         try {
             $configMock = $this->getMock(
                 'Mage_Core_Model_Config_Modules_Reader', array('getModuleConfigurationFiles', 'getModuleDir'),
@@ -24,7 +24,7 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
                 ->will($this->returnValue($fileList));
             $configMock->expects($this->any())
                 ->method('getModuleDir')
-                ->will($this->returnValue(Mage::getBaseDir('app') . '/code/core/Mage/Backend/etc'));
+                ->will($this->returnValue(Mage::getBaseDir('app') . '/code/Mage/Backend/etc'));
             $cacheMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
             $cacheMock->expects($this->any())->method('canUse')->will($this->returnValue(false));
             $converter = new Mage_Backend_Model_Config_Structure_Converter(

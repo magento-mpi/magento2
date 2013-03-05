@@ -31,15 +31,13 @@ $config = $objectManager->get('Mage_Core_Model_Config');
 
 $definitions = array();
 $compiler = new ArrayDefinitionReader();
-foreach (glob(BP . '/app/code/*') as $codePoolDir) {
-    foreach (glob($codePoolDir . '/*') as $vendorDir) {
-        foreach (glob($vendorDir . '/*') as $moduleDir) {
-            $moduleName = basename($vendorDir) . '_' . basename($moduleDir);
-            if (is_dir($moduleDir) && $config->isModuleEnabled($moduleName)) {
-                $definitions = array_merge_recursive($definitions, $compiler->compileModule($moduleDir));
-            }
+foreach (glob(BP . '/app/code/*') as $vendorDir) {
+    foreach (glob($vendorDir . '/*') as $moduleDir) {
+        $moduleName = basename($vendorDir) . '_' . basename($moduleDir);
+        if (is_dir($moduleDir) && $config->isModuleEnabled($moduleName)) {
+            $definitions = array_merge_recursive($definitions, $compiler->compileModule($moduleDir));
         }
-    }
+    }    
 }
 
 $definitions = array_merge_recursive($definitions, $compiler->compileModule(BP . '/lib/Varien'));
