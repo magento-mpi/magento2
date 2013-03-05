@@ -434,9 +434,10 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         foreach (array(
-                     Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
-                     Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_Dir::MEDIA
-                 ) as $urlType => $dirType) {
+                Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
+                Mage_Core_Model_Store::URL_TYPE_STATIC => Mage_Core_Model_Dir::STATIC_VIEW
+            ) as $urlType => $dirType
+        ) {
             $dir = Mage::getBaseDir($dirType);
             if (strpos($file, $dir) === 0) {
                 $relativePath = ltrim(substr($file, strlen($dir)), DIRECTORY_SEPARATOR);
@@ -640,7 +641,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR . self::PUBLIC_BASE_THEME_DIR;
+        return Mage::getBaseDir(Mage_Core_Model_Dir::STATIC_VIEW);
     }
 
     /**

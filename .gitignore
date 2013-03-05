@@ -28,6 +28,6 @@ atlassian*
 /pub/media/*
 /pub/media/customer/*
 /pub/media/downloadable/*
-/pub/media/theme/*
-/pub/media/theme/customization/*
+/pub/static/*
+!/pub/static/.htaccess
 /var/*
