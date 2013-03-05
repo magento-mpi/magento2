@@ -130,6 +130,9 @@ echo $command . PHP_EOL;
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     system($command);
 } else {
+    $commandFile = __DIR__ . '/run_js_tests.sh';
+    $fh = fopen($commandFile, 'w');
+
     $shellCommand
         = 'LSOF=`/usr/sbin/lsof -i :' . $port . ' -t`
         if [ "$LSOF" != "" ];
@@ -152,10 +155,14 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         # run the tests
         ' . $command . '
 
-        kill $PID_XVFB       # shut down Xvfb (firefox will shut down cleanly by JsTestDriver)
+        kill -9 $PID_XVFB    # shut down Xvfb (firefox will shut down cleanly by JsTestDriver)
         echo "Done."';
 
-    system($shellCommand);
+    fwrite($fh, $shellCommand . PHP_EOL);
+    fclose($fh);
+    chmod($commandFile, 750);
+
+    exec($commandFile);
 }
 
 /**
