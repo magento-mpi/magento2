@@ -49,22 +49,27 @@ class Saas_Saas_Model_Tenant_Config
      *
      * @param string $rootDir
      * @param array $tenantData
-     * @throws LogicException
+     * @throws InvalidArgumentException
      */
     public function __construct($rootDir, array $tenantData)
     {
         $this->_rootDir = $rootDir;
         if (!array_key_exists('tenantConfiguration', $tenantData)) {
-            throw new LogicException('Missing key "tenantConfiguration"');
+            throw new InvalidArgumentException('Missing key "tenantConfiguration"');
         }
         $this->_configArray = $tenantData['tenantConfiguration'];
         $this->_config = $this->_mergeConfig(array($this->_getLocalConfig(), $this->_getModulesConfig()));
+
         $dirName = (string)$this->_config->getNode('global/web/dir/media');
         if (!$dirName) {
-            throw new LogicException('Media directory name is not set');
+            throw new InvalidArgumentException('Media directory name is not set');
         }
         $this->_mediaDir = "media/{$dirName}";
-        $this->_staticDir = "skin/version_hash"; // TODO: get version hash from $tenantData
+
+        if (empty($tenantData['version_hash'])) {
+            throw new InvalidArgumentException('Version hash is not specified');
+        }
+        $this->_staticDir = 'skin/' . $tenantData['version_hash'];
     }
 
     /**
