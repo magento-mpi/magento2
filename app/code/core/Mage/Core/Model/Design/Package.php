@@ -57,12 +57,11 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_publicCache = array();
 
     /**
-     * Array of fallback model, controlling rules of fallback and inheritance for appropriate
-     * area, package, theme, locale
+     * Model, used to resolve the file paths
      *
-     * @var array
+     * @var Mage_Core_Model_File_Resolution
      */
-    protected $_fallback = array();
+    protected $_resolutionModel = null;
 
     /**
      * Array of theme model used for fallback mechanism
@@ -269,7 +268,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return  $this->_getFallback($params)->getFile($file, $params['module']);
+        return  $this->_getResolutionModel()->getFile($file, $params);
     }
 
     /**
@@ -282,7 +281,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_updateParamDefaults($params);
-        return $this->_getFallback($params)->getLocaleFile($file);
+        return $this->_getResolutionModel()->getLocaleFile($file, $params);
     }
 
     /**
@@ -296,7 +295,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return $this->_getFallback($params)->getViewFile($file, $params['module']);
+        return $this->_getResolutionModel()->getViewFile($file, $params);
     }
 
     /**
@@ -324,59 +323,32 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Update file path in map while we use caching mechanism
+     * Notify that view file resolved path was changed (i.e. it was published to a public directory)
      *
      * @param string $targetPath
      * @param string $themeFile
      * @param array $params
      * @return Mage_Core_Model_Design_Package
      */
-    public function updateFilePathInMap($targetPath, $themeFile, $params)
+    public function notifyViewFileLocationChanged($targetPath, $themeFile, $params)
     {
         $themeFile = $this->_extractScope($themeFile, $params);
         $this->_updateParamDefaults($params);
-        $fallback = $this->_getFallback($params);
-        /** @var $fallback Mage_Core_Model_Design_Fallback_CachingProxy */
-        if ($fallback instanceof Mage_Core_Model_Design_Fallback_CachingProxy) {
-            $fallback->setFilePathToMap($targetPath, $themeFile, $params['module']);
-        }
+        $this->_getResolutionModel()->notifyViewFileLocationChanged($targetPath, $themeFile, $params);
         return $this;
     }
 
     /**
-     * Return most appropriate model to perform fallback
+     * Return the resolution model to resolve the file name
      *
-     * @param array $params
-     * @return Mage_Core_Model_Design_FallbackInterface
+     * @return Mage_Core_Model_File_Resolution
      */
-    protected function _getFallback($params)
+    protected function _getResolutionModel()
     {
-        $skipProxy = (isset($params['skipProxy']) && $params['skipProxy']) ?: $this->_isDeveloperMode();
-
-        $cacheKey = join('|', array(
-            $params['area'],
-            $params['themeModel']->getCacheKey(),
-            $params['locale'],
-            $skipProxy
-        ));
-        if (!isset($this->_fallback[$cacheKey])) {
-            $fallback = Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback', array('params' => $params));
-            if ($skipProxy) {
-                $this->_fallback[$cacheKey] = $fallback;
-            } else {
-                /** @var $dirs Mage_Core_Model_Dir */
-                $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
-                $proxy = new Mage_Core_Model_Design_Fallback_CachingProxy(
-                    $fallback,
-                    $this->_filesystem,
-                    $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . self::FALLBACK_MAP_DIR,
-                    $dirs->getDir(Mage_Core_Model_Dir::ROOT),
-                    (bool)(string)Mage::app()->getConfig()->getNode(self::XML_PATH_ALLOW_MAP_UPDATE)
-                );
-                $this->_fallback[$cacheKey] = $proxy;
-            }
+        if (!$this->_resolutionModel) {
+            $this->_resolutionModel = Mage::getObjectManager()->get('Mage_Core_Model_File_Resolution');
         }
-        return $this->_fallback[$cacheKey];
+        return $this->_resolutionModel;
     }
 
     /**
@@ -470,9 +442,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         foreach (array(
-            Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
-            Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_Dir::MEDIA
-        ) as $urlType => $dirType) {
+                     Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
+                     Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_Dir::MEDIA
+                 ) as $urlType => $dirType) {
             $dir = Mage::getBaseDir($dirType);
             if (strpos($file, $dir) === 0) {
                 $relativePath = ltrim(substr($file, strlen($dir)), DIRECTORY_SEPARATOR);
@@ -600,7 +572,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         }
 
-        $this->updateFilePathInMap($targetPath, $themeFile, $params);
+        $this->notifyViewFileLocationChanged($targetPath, $themeFile, $params);
         return $targetPath;
     }
 

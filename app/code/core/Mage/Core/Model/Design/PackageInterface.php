@@ -72,16 +72,6 @@ interface Mage_Core_Model_Design_PackageInterface
     const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
 
     /**
-     * Path to config node that allows automatically updating map files in runtime
-     */
-    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/design_fallback/allow_map_update';
-
-    /**
-     * Sub-directory where to store maps of view files fallback (if used)
-     */
-    const FALLBACK_MAP_DIR = 'maps/fallback';
-
-    /**
      * PCRE that matches non-absolute URLs in CSS content
      */
     const REGEX_CSS_RELATIVE_URLS

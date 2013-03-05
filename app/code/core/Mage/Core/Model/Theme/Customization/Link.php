@@ -184,7 +184,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
                     'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
                     'themeModel' => $customFile->getTheme()
                 );
-                $this->_designPackage->updateFilePathInMap(
+                $this->_designPackage->notifyViewFileLocationChanged(
                     $customFile->getFullPath(),
                     $customFile->getRelativePath(),
                     $params
