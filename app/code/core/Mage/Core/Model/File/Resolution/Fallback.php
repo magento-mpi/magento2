@@ -11,7 +11,7 @@
 /**
  * Class for managing fallback of files
  */
-class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_FallbackInterface
+class Mage_Core_Model_File_Resolution_Fallback implements Mage_Core_Model_File_Resolution_FallbackInterface
 {
     /**
      * @var string

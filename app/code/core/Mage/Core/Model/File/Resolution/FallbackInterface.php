@@ -11,7 +11,7 @@
 /**
  * Interface for fallback model.
  */
-interface Mage_Core_Model_Design_FallbackInterface
+interface Mage_Core_Model_File_Resolution_FallbackInterface
 {
     /**
      * Get existing file name, using fallback mechanism

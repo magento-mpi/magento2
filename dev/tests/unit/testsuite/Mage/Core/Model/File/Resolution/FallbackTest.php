@@ -12,7 +12,7 @@
 /**
  * Test that Design Package delegates fallback resolution to a Fallback model
  */
-class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_File_Resolution_FallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getFileDataProvider
@@ -20,7 +20,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      * @param string $file
      * @param string $targetFile
      * @param string $expectedFileName
-     * @cover Mage_Core_Model_Design_Fallback::_fallback()
+     * @cover Mage_Core_Model_File_Resolution_Fallback::_fallback()
      */
     public function testGetFile($theme, $file, $targetFile, $expectedFileName)
     {
@@ -54,7 +54,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'themeModel' => $theme,
         );
 
-        $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
+        $fallback = new Mage_Core_Model_File_Resolution_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getFile($file, $module);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
@@ -163,7 +163,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      * @param string $file
      * @param string $targetFile
      * @param string $expectedFileName
-     * @cover Mage_Core_Model_Design_Fallback::_fallback()
+     * @cover Mage_Core_Model_File_Resolution_Fallback::_fallback()
      */
     public function testGetLocaleFile($theme, $file, $targetFile, $expectedFileName)
     {
@@ -184,7 +184,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'themeModel' => $theme,
         );
 
-        $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
+        $fallback = new Mage_Core_Model_File_Resolution_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getLocaleFile($file);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
@@ -303,7 +303,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      * @param string $file
      * @param string $targetFile
      * @param string $expectedFileName
-     * @cover Mage_Core_Model_Design_Fallback::_fallback()
+     * @cover Mage_Core_Model_File_Resolution_Fallback::_fallback()
      */
     public function testGetViewFile($theme, $file, $targetFile, $expectedFileName)
     {
@@ -344,7 +344,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'themeModel' => $theme,
         );
 
-        $fallback = new Mage_Core_Model_Design_Fallback($dirs, $objectManager, $filesystem, $data);
+        $fallback = new Mage_Core_Model_File_Resolution_Fallback($dirs, $objectManager, $filesystem, $data);
         $filename = $fallback->getViewFile($file, $module);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);

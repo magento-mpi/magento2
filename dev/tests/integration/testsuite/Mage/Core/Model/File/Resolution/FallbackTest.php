@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_File_Resolution_FallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @expectedException InvalidArgumentException
@@ -18,7 +18,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     {
         $dirs = new Mage_Core_Model_Dir(Mage::getObjectManager()->get('Magento_Filesystem'), __DIR__);
         Mage::getObjectManager()->create(
-            'Mage_Core_Model_Design_Fallback',
+            'Mage_Core_Model_File_Resolution_Fallback',
             array(
                 'dirs' => $dirs,
                 'params' => array()
@@ -27,9 +27,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Model_Design_Fallback::getArea
-     * @covers Mage_Core_Model_Design_Fallback::getTheme
-     * @covers Mage_Core_Model_Design_Fallback::getLocale
+     * @covers Mage_Core_Model_File_Resolution_Fallback::getArea
+     * @covers Mage_Core_Model_File_Resolution_Fallback::getTheme
+     * @covers Mage_Core_Model_File_Resolution_Fallback::getLocale
      */
     public function testGetters()
     {
@@ -51,7 +51,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'locale' => 'l',
         );
         $model = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Design_Fallback',
+            'Mage_Core_Model_File_Resolution_Fallback',
             array(
                 'dirs' => $dirs,
                 'params' => $stub
@@ -68,7 +68,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      * @param string $area
      * @param string $themePath
      * @param string|null $locale
-     * @return Mage_Core_Model_Design_Fallback
+     * @return Mage_Core_Model_File_Resolution_Fallback
      */
     protected function _buildModel($area, $themePath, $locale)
     {
@@ -97,7 +97,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'themeModel' => $themeModel,
         );
 
-        return Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback',
+        return Mage::getObjectManager()->create('Mage_Core_Model_File_Resolution_Fallback',
             array('dirs' => $dirs, 'params' => $params));
     }
 

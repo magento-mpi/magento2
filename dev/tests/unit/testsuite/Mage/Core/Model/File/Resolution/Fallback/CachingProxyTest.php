@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_File_Resolution_Fallback_CachingProxyTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Temp directory for the model to store maps
@@ -21,14 +21,14 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
     /**
      * Mock of the model to be tested. Operates the mocked fallback object.
      *
-     * @var Mage_Core_Model_Design_Fallback_CachingProxy|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_File_Resolution_Fallback_CachingProxy|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
      * Mocked fallback object, with file resolution methods ready to be substituted.
      *
-     * @var Mage_Core_Model_Design_Fallback|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_File_Resolution_Fallback|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fallback;
 
@@ -37,7 +37,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'fallback';
         mkdir($this->_tmpDir);
         $this->_fallback = $this->getMock(
-            'Mage_Core_Model_Design_Fallback',
+            'Mage_Core_Model_File_Resolution_Fallback',
             array('getFile', 'getLocaleFile', 'getViewFile', 'getArea', 'getPackage', 'getTheme', 'getLocale'),
             array(),
             '',
@@ -47,7 +47,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         $this->_fallback->expects($this->any())->method('getPackage')->will($this->returnValue('p'));
         $this->_fallback->expects($this->any())->method('getTheme')->will($this->returnValue('t'));
         $this->_fallback->expects($this->any())->method('getLocale')->will($this->returnValue('l'));
-        $this->_model = new Mage_Core_Model_Design_Fallback_CachingProxy(
+        $this->_model = new Mage_Core_Model_File_Resolution_Fallback_CachingProxy(
             $this->_fallback, $this->_createFilesystem(), $this->_tmpDir, __DIR__, true
         );
     }
@@ -62,8 +62,8 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
      */
     public function testConstructInvalidDir()
     {
-        new Mage_Core_Model_Design_Fallback_CachingProxy($this->_fallback, $this->_createFilesystem(), $this->_tmpDir,
-            __DIR__ . '/invalid_dir');
+        new Mage_Core_Model_File_Resolution_Fallback_CachingProxy($this->_fallback, $this->_createFilesystem(),
+            $this->_tmpDir, __DIR__ . '/invalid_dir');
     }
 
     public function testDestruct()
@@ -72,7 +72,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             ->method('getFile')
             ->will($this->returnValue(__DIR__ . DIRECTORY_SEPARATOR . 'test.txt'));
         $suffix = uniqid();
-        $model = new Mage_Core_Model_Design_Fallback_CachingProxy(
+        $model = new Mage_Core_Model_File_Resolution_Fallback_CachingProxy(
             $this->_fallback,
             $this->_createFilesystem(),
             $this->_tmpDir . DIRECTORY_SEPARATOR . $suffix,
@@ -89,9 +89,9 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Mage_Core_Model_Design_Fallback_CachingProxy::getFile
-     * @covers Mage_Core_Model_Design_Fallback_CachingProxy::getLocaleFile
-     * @covers Mage_Core_Model_Design_Fallback_CachingProxy::getViewFile
+     * @covers Mage_Core_Model_File_Resolution_Fallback_CachingProxy::getFile
+     * @covers Mage_Core_Model_File_Resolution_Fallback_CachingProxy::getLocaleFile
+     * @covers Mage_Core_Model_File_Resolution_Fallback_CachingProxy::getViewFile
      */
     public function testProxyMethods()
     {

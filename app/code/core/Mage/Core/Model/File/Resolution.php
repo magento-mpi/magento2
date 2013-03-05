@@ -16,7 +16,7 @@ class Mage_Core_Model_File_Resolution
     /**
      * Path to config node that allows automatically updating map files in runtime
      */
-    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/design_fallback/allow_map_update';
+    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/file_fallback/allow_map_update';
 
     /**
      * Sub-directory where to store maps of view files fallback (if used)
@@ -55,7 +55,7 @@ class Mage_Core_Model_File_Resolution
      * Return most appropriate model to perform fallback
      *
      * @param array $params
-     * @return Mage_Core_Model_Design_FallbackInterface
+     * @return Mage_Core_Model_File_Resolution_FallbackInterface
      */
     protected function _getFallback($params)
     {
@@ -68,13 +68,14 @@ class Mage_Core_Model_File_Resolution
             $skipProxy
         ));
         if (!isset($this->_fallback[$cacheKey])) {
-            $fallback = Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback', array('params' => $params));
+            $fallback = Mage::getObjectManager()->create('Mage_Core_Model_File_Resolution_Fallback',
+                array('params' => $params));
             if ($skipProxy) {
                 $this->_fallback[$cacheKey] = $fallback;
             } else {
                 /** @var $dirs Mage_Core_Model_Dir */
                 $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
-                $proxy = new Mage_Core_Model_Design_Fallback_CachingProxy(
+                $proxy = new Mage_Core_Model_File_Resolution_Fallback_CachingProxy(
                     $fallback,
                     $this->_filesystem,
                     $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . self::FALLBACK_MAP_DIR,
@@ -133,8 +134,8 @@ class Mage_Core_Model_File_Resolution
     public function notifyViewFileLocationChanged($targetPath, $themeFile, $params)
     {
         $fallback = $this->_getFallback($params);
-        if ($fallback instanceof Mage_Core_Model_Design_Fallback_CachingProxy) {
-            /** @var $fallback Mage_Core_Model_Design_Fallback_CachingProxy */
+        if ($fallback instanceof Mage_Core_Model_File_Resolution_Fallback_CachingProxy) {
+            /** @var $fallback Mage_Core_Model_File_Resolution_Fallback_CachingProxy */
             $fallback->setFilePathToMap($targetPath, $themeFile, $params['module']);
         }
         return $this;
