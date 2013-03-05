@@ -92,7 +92,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
     }
-   
+
     /**
      * Set package area
      *
@@ -377,27 +377,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         }
         return $this->_fallback[$cacheKey];
-    }
-
-    /**
-     * Create fallback model
-     *
-     * @param array $params
-     * @return Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_CachingProxy
-     */
-    protected function _createFallback($params)
-    {
-        $model = 'Mage_Core_Model_Design_Fallback_CachingProxy';
-        if (isset($params['skipProxy']) && $params['skipProxy']) {
-            $model = 'Mage_Core_Model_Design_Fallback';
-        }
-
-        $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
-            ->getNode('global/dev/design_fallback/allow_map_update');
-        $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
-        $params['baseDir'] = Mage::getBaseDir();
-
-        return Mage::getModel($model, array('data' => $params));
     }
 
     /**
@@ -913,6 +892,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if ($contentType == self::CONTENT_TYPE_CSS) {
             $result = $this->_popCssImportsUp($result);
         }
+
         $this->_filesystem->write($mergedFile, $result);
         $this->_filesystem->write($mergedMTimeFile, $filesMTimeData);
         return $mergedFile;
