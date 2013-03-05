@@ -9,30 +9,28 @@
  */
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Page */
- ?>
+?>
 
 <section class="store-launcher">
-
     <div class="page-title">
         <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
         <div class="actions">
-            <button class="action-launch-store primary <?php if (!$this->getPage()->isComplete()): ?>hidden<?php endif; ?>">
+            <button class="action-launch-store primary"
+                <?php if (!$this->getPage()->isComplete()): ?>disabled="disabled"<?php endif; ?>
+                    id="action-launch-my-store"
+                    data-show-popup="launch-my-store">
                 <span><?php echo $this->__('Launch My Store'); ?></span>
             </button>
         </div>
     </div>
-
     <div id="store-launcher-content" class="store-launcher-content">
-
-        <?php foreach($this->getTileBlocks() as $tile):?>
-        <?php echo $tile->toHtml() ?>
-        <?php endforeach;?>
-
+        <div class="store-launcher-content-inner">
+            <?php foreach($this->getTileBlocks() as $tile):?>
+            <?php echo $tile->toHtml() ?>
+            <?php endforeach;?>
+        </div>
     </div>
-
-
     <div id="drawer" class="drawer">
-
         <header class="drawer-header">
             <div class="drawer-header-inner">
                 <h1 class="title"></h1>
@@ -42,46 +40,177 @@
                 </div>
             </div>
         </header>
-
         <section class="drawer-content">
             <div class="drawer-content-inner"></div>
         </section>
-
         <footer class="drawer-footer">
             <div class="drawer-footer-inner"></div>
         </footer>
-
     </div>
-
 </section>
-
 <div class="fade">
-    <div class="store-launcher-popup store-launcher-popup-ready">
-        <div>
+    <div class="store-launcher-popup launch-my-store-popup" id="launch-my-store-popup">
+        <header class="store-launcher-popup-header">
+            <button type="button"
+                    title="Close"
+                    class="action-close-store-launcher-popup"
+                    id="action-close-launch-my-store-popup">
+                <span>Close</span>
+            </button>
+        </header>
+        <div class="store-launcher-popup-content">
+            <hgroup class="hgroup">
+                <h2 class="title"><?php echo $this->__('Congratulations!'); ?></h2>
+                <h3 class="subtitle"><?php echo $this->__('Your new store is officially ready to launch'); ?></h3>
+            </hgroup>
+            <ul class="checklist">
+                <li class="completed"><?php echo $this->__('Store Information Confirmed'); ?></li>
+                <li class="completed"><?php echo $this->__('Tax Rules Configured'); ?></li>
+                <li class="completed"><?php echo $this->__('Design Theme & Design Settings'); ?></li>
+                <li class="completed"><?php echo $this->__('Shipping Information Configured'); ?></li>
+                <li class="completed"><?php echo $this->__('You have configured PayPal Express'); ?></li>
+                <li class="completed"><?php echo $this->__('You have (5) Products'); ?></li>
+            </ul>
+            <p>
+                <?php echo $this->__('Before opening, you can'); ?>
+                <a href="#"><?php echo $this->__('preview your store'); ?></a>,
+                <a href="#"><?php echo $this->__('add more products'); ?></a>,
+                or <a href="#"><?php echo $this->__('run a test transaction in your new shopping cart'); ?></a>.</p>
+            <p>
+                <strong><?php echo $this->__('You\'re ready for customers, take your store live!'); ?></strong>
+            </p>
+            <a id="action-launch-store"
+               href="<?php echo Mage::getBaseUrl(); ?>"
+               target="_blank"
+               class="action-store-launcher-popup-primary">
+                <?php echo $this->__('Launch your store now'); ?>
+            </a>
+        </div>
+        <footer class="store-launcher-popup-footer">
+            <button type="button"
+                    id="action-final-checks"
+                    class="action-store-launcher-popup-secondary">
+                <span><?php echo $this->__('Run a few final checks'); ?></span>
+            </button>
+        </footer>
+    </div>
+</div>
+<div class="store-tour" id="store-tour">
+    <div class="fade store-tour-wrapper" id="store-tour-wrapper">
+        <div class="store-launcher-popup store-tour-welcome-popup" id="store-tour-welcome-popup">
+            <header class="store-launcher-popup-header">
+                <button type="button"
+                        title="<?php echo $this->__('Close'); ?>"
+                        class="action-close-store-launcher-popup"
+                        id="action-close-store-tour-wellcome-popup">
+
+                    <span><?php echo $this->__('Close'); ?></span>
+                </button>
+            </header>
             <div class="store-launcher-popup-content">
-                <h2><?php echo $this->__('Congratulations!'); ?></h2>
-                <p><?php echo $this->__('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint'); ?></p>
-                <a id="start-store" href="<?php echo Mage::getBaseUrl(); ?>" target="_blank" class="store-launcher-popup-btn"><?php echo $this->__('Launch Your Store'); ?></a>
+                <h2 class="title"><?php echo $this->__('Take a Tour'); ?></h2>
+                <p><?php echo $this->__('Welcome to Magento Admin, where you\'ll manage products, sales, customers and more. To open your store, use our new Store Launcher: complete the steps in any order, stop and start without losing progress, then test-drive your shopping cart before going live. It\'s easy! Get started today.'); ?></p>
+                <button type="button"
+                        class="action-store-launcher-popup-primary"
+                        id="action-start-store-tour">
+
+                    <span><?php echo $this->__('Start Admin Tour'); ?></span>
+                </button>
             </div>
-            <div class="store-launcher-popup-footer">
-                <a href="#" class="btn-final-checks"><?php echo $this->__('Want to run a few final checks?'); ?></a>
+            <footer class="store-launcher-popup-footer">
+                <button type="button"
+                        id="action-back-to-storelauncher"
+                        class="action-store-launcher-popup-secondary">
+
+                    <span><?php echo $this->__('Take me to Store Launcher'); ?></span>
+                </button>
+            </footer>
+        </div>
+
+        <div class="store-tour-content" id="store-tour-content">
+            <div class="store-tour-content-inner">
+                <ul class="store-tour-tags" id="store-tour-tags">
+                    <li class="store-tour-tag-main-menu"
+                        data-tour-element="main-menu"
+                        data-tour-selector=".navigation">
+                        <span><?php echo $this->__('Main Menu'); ?></span>
+                    </li>
+                    <li class="store-tour-tag-top-menu"
+                        data-tour-element="top-menu"
+                        data-tour-selector=".header-panel">
+                        <span><?php echo $this->__('Top Menu'); ?></span>
+                    </li>
+                    <li class="store-tour-tag-store-launcher"
+                        data-tour-element="launcher"
+                        data-tour-selector=".store-launcher-content-inner">
+                        <span><?php echo $this->__('Store Launcher'); ?></span>
+                    </li>
+                </ul>
+                <div class="store-tour-hint" id="store-tour-hint">
+                    <p><?php echo $this->__('Click the icons to learn about Magento and the Store Launcher.'); ?></p>
+                </div>
+
+                <div class="store-tour-data-launcher">
+                    <div class="store-tour-description-launcher">
+                        <button type="button"
+                                title="<?php echo $this->__('Close'); ?>"
+                                class="action-close-store-tour-description"
+                                id="action-close-store-tour-launcher-description">
+
+                            <span><?php echo $this->__('Close'); ?></span>
+                        </button>
+                        <h2 class="title"><?php echo $this->__('Store Launcher'); ?></h2>
+                        <p><?php echo $this->__('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'); ?></p>
+                    </div>
+                    <div class="store-tour-overlay"></div>
+                </div>
+                <div class="store-tour-data-top-menu">
+                    <div class="store-tour-description-top-menu">
+                        <button type="button"
+                                title="<?php echo $this->__('Close'); ?>"
+                                class="action-close-store-tour-description"
+                                id="action-close-store-tour-top-menu-description">
+
+                            <span><?php echo $this->__('Close'); ?></span>
+                        </button>
+                        <h2 class="title"><?php echo $this->__('Top Menu'); ?></h2>
+                        <p><?php echo $this->__('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'); ?></p>
+                    </div>
+                    <div class="store-tour-overlay"></div>
+                </div>
+                <div class="store-tour-data-main-menu">
+                    <div class="store-tour-description-main-menu">
+                        <button type="button"
+                                title="<?php echo $this->__('Close'); ?>"
+                                class="action-close-store-tour-description"
+                                id="action-close-store-tour-main-menu-description">
+
+                            <span><?php echo $this->__('Close'); ?></span>
+                        </button>
+                        <h2 class="title"><?php echo $this->__('Main Menu'); ?></h2>
+                        <p><?php echo $this->__('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'); ?></p>
+                    </div>
+                    <div class="store-tour-overlay"></div>
+                </div>
             </div>
         </div>
     </div>
+    <div class="store-tour-actions">
+        <button type="button"
+                class="action-toggle-site-tour-mode"
+                id="action-toggle-site-tour-mode"
+                title="<?php echo $this->__('Start Tour'); ?>">
 
-    <div class="store-launcher-popup store-launcher-popup-final-checks">
-        <div class="store-launcher-popup-content">
-            <h2><?php echo $this->__('A Few Final Checks'); ?></h2>
-            <p><?php echo $this->__('Before opening, you can run a few final checks or continue to add more products to your store.'); ?></p>
-            <p><?php echo $this->__('Return to the Store Launcher and run a test transaction from your store preview. Or continue to add products.'); ?></p>
-            <a href="#" class="store-launcher-popup-btn store-launcher-cancel-launch"><?php echo $this->__('Back to Store Launcher'); ?></a>
-        </div>
+            <span><?php echo $this->__('Exit Tour'); ?></span>
+        </button>
     </div>
 </div>
 
 <script type="text/javascript">
-    (function($) {
-        $('#start-store').on('click.startStore', function(event) {
+(function($) {
+    // Launch store
+    $('#action-launch-store')
+        .on('click.launchStore', function(event) {
             var startSuccess = false,
                 launchUrl = '<?php echo $this->getUrl('*/storelauncher_index/launch'); ?>',
                 ajaxOptions = {
@@ -89,7 +218,7 @@
                     showLoader: true,
                     dataType: 'json',
                     async: false,
-                    context: $('.store-launcher-popup>div'),
+                    context: $('.store-launcher-popup > div'),
                     url: launchUrl,
                     success: function(result, status) {
                         if (result.success) {
@@ -107,28 +236,182 @@
                 event.preventDefault();
             }
         });
-        $('.action-launch-store ').on('click.showConfirmDialog', function() {
-            $('.store-launcher-popup-ready')
-                .show()
-                .siblings()
-                .hide();
-            $('.fade').show();
+
+    // Show storelauncher popup
+    $('[data-show-popup]')
+        .on('click.showPopup', function() {
+            var elem = $(this),
+                popupData = elem.data('show-popup'),
+                popupElem = $('.' + popupData + '-popup');
+
+            popupElem
+                .closest('.fade')
+                .fadeIn(400, function() {
+                    popupElem.animate({
+                        top: '50%'
+                    });
+                });
         });
-        $('.btn-final-checks').on('click.showConfirmDialog', function() {
-            $('.store-launcher-popup-final-checks')
-                .show()
-                .siblings()
-                .hide();
-            $('.fade').show();
+
+    // Close storelauncher popup
+    $('.action-close-store-launcher-popup')
+        .on('click.closeStoreLauncherPopup', function(e) {
+            var elem = $(this);
+
+            e.preventDefault();
+            elem
+                .closest('.store-launcher-popup')
+                .animate({
+                    top: '-100%'
+                })
+                .closest('.fade')
+                .fadeOut();
         });
-        $('#launch-store')
-            .add('#cancel-launch')
-            .add('.store-launcher-cancel-launch')
-            .add('.store-launcher-confirm-dialog .close')
-            .on('click.launchStore', function() {
-                $('.store-launcher-confirm-dialog')
-                    .add('.fade')
-                    .hide();
+
+    // Run final checks
+    $('#action-final-checks')
+        .on('click.runFinalChecks', function() {
+            var elem = $(this);
+
+            elem
+                .closest('.store-launcher-popup')
+                .find('.action-close-store-launcher-popup')
+                .trigger('click.closeStoreLauncherPopup');
+        });
+
+    // Close tour wellcome popup
+    $('#action-close-store-tour-wellcome-popup')
+        .on('click.hideTourPopup', function(e) {
+            $('#action-toggle-site-tour-mode')
+                .removeClass('active')
+                .attr('title','Start Tour');
+        });
+
+    // Back to storelauncher
+    $('#action-back-to-storelauncher')
+        .on('click.backToStoreLauncher', function(e) {
+            $('#action-close-store-tour-wellcome-popup')
+                .trigger('click.hideTourPopup')
+                .trigger('click.closeStoreLauncherPopup');
+        });
+
+    // Show store tour tags
+    $('#action-start-store-tour')
+        .on('click.startTour', function() {
+            $('#store-tour-welcome-popup')
+                .animate({
+                    top: '-100%'
+                });
+            $('#store-tour-tags')
+                .add('[class^="store-tour-tag-"]')
+                .add('#store-tour-hint')
+                .fadeIn();
+
+            tourTagsSetPosition();
+        });
+
+    // Set store tour tags position
+    function tourTagsSetPosition() {
+        var topMenuPosition = $('.header-panel').offset().top,
+            storeLauncherPosition = $('.store-launcher').offset().top,
+            mainMenuPosition = $('.navigation').offset().top;
+
+        $('.store-tour-tag-main-menu')
+            .css({
+                top: mainMenuPosition
             });
-    })(jQuery);
+
+        $('.store-tour-tag-top-menu').css({
+            top: topMenuPosition
+        });
+
+        $('.store-tour-tag-store-launcher').css({
+            top: storeLauncherPosition
+        });
+
+        $('.store-tour-hint').css({
+            top: storeLauncherPosition + 200
+        });
+    }
+
+    // Toggle store tour mode
+    $('#action-toggle-site-tour-mode')
+        .on('click.toggleStoreTourMode', function () {
+            var elem = $(this);
+
+            if (!elem.hasClass('active')) {
+                elem
+                    .addClass('active')
+                    .attr('title','Exit Tour');
+                $('#store-tour-wrapper').fadeIn(400, function() {
+                    $('#store-tour-welcome-popup').animate({
+                        top: '50%'
+                    });
+                });
+            } else {
+                elem
+                    .removeClass('active')
+                    .attr('title','Start Tour');
+
+                $('#store-tour-wrapper')
+                    .add('#store-tour-tags')
+                    .add('#store-tour-hint')
+                    .fadeOut();
+                closeStoreTourDescriptions()();
+            }
+        });
+
+    // Show store tout content
+    $('[class^="store-tour-tag-"]')
+        .on('click.showTourContent', function(e) {
+            var elem = $(this),
+                tourData = elem.data('tour-element'),
+                tourDataContent = elem.data('tour-selector');
+
+            $('#store-tour-tags').addClass('hidden-store-tour-tag-labels');
+            $('[class^="store-tour-tag-"]').fadeIn();
+
+            elem
+                .add('#store-tour-hint')
+                .add('[class^="store-tour-description"]')
+                .add('[class^="store-tour-data"]')
+                .fadeOut();
+
+            if ($('.store-tour-data-' + tourData).children().length == 2) {
+                $(tourDataContent)
+                    .clone()
+                    .prependTo('.store-tour-data-' + tourData);
+
+                $('.store-tour-data-' + tourData)
+                    .css({
+                        top: $(tourDataContent).offset().top,
+                        left: $(tourDataContent).offset().left,
+                        width: $(tourDataContent).outerWidth(),
+                        height: $(tourDataContent).height()
+                    });
+            }
+
+            $('.store-tour-data-' + tourData)
+                .add('.store-tour-description-' + tourData)
+                .fadeIn();
+        });
+
+    // Close store tour description
+    function closeStoreTourDescriptions() {
+        $('[class^="store-tour-description"]')
+            .add('[class^="store-tour-data"]')
+            .fadeOut(400);
+
+        $('[class^="store-tour-tag-"]').fadeIn();
+
+        $('.store-tour-tags').delay(300).queue(function(next) {
+            $(this).removeClass('hidden-store-tour-tag-labels');
+            next();
+        });
+    }
+
+    $('.action-close-store-tour-description')
+        .on('click.closeTourDescription', closeStoreTourDescriptions);
+
+})(jQuery);
 </script>

@@ -94,7 +94,7 @@
          * @return boolean
          */
         _isPageComplete: function() {
-            var completeSteps = $('#store-launcher').eq(0).find('.tile-complete').length;
+            var completeSteps = $('#store-launcher-content').eq(0).find('.tile-complete').length;
             return completeSteps == $('#store-launcher-content article').size();
         },
 
@@ -104,9 +104,9 @@
         _handleLaunchStoreButton: function() {
             var launchStoreButton = $('.action-launch-store');
             if (this._isPageComplete()) {
-                launchStoreButton.removeClass('hidden');
+                launchStoreButton.prop("disabled", false);
             } else {
-                launchStoreButton.addClass('hidden');
+                launchStoreButton.prop("disabled", true);
             }
         },
 
