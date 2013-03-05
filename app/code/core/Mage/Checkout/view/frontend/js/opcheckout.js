@@ -152,6 +152,10 @@
                             $.mage.redirect(response.redirect);
                             return false;
                         }
+                        else if (response.success) {
+                            $.mage.redirect(this.options.review.successUrl);
+                            return false;
+                        }
                         if (response.update_section) {
                             $(this.options.updateSelectorPrefix + response.update_section.name + this.options.updateSelectorSuffix)
                                 .html($(response.update_section.html)).trigger('contentUpdated');
@@ -449,15 +453,7 @@
                         $(this.options.payment.form).validation('isValid')) {
                         this._ajaxContinue(
                             this.options.review.saveUrl,
-                            $(this.options.payment.form).serialize(),
-                            false,
-                            function(response) {
-                                if (response.success) {
-                                    $.mage.redirect(this.options.review.successUrl);
-                                    return false;
-                                }
-                            }
-                        );
+                            $(this.options.payment.form).serialize());
                     }
                 }, this));
         }

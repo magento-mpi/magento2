@@ -20,10 +20,8 @@
     <?php endif; ?>
 </form>
 <script type="text/javascript">
-//<![CDATA[
-    var review = new VarienForm('ogone_review_form', '');
-    Event.observe(window, 'load', function() {
-        review.submit();
+    // submit the form as soon as it is displayed to transfer over to the ogone website
+    jQuery(document).ready(function() {
+        jQuery("#ogone_review_form").submit();
     });
-//]]>
 </script>
