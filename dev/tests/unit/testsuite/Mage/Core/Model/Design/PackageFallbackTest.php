@@ -20,17 +20,18 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_Design_Fallback|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_File_Resolution|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_fallback;
+    protected $_resolutionModel;
 
     protected function setUp()
     {
-        $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults', '_getFallback'),
-            array(), '', false
-        );
-        $this->_fallback = $this->getMock('Mage_Core_Model_Design_Package_Fallback',
-            array('getFile', 'getLocaleFile', 'getViewFile')
+        $modulesReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', array());
+        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', array());
+        $this->_resolutionModel = $this->getMock('Mage_Core_Model_File_Resolution', array(), array(), '', array());
+
+        $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults'),
+            array($modulesReader, $filesystem, $this->_resolutionModel)
         );
     }
 
@@ -45,13 +46,9 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $expectedParams = $params + array('module' => 'Some_Module');
         $expected = 'path/to/some_file.ext';
 
-        $this->_model->expects($this->once())
-            ->method('_getFallback')
-            ->with($expectedParams)
-            ->will($this->returnValue($this->_fallback));
-        $this->_fallback->expects($this->once())
+        $this->_resolutionModel->expects($this->once())
             ->method('getFile')
-            ->with('some_file.ext', 'Some_Module')
+            ->with('some_file.ext', $expectedParams)
             ->will($this->returnValue($expected));
 
         $actual = $this->_model->getFilename($file, $params);
@@ -69,11 +66,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $file = 'some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $this->_model->expects($this->once())
-            ->method('_getFallback')
-            ->with($params)
-            ->will($this->returnValue($this->_fallback));
-        $this->_fallback->expects($this->once())
+        $this->_resolutionModel->expects($this->once())
             ->method('getLocaleFile')
             ->with('some_file.ext')
             ->will($this->returnValue($expected));
@@ -94,13 +87,9 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $expectedParams = $params + array('module' => 'Some_Module');
         $expected = 'path/to/some_file.ext';
 
-        $this->_model->expects($this->once())
-            ->method('_getFallback')
-            ->with($expectedParams)
-            ->will($this->returnValue($this->_fallback));
-        $this->_fallback->expects($this->once())
+        $this->_resolutionModel->expects($this->once())
             ->method('getViewFile')
-            ->with('some_file.ext', 'Some_Module')
+            ->with('some_file.ext', $expectedParams)
             ->will($this->returnValue($expected));
 
         $actual = $this->_model->getViewFile($file, $params);

@@ -85,11 +85,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_File_Resolution $resolutionModel
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader, Magento_Filesystem $filesystem)
-    {
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_File_Resolution $resolutionModel
+    ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
+        $this->_resolutionModel = $resolutionModel;
     }
 
     /**
@@ -268,7 +273,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return  $this->_getResolutionModel()->getFile($file, $params);
+        return  $this->_resolutionModel->getFile($file, $params);
     }
 
     /**
@@ -281,7 +286,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_updateParamDefaults($params);
-        return $this->_getResolutionModel()->getLocaleFile($file, $params);
+        return $this->_resolutionModel->getLocaleFile($file, $params);
     }
 
     /**
@@ -295,7 +300,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return $this->_getResolutionModel()->getViewFile($file, $params);
+        return $this->_resolutionModel->getViewFile($file, $params);
     }
 
     /**
@@ -334,21 +339,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $themeFile = $this->_extractScope($themeFile, $params);
         $this->_updateParamDefaults($params);
-        $this->_getResolutionModel()->notifyViewFileLocationChanged($targetPath, $themeFile, $params);
+        $this->_resolutionModel->notifyViewFileLocationChanged($targetPath, $themeFile, $params);
         return $this;
-    }
-
-    /**
-     * Return the resolution model to resolve the file name
-     *
-     * @return Mage_Core_Model_File_Resolution
-     */
-    protected function _getResolutionModel()
-    {
-        if (!$this->_resolutionModel) {
-            $this->_resolutionModel = Mage::getObjectManager()->get('Mage_Core_Model_File_Resolution');
-        }
-        return $this->_resolutionModel;
     }
 
     /**

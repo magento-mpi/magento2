@@ -43,6 +43,7 @@ class Mage_Core_Model_File_Resolution
 
     /**
      * @param Mage_Core_Model_App_State $appState
+     * @param Magento_Filesystem $filesystem
      */
     public function __construct(Mage_Core_Model_App_State $appState, Magento_Filesystem $filesystem)
     {
