@@ -50,8 +50,9 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         try {
-            if ($themeId && !$theme->load($themeId)->getId()) {
-                Mage::throwException($this->__('Theme was not found.'));
+            $theme->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL);
+            if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
+                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
             /** @var $cssFileModel Mage_Core_Model_Theme_Customization_Files_Css */
             $cssFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');

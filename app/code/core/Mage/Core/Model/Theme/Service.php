@@ -241,11 +241,7 @@ class Mage_Core_Model_Theme_Service
     public function getThemes($page, $pageSize)
     {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_themeFactory->create()->getCollection();
-        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->addFilter('theme_path', 'theme_path IS NOT NULL', 'string')
-            ->setPageSize($pageSize);
-        return $collection->setCurPage($page);
+        return $this->getAllThemes()->setPageSize($pageSize)->setCurPage($page);
     }
 
     /**
@@ -261,7 +257,7 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return frontend theme collection by page. Theme customizations are not included, only phisical themes.
+     * Return frontend theme collection by page. Theme customizations are not included, only physical themes.
      *
      * @return Mage_Core_Model_Resource_Theme_Collection
      */
@@ -270,7 +266,7 @@ class Mage_Core_Model_Theme_Service
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = $this->_themeFactory->create()->getCollection();
         $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->addFilter('theme_path', 'theme_path IS NOT NULL', 'string');
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_PHYSICAL);
         return $collection;
     }
 
@@ -353,7 +349,7 @@ class Mage_Core_Model_Theme_Service
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = $this->_themeFactory->create()->getCollection();
         $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->addFilter('theme_path', 'theme_path IS NULL', 'string');
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL);
         return $collection;
     }
 

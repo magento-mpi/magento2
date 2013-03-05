@@ -145,7 +145,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider IsVirtualDataProvider
+     * @dataProvider isVirtualDataProvider
      * @param int $type
      * @param string $isVirtual
      * @covers Mage_Core_Model_Theme::isVirtual
@@ -161,12 +161,38 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function IsVirtualDataProvider()
+    public function isVirtualDataProvider()
     {
         return array(
             array('type' => Mage_Core_Model_Theme::TYPE_VIRTUAL, 'isVirtual' => true),
             array('type' => Mage_Core_Model_Theme::TYPE_STAGING, 'isVirtual' => false),
             array('type' => Mage_Core_Model_Theme::TYPE_PHYSICAL, 'isVirtual' => false)
+        );
+    }
+
+    /**
+     * @dataProvider isVisibleDataProvider
+     * @param int $type
+     * @param string $isVisible
+     * @covers Mage_Core_Model_Theme::isVisible
+     */
+    public function testIsVisible($type, $isVisible)
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+        $themeModel->setType($type);
+        $this->assertEquals($isVisible, $themeModel->isVisible());
+    }
+
+    /**
+     * @return array
+     */
+    public function isVisibleDataProvider()
+    {
+        return array(
+            array('type' => Mage_Core_Model_Theme::TYPE_VIRTUAL, 'isVisible' => true),
+            array('type' => Mage_Core_Model_Theme::TYPE_STAGING, 'isVisible' => false),
+            array('type' => Mage_Core_Model_Theme::TYPE_PHYSICAL, 'isVisible' => true)
         );
     }
 
