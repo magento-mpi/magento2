@@ -55,7 +55,9 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
             'header' => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('ID'),
             'width'  => '50px',
             'type'   => 'number',
-            'index'  => 'wrapping_id'
+            'index'  => 'wrapping_id',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('design', array(
@@ -69,7 +71,9 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
-                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash()
+                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'header_css_class'  => 'col-websites',
+                'column_css_class'  => 'col-websites'
             ));
         }
 
@@ -81,21 +85,23 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
             'header'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Status'),
             'index'   => 'status',
             'type'    => 'options',
-            'width'   => '100px',
-            'options' => $statusList
+            'options' => $statusList,
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         $this->addColumn('base_price', array(
             'header'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Price'),
             'index'   => 'base_price',
             'type'    => 'price',
-            'currency_code' => Mage::app()->getWebsite()->getBaseCurrencyCode()
+            'currency_code' => Mage::app()->getWebsite()->getBaseCurrencyCode(),
+            'header_css_class'  => 'col-price',
+            'column_css_class'  => 'col-price'
         ));
 
         $this->addColumn('action',
             array(
                 'header'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Action'),
-                'width'   => '50px',
                 'type'    => 'action',
                 'getter'  => 'getId',
                 'actions' => array(
@@ -109,7 +115,9 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
                     )
                 ),
                 'filter'   => false,
-                'sortable' => false
+                'sortable' => false,
+                'header_css_class'  => 'col-actions',
+                'column_css_class'  => 'col-actions'
         ));
 
         return parent::_prepareColumns();

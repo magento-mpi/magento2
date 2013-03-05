@@ -8,32 +8,32 @@
  * @license     {license_link}
  */
 ?>
-<div class="entry-edit">
-    <fieldset>
-        <ul class="note-list">
-        <?php foreach ($this->getFullHistory() as $_item): ?>
-            <li>
-                <strong><?php echo $this->getItemCreatedAt($_item) ?></strong>
-                <?php echo $this->getItemCreatedAt($_item, 'time') ?><span class="separator">|</span>
-                <strong><?php echo $this->getItemTitle($_item) ?></strong>
-                <?php if ($this->isItemNotified($_item, false)): ?>
-                    <span class="separator">|</span><small><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
-                    <strong class="subdue">
-                    <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
-                        <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notification Not Applicable') ?>
-                    <?php elseif ($this->isItemNotified($_item)): ?>
-                        <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?>
-                        <img src="<?php echo $this->getViewFileUrl('images/ico_success.gif') ?>" width="16px" height="16px" alt="" />
-                    <?php else: ?>
-                        <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?>
-                    <?php endif; ?>
-                    </strong></small>
+<div class="fieldset-wrapper">
+    <ul class="note-list">
+    <?php foreach ($this->getFullHistory() as $_item): ?>
+        <li>
+            <strong><?php echo $this->getItemCreatedAt($_item) ?></strong>
+            <?php echo $this->getItemCreatedAt($_item, 'time') ?><span class="separator">|</span>
+            <strong><?php echo $this->getItemTitle($_item) ?></strong>
+            <?php if ($this->isItemNotified($_item, false)): ?>
+                <div>
+                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
+                <strong class="subdue">
+                <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
+                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notification Not Applicable') ?>
+                <?php elseif ($this->isItemNotified($_item)): ?>
+                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?>
+                    <img src="<?php echo $this->getViewFileUrl('images/ico_success.gif') ?>" width="16px" height="16px" alt="" />
+                <?php else: ?>
+                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?>
                 <?php endif; ?>
-                <?php if ($_comment = $this->getItemComment($_item)): ?>
-                    <br/><?php echo $_comment ?>
-                <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
-        </ul>
-    </fieldset>
+                </strong>
+                </div>
+            <?php endif; ?>
+            <?php if ($_comment = $this->getItemComment($_item)): ?>
+                <br/><?php echo $_comment ?>
+            <?php endif; ?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
 </div>

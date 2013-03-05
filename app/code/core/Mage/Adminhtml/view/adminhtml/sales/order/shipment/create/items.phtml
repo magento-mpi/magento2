@@ -8,77 +8,70 @@
  * @license     {license_link}
  */
 ?>
-<div class="grid np">
-  <div class="hor-scroll">
-    <table cellspacing="0" class="data order-tables">
-        <col />
-        <col width="1" />
-        <col width="1" />
-        <?php if (!$this->canShipPartiallyItem()): ?>
-        <col width="20" />
-        <?php endif; ?>
-        <thead>
-            <tr class="headings">
-                <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></th>
-                <th class="a-center"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></th>
-                <th<?php if ($this->isShipmentRegular()): ?> class="last"<?php endif; ?>><span class="nobr"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty to Ship') ?></span></th>
-
-                <?php if (!$this->canShipPartiallyItem()): ?>
-                <th class="a-center last"><span class="nobr"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Ship') ?></span></th>
-                <?php endif; ?>
-
-            </tr>
-        </thead>
-        <?php $_items = $this->getShipment()->getAllItems() ?>
-        <?php $_i=0;foreach ($_items as $_item): if ($_item->getOrderItem()->getIsVirtual() || $_item->getOrderItem()->getParentItem()): continue; endif; $_i++ ?>
-        <tbody class="<?php echo $_i%2?'odd':'even' ?>">
-            <?php echo $this->getItemHtml($_item) ?>
-            <?php echo $this->getItemExtraInfoHtml($_item->getOrderItem()) ?>
-        </tbody>
-        <?php endforeach; ?>
-    </table>
-  </div>
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Items to Ship') ?></span>
+    </div>
+    <div class="grid">
+        <table cellspacing="0" class="data order-tables">
+            <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
+                    <th class="col-ordered-qty"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></span></th>
+                    <th class="col-qty<?php if ($this->isShipmentRegular()): ?> last<?php endif; ?>">
+                        <span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty to Ship') ?></span>
+                    </th>
+                    <?php if (!$this->canShipPartiallyItem()): ?>
+                    <th class="col-ship last"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Ship') ?></span></th>
+                    <?php endif; ?>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $_items = $this->getShipment()->getAllItems() ?>
+            <?php $_i=0;foreach ($_items as $_item): if ($_item->getOrderItem()->getIsVirtual() || $_item->getOrderItem()->getParentItem()): continue; endif; $_i++ ?>
+                <?php echo $this->getItemHtml($_item) ?>
+                <?php echo $this->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
-<br />
-<div class="box-left entry-edit">
-    <div class="entry-edit-head"><h4><?php echo $this->__('Shipment Comments') ?></h4></div>
-    <fieldset>
-        <div id="order-history_form">
-            <span class="field-row">
+<div class="clearfix">
+    <div class="order-comments-history">
+        <div class="fieldset-wrapper">
+            <div class="fieldset-wrapper-title"><span class="title"><?php echo $this->__('Shipment Comments') ?></span></div>
+            <div id="order-history_form">
                 <label class="normal" for="shipment_comment_text"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipment Comments') ?></label>
-                <textarea id="shipment_comment_text" name="shipment[comment_text]" rows="3" cols="5" style="height:6em; width:99%;"><?php echo $this->getShipment()->getCommentText(); ?></textarea>
-            </span>
-            <div class="clear"></div>
+                <textarea id="shipment_comment_text" name="shipment[comment_text]" rows="3" cols="5"><?php echo $this->getShipment()->getCommentText(); ?></textarea>
+            </div>
         </div>
-    </fieldset>
-</div>
-
-<div class="box-right entry-edit">
+    </div>
     <div class="order-totals">
-        <div class="order-totals-bottom">
-          <?php if ($this->canCreateShippingLabel()): ?>
-          <p>
-              <label class="normal" for="create_shipping_label"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Create Shipping Label') ?></label>
-              <input id="create_shipping_label" name="shipment[create_shipping_label]" value="1" type="checkbox"  onclick="toggleCreateLabelCheckbox();" />
-          </p>
-          <?php endif ?>
-          <p>
-              <label class="normal" for="notify_customer"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Append Comments') ?></label>
-              <input id="notify_customer" name="shipment[comment_customer_notify]" value="1" type="checkbox" />
-          </p>
-          <?php if ($this->canSendShipmentEmail()): ?>
-          <p>
-              <label class="normal" for="send_email"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Email Copy of Shipment') ?></label>
-              <input id="send_email" name="shipment[send_email]" value="1" type="checkbox" />
-          </p>
-          <?php endif; ?>
-          <div class="a-right">
-          <?php echo $this->getChildHtml('submit_button') ?>
-          </div>
+        <div class="fieldset-wrapper">
+            <div class="clearfix">
+                <div class="actions">
+                    <?php echo $this->getChildHtml('submit_button') ?>
+                </div>
+              <?php if ($this->canCreateShippingLabel()): ?>
+              <div>
+                  <label class="normal" for="create_shipping_label"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Create Shipping Label') ?></label>
+                  <input id="create_shipping_label" name="shipment[create_shipping_label]" value="1" type="checkbox"  onclick="toggleCreateLabelCheckbox();" />
+              </div>
+              <?php endif ?>
+              <div>
+                  <label class="normal" for="notify_customer"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Append Comments') ?></label>
+                  <input id="notify_customer" name="shipment[comment_customer_notify]" value="1" type="checkbox" />
+              </div>
+              <?php if ($this->canSendShipmentEmail()): ?>
+              <div>
+                  <label class="normal" for="send_email"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Email Copy of Shipment') ?></label>
+                  <input id="send_email" name="shipment[send_email]" value="1" type="checkbox" />
+              </div>
+              <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
-<div class="clear"></div>
 <script type="text/javascript">
 //<![CDATA[
 var sendEmailCheckbox = $('send_email');

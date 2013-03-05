@@ -12,56 +12,46 @@
     <?php echo $this->getBlockHtml('formkey')?>
     <?php  $_order = $this->getShipment()->getOrder() ?>
     <?php echo $this->getChildHtml('order_info') ?>
-
-
-    <div class="box-left">
-        <!--Billing Address-->
-        <div class="entry-edit">
-            <div class="entry-edit-head">
-                <h4 class="icon-head head-payment-method"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></h4>
-            </div>
-            <fieldset>
+    <div class="clearfix">
+        <div class="order-payment-method">
+            <!--Billing Address-->
+            <div class="fieldset-wrapper">
+                <div class="fieldset-wrapper-title">
+                    <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
+                </div>
                 <div><?php echo $this->getPaymentHtml() ?></div>
                 <div><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('The order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
-            </fieldset>
-        </div>
-    </div>
-    <div class="box-right">
-        <!--Shipping Address-->
-        <div class="entry-edit">
-            <div class="entry-edit-head">
-                <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></h4>
             </div>
-            <fieldset>
+        </div>
+        <div class="order-shipping-address">
+            <!--Shipping Address-->
+            <div class="fieldset-wrapper">
+                <div class="fieldset-wrapper-title">
+                    <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
+                </div>
                 <div>
                     <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
+                    <div>
+                        <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
 
-                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
-                        <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
-                    <?php else: ?>
-                        <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
-                    <?php endif; ?>
-                    <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
-
-                    <?php echo $_excl; ?>
-                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
+                            <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
+                        <?php else: ?>
+                            <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                        <?php endif; ?>
+                        <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
+                        <?php echo $_excl; ?>
+                        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                         (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
-                    <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
                 <div><?php echo $this->getChildHtml('shipment_tracking') ?></div>
-            </fieldset>
-        </div>
-    </div>
-    <div class="clear"></div>
-
-    <div class="entry-edit">
-        <div class="entry-edit-head">
-            <h4 class="icon-head head-products"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Items to Ship') ?></h4>
+            </div>
         </div>
     </div>
     <div id="ship_items_container">
-            <?php echo $this->getItemsHtml() ?>
+        <?php echo $this->getItemsHtml() ?>
     </div>
 </form>
 <?php echo $this->getChildHtml('shipment_packaging') ?>

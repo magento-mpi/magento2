@@ -6,53 +6,6 @@
  */
 
 /*
-    Sales
--------------------------------------- */
-
-.customer-current-activity {
-    float: left;
-    width: 20%;
-}
-
-.customer-current-activity-inner,
-.order-details-inner {
-    background: #fff;
-    border: 1px solid #EAE6E0;
-    padding: 18px;
-    border-radius: 5px;
-}
-
-.order-details-existing-customer {
-    padding: 0 1% 1%;
-    position: relative;
-    width: 78%;
-    float: right;
-}
-
-.order-billing-address,
-.order-billing-method,
-.order-history {
-    width: 49%;
-    float: left;
-}
-
-.order-shipping-address,
-.order-shipping-method,
-.order-totals {
-    width: 49%;
-    float: right;
-}
-
-.create-order-sidebar-container > div {
-    border-bottom: 1px solid #ccc;
-}
-
-.customer-current-activity .actions {
-    border-bottom: none;
-    margin-top: 20px;
-}
-
-/*
     Product Creation
 -------------------------------------- */
 
@@ -1622,6 +1575,317 @@
     text-align: center;
 }
 
+/*
+    Sales
+-------------------------------------- */
+
+.customer-current-activity {
+    float: left;
+    width: 20%;
+}
+
+.customer-current-activity-inner,
+.order-details-inner {
+    background: #fff;
+    border: 1px solid #eae6e0;
+    padding: 18px;
+    border-radius: 5px;
+}
+
+.order-details-existing-customer {
+    padding: 0 1% 1%;
+    position: relative;
+    width: 78%;
+    float: right;
+}
+
+.order-billing-address,
+.order-billing-method,
+[class^=" adminhtml-sales-order-"] .order-history,
+[class^=" adminhtml-sales-order-"] .order-comments-history,
+[class^=" adminhtml-sales-order-"] .order-information,
+.adminhtml-sales-order-view .order-billing-address,
+[class^=" adminhtml-sales-order-"] .order-payment-method,
+.adminhtml-rma-new .order-comments-history,
+.adminhtml-rma-new .order-shipping-address,
+.adminhtml-rma-new .rma-request-details {
+    float: left;
+    width: 49%;
+}
+
+.order-shipping-address,
+.order-shipping-method,
+[class^=" adminhtml-sales-order-"] .order-totals,
+[class^=" adminhtml-sales-order-"] .order-account-information,
+[class^=" adminhtml-sales-order-"] .order-shipping-address,
+[class^=" adminhtml-sales-order-"] .order-payment-method-virtual,
+.adminhtml-sales-order-view .order-shipping-method,
+.adminhtml-rma-new .rma-confirmation,
+.adminhtml-rma-new .order-shipping-method,
+.adminhtml-rma-new .order-return-address {
+    float: right;
+    width: 49%;
+}
+
+.adminhtml-rma-new .order-totals  {
+    float: none;
+    width: 100%;
+}
+
+.create-order-sidebar-container > div {
+    border-bottom: 1px solid #ccc;
+}
+
+.customer-current-activity .actions {
+    border-bottom: none;
+    margin-top: 20px;
+}
+
+/*
+    Order view
+-------------------------------------- */
+[class^=" adminhtml-sales-order-"] .fieldset-wrapper-title .actions {
+    float: right;
+    font-size: 12px;
+    margin: 8px 20px 0 0;
+}
+
+[class^=" adminhtml-sales-order-"] .fieldset-wrapper-title .actions a:link,
+[class^=" adminhtml-sales-order-"] .fieldset-wrapper-title .actions a:visited,
+[class^=" adminhtml-sales-order-"] .fieldset-wrapper-title .actions a:hover,
+[class^=" adminhtml-sales-order-"] .fieldset-wrapper-title .actions a:active {
+    color: #a29c94;
+}
+
+.order-comments-history textarea,
+.rma-history-form textarea {
+    height: 6em;
+    margin: 5px 0 10px;
+    width: 100%;
+}
+
+.order-history-comments-options input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.order-history-comments-options {
+    float: left;
+}
+
+.order-comments-history .actions {
+    float: right;
+}
+
+[class^=" adminhtml-sales-order-"] .note-list,
+.order-comments-history .note-list {
+    list-style: none;
+    padding: 0;
+}
+
+[class^=" adminhtml-sales-order-"] .note-list li,
+.order-comments-history .note-list li {
+    border-top: 1px solid #ededed;
+    padding: 7px 0;
+}
+
+[class^=" adminhtml-sales-order-"] .note-list li:first-child {
+    border: 0;
+    padding-top: 13px;
+}
+
+[class^=" adminhtml-sales-order-"] .note-list div,
+.order-comments-history .note-list div {
+    font-size: 12px;
+}
+
+.adminhtml-giftwrapping-index th.col-id {
+    text-align: left;
+}
+
+.adminhtml-giftwrapping-index .col-id,
+.adminhtml-checkout-agreement-index .col-id {
+    width: 35px;
+}
+
+[class^=" adminhtml-sales-order-shipment-"] .col-ship,
+[class^=" adminhtml-sales-"] .col-return-to-stock,
+.adminhtml-rma-new .col-select {
+    text-align: center;
+    width: 35px;   
+}
+
+[class^=" adminhtml-sales-order-"] .col-status,
+[class^=" adminhtml-sales-order-"] .col-price,
+[class^=" adminhtml-sales-order-"] .col-price-original,
+[class^=" adminhtml-sales-order-"] .col-subtotal,
+[class^=" adminhtml-sales-order-"] .col-tax-amount,
+[class^=" adminhtml-sales-order-"] .col-tax-percent,
+[class^=" adminhtml-sales-order-"] .col-discont,
+[class^=" adminhtml-sales-order-"] .col-total,
+[class^=" adminhtml-sales-order-"] .col-discount,
+[class^=" adminhtml-sales-order-"] .col-tax,
+[class^=" adminhtml-sales-"] .col-refunded,
+.adminhtml-giftwrapping-index .col-price,
+.adminhtml-rma-new .col-price,
+.adminhtml-checkout-agreement-index .col-status,
+.adminhtml-rma-item-attribute-index .col-order,
+.adminhtml-rma-item-attribute-index .col-visible-on-front {
+    text-align: right;
+    white-space: nowrap;
+    width: 50px;
+}
+
+[class^=" adminhtml-sales-"] .col-select,
+[class^=" adminhtml-sales-"] .col-actions,
+.adminhtml-giftwrapping-index .col-select,
+.adminhtml-giftwrapping-index .col-actions{
+    width: 50px;
+}
+
+[class^=" adminhtml-sales-"] .col-qty,
+[class^=" adminhtml-sales-order-"] .col-qty-invoice,
+[class^=" adminhtml-sales-order-"] .col-ordered-qty,
+.adminhtml-rma-new .col-qty {
+    width: 70px;
+}
+
+.adminhtml-sales-order-view .col-closed,
+[class^=" adminhtml-sales-"] .col-refund {
+    text-align: center;
+    width: 70px;
+}
+
+[class^=" adminhtml-sales-"] .col-order-number,
+[class^=" adminhtml-sales-"] .col-invoice-number,
+[class^=" adminhtml-sales-"] .col-memo-number,
+[class^=" adminhtml-sales-"] .col-shipment-number,
+[class^=" adminhtml-sales-"] .col-status,
+.adminhtml-giftwrapping-index .col-status,
+.adminhtml-sales-order-view .col-refunded {
+     white-space: normal;
+     width: 75px;
+}
+
+[class^=" adminhtml-sales-"] .col-gtbase,
+[class^=" adminhtml-sales-"] .col-gtpurchased,
+.adminhtml-rma-new .col-sku {
+    text-align: right;
+    width: 80px;
+}
+
+.adminhtml-sales-order-view .col-memo {
+    width: 100px;
+}
+
+[class^=" adminhtml-sales-"] .col-period {
+    white-space: nowrap;
+    width: 150px;
+}
+
+[class^=" adminhtml-sales-order-shipment-"] .col-carrier {
+    width: 190px;
+}
+
+.adminhtml-giftwrapping-index .col-websites,
+.adminhtml-checkout-agreement-index .col-store-view {
+    white-space: nowrap;
+    width: 200px;
+}
+
+[class^=" adminhtml-sales-order-"] .order-totals .actions,
+[class^=" adminhtml-sales-"] .col-status,
+.adminhtml-giftwrapping-index .col-status,
+.adminhtml-sales-order-view .col-refunded,
+.adminhtml-rma-new .col-qty {
+    text-align: right;
+}
+
+.adminhtml-giftwrapping-index .col-price,
+[class^=" adminhtml-sales-order-"] .col-price,
+[class^=" adminhtml-sales-order-"] .col-subtotal {
+    white-space: nowrap;
+}
+
+[class^=" adminhtml-sales-order-"] .grid .col-qty table,
+[class^=" adminhtml-sales-order-"] .grid .col-qty tbody,
+[class^=" adminhtml-sales-order-"] .grid .col-qty tr,
+[class^=" adminhtml-sales-order-"] .grid .col-qty td,
+
+[class^=" adminhtml-sales-order-"] .grid .col-ordered-qty table,
+[class^=" adminhtml-sales-order-"] .grid .col-ordered-qty tbody,
+[class^=" adminhtml-sales-order-"] .grid .col-ordered-qty tr,
+[class^=" adminhtml-sales-order-"] .grid .col-ordered-qty td {
+    background: none;
+    border: 0;
+}
+
+[class^=" adminhtml-sales-order-"] .col-ordered-qty td {
+    padding: 0 5px 3px;
+}
+
+[class^=" adminhtml-sales-order-"] .grid .product-title {
+    font-weight: bold;
+}
+
+[class^=" adminhtml-sales-order-"] .item-options {
+    margin: 5px 0;
+}
+
+[class^=" adminhtml-sales-order-"] .item-options dt {
+    font-weight: bold;
+}
+
+[class^=" adminhtml-sales-order-"] .item-options dd {
+    margin: 0 0 0 10px;
+}
+
+.order-subtotal .label {
+    text-align: right;
+}
+
+.items-to-invoice {
+    border: 1px solid #c0bbaf;
+    margin-top: 13px;
+    width: 100%;
+}
+
+.items-to-invoice td,
+table.items-to-invoice tbody tr:hover td {
+    background-color: #e6e3de;
+    border: 0;
+    text-align: center;
+}
+
+[class^=" adminhtml-sales-order-creditmemo-"] .no-items {
+    padding-top: 13px;
+    text-align: center;
+}
+
+.items-to-invoice .grand-total {
+    color: #19a3d1;
+    font-weight: bold;
+}
+
+.adminhtml-sales-order-shipment-new .order-totals .fieldset-wrapper {
+    padding-top: 18px;
+}
+
+.adminhtml-sales-order-shipment-new .actions {
+    float: right;
+}
+
+.creditmemo-totals .data-table input[type="text"] {
+    text-align: right;
+    width: 60px;
+}
+[class^=" adminhtml-sales-order-"] .order-subtotal .label {
+    width: 80%;
+}
+
+.adminhtml-rma-new .rma-confirmation .actions {
+    margin-top: 10px;
+    text-align: right;
+}
 /*
     Clearfix
 -------------------------------------- */

@@ -3166,6 +3166,10 @@ table tbody tr:nth-child(odd):hover th {
     max-width: 1259px;
 }
 
+.eq-ie8 .page-actions.fixed .page-actions-inner {
+    background: #f7f2ec;
+}
+
 .page-actions.fixed .page-actions-inner:before {
     content: attr(data-title);
     float: left;
@@ -3873,13 +3877,19 @@ tr.dynamic-grid input.input-text {
 .invitation_information .data-table,
 .invitee_information .data-table, 
 .inviter_information .data-table,
-.customer-information .data-table {
+.customer-information .data-table,
+.order-information .data-table,
+.order-account-information .data-table,
+.adminhtml-rma-new .data-table {
     width:100%;
 }
 .invitation_information .data-table tbody tr th,
 .invitee_information .data-table tbody tr th,
 .inviter_information .data-table tbody tr th,
-.customer-information .data-table tbody tr th {
+.customer-information .data-table tbody tr th,
+.order-information .data-table tbody tr th,
+.order-account-information .data-table tbody tr th,
+.adminhtml-rma-new .data-table tbody tr th {
     font-weight: bold;
 }
 
@@ -3890,7 +3900,13 @@ tr.dynamic-grid input.input-text {
 .inviter_information .data-table tbody tr td,
 .inviter_information .data-table tbody tr th,
 .customer-information .data-table tbody tr td,
-.customer-information .data-table tbody tr th {
+.customer-information .data-table tbody tr th,
+.order-information .data-table tbody tr td,
+.order-information .data-table tbody tr th,
+.order-account-information .data-table tbody tr td,
+.order-account-information .data-table tbody tr th,
+.adminhtml-rma-new .data-table tbody tr td,
+.adminhtml-rma-new .data-table tbody tr th {
     background-color: #fff;
     border: 0;
     padding: 9px 10px 10px;
@@ -3905,7 +3921,13 @@ tr.dynamic-grid input.input-text {
 .inviter_information .data-table tbody tr:nth-child(2n+1) td,
 .inviter_information .data-table tbody tr:nth-child(2n+1) th,
 .customer-information .data-table tbody tr:nth-child(2n+1) td,
-.customer-information .data-table tbody tr:nth-child(2n+1) th {
+.customer-information .data-table tbody tr:nth-child(2n+1) th,
+.order-information .data-table tbody tr:nth-child(2n+1) td,
+.order-information .data-table tbody tr:nth-child(2n+1) th,
+.order-account-information .data-table tbody tr:nth-child(2n+1) td,
+.order-account-information .data-table tbody tr:nth-child(2n+1) th,
+.adminhtml-rma-new .data-table tbody tr:nth-child(2n+1) td,
+.adminhtml-rma-new .data-table tbody tr:nth-child(2n+1) th {
     background-color: #fbfaf6;
 }
 

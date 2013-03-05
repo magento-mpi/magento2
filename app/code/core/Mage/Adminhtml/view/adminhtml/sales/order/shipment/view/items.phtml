@@ -8,25 +8,20 @@
  * @license     {license_link}
  */
 ?>
-<div class="grid np">
-  <div class="hor-scroll">
-    <table cellspacing="0" class="data order-tables">
-        <col />
-        <col width="1" />
+<div class="grid">
+    <table cellspacing="0" class="data">
         <thead>
             <tr class="headings">
-                <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></th>
-                <th class="a-center last"><span class="nobr"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty Shipped') ?></span></th>
+                <th class="col-product"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
+                <th class="col-qty last"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty Shipped') ?></span></th>
             </tr>
         </thead>
+        <tbody>
         <?php $_items = $this->getShipment()->getAllItems() ?>
         <?php $_i=0;foreach ($_items as $_item): if ($_item->getOrderItem()->getIsVirtual() || $_item->getOrderItem()->getParentItem()): continue; endif; $_i++ ?>
-            <tbody class="<?php echo $_i%2?'odd':'even' ?>">
-                <?php echo $this->getItemHtml($_item) ?>
-                <?php echo $this->getItemExtraInfoHtml($_item->getOrderItem()) ?>
-            </tbody>
+            <?php echo $this->getItemHtml($_item) ?>
+            <?php echo $this->getItemExtraInfoHtml($_item->getOrderItem()) ?>
         <?php endforeach; ?>
+        </tbody>
     </table>
-  </div>
 </div>
-<br />

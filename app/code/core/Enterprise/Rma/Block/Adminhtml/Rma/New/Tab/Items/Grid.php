@@ -85,32 +85,35 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     {
         $this->addColumn('product_name', array(
             'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
-            'width'    => '80px',
             'type'     => 'text',
             'index'    => 'product_name',
             'sortable' => false,
             'escape'   => true,
+            'header_css_class'  => 'col-product',
+            'column_css_class'  => 'col-product'
         ));
 
         $this->addColumn('product_sku', array(
             'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
-            'width'    => '80px',
             'type'     => 'text',
             'index'    => 'product_sku',
             'sortable' => false,
             'escape'   => true,
+            'header_css_class'  => 'col-sku',
+            'column_css_class'  => 'col-sku'
         ));
 
         //Renderer puts available quantity instead of order_item_id
         $this->addColumn('qty_ordered', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining Qty'),
-            'width' => '80px',
             'getter'   => array($this, 'getQtyOrdered'),
             'type'  => 'text',
             'index' => 'qty_ordered',
             'sortable' => false,
             'order_data' => $this->getOrderItemsData(),
             'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         $this->addColumn('qty_requested', array(
@@ -118,7 +121,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'width' => '80px',
             'index' => 'qty_requested',
             'type'  => 'input',
-            'sortable' => false
+            'sortable' => false,
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
@@ -129,7 +134,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('reason'),
             'index' => 'reason',
-            'sortable' => false
+            'sortable' => false,
+            'header_css_class'  => 'col-reason',
+            'column_css_class'  => 'col-reason'
         ));
 
         $this->addColumn('condition', array(
@@ -138,7 +145,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('condition'),
             'index' => 'condition',
-            'sortable' => false
+            'sortable' => false,
+            'header_css_class'  => 'col-condition',
+            'column_css_class'  => 'col-condition'
         ));
 
         $this->addColumn('resolution', array(
@@ -147,7 +156,9 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'index' => 'resolution',
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('resolution'),
-            'sortable' => false
+            'sortable' => false,
+            'header_css_class'  => 'col-resolution',
+            'column_css_class'  => 'col-resolution'
         ));
 
         $actionsArray = array(
@@ -168,11 +179,12 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         $this->addColumn('action',
             array(
                 'header'    =>  Mage::helper('Enterprise_Rma_Helper_Data')->__('Action'),
-                'width'     => '100',
                 'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
                 'actions'   => $actionsArray,
                 'sortable'  => false,
                 'is_system' => true,
+                'header_css_class'  => 'col-action',
+                'column_css_class'  => 'col-action'
         ));
 
         return parent::_prepareColumns();
