@@ -448,7 +448,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         if (isset($themeData['theme_id'])) {
             $this->load($themeData['theme_id']);
-            if ($this->getId() && $this->isEditable()) {
+            if ($this->getId() && !$this->isEditable()) {
                 Mage::throwException($this->_helper->__('Theme isn\'t editable.'));
             }
         }
