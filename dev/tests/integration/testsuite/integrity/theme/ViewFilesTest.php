@@ -18,7 +18,6 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      */
     public function testViewFilesFromThemes($theme, $file)
     {
-        $this->markTestIncomplete('MAGETWO-7955');
         $params = array(
             'area'       => $theme->getArea(),
             'themeModel' => $theme
