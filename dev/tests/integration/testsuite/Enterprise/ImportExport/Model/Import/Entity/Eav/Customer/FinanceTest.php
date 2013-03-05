@@ -15,6 +15,19 @@
 class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Remove test website
+     */
+    protected function tearDown()
+    {
+        /** @var $testWebsite Mage_Core_Model_Website */
+        $testWebsite = Mage::registry('Enterprise_ImportExport_Model_Website');
+        if ($testWebsite) {
+            // Clear test website info from application cache.
+            Mage::app()->clearWebsiteCache($testWebsite->getId());
+        }
+    }
+
+    /**
      * Test import data method
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
@@ -144,22 +157,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                 $expectedBalances[$balance->getCustomerId()][$balance->getWebsiteId()]
             );
         }
-    }
-
-    /**
-     * Remove test website
-     *
-     * @static
-     */
-    public static function tearDownAfterClass()
-    {
-        /** @var $testWebsite Mage_Core_Model_Website */
-        $testWebsite = Mage::registry('Enterprise_ImportExport_Model_Website');
-        if ($testWebsite) {
-            // Clear test website info from application cache.
-            Mage::app()->clearWebsiteCache($testWebsite->getId());
-        }
-        parent::tearDownAfterClass();
     }
 
     /**
