@@ -35,7 +35,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected $_applicationConfig;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -49,12 +49,12 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
      *
      * @param Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector
      * @param Mage_Core_Model_Config $appConfig
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector,
         Mage_Core_Model_Config $appConfig,
-        Mage_Core_Model_Cache $cache
+        Mage_Core_Model_CacheInterface $cache
     ) {
         $this->_classReflector = $classReflector;
         $this->_applicationConfig = $appConfig;

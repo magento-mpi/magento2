@@ -28,7 +28,7 @@ class Mage_Backend_Model_Acl_Config implements Mage_Core_Model_Acl_Config_Config
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -46,12 +46,12 @@ class Mage_Backend_Model_Acl_Config implements Mage_Core_Model_Acl_Config_Config
 
     /**
      * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
         Mage_Core_Model_Config $config,
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
         $this->_config = $config;

@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
      * @param Mage_Core_Model_Config_Modules $modulesConfig
      * @param Mage_Core_Model_Resource $resource
      * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param $resourceName
      */
     public function __construct(
@@ -31,7 +31,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
         Mage_Core_Model_Config_Modules $modulesConfig,
         Mage_Core_Model_Resource $resource,
         Mage_Core_Model_Config_Modules_Reader $modulesReader,
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         $resourceName
     ) {
         parent::__construct($resourcesConfig, $modulesConfig, $resource, $modulesReader, $cache, $resourceName);

@@ -35,7 +35,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * Application chache model
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -49,13 +49,13 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * @param Mage_Core_Model_ConfigInterface $config
      * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_ConfigInterface $config,
         Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;

@@ -15,24 +15,24 @@ class Mage_Core_Model_Context implements Magento_ObjectManager_ContextInterface
     protected $_eventDispatcher;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cacheManager;
 
     /**
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_CacheInterface $cacheManager
      */
     public function __construct(
         Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager
+        Mage_Core_Model_CacheInterface $cacheManager
     ) {
         $this->_eventDispatcher = $eventDispatcher;
         $this->_cacheManager = $cacheManager;
     }
 
     /**
-     * @return \Mage_Core_Model_Cache
+     * @return \Mage_Core_Model_CacheInterface
      */
     public function getCacheManager()
     {

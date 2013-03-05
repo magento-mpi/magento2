@@ -13,7 +13,7 @@ class Mage_Backend_Model_Menu_Config
     const CACHE_MENU_OBJECT = 'backend_menu_object';
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -49,7 +49,7 @@ class Mage_Backend_Model_Menu_Config
     protected $_logger;
 
     /**
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param Magento_ObjectManager $factory
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -57,7 +57,7 @@ class Mage_Backend_Model_Menu_Config
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
      */
     public function __construct(
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         Magento_ObjectManager $factory,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Core_Model_Event_Manager $eventManager,

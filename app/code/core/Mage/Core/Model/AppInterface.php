@@ -150,7 +150,7 @@ interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInter
     /**
      * Get core cache model
      *
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function getCacheInstance();
 

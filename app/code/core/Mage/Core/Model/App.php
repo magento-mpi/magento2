@@ -57,7 +57,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Cache object
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -124,7 +124,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
      * @param Mage_Core_Model_StoreManager $storeManager
@@ -134,7 +134,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
         Mage_Core_Model_StoreManager $storeManager,
@@ -380,7 +380,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Get core cache model
      *
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function getCacheInstance()
     {

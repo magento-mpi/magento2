@@ -101,7 +101,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * Application Cache Manager
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cacheManager;
 
@@ -170,7 +170,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         if (Mage::getIsSerializable()) {
             $this->_eventDispatcher = Mage::getSingleton('Mage_Core_Model_Event_Manager');
-            $this->_cacheManager    = Mage::getSingleton('Mage_Core_Model_Cache');
+            $this->_cacheManager    = Mage::getSingleton('Mage_Core_Model_CacheInterface');
         }
     }
 

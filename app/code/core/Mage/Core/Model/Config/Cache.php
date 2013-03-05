@@ -72,13 +72,13 @@ class Mage_Core_Model_Config_Cache
     protected $_loadedConfig = null;
 
     /**
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Core_Model_Config_Sections $configSections
      * @param Mage_Core_Model_Config_ContainerFactory $containerFactory
      * @param Mage_Core_Model_Config_BaseFactory $baseFactory
      */
     public function __construct(
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         Mage_Core_Model_Config_Sections $configSections,
         Mage_Core_Model_Config_ContainerFactory $containerFactory,
         Mage_Core_Model_Config_BaseFactory $baseFactory

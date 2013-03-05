@@ -69,7 +69,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_urlModelFactory;
 
     /**
-     * @var Mage_Core_Model_Cache|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_CacheInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheManager;
 
@@ -109,9 +109,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheManager = $this->getMock('Mage_Core_Model_Cache', array('canUse', 'banUse'),
-            array(), '', false
-        );
+        $this->_cacheManager = $this->getMock('Mage_Core_Model_CacheInterface');
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
             array(), '', false
         );

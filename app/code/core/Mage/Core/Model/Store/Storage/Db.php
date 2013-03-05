@@ -75,7 +75,7 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
     /**
      * Application cache model
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -132,7 +132,7 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
      * @param Mage_Core_Model_StoreFactory $storeFactory
      * @param Mage_Core_Model_Website_Factory $websiteFactory
      * @param Mage_Core_Model_Store_Group_Factory $groupFactory
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cookie $cookie
      * @param Mage_Core_Model_App_State $appState
@@ -145,7 +145,7 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
         Mage_Core_Model_StoreFactory $storeFactory,
         Mage_Core_Model_Website_Factory $websiteFactory,
         Mage_Core_Model_Store_Group_Factory $groupFactory,
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cookie $cookie,
         Mage_Core_Model_App_State $appState,

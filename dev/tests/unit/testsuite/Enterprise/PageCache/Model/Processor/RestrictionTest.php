@@ -38,7 +38,7 @@ class Enterprise_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Frame
         $this->_environmentMock = $this->getMock(
             'Enterprise_PageCache_Model_Environment', array(), array(), '', false
         );
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
         $this->_model = new Enterprise_PageCache_Model_Processor_Restriction(
             $this->_cacheMock, $this->_environmentMock
         );

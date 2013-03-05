@@ -11,8 +11,7 @@
 require __DIR__ . '/../../../app/bootstrap.php';
 require __DIR__ . '/lib/ArrayDefinitionReader.php';
 require __DIR__ . '/lib/UniqueList.php';
-error_reporting(E_ERROR);
-try{
+try {
     $opt = new Zend_Console_Getopt(array(
         'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
         'file|f-s'       => 'write output to file (default = var/di/definitions.php)',

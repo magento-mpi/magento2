@@ -17,7 +17,7 @@ class Enterprise_PageCache_Model_Processor_Restriction
     /**
      * Application cache model
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -36,11 +36,11 @@ class Enterprise_PageCache_Model_Processor_Restriction
     protected $_environment;
 
     /**
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param Enterprise_PageCache_Model_Environment $environment
      */
     public function __construct(
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         Enterprise_PageCache_Model_Environment $environment
     ) {
         $this->_cache = $cache;

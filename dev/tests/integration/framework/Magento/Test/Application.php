@@ -165,7 +165,7 @@ class Magento_Test_Application
         Mage::getObjectManager()->get('Mage_Core_Model_Resource')
             ->setResourceConfig(Mage::getObjectManager()->get('Mage_Core_Model_Config_Resource'));
         Mage::getObjectManager()->get('Mage_Core_Model_Resource')
-            ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_Cache'));
+            ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface'));
     }
 
     /**

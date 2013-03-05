@@ -542,7 +542,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     /**
      * Initialize cache types options
      *
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     protected function _initOptions()
     {
@@ -572,7 +572,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * Save cache usage options
      *
      * @param array $options
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function saveOptions($options)
     {
@@ -608,7 +608,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * Disable cache usage for specific data type
      *
      * @param string $typeCode
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function banUse($typeCode)
     {
@@ -620,7 +620,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * Enable cache usage for specific data type
      *
      * @param string $typeCode
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function allowUse($typeCode)
     {
@@ -692,7 +692,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * Save invalidated cache types
      *
      * @param array $types
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     protected function _saveInvalidatedTypes($types)
     {
@@ -724,7 +724,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * Mark specific cache type(s) as invalidated
      *
      * @param string|array $typeCode
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function invalidateType($typeCode)
     {
@@ -743,7 +743,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * Clean cached data for specific cache type
      *
      * @param string $typeCode
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function cleanType($typeCode)
     {

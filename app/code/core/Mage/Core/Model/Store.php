@@ -401,7 +401,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if ($this->_configCache === null) {
             $code = $this->getCode();
             if ($code) {
-                $cache = Mage::getObjectManager()->get('Mage_Core_Model_Cache');
+                $cache = Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface');
                 if ($cache->canUse('config')) {
                     $cacheId = 'store_' . $code . '_config_cache';
                     $data = $cache->load($cacheId);

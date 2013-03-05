@@ -46,7 +46,7 @@ class Enterprise_PageCache_Model_Observer
     /**
      * Application cache model
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -87,7 +87,7 @@ class Enterprise_PageCache_Model_Observer
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Cookie $cookie
      * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
@@ -97,7 +97,7 @@ class Enterprise_PageCache_Model_Observer
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier,
         Enterprise_PageCache_Model_Config $config,
-        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_CacheInterface $cache,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_Cookie $cookie,
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,

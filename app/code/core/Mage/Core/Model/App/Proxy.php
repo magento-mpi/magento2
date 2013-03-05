@@ -321,7 +321,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     /**
      * Get core cache model
      *
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function getCacheInstance()
     {

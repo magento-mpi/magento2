@@ -153,8 +153,8 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Mage::getObjectManager();
         /** Prepare arguments for SUT constructor. */
-        /** @var Mage_Core_Model_Cache $cache */
-        $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        /** @var Mage_Core_Model_CacheInterface $cache */
+        $cache = $this->getMockBuilder('Mage_Core_Model_CacheInterface')->disableOriginalConstructor()->getMock();
         $configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
         $configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)

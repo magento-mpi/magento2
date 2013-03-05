@@ -25,7 +25,7 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
             $configMock->expects($this->any())
                 ->method('getModuleDir')
                 ->will($this->returnValue(Mage::getBaseDir('app') . '/code/core/Mage/Backend/etc'));
-            $cacheMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+            $cacheMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
             $cacheMock->expects($this->any())->method('canUse')->will($this->returnValue(false));
             $converter = new Mage_Backend_Model_Config_Structure_Converter(
                 new Mage_Backend_Model_Config_Structure_Mapper_Factory(Mage::getObjectManager())

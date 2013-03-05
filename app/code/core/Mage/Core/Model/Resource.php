@@ -63,15 +63,15 @@ class Mage_Core_Model_Resource
     /**
      * Application cache
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cache;
 
     /**
      * @param Mage_Core_Model_Config_Resource $resourceConfig
-     * @param Mage_Core_Model_Cache $cache
+     * @param Mage_Core_Model_CacheInterface $cache
      */
-    public function __construct(Mage_Core_Model_Config_Resource $resourceConfig, Mage_Core_Model_Cache $cache)
+    public function __construct(Mage_Core_Model_Config_Resource $resourceConfig, Mage_Core_Model_CacheInterface $cache)
     {
         $this->_resourceConfig = $resourceConfig;
         $this->_cache = $cache;

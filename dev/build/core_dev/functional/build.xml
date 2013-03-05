@@ -222,7 +222,7 @@
 
         <!-- @see prepare-ee target; _product_edition_files is not suitable currently since it extrudes functional tests -->
         <copy file="${basedir}/app/etc/modules/XEnterprise_Enabler.xml.dist"
-              tofile="${basedir}/app/etc/modules/XEnterprise_Enabler.xml.dist"/>
+              tofile="${basedir}/app/etc/modules/XEnterprise_Enabler.xml"/>
         <replace file="${basedir}/downloader/config.ini" token="community" value="enterprise"/>
         <replace file="${basedir}/app/Mage.php" token="self::EDITION_COMMUNITY" value="self::EDITION_ENTERPRISE"/>
 

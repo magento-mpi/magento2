@@ -67,7 +67,7 @@ class Mage_DesignEditor_Model_State
     /**
      * Application Cache Manager
      *
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cacheManager;
 
@@ -95,7 +95,7 @@ class Mage_DesignEditor_Model_State
      * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
-     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Model_CacheInterface $cacheManager
      * @param Mage_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Design_Package $designPackage
@@ -105,7 +105,7 @@ class Mage_DesignEditor_Model_State
         Mage_Backend_Model_Session $backendSession,
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
-        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_CacheInterface $cacheManager,
         Mage_DesignEditor_Helper_Data $dataHelper,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Design_Package $designPackage,
