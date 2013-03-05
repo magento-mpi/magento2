@@ -168,6 +168,54 @@ store_launcher:
                             additional_payment: //div[@class='drawer-content-inner']//a[contains(.,'Additional Payment Methods Settings')]
                         pageelements:
                             setup_seccessful: //div[@class='payment-method payment-method-%paymentMethod% configured active']//div[@class='payment-status']
+                -
+                    shipping_tile:
+                        xpath: //article[@id='tile-shipping']
+                        buttons:
+                            open_shipping_drawer: //button[normalize-space()='Confirm Info']
+                            configure_other_shipping_method: //button[normalize-space()='Set Up More Shipping Options']
+                -
+                    shipping_drawer:
+                        xpath: //div[@id='drawer']
+                        fields:
+                            flat_rate_name: //input[@id='flat-rate-name']
+                            flat_rate_price: //input[@id='flat-rate-price']
+                            fedex_id: //input[@id='fedex-id']
+                            fedex_number: //input[@id='fedex-meter-number']
+                            fedex_key: //input[@id='fedex-key']
+                            fedex_password: //input[@id='fedex-password']
+                            usps_id: //input[@id='usps-id']
+                            usps_password: //input[@id='usps-password']
+                            dhl_id: //input[@id='dhl-id']
+                            dhl_password: //input[@id='dhl-password']
+                            dhl_number:  //input[@id='dhl-account-number']
+                            ups_password: //input[@id='ups-password']
+                            ups_number: //input[@id='ups-license-number']
+                            shipping_street_address: //input[@id='street_line1']
+                            shipping_street_address_line_2: //input[@id='street_line2']
+                            shipping_city: //input[@id='city']
+                            shipping_zip_postal_code: //input[@id='postcode']
+                            shipping_region_input: //input[@id='region_id']
+                        dropdowns:
+                            flat_rate_type: //select[@id='flat-rate-type']
+                            shipping_country: //select[@id='country_id']
+                            shipping_origin_state: //select[@id='region_id']
+                        buttons:
+                            submit_flat_rate: //div[@id='flat-rate-config']//button[span='Submit']
+                            submit_fedex: //div[@id='fedex-config']//button[span='Submit']
+                            submit_usps: //div[@id='usps-config']//button[span='Submit']
+                            submit_dhl: //div[@id='dhl-config']//button[span='Submit']
+                            submit_ups: //div[@id='ups-config']//button[span='Submit']
+                            edit_address: //button[@id='action-origin-address-edit']
+                            save_address: //button[@id='action-origin-address-save']
+                            cancel_address: //button[@id='action-origin-address-cancel']
+                        pageelements:
+                            shipping_switcher: //div[@class='switcher drawer-switcher']/label[@title='Shipping status']
+                            flat_rate_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='flat-rate-tab-nav']
+                            fedex_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='fedex-tab-nav']
+                            usps_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='usps-tab-nav']
+                            dhl_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='dhl-tab-nav']
+                            ups_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='upc-tab-nav']
         messages: &newTaxRuleMessages
             enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"

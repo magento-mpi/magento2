@@ -82,7 +82,8 @@ class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
         return array(
             array('bussines_info_tile'),
             array('tax_rules_tile'),
-            array('payment_tile')
+            array('payment_tile'),
+            array('shipping_tile')
         );
     }
 }
