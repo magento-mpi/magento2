@@ -41,6 +41,6 @@ class Mage_Core_Controller_Varien_Router_Factory
             $arguments['baseController'] = $routerInfo['base_controller'];
         }
 
-        return $this->_objectManager->get($className, $arguments);
+        return $this->_objectManager->create($className, $arguments);
     }
 }

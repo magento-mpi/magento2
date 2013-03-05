@@ -119,27 +119,31 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     protected $_translate;
 
     /**
-     * Initialize data
-     *
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_App $application
+     * @param Mage_Core_Model_Store $store
+     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Core_Model_Translate $translate
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Mage_Core_Model_Context $context,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Store $store,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Core_Model_Translate $translate,
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_Cache $cacheManager,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
-        array $data= array())
-    {
+        array $data= array()
+    ) {
         $this->_app = $application;
         $this->_config = $applicationConfig;
         $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
         $this->_store = $store;
         $this->_translate = $translate;
-        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -24,10 +24,12 @@ class Mage_Catalog_Helper_Product_Options extends Mage_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
+     * @param Mage_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      */
-    public function __construct(Magento_Filesystem $filesystem)
+    public function __construct(Mage_Core_Helper_Context $context, Magento_Filesystem $filesystem)
     {
+        parent::__construct($context);
         $this->_filesystem = $filesystem;
     }
 

@@ -51,7 +51,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $wsdlFactory = $this->getMock(
             'Mage_Webapi_Model_Soap_Wsdl_Factory',
             array('create'),
-            array(new Magento_ObjectManager_Zend())
+            array(new Magento_ObjectManager_ObjectManager())
         );
         $wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
         $helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'), array(), '', false, false);

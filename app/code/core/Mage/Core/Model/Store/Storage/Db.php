@@ -384,6 +384,10 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
             if (is_null($this->_store) && $store->getId()) {
                 $this->_store = $store;
             }
+
+            if (0 == $store->getId()) {
+                $store->setUrlModel(Mage::getSingleton('Mage_Backend_Model_Url_Proxy'));
+            }
         }
 
         foreach ($groupCollection as $group) {

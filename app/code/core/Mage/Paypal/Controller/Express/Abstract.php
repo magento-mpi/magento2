@@ -19,6 +19,13 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     protected $_checkout = null;
 
     /**
+     * Internal cache of checkout models
+     *
+     * @var array
+     */
+    protected $_checkoutTypes = array();
+
+    /**
      * @var Mage_Paypal_Model_Config
      */
     protected $_config = null;
@@ -386,14 +393,16 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
             Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Unable to initialize Express Checkout.'));
         }
-
-        $parameters = array(
-            'params' => array(
-                'quote' => $quote,
-                'config' => $this->_config,
-            ),
-        );
-        $this->_checkout = Mage::getSingleton($this->_checkoutType, $parameters);
+        if (false === isset($this->_checkoutTypes[$this->_checkoutType])) {
+            $parameters = array(
+                'params' => array(
+                    'quote' => $quote,
+                    'config' => $this->_config,
+                ),
+            );
+            $this->_checkoutTypes[$this->_checkoutType] = Mage::getModel($this->_checkoutType, $parameters);
+        }
+        $this->_checkout = $this->_checkoutTypes[$this->_checkoutType];
     }
 
     /**
@@ -450,7 +459,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     /**
      * Return checkout quote object
      *
-     * @return Mage_Sale_Model_Quote
+     * @return Mage_Sales_Model_Quote
      */
     private function _getQuote()
     {

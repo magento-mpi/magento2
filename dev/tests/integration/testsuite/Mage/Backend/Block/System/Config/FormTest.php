@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCase
+class Mage_Backend_Block_System_Config_FormTest extends Mage_Backend_Area_TestCase
 {
     public function testDependenceHtml()
     {
@@ -124,13 +124,13 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $configMock->expects($this->any())->method('getModuleDir')
             ->will($this->returnValue(BP . '/app/code/core/Mage/Backend/etc'));
 
-        $structureReader = Mage::getSingleton('Mage_Backend_Model_Config_Structure_Reader',
-            array('moduleReader' => $configMock)
-        );
-        /** @var Mage_Backend_Model_Config_Structure $structure  */
-        $structure = Mage::getSingleton('Mage_Backend_Model_Config_Structure', array(
-            'structureReader' => $structureReader,
+        Mage::getObjectManager()->configure(array(
+            'Mage_Backend_Model_Config_Structure_Reader' => array(
+                'parameters' => array('moduleReader' => $configMock)
+            )
         ));
+        /** @var Mage_Backend_Model_Config_Structure $structure  */
+        $structure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
 
         /** @var Mage_Backend_Model_Config_Structure_Element_Section $section  */
         $section = $structure->getElement('test_section');

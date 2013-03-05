@@ -71,7 +71,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $app = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $objectManager = Mage::getObjectManager();
         $this->_helper = $objectManager->get('Mage_Webapi_Helper_Config');
-        $reader = $objectManager->get(
+        $reader = $objectManager->create(
             'Mage_Webapi_Model_Config_Reader_Soap',
             array(
                 'cache' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false)
@@ -100,18 +100,6 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 
         parent::setUp();
     }
-
-    protected function tearDown()
-    {
-        $this->_config = null;
-        $this->_autoDiscover = null;
-        $this->_helper = null;
-        $this->_resourceName = null;
-        $this->_resourceData = null;
-        $this->_dom = null;
-        $this->_xpath = null;
-    }
-
 
     /**
      * Test WSDL operations Generation.

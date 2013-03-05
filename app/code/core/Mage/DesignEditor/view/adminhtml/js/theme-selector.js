@@ -25,7 +25,8 @@
             afterAssignSaveUrl: null,
             storesByThemes: {},
             isMultipleStoreViewMode: null,
-            frameSelector: 'iframe#vde_container_frame'
+            frameSelector: 'iframe#vde_container_frame',
+            redirectToVdeOnAssign: false
         },
 
         /**
@@ -223,25 +224,36 @@
                 data: data,
                 dataType: 'json',
                 success: $.proxy(function(response) {
-                    if (response.error) {
-                        alert($.mage.__('Error') + ': "' + response.message + '".');
-                    } else {
-                        var defaultStore = 0;
-                        var url = [
-                            this.options.afterAssignSaveUrl + 'store_id',
-                            stores ? stores[0] : defaultStore,
-                            'theme_id',
-                            response.themeId
-                        ].join('/');
-                        this.options.storesByThemes[themeId] = stores;
-
-                        document.location = url;
-                    }
+                    this.assignSaveThemeSuccess(response, stores, themeId);
                 }, this),
                 error: function() {
                     alert($.mage.__('Error: unknown error.'));
                 }
             });
+        },
+
+        /**
+         * Assign Save Theme AJAX call Success handler
+         *
+         * @param response
+         * @param stores
+         * @param themeId
+         */
+        assignSaveThemeSuccess: function(response, stores, themeId) {
+            if (response.error) {
+                alert($.mage.__('Error') + ': "' + response.message + '".');
+            } else if (this.options.redirectToVdeOnAssign) {
+                var defaultStore = 0;
+                var url = [
+                    this.options.afterAssignSaveUrl + 'store_id',
+                    stores ? stores[0] : defaultStore,
+                    'theme_id',
+                    response.themeId
+                ].join('/');
+                this.options.storesByThemes[themeId] = stores;
+
+                document.location = url;
+            }
         },
 
         /**

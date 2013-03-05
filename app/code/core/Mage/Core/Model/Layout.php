@@ -738,7 +738,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $arguments = $this->_argumentProcessor->process($arguments);
 
-        $block = $this->_createBlock($className, $elementName, $arguments);
+        $block = $this->_createBlock($className, $elementName, array('data' => $arguments));
         if (!empty($node['template'])) {
             $block->setTemplate((string)$node['template']);
         }
@@ -1242,7 +1242,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $block->setType(get_class($block));
         $block->setNameInLayout($name);
-        $block->addData($attributes);
+        $block->addData(isset($attributes['data']) ? $attributes['data'] : array());
         $block->setLayout($this);
 
         $this->_blocks[$name] = $block;

@@ -126,7 +126,7 @@ HTML;
      */
     protected function _getUploadUrl()
     {
-        return $this->_url->getUrl('*/catalog_product_gallery/upload');
+        return $this->_url->getUrl('adminhtml/catalog_product_gallery/upload');
     }
 
     /**

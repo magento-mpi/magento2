@@ -18,6 +18,12 @@
 class Mage_Eav_Model_Resource_Entity_Attribute_Group extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Constants for attribute group codes
+     */
+    const TAB_GENERAL_CODE = 'product-details';
+    const TAB_IMAGE_MANAGEMENT_CODE = 'image-management';
+
+    /**
      * Resource initialization
      */
     protected function _construct()

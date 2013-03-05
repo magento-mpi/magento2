@@ -319,6 +319,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if (count($errors) > 0) {
             throw new Magento_Validator_Exception(array($errors));
         }
+        // Empty password confirmation data (it is needed only for validation purposes and is not meant to be stored)
+        $customer->setConfirmation(null);
     }
 
     /**

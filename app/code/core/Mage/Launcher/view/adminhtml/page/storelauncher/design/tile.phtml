@@ -1,0 +1,37 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile */
+?>
+
+<article class="tile-store-settings tile-design <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>">
+    <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Store Design') ?></h2>
+    <div class="tile-teaser">
+        <p>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose how you want your store to look.') ?>
+        </p>
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Open Design') ?>
+        </button>
+    </div>
+
+    <div class="tile-done">
+        <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
+        <p><strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have already configured Design') ?></strong></p>
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design Settings') ?>
+        </button>
+        <?php endif; ?>
+    </div>
+</article>

@@ -207,11 +207,12 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
      * @param string $filePath
      * @param string $file
      * @param string|null $module
+     * @param string $type
      * @return Mage_Core_Model_Design_Fallback_CachingProxy
      */
-    public function setFilePathToMap($filePath, $file, $module = null)
+    public function setFilePathToMap($filePath, $file, $module = null, $type = null)
     {
-        $this->_setToMap('view', $file, $module, $filePath);
+        $this->_setToMap($type ?: 'view', $file, $module, $filePath);
         return $this;
     }
 }

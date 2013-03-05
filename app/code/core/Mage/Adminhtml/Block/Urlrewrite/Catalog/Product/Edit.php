@@ -157,9 +157,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
     protected function _createEditFormBlock()
     {
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', '', array(
-            'product'     => $this->_getProduct(),
-            'category'    => $this->_getCategory(),
-            'url_rewrite' => $this->_getUrlRewrite()
+            'data' => array(
+                'product'     => $this->_getProduct(),
+                'category'    => $this->_getCategory(),
+                'url_rewrite' => $this->_getUrlRewrite()
+            )
         ));
     }
 }

@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Catalogpricerule_Drawer */
+?>
+<div class="drawer-header-content">
+    <form id="drawer-form">
+        <h2 class="title"><?php echo $this->__('Guidelines and Best Practices') ?> </h2>
+        <article class="entry">
+            <p><?php echo $this->__('Catalog Price Rules are applied to products before they\'re added to the shopping cart. You can offer discounts and special pricing for any products and attributes you choose (15% off blue glassware, for instance). Catalog price rules are easy and important tools for attracting and keeping customers. Set up your first rule right away.') ?> </p>
+        </article>
+        <div class="go-do">
+            <h2 class="title-checklist"><?php echo $this->__('Go Do'); ?> </h2>
+            <ul class="checklist">
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/promo_catalog/new'); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Add Catalog Rule'); ?></a></li>
+            </ul>
+        </div>
+    </form>
+</div>

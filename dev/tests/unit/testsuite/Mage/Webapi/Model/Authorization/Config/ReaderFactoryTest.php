@@ -34,7 +34,7 @@ class Mage_Webapi_Model_Authorization_Config_Reader_FactoryTest extends PHPUnit_
         $this->_expectedObject = $this->getMock('Mage_Webapi_Model_Authorization_Config_Reader', array(), array(), '',
             false);
 
-        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Config_Reader_Factory', array(
+        $this->_model = $helper->getObject('Mage_Webapi_Model_Authorization_Config_Reader_Factory', array(
             'objectManager' => $this->_objectManager,
         ));
     }

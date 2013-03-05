@@ -20,7 +20,7 @@ install_magento:
         host: localhost
         database_name: magento
         user_name: localhost_user
-        user_password:
+        user_password: ~
         tables_prefix: %noValue%
         base_url: http://www.localhost.com/magento/
         admin_path: admin
@@ -39,4 +39,4 @@ install_magento:
         user_name: admin
         password: 123123q
         confirm_password: 123123q
-        encryption_key:
+        encryption_key: ~

@@ -20,8 +20,7 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Sales-Tax-Manage Tax Rules</p>
-     * <p>Click on the Add New Rule button</p>
+     * <p>Navigate to Sales-Tax-Customer Tax Classes</p>
      */
     protected function assertPreConditions()
     {
@@ -112,7 +111,7 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         $this->clickControl('link','tax_rule_info_additional_link');
         $taxClassName = $this->generate('string', 10);
         $this->fillCompositeMultiselect($multiselect, $taxClassName);
-        $this->verifyCompositeMultiselect($multiselect, $taxClassName);
+        $this->assertTrue($this->verifyCompositeMultiselect($multiselect, $taxClassName));
         $newTaxName = $this->generate('string', 10);
         $this->editCompositeMultiselectOption($multiselect, $taxClassName, $newTaxName);
         $this->assertTrue($this->verifyCompositeMultiselect($multiselect, $newTaxName));

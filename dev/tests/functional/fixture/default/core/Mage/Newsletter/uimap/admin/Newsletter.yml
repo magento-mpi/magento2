@@ -129,7 +129,7 @@ edit_news_template:
 # Newsletter Newsletter Queue page
 newsletter_queue:
     mca: newsletter_queue/
-    click_xpath: //div[@class='nav-bar']//a[span='Newsletter Queue']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_queue/')]
     title: Newsletter Queue / Newsletter / Magento Admin
     uimap:
         form:
@@ -151,7 +151,7 @@ newsletter_queue:
                             filter_queue_recipients_to: //input[@id='queueGrid_filter_subscribers_total_to']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-                            queue_status:
+                            queue_status: ~
                         buttons: *gridButtons
         messages: *newsTemplateMessages
 
@@ -182,7 +182,7 @@ newsletter_queue_edit:
 # Newsletter Newsletter Queue page
 newsletter_problem_reports:
     mca: newsletter_problem/
-    click_xpath: //div[@class='nav-bar']//a[span='Newsletter Problem Reports']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_problem/')]
     title: Newsletter Problems / Newsletter / Magento Admin
     uimap:
         form:

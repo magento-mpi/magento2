@@ -64,4 +64,27 @@ class Mage_DesignEditor_Model_Observer
             $layoutUpdate->delete();
         }
     }
+
+    /**
+     * Save quick styles
+     *
+     * @param Varien_Event_Observer $event
+     */
+    public function saveQuickStyles($event)
+    {
+        /** @var $configuration Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
+        $configuration = $event->getData('configuration');
+        if ($configuration->getControlConfig() instanceof Mage_DesignEditor_Model_Config_Control_QuickStyles) {
+            /** @var $renderer Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer */
+            $renderer = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer');
+            $content = $renderer->render($configuration->getAllControlsData());
+
+            /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
+            $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
+            $themeCss->setDataForSave(array(
+                Mage_Core_Model_Theme_Customization_Files_Css::QUICK_STYLE_CSS => $content
+            ));
+            $configuration->getTheme()->setCustomization($themeCss)->save();
+        }
+    }
 }

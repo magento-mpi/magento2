@@ -267,7 +267,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
     public static function getCouponCodeGenerator()
     {
         if (!self::$_couponCodeGenerator) {
-            return Mage::getSingleton('Mage_SalesRule_Model_Coupon_Codegenerator',
+            return Mage::getModel('Mage_SalesRule_Model_Coupon_Codegenerator',
                 array('data' => array('length' => 16)));
         }
         return self::$_couponCodeGenerator;

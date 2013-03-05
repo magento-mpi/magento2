@@ -31,7 +31,16 @@ if (!isset($argv[2])) {
     print "Error! Please, specify class name.\n";
     exit();
 }
-$className = $argv[2] . ucfirst($entityType);
+$className = $argv[2];
+switch ($entityType) {
+    case 'proxy':
+        $className .= '_Proxy';
+        break;
+
+    case 'factory':
+        $className .= 'Factory';
+        break;
+}
 
 try {
     if ($generator->generateClass($className)) {
