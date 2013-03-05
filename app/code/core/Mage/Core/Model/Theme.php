@@ -233,7 +233,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function isPresentInFilesystem()
     {
         $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
-        return !($this->getThemePath() && isset($collection[$this->getFullPath()]));
+        return $this->getThemePath() && isset($collection[$this->getFullPath()]);
     }
 
     /**

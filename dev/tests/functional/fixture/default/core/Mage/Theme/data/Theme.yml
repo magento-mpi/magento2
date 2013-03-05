@@ -22,3 +22,17 @@ default_new_theme:
     requirements:
         magento_version_from: 1.0.0.0
         magento_version_to: 2.0.0.0
+
+required__that_not_filled:
+    theme:
+        theme_parent_id: Magento Demo
+        theme_title: virtual_%randomize%
+
+all_fields:
+    theme:
+        theme_parent_id: Magento Demo
+        theme_version: 0.0.1.0
+        theme_title: virtual_%randomize%
+    requirements:
+        magento_version_from: 2.0.0.0-dev41
+        magento_version_to: 2.0.0.1
