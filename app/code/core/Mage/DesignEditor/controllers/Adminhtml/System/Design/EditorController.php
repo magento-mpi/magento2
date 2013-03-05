@@ -69,7 +69,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         try {
             $theme->load($themeId);
-            if (!$theme->getId()) {
+            if (!$theme->getId() || !$theme->isVisible()) {
                 throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
 

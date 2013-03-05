@@ -54,6 +54,29 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     }
 
     /**
+     * Add type filter
+     *
+     * @param string|array $type
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function addTypeFilter($type)
+    {
+        $this->getSelect()->where('main_table.type in (?)', $type);
+        return $this;
+    }
+
+    /**
+     * Filter visible themes in backend (physical and virtual only)
+     *
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function filterVisibleThemes()
+    {
+        $this->addTypeFilter(array(Mage_Core_Model_Theme::TYPE_PHYSICAL, Mage_Core_Model_Theme::TYPE_VIRTUAL));
+        return $this;
+    }
+
+    /**
      * Return array for select field
      *
      * @return array

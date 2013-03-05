@@ -21,7 +21,7 @@ class Mage_Core_Model_Resource_Theme_Grid_Collection extends Mage_Core_Model_Res
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)->addParentTitle();
+        $this->filterVisibleThemes()->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)->addParentTitle();
         return $this;
     }
 }

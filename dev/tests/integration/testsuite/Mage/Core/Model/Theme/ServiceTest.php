@@ -19,7 +19,6 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetThemes()
     {
-        Mage::getConfig();
         /** @var $themeService Mage_Core_Model_Theme_Service */
         $themeService = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Service');
         $collection = $themeService->getThemes(1, Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
@@ -30,8 +29,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($collection as $theme) {
-            $this->assertEquals('frontend', $theme->getArea());
-            $this->assertFalse($theme->isVirtual());
+            $this->assertEquals(Mage_Core_Model_App_Area::AREA_FRONTEND, $theme->getArea());
+            $this->assertEquals(Mage_Core_Model_Theme::TYPE_PHYSICAL, $theme->getType());
         }
     }
 
@@ -48,8 +47,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($collection as $theme) {
-            $this->assertEquals('frontend', $theme->getArea());
-            $this->assertFalse($theme->isVirtual());
+            $this->assertEquals(Mage_Core_Model_App_Area::AREA_FRONTEND, $theme->getArea());
+            $this->assertEquals(Mage_Core_Model_Theme::TYPE_PHYSICAL, $theme->getType());
         }
     }
 

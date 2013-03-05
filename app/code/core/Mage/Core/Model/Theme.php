@@ -226,6 +226,16 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Check theme is visible in backend
+     *
+     * @return bool
+     */
+    public function isVisible()
+    {
+        return in_array($this->getType(), array(self::TYPE_PHYSICAL, self::TYPE_VIRTUAL));
+    }
+
+    /**
      * Check theme is existing in filesystem
      *
      * @return bool
@@ -528,6 +538,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
             $themeCollection = $this->getCollection();
             $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC)
+                ->filterVisibleThemes()
                 ->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
                 ->walk('checkThemeCompatible');
             $this->_labelsCollection = $themeCollection->toOptionArray();
@@ -570,7 +581,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             if ($type != $this->getType()) {
                 throw new Mage_Core_Exception(
                     sprintf('Invalid domain model "%s" requested for theme "%s" of type "%s"',
-                        $type,$this->getId(), $this->getType()
+                        $type, $this->getId(), $this->getType()
                     )
                 );
             }
