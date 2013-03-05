@@ -26,7 +26,8 @@
             ajaxLoaderPlaceButton: false,
             updateSelectorPrefix: '#checkout-',
             updateSelectorSuffix: '-load',
-            backSelector: '.back-link'
+            backSelector: '.back-link',
+            minBalance: 0.0001
         },
 
         _create: function() {
@@ -48,7 +49,7 @@
                 .on('click', this.options.backSelector, function() {
                     _this.element.trigger('enableSection', {selector: '#' + _this.element.find('.active').prev().attr('id')});
                 })
-                .on('click', '[data-role="login-form-submit"]', function() {
+                .on('click', '[data-action="login-form-submit"]', function() {
                     $(_this.options.checkout.loginFormSelector).submit();
                 });
             $(this.options.checkoutProgressContainer).on('click', '[data-goto-section]', $.proxy(function(e) {
@@ -126,6 +127,7 @@
                 context: this,
                 data: data,
                 dataType: 'json',
+                async: false,
                 beforeSend: this._ajaxSend,
                 complete: this._ajaxComplete,
                 success: function(response) {
@@ -173,16 +175,19 @@
          * @param toStep
          */
         _ajaxUpdateProgress: function(toStep) {
-            $.ajax({
-                url: this.options.progressUrl,
-                type: 'get',
-                cache: false,
-                context: this,
-                data: toStep ? {toStep: toStep} : null,
-                success: function(response) {
-                    $(this.options.checkoutProgressContainer).html(response);
-                }
-            });
+            if (toStep) {
+                $.ajax({
+                    url: this.options.progressUrl,
+                    type: 'get',
+                    async: false,
+                    cache: false,
+                    context: this,
+                    data: toStep ? {toStep: toStep} : null,
+                    success: function(response) {
+                        $(this.options.checkoutProgressContainer).html(response);
+                    }
+                });
+            }
         }
     });
 
@@ -330,7 +335,8 @@
         options: {
             payment: {
                 continueSelector: '#payment-buttons-container .button',
-                form: '#co-payment-form'
+                form: '#co-payment-form',
+                methodsContainer: '#checkout-payment-method-load'
             }
         },
 
@@ -351,22 +357,45 @@
                     if (data.totalPrice) {
                         data.totalPrice = this.checkoutPrice;
                     }
+                    if (this.checkoutPrice < this.options.minBalance) {
+                        // Add free input field, hide and disable unchecked checkbox payment method and all radio button payment methods
+                        this._disablePaymentMethods();
+                    } else {
+                        // Remove free input field, show all payment method
+                        this._enablePaymentMethods();
+                    }
                 }, this))
+                .on('contentUpdated', this.options.payment.form, $.proxy(function() {
+                    $(this.options.payment.form).find('dd [name^="payment["]').prop('disabled', true);
+                    if (this.checkoutPrice < this.options.minBalance) {
+                        this._disablePaymentMethods();
+                    }
+                }, this))
+                .on('click', this.options.payment.form + ' dt input:radio', $.proxy(this._paymentMethodHandler, this))
                 .find(this.options.payment.form).validation();
-            this.element.on('click', this.options.payment.form + ' dt input:radio', $.proxy(this._paymentMethodHandler, this));
         },
 
+        /**
+         * Display payment details when payment method radio button is checked
+         * @private
+         * @param e
+         */
         _paymentMethodHandler: function(e) {
             var _this = $(e.target),
                 parentsDl = _this.closest('dl');
             parentsDl.find('dt input:radio').prop('checked', false);
             _this.prop('checked', true);
-            parentsDl.find('dd ul').hide();
-            _this.parent().nextUntil('dt').find('ul').show();
+            parentsDl.find('dd ul').hide().find('[name^="payment["]').prop('disabled', true);
+            _this.parent().nextUntil('dt').find('ul').show().find('[name^="payment["]').prop('disabled', false);
         },
 
+        /**
+         * make sure one payment method is selected
+         * @private
+         * @return {Boolean}
+         */
         _validatePaymentMethod: function() {
-            var methods = this.element.find('[name="payment[method]"]');
+            var methods = this.element.find('[name^="payment["]');
             if (methods.length === 0) {
                 alert($.mage.__('Your order cannot be completed at this time as there is no payment methods available for it.'));
                 return false;
@@ -376,6 +405,31 @@
             }
             alert($.mage.__('Please specify payment method.'));
             return false;
+        },
+
+        /**
+         * Disable and enable payment methods
+         * @private
+         */
+        _disablePaymentMethods: function() {
+            var paymentForm = $(this.options.payment.form);
+            paymentForm.find('input[name="payment[method]"]').prop('disabled', true);
+            paymentForm.find(this.options.payment.methodsContainer).hide().find('[name^="payment["]').prop('disabled', true);
+            paymentForm.find('input[name^="payment[use"]:not(:checked)').prop('disabled', true).parent().hide();
+            paymentForm.find('[name="payment[method]"][value="free"]').parent('dt').remove();
+            $('<input>').attr({type: 'hidden', name: 'payment[method]', value: 'free'}).appendTo(paymentForm);
+        },
+
+        /**
+         * Enable and enable payment methods
+         * @private
+         */
+        _enablePaymentMethods: function() {
+            var paymentForm = $(this.options.payment.form);
+            paymentForm.find('input[name="payment[method]"]').prop('disabled', false);
+            paymentForm.find(this.options.payment.methodsContainer).show();
+            paymentForm.find('input[name^="payment[use"]:not(:checked)').prop('disabled', false).parent().show();
+            paymentForm.find('input[name="payment[method]"][value="free"]').remove();
         }
     });
 
