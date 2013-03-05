@@ -415,7 +415,7 @@
             var paymentForm = $(this.options.payment.form);
             paymentForm.find('input[name="payment[method]"]').prop('disabled', true);
             paymentForm.find(this.options.payment.methodsContainer).hide().find('[name^="payment["]').prop('disabled', true);
-            paymentForm.find('input[name^="payment[use"]:not(:checked)').prop('disabled', true).parent().hide();
+            paymentForm.find('input[id^="use"][name^="payment[use"]:not(:checked)').prop('disabled', true).parent().hide();
             paymentForm.find('[name="payment[method]"][value="free"]').parent('dt').remove();
             $('<input>').attr({type: 'hidden', name: 'payment[method]', value: 'free'}).appendTo(paymentForm);
         },
@@ -428,7 +428,7 @@
             var paymentForm = $(this.options.payment.form);
             paymentForm.find('input[name="payment[method]"]').prop('disabled', false);
             paymentForm.find(this.options.payment.methodsContainer).show();
-            paymentForm.find('input[name^="payment[use"]:not(:checked)').prop('disabled', false).parent().show();
+            paymentForm.find('input[id^="use"][name^="payment[use"]:not(:checked)').prop('disabled', false).parent().show();
             paymentForm.find('input[name="payment[method]"][value="free"]').remove();
         }
     });
