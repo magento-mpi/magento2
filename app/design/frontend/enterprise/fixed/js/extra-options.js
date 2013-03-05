@@ -1,11 +1,11 @@
 /**
-* {license_notice}
-*
-* @category    mage gift message
-* @package     mage
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @category    gift options
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 /*jshint jquery:true*/
 (function($) {
     "use strict";
