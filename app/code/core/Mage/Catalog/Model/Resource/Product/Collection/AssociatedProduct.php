@@ -97,6 +97,7 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('weight')
+            ->addAttributeToSelect('image')
             ->addFieldToFilter('type_id', $allowedProductTypes)
             ->addFieldToFilter('entity_id', array('neq' => $this->getProduct()->getId()))
             ->addFilterByRequiredOptions()

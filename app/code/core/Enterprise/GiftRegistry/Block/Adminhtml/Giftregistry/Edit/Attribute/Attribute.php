@@ -27,13 +27,13 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     {
         $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Add Attribute'),
-            'class' => 'add',
+            'class' => 'action-add',
             'id'    => $this->getFieldPrefix() . '_add_new_attribute'
         ));
 
         $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Delete Attribute'),
-            'class' => 'delete delete-attribute-option'
+            'class' => 'action-delete delete-attribute-option'
         ));
         return parent::_prepareLayout();
     }

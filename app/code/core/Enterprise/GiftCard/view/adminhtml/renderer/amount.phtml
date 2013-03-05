@@ -25,11 +25,9 @@
         <table class="data-table" id="<?php echo $_htmlId; ?>_table">
             <thead>
                 <tr class="headings">
-                    <?php if ($_multiWebsite): ?>
-                    <th class="col-website">
+                    <th class="col-website <?php if (!$_multiWebsite): ?>no-display<?php endif; ?>">
                         <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?>
                     </th>
-                    <?php endif; ?>
                     <th class="col-amount required-entry">
                         <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Amount') ?>
                     </th>
@@ -38,20 +36,17 @@
                     </th>
                 </tr>
                 <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
-                    <?php if ($_multiWebsite): ?>
-                    <td class="col-website">
+                    <td class="col-website <?php if (!$_multiWebsite): ?>no-display<?php endif; ?>">
                         <select
                             disabled="no-template"
                             class="<?php echo $_htmlClass ?> required-entry"
                             name="<?php echo $_htmlName ?>[__index__][website_id]"
                             id="#{prefix}_giftcard_amounts_row___index___website">
-
                             <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
                             <option value="<?php echo $_websiteId ?>"><?php echo $_info['name'] ?><?php if (!empty($_info['currency'])): ?> [<?php echo $_info['currency'] ?>]<?php endif; ?></option>
                             <?php endforeach ?>
                         </select>
                     </td>
-                    <?php endif; ?>
                     <td class="col-amount">
                         <input
                             disabled="no-template"
@@ -132,10 +127,10 @@
         deleteItem : function(prefix, event) {
             var tr = Event.findElement(event, 'tr');
             if (tr) {
-                Element.select(tr, '.delete').each(function(elem){elem.value='1'});
+                Element.select(tr, '.action-delete').each(function(elem){elem.value='1'});
                 Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
                 Element.hide(tr);
-                Element.addClassName(tr, 'no-display template');
+                Element.addClassName(tr, 'hidden template');
             }
             itemsCount--;
             this.updateTotalAmounts();

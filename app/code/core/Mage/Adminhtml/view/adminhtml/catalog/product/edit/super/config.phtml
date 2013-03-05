@@ -10,7 +10,7 @@
  /** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
 ?>
 <div class="entry-edit form-inline" id="<?php echo $this->getId() ?>">
-    <div class="fieldset-wrapper" id="<?php echo $this->getId() ?>-wrapper">
+    <div class="fieldset-wrapper collapsable-wrapper" id="<?php echo $this->getId() ?>-wrapper">
         <div class="fieldset-wrapper-title">
             <strong class="title" data-toggle="collapse" data-target="#<?php echo $this->getId() ?>-content">
                 <span><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Variations') ?></span>
@@ -90,28 +90,6 @@ jQuery(function($) {
             $.each($('#configurable-attributes-container').variationsAttributes('getAttributes'), function() {
                 $('#attribute-' + this.code + '-container select').prop('disabled', true);
             })
-        })
-        .on('hide', function() {
-            currentProductTemplateControl
-                .removeClass('disabled')
-                .prop('disabled', false);
-
-            qtyField
-                .prop('disabled', false)
-                .trigger('change');
-
-            if (qtyField.val() == '') {
-                stockAvailabilityField
-                    .val(0)
-                    .trigger('change');
-
-                stockAvailabilityField.prop('disabled', true);
-            }
-            variationsContainer.find('.entry-edit').remove();
-            $.each($('#configurable-attributes-container').variationsAttributes('getAttributes'), function() {
-                $('#attribute-' + this.code + '-container select').prop('disabled', false);
-            });
-            $('#product-variations-matrix').trigger('disable');
         });
 
     var $gridDialog = $('#associated-products-container').dialog({
@@ -138,7 +116,8 @@ jQuery(function($) {
             $(this).html('');
         })
         .on('click', 'input.associated-matrix-product-id', function() {
-            $(this).closest('tr').find('input[type!=checkbox]').prop('disabled', !$(this).is(':checked'));
+            $(this).closest('tr').find('input[type!=checkbox],button')
+                .prop('disabled', !$(this).is(':checked'));
         })
         .on('click', '.action-choose', function(event) {
             event.preventDefault();
@@ -161,7 +140,7 @@ jQuery(function($) {
                 if (!this.rows || !this.rows.length) {
                     return;
                 }
-                var $gridRow = $(event.target).parents('tr'),
+                var $gridRow = $(event.target).closest('tr'),
                     associatedClass = '.associated-product-';
 
                 if ($gridRow.find(associatedClass + 'id').length) {
@@ -177,6 +156,28 @@ jQuery(function($) {
                     });
 
                     $matrixRow.find(matrixClass + 'id').prop({checked: true, disabled: false});
+
+                    var parentElement = $matrixRow.find('.col-image'),
+                        imageElement = $matrixRow.find('img');
+                    if (imageElement.length) {
+                        imageElement.attr('src', $gridRow.find('[data-role=image-url]').val());
+                    } else {
+                        parentElement.find('.action-upload').remove();
+                        $('<img>', {
+                            src: $gridRow.find('[data-role=image-url]').val(),
+                            style: 'width:55px;height:55px'
+                        }).appendTo(parentElement);
+                        parentElement.find('img').on('click', function (event) {
+                            if ($(event.target).closest('tr').find('.associated-matrix-product-id').is(':checked')) {
+                                $(event.target).closest('.col-image').find('[name=image]').trigger('click');
+                            }
+                        });
+                    }
+
+                    $matrixRow.find('[name=image]')
+                        .attr('src', $gridRow.find('[data-role="image-url"]').val())
+                        .trigger('click')
+                        .prop({disabled: true});
                 }
                 $gridDialog.dialog('close');
             };

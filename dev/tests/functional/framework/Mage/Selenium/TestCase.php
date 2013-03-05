@@ -3205,6 +3205,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                         $resultFlag = false;
                     }
                     break;
+                case self::FIELD_TYPE_COMPOSITE_MULTISELECT:
+                    $result = $this->verifyCompositeMultiselect($formFieldName, array($formField['value']));
+                    $resultFlag = ($result) ? $resultFlag : false;
+                    break;
                 case self::FIELD_TYPE_PAGEELEMENT:
                     $actualValue = trim($availableElement->text());
                     if ($actualValue != $formField['value']) {
@@ -3411,8 +3415,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $fieldName
      * @param string|array $fieldValue
      * @param null|string $locator
-     *
-     * @throws RuntimeException
      */
     public function fillCompositeMultiselect($fieldName, $fieldValue, $locator = null)
     {
@@ -3449,30 +3451,58 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         //Add new Options
         if ($isNeedAdd) {
-            $saveValueWithoutForm = "//span[@title='Add']";
-            $newButtonLocator = '//footer/span';
-            $newValueLocator = "//input[@title='Enter new option']";
-            //Define filling in type
-            $this->getChildElement($generalElement, $newButtonLocator)->click();
-            $newValueField = $this->elementIsPresent($locator . $newValueLocator);
-            //Add new options
-            if ($newValueField && $newValueField->enabled() && $newValueField->displayed()) {
-                //by field
-                foreach ($isNeedAdd as $key => $label) {
-                    $this->getChildElement($generalElement, $newValueLocator)->value($label);
-                    $this->getChildElement($generalElement, $saveValueWithoutForm)->click();
-                    $this->pleaseWait();
-                    //@TODO remove sleep() when locator //div[@class='loading-mask'] will be removed after save action;
-                    sleep(3);
-                    if (isset($isNeedAdd[$key + 1])) {
-                        $this->getChildElement($generalElement, $newButtonLocator)->click();
-                    }
+            foreach ($isNeedAdd as $key => $label) {
+                if (!empty($label)) {
+                    $this->addCompositeMultiselectValue(null, $label, $locator);
                 }
-            } else {
-                //by new form
-                throw new RuntimeException('@TODO fillCompositeMultiselect() - add new value in new form');
             }
         }
+    }
+
+    /**
+     * Add value to CompositeMultiselect
+     *
+     * @param $fieldName
+     * @param $fieldValue
+     * @param null $locator
+     * @param bool $failIfNotAded
+     *
+     * @return bool
+     * @throws RuntimeException
+     */
+    public function addCompositeMultiselectValue($fieldName, $fieldValue, $locator = null, $failIfNotAded = true)
+    {
+        if (is_null($locator)) {
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_COMPOSITE_MULTISELECT, $fieldName);
+        }
+
+        $isAdded = false;
+        $generalElement = $this->getElement($locator);
+        $saveValueWithoutForm = "//span[@title='Add']";
+        $newButtonLocator = '//footer/span';
+        $newValueLocator = "//input[@title='Enter new option']";
+        $optionLocator = "//label[span='%s']/%s";
+        //Define filling in type
+        $this->getChildElement($generalElement, $newButtonLocator)->click();
+        $newValueField = $this->elementIsPresent($locator . $newValueLocator);
+        //Add new options
+        if ($newValueField && $newValueField->enabled() && $newValueField->displayed()) {
+            //by field
+            $this->getChildElement($generalElement, $newValueLocator)->value($fieldValue);
+            $this->getChildElement($generalElement, $saveValueWithoutForm)->click();
+            $isAdded = $this->waitForElementOrAlert($locator . sprintf($optionLocator, $fieldValue, 'span'));
+            if ($isAdded && !$this->alertIsPresent()) {
+                return $isAdded;
+            } elseif ($this->alertIsPresent() && $failIfNotAded) {
+                $this->fail("Value is not added to multiselect");
+            }
+            //@TODO remove sleep() when locator //div[@class='loading-mask'] will be removed after save action;
+            sleep(3);
+        } else {
+            //by new form
+            throw new RuntimeException('@TODO fillCompositeMultiselect() - add new value in new form');
+        }
+        return $isAdded;
     }
 
     /**
@@ -3492,6 +3522,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $labelLocator = "//div[normalize-space(label/span)='%s']";
         $generalElement = $this->getElement($locator);
         $optionElement = $this->getChildElement($generalElement, sprintf($labelLocator, $optionName));
+        $this->moveto($optionElement);
         $optionElement->click();
         $this->getChildElement($optionElement, "//span[@title='Edit']")->click();
         $editOptionElement = $this->getChildElements($optionElement, '//input[@name="class_name"]', false);
@@ -3527,6 +3558,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $labelLocator = "//div[normalize-space(label/span)='$optionName']";
         $generalElement = $this->getElement($locator);
         $optionElement = $this->getChildElement($generalElement, $labelLocator);
+//        $this->moveto($optionElement);
         $optionElement->click();
         $this->getChildElement($optionElement, "//span[@title='Delete']")->click();
         $this->assertSame($this->_getMessageXpath($message), $this->alertText(), 'Confirmation massage is incorrect');

@@ -56,7 +56,7 @@ new_customer_segment:
                         fieldsets:
                             -
                                 segment_properties:
-                                    xpath: //div[@id='segment_base_fieldset']
+                                    xpath: //fieldset[@id='segment_base_fieldset']
                                     dropdowns:
                                         status: //select[@id='segment_is_active']
                                         apply_to: //select[@id='segment_apply_to']

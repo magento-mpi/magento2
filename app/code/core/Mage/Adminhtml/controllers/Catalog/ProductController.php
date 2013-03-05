@@ -169,7 +169,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $this->_title($this->__('Catalog'))
              ->_title($this->__('Manage Products'));
-
+        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
+        if ($limitation->isCreateRestricted()) {
+            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
+        }
         $this->loadLayout();
         $this->renderLayout();
     }
@@ -227,6 +231,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function editAction()
     {
+        /** @var $limitation Mage_Catalog_Model_Product_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
+        if ($limitation->isCreateRestricted()) {
+            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
+        }
+
         $productId  = (int) $this->getRequest()->getParam('id');
         $product = $this->_initProduct();
 

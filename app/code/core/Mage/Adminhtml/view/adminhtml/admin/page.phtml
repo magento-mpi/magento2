@@ -8,20 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /*{
-    "label":"Root page layout",
-    "type":"Mage_Core_Block_Template",
-    "children":{
-        "header":{ "label":"Header", "type":"Mage_Adminhtml_Block_Page_Header" },
-        "menu":{ "label":"Top navigation", "type":"Mage_Backend_Block_Menu" },
-        "breadcrumbs":{ "label":"Breadcrumbs", "type":"Mage_Adminhtml_Block_Widget_Breadcrumbs" },
-        "content":{ "label":"Content block", "type":"Mage_Core_Block_Template" },
-        "left":{ "label":"Left navigation", "type":"Mage_Core_Block_Template" },
-        "footer":{ "label":"Footer", "type":"Mage_Adminhtml_Block_Page_Footer" }
-    },
-    "vars":{}
-}*/ ?>
-
+<?php /** @var $this Mage_Adminhtml_Block_Page */ ?>
 <!doctype html>
 <html lang="<?php echo $this->getLang() ?>" class="no-js">
 
@@ -39,7 +26,7 @@
 
         <section class="page-content" id="anchor-content">
             <?php echo $this->getChildHtml('main-top'); ?>
-            <div class="messages">
+            <div id="messages" class="messages">
                 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
             </div>
 
@@ -63,15 +50,15 @@
         </section>
 
         <?php echo $this->getChildHtml('js') ?>
-        <!-- TODO: remove this popup after refactoring of "varienLoader.js" file -->
-        <div class="loading-old" id="loading-mask" style="display:none;">
-            <div class="loader" id="loading_mask_loader"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please wait...') ?></div>
-        </div>
     </div>
 
     <footer class="footer">
         <div class="footer-content"><?php echo $this->getChildHtml('footer') ?></div>
     </footer>
     <?php echo $this->getChildHtml('before_body_end') ?>
+    <!-- TODO: remove this popup after refactoring of "varienLoader.js" file -->
+    <div class="loading-old" id="loading-mask" style="display:none;">
+        <div class="loader" id="loading_mask_loader"><?php echo Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please wait...') ?></div>
+    </div>
 </body>
 </html>

@@ -101,10 +101,9 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
 
         $this->_elementMock->expects($this->any())->method('getSortedElements')->will($this->returnValue(array()));
 
-        $expected = '<div  class="entry-edit-head collapseable" >';
+        $expected = '<div class="entry-edit-head collapseable" id="' . $this->_testData['htmlId'] . '-head">';
 
-        $expected .= '<a id="' . $this->_testData['htmlId'] . '-head" href="#"'
-            . ' onclick="Fieldset.toggleCollapse(\'' . $this->_testData['htmlId'] . '\', \'\'); '
+        $expected .= '<a href="#" onclick="Fieldset.toggleCollapse(\'' . $this->_testData['htmlId'] . '\', \'\'); '
             . 'return false;">' . $this->_testData['legend'] . '</a>';
 
         $expected .= '</div><input id="' . $this->_testData['htmlId']

@@ -28,13 +28,13 @@
     jQuery(function ($) {
         $('#product-template-suggest')
             .mage('suggest',<?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
-            .on('suggestselect', function (e, selectedItem) {
-                if (selectedItem.id) {
-                    $('#product-edit-form').trigger('changeAttributeSet', selectedItem);
-                    $('#product-template-suggest-container .action-toggle>span').text(selectedItem.label);
+            .on('suggestselect', function (e, ui) {
+                if (ui.item.id) {
+                    $('#product-edit-form').trigger('changeAttributeSet', ui.item);
+                    $('#product-template-suggest-container .action-toggle>span').text(ui.item.label);
 
                     $('#product-template-suggest')
-                        .suggest('option', "ajaxData", {current_template_id: selectedItem.id})
+                        .suggest('option', "ajaxData", {current_template_id: ui.item.id})
                         .val('');
 
                     $('#product-template-suggest-container .action-toggle.active ').trigger('click');

@@ -17,7 +17,7 @@
          * @todo refactor parent widget to make this possible without method overriding
          */
         _selectItem: function() {
-            $(this.elementWrapper).siblings('.category-selector-search-choice').trigger('removeOption');
+            $(this.elementWrapper).siblings('.mage-suggest-choice').trigger('removeOption');
             this._superApply(arguments);
             this._hideDropdown();
         }
@@ -30,7 +30,7 @@
                 id: 'new_category_parent-suggest',
                 placeholder: 'start typing to search category'
             }));
-            $('#new_category_parent-suggest').treeSuggestOneChoice(this.options.suggestOptions);
+            $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions);
 
             /* @todo rewrite using jQuery validation */
             Validation.add('validate-parent-category', 'Choose existing category.', function() {
@@ -39,10 +39,10 @@
             var newCategoryForm = new Validation(this.element.get(0));
 
             this.element.dialog({
-                title: 'Create New Category',
+                title: 'Create Category',
                 autoOpen: false,
                 minWidth: 560,
-                dialogClass: 'mage-new-category-dialog',
+                dialogClass: 'mage-new-category-dialog form-inline',
                 modal: true,
                 multiselect: true,
                 resizable: false,
@@ -60,13 +60,8 @@
                     $('#category_ids + .category-selector-container .category-selector-input').focus();
                 },
                 buttons: [{
-                    text: 'Cancel',
-                    id: 'mage-new-category-dialog-close-button',
-                    click: function() {
-                        $(this).dialog('close');
-                    }
-                }, {
-                    text: 'Save',
+                    text: 'Create Category',
+                    'class': 'action-create primary',
                     id: 'mage-new-category-dialog-save-button',
                     click: function() {
                         if (!newCategoryForm.validate()) {
@@ -93,7 +88,7 @@
                             .success(
                                 function (data) {
                                     if (!data.error) {
-                                        $('#category_ids-suggest').treeSuggest('selectItem', {
+                                        $('#category_ids-suggest').trigger('select', {
                                             id: data.category.entity_id,
                                             label: data.category.name
                                         });
@@ -105,6 +100,14 @@
                                     }
                                 }
                             );
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    'class': 'action-cancel',
+                    id: 'mage-new-category-dialog-close-button',
+                    click: function() {
+                        $(this).dialog('close');
                     }
                 }]
             });

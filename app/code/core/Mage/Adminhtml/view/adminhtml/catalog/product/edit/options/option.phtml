@@ -14,14 +14,14 @@
 <script type="text/javascript">
 //<![CDATA[
 window.firstStepTemplate =
-    '<div class="fieldset-wrapper" id="option_{{id}}">' +
+    '<div class="fieldset-wrapper collapsable-wrapper opened" id="option_{{id}}">' +
         '<div class="fieldset-wrapper-title">' +
             '<strong class="title" data-toggle="collapse" data-target="#{{id}}-content">' +
                 '<span>{{title}}</span>' +
             '</strong>' +
             '<div class="actions">' + <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getDeleteButtonHtml()) ?> + '</div>' +
         '</div>' +
-        '<div class="fieldset-wrapper-content collapse" id="{{id}}-content">' +
+        '<div class="fieldset-wrapper-content in collapse" id="{{id}}-content">' +
             '<fieldset class="fieldset">' +
                 '<table id="<?php echo $this->getFieldId() ?>_{{id}}" class="data-table" cellspacing="0">'+
                     '<input type="hidden" id="<?php echo $this->getFieldId() ?>_{{id}}_is_delete" name="<?php echo $this->getFieldName() ?>[{{id}}][is_delete]" value="" />'+

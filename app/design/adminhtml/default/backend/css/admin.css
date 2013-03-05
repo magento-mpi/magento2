@@ -113,7 +113,9 @@ input[type=submit].primary:visited,
 input[type=reset].primary:visited,
 button.primary:visited,
 .primary,
-.primary:visited {
+.primary:visited,
+.popup-window .add-widget,
+.popup-window .add-widget:visited {
     color: #fff;
     background: #f47b20;
 }
@@ -127,7 +129,9 @@ input[type=submit].primary:focus,
 input[type=reset].primary:focus,
 button.primary:focus,
 .primary:hover,
-.primary:focus {
+.primary:focus,
+.popup-window .add-widget:hover,
+.popup-window .add-widget:focus {
     background: #e2701a;
     color: #fff;
     text-shadow: 0 -1px 2px #955326;
@@ -142,7 +146,8 @@ input[type=submit].primary.active,
 input[type=reset].primary.active,
 button.primary.active,
 .primary:active,
-.primary.active {
+.primary.active,
+.popup-window .add-widget:active {
     box-shadow: 0 1px 5px #955326 inset;
 }
 
@@ -194,6 +199,16 @@ button.primary.disabled,
 #product-variations-matrix .action-choose:active,
 #product-variations-matrix .action-choose.active,
 #product-variations-matrix .action-choose:disabled,
+.action-manage-images,
+.action-manage-images:hover,
+.action-manage-images:active,
+.action-manage-images.active,
+.action-manage-images:disabled,
+.mage-new-category-dialog .action-cancel,
+.mage-new-category-dialog .action-cancel:hover,
+.mage-new-category-dialog .action-cancel:active,
+.mage-new-category-dialog .action-cancel.active,
+.mage-new-category-dialog .action-cancel:disabled,
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
@@ -214,6 +229,21 @@ button.primary.disabled,
 .fieldset-wrapper-title .action-add:active,
 .fieldset-wrapper-title .action-add.active,
 .fieldset-wrapper-title .action-add:disabled,
+#store-view-window [class^='action-close'],
+#store-view-window [class^='action-close']:hover,
+#store-view-window [class^='action-close']:active,
+#store-view-window [class^='action-close'].active,
+#store-view-window [class^='action-close']:disabled,
+.custom-file > .action-add,
+.custom-file > .action-add:hover,
+.custom-file > .action-add:active,
+.custom-file > .action-add.active,
+.custom-file > .action-add:disabled,
+.vde-tools-header .action-close,
+.vde-tools-header .action-close:hover,
+.vde-tools-header .action-close:active,
+.vde-tools-header .action-close.active,
+.vde-tools-header .action-close:disabled,
 .action-delete,
 .action-delete:hover,
 .action-delete:active,
@@ -224,6 +254,11 @@ button.primary.disabled,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:disabled,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back.active,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:disabled,
 .notifications [class^="action-"],
 .notifications [class^="action-"]:hover,
 .notifications [class^="action-"]:active,
@@ -244,6 +279,24 @@ button.primary.disabled,
 }
 
 /*
+    Actions as links
+-------------------------------------- */
+.mage-new-category-dialog .action-cancel {
+    background: none;
+    border: none;
+    color: #6d665e;
+    font-weight: normal;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.mage-new-category-dialog .action-cancel:hover {
+    color: #000;
+    border-bottom-color: #000;
+}
+
+/*
     Fileupload button
 -------------------------------------- */
 .action-upload {
@@ -260,6 +313,7 @@ button.primary.disabled,
     right: 0;
     bottom: 0;
     opacity: 0;
+    font-size: 10em;
 }
 
 /*
@@ -401,9 +455,19 @@ button.primary.disabled,
 
 .mage-suggest-dropdown li a {
     display: block;
+}
+.mage-suggest-dropdown li a,
+.mage-suggest-dropdown .jstree li a:hover,
+.mage-suggest-dropdown .jstree .jstree-hovered,
+.mage-suggest-dropdown .jstree .jstree-clicked {
     padding: 6px 10px 5px;
     text-decoration: none;
     color: #333;
+}
+.mage-suggest-dropdown .jstree li a:hover,
+.mage-suggest-dropdown .jstree .jstree-hovered,
+.mage-suggest-dropdown .jstree .jstree-clicked {
+    border: none;
 }
 
 .mage-suggest-dropdown li a.ui-state-focus {
@@ -417,9 +481,31 @@ button.primary.disabled,
 .mage-suggest-dropdown .jstree li a {
     display: inline-block;
 }
+.mage-suggest-dropdown .jstree .mage-suggest-selected > a {
+    color: #000000;
+    background: #F1FFEB;
+}
+.mage-suggest-dropdown .jstree .mage-suggest-selected > a:hover,
+.mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-clicked,
+.mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-clicked
+{
+    background: #E5FFD9;
+}
+
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > a {
+    color: #D4D4D4;
+}
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > a:hover,
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > .jstree-clicked {
+    background: #F5F5F5;
+}
 
 .mage-suggest-dropdown .category-path {
     font-size: 11px;
+    margin-left: 10px;
     color: #9ba8b5;
 }
 
@@ -795,6 +881,11 @@ option.placeholder {
     width: 60%;
 }
 
+.form-inline .no-label .control {
+    margin-left: 20%;
+    width: 60%;
+}
+
 .form-inline .field-service {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -888,25 +979,9 @@ option.placeholder {
     margin: 0 0 18px;
 }
 
-.fieldset-wrapper {
-    padding-bottom: 2px;
-}
-
 .fieldset-wrapper > .fieldset-wrapper-title {
     float: none;
-    border-bottom: none;
-    margin-bottom: 0;
 }
-
-.fieldset-wrapper.opened {
-    padding-bottom: 18px;
-}
-
-.fieldset-wrapper.opened > .fieldset-wrapper-title {
-    border-bottom: 1px solid #ededed;
-    margin-bottom: 18px;
-}
-
 .fieldset-wrapper > .fieldset-wrapper-title .title,
 .fieldset > .legend span {
     font-family: 'CallunaSans', Arial, sans-serif;
@@ -917,13 +992,32 @@ option.placeholder {
     display: inline-block;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"] {
+/* Collapsable fieldset-wrapper */
+.collapsable-wrapper {
+    padding-bottom: 2px;
+}
+
+.collapsable-wrapper.opened {
+    padding-bottom: 18px;
+}
+
+.collapsable-wrapper > .fieldset-wrapper-title {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.collapsable-wrapper.opened > .fieldset-wrapper-title {
+    border-bottom: 1px solid #ededed;
+    margin-bottom: 18px;
+}
+
+.collapsable-wrapper .fieldset-wrapper-title > .title {
     position: relative;
     padding-left: 22px;
     cursor: pointer;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"]:before {
+.collapsable-wrapper .fieldset-wrapper-title > .title:before {
     position: absolute;
     left: 0;
     top: 7px;
@@ -936,12 +1030,12 @@ option.placeholder {
     color: #b2b0ad;
 }
 
-.fieldset-wrapper-title > .title[data-toggle="collapse"]:hover:before {
-    color: #7e7e7e;
+.collapsable-wrapper.opened > .fieldset-wrapper-title > .title:before {
+    content: '\e02c'; /* arrow down icon */
 }
 
-.fieldset-wrapper.opened > .fieldset-wrapper-title > .title:before {
-    content: '\e02c'; /* arrow down icon */
+.collapsable-wrapper .fieldset-wrapper-title > .title:hover:before {
+    color: #7e7e7e;
 }
 
 /* Fieldset styles in another fieldset */
@@ -979,6 +1073,7 @@ option.placeholder {
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    min-height: 39px;
 }
 
 .fieldset .fieldset-wrapper .fieldset-wrapper-title .actions,
@@ -1011,23 +1106,9 @@ option.placeholder {
     width: 8px;
     height: 14px;
     line-height: 14px;
-    background: none;
+    background: url(Mage_Backend::images/dragable-handler-vertical.gif) no-repeat 0 0;
     cursor: pointer;
     color: #b2b0ad;
-}
-
-.fieldset .draggable-handle:hover {
-    color: #7e7e7e;
-}
-
-.fieldset .draggable-handle:before {
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    content: '\e022';
-    font-size: 16px;
 }
 
 .fieldset .fieldset-wrapper .fieldset-wrapper-content,
@@ -1447,8 +1528,7 @@ table .dropdown-menu li {
 }
 
 table tbody tr td:first-child input[type="checkbox"] {
-    margin-left: 5px;
-    margin-top: 0;
+    margin: 0;
 }
 
 table tbody tr:nth-child(odd) td,
@@ -1668,6 +1748,10 @@ table tbody tr:nth-child(odd):hover th {
     border-radius: 8px;
 }
 
+.wrapper-popup {
+    padding: 0 10px;
+}
+
 .fade .popup .popup-inner {
     padding: 20px;
     border-radius: 3px;
@@ -1714,7 +1798,7 @@ table tbody tr:nth-child(odd):hover th {
 .loading-old {
     border: 1px solid #d85909;
     position: fixed;
-    z-index: 1003;
+    z-index: 1015;
     width: 200px !important;
     height: auto !important;
     background: rgba(255, 255, 255, .8);
@@ -2292,11 +2376,14 @@ table tbody tr:nth-child(odd):hover th {
     Login page
 -------------------------------------- */
 
-.page-login {
+.page-login form {
+    border: 1px solid #b5dcd6;
+    border-radius: 5px;
 }
 
 .page-login .fieldset {
-    border-color: #B5DCD6;
+    border: none;
+    margin: 0;
 }
 
 .page-login .footer-content {
@@ -2804,6 +2891,10 @@ table tbody tr:nth-child(odd):hover th {
     font-weight: 500;
 }
 
+.side-col > .ui-tabs > .tabs:first-child > li:first-child > a {
+    border-top-left-radius: 5px;
+}
+
 .side-col .tabs > li {
     border-bottom: 1px solid #e5e1db;
 }
@@ -2858,6 +2949,44 @@ table tbody tr:nth-child(odd):hover th {
     z-index: 3;
 }
 
+.side-col .tabs span.error,
+.side-col .tabs span.loader {
+    display: none;
+    position: absolute;
+    right: 15px;
+    top: 9px;
+    width: 16px;
+    height: 16px;
+}
+
+.side-col .tab-item-link.changed {
+    font-style: italic;
+    color: #19a3d1;
+}
+
+.side-col .tab-item-link.error span.error,
+.side-col .ui-tabs-loading span.loader {
+    display: block;
+}
+
+.side-col .tab-item-link.error span.error:after {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e006'; /* warning icon */
+    color: #d87e34;
+}
+
+.side-col .ui-tabs-loading span.loader:after {
+    background: url(../mui/images/ajax-loader-small.gif) no-repeat 50% 50%;
+    display: block;
+    content: '';
+    width: 16px;
+    height: 16px;
+}
+
 /* TODO: styles for navigation on System > Configuration page */
 
 /*
@@ -2899,15 +3028,6 @@ table tbody tr:nth-child(odd):hover th {
     border-top: 3px solid #d87e34;
     padding-top: 5px;
     box-shadow: 1px 0 3px #aaa;
-}
-
-/* Tabs Loading Spinner */
-.side-col .tabs .loading,
-.tabs-horiz .loading {
-    display: none;
-    position: absolute;
-    left: 50%;
-    margin-top: 9px;
 }
 
 /*
@@ -3096,7 +3216,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .page-actions.fixed {
-    padding: 0 1px;
+    padding: 0 21px;
     position: fixed;
     top: 0;
     left: 0;
@@ -3116,7 +3236,7 @@ table tbody tr:nth-child(odd):hover th {
     min-height: 36px;
     margin: 0 auto;
     min-width: 916px;
-    max-width: 1258px;
+    max-width: 1259px;
 }
 
 .lt-ie9 .page-actions.fixed .page-actions-inner {
@@ -3199,10 +3319,9 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid table td {
-    font-size: 14px;
     border: solid #c0bbaf;
     border-width: 0 1px 1px 0;
-    padding: 10px 10px 5px;
+    padding: 5px;
 }
 
 .grid table td:first-child,
@@ -3256,11 +3375,6 @@ table tbody tr:nth-child(odd):hover th {
     border-bottom: 1px solid #dadfe0;
 }
 
-[id$='Grid'] {
-    font-family: 'CallunaSans';
-    font-weight: 400;
-}
-
 /*
     Grid - Pager and Buttons row
 -------------------------------------- */
@@ -3276,7 +3390,7 @@ table tbody tr:nth-child(odd):hover th {
     background: -ms-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
     background: linear-gradient(to bottom, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f6f3ec', endColorstr = '#edeae1', GradientType = 0);
-    padding: 10px 10px 5px;
+    padding: 7px 8px 8px;
     position: relative;
 }
 
@@ -3361,6 +3475,11 @@ table tbody tr:nth-child(odd):hover th {
     width: 22px;
 }
 
+.grid-actions .pager img {
+    width: auto;
+    height: auto;
+}
+
 /* TODO: refactor validation fields styles after approved design comes */
 .grid-actions .validation-advice {
     background: #f3dcd8;
@@ -3391,7 +3510,7 @@ table tbody tr:nth-child(odd):hover th {
 .grid tr.headings th {
     font-size: 13px;
     border-right: 1px solid #837f79;
-    padding: 0 1px;
+    padding: 0;
     vertical-align: bottom;
 }
 
@@ -3401,8 +3520,10 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid tr.headings th > span {
     display: block;
-    border-bottom: 5px solid transparent;
-    padding: 5px 10px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    padding: 5px 5px 2px;
+    white-space: nowrap;
 }
 
 .grid tr.headings th:hover > span {
@@ -3469,27 +3590,62 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid .filter th {
-    padding: 10px 8px 5px;
+    padding: 5px;
     border-right: 1px solid #837F79;
     vertical-align: top;
     white-space: normal;
 }
 
 .grid .filter input.input-text {
-    padding: 2px;
-    height: 24px;
+    background: #5e5a52;
+    border-radius: 2px;
+    border: none;
+    color: #bcb795;
+    padding: 0 5px;
+    height: 20px;
     width: 99%;
 }
 
+.grid .filter input.input-text::-webkit-input-placeholder {
+    color: #858376 !important;
+    text-transform: lowercase;
+}
+
+.grid .filter input.input-text:-moz-placeholder {
+    color: #858376 !important;
+    text-transform: lowercase;
+}
+
+.grid .filter input.input-text::-moz-placeholder {
+    color: #858376 !important;
+    text-transform: lowercase;
+}
+
+:-ms-input-placeholder {
+    color: #858376 !important;
+    text-transform: lowercase;
+}
+
 .grid .filter select {
-    padding: 2px;
+    background: #5e5a52;
+    border-radius: 2px;
+    border: none;
+    color: #bcb795;
+    margin: 0;
+    padding: 0;
+    height: 20px;
     width: 99%;
+}
+
+.grid td select {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    padding: 4px 4px 5px;
+    text-align: left;
 }
 
 .grid .filter .range .range-line {
     margin-bottom: 3px;
-    overflow: hidden;
-    width: 100px;
 }
 
 .grid .filter .range div.date {
@@ -3497,22 +3653,13 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid .filter .range input {
-    float: right;
     width: 56px;
     margin-top: 0;
 }
 
 .grid .filter .range select {
-    float: right;
     width: 56px;
-    margin-top: 0;
-}
-
-.grid .filter .range .label {
-    display: block;
-    width: 36px;
-    float: left;
-    padding-left: 2px;
+    margin: 0;
 }
 
 .grid .filter .date img {
@@ -3529,16 +3676,16 @@ table tbody tr:nth-child(odd):hover th {
 /* Grid - Mass Action */
 .massaction {
     color: #CAC3B4;
-    padding: 12px 10px;
+    padding: 7px 8px;
     background: #666158;
-    box-shadow: 0 2px 3px 0 #504d46 inset, 0 -2px 3px 0 #504d46 inset;
+    box-shadow: 0 1px 2px 0 #504d46 inset, 0 -1px 2px 0 #504d46 inset;
     overflow: hidden;
 }
 
 .massaction ul {
     list-style: none;
     margin: 0;
-    padding: 4px 0 0;
+    padding: 6px 0 0;
 }
 
 .massaction li {
@@ -3546,6 +3693,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .massaction li:after {
+    color: #837F79;
     content: '|';
     display: inline-block;
     margin: 0 5px;
@@ -3568,7 +3716,10 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .massaction .entry-edit fieldset select {
+    border-radius: 2px;
+    padding: 3px;
     margin: 0;
+    vertical-align: middle;
 }
 
 .massaction .entry-edit fieldset select.validation-failed {
@@ -3582,6 +3733,10 @@ table tbody tr:nth-child(odd):hover th {
     vertical-align: middle;
 }
 
+.massaction .entry-edit .field-row button {
+    padding: 3px 10px;
+}
+
 .massaction .entry-edit .outer-span .entry-edit {
     float: none;
 }
@@ -3590,7 +3745,7 @@ table tbody tr:nth-child(odd):hover th {
     color: #cac3b4;
     line-height: 26px;
     margin: 0 5px 0 20px;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .massaction .entry-edit .validation-advice {
@@ -3600,6 +3755,10 @@ table tbody tr:nth-child(odd):hover th {
 .massaction a {
     color: #e7e2d7;
     text-decoration: none;
+}
+
+.massaction a:hover {
+    color: #fff;
 }
 
 /* Grid Footer */
@@ -3620,7 +3779,12 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid table.border tfoot tr td {
-    background: #d7e5ef;
+    background: #656156;
+}
+
+.grid .col-price,
+.grid .col-number {
+    text-align: right;
 }
 
 /* Dynamic Grid */
@@ -3659,13 +3823,6 @@ tr.dynamic-grid input.input-text {
 
 .categories-side-col {
     padding: 0 3%;
-}
-
-/*
-    Table columns styles
--------------------------------------- */
-.col-no-records {
-    text-align: center;
 }
 
 /*
@@ -3788,6 +3945,48 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    Data table - alternative view
+-------------------------------------- */
+.invitation_information .data-table,
+.invitee_information .data-table, 
+.inviter_information .data-table,
+.customer-information .data-table {
+    width:100%;
+}
+.invitation_information .data-table tbody tr th,
+.invitee_information .data-table tbody tr th,
+.inviter_information .data-table tbody tr th,
+.customer-information .data-table tbody tr th {
+    font-weight: bold;
+}
+
+.invitation_information .data-table tbody tr td,
+.invitation_information .data-table tbody tr th,
+.invitee_information .data-table tbody tr td,
+.invitee_information .data-table tbody tr th,
+.inviter_information .data-table tbody tr td,
+.inviter_information .data-table tbody tr th,
+.customer-information .data-table tbody tr td,
+.customer-information .data-table tbody tr th {
+    background-color: #fff;
+    border: 0;
+    padding: 9px 10px 10px;
+    color: #666;
+    vertical-align: top;
+}
+
+.invitation_information .data-table tbody tr:nth-child(2n+1) td,
+.invitation_information .data-table tbody tr:nth-child(2n+1) th,
+.invitee_information .data-table tbody tr:nth-child(2n+1) td,
+.invitee_information .data-table tbody tr:nth-child(2n+1) th,
+.inviter_information .data-table tbody tr:nth-child(2n+1) td,
+.inviter_information .data-table tbody tr:nth-child(2n+1) th,
+.customer-information .data-table tbody tr:nth-child(2n+1) td,
+.customer-information .data-table tbody tr:nth-child(2n+1) th {
+    background-color: #fbfaf6;
+}
+
+/*
     Content alignments in tables
 -------------------------------------- */
 
@@ -3796,15 +3995,21 @@ tr.dynamic-grid input.input-text {
 .col-name,
 .col-sku,
 .col-color,
-.col-size {
+.col-size,
+.col-product,
+.col-comment {
     text-align: left;
 }
 
 /* center */
 .col-include,
+.col-price,
 .col-display,
 .col-image,
 .col-price,
+.col-change-price
+.col-no-records,
+.col-select,
 .col-change-price,
 .col-default,
 .col-uqty {
@@ -3814,7 +4019,11 @@ tr.dynamic-grid input.input-text {
 /* right */
 .col-qty,
 .col-weight,
-.col-actions {
+.col-actions,
+.col-price,
+.col-id,
+.col-total,
+.col-average {
     text-align: right;
 }
 
@@ -3982,6 +4191,27 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    Preview window
+-------------------------------------- */
+.preview-window {
+    background: #fff;
+}
+
+.preview-window .toolbar {
+    background: #f5f2ed;
+    padding: 20px;
+}
+
+.preview-window .toolbar .switcher {
+    margin: 0;
+}
+
+.preview-window .toolbar .switcher span {
+    background: none;
+    width: auto;
+}
+
+/*
     Global 'No Products found' block
 -------------------------------------- */
 .no-products-message {
@@ -4042,3 +4272,4 @@ tr.dynamic-grid input.input-text {
 .grid-actions:after,
 .fieldset-wrapper-title:after {
     clear: both;
+}
