@@ -210,8 +210,6 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
             $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
             $themeModel->setData($themeData);
 
-            //if ($themeModel->getFullPath() == 'test1/test1')
-
             if ($themeData['parent_id'] && isset($idByPath[$themeData['parent_id']])) {
                 $themeModel->setParentId($idByPath[$themeData['parent_id']]);
             }
@@ -307,7 +305,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'area51'
+                'area'                 => 'area51',
+                'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test1',
@@ -318,7 +317,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'area51'
+                'area'                 => 'area51',
+                'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test2',
@@ -329,7 +329,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'area51'
+                'area'                 => 'area51',
+                'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test0',
@@ -340,7 +341,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'area51'
+                'area'                 => 'area51',
+                'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
             ),
         );
     }
