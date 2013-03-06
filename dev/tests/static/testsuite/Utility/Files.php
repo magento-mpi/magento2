@@ -338,13 +338,13 @@ class Utility_Files
     }
 
     /**
-     * Check if specified class exists within code pools
+     * Check if specified class exists
      *
      * @param string $class
      * @param string &$path
      * @return bool
      */
-    public function codePoolClassFileExists($class, &$path = '')
+    public function classFileExists($class, &$path = '')
     {
         $path = implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
         $directories = array('/app/code/', '/lib/');
@@ -356,7 +356,9 @@ class Utility_Files
              */
             if (realpath($fullPath) == $fullPath) {
                 $fileContent = file_get_contents($fullPath);
-                if (strpos($fileContent, 'class ' . $class) !== false) {
+                if (strpos($fileContent, 'class ' . $class) !== false ||
+                    strpos($fileContent, 'interface ' . $class) !== false
+                ) {
                     return true;
                 }
             }
