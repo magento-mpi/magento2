@@ -11,6 +11,10 @@
 class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Controller_Varien_Router_Base
 {
     /**
+     * Parameter to indicate that inline translation is being toggled.
+     */
+    const TOGGLE_TRANSLATION = "toggle_translation";
+    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -69,6 +73,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         // override VDE configuration
         $this->_overrideConfiguration();
 
+        // toggle inline translation
+        $this->_toggleInlineTranslation($request);
+
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
 
@@ -121,6 +128,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     {
         $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
         $noVdePath = substr($request->getPathInfo(), strlen($vdeFrontName) + 1) ?: '/';
+        if (strpos($noVdePath, self::TOGGLE_TRANSLATION) !== false) {
+            $noVdePath = substr($noVdePath, 0, strrpos($noVdePath, self::TOGGLE_TRANSLATION));
+        }
         $request->setPathInfo($noVdePath);
         return $this;
     }
@@ -151,6 +161,22 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         if ($vdeNode) {
             $this->_objectManager->get('Mage_Core_Model_Config')->getNode(Mage_Core_Model_App_Area::AREA_FRONTEND)
                 ->extend($vdeNode, true);
+        }
+    }
+
+    /**
+     * This method toggles the vde inline translation indicator on the session if it is requested
+     * as part of the querystring.
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     */
+    protected function _toggleInlineTranslation(Mage_Core_Controller_Request_Http $request)
+    {
+        if (stristr($request->getOriginalPathInfo(), self::TOGGLE_TRANSLATION)) {
+            $session = $this->_objectManager->get('Mage_Backend_Model_Session');
+            /** @var $newState bool */
+            $newState = !$session->getVdeInlineTranslationEnabled();
+            $session->setVdeInlineTranslationEnabled($newState);
         }
     }
 }

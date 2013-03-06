@@ -162,6 +162,13 @@ class Mage_Core_Model_Translate_InlineVde extends Mage_Core_Model_Translate_Inli
                    onClick: function(element) {
                        //alert(element.state);
                        //alert('You clicked my translate toggle anchor!');
+
+                       /** @todo ACB move to wideget and convert to JQuery. */
+                       var urlToggle = parent.document.getElementById('vde_container_frame').src +
+                               "toggle_translation";
+                       parent.jQuery('#vde_container_frame').prop('src', urlToggle);
+                       parent.jQuery('#vde_container_frame').get(0).contentWindow.location.href = urlToggle;
+                       /** @todo ACB switchClass on 'T' when inline translation is toggled. */
                    }
                });
 

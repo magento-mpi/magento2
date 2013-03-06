@@ -158,21 +158,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         }
     }
 
-
-    /**
-     * This method toggles the state of the vde inline translation session flag.
-     */
-    public function toggleInlineTranslationAction()
-    {
-        /** @var $backendSession Mage_Backend_Model_Session */
-        $newState = !$this->_session->getVdeInlineTranslationEnabled();
-        $this->_session->setVdeInlineTranslationEnabled($newState);
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-        /** @todo ACB launch editor  - perhaps by call launchAction. */
-        $this->getResponse()->setBody($coreHelper->jsonEncode(array('result' => $newState)));
-    }
-
     /**
      * Reorder js file
      */
