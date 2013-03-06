@@ -34,7 +34,7 @@
                     $('#product-template-suggest-container .action-toggle>span').text(ui.item.label);
 
                     $('#product-template-suggest')
-                        .suggest('option', "ajaxData", {current_template_id: ui.item.id})
+                        .suggest('option', "currentlySelected", ui.item.id)
                         .val('');
 
                     $('#product-template-suggest-container .action-toggle.active ').trigger('click');

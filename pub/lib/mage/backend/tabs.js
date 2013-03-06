@@ -174,17 +174,22 @@
          */
         _refresh: function() {
             this._super();
-            $.each(this.panels, $.proxy(function(i, panel) {
-                $(panel)
-                    .on('changed', {index: i}, $.proxy(this._onContentChange, this))
-                    .on('highlight.validate', {index: i}, $.proxy(this._onInvalid, this));
-                    //.on('focusin', {index: i}, $.proxy(this._onFocus, this)); //todo: fix this
+            $.each(this.tabs, $.proxy(function(i, tab) {
+                $(this._getPanelForTab(tab))
+                    .off('changed' + this.eventNamespace)
+                    .off('highlight' + this.eventNamespace)
+                    .off('focusin' + this.eventNamespace)
+
+                    .on('changed' + this.eventNamespace, {index: i}, $.proxy(this._onContentChange, this))
+                    .on('highlight' + this.eventNamespace, {index: i}, $.proxy(this._onInvalid, this))
+                    .on('focusin' + this.eventNamespace, {index: i}, $.proxy(this._onFocus, this));
             }, this));
 
             ($(this.options.destination).is('form') ?
                 $(this.options.destination) :
                 $(this.options.destination).closest('form'))
-                    .on('beforeSubmit', $.proxy(this._onBeforeSubmit, this));
+                    .off('beforeSubmit' + this.eventNamespace)
+                    .on('beforeSubmit' + this.eventNamespace, $.proxy(this._onBeforeSubmit, this));
         },
 
         /**
