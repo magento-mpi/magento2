@@ -19,12 +19,23 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
      */
     protected $_helperFactory;
 
+    /**
+     * Configuration loader
+     *
+     * @var Mage_Backend_Model_Config_Loader|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_configLoader;
+
+    /**
+     * Logo backend config model
+     *
+     * @var Mage_Backend_Model_Config_Backend_Image_Logo|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_modelLogo;
+
     protected function setUp()
     {
-        $helperMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
-
-        $store = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
-
+        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(1));
@@ -32,15 +43,57 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->method('getCode')
             ->will($this->returnValue('default'));
 
+        $helperMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->any())
             ->method('getCurrentStoreView')
             ->will($this->returnValue($store));
+        $helperMock->expects($this->any())
+            ->method('getTmpLogoPath')
+            ->will($this->returnArgument(0));
 
         $this->_helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper',
             array(), array(), '', false, false
         );
         $this->_helperFactory->expects($this->any())->method('get')->with('Mage_Launcher_Helper_Data')
             ->will($this->returnValue($helperMock));
+
+        $this->_configLoader = $this->getMock('Mage_Backend_Model_Config_Loader',
+            array(), array(), '', false, false
+        );
+        $this->_configLoader->expects($this->any())
+            ->method('getConfigByPath')
+            ->with($this->equalTo('design/header'), $this->equalTo('store'), $this->equalTo(1))
+            ->will($this->returnValue(array (
+                'design/header/logo_src' => array (
+                    'path' => 'design/header/logo_src',
+                    'value' => 'default/design_logo_1.png',
+                    'config_id' => '69',
+                ),
+            )));
+
+        $this->_modelLogo = $this->getMockBuilder('Mage_Backend_Model_Config_Backend_Image_Logo')
+            ->disableOriginalConstructor()
+            ->setMethods(array(
+                'setPath',
+                'setConfigId',
+                'setScope',
+                'setValue',
+                'save'
+            ))->getMock();
+        $this->_modelLogo->expects($this->any())->method('setPath')->with($this->equalTo('design/header/logo_src'))
+            ->will($this->returnSelf());
+        $this->_modelLogo->expects($this->any())->method('setConfigId')->with($this->equalTo('69'))
+            ->will($this->returnSelf());
+        $this->_modelLogo->expects($this->any())->method('setScope')->with($this->equalTo('store'))
+            ->will($this->returnSelf());
+        $this->_modelLogo->expects($this->any())->method('setValue')->with($this->equalTo(array(
+                'value' => 'dragons.png',
+                'tmp_name' =>  'dragons.png',
+            )))
+            ->will($this->returnSelf());
+        $this->_modelLogo->expects($this->any())->method('save')
+            ->will($this->returnSelf());
+
         parent::setUp();
     }
 
@@ -56,7 +109,9 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         return new Mage_Launcher_Model_Storelauncher_Design_SaveHandler(
             $config,
             $backendConfigModel,
-            $this->_helperFactory
+            $this->_helperFactory,
+            $this->_configLoader,
+            $this->_modelLogo
         );
     }
 
@@ -113,6 +168,7 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
                 ),
             ),
             'tileCode' => 'design',
+            'logo_src' => 'dragons.png'
         );
 
         return $result;

@@ -80,4 +80,32 @@ class Mage_Launcher_Helper_Data extends Mage_Core_Helper_Data
         $storeView = $this->_storeManager->getDefaultStoreView();
         return $storeView;
     }
+
+    /**
+     * Get tmp Url for uploaded Logo
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public function getTmpLogoUrl($fileName = '')
+    {
+        return Mage::getBaseUrl('media') . 'tmp/' .  Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR
+            . '/' . $fileName;
+    }
+
+    /**
+     * Get tmp path for Logo
+     *
+     * @param string $name
+     * @return string
+     */
+    public function getTmpLogoPath($name = '')
+    {
+        $logoDir = Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR
+            . Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
+        if (!empty($name)) {
+            $logoDir .= DIRECTORY_SEPARATOR . $name;
+        }
+        return $logoDir;
+    }
 }

@@ -31,14 +31,17 @@
                 this.btnSaveDrawer = $(this.options.btnSaveDrawer);
                 this.headerButtonCreate({
                     name: 'close',
-                    button: this.btnCloseDrawer,
-                    click: $.proxy(this.destroy, this)
+                    button: this.btnCloseDrawer
                 });
                 this.headerButtonCreate({
                     name: 'save',
-                    button: this.btnSaveDrawer,
-                    click: $.proxy(this.destroy, this)
+                    button: this.btnSaveDrawer
                 });
+                this.element.off('drawerHidden');
+                this._on({drawerHidden: function() {
+                    console.trace();
+                    this.destroy();
+                }});
             },
 
             destroy: function() {
