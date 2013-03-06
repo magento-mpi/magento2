@@ -11,10 +11,10 @@
 /**
  * Interface for fallback model.
  */
-interface Mage_Core_Model_File_Resolution_FallbackInterface
+interface Mage_Core_Model_File_ResolverInterface
 {
     /**
-     * Get existing file name, using fallback mechanism
+     * Get a usual file path (e.g. template)
      *
      * @param string $file
      * @param string|null $module
@@ -23,7 +23,7 @@ interface Mage_Core_Model_File_Resolution_FallbackInterface
     public function getFile($file, $module = null);
 
     /**
-     * Get locale file name, using fallback mechanism
+     * Get locale file path (e.g. file with locale information)
      *
      * @param string $file
      * @return string
@@ -31,7 +31,7 @@ interface Mage_Core_Model_File_Resolution_FallbackInterface
     public function getLocaleFile($file);
 
     /**
-     * Get view file name, using fallback mechanism
+     * Get view file path (e.g. javascript file)
      *
      * @param string $file
      * @param string|null $module

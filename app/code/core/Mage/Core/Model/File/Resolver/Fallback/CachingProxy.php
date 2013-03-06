@@ -9,11 +9,11 @@
  */
 
 /**
- * A proxy for Fallback model. This proxy processes fallback resolution calls by either using map of cached paths, or
- * passing resolution to the Fallback model.
+ * A proxy for the Fallback resolver. This proxy processes fallback resolution calls by either using map of cached \
+ * paths, or passing resolution to the Fallback resolver.
  */
-class Mage_Core_Model_File_Resolution_Fallback_CachingProxy
-    implements Mage_Core_Model_File_Resolution_FallbackInterface
+class Mage_Core_Model_File_Resolver_Fallback_CachingProxy
+    implements Mage_Core_Model_File_ResolverInterface
 {
     /**
      * Whether object can save map changes upon destruction
@@ -46,7 +46,7 @@ class Mage_Core_Model_File_Resolution_Fallback_CachingProxy
     /**
      * Proxied fallback model
      *
-     * @var Mage_Core_Model_File_Resolution_Fallback
+     * @var Mage_Core_Model_File_Resolver_Fallback
      */
     protected $_fallback;
 
@@ -65,7 +65,7 @@ class Mage_Core_Model_File_Resolution_Fallback_CachingProxy
     /**
      * Read the class map according to provided fallback model and parameters
      *
-     * @param Mage_Core_Model_File_Resolution_Fallback $fallback
+     * @param Mage_Core_Model_File_Resolver_Fallback $fallback
      * @param Magento_Filesystem $filesystem
      * @param string $mapDir directory where to look the map files in
      * @param string $baseDir base directory path to prepend to file paths
@@ -73,7 +73,7 @@ class Mage_Core_Model_File_Resolution_Fallback_CachingProxy
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Model_File_Resolution_Fallback $fallback,
+        Mage_Core_Model_File_Resolver_Fallback $fallback,
         Magento_Filesystem $filesystem,
         $mapDir,
         $baseDir,
@@ -153,7 +153,7 @@ class Mage_Core_Model_File_Resolution_Fallback_CachingProxy
     }
 
     /**
-     * Proxy to Mage_Core_Model_File_Resolution_Fallback::getFile()
+     * Proxy to Mage_Core_Model_File_Resolver_Fallback::getFile()
      *
      * @param string $file
      * @param string|null $module
@@ -170,7 +170,7 @@ class Mage_Core_Model_File_Resolution_Fallback_CachingProxy
     }
 
     /**
-     * Proxy to Mage_Core_Model_File_Resolution_Fallback::getLocaleFile()
+     * Proxy to Mage_Core_Model_File_Resolver_Fallback::getLocaleFile()
      *
      * @param string $file
      * @return string
@@ -186,7 +186,7 @@ class Mage_Core_Model_File_Resolution_Fallback_CachingProxy
     }
 
     /**
-     * Proxy to Mage_Core_Model_File_Resolution_Fallback::getViewFile()
+     * Proxy to Mage_Core_Model_File_Resolver_Fallback::getViewFile()
      *
      * @param string $file
      * @param string|null $module
@@ -208,7 +208,7 @@ class Mage_Core_Model_File_Resolution_Fallback_CachingProxy
      * @param string $filePath
      * @param string $file
      * @param string|null $module
-     * @return Mage_Core_Model_File_Resolution_Fallback_CachingProxy
+     * @return Mage_Core_Model_File_Resolver_Fallback_CachingProxy
      */
     public function setFilePathToMap($filePath, $file, $module = null)
     {

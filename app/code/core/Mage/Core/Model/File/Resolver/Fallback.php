@@ -9,9 +9,9 @@
  */
 
 /**
- * Class for managing fallback of files
+ * Resolver, which performs full search of files, according to fallback rules
  */
-class Mage_Core_Model_File_Resolution_Fallback implements Mage_Core_Model_File_Resolution_FallbackInterface
+class Mage_Core_Model_File_Resolver_Fallback implements Mage_Core_Model_File_ResolverInterface
 {
     /**
      * @var string
@@ -45,7 +45,7 @@ class Mage_Core_Model_File_Resolution_Fallback implements Mage_Core_Model_File_R
 
     /**
      * Constructor.
-     * Following entries in $params are required: 'area', 'package', 'theme', 'locale'. The 'appConfig' and
+     * Following entries in $params are required: 'area', 'themeModel', 'locale'. The 'appConfig' and
      * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
      * present or null, then they will be retrieved from global application instance.
      *

@@ -10,6 +10,8 @@
 
 class Mage_Core_Model_App_State
 {
+    const XML_PATH_PRODUCTION_MODE = 'global/production_mode';
+
     /**
      * Check if application is installed
      *
@@ -17,7 +19,7 @@ class Mage_Core_Model_App_State
      */
     public function isInstalled()
     {
-       return Mage::isInstalled();
+        return Mage::isInstalled();
     }
 
     /**
@@ -39,6 +41,18 @@ class Mage_Core_Model_App_State
     public function setIsDeveloperMode($mode)
     {
         return Mage::setIsDeveloperMode($mode);
+    }
+
+    /**
+     * Check if production mode is enabled.
+     *
+     * @return bool
+     */
+    public function isProductionMode()
+    {
+        /** @var $config Mage_Core_Model_Config_Primary */
+        $config = Mage::getObjectManager()->get('Mage_Core_Model_Config_Primary');
+        return (bool)(string)$config->getNode(self::XML_PATH_PRODUCTION_MODE);
     }
 
     /**
