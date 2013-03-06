@@ -73,7 +73,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
 
-            if ($theme->getType()==Mage_Core_Model_Theme::TYPE_VIRTUAL) {
+            if ($theme->getType() == Mage_Core_Model_Theme::TYPE_VIRTUAL) {
                 $this->_redirect('*/*/launch', array(
                     'theme_id' => $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
                         ->getStagingTheme()->getId(),
@@ -84,15 +84,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             /** @todo replace registry usage */
             Mage::register('theme', $theme);
-
-            if (!$theme->isVirtual()) {
-                $themeCustomization = $this->_getThemeCustomization($theme);
-                $this->_redirect('*/*/*/', array(
-                    'theme_id' => $themeCustomization->getId(),
-                    'mode'     => $mode
-                ));
-                return;
-            }
 
             $this->_getSession()->setData('theme_id', $theme->getId());
 
@@ -139,6 +130,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $currentUrl = $this->_getCurrentHandleUrl();
             }
             $editorBlock->setFrameUrl($currentUrl);
+            $editorBlock->setTheme($theme);
 
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
