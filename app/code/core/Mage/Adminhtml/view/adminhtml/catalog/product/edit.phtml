@@ -195,8 +195,6 @@ jQuery(function($) {
         );
     });
 
-    $form.on('addField', function(){ console.log(arguments); });
-
     $form.on('changeAttributeSet', function(event, data) {
         var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace(/#[^#]*$/, '');
         uri += /\?/.test(uri) ? '&' : '?';

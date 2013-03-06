@@ -41,7 +41,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Ma
     protected function _beforeToHtml()
     {
         $this->setId('create_attribute_' . $this->getConfig()->getGroupId())
-            ->setOnClick($this->getJsObjectName() . '.create();')
             ->setType('button')
             ->setClass('action-add')
             ->setLabel(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add Attribute'))
@@ -55,7 +54,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Ma
                                 'product_tab' => $this->getConfig()->getTabId(),
                                 'store' => $this->getConfig()->getStoreId(),
                                 'product' => $this->getConfig()->getProductId(),
-                                'set' => $this->getConfig()->getAttributeSetId(),
                                 'type' => $this->getConfig()->getTypeId(),
                                 'popup' => 1
                             )
@@ -89,14 +87,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Ma
             return '';
         }
 
-        $html = parent::_toHtml();
-        $html .= Mage::helper('Mage_Adminhtml_Helper_Js')->getScript(
-            "var {$this->getJsObjectName()} = new Product.Attributes('{$this->getId()}');\n"
-            . "{$this->getJsObjectName()}.setConfig("
-            . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData()) . ");\n"
-        );
-
-        return $html;
+        return parent::_toHtml();
     }
 
     public function getJsObjectName()

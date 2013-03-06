@@ -8,22 +8,14 @@
  * @license     {license_link}
  */
 ?>
+<?php /**  @var $this Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created */ ?>
 <script type="text/javascript">
-        var data = <?php echo $this->getAttributesBlockJson() ?>;
-        if (data.newAttributeSetId) {
-            (function($) {
-                $('#product-edit-form').trigger('changeAttributeSet', [data.newAttributeSetId]);
-            })(window.opener.jQuery);
-        } else {
-            (function($) {
-                $('#product-edit-form').trigger('addField', data);
-            })(window.opener.jQuery);
-
-            window.opener.Product.AttributesBridge.addAttributeRow(data);
-            added = true;
-        }
-    }
+var data = <?php echo $this->getAttributesBlockJson() ?>,
+    attributeSet = (data.newAttributeSetId) ? {id:[data.newAttributeSetId]} : {id:$('#attribute_set_id').val()};
+(function ($) {
+    $('#product-edit-form').trigger('changeAttributeSet', attributeSet);
+})(window.parent.jQuery);
 </script>
 <div class="a-center">
-<?php echo $this->getCloseButtonHtml() ?>
+    <?php echo $this->getCloseButtonHtml() ?>
 </div>

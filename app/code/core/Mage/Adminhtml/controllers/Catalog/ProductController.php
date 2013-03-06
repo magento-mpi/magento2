@@ -891,9 +891,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function addAttributeAction()
     {
-        $this->_getSession()->addNotice(
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Please click on the Close Window button if it is not closed automatically.')
-        );
         $this->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
@@ -904,9 +901,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function createdAction()
     {
-        $this->_getSession()->addNotice(
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Please click on the Close Window button if it is not closed automatically.')
-        );
         $this->loadLayout('popup');
         $this->_addContent(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Created')

@@ -247,96 +247,30 @@ Product.Gallery.prototype = {
     }
 };
 
-Product.AttributesBridge = {
-    tabsObject :false,
-    bindTabs2Attributes : {},
-    bind : function(tabId, attributesObject) {
-        this.bindTabs2Attributes[tabId] = attributesObject;
-    },
-    getAttributes : function(tabId) {
-        return this.bindTabs2Attributes[tabId];
-    },
-    addAttributeRow : function(data) {
-        $H(data).each(function(item) {
-            var element = this.getAttributes(item.key).addRow(item.value);
-            jQuery(element).trigger('focus');
-        }.bind(this));
-    }
-};
-
-(function($){
+(function ($) {
     $.widget("mage.productAttributes", {
-        /**
-         * Proxy creation
-         * @protected
-         */
-        _create: function() {
-            this._on({'click': '_showPopup'});
+        _create: function () {
+            this._on({'click':'_showPopup'});
         },
-
-        _showPopup: function(event) {
+        _showPopup: function (event) {
+            var wrapper = $('<div id="create_new_attribute_container"/>').appendTo('body').hide();
             var iframe = $('<iframe>').attr({
-                src: this.options.url,
+                src: this.options.url + '?set=' + $('#attribute_set_id').val(),
                 width: '100%',
                 height: '100%'
             });
-            var wraper = $('<div/>')
-                .hide()
-                .appendTo('body');
-
-            iframe.on(
-                'load',
-                function() {
-                    wraper.show().dialog({
-                        modal:true,
-                        width:900,
-                        height:700
-                    });
-                }
-            )
-            wraper.append(iframe);
-/*            var win = window.open(this.options.url, 'new_attribute',
-                'width=900,height=600,resizable=1,scrollbars=1');
-            win.focus();*/
+            iframe.on('load', function () {
+                wrapper.show().dialog({
+                    title: 'Create new attribute',
+                    minWidth: 980,
+                    minHeight: 700,
+                    modal: true
+                });
+            });
+            wrapper.append(iframe);
         }
     });
-})(jQuery)
-
-Product.Attributes = Class.create();
-Product.Attributes.prototype = {
-    config : {},
-    containerId :null,
-    initialize : function(containerId) {
-        this.containerId = containerId;
-    },
-    setConfig : function(config) {
-        this.config = config;
-        Product.AttributesBridge.bind(this.getConfig().tab_id, this);
-    },
-    getConfig : function() {
-        return this.config;
-    },
-    create : function() {
-        var win = window.open(this.getConfig().url, 'new_attribute',
-                'width=1000,height=600,resizable=1,scrollbars=1');
-        win.focus();
-    },
-    addRow : function(html) {
-        var attributesContainer = $$('#group_fields' + this.getConfig().group_id)[0];
-        Element.insert(attributesContainer, {
-            bottom :html
-        });
-
-        var childs = attributesContainer.childElements();
-        var element = childs[childs.size() - 1].select('input', 'select',
-                'textarea')[0];
-        if (element) {
-            window.scrollTo(0, Position.cumulativeOffset(element)[1]
-                    + element.offsetHeight);
-        }
-        return element;
-    }
-};
+})(jQuery);
 
 var onInitDisableFieldsList = [];
 
