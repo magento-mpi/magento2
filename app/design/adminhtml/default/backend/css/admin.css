@@ -4122,11 +4122,12 @@ tr.dynamic-grid input.input-text {
 }
 
 .widget-layout-updates .chooser_container {
-    padding: 0 10px 18px;
+    padding: 0 10px;
+    margin-bottom: 18px;
 }
 
 .widget-layout-updates .chooser_container p {
-    margin: 0;
+    margin: 0 0 18px;
 }
 
 .widget-layout-updates .chooser_container p img,
