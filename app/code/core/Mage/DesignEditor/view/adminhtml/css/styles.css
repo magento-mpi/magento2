@@ -1340,9 +1340,16 @@
 }
 
 #vde_toolbar_buttons .action-theme-assign {
-    float: right;
+    float: left;
     margin-right: 10px;
     height: 30px;
+}
+
+#vde_toolbar_buttons .actions-split {
+    margin: 0 20px 0 0;
+}
+#vde_toolbar_buttons .actions-split > [class^='action-'] {
+    line-height: 20px;
 }
 
 #vde_toolbar .item-msg {
@@ -1374,6 +1381,11 @@
 #vde_toolbar_row .vde_toolbar_cell_content,
 #vde_toolbar_row .vde_toolbar_cell_content * {
     color: #f0efe9;
+}
+
+#vde_toolbar_row .switcher-label:after {
+    vertical-align: middle;
+    margin-top: -3px;
 }
 
 .vde_toolbar_cell_content {
