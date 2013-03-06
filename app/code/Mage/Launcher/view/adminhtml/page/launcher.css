@@ -87,10 +87,6 @@
     clear: left;
 }
 
-.eq-ie8 .tile-home-page {
-
-}
-
 .tile-teaser,
 .tile-done {
     color: #31302b;
@@ -123,7 +119,6 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-
 .tile-store-settings h2 {
     position: relative;
     font-family: 'CallunaSans';
@@ -135,32 +130,159 @@
 }
 
 .tile-store-settings h2:before {
-    margin: 50px 0 20px;
+    margin: 50px auto 20px;
     text-align: center;
-    font-family: 'admin-icons';
-    font-size: 90px;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
     color: #F0EBDF;
     display: block;
-    content: "\e005";
+    content: "";
+    background-image: url(images/icons-promote-your-store.png);
+    background-repeat: no-repeat;
+    width: 133px;
+    height: 100px;
 }
 
-.tile-store-settings.tile-complete h2:before {
-    color: #656057;
+.tile-store-info h2:before {
+    background-position: 0 -1200px;
 }
 
-.tile-tax h2:before {
-    content: "\e001";
+.tile-store-info.tile-complete h2:before {
+    background-position: -133px -1200px;
 }
 
 .tile-payments h2:before {
-    content: "\e003";
+    background-position: 0 -1400px;
+}
+
+.tile-payments.tile-complete h2:before {
+    background-position: -133px -1400px;
+}
+
+.tile-product h2:before {
+    background-position: 0 -1700px;
+}
+
+.tile-product.tile-complete h2:before {
+    background-position: -133px -1700px;
 }
 
 .tile-shipping h2:before {
-    content: "\e002";
+    background-position: 0 -1500px;
+}
+
+.tile-shipping.tile-complete h2:before {
+    background-position: -133px -1500px;
+}
+
+.tile-design h2:before {
+    background-position: 0 -1300px;
+}
+
+.tile-design.tile-complete h2:before {
+    background-position: -133px -1300px;
+}
+
+.tile-tax h2:before {
+    background-position: 0 -1600px;
+}
+
+.tile-tax.tile-complete h2:before {
+    background-position: -133px -1600px;
+}
+
+.tile-home-page h2:before {
+    background-position: 0 0;
+}
+
+.tile-home-page.tile-complete h2:before {
+    background-position: -133px 0;
+}
+
+.tile-catalog-price-rule h2:before {
+    background-position: 0 -500px;
+}
+
+.tile-catalog-price-rule.tile-complete h2:before {
+    background-position: -133px -500px;
+}
+
+.tile-seo h2:before {
+    background-position: 0 -200px;
+}
+
+.tile-seo.tile-complete h2:before {
+    background-position: -133px -200px;
+}
+
+.tile-rss h2:before {
+    background-position: 0 -900px;
+}
+
+.tile-rss.tile-complete h2:before {
+    background-position: -133px -900px;
+}
+
+.tile-reports h2:before {
+    background-position: 0 -400px;
+}
+
+.tile-reports.tile-complete h2:before {
+    background-position: -133px -400px;
+}
+
+.tile-related-products h2:before {
+    background-position: 0 -700px;
+}
+
+.tile-related-products.tile-complete h2:before {
+    background-position: -133px -700px;
+}
+
+.tile-google-analytics h2:before {
+    background-position: 0 -1100px;
+}
+
+.tile-google-analytics.tile-complete h2:before {
+    background-position: -133px -1100px;
+}
+
+.tile-ebay h2:before {
+    background-position: 0 -1000px;
+}
+
+.tile-ebay.tile-complete h2:before {
+    background-position: -133px -1000px;
+}
+
+.tile-customer-communication h2:before {
+    background-position: 0 -300px;
+}
+
+.tile-customer-communication.tile-complete h2:before {
+    background-position: -133px -300px;
+}
+
+.tile-wishlist h2:before {
+    background-position: 0 -800px;
+}
+
+.tile-wishlist.tile-complete h2:before {
+    background-position: -133px -800px;
+}
+
+.tile-promotion h2:before {
+    background-position: 0 -600px;
+}
+
+.tile-promotion.tile-complete h2:before {
+    background-position: -133px -600px;
+}
+
+.tile-content-pages h2:before {
+    background-position: 0 -100px;
+}
+
+.tile-content-pages.tile-complete h2:before {
+    background-position: -133px -100px;
 }
 
 .tile-store-settings:hover h2:before,
@@ -713,49 +835,8 @@
 
 /* Tax Rate Popup */
 
-.tax-rate-popup {
-    box-shadow: 0 2px 16px rgba(49, 48, 43, 0.9);
-}
-
 .tax-rate-popup .fieldset {
-    border: none;
-    padding: 20px 0 0 0;
     margin: 0;
-}
-
-.tax-rate-popup.ui-dialog .ui-dialog-titlebar {
-    background: #f3efea;
-    height: 43px;
-    padding: 15px 0 0 30px;
-}
-
-.tax-rate-popup.ui-dialog .ui-dialog-title {
-    font-family: 'CallunaSans',Arial,sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: #676056;
-}
-
-.tax-rate-popup.ui-dialog .ui-dialog-titlebar-close {
-    background: none;
-    text-decoration: none;
-    right: 20px;
-    top: 20px;
-}
-
-.tax-rate-popup .ui-dialog-titlebar-close:after {
-    vertical-align: baseline;
-    color: #676056;
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    content: "\e07d";
-}
-
-.tax-rate-popup.ui-dialog .ui-dialog-content {
-    background: #fff;
 }
 
 .tax-rate-popup .field {
@@ -783,20 +864,6 @@
 
 .tax-rate-popup .field-rate .control .input-text {
     width: 50%;
-}
-
-
-.tax-rate-popup.ui-dialog .ui-dialog-buttonpane {
-    background: #fff;
-}
-
-.tax-rate-popup.ui-dialog .ui-dialog-buttonset {
-    text-align: center;
-    padding: 25px 0;
-}
-
-.tax-rate-popup.ui-dialog .ui-dialog-buttonset button {
-    margin: 0 2px;
 }
 
 .tax-rate-popup .legend,
@@ -2193,12 +2260,6 @@
     opacity: 0;
 }
 
-/* LTE 8 Fallback */
-
-.lt-ie9 .tile-complete h2:after {
-    left: 63%;
-}
-
 /* Product drawer */
 .add-product {
     float: left;
@@ -3037,13 +3098,16 @@
     border-radius: 4px;
     padding: 40px;
     position: absolute;
-    top: 50px;
-    left: 0;
     width: 380px;
     font-size: 16px;
     line-height: 24px;
     display: none;
     z-index: 10005;
+}
+
+.store-tour-description-top-menu {
+    right: 0;
+    top: 50px;
 }
 
 .store-tour-description-main-menu {
