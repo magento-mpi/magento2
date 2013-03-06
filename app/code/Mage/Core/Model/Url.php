@@ -110,6 +110,16 @@ class Mage_Core_Model_Url extends Varien_Object implements Mage_Core_Model_UrlIn
     }
 
     /**
+     * Get default url type
+     *
+     * @return string
+     */
+    protected function _getDefaultUrlType()
+    {
+        return Mage_Core_Model_Store::URL_TYPE_LINK;
+    }
+
+    /**
      * Initialize object data from retrieved url
      *
      * @param   string $url
@@ -261,7 +271,7 @@ class Mage_Core_Model_Url extends Varien_Object implements Mage_Core_Model_UrlIn
     public function getType()
     {
         if (!$this->hasData('type')) {
-            $this->setData('type', Mage_Core_Model_Store::URL_TYPE_LINK);
+            $this->setData('type', $this->_getDefaultUrlType());
         }
         return $this->_getData('type');
     }
@@ -300,7 +310,7 @@ class Mage_Core_Model_Url extends Varien_Object implements Mage_Core_Model_UrlIn
     /**
      * Set store entity
      *
-     * @param mixed $data
+     * @param mixed $params
      * @return Mage_Core_Model_Url
      */
     public function setStore($params)
@@ -330,14 +340,11 @@ class Mage_Core_Model_Url extends Varien_Object implements Mage_Core_Model_UrlIn
      */
     public function getBaseUrl($params = array())
     {
-        $currentType = $this->getType();
         if (isset($params['_store'])) {
             $this->setStore($params['_store']);
         }
         if (isset($params['_type'])) {
             $this->setType($params['_type']);
-        } else {
-            $this->setType(Mage_Core_Model_Store::URL_TYPE_LINK);
         }
 
         if (isset($params['_secure'])) {
@@ -353,7 +360,7 @@ class Mage_Core_Model_Url extends Varien_Object implements Mage_Core_Model_UrlIn
         }
 
         $result =  $this->getStore()->getBaseUrl($this->getType(), $this->isSecure());
-        $this->setType($currentType);
+        $this->setType($this->_getDefaultUrlType());
         return $result;
     }
 
