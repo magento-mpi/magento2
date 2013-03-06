@@ -211,32 +211,32 @@ billing: &billingAll
 #<------------SIMPLE------------>
 simple_low_qty:
     product_attribute_set: Default
-    general_name: Simple Product For Order(%randomize%)
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_Order(%randomize%)
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 2
-    general_stock_availability: In Stock
+    general_name: Simple Product For Order(%randomize%)
+    general_sku: simple_sku_Order(%randomize%)
     general_price: 54.95
     general_tax_class: None
+    general_qty: 2
+    general_stock_availability: In Stock
+    general_weight: 18.56
+    general_description: Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
+    autosettings_visibility: Catalog, Search
     websites: Main Website
 
 simple_with_increments:
     product_attribute_set: Default
-    general_name: Simple Product For Order(%randomize%)
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_Order(%randomize%)
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Order(%randomize%)
+    general_sku: simple_sku_Order(%randomize%)
     general_price: 54.95
     general_tax_class: None
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
+    general_description: Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
+    autosettings_visibility: Catalog, Search
     inventory_enable_qty_increments_default: No
     inventory_enable_qty_increments: Yes
     inventory_qty_increments_default: No
@@ -245,49 +245,49 @@ simple_with_increments:
 
 simple_out_of_stock:
     product_attribute_set: Default
-    general_name: Simple Product For Order(%randomize%)
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_Order(%randomize%)
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 0
-    general_stock_availability: Out of Stock
+    general_name: Simple Product For Order(%randomize%)
+    general_sku: simple_sku_Order(%randomize%)
     general_price: 54.95
     general_tax_class: None
+    general_qty: 0
+    general_stock_availability: Out of Stock
+    general_weight: 18.56
+    general_description: Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
+    autosettings_visibility: Catalog, Search
     websites: Main Website
 
 simple_min_allowed_qty:
     product_attribute_set: Default
-    general_name: Simple Product For Order(%randomize%)
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_Order(%randomize%)
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Order(%randomize%)
+    general_sku: simple_sku_Order(%randomize%)
     general_price: 54.95
     general_tax_class: None
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
+    general_description: Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
+    autosettings_visibility: Catalog, Search
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 10
     websites: Main Website
 
 simple_max_allowed_qty:
     product_attribute_set: Default
-    general_name: Simple Product For Order(%randomize%)
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_Order(%randomize%)
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Order(%randomize%)
+    general_sku: simple_sku_Order(%randomize%)
     general_price: 54.95
     general_tax_class: None
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
+    general_description: Description for Simple Product
+    autosettings_short_description: Short Description for Simple Product
+    autosettings_visibility: Catalog, Search
     inventory_max_allowed_qty_default: No
     inventory_max_allowed_qty: 10
     websites: Main Website
@@ -295,17 +295,17 @@ simple_max_allowed_qty:
 #<------------DOWNLOADABLE------------>
 downloadable_product_for_order:
     product_attribute_set: Default
-    general_name: Downloadable Product For Order(%randomize%)
-    general_description: Description for Downloadable Product
-    autosettings_short_description: Short Description for Downloadable Product
-    general_sku: downloadable_sku_Order(%randomize%)
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Downloadable Product For Order(%randomize%)
+    general_sku: downloadable_sku_Order(%randomize%)
     general_price: 14.95
     general_tax_class: None
+    general_qty: 120
+    general_stock_availability: In Stock
     general_categories: %noValue%
+    general_description: Description for Downloadable Product
+    autosettings_short_description: Short Description for Downloadable Product
+    autosettings_visibility: Catalog, Search
     websites: Main Website
     custom_options_data: %noValue%
     downloadable_information_data:
@@ -326,14 +326,14 @@ downloadable_product_for_order:
 #<------------GROUPED------------>
 grouped_product_for_order:
     product_attribute_set: Default
-    general_name: Grouped Product For Order(%randomize%)
-    general_description: Description for Grouped Product
-    autosettings_short_description: Short Description for Grouped Product
-    general_sku: grouped_sku_Order(%randomize%)
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    general_name: Grouped Product For Order(%randomize%)
+    general_sku: grouped_sku_Order(%randomize%)
     general_stock_availability: In Stock
     general_categories: %noValue%
+    general_description: Description for Grouped Product
+    autosettings_short_description: Short Description for Grouped Product
+    autosettings_visibility: Catalog, Search
     websites: Main Website
     general_grouped_data:
         associated_grouped_1:
@@ -411,17 +411,17 @@ fixed_bundle_for_order:
 #<------------CONFIGURABLE------------>
 configurable_product_for_order:
     product_attribute_set: Default
-    general_name: Configurable Product For Order(%randomize%)
-    general_description: Description for Configurable Product
-    autosettings_short_description: Short Description for Configurable Product
-    general_sku: configurable_sku_Order(%randomize%)
-    general_weight: 0.1
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_stock_availability: In Stock
+    general_name: Configurable Product For Order(%randomize%)
+    general_sku: configurable_sku_Order(%randomize%)
     general_price: 14.95
     general_tax_class: None
+    general_stock_availability: In Stock
+    general_weight: 0.1
     general_categories: %noValue%
+    general_description: Description for Configurable Product
+    autosettings_short_description: Short Description for Configurable Product
+    autosettings_visibility: Catalog, Search
     websites: Main Website
     general_configurable_attributes:
         attribute_1:
