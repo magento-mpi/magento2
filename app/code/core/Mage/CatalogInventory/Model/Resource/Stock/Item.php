@@ -105,13 +105,14 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     protected function _prepareDataForTable(Varien_Object $object, $table)
     {
         $data = parent::_prepareDataForTable($object, $table);
+        $ifNullSql = $this->_getReadAdapter()->getIfNullSql('qty');
         if (!$object->isObjectNew() && $object->getQtyCorrection()) {
             if ($object->getQty() === null) {
                 $data['qty'] = null;
             } elseif ($object->getQtyCorrection() < 0) {
-                $data['qty'] = new Zend_Db_Expr('IFNULL(qty, 0)-' . abs($object->getQtyCorrection()));
+                $data['qty'] = new Zend_Db_Expr($ifNullSql . '-' . abs($object->getQtyCorrection()));
             } else {
-                $data['qty'] = new Zend_Db_Expr('IFNULL(qty, 0)+' . $object->getQtyCorrection());
+                $data['qty'] = new Zend_Db_Expr($ifNullSql . '+' . $object->getQtyCorrection());
             }
         }
         return $data;
