@@ -325,11 +325,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
                 $this->assertMessagePresent('success', 'shopping_cart_is_empty');
                 return;
             }
-            for ($i = 1; $i <= $productCount; $i++) {
-                $this->addParameter('productNumber', $i);
-                $this->fillField('product_qty', 0);
-            }
-            $this->clickButton('update_shopping_cart');
+            $this->clickButton('clear_shopping_cart');
             $this->assertMessagePresent('success', 'shopping_cart_is_empty');
         }
     }
