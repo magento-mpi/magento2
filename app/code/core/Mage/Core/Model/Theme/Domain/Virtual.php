@@ -49,7 +49,7 @@ class Mage_Core_Model_Theme_Domain_Virtual
      */
     public function getStagingTheme()
     {
-        return $this->_hasStagingTheme() ? $this->_getStagingTheme() : $this->_createStagingTheme();
+        return $this->_hasStagingTheme() ? $this->_getStagingTheme() : $this->createStagingTheme();
     }
 
     /**
@@ -80,7 +80,7 @@ class Mage_Core_Model_Theme_Domain_Virtual
      *
      * @return Mage_Core_Model_Theme
      */
-    protected function _createStagingTheme()
+    public function createStagingTheme()
     {
         return $this->_copyModel->copy($this->_theme);
     }

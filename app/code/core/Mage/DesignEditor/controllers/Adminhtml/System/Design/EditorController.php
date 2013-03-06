@@ -73,13 +73,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
 
-            if ($theme->getType() == Mage_Core_Model_Theme::TYPE_VIRTUAL) {
-                $this->_redirect('*/*/launch', array(
-                    'theme_id' => $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
-                        ->getStagingTheme()->getId(),
-                    'mode'     => Mage_DesignEditor_Model_State::MODE_DESIGN
-                ));
-                return;
+            if ($theme->getType()==Mage_Core_Model_Theme::TYPE_VIRTUAL) {
+                $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->createStagingTheme();
             }
 
             /** @todo replace registry usage */
