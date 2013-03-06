@@ -20,17 +20,14 @@
 </div>
 
 <script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/storecredit.js') ?>",
-            function() {
-                $('#multishipping-billing-form').storeCredit({
-                    customerBalanceSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
-                    baseCustomerBalAmountUsed: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
-                    balance: <?php echo (float)$this->getBalance(); ?>,
-                    quoteBaseGrandTotal: <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>
-                });
+    head.js(
+        "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/customer-balance.js') ?>",
+        function() {
+            jQuery('#use-customer-balance').customerBalance({
+                amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
+                usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>,
+                balance: <?php echo (float)$this->getBalance(); ?>
             });
-    })(jQuery);
+        });
 </script>
 <?php endif; ?>

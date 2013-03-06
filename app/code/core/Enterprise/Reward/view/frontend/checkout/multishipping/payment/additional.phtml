@@ -19,17 +19,14 @@
 </dl>
 
 <script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Enterprise_Reward::customer-rewards.js') ?>",
-            function() {
-                $('#multishipping-billing-form').customerRewards({
-                    useRewardPoints: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
-                    baseRewardCurrencyAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>,
-                    balance: <?php echo (float)$this->getCurrencyAmount(); ?>,
-                    quoteBaseGrandTotal: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>
-                });
+    head.js(
+        "<?php echo $this->getViewFileUrl('Enterprise_CustomerBalance::js/customer-balance.js') ?>",
+        function() {
+            jQuery('#use-reward-points').customerBalance({
+                amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
+                usedAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>,
+                balance: <?php echo (float)$this->getCurrencyAmount(); ?>
             });
-    })(jQuery);
+        });
 </script>
 <?php endif; ?>
