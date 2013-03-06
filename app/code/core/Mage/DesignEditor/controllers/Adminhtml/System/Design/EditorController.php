@@ -142,18 +142,39 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_redirect('*/*/');
             return;
         } catch (Exception $e) {
-
-            echo __FILE__.':'.__LINE__;
-            echo '<pre>';
-            var_dump($e->getMessage());
-            echo '</pre>';
-            exit;
-
-
             $this->_getSession()->addException($e, $this->__('Unknown error'));
             $this->_redirect('*/*/');
             return;
         }
+    }
+
+    /**
+     * Create virtual theme action
+     */
+    public function createVirtualThemeAction()
+    {
+        $themeId = (int)$this->getRequest()->getParam('theme_id', false);
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
+        try {
+            $theme->load($themeId);
+            if (!$theme->getId() || ($theme->getType() != Mage_Core_Model_Theme::TYPE_PHYSICAL)) {
+                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $theme->getId()));
+            }
+            $virtualTheme = $this->_getThemeCustomization($theme);
+            $response = array(
+                'error'         => false,
+                'redirect_url'  => $this->getUrl('*/*/launch/', array('theme_id' => $virtualTheme->getId()))
+            );
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addException($e, $e->getMessage());
+            $response = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $errorMessage = $this->__('Unknown error.');
+            $this->_getSession()->addException($e, $errorMessage);
+            $response = array('error' => true, 'message' => $errorMessage);
+        }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**

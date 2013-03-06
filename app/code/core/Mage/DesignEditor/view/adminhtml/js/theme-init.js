@@ -41,8 +41,7 @@
          * @param data
          * @private
          */
-        _onChangeTheme: function(event, data)
-        {
+        _onChangeTheme: function(event, data) {
             if (!this.options.isPhysicalTheme) {
                 return true;
             }
@@ -57,11 +56,35 @@
         /**
          * Create virtual theme
          *
-         * @private
+         * @protected
          */
-        _createVirtualTheme: function()
-        {
-            alert('Creation virtual theme.');
+        _createVirtualTheme: function() {
+            $.ajax({
+                url: this.options.createVirtualThemeUrl,
+                type: "GET",
+                dataType: 'JSON',
+                success: $.proxy(function (data) {
+                    if (!data.error) {
+                        this._launchVirtualTheme(data.redirect_url);
+                    } else {
+                        alert(data.message);
+                    }
+                }, this),
+
+                error: function(data) {
+                    throw Error($.mage.__('Some problem with save action'));
+                }
+            });
+        },
+
+        /**
+         * Launch virtual theme
+         *
+         * @param {String} redirectUrl
+         * @protected
+         */
+        _launchVirtualTheme: function(redirectUrl) {
+            window.location.replace(redirectUrl);
         }
     });
 })(jQuery);
