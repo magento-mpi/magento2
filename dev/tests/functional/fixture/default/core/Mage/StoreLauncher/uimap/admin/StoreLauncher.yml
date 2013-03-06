@@ -211,6 +211,7 @@ store_launcher:
                             cancel_address: //button[@id='action-origin-address-cancel']
                         pageelements:
                             shipping_switcher: //div[@class='switcher drawer-switcher']/label[@title='Shipping status']
+                            shipping_disabled_content: //div[@class='shipping-disabled']
                             flat_rate_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='flat-rate-tab-nav']
                             fedex_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='fedex-tab-nav']
                             usps_tab: //div/ul[@class='shipping-tabs-nav']//a[@class='usps-tab-nav']
@@ -257,6 +258,7 @@ store_launcher:
                             category_name: /*[text()='%categoryName%']
 #=============================================Required for productHelper()->selectProductCategories()==================
         messages: &newTaxRuleMessages
+            success_saved_shipping: //div[normalize-space(@class)='message-validation success' and contains(.,'Configuration has been successfully saved.')]
             enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             empty_required_field:  //label[@class='mage-error' and contains(.,'This field is required.')]

@@ -80,6 +80,7 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
             $this->getControlAttribute('fieldset', 'shipping_tile', 'class'), 'Tile state is not Equal to TODO');
         $this->storeLauncherHelper()->openDrawer('shipping_tile');
         $this->clickControl('pageelement', 'shipping_switcher', false);
+        $this->controlIsVisible('pageelement', 'shipping_disabled_content');
         $this->storeLauncherHelper()->saveDrawer();
         //Verification
         $this->storeLauncherHelper()->mouseOverDrawer('shipping_tile');
@@ -91,14 +92,16 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
      * <p>Configure shipping and save Drawer</p>
      *
      * @param string $shippingMethod
+     * @param string $configField
      * @test
      * @dataProvider shippingDataProvider
      * @TestlinkId TL-MAGE-6614
      */
-    public function completeTile($shippingMethod)
+    public function completeTile($shippingMethod, $configField)
     {
         //Data
         $data = $this->loadDataSet('ShippingDrawer', $shippingMethod);
+        $validateData = array($configField => 'Yes');
         //Steps
         $this->assertEquals('tile-store-settings tile-shipping tile-todo',
             $this->getControlAttribute('fieldset', 'shipping_tile', 'class'), 'Tile state is not Equal to TODO');
@@ -107,11 +110,16 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
         $this->fillFieldset($data, 'shipping_drawer');
         $this->clickButton("submit_" . $shippingMethod, false);
         $this->waitForAjax();
+        $this->assertMessagePresent('success', 'success_saved_shipping');
         $this->storeLauncherHelper()->saveDrawer();
         //Verification
         $this->storeLauncherHelper()->mouseOverDrawer('shipping_tile');
         $this->assertTrue($this->controlIsVisible('button', 'configure_other_shipping_method'),
             'Tile state is not changed');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->openConfigurationTab('sales_shipping_methods');
+        $this->systemConfigurationHelper()->expandFieldSet($shippingMethod);
+        $this->assertTrue($this->verifyForm($validateData, 'sales_shipping_methods'), $this->getParsedMessages());
     }
 
     /**
@@ -122,11 +130,11 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
     public function shippingDataProvider()
     {
         return array(
-            array('flat_rate'),
-            array('fedex'),
-            array('usps'),
-            array('dhl'),
-            array('ups')
+            array('flat_rate', 'flat_rate_enabled'),
+            array('fedex', 'fedex_enabled_for_checkout'),
+            array('usps', 'usps_enabled_for_checkout'),
+            array('dhl', 'dhl_enabled'),
+            array('ups', 'ups_enabled')
         );
     }
 
