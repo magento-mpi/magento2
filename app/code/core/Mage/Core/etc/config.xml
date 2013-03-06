@@ -140,6 +140,16 @@
                 </core>
             </updates>
         </layout>
+        <events>
+            <controller_action_layout_render_before>
+                <observers>
+                    <theme>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>applyThemeCustomization</method>
+                    </theme>
+                </observers>
+            </controller_action_layout_render_before>
+        </events>
     </frontend>
     <adminhtml>
         <translate>

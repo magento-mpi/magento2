@@ -470,12 +470,10 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         /* Identify public file */
         $publicFile = $this->_publishViewFile($file, $params);
         /* Build url to public file */
+        $url = $this->getPublicFileUrl($publicFile, $isSecure);
         if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
             $fileMTime = $this->_filesystem->getMTime($publicFile);
-            $url = $this->_getPublicFileUrl($publicFile, $isSecure);
             $url .= '?' . $fileMTime;
-        } else {
-            $url = $this->_getPublicFileUrl($publicFile, $isSecure);
         }
         return $url;
     }
@@ -488,7 +486,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @return string
      * @throws Magento_Exception
      */
-    protected function _getPublicFileUrl($file, $isSecure = null)
+    public function getPublicFileUrl($file, $isSecure = null)
     {
         foreach (array(
             Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
@@ -504,63 +502,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         throw new Magento_Exception(
             "Cannot build URL for the file '$file' because it does not reside in a public directory."
         );
-    }
-
-    /**
-     * Get URLs to CSS files optimized based on configuration settings
-     *
-     * @param array $files
-     * @return array
-     */
-    public function getOptimalCssUrls($files)
-    {
-        return $this->_getOptimalUrls(
-            $files,
-            self::CONTENT_TYPE_CSS,
-            Mage::getStoreConfigFlag('dev/css/merge_css_files')
-        );
-    }
-
-    /**
-     * Get URLs to JS files optimized based on configuration settings
-     *
-     * @param array $files
-     * @return array
-     */
-    public function getOptimalJsUrls($files)
-    {
-        return $this->_getOptimalUrls(
-            $files,
-            self::CONTENT_TYPE_JS,
-            Mage::getStoreConfigFlag('dev/js/merge_files')
-        );
-    }
-
-    /**
-     * Prepare urls to files based on files type and merging option value
-     *
-     * @param array $files
-     * @param string $type
-     * @param bool $doMerge
-     * @return array
-     */
-    protected function _getOptimalUrls($files, $type, $doMerge)
-    {
-        $urls = array();
-        if ($doMerge && count($files) > 1) {
-            $file = $this->_mergeFiles($files, $type);
-            if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
-                $fileMTime = $this->_filesystem->getMTime($file);
-                $urls[] = $this->_getPublicFileUrl($file) . '?' . $fileMTime;
-            } else {
-                $urls[] = $this->_getPublicFileUrl($file);
-            }
-        } else {
-            foreach ($files as $file) {
-                $urls[] = $this->getViewFileUrl($file);
-            }
-        }
-        return $urls;
     }
 
     /**
@@ -869,7 +810,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @return string
      * @throws Magento_Exception if not existing file requested for merge
      */
-    protected function _mergeFiles($files, $contentType)
+    public function mergeFiles($files, $contentType)
     {
         $filesToMerge = array();
         $mergedFile = array();

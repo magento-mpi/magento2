@@ -201,14 +201,8 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     protected function _fallback($file, $themeDirs, $module = false, $moduleDirs = array(), $extraDirs = array())
     {
-        // add customization path
-        $dirs = array();
-        if ($this->_theme->getCustomizationPath()) {
-            $dirs[] = $this->_theme->getCustomizationPath();
-        }
-
         // add modules to lookup
-        $dirs = array_merge($dirs, $themeDirs);
+        $dirs = $themeDirs;
         if ($module) {
             array_walk($themeDirs, function (&$dir) use ($module) {
                 $dir = "{$dir}/{$module}";

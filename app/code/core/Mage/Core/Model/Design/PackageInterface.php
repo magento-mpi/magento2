@@ -181,20 +181,14 @@ interface Mage_Core_Model_Design_PackageInterface
     public function getViewFileUrl($file, array $params = array());
 
     /**
-     * Get URLs to CSS files optimized based on configuration settings
+     * Get url to public file
      *
-     * @param array $files
-     * @return array
+     * @param string $file
+     * @param bool|null $isSecure
+     * @return string
+     * @throws Magento_Exception
      */
-    public function getOptimalCssUrls($files);
-
-    /**
-     * Get URLs to JS files optimized based on configuration settings
-     *
-     * @param array $files
-     * @return array
-     */
-    public function getOptimalJsUrls($files);
+    public function getPublicFileUrl($file, $isSecure = null);
 
     /**
      * Return directory for theme files publication
@@ -202,6 +196,16 @@ interface Mage_Core_Model_Design_PackageInterface
      * @return string
      */
     public function getPublicDir();
+
+    /**
+     * Merge files, located under the same folder, into one and return file name of merged file
+     *
+     * @param array $files list of names relative to the same folder
+     * @param string $contentType
+     * @return string
+     * @throws Magento_Exception if not existing file requested for merge
+     */
+    public function mergeFiles($files, $contentType);
 
     /**
      * Render view config object for current package and theme

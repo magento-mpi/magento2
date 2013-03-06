@@ -138,7 +138,6 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
         if (null === $this->_storageRoot) {
             $this->_storageRoot = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
                 Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomizationPath()),
-                Mage_Core_Model_Theme_Files::PATH_PREFIX_CUSTOMIZED,
                 $this->getStorageType()
             ));
         }

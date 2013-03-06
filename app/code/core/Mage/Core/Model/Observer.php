@@ -24,11 +24,28 @@ class Mage_Core_Model_Observer
     private $_cacheFrontendPool;
 
     /**
-     * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
+     * @var Mage_Core_Model_Theme_Files
      */
-    public function __construct(Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool)
-    {
+    private $_themeFiles;
+
+    /**
+     * @var Mage_Core_Model_Asset_Collection
+     */
+    private $_pageAssets;
+
+    /**
+     * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
+     * @param Mage_Core_Model_Theme_Files $themeFiles
+     * @param Mage_Core_Model_Page $page
+     */
+    public function __construct(
+        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
+        Mage_Core_Model_Theme_Files $themeFiles,
+        Mage_Core_Model_Page $page
+    ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
+        $this->_themeFiles = $themeFiles;
+        $this->_pageAssets = $page->getAssets();
     }
 
     /**
@@ -122,5 +139,20 @@ class Mage_Core_Model_Observer
             Mage::logException($e);
         }
         return $this;
+    }
+
+    /**
+     * @param Varien_Event_Observer $observer
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function applyThemeCustomization(Varien_Event_Observer $observer)
+    {
+        /** @var $themeFile Mage_Core_Model_Theme_Files */
+        foreach ($this->_themeFiles->getCollection() as $themeFile) {
+            $asset = $themeFile->getAsset();
+            if ($asset) {
+                $this->_pageAssets->add($themeFile->getFilePath(), $asset);
+            }
+        }
     }
 }

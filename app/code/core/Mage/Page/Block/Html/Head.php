@@ -38,6 +38,49 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      * @var string
      */
     protected $_pureTitle;
+
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Mage_Core_Model_Page_AssetMergeService
+     */
+    private $_assetMergeService;
+
+    /**
+     * @var Mage_Page_Model_GroupedAssets
+     */
+    private $_assets;
+
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Model_Layout $layout,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Core_Model_Url $urlBuilder,
+        Mage_Core_Model_Translate $translator,
+        Mage_Core_Model_Cache $cache,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Session_Abstract $session,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Logger $logger,
+        Magento_Filesystem $filesystem,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Page_AssetMergeService $assetMergeService,
+        Mage_Page_Model_GroupedAssets $assets,
+        array $data = array()
+    ) {
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
+            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
+        $this->_objectManager = $objectManager;
+        $this->_assetMergeService = $assetMergeService;
+        $this->_assets = $assets;
+    }
+
     /**
      * Add CSS file to HEAD entity
      *
@@ -49,8 +92,16 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addCss($name, $params = '', $if = null, $cond = null)
     {
-        $params = 'rel="stylesheet" type="text/css"' . ($params ? ' ' . trim($params) : ' media="all"');
-        return $this->_addItem('css', $name, $params, $if, $cond);
+        $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
+        $asset = $this->_objectManager->create(
+            'Mage_Core_Model_Asset_ViewFile', array('file' => (string)$name, 'contentType' => $contentType), false
+        );
+        $this->_assets->addAsset("$contentType/$name", $asset, array(
+            'attributes'    => (string)$params,
+            'ie_condition'  => (string)$if,
+            'flag_name'     => (string)$cond,
+        ));
+        return $this;
     }
 
     /**
@@ -64,7 +115,16 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addJs($name, $params = '', $if = null, $cond = null)
     {
-        return $this->_addItem('js', $name, $params, $if, $cond);
+        $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_JS;
+        $asset = $this->_objectManager->create(
+            'Mage_Core_Model_Asset_ViewFile', array('file' => (string)$name, 'contentType' => $contentType), false
+        );
+        $this->_assets->addAsset("$contentType/$name", $asset, array(
+            'attributes'    => (string)$params,
+            'ie_condition'  => (string)$if,
+            'flag_name'     => (string)$cond,
+        ));
+        return $this;
     }
 
     /**
@@ -102,7 +162,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addRss($title, $href)
     {
-        return $this->_addItem('link', $href, 'rel="alternate" type="application/rss+xml" title="' . $title . '"');
+        $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
+        $asset = $this->_objectManager->create('Mage_Core_Model_Asset_Remote', array('url' => (string)$href), false);
+        $this->_assets->addAsset("link/$href", $asset, array('attributes' => $attributes));
+        return $this;
     }
 
     /**
@@ -114,32 +177,8 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addLinkRel($rel, $href)
     {
-        return $this->_addItem('link', $href, 'rel="' . $rel . '"');
-    }
-
-    /**
-     * Add HEAD Item
-     *
-     * @param string $type
-     * @param string $name
-     * @param string $params
-     * @param string|null $if
-     * @param string|null $cond
-     * @return Mage_Page_Block_Html_Head
-     * @throws Magento_Exception
-     */
-    protected function _addItem($type, $name, $params = '', $if = null, $cond = null)
-    {
-        if (empty($name)) {
-            throw new Magento_Exception('File name must be not empty.');
-        }
-        $this->_data['items'][$type . '/' . $name] = array(
-            'type' => $type,
-            'name' => $name,
-            'params' => trim($params),
-            'if' => $if,
-            'cond' => $cond,
-        );
+        $asset = $this->_objectManager->create('Mage_Core_Model_Asset_Remote', array('url' => (string)$href), false);
+        $this->_assets->addAsset("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
         return $this;
     }
 
@@ -152,7 +191,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function removeItem($type, $name)
     {
-        unset($this->_data['items'][$type . '/' . $name]);
+        $this->_assets->removeAsset("$type/$name");
         return $this;
     }
 
@@ -163,89 +202,63 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function getCssJsHtml()
     {
-        $lines = array();
-        $meta = array();
-        foreach ($this->_data['items'] as $item) {
-            if (!is_null($item['cond']) && !$this->getData($item['cond'])) {
+        $result = '';
+        /** @var $group Mage_Page_Model_Asset_Group */
+        foreach ($this->_assets->groupByProperties() as $group) {
+            $contentType = $group->getProperty(Mage_Page_Model_GroupedAssets::PROPERTY_CONTENT_TYPE);
+            $canMerge = $group->getProperty(Mage_Page_Model_GroupedAssets::PROPERTY_CAN_MERGE);
+            $attributes = $group->getProperty('attributes');
+            $ieCondition = $group->getProperty('ie_condition');
+            $flagName = $group->getProperty('flag_name');
+
+            if ($flagName && !$this->getData($flagName)) {
                 continue;
             }
-            $contentType = $item['type'];
-            $group = $item['if'] . '|' . (empty($item['params']) ? '_' : $item['params']) . '|' . $contentType;
-            $meta[$group] = array($item['if'], (string)$item['params'], $contentType);
-            $lines[$group][] = $item['name'];
-        }
 
-        $html = '';
-        foreach ($lines as $group => $items) {
-            list($if, $params, $contentType) = $meta[$group];
-            if (!empty($if)) {
-                $html .= '<!--[if ' . $if . ']>' . "\n";
+            $groupAssets = $group->getAll();
+            if ($canMerge && count($groupAssets) > 1) {
+                $groupAssets = $this->_assetMergeService->getMergedAssets($groupAssets, $contentType);
             }
-            if ($params) {
-                $params = ' ' . $params;
+
+            if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS ) {
+                $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
+            } else {
+                if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS) {
+                    $attributes = ' rel="stylesheet" type="text/css" ' . ($attributes ?: 'media="all"');
+                }
+                $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";
             }
-            switch ($contentType) {
-                case Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS:
-                    $html .= $this->_generateCssHtml($items, $params);
-                    break;
-                case Mage_Core_Model_Design_Package::CONTENT_TYPE_JS:
-                    $html .= $this->_generateJsHtml($items, $params);
-                    break;
-                case 'link':
-                    foreach ($items as $file) {
-                        $html .= sprintf('<link%s href="%s" />' . "\n", $params, $file);
-                    }
-                    break;
-                default:
-                    break;
+
+            $groupHtml = $this->_renderHtml($groupTemplate, $groupAssets);
+
+            if (!empty($ieCondition)) {
+                $groupHtml = '<!--[if ' . $ieCondition . ']>' . "\n" . $groupHtml . '<![endif]-->' . "\n";
             }
-            if (!empty($if)) {
-                $html .= '<![endif]-->' . "\n";
-            }
+
+            $result .= $groupHtml;
         }
-        return $html;
+        return $result;
     }
 
     /**
-     * Generate css links
+     * Render HTML tags referencing corresponding URLs
      *
-     * @param array $items
-     * @param array $params
+     * @param string $template
+     * @param array $assets
      * @return string
      */
-    protected function _generateCssHtml($items, $params)
+    protected function _renderHtml($template, array $assets)
     {
-        $html = '';
-        $pattern = '<link%s href="%s" />' . "\n";
+        $result = '';
         try {
-            foreach (Mage::getDesign()->getOptimalCssUrls($items) as $url) {
-                $html .= sprintf($pattern, $params, $url);
+            /** @var $asset Mage_Core_Model_Asset_AssetInterface */
+            foreach ($assets as $asset) {
+                $result .= sprintf($template, $asset->getUrl());
             }
         } catch (Magento_Exception $e) {
-            $html .= sprintf($pattern, $params, $this->_getNotFoundUrl());
+            $result .= sprintf($template, $this->_getNotFoundUrl());
         }
-        return $html;
-    }
-
-    /**
-     * Generate js links
-     *
-     * @param array $items
-     * @param array $params
-     * @return string
-     */
-    protected function _generateJsHtml($items, $params)
-    {
-        $html = '';
-        $pattern = '<script%s type="text/javascript" src="%s"></script>' . "\n";
-        try {
-            foreach (Mage::getDesign()->getOptimalJsUrls($items) as $url) {
-                $html .= sprintf($pattern, $params, $url);
-            }
-        } catch (Magento_Exception $e) {
-            $html .= sprintf($pattern, $params, $this->_getNotFoundUrl());
-        }
-        return $html;
+        return $result;
     }
 
     /**
