@@ -36,7 +36,7 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
 
     protected function tearDown()
     {
-        Mage::app()->getStore()->setConfig('dev/log/active',$this->_oldLogActive);
+        Mage::app()->getStore()->setConfig('dev/log/active', $this->_oldLogActive);
         $this->_oldLogActive = null;
 
         Mage::app()->getStore()->setConfig('dev/log/exception_file', $this->_oldExceptionFile);
