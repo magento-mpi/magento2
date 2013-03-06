@@ -56,20 +56,20 @@ class Mage_Core_Model_File_Resolution
     protected $_resolvers = array();
 
     /**
-     * Settings for strategies used
+     * Settings for strategies that are used to resolve file paths
      *
      * @var array
      */
     protected $_strategies = array(
         'production_mode' => array(
-            'file' => 'Mage_Core_Model_File_Resolver_CachingProxy',
-            'locale' => 'Mage_Core_Model_File_Resolver_CachingProxy',
-            'view' => 'Mage_Core_Model_File_Resolver_ByParamsOnly',
+            'file' => 'Mage_Core_Model_File_Resolver_Fallback_CachingProxy',
+            'locale' => 'Mage_Core_Model_File_Resolver_Fallback_CachingProxy',
+            'view' => 'Mage_Core_Model_File_Resolver_View_ByParamsOnly',
         ),
         'caching_map' => array(
-            'file' => 'Mage_Core_Model_File_Resolver_CachingProxy',
-            'locale' => 'Mage_Core_Model_File_Resolver_CachingProxy',
-            'view' => 'Mage_Core_Model_File_Resolver_CachingProxy',
+            'file' => 'Mage_Core_Model_File_Resolver_Fallback_CachingProxy',
+            'locale' => 'Mage_Core_Model_File_Resolver_Fallback_CachingProxy',
+            'view' => 'Mage_Core_Model_File_Resolver_Fallback_CachingProxy',
         ),
         'full_check' => array(
             'file' => 'Mage_Core_Model_File_Resolver_Fallback',
@@ -79,16 +79,23 @@ class Mage_Core_Model_File_Resolution
     );
 
     /**
+     * Map to be used with caching resolver
+     *
+     * @var Mage_Core_Model_File_Resolver_Fallback_CachingProxy_Map
+     */
+    protected $_cachingMap;
+
+    /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_App_State $appState
-     * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dirs
+     * @param Magento_Filesystem $filesystem
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_App_State $appState,
-        Magento_Filesystem $filesystem,
-        Mage_Core_Model_Dir $dirs
+        Mage_Core_Model_Dir $dirs,
+        Magento_Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_isDeveloperMode = $appState->isDeveloperMode();
@@ -106,7 +113,9 @@ class Mage_Core_Model_File_Resolution
      */
     public function getFile($file, $params)
     {
-        return  $this->_getResolver('file', $params)->getFile($file, $params['module']);
+        /** @var $resolver Mage_Core_Model_File_Resolver_FileInterface */
+        $resolver = $this->_getResolver('file', $params);
+        return $resolver->getFile($params['area'], $params['themeModel'], $file, $params['module']);
     }
 
     /**
@@ -118,7 +127,9 @@ class Mage_Core_Model_File_Resolution
      */
     public function getLocaleFile($file, $params)
     {
-        return $this->_getResolver('locale', $params)->getLocaleFile($file);
+        /** @var $resolver Mage_Core_Model_File_Resolver_LocaleInterface */
+        $resolver = $this->_getResolver('locale', $params);
+        return $resolver->getLocaleFile($params['area'], $params['themeModel'], $params['locale'], $file);
     }
 
     /**
@@ -130,7 +141,9 @@ class Mage_Core_Model_File_Resolution
      */
     public function getViewFile($file, $params)
     {
-        return $this->_getResolver('view', $params)->getViewFile($file, $params['module']);
+        /** @var $resolver Mage_Core_Model_File_Resolver_ViewInterface */
+        $resolver = $this->_getResolver('locale', $params);
+        return $resolver->getViewFile($params['area'], $params['themeModel'], $params['locale'], $file, $params['module']);
     }
 
     /**
@@ -145,8 +158,9 @@ class Mage_Core_Model_File_Resolution
     {
         $resolver = $this->_getResolver('view', $params);
         if ($resolver instanceof Mage_Core_Model_File_Resolver_Fallback_CachingProxy) {
-            /** @var $fallback Mage_Core_Model_File_Resolver_Fallback_CachingProxy */
-            $resolver->setFilePathToMap($targetPath, $themeFile, $params['module']);
+            /** @var $resolver Mage_Core_Model_File_Resolver_Fallback_CachingProxy */
+            $resolver->setViewFilePathToMap($params['area'], $params['themeModel'], $params['locale'],
+                $params['module'], $themeFile, $targetPath);
         }
         return $this;
     }
@@ -155,25 +169,17 @@ class Mage_Core_Model_File_Resolution
      * Creates or get cached resolved model according to the passed parameters and type of file being resolved
      *
      * @param string $fileType
-     * @param $params
-     * @return Mage_Core_Model_File_ResolverInterface
+     * @param array $params
+     * @return mixed
      */
     protected function _getResolver($fileType, $params)
     {
         $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
         $resolverClass = $this->_getResolverClass($fileType, $skipProxy);
-
-        $cacheKey = join('|', array(
-            $resolverClass,
-            $params['area'],
-            $params['themeModel']->getCacheKey(),
-            $params['locale']
-        ));
-
-        if (!isset($this->_resolvers[$cacheKey])) {
-            $this->_resolvers[$cacheKey] = $this->_createResolver($resolverClass, $params);
+        if (!isset($this->_resolvers[$resolverClass])) {
+            $this->_resolvers[$resolverClass] = $this->_createResolver($resolverClass);
         }
-        return $this->_resolvers[$cacheKey];
+        return $this->_resolvers[$resolverClass];
     }
 
     /**
@@ -196,36 +202,44 @@ class Mage_Core_Model_File_Resolution
     }
 
     /**
-     * Create resolver object
+     * Create resolver by its class name
      *
-     * @param string $resolverClass
-     * @param array $params
-     * @return Mage_Core_Model_File_ResolverInterface
-     * @throws Mage_Core_Exception
+     * @param string $className
+     * @return mixed
      */
-    protected function _createResolver($resolverClass, $params)
+    protected function _createResolver($className)
     {
-        switch ($resolverClass) {
-            case 'Mage_Core_Model_File_Resolver_ByParamsOnly':
-                $arguments = array();
-                break;
-            case 'Mage_Core_Model_File_Resolver_CachingProxy':
-                $arguments = array(
-                    'fallback' => $this->_createResolver('Mage_Core_Model_File_Resolver_Fallback', $params),
-                    'mapDir' => $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR
-                        . self::FALLBACK_MAP_DIR,
-                    'baseDir' => $dirs->getDir(Mage_Core_Model_Dir::ROOT),
-                    'canSaveMap' => (bool)(string)Mage::getConfig()->getNode(self::XML_PATH_ALLOW_MAP_UPDATE),
-                );
-                break;
-            case 'Mage_Core_Model_File_Resolver_Fallback':
-                $arguments = array(
-                    'params' => $params
-                );
+        switch ($className) {
+            case 'Mage_Core_Model_File_Resolver_Fallback_CachingProxy':
+                $arguments = array('map' => $this->_getCachingMap());
                 break;
             default:
-                throw new Mage_Core_Exception("Unknown file path resolver: {$resolverClass}");
+                $arguments = array();
+                break;
         }
-        return $this->_objectManager->create($resolverClass, $arguments);
+        return $this->_objectManager->create($className, $arguments);
+    }
+
+    /**
+     * Return the map object to be used with caching resolver. Creates that object, if needed.
+     *
+     * @return Mage_Core_Model_File_Resolver_Fallback_CachingProxy_Map
+     */
+    protected function _getCachingMap()
+    {
+        if (!$this->_cachingMap) {
+            $mapArguments = array(
+                'mapDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR
+                    . self::FALLBACK_MAP_DIR,
+                'baseDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT),
+                'canSaveMap' => (bool)(string)$this->_objectManager->get('Mage_Core_Model_Config')
+                    ->getNode(self::XML_PATH_ALLOW_MAP_UPDATE),
+            );
+            $this->_cachingMap = $this->_objectManager->create(
+                'Mage_Core_Model_File_Resolver_Fallback_CachingProxy_Map',
+                $mapArguments
+            );
+        }
+        return $this->_cachingMap;
     }
 }
