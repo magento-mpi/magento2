@@ -123,7 +123,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
      *
      * @return Mage_Core_Model_Theme_Customization_Link
      */
-    public function _beforeDelete()
+    protected function _beforeDelete()
     {
         $link = $this->_getLinkByTheme();
         $update = $this->_getUpdate($link->getLayoutUpdateId());
@@ -169,7 +169,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
      * @param array $customFiles
      * @return Mage_Core_Model_Theme_Customization_Link
      */
-    public function _prepareUpdate(Mage_Core_Model_Layout_Update $update, array $customFiles)
+    protected function _prepareUpdate(Mage_Core_Model_Layout_Update $update, array $customFiles)
     {
         $xmlActions = '';
         /** @var $customFile Mage_Core_Model_Theme_File */
@@ -200,7 +200,7 @@ class Mage_Core_Model_Theme_Customization_Link extends Mage_Core_Model_Abstract
      * @throws Magento_Exception
      * @return string
      */
-    public function _getInclusionAction(Mage_Core_Model_Theme_File $customFile)
+    protected function _getInclusionAction(Mage_Core_Model_Theme_File $customFile)
     {
         switch ($customFile->getFileType()) {
             case Mage_Core_Model_Theme_File::TYPE_CSS:

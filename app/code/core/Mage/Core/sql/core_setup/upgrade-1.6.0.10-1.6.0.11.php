@@ -23,6 +23,9 @@ $connection->addColumn($installer->getTable('core_theme'), 'type', array(
     'comment'  => 'Theme type: 0:physical, 1:virtual, 2:staging'
 ));
 
+/**
+ * Rename table
+ */
 $wrongName = 'core_theme_files';
 $rightName = 'core_theme_file';
 if ($installer->tableExists($wrongName)) {

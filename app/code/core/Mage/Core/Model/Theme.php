@@ -578,14 +578,12 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getDomainModel($type = null)
     {
-        if ($type !== null) {
-            if ($type != $this->getType()) {
-                throw new Mage_Core_Exception(
-                    sprintf('Invalid domain model "%s" requested for theme "%s" of type "%s"',
-                        $type, $this->getId(), $this->getType()
-                    )
-                );
-            }
+        if ($type !== null && $type != $this->getType()) {
+            throw new Mage_Core_Exception(
+                sprintf('Invalid domain model "%s" requested for theme "%s" of type "%s"',
+                    $type, $this->getId(), $this->getType()
+                )
+            );
         }
 
         return $this->_domainFactory->create($this);
