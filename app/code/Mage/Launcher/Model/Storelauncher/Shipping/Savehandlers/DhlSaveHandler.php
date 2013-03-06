@@ -55,7 +55,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_DhlSaveHandler
         $preparedData['carriers']['dhlint']['fields']['password']['value'] =
             trim($data['groups']['dhlint']['fields']['password']['value']);
 
-        // Enable DHL international for checkout if needed
+        // Enable DHL international for checkout
         $preparedData['carriers']['dhlint']['fields']['active']['value'] = 1;
 
         return $preparedData;

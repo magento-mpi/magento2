@@ -60,7 +60,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandler
         $preparedData['carriers']['fedex']['fields']['password']['value'] =
             trim($data['groups']['fedex']['fields']['password']['value']);
 
-        // Enable Fedex for checkout if needed
+        // Enable Fedex for checkout
         $preparedData['carriers']['fedex']['fields']['active']['value'] = 1;
 
         return $preparedData;

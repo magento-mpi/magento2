@@ -57,7 +57,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
         $preparedData['carriers']['flatrate']['fields']['type']['value'] =
             trim($data['groups']['flatrate']['fields']['type']['value']);
 
-        // Enable Flat Rate for checkout if needed
+        // Enable Flat Rate for checkout
         $preparedData['carriers']['flatrate']['fields']['active']['value'] = 1;
 
         return $preparedData;
