@@ -105,7 +105,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     protected function _prepareDataForTable(Varien_Object $object, $table)
     {
         $data = parent::_prepareDataForTable($object, $table);
-        $ifNullSql = $this->_getReadAdapter()->getIfNullSql('qty');
+        $ifNullSql = $this->_getWriteAdapter()->getIfNullSql('qty');
         if (!$object->isObjectNew() && $object->getQtyCorrection()) {
             if ($object->getQty() === null) {
                 $data['qty'] = null;
