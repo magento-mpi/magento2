@@ -78,7 +78,7 @@
                     if (response.error) {
                         alert($.mage.__('Error') + ': "' + response.message + '".');
                     } else {
-                        $(this._prepareId(this.options.uploader_id + '-image')).remove();
+                        $('.uploaded-image.clone').remove();
                         this.setValue(null);
                     }
                 }, this),
@@ -121,20 +121,26 @@
          */
         _displayUploadedFile: function() {
             $(this._prepareId(this.options.uploader_id + '-image')).remove();
-            var removeId = 'remove-button-' + Math.floor(Math.random() * 999);
+            var removeId = 'remove-button-' + Math.floor(Math.random() * 999),
+                fileTemplate = $(this._prepareId(this.options.uploader_id + '-template')).clone();
 
-            var fileTemplate = $(this._prepareId(this.options.uploader_id + '-template')).clone();
-            fileTemplate.attr('id', this.options.uploader_id + '-image');
+            fileTemplate
+                .attr({'id': this.options.uploader_id + '-image'})
+                .addClass('clone');
 
             var fileInfoHtml = fileTemplate.html().replace('{{name}}', this.options.value)
                 .replace('{{remove-id}}', removeId);
 
             fileTemplate.html(fileInfoHtml) ;
             fileTemplate.removeClass('no-display');
-            fileTemplate.appendTo(this._prepareId(this.options.container));
+            fileTemplate.prependTo($('.uploaded-file-wrapper'));
 
             if (this.options.remove_url) {
-                $('#' + removeId).click($.proxy(this._remove, this));
+                $(document).on('click.removeUploadedImage', '#' + removeId, $.proxy(function() {
+                    this._remove();
+
+                    return false;
+                }, this));
             }
 
             if (this.options.hide_uploader == true) {

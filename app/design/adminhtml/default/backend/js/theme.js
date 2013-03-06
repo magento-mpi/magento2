@@ -352,6 +352,30 @@
             $('.collapse:first', entry).collapse('show');
         });
 
+        // TODO: Move to VDE js widjets
+        $.each($('.color-box'), function(index, elem) {
+            $(elem).farbtastic(function(color) {
+                $(elem).css({
+                    'backgroundColor': color
+                });
+                $(elem).siblings('input').val(color);
+            });
+        });
+
+        $('.element-color-picker input')
+            .on('focus', function() {
+                $(this).siblings('.color-box').find('.farbtastic').show();
+            })
+            .on('blur', function() {
+                $(this).siblings('.color-box').find('.farbtastic').hide();
+                $(this).trigger('change.quickStyleElement');
+            });
+
+        $('.color-box')
+            .on('click', function() {
+                $(this).siblings('input').trigger('focus');
+            });
+
         switcherForIe8();
     });
 

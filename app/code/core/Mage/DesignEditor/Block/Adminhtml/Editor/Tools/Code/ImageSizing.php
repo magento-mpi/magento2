@@ -91,6 +91,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             'name'  => 'save_image_sizing',
             'title' => $this->__('Update'),
             'value' => $this->__('Update'),
+            'class' => 'primary',
             'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
                 'button' => array(
                     'event'  => 'saveForm',
@@ -126,10 +127,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
                 'after_element_html' => $fieldMessage
             ));
         }
-        $hintMessage =  $this->__('If an image goes beyond the container edges')
-            . $this->__(', it will be re-scaled to match the container size.')
-            . '<br />'
-            . $this->__('By default, the white borders will be added to an image to fill in the container space.');
+        $hintMessage =  $this->__('<p class="description">If an image goes beyond the container edges, it will be re-scaled to match the container size. By default, the white borders will be added to an image to fill in the container space.</p>');
         $form->addField('add_white_borders_hint', 'note', array('after_element_html' => $hintMessage));
 
         return $this;
@@ -148,11 +146,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         $form = $this->getForm();
         $fieldset = $form->addFieldset($name, array(
             'name'   => $name,
-            'fieldset_type' => 'field'
+            'fieldset_type' => 'field',
+            'legend' =>  $control['layoutParams']['title']
         ));
-        $fieldset->addField($name . '_label', 'label', array(
-            'value'  => $control['layoutParams']['title']
-        ));
+
         $defaultValues = array();
         foreach ($control['components'] as $componentName => $component) {
             $defaultValues[$componentName] = $component['default'];
@@ -165,10 +162,25 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
                     ));
                     break;
                 case 'image-width':
+                    $fieldset->addField($componentName, 'text', array(
+                        'name'   => $componentName,
+                        'value'  => $this->_getValue($component),
+                        'before_element_html' => '<span>W</span>'
+                    ));
+
+                    $fieldset->addField($componentName . 'connected', 'checkbox', array(
+                        'checked'=> 'checked',
+                        'name'   => 'connected',
+                        'value'  => 1,
+                        'after_element_html' => '<span class="action-connect"></span>'
+                    ));
+
+                    break;
                 case 'image-height':
                     $fieldset->addField($componentName, 'text', array(
                         'name'   => $componentName,
-                        'value'  => $this->_getValue($component)
+                        'value'  => $this->_getValue($component),
+                        'before_element_html' => '<span>H</span>'
                     ));
                     break;
             }
@@ -177,6 +189,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             'name'  => $name . '_reset',
             'title' => $this->__('Reset to Original'),
             'value' => $this->__('Reset to Original'),
+            'class' => 'action-reset',
             'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
                 'button' => array(
                     'event'     => 'restoreDefaultData',
