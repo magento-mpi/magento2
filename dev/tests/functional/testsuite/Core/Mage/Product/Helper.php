@@ -678,19 +678,18 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $attributeSetField = $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
         $attributeSetField->value($newAttributeSet);
         $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
-        if (!$this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_no_records')) {
-            $this->addParameter('attributeSet', $newAttributeSet);
-            $attributeSet = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'attribute_set'));
-            if ($attributeSet) {
-                $this->moveto($attributeSet);
-                $attributeSet->click();
-                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set');
-            } else {
-                $this->fail("'$newAttributeSet' attribute set is absent in attribute set list.");
-            }
-        } else {
+        $this->addParameter('attributeSet', $newAttributeSet);
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_list');
+        if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_no_records')
+            || !$this->controlIsVisible(self::FIELD_TYPE_LINK, 'attribute_set')
+        ) {
             $this->fail('Attribute set list is empty. No records found.');
         }
+        $attributeSet = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'attribute_set'));
+        $this->moveto($attributeSet);
+        $attributeSet->click();
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set');
+        $this->pleaseWait();
     }
 
     /**
@@ -923,7 +922,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $element = $this->getElement($locator);
         $script = 'Element.prototype.documentOffsetTop = function()'
                   . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
-                  . 'var element = document.getElementsByClassName("category-selector-choices");'
+                  . 'var element = document.getElementsByClassName("mage-suggest-choices");'
                   . 'var top = element[0].documentOffsetTop() - (window.innerHeight / 2);'
                   . 'element[0].focus();window.scrollTo( 0, top );';
         $this->execute(array('script' => $script, 'args' => array()));
