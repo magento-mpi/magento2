@@ -392,8 +392,14 @@
             }
 
             $('.store-tour-data-' + tourData)
-                .add('.store-tour-description-' + tourData)
-                .fadeIn();
+                .fadeIn(function() {
+                    var tourDataOffsetTop = $(this).offset().top - 50;
+                    $("html, body").animate({
+                        scrollTop: tourDataOffsetTop
+                    }, 400);
+                    $('.store-tour-description-' + tourData).fadeIn();
+                });
+
         });
 
     // Close store tour description
@@ -411,7 +417,12 @@
     }
 
     $('.action-close-store-tour-description')
-        .on('click.closeTourDescription', closeStoreTourDescriptions);
+        .on('click.closeTourDescription', function() {
+            closeStoreTourDescriptions();
+            $("html, body").animate({
+                scrollTop: 0
+            }, 400);
+        });
 
 })(jQuery);
 </script>
