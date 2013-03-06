@@ -16,20 +16,26 @@
         },
 
         /**
-         * Set up event handler for requesting any additional extra options from the backend. Extra
-         * options include Gift Receipt and Printed Card.
+         * Set up event handler for requesting any additional extra options from the backend.
          * @private
          */
         _create: function() {
-            var _this = this;
-            this.element.on(this.options.events, function() {
-                $.ajax({
-                    url: _this.options.additionalUrl,
-                    type: 'post',
-                    success: function(response) {
-                        $(_this.options.additionalContainer).html(response).trigger('contentUpdated');
-                    }
-                });
+            this.element.on(this.options.events, $.proxy(this._addExtraOptions, this));
+        },
+
+        /**
+         * Fetch the extra options using an Ajax call. Extra options include Gift Receipt and
+         * Printed Card.
+         * @private
+         */
+        _addExtraOptions: function() {
+            $.ajax({
+                url: this.options.additionalUrl,
+                context: this,
+                type: 'post',
+                success: function(response) {
+                    $(this.options.additionalContainer).html(response).trigger('contentUpdated');
+                }
             });
         }
     });

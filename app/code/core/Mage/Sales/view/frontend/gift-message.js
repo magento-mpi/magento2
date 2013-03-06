@@ -29,7 +29,7 @@
         /**
          * Toggle the display of the item's corresponding gift message.
          * @private
-         * @param event - {Event} - Click event.
+         * @param event - {Object} - Click event.
          */
         _toggleGiftMessage: function(event) {
             var element = $(event.target), // Click target. The 'Gift Message' link or 'Close' button.

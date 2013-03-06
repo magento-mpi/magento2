@@ -37,7 +37,7 @@
         /**
          * Toggle the visibility of the widget's context element's selector(s).
          * @private
-         * @param event {Event} - Click event. Target is a checkbox.
+         * @param event {Object} - Click event. Target is a checkbox.
          */
         _toggleVisibility: function(event) {
             var checkbox = event ? $(event.target) : this.element,
@@ -68,7 +68,7 @@
         /**
          * Make the From and To input fields required if a gift message has been written.
          * @private
-         * @param event {Event} - Change event. Target is a textarea.
+         * @param event {Object} - Change event. Target is a textarea.
          */
         _toggleRequired: function(event) {
             var textArea = $(event.target),
