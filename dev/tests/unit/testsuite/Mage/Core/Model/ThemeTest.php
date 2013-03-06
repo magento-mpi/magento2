@@ -67,10 +67,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                 ),
             )
         ));
-
+        /** @var $dir Mage_Core_Model_Dir */
+        $dir = $this->getMockBuilder('Mage_Core_Model_Dir')->disableOriginalConstructor()->getMock();
         /** @var $collectionMock Mage_Core_Model_Theme_Collection|PHPUnit_Framework_MockObject_MockObject */
         $collectionMock = $this->getMock('Mage_Core_Model_Theme_Collection', array('getNewEmptyItem'),
-            array($filesystemMock));
+            array($filesystemMock, $dir));
         $collectionMock->expects($this->any())
             ->method('getNewEmptyItem')
             ->will($this->returnValue($themeMock));
