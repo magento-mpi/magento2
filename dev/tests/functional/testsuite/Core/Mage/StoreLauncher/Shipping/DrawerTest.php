@@ -30,7 +30,7 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($shippingConfig);
-        $this->navigate('store_launcher');
+        $this->admin();
     }
 
     /**
@@ -39,7 +39,6 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
         $tileState = $this->getControlAttribute('fieldset', 'shipping_tile', 'class');
         $changeState = ('tile-store-settings tile-shipping tile-complete' == $tileState) ? true : false;
         if ($changeState) {
@@ -153,7 +152,7 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($defaultAddress);
-        $this->navigate('store_launcher');
+        $this->admin();
         $this->storeLauncherHelper()->openDrawer('shipping_tile');
         $this->fillFieldset($address, 'shipping_drawer');
         $this->clickButton('save_address', false);
@@ -179,7 +178,7 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($address);
-        $this->navigate('store_launcher');
+        $this->admin();
         $this->storeLauncherHelper()->openDrawer('shipping_tile');
         $this->clickButton('edit_address', false);
         //Verification

@@ -34,7 +34,6 @@ class Core_Mage_StoreLauncher_Product_DrawerTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
         $tileState = $this->getControlAttribute('fieldset', 'product_tile', 'class');
         $changeState = ('tile-store-settings tile-product tile-complete' == $tileState) ? true : false;
         if ($changeState) {
@@ -42,7 +41,7 @@ class Core_Mage_StoreLauncher_Product_DrawerTest extends Mage_Selenium_TestCase
             //Remove all products
             $this->navigate('manage_products');
             $this->runMassAction('Delete', 'all');
-            $this->navigate('store_launcher');
+            $this->admin();
         }
     }
 

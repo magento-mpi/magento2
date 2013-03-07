@@ -26,7 +26,6 @@ class Core_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
     }
 
     /**

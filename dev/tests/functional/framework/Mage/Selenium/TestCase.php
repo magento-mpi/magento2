@@ -148,7 +148,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Name of the first page after logging into the back-end
      * @var string
      */
-    protected $_pageAfterAdminLogin = 'dashboard';
+    protected $_pageAfterAdminLogin = 'store_launcher';
 
     /**
      * Array of messages on page
@@ -1330,8 +1330,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return Mage_Selenium_TestCase
      */
-    public function admin($page = 'dashboard', $validatePage = true)
+    public function admin($page = null, $validatePage = true)
     {
+        $page = (is_null($page)) ? $this->_pageAfterAdminLogin : $page;
         $this->goToArea('admin', $page, $validatePage);
         return $this;
     }

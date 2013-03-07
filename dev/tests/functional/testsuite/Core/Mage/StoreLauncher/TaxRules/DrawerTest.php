@@ -32,7 +32,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     {
         $this->currentWindow()->maximize();
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
     }
 
     /**
@@ -42,7 +41,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
         $tileState = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class');
         $changeState = ('tile-store-settings tile-tax tile-complete' == $tileState) ? true : false;
         if ($changeState) {
@@ -102,7 +100,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $this->taxHelper()->createTaxRule($taxRuleData);
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->_ruleToBeDeleted = $searchTaxRuleData;
-        $this->navigate('store_launcher');
+        $this->admin();
         $this->assertEquals('tile-store-settings tile-tax tile-complete',
             $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'), 'Tile state in Equal to Complete');
     }
