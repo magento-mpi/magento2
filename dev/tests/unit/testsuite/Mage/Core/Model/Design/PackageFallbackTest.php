@@ -20,7 +20,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_File_Resolution|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Design_FileResolution_StrategyPool|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resolutionModel;
 
@@ -28,7 +28,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
     {
         $modulesReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', array());
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', array());
-        $this->_resolutionModel = $this->getMock('Mage_Core_Model_File_Resolution', array(), array(), '', array());
+        $this->_resolutionModel = $this->getMock('Mage_Core_Model_Design_FileResolution_StrategyPool', array(), array(), '', array());
 
         $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults'),
             array($modulesReader, $filesystem, $this->_resolutionModel)

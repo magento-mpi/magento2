@@ -11,8 +11,8 @@
 /**
  * Instant resolver, which resolves file paths just by concatenation of their parameters
  */
-class Mage_Core_Model_File_Resolver_View_ByParamsOnly
-    implements Mage_Core_Model_File_Resolver_ViewInterface
+class Mage_Core_Model_Design_FileResolution_Strategy_View_ByParamsOnly
+    implements Mage_Core_Model_Design_FileResolution_Strategy_ViewInterface
 {
     /**
      * Base path, where all view files are assumed to be located

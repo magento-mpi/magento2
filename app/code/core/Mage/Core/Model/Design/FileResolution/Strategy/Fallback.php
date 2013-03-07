@@ -11,8 +11,10 @@
 /**
  * Resolver, which performs full search of files, according to fallback rules
  */
-class Mage_Core_Model_File_Resolver_Fallback implements Mage_Core_Model_File_Resolver_FileInterface,
-    Mage_Core_Model_File_Resolver_LocaleInterface, Mage_Core_Model_File_Resolver_ViewInterface
+class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
+    implements Mage_Core_Model_Design_FileResolution_Strategy_FileInterface,
+    Mage_Core_Model_Design_FileResolution_Strategy_LocaleInterface,
+    Mage_Core_Model_Design_FileResolution_Strategy_ViewInterface
 {
     /**
      * Constructor.

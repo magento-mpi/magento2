@@ -11,7 +11,7 @@
 /**
  * A map holder for the caching proxy resolver
  */
-class Mage_Core_Model_File_Resolver_Fallback_CachingProxy_Map
+class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map
 {
     /**
      * @var Magento_Filesystem

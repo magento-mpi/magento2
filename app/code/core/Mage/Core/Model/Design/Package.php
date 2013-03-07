@@ -59,9 +59,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Model, used to resolve the file paths
      *
-     * @var Mage_Core_Model_File_Resolution
+     * @var Mage_Core_Model_Design_FileResolution_StrategyPool
      */
-    protected $_resolutionModel = null;
+    protected $_resolutionPool = null;
 
     /**
      * Array of theme model used for fallback mechanism
@@ -85,16 +85,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_File_Resolution $resolutionModel
+     * @param Mage_Core_Model_Design_File_ResolverPool $resolutionModel
      */
     public function __construct(
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_File_Resolution $resolutionModel
+        Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
-        $this->_resolutionModel = $resolutionModel;
+        $this->_resolutionPool = $resolutionPool;
     }
 
     /**
@@ -273,7 +273,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return  $this->_resolutionModel->getFile($file, $params);
+        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
+        return  $this->_resolutionPool->getFileStrategy($skipProxy)->getFile($params['area'], $params['themeModel'],
+            $file, $params['module']);
     }
 
     /**
@@ -286,7 +288,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_updateParamDefaults($params);
-        return $this->_resolutionModel->getLocaleFile($file, $params);
+        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
+        return $this->_resolutionPool->getLocaleStrategy($skipProxy)->getLocaleFile($params['area'],
+            $params['themeModel'], $params['locale'], $file);
     }
 
     /**
@@ -300,7 +304,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return $this->_resolutionModel->getViewFile($file, $params);
+        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
+        return $this->_resolutionPool->getViewStrategy($skipProxy)->getViewFile($params['area'],
+            $params['themeModel'], $params['locale'], $file, $params['module']);
     }
 
     /**
@@ -337,9 +343,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     public function notifyViewFileLocationChanged($targetPath, $themeFile, $params)
     {
-        $themeFile = $this->_extractScope($themeFile, $params);
-        $this->_updateParamDefaults($params);
-        $this->_resolutionModel->notifyViewFileLocationChanged($targetPath, $themeFile, $params);
+        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
+        $strategy = $this->_resolutionPool->getViewStrategy($skipProxy);
+        if ($strategy instanceof Mage_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterface) {
+            /** @var $strategy Mage_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterface  */
+            $themeFile = $this->_extractScope($themeFile, $params);
+            $this->_updateParamDefaults($params);
+            $strategy->setViewFilePathToMap($params['area'], $params['themeModel'], $params['locale'],
+                $params['module'], $themeFile, $targetPath);
+        }
+
         return $this;
     }
 

@@ -11,7 +11,7 @@
 /**
  * Interface for file resolver of type 'file'
  */
-interface Mage_Core_Model_File_Resolver_FileInterface
+interface Mage_Core_Model_Design_FileResolution_Strategy_FileInterface
 {
     /**
      * Get a usual file path (e.g. template)

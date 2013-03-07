@@ -12,29 +12,32 @@
  * A proxy for the Fallback resolver. This proxy processes fallback resolution calls by either using map of cached \
  * paths, or passing resolution to the Fallback resolver.
  */
-class Mage_Core_Model_File_Resolver_Fallback_CachingProxy implements Mage_Core_Model_File_Resolver_FileInterface,
-    Mage_Core_Model_File_Resolver_LocaleInterface, Mage_Core_Model_File_Resolver_ViewInterface
+class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy implements
+    Mage_Core_Model_Design_FileResolution_Strategy_FileInterface,
+    Mage_Core_Model_Design_FileResolution_Strategy_LocaleInterface,
+    Mage_Core_Model_Design_FileResolution_Strategy_ViewInterface,
+    Mage_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterface
 {
     /**
      * Factory to create the fallback model
      *
-     * @var Mage_Core_Model_File_Resolver_Fallback_CachingProxy_Map
+     * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map
      */
     protected $_fallbackFactory;
 
     /**
      * Proxied fallback model
      *
-     * @var Mage_Core_Model_File_Resolver_Fallback
+     * @var Mage_Core_Model_Design_File_Resolution_Strategy_Fallback
      */
     protected $_fallback;
 
     /**
-     * @param Mage_Core_Model_File_Resolver_Fallback_CachingProxy_Map $map
+     * @param Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map $map
      * @param Mage_Core_Model_File_Resolver_Fallback_Factory $fallbackFactory
      */
     public function __construct(
-        Mage_Core_Model_File_Resolver_Fallback_CachingProxy_Map $map,
+        Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map $map,
         Mage_Core_Model_File_Resolver_Fallback_Factory $fallbackFactory
     ) {
         $this->_fallbackFactory = $fallbackFactory;
@@ -42,7 +45,7 @@ class Mage_Core_Model_File_Resolver_Fallback_CachingProxy implements Mage_Core_M
     }
 
     /**
-     * Proxy to Mage_Core_Model_File_Resolver_Fallback::getFile()
+     * Proxy to Mage_Core_Model_Design_FileResolution_Strategy_Fallback::getFile()
      *
      * @param string $area
      * @param Mage_Core_Model_Theme $themeModel
@@ -61,7 +64,7 @@ class Mage_Core_Model_File_Resolver_Fallback_CachingProxy implements Mage_Core_M
     }
 
     /**
-     * Proxy to Mage_Core_Model_File_Resolver_Fallback::getLocaleFile()
+     * Proxy to Mage_Core_Model_Design_FileResolution_Strategy_Fallback::getLocaleFile()
      *
      * @param string $area
      * @param Mage_Core_Model_Theme $themeModel
@@ -80,7 +83,7 @@ class Mage_Core_Model_File_Resolver_Fallback_CachingProxy implements Mage_Core_M
     }
 
     /**
-     * Proxy to Mage_Core_Model_File_Resolver_Fallback::getViewFile()
+     * Proxy to Mage_Core_Model_Design_FileResolution_Strategy_Fallback::getViewFile()
      *
      * @param string $area
      * @param Mage_Core_Model_Theme $themeModel
@@ -102,7 +105,7 @@ class Mage_Core_Model_File_Resolver_Fallback_CachingProxy implements Mage_Core_M
     /**
      * Creates fallback model to forward requests to
      *
-     * @return Mage_Core_Model_File_Resolver_Fallback
+     * @return Mage_Core_Model_Design_File_Resolution_Strategy_Fallback
      */
     protected function _getFallback()
     {
@@ -115,14 +118,15 @@ class Mage_Core_Model_File_Resolver_Fallback_CachingProxy implements Mage_Core_M
      * @param string $area
      * @param Mage_Core_Model_Theme $themeModel
      * @param string $locale
-     * @param $module
+     * @param string|null $module
      * @param string $file
-     * @param string $filePath
-     * @return Mage_Core_Model_File_Resolver_Fallback_CachingProxy
+     * @param string $newFilePath
+     * @return Mage_Core_Model_FileResolution_Fallback_CachingProxy
      */
-    public function setViewFilePathToMap($area, $themeModel, $locale, $module, $file, $filePath)
-    {
-        $this->_map->set('view', $area, $themeModel, $locale, $module, $file, $filePath);
+    public function setViewFilePathToMap($area, Mage_Core_Model_Theme $themeModel, $locale, $module, $file,
+        $newFilePath
+    ) {
+        $this->_map->set('view', $area, $themeModel, $locale, $module, $file, $newFilePath);
         return $this;
     }
 }

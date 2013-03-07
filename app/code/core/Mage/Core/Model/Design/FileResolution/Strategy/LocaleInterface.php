@@ -9,19 +9,18 @@
  */
 
 /**
- * Interface for file resolver of type 'view'
+ * Interface for file resolver of type 'locale'
  */
-interface Mage_Core_Model_File_Resolver_ViewInterface
+interface Mage_Core_Model_Design_FileResolution_Strategy_LocaleInterface
 {
     /**
-     * Get theme file name (e.g. a javascript file)
+     * Get locale file name (e.g. file with translations)
      *
      * @param string $area
      * @param Mage_Core_Model_Theme $themeModel
      * @param string $locale
      * @param string $file
-     * @param string|null $module
      * @return string
      */
-    public function getViewFile($area, Mage_Core_Model_Theme $themeModel, $locale, $file, $module = null);
+    public function getLocaleFile($area, Mage_Core_Model_Theme $themeModel, $locale, $file);
 }
