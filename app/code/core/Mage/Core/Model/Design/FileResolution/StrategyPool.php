@@ -39,14 +39,9 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
     protected $_dirs;
 
     /**
-     * @var bool
+     * @var string
      */
-    protected $_isProductionMode;
-
-    /**
-     * @var bool
-     */
-    protected $_isDeveloperMode;
+    protected $_appMode;
 
     /**
      * Pool of strategy objects
@@ -98,8 +93,7 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
         Magento_Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
-        $this->_isDeveloperMode = $appState->isDeveloperMode();
-        $this->_isProductionMode = $appState->isProductionMode();
+        $this->_appMode = $appState->getMode();
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
     }
@@ -162,12 +156,16 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
      */
     protected function _getStrategyClass($fileType, $skipProxy = false)
     {
-        if ($this->_isProductionMode) {
-            $strategyClasses = $this->_strategies['production_mode'];
-        } else if ($this->_isDeveloperMode || $skipProxy) {
-            $strategyClasses = $this->_strategies['full_check'];
-        } else {
-            $strategyClasses = $this->_strategies['caching_map'];
+        switch ($this->_appMode) {
+            case Mage::APPMODE_PRODUCTION:
+                $strategyClasses = $this->_strategies['production_mode'];
+                break;
+            case Mage::APPMODE_DEVELOPER:
+                $strategyClasses = $this->_strategies['full_check'];
+                break;
+            default:
+                $strategyClasses = $this->_strategies['caching_map'];
+                break;
         }
         return $strategyClasses[$fileType];
     }

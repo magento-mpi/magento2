@@ -79,6 +79,12 @@ final class Mage
     const EDITION_GO           = 'Go';
 
     /**
+     * Application modes
+     */
+    const APPMODE_DEVELOPER       = 'developer';
+    const APPMODE_PRODUCTION      = 'production';
+
+    /**
      * Registry collection
      *
      * @var array
@@ -128,11 +134,11 @@ final class Mage
     static private $_isDownloader               = false;
 
     /**
-     * Is developer mode flag
+     * Application mode
      *
-     * @var bool
+     * @var string|null
      */
-    static private $_isDeveloperMode            = false;
+    static private $_appMode                    = null;
 
     /**
      * Is allow throw Exception about headers already sent
@@ -242,7 +248,7 @@ final class Mage
         self::$_config          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
-        self::$_isDeveloperMode = false;
+        self::$_appMode         = null;
         self::$_loggers         = array();
         self::$_design          = null;
         // do not reset $headersSentThrowsException
@@ -666,7 +672,7 @@ final class Mage
      */
     public static function isInstalled()
     {
-       return (bool) self::$_objectManager->get('Mage_Core_Model_Config_Primary')->getInstallDate();
+        return (bool) self::$_objectManager->get('Mage_Core_Model_Config_Primary')->getInstallDate();
     }
 
     /**
@@ -708,28 +714,65 @@ final class Mage
     }
 
     /**
+     * Set special application mode - can be Production or Developer mode.
+     * If null passed, then special mode is just unset.
+     *
+     * @param string $mode
+     *
+     * @deprecated use Mage_Core_Model_App_State::setMode()
+     */
+    public static function setAppMode($mode)
+    {
+        switch ($mode) {
+            case self::APPMODE_DEVELOPER:
+            case self::APPMODE_PRODUCTION:
+            case null:
+                self::$_appMode = $mode;
+                break;
+            default:
+                self::throwException("Unknown application mode: {$mode}");
+        }
+    }
+
+    /**
+     * Return current app mode
+     *
+     * @return string|null
+     *
+     * @deprecated use Mage_Core_Model_App_State::getMode()
+     */
+    public static function getAppMode()
+    {
+        return self::$_appMode;
+    }
+
+    /**
      * Set enabled developer mode
      *
      * @param bool $mode
      * @return bool
      *
-     * @deprecated use Mage_Core_Model_App_State::setIsDeveloperMode()
+     * @deprecated use Mage_Core_Model_App_State::setMode()
      */
     public static function setIsDeveloperMode($mode)
     {
-        self::$_isDeveloperMode = (bool)$mode;
-        return self::$_isDeveloperMode;
+        if ((bool)$mode) {
+            self::setAppMode(self::APPMODE_DEVELOPER);
+        } else if (self::getAppMode() == self::APPMODE_DEVELOPER) {
+            self::setAppMode(null);
+        }
+        return self::getIsDeveloperMode();
     }
 
     /**
      * Retrieve enabled developer mode
      *
      * @return bool
-     * @deprecated use Mage_Core_Model_App_State::isDeveloperMode()
+     * @deprecated use Mage_Core_Model_App_State::getMode()
      */
     public static function getIsDeveloperMode()
     {
-        return self::$_isDeveloperMode;
+        return self::getAppMode() == self::APPMODE_DEVELOPER;
     }
 
     /**
@@ -740,7 +783,7 @@ final class Mage
      */
     public static function printException(Exception $e, $extra = '')
     {
-        if (self::$_isDeveloperMode) {
+        if (self::getIsDeveloperMode()) {
             print '<pre>';
 
             if (!empty($extra)) {
