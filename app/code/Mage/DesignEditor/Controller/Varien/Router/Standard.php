@@ -13,7 +13,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     /**
      * Parameter to indicate that inline translation is being toggled.
      */
-    const TOGGLE_TRANSLATION = "toggle_translation";
+    const TRANSLATION_MODE = "translation_mode";
 
     /**
      * @var Magento_ObjectManager
@@ -129,9 +129,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     {
         $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
         $noVdePath = substr($request->getPathInfo(), strlen($vdeFrontName) + 1) ?: '/';
-        $isTogglingTranslation = $request->getParam(self::TOGGLE_TRANSLATION, false);
+        $isTogglingTranslation = $request->getParam(self::TRANSLATION_MODE, false);
         if ($isTogglingTranslation) {
-            $noVdePath = substr($noVdePath, 0, strrpos($noVdePath, self::TOGGLE_TRANSLATION));
+            $noVdePath = substr($noVdePath, 0, strrpos($noVdePath, self::TRANSLATION_MODE));
         }
         $request->setPathInfo($noVdePath);
         return $this;
@@ -174,7 +174,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      */
     protected function _toggleInlineTranslation(Mage_Core_Controller_Request_Http $request)
     {
-        if (stristr($request->getOriginalPathInfo(), self::TOGGLE_TRANSLATION)) {
+        if (stristr($request->getOriginalPathInfo(), self::TRANSLATION_MODE) !== 'FALSE') {
             $session = $this->_objectManager->get('Mage_Backend_Model_Session');
             /** @var $newState bool */
             $newState = !$session->getVdeInlineTranslationEnabled();

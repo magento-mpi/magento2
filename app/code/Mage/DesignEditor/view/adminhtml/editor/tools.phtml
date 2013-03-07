@@ -87,17 +87,21 @@
 
     $.widget("mage.translateInlineToggle", {
         options: {
-            state: "disabled"
+            frameUrl: null
         },
 
         _create: function() {
-            //alert("Create widget");
-
             this.element.on('click', $.proxy(this.options.onClick, this));
         },
 
-        _init: function() {
-            //alert("Initialized widget");
+        toggleTranslateMode: function(mode) {
+            var container_frame = parent.jQuery('#vde_container_frame');
+            var url = this.options.frameUrl + "translation_mode/" + mode;
+
+            container_frame.prop('src', url);
+
+            // Refresh iframe with new url
+            container_frame.trigger('refreshIframe');
         }
     });
 
