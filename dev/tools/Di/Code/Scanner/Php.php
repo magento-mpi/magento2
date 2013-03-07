@@ -1,9 +1,17 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
-class Magento_Code_Scanner_Php implements Magento_Code_ScannerInterface
+namespace Magento\Tools\Di\Code\Scanner;
+
+class Php implements ScannerInterface
 {
     /**
-     * @var Zend\Code\Scanner\AggregateDirectoryScanner
+     * @var \Zend\Code\Scanner\AggregateDirectoryScanner
      */
     protected $_scanner;
 
@@ -13,10 +21,10 @@ class Magento_Code_Scanner_Php implements Magento_Code_ScannerInterface
     protected $_pattern;
 
     /**
-     * @param Zend\Code\Scanner\AggregateDirectoryScanner $scanner
+     * @param \Zend\Code\Scanner\AggregateDirectoryScanner $scanner
      * @param $pattern
      */
-    public function __construct(Zend\Code\Scanner\AggregateDirectoryScanner $scanner, $pattern)
+    public function __construct(\Zend\Code\Scanner\AggregateDirectoryScanner $scanner, $pattern)
     {
         $this->_scanner = $scanner;
         $this->_pattern = $pattern;
@@ -39,5 +47,4 @@ class Magento_Code_Scanner_Php implements Magento_Code_ScannerInterface
         sort($output);
         return $output;
     }
-
 }

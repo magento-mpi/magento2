@@ -2,13 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Di
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Tools_Di_Reporter_Console implements Tools_Di_ReporterInterface
+namespace Magento\Tools\Di\Reporter;
+use Magento\Tools\Di;
+
+class Console implements Di\ReporterInterface
 {
     const TYPE_SUCCESS = 'success';
     const TYPE_ERROR   = 'error';

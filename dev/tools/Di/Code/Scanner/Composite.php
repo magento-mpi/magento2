@@ -1,13 +1,21 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
-class Magento_Code_ScannerComposite
+namespace Magento\Tools\Di\Code\Scanner;
+
+class Composite
 {
     /**
-     * @var Magento_Code_ScannerInterface[]
+     * @var ScannerInterface[]
      */
     protected $_children;
 
-    public function addChild(Magento_Code_ScannerInterface $scanner)
+    public function addChild(ScannerInterface $scanner)
     {
         $this->_children[] = $scanner;
     }

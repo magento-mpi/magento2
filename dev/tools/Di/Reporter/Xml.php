@@ -2,13 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Di
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
-class Tools_Di_Reporter_Xml implements Tools_Di_ReporterInterface
+namespace Magento\Tools\Di\Reporter;
+use Magento\Tools\Di;
+
+class Xml implements Di\ReporterInterface
 {
     public function report()
     {

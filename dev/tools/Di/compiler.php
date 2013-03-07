@@ -9,9 +9,16 @@
  */
 
 require __DIR__ . '/../../../app/bootstrap.php';
-require_once __DIR__ . '/ReporterInterface.php';
-require_once __DIR__ . '/Reporter/Console.php';
-require_once __DIR__ . '/Reporter/Xml.php';
+require_once __DIR__  . '/ReporterInterface.php';
+require_once __DIR__  . '/Reporter/Console.php';
+require_once __DIR__  . '/Reporter/Xml.php';
+require_once __DIR__  . '/Code/Scanner/ScannerInterface.php';
+require_once __DIR__  . '/Code/Scanner/Composite.php';
+require_once __DIR__  . '/Code/Scanner/Config.php';
+require_once __DIR__  . '/Code/Scanner/Php.php';
+
+use Magento\Tools\Di;
+use Magento\Tools\Di\Code\Scanner;
 
 try {
     $opt = new Zend_Console_Getopt(array(
@@ -24,25 +31,26 @@ try {
     exit;
 }
 
-/** @var $reporter Tools_Di_ReporterInterface */
+/** @var $reporter Magento\Tools\Di\ReporterInterface */
 
 switch($opt->getOption('report')) {
     case 'xml':
-        $reporter = new Tools_Di_Reporter_Xml();
+        $reporter = new Di\Reporter\Xml();
         break;
 
     case 'console':
     default:
-        $reporter = new Tools_Di_Reporter_Console();
+        $reporter = new Di\Reporter\Console();
         break;
 }
 
 // Code generation
 // 1. Code scan
-$scanner = new Magento_Code_ScannerComposite();
-$scanner->addChild(new Magento_Code_Scanner_Config());
-$scanner->addChild(new Magento_Code_Scanner_Php(
-    new Zend\Code\Scanner\AggregateDirectoryScanner('C:\wamp\www\m2\app'),
+$dir = realpath(__DIR__ . '/../../../app');
+$scanner = new Scanner\Composite();
+$scanner->addChild(new Scanner\Config());
+$scanner->addChild(new Scanner\Php(
+    new Zend\Code\Scanner\AggregateDirectoryScanner($dir),
     '/(\b|\n|\'|")[A-Z]{1}[a-zA-Z0-9_]*(Proxy|Factory)(\b|\n|\'|")/'
 ));
 $entities = $scanner->collectEntities();
