@@ -1,13 +1,13 @@
 <?php
 /**
- * Compiled class definitions. Shoudl be used for maximum performance in production.
+ * Compiled class definitions. Should be used for maximum performance in production.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link
  */
-class Magento_ObjectManager_Definition_Compiled implements Magento_ObjectManager_Definition
+abstract class Magento_ObjectManager_Definition_Compiled implements Magento_ObjectManager_Definition
 {
     /**
      * Class definitions
@@ -23,6 +23,14 @@ class Magento_ObjectManager_Definition_Compiled implements Magento_ObjectManager
     {
         list($this->_signatures, $this->_definitions) = $definitions;
     }
+
+    /**
+     * Unpack signature
+     *
+     * @param string $signature
+     * @return mixed
+     */
+    abstract protected function _unpack($signature);
 
     /**
      * Get list of method parameters
@@ -45,7 +53,7 @@ class Magento_ObjectManager_Definition_Compiled implements Magento_ObjectManager
         $definition = $this->_definitions[$className];
         if ($definition !== null) {
             if (is_string($this->_signatures[$definition])) {
-                $this->_signatures[$definition] = unserialize($this->_signatures[$definition]);
+                $this->_signatures[$definition] = $this->_unpack($this->_signatures[$definition]);
             }
             return $this->_signatures[$definition];
         }

@@ -35,7 +35,7 @@ class Mage_Backend_Model_Acl_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_readerMock = $this->getMock('Magento_Acl_Config_Reader', array(), array(), '', false);
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_cacheMock  = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+        $this->_cacheMock  = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
 
         $this->_model = new Mage_Backend_Model_Acl_Config($this->_configMock, $this->_cacheMock,
             $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false)

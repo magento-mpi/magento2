@@ -16,30 +16,15 @@ class Magento_Di_Generator_Factory extends Magento_Di_Generator_EntityAbstract
     const ENTITY_TYPE = 'factory';
 
     /**
-     * Generic object manager factory interface
-     */
-    const FACTORY_INTERFACE = '\Magento_ObjectManager_Factory';
-
-    /**
-     * @return string
-     */
-    protected function _generateCode()
-    {
-        $this->_classGenerator->setImplementedInterfaces(array(self::FACTORY_INTERFACE));
-
-        return parent::_generateCode();
-    }
-
-    /**
      * @return array
      */
     protected function _getClassMethods()
     {
         $construct = $this->_getDefaultConstructorDefinition();
 
-        // public function createFromArray(array $data = array())
-        $createFromArray = array(
-            'name'       => 'createFromArray',
+        // public function create(array $data = array())
+        $create = array(
+            'name'       => 'create',
             'parameters' => array(
                 array('name' => 'data', 'type' => 'array', 'defaultValue' => array()),
             ),
@@ -59,6 +44,6 @@ class Magento_Di_Generator_Factory extends Magento_Di_Generator_EntityAbstract
             ),
         );
 
-        return array($construct, $createFromArray);
+        return array($construct, $create);
     }
 }

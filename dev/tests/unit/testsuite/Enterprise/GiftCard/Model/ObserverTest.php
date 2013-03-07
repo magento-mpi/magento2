@@ -45,7 +45,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $context = new Mage_Core_Model_Context(
             $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false)
+            $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false)
         );
         $this->_model = new Enterprise_GiftCard_Model_Observer(
             $context,

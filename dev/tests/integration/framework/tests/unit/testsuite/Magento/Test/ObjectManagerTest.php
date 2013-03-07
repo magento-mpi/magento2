@@ -27,8 +27,8 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
     public function testClearCache()
     {
         $resource = new stdClass;
-        $config = $this->getMock('Magento_ObjectManager_Configuration');
-        $model = new Magento_Test_ObjectManager($config, '');
+        $config = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
+        $model = new Magento_Test_ObjectManager(new Magento_ObjectManager_Definition_Runtime(), $config);
         $model->addSharedInstance($resource, 'Mage_Core_Model_Resource');
         $instance1 = $model->get('Magento_Test_Request');
 

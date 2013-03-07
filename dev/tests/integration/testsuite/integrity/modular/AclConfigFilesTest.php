@@ -27,7 +27,7 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $readerMock = $this->getMock('Magento_Acl_Config_Reader', array('getShemaFile'), array(), '', false);
+        $readerMock = $this->getMock('Magento_Acl_Config_Reader', array('_merge', '_extractData'), array(), '', false);
         $this->_schemeFile = $readerMock->getSchemaFile();
         $this->_prepareFileList();
     }
@@ -38,7 +38,7 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
     protected function _prepareFileList()
     {
         if (empty($this->_fileList)) {
-            $this->_fileList = glob(Mage::getBaseDir('app') . '/*/*/*/*/etc/adminhtml/acl.xml');
+            $this->_fileList = glob(Mage::getBaseDir('app') . '/*/*/*/etc/adminhtml/acl.xml');
         }
     }
 

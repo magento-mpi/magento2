@@ -21,7 +21,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
         'layout'          => 'Mage_Core_Model_Layout',
         'eventManager'    => 'Mage_Core_Model_Event_Manager',
         'translator'      => 'Mage_Core_Model_Translate',
-        'cache'           => 'Mage_Core_Model_Cache',
+        'cache'           => 'Mage_Core_Model_CacheInterface',
         'designPackage'   => 'Mage_Core_Model_Design_Package',
         'session'         => 'Mage_Core_Model_Session',
         'storeConfig'     => 'Mage_Core_Model_Store_Config',
@@ -35,7 +35,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
      */
     protected $_modelDependencies = array(
         'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',
-        'cacheManager'       => 'Mage_Core_Model_Cache',
+        'cacheManager'       => 'Mage_Core_Model_CacheInterface',
         'resource'           => 'Mage_Core_Model_Resource_Abstract',
         'resourceCollection' => 'Varien_Data_Collection_Db'
     );
