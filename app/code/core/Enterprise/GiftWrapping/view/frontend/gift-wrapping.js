@@ -150,9 +150,7 @@
          * @param {Object} data - substitution data
          */
         insertOptions: function(element, data) {
-            this._processTemplate(this.options.templateOptions, element, [
-                {_id_: data.id, price: data.price}
-            ]);
+            this._processTemplate(this.options.templateOptions, element, [data]);
         },
 
         /**
@@ -176,18 +174,19 @@
          */
         setWrapping: function(e) {
             var instance = e.data,
-                designBlockId = this.id.replace(instance.options.giftWrappingSelectPrefix, ''),
-                blockId = $(this).data("addrId"),
-                $img = $(instance.options.imageBoxSelectorPrefix + designBlockId),
+                $this = $(this),
+                designLayer = $this.siblings('div'),
+                designBlockId = $this.prop('id').replace(instance.options.giftWrappingSelectPrefix, ''),
+                blockId = $this.data("addrId"),
                 designInfo = instance.options.designsInfo[this.value];
 
             //If a design is selected in the drop down, render it with price
             if (this.value) {
-                instance.setDesign(designInfo.path, $img)
+                instance.setDesign(designInfo.path, designLayer.find('img'))
                     .setPrice(instance.options.itemsInfo[designBlockId], designInfo, designBlockId, blockId);
             }
             //Based on design selection toggle design layer display
-            $img.parent().toggleClass(instance.options.noDisplayClass, !this.value);
+            designLayer.toggleClass(instance.options.noDisplayClass, !this.value);
         },
 
         /**

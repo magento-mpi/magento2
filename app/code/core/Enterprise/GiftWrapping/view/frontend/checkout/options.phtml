@@ -41,29 +41,29 @@
 <script id="gift-options-container" type="text/x-jQuery-tmpl">
     <?php if ($this->getAllowGiftReceipt()): ?>
     <p>
-        <input type="checkbox" name="giftwrapping[${_id_}][allow_gift_receipt]" id="allow-gift-receipt-${_id_}" value="1" class="checkbox" />
-        <label for="allow-gift-receipt-${_id_}"><?php echo $this->__('Send Gift Receipt') ?></label>
+        <input type="checkbox" name="giftwrapping[${id}][allow_gift_receipt]" id="allow-gift-receipt-${id}" value="1" class="checkbox" />
+        <label for="allow-gift-receipt-${id}"><?php echo $this->__('Send Gift Receipt') ?></label>
     </p>
     <?php endif;?>
     <?php if ($this->getAllowPrintedCard()): ?>
     <p>
-        <input type="checkbox" name="giftwrapping[${_id_}][add_printed_card]" id="add-printed-card-${_id_}" value="1" onclick="" class="checkbox" />
-        <label for="add-printed-card-${_id_}"><?php echo $this->__('Add Printed Card') ?></label>
+        <input type="checkbox" name="giftwrapping[${id}][add_printed_card]" id="add-printed-card-${id}" value="1" onclick="" class="checkbox" />
+        <label for="add-printed-card-${id}"><?php echo $this->__('Add Printed Card') ?></label>
     </p>
-    <p class="price-box no-display" id="price-options-box-${_id_}">
+    <p class="price-box no-display" id="price-options-box-${id}">
         <?php if ($this->getDisplayCardBothPrices()): ?>
         <span class="price-excluding-tax">
                     <span class="label"><?php echo $this->__('Price Excl. Tax') ?>:</span>
-                    <span class="price" id="price-card-excluding-tax-${_id_}">${price_excl_tax}</span>
+                    <span class="price" id="price-card-excluding-tax-${id}">${price_excl_tax}</span>
                 </span>
         <span class="price-including-tax">
                     <span class="label"><?php echo $this->__('Price Incl. Tax') ?>:</span>
-                    <span class="price" id="price-card-including-tax-${_id_}">${price_incl_tax}</span>
+                    <span class="price" id="price-card-including-tax-${id}">${price_incl_tax}</span>
                 </span>
         <?php else: ?>
         <span class="regular-price">
                     <span class="label"><?php echo $this->__('Price') ?>:</span>
-                    <span class="price" id="regular-card-price-${_id_}">${price}</span>
+                    <span class="price" id="regular-card-price-${id}">${price}</span>
                 </span>
         <?php endif;?>
     </p>
