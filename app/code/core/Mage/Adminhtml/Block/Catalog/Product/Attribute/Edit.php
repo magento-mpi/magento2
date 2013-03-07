@@ -29,15 +29,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
         if($this->getRequest()->getParam('popup')) {
             $this->_removeButton('back');
             $this->_addButton(
-                'close',
-                array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Close Window'),
-                    'class'     => 'cancel',
-                    'onclick'   => 'window.close()',
-                    'level'     => -1
-                )
-            );
-            $this->_addButton(
                 'save_in_new_set',
                 array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save in New Attribute Set'),

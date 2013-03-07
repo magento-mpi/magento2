@@ -10,9 +10,10 @@
 ?>
 <?php /**  @var $this Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created */ ?>
 <script type="text/javascript">
-var data = <?php echo $this->getAttributesBlockJson() ?>,
-    attributeSet = (data.newAttributeSetId) ? {id:[data.newAttributeSetId]} : {id:$('#attribute_set_id').val()};
+var data = <?php echo $this->getAttributesBlockJson() ?>;
 (function ($) {
+    var attributeSet = {id: data.newAttributeSetId || $('#attribute_set_id').val()};
+    $('#create_new_attribute').dialog('close');
     $('#product-edit-form').trigger('changeAttributeSet', attributeSet);
 })(window.parent.jQuery);
 </script>

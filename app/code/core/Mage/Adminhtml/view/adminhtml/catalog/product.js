@@ -253,21 +253,31 @@ Product.Gallery.prototype = {
             this._on({'click':'_showPopup'});
         },
         _showPopup: function (event) {
-            var wrapper = $('<div id="create_new_attribute_container"/>').appendTo('body').hide();
-            var iframe = $('<iframe>').attr({
-                src: this.options.url + '?set=' + $('#attribute_set_id').val(),
-                width: '100%',
-                height: '100%'
+            var wrapper = $('<div id="create_new_attribute"/>').appendTo('body').dialog({
+                title: 'New Attribute',
+                minWidth: 980,
+                minHeight: 700,
+                modal: true,
+                resizeStop: function(event, ui) {
+                    iframe.height($(this).outerHeight() + 'px');
+                    iframe.width($(this).outerWidth() + 'px');
+                }
+            });
+            wrapper.mage('loader', {showOnInit: true});
+            var iframe = $('<iframe id="create_new_attribute_container">').attr({
+                src:this.options.url + '?set=' + $('#attribute_set_id').val(),
+                frameborder: 0,
+                style: "position:absolute;top:58px;left:0px;right:0px;bottom:0px"
             });
             iframe.on('load', function () {
-                wrapper.show().dialog({
-                    title: 'Create new attribute',
-                    minWidth: 980,
-                    minHeight: 700,
-                    modal: true
-                });
+                wrapper.mage('loader', 'hide');
+                this.style.height = wrapper.outerHeight() + 'px';
+                this.style.width = wrapper.outerWidth() + 'px'
             });
             wrapper.append(iframe);
+            wrapper.on('dialogclose', function () {
+                this.remove();
+            });
         }
     });
 })(jQuery);
