@@ -37,6 +37,14 @@
             $(this.options.formId + " input[type='text']").live('keyup',  $.proxy(this._validateInput, this));
         },
 
+        _checkPermissionChange: function(event) {
+            this.element.trigger('changeTheme', event);
+            if (!event.doChange) {
+                $(this.options.formId)[0].reset();
+            }
+            return event.doChange;
+        },
+
         /**
          * Validate width and height input
          * @param event
@@ -50,6 +58,7 @@
             value = isNaN(value) ? '' : value;
             value = value > this.options.maxSizeValue ? this.options.maxSizeValue : value;
             $(event.currentTarget).val(value);
+            this._checkPermissionChange(event);
         },
 
         /**
@@ -70,7 +79,10 @@
          * @param data
          * @private
          */
-        _onSaveForm: function(event, data){
+        _onSaveForm: function(event, data) {
+            if (!this._checkPermissionChange(event)) {
+                return false;
+            }
             $.ajax({
                 url: this.options.formUrl,
                 type: 'POST',

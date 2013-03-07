@@ -42,15 +42,20 @@
          * @private
          */
         _onChangeTheme: function(event, data) {
+            var data = data || {};
             if (!this.options.isPhysicalTheme) {
-                return true;
+                data.doChange = true;
+            } else {
+                if (confirm($.mage.__('You want to change theme. It is necessary to create customization. Do you want to create?'))) {
+                    this._createVirtualTheme();
+                }
+                data.doChange = false;
+                if (typeof data.stopPropagation === 'function') {
+                    data.stopPropagation();
+                }
             }
 
-            if (confirm($.mage.__('You want to change theme. It is necessary to create customization. Do you want to create?'))) {
-                this._createVirtualTheme();
-                return true;
-            }
-            return false;
+            return data.doChange;
         },
 
         /**

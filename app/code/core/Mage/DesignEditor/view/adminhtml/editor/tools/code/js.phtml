@@ -63,6 +63,11 @@
             return false;
         });
 
+        $('#js_files_uploader').bind('click', function(event){
+            $(this).trigger('changeTheme', event);
+            return event.doChange;
+        });
+
         $('#js_files_uploader').fileupload({
             dataType: 'json',
             replaceFileInput: false,
