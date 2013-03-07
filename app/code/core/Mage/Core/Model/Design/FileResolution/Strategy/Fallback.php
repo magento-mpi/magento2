@@ -142,8 +142,8 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      * @return string
      */
     protected function _fallback($file, Mage_Core_Model_Theme $themeModel, $themeDirs, $module = false,
-                                 $moduleDirs = array(), $extraDirs = array())
-    {
+        $moduleDirs = array(), $extraDirs = array()
+    ) {
         // add customization path
         $dirs = array();
         if ($themeModel->getCustomizationPath()) {

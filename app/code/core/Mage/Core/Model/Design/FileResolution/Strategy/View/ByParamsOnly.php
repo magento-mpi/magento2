@@ -24,7 +24,8 @@ class Mage_Core_Model_Design_FileResolution_Strategy_View_ByParamsOnly
     /**
      * @param Mage_Core_Model_Dir $dirs
      */
-    public function __construct(Mage_Core_Model_Dir $dirs) {
+    public function __construct(Mage_Core_Model_Dir $dirs)
+    {
         $this->_pubViewDir = $dirs->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
             . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR;
     }

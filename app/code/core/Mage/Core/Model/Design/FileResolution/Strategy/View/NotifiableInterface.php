@@ -26,5 +26,6 @@ interface Mage_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterfac
      * @return Mage_Core_Model_FileResolution_Fallback_CachingProxy
      */
     public function setViewFilePathToMap($area, Mage_Core_Model_Theme $themeModel, $locale, $module, $file,
-        $newFilePath);
+        $newFilePath
+    );
 }
