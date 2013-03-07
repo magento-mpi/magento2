@@ -19,7 +19,7 @@
 }
 
 .field-category_ids .mage-suggest-inner {
-    padding-right: 22px;
+    padding-right: 27px;
 }
 
 .field-category_ids .addon > button {
@@ -83,6 +83,7 @@
 }
 
 .mage-suggest-search-field {
+    width: 100%;
     white-space: nowrap;
     margin: 0;
     padding: 0;
@@ -91,7 +92,7 @@
 .mage-suggest-search-field > input,
 .mage-suggest-search-field > input:focus,
 .mage-suggest-search-field > input:active {
-    width: 185px;
+    width: 100%;
     height: 22px;
     line-height: 22px;
     outline: 0 none;
@@ -147,6 +148,11 @@
     -webkit-font-smoothing: antialiased;
     content: '\e07d'; /* close icon */
     font-size: 6px;
+}
+
+.mage-suggest-no-records {
+    display: inline-block;
+    padding: 10px;
 }
 
 .ui-helper-hidden-accessible {

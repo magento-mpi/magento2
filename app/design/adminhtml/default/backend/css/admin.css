@@ -794,7 +794,7 @@ textarea,
 }
 
 select {
-    padding: 4px 4px 5px;
+    padding: 4px;
     margin: 0 0 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -2821,6 +2821,10 @@ table tbody tr:nth-child(odd):hover th {
 
 .side-col > .switcher {
     padding-top: 6px;
+}
+
+.side-col > .switcher > label {
+    margin: 0 0 5px;
 }
 
 .side-col > .switcher > a {
