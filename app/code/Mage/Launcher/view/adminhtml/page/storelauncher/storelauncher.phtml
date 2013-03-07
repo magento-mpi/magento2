@@ -365,8 +365,9 @@
     $('[class^="store-tour-tag-"]')
         .on('click.showTourContent', function(e) {
             var elem = $(this),
-                tourData = elem.data('tour-element'),
-                tourDataContent = elem.data('tour-selector');
+                tourElement = elem.data('tour-element'),
+                tourData = elem.data('tour-selector'),
+                tourContent = $('.store-tour-data-' + tourElement);
 
             $('#store-tour-tags').addClass('hidden-store-tour-tag-labels');
             $('[class^="store-tour-tag-"]').fadeIn();
@@ -374,38 +375,63 @@
             elem
                 .add('#store-tour-hint')
                 .add('[class^="store-tour-description"]')
-                .add('[class^="store-tour-data"]')
                 .fadeOut();
 
-            if ($('.store-tour-data-' + tourData).children().length == 2) {
-                $(tourDataContent)
-                    .clone()
-                    .prependTo('.store-tour-data-' + tourData);
+            $('[class^="store-tour-data"]')
+                .removeClass('active')
+                .fadeOut(400);
 
-                $('.store-tour-data-' + tourData)
-                    .css({
-                        top: $(tourDataContent).offset().top,
-                        left: $(tourDataContent).offset().left,
-                        width: $(tourDataContent).outerWidth(),
-                        height: $(tourDataContent).height()
-                    });
+            if (tourContent.children().length == 2) {
+                $(tourData)
+                    .clone()
+                    .prependTo('.store-tour-data-' + tourElement)
+                    .addClass('store-tour-demo-content')
+                    .data('tour-original', tourData);
             }
 
-            $('.store-tour-data-' + tourData)
+            storeTourDataPosition(tourContent, tourData);
+
+            tourContent
+                .addClass('active')
                 .fadeIn(function() {
                     var tourDataOffsetTop = $(this).offset().top - 50;
                     $("html, body").animate({
                         scrollTop: tourDataOffsetTop
                     }, 400);
-                    $('.store-tour-description-' + tourData).fadeIn();
+                    $('.store-tour-description-' + tourElement).fadeIn();
                 });
 
+        });
+
+    function storeTourDataPosition(tourContent, tourData) {
+        tourContent
+            .css({
+                top: $(tourData).offset().top,
+                left: $(tourData).offset().left,
+                width: $(tourData).outerWidth(),
+                height: $(tourData).height()
+            })
+    }
+
+    $(window)
+        .resize(function(){
+            delay && clearTimeout(delay);
+            var delay = setTimeout(function(){
+                var tourContent = $('[class^="store-tour-data"]').filter('.active'),
+                    tourDataClass = tourContent.find('.store-tour-demo-content').data('tour-original'),
+                    tourData = $(tourDataClass).not('.store-tour-demo-content');
+
+                storeTourDataPosition(tourContent, tourData)
+            }, 100);
         });
 
     // Close store tour description
     function closeStoreTourDescriptions() {
         $('[class^="store-tour-description"]')
-            .add('[class^="store-tour-data"]')
+            .fadeOut(400);
+
+        $('[class^="store-tour-data"]')
+            .removeClass('active')
             .fadeOut(400);
 
         $('[class^="store-tour-tag-"]').fadeIn();
