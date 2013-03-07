@@ -9,7 +9,7 @@
  */
 
 /**
- * Interface for file resolver of type 'locale'
+ * Interface for 'locale' file resolution strategy
  */
 interface Mage_Core_Model_Design_FileResolution_Strategy_LocaleInterface
 {

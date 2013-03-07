@@ -9,7 +9,7 @@
  */
 
 /**
- * A map holder for the caching proxy resolver
+ * A map holder for the caching proxy resolution strategy
  */
 class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map
 {

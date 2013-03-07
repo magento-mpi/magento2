@@ -27,6 +27,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $publicDir = $this->_model->getPublicDir();
         $filesystem->delete($publicDir . '/adminhtml');
         $filesystem->delete($publicDir . '/frontend');
+        $this->_model = null;
     }
 
     /**
@@ -390,7 +391,6 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         );
     }
 
-
     /**
      * Test that modified CSS file and changed resources are re-published in developer mode
      *
@@ -432,6 +432,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package');
         $this->_model->setDesignTheme('test/default');
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -541,6 +542,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package'); // Reinit model with new directories
         $this->_model->setDesignTheme('test/default');
     }
 

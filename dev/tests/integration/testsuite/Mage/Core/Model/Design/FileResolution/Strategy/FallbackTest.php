@@ -9,96 +9,60 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_File_Resolution_FallbackTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException InvalidArgumentException
+     * @var string
      */
-    public function testConstructException()
-    {
-        $dirs = new Mage_Core_Model_Dir(Mage::getObjectManager()->get('Magento_Filesystem'), __DIR__);
-        Mage::getObjectManager()->create(
-            'Mage_Core_Model_File_Resolution_Fallback',
-            array(
-                'dirs' => $dirs,
-                'params' => array()
-            )
-        );
-    }
+    protected $_baseDir;
 
     /**
-     * @covers Mage_Core_Model_File_Resolution_Fallback::getArea
-     * @covers Mage_Core_Model_File_Resolution_Fallback::getTheme
-     * @covers Mage_Core_Model_File_Resolution_Fallback::getLocale
+     * @var string
      */
-    public function testGetters()
+    protected $_viewDir;
+
+    public function setUp()
     {
-        $theme = 't';
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('getId', 'getThemePath'), array(), '', false);
-        $themeModel->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(false));
-
-        $themeModel->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($theme));
-
-        $dirs = new Mage_Core_Model_Dir(Mage::getObjectManager()->get('Magento_Filesystem'), __DIR__);
-        $stub = array(
-            'themeConfig' => 'stub',
-            'area' => 'a',
-            'themeModel' => $themeModel,
-            'locale' => 'l',
-        );
-        $model = Mage::getObjectManager()->create(
-            'Mage_Core_Model_File_Resolution_Fallback',
-            array(
-                'dirs' => $dirs,
-                'params' => $stub
-            )
-        );
-        $this->assertEquals('a', $model->getArea());
-        $this->assertEquals($theme, $model->getTheme());
-        $this->assertEquals('l', $model->getLocale());
+        $this->_baseDir = realpath(__DIR__ . '/../../../_files/fallback');
+        $this->_viewDir = $this->_baseDir . DIRECTORY_SEPARATOR . 'design';
     }
 
     /**
      * Build a model to test
      *
-     * @param string $area
-     * @param string $themePath
-     * @param string|null $locale
-     * @return Mage_Core_Model_File_Resolution_Fallback
+     * @return Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      */
-    protected function _buildModel($area, $themePath, $locale)
+    protected function _buildModel()
     {
         // Prepare config with directories
-        $baseDir = dirname(__DIR__) . DIRECTORY_SEPARATOR .  '_files' . DIRECTORY_SEPARATOR . 'fallback';
-        $viewDir = $baseDir . DIRECTORY_SEPARATOR . 'design';
         $dirs = new Mage_Core_Model_Dir(
             Mage::getObjectManager()->get('Magento_Filesystem'),
-            $baseDir,
+            $this->_baseDir,
             array(),
-            array(Mage_Core_Model_Dir::THEMES => $viewDir)
+            array(Mage_Core_Model_Dir::THEMES => $this->_viewDir)
         );
 
+        return Mage::getObjectManager()->create('Mage_Core_Model_Design_FileResolution_Strategy_Fallback',
+            array('dirs' => $dirs));
+    }
+
+    /**
+     * Compose custom theme model with designated path
+     *
+     * @param string $area
+     * @param string $themePath
+     * @return Mage_Core_Model_Theme
+     */
+    protected function _getThemeModel($area, $themePath)
+    {
         /** @var $collection Mage_Core_Model_Theme_Collection */
         $collection = Mage::getModel('Mage_Core_Model_Theme_Collection');
-        $themeModel = $collection->setBaseDir($viewDir)
+        $themeModel = $collection->setBaseDir($this->_viewDir)
             ->addDefaultPattern()
             ->addFilter('theme_path', $themePath)
             ->addFilter('area', $area)
             ->getFirstItem();
-
-        // Build model
-        $params = array(
-            'area'       => $area,
-            'locale'     => $locale,
-            'themeModel' => $themeModel,
-        );
-
-        return Mage::getObjectManager()->create('Mage_Core_Model_File_Resolution_Fallback',
-            array('dirs' => $dirs, 'params' => $params));
+        return $themeModel;
     }
 
     /**
@@ -113,9 +77,10 @@ class Mage_Core_Model_File_Resolution_FallbackTest extends PHPUnit_Framework_Tes
     public function testGetFile($file, $area, $themePath, $module, $expectedFilename)
     {
         $model = $this->_buildModel($area, $themePath, null);
+        $themeModel = $this->_getThemeModel($area, $themePath);
 
         $expectedFilename = str_replace('/', DS, $expectedFilename);
-        $actualFilename = $model->getFile($file, $module);
+        $actualFilename = $model->getFile($area, $themeModel, $file, $module);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);
@@ -168,9 +133,10 @@ class Mage_Core_Model_File_Resolution_FallbackTest extends PHPUnit_Framework_Tes
     public function testLocaleFileFallback($file, $area, $themePath, $locale, $expectedFilename)
     {
         $model = $this->_buildModel($area, $themePath, $locale);
+        $themeModel = $this->_getThemeModel($area, $themePath);
 
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
-        $actualFilename = $model->getLocaleFile($file);
+        $actualFilename = $model->getLocaleFile($area, $themeModel, $locale, $file);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);
@@ -212,9 +178,10 @@ class Mage_Core_Model_File_Resolution_FallbackTest extends PHPUnit_Framework_Tes
     protected function _testGetSkinFile($file, $area, $themePath, $locale, $module, $expectedFilename)
     {
         $model = $this->_buildModel($area, $themePath, $locale);
+        $themeModel = $this->_getThemeModel($area, $themePath);
 
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
-        $actualFilename = $model->getViewFile($file, $module);
+        $actualFilename = $model->getViewFile($area, $themeModel, $locale, $file, $module);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);
@@ -356,4 +323,3 @@ class Mage_Core_Model_File_Resolution_FallbackTest extends PHPUnit_Framework_Tes
         );
     }
 }
-

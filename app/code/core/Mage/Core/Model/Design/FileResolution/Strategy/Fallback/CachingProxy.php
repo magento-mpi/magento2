@@ -19,9 +19,16 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy imple
     Mage_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterface
 {
     /**
-     * Factory to create the fallback model
+     * Map to get/set the resolved values to be cached
      *
      * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map
+     */
+    protected $_map;
+
+    /**
+     * Factory to create the fallback model
+     *
+     * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory
      */
     protected $_fallbackFactory;
 
@@ -34,11 +41,11 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy imple
 
     /**
      * @param Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map $map
-     * @param Mage_Core_Model_File_Resolver_Fallback_Factory $fallbackFactory
+     * @param Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory $fallbackFactory
      */
     public function __construct(
         Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map $map,
-        Mage_Core_Model_File_Resolver_Fallback_Factory $fallbackFactory
+        Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory $fallbackFactory
     ) {
         $this->_fallbackFactory = $fallbackFactory;
         $this->_map = $map;

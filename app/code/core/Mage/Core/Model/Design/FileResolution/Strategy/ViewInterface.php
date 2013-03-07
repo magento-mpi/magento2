@@ -9,7 +9,7 @@
  */
 
 /**
- * Interface for file resolver of type 'view'
+ * Interface for 'view' file resolution strategy
  */
 interface Mage_Core_Model_Design_FileResolution_Strategy_ViewInterface
 {
