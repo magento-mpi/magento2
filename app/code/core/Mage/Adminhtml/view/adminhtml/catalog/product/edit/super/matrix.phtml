@@ -205,7 +205,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         echo '<td class="col-' . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">', $variation[$attribute->getId()]['label'], '</td>', PHP_EOL;
                     }
                     ?>
-                    <td class="col-actions">
+                    <td class="col-actions hidden">
                         <div class="actions-split">
                             <button type="button" class="action-default">
                                 <span>Edit</span>

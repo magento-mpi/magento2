@@ -563,10 +563,11 @@
 }
 
 #product-variations-matrix .action-choose,
-#product-variations-matrix .action-choose:hover {
+#product-variations-matrix .action-choose:hover,
+#product-variations-matrix .action-choose:disabled {
     color: #b8b3a7;
     float: right;
-    margin: 0 0 0 5px;
+    margin: 6px 0 0 5px;
 }
 
 #product-variations-matrix .action-choose:hover {
