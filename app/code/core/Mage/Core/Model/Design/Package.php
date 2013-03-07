@@ -361,9 +361,19 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      *
      * @return bool
      */
-    protected function _isDeveloperMode()
+    protected function _getAppMode()
     {
-        return Mage::getAppMode() == Mage::APPMODE_DEVELOPER;
+        return Mage::getAppMode();
+    }
+
+    /**
+     * Verify whether we should work with files
+     *
+     * @return bool
+     */
+    protected function _isViewFilesAccessRestricted()
+    {
+        return $this->_getAppMode() == MAGE::APPMODE_PRODUCTION;
     }
 
     /**
@@ -426,7 +436,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         /* Identify public file */
         $publicFile = $this->_publishViewFile($file, $params);
         /* Build url to public file */
-        if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+        if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()
+            && !$this->_isViewFilesAccessRestricted()
+        ) {
             $fileMTime = $this->_filesystem->getMTime($publicFile);
             $url = $this->_getPublicFileUrl($publicFile, $isSecure);
             $url .= '?' . $fileMTime;
@@ -533,8 +545,12 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $themeFile = $this->_extractScope($themeFile, $params);
         $sourcePath = $this->getViewFile($themeFile, $params);
 
+        if ($this->_isViewFilesAccessRestricted()) {
+            return $sourcePath;
+        }
+
         $minifiedSourcePath = $this->_minifiedPathForStaticFiles($sourcePath);
-        if ($minifiedSourcePath && !$this->_isDeveloperMode() && $this->_filesystem->has($minifiedSourcePath)) {
+        if ($minifiedSourcePath && !$this->_getAppMode() && $this->_filesystem->has($minifiedSourcePath)) {
             $sourcePath = $minifiedSourcePath;
             $themeFile = $this->_minifiedPathForStaticFiles($themeFile);
         }
@@ -621,7 +637,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             return true;
         }
 
-        return $this->_isDeveloperMode() && $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
+        return ($this->_getAppMode() == MAGE::APPMODE_DEVELOPER)
+            && $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
     }
 
     /**
