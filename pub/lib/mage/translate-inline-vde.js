@@ -251,7 +251,7 @@
             this._positionTemplate();
 
             var self = this;
-            this.template.on("dblclick", function() {
+            this.template.on("click", function() {
                 self.options.onClick(self.element);
             });
 
