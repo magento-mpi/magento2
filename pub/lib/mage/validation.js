@@ -896,6 +896,9 @@
     $.validator.addClassRules("required-option", {
         required: true
     });
+    $.validator.messages = $.extend($.validator.messages, {
+        required: $.mage.__('This is a required field.')
+    });
 
     if ($.metadata) {
         // Setting the type as html5 to enable data-validate attribute
