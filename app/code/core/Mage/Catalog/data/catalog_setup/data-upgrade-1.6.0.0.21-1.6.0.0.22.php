@@ -16,3 +16,21 @@ $this->updateAttribute(
     'backend_model',
     'Mage_Catalog_Model_Product_Attribute_Backend_Weight'
 );
+$this->updateAttribute(
+    $this->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY),
+    'name',
+    'frontend_class',
+    'validate-length maximum-length-255'
+);
+$this->updateAttribute(
+    $this->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY),
+    'sku',
+    'frontend_class',
+    'validate-length maximum-length-64'
+);
+$this->updateAttribute(
+    $this->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY),
+    'qty',
+    'frontend_class',
+    'validate-number'
+);

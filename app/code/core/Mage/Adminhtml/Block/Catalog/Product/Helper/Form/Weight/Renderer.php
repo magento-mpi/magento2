@@ -41,6 +41,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer extends V
             : Mage::getModel('Varien_Data_Form_Element_Checkbox');
         $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual')
             ->setLabel($this->_helper->getTypeSwitcherControlLabel());
+        $data['class'] = 'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';
         parent::__construct($data);
     }
 
