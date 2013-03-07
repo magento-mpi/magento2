@@ -151,4 +151,23 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $this->_isVdeRequest = $isVdeRequest;
     }
+
+    /**
+     * Get current handle url
+     *
+     * @return string
+     */
+    public function getCurrentHandleUrl()
+    {
+        /** @var $objectManager Magento_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
+        $vdeUrlModel = $objectManager->get('Mage_DesignEditor_Model_Url_Handle');
+        $handle = $objectManager->get('Mage_Backend_Model_Session')->
+            getData(Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY);
+        if (empty($handle)) {
+            $handle = 'default';
+        }
+        return $vdeUrlModel->getUrl('design/page/type', array('handle' => $handle));
+    }
 }

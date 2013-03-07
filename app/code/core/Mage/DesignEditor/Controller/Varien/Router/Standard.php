@@ -14,6 +14,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      * Parameter to indicate that inline translation is being toggled.
      */
     const TOGGLE_TRANSLATION = "toggle_translation";
+
     /**
      * @var Magento_ObjectManager
      */
@@ -128,7 +129,8 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     {
         $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
         $noVdePath = substr($request->getPathInfo(), strlen($vdeFrontName) + 1) ?: '/';
-        if (strpos($noVdePath, self::TOGGLE_TRANSLATION) !== false) {
+        $isTogglingTranslation = $request->getParam(self::TOGGLE_TRANSLATION, false);
+        if ($isTogglingTranslation) {
             $noVdePath = substr($noVdePath, 0, strrpos($noVdePath, self::TOGGLE_TRANSLATION));
         }
         $request->setPathInfo($noVdePath);
