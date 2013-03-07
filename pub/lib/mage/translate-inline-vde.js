@@ -169,6 +169,10 @@
                         translateData = $(self.translateElement).data(self.options.dataAttrName),
                         innerHtmlStr = $(self.translateElement).html();
 
+                    if (value === null) {
+                        value = '';
+                    }
+
                     innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
                     $(self.translateElement).html(innerHtmlStr);
 
