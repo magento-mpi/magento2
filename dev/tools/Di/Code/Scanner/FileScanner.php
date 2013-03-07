@@ -8,39 +8,43 @@
 
 namespace Magento\Tools\Di\Code\Scanner;
 
-class Php implements ScannerInterface
+class FileScanner
 {
     /**
-     * @var \Zend\Code\Scanner\AggregateDirectoryScanner
+     * @var array
      */
-    protected $_scanner;
+    protected $_files;
 
     /**
+     * Regular expression pattern
+     *
      * @var string
      */
     protected $_pattern;
 
     /**
-     * @param \Zend\Code\Scanner\AggregateDirectoryScanner $scanner
+     * @param array $files
      * @param $pattern
      */
-    public function __construct(\Zend\Code\Scanner\AggregateDirectoryScanner $scanner, $pattern)
+    public function __construct(array $files, $pattern)
     {
-        $this->_scanner = $scanner;
+        $this->_files = $files;
         $this->_pattern = $pattern;
     }
 
     /**
+     * Get array of class names
+     *
      * @return array
      */
     public function collectEntities()
     {
         $output = array();
-        foreach ($this->_scanner->getFiles() as $file) {
+        foreach ($this->_files as $file) {
             $content = file_get_contents($file);
             $matches = array();
             if(preg_match_all($this->_pattern, $content, $matches)) {
-                $output = array_merge($output, $matches[0]);
+                $output = array_merge($output, $matches[1]);
             }
         }
         $output = array_unique($output);

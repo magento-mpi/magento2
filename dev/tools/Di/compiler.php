@@ -8,14 +8,7 @@
  * @license    {license_link}
  */
 
-require __DIR__ . '/../../../app/bootstrap.php';
-require_once __DIR__  . '/ReporterInterface.php';
-require_once __DIR__  . '/Reporter/Console.php';
-require_once __DIR__  . '/Reporter/Xml.php';
-require_once __DIR__  . '/Code/Scanner/ScannerInterface.php';
-require_once __DIR__  . '/Code/Scanner/Composite.php';
-require_once __DIR__  . '/Code/Scanner/Config.php';
-require_once __DIR__  . '/Code/Scanner/Php.php';
+require __DIR__ . '/../bootstrap.php';
 
 use Magento\Tools\Di;
 use Magento\Tools\Di\Code\Scanner;
@@ -47,13 +40,15 @@ switch($opt->getOption('report')) {
 // Code generation
 // 1. Code scan
 $dir = realpath(__DIR__ . '/../../../app');
-$scanner = new Scanner\Composite();
-$scanner->addChild(new Scanner\Config());
-$scanner->addChild(new Scanner\Php(
-    new Zend\Code\Scanner\AggregateDirectoryScanner($dir),
-    '/(\b|\n|\'|")[A-Z]{1}[a-zA-Z0-9_]*(Proxy|Factory)(\b|\n|\'|")/'
-));
-$entities = $scanner->collectEntities();
+$directoryScanner = new Scanner\DirectoryScanner();
+$files = $directoryScanner->scan($dir, array('xml', 'php'));
+$entities = array();
+
+$classNamePattern = '([A-Z]{1}[a-zA-Z0-9]*_[A-Z]{1}[a-zA-Z0-9_]*(Proxy|Factory))';
+$configScanner = new Scanner\FileScanner($files['xml'], '/[\n\'"<>]{1}' . $classNamePattern . '[\n\'"<>]{1}/');
+$codeScanner = new Scanner\FileScanner($files['php'], '/[ \\b\n\'"\(]{1}' . $classNamePattern . '[ \\b\n\'"]{1}/');
+$entities = array_merge($codeScanner->collectEntities(), $configScanner->collectEntities());
+
 
 // 2. Generation
 $generator = new Magento_Code_Generator();
