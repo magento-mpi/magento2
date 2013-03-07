@@ -169,6 +169,10 @@
                         translateData = $(self.translateElement).data(self.options.dataAttrName),
                         innerHtmlStr = $(self.translateElement).html();
 
+                    if (value === null) {
+                        value = '';
+                    }
+
                     innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
                     $(self.translateElement).html(innerHtmlStr);
 
@@ -220,16 +224,6 @@
             this.element.on("dblclick", function() {
                 self.options.onClick(self.element);
             });
-
-            this.template.on("mouseover", function() {
-                if (self.options.imgHover) {
-                    self.template.prop('src', self.options.imgHover);
-                }
-            });
-
-            this.template.on("mouseout", function() {
-                self.template.prop('src', self.options.img);
-            });
         },
 
         /**
@@ -251,12 +245,22 @@
             this._positionTemplate();
 
             var self = this;
-            this.template.on("dblclick", function() {
+            this.template.on("click", function() {
                 self.options.onClick(self.element);
             });
 
             this.element.on("dblclick", function() {
                 self.options.onClick(self.element);
+            });
+            
+            this.template.on("mouseover", function() {
+                if (self.options.imgHover) {
+                    self.template.prop('src', self.options.imgHover);
+                }
+            });
+
+            this.template.on("mouseout", function() {
+                self.template.prop('src', self.options.img);
             });
         },
 
