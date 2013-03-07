@@ -2838,7 +2838,7 @@ table tbody tr:nth-child(odd):hover th {
 
 .side-col .ui-accordion-header {
     position: relative;
-    margin: 10px 0 3px;
+    margin: 10px 0 0;
     padding: 5px 20px;
     cursor: pointer;
     color: #575149;

@@ -100,28 +100,13 @@
 
 .image.base-image:before {
     position: absolute;
-    top: 5px;
+    top: 0;
     left: 0;
-    right: 0;
-    padding: 5px 0;
-    background: #d56d27;
-    text-align: center;
-    text-transform: uppercase;
-    text-shadow: 0 1px 2px #000;
-    font-size: 9px;
-    font-weight: bold;
-    color: #fff;
-    content: attr(data-image-label);
-    letter-spacing: 1px;
-    -moz-transform: rotate(-45deg) translate3d(0, 0, 0);
-    -webkit-transform: rotate(-45deg) translate3d(0, 0, 0);
-    transform: rotate(-45deg) translate3d(0, 0, 0);
-    margin-left: -60%;
+    width: 33px;
+    height: 33px;
+    background: url(Mage_Backend::images/gallery-image-base-label.png) no-repeat;
+    content: '';
     z-index: 1;
-}
-
-.no-csstransforms3d .image.base-image:before {
-    margin-left: 0;
 }
 
 .image.hidden-for-front:after {
@@ -135,13 +120,17 @@
     text-align: center;
     text-transform: uppercase;
     color: #a69a8f;
-    font: 18px/120px 'CallunaSans', Arial, sans-serif;
+    font: 18px/110px 'CallunaSans', Arial, sans-serif;
     font-weight: 500;
     z-index: 1;
 }
 
+.gallery .image.hidden-for-front:after {
+    line-height: 160px;
+}
+
 .image.active {
-    box-shadow: 0 0 10px #a1d3ec;
+    box-shadow: 0 0 10px #2ea9ec;
 }
 
 .image .actions {
@@ -183,15 +172,12 @@
     bottom: 20px;
     left: 10%;
     right: 10%;
-}
-
-.image .action-make-main {
-    position: absolute;
-    bottom: 20px;
-    left: 10%;
-    right: 10%;
     padding: 5px;
     margin: auto;
+}
+
+.image.base-image .action-make-main {
+    display: none;
 }
 
 .image .draggable-handle {
@@ -217,9 +203,10 @@
     right: 5px;
 }
 
-.gallery .ui-state-highlight {
+.image.ui-sortable-placeholder {
     background: #d7ebf5;
-    border: 2px dotted #93dbff;
+    border: 1px dotted #93dbff;
+    visibility: visible !important;
 }
 
 .image-placeholder {
@@ -254,13 +241,16 @@
     cursor: pointer;
 }
 
-.image-placeholder .file-row {
+.image-placeholder .file-row,
+.image-placeholder.loading:after {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
+    width: auto;
     height: auto;
+    margin: auto;
     overflow: hidden;
     background: #fff url(../mui/images/ajax-loader-big.gif) no-repeat 50% 50%;
     z-index: 5;
@@ -278,10 +268,6 @@
     line-height: 1.333;
     text-align: center;
     color: #cac8c4;
-}
-
-.gallery .image.base-image::before {
-    margin-left: -75%;
 }
 
 .gallery .image-placeholder {
