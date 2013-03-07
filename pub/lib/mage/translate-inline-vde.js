@@ -220,16 +220,6 @@
             this.element.on("dblclick", function() {
                 self.options.onClick(self.element);
             });
-
-            this.template.on("mouseover", function() {
-                if (self.options.imgHover) {
-                    self.template.prop('src', self.options.imgHover);
-                }
-            });
-
-            this.template.on("mouseout", function() {
-                self.template.prop('src', self.options.img);
-            });
         },
 
         /**
@@ -257,6 +247,16 @@
 
             this.element.on("dblclick", function() {
                 self.options.onClick(self.element);
+            });
+            
+            this.template.on("mouseover", function() {
+                if (self.options.imgHover) {
+                    self.template.prop('src', self.options.imgHover);
+                }
+            });
+
+            this.template.on("mouseout", function() {
+                self.template.prop('src', self.options.img);
             });
         },
 
