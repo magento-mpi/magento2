@@ -3997,7 +3997,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $fields = implode(', ', $columns);
 
                 $mColumns = array();
-                foreach($columns as $column) {
+                foreach ($columns as $column) {
                     $mColumns[] = 'm.' . $column;
                 }
                 $mFields = implode(', ', $mColumns);
