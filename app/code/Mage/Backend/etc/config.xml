@@ -69,6 +69,16 @@
                 </backend>
             </updates>
         </layout>
+        <events>
+            <translate_initialization_before>
+                <observers>
+                    <initialize_translation>
+                        <class>Mage_Backend_Model_Observer</class>
+                        <method>initializeTranslation</method>
+                    </initialize_translation>
+                </observers>
+            </translate_initialization_before>
+        </events>
         <di>
             <preferences>
                 <Mage_Core_Model_UrlInterface>Mage_Backend_Model_Url</Mage_Core_Model_UrlInterface>
