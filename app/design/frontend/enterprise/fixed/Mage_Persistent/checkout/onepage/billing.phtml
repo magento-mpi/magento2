@@ -76,9 +76,6 @@
                             <select id="billing:region_id" name="billing[region_id]" title="<?php echo $this->__('State/Province') ?>" data-validate="{'validate-select':true}" style="display:none;">
                                 <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                             </select>
-                            <script type="text/javascript">
-                                $('billing:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
-                            </script>
                             <input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text <?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('region') ?>" style="display:none;" />
                         </div>
                     </div>
