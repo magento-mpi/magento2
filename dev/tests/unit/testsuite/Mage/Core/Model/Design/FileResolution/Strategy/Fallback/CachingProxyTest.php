@@ -26,13 +26,6 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTest e
     protected $_fallback;
 
     /**
-     * Mocked factory for fallback objects
-     *
-     * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_fallbackFactory;
-
-    /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_map;
@@ -47,24 +40,11 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTest e
             false
         );
 
-        if (class_exists('Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory')) {
-            $className = 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory';
-            $mockClassName = '';
-        } else {
-            $className = 'stdClass';
-            $mockClassName = 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory';
-        }
-        $this->_fallbackFactory = $this->getMock($className, array('createFromArray'), array(),
-            $mockClassName, false);
-        $this->_fallbackFactory->expects($this->any())
-            ->method('createFromArray')
-            ->will($this->returnValue($this->_fallback));
-
         $this->_map = $this->getMock('Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map',
             array(), array(), '', false);
 
         $this->_model = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy(
-            $this->_map, $this->_fallbackFactory
+            $this->_map, $this->_fallback
         );
     }
 

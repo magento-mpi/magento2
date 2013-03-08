@@ -26,29 +26,22 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy imple
     protected $_map;
 
     /**
-     * Factory to create the fallback model
-     *
-     * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory
-     */
-    protected $_fallbackFactory;
-
-    /**
      * Proxied fallback model
      *
-     * @var Mage_Core_Model_Design_File_Resolution_Strategy_Fallback
+     * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      */
     protected $_fallback;
 
     /**
      * @param Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map $map
-     * @param Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory $fallbackFactory
+     * @param Mage_Core_Model_Design_FileResolution_Strategy_Fallback $fallback
      */
     public function __construct(
         Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map $map,
-        Mage_Core_Model_Design_FileResolution_Strategy_Fallback_Factory $fallbackFactory
+        Mage_Core_Model_Design_FileResolution_Strategy_Fallback $fallback
     ) {
-        $this->_fallbackFactory = $fallbackFactory;
         $this->_map = $map;
+        $this->_fallback = $fallback;
     }
 
     /**
@@ -64,7 +57,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy imple
     {
         $result = $this->_map->get('file', $area, $themeModel, null, $module, $file);
         if (!$result) {
-            $result = $this->_getFallback()->getFile($area, $themeModel, $file, $module);
+            $result = $this->_fallback->getFile($area, $themeModel, $file, $module);
             $this->_map->set('file', $area, $themeModel, null, $module, $file, $result);
         }
         return $result;
@@ -83,7 +76,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy imple
     {
         $result = $this->_map->get('locale', $area, $themeModel, $locale, null, $file);
         if (!$result) {
-            $result = $this->_getFallback()->getLocaleFile($area, $themeModel, $locale, $file);
+            $result = $this->_fallback->getLocaleFile($area, $themeModel, $locale, $file);
             $this->_map->set('locale', $area, $themeModel, $locale, null, $file, $result);
         }
         return $result;
@@ -103,20 +96,10 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy imple
     {
         $result = $this->_map->get('view', $area, $themeModel, $locale, $module, $file);
         if (!$result) {
-            $result = $this->_getFallback()->getViewFile($area, $themeModel, $locale, $file, $module);
+            $result = $this->_fallback->getViewFile($area, $themeModel, $locale, $file, $module);
             $this->_map->set('view', $area, $themeModel, $locale, $module, $file, $result);
         }
         return $result;
-    }
-
-    /**
-     * Creates fallback model to forward requests to
-     *
-     * @return Mage_Core_Model_Design_File_Resolution_Strategy_Fallback
-     */
-    protected function _getFallback()
-    {
-        return $this->_fallbackFactory->createFromArray();
     }
 
     /**
@@ -128,7 +111,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy imple
      * @param string|null $module
      * @param string $file
      * @param string $newFilePath
-     * @return Mage_Core_Model_FileResolution_Fallback_CachingProxy
+     * @return Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy
      */
     public function setViewFilePathToMap($area, Mage_Core_Model_Theme $themeModel, $locale, $module, $file,
         $newFilePath
