@@ -28,7 +28,7 @@
                 </p>
                 <div class="allow-gift-messages-for-order-container" id="allow-gift-messages-for-order-container" style="display:none">
                     <p><?php echo $this->__('You can leave this box blank if you do not wish to add a gift message for whole order.') ?></p>
-                    <input type="hidden" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][type]"  value="quote_address" />
+                    <input type="hidden" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][type]"  value="quote" />
                     <ul class="form-list">
                         <li class="fields">
                             <div class="field">
@@ -213,13 +213,15 @@
         </div>
     </div>
     <script type="text/javascript">
-        window.onload = function() {
-            head.js("<?php echo $this->getViewFileUrl('Mage_GiftMessage::gift-options.js')?>", function() {
-                jQuery('#allow_gift_messages_<?php echo $this->getEntity()->getId() ?>')
-                    .add('#allow_gift_messages_for_order_<?php echo $this->getEntity()->getId() ?>')
-                    .add('#allow_gift_messages_for_items_<?php echo $this->getEntity()->getId() ?>').giftOptions();
+        (function($) {
+            $(function() {
+                head.js("<?php echo $this->getViewFileUrl('Mage_GiftMessage::gift-options.js')?>", function() {
+                    $('#allow_gift_messages_<?php echo $this->getEntity()->getId() ?>')
+                        .add('#allow_gift_messages_for_order_<?php echo $this->getEntity()->getId() ?>')
+                        .add('#allow_gift_messages_for_items_<?php echo $this->getEntity()->getId() ?>').giftOptions();
+                });
             });
-        }
+        })(jQuery);
     </script>
     <?php break; ?>
 <?php endswitch ?>
