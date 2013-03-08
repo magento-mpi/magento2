@@ -81,15 +81,16 @@ final class Mage
     /**
      * Application modes
      */
-    const APPMODE_DEVELOPER       = 'developer';
-    const APPMODE_PRODUCTION      = 'production';
+    const APP_MODE_DEVELOPER       = 'developer';
+    const APP_MODE_PRODUCTION      = 'production';
+    const APP_MODE_DEFAULT         = 'default';
 
     /**
      * Registry collection
      *
      * @var array
      */
-    static private $_registry                   = array();
+    static private $_registry = array();
 
     /**
      * Application root absolute path
@@ -131,21 +132,21 @@ final class Mage
      *
      * @var bool
      */
-    static private $_isDownloader               = false;
+    static private $_isDownloader = false;
 
     /**
      * Application mode
      *
      * @var string|null
      */
-    static private $_appMode                    = null;
+    static private $_appMode = null;
 
     /**
      * Is allow throw Exception about headers already sent
      *
      * @var bool
      */
-    public static $headersSentThrowsException   = true;
+    public static $headersSentThrowsException  = true;
 
     /**
      * Logger entities
@@ -248,7 +249,7 @@ final class Mage
         self::$_config          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
-        self::$_appMode         = null;
+        self::$_appMode         = self::APP_MODE_DEFAULT;
         self::$_loggers         = array();
         self::$_design          = null;
         // do not reset $headersSentThrowsException
@@ -724,9 +725,9 @@ final class Mage
     public static function setAppMode($mode)
     {
         switch ($mode) {
-            case self::APPMODE_DEVELOPER:
-            case self::APPMODE_PRODUCTION:
-            case null:
+            case self::APP_MODE_DEVELOPER:
+            case self::APP_MODE_PRODUCTION:
+            case self::APP_MODE_DEFAULT:
                 self::$_appMode = $mode;
                 break;
             default:
@@ -737,7 +738,7 @@ final class Mage
     /**
      * Return current app mode
      *
-     * @return string|null
+     * @return string
      *
      * @deprecated use Mage_Core_Model_App_State::getMode()
      */
@@ -757,9 +758,9 @@ final class Mage
     public static function setIsDeveloperMode($mode)
     {
         if ((bool)$mode) {
-            self::setAppMode(self::APPMODE_DEVELOPER);
-        } else if (self::getAppMode() == self::APPMODE_DEVELOPER) {
-            self::setAppMode(null);
+            self::setAppMode(self::APP_MODE_DEVELOPER);
+        } else if (self::getAppMode() == self::APP_MODE_DEVELOPER) {
+            self::setAppMode(self::APP_MODE_DEFAULT);
         }
         return self::getIsDeveloperMode();
     }
@@ -772,7 +773,7 @@ final class Mage
      */
     public static function getIsDeveloperMode()
     {
-        return self::getAppMode() == self::APPMODE_DEVELOPER;
+        return self::getAppMode() == self::APP_MODE_DEVELOPER;
     }
 
     /**

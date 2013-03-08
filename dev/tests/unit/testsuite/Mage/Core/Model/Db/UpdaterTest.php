@@ -66,12 +66,12 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
             ),
             'updates when skipped, if in dev mode' => array(
                 file_get_contents($fixturePath . 'config_skip_updates.xml'),
-                Mage::APPMODE_DEVELOPER,
+                Mage::APP_MODE_DEVELOPER,
                 true
             ),
             'skipped updates, even in dev mode' => array(
                 file_get_contents($fixturePath . 'config_skip_updates_even_in_dev_mode.xml'),
-                Mage::APPMODE_DEVELOPER,
+                Mage::APP_MODE_DEVELOPER,
                 false
             )
         );

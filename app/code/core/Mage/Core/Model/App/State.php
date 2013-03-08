@@ -23,7 +23,7 @@ class Mage_Core_Model_App_State
     /**
      * Return current app mode
      *
-     * @return string|null
+     * @return string
      */
     public function getMode()
     {
@@ -33,12 +33,11 @@ class Mage_Core_Model_App_State
     /**
      * Set new app mode
      *
-     * @param string|null $mode
-     * @return string|null
+     * @param string $mode
      */
     public function setMode($mode)
     {
-        return Mage::setAppMode($mode);
+        Mage::setAppMode($mode);
     }
 
     /**

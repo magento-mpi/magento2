@@ -29,6 +29,11 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
     protected $_objectManager;
 
     /**
+     * @var string
+     */
+    protected $_appState;
+
+    /**
      * @var Magento_Filesystem
      */
     protected $_filesystem;
@@ -37,11 +42,6 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
      * @var Mage_Core_Model_Dir
      */
     protected $_dirs;
-
-    /**
-     * @var string
-     */
-    protected $_appMode;
 
     /**
      * Pool of strategy objects
@@ -93,7 +93,7 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
         Magento_Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
-        $this->_appMode = $appState->getMode();
+        $this->_appState = $appState;
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
     }
@@ -153,19 +153,19 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
      * @param string $fileType
      * @param bool $skipProxy
      * @return string
+     * @throws Mage_Core_Exception
      */
     protected function _getStrategyClass($fileType, $skipProxy = false)
     {
-        switch ($this->_appMode) {
-            case Mage::APPMODE_PRODUCTION:
-                $strategyClasses = $this->_strategies['production_mode'];
-                break;
-            case Mage::APPMODE_DEVELOPER:
-                $strategyClasses = $this->_strategies['full_check'];
-                break;
-            default:
-                $strategyClasses = $this->_strategies['caching_map'];
-                break;
+        $mode = $this->_appState->getMode();
+        if ($mode == Mage::APP_MODE_PRODUCTION) {
+            $strategyClasses = $this->_strategies['production_mode'];
+        } else if (($mode == Mage::APP_MODE_DEVELOPER) || $skipProxy) {
+            $strategyClasses = $this->_strategies['full_check'];
+        } else if ($mode == Mage::APP_MODE_DEFAULT) {
+            $strategyClasses = $this->_strategies['caching_map'];
+        } else {
+            throw new Mage_Core_Exception("Unknown mode to choose strategy: {$mode}");
         }
         return $strategyClasses[$fileType];
     }
