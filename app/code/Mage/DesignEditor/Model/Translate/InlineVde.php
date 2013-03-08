@@ -20,7 +20,11 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      */
     public function isAllowed($store = null)
     {
-        return Mage::getObjectManager()->get('Mage_Backend_Model_Session')->getVdeInlineTranslationEnabled();
+        $isAllowed = false;
+        if (Mage::getObjectManager()->get('Mage_DesignEditor_Helper_Data')->getTranslationMode() != null) {
+            $isAllowed = true;
+        }
+        return $isAllowed;
     }
 
     /**

@@ -11,11 +11,6 @@
 class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Controller_Varien_Router_Base
 {
     /**
-     * Parameter to indicate that inline translation is being toggled.
-     */
-    const TRANSLATION_MODE = "translation_mode";
-
-    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -74,9 +69,6 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         // override VDE configuration
         $this->_overrideConfiguration();
 
-        // toggle inline translation
-        $this->_toggleInlineTranslation($request);
-
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
 
@@ -97,6 +89,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
             }
         }
 
+        // set inline translation mode
+        $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->setTranslationMode($request);
+
         return $controller;
     }
 
@@ -109,12 +104,13 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     protected function _isVdeRequest(Mage_Core_Controller_Request_Http $request)
     {
         // Lazy load vde indicator.
+        $helper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
         if (null === $this->_isVde) {
             $url = trim($request->getOriginalPathInfo(), '/');
-            $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
+            $vdeFrontName = $helper->getFrontName();
             $this->_isVde = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
         }
-        $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->setVdeRequest($this->_isVde);
+        $helper->setVdeRequest($this->_isVde);
 
         return $this->_isVde;
     }
@@ -129,10 +125,6 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     {
         $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
         $noVdePath = substr($request->getPathInfo(), strlen($vdeFrontName) + 1) ?: '/';
-        $isTogglingTranslation = $request->getParam(self::TRANSLATION_MODE, false);
-        if ($isTogglingTranslation) {
-            $noVdePath = substr($noVdePath, 0, strrpos($noVdePath, self::TRANSLATION_MODE));
-        }
         $request->setPathInfo($noVdePath);
         return $this;
     }
@@ -163,22 +155,6 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         if ($vdeNode) {
             $this->_objectManager->get('Mage_Core_Model_Config')->getNode(Mage_Core_Model_App_Area::AREA_FRONTEND)
                 ->extend($vdeNode, true);
-        }
-    }
-
-    /**
-     * This method toggles the vde inline translation indicator on the session if it is requested
-     * as part of the querystring.
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     */
-    protected function _toggleInlineTranslation(Mage_Core_Controller_Request_Http $request)
-    {
-        if (stristr($request->getOriginalPathInfo(), self::TRANSLATION_MODE) !== 'FALSE') {
-            $session = $this->_objectManager->get('Mage_Backend_Model_Session');
-            /** @var $newState bool */
-            $newState = !$session->getVdeInlineTranslationEnabled();
-            $session->setVdeInlineTranslationEnabled($newState);
         }
     }
 }

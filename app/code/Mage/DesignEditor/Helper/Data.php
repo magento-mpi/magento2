@@ -26,6 +26,11 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@-*/
 
     /**
+     * Parameter to indicate the translation mode (null, text, script, or alt).
+     */
+    const TRANSLATION_MODE = "translation_mode";
+
+    /**
      * @var Mage_Core_Model_Config
      */
     protected $_configuration;
@@ -34,6 +39,11 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      * @var bool
      */
     protected $_isVdeRequest;
+
+    /**
+     * @var mixed
+     */
+    protected $_translationMode;
 
     /**
      * @param Mage_Core_Helper_Context $context
@@ -150,6 +160,24 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     public function setVdeRequest($isVdeRequest)
     {
         $this->_isVdeRequest = $isVdeRequest;
+    }
+
+    /**
+     * Returns the translation mode the current request is in (null, text, script, or alt).
+     * @return mixed
+     */
+    public function getTranslationMode()
+    {
+        return $this->_translationMode;
+    }
+
+    /**
+     * Sets the translation mode for the current request (null, text, script, or alt);
+     * @param Mage_Core_Controller_Request_Http $request
+     */
+    public function setTranslationMode(Mage_Core_Controller_Request_Http $request)
+    {
+        $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, null);
     }
 
     /**
