@@ -25,7 +25,7 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
     {
         parent::setUpBeforeClass();
         self::$_mediaDir = Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA);
-        self::$_themeDir = self::$_mediaDir . DIRECTORY_SEPARATOR . 'theme';
+        self::$_themeDir = Mage::getBaseDir(Mage_Core_Model_Dir::STATIC_VIEW);
     }
 
     public function setUp()

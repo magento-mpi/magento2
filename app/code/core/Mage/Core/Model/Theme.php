@@ -49,11 +49,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
-     * Path prefix to customized theme files
-     */
-    const PATH_PREFIX_CUSTOMIZATION = 'customization';
-
-    /**
      * Labels collection array
      *
      * @var array
@@ -220,7 +215,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
             $customPath = $modelDir->getDir(Mage_Core_Model_Dir::MEDIA)
                 . DIRECTORY_SEPARATOR . 'theme'
-                . DIRECTORY_SEPARATOR . self::PATH_PREFIX_CUSTOMIZATION
+                . DIRECTORY_SEPARATOR . 'customization'
                 . DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
