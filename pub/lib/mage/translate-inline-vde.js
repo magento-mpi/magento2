@@ -169,8 +169,8 @@
                         translateData = $(self.translateElement).data(self.options.dataAttrName),
                         innerHtmlStr = $(self.translateElement).html();
 
-                    if (value === null) {
-                        value = '';
+                    if (value === null || value === '') {
+                        value = '&nbsp;';
                     }
 
                     innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
@@ -210,15 +210,12 @@
          */
         _create: function() {
             this._initTemplate();
-
-            $(window).on("resize", $.proxy(this._positionTemplate, this));
         },
 
         /**
          * Shows the widget.
          */
         show: function() {
-            this._positionTemplate();
             this.template.removeClass('hidden');
             var self = this;
             this.element.on("dblclick", function() {
@@ -242,7 +239,8 @@
             this.template = $("#" + this.options.templateId).tmpl(this.options)
                 .addClass("translate-edit-icon")
                 .appendTo("body");
-            this._positionTemplate();
+            this.element.append(this.template);
+            this.element.addClass('translate-edit-icon-container');
 
             var self = this;
             this.template.on("click", function() {
@@ -262,19 +260,21 @@
             this.template.on("mouseout", function() {
                 self.template.prop('src', self.options.img);
             });
-        },
 
-        /**
-         * Positions the template to the correct location. Moves template to the
-         * absolute upper right of the element. Called when icon is first displayed
-         * and when window is resized.
-         */
-        _positionTemplate: function() {
-            var offset = this.element.offset();
-            this.template.css({
-                top: offset.top,
-                left: offset.left + this.element.outerWidth() + this.options.offsetLeft
+            /* disables all clicks */
+            this.element.find('a').each(function(count, link) {
+                link.on('click', function(e) {
+                    e.preventDefault();
+                    return false;
+                });
             });
+
+            if ($(this.element).prop('tagName') === 'A') {
+                this.element.on('click', function(e) {
+                    e.preventDefault();
+                    return false;
+                });
+            }
         },
 
         /**
