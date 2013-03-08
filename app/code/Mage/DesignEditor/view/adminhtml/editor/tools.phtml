@@ -87,21 +87,61 @@
 
     $.widget("mage.translateInlineToggle", {
         options: {
-            frameUrl: null
+            frameUrl: null,
+            refreshVdeCanvas: false,
+            refreshIframeEvent: 'refreshIframe'
         },
 
         _create: function() {
+            $('body').on(this.options.refreshIframeEvent, $.proxy(this._onIframeRefresh, this));
             this.element.on('click', $.proxy(this.options.onClick, this));
         },
 
-        toggleTranslateMode: function(mode) {
+        /**
+         * Iframe refresh
+         * @protected
+         */
+        _onIframeRefresh: function() {
+            /** todo SDW Add animation when refreshing the iframe. */
+
+            var url = this.options.frameUrl + "translation_mode/text";
             var container_frame = parent.jQuery('#vde_container_frame');
-            var url = this.options.frameUrl + "translation_mode/" + mode;
 
             container_frame.prop('src', url);
 
-            // Refresh iframe with new url
-            container_frame.trigger('refreshIframe');
+            /** todo SDW Is there a way to get to the content window through jQuery so that this will
+             * be supported across all browsers.
+             */
+            container_frame.get(0).contentWindow.location.href = url;
+
+            /**
+             * Since the url is being modified to support inline translation, the window is not reloaded since it
+             * is using the url from the cache to display.
+             */
+        },
+
+        /**
+         * This method toggles inline translation on and off.  Everything is wrapped with the appropriate
+         * attributes at this time.
+         */
+        toggleTranslationInline: function() {
+            if (this.options.refreshVdeCanvas) {
+                // Refresh iframe with new url
+                this.element.trigger('refreshIframe');
+            }
+
+            /** todo SDW display menu and swap out enabled 'T' button */
+        },
+
+        /**
+         * This method will only enable editing for the translation mode specified.
+         *
+         * @param mode
+         */
+        toggleTranslationMode: function(mode) {
+            /** todo SDW Call into InlineVde widget to hide/show appropriate wrapping based on translation mode. */
+
+            /** todo SDW swap out enabled T button */
         }
     });
 

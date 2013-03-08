@@ -169,49 +169,31 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
                     }
                 });
 
-                /** todo SDW Remove this once fully implement three inline states */
                 parent.jQuery('#vde-translate').translateInlineToggle({
                     frameUrl: '<?php echo $frameUrl ?>',
                     refreshVdeCanvas: <?php if ($this->isAllowed()): ?>false<?php else: ?>true<?php endif; ?>,
                     onClick: function(element) {
-                        // Display all inline translate options, with the one selected highlighted.
-                        parent.jQuery('#vde-translate').translateInlineToggle('toggleTranslateMode', 'text');
-
-                        /** @todo ACB switchClass on 'T' when inline translation is toggled. */
-                        //parent.jQuery('#vde-translate').switchClass('', '');
+                        parent.jQuery('#vde-translate').translateInlineToggle('toggleTranslationInline');
                     }
                 });
 
                 parent.jQuery('#vde-translate-text').translateInlineToggle({
-                    frameUrl: '<?php echo $frameUrl ?>',
                     onClick: function(element) {
-                        parent.jQuery('#vde-translate-text').translateInlineToggle('toggleTranslateMode', 'text');
-
-                        /** @todo ACB switchClass on 'T' when inline text translation is toggled. */
-                        //parent.jQuery('#vde-translate-text').switchClass('', '');
+                        parent.jQuery('#vde-translate-text').translateInlineToggle('toggleTranslationMode', 'text');
                     }
                 });
 
                 parent.jQuery('#vde-translate-script').translateInlineToggle({
-                    frameUrl: '<?php echo $frameUrl ?>',
                     onClick: function(element) {
-                        parent.jQuery('#vde-translate-script').translateInlineToggle('toggleTranslateMode', 'script');
-
-                        /** @todo ACB switchClass on 'T' when inline script translation is toggled. */
-                        //parent.jQuery('#vde-translate-script').switchClass('', '');
+                        parent.jQuery('#vde-translate-script').translateInlineToggle('toggleTranslationMode', 'script');
                     }
                 });
 
                 parent.jQuery('#vde-translate-alt').translateInlineToggle({
-                    frameUrl: '<?php echo $frameUrl ?>',
                     onClick: function(element) {
-                        parent.jQuery('#vde-translate-alt').translateInlineToggle('toggleTranslateMode', 'alt');
-
-                        /** @todo ACB switchClass on 'T' when inline alt translation is toggled. */
-                        //parent.jQuery('#vde-translate-alt').switchClass('', '');
+                        parent.jQuery('#vde-translate-alt').translateInlineToggle('toggleTranslationMode', 'alt');
                     }
                 });
-
             });
         })(jQuery);
     </script>
