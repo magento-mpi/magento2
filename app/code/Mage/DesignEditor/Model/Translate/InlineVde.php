@@ -172,6 +172,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
                 /** todo SDW Remove this once fully implement three inline states */
                 parent.jQuery('#vde-translate').translateInlineToggle({
                     frameUrl: '<?php echo $frameUrl ?>',
+                    refreshVdeCanvas: <?php if ($this->isAllowed()): ?>false<?php else: ?>true<?php endif; ?>,
                     onClick: function(element) {
                         // Display all inline translate options, with the one selected highlighted.
                         parent.jQuery('#vde-translate').translateInlineToggle('toggleTranslateMode', 'text');
