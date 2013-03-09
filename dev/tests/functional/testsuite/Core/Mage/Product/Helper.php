@@ -918,37 +918,50 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $categoryData = explode(',', $categoryData);
             $categoryData = array_map('trim', $categoryData);
         }
-        $locator = $this->_getControlXpath(self::FIELD_TYPE_INPUT, 'general_categories');
-        $element = $this->getElement($locator);
-        $script = 'Element.prototype.documentOffsetTop = function()'
-                  . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
-                  . 'var element = document.getElementsByClassName("mage-suggest-choices");'
-                  . 'var top = element[0].documentOffsetTop() - (window.innerHeight / 2);'
-                  . 'element[0].focus();window.scrollTo( 0, top );';
-        $this->execute(array('script' => $script, 'args' => array()));
+        $qtyBeforeSelect = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
+        $this->clickControl(self::FIELD_TYPE_INPUT, 'general_categories', false);
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
         foreach ($categoryData as $categoryPath) {
+            $qtySelected = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
+            $isSelected = false;
             $explodeCategory = explode('/', $categoryPath);
-            $categoryName = end($explodeCategory);
-            $this->addParameter('categoryPath', str_replace('/', ' / ', $categoryPath));
-            $element->value($categoryName);
-            $resultElement = $this->waitForControl(self::UIMAP_TYPE_FIELDSET, 'category_search');
-            if ($this->getChildElements($resultElement, 'li', false)) {
-                $selectCategory = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'category'));
-                if ($selectCategory) {
-                    $this->moveto($selectCategory);
-                    $selectCategory->click();
-                } elseif ($this->controlIsPresent(self::FIELD_TYPE_LINK, 'selected_category')) {
-                    $element->clear();
-                    $this->clearActiveFocus($element);
+            $parentCategoryName = array_shift($explodeCategory);
+            if (empty($explodeCategory)) {
+                $this->addParameter('categoryName', $parentCategoryName);
+                $categoryElements = $this->getControlElements('link', 'root_category', null, false);
+                /** @var $element */
+                foreach ($categoryElements as $element) {
+                    $class = $this->getChildElement($element, '..')->attribute('class');
+                    if (strpos($class, 'mage-suggest-selected') !== false) {
+                        continue;
+                    }
+                    $element->click();
+                    $this->waitUntil(
+                        function ($testCase) use ($qtySelected) {
+                            /** @var Mage_Selenium_TestCase $testCase */
+                            $qty = $testCase->getControlCount('fieldset', 'chosen_category');
+                            if ($qty == $qtySelected + 1) {
+                                return true;
+                            }
+                        }, 10000
+                    );
+                    $isSelected = true;
+                    break;
+                }
+                if (!$isSelected) {
+                    $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($parentCategoryName);
+                    sleep(1); //@TODO
+                    $this->waitForAjax();
+                    if ($this->controlIsVisible('pageelement', 'no_category_found')) {
+                        $this->fail($categoryPath . ' category not found.');
+                    }
                 }
             } else {
-                $this->createNewCategory($categoryPath, true);
+                $this->markTestIncomplete('@TODO selectProductCategories()');
             }
-            $this->addParameter('categoryName', substr($categoryName, 0, 255));
-            $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_LINK, 'delete_category'),
-                'Category is not selected');
-            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'category_name');
         }
+        $this->assertEquals($qtyBeforeSelect + count($categoryData),
+            $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category'));
     }
 
     /**
