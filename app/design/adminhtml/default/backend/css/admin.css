@@ -697,7 +697,8 @@ button.primary.disabled:hover,
     color: #b2b2b2;
 }
 
-.mage-suggest input[type="search"] {
+.mage-suggest input[type="search"],
+.mage-suggest input.search {
     width: 100%;
     border: none;
     background: none;
@@ -845,7 +846,8 @@ button.primary.disabled:hover,
     border-bottom: 1px solid #e5e5e5;
 }
 
-.suggest-expandable .mage-suggest-inner > input[type="search"] {
+.suggest-expandable .mage-suggest-inner > input[type="search"],
+.suggest-expandable .mage-suggest-inner > input.search {
     position: relative;
     margin: 6px 5px 5px;
     padding-right: 20px;
@@ -1074,6 +1076,7 @@ input[type=range],
 input[type=email],
 input[type=url],
 input[type=search],
+input.search,
 input[type=tel],
 input[type=color],
 textarea,
@@ -1131,6 +1134,7 @@ input[type=range]:focus,
 input[type=email]:focus,
 input[type=url]:focus,
 input[type=search]:focus,
+input.search:focus,
 input[type=tel]:focus,
 input[type=color]:focus,
 textarea:focus,
