@@ -31,6 +31,7 @@ class Mage_DesignEditor_Block_Page_Html_HeadTest extends PHPUnit_Framework_TestC
     public function testGetCssJsHtml(array $sourceItems, array $vdeItems = null, array $expectedItems = null)
     {
         $helper = new Magento_Test_Helper_ObjectManager($this);
+        $assets = new Mage_Page_Model_GroupedAssets(new Mage_Core_Model_Page);
         if ($vdeItems !== null) {
             /** @var $vdeHead Mage_DesignEditor_Block_Page_Html_Head_Vde */
             $vdeHead = $helper->getBlock('Mage_DesignEditor_Block_Page_Html_Head_Vde');
@@ -43,10 +44,10 @@ class Mage_DesignEditor_Block_Page_Html_HeadTest extends PHPUnit_Framework_TestC
 
             $this->_model = $helper->getBlock(
                 'Mage_DesignEditor_Block_Page_Html_Head',
-                array('layout' => $layoutMock)
+                array('layout' => $layoutMock, 'assets' => $assets)
             );
         } else {
-            $this->_model = $helper->getBlock('Mage_DesignEditor_Block_Page_Html_Head');
+            $this->_model = $helper->getBlock('Mage_DesignEditor_Block_Page_Html_Head', array('assets' => $assets));
         }
         $this->_model->setData('items', $sourceItems);
 

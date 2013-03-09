@@ -115,45 +115,55 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($parentTheme));
 
         return array(
-            array($themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeSimple, $file, null, 'module_view_dir/area51/test.txt'),
-            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeCustomized, $file, null, 'module_view_dir/area51/test.txt'),
-            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/test.txt',
-                'design_dir/area51/theme_path/test.txt'
+            'no theme' => array(
+                $themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'
             ),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/theme_path/Mage_Core11/test.txt'
+            'no theme and non-existent module file' => array(
+                $themeSimple, $file, null, 'module_view_dir/area51/test.txt'
             ),
-            array($customizedPhysical, $file, 'module_view_dir/area51/test.txt',
-                'module_view_dir/area51/test.txt'
+            'theme with non-existent file' => array($themeCustomized, $file, null, 'module_view_dir/area51/test.txt'),
+            'theme file exists' => array(
+                $themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'
             ),
-            array($customizedPhysical, $file, null, 'module_view_dir/area51/test.txt'),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
+            'custom theme' => array($customizedPhysical, $file, null, 'module_view_dir/area51/test.txt'),
+            'theme inherited' => array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
                 'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+            'theme inherited with module file in the theme' => array(
+                $themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeInherited, $file, null, 'module_view_dir/area51/test.txt'),
-            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
+            'theme inherited, file not found in theme' => array(
+                $themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'
+            ),
+            'theme inherited with non-existent file' => array(
+                $themeInherited, $file, null, 'module_view_dir/area51/test.txt'
+            ),
+            'custom inherited theme with custom file' => array(
+                $themeComplicated, $file, null, 'module_view_dir/area51/test.txt'
+            ),
+            'custom inherited theme with theme file' => array(
+                $themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
                 'design_dir/area51/theme_path/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/test.txt',
+            'custom inherited theme with parent theme file' => array(
+                $themeComplicated, $file, 'design_dir/area51/parent_theme_path/test.txt',
                 'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
+            'custom inherited theme with module file in theme' => array(
+                $themeComplicated, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+            'custom inherited theme with module file in parent theme' => array(
+                $themeComplicated, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeComplicated, $file, null, 'module_view_dir/area51/test.txt'),
+            'custom inherited theme with file existing in module' => array(
+                $themeComplicated, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'
+            ),
+            'custom inherited theme with non-existent file' => array(
+                $themeComplicated, $file, null, 'module_view_dir/area51/test.txt'
+            ),
         );
     }
 
@@ -267,33 +277,37 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($parentThemeInherited));
 
         return array(
-            array($themeSimple, $file, null, ''),
-            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeCustomized, $file, null, 'custom/test.txt'),
-            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+            'no theme' => array($themeSimple, $file, null, ''),
+            'custom virtual theme' => array($themeCustomized, $file, null, ''),
+            'custom physical theme, no file found' => array($customizedPhysical, $file, null,
+                'design_dir/area51/theme_path/locale/en_EN/test.txt'),
+            'inherited theme' => array($themeInherited, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
+            ),
+            'inherited theme, no file found' => array(
+                $themeInherited, $file, null, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
+            ),
+            'custom inherited theme with theme file' => array($themeComplicated, $file,
+                'design_dir/area51/theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($customizedPhysical, $file, null, 'design_dir/area51/theme_path/locale/en_EN/test.txt'),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+            'custom inherited theme with file in parent theme' => array($themeComplicated, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInherited, $file, null, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'),
-            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+            'custom inherited theme, no file found' => array($themeComplicated, $file, null,
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'),
+            'twice inherited theme with file in parent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, null, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt',
+            'twice inherited theme with file in grandparent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, null, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'),
+            'twice inherited theme, no file found' => array($themeInheritedTwice, $file, null,
+                'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'),
         );
     }
 
@@ -436,119 +450,151 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($parentThemeInherited));
 
         return array(
-            array($themeSimple, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            'no theme, module localized file exists' => array($themeSimple, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeSimple, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeSimple, $file, null, 'js_dir/test.txt'),
-            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeCustomized, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            'no theme, module file exists' => array($themeSimple, $file, 'module_view_dir/area51/test.txt',
+                'module_view_dir/area51/test.txt'),
+            'no theme, file exists in pub lib dir' => array($themeSimple, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            'no theme, no file found' => array($themeSimple, $file, null, 'js_dir/test.txt'),
+            'custom virtual theme' => array($themeCustomized, $file, null, 'js_dir/test.txt'),
+            'custom virtual theme, module localized file exists' => array($themeCustomized, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeCustomized, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeCustomized, $file, null, 'js_dir/test.txt'),
-            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+            'custom virtual theme, module file exists' => array($themeCustomized, $file,
+                'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            'custom virtual theme, file exists in pub lib dir' => array($themeCustomized, $file, 'js_dir/test.txt',
+                'js_dir/test.txt'),
+            'custom virtual theme, no file found' => array($themeCustomized, $file, null, 'js_dir/test.txt'),
+            'custom physical theme, no file found' => array($customizedPhysical, $file, null, 'js_dir/test.txt'),
+            'custom physical theme with localized theme file' => array($customizedPhysical, $file,
+                'design_dir/area51/theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/test.txt',
-                'design_dir/area51/theme_path/test.txt'
-            ),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
+            'custom physical theme with theme file' => array($customizedPhysical, $file,
+                'design_dir/area51/theme_path/test.txt', 'design_dir/area51/theme_path/test.txt'),
+            'custom physical theme with localized module file in theme' => array($customizedPhysical, $file,
+                'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
+            'custom physical theme with module file in theme' => array($customizedPhysical, $file,
+                'design_dir/area51/theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
-            array($customizedPhysical, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            'custom physical theme with localized module file' => array($customizedPhysical, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($customizedPhysical, $file, 'module_view_dir/area51/test.txt',
-                'module_view_dir/area51/test.txt'
-            ),
-            array($customizedPhysical, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($customizedPhysical, $file, null, 'js_dir/test.txt'),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+            'custom physical theme with module file' => array($customizedPhysical, $file,
+                'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            'custom physical theme with file in pub lib dir' => array($customizedPhysical, $file, 'js_dir/test.txt',
+                'js_dir/test.txt'),
+            'inherited theme with localized file in parent theme' => array($themeInherited, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
+            'inherited theme with file in parent theme' => array($themeInherited, $file,
+                'design_dir/area51/parent_theme_path/test.txt',
                 'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
+            'inherited theme with localized module file in parent theme' => array($themeInherited, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+            'inherited theme' => array($themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeInherited, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            'inherited theme with localized module file' => array($themeInherited, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeInherited, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeInherited, $file, null, 'js_dir/test.txt'),
-            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+            'inherited theme with module file' => array($themeInherited, $file, 'module_view_dir/area51/test.txt',
+                'module_view_dir/area51/test.txt'),
+            'inherited theme with file in pub lib dir' => array($themeInherited, $file, 'js_dir/test.txt',
+                'js_dir/test.txt'),
+            'inherited theme, no file found' => array($themeInherited, $file, null, 'js_dir/test.txt'),
+            'custom inherited theme' => array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
-                'design_dir/area51/theme_path/test.txt'),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+            'custom inherited theme with theme file' => array($themeComplicated, $file,
+                'design_dir/area51/theme_path/test.txt', 'design_dir/area51/theme_path/test.txt'),
+            'custom inherited theme with localized file in parent theme' => array($themeComplicated, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/test.txt',
+            'custom inherited theme with file in parent theme' => array($themeComplicated, $file,
+                'design_dir/area51/parent_theme_path/test.txt',
                 'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
+            'custom inherited theme with localized module file in theme' => array($themeComplicated, $file,
+                'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
+            'custom inherited theme with module file in theme' => array($themeComplicated, $file,
+                'design_dir/area51/theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
+            'custom inherited theme with localized module file in parent theme' => array($themeComplicated, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+            'custom inherited theme with module file in parent theme' => array($themeComplicated, $file,
+                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeComplicated, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            'custom inherited theme with localized module file' => array($themeComplicated, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeComplicated, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeComplicated, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeComplicated, $file, null, 'js_dir/test.txt'),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
+            'custom inherited theme with module file' => array($themeComplicated, $file,
+                'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            'custom inherited theme with file in pub lib dir' => array($themeComplicated, $file, 'js_dir/test.txt',
+                'js_dir/test.txt'),
+            'custom inherited theme, no file found' => array($themeComplicated, $file, null, 'js_dir/test.txt'),
+            'theme inherited twice with localized file in parent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/test.txt',
+            'theme inherited twice with file in parent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/parent_theme_path/test.txt',
                 'design_dir/area51/parent_theme_path/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt',
+            'theme inherited twice with localized file in grandparent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/test.txt',
+            'theme inherited twice with file in grandparent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/grand_parent_theme_path/test.txt',
                 'design_dir/area51/grand_parent_theme_path/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
+            'theme inherited twice with localized module file in parent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+            'theme inherited twice with module file in pareent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeInheritedTwice, $file,
+            'theme inherited twice with localized module file in grandparent theme' => array($themeInheritedTwice,
+                $file,
                 'design_dir/area51/grand_parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
                 'design_dir/area51/grand_parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt',
+            'theme inherited twice with module file in grandparent theme' => array($themeInheritedTwice, $file,
+                'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            'theme inherited twice with localized module file' => array($themeInheritedTwice, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeInheritedTwice, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeInheritedTwice, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeInheritedTwice, $file, null, 'js_dir/test.txt'),
+            'theme inherited twice with module file' => array($themeInheritedTwice, $file,
+                'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            'theme inherited twice with file in pub lib dir' => array($themeInheritedTwice, $file, 'js_dir/test.txt',
+                'js_dir/test.txt'),
+            'theme inherited twice, no file found' => array($themeInheritedTwice, $file, null, 'js_dir/test.txt'),
         );
     }
 
