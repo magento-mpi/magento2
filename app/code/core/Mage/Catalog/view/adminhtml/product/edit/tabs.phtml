@@ -29,11 +29,11 @@
         </h3>
         <ul <?php echo $this->getUiId('tab', $tabGroupId) ?> class="tabs">
             <?php foreach ($tabs as $_tab): ?>
-            <?php if (!$this->canShowTab($_tab) || $_tab->getGroupCode() != $tabGroupCode): continue; endif;?>
+            <?php if (!$this->canShowTab($_tab) || $_tab->getGroupCode() != $tabGroupCode || $_tab->getParentTab()): continue; endif;?>
             <?php $_tabClass = 'tab-item-link ' . $this->getTabClass($_tab) . ' ' . (preg_match('/\s?ajax\s?/', $_tab->getClass()) ? 'notloaded' : '') ?>
             <?php $_tabType = (!preg_match('/\s?ajax\s?/', $_tabClass) && $this->getTabUrl($_tab) != '#') ? 'link' : '' ?>
             <?php $_tabHref = $this->getTabUrl($_tab) == '#' ? '#' . $this->getTabId($_tab) . '_content' : $this->getTabUrl($_tab) ?>
-            <li <?php if ($this->getTabIsHidden($_tab)): ?> style="display:none"<?php endif; ?><?php echo $this->getUiId('tab', 'item', $_tab->getId()) ?>>
+            <li <?php if ($this->getTabIsHidden($_tab)): ?> class="no-display"<?php endif; ?><?php echo $this->getUiId('tab', 'item', $_tab->getId()) ?>>
                 <a href="<?php echo $_tabHref ?>" id="<?php echo $this->getTabId($_tab) ?>"
                    name="<?php echo $this->getTabId($_tab, false) ?>" title="<?php echo $this->getTabTitle($_tab) ?>"
                    class="<?php echo $_tabClass;?>"
@@ -45,9 +45,16 @@
                         <?php echo $this->escapeHtml($this->getTabLabel($_tab)); ?>
                     </span>
                 </a>
-                <div id="<?php echo $this->getTabId($_tab) ?>_content"
-                     style="display:none"<?php echo $this->getUiId('tab', 'content', $_tab->getId()) ?>>
-                    <?php echo $this->getTabContent($_tab) ?>
+                <div id="<?php echo $this->getTabId($_tab) ?>_content" class="no-display"
+                     <?php echo $this->getUiId('tab', 'content', $_tab->getId()) ?>>
+                    <?php echo $this->getTabContent($_tab); ?>
+                    <?php foreach ($tabs as $childTab): ?>
+                        <?php if ($childTab->getParentTab() === $_tab->getId()):?>
+                            <div id="<?php echo $this->getTabId($childTab) ?>_content"
+                                <?php echo $this->getUiId('tab', 'content', $childTab->getId()) ?>>
+                            <?php echo $this->getTabContent($childTab); ?>
+                        <?php endif;?>
+                    <?php endforeach; ?>
                 </div>
             </li>
             <?php endforeach; ?>
