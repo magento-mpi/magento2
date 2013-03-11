@@ -30,9 +30,13 @@ class Mage_Core_Model_Asset_ViewFile
      * @param Mage_Core_Model_Design_Package $designPackage
      * @param string $file
      * @param string $contentType
+     * @throws InvalidArgumentException
      */
     public function __construct(Mage_Core_Model_Design_Package $designPackage, $file, $contentType)
     {
+        if (empty($file)) {
+            throw new InvalidArgumentException("Parameter 'file' must not be empty");
+        }
         $this->_designPackage = $designPackage;
         $this->_file = $file;
         $this->_contentType = $contentType;

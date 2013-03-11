@@ -220,11 +220,14 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 $groupAssets = $this->_assetMergeService->getMergedAssets($groupAssets, $contentType);
             }
 
+            if (!empty($attributes)) {
+                $attributes = ' ' . $attributes;
+            }
             if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
                 if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS) {
-                    $attributes = ' rel="stylesheet" type="text/css" ' . ($attributes ?: 'media="all"');
+                    $attributes = ' rel="stylesheet" type="text/css"' . ($attributes ?: ' media="all"');
                 }
                 $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";
             }
