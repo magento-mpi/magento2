@@ -23,7 +23,7 @@ $filePatterns = array(
     'view' => '/\/view\/[a-z0-9A-Z\/\.]*\.xml$/',
     'design' => '/\/app\/design\/[a-z0-9A-Z\/\.]*\.xml$/',
 );
-$codeScanDir = $rootDir . '/app';
+$codeScanDir = realpath($rootDir . '/app');
 $compilationDirs = array(
     $rootDir . '/app/code',
     $rootDir . '/lib/Magento',
@@ -36,20 +36,18 @@ $compiledFile = $rootDir . '/var/di/definitions.php';
 try {
     $opt = new Zend_Console_Getopt(array(
         'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
+        'verbose|v' => 'output report after tool run',
         'extra-data=s' => 'path to file with extra data',
     ));
     $opt->parse();
-    $log = new Log(new Writer\Console());
-    if ($opt->getOption('serializer') == 'binary') {
-        $serializer = new Serializer\Igbinary();
-    } else {
-        $serializer = new Serializer\Standard();
-    }
+    $writer = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
+    $log = new Log($writer);
+    $serializer = ($opt->getOption('serializer') == 'binary') ? new Serializer\Igbinary() : new Serializer\Standard();
 
-    // Code generation
-    // 1. Code scan
+    // 1 Code generation
+    // 1.1 Code scan
     $directoryScanner = new Scanner\DirectoryScanner();
-    $files = $directoryScanner->scan($rootDir . DIRECTORY_SEPARATOR . 'app', $filePatterns);
+    $files = $directoryScanner->scan($codeScanDir, $filePatterns);
     $files['additional'] = array($opt->getOption('extra-data'));
     $entities = array();
 
@@ -62,7 +60,7 @@ try {
     $scanner->addChild(new Scanner\ArrayScanner(), 'additional');
     $entities = $scanner->collectEntities($files);
 
-    // 2. Generation
+    // 1.2 Generation
     $generator = new Magento_Di_Generator();
     foreach ($entities as $entityName) {
         switch ($generator->generateClass($entityName)) {
@@ -81,7 +79,8 @@ try {
         }
     }
 
-    // 3. Compilation
+    // 2. Compilation
+    // 2.1 Code scan
     $directoryCompiler = new Directory($log);
     foreach ($compilationDirs as $path) {
         if (is_readable($path)) {
@@ -89,6 +88,7 @@ try {
         }
     }
 
+    // 2.2 Compression
     $compressor = new Compressor($serializer);
     $output = $compressor->compress($directoryCompiler->getResult());
     if (!file_exists(dirname($compiledFile))) {
