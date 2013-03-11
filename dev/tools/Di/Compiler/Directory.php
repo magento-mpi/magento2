@@ -7,25 +7,53 @@
  */
 namespace Magento\Tools\Di\Compiler;
 use Zend\Code\Scanner\FileScanner,
-    Magento\Tools\Di\Definition\Reader;
+    Magento\Tools\Di\Definition\Reader,
+    Magento\Tools\Di\Compiler\Log\Log;
 
 class Directory {
 
     /**
      * @var array
      */
-    protected $_processedClasses;
+    protected $_processedClasses = array();
 
     /**
      * @var array
      */
-    protected $_definitions;
+    protected $_definitions = array();
+
+    /**
+     * @var string
+     */
+    protected $_current;
+
+    /**
+     * @var Log
+     */
+    protected $_log;
+
+    /**
+     * @param Log $log
+     */
+    public function __construct(Log $log)
+    {
+        $this->_log = $log;
+        set_error_handler(array($this, 'errorHandler'), E_STRICT);
+    }
+
+    /**
+     * @param int $errno
+     * @param string $errstr
+     */
+    public function errorHandler($errno, $errstr)
+    {
+        $this->_log->log(Log::COMPILATION_ERROR, $this->_current, $errstr);
+    }
 
     /**
      * @param string $path
-     * @param Log\Log $log
      */
-    public function compile($path, Log\Log $log)
+    public function compile($path)
     {
         $rdi = new \RecursiveDirectoryIterator(realpath($path));
         $recursiveIterator = new \RecursiveIteratorIterator($rdi,1);
@@ -35,15 +63,15 @@ class Directory {
                 $fileScanner = new FileScanner($item->getRealPath());
                 $classNames = $fileScanner->getClassNames();
                 foreach ($classNames as $className) {
-                    if (isset($this->_processedClasses[$className])) {
-                        continue;
+                    $this->_current = $className;
+                    if (!class_exists($className)) {
+                        require_once $item->getRealPath();
                     }
-                    require_once $item->getRealPath();
                     try {
                         $signatureReader = new Reader();
                         $this->_definitions[$className] = $signatureReader->read($className);
                     } catch (\ReflectionException $e) {
-                        $log->log(Log\Log::COMPILATION_ERROR, $className, $e->getMessage());
+                        $this->_log->log(Log::COMPILATION_ERROR, $className, $e->getMessage());
                     }
                     $this->_processedClasses[$className] = 1;
                 }

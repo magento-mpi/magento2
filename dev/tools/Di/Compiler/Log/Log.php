@@ -37,6 +37,8 @@ class Log
     }
 
     /**
+     * Add log entry
+     *
      * @param string $type
      * @param string $className
      * @param string $message

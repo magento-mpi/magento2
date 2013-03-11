@@ -5,6 +5,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
+namespace Magento\Tools\Di\Definition\Compressor;
+
 class UniqueList
 {
     /**

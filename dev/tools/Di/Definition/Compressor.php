@@ -7,19 +7,30 @@
  */
 namespace Magento\Tools\Di\Definition;
 
-
 class Compressor
 {
+    /**
+     * @var Serializer\SerializerInterface
+     */
     protected $_serializer;
 
-    public function __construct(Serializer $serializer)
+    /**
+     * @param Serializer\SerializerInterface $serializer
+     */
+    public function __construct(Serializer\SerializerInterface $serializer)
     {
         $this->_serializer = $serializer;
     }
 
+    /**
+     * Compress array definitions
+     *
+     * @param array $definitions
+     * @return mixed
+     */
     public function compress($definitions)
     {
-        $signatureList = new UniqueList();
+        $signatureList = new Compressor\UniqueList();
         $resultDefinitions = array();
         foreach ($definitions as $className => $definition) {
             $resultDefinitions[$className] = null;

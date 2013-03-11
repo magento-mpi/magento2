@@ -16,5 +16,5 @@ interface SerializerInterface
      * @param mixed $data
      * @return string
      */
-    public function serialzie($data);
+    public function serialize($data);
 }

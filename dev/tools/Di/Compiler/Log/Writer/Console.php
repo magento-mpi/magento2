@@ -33,7 +33,9 @@ class Console implements WriterInterface
                 echo "\t" . $className . "\n";
                 if (count($messages)) {
                     foreach ($messages as $message) {
-                        echo "\t\t - " . $message . "\n";
+                        if ($message) {
+                            echo "\t\t - " . $message . "\n";
+                        }
                     }
                 }
             }

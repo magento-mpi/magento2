@@ -7,9 +7,15 @@
  */
 namespace Magento\Tools\Di\Definition\Serializer;
 
-
-class Standard implements SerializerInterface
+class Igbinary implements SerializerInterface
 {
+    public function __construct()
+    {
+        if (!function_exists('igbinary_serialize')) {
+            throw new \LogicException('Igbinary extension not loaded');
+        }
+    }
+
     /**
      * Serialize input data
      *
@@ -18,6 +24,6 @@ class Standard implements SerializerInterface
      */
     public function serialize($data)
     {
-        return serialize($data);
+        return igbinary_serialize($data);
     }
 }
