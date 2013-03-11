@@ -284,7 +284,7 @@
         .on('click.hideTourPopup', function(e) {
             $('#action-toggle-site-tour-mode')
                 .removeClass('active')
-                .attr('title','Start Tour');
+                .attr('title', 'Start Tour');
         });
 
     // Back to storelauncher
@@ -336,14 +336,15 @@
 
     // Toggle store tour mode
     $('#action-toggle-site-tour-mode')
-        .on('click.toggleStoreTourMode', function () {
-            var elem = $(this);
+        .on('click.toggleStoreTourMode', function() {
+            var elem = $(this),
+                storeTourWrapper = $('#store-tour-wrapper');
 
             if (!elem.hasClass('active')) {
                 elem
                     .addClass('active')
-                    .attr('title','Exit Tour');
-                $('#store-tour-wrapper').fadeIn(400, function() {
+                    .attr('title', 'Exit Tour');
+                storeTourWrapper.fadeIn(400, function() {
                     $('#store-tour-welcome-popup').animate({
                         top: '50%'
                     });
@@ -351,13 +352,13 @@
             } else {
                 elem
                     .removeClass('active')
-                    .attr('title','Start Tour');
+                    .attr('title', 'Start Tour');
 
-                $('#store-tour-wrapper')
+                storeTourWrapper
                     .add('#store-tour-tags')
                     .add('#store-tour-hint')
                     .fadeOut();
-                closeStoreTourDescriptions()();
+                closeStoreTourDescriptions();
             }
         });
 
@@ -414,15 +415,18 @@
     }
 
     $(window)
-        .resize(function(){
-            delay && clearTimeout(delay);
-            var delay = setTimeout(function(){
-                var tourContent = $('[class^="store-tour-data"]').filter('.active'),
-                    tourDataClass = tourContent.find('.store-tour-demo-content').data('tour-original'),
-                    tourData = $(tourDataClass).not('.store-tour-demo-content');
-
-                storeTourDataPosition(tourContent, tourData)
-            }, 100);
+        .resize(function() {
+            if ($('[class^="store-tour-data"]').hasClass('active')) {
+                delay && clearTimeout(delay);
+                var delay = setTimeout(function() {
+                    var tourContent = $('[class^="store-tour-data"]').filter('.active'),
+                        tourDataClass = tourContent
+                                            .find('.store-tour-demo-content')
+                                            .data('tour-original'),
+                        tourData = $(tourDataClass).not('.store-tour-demo-content');
+                    storeTourDataPosition(tourContent, tourData);
+                }, 100);
+            }
         });
 
     // Close store tour description
