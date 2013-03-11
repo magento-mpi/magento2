@@ -139,7 +139,7 @@ final class Mage
      *
      * @var string|null
      */
-    static private $_appMode = null;
+    static private $_appMode = self::APP_MODE_DEFAULT;
 
     /**
      * Is allow throw Exception about headers already sent
