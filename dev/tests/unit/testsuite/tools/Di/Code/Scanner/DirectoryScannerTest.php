@@ -45,18 +45,18 @@ class Magento_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Framewo
                 $this->_testDir . '/app/code/Mage/SomeModule/Model/Test.php',
             ),
             'config' => array(
-                    $this->_testDir . '/app/code/Mage/SomeModule/etc/adminhtml/system.xml',
-                    $this->_testDir . '/app/code/Mage/SomeModule/etc/config.xml'
+                $this->_testDir . '/app/code/Mage/SomeModule/etc/adminhtml/system.xml',
+                $this->_testDir . '/app/code/Mage/SomeModule/etc/config.xml'
             ),
             'view' => array(
-                    $this->_testDir . '/app/code/Mage/SomeModule/view/frontend/layout.xml',
+                $this->_testDir . '/app/code/Mage/SomeModule/view/frontend/layout.xml',
             ),
             'design' => array(
-                    $this->_testDir . '/app/design/adminhtml/default/backend/layout.xml',
+                $this->_testDir . '/app/design/adminhtml/default/backend/layout.xml',
             ),
             'etc' => array(
-                    $this->_testDir . '/app/etc/additional.xml',
-                    $this->_testDir . '/app/etc/config.xml',
+                $this->_testDir . '/app/etc/additional.xml',
+                $this->_testDir . '/app/etc/config.xml',
             ),
         );
         $this->assertEquals(sort($expected['php']), sort($actual['php']), 'Incorrect php files list');
