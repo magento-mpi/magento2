@@ -48,7 +48,6 @@ class FileScanner
             }
         }
         $output = array_unique($output);
-        sort($output);
         return $output;
     }
 }

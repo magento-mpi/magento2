@@ -34,13 +34,11 @@ class Directory {
            if ($item->isFile() && pathinfo($item->getRealPath(), PATHINFO_EXTENSION) == 'php') {
                 $fileScanner = new FileScanner($item->getRealPath());
                 $classNames = $fileScanner->getClassNames();
-                if (count($classNames)) {
-                    require_once $item->getRealPath();
-                }
                 foreach ($classNames as $className) {
                     if (isset($this->_processedClasses[$className])) {
                         continue;
                     }
+                    require_once $item->getRealPath();
                     try {
                         $signatureReader = new Reader();
                         $this->_definitions[$className] = $signatureReader->read($className);

@@ -9,7 +9,6 @@
  */
 
 require __DIR__ . '/../bootstrap.php';
-require __DIR__ . '/../bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../');
 use Magento\Tools\Di\Compiler\Log\Log,
     Magento\Tools\Di\Compiler\Log\Writer,
@@ -49,6 +48,7 @@ $paths = array(
     $rootDir . '/lib/Magento',
     $rootDir . '/lib/Mage',
     $rootDir . '/lib/Varien',
+    $rootDir . '/var/generation'
 );
 
 $directoryCompiler = new Directory();
