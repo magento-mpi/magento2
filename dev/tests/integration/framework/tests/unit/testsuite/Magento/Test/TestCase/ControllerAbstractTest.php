@@ -15,6 +15,14 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
 
     protected function setUp()
     {
+        if (!Mage::getObjectManager()) {
+            Mage::setObjectManager(
+                new Magento_Test_ObjectManager(
+                    new Magento_ObjectManager_Definition_Runtime(),
+                    $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false)
+                )
+            );
+        }
         parent::setUp();
 
         // emulate session messages

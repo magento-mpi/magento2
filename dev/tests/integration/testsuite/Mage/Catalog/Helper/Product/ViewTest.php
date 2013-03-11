@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require Mage::getBaseDir() . '/app/code/core/Mage/Catalog/controllers/ProductController.php';
+require Mage::getBaseDir() . '/app/code/Mage/Catalog/controllers/ProductController.php';
 
 class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 {

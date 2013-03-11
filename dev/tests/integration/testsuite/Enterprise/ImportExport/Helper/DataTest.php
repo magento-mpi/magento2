@@ -14,28 +14,16 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * @var Enterprise_ImportExport_Helper_Data
      */
-    protected static $_importExportHelper;
+    protected $_importExportHelper;
 
     /**
      * Set import/export helper
      *
      * @static
      */
-    public static function setUpBeforeClass()
+    protected function setUp()
     {
-        parent::setUpBeforeClass();
-
-        self::$_importExportHelper = Mage::helper('Enterprise_ImportExport_Helper_Data');
-    }
-
-    /**
-     * Unset helper
-     *
-     * @static
-     */
-    public static function tearDownAfterClass()
-    {
-        self::$_importExportHelper = null;
+        $this->_importExportHelper = Mage::helper('Enterprise_ImportExport_Helper_Data');
     }
 
     /**
@@ -46,7 +34,7 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testIsRewardPointsEnabledActiveEnabled()
     {
-        $this->assertTrue(self::$_importExportHelper->isRewardPointsEnabled());
+        $this->assertTrue($this->_importExportHelper->isRewardPointsEnabled());
     }
 
     /**
@@ -57,7 +45,7 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testIsRewardPointsEnabledActiveDisabled()
     {
-        $this->assertFalse(self::$_importExportHelper->isRewardPointsEnabled());
+        $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }
 
     /**
@@ -68,7 +56,7 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testIsRewardPointsEnabledInactiveEnabled()
     {
-        $this->assertFalse(self::$_importExportHelper->isRewardPointsEnabled());
+        $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }
 
     /**
@@ -79,7 +67,7 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testIsRewardPointsEnabledInactiveDisabled()
     {
-        $this->assertFalse(self::$_importExportHelper->isRewardPointsEnabled());
+        $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }
 
     /**
@@ -90,7 +78,7 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testisCustomerBalanceEnabledActiveEnabled()
     {
-        $this->assertTrue(self::$_importExportHelper->isCustomerBalanceEnabled());
+        $this->assertTrue($this->_importExportHelper->isCustomerBalanceEnabled());
     }
 
     /**
@@ -101,7 +89,7 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testisCustomerBalanceEnabledActiveDisabled()
     {
-        $this->assertFalse(self::$_importExportHelper->isCustomerBalanceEnabled());
+        $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }
 
     /**
@@ -112,7 +100,7 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testisCustomerBalanceEnabledInactiveEnabled()
     {
-        $this->assertFalse(self::$_importExportHelper->isCustomerBalanceEnabled());
+        $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }
 
     /**
@@ -123,6 +111,6 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testisCustomerBalanceEnabledInactiveDisabled()
     {
-        $this->assertFalse(self::$_importExportHelper->isCustomerBalanceEnabled());
+        $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }
 }

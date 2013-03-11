@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../../app/code/core/Mage/Core/functions.php';
+require __DIR__ . '/../../../../app/code/Mage/Core/functions.php';
 require __DIR__ . '/../../../../app/autoload.php';
 Magento_Autoload_IncludePath::addIncludePath(array(
     __DIR__,
     realpath(__DIR__ . '/../testsuite'),
     realpath(__DIR__ . '/../../../../app'),
-    realpath(__DIR__ . '/../../../../app/code/core'),
+    realpath(__DIR__ . '/../../../../app/code'),
     realpath(__DIR__ . '/../../../../lib'),
 ));
 define('BP', realpath(__DIR__ . '/../../../../'));

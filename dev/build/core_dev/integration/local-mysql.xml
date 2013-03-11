@@ -18,7 +18,6 @@
         <crypt>
             <key><![CDATA[k-k-k-k-k]]></key>
         </crypt>
-        <disable_local_modules>false</disable_local_modules>
         <resources>
             <db>
                 <table_prefix><![CDATA[{{db_table_prefix}}]]></table_prefix>

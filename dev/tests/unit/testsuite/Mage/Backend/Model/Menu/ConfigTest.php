@@ -18,7 +18,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_configMock;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cacheInstanceMock;
 
@@ -91,7 +91,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnCallback(array($this, 'get')));
 
-        $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+        $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
 
         $this->_directorDomMock = $this->getMock('Mage_Backend_Model_Menu_Director_Dom', array(), array(), '', false);
 

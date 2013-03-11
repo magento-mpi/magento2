@@ -35,7 +35,7 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
     }
 
     /**
-     * Covers app/code/core/Mage/Checkout/Block/Onepage/Payment/Info.php
+     * Covers app/code/Mage/Checkout/Block/Onepage/Payment/Info.php
      */
     public function testProgressAction()
     {
