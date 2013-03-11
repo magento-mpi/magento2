@@ -10,6 +10,20 @@
 class Mage_Core_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
 {
     /**
+     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(Mage_Core_Model_Config_Primary $config, Magento_ObjectManager $objectManager = null)
+    {
+        try {
+            parent::__construct($config, $objectManager);
+        } catch (Magento_BootstrapException $e) {
+            header('Content-Type: text/plain', true, 503);
+            die($e->getMessage());
+        }
+    }
+
+    /**
      * Run http application
      */
     public function processRequest()
