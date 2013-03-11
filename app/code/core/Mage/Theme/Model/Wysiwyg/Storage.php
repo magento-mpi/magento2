@@ -95,7 +95,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $result = $uploader->save($targetPath);
 
         if (!$result) {
-            Mage::throwException($this->_helper->__('Cannot upload file.') );
+            throw new Mage_Core_Exception($this->_helper->__('Cannot upload file.') );
         }
 
         $this->_createThumbnail(
@@ -158,7 +158,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
     public function createFolder($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            Mage::throwException($this->_helper->__('Invalid folder name.'));
+            throw new Mage_Core_Exception($this->_helper->__('Invalid folder name.'));
         }
         if (!$this->_filesystem->isWritable($path)) {
             $path = $this->_helper->getStorageRoot();
@@ -167,7 +167,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $newPath = $path . Magento_Filesystem::DIRECTORY_SEPARATOR . $name;
 
         if ($this->_filesystem->has($newPath)) {
-            Mage::throwException($this->_helper->__('A directory with the same name already exists.'));
+            throw new Mage_Core_Exception($this->_helper->__('A directory with the same name already exists.'));
         }
 
         $this->_filesystem->ensureDirectoryExists($newPath);
@@ -217,7 +217,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
     public function getDirsCollection($currentPath)
     {
         if (!$this->_filesystem->has($currentPath)) {
-            Mage::throwException($this->_helper->__('A directory with the name not exists.'));
+            throw new Mage_Core_Exception($this->_helper->__('A directory with the name not exists.'));
         }
 
         $paths = $this->_filesystem->searchKeys($currentPath, '*');
@@ -291,7 +291,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $pathCmp = rtrim($path, Magento_Filesystem::DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
-            Mage::throwException($this->_helper->__('Cannot delete root directory %s.', $path));
+            throw new Mage_Core_Exception($this->_helper->__('Cannot delete root directory %s.', $path));
         }
 
         return $this->_filesystem->delete($path);

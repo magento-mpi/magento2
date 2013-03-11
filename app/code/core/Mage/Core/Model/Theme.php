@@ -573,7 +573,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Get one of theme domain models
      *
      * @param int|null $type
-     * @return Mage_Core_Model_Theme_Domain_Physical|Mage_Core_Model_Theme_Domain_Virtual|Mage_Core_Model_Theme_Domain_Staging
+     * @return mixed
      * @throws Mage_Core_Exception
      */
     public function getDomainModel($type = null)

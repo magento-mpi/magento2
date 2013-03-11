@@ -63,9 +63,10 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider booleanCasesDataProvider
      * @covers Mage_Theme_Model_Wysiwyg_Storage::createFolder
      */
-    public function testCreateFolder()
+    public function testCreateFolder($isWritable)
     {
         $newDirectoryName = 'dir1';
         $fullNewPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
@@ -73,7 +74,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->once())
             ->method('isWritable')
             ->with($this->_storageRoot)
-            ->will($this->returnValue(true));
+            ->will($this->returnValue($isWritable));
 
         $this->_filesystem->expects($this->once())
             ->method('has')
@@ -113,6 +114,38 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::createFolder
+     * @expectedException Mage_Core_Exception
+     */
+    public function testCreateFolderWithInvalidName()
+    {
+        $newDirectoryName = 'dir2!#$%^&';
+        $this->_storageModel->createFolder($newDirectoryName, $this->_storageRoot);
+    }
+
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::createFolder
+     * @expectedException Mage_Core_Exception
+     */
+    public function testCreateFolderDirectoryAlreadyExist()
+    {
+        $newDirectoryName = 'mew';
+        $fullNewPath = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
+
+        $this->_filesystem->expects($this->once())
+            ->method('isWritable')
+            ->with($this->_storageRoot)
+            ->will($this->returnValue(true));
+
+        $this->_filesystem->expects($this->once())
+            ->method('has')
+            ->with($fullNewPath)
+            ->will($this->returnValue(true));
+
+        $this->_storageModel->createFolder($newDirectoryName, $this->_storageRoot);
+    }
+
+    /**
      * @covers Mage_Theme_Model_Wysiwyg_Storage::getDirsCollection
      */
     public function testGetDirsCollection()
@@ -137,6 +170,20 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->assertEquals($dirs, $this->_storageModel->getDirsCollection($this->_storageRoot));
+    }
+
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::getDirsCollection
+     * @expectedException Mage_Core_Exception
+     */
+    public function testGetDirsCollectionWrongDirName()
+    {
+        $this->_filesystem->expects($this->once())
+            ->method('has')
+            ->with($this->_storageRoot)
+            ->will($this->returnValue(false));
+
+        $this->_storageModel->getDirsCollection($this->_storageRoot);
     }
 
     /**
@@ -311,5 +358,28 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             ->with($directoryPath);
 
         $this->_storageModel->deleteDirectory($directoryPath);
+    }
+
+    /**
+     * @covers Mage_Theme_Model_Wysiwyg_Storage::deleteDirectory
+     * @expectedException Mage_Core_Exception
+     */
+    public function testDeleteRootDirectory()
+    {
+        $directoryPath = $this->_storageRoot;
+
+        $this->_helperStorage->expects($this->atLeastOnce())
+            ->method('getStorageRoot')
+            ->will($this->returnValue($this->_storageRoot));
+
+        $this->_storageModel->deleteDirectory($directoryPath);
+    }
+
+    public function booleanCasesDataProvider()
+    {
+        return array(
+            array(true),
+            array(false)
+        );
     }
 }
