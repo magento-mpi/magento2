@@ -13,44 +13,12 @@ require __DIR__ . '/../bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../');
 use Magento\Tools\Di\Compiler\Log\Log,
     Magento\Tools\Di\Compiler\Log\Writer,
+    Magento\Tools\Di\Compiler\Directory,
     Magento\Tools\Di\Code\Scanner,
-    Zend\Code\Scanner\FileScanner;
+    Magento\Tools\Di\Definition\Compressor,
+    Magento\Tools\Di\Definition\Serializer;
 
 $log = new Log(new Writer\Console());
-
-// Code compilation
-$paths = array(
-    $rootDir . '/app/code',
-    $rootDir . '/lib/Magento',
-    $rootDir . '/lib/Mage',
-    $rootDir . '/lib/Varien',
-);
-$def = array();
-$prevDir = null;
-$processedClasses = array();
-foreach ($paths as $path) {
-    $rdi = new RecursiveDirectoryIterator(realpath($path));
-    $recursiveIterator = new RecursiveIteratorIterator($rdi,1);
-    /** @var $item SplFileInfo */
-    foreach ($recursiveIterator as $item) {
-        if ($recursiveIterator->getDepth() == 2 && $prevDir != $item->getPath()) {
-            echo "                                                                                                                                                \r";
-            echo "Compiling directory " . $item->getPath() . "\r";
-            $prevDir = $item->getPath();
-        }
-
-/** @var $reporter Magento\Tools\Di\ReporterInterface */
-
-switch($opt->getOption('report')) {
-    case 'xml':
-        $reporter = new Di\Reporter\Xml();
-        break;
-
-    case 'console':
-    default:
-        $reporter = new Di\Reporter\Console();
-        break;
-}
 
 // Code generation
 // 1. Code scan
@@ -69,46 +37,35 @@ $entities = array_merge($codeScanner->collectEntities(), $configScanner->collect
 $generator = new Magento_Code_Generator();
 foreach ($entities as $entityName) {
     if ($generator->generate($entityName)) {
-        $reporter->addSuccess($entityName);
+        $log->log(Log::GENERATION_SUCCESS, $entityName);
     } else {
-        $reporter->addError($entityName);
-        if ($item->isFile() && pathinfo($item->getRealPath(), PATHINFO_EXTENSION) == 'php') {
-            $fileScanner = new FileScanner($item->getRealPath());
-            $classNames = $fileScanner->getClassNames();
-            if (count($classNames)) {
-                require_once $item->getRealPath();
-            }
-            foreach ($classNames as $className) {
-                if (isset($processedClasses[$className])) {
-                    continue;
-                }
-                try {
-                    $class = new ReflectionClass($className);
-                    $def[$className] = null;
-                    $constructor = $class->getConstructor();
-                    if ($constructor) {
-                        $def[$className] = array();
-                        /** @var $parameter ReflectionParameter */
-                        foreach ($constructor->getParameters() as $parameter) {
-                            $def[$className][] = array(
-                                $parameter->getName(),
-                                ($parameter->getClass() !== null) ? $parameter->getClass()->getName() : null,
-                                !$parameter->isOptional(),
-                                $parameter->isOptional() ? $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null : null
-                            );
-                        }
-                    }
-                } catch (ReflectionException $e) {
-                    $log->log(Log::COMPILATION_ERROR, $className, $e->getMessage());
-                }
-                $processedClasses[$className] = 1;
-            }
-        }
+        $log->log(Log::GENERATION_ERROR, $entityName);
     }
 }
 
 // Code compilation
+$paths = array(
+    $rootDir . '/app/code',
+    $rootDir . '/lib/Magento',
+    $rootDir . '/lib/Mage',
+    $rootDir . '/lib/Varien',
+);
 
+$directoryCompiler = new Directory();
+foreach ($paths as $path) {
+    $directoryCompiler->compile($path, $log);
+}
+
+$serializer = new Serializer\Standard();
+$compressor = new Compressor($serializer);
+$output = $compressor->compress($directoryCompiler->getResult());
+
+if (!file_exists(BP . '/var/di/')) {
+    mkdir(BP . '/var/di', 0777, true);
+}
+
+$dirs = $objectManager->get('Mage_Core_Model_Dir');
+$fileName = $dirs->getDir(Mage_Core_Model_Dir::DI) . '/definitions.php';
+file_put_contents($fileName, $output);
 //Reporter
 $log->report();
-

@@ -35,11 +35,8 @@ class UniqueList
      *
      * @return array
      */
-    public function asArray($serializer)
+    public function asArray()
     {
-        foreach ($this->_items as &$item) {
-            $item = $serializer($item);
-        }
         return $this->_items;
     }
 }
