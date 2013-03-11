@@ -28,8 +28,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Weight extends Mage_Eav_Model
      */
     public function validate($object)
     {
-        $filterOptions = array('options' => array('min_range' => 0));
-        if (!filter_var($object->getData('weight'), FILTER_VALIDATE_INT, $filterOptions)) {
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        $value = $object->getData($attrCode);
+        if (!empty($value) && !Zend_Validate::is($value, 'Between', array('min' => 0, 'max' => 99999999.9999))) {
             Mage::throwException(
                 Mage::helper('Mage_Catalog_Helper_Data')->__('Please enter a number 0 or greater in this field.')
             );

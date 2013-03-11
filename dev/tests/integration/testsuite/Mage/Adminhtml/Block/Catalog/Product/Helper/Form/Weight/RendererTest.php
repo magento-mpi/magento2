@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $type
@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
         $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $currentProduct->setTypeInstance(Mage::getObjectManager()->create($type));
 
-        $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer();
+        $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight();
 
         $form = new Varien_Data_Form();
         $form->setDataObject($currentProduct);
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_RendererTest exten
         $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $currentProduct->setTypeInstance(Mage::getObjectManager()->create($type));
 
-        $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer();
+        $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight();
 
         $form = new Varien_Data_Form();
         $form->setDataObject($currentProduct);
