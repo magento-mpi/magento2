@@ -586,12 +586,10 @@ class Mage_Core_Model_Locale
             if ($separatorComa > $separatorDot) {
                 $value = str_replace('.', '', $value);
                 $value = str_replace(',', '.', $value);
-            }
-            else {
+            } else {
                 $value = str_replace(',', '', $value);
             }
-        }
-        elseif ($separatorComa !== false) {
+        } elseif ($separatorComa !== false) {
             $value = str_replace(',', '.', $value);
         }
 
@@ -660,9 +658,9 @@ class Mage_Core_Model_Locale
             $this->_emulatedLocales[] = clone $this->getLocale();
             $this->_locale = new Zend_Locale(Mage::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE, $storeId));
             $this->_localeCode = $this->_locale->toString();
-            Mage::getSingleton('Mage_Core_Model_Translate')->setLocale($this->_localeCode)->init('frontend', true);
-        }
-        else {
+
+            $this->_initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_FRONTEND, true);
+        } else {
             $this->_emulatedLocales[] = false;
         }
     }
@@ -677,7 +675,8 @@ class Mage_Core_Model_Locale
         if ($locale) {
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
-            Mage::getSingleton('Mage_Core_Model_Translate')->setLocale($this->_localeCode)->init('adminhtml', true);
+
+            $this->_initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_ADMINHTML, true);
         }
     }
 
@@ -708,10 +707,10 @@ class Mage_Core_Model_Locale
         return $this->getLocale()->getTranslation($value, $path, $this->getLocale());
     }
 
-/**
+    /**
      * Returns the localized country name
      *
-     * @param  string             $value  Name to get detailed information about
+     * @param  $value string Name to get detailed information about
      * @return array
      */
     public function getCountryTranslation($value)
@@ -753,13 +752,39 @@ class Mage_Core_Model_Locale
 
         $result = false;
         if (!is_empty_date($dateFrom) && $storeTimeStamp < $fromTimeStamp) {
-        }
-        elseif (!is_empty_date($dateTo) && $storeTimeStamp > $toTimeStamp) {
-        }
-        else {
+        } elseif (!is_empty_date($dateTo) && $storeTimeStamp > $toTimeStamp) {
+        } else {
             $result = true;
         }
-
         return $result;
+    }
+
+    /**
+     * This method initializes the Translate object for this instance.
+     * @param $localeCode string
+     * @param $area string
+     * @param $forceReload bool
+     */
+    protected function _initTranslate($localeCode, $area, $forceReload)
+    {
+        /** @var $objectManager Mage_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+
+        /** @var $config Mage_Core_Model_Translate_Config */
+        $config = $objectManager->get('Mage_Core_Model_Translate_Config');
+        $config->setInlineType(null);
+        $config->addParam(Mage_Core_Model_App_Area::PARAM_AREA, $area);
+        $config->setForceReload($forceReload);
+
+        /** @var $translate Mage_Core_Model_Translate */
+        $translate = $objectManager->get('Mage_Core_Model_Translate');
+        $translate->setLocale($localeCode);
+
+        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch('translate_initialization_before', array(
+            'translate_object' => $translate,
+            'result' => $this->_translateConfig
+        ));
+        $translate->init($config);
     }
 }

@@ -26,6 +26,11 @@ class Mage_Core_Model_App_Area
     const PART_DESIGN   = 'design';
 
     /**
+     * Area parameter.
+     */
+    const PARAM_AREA = 'area';
+
+    /**
      * Array of area loaded parts
      *
      * @var array
@@ -66,6 +71,12 @@ class Mage_Core_Model_App_Area
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
+
+    /**
+     * Translate config
+     * @var Mage_Core_Model_Translate_Config
+     */
+    protected $_translateConfig;
 
     /**
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -215,15 +226,38 @@ class Mage_Core_Model_App_Area
 
     }
 
+    /**
+     * Initialize events.
+     *
+     * @return Mage_Core_Model_App_Area
+     */
     protected function _initEvents()
     {
         $this->_eventManager->addEventArea($this->_code);
         return $this;
     }
 
+    /**
+     * Initialize translate object.
+     *
+     * @return Mage_Core_Model_App_Area
+     */
     protected function _initTranslate()
     {
-        $this->_translator->init($this->_code);
+        /** @var $objectManager Mage_ObjectManager */
+        $objectManager = $this->_objectManager;
+
+        /** @var _translateConfig Mage_Core_Model_Translate_Config */
+        $this->_translateConfig = $objectManager->get('Mage_Core_Model_Translate_Config');
+        $this->_translateConfig->setInlineType(null);
+        $this->_translateConfig->addParam(self::PARAM_AREA, $this->_code);
+
+        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch('translate_initialization_before', array(
+            'translate_object' => $objectManager->get('Mage_Core_Model_Translate'),
+            'result' => $this->_translateConfig
+        ));
+        $this->_translator->init($this->_translateConfig);
         return $this;
     }
 

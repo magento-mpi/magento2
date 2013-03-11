@@ -156,28 +156,21 @@ class Mage_Core_Model_Translate
     /**
      * Initialization translation data
      *
-     * @param string $area
-     * @param bool $forceReload
+     * @param Mage_Core_Model_Translate_Config $translateConfig
      * @return Mage_Core_Model_Translate
      */
-    public function init($area, $forceReload = false)
+    public function init($translateConfig)
     {
+        $area = $translateConfig->getArea();
+        $forceReload = $translateConfig->getForceReload();
+
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
-        $dispatchResult = new Varien_Object(array(
-             'inline_type' => null,
-             'params' => array('area' => $area)
-        ));
-        $eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $this,
-            'result' => $dispatchResult
-        ));
-
         $this->_translateObject = $this->_translateFactory
-            ->create($dispatchResult->getParams(), $dispatchResult->getInlineType());
+            ->createFromConfig($translateConfig);
 
-        $this->_translateInline = $this->_translateObject->isAllowed($area == 'adminhtml' ? 'admin' : null);
+        $this->_translateInline = $this->_translateObject->isAllowed(
+            $area == Mage_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
             if ($this->_canUseCache()) {
@@ -568,14 +561,10 @@ class Mage_Core_Model_Translate
      */
     protected function _isEmptyTranslateArg($text)
     {
-        if (is_string($text) && '' == $text
-            || is_null($text)
-            || is_bool($text) && false === $text
-            || is_object($text) && '' == $text->getText()
-        ) {
-            return true;
+        if (is_object($text) && is_callable(array($text, 'getText'))) {
+            $text = $text->getText();
         }
-        return false;
+        return empty($text);
     }
 
     /**
