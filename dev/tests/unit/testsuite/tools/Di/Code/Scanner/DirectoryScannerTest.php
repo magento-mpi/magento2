@@ -38,32 +38,31 @@ class Magento_Tools_Di_Code_Scanner_DirectoryScannerTest extends PHPUnit_Framewo
 
         $actual = $this->_model->scan($this->_testDir, $filePatterns);
         $expected = array(
-            'php' =>
-            array(
+            'php' => array(
                 $this->_testDir . '/additional.php',
                 $this->_testDir . '/app/bootstrap.php',
                 $this->_testDir . '/app/code/Mage/SomeModule/Helper/Test.php',
                 $this->_testDir . '/app/code/Mage/SomeModule/Model/Test.php',
             ),
-            'config' =>
-                array(
+            'config' => array(
                     $this->_testDir . '/app/code/Mage/SomeModule/etc/adminhtml/system.xml',
                     $this->_testDir . '/app/code/Mage/SomeModule/etc/config.xml'
-                ),
-            'view' =>
-                array(
+            ),
+            'view' => array(
                     $this->_testDir . '/app/code/Mage/SomeModule/view/frontend/layout.xml',
-                ),
-            'design' =>
-                array(
+            ),
+            'design' => array(
                     $this->_testDir . '/app/design/adminhtml/default/backend/layout.xml',
-                ),
-            'etc' =>
-                array(
+            ),
+            'etc' => array(
                     $this->_testDir . '/app/etc/additional.xml',
                     $this->_testDir . '/app/etc/config.xml',
-                ),
+            ),
         );
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals(sort($expected['php']), sort($actual['php']), 'Incorrect php files list');
+        $this->assertEquals(sort($expected['config']), sort($actual['config']), 'Incorrect config files list');
+        $this->assertEquals(sort($expected['view']), sort($actual['view']), 'Incorrect view files list');
+        $this->assertEquals(sort($expected['design']), sort($actual['design']), 'Incorrect design files list');
+        $this->assertEquals(sort($expected['etc']), sort($actual['etc']), 'Incorrect etc files list');
     }
 }
