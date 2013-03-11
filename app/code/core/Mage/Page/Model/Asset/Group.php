@@ -24,7 +24,17 @@ class Mage_Page_Model_Asset_Group extends Mage_Core_Model_Asset_Collection
     }
 
     /**
-     * Retrieve value of a property
+     * Retrieve values of all properties
+     *
+     * @return array()
+     */
+    public function getProperties()
+    {
+        return $this->_properties;
+    }
+
+    /**
+     * Retrieve value of an individual property
      *
      * @param string $name
      * @return mixed|null
