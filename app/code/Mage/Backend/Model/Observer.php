@@ -90,6 +90,4 @@ class Mage_Backend_Model_Observer
 
         return $this;
     }
-
-
 }

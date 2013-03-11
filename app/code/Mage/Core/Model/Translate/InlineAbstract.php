@@ -135,29 +135,35 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     /**
      * Parse and save edited translate
      *
-     * @param array $translate
+     * @param array $translateParams
      * @return Mage_Core_Model_Translate_Inline
      */
-    public function processAjaxPost($translate)
+    public function processAjaxPost($translateParams)
     {
         if (!$this->isAllowed()) {
             return $this;
         }
 
+        /** @var $objectManager Magento_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+
         /* @var $resource Mage_Core_Model_Resource_Translate_String */
-        $resource = Mage::getResourceModel('Mage_Core_Model_Resource_Translate_String');
-        /** @todo fix variable name ACB */
-        foreach ($translate as $t) {
-            if (Mage::getDesign()->getArea() == 'adminhtml') {
+        $resource = $objectManager->get('Mage_Core_Model_Resource_Translate_String');
+
+        /** @var $validStoreId int */
+        $validStoreId = $objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getId();
+
+        foreach ($translateParams as $param) {
+            if (Mage::getDesign()->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
                 $storeId = 0;
-            } else if (empty($t['perstore'])) {
-                $resource->deleteTranslate($t['original'], null, false);
+            } else if (empty($param['perstore'])) {
+                $resource->deleteTranslate($param['original'], null, false);
                 $storeId = 0;
             } else {
-                $storeId = Mage::app()->getStore()->getId();
+                $storeId = $validStoreId;
             }
 
-            $resource->saveTranslate($t['original'], $t['custom'], null, $storeId);
+            $resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
         }
 
         return $this;
@@ -174,7 +180,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     {
         $this->_setIsJson($isJson);
         if (!$this->isAllowed()) {
-            if (Mage::getDesign()->getArea() == 'adminhtml') {
+            if (Mage::getDesign()->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
                 $this->stripInlineTranslations($body);
             }
             return $this;
@@ -207,15 +213,19 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
             return;
         }
 
-        if (Mage::app()->getStore()->isAdmin()) {
-            $urlPrefix = 'adminhtml';
-            $urlModel = Mage::getModel('Mage_Backend_Model_Url');
+        /** @var $objectManager Magento_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+
+        $store = $objectManager->get('Mage_Core_Model_StoreManager')->getStore();
+        if ($store->isAdmin()) {
+            $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
+            $urlModel = $objectManager->get('Mage_Backend_Model_Url');
         } else {
             $urlPrefix = 'core';
-            $urlModel = Mage::getModel('Mage_Core_Model_Url');
+            $urlModel = $objectManager->get('Mage_Core_Model_Url');
         }
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
-            array('_secure' => Mage::app()->getStore()->isCurrentlySecure()));
+            array('_secure' => $store->isCurrentlySecure()));
         $trigImg = Mage::getDesign()->getViewFileUrl('Mage_Core::fam_book_open.png');
 
         ob_start();
@@ -301,16 +311,16 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     {
         $trArr = array();
         $next = 0;
-        while (preg_match($regexp, $text, $m, PREG_OFFSET_CAPTURE, $next)) {
+        while (preg_match($regexp, $text, $matches, PREG_OFFSET_CAPTURE, $next)) {
             $trArr[] = json_encode(array(
-                'shown' => $m[1][0],
-                'translated' => $m[2][0],
-                'original' => $m[3][0],
-                'location' => call_user_func($locationCallback, $m, $options),
-                'scope' => $m[4][0],
+                'shown' => $matches[1][0],
+                'translated' => $matches[2][0],
+                'original' => $matches[3][0],
+                'location' => call_user_func($locationCallback, $matches, $options),
+                'scope' => $matches[4][0],
             ));
-            $text = substr_replace($text, $m[1][0], $m[0][1], strlen($m[0][0]));
-            $next = $m[0][1];
+            $text = substr_replace($text, $matches[1][0], $matches[0][1], strlen($matches[0][0]));
+            $next = $matches[0][1];
         }
         return $trArr;
     }
@@ -342,17 +352,17 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
         $nextTag    = 0;
         $tagRegExp = '#<([a-z]+)\s*?[^>]+?((' . $this->_tokenRegex . ')[^>]*?)+\\\\?/?>#iS';
         while (preg_match($tagRegExp, $content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
-            $tagHtml    = $tagMatch[0][0];
-            $m          = array();
+            $tagHtml = $tagMatch[0][0];
+            $matches = array();
             $attrRegExp = '#' . $this->_tokenRegex . '#S';
             $trArr = $this->_getTranslateData($attrRegExp, $tagHtml, array($this, '_getAttributeLocation'));
             if ($trArr) {
                 $transRegExp = '# data-translate=' . $quoteHtml . '\[([^' . preg_quote($quoteHtml) . ']*)]'
                     . $quoteHtml . '#i';
-                if (preg_match($transRegExp, $tagHtml, $m)) {
-                    $tagHtml = str_replace($m[0], '', $tagHtml); //remove tra
+                if (preg_match($transRegExp, $tagHtml, $matches)) {
+                    $tagHtml = str_replace($matches[0], '', $tagHtml); //remove tra
                     $trAttr  = ' data-translate=' . $quoteHtml
-                        . htmlspecialchars('[' . $m[1] . ',' . join(',', $trArr) . ']') . $quoteHtml;
+                        . htmlspecialchars('[' . $matches[1] . ',' . join(',', $trArr) . ']') . $quoteHtml;
                 } else {
                     $trAttr  = ' data-translate=' . $quoteHtml
                         . htmlspecialchars('[' . join(',', $trArr) . ']') . $quoteHtml;
@@ -519,22 +529,21 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
         }
 
         $next = 0;
-        $m    = array();
-        while (preg_match('#' . $this->_tokenRegex . '#', $this->_content, $m, PREG_OFFSET_CAPTURE, $next)) {
+        $matches = array();
+        while (preg_match('#' . $this->_tokenRegex . '#', $this->_content, $matches, PREG_OFFSET_CAPTURE, $next)) {
             $tr = json_encode(array(
-                'shown' => $m[1][0],
-                'translated' => $m[2][0],
-                'original' => $m[3][0],
+                'shown' => $matches[1][0],
+                'translated' => $matches[2][0],
+                'original' => $matches[3][0],
                 'location' => 'Text',
-                'scope' => $m[4][0],
+                'scope' => $matches[4][0],
             ));
 
             $spanHtml = '<span data-translate=' . $quoteHtml . htmlspecialchars('[' . $tr . ']') . $quoteHtml
-                . '>' . $m[1][0] . '</span>';
-            $this->_content = substr_replace($this->_content, $spanHtml, $m[0][1], strlen($m[0][0]));
-            $next = $m[0][1] + strlen($spanHtml) - 1;
+                . '>' . $matches[1][0] . '</span>';
+            $this->_content = substr_replace($this->_content, $spanHtml, $matches[0][1], strlen($matches[0][0]));
+            $next = $matches[0][1] + strlen($spanHtml) - 1;
         }
-
     }
 
     /**

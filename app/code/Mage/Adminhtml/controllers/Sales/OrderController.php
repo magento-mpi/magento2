@@ -176,7 +176,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     /**
-     * On hold order
+     * Unhold order
      */
     public function unholdAction()
     {
@@ -396,36 +396,36 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     /**
-     * On hold selected orders
+     * Unhold selected orders
      */
     public function massUnholdAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $countOnHoldOrder = 0;
-        $countNonOnHoldOrder = 0;
+        $countUnHoldOrder = 0;
+        $countNonUnHoldOrder = 0;
 
         foreach ($orderIds as $orderId) {
             $order = Mage::getModel('Mage_Sales_Model_Order')->load($orderId);
             if ($order->canUnhold()) {
                 $order->unhold()
                     ->save();
-                $countOnHoldOrder++;
+                $countUnHoldOrder++;
             } else {
-                $countNonOnHoldOrder++;
+                $countNonUnHoldOrder++;
             }
         }
-        if ($countNonOnHoldOrder) {
-            if ($countOnHoldOrder) {
+        if ($countNonUnHoldOrder) {
+            if ($countUnHoldOrder) {
                 $this->_getSession()->addError(
-                    $this->__('%s order(s) were not released from on hold status.', $countNonOnHoldOrder)
+                    $this->__('%s order(s) were not released from on hold status.', $countNonUnHoldOrder)
                 );
             } else {
                 $this->_getSession()->addError($this->__('No order(s) were released from on hold status.'));
             }
         }
-        if ($countOnHoldOrder) {
+        if ($countUnHoldOrder) {
             $this->_getSession()->addSuccess(
-                $this->__('%s order(s) have been released from on hold status.', $countOnHoldOrder)
+                $this->__('%s order(s) have been released from on hold status.', $countUnHoldOrder)
             );
         }
         $this->_redirect('*/*/');

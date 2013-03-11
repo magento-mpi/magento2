@@ -104,14 +104,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     protected function _isVdeRequest(Mage_Core_Controller_Request_Http $request)
     {
         // Lazy load vde indicator.
-        $helper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
         if (null === $this->_isVde) {
-            $url = trim($request->getOriginalPathInfo(), '/');
-            $vdeFrontName = $helper->getFrontName();
-            $this->_isVde = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
+            $this->_isVde = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->setVdeRequest($request);
         }
-        $helper->setVdeRequest($this->_isVde);
-
         return $this->_isVde;
     }
 

@@ -97,7 +97,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
 
         $store = $objectManager->get('Mage_Core_Model_StoreManager')->getStore();
         if ($store->isAdmin()) {
-            $urlPrefix = 'adminhtml';
+            $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
             $urlModel = $objectManager->get('Mage_Backend_Model_Url');
         } else {
             $urlPrefix = 'core';

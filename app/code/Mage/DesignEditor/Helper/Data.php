@@ -155,11 +155,18 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param $isVdeRequest
+     * This method returns an indicator of whether or not the current request is for vde.
+     *
+     * @param $request Mage_Core_Controller_Request_Http
+     * @return _isVdeRequest bool
      */
-    public function setVdeRequest($isVdeRequest)
+    public function setVdeRequest(Mage_Core_Controller_Request_Http $request)
     {
-        $this->_isVdeRequest = $isVdeRequest;
+        $url = trim($request->getOriginalPathInfo(), '/');
+        $vdeFrontName = $this->getFrontName();
+        $this->_isVdeRequest = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
+
+        return $this->_isVdeRequest;
     }
 
     /**
