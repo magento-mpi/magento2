@@ -201,30 +201,6 @@ span.required {
     border-radius: 0 4px 4px 0;
 }
 
-.field-price .addon input:focus {
-
-}
-
-.field-price .addon .addafter {
-    /*background: none;*/
-}
-
-.field-price .addon .addafter:after {
-
-}
-
-.field-price .addon .addafter strong {
-
-}
-
-.field-price .addon input {
-    /*border-left: none;*/
-}
-
-.field-price .addon input:focus + .addafter {
-
-}
-
 /*
     Field with note
 -------------------------------------- */

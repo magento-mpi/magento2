@@ -1302,12 +1302,12 @@ option.placeholder {
     border-width: 1px 0 1px 1px;
 }
 
-.addon input:focus + label {
+.addon input:focus ~ .addafter {
     border-color: #75b9f0;
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-.addon input + label strong {
+.addon input ~ .addafter strong {
     background: #fff;
     display: block;
     line-height: 24px;
@@ -1318,7 +1318,7 @@ option.placeholder {
     top: 1px;
 }
 
-.addon input:focus + label strong {
+.addon input:focus ~ .addafter strong {
     margin-top: 0;
 }
 
@@ -1331,12 +1331,12 @@ option.placeholder {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
 }
 
-.field .control input[type='text'][disabled] + .addafter {
+.field .control input[type='text'][disabled] ~ .addafter {
     background: #eee;
     border-color: #ddd;
 }
 
-.field .control input[type='text'][disabled] + .addafter strong {
+.field .control input[type='text'][disabled] ~ .addafter strong {
     background: #eee;
 }
 
@@ -1384,15 +1384,15 @@ option.placeholder {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-.field-price input:focus + label,
-.field-special_price input:focus + label,
-.field-msrp input:focus + label {
+.field-price input:focus ~ label.addafter,
+.field-special_price input:focus ~ label.addafter,
+.field-msrp input:focus ~ label.addafter {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-.field-price input + label strong,
-.field-special_price input + label strong,
-.field-msrp input + label strong {
+.field-price input ~ label.addafter strong,
+.field-special_price input ~ label.addafter strong,
+.field-msrp input ~ label.addafter strong {
     margin-left: 3px;
     margin-right: -2px;
 }
