@@ -121,7 +121,6 @@ span.required {
 .addon textarea,
 .addon select,
 .addon input {
-    display: table-cell;
     width: 100%;
     border-radius: 0;
     box-shadow: none;

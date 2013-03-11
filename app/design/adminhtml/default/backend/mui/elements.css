@@ -1012,7 +1012,7 @@ table.loading:after {
     z-index: 999;
 }
 
-.ie8 .fade {
+.eq-ie8 .fade {
     background: transparent;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #99000000, endColorstr = #99000000);
 }

@@ -193,82 +193,82 @@ button.primary.disabled,
 .action-.delete:hover,
 .action-.delete:active,
 .action-.delete.active,
-.action-.delete:disabled,
+.action-.delete[disabled],
 #product-variations-matrix .action-choose,
 #product-variations-matrix .action-choose:hover,
 #product-variations-matrix .action-choose:active,
 #product-variations-matrix .action-choose.active,
-#product-variations-matrix .action-choose:disabled,
+#product-variations-matrix .action-choose[disabled],
 .action-manage-images,
 .action-manage-images:hover,
 .action-manage-images:active,
 .action-manage-images.active,
-.action-manage-images:disabled,
+.action-manage-images[disabled],
 .mage-new-category-dialog .action-cancel,
 .mage-new-category-dialog .action-cancel:hover,
 .mage-new-category-dialog .action-cancel:active,
 .mage-new-category-dialog .action-cancel.active,
-.mage-new-category-dialog .action-cancel:disabled,
+.mage-new-category-dialog .action-cancel[disabled],
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
 .image-panel .action-close.active,
-.image-panel .action-close:disabled,
+.image-panel .action-close[disabled],
 .image-panel-controls .action-remove,
 .image-panel-controls .action-remove:hover,
 .image-panel-controls .action-remove:active,
 .image-panel-controls .action-remove.active,
-.image-panel-controls .action-remove:disabled,
+.image-panel-controls .action-remove[disabled],
 .suggest-expandable .action-show-all,
 .suggest-expandable .action-show-all:hover,
 .suggest-expandable .action-show-all:active,
 .suggest-expandable .action-show-all.active,
-.suggest-expandable .action-show-all:disabled,
+.suggest-expandable .action-show-all[disabled],
 .fieldset-wrapper-title .action-add,
 .fieldset-wrapper-title .action-add:hover,
 .fieldset-wrapper-title .action-add:active,
 .fieldset-wrapper-title .action-add.active,
-.fieldset-wrapper-title .action-add:disabled,
+.fieldset-wrapper-title .action-add[disabled],
 #store-view-window [class^='action-close'],
 #store-view-window [class^='action-close']:hover,
 #store-view-window [class^='action-close']:active,
 #store-view-window [class^='action-close'].active,
-#store-view-window [class^='action-close']:disabled,
+#store-view-window [class^='action-close'][disabled],
 .custom-file > .action-add,
 .custom-file > .action-add:hover,
 .custom-file > .action-add:active,
 .custom-file > .action-add.active,
-.custom-file > .action-add:disabled,
+.custom-file > .action-add[disabled],
 .vde-tools-header .action-close,
 .vde-tools-header .action-close:hover,
 .vde-tools-header .action-close:active,
 .vde-tools-header .action-close.active,
-.vde-tools-header .action-close:disabled,
+.vde-tools-header .action-close[disabled],
 .action-delete,
 .action-delete:hover,
 .action-delete:active,
 .action-delete.active,
-.action-delete:disabled,
+.action-delete[disabled],
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:disabled,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back[disabled],
 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
 [class^=" adminhtml-newsletter-"] .page-actions .action-back.active,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back:disabled,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back[disabled],
 .notifications [class^="action-"],
 .notifications [class^="action-"]:hover,
 .notifications [class^="action-"]:active,
 .notifications [class^="action-"].active,
-.notifications [class^="action-"]:disabled,
+.notifications [class^="action-"][disabled],
 .notification .action-close,
 .notification .action-close:hover,
 .notification .action-close:active,
 .notification .action-close.active,
-.notification .action-close:disabled {
+.notification .action-close[disabled] {
     border: none;
     border-radius: 0;
     background: none;
@@ -591,7 +591,7 @@ button.primary.disabled,
 .suggest-expandable .action-show-all:hover,
 .suggest-expandable .action-show-all:active,
 .suggest-expandable .action-show-all:focus,
-.suggest-expandable .action-show-all:disabled {
+.suggest-expandable .action-show-all[disabled] {
     border-top: 1px solid #e5e5e5;
     display: block;
     width: 100%;
@@ -1331,12 +1331,12 @@ option.placeholder {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
 }
 
-.field .control input[type='text']:disabled + .addafter {
+.field .control input[type='text'][disabled] + .addafter {
     background: #eee;
     border-color: #ddd;
 }
 
-.field .control input[type='text']:disabled + .addafter strong {
+.field .control input[type='text'][disabled] + .addafter strong {
     background: #eee;
 }
 

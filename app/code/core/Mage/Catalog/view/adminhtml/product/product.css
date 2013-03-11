@@ -433,7 +433,7 @@
 }
 
 .field-weight .control .field:first-child {
-    width: 36%;
+    width: 36.1%;
     margin-right: 15px;
 }
 
@@ -550,7 +550,7 @@
 
 #product-variations-matrix .action-choose,
 #product-variations-matrix .action-choose:hover,
-#product-variations-matrix .action-choose:disabled {
+#product-variations-matrix .action-choose[disabled] {
     color: #b8b3a7;
     float: right;
     margin: 6px 0 0 5px;
