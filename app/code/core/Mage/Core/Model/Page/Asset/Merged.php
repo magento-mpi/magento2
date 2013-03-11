@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Asset_Merged implements Mage_Core_Model_Asset_AssetInterface
+class Mage_Core_Model_Page_Asset_Merged implements Mage_Core_Model_Page_Asset_AssetInterface
 {
     /**
      * @var array
@@ -59,10 +59,12 @@ class Mage_Core_Model_Asset_Merged implements Mage_Core_Model_Asset_AssetInterfa
         if (!$assets) {
             throw new InvalidArgumentException('At least one asset has to be passed for merging.');
         }
-        /** @var $asset Mage_Core_Model_Asset_MergeInterface */
+        /** @var $asset Mage_Core_Model_Page_Asset_MergeableInterface */
         foreach ($assets as $asset) {
-            if (!($asset instanceof Mage_Core_Model_Asset_MergeInterface)) {
-                throw new InvalidArgumentException('Asset has to implement Mage_Core_Model_Asset_MergeInterface.');
+            if (!($asset instanceof Mage_Core_Model_Page_Asset_MergeableInterface)) {
+                throw new InvalidArgumentException(
+                    'Asset has to implement Mage_Core_Model_Page_Asset_MergeableInterface.'
+                );
             }
             if (!$this->_contentType) {
                 $this->_contentType = $asset->getContentType();

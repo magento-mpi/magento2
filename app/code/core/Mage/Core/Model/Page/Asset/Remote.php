@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Asset_Remote implements Mage_Core_Model_Asset_AssetInterface
+class Mage_Core_Model_Page_Asset_Remote implements Mage_Core_Model_Page_Asset_AssetInterface
 {
     /**
      * @var string

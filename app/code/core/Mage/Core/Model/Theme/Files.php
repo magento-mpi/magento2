@@ -195,13 +195,13 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @return Mage_Core_Model_Asset_AssetInterface
+     * @return Mage_Core_Model_Page_Asset_AssetInterface
      */
     public function getAsset()
     {
         if ($this->hasContent()) {
             return $this->_objectManager->create(
-                'Mage_Core_Model_Asset_MediaFile',
+                'Mage_Core_Model_Page_Asset_PublicFile',
                 array('file' => $this->getFullPath(), 'contentType' => $this->getFileType()),
                 false
             );

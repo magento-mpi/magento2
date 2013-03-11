@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Page_Model_Asset_Group extends Mage_Core_Model_Asset_Collection
+class Mage_Page_Model_Asset_PropertyGroup extends Mage_Core_Model_Page_Asset_Collection
 {
     /**
      * @var array

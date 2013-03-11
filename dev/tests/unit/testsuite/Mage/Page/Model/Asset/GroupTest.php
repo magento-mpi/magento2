@@ -12,13 +12,13 @@
 class Mage_Page_Model_Asset_GroupTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Page_Model_Asset_Group
+     * @var Mage_Page_Model_Asset_PropertyGroup
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Mage_Page_Model_Asset_Group(array('test_property' => 'test_value'));
+        $this->_object = new Mage_Page_Model_Asset_PropertyGroup(array('test_property' => 'test_value'));
     }
 
     public function testGetProperties()

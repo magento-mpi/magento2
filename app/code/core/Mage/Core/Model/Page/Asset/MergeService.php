@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Page_AssetMergeService
+class Mage_Core_Model_Page_Asset_MergeService
 {
     /**#@+
      * XPaths where merging configuration resides
@@ -68,7 +68,7 @@ class Mage_Core_Model_Page_AssetMergeService
         $isJsMergeEnabled = $this->_getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
         if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
             $assets = array(
-                $this->_objectManager->create('Mage_Core_Model_Asset_Merged', array('assets' => $assets), false)
+                $this->_objectManager->create('Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets), false)
             );
         }
         return $assets;

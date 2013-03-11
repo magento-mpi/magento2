@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Asset_Collection
+class Mage_Core_Model_Page_Asset_Collection
 {
     /**
-     * @var Mage_Core_Model_Asset_AssetInterface[]
+     * @var Mage_Core_Model_Page_Asset_AssetInterface[]
      */
     private $_assets = array();
 
@@ -19,10 +19,10 @@ class Mage_Core_Model_Asset_Collection
      * Add an instance, identified by a unique identifier, to the list
      *
      * @param string $identifier
-     * @param Mage_Core_Model_Asset_AssetInterface $asset
+     * @param Mage_Core_Model_Page_Asset_AssetInterface $asset
      * @throws LogicException
      */
-    public function add($identifier, Mage_Core_Model_Asset_AssetInterface $asset)
+    public function add($identifier, Mage_Core_Model_Page_Asset_AssetInterface $asset)
     {
         $this->_assets[$identifier] = $asset;
     }
@@ -40,7 +40,7 @@ class Mage_Core_Model_Asset_Collection
     /**
      * Retrieve all items in the collection
      *
-     * @return Mage_Core_Model_Asset_AssetInterface[]
+     * @return Mage_Core_Model_Page_Asset_AssetInterface[]
      */
     public function getAll()
     {

@@ -29,7 +29,7 @@ class Mage_Core_Model_Observer
     private $_themeFiles;
 
     /**
-     * @var Mage_Core_Model_Asset_Collection
+     * @var Mage_Core_Model_Page_Asset_Collection
      */
     private $_pageAssets;
 

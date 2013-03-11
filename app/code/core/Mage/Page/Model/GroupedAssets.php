@@ -18,7 +18,7 @@ class Mage_Page_Model_GroupedAssets
     /**#@-*/
 
     /**
-     * @var Mage_Core_Model_Asset_Collection
+     * @var Mage_Core_Model_Page_Asset_Collection
      */
     private $_assets;
 
@@ -39,10 +39,10 @@ class Mage_Page_Model_GroupedAssets
      * Add asset with optional properties
      *
      * @param string $identifier
-     * @param Mage_Core_Model_Asset_AssetInterface $asset
+     * @param Mage_Core_Model_Page_Asset_AssetInterface $asset
      * @param array $properties
      */
-    public function addAsset($identifier, Mage_Core_Model_Asset_AssetInterface $asset, array $properties = array())
+    public function addAsset($identifier, Mage_Core_Model_Page_Asset_AssetInterface $asset, array $properties = array())
     {
         $this->_assets->add($identifier, $asset);
         $this->_properties[$identifier] = $properties;
@@ -62,22 +62,22 @@ class Mage_Page_Model_GroupedAssets
     /**
      * Retrieved assets, grouping ones that have the same properties
      *
-     * @return Mage_Page_Model_Asset_Group[]
+     * @return Mage_Page_Model_Asset_PropertyGroup[]
      */
     public function groupByProperties()
     {
         $result = array();
-        /** @var $asset Mage_Core_Model_Asset_AssetInterface */
+        /** @var $asset Mage_Core_Model_Page_Asset_AssetInterface */
         foreach ($this->_assets->getAll() as $assetId => $asset) {
             $properties = isset($this->_properties[$assetId]) ? $this->_properties[$assetId] : array();
             $properties[self::PROPERTY_CONTENT_TYPE] = $asset->getContentType();
-            $properties[self::PROPERTY_CAN_MERGE] = (int)($asset instanceof Mage_Core_Model_Asset_MergeInterface);
+            $properties[self::PROPERTY_CAN_MERGE] = $asset instanceof Mage_Core_Model_Page_Asset_MergeableInterface;
             $groupId = serialize($properties);
             if (isset($result[$groupId])) {
-                /** @var $group Mage_Page_Model_Asset_Group */
+                /** @var $group Mage_Page_Model_Asset_PropertyGroup */
                 $group = $result[$groupId];
             } else {
-                $group = new Mage_Page_Model_Asset_Group($properties);
+                $group = new Mage_Page_Model_Asset_PropertyGroup($properties);
                 $result[$groupId] = $group;
             }
             $group->add($assetId, $asset);

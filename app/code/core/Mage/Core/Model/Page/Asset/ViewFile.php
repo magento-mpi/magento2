@@ -8,8 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Asset_ViewFile
-    implements Mage_Core_Model_Asset_AssetInterface, Mage_Core_Model_Asset_MergeInterface
+class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_MergeableInterface
 {
     /**
      * @var Mage_Core_Model_Design_Package

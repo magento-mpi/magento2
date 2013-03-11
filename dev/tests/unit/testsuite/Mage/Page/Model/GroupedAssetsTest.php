@@ -17,23 +17,23 @@ class Mage_Page_Model_GroupedAssetsTest extends PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var Mage_Core_Model_Asset_AssetInterface
+     * @var Mage_Core_Model_Page_Asset_AssetInterface
      */
     protected $_asset;
 
     /**
-     * @var Mage_Core_Model_Asset_Collection
+     * @var Mage_Core_Model_Page_Asset_Collection
      */
     protected $_pageAssets;
 
     protected function setUp()
     {
-        $this->_pageAssets = new Mage_Core_Model_Asset_Collection();
+        $this->_pageAssets = new Mage_Core_Model_Page_Asset_Collection();
         $page = $this->getMock('Mage_Core_Model_Page', array('getAssets'));
         $page->expects($this->once())->method('getAssets')->will($this->returnValue($this->_pageAssets));
 
         $this->_object = new Mage_Page_Model_GroupedAssets($page);
-        $this->_asset = new Mage_Core_Model_Asset_Remote('http://127.0.0.1/magento/test.css');
+        $this->_asset = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test.css');
         $this->_object->addAsset('asset', $this->_asset);
     }
 
@@ -47,9 +47,9 @@ class Mage_Page_Model_GroupedAssetsTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInternalType('array', $actualGroupObjects);
         $actualGroups = array();
-        /** @var $actualGroup Mage_Page_Model_Asset_Group */
+        /** @var $actualGroup Mage_Page_Model_Asset_PropertyGroup */
         foreach ($actualGroupObjects as $actualGroup) {
-            $this->assertInstanceOf('Mage_Page_Model_Asset_Group', $actualGroup);
+            $this->assertInstanceOf('Mage_Page_Model_Asset_PropertyGroup', $actualGroup);
             $actualGroups[] = array(
                 'properties' => $actualGroup->getProperties(),
                 'assets' => $actualGroup->getAll(),
@@ -60,7 +60,7 @@ class Mage_Page_Model_GroupedAssetsTest extends PHPUnit_Framework_TestCase
 
     public function testAddAsset()
     {
-        $assetNew = new Mage_Core_Model_Asset_Remote('http://127.0.0.1/magento/test_new.css');
+        $assetNew = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test_new.css');
         $this->_object->addAsset('asset_new', $assetNew, array('test_property' => 'test_value'));
         $this->assertEquals(array('asset' => $this->_asset, 'asset_new' => $assetNew), $this->_pageAssets->getAll());
     }
@@ -73,9 +73,9 @@ class Mage_Page_Model_GroupedAssetsTest extends PHPUnit_Framework_TestCase
 
     public function testGroupByProperties()
     {
-        $cssAsset = new Mage_Core_Model_Asset_Remote('http://127.0.0.1/style.css', 'css');
-        $jsAsset = new Mage_Core_Model_Asset_Remote('http://127.0.0.1/script.js', 'js');
-        $jsAssetAllowingMerge = $this->getMockForAbstractClass('Mage_Core_Model_Asset_MergeInterface');
+        $cssAsset = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/style.css', 'css');
+        $jsAsset = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/script.js', 'js');
+        $jsAssetAllowingMerge = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_MergeableInterface');
         $jsAssetAllowingMerge->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
 
         // assets with identical properties should be grouped together
@@ -96,19 +96,19 @@ class Mage_Page_Model_GroupedAssetsTest extends PHPUnit_Framework_TestCase
 
         $expectedGroups = array(
             array(
-                'properties' => array('content_type' => 'unknown', 'can_merge' => 0),
+                'properties' => array('content_type' => 'unknown', 'can_merge' => false),
                 'assets' => array('asset' => $this->_asset),
             ),
             array(
-                'properties' => array('property' => 'test_value', 'content_type' => 'css', 'can_merge' => 0),
+                'properties' => array('property' => 'test_value', 'content_type' => 'css', 'can_merge' => false),
                 'assets' => array('css_asset_one' => $cssAsset, 'css_asset_two' => $cssAsset),
             ),
             array(
-                'properties' => array('property' => 'different_value', 'content_type' => 'css', 'can_merge' => 0),
+                'properties' => array('property' => 'different_value', 'content_type' => 'css', 'can_merge' => false),
                 'assets' => array('css_asset_three' => $cssAsset),
             ),
             array(
-                'properties' => array('property' => 'test_value', 'content_type' => 'js', 'can_merge' => 0),
+                'properties' => array('property' => 'test_value', 'content_type' => 'js', 'can_merge' => false),
                 'assets' => array('js_asset_one' => $jsAsset),
             ),
             array(
@@ -116,12 +116,12 @@ class Mage_Page_Model_GroupedAssetsTest extends PHPUnit_Framework_TestCase
                     'property' => 'test_value',
                     'unique_property' => 'unique_value',
                     'content_type' => 'js',
-                    'can_merge' => 0,
+                    'can_merge' => false,
                 ),
                 'assets' => array('js_asset_two' => $jsAsset),
             ),
             array(
-                'properties' => array('property' => 'test_value', 'content_type' => 'js', 'can_merge' => 1),
+                'properties' => array('property' => 'test_value', 'content_type' => 'js', 'can_merge' => true),
                 'assets' => array('asset_allowing_merge' => $jsAssetAllowingMerge),
             ),
         );

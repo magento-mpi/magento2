@@ -12,7 +12,7 @@
 class Mage_Core_Model_Asset_MediaFileTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Asset_MediaFile
+     * @var Mage_Core_Model_Page_Asset_PublicFile
      */
     protected $_object;
 
@@ -26,7 +26,7 @@ class Mage_Core_Model_Asset_MediaFileTest extends PHPUnit_Framework_TestCase
         $this->_designPackage = $this->getMock(
             'Mage_Core_Model_Design_Package', array('getPublicFileUrl'), array(), '', false
         );
-        $this->_object = new Mage_Core_Model_Asset_MediaFile($this->_designPackage, 'test/style.css', 'css');
+        $this->_object = new Mage_Core_Model_Page_Asset_PublicFile($this->_designPackage, 'test/style.css', 'css');
     }
 
     public function testGetUrl()

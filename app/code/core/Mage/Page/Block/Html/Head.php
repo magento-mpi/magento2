@@ -45,7 +45,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Page_AssetMergeService
+     * @var Mage_Core_Model_Page_Asset_MergeService
      */
     private $_assetMergeService;
 
@@ -70,7 +70,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Page_AssetMergeService $assetMergeService,
+        Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
         Mage_Page_Model_GroupedAssets $assets,
         array $data = array()
     ) {
@@ -94,7 +94,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Asset_ViewFile', array('file' => (string)$name, 'contentType' => $contentType), false
+            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$name, 'contentType' => $contentType), false
         );
         $this->_assets->addAsset("$contentType/$name", $asset, array(
             'attributes'    => (string)$params,
@@ -117,7 +117,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_JS;
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Asset_ViewFile', array('file' => (string)$name, 'contentType' => $contentType), false
+            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$name, 'contentType' => $contentType), false
         );
         $this->_assets->addAsset("$contentType/$name", $asset, array(
             'attributes'    => (string)$params,
@@ -163,7 +163,9 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function addRss($title, $href)
     {
         $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
-        $asset = $this->_objectManager->create('Mage_Core_Model_Asset_Remote', array('url' => (string)$href), false);
+        $asset = $this->_objectManager->create(
+            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href), false
+        );
         $this->_assets->addAsset("link/$href", $asset, array('attributes' => $attributes));
         return $this;
     }
@@ -177,7 +179,9 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addLinkRel($rel, $href)
     {
-        $asset = $this->_objectManager->create('Mage_Core_Model_Asset_Remote', array('url' => (string)$href), false);
+        $asset = $this->_objectManager->create(
+            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href), false
+        );
         $this->_assets->addAsset("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
         return $this;
     }
@@ -203,7 +207,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getCssJsHtml()
     {
         $result = '';
-        /** @var $group Mage_Page_Model_Asset_Group */
+        /** @var $group Mage_Page_Model_Asset_PropertyGroup */
         foreach ($this->_assets->groupByProperties() as $group) {
             $contentType = $group->getProperty(Mage_Page_Model_GroupedAssets::PROPERTY_CONTENT_TYPE);
             $canMerge = $group->getProperty(Mage_Page_Model_GroupedAssets::PROPERTY_CAN_MERGE);
@@ -254,7 +258,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $result = '';
         try {
-            /** @var $asset Mage_Core_Model_Asset_AssetInterface */
+            /** @var $asset Mage_Core_Model_Page_Asset_AssetInterface */
             foreach ($assets as $asset) {
                 $result .= sprintf($template, $asset->getUrl());
             }

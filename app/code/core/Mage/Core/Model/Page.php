@@ -11,19 +11,19 @@
 class Mage_Core_Model_Page
 {
     /**
-     * @var Mage_Core_Model_Asset_Collection
+     * @var Mage_Core_Model_Page_Asset_Collection
      */
     private $_assets;
 
     public function __construct()
     {
-        $this->_assets = new Mage_Core_Model_Asset_Collection();
+        $this->_assets = new Mage_Core_Model_Page_Asset_Collection();
     }
 
     /**
      * Retrieve collection of instances
      *
-     * @return Mage_Core_Model_Asset_Collection
+     * @return Mage_Core_Model_Page_Asset_Collection
      */
     public function getAssets()
     {

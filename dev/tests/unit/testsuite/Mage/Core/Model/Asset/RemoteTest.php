@@ -12,13 +12,13 @@
 class Mage_Core_Model_Asset_RemoteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Asset_Remote
+     * @var Mage_Core_Model_Page_Asset_Remote
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Mage_Core_Model_Asset_Remote('https://127.0.0.1/magento/test/style.css', 'css');
+        $this->_object = new Mage_Core_Model_Page_Asset_Remote('https://127.0.0.1/magento/test/style.css', 'css');
     }
 
     public function testGetUrl()

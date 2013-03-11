@@ -12,7 +12,7 @@
 class Mage_Core_Model_Asset_MergedTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Asset_Merged
+     * @var Mage_Core_Model_Page_Asset_Merged
      */
     protected $_object;
 
@@ -43,11 +43,11 @@ class Mage_Core_Model_Asset_MergedTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_assetJsOne = $this->getMockForAbstractClass('Mage_Core_Model_Asset_MergeInterface');
+        $this->_assetJsOne = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_MergeableInterface');
         $this->_assetJsOne->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $this->_assetJsOne->expects($this->any())->method('getSourceFile')->will($this->returnValue('script_one.js'));
 
-        $this->_assetJsTwo = $this->getMockForAbstractClass('Mage_Core_Model_Asset_MergeInterface');
+        $this->_assetJsTwo = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_MergeableInterface');
         $this->_assetJsTwo->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $this->_assetJsTwo->expects($this->any())->method('getSourceFile')->will($this->returnValue('script_two.js'));
 
@@ -59,7 +59,7 @@ class Mage_Core_Model_Asset_MergedTest extends PHPUnit_Framework_TestCase
 
         $this->_filesystem = $this->getMock('Magento_Filesystem', array('getMTime'), array(), '', false);
 
-        $this->_object = new Mage_Core_Model_Asset_Merged(
+        $this->_object = new Mage_Core_Model_Page_Asset_Merged(
             $this->_designPackage, $this->_coreHelper, $this->_filesystem, array($this->_assetJsOne, $this->_assetJsTwo)
         );
     }
@@ -70,19 +70,19 @@ class Mage_Core_Model_Asset_MergedTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorNothingToMerge()
     {
-        $this->_object = new Mage_Core_Model_Asset_Merged(
+        $this->_object = new Mage_Core_Model_Page_Asset_Merged(
             $this->_designPackage, $this->_coreHelper, $this->_filesystem, array()
         );
     }
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Asset has to implement Mage_Core_Model_Asset_MergeInterface.
+     * @expectedExceptionMessage Asset has to implement Mage_Core_Model_Page_Asset_MergeableInterface.
      */
     public function testConstructorRequireMergeInterface()
     {
-        $assetUrl = new Mage_Core_Model_Asset_Remote('http://example.com/style.css', 'css');
-        $this->_object = new Mage_Core_Model_Asset_Merged(
+        $assetUrl = new Mage_Core_Model_Page_Asset_Remote('http://example.com/style.css', 'css');
+        $this->_object = new Mage_Core_Model_Page_Asset_Merged(
             $this->_designPackage, $this->_coreHelper, $this->_filesystem, array($this->_assetJsOne, $assetUrl)
         );
     }
@@ -93,11 +93,11 @@ class Mage_Core_Model_Asset_MergedTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorIncompatibleContentTypes()
     {
-        $assetCss = $this->getMockForAbstractClass('Mage_Core_Model_Asset_MergeInterface');
+        $assetCss = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_MergeableInterface');
         $assetCss->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         $assetCss->expects($this->any())->method('getSourceFile')->will($this->returnValue('style.css'));
 
-        $this->_object = new Mage_Core_Model_Asset_Merged(
+        $this->_object = new Mage_Core_Model_Page_Asset_Merged(
             $this->_designPackage, $this->_coreHelper, $this->_filesystem, array($this->_assetJsOne, $assetCss)
         );
     }

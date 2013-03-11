@@ -12,7 +12,7 @@
 class Mage_Core_Model_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Asset_ViewFile
+     * @var Mage_Core_Model_Page_Asset_ViewFile
      */
     protected $_object;
 
@@ -26,7 +26,7 @@ class Mage_Core_Model_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
         $this->_designPackage = $this->getMock(
             'Mage_Core_Model_Design_Package', array('getViewFileUrl'), array(), '', false
         );
-        $this->_object = new Mage_Core_Model_Asset_ViewFile($this->_designPackage, 'test/script.js', 'js');
+        $this->_object = new Mage_Core_Model_Page_Asset_ViewFile($this->_designPackage, 'test/script.js', 'js');
     }
 
     /**
@@ -35,7 +35,7 @@ class Mage_Core_Model_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new Mage_Core_Model_Asset_ViewFile($this->_designPackage, '', 'unknown');
+        new Mage_Core_Model_Page_Asset_ViewFile($this->_designPackage, '', 'unknown');
     }
 
     public function testGetUrl()

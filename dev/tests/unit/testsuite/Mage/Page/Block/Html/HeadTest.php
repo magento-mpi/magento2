@@ -16,13 +16,13 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->method('addAsset')
             ->with(
                 Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS . '/test.css',
-                $this->isInstanceOf('Mage_Core_Model_Asset_ViewFile')
+                $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
             );
-        $assetViewFile = $this->getMock('Mage_Core_Model_Asset_ViewFile', array(), array(), '', false);
+        $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
         $objectManager = $this->getMock('Magento_ObjectManager');
         $objectManager->expects($this->once(''))
             ->method('create')
-            ->with('Mage_Core_Model_Asset_ViewFile')
+            ->with('Mage_Core_Model_Page_Asset_ViewFile')
             ->will($this->returnValue($assetViewFile));
         $block = $objectManagerHelper->getBlock(
             'Mage_Page_Block_Html_Head',

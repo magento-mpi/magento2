@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-interface Mage_Core_Model_Asset_AssetInterface
+interface Mage_Core_Model_Page_Asset_AssetInterface
 {
     /**
      * Retrieve URL pointing to a resource

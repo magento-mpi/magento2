@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
      * @param Mage_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Page_AssetMergeService $assetMergeService
+     * @param Mage_Core_Model_Page_Asset_MergeService $assetMergeService
      * @param Mage_Page_Model_GroupedAssets $assets
      * @param array $data
      *
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
         Mage_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Page_AssetMergeService $assetMergeService,
+        Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
         Mage_Page_Model_GroupedAssets $assets,
         array $data = array()
     ) {
