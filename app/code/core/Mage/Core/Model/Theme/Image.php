@@ -135,7 +135,7 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     public function getPreviewImageDirectoryUrl()
     {
-        /** @var $manager Mage_Core_Model_App */
+        /** @var $app Mage_Core_Model_App */
         $app = $this->_objectManager->get('Mage_Core_Model_App');
         return $app->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $this->_getPreviewPath() . '/';
     }

@@ -95,9 +95,10 @@ class Magento_Test_Application
 
         $this->_initParams = array(
             Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::CONFIG     => $this->_installEtcDir,
-                Mage_Core_Model_Dir::VAR_DIR    => $installDir,
-                Mage_Core_Model_Dir::MEDIA      => "$installDir/media",
+                Mage_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
+                Mage_Core_Model_Dir::VAR_DIR     => $installDir,
+                Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
+                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/static",
             ),
         );
     }
@@ -212,7 +213,7 @@ class Magento_Test_Application
         $this->_ensureDirExists($this->_installDir);
         $this->_ensureDirExists($this->_installEtcDir);
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
-        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'theme');
+        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'static');
 
         /* Copy configuration files */
         $etcDirsToFilesMap = array(

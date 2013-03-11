@@ -21,43 +21,8 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             return;
         }
 
-        if (!$this->_verifyTheme()) {
-            return;
-        }
-
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         return parent::preDispatch();
-    }
-
-    /**
-     * Verify that the folder for theme publication is writable. Web installation is unable to proceed without write
-     * permissions.
-     *
-     * @return bool
-     */
-    protected  function _verifyTheme()
-    {
-        /** @var Magento_Filesystem $filesystem */
-        $pubTheme = Mage::getDesign()->getPublicDir();
-
-        try {
-            $filesystem = $this->_objectManager->get('Magento_Filesystem');
-            $filesystem->setIsAllowCreateDirectories(true);
-            $filesystem->ensureDirectoryExists($pubTheme, 0777);
-            $isWritable = $filesystem->isWritable($pubTheme);
-        } catch (Magento_Filesystem_Exception $e) {
-            $isWritable = false;
-        }
-
-        if (!$isWritable) {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            $this->getResponse()->setHeader('Content-Type', 'text/plain;charset=UTF-8')
-                ->setHttpResponseCode(503)
-                ->setBody("To proceed with installation, ensure that the path '{$pubTheme}' is writable.")
-            ;
-            return false;
-        }
-        return true;
     }
 
     /**
