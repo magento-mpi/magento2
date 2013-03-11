@@ -74,6 +74,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      */
     public function withLongValues($testData)
     {
+        $this->markTestIncomplete('MAGETWO-8239');
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'register_data_long');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
@@ -106,10 +107,10 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
                                            array('general_customer_data' => $address),
                                            $testData);
         //Steps
-        if ($field == 'state' || $field == 'country') {
-            $message = '"' . $fieldName . '": Please select an option.';
+        if ($field == 'country') {
+            $message = '"' . $fieldName . '": Please select an option';
         } else {
-            $message = '"' . $fieldName . '": This is a required field.';
+            $message = '"' . $fieldName . '": This field is required.';
         }
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
@@ -222,7 +223,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
                   '"Password": Please enter 6 or more characters. Leading or trailing spaces will be ignored.'),
             array(array('password'              => 1234567,
                         'password_confirmation' => 12345678),
-                  '"Confirm Password": Please make sure your passwords match.'),
+                  '"Confirm Password": Please enter the same value again.'),
         );
     }
 }

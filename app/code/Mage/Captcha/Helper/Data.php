@@ -163,7 +163,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
             $this->_app->getWebsite($website)->getCode()));
         $this->_filesystem->setWorkingDirectory($mediaDir);
         $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($captchaDir, 0755);
+        $this->_filesystem->ensureDirectoryExists($captchaDir, 0775);
         return $captchaDir . Magento_Filesystem::DIRECTORY_SEPARATOR;
     }
 

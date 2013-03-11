@@ -141,10 +141,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->admin('system_configuration');
         $this->openConfigurationTab('general_web');
-        $fieldsetLink = $this->getControlElement('link', 'secure_link');
-        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
-            $fieldsetLink->click();
-        }
+        $this->expandFieldSet('secure');
         $secureBaseUrl = $this->getControlAttribute('field', 'secure_base_url', 'value');
         $data = array('secure_base_url'             => preg_replace('/http(s)?/', 'https', $secureBaseUrl),
                       'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
