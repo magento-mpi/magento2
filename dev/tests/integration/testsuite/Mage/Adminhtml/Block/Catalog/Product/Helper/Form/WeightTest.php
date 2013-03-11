@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends Mage_Backend_Area_TestCase
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $type
@@ -17,7 +17,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends Mage_B
      */
     public function testIsVirtualChecked($type)
     {
-        $this->markTestIncomplete('MAGETWO-9075: Failing because of incomplete merge');
         $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
         $currentProduct->setTypeInstance(Mage::getObjectManager()->create($type));
 
