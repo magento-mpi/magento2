@@ -64,13 +64,9 @@
 
             this.element.sortable({
                 distance: 8,
-                placeholder: 'ui-state-highlight',
                 items: this.options.imageSelector,
                 tolerance: "pointer",
                 cancel: 'input, button, .uploader',
-                start: function(e, ui) {
-                    ui.placeholder.height(ui.helper.height() - 2);
-                },
                 update: $.proxy(function() {
                     this.element.trigger('resort');
                 }, this)

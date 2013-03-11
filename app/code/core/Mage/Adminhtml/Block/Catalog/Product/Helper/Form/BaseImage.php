@@ -100,15 +100,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         <p class="image-placeholder-text">{$this->__('Click here or drag and drop to add images')}</p>
     </div>
     <script id="{$htmlId}-template" class="image-template" type="text/x-jquery-tmpl">
-        <div class="image" data-image-label="{$this->__('Main')}">
+        <div class="image {{if disabled == 1 }}hidden-for-front{{/if}}" data-image-label="{$this->__('Main')}" data-image-hidden-label="{$this->__('Hidden')}">
             <img class="spacer" src="{$spacerImage}"/>
             <img class="product-image" src="\${url}" data-position="\${position}" alt="\${label}" />
             <div class="actions">
                 <button class="action-delete" data-role="delete-button" title="{$this->__('Delete image')}">
                     <span>{$this->__('Delete image')}</span>
                 </button>
-                <button class="action-make-main" data-role="make-main-button" title="{$this->__('Make Main')}">
-                    <span>{$this->__('Make Main')}</span>
+                <button class="action-make-main" data-role="make-main-button" title="{$this->__('Make Base')}">
+                    <span>{$this->__('Make Base')}</span>
                 </button>
                 <div class="draggable-handle"></div>
             </div>
