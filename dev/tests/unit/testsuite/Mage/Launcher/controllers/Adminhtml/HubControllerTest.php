@@ -8,8 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once (realpath(dirname(__FILE__) . '/../../../../../../../../')
-    . '/app/code/core/Mage/Launcher/controllers/Adminhtml/HubController.php');
+require_once 'Mage/Launcher/controllers/Adminhtml/HubController.php';
 
 class Mage_Launcher_Adminhtml_HubControllerTest extends PHPUnit_Framework_TestCase
 {
