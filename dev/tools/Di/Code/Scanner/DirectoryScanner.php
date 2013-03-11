@@ -11,6 +11,8 @@ namespace Magento\Tools\Di\Code\Scanner;
 class DirectoryScanner
 {
     /**
+     * Scan directory
+     *
      * @param string $dir
      * @param array $patterns
      * @return array

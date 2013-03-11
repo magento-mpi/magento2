@@ -44,10 +44,12 @@ class Directory {
     /**
      * @param int $errno
      * @param string $errstr
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function errorHandler($errno, $errstr)
     {
-        $this->_log->log(Log::COMPILATION_ERROR, $this->_current, $errstr);
+        $this->_log->add(Log::COMPILATION_ERROR, $this->_current, $errstr);
     }
 
     /**
@@ -71,7 +73,7 @@ class Directory {
                         $signatureReader = new Reader();
                         $this->_definitions[$className] = $signatureReader->read($className);
                     } catch (\ReflectionException $e) {
-                        $this->_log->log(Log::COMPILATION_ERROR, $className, $e->getMessage());
+                        $this->_log->add(Log::COMPILATION_ERROR, $className, $e->getMessage());
                     }
                     $this->_processedClasses[$className] = 1;
                 }

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright  {copyright}
+* @license    {license_link}
+*/
+-->
+<config>
+    <global>
+        <di>
+            <preferences>
+                <Mage_Core_Model_AppInterface>Mage_Core_Model_App_Proxy</Mage_Core_Model_AppInterface>
+                <!--<Mage_Core_Model_Config_InvalidatorInterface>Mage_Core_Model_Config_Invalidator_Proxy</Mage_Core_Model_Config_InvalidatorInterface>-->
+                <Mage_Core_Model_CacheInterface>Mage_Core_Model_Cache_Proxy</Mage_Core_Model_CacheInterface>
+            </preferences>
+        </di>
+    </global>
+</config>

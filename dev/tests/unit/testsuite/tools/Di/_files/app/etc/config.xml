@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!--
+/**
+* {license_notice}
+*
+* @copyright  {copyright}
+* @license    {license_link}
+*/
+-->
+<config>
+    <global>
+        <di>
+            <Mage_Core_Model_Cache>
+                <parameters>
+                    <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
+                </parameters>
+            </Mage_Core_Model_Cache>
+        </di>
+    </global>
+</config>

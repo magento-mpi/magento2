@@ -37,13 +37,13 @@ class Log
     }
 
     /**
-     * Add log entry
+     * Add log message
      *
      * @param string $type
-     * @param string $className
+     * @param string $key
      * @param string $message
      */
-    public function log($type, $key, $message = '')
+    public function add($type, $key, $message = '')
     {
         $this->_entries[$type][$key][] = $message;
     }

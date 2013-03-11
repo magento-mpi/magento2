@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\Di\Code\Scanner;
 
-class CompositeScanner
+class CompositeScanner implements ScannerInterface
 {
     /**
      * @var ScannerInterface[]
@@ -32,13 +32,13 @@ class CompositeScanner
      * @param array $files
      * @return array
      */
-    public function scan(array $files)
+    public function collectEntities(array $files)
     {
         $output = array();
         foreach ($this->_children as $type => $scanner) {
             $output = array_merge($output, $scanner->collectEntities($files[$type]));
         }
-        array_unique($output);
+        $output = array_unique($output);
         return $output;
     }
 }

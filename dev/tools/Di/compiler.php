@@ -36,6 +36,7 @@ $compiledFile = $rootDir . '/var/di/definitions.php';
 try {
     $opt = new Zend_Console_Getopt(array(
         'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
+        'extra-data=s' => 'path to file with extra data',
     ));
     $opt->parse();
     $log = new Log(new Writer\Console());
@@ -49,6 +50,7 @@ try {
     // 1. Code scan
     $directoryScanner = new Scanner\DirectoryScanner();
     $files = $directoryScanner->scan($rootDir . DIRECTORY_SEPARATOR . 'app', $filePatterns);
+    $files['additional'] = array($opt->getOption('extra-data'));
     $entities = array();
 
     $scanner = new Scanner\CompositeScanner();
@@ -57,19 +59,19 @@ try {
     $scanner->addChild(new Scanner\XmlScanner(), 'config');
     $scanner->addChild(new Scanner\XmlScanner(), 'view');
     $scanner->addChild(new Scanner\XmlScanner(), 'design');
-    $entities = $scanner->scan($files);
-
+    $scanner->addChild(new Scanner\ArrayScanner(), 'additional');
+    $entities = $scanner->collectEntities($files);
 
     // 2. Generation
     $generator = new Magento_Di_Generator();
     foreach ($entities as $entityName) {
         switch ($generator->generateClass($entityName)) {
             case Magento_Di_Generator::GENERATION_SUCCESS:
-                $log->log(Log::GENERATION_SUCCESS, $entityName);
+                $log->add(Log::GENERATION_SUCCESS, $entityName);
                 break;
 
             case Magento_Di_Generator::GENERATION_ERROR:
-                $log->log(Log::GENERATION_ERROR, $entityName);
+                $log->add(Log::GENERATION_ERROR, $entityName);
                 break;
 
             case Magento_Di_Generator::GENERATION_SKIP:
