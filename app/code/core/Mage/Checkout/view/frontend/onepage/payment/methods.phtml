@@ -46,4 +46,5 @@
     endif;
 ?>
 </dl>
+<div class="no-display" data-checkout-price="<?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>" />
 <?php echo $this->getChildChildHtml('additional'); ?>

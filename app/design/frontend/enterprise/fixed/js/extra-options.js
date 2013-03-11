@@ -33,6 +33,7 @@
                 url: this.options.additionalUrl,
                 context: this,
                 type: 'post',
+                async: false,
                 success: function(response) {
                     $(this.options.additionalContainer).html(response).trigger('contentUpdated');
                 }
