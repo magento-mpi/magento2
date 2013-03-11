@@ -84,6 +84,66 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
     }
 
     /**
+     * Format translate for special tags
+     *
+     * @param string $tagHtml
+     * @param string $tagName
+     * @param array $trArr
+     * @return string
+     */
+    protected function _applySpecialTagsFormat($tagHtml, $tagName, $trArr)
+    {
+        return $tagHtml . '<span class="translate-inline-' . $tagName . '" '
+            . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'))
+            . ' ' . $this._getHtmlAttribute(self::TRANSLATE_MODE, $this->_getTranslateMode($tagName))
+            . '>' . strtoupper($tagName) . '</span>';
+    }
+
+    /**
+     * Format translate for simple tags
+     *
+     * @param string $tagHtml
+     * @param string  $tagName
+     * @param array $trArr
+     * @return string
+     */
+    protected function _applySimpleTagsFormat($tagHtml, $tagName, $trArr)
+    {
+        return substr($tagHtml, 0, strlen($tagName) + 1)
+            . ' ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'))
+            . ' ' . $this->_getHtmlAttribute(self::TRANSLATE_MODE, $this->_getTranslateMode($tagName))
+            . substr($tagHtml, strlen($tagName) + 1);
+    }
+
+    /**
+     * Get inline vde translate mode
+     *
+     * @param string  $tagName
+     * @return string
+     */
+    protected function _getTranslateMode($tagName)
+    {
+        if ('script' == $tagName || 'img' == $tagName) {
+            return $tagName;
+        } else {
+            return 'text';
+        }
+    }
+
+    /**
+     * Get span containing data-translate attribute
+     *
+     * @param string $data
+     * @param string $text
+     * @return string
+     */
+    public function _getDataTranslateSpan($data, $text)
+    {
+        return '<span '. $this->_getHtmlAttribute(self::DATA_TRANSLATE, $data) . ' '
+            . $this->_getHtmlAttribute(self::TRANSLATE_MODE, 'text') . '>' . $text . '</span>';
+    }
+
+    /**
      * Add translate js to body
      */
     protected function _insertInlineScriptsHtml()
