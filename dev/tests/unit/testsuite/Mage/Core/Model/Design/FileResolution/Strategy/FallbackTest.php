@@ -485,7 +485,8 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
             ),
-            'inherited theme' => array($themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
+            'inherited theme' => array($themeInherited, $file,
+                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
             'inherited theme with localized module file' => array($themeInherited, $file,
@@ -497,7 +498,8 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
             'inherited theme with file in pub lib dir' => array($themeInherited, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'inherited theme, no file found' => array($themeInherited, $file, null, 'js_dir/test.txt'),
-            'custom inherited theme' => array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
+            'custom inherited theme' => array($themeComplicated, $file,
+                'design_dir/area51/theme_path/locale/en_EN/test.txt',
                 'design_dir/area51/theme_path/locale/en_EN/test.txt'
             ),
             'custom inherited theme with theme file' => array($themeComplicated, $file,
