@@ -262,10 +262,10 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInGiftCard()
     {
-        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',
-            array('general_weight' => $this->generate('string', 9, ':punct:')));
+            array('general_gift_card_data' => array('general_card_type' => 'Combined'),
+                  'general_weight' => $this->generate('string', 9, ':punct:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
