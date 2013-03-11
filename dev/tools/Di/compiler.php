@@ -48,7 +48,7 @@ try {
     // 1.1 Code scan
     $directoryScanner = new Scanner\DirectoryScanner();
     $files = $directoryScanner->scan($codeScanDir, $filePatterns);
-    $files['additional'] = array($opt->getOption('extra-data'));
+    $files['additional'] = array($opt->getOption('extra-classes-file'));
     $entities = array();
 
     $scanner = new Scanner\CompositeScanner();
