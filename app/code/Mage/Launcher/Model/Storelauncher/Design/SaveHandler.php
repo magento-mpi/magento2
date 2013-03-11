@@ -33,6 +33,13 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
     protected $_configLoader;
 
     /**
+     * Config Writer Model
+     *
+     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     */
+    protected $_configWriter;
+
+    /**
      * @var Mage_Backend_Model_Config_Backend_Image_Logo
      */
     protected $_modelLogo;
@@ -40,8 +47,9 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
-     * @param Mage_Backend_Model_Config_Loader $configLoader,
-     * @param Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo,
+     * @param Mage_Backend_Model_Config_Loader $configLoader
+     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
@@ -49,10 +57,12 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
         Mage_Backend_Model_Config $backendConfigModel,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Backend_Model_Config_Loader $configLoader,
+        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
     ) {
         parent::__construct($config, $backendConfigModel);
         $this->_configLoader = $configLoader;
+        $this->_configWriter = $configWriter;
         $this->_modelLogo = $modelLogo;
         $this->_helperFactory = $helperFactory;
     }
@@ -95,13 +105,20 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
                 $file = substr($file, 0, strlen($file) - 4);
             }
             $configPath = 'design/header/logo_src';
-            $configScope = 'store';
+            $configScope = Mage_Core_Model_Config::SCOPE_STORES;
             $scopeId = $store->getId();
             $config = $this->_configLoader->getConfigByPath('design/header', $configScope, $scopeId);
 
+            if (empty($config[$configPath]['config_id'])) {
+                $this->_configWriter->save($configPath, '', $configScope, $scopeId);
+                $config = $this->_configLoader->getConfigByPath('design/header', $configScope, $scopeId);
+            }
+            if (!empty($config[$configPath]['config_id'])) {
+                $this->_modelLogo->setConfigId($config[$configPath]['config_id']);
+            }
             $this->_modelLogo->setPath($configPath)
-                ->setConfigId($config[$configPath]['config_id'])
                 ->setScope($configScope)
+                ->setScopeId($scopeId)
                 ->setValue(array(
                     'value' => $file,
                     'tmp_name' => $helper->getTmpLogoPath($file)

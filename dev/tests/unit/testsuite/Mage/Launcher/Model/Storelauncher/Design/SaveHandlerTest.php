@@ -27,6 +27,13 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     protected $_configLoader;
 
     /**
+     * Config Writer Model
+     *
+     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     */
+    protected $_configWriter;
+
+    /**
      * Logo backend config model
      *
      * @var Mage_Backend_Model_Config_Backend_Image_Logo|PHPUnit_Framework_MockObject_MockObject
@@ -62,7 +69,8 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         );
         $this->_configLoader->expects($this->any())
             ->method('getConfigByPath')
-            ->with($this->equalTo('design/header'), $this->equalTo('store'), $this->equalTo(1))
+            ->with($this->equalTo('design/header'), $this->equalTo(Mage_Core_Model_Config::SCOPE_STORES),
+                $this->equalTo(1))
             ->will($this->returnValue(array (
                 'design/header/logo_src' => array (
                     'path' => 'design/header/logo_src',
@@ -70,6 +78,14 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
                     'config_id' => '69',
                 ),
             )));
+
+        $this->_configWriter = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface',
+            array(), array(), '', false, false
+        );
+        $this->_configWriter->expects($this->any())
+            ->method('save')
+            ->with($this->equalTo('design/header/logo_src'), $this->isEmpty(), Mage_Core_Model_Config::SCOPE_STORES, 1)
+            ->will($this->returnSelf());
 
         $this->_modelLogo = $this->getMockBuilder('Mage_Backend_Model_Config_Backend_Image_Logo')
             ->disableOriginalConstructor()
@@ -84,7 +100,8 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->will($this->returnSelf());
         $this->_modelLogo->expects($this->any())->method('setConfigId')->with($this->equalTo('69'))
             ->will($this->returnSelf());
-        $this->_modelLogo->expects($this->any())->method('setScope')->with($this->equalTo('store'))
+        $this->_modelLogo->expects($this->any())->method('setScope')
+            ->with($this->equalTo(Mage_Core_Model_Config::SCOPE_STORES))
             ->will($this->returnSelf());
         $this->_modelLogo->expects($this->any())->method('setValue')->with($this->equalTo(array(
                 'value' => 'dragons.png',
@@ -111,6 +128,7 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             $backendConfigModel,
             $this->_helperFactory,
             $this->_configLoader,
+            $this->_configWriter,
             $this->_modelLogo
         );
     }
