@@ -10,8 +10,8 @@ use Zend\Code\Scanner\FileScanner,
     Magento\Tools\Di\Definition\Reader,
     Magento\Tools\Di\Compiler\Log\Log;
 
-class Directory {
-
+class Directory
+{
     /**
      * @var array
      */
@@ -58,10 +58,10 @@ class Directory {
     public function compile($path)
     {
         $rdi = new \RecursiveDirectoryIterator(realpath($path));
-        $recursiveIterator = new \RecursiveIteratorIterator($rdi,1);
+        $recursiveIterator = new \RecursiveIteratorIterator($rdi, 1);
         /** @var $item \SplFileInfo */
         foreach ($recursiveIterator as $item) {
-           if ($item->isFile() && pathinfo($item->getRealPath(), PATHINFO_EXTENSION) == 'php') {
+            if ($item->isFile() && pathinfo($item->getRealPath(), PATHINFO_EXTENSION) == 'php') {
                 $fileScanner = new FileScanner($item->getRealPath());
                 $classNames = $fileScanner->getClassNames();
                 foreach ($classNames as $className) {

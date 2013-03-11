@@ -30,7 +30,7 @@ class FileScanner implements ScannerInterface
             $content = file_get_contents($file);
             $content = $this->_prepareContent($content);
             $matches = array();
-            if(preg_match_all($this->_pattern, $content, $matches)) {
+            if (preg_match_all($this->_pattern, $content, $matches)) {
                 $output = array_merge($output, $matches[1]);
             }
         }

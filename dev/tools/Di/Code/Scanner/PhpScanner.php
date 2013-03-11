@@ -28,8 +28,9 @@ class PhpScanner extends FileScanner
         $output  = '';
         $commentTokens = array(T_COMMENT);
 
-        if (defined('T_DOC_COMMENT'))
+        if (defined('T_DOC_COMMENT')) {
             $commentTokens[] = T_DOC_COMMENT;
+        }
 
         $tokens = token_get_all($content);
 
