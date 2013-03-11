@@ -21,15 +21,17 @@
         options: {
             switchModeEvent: 'switchMode',
             loadEvent: 'loaded',
+            saveEvent: 'save',
+            saveAndAssignEvent: 'save-and-assign',
             cellSelector: '.vde_toolbar_cell',
             handlesHierarchySelector: '#vde_handles_hierarchy',
             treeSelector: '#vde_handles_tree',
             viewLayoutButtonSelector: '.view-layout',
             navigationModeButtonSelector: '.switch-to-navigation',
             viewLayoutUrl: null,
-            navigationModeUrl: null,
             editorFrameSelector: null
         },
+        editorFrame: null,
 
         _create: function() {
             this._initCells();
@@ -44,10 +46,11 @@
         _bind: function() {
             var $body = $('body');
             $body.on(this.options.switchModeEvent, $.proxy(this._onSwitchMode, this));
-
             $body.on(this.options.loadEvent, function() {
                 $body.trigger('contentUpdated');
             });
+            $body.on(this.options.saveEvent, $.proxy(this._onSave, this));
+            $body.on(this.options.saveAndAssignEvent, $.proxy(this._onSaveAndAssign, this));
         },
 
         _initCells : function() {
@@ -96,6 +99,45 @@
             } finally {
                 return false;
             }
+        },
+
+        _onSave: function(event, eventData) {
+            if (!eventData.save_url) {
+                throw Error('Save url is not defined');
+            }
+
+            var data = {
+                themeId: eventData.theme_id
+            };
+
+            var onSaveSuccess = eventData.onSaveSuccess || function(response) {
+                if (response.error) {
+                    alert($.mage.__('Error') + ': "' + response.message + '".');
+                } else {
+                    alert(response.message);
+                }
+            };
+
+            $.ajax({
+                type: 'POST',
+                url:  eventData.save_url,
+                data: data,
+                dataType: 'json',
+                success: $.proxy(onSaveSuccess, this),
+                error: function() {
+                    alert($.mage.__('Error: unknown error.'));
+                }
+            });
+        },
+
+        _onSaveAndAssign: function(event, eventData) {
+            eventData.onSaveSuccess = function(response) {
+                if (response.error) {
+                    alert($.mage.__('Error') + ': "' + response.message + '".');
+                }
+            }
+            $(event.target).trigger('save', eventData);
+            $(event.target).trigger('assign', eventData);
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {
@@ -167,9 +209,7 @@
             panelSelector: '#vde_toolbar_row',
             highlightElementSelector: '.vde_element_wrapper',
             highlightElementTitleSelector: '.vde_element_title',
-            highlightCheckboxSelector: '#vde_highlighting',
-            cookieHighlightingName: 'vde_highlighting',
-            historyToolbarSelector: '.vde_history_toolbar'
+            highlightCheckboxSelector: '#vde_highlighting'
         },
         editorFrame: null,
         _create: function () {
@@ -182,7 +222,9 @@
             this._initFrame();
         },
         _initPanel: function () {
-            $(this.options.panelSelector).vde_panel({editorFrameSelector: this.options.frameSelector})
+            $(this.options.panelSelector).vde_panel({
+                editorFrameSelector: this.options.frameSelector
+            })
         },
         _bind: function() {
             $(window).on('resize', $.proxy(this._resizeFrame, this));
@@ -273,5 +315,27 @@
             return (!this.highlightBlocks[parentId]) ? [] : this.highlightBlocks[parentId];
         }
     }));
+
+    $( document ).ready(function( ) {
+        var body = $('body');
+        var frames = $('iframe#vde_container_frame');
+
+        body.on('refreshIframe', function() {
+            frames[0].contentWindow.location.reload(true);
+        });
+
+        //TODO Some code related to saving and assignment
+        if (frames.get(0)) {
+            var historyObject = frames.get(0).contentWindow.vdeHistoryObject;
+            if (historyObject && historyObject.getItems().length != 0) {
+                //data.layoutUpdate = this._preparePostItems(historyObject.getItems());
+            }
+            var frameUrl = frames.attr('src');
+            var urlParts = frameUrl.split('handle');
+            if (urlParts.length > 1) {
+                //data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
+            }
+        }
+    });
 
 })( jQuery );

@@ -21,15 +21,22 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging
     protected $_themeFactory;
 
     /**
+     * @var Mage_Core_Model_Resource_Layout_Link_Collection
+     */
+    protected $_linkCollection;
+
+    /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
      * @param array $data
-     *
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection,
         array $data = array()
     ) {
         $this->_themeFactory = $themeFactory;
+        $this->_linkCollection = $linkCollection;
     }
 
     /**
@@ -41,8 +48,7 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging
     public function copy($theme)
     {
         $stagingTheme = $this->_copyPrimaryData($theme);
-        $this->_copyCustomizations($theme);
-        $this->_copyLayoutUpdates($theme);
+        $this->_copyLayoutUpdates($theme, $stagingTheme);
         return $stagingTheme;
     }
 
@@ -78,19 +84,20 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging
      * Copy theme customizations
      *
      * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Theme $stagingTheme
      */
-    protected function _copyCustomizations($theme)
+    protected function _copyLayoutUpdates($theme, $stagingTheme)
     {
-        //TODO _copyCustomizations
-    }
+        /** @var $collection Mage_Core_Model_Resource_Layout_Link_Collection */
+        $collection = $this->_linkCollection->addTemporaryFilter(false)
+            ->addFieldToFilter('theme_id', $theme->getId());
 
-    /**
-     * Copy theme customizations
-     *
-     * @param Mage_Core_Model_Theme $theme
-     */
-    protected function _copyLayoutUpdates($theme)
-    {
-        //TODO _copyLayoutUpdates
+        /** @var $link Mage_Core_Model_Layout_Link */
+        foreach ($collection as $link) {
+            //copy links from 'virtual' to 'staging' theme
+            $link->setId(null);
+            $link->setThemeId($stagingTheme->getId());
+            $link->save();
+        }
     }
 }

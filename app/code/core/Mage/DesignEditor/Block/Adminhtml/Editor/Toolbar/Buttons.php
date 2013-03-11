@@ -167,4 +167,39 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     {
         return $this->getUrl('*/*/saveTemporaryLayoutUpdate');
     }
+
+    /**
+     * Get button HTML
+     *
+     * @return string
+     */
+    public function getViewLayoutButtonHtml()
+    {
+        //TODO If this link is clicked before event handler is assigned - it will result in opening a url
+        //intended for AJAX
+
+        $button = sprintf('<a href="%s" title="%s"class="vde_button view-layout">%s</a>',
+            $this->getViewLayoutUrl(),
+            $this->__('View Layout'),
+            $this->__('View Layout')
+        );
+
+        return $button;
+    }
+
+    /**
+     * Get Quit button HTML
+     *
+     * @return string
+     */
+    public function getQuitButtonHtml()
+    {
+        $button = sprintf('<a href="%s" title="%s"class="vde_button">%s</a>',
+            $this->getQuitUrl(),
+            $this->__('Quit'),
+            $this->__('Quit')
+        );
+
+        return $button;
+    }
 }

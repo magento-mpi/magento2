@@ -125,8 +125,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_Image $themeImage
-     * @param Mage_Core_Model_Resource_Theme $resource
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
+     * @param Mage_Core_Model_Resource_Theme $resource
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
      *
@@ -138,8 +139,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_Image $themeImage,
-        Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Theme_Domain_Factory $domainFactory,
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {
@@ -148,6 +150,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
         $this->_domainFactory = $domainFactory;
+        $this->_dirs = $dirs;
         $this->_themeImage = $themeImage->setTheme($this);
     }
 
@@ -258,6 +261,22 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Get directory where themes files are stored
+     *
+     * @return string
+     */
+    public function getThemeFilesPath()
+    {
+        if ($this->getType() == self::TYPE_PHYSICAL) {
+            $physicalThemesDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+            $dir = sprintf('%s/%s', $physicalThemesDir, $this->getFullPath());
+        } else {
+            $dir = $this->getCustomizationPath();
+        }
+        return $dir;
+    }
+
+    /**
      * Return path to customized theme files
      *
      * @return string|null
@@ -266,9 +285,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $customPath = $this->getData('customization_path');
         if ($this->getId() && empty($customPath)) {
-            /** @var $modelDir Mage_Core_Model_Dir */
-            $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
-            $customPath = $modelDir->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
+            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
                 . self::PATH_PREFIX_CUSTOMIZATION . DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
@@ -326,9 +343,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         if (!$this->isCustomized()) {
             return $this;
         }
-        /** @var $link Mage_Core_Model_Theme_Customization_Link */
-        $link = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Link');
-        $link->setThemeId($this->getId())->changeCustomFilesUpdate();
+        /** @var $update Mage_Core_Model_Theme_Customization_Update */
+        $update = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Update');
+        $update->setThemeId($this->getId())->updateCustomFilesUpdate();
         return $this;
     }
 

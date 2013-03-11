@@ -174,7 +174,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     }
 
     /**
-     * Get options for JS widget vde.themeSelector
+     * Get options for JS widget vde.storeSelector
      *
      * @return string
      */

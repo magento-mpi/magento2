@@ -1,0 +1,28 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */ ?>
+
+<div class="actions-split">
+    <button class="action-default primary" data-mage-init="<?php echo $this->getSaveInitData() ?>">
+        <span>Save</span>
+    </button>
+    <button class="action-toggle primary" data-toggle="dropdown">
+        <span>Select</span>
+    </button>
+    <ul class="dropdown-menu"  data-ui-id="products-list-add-new-button-dropdown-menu" >
+        <li>
+            <span class="item item-default" data-mage-init="<?php echo $this->getSaveInitData() ?>">Save</span>
+        </li>
+        <li>
+            <span class="item item-default" data-mage-init="<?php echo $this->getSaveAndAssignInitData() ?>">Save and Assign</span>
+        </li>
+    </ul>
+</div>
