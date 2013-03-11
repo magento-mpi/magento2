@@ -64,7 +64,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
         } else {
             $moduleDir = array();
         }
-        return $this->_fallback($file, $themeModel, $dirs, $module, $moduleDir);
+        return $this->_fallback($file, $dirs, $module, $moduleDir);
     }
 
     /**
@@ -89,7 +89,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
             $currentThemeModel = $currentThemeModel->getParentTheme();
         }
 
-        return $this->_fallback($file, $themeModel, $dirs);
+        return $this->_fallback($file, $dirs);
     }
 
     /**
@@ -120,7 +120,6 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
 
         return $this->_fallback(
             $file,
-            $themeModel,
             $dirs,
             $module,
             array("{$moduleDir}/{$area}/locale/{$locale}", "{$moduleDir}/{$area}"),
@@ -134,24 +133,16 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      * Returns the first found file or last file from the list as absolute path
      *
      * @param string $file relative file name
-     * @param Mage_Core_Model_Theme $themeModel
      * @param array $themeDirs theme directories (absolute paths) - must not be empty
      * @param string|bool $module module context
      * @param array $moduleDirs module directories (absolute paths, makes sense with previous parameter only)
      * @param array $extraDirs additional lookup directories (absolute paths)
      * @return string
      */
-    protected function _fallback($file, Mage_Core_Model_Theme $themeModel, $themeDirs, $module = false,
-        $moduleDirs = array(), $extraDirs = array()
-    ) {
-        // add customization path
-        $dirs = array();
-        if ($themeModel->getCustomizationPath()) {
-            $dirs[] = $themeModel->getCustomizationPath();
-        }
-
+    protected function _fallback($file, $themeDirs, $module = false, $moduleDirs = array(), $extraDirs = array())
+    {
         // add modules to lookup
-        $dirs = array_merge($dirs, $themeDirs);
+        $dirs = $themeDirs;
         if ($module) {
             array_walk($themeDirs, function (&$dir) use ($module) {
                 $dir = "{$dir}/{$module}";

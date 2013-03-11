@@ -47,6 +47,9 @@ class Magento_Test_Helper_ObjectManager
             'dirs'               => 'Mage_Core_Model_Dir',
             'logger'             => 'Mage_Core_Model_Logger',
             'filesystem'         => 'Magento_Filesystem',
+            'objectManager'      => 'Magento_ObjectManager',
+            'assetMergeService'  => 'Mage_Core_Model_Page_Asset_MergeService',
+            'assets'             => 'Mage_Page_Model_GroupedAssets',
         ),
         self::MODEL_ENTITY => array(
             'eventDispatcher'    => 'Mage_Core_Model_Event_Manager',

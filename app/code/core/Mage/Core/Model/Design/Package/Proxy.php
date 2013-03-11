@@ -166,25 +166,16 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     }
 
     /**
-     * Get URLs to CSS files optimized based on configuration settings
+     * Get url to public file
      *
-     * @param array $files
-     * @return array
+     * @param string $file
+     * @param bool|null $isSecure
+     * @return string
+     * @throws Magento_Exception
      */
-    public function getOptimalCssUrls($files)
+    public function getPublicFileUrl($file, $isSecure = null)
     {
-        return $this->_getInstance()->getOptimalCssUrls($files);
-    }
-
-    /**
-     * Get URLs to JS files optimized based on configuration settings
-     *
-     * @param array $files
-     * @return array
-     */
-    public function getOptimalJsUrls($files)
-    {
-        return $this->_getInstance()->getOptimalJsUrls($files);
+        return $this->_getInstance()->getPublicFileUrl($file, $isSecure);
     }
 
     /**
@@ -195,6 +186,19 @@ class Mage_Core_Model_Design_Package_Proxy implements Mage_Core_Model_Design_Pac
     public function getPublicDir()
     {
         return $this->_getInstance()->getPublicDir();
+    }
+
+    /**
+     * Merge files, located under the same folder, into one and return file name of merged file
+     *
+     * @param array $files list of names relative to the same folder
+     * @param string $contentType
+     * @return string
+     * @throws Magento_Exception if not existing file requested for merge
+     */
+    public function mergeFiles($files, $contentType)
+    {
+        return $this->_getInstance()->mergeFiles($files, $contentType);
     }
 
     /**

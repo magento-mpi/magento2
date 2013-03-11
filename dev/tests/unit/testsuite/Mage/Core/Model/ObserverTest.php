@@ -36,8 +36,10 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ;
 
         $cronScheduleMock = $this->getMock('Mage_Cron_Model_Schedule', array(), array(), '', false);
+        $themeFilesMock = $this->getMock('Mage_Core_Model_Theme_Files', array(), array(), '', false);
+        $pageMock = $this->getMock('Mage_Core_Model_Page', array(), array(), '', false);
 
-        $object = new Mage_Core_Model_Observer($frontendPoolMock);
+        $object = new Mage_Core_Model_Observer($frontendPoolMock, $themeFilesMock, $pageMock);
         $object->cleanCache($cronScheduleMock);
     }
 }

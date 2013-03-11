@@ -215,7 +215,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
             $customPath = $modelDir->getDir(Mage_Core_Model_Dir::MEDIA)
                 . DIRECTORY_SEPARATOR . 'theme'
-                . DIRECTORY_SEPARATOR . 'customization'
+                . DIRECTORY_SEPARATOR . 'theme_customization'
                 . DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
@@ -264,22 +264,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Include customized files on default handle
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _applyCustomizationFiles()
-    {
-        if (!$this->isCustomized()) {
-            return $this;
-        }
-        /** @var $link Mage_Core_Model_Theme_Customization_Link */
-        $link = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Link');
-        $link->setThemeId($this->getId())->changeCustomFilesUpdate();
-        return $this;
-    }
-
-    /**
      * Check if theme object data was changed.
      *
      * @return bool
@@ -307,10 +291,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         $this->saveThemeCustomization();
-        if ($this->isCustomized()) {
-            $this->_applyCustomizationFiles();
-        }
-
         $this->_checkAssignedThemeChanged();
         return parent::_afterSave();
     }

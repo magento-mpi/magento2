@@ -42,11 +42,6 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     const TYPE_JS = 'js';
 
     /**
-     * Path prefix to customized static files
-     */
-    const PATH_PREFIX_CUSTOMIZED = '_Customized';
-
-    /**
      * @var Varien_Io_File
      */
     protected $_ioFile;
@@ -175,16 +170,6 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return path to customization directory
-     *
-     * @return string
-     */
-    public function getRelativePath()
-    {
-        return self::PATH_PREFIX_CUSTOMIZED . '/' . $this->getFilePath();
-    }
-
-    /**
      * Get file name of customization file
      *
      * @return string
@@ -203,9 +188,24 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     {
         $path = null;
         if ($this->getId()) {
-            $path = $this->getTheme()->getCustomizationPath(). DIRECTORY_SEPARATOR . $this->getRelativePath();
+            $path = $this->getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR . $this->getFilePath();
             $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
         }
         return $path;
+    }
+
+    /**
+     * @return Mage_Core_Model_Page_Asset_AssetInterface
+     */
+    public function getAsset()
+    {
+        if ($this->hasContent()) {
+            return $this->_objectManager->create(
+                'Mage_Core_Model_Page_Asset_PublicFile',
+                array('file' => $this->getFullPath(), 'contentType' => $this->getFileType()),
+                false
+            );
+        }
+        return null;
     }
 }
