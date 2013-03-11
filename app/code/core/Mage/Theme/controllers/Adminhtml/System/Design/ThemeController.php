@@ -46,7 +46,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
      */
     public function editAction()
     {
-        $themeId = (int) $this->getRequest()->getParam('id');
+        $themeId = (int)$this->getRequest()->getParam('id');
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         try {

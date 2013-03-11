@@ -232,16 +232,25 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return frontend theme collection by page. Theme customizations are not included, only physical themes.
+     * Return frontend physical theme collection.
+     * All themes or per page if set page and page size (page size is optional)
      *
      * @param int $page
      * @param int $pageSize
      * @return Mage_Core_Model_Resource_Theme_Collection
      */
-    public function getThemes($page, $pageSize)
-    {
+    public function getPhysicalThemes(
+        $page = null,
+        $pageSize = Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE
+    ) {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        return $this->getAllThemes()->setPageSize($pageSize)->setCurPage($page);
+        $collection = $this->_themeFactory->create()->getCollection();
+        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_PHYSICAL);
+        if ($page) {
+            $collection->setPageSize($pageSize)->setCurPage($page);
+        }
+        return $collection;
     }
 
     /**
@@ -255,21 +264,6 @@ class Mage_Core_Model_Theme_Service
         $assignedThemes = $this->getAssignedThemeCustomizations();
         return isset($assignedThemes[$theme->getId()]);
     }
-
-    /**
-     * Return frontend theme collection by page. Theme customizations are not included, only physical themes.
-     *
-     * @return Mage_Core_Model_Resource_Theme_Collection
-     */
-    public function getAllThemes()
-    {
-        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_themeFactory->create()->getCollection();
-        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_PHYSICAL);
-        return $collection;
-    }
-
 
     /**
      * Return theme customizations which are assigned to store views

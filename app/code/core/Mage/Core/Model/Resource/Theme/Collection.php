@@ -78,7 +78,7 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
      */
     public function addTypeFilter($type)
     {
-        $this->getSelect()->where('main_table.type in (?)', $type);
+        $this->addFieldToFilter('main_table.type', array('in' => $type));
         return $this;
     }
 

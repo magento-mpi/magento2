@@ -44,7 +44,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
 
             /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-            $collection = $service->getThemes($page, $pageSize);
+            $collection = $service->getPhysicalThemes($page, $pageSize);
             $this->getLayout()->getBlock('available.theme.list')->setCollection($collection)->setNextPage(++$page);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
                 array('content' => $this->getLayout()->getOutput())

@@ -54,7 +54,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
      */
     public function getThemes()
     {
-        return $this->_themeService->getAllThemes();
+        return $this->_themeService->getPhysicalThemes();
     }
 
     /**
@@ -89,7 +89,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
         $themesBlocks = array();
         /** @var $block Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme */
         $block = $this->getChildBlock('theme-preview');
-        foreach($this->getThemes() as $theme) {
+        foreach ($this->getThemes() as $theme) {
             $themeBlock = clone $block;
             $themeBlock->setTheme($theme);
             $themesBlocks[] = $themeBlock;
