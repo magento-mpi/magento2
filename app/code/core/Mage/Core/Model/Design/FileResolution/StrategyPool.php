@@ -74,13 +74,6 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
     );
 
     /**
-     * Map to be used with caching strategy
-     *
-     * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map
-     */
-    protected $_cachingMap;
-
-    /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Model_Dir $dirs
@@ -180,35 +173,18 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
     {
         switch ($className) {
             case 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy':
-                $arguments = array('map' => $this->_getCachingMap());
+                $arguments = array(
+                    'mapDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR
+                        . self::FALLBACK_MAP_DIR,
+                    'baseDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT),
+                    'canSaveMap' => (bool)(string)$this->_objectManager->get('Mage_Core_Model_Config')
+                        ->getNode(self::XML_PATH_ALLOW_MAP_UPDATE),
+                );
                 break;
             default:
                 $arguments = array();
                 break;
         }
         return $this->_objectManager->create($className, $arguments);
-    }
-
-    /**
-     * Return the map object to be used with caching strategy. Creates that map object, if needed.
-     *
-     * @return Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map
-     */
-    protected function _getCachingMap()
-    {
-        if (!$this->_cachingMap) {
-            $mapArguments = array(
-                'mapDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR
-                    . self::FALLBACK_MAP_DIR,
-                'baseDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT),
-                'canSaveMap' => (bool)(string)$this->_objectManager->get('Mage_Core_Model_Config')
-                    ->getNode(self::XML_PATH_ALLOW_MAP_UPDATE),
-            );
-            $this->_cachingMap = $this->_objectManager->create(
-                'Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy_Map',
-                $mapArguments
-            );
-        }
-        return $this->_cachingMap;
     }
 }
