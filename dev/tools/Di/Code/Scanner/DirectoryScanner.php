@@ -11,20 +11,27 @@ namespace Magento\Tools\Di\Code\Scanner;
 class DirectoryScanner
 {
     /**
-     * @param $dir
-     * @param array $extensions
+     * @param string $dir
+     * @param array $patterns
      * @return array
      */
-    public function scan($dir, array $extensions = array())
+    public function scan($dir, array $patterns = array())
     {
         $output = array();
         /** @var $file \DirectoryIterator */
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)) as $file) {
-            if (!$file->isDir() && in_array($file->getExtension(), $extensions)) {
-                $output[$file->getExtension()][] = $file->getRealPath();
+            if ($file->isDir()) {
+                continue;
+            }
+
+            foreach ($patterns as $type => $pattern) {
+                $filePath = str_replace('\\', '/', $file->getRealPath());
+                if (preg_match($pattern, $filePath)) {
+                    $output[$type][] = $filePath;
+                    break;
+                }
             }
         }
-
         return $output;
     }
 }

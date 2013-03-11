@@ -16,6 +16,13 @@ use Magento\Tools\Di\Compiler\Log\Log,
     Magento\Tools\Di\Definition\Compressor,
     Magento\Tools\Di\Definition\Serializer;
 
+$filePatterns = array(
+    'php' => '/.*\.php$/',
+    'etc' => '/\/app\/etc\/.*\.xml$/',
+    'config' => '/\/etc\/(config([a-z0-9\.]*)?|adminhtml\/system)\.xml$/',
+    'view' => '/\/view\/[a-z0-9A-Z\/\.]*\.xml$/',
+    'design' => '/\/app\/design\/[a-z0-9A-Z\/\.]*\.xml$/',
+);
 $codeScanDir = $rootDir . '/app';
 $compilationDirs = array(
     $rootDir . '/app/code',
@@ -41,22 +48,34 @@ try {
     // Code generation
     // 1. Code scan
     $directoryScanner = new Scanner\DirectoryScanner();
-    $files = $directoryScanner->scan($codeScanDir, array('xml', 'php'));
+    $files = $directoryScanner->scan($rootDir . DIRECTORY_SEPARATOR . 'app', $filePatterns);
     $entities = array();
 
-    $classNamePattern = '([A-Z]{1}[a-zA-Z0-9]*_[A-Z]{1}[a-zA-Z0-9_]*(Proxy|Factory))';
-    $configScanner = new Scanner\FileScanner($files['xml'], '/[\n\'"<>]{1}' . $classNamePattern . '[\n\'"<>]{1}/');
-    $codeScanner = new Scanner\FileScanner($files['php'], '/[ \\b\n\'"\(]{1}' . $classNamePattern . '[ \\b\n\'"]{1}/');
-    $entities = array_merge($codeScanner->collectEntities(), $configScanner->collectEntities());
+    $scanner = new Scanner\CompositeScanner();
+    $scanner->addChild(new Scanner\PhpScanner(), 'php');
+    $scanner->addChild(new Scanner\XmlScanner(), 'etc');
+    $scanner->addChild(new Scanner\XmlScanner(), 'config');
+    $scanner->addChild(new Scanner\XmlScanner(), 'view');
+    $scanner->addChild(new Scanner\XmlScanner(), 'design');
+    $entities = $scanner->scan($files);
 
 
     // 2. Generation
-    $generator = new Magento_Code_Generator();
+    $generator = new Magento_Di_Generator();
     foreach ($entities as $entityName) {
-        if ($generator->generate($entityName)) {
-            $log->log(Log::GENERATION_SUCCESS, $entityName);
-        } else {
-            $log->log(Log::GENERATION_ERROR, $entityName);
+        switch ($generator->generateClass($entityName)) {
+            case Magento_Di_Generator::GENERATION_SUCCESS:
+                $log->log(Log::GENERATION_SUCCESS, $entityName);
+                break;
+
+            case Magento_Di_Generator::GENERATION_ERROR:
+                $log->log(Log::GENERATION_ERROR, $entityName);
+                break;
+
+            case Magento_Di_Generator::GENERATION_SKIP:
+            default:
+                //no log
+                break;
         }
     }
 

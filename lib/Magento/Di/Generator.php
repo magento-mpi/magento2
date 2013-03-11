@@ -10,6 +10,10 @@
 
 class Magento_Di_Generator
 {
+    const GENERATION_SUCCESS = 'success';
+    const GENERATION_ERROR = 'error';
+    const GENERATION_SKIP = 'skip';
+
     /**
      * @var Magento_Di_Generator_EntityAbstract
      */
@@ -57,8 +61,8 @@ class Magento_Di_Generator
     }
 
     /**
-     * @param $className
-     * @return bool
+     * @param string $className
+     * @return string const
      * @throws Magento_Exception
      */
     public function generateClass($className)
@@ -76,13 +80,13 @@ class Magento_Di_Generator
             }
         }
         if (!$entity || !$entityName) {
-            return false;
+            return self::GENERATION_ERROR;
         }
 
         // check if file already exists
         $autoloader = $this->_autoloader;
         if ($autoloader::getFile($className)) {
-            return false;
+            return self::GENERATION_SKIP;
         }
 
         // generate class file
@@ -95,7 +99,7 @@ class Magento_Di_Generator
         // remove generator
         $this->_generator = null;
 
-        return true;
+        return self::GENERATION_SUCCESS;
     }
 
     /**

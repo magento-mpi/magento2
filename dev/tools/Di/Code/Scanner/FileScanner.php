@@ -8,13 +8,8 @@
 
 namespace Magento\Tools\Di\Code\Scanner;
 
-class FileScanner
+class FileScanner implements ScannerInterface
 {
-    /**
-     * @var array
-     */
-    protected $_files;
-
     /**
      * Regular expression pattern
      *
@@ -23,25 +18,17 @@ class FileScanner
     protected $_pattern;
 
     /**
-     * @param array $files
-     * @param $pattern
-     */
-    public function __construct(array $files, $pattern)
-    {
-        $this->_files = $files;
-        $this->_pattern = $pattern;
-    }
-
-    /**
      * Get array of class names
      *
+     * @param array $files
      * @return array
      */
-    public function collectEntities()
+    public function collectEntities(array $files)
     {
         $output = array();
-        foreach ($this->_files as $file) {
+        foreach ($files as $file) {
             $content = file_get_contents($file);
+            $content = $this->_prepareContent($content);
             $matches = array();
             if(preg_match_all($this->_pattern, $content, $matches)) {
                 $output = array_merge($output, $matches[1]);
@@ -49,5 +36,16 @@ class FileScanner
         }
         $output = array_unique($output);
         return $output;
+    }
+
+    /**
+     * Prepare file content
+     *
+     * @param string $content
+     * @return string
+     */
+    protected function _prepareContent($content)
+    {
+        return $content;
     }
 }
