@@ -214,7 +214,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             /** @var $modelDir Mage_Core_Model_Dir */
             $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
             $customPath = $modelDir->getDir(Mage_Core_Model_Dir::MEDIA)
-                . DIRECTORY_SEPARATOR . 'theme'
                 . DIRECTORY_SEPARATOR . 'theme_customization'
                 . DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);

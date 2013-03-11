@@ -456,6 +456,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         foreach (array(
                 Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
+                Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_Dir::MEDIA,
                 Mage_Core_Model_Store::URL_TYPE_STATIC => Mage_Core_Model_Dir::STATIC_VIEW
             ) as $urlType => $dirType
         ) {

@@ -106,7 +106,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             . '<link rel="stylesheet" type="text/css" media="all"'
             . ' href="http://localhost/index.php/core/index/notfound" />' . "\n"
             . '<link rel="stylesheet" type="text/css" media="print"'
-            . ' href="http://localhost/pub/media/theme/static/frontend/default/demo/en_US/css/styles.css" />'
+            . ' href="http://localhost/pub/static/frontend/default/demo/en_US/css/styles.css" />'
             . "\n", $this->_block->getCssJsHtml());
     }
 
