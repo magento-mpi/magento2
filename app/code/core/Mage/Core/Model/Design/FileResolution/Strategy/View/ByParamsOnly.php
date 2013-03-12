@@ -26,8 +26,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_View_ByParamsOnly
      */
     public function __construct(Mage_Core_Model_Dir $dirs)
     {
-        $this->_pubViewDir = $dirs->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
-            . Mage_Core_Model_Design_Package::PUBLIC_BASE_THEME_DIR;
+        $this->_pubViewDir = $dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
     }
 
     /**
@@ -45,7 +44,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_View_ByParamsOnly
     {
         return $this->_pubViewDir . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR
             . $themeModel->getThemePath() . DIRECTORY_SEPARATOR
-            . ($module ? DIRECTORY_SEPARATOR . $module : '')
+            . ($module ? $module . DIRECTORY_SEPARATOR : '')
             . $file;
     }
 }
