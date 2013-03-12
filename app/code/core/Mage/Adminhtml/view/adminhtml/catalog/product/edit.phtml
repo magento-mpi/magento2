@@ -70,14 +70,8 @@ jQuery(function($) {
     });
     $form.mage('form').mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
-    <?php if ($this->getSelectedTabId()): ?>
-    if($('#<?php echo $this->getSelectedTabId() ?>').length) {
-        $('#<?php echo $this->getSelectedTabId() ?>').trigger('click');
-    }
-    <?php endif; ?>
-
-    $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
-        var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
+    $('#product_info_tabs').on('tabsbeforeactivate tabscreate', function (event, ui) {
+        var action = $(ui.newPanel || ui.panel).find('#attribute-name-container').length ? 'show' : 'hide';
         $('#config_super_product, #grouped_product_container')[action]();
     });
 
