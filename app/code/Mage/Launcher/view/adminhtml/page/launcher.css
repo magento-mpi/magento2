@@ -833,44 +833,6 @@
     margin: 0;
 }
 
-/* Tax Rate Popup */
-
-.tax-rate-popup .fieldset {
-    margin: 0;
-}
-
-.tax-rate-popup .field {
-    margin-bottom: 20px;
-}
-
-.tax-rate-popup .field .label {
-    margin: 5px 0 0 0;
-    width: 26%;
-    padding: 0 20px 0 0;
-    float: left;
-    text-align: right;
-}
-
-.tax-rate-popup .field .control {
-    width: 47%;
-    margin: 0;
-    float: left;
-}
-
-.tax-rate-popup .field .control select,
-.tax-rate-popup .field .control .input-text {
-    width: 100%;
-}
-
-.tax-rate-popup .field-rate .control .input-text {
-    width: 50%;
-}
-
-.tax-rate-popup .legend,
-.tax-rate-popup .legend + br {
-    display: none;
-}
-
 .tax-rules-form h2 {
     color: #f4863e;
     font-family: 'CallunaSans';
