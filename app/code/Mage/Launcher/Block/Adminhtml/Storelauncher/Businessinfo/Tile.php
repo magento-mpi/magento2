@@ -56,10 +56,11 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage
     public function getAddress()
     {
         $addressValues = array();
-        $addressValues[] = $this->_storeConfig->getConfig('general/store_information/street_line1');
-        $addressValues[] = $this->_storeConfig->getConfig('general/store_information/street_line2');
-        $addressValues[] = $this->_storeConfig->getConfig('general/store_information/city');
-        $addressValues[] = $this->_storeConfig->getConfig('general/store_information/postcode');
+        $addressValues['store_name'] = $this->_storeConfig->getConfig('general/store_information/name');
+        $addressValues['street_line1'] = $this->_storeConfig->getConfig('general/store_information/street_line1');
+        $addressValues['street_line2'] = $this->_storeConfig->getConfig('general/store_information/street_line2');
+        $addressValues['city'] = $this->_storeConfig->getConfig('general/store_information/city');
+        $addressValues['postcode'] = $this->_storeConfig->getConfig('general/store_information/postcode');
         $countryCode = $this->_storeConfig->getConfig('general/store_information/country_id');
         if (!empty($countryCode)) {
             $countryName = $this->_countryModel->loadByCode($countryCode)->getName();
@@ -71,10 +72,10 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage
                 $this->_regionModel->load($regionName);
                 $regionName = $this->_regionModel->getName();
             }
-            $addressValues[] = $regionName;
-            $addressValues[] = $countryName;
+            $addressValues['region'] = $regionName;
+            $addressValues['country'] = $countryName;
         }
-        $addressValues[] = $this->_storeConfig->getConfig('trans_email/ident_general/email');
+        $addressValues['email'] = $this->_storeConfig->getConfig('trans_email/ident_general/email');
         return $addressValues;
     }
 }

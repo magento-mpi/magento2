@@ -31,6 +31,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
     public function setUp()
     {
         $this->_data = array(
+            'name' => 'Magento',
             'street_line1' => 'Zoologichna',
             'street_line2' => '5 A',
             'city' => 'Kiev',
@@ -172,11 +173,12 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
         return array(
             array(
                 array(
-                    'Zoologichna',
-                    '5 A',
-                    'Kiev',
-                    '03344',
-                    'test@example.com'
+                    'store_name' => 'Magento',
+                    'street_line1' => 'Zoologichna',
+                    'street_line2' => '5 A',
+                    'city' => 'Kiev',
+                    'postcode' => '03344',
+                    'email' => 'test@example.com'
                 )
             )
         );
@@ -192,13 +194,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
         return array(
             array(
                 array(
-                    'Zoologichna',
-                    '5 A',
-                    'Kiev',
-                    '03344',
-                    'Alaska',
-                    'United States',
-                    'test@example.com'
+                    'store_name' => 'Magento',
+                    'street_line1' => 'Zoologichna',
+                    'street_line2' => '5 A',
+                    'city' => 'Kiev',
+                    'postcode' => '03344',
+                    'region' => 'Alaska',
+                    'country' => 'United States',
+                    'email' => 'test@example.com'
                 ),
                 array(
                     'Alaska',
@@ -208,13 +211,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             ),
             array(
                 array(
-                    'Zoologichna',
-                    '5 A',
-                    'Kiev',
-                    '03344',
-                    5,
-                    'United States',
-                    'test@example.com'
+                    'store_name' => 'Magento',
+                    'street_line1' => 'Zoologichna',
+                    'street_line2' => '5 A',
+                    'city' => 'Kiev',
+                    'postcode' => '03344',
+                    'region' => 5,
+                    'country' => 'United States',
+                    'email' => 'test@example.com'
                 ),
                 array()
             )
