@@ -334,7 +334,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param array $params
      * @return Mage_Core_Model_Design_Package
      */
-    public function notifyViewFileLocationChanged($targetPath, $themeFile, $params)
+    protected function _notifyViewFileLocationChanged($targetPath, $themeFile, $params)
     {
         $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
         $strategy = $this->_resolutionPool->getViewStrategy($skipProxy);
@@ -528,7 +528,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         }
 
-        $this->notifyViewFileLocationChanged($targetPath, $themeFile, $params);
+        $this->_notifyViewFileLocationChanged($targetPath, $themeFile, $params);
         return $targetPath;
     }
 
