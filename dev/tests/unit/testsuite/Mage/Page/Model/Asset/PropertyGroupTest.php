@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Page_Model_Asset_GroupTest extends PHPUnit_Framework_TestCase
+class Mage_Page_Model_Asset_PropertyGroupTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Page_Model_Asset_PropertyGroup

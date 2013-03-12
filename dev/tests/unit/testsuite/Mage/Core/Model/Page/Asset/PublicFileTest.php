@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Asset_MediaFileTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Page_Asset_PublicFileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_Page_Asset_PublicFile

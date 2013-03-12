@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Asset_RemoteTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Page_Asset_RemoteTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_Page_Asset_Remote
