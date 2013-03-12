@@ -88,23 +88,25 @@ new_product:
             fieldsets: &new_product_fieldsets
                 -
                     product_information:
-                        xpath: //div[@class='page-actions']
+                        xpath: //div[@class='page-actions-inner']
+                        buttons:
+                            attribute_set_toggle: //*[@class='action-toggle']
+                            attribute_set_toggle_disabled: //*[@class='action-toggle disabled']
+                        fields:
+                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@calss, 'mage-suggest-state-loading'))]
+                        links:
+                            attribute_set: //a[@role='menuitem' and text()='%attributeSet%']
                         pageelements:
-                            product_attribute_set: //h3[@class='icon-head head-products' and contains(text(),'%attributeSet%')]
-                            product_page_title: //h3[@class='icon-head head-products']
-                            product_name: //h3[@class='icon-head head-products'][text()='%productName% (%attributeSet%)']
+                            product_attribute_set: //div[@id='product-template-suggest-container']//span[text()='%attributeSet%']
+                            attribute_set_no_records: //div[@class='mage-suggest-dropdown']/*[@class='mage-suggest-no-records']
+                            attribute_set_list: //div[@class='mage-suggest-dropdown']
                             product_online_status: //div[@class='switcher']/label
                 -
-                    advanced_settings:
-                        xpath: //*[@id='product_info_tabs-advanced']//h3
-                -
-                    change_attribute_set:
-                        xpath: //div[div/span='Select Attribute Set']
-                        dropdowns:
-                            choose_attribute_set: //select[@id='attribute_set_id']
-                        buttons:
-                            close: //button[@id='change-attribute-set-close-button']
-                            apply: //button[@id='change-attribute-set-apply-button']
+                    advanced_settings_tabs:
+                        xpath: //*[@id='product_info_tabs-advanced']
+                        pageelements:
+                            advanced_settings_header: /h3[@id='ui-accordion-product_info_tabs-advanced-header-0']
+                            advanced_settings_panel: /ul[@id='ui-accordion-product_info_tabs-advanced-panel-0']
                 -
                     choose_affected_attribute_set:
                         xpath: //*[@id='affected-attribute-set-form']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
@@ -135,6 +137,7 @@ new_product:
                                         general_tax_class: //select[@id='tax_class_id']
                                         general_sku_type: //select[@id='sku_type']
                                         general_weight_type: //select[@id='weight_type']
+                                        general_price_type: //select[@id='price_type']
                                         general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                         general_user_attr_dropdown: //select[@id='%attributeCodeDropdown%']
                                         general_price_type: //select[@id='price_type']
@@ -154,28 +157,35 @@ new_product:
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                             -
-                                category_search:
-                                    xpath: //*[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']/ul[@role='menu']
+                                category_list:
+                                    xpath: //div[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']
                                     links:
-                                        category: //*[@role='menuitem']//span[text()='%categoryPath%']
-                                        selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                                        root_category: /div/ul/li/a[text()='%categoryName%']
+                                        sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a[text()='%categoryName%']
+                                        expand_category: //li[contains(@class,'jstree-closed')][a/@data-suggest-option='%categoryId%']/ins
+                                        found_category: //a[span/text()='%categoryName%'][.//span='%categoryPath%']
+                                        any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
+                                        category: //a[@data-suggest-option='%categoryId%']
+                                        #root_category_selected: /div/ul/li[contains(@class,'mage-suggest-selected')]/a[text()='%categoryName%']
+                                        #sub_category_selected: //li[a/@data-suggest-option='%categoryId%']/ul/li[contains(@class,'mage-suggest-selected')]/a[text()='%categoryName%']
                                     pageelements:
-                                        category_list: //*[@class='ui-menu-item']
+                                        no_category_found: //span[text()='No records found']
+                                        category_node: //li[a/@data-suggest-option='%categoryId%']
                             -
                                 chosen_category:
-                                    xpath: //*[@class='mage-suggest-choice button']
+                                    xpath: //li[@class='mage-suggest-choice button']
                                     links:
-                                        delete_category: "[div='%categoryName%']//*[@class='mage-suggest-choice-close']"
+                                        delete_category: "[div='%categoryName%']/span[@class='mage-suggest-choice-close']"
                                     pageelements:
-                                        category_name: /*[text()='%categoryName%']
+                                        category_name: /div[text()='%categoryName%']
                             -
                                 new_category_form:
-                                    xpath: //div[div/span='Create New Category']
+                                    xpath: //div[div/span='Create Category']
                                     fields:
                                         name: //input[@id='new_category_name']
-                                        parent_category: //input[@id='new_category_parent'][not(contains(@class, 'ui-autocomplete-loading'))]
+                                        parent_category: //input[@id='new_category_parent-suggest']
                                     buttons:
-                                        new_category_close: //a[@class='ui-icon ui-icon-closethick']
+                                        new_category_close: ///a[span='close']
                                         new_category_save: //button[@id='mage-new-category-dialog-save-button']
                                         new_category_cancel: //button[@id='mage-new-category-dialog-close-button']
                                     pageelements:
@@ -199,7 +209,6 @@ new_product:
                                 product_variation_attribute:
                                     xpath: //div[div/strong/span='%attributeTitle%']
                                     checkboxes:
-                                        have_price_variation: //label[contains(.,'Have price variation')]/input
                                         include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
                                         use_default_label: //label[span='Use Default']
                                     fields:
@@ -215,7 +224,7 @@ new_product:
                                         option_line: //tbody/tr
                             -
                                 variations_matrix_grid:
-                                    xpath: //div[@id='product-variations-matrix']
+                                    xpath: //div[@id='product-variations-matrix']//table
                                     checkboxes:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
                                         assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
@@ -223,11 +232,11 @@ new_product:
                                         variations_matrix_header: //thead/tr
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%']
-                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='col-price associated-matrix-product-price']
                                     buttons:
                                         choose: //tbody/tr[%attributeSearch%]//button[@title='Choose']
                                     fields:
-                                        associated_product_name: //tbody/tr[%attributeSearch%]//input[contains(@name,'[name]')]
+                                        associated_name: //tbody/tr[%attributeSearch%]//input[contains(@name,'[name]')]
                                         associated_sku: //tbody/tr[%attributeSearch%]//input[contains(@name,'[sku]')]
                                         associated_quantity: //tbody/tr[%attributeSearch%]//input[contains(@name,'[qty]')]
                                         associated_weight: //tbody/tr[%attributeSearch%]//input[contains(@name,'[weight]')]
@@ -262,24 +271,24 @@ new_product:
                                         grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[contains(@class, 'grouped-product-sku')]
                             -
                                 bundle_items:
-                                    xpath: //div[@id='bundle_product_container']
+                                    xpath: //*[@id='bundle_product-wrapper']
                                     buttons:
                                         add_new_option: //button[@id='add_new_option']
+                                        delete_product_bundle_item: //div[//*[text()='%itemTitle%']]//*[@data-ui-id='adminhtml-catalog-product-edit-tab-bundle-option-option-delete-button']
                                     dropdowns:
                                         ship_bundle_items: //select[@id='shipment_type']
                                     fields:
                                         bundle_items_names: //input[@class='input-text required-entry']
                                     links:
-                                        delete_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-grip-dotted-vertical']
-                                        expand_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-triangle-s']
+                                        move_product_bundle_item: //div[strong/*[text()='%itemTitle%']]/*[@class='draggable-handle']
+                                        expand_product_bundle_item: //*[@data-toggle='collapse']/*[text()='%itemTitle%']
                                     pageelements:
                                         bundle_item_grid: //div[@class='option-box' and not(contains(@style,'display: none;'))]
                                         bundle_item_grid_index_product: //div[@id='bundle_option_%optionId%']//tr[@class='selection']/td[text()='%productSku%']
                                         bundle_item_row: //div[@class='option-box']
                             -
                                 new_bundle_option:
-                                    xpath: //div[@id='bundle_option_%optionId%']
+                                    xpath: //div[@id='bundle_option_%optionId%-wrapper']
                                     buttons:
                                         delete_option: //*[@class='ui-icon ui-icon-circle-close remove']
                                         add_selection: //button[@id='bundle_option_%optionId%_add_button']
@@ -295,12 +304,13 @@ new_product:
                                         selection_item_price: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_price_value')]
                                         selection_item_default_qty: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_qty')]
                                     links:
-                                        move_bundle_product: //tr[contains(.,'%productSku%')]//span[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        move_bundle_product: //tr[contains(.,'%productSku%')]//span[@class='draggable-handle']
                                     radiobuttons:
                                         selection_item_default: //tr[contains(.,'%productSku%')]//input[contains(@name,'[is_default]')]
                                     pageelements:
                                         selected_option_product: //tr[contains(.,'%productSku%')]
-                                        bundle_assigned_products: //td[@class='product-sku']
+                                        bundle_assigned_products: //td[@class='col-sku']
+                                        is_collapsed: //*[@data-target='#bundle_option_%optionId%-content']
                             #Select product grid for bundle and grouped
                             -
                                 select_associated_product_option:
@@ -562,7 +572,7 @@ new_product:
                                         import_options: //*[@id='import_new_defined_option']
                             -
                                 custom_option_set:
-                                    xpath: //div[contains(div/div,'Custom Options')]//*[@id='product_options_container']//*[@class='fieldset']
+                                    xpath: //div[contains(div/div,'Custom Options')]//*[@id='product_options_container']/div[contains(@id,'option_')]
                                     buttons:
                                         delete_custom_option: //button[span='Delete Option']
                                         delete_option: //div[@id='option_%optionId%']//button[@title='Delete Option']
@@ -674,11 +684,12 @@ new_product:
                                     pageelements:
                                         added_downloadable_link: //*[@id='link_items_body']/tr
                                         downloadable_link_row: //*[@id='link_items_body']/tr
+                -
+                    user_tab: &userTab
+                        xpath: //a[@title='%productTabName%']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            change_attribute_set: //button[@id='change-attribute-set-button']
-            change_attribute_set_disabled: //button[@id='change-attribute-set-button' and contains(@class, 'disabled')]
             save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
             save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
@@ -756,11 +767,12 @@ edit_product:
                                     pageelements:
                                         tags_grid_head: //table[@id='tag_customers_grid_table']//thead/tr[@class='headings']
                                         tags_grid: //table[@id='tag_customers_grid_table']
+                -
+                    user_tab: *userTab
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete: //button[span='Delete']
-            change_attribute_set: //button[span='Change Attribute Set']
             save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
             save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
@@ -773,7 +785,7 @@ new_product_save_and_continue:
     uimap: *editProduct
 
 edit_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/back/edit/tab/%tab%
+    mca: catalog_product/edit/id/%id%/back/edit/active_tab/%tab%
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 

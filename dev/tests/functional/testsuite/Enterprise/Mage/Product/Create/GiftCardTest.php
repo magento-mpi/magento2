@@ -31,9 +31,10 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with required fields only</p>
+     * Creating Gift Card with required fields only
      *
      * @param array $giftcardType
+     * @param array $weight
      * @return array $productData
      *
      * @TestlinkId TL-MAGE-8
@@ -42,13 +43,18 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider differentGiftCardTypes
      */
-    public function onlyRequiredFieldsInGiftCard($giftcardType)
+    public function onlyRequiredFieldsInGiftCard($giftcardType, $weight)
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
         $productData['general_gift_card_data']['general_card_type'] = $giftcardType;
         //Steps
-        $this->productHelper()->createProduct($productData, 'giftcard');
+        $this->productHelper()->createProduct($productData, 'giftcard', false);
+        if (!$giftcardType == 'Virtual') {
+            $this->openTab('general');
+            $this->fillField('general_weight', $weight);
+        }
+        $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
@@ -58,9 +64,9 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     public function differentGiftCardTypes()
     {
         return array(
-            array('Virtual'),
-            array('Physical'),
-            array('Combined'),
+            array('Virtual', null),
+            array('Physical', '0.15'),
+            array('Combined', '0.09')
         );
     }
 
@@ -85,7 +91,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $this->productHelper()->verifyProductInfo($productData, $productData['prices']);
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
@@ -121,7 +127,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         if ($emptyField == 'prices_gift_card_allow_open_amount') {
-            $overrideData = array($emptyField => 'No', 'prices_gift_card_amounts' => '%noValue%');
+            $overrideData = array($emptyField => 'No', 'general_gift_card_amounts' => '%noValue%');
         } else {
             $overrideData = array($emptyField => '%noValue%');
         }
@@ -144,7 +150,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
         return array(
             array('general_name', 'field'),
             array('general_sku', 'field'),
-            array('prices_gift_card_allow_open_amount', 'dropdown'),
+            array('general_gift_card_allow_open_amount', 'dropdown'),
         );
     }
 
@@ -182,7 +188,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      * @TestlinkId TL-MAGE-5858
      * @test
      */
-    public function specialCharactersInRequiredFields()
+    public function specialCharactersInBaseFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',
@@ -210,7 +216,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      * @TestlinkId TL-MAGE-5859
      * @test
      */
-    public function longValuesInRequiredFields()
+    public function longValuesInBaseFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',

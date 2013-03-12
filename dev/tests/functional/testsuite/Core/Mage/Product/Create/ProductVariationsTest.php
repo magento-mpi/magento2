@@ -123,7 +123,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
-        $this->assertTrue($this->isFieldsetExpanded('product_variations'));
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'));
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute1']['admin_title']);
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute2']['admin_title']);
         $this->clickButton('generate_product_variations', false);
@@ -163,7 +163,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         unset($verifySimple['general_configurable_variations']);
         $verifySimple = array_replace($verifySimple,
             array(
-                'general_name'       => $associated['associated_product_name'],
+                'general_name'       => $associated['associated_name'],
                 'general_sku'        => $associated['associated_sku'],
                 'general_weight'     => $associated['associated_weight'],
                 'inventory_quantity' => $associated['associated_quantity'],
@@ -222,7 +222,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         unset($verifyVirtual['general_weight']);
         $verifyVirtual = array_replace($verifyVirtual,
             array(
-                'general_name' => $associated['associated_product_name'],
+                'general_name' => $associated['associated_name'],
                 'general_sku' => $associated['associated_sku'],
                 'inventory_quantity' => $associated['associated_quantity'],
                 'autosettings_visibility' => 'Not Visible Individually',
@@ -335,7 +335,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('associated_product_name'),
+            array('associated_name'),
             array('associated_sku')
         );
     }
@@ -362,7 +362,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $productData['general_weight'] = '12';
         $option = $attributeData['attribute1']['option_1']['admin_option_name'];
         $verifyData = array(
-            'associated_product_name' => $productData['general_name'] . '-' . $option,
+            'associated_name' => $productData['general_name'] . '-' . $option,
             'associated_sku' => $productData['general_sku'] . '-' . $option,
             'associated_weight' => $productData['general_weight']
         );
@@ -371,8 +371,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProductTab('general');
         //Verifying
         $this->addParameter('attributeSearch', "contains(.,$option)");
-        $this->assertSame($verifyData['associated_product_name'],
-            $this->getControlAttribute('field', 'associated_product_name', 'value'));
+        $this->assertSame($verifyData['associated_name'],
+            $this->getControlAttribute('field', 'associated_name', 'value'));
         $this->assertSame($verifyData['associated_sku'],
             $this->getControlAttribute('field', 'associated_sku', 'value'));
         $this->assertSame($verifyData['associated_weight'],
@@ -399,7 +399,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         //Steps
         $this->productHelper()->selectTypeProduct('configurable');
         $this->assertTrue($this->controlIsVisible('pageelement', 'product_variations_fieldset'));
-        $this->assertTrue($this->isFieldsetExpanded('product_variations'));
+        $this->assertTrue($this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'product_variations'));
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute1']['admin_title']);
         $this->productHelper()->selectConfigurableAttribute($attributeData['attribute2']['admin_title']);
         $this->productHelper()->unselectConfigurableAttributeOptions($options,
@@ -666,8 +666,6 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     protected function _setVariationPriceRule($attributeTitle, $option, $ruleType, $price)
     {
         $this->addParameter('attributeTitle', $attributeTitle);
-        $this->fillCheckbox('have_price_variation', 'Yes');
-        $this->waitForControlVisible('field', 'variation_attribute_price');
         $this->addParameter('attributeOption', $option);
         $this->fillField('variation_attribute_price', $price);
         $this->fillDropdown('variation_attribute_price_type', $ruleType);
@@ -844,7 +842,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             $attributeData['attribute1']['option_1']['admin_option_name'];
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
             array(
-                'associated_product_name' => $associated['general_name'],
+                'associated_name' => $associated['general_name'],
                 'associated_sku' => $associated['general_sku']
             ),
             array(

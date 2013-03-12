@@ -46,7 +46,7 @@ admin_header:
                             qtyElementsInTable: //div[@class='pager']//span[contains(@id,'total-count')]
                             qty_elements_in_specific_table: "%tableHeadXpath%//div[@class='pager']//span[contains(@id,'total-count')]"
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
-                            loadingHolder: "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]"
+                            loadingHolder: "//*[@id='loading-mask']"
                             dropdown_option: "%dropdownXpath%//option"
                             dropdown_option_text: "%dropdownXpath%//option[normalize-space(text())='%optionText%']"
                             dropdown_option_index: "%dropdownXpath%//option[%index%]"

@@ -290,7 +290,7 @@ product_attribute_mediaimage: &productAttributeMediaimage
         Default Store View: Media_Image_Storeview
 
 # Test Datasets for Add New FixedProductTax type Product Attribute
-product_attribute_fpt:
+product_attribute_fpt: &productAttributeFpt
 # properties:
     catalog_input_type_for_store_owner: Fixed Product Tax
     attribute_code: attr_fpt_code_%randomize%
@@ -313,3 +313,14 @@ product_attributes:
     product_attribute_dropdown_with_options: *productAttributeDropdownWithOptions
     product_attribute_price: *productAttributePrice
     product_attribute_mediaimage: *productAttributeMediaimage
+
+# Test Dataset for verifying attributes on tab after changing attribute set
+product_attributes_for_changing_template:
+    product_attribute_textfield: *productAttributeTextfield
+    product_attribute_textarea: *productAttributeTextarea
+    product_attribute_date: *productAttributeDate
+    product_attribute_yesno: *productAttributeYesno
+    product_attribute_multiselect_with_options: *productAttributeMultiselectWithOptions
+    product_attribute_dropdown_with_options: *productAttributeDropdownWithOptions
+    product_attribute_price: *productAttributePrice
+    product_attribute_fpt: *productAttributeFpt

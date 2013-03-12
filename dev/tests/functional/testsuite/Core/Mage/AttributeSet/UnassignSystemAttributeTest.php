@@ -114,28 +114,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * Remove system attributes from Minimal attribute set
-     *
-     * @param string $attributeCode
-     *
-     * @test
-     * @dataProvider unassignableSystemAttributesDataProvider
-     * @TestLinkId TL-MAGE-6127
-     */
-    public function fromMinimalAttributeSet($attributeCode)
-    {
-        //Data
-        $setName = 'Minimal';
-        //Steps
-        $this->attributeSetHelper()->openAttributeSet($setName);
-        $this->attributeSetHelper()->addAttributeToSet(array('Product Details' => $attributeCode));
-        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode));
-        $this->attributeSetHelper()->unassignAttributeFromSet(array($attributeCode));
-        //Verifying
-        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode), false);
-    }
-
-    /**
      * DataProvider for system attributes, which can be unassigned
      *
      * @return array

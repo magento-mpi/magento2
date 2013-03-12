@@ -127,7 +127,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
      * <p>Create product with long Name</p>
      *
      * @test
-     * @ depends preconditionsForTests
+     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6064
      */
     public function saveWithLongName()

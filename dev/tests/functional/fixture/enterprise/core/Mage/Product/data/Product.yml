@@ -9,17 +9,17 @@
 # @license     {license_link}
 #
 ---
-# Test Datasets for Add New Product for each types for minimal attribute set
+# Test Datasets for Add New Product for each types
 #*********************************************
-#*         Gift Card Price Data              *
+#*         Gift Card Amount Data              *
 #*********************************************
-prices_gift_card_amount1: &giftCardAmount1
-    prices_gift_card_website: All Websites [USD]
-    prices_gift_card_amount: 1.11
+general_gift_card_amount1: &giftCardAmount1
+    general_gift_card_website: All Websites [USD]
+    general_gift_card_amount: 1.11
 
-prices_gift_card_amount2: &giftCardAmount2
-    prices_gift_card_website: All Websites [USD]
-    general_amount: 5.55
+general_gift_card_amount2: &giftCardAmount2
+    general_gift_card_website: All Websites [USD]
+    general_gift_card_amount: 5.55
 
 general_amounts: &giftCardAmounts
     general_amount1: *giftCardAmount1
@@ -28,32 +28,30 @@ general_amounts: &giftCardAmounts
 # Test Datasets for Add New Product Gift card type
 gift_card_required:
     product_attribute_set: Default
-    general_name: Gift Card Required(%randomize%)
-    general_description: Description for Gift Card Required
-    autosettings_short_description: Short Description for Gift Card Required
-    general_sku: giftcard_sku_req_%randomize%
-    general_weight: 2.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    general_name: Gift Card Required(%randomize%)
+    general_sku: giftcard_sku_req_%randomize%
     general_gift_card_data:
-        general_allow_open_amount: Yes
         general_card_type: %noValue%
         general_amounts: *giftCardAmounts
+        general_allow_open_amount: Yes
+    general_description: Description for Gift Card Required
     inventory_qty: 111
+    autosettings_visibility: Catalog, Search
+    autosettings_short_description: %noValue%
 
 frontend_gift_card_validation:
     product_attribute_set: Default
-    general_name: Gift Card frontend %randomize%
-    general_description: Description for Gift Card frontend
-    autosettings_short_description: Short Description for Gift Card frontend
-    general_sku: giftcard_frontend_sku_%randomize%
-    general_weight: 2.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    general_name: Gift Card frontend %randomize%
+    general_sku: giftcard_frontend_sku_%randomize%
+    general_description: Description for Gift Card frontend
     general_qty: 120
     general_stock_availability: In Stock
-    prices_gift_card_amounts: *giftCardAmounts
-    prices_gift_card_allow_open_amount: Yes
+    general_weight: 2.56
+    general_categories: Default Category
+    general_gift_card_amounts: *giftCardAmounts
+    general_gift_card_allow_open_amount: Yes
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     inventory_max_allowed_qty_default: No
@@ -61,7 +59,8 @@ frontend_gift_card_validation:
     inventory_backorders_default: No
     inventory_backorders: Allow Qty Below 0
     websites: Main Website
-    general_categories: Default Category
+    autosettings_visibility: Catalog, Search
+    autosettings_short_description: Short Description for Gift Card frontend
     custom_options_data: &customOptionsData
         option_1: &field
             custom_options_general_title: Custom Option Field
@@ -163,25 +162,20 @@ frontend_gift_card_validation:
 
 gift_card:
     product_attribute_set: Default
-    general_name: Gift Card(%randomize%)
-    general_description: Description for Gift Card
-    autosettings_short_description: Short Description for Gift Card
-    general_sku: giftcard_sku_%randomize%
-    general_weight: 2.56
-    general_news_from: %currentDate%
-    general_news_to: %currentDate%
-    general_url_key: giftcard-url-key
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Gift Card(%randomize%)
+    general_sku: giftcard_sku_%randomize%
     general_gift_card_data:
+        general_card_type: %noValue%
+        general_amounts: *giftCardAmounts
         general_allow_open_amount: Yes
         general_open_amount_min: 0.1
         general_open_amount_max: 99999
-        general_card_type: %noValue%
-        general_amounts: *giftCardAmounts
-        general_card_type: Combined
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: %noValue%
+    general_categories: Default Category
+    general_description: Description for Gift Card
     general_is_redeemable_default: No
     general_is_redeemable: No
     general_lifetime_default: No
@@ -189,18 +183,23 @@ gift_card:
     general_allow_message_default: No
     general_allow_message: No
     general_email_template_default: No
-    general_enable_googlecheckout: Yes
     meta_information_meta_title: Meta Title for Gift Card
     meta_information_meta_keywords: Meta Keywords for Gift Card
     meta_information_meta_description: Meta Description for Gift Card
+    prices_enable_googlecheckout: Yes
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
     design_custom_layout_update: Custom Layout Update
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
-    gift_options_allow_gift_message_default: No
-    gift_options_allow_gift_message: Yes
+    autosettings_short_description: Short Description for Gift Card
+    autosettings_url_key: giftcard-url-key
+    autosettings_visibility: Catalog, Search
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_options_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_qty: 120
@@ -220,22 +219,22 @@ gift_card:
     inventory_qty_increments: 5
     inventory_stock_availability: In Stock
     websites: Main Website
-    general_categories: Default Category
 
 #<----------------------Product for Order by SKU functionality----------------->
 simple_sku:
    product_attribute_set: Default
-   general_name: Simple Product (%randomize%)
-   general_description: Description for Simple Product
-   autosettings_short_description: Short Description for Simple Product
-   general_sku: simple_sku_%randomize%
-   general_weight: 1.14
    product_online_status: Enabled
-   autosettings_visibility: Catalog, Search
-   general_qty: 120
-   general_stock_availability: In Stock
+   general_name: Simple Product (%randomize%)
+   general_sku: simple_sku_%randomize%
    general_price: 12.99
    general_tax_class: None
+   general_qty: 120
+   general_stock_availability: In Stock
+   general_weight: 1.14
+   general_categories: Default Category
+   general_description: Description for Simple Product
+   autosettings_short_description: Short Description for Simple Product
+   autosettings_visibility: Catalog, Search
    inventory_min_allowed_qty_default: %noValue%
    inventory_min_allowed_qty: %noValue%
    inventory_max_allowed_qty_default: %noValue%
@@ -247,21 +246,20 @@ simple_sku:
    inventory_qty_increments_default: %noValue%
    inventory_qty_increments: %noValue%
    websites: Main Website
-   general_categories: Default Category
    custom_options_data: %noValue%
 
 # Product that has all needed fields and website.
 simple_product_website:
     product_attribute_set: Default
-    general_name: Simple Product Visible(%randomize%)
-    general_description: Description for Simple Product Visible
-    autosettings_short_description: Short Description for Simple Product Visible
-    general_sku: simple_visible_sku_%randomize%
-    general_weight: 1.14
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    general_name: Simple Product Visible(%randomize%)
+    general_sku: simple_visible_sku_%randomize%
     general_price: 12.99
     general_tax_class: None
+    general_weight: 1.14
+    general_description: Description for Simple Product Visible
+    autosettings_short_description: Short Description for Simple Product Visible
+    autosettings_visibility: Catalog, Search
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -273,14 +271,14 @@ simple_product_website:
 # Product that has all needed fields and website.
 virtual_product_website:
     product_attribute_set: Default
-    general_name: Virtual Product Visible(%randomize%)
-    general_description: Description for Virtual Product Visible
-    autosettings_short_description: Short Description for Virtual Product Visible
-    general_sku: virtual_visible_sku_%randomize%
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    general_name: Virtual Product Visible(%randomize%)
+    general_sku: virtual_visible_sku_%randomize%
     general_price: 18.99
     general_tax_class: None
+    general_description: Description for Virtual Product Visible
+    autosettings_short_description: Short Description for Virtual Product Visible
+    autosettings_visibility: Catalog, Search
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -293,15 +291,15 @@ virtual_product_website:
 # Product that has all needed fields and website.
 bundle_product_website:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Bundle(Dynamic) Product Visible(%randomize%)
-    general_description: Description for Bundle(Dynamic) Product Visible
-    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     general_sku_type: Dynamic
     general_sku: bundle_dynamic_visible_sku.req_%randomize%
+    general_stock_availability: In Stock
     general_weight_type: Dynamic
-    product_online_status: Enabled
+    general_description: Description for Bundle(Dynamic) Product Visible
+    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
     autosettings_visibility: Catalog, Search
-    inventory_stock_availability: In Stock
     websites: Main Website
     general_bundle_items:
         item_1: %noValue%
@@ -312,11 +310,11 @@ bundle_product_website:
 # Product that has all needed fields set and website.
 grouped_product_website:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Grouped Product Visible(%randomize%)
+    general_sku: grouped_visible_sku.req_%randomize%
     general_description: Description for Grouped Product Visible
     autosettings_short_description: Short Description for Grouped Product Visible
-    general_sku: grouped_visible_sku.req_%randomize%
-    product_online_status: Enabled
     autosettings_visibility: Catalog, Search
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -340,14 +338,14 @@ grouped_product_website:
 # Product that has all needed fields set and website.
 downloadable_product_website:
     product_attribute_set: Default
-    general_name: Downloadable Product Visible(%randomize%)
-    general_description: Description for Downloadable Product Visible
-    autosettings_short_description: Short Description for Downloadable Product Visible
-    general_sku: downloadable_visible_sku_%randomize%
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
+    general_name: Downloadable Product Visible(%randomize%)
+    general_sku: downloadable_visible_sku_%randomize%
     general_price: 98.99
     general_tax_class: None
+    general_description: Description for Downloadable Product Visible
+    autosettings_short_description: Short Description for Downloadable Product Visible
+    autosettings_visibility: Catalog, Search
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -377,14 +375,14 @@ downloadable_product_website:
 # Product that has all needed fields without price.
 simple_product_price:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Simple Product Visible(%randomize%)
+    general_sku: simple_visible_sku_%randomize%
+    general_tax_class: None
+    general_weight: 1.14
     general_description: Description for Simple Product Visible
     autosettings_short_description: Short Description for Simple Product Visible
-    general_sku: simple_visible_sku_%randomize%
-    general_weight: 1.14
-    product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -397,13 +395,13 @@ simple_product_price:
 # Product that has all needed fields without price.
 virtual_product_price:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Virtual Product Visible(%randomize%)
+    general_sku: virtual_visible_sku_%randomize%
+    general_tax_class: None
     general_description: Description for Virtual Product Visible
     autosettings_short_description: Short Description for Virtual Product Visible
-    general_sku: virtual_visible_sku_%randomize%
-    product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -416,13 +414,13 @@ virtual_product_price:
 # Product that has all needed fields set without price.
 downloadable_product_price:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Downloadable Product Visible(%randomize%)
+    general_sku: downloadable_visible_sku_%randomize%
+    general_tax_class: None
     general_description: Description for Downloadable Product Visible
     autosettings_short_description: Short Description for Downloadable Product Visible
-    general_sku: downloadable_visible_sku_%randomize%
-    product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
