@@ -51,6 +51,22 @@
                 </ul>
             </div>
             <div class="vde-tools-button">
+                <div id="vde-translate-menu" class="text-menu-hide">
+                    <div id="vde-translate-text" class="text-menu-div">
+                        <span id="vde-translate-text-img" class="text-menu-text-off"></span>
+                        <span class="text-menu-label">Page Text</span>
+                    </div>
+
+                    <div id="vde-translate-script" class="text-menu-div">
+                        <span id="vde-translate-script-img" class="text-menu-script-off"></span>
+                        <span class="text-menu-label">Variable Text</span>
+                    </div>
+
+                    <div id="vde-translate-alt" class="text-menu-div">
+                        <span id="vde-translate-alt-img" class="text-menu-alt-off"></span>
+                        <span class="text-menu-label">Alternative Text</span>
+                    </div>
+                </div>
                 <ul class="vde-tab-controls">
                     <li class="item item-translate">
                         <a id="vde-translate" title="<?php echo $this->__('Edit Text'); ?>" onmouseover="this.style.cursor='pointer'">
@@ -89,7 +105,8 @@
         options: {
             frameUrl: null,
             refreshVdeCanvas: false,
-            refreshIframeEvent: 'refreshIframe'
+            refreshIframeEvent: 'refreshIframe',
+            disableInlineTranslation: false
         },
 
         _create: function() {
@@ -104,7 +121,10 @@
         _onIframeRefresh: function() {
             /** todo SDW Add animation when refreshing the iframe. */
 
-            var url = this.options.frameUrl + "translation_mode/text";
+            var url = this.options.frameUrl;
+            if (!this.options.disableInlineTranslation)
+                url = url + "translation_mode/text";
+
             var container_frame = parent.jQuery('#vde_container_frame');
 
             container_frame.prop('src', url);
@@ -121,27 +141,71 @@
         },
 
         /**
-         * This method toggles inline translation on and off.  Everything is wrapped with the appropriate
-         * attributes at this time.
+         * This method displays the text editing sub-menus to select from and defaults the currently selected mode.
          */
         toggleTranslationInline: function() {
-            if (this.options.refreshVdeCanvas) {
-                // Refresh iframe with new url
-                this.element.trigger('refreshIframe');
-            }
+            // Display the text editing sub-menus.
+            parent.jQuery('#vde-translate-menu').removeClass('text-menu-hide').addClass('text-menu-show');
 
-            /** todo SDW display menu and swap out enabled 'T' button */
+            /** todo SDW Change the icon in the footer */
         },
 
         /**
          * This method will only enable editing for the translation mode specified.
          *
+         * If this is the first time a mode is selected, the contents of the iframe will be wrapped with the appropriate
+         * attributes where applicable (translate-mode, either 'text', 'script' or 'alt').
+         *
          * @param mode
          */
         toggleTranslationMode: function(mode) {
-            /** todo SDW Call into InlineVde widget to hide/show appropriate wrapping based on translation mode. */
+            this.options.disableInlineTranslation = false;
 
-            /** todo SDW swap out enabled T button */
+            // Hide text editing sub-menus.
+            parent.jQuery('#vde-translate-menu').removeClass('text-menu-show').addClass('text-menu-hide');
+
+            var disable_one = "text";
+            var disable_two = "script";
+
+            if (mode === 'text') {
+                disable_one = "script";
+                disable_two = "alt";
+            }
+            else if (mode === 'script') {
+                disable_one = "text";
+                disable_two = "alt";
+            }
+
+            // Check to see if turning off (selecting the already highlighted option).
+            if (parent.jQuery('#vde-translate-' + mode).hasClass('text-menu-background-on')) {
+                parent.jQuery('#vde-translate-' + mode).removeClass('text-menu-background-on').addClass('text-menu-background-off');
+                parent.jQuery('#vde-translate-' + mode + '-img').removeClass('text-menu-' + mode + '-on').addClass('text-menu-' + mode + '-off');
+
+                // Refresh iframe minus the translation mode on the url.
+                this.options.disableInlineTranslation = true;
+            }
+            else {
+                // Enable selected option
+                parent.jQuery('#vde-translate-' + mode).removeClass('text-menu-background-off').addClass('text-menu-background-on');
+                parent.jQuery('#vde-translate-' + mode + '-img').removeClass('text-menu-' + mode + '-off').addClass('text-menu-' + mode + '-on');
+
+                // Disable other options.
+                parent.jQuery('#vde-translate-' + disable_one + '').removeClass('text-menu-background-on').addClass('text-menu-background-off');
+                parent.jQuery('#vde-translate-' + disable_one + '-img').removeClass('text-menu-' + disable_one + '-on').addClass('text-menu-'+ disable_one + '-off');
+                parent.jQuery('#vde-translate-' + disable_two + '').removeClass('text-menu-background-on').addClass('text-menu-background-off');
+                parent.jQuery('#vde-translate-' + disable_two + '-img').removeClass('text-menu-' + disable_two + '-on').addClass('text-menu-' + disable_two + '-off');
+            }
+
+            /** todo SDW Change toolbar button as well */
+
+            /** todo SDW Call into translate_inline widget to hide/show appropriate wrapping based on translation mode. */
+
+            // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
+            // Also, if disabling inline translation, refresh minus the translation mode on the url.
+            if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation) {
+                // Refresh iframe with new url
+                this.element.trigger('refreshIframe');
+            }
         }
     });
 
