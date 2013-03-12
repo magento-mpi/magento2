@@ -14,7 +14,7 @@ $entityTypeId = $this->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY);
 $attributeSetId = $this->getAttributeSetId($entityTypeId, 'Default');
 
 $groupName = 'Recurring Profile';
-$this->addAttributeGroup($entityTypeId, $attributeSetId, $groupName, 42);
+$this->updateAttributeGroup($entityTypeId, $attributeSetId, $groupName, 'sort_order', 41);
 $this->updateAttributeGroup($entityTypeId, $attributeSetId, $groupName, 'attribute_group_code', 'recurring-profile');
 $this->updateAttributeGroup($entityTypeId, $attributeSetId, $groupName, 'tab_group_code', 'advanced');
 
