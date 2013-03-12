@@ -189,7 +189,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
             {{each(i, item) data.items}}
             <input id="perstore_${i}" name="translate[${i}][perstore]" type="hidden" value="0"/>
             <input name="translate[${i}][original]" type="hidden" value="${item.scope}::${escape(item.original)}"/>
-            <input id="custom_${i}" name="translate[${i}][custom]" value="${escape(item.translated)}" data-translate-input="true"/>
+            <input id="custom_${i}" name="translate[${i}][custom]" value="${escape(item.translated)}" data-translate-input-index="${i}"/>
             {{/each}}
         </form>
     </script>
@@ -222,10 +222,10 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
                 $('[data-translate]').translateInlineIconVde({
                     img: '<?php echo $trigImg ?>',
                     imgHover: '<?php echo $trigImgHover ?>',
-                    onClick: function(element) {
+                    onClick: function(widget) {
                         $('body').removeClass('trnslate-inline-area');
                         $('[data-translate]').translateInlineIconVde('hide');
-                        $('body').translateInlineDialogVde('open', element);
+                        $('body').translateInlineDialogVde('open', widget.element, $.proxy(widget.replaceText, widget));
                     }
                 });
 
