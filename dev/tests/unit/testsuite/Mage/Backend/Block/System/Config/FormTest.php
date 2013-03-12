@@ -103,7 +103,9 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         );
 
         $configFactoryMock->expects($this->once())->method('create')
-            ->with(array('section' => 'section_code', 'website' => 'website_code', 'store' => 'store_code'))
+            ->with(array(
+                'data' => array('section' => 'section_code', 'website' => 'website_code', 'store' => 'store_code')
+            ))
             ->will($this->returnValue($this->_backendConfigMock));
 
         $this->_backendConfigMock->expects($this->once())->method('load')

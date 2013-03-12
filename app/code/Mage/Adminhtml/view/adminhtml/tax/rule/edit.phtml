@@ -123,7 +123,7 @@
             taxRateField.find('.mselect-list')
                     .on('click.mselect-edit', '.mselect-edit', this.edit)
                     .on("click.mselect-delete", ".mselect-delete", function () {
-                        if (!confirm('<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax rate'); ?>')) {
+                        if (!confirm('<?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Do you really want to delete this tax rate?'); ?>')) {
                             return;
                         }
 

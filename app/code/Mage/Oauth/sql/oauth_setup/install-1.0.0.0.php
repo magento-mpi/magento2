@@ -141,7 +141,7 @@ $table = $adapter->newTable($installer->getTable('oauth_token'))
         Varien_Db_Ddl_Table::ACTION_CASCADE,
         Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('oauth_token', 'consumer_id', 'oauth_consumer', 'entity_id'),
+        $installer->getFkName('oauth_token', 'consumer_id', $installer->getTable('oauth_consumer'), 'entity_id'),
         'consumer_id',
         $installer->getTable('oauth_consumer'),
         'entity_id',

@@ -47,11 +47,17 @@ class Core_Mage_Tax_TaxRule_Helper extends Mage_Selenium_AbstractHelper
         $generalElement = $this->getElement($locator);
         $optionElement = $this->getChildElement($generalElement, sprintf($labelLocator, $rateName));
         $optionElement->click();
+        $this->moveto($optionElement);
         $this->getChildElement($optionElement, "//span[@title='Edit']")->click();
-        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'tax_rate_form'));
+        $this->waitForElementVisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'tax_rate_form'));
         $this->_fillTaxRateForm($taxItemData);
         $this->clickButton('save_rate', false);
-        $this->waitForElementInvisible($this->_getControlXpath('fieldset', 'tax_rate_form'));
+        $this->waitForElementInvisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'tax_rate_form'));
+        //Restore "Selected" state
+        $rateName = ($newTaxRateData['tax_identifier'] && !empty($newTaxRateData['tax_identifier'])) ?
+            $newTaxRateData['tax_identifier'] :
+            $rateName;
+        $this->getChildElement($generalElement, sprintf($labelLocator, $rateName))->click();
     }
 
     /**

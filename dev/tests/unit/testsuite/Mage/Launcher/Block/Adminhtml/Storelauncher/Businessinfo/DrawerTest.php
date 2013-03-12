@@ -22,11 +22,11 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
     protected $_drawerBlock;
 
     /**
-     * Expected data array, used in configCallback method
+     * Configuration map
      *
      * @var array
      */
-    protected $_expectedData;
+    protected $_configMap;
 
     public function setUp()
     {
@@ -48,43 +48,44 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
             $arguments
         );
 
-        $this->_expectedData = array();
+        $this->_configMap = array();
     }
 
     public function tearDown()
     {
         unset($this->_drawerBlock);
-        unset($this->_expectedData);
+        unset($this->_configMap);
     }
 
     /**
      * Callback function for getConfig method
      *
-     * @param string $param
+     * @param string $configPath
      * @return string
      */
-    public function configCallback($param)
+    public function configCallback($configPath)
     {
-        $configPath = explode('/', $param);
-        $configElement = $configPath[2];
-
-        $result = $this->_expectedData[$configElement];
-        if (!$this->_expectedData['use_for_shipping'] && $configPath[0] == 'shipping') {
-            $result .= 'shipping';
-        }
-        return $result;
+        return $this->_configMap[$configPath];
     }
 
     /**
      * @dataProvider testGetAddressDataProvider
-     * @param array $expectedData
+     * @param array $expectedResult
+     * @param array $configMap
+     * @param boolean $tileState
      */
-    public function testGetAddressData($expectedData)
+    public function testGetAddressData(array $expectedResult, array $configMap, $tileState)
     {
-        $this->_expectedData = $expectedData;
-        $result = $this->_drawerBlock->getAddressData();
+        $this->_configMap = $configMap;
+        // mock tile instance
+        /** @var $tile PHPUnit_Framework_MockObject_MockObject|Mage_Launcher_Model_Tile */
+        $tile = $this->getMock('Mage_Launcher_Model_Tile', array('getState'), array(), '', false);
+        $tile->expects($this->any())
+            ->method('getState')
+            ->will($this->returnValue($tileState));
+        $this->_drawerBlock->setTile($tile);
 
-        $this->assertEquals($result, $expectedData);
+        $this->assertEquals($expectedResult, $this->_drawerBlock->getAddressData());
     }
 
     /**
@@ -94,37 +95,57 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
      */
     public function testGetAddressDataProvider()
     {
+        $baseConfigMap = array(
+            // business address data
+            'general/store_information/street_line1' => 'In the middle of nowhere',
+            'general/store_information/street_line2' => '5A',
+            'general/store_information/city' => 'Los Angeles',
+            'general/store_information/postcode' => '03344',
+            'general/store_information/region_id' => 5,
+            'general/store_information/country_id' => 'US',
+            'trans_email/ident_general/email' => 'owner@example.com',
+            'general/store_information/name' => 'Store Name',
+            'general/store_information/phone' => '1234567890',
+            'general/store_information/merchant_vat_number' => '123456',
+            // shipping origin data
+            'shipping/origin/street_line1' => 'In the middle of nowhere',
+            'shipping/origin/street_line2' => '5A',
+            'shipping/origin/city' => 'Los Angeles',
+            'shipping/origin/postcode' => '03344',
+            'shipping/origin/region_id' => 5,
+            'shipping/origin/country_id' => 'US',
+        );
+
+        $baseExpectedResult = array(
+            'street_line1' => 'In the middle of nowhere',
+            'street_line2' => '5A',
+            'city' => 'Los Angeles',
+            'postcode' => '03344',
+            'country_id' => 'US',
+            'region_id' => 5,
+            'use_for_shipping' => true,
+            'name' => 'Store Name',
+            'phone' => '1234567890',
+            'email' => 'owner@example.com',
+            'merchant_vat_number' => '123456',
+        );
+
+        $configMap0 = $baseConfigMap;
+        $expectedResult0 = $baseExpectedResult;
+
+        $configMap1 = $baseConfigMap;
+        $configMap1['shipping/origin/street_line1'] = 'value different from business address';
+        $expectedResult1 = $baseExpectedResult;
+        $expectedResult1['use_for_shipping'] = false;
+
+        $configMap2 = $configMap1;
+        $expectedResult2 = $baseExpectedResult;
+
+
         return array(
-            array(
-                array(
-                    'street_line1' => 'Zoologichna',
-                    'street_line2' => '5 A',
-                    'city' => 'Los Angeles',
-                    'postcode' => '03344',
-                    'region_id' => 5,
-                    'country_id' => 'US',
-                    'use_for_shipping' => true,
-                    'email' => 'test@example.com',
-                    'name' => 'Store Name',
-                    'phone' => '1234567890',
-                    'merchant_vat_number' => '123456'
-                )
-            ),
-            array(
-                array(
-                    'street_line1' => 'Zoologichna',
-                    'street_line2' => '5 A',
-                    'city' => 'Los Angeles',
-                    'postcode' => '03344',
-                    'region_id' => 5,
-                    'country_id' => 'US',
-                    'use_for_shipping' => false,
-                    'email' => 'test@example.com',
-                    'name' => 'Store Name',
-                    'phone' => '1234567890',
-                    'merchant_vat_number' => '123456'
-                )
-            )
+            array($expectedResult0, $configMap0, Mage_Launcher_Model_Tile::STATE_COMPLETE),
+            array($expectedResult1, $configMap1, Mage_Launcher_Model_Tile::STATE_COMPLETE),
+            array($expectedResult2, $configMap2, Mage_Launcher_Model_Tile::STATE_TODO),
         );
     }
 }

@@ -163,13 +163,13 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     {
         $this->_configRoot = $this->_coreConfig->getNode(null, $this->getScope(), $this->getScopeCode());
 
-        $this->_configDataObject = $this->_configFactory->create(
-            array(
+        $this->_configDataObject = $this->_configFactory->create(array(
+            'data' => array(
                 'section' => $this->getSectionCode(),
                 'website' => $this->getWebsiteCode(),
                 'store' => $this->getStoreCode()
             )
-        );
+        ));
 
         $this->_configData = $this->_configDataObject->load();
         $this->_fieldsetRenderer = $this->_fieldsetFactory->create();
