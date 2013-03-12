@@ -12,6 +12,7 @@ class Mage_Core_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
     /**
      * @param Mage_Core_Model_Config_Primary $config
      * @param Magento_ObjectManager $objectManager
+     * @throws Magento_BootstrapException
      */
     public function __construct(Mage_Core_Model_Config_Primary $config, Magento_ObjectManager $objectManager = null)
     {
@@ -19,7 +20,8 @@ class Mage_Core_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
             parent::__construct($config, $objectManager);
         } catch (Magento_BootstrapException $e) {
             header('Content-Type: text/plain', true, 503);
-            die($e->getMessage());
+            echo $e->getMessage();
+            throw $e;
         }
     }
 
