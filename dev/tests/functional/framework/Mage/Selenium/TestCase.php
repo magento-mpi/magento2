@@ -2742,12 +2742,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $tabUimap = $this->_getActiveTabUimap();
         if (!is_null($tabUimap)) {
             $tabName = $tabUimap->getTabId();
-            $this->addParameter('tab', $this->getControlAttribute('tab', $tabName, 'id'));
+            $this->addParameter('tab', $this->getControlAttribute('tab', $tabName, 'name'));
         }
         $this->clickControlAndWaitMessage($controlType, $controlName);
         $this->pleaseWait();
         if (!is_null($tabUimap)) {
-            $this->openTab($tabName); //MAGETWO-6731
             $this->assertSame($tabName, $this->_getActiveTabUimap()->getTabId(),
                 'Opened wrong tab after Save and Continue Edit action');
         }
