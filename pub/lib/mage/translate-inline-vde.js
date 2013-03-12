@@ -74,8 +74,8 @@
          * @param {Element} element the element to open the dialog near,
          *     must also contain data-translate attribute
          */
-        open: function(element) {
-            this.translateElement = element;
+        open: function(element, callback) {
+            this.callback = callback;
 
             this._fillDialogContent(element);
             this._positionDialog(element);
@@ -105,7 +105,7 @@
                 }));
 
             var self = this;
-            this.translateDialog.find("input[data-translate-input=true]").each(function(count, input) {
+            this.translateDialog.find("input[data-translate-input-index]").each(function(count, input) {
                 /* discard changes if pressing esc */
                 $(input).keydown(function(e) {
                     if (e.keyCode == 27) {
@@ -165,20 +165,13 @@
                 var id = elem.id;
                 if (id.indexOf("custom_") === 0) {
                     var index = id.substring(7),
-                        value = elem.value,
-                        translateData = $(self.translateElement).data(self.options.dataAttrName),
-                        innerHtmlStr = $(self.translateElement).html();
+                        value = elem.value;
 
                     if (value === null || value === '') {
-                        value = '&nbsp;';
+                        value = '';
                     }
 
-                    innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
-                    $(self.translateElement).html(innerHtmlStr);
-
-                    translateData[index]["shown"] = value;
-                    translateData[index]["translated"] = value;
-                    $(self.translateElement).data(self.options.dataAttrName, translateData);
+                    self.callback(index, value);
                 }
             });
 
@@ -201,8 +194,16 @@
             ajaxUrl: null,
             offsetLeft: -16,
             templateId: "translate-inline-icon",
+            dataAttrName: "translate",
             onClick: function(element) { },
         },
+
+        /**
+         * Determines if the template is already appended to the element.
+         *
+         * @type {boolean}
+         */
+        isTemplateAttached : false,
 
         /**
          * Creates the icon widget to indicate text that can be translated.
@@ -210,58 +211,34 @@
          */
         _create: function() {
             this._initTemplate();
+            this.show();
         },
 
         /**
          * Shows the widget.
          */
         show: function() {
+            var self = this;
+
+            if (!this.isTemplateAttached) {
+                this.template.appendTo(this.element);
+                this.isTemplateAttached = true;
+            }
+
             this.template.removeClass('hidden');
-            var self = this;
-            this.element.on("dblclick", function() {
-                self.options.onClick(self.element);
+
+            this.element.on("dblclick", $.proxy(this._onClick, this));
+            this._disableElementClicks();
+
+            $(this.element).css({
+                visibility: "visible"
             });
         },
 
         /**
-         * Hides the widget.
+         * Disables the element click from actually performing a click.
          */
-        hide: function() {
-            this.template.addClass('hidden');
-            this.element.off("dblclick");
-        },
-
-        /**
-         * Initializes the template for the widget. Sets the widget up to
-         * respond to events.
-         */
-        _initTemplate: function() {
-            this.template = $("#" + this.options.templateId).tmpl(this.options)
-                .addClass("translate-edit-icon")
-                .appendTo("body");
-            this.element.append(this.template);
-            this.element.addClass('translate-edit-icon-container');
-
-            var self = this;
-            this.template.on("click", function() {
-                self.options.onClick(self.element);
-            });
-
-            this.element.on("dblclick", function() {
-                self.options.onClick(self.element);
-            });
-            
-            this.template.on("mouseover", function() {
-                if (self.options.imgHover) {
-                    self.template.prop('src', self.options.imgHover);
-                }
-            });
-
-            this.template.on("mouseout", function() {
-                self.template.prop('src', self.options.img);
-            });
-
-            /* disables all clicks */
+        _disableElementClicks: function() {
             this.element.find('a').each(function(count, link) {
                 link.on('click', function(e) {
                     e.preventDefault();
@@ -278,6 +255,70 @@
         },
 
         /**
+         * Hides the widget.
+         */
+        hide: function() {
+            this.template.addClass('hidden');
+            this.element.off("dblclick");
+        },
+
+        /**
+         * Replaces the translated text inside the widget with the new value.
+         */
+        replaceText: function(index, value) {
+            var translateData = $(this.element).data(this.options.dataAttrName),
+                innerHtmlStr = $(this.element).html();
+
+            if (value === null || value === '') {
+                value = "&nbsp;";
+            }
+
+            innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
+
+            $(this.element).html(innerHtmlStr);
+
+            translateData[index]["shown"] = value;
+            translateData[index]["translated"] = value;
+            $(this.element).data(this.options.dataAttrName, translateData);
+        },
+
+        /**
+         * Initializes the template for the widget. Sets the widget up to
+         * respond to events.
+         */
+        _initTemplate: function() {
+            var self = this;
+
+            this.template = $("#" + this.options.templateId).tmpl(this.options)
+                .addClass("translate-edit-icon");
+            this.element.addClass('translate-edit-icon-container');
+
+            this.template.on("click", $.proxy(this._onClick, this));
+
+            this.template.on("mouseover", function() {
+                if (self.options.imgHover) {
+                    self.template.prop('src', self.options.imgHover);
+                }
+            });
+
+            this.template.on("mouseout", function() {
+                self.template.prop('src', self.options.img);
+            });
+        },
+
+        /**
+         * Activates the inline vde dialog.
+         */
+        _onClick: function() {
+            $(this.template).detach();
+            this.isTemplateAttached = false;
+            $(this.element).css({
+                visibility: "hidden"
+            });
+            this.options.onClick(this);
+        },
+
+        /**
          * Destroys the widget. Fulfills jQuery's WidgetFactory _destroy hook.
          */
         _destroy: function() {
@@ -291,7 +332,7 @@
     $.extend(true, $, {
         mage: {
             escapeHTML: function(str) {
-                return str ? str.replace(/"/g, '&quot;') : null;
+                return str ? str.replace(/"/g, '&quot;') : "";
             }
         }
     });
