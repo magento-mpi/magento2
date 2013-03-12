@@ -134,34 +134,6 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @magentoDataFixture Mage/Core/Model/_files/design/themes.php
-     * @magentoConfigFixture global/design/theme/allow_view_files_duplication 0
-     * @magentoAppIsolation enabled
-     */
-    public function testGetViewUrlNoFilesDuplicationWithCaching()
-    {
-        $this->_initTestTheme();
-        $this->_model->setDesignTheme('test/default');
-        Mage::app()->getLocale()->setLocale('en_US');
-        $theme = $this->_model->getDesignTheme();
-        $themeDesignParams = array('themeModel' => $theme);
-        $cacheKey = "frontend|{$theme->getId()}|en_US";
-        Mage::app()->cleanCache();
-
-        $viewFile = 'images/logo.gif';
-        $this->_model->getViewFileUrl($viewFile, $themeDesignParams);
-        $map = unserialize(Mage::app()->loadCache($cacheKey));
-        $this->assertTrue(count($map) == 1);
-        $this->assertStringEndsWith('logo.gif', (string)array_pop($map));
-
-        $viewFile = 'images/logo_email.gif';
-        $this->_model->getViewFileUrl($viewFile, $themeDesignParams);
-        $map = unserialize(Mage::app()->loadCache($cacheKey));
-        $this->assertTrue(count($map) == 2);
-        $this->assertStringEndsWith('logo_email.gif', (string)array_pop($map));
-    }
-
-    /**
      * @param string $file
      * @expectedException Magento_Exception
      * @dataProvider getViewUrlDataExceptionProvider

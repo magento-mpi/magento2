@@ -50,13 +50,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_viewConfigs = array();
 
     /**
-     * Published file cache storage
-     *
-     * @var array
-     */
-    protected $_publicCache = array();
-
-    /**
      * Model, used to resolve the file paths
      *
      * @var Mage_Core_Model_Design_FileResolution_StrategyPool
@@ -509,7 +502,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             $targetPath = $this->_buildPublicViewRedundantFilename($themeFile, $params);
         } else {
             $targetPath = $this->_buildPublicViewSufficientFilename($sourcePath, $params);
-            $this->_setPublicFileIntoCache($themeFile, $params, $targetPath);
         }
         $targetPath = $this->_buildPublicViewFilename($targetPath);
 
@@ -916,63 +908,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             $result = implode("\n", $imports) . "\n" . "/* Import directives above popped up. */\n" . $result;
         }
         return $result;
-    }
-
-    /**
-     * Get hash key for requested file and parameters
-     *
-     * @param string $file
-     * @param array $params
-     * @return string
-     */
-    protected function _getRequestedFileKey($file, $params)
-    {
-        ksort($params);
-        return md5($this->_getRequestedFileCacheKey($params) . '|' . $file);
-    }
-
-    /**
-     * Get cache key for parameters
-     *
-     * @param array $params
-     * @return string
-     */
-    protected function _getRequestedFileCacheKey($params)
-    {
-        return implode('|', array($params['area'], $params['themeModel']->getId(), $params['locale']));
-    }
-
-    /**
-     * Save published file path in cache storage
-     *
-     * @param string $file
-     * @param array $params
-     * @param string $publicFile
-     */
-    protected function _setPublicFileIntoCache($file, $params, $publicFile)
-    {
-        $cacheKey = $this->_getRequestedFileCacheKey($params);
-        $this->_loadPublicCache($cacheKey);
-        $fileKey = $this->_getRequestedFileKey($file, $params);
-        $this->_publicCache[$cacheKey][$fileKey] = $publicFile;
-        Mage::app()->saveCache(serialize($this->_publicCache[$cacheKey]), $cacheKey, array(self::PUBLIC_CACHE_TAG));
-    }
-
-    /**
-     * Load published file cache storage from cache
-     *
-     * @param string $cacheKey
-     */
-    protected function _loadPublicCache($cacheKey)
-    {
-        if (!isset($this->_publicCache[$cacheKey])) {
-            $cache = Mage::app()->loadCache($cacheKey);
-            if ($cache) {
-                $this->_publicCache[$cacheKey] = unserialize($cache);
-            } else {
-                $this->_publicCache[$cacheKey] = array();
-            }
-        }
     }
 
     /**
