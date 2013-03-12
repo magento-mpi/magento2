@@ -23,30 +23,18 @@ class Mage_Core_Model_Page_Asset_MergeService
     private $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Store
+     * @var Mage_Core_Model_Store_Config
      */
-    private $_store;
+    private $_storeConfig;
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_Store_Config $storeConfig
      */
-    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_StoreManager $storeManager)
+    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_Store_Config $storeConfig)
     {
         $this->_objectManager = $objectManager;
-        $this->_store = $storeManager->getStore();
-    }
-
-    /**
-     * Retrieve boolean value of a store config flag
-     *
-     * @param string $path
-     * @return bool
-     */
-    private function _getConfigFlag($path)
-    {
-        $result = $this->_store->getConfig($path);
-        return (!empty($result) && 'false' !== $result);
+        $this->_storeConfig = $storeConfig;
     }
 
     /**
@@ -64,8 +52,8 @@ class Mage_Core_Model_Page_Asset_MergeService
         if (!$isCss && !$isJs) {
             throw new InvalidArgumentException("Merge for content type '$contentType' is not supported.");
         }
-        $isCssMergeEnabled = $this->_getConfigFlag(self::XML_PATH_MERGE_CSS_FILES);
-        $isJsMergeEnabled = $this->_getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
+        $isCssMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_CSS_FILES);
+        $isJsMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
         if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
             $assets = array(
                 $this->_objectManager->create('Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets), false)
