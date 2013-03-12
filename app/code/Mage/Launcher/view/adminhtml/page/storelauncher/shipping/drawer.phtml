@@ -237,6 +237,15 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                         </div>
                     </div>
 
+                    <div class="field field-ups-user-id required">
+                        <label for="ups-user-id" class="label">
+                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User ID'); ?></span>
+                        </label>
+                        <div class="control">
+                            <input type="password" class="input-text" id="ups-user-id" name="groups[ups][fields][username][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/username'); ?>">
+                        </div>
+                    </div>
+
                     <div class="actions">
                         <button type="button" class="action-save-method primary" data-save-url="<?php echo $saveActionUrl; ?>">
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Submit'); ?></span>

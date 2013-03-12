@@ -1171,7 +1171,8 @@
 }
 
 .shipping-config .field-fedex-key,
-.field-dhl-account-number {
+.field-dhl-account-number,
+.field-ups-user-id {
     clear: left;
 }
 
