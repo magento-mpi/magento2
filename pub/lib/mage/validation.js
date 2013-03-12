@@ -882,7 +882,7 @@
                 });
                 return result;
             }, function() {
-                return $.mage.__("Maximum length of this field must be less than %s symbols.")
+                return $.mage.__("Maximum length of this field must be equal or less than %s symbols.")
                     .replace('%s', this.attrLength);
             }
         ]
