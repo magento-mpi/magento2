@@ -244,13 +244,11 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                     </div>
                 </fieldset>
             </div>
-
         </div>
     </div>
-
-    <?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
-
 </form>
+
+<?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
 
 <div class="shipping-disabled hidden">
     <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping Disabled') ?></h2>
