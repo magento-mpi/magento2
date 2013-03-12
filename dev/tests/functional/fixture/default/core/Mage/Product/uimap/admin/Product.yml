@@ -157,18 +157,20 @@ new_product:
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                             -
-                                category_search:
+                                category_list:
                                     xpath: //div[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']
                                     links:
                                         root_category: /div/ul/li/a[text()='%categoryName%']
-#                                        root_category_selected: /div/ul/li/a[text()='%categoryName%']
-#                                        sub_category:
-#                                        sub_category_selected:
-#                                        selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                                        sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a[text()='%categoryName%']
+                                        expand_category: //li[contains(@class,'jstree-closed')][a/@data-suggest-option='%categoryId%']/ins
+                                        found_category: //a[span/text()='%categoryName%'][.//span='%categoryPath%']
+                                        any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
+                                        category: //a[@data-suggest-option='%categoryId%']
+                                        #root_category_selected: /div/ul/li[contains(@class,'mage-suggest-selected')]/a[text()='%categoryName%']
+                                        #sub_category_selected: //li[a/@data-suggest-option='%categoryId%']/ul/li[contains(@class,'mage-suggest-selected')]/a[text()='%categoryName%']
                                     pageelements:
-                                        expand_category: //li[a/text()='%categoryName%']/ins
-                                        no_category_found: /span[text()='No records found']
-#                                        category_list: //*[@class='ui-menu-item']
+                                        no_category_found: //span[text()='No records found']
+                                        category_node: //li[a/@data-suggest-option='%categoryId%']
                             -
                                 chosen_category:
                                     xpath: //li[@class='mage-suggest-choice button']

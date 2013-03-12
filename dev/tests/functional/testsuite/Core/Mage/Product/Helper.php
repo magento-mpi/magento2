@@ -917,50 +917,74 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $categoryData = explode(',', $categoryData);
             $categoryData = array_map('trim', $categoryData);
         }
-        $qtyBeforeSelect = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
+        $selectedQty = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
         $this->clickControl(self::FIELD_TYPE_INPUT, 'general_categories', false);
-        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_list');
+        $toSelect = '';
         foreach ($categoryData as $categoryPath) {
-            $qtySelected = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
-            $isSelected = false;
-            $explodeCategory = explode('/', $categoryPath);
-            $parentCategoryName = array_shift($explodeCategory);
-            if (empty($explodeCategory)) {
-                $this->addParameter('categoryName', $parentCategoryName);
-                $categoryElements = $this->getControlElements('link', 'root_category', null, false);
-                /** @var $element */
-                foreach ($categoryElements as $element) {
-                    $class = $this->getChildElement($element, '..')->attribute('class');
-                    if (strpos($class, 'mage-suggest-selected') !== false) {
-                        continue;
+            foreach (explode('/', $categoryPath) as $categoryNode) {
+                if (isset($trueCategory)) {
+                    $trueSubCat = array();
+                    foreach ($trueCategory as $data) {
+                        $trueSubCat = array_merge($trueSubCat, $this->defineCorrectCategory($categoryNode, $data));
                     }
-                    $element->click();
-                    $this->waitUntil(
-                        function ($testCase) use ($qtySelected) {
-                            /** @var Mage_Selenium_TestCase $testCase */
-                            $qty = $testCase->getControlCount('fieldset', 'chosen_category');
-                            if ($qty == $qtySelected + 1) {
-                                return true;
-                            }
-                        }, 10000
-                    );
-                    $isSelected = true;
+                    $trueCategory = $trueSubCat;
+                } else {
+                    $trueCategory = $this->defineCorrectCategory($categoryNode);
+                }
+                if (empty($trueCategory)) {
+                    list($path) = explode($categoryNode, $categoryPath);
+                    $this->fail("'$categoryNode' category with path = '$path' could not found.");
+                }
+            }
+            foreach ($trueCategory as $data) {
+                $this->addParameter('categoryId', $data);
+                $isSelected = $this->getControlAttribute('pageelement', 'category_node', 'class');
+                if (strpos($isSelected, 'mage-suggest-selected') === false) {
+                    $toSelect = $data;
                     break;
                 }
-                if (!$isSelected) {
-                    $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($parentCategoryName);
-                    sleep(1); //@TODO
-                    $this->waitForAjax();
-                    if ($this->controlIsVisible('pageelement', 'no_category_found')) {
-                        $this->fail($categoryPath . ' category not found.');
-                    }
-                }
-            } else {
-                $this->markTestIncomplete('@TODO selectProductCategories()');
             }
+            unset($trueCategory);
+            if (!$toSelect) {
+                $this->fail("Category with path = '$categoryPath' could not be selected.");
+            }
+            $this->addParameter('categoryId', $toSelect);
+            $this->getControlElement('link', 'category')->click();
+            $this->waitUntil(
+                function ($testCase) use ($selectedQty) {
+                    /** @var Mage_Selenium_TestCase $testCase */
+                    if ($testCase->getControlCount('fieldset', 'chosen_category') == $selectedQty + 1) {
+                        return true;
+                    }
+                }, 10000
+            );
+            $selectedQty++;
         }
-        $this->assertEquals($qtyBeforeSelect + count($categoryData),
-            $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category'));
+    }
+
+    /**
+     * Find category with valid name and parent
+     *
+     * @param string $categoryName
+     * @param null|string $parentId
+     *
+     * @return array
+     */
+    public function defineCorrectCategory($categoryName, $parentId = null)
+    {
+        $isCorrectName = array();
+        $this->addParameter('categoryName', $categoryName);
+        $this->addParameter('categoryId', $parentId);
+        $categoryType = ($parentId) ? 'sub_category' : 'root_category';
+        if ($parentId && $this->controlIsPresent('link', 'expand_category')) {
+            $this->clickControl('link', 'expand_category', false);
+            $this->waitForControlVisible('link', 'any_sub_category');
+        }
+        foreach ($this->getControlElements('link', $categoryType, null, false) as $element) {
+            $isCorrectName[] = $element->attribute('data-suggest-option');
+        }
+        return $isCorrectName;
     }
 
     /**
@@ -1405,12 +1429,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getConfigurableVariationsData()
     {
-        $generalFields = array('Display', 'Name', 'Price', 'SKU', 'Quantity', 'Weight');
+        $generalFields = array('Display', 'Image', 'Name', 'Price', 'SKU', 'Quantity', 'Weight');
         $data = array();
         $option = 0;
         $lineElements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'variation_line');
-        $cellNames =
-            $this->getTableHeadRowNames($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'variations_matrix_grid'));
+        $cellNames = $this->getTableHeadRowNames($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET,
+            'variations_matrix_grid'));
         /**@var  PHPUnit_Extensions_Selenium2TestCase_Element $tdElement */
         foreach ($lineElements as $rowElement) {
             $lineData = array();
@@ -1423,7 +1447,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $inputElement = $this->childElementIsPresent($tdElement, 'input[not(@type="hidden")]');
                 if (!$inputElement) {
                     $lineData[$cellName] = trim(str_replace('Choose', '', $tdElement->text()));
-                } elseif ($cellName == 'Include') {
+                } elseif ($cellName == 'Display') {
                     $lineData[$cellName] = ($inputElement->selected()) ? 'Yes' : 'No';
                 } else {
                     $lineData[$cellName] = $inputElement->value();
