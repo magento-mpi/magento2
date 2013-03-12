@@ -20,6 +20,8 @@
         active: '<?php echo $this->getActiveTabId() ?>',
         destination: '#<?php echo $this->getDestElementId() ?>',
         shadowTabs: <?php echo $this->getAllShadowTabs()?>,
+        tabsBlockPrefix: '<?php echo $this->getId() ?>_',
+        tabIdArgument: 'active_tab',
         groups: 'ul.tabs'
     }}">
     <?php foreach ($tabGroups as $tabGroupCode): ?>

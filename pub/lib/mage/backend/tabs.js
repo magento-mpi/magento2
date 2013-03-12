@@ -22,11 +22,9 @@
          * @protected
          */
         _create: function() {
-            this._super();
             var activeIndex = this._getTabIndex(this.options.active);
-            if (activeIndex >= 0) {
-                this._setOption('active', activeIndex);
-            }
+            this.options.active = activeIndex >= 0 ? activeIndex : 0;
+            this._super();
         },
 
         /**
