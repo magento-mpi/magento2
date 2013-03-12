@@ -613,9 +613,17 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #32312C;
+    background: none repeat scroll 0 0 #32312C;
     height: 52px;
     z-index: 1001;
+}
+
+.background-on {
+    background-color: #DCDCDC;
+}
+
+.background-off {
+    background-color: white;
 }
 
 .vde-tab-content-inner.hasScroll .vde-tab-data {

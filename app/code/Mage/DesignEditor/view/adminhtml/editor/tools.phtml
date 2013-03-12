@@ -51,6 +51,25 @@
                 </ul>
             </div>
             <div class="vde-tools-button">
+                <!-- todo SDW  Pull out all styles to css -->
+                <div id="text-editing-submodes" style="display:none;">
+                    <div><!-- show a white border here? --></div>
+                    <div id="vde-translate-text">
+                        <img id="vde-translate-text-img" src="<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>" style="padding-left: 13px; padding-top: 10px"/>
+                        <span style="font: Arial, Helvetica, sans-serif;color: black;font-size: 14px; padding-left: 10px;">Page Text</span>
+                    </div>
+
+                    <div id="vde-translate-script">
+                        <img id="vde-translate-script-img" src="<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>" style="padding-left: 13px; padding-top: 10px"/>
+                        <span style="font: Arial, Helvetica, sans-serif;color: black;font-size: 14px; padding-left: 10px;">Variable Text</span>
+                    </div>
+
+                    <div id="vde-translate-alt">
+                        <img id="vde-translate-alt-img" src="<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>" style="padding-left: 13px; padding-top: 10px"/>
+                        <span style="font: Arial, Helvetica, sans-serif;color: black;font-size: 14px; padding-left: 10px;">Alternative Text</span>
+                    </div>
+                    <div></div>
+                </div>
                 <ul class="vde-tab-controls">
                     <li class="item item-translate">
                         <a id="vde-translate" title="<?php echo $this->__('Edit Text'); ?>" onmouseover="this.style.cursor='pointer'">
@@ -89,7 +108,8 @@
         options: {
             frameUrl: null,
             refreshVdeCanvas: false,
-            refreshIframeEvent: 'refreshIframe'
+            refreshIframeEvent: 'refreshIframe',
+            disableInlineTranslation: false
         },
 
         _create: function() {
@@ -104,7 +124,10 @@
         _onIframeRefresh: function() {
             /** todo SDW Add animation when refreshing the iframe. */
 
-            var url = this.options.frameUrl + "translation_mode/text";
+            var url = this.options.frameUrl;
+            if (!this.options.disableInlineTranslation)
+                url = url + "translation_mode/text";
+
             var container_frame = parent.jQuery('#vde_container_frame');
 
             container_frame.prop('src', url);
@@ -121,27 +144,108 @@
         },
 
         /**
-         * This method toggles inline translation on and off.  Everything is wrapped with the appropriate
-         * attributes at this time.
+         * This method displays the text editing sub-menus to select from and defaults the currently selected mode.
          */
         toggleTranslationInline: function() {
-            if (this.options.refreshVdeCanvas) {
-                // Refresh iframe with new url
-                this.element.trigger('refreshIframe');
-            }
+            // Display the text editing sub-menus.
+            <!-- todo SDW  Pull out all styles to css -->
+            parent.jQuery('#text-editing-submodes').attr('style', 'background-color:white;width:170px;height:130px;position:absolute;top:-120px;left:-130px;border:1px solid gray; border-radius:4px;');
 
-            /** todo SDW display menu and swap out enabled 'T' button */
+            /** todo SDW Change the icon in the footer */
         },
 
         /**
          * This method will only enable editing for the translation mode specified.
          *
+         * If this is the first time a mode is selected, the contents of the iframe will be wrapped with the appropriate
+         * attributes where applicable (translate-mode, either 'text', 'script' or 'alt').
+         *
          * @param mode
          */
         toggleTranslationMode: function(mode) {
-            /** todo SDW Call into InlineVde widget to hide/show appropriate wrapping based on translation mode. */
+            this.options.disableInlineTranslation = false;
 
-            /** todo SDW swap out enabled T button */
+            // Hide text editing sub-menus.
+            parent.jQuery('#text-editing-submodes').attr('style', 'display:none;');
+
+            // Highlight selected mode.
+            if (mode === 'text') {
+                // Check to see if turning off (selecting the already highlighted option).
+                if (parent.jQuery('#vde-translate-text').hasClass('background-on')) {
+                    parent.jQuery('#vde-translate-text').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-text-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+
+                    // Refresh iframe minus the translation mode on the url.
+                    this.options.disableInlineTranslation = true;
+                }
+                else {
+                    // Enable text option
+                    parent.jQuery('#vde-translate-text').removeClass('background-off').addClass('background-on');
+                    parent.jQuery('#vde-translate-text-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-on.png') ?>');
+
+                    // Disable other options.
+                    parent.jQuery('#vde-translate-script').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-script-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+                    parent.jQuery('#vde-translate-alt').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-alt-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+                }
+
+                /** todo SDW Change toolbar button as well */
+            }
+            else if (mode === 'script') {
+                // Check to see if turning off (selecting the already highlighted option).
+                if (parent.jQuery('#vde-translate-script').hasClass('background-on')) {
+                    parent.jQuery('#vde-translate-script').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-script-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+
+                    // Refresh iframe minus the translation mode on the url.
+                    this.options.disableInlineTranslation = true;
+                }
+                else {
+                    // Enable script option.
+                    parent.jQuery('#vde-translate-script').removeClass('background-off').addClass('background-on');
+                    parent.jQuery('#vde-translate-script-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-on.png') ?>');
+
+                    // Disable other options.
+                    parent.jQuery('#vde-translate-text').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-text-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+                    parent.jQuery('#vde-translate-alt').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-alt-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+                }
+
+                /** todo SDW Change toolbar button as well */
+            }
+            else {
+                // Check to see if turning off (selecting the already highlighted option).
+                if (parent.jQuery('#vde-translate-alt').hasClass('background-on')) {
+                    parent.jQuery('#vde-translate-alt').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-alt-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+
+                    // Refresh iframe minus the translation mode on the url.
+                    this.options.disableInlineTranslation = true;
+                }
+                else {
+                    // Enable alt option.
+                    parent.jQuery('#vde-translate-alt').removeClass('background-off').addClass('background-on');
+                    parent.jQuery('#vde-translate-alt-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-on.png') ?>');
+
+                    // Disable other options.
+                    parent.jQuery('#vde-translate-text').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-text-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+                    parent.jQuery('#vde-translate-script').removeClass('background-on').addClass('background-off');
+                    parent.jQuery('#vde-translate-script-img').prop('src', '<?php echo $this->getViewFileUrl('Mage_DesignEditor::images/translate-off.png') ?>');
+                }
+
+                /** todo SDW Change toolbar button as well */
+            }
+
+            /** todo SDW Call into translate_inline widget to hide/show appropriate wrapping based on translation mode. */
+
+            // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
+            if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation) {
+                // Refresh iframe with new url
+                this.element.trigger('refreshIframe');
+            }
         }
     });
 
