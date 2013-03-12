@@ -236,31 +236,16 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
         }
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure' => $store->isCurrentlySecure()));
-        $trigImg = Mage::getDesign()->getViewFileUrl('Mage_Core::fam_book_open.png');
 
-        ob_start();
-        $design = Mage::getDesign();
-        ?>
-    <script type="text/javascript" src="<?php echo $design->getViewFileUrl('prototype/window.js') ?>"></script>
-    <link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('prototype/windows/themes/default.css') ?>"/>
-    <link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('Mage_Core::prototype/magento.css') ?>"/>
-    <script type="text/javascript" src="<?php echo $design->getViewFileUrl('mage/edit-trigger.js') ?>"></script>
-    <script type="text/javascript" src="<?php echo $design->getViewFileUrl('mage/translate-inline.js') ?>"></script>
-    <link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('mage/translate-inline.css') ?>"/>
+        /** @var $block Mage_Core_Block_Template */
+        $block = $objectManager->create('Mage_Core_Block_Template');
 
-    <script type="text/javascript">
-        (function($){
-            $(document).ready(function() {
-                $(this).translateInline({
-                    ajaxUrl: '<?php echo $ajaxUrl ?>',
-                    area: '<?php echo Mage::getDesign()->getArea() ?>',
-                    editTrigger: {img: '<?php echo $trigImg ?>'}
-                });
-            });
-        })(jQuery);
-    </script>
-    <?php
-        $html = ob_get_clean();
+        $block->setDesign(Mage::getDesign());
+        $block->setAjaxUrl($ajaxUrl);
+
+        $block->setTemplate('Mage_Core::translate_inline.phtml');
+
+        $html = $block->toHtml();
 
         $this->_content = str_ireplace('</body>', $html . '</body>', $this->_content);
 
