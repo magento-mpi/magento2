@@ -21,20 +21,29 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
      * @var Mage_Core_Model_Theme_Service
      */
     protected $_themeService;
+
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
     /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Core_Model_Theme_Service $themeService
+     * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Launcher_Model_LinkTracker $linkTracker,
         Mage_Core_Model_Theme_Service $themeService,
+        Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);
         $this->_themeService = $themeService;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -64,9 +73,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
      */
     public function getCurrentThemeId()
     {
-        $store = $this->_helperFactory->get('Mage_Launcher_Helper_Data')->getCurrentStoreView();
-        $storeId = $store ? $store->getId() : null;
-        return $this->getConfigValue('design/theme/theme_id', $storeId);
+        return $this->getConfigValue('design/theme/theme_id', $this->_getCurrentStoreId());
     }
 
     /**
@@ -96,6 +103,62 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
         }
 
         return $themesBlocks;
+    }
+
+    /**
+     * Retrieve logo image URL
+     *
+     * @return string
+     */
+    public function getLogoUrl()
+    {
+        /** @var Mage_Core_Helper_File_Storage_Database $helper */
+        $helper = $this->_helperFactory->get('Mage_Core_Helper_File_Storage_Database');
+
+        $folderName = Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
+        $storeLogoPath = $this->getConfigValue('design/header/logo_src', $this->_getCurrentStoreId());
+        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_MEDIA))
+            . $folderName . '/' . $storeLogoPath;
+        $absolutePath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+            . $folderName . DIRECTORY_SEPARATOR . $storeLogoPath;
+
+        if (!is_null($storeLogoPath) && $this->_isFile($absolutePath)) {
+            return $logoUrl;
+        }
+
+        return '';
+    }
+
+    /**
+     * If DB file storage is on - find there, otherwise - just check file exists
+     *
+     * @param string $filename
+     * @return bool
+     */
+    protected function _isFile($filename)
+    {
+        /** @var Mage_Core_Helper_File_Storage_Database $helper */
+        $helper = $this->_helperFactory->get('Mage_Core_Helper_File_Storage_Database');
+        /** @var $fileSystem Magento_Filesystem */
+        $fileSystem = $this->_objectManager->get('Magento_Filesystem');
+
+        if ($helper->checkDbUsage() && !$fileSystem->isFile($filename)) {
+            $helper->saveFileToFilesystem($filename);
+        }
+
+        return $fileSystem->isFile($filename);
+    }
+
+    /**
+     * Retrieve current Store ID
+     *
+     * @return int|null
+     */
+    protected function _getCurrentStoreId()
+    {
+        $store = $this->_helperFactory->get('Mage_Launcher_Helper_Data')->getCurrentStoreView();
+        $storeId = $store ? $store->getId() : null;
+        return $storeId;
     }
 
 }

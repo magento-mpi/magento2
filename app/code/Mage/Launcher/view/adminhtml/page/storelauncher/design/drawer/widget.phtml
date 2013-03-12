@@ -31,14 +31,27 @@
                 this.btnSaveDrawer = $(this.options.btnSaveDrawer);
                 this.headerButtonCreate({
                     name: 'close',
-                    button: this.btnCloseDrawer,
-                    click: $.proxy(this.destroy, this)
+                    button: this.btnCloseDrawer
                 });
                 this.headerButtonCreate({
                     name: 'save',
-                    button: this.btnSaveDrawer,
-                    click: $.proxy(this.destroy, this)
+                    button: this.btnSaveDrawer
                 });
+                this.element.off('drawerHidden');
+                this._on({drawerHidden: function() {
+                    console.trace();
+                    this.destroy();
+                }});
+            },
+
+            destroy: function() {
+                $.each(this.headerButtons, $.proxy(function(buttonName) {
+                    if (buttonName == 'save' || buttonName == 'close') {
+                        this.headerButtonShow(buttonName);
+                    } else {
+                        this.headerButtons[buttonName].remove();
+                    }
+                }, this));
             },
 
             headerButtonCreate: function(buttonOptions) {
@@ -64,7 +77,7 @@
                     buttonObject = $('#' + buttonOptions.id);
                 }
 
-                if (!buttonObject) {
+                if (!buttonObject || buttonObject.length < 1) {
                     buttonObject =
                         $.tmpl('<button type="${type}" class="${cssClass}" id="${id}">${title}</button>', buttonVars);
                 }

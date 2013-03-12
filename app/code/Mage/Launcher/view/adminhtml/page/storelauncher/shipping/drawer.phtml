@@ -35,19 +35,19 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
     <div class="shipping-vendors">
         <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Shipping Carriers'); ?></h2>
         <ul class="shipping-tabs-nav">
-            <li class="active">
+            <li class="active <?php if ($this->getConfigValue('carriers/flatrate/active')): ?> configured <?php endif; ?> ">
                 <a href="#flat-rate-config" class="flat-rate-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Flat Rate'); ?></a>
             </li>
-            <li>
+            <li <?php if ($this->getConfigValue('carriers/fedex/active')): ?> class="configured" <?php endif; ?> >
                 <a href="#fedex-config" class="fedex-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('FedEx'); ?></a>
             </li>
-            <li>
+            <li <?php if ($this->getConfigValue('carriers/usps/active')): ?> class="configured" <?php endif; ?> >
                 <a href="#usps-config" class="usps-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('USPS'); ?></a>
             </li>
-            <li>
+            <li <?php if ($this->getConfigValue('carriers/dhlint/active')): ?> class="configured" <?php endif; ?> >
                 <a href="#dhl-config" class="dhl-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('DHL'); ?></a>
             </li>
-            <li>
+            <li <?php if ($this->getConfigValue('carriers/ups/active')): ?> class="configured" <?php endif; ?> >
                 <a href="#ups-config" class="upc-tab-nav" data-toggle="tab"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('UPS'); ?></a>
             </li>
         </ul>

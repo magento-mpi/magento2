@@ -65,12 +65,17 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
         $value = $this->getValue();
 
         $tmpName = $this->_requestData->getTmpName($this->getPath());
+        $file = array();
         if ($tmpName) {
+            $file['tmp_name'] = $tmpName;
+            $file['name'] = $this->_requestData->getName($this->getPath());
+        } elseif (!empty($value['tmp_name'])) {
+            $file['tmp_name'] = $value['tmp_name'];
+            $file['name'] = $value['value'];
+        }
+        if (!empty($file)) {
             $uploadDir = $this->_getUploadDir();
             try {
-                $file = array();
-                $file['tmp_name'] = $tmpName;
-                $file['name'] = $this->_requestData->getName($this->getPath());
                 $uploader = new Mage_Core_Model_File_Uploader($file);
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);

@@ -33,6 +33,7 @@
             this.btnCloseDrawer = $(this.options.btnCloseDrawer);
             this.btnSaveDrawer = $(this.options.btnSaveDrawer);
             this.drawerTopPosition = $(this.options.drawerTopPosition);
+            this._startDrawerClose = false;
             this._bind();
             this._handleHash();
         },
@@ -94,7 +95,7 @@
          * @return boolean
          */
         _isPageComplete: function() {
-            var completeSteps = $('#store-launcher').eq(0).find('.tile-complete').length;
+            var completeSteps = $('#store-launcher-content').eq(0).find('.tile-complete').length;
             return completeSteps == $('#store-launcher-content article').size();
         },
 
@@ -104,9 +105,9 @@
         _handleLaunchStoreButton: function() {
             var launchStoreButton = $('.action-launch-store');
             if (this._isPageComplete()) {
-                launchStoreButton.removeClass('hidden');
+                launchStoreButton.prop("disabled", false);
             } else {
-                launchStoreButton.addClass('hidden');
+                launchStoreButton.prop("disabled", true);
             }
         },
 
@@ -128,6 +129,7 @@
 
             this._drawerMinHeight();
             window.scrollTo(0, 0);
+            this._startDrawerClose = false;
 
             elem
                 .css('top', bodyHeight)
@@ -143,16 +145,23 @@
         },
 
         drawerClose: function() {
+            if (this._startDrawerClose) {
+                return;
+            }
+            this._startDrawerClose = true;
+
+            window.location.hash = '';
+
             var elem = this.element,
                 drawerFooter = this.drawerFooter,
                 drawerFooterHeight = drawerFooter.height(),
                 bodyHeight = $('body').outerHeight(),
                 drawerSwitcher = this.drawerHeaderInner.find('.drawer-switcher');
 
-            window.location.hash = '';
-
             var hideDrawer = function() {
-                elem.hide();
+                elem.hide()
+                    .trigger('drawerHidden');
+
                 drawerSwitcher ? drawerSwitcher.remove() : '';
             };
 
@@ -168,16 +177,12 @@
                 elem.removeClass(this.options.stickyHeaderClass)
                     .animate({
                         top: bodyHeight
-                    }, 1000, function() {
-                        hideDrawer();
-                    });
+                    }, 1000, hideDrawer);
             } else {
                 var deltaTop = $(window).scrollTop();
                 elem.animate({
                     top: deltaTop + bodyHeight
-                }, 1000, function() {
-                    hideDrawer();
-                });
+                }, 1000, hideDrawer);
             }
         },
 

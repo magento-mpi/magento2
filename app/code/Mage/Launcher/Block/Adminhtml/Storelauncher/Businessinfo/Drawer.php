@@ -105,24 +105,46 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         ));
 
         $storeInfo->setAdvancedLabel($helper->__('Add Store Email Addresses'));
+
+
+
+
         $generalContact = $storeInfo->addFieldset('general_contact',
             array('legend' => $helper->__('General Contact')), false, true);
 
-        $generalContact->addField('sender_name_representative', 'text', array(
+        $generalContact->addField('sender_name_general', 'text', array(
+            'name' => 'groups[trans_email][ident_general][fields][name][value]',
+            'label' => $helper->__('Sender Name'),
+            'required' => false,
+            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/name')
+        ));
+
+        $generalContact->addField('sender_email_general', 'text', array(
+            'name' => 'groups[trans_email][ident_general][fields][email][value]',
+            'label' => $helper->__('Sender Email'),
+            'required' => true,
+            'class' => 'validate-email',
+            'disabled' => 'disabled',
+            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
+        ));
+
+        $salesRepresentative = $storeInfo->addFieldset('sales_representative',
+            array('legend' => $helper->__('Sales Representative')), false, true);
+
+        $salesRepresentative->addField('sender_name_representative', 'text', array(
             'name' => 'groups[trans_email][ident_sales][fields][name][value]',
             'label' => $helper->__('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_sales/name')
         ));
 
-        $generalContact->addField('sender_email_representative', 'text', array(
+        $salesRepresentative->addField('sender_email_representative', 'text', array(
             'name' => 'groups[trans_email][ident_sales][fields][email][value]',
             'label' => $helper->__('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_sales/email')
         ));
-
 
         $customerSupport = $storeInfo->addFieldset('customer_support',
             array('legend' => $helper->__('Customer Support')),false, true);
@@ -142,17 +164,17 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'value' => $this->_storeConfig->getConfig('trans_email/ident_support/email')
         ));
 
-        $salesRepresentative = $storeInfo->addFieldset('sales_representative',
-            array('legend' => $helper->__('Sales Representative')), false, true);
+        $customEmail1 = $storeInfo->addFieldset('custom_email1',
+            array('legend' => $helper->__('Custom Email 1')), false, true);
 
-        $salesRepresentative->addField('sender_name_custom1', 'text', array(
+        $customEmail1->addField('sender_name_custom1', 'text', array(
             'name' => 'groups[trans_email][ident_custom1][fields][name][value]',
             'label' => $helper->__('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom1/name')
         ));
 
-        $salesRepresentative->addField('sender_email_custom1', 'text', array(
+        $customEmail1->addField('sender_email_custom1', 'text', array(
             'name' => 'groups[trans_email][ident_custom1][fields][email][value]',
             'label' => $helper->__('Sender Email'),
             'required' => true,
@@ -160,17 +182,17 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom1/email')
         ));
 
-        $customEmail = $storeInfo->addFieldset('custom_email',
-            array('legend' => $helper->__('Custom Email')), false, true);
+        $customEmail2 = $storeInfo->addFieldset('custom_email2',
+            array('legend' => $helper->__('Custom Email 2')), false, true);
 
-        $customEmail->addField('sender_name_custom2', 'text', array(
+        $customEmail2->addField('sender_name_custom2', 'text', array(
             'name' => 'groups[trans_email][ident_custom2][fields][name][value]',
             'label' => $helper->__('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom2/name')
         ));
 
-        $customEmail->addField('sender_email_custom2', 'text', array(
+        $customEmail2->addField('sender_email_custom2', 'text', array(
             'name' => 'groups[trans_email][ident_custom2][fields][email][value]',
             'label' => $helper->__('Sender Email'),
             'required' => true,
@@ -333,14 +355,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $addressData['country_id'] = $this->_storeConfig->getConfig('general/store_information/country_id');
         $addressData['region_id'] = $this->_storeConfig->getConfig('general/store_information/region_id');
 
-        $useForShipping = true;
-        foreach ($addressData as $key => $val) {
-            if ($val != $this->_storeConfig->getConfig('shipping/origin/' . $key)) {
-                $useForShipping = false;
-                break;
-            }
-        }
-        $addressData['use_for_shipping'] = $useForShipping;
+        $addressData['use_for_shipping'] = $this->_isStoreAddressUsedForShipping($addressData);
 
         $addressData['name'] = $this->_storeConfig->getConfig('general/store_information/name');
         $addressData['phone'] = $this->_storeConfig->getConfig('general/store_information/phone');
@@ -348,6 +363,30 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $addressData['merchant_vat_number'] =
             $this->_storeConfig->getConfig('general/store_information/merchant_vat_number');
         return $addressData;
+    }
+
+    /**
+     * Check if store business address is used for shipping
+     *
+     * @param array $storeAddressData
+     * @return boolean
+     */
+    protected function _isStoreAddressUsedForShipping(array $storeAddressData)
+    {
+        // always use business address for shipping if tile is not complete
+        if (!$this->getTile()->isComplete()) {
+            return true;
+        }
+        // for complete tile, check if business address is equal to shipping origin
+        $useForShipping = true;
+        foreach ($storeAddressData as $key => $value) {
+            if ($value != $this->_storeConfig->getConfig('shipping/origin/' . $key)) {
+                $useForShipping = false;
+                break;
+            }
+        }
+
+        return $useForShipping;
     }
 
     /**
