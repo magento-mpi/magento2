@@ -32,9 +32,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
             }
         }
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
         $this->systemConfigurationHelper()->configure('Captcha/enable_admin_captcha');
-        $this->flushCache();
     }
 
     public function tearDownAfterTestClass()
