@@ -259,6 +259,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if (empty($params['locale'])) {
             $params['locale'] = Mage::app()->getLocale()->getLocaleCode();
         }
+        $params['skipProxy'] = isset($params['skipProxy']) && $params['skipProxy'];
         return $this;
     }
 
@@ -273,8 +274,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return  $this->_resolutionPool->getFileStrategy($skipProxy)->getFile($params['area'], $params['themeModel'],
+        return $this->_resolutionPool->getFileStrategy($params['skipProxy'])->getFile($params['area'], $params['themeModel'],
             $file, $params['module']);
     }
 
@@ -288,8 +288,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_updateParamDefaults($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getLocaleStrategy($skipProxy)->getLocaleFile($params['area'],
+        return $this->_resolutionPool->getLocaleStrategy($params['skipProxy'])->getLocaleFile($params['area'],
             $params['themeModel'], $params['locale'], $file);
     }
 
@@ -304,8 +303,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getViewStrategy($skipProxy)->getViewFile($params['area'],
+        return $this->_resolutionPool->getViewStrategy($params['skipProxy'])->getViewFile($params['area'],
             $params['themeModel'], $params['locale'], $file, $params['module']);
     }
 
@@ -341,14 +339,11 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param array $params
      * @return Mage_Core_Model_Design_Package
      */
-    public function notifyViewFileLocationChanged($targetPath, $themeFile, $params)
+    protected function _notifyViewFileLocationChanged($targetPath, $themeFile, $params)
     {
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        $strategy = $this->_resolutionPool->getViewStrategy($skipProxy);
+        $strategy = $this->_resolutionPool->getViewStrategy($params['skipProxy']);
         if ($strategy instanceof Mage_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterface) {
             /** @var $strategy Mage_Core_Model_Design_FileResolution_Strategy_View_NotifiableInterface  */
-            $themeFile = $this->_extractScope($themeFile, $params);
-            $this->_updateParamDefaults($params);
             $strategy->setViewFilePathToMap($params['area'], $params['themeModel'], $params['locale'],
                 $params['module'], $themeFile, $targetPath);
         }
@@ -536,7 +531,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         }
 
-        $this->notifyViewFileLocationChanged($targetPath, $themeFile, $params);
+        $this->_notifyViewFileLocationChanged($targetPath, $themeFile, $params);
         return $targetPath;
     }
 
