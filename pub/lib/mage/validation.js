@@ -864,17 +864,19 @@
         ],
         "validate-length": [
             function (v, elm) {
-                var reMax = new RegExp(/^maximum-length-[0-9]+$/);
-                var reMin = new RegExp(/^minimum-length-[0-9]+$/);
-                var result = true;
+                var reMax = new RegExp(/^maximum-length-[0-9]+$/),
+                    reMin = new RegExp(/^minimum-length-[0-9]+$/),
+                    validator = this,
+                    result = true,
+                    length = 0;
                 $.each(elm.className.split(' '), function(index, name) {
                     if (name.match(reMax) && result) {
-                        var length = name.split('-')[2];
-                        this.attrLength = length;
+                        length = name.split('-')[2];
+                        validator.attrLength = length;
                         result = (v.length <= length);
                     }
                     if (name.match(reMin) && result && !Validation.get('IsEmpty').test(v)) {
-                        var length = name.split('-')[2];
+                        length = name.split('-')[2];
                         result = (v.length >= length);
                     }
                 });
