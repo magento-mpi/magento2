@@ -12,6 +12,7 @@
     $.widget('vde.quickStyleElement', {
         options: {
             changeEvent: 'change.quickStyleElement',
+            focusEvent: 'focus.quickStyleElement',
             saveQuickStylesUrl: null
         },
 
@@ -21,6 +22,7 @@
 
         _bind: function() {
             this.element.on(this.options.changeEvent, $.proxy(this._onChange, this));
+            this.element.on(this.options.focusEvent, $.proxy(this._onFocus, this));
         },
 
         _onFocus: function() {
@@ -32,7 +34,7 @@
                 this.element.trigger('quickStyleElementBeforeChange');
             }
 
-            if (this.oldValue != undefined && this.oldValue != $(this.element).val()) {
+            if (this.oldValue != $(this.element).val()) {
                 this._send()
             }
         },
