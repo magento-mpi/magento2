@@ -56,28 +56,6 @@ interface Mage_Core_Model_CacheInterface
     public function clean($tags = array());
 
     /**
-     * Clean cached data by specific tag
-     *
-     * @return bool
-     */
-    public function flush();
-
-    /**
-     * Get adapter for database cache backend model
-     *
-     * @return Zend_Db_Adapter_Abstract
-     */
-    public function getDbAdapter();
-
-    /**
-     * Save cache usage options
-     *
-     * @param array $options
-     * @return Mage_Core_Model_CacheInterface
-     */
-    public function saveOptions($options);
-
-    /**
      * Check if cache can be used for specific data type
      *
      * @param string $typeCode
@@ -100,14 +78,6 @@ interface Mage_Core_Model_CacheInterface
      * @return Mage_Core_Model_CacheInterface
      */
     public function allowUse($typeCode);
-
-    /**
-     * Get cache tags by cache type from configuration
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getTagsByType($type);
 
     /**
      * Get information about all declared cache types

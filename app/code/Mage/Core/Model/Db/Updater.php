@@ -30,11 +30,11 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
     protected $_factory;
 
     /**
-     * Flag which allow run data install or upgrade
+     * Flag which allow run data install/upgrade
      *
      * @var bool
      */
-    protected static $_schemaUpdatesChecked;
+    protected $_schemaUpdatesChecked = false;
 
     /**
      * Application state model
@@ -114,7 +114,7 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
         }
 
         $this->_appState->setUpdateMode(false);
-        self::$_schemaUpdatesChecked = true;
+        $this->_schemaUpdatesChecked = true;
         Magento_Profiler::stop('apply_db_schema_updates');
     }
 
@@ -123,7 +123,7 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
      */
     public function updateData()
     {
-        if (!self::$_schemaUpdatesChecked) {
+        if (!$this->_schemaUpdatesChecked) {
             return;
         }
         $resources = $this->_config->getNode('global/resources')->children();

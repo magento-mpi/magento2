@@ -13,7 +13,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
-    const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
+    const CACHE_TAG                     = Enterprise_PageCache_Model_Cache_Type::CACHE_TAG;
 
     const CACHE_SIZE_KEY                = 'FPC_CACHE_SIZE_CAHCE_KEY';
     const XML_PATH_CACHE_MAX_SIZE       = 'system/page_cache/max_cache_size';

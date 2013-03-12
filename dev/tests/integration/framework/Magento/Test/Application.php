@@ -249,7 +249,10 @@ class Magento_Test_Application
         $updater->updateData();
 
         /* Enable configuration cache by default in order to improve tests performance */
-        Mage::app()->getCacheInstance()->saveOptions(array('config' => 1));
+        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
+        $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
+        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
+        $cacheTypes->persist();
 
         /* Fill installation date in local.xml to indicate that application is installed */
         $localXml = file_get_contents($targetLocalXml);

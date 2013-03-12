@@ -51,7 +51,7 @@
             <param name="product_edition_code" value="ce"/>
         </antcall>
     </target>
-    <target name="_go_edition" description="Go Edition source code preparation">
+    <target name="_saas_edition" description="Go Edition source code preparation">
         <antcall target="_product_edition">
             <param name="product_edition_code" value="saas"/>
         </antcall>
