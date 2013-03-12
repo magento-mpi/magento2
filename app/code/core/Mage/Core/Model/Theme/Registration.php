@@ -134,6 +134,11 @@ class Mage_Core_Model_Theme_Registration
         return $this->_theme->getCollection()->getThemeByFullPath($fullPath);
     }
 
+    /**
+     * Checks all physical themes that they were not deleted
+     *
+     * @return Mage_Core_Model_Theme_Registration
+     */
     public function checkPhysicalThemes()
     {
         $themes = $this->_theme->getCollection()->addFieldToFilter('type', Mage_Core_Model_Theme::TYPE_PHYSICAL);
