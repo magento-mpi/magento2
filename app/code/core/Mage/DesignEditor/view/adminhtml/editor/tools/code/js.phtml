@@ -63,11 +63,6 @@
             return false;
         });
 
-        $('#js_files_uploader').bind('click', function(event){
-            $(this).trigger('changeTheme', event);
-            return event.doChange;
-        });
-
         $('#js_files_uploader').fileupload({
             dataType: 'json',
             replaceFileInput: false,
@@ -166,5 +161,12 @@
             }
         });
         $('.ui-sortable').disableSelection();
+
+        $(document).ready(function() {
+            var eventData = {
+                elements: {click: ['#js_files_uploader']}
+            };
+            $('body').trigger('registerElements', eventData);
+        });
     })(jQuery);
 </script>

@@ -14,8 +14,7 @@
             saveCustomCssUrl: null,
             customCssCode: '#custom_code',
             btnUpdateCss: '#vde-tab-custom .action-update',
-            btnUpdateDownload: '#vde-tab-custom .action-download',
-            btnUpdateUpload: '#css_file_uploader'
+            btnUpdateDownload: '#vde-tab-custom .action-download'
         },
 
         updateButtons: function() {
@@ -26,22 +25,13 @@
             this.btnCssUpdate = $(this.options.btnUpdateCss);
             this.customCssCode = $(this.options.customCssCode);
             this.btnUpdateDownload = $(this.options.btnUpdateDownload);
-            this.btnUpdateUpload = $(this.options.btnUpdateUpload);
             this._prepareUpdateButton();
             this._events();
         },
 
         _events: function() {
-            this.btnCssUpdate.on('focus', $.proxy(this._beforeChange, this));
-            this.customCssCode.on('focus', $.proxy(this._beforeChange, this));
-            this.btnUpdateUpload.on('focus', $.proxy(this._beforeChange, this));
             this.btnCssUpdate.on('click', $.proxy(this._updateCustomCss, this));
             this.customCssCode.on('input onchange', $.proxy(this._editCustomCss, this));
-        },
-
-        _beforeChange: function(event) {
-            this.element.trigger('changeTheme', event);
-            return event.doChange;
         },
 
         _editCustomCss: function()

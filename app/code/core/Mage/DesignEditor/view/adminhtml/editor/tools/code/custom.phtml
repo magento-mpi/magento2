@@ -42,6 +42,13 @@
             saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
         });
 
+        $(document).ready(function() {
+            var eventData = {
+                elements: {focus: ['#vde-tab-custom .action-update', '#custom_code', '#css_file_uploader']}
+            };
+            $('body').trigger('registerElements', eventData);
+        });
+
         $( '#' + '<?php echo $this->getFileElementName() ?>' ).fileupload({
             dataType: 'json',
             replaceFileInput: false,

@@ -59,13 +59,28 @@
     'use strict';
 
     $('.vde-tools').toolsPanel();
-    $(
-        '#vde-tab-quick-styles .element-font-picker select,' +
-        '#vde-tab-quick-styles .element-color-picker input,' +
-        //'#vde-tab-quick-styles .element-image-uploader' +   // Uploaders are special case
-        '#vde-tab-quick-styles .element-background .element-checkbox'
+    $('#vde-tab-quick-styles .element-font-picker select,' +
+      '#vde-tab-quick-styles .element-color-picker input,' +
+      '#vde-tab-quick-styles .element-background .element-checkbox'
     ).quickStyleElement({
         saveQuickStylesUrl: '<?php echo $this->getSaveUrl(); ?>'
+    });
+
+    $(document).ready(function() {
+        var eventData = {
+            elements: {
+                click: [
+                    '#vde-tab-quick-styles .element-image-uploader',
+                    '#vde-tab-quick-styles .element-background .element-checkbox'
+                ],
+                mousedown: ['#vde-tab-quick-styles .color-box'],
+                focus: [
+                    '#vde-tab-quick-styles .element-color-picker input',
+                    '#vde-tab-quick-styles .element-font-picker select'
+                ]
+            }
+        };
+        $('body').trigger('registerElements', eventData);
     });
 
     $('[class^="action-"][href="#vde-tab-custom"]').on('click.activateCustomCodeTab', function() {

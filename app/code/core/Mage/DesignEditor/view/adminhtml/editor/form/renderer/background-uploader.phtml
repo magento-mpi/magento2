@@ -40,12 +40,7 @@ $element = $this->getElement();
 
     <script type="text/javascript">
         (function($) {
-            var uploadElement = document.getElementById('<?php echo $imageUploader->getHtmlId(); ?>-uploader');
-            $(uploadElement).bind('click', function(event){
-                $(this).trigger('changeTheme', event);
-                return event.doChange;
-            });
-            $(uploadElement).quickStyleUploader({
+            $(document.getElementById('<?php echo $imageUploader->getHtmlId(); ?>-uploader')).quickStyleUploader({
                 uploader_id: '<?php echo $imageUploader->getHtmlId(); ?>',
                 container:   '<?php echo $imageUploader->getHtmlId(); ?>-uploader',
                 value:       '<?php echo $imageUploader->getValue(); ?>',

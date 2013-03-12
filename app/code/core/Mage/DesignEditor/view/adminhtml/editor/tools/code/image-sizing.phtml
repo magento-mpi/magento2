@@ -30,5 +30,14 @@
             maxSizeValue: <?php echo Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator::MAX_SIZE_VALUE ?>,
             messagesContainer: '#vde-tab-imagesizing-messages-placeholder'
         });
+        $(document).ready(function() {
+            var eventData = {
+                elements: {
+                    focus: ['#product_image_sizing_form input', '#product_image_sizing_form select'],
+                    click: ['#product_image_sizing_form .action-connect']
+                }
+            };
+            $('body').trigger('registerElements', eventData);
+        });
     })(jQuery);
 </script>

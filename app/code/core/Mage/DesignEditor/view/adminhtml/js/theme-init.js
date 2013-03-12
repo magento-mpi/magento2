@@ -12,7 +12,7 @@
         options: {
             isPhysicalTheme: 0,
             createVirtualThemeUrl: null,
-            changeThemeEvent : 'changeTheme'
+            registerElementsEvent : 'registerElements'
         },
 
         /**
@@ -21,7 +21,9 @@
          * @private
          */
         _create: function() {
-            this._bind();
+            if (this.options.isPhysicalTheme) {
+                this._bind();
+            }
         },
 
         /**
@@ -31,31 +33,50 @@
          */
         _bind: function() {
             var body = $('body');
-            body.on(this.options.changeThemeEvent, $.proxy(this._onChangeTheme, this));
+            body.on(this.options.registerElementsEvent, $.proxy(this._onRegisterElements, this));
+        },
+
+        /**
+         * Event handler
+         *
+         * @param e
+         * @param data
+         * @private
+         */
+        _onRegisterElements: function(e, data){
+            var content = data.content || 'body';
+            content = $(content).contents();
+            this._registerElements(content, data.elements);
+        },
+
+        /**
+         * Register elements
+         *
+         * @param content
+         * @param elements
+         * @private
+         */
+        _registerElements: function(content, elements) {
+            for (var eventType in elements) {
+                for (var i = 0; i < elements[eventType].length; i++){
+                    content.find(elements[eventType][i]).on(eventType, $.proxy(this._onChangeTheme, this));
+                }
+            }
         },
 
         /**
          * Manage change theme event
          *
          * @param event
-         * @param data
          * @private
          */
-        _onChangeTheme: function(event, data) {
-            var data = data || {};
-            if (!this.options.isPhysicalTheme) {
-                data.doChange = true;
-            } else {
-                if (confirm($.mage.__('You want to change theme. It is necessary to create customization. Do you want to create?'))) {
-                    this._createVirtualTheme();
-                }
-                data.doChange = false;
-                if (typeof data.stopPropagation === 'function') {
-                    data.stopPropagation();
-                }
+        _onChangeTheme: function(event) {
+            if (confirm($.mage.__('You want to change theme. It is necessary to create customization. Do you want to create?'))) {
+                this._createVirtualTheme();
             }
-
-            return data.doChange;
+            event.stopPropagation();
+            $(event.target).blur();
+            return false;
         },
 
         /**
