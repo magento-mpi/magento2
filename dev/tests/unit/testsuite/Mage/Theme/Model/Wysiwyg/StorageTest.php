@@ -96,7 +96,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             ->with($fullNewPath)
             ->will($this->returnValue($newDirectoryName));
 
-        $this->_helperStorage->expects($this->once())
+        $this->_helperStorage->expects($this->any())
             ->method('getStorageRoot')
             ->will($this->returnValue($this->_storageRoot));
 
