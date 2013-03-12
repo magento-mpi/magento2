@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Di\Definition\Serializer;
 
-
 class Standard implements SerializerInterface
 {
     /**

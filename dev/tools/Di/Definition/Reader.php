@@ -7,13 +7,12 @@
  */
 namespace Magento\Tools\Di\Definition;
 
-
 class Reader
 {
     /**
      * Read class constructor signature
      *
-     * @param $className
+     * @param string $className
      * @return array|null
      * @throws \ReflectionException
      */

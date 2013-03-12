@@ -28,7 +28,7 @@ class Compressor
      * @param array $definitions
      * @return mixed
      */
-    public function compress($definitions)
+    public function compress(array $definitions)
     {
         $signatureList = new Compressor\UniqueList();
         $resultDefinitions = array();

@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Di\Definition\Serializer;
 
-
 interface SerializerInterface
 {
     /**

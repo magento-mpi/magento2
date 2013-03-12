@@ -28,7 +28,7 @@ class UniqueList
             return array_search($item, $this->_items);
         } else {
             $this->_items[] = $item;
-            return count($this->_items)-1;
+            return count($this->_items) - 1;
         }
     }
 
