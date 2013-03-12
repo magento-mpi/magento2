@@ -38,7 +38,7 @@ gift_card_required:
     general_description: Description for Gift Card Required
     inventory_qty: 111
     autosettings_visibility: Catalog, Search
-    autosettings_short_description: Short Description for Gift Card Required
+    autosettings_short_description: %noValue%
 
 frontend_gift_card_validation:
     product_attribute_set: Default
@@ -395,13 +395,13 @@ simple_product_price:
 # Product that has all needed fields without price.
 virtual_product_price:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Virtual Product Visible(%randomize%)
+    general_sku: virtual_visible_sku_%randomize%
+    general_tax_class: None
     general_description: Description for Virtual Product Visible
     autosettings_short_description: Short Description for Virtual Product Visible
-    general_sku: virtual_visible_sku_%randomize%
-    product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website
@@ -414,13 +414,13 @@ virtual_product_price:
 # Product that has all needed fields set without price.
 downloadable_product_price:
     product_attribute_set: Default
+    product_online_status: Enabled
     general_name: Downloadable Product Visible(%randomize%)
+    general_sku: downloadable_visible_sku_%randomize%
+    general_tax_class: None
     general_description: Description for Downloadable Product Visible
     autosettings_short_description: Short Description for Downloadable Product Visible
-    general_sku: downloadable_visible_sku_%randomize%
-    product_online_status: Enabled
     autosettings_visibility: Catalog, Search
-    general_tax_class: None
     inventory_qty: 999
     inventory_stock_availability: In Stock
     websites: Main Website

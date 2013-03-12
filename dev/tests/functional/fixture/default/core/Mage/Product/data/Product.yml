@@ -606,7 +606,7 @@ virtual_product_required:
     general_description: Description for Virtual Product Required
     prices_special_price: %noValue%
     autosettings_visibility: Catalog, Search
-    autosettings_short_description: Short Description for Virtual Product Required
+    autosettings_short_description: %noValue%
 
 # Product that has all needed fields set to be visible in frontend.
 virtual_product_visible:
@@ -1049,6 +1049,7 @@ grouped_product_required:
     general_sku: grouped_sku.req_%randomize%
     general_description: Description for Grouped Product Required
     autosettings_visibility: Catalog, Search
+    autosettings_short_description: %noValue%
     general_grouped_data: *associatedProductsGroupedData
 
 # Product that has all needed fields set to be visible in frontend.
@@ -1160,7 +1161,7 @@ configurable_product_required:
     general_description: Description for Configurable Product Required
     prices_special_price: %noValue%
     autosettings_visibility: Catalog, Search
-    autosettings_short_description: Short Description for Configurable Product Required
+    autosettings_short_description: %noValue%
     general_configurable_attributes: *general_configurable_attributes
     general_configurable_variations: *associatedProductsConfigurableData
 
@@ -1290,7 +1291,7 @@ downloadable_product_required:
     general_description: Description for Downloadable Product Required
     prices_special_price: %noValue%
     autosettings_visibility: Catalog, Search
-    autosettings_short_description: Short Description for Downloadable Product Required
+    autosettings_short_description: %noValue%
     downloadable_information_data: *downloadableData
 
 # Product that has all needed fields set to be visible in frontend.
@@ -2254,112 +2255,6 @@ product_update_inventory_tab:
 product_update_websites_tab:
     websites_add_to_main_website: Yes
 
-simple_product_minimal:
-    product_attribute_set: Minimal
-    product_online_status: Enabled
-    general_name: Simple Product Required(%randomize%)
-    general_sku: simple_sku_req_%randomize%
-    general_price: 9.99
-    general_tax_class: None
-    general_weight: 1.13
-    general_categories: Default Category
-    general_description: Description for Simple Product Required
-    autosettings_short_description: Short Description for Simple Product Required
-    autosettings_visibility: Catalog, Search
-    websites: Main Website
-    custom_options_data:
-        custom_options_field: %noValue%
-
-virtual_product_minimal:
-    product_attribute_set: Minimal
-    product_online_status: Enabled
-    general_name: Virtual Product Required(%randomize%)
-    general_sku: virtual_sku_req_%randomize%
-    general_price: 99.99
-    general_tax_class: None
-    general_categories: Default Category
-    general_description: Description for Virtual Product Required
-    autosettings_short_description: Short Description for Virtual Product Required
-    autosettings_visibility: Catalog, Search
-    websites: Main Website
-
-configurable_product_minimal:
-    product_attribute_set: Minimal
-    product_online_status: Enabled
-    general_name: Configurable Product Required(%randomize%)
-    general_sku: configurable_sku_req_%randomize%
-    general_price: 14.95
-    general_tax_class: None
-    general_weight: 5.19
-    general_categories: Default Category
-    general_description: Description for Configurable Product Required
-    autosettings_short_description: Short Description for Configurable Product Required
-    autosettings_visibility: Catalog, Search
-    general_configurable_attributes: *general_configurable_attributes
-    general_configurable_variations: *associatedProductsConfigurableData
-
-downloadable_product_minimal:
-    product_attribute_set: Minimal
-    product_online_status: Enabled
-    general_name: Downloadable Product Required(%randomize%)
-    general_sku: downloadable_sku.req_%randomize%
-    general_price: 99.99
-    general_tax_class: None
-    general_categories: Default Category
-    general_description: Description for Downloadable Product Required
-    autosettings_short_description: Short Description for Downloadable Product Required
-    autosettings_visibility: Catalog, Search
-    websites: Main Website
-    downloadable_information_data: *downloadableData
-
-grouped_product_minimal:
-    product_attribute_set: Minimal
-    product_online_status: Enabled
-    general_name: Grouped Product Visible(%randomize%)
-    general_sku: grouped_visible_sku.req_%randomize%
-    general_categories: Default Category
-    general_description: Description for Grouped Product Visible
-    autosettings_short_description: Short Description for Grouped Product Visible
-    autosettings_visibility: Catalog, Search
-    general_grouped_data:
-        associated_grouped_1:
-            associated_search_sku: %associated_1%
-
-fixed_bundle_minimal:
-    product_attribute_set: Minimal
-    product_online_status: Enabled
-    general_name: Bundle(Fixed) Product Visible(%randomize%)
-    general_description: Description for Bundle(Fixed) Product Visible
-    autosettings_short_description: Short Description for Bundle(Fixed) Product Product Visible
-    general_sku_type: Fixed
-    general_sku: bundle_fixed_visible_sku_%randomize%
-    general_price_type: Fixed
-    general_price: 12.55
-    general_tax_class: None
-    general_weight_type: Fixed
-    general_weight: 0.999
-    general_categories: Default Category
-    autosettings_visibility: Catalog, Search
-    websites: Main Website
-    general_bundle_items:
-        item_1: %noValue%
-
-dynamic_bundle_minimal:
-    product_attribute_set: Minimal
-    product_online_status: Enabled
-    general_name: Bundle(Dynamic) Product Visible(%randomize%)
-    general_sku_type: Dynamic
-    general_sku: bundle_dynamic_visible_sku.req_%randomize%
-    general_price_type: Dynamic
-    general_weight_type: Dynamic
-    general_categories: Default Category
-    general_description: Description for Bundle(Dynamic) Product Visible
-    autosettings_short_description: Short Description for Bundle(Dynamic) Product Visible
-    autosettings_visibility: Catalog, Search
-    websites: Main Website
-    general_bundle_items:
-        item_1: %noValue%
-
 simple_product_zero_price:
     product_attribute_set: Default
     product_online_status: Enabled
@@ -2487,7 +2382,6 @@ compare_simple_product:
     autosettings_short_description: Short Description for Simple Product Compare
     autosettings_visibility: Catalog, Search
     websites: Main Website
-
 
 compare_virtual_product:
     product_attribute_set: Default

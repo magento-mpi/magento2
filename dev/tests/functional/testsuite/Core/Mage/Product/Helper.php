@@ -732,7 +732,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param array $tabData
      * @param string $tabName Value - general|prices|meta_information|images|
-     * |design|advanced_settings|inventory|websites|related|up_sells
+     * |design|autosettings|inventory|websites|related|up_sells
      * |cross_sells|custom_options|bundle_items|associated|downloadable_information
      *
      * @return bool
@@ -900,8 +900,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (($status && $statusData == 'Disabled') || (!$status && $statusData == 'Enabled')) {
             if ($action == 'fill') {
                 $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'product_online_status');
-            }
-            else {
+            } else {
                 $this->addVerificationMessage('Product Online Status should be ' . $statusData);
             }
         }
