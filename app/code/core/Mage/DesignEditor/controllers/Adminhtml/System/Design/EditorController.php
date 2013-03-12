@@ -70,7 +70,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
 
-            if ($theme->getType()==Mage_Core_Model_Theme::TYPE_VIRTUAL) {
+            if ($theme->getType() == Mage_Core_Model_Theme::TYPE_VIRTUAL) {
                 $stagingTheme = $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();
                 $themeToDisplay = $stagingTheme;
             } else {

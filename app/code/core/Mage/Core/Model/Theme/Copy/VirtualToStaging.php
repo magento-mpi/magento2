@@ -28,12 +28,10 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging
     /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
-     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
-        Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection,
-        array $data = array()
+        Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
     ) {
         $this->_themeFactory = $themeFactory;
         $this->_linkCollection = $linkCollection;
