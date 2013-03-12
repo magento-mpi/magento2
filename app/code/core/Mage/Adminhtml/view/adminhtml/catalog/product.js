@@ -247,58 +247,40 @@ Product.Gallery.prototype = {
     }
 };
 
-Product.AttributesBridge = {
-    tabsObject :false,
-    bindTabs2Attributes : {},
-    bind : function(tabId, attributesObject) {
-        this.bindTabs2Attributes[tabId] = attributesObject;
-    },
-    getAttributes : function(tabId) {
-        return this.bindTabs2Attributes[tabId];
-    },
-    addAttributeRow : function(data) {
-        $H(data).each(function(item) {
-            var element = this.getAttributes(item.key).addRow(item.value);
-            jQuery(element).trigger('focus');
-        }.bind(this));
-    }
-};
-
-Product.Attributes = Class.create();
-Product.Attributes.prototype = {
-    config : {},
-    containerId :null,
-    initialize : function(containerId) {
-        this.containerId = containerId;
-    },
-    setConfig : function(config) {
-        this.config = config;
-        Product.AttributesBridge.bind(this.getConfig().tab_id, this);
-    },
-    getConfig : function() {
-        return this.config;
-    },
-    create : function() {
-        var win = window.open(this.getConfig().url, 'new_attribute',
-                'width=1000,height=600,resizable=1,scrollbars=1');
-        win.focus();
-    },
-    addRow : function(html) {
-        var attributesContainer = $$('#group_fields' + this.getConfig().group_id)[0];
-        Element.insert(attributesContainer, {
-            bottom :html
-        });
-
-        var childs = attributesContainer.childElements();
-        var element = childs[childs.size() - 1].select('input', 'select',
-                'textarea')[0];
-        if (element) {
-            window.scrollTo(0, Position.cumulativeOffset(element)[1]
-                    + element.offsetHeight);
+(function ($) {
+    $.widget("mage.productAttributes", {
+        _create: function () {
+            this._on({'click':'_showPopup'});
+        },
+        _showPopup: function (event) {
+            var wrapper = $('<div id="create_new_attribute"/>').appendTo('body').dialog({
+                title: 'New Attribute',
+                minWidth: 980,
+                minHeight: 700,
+                modal: true,
+                resizeStop: function(event, ui) {
+                    iframe.height($(this).outerHeight() + 'px');
+                    iframe.width($(this).outerWidth() + 'px');
+                }
+            });
+            wrapper.mage('loader', {showOnInit: true});
+            var iframe = $('<iframe id="create_new_attribute_container">').attr({
+                src:this.options.url + '?set=' + $('#attribute_set_id').val(),
+                frameborder: 0,
+                style: "position:absolute;top:58px;left:0px;right:0px;bottom:0px"
+            });
+            iframe.on('load', function () {
+                wrapper.mage('loader', 'hide');
+                this.style.height = wrapper.outerHeight() + 'px';
+                this.style.width = wrapper.outerWidth() + 'px'
+            });
+            wrapper.append(iframe);
+            wrapper.on('dialogclose', function () {
+                this.remove();
+            });
         }
-        return element;
-    }
-};
+    });
+})(jQuery);
 
 var onInitDisableFieldsList = [];
 

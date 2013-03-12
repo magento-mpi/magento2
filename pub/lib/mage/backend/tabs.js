@@ -22,9 +22,11 @@
          * @protected
          */
         _create: function() {
-            var activeIndex = this._getTabIndex(this.options.active);
-            this.options.active = activeIndex >= 0 ? activeIndex : 0;
             this._super();
+            var activeIndex = this._getTabIndex(this.options.active);
+            if (activeIndex >= 0) {
+                this._setOption('active', activeIndex);
+            }
         },
 
         /**
@@ -86,7 +88,7 @@
          */
         _create: function() {
             this._super();
-            this._movePanelsInDestination(this.panels);
+            this._movePanelsInDestination(this.panels.eq(this.options.active));
         },
 
         /**
@@ -109,10 +111,10 @@
          * Move panels in destination element
          * @protected
          * @override
-         * @param {Array} panels - array of panels DOM elements
          */
         _movePanelsInDestination: function(panels) {
             if (this.options.destination && !panels.parents(this.options.destination).length) {
+                this.element.trigger('beforePanelsMove', panels)
                 panels
                     .find('script[type!="text/x-jquery-tmpl"]').remove();
                 panels.appendTo(this.options.destination)
@@ -148,7 +150,7 @@
             /**
              * Replacing href attribute with loaded panel id
              * @param {Object} event - event object
-             * @param {Object}
+             * @param {Object} ui
              */
             load: function(event, ui) {
                 var panel = $(ui.panel);
@@ -170,27 +172,24 @@
          * @protected
          * @override
          */
-        _create: function() {
+        _refresh: function() {
             this._super();
-            this._bind();
-        },
+            $.each(this.tabs, $.proxy(function(i, tab) {
+                $(this._getPanelForTab(tab))
+                    .off('changed' + this.eventNamespace)
+                    .off('highlight' + this.eventNamespace)
+                    .off('focusin' + this.eventNamespace)
 
-        /**
-         * Attach event handlers to tabs
-         * @protected
-         */
-        _bind: function() {
-            $.each(this.panels, $.proxy(function(i, panel) {
-                $(panel)
-                    .on('changed', {index: i}, $.proxy(this._onContentChange, this))
-                    .on('highlight.validate', {index: i}, $.proxy(this._onInvalid, this))
-                    .on('focusin', {index: i}, $.proxy(this._onFocus, this));
+                    .on('changed' + this.eventNamespace, {index: i}, $.proxy(this._onContentChange, this))
+                    .on('highlight' + this.eventNamespace, {index: i}, $.proxy(this._onInvalid, this))
+                    .on('focusin' + this.eventNamespace, {index: i}, $.proxy(this._onFocus, this));
             }, this));
 
             ($(this.options.destination).is('form') ?
                 $(this.options.destination) :
                 $(this.options.destination).closest('form'))
-                    .on('beforeSubmit', $.proxy(this._onBeforeSubmit, this));
+                    .off('beforeSubmit' + this.eventNamespace)
+                    .on('beforeSubmit' + this.eventNamespace, $.proxy(this._onBeforeSubmit, this));
         },
 
         /**
@@ -252,16 +251,8 @@
          * @protected
          * @override
          */
-        _bind: function() {
+        _refresh: function() {
             this._super();
-            this._bindShadowTabs();
-        },
-
-        /**
-         * Process shadow tabs
-         * @protected
-         */
-        _bindShadowTabs: function() {
             var anchors = this.anchors,
                 shadowTabs = this.options.shadowTabs,
                 tabs = this.tabs;

@@ -213,6 +213,17 @@
                         <weight/>
                         <category_ids/>
                         <quantity_and_stock_status/>
+                        <available_sort_by/>
+                        <default_sort_by/>
+                        <filter_price_range/>
+                        <image/>
+                        <category_ids/>
+                        <media_gallery_content/>
+                        <group_price/>
+                        <tier_price/>
+                        <recurring_profileinit_may_fail/>
+                        <gift_message_available/>
+                        <inventory_manage_stock/>
                     </unassignable>
                     <used_in_autogeneration>
                         <name/>

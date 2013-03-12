@@ -69,6 +69,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                                 ->setGroupAttributes($attributes)
                                 ->toHtml()
                         ),
+                        'class' => 'user-defined',
                         'group_code' => $group->getTabGroupCode() ?: self::BASIC_TAB_GROUP_CODE
                     );
 

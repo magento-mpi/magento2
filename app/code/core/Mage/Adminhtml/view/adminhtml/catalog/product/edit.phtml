@@ -54,19 +54,21 @@
     <?php echo $this->getChildHtml('product-type-tabs') ?>
     <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
     <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
+    <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
 </form>
 <script type="text/javascript">
 
 jQuery(function($) {
+    var $form = $('#product-edit-form');
+    $form.data('typeSwitcher', new TypeSwitcher(<?php echo $this->getTypeSwitcherData();?>).bindAll());
+
     $('#meta_description').on('change keyup paste', function () {
         var maxLength = $(this).data('maxLength') || 255;
         if ($(this).val().length >= maxLength) {
             $(this).val($(this).val().substr(0, maxLength));
         }
     });
-    $('#product-edit-form')
-        .mage('form')
-        .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+    $form.mage('form').mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
     <?php if ($this->getSelectedTabId()): ?>
     if($('#<?php echo $this->getSelectedTabId() ?>').length) {
@@ -94,19 +96,26 @@ jQuery(function($) {
         },
         bindAll: function(events) {
             var self = this;
+            var elementSelector = _(this._masks).keys().map(function(key) {
+                return '#' + key;
+            }).join(',')
+            $("#product_info_tabs").on("tabscreate", $.proxy(function(event, ui) {
+                $('#product-edit-form').on(
+                    'focus blur change keyup click',
+                    elementSelector,
+                    $.proxy(function(event) {
+                        var $element = $(event.currentTarget);
+                        $element.data(this.data.disabled, $element.val().replace(/\s/g, '') != '');
+                    }, this)
+                ).find(elementSelector).trigger('change');
+            }, this));
 
-            $.each(self._masks, function(field, mask) {
-                var disabler = function() {
-                    $(this).data(self.data.disabled, $(this).val().replace(/\s/g, '') != '');
-                };
+            $.each(this._masks, function(field, mask) {
                 var $field = $('#' + field);
                 if (!$field.val() && mask.length > 0 && !self.varRegexp.test(mask)) {
                     $field.val(mask);
                 }
-                if ($field.length) {
-                    disabler.call($field);
-                    $field.bind('focus blur change keyup click', disabler);
-                }
+                $field.trigger('change');
             });
 
             $.each(self._fieldReverseIndex, function(field) {
@@ -128,8 +137,8 @@ jQuery(function($) {
                     });
                 };
                 if ($field.length) {
-                    $field.bind(events || 'keyup change blur click', filler);
-                    filler.call($field, true);
+                    $('#product-edit-form').on(events || 'keyup change blur click paste', '#' + field, filler);
+                    $field.trigger('change');
                 }
 
             });
@@ -150,13 +159,10 @@ jQuery(function($) {
         }
     });
 
-    new Autogenerator(masks).bindAll();
-
-    new TypeSwitcher(<?php echo $this->getTypeSwitcherData();?>).bindAll();
+    $form.data('autogenerator', new Autogenerator(masks).bindAll());
 
     $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
-    var $form = $('#product-edit-form'),
-        fieldSelector = '.required-entry, .required-option-select',
+    var fieldSelector = '.required-entry, .required-option-select',
         updateSaveSplitButtonAvailability = function () {
             var disabled = false;
             $.each($form.find(fieldSelector), function () {
@@ -187,6 +193,137 @@ jQuery(function($) {
         $('#product-online-switcher').siblings('#product-online-status').text(
             $.mage.__($(this).prop('checked') ? 'Product online' : 'Product offline')
         );
+    });
+
+    $form.on('changeAttributeSet', function(event, data) {
+        var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace(/#[^#]*$/, '');
+        uri += /\?/.test(uri) ? '&' : '?';
+        uri += 'set=' + window.encodeURIComponent(data.id);
+
+        var $form = $('#product-edit-form');
+        $form.attr('action', $form.attr('action').replace(/(\/|&|\?)?\bset(\/|=)\d+/g, ''));
+        $form.find('#attribute_set_id').attr('name', 'set').val(data.id);
+        $.ajax({
+            url: uri.replace('/edit/', '/new/') + '&popup=1',
+            type: 'post',
+            data: $form.serializeArray(),
+            dataType: 'html',
+            context: $('body'),
+            showLoader: true
+        }).done(function(data) {
+            var removedElementClass = 'removed';
+
+            var $page = $('body');
+            var $newPage = $(data);
+
+            var nameMapper = function() {
+                return $(this).attr('name');
+            };
+
+            //add new tab tabs or reorder
+            $page.find('#product_info_tabs .tabs').each(function(i, tabContainer) {
+                $newPage.find('#product_info_tabs .tabs').each(function(j, newTabContainer) {
+                    if (i != j) {
+                        return
+                    }
+                    var $tabContainer = $(tabContainer);
+                    $(tabContainer).find('li').removeClass(removedElementClass)
+                    var $tabs = $(tabContainer)
+                        .find('li:not(.' + removedElementClass + ')  .tab-item-link.user-defined:not(.ajax)');
+                    var $newTabs = $(newTabContainer).find('.tab-item-link.user-defined:not(.ajax)'),
+                        tabsNames = $tabs.map(nameMapper).toArray();
+
+                    //hide not exists elements
+                    $.each(
+                        _.difference(tabsNames, $newTabs.map(nameMapper).toArray()),
+                        function(index, tabName) {
+                            $tabContainer.find('[name=' + tabName + ']').closest('li')
+                                .addClass(removedElementClass)
+                            $page.find('#' + tabName)
+                                .addClass(removedElementClass)
+                                .addClass('ignore-validate');
+                        }
+                    );
+
+                    $(newTabContainer).find('.tab-item-link.user-defined:not(.ajax)').each(function(index, tab) {
+                        var $tab = $(tab),
+                            tabName = nameMapper.apply($tab),
+                            $tabsContent = $tab.closest('li').clone();
+                        $tabsContent.find('.fieldset>.field').remove();
+                        if (nameMapper.apply($tabs.eq(index)) == tabName) {
+                            return true;
+                        }
+                        var $tabToMove = $.inArray(tabName, tabsNames) !== -1
+                            ? $tabs.filter(function() {
+                            return nameMapper.apply(this) === tabName;
+                        }).closest('li')
+                            : $tabsContent;
+                        if (index === 0) {
+                            $tabToMove.prependTo($tabContainer);
+                        } else {
+                            $tabToMove.insertAfter($tabs.eq(index - 1).closest('li'));
+                        }
+                        $tabToMove.removeClass(removedElementClass).removeClass('ignore-validate');
+                        $tabs = $tabContainer.find('li:not(.' + removedElementClass + ')  .tab-item-link.user-defined:not(.ajax)');
+                    });
+                });
+            });
+
+            var nameDataMapper = function() {
+                return $(this).data('elementId');
+            };
+            //add new element elements or reorder
+            $page.find('#product-edit-form-tabs .fieldset, #product_info_tabs .fieldset')
+                .removeClass('ignore-validate')
+                .removeClass(removedElementClass)
+                .each(function(i, fieldSet) {
+                $newPage.find('#product_info_tabs .fieldset').each(function(j, newFieldSet) {
+                    if ($(fieldSet).attr('id') != $(newFieldSet).attr('id')) {
+                        return
+                    }
+                    var $elements = $(fieldSet).find('>.field:not(.' + removedElementClass + ')');
+                    var $newFieldSet = $(newFieldSet);
+                    var $newElements = $newFieldSet.find('>.field');
+
+                    $elements.removeClass(removedElementClass);
+
+                    var elementNames = $elements.map(nameDataMapper).toArray();
+
+                    //hide not exists elements
+                    $.each(
+                        _.difference(elementNames, $newElements.map(nameDataMapper).toArray()),
+                        function(index, elementId) {
+                            $page.find('#attribute-' + elementId + '-container')
+                                .addClass(removedElementClass)
+                                .addClass('ignore-validate');
+                        }
+                    );
+
+                    $newElements.each(function(index, element) {
+                        var $element = $(element),
+                            elementId = nameDataMapper.apply($element);
+                        if (nameDataMapper.apply($elements.get(index)) == elementId) {
+                            return true;
+                        }
+                        var $elementToMove = $('.fieldset>.field[data-element-id="' + elementId + '"]');
+                        if ($elementToMove.length === 0) {
+                            $elementToMove = $element;
+                        }
+                        if (index === 0) {
+                            $elementToMove.prependTo(fieldSet);
+                        } else {
+                            $elementToMove.insertAfter($elements.get(index - 1))
+                        }
+                        $elementToMove.trigger('contentUpdated');
+                        $elementToMove.removeClass(removedElementClass).removeClass('.ignore-validate');
+                        $elements = $(fieldSet).find('>.field:not(.' + removedElementClass + ')');
+                    });
+                });
+            });
+
+           $('#product_info_tabs').tabs('refresh').tabs("option", "active", 0);
+        });
+
     });
 });
 </script>

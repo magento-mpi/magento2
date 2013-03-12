@@ -37,6 +37,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
      */
     protected function _prepareForm()
     {
+        /** @var $group Mage_Eav_Model_Entity_Attribute_Group */
         $group = $this->getGroup();
         if ($group) {
             $form = new Varien_Data_Form();
@@ -44,10 +45,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
             // Initialize product object as form property to use it during elements generation
             $form->setDataObject($product);
 
-            $fieldset = $form->addFieldset('group_fields' . $group->getId(), array(
-                'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
-                'collapsable' => true
-            ));
+            $fieldset = $form->addFieldset(
+                 $group->getAttributeGroupCode(),
+                 array(
+                    'class' => 'user-defined',
+                    'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
+                    'collapsable' => $group->getAttributeGroupCode() == 'product-details'
+                )
+            );
 
             $attributes = $this->getGroupAttributes();
 

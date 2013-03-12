@@ -17,11 +17,9 @@
  */
 class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget implements Varien_Data_Form_Element_Renderer_Interface
 {
-
     protected $_element = null;
     protected $_countries = null;
     protected $_websites = null;
-
     protected $_template = 'renderer/tax.phtml';
 
     public function getProduct()
@@ -33,6 +31,11 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
     {
         $this->setElement($element);
         $this->_setAddButton();
+        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Tax'),
+            'data_attribute' => array('action' => 'delete-fpt-item'),
+            'class' => 'delete'
+        ));
         return $this->toHtml();
     }
 
@@ -49,7 +52,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
 
     public function getValues()
     {
-        $values =array();
+        $values = array();
         $data = $this->getElement()->getValue();
 
         if (is_array($data) && count($data)) {
@@ -61,11 +64,11 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
 
     protected function _sortWeeeTaxes($a, $b)
     {
-        if ($a['website_id']!=$b['website_id']) {
-            return $a['website_id']<$b['website_id'] ? -1 : 1;
+        if ($a['website_id'] != $b['website_id']) {
+            return $a['website_id'] < $b['website_id'] ? -1 : 1;
         }
-        if ($a['country']!=$b['country']) {
-            return $a['country']<$b['country'] ? -1 : 1;
+        if ($a['country'] != $b['country']) {
+            return $a['country'] < $b['country'] ? -1 : 1;
         }
         return 0;
     }
@@ -83,8 +86,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
     public function getCountries()
     {
         if (is_null($this->_countries)) {
-            $this->_countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')
-                ->toOptionArray();
+            $this->_countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray();
         }
 
         return $this->_countries;
@@ -97,16 +99,16 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         }
         $websites = array();
         $websites[0] = array(
-            'name'      => $this->__('All Websites'),
-            'currency'  => Mage::app()->getBaseCurrencyCode()
+            'name'     => $this->__('All Websites'),
+            'currency' => Mage::app()->getBaseCurrencyCode()
         );
 
         if (!Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
                 $website = Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
-                    'name'      => $website->getName(),
-                    'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    'name'     => $website->getName(),
+                    'currency' => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
                 foreach (Mage::app()->getWebsites() as $website) {
@@ -114,8 +116,8 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
                         continue;
                     }
                     $websites[$website->getId()] = array(
-                        'name'      => $website->getName(),
-                        'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                        'name'     => $website->getName(),
+                        'currency' => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                     );
                 }
             }
@@ -127,8 +129,9 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
     protected function _setAddButton()
     {
         $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Tax'),
-            'onclick'   => "weeeTaxControl.addItem('".$this->getElement()->getHtmlId()."')",
+            'id' => $this->getElement()->getHtmlId() . '_add_new_tax_item',
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Tax'),
+            'data_attribute' => array('action' => 'add-fpt-item'),
             'class' => 'add'
         ));
     }
@@ -137,5 +140,4 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
     {
         return $this->getChildHtml('add_button');
     }
-
 }

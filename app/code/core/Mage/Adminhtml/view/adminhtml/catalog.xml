@@ -33,6 +33,7 @@
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+            <action method="addJs"><file>mage/proxy-event.js</file></action>
 
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
@@ -77,7 +78,7 @@
     <adminhtml_catalog_product_edit>
         <update handle="adminhtml_catalog_product_new"/>
         <reference name="left">
-            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>            
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
         </reference>
     </adminhtml_catalog_product_edit>
 
