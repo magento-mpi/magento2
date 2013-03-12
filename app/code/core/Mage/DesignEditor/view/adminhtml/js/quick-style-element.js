@@ -34,7 +34,7 @@
                 this.element.trigger('quickStyleElementBeforeChange');
             }
 
-            if (this.oldValue != $(this.element).val()) {
+            if (this.oldValue != $(this.element).val() || this.element.attr('type') == 'checkbox') {
                 this._send()
             }
         },
