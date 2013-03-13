@@ -26,11 +26,42 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
      */
     protected $_storeConfig;
 
-    protected function setUp()
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_designPackage;
+
+    /**
+     * Whether mock of design package allows merging
+     *
+     * @bool
+     */
+    protected $_isMergingAllowedByMock = true;
+
+    public function setUp()
     {
         $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager', array('create'));
+
         $this->_storeConfig = $this->getMock('Mage_Core_Model_Store_Config', array('getConfigFlag'));
-        $this->_object = new Mage_Core_Model_Page_Asset_MergeService($this->_objectManager, $this->_storeConfig);
+
+        $this->_isMergingAllowedByMock = true;
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
+        $this->_designPackage->expects($this->any())
+            ->method('isMergingViewFilesAllowed')
+            ->will($this->returnCallback(array($this, 'isMergingAllowedByMock')));
+
+        $this->_object = new Mage_Core_Model_Page_Asset_MergeService($this->_objectManager, $this->_storeConfig,
+            $this->_designPackage);
+    }
+
+    /**
+     * Return whether currently merging is allowed by mock of design package
+     *
+     * @return bool
+     */
+    public function isMergingAllowedByMock()
+    {
+        return $this->_isMergingAllowedByMock;
     }
 
     /**
@@ -49,6 +80,29 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
      */
     public function testGetMergedAssetsMergeDisabled(array $assets, $contentType)
     {
+        $this->assertSame($assets, $this->_object->getMergedAssets($assets, $contentType));
+    }
+
+    /**
+     * @param array $assets
+     * @param string $contentType
+     * @dataProvider getMergedAssets
+     */
+    public function testGetMergedAssetsMergeDisabledBySystem(array $assets, $contentType, $storeConfigPath)
+    {
+        // Make sure we enable the js/css merging
+        $this->_storeConfig
+            ->expects($this->any())
+            ->method('getConfigFlag')
+            ->will($this->returnValueMap(array(
+            array($storeConfigPath, null, true),
+        )))
+        ;
+
+        // Disable merging for whole system, which must overwrite settings for js/css
+        $this->_isMergingAllowedByMock = false;
+
+        // Test
         $this->assertSame($assets, $this->_object->getMergedAssets($assets, $contentType));
     }
 

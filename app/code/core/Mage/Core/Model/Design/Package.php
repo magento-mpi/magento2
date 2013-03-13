@@ -364,9 +364,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      *
      * @return bool
      */
-    protected function _isViewFilesAccessRestricted()
+    protected function _isViewFileOperationAllowed()
     {
-        return $this->_getAppMode() == MAGE::APP_MODE_PRODUCTION;
+        return $this->_getAppMode() != MAGE::APP_MODE_PRODUCTION;
     }
 
     /**
@@ -426,14 +426,23 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         unset($params['_secure']);
         $this->_updateParamDefaults($params);
-        /* Identify public file */
-        $publicFile = $this->_publishViewFile($file, $params);
-        /* Build url to public file */
-        $url = $this->getPublicFileUrl($publicFile, $isSecure);
-        if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned() && !$this->_isViewFilesAccessRestricted()) {
-            $fileMTime = $this->_filesystem->getMTime($publicFile);
-            $url .= '?' . $fileMTime;
+        $file = $this->_extractScope($file, $params);
+
+        // Build public url to it
+        if ($this->_isViewFileOperationAllowed()) {
+            /* Identify public file */
+            $publicFile = $this->_publishViewFile($file, $params);
+            /* Build url to public file */
+            $url = $this->getPublicFileUrl($publicFile, $isSecure);
+            if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+                $fileMTime = $this->_filesystem->getMTime($publicFile);
+                $url .= '?' . $fileMTime;
+            }
+        } else {
+            $sourcePath = $this->getViewFile($file, $params);
+            $url = $this->getPublicFileUrl($sourcePath, $isSecure);
         }
+
         return $url;
     }
 
@@ -475,12 +484,11 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     protected function _publishViewFile($themeFile, $params)
     {
-        $themeFile = $this->_extractScope($themeFile, $params);
-        $sourcePath = $this->getViewFile($themeFile, $params);
-
-        if ($this->_isViewFilesAccessRestricted()) {
-            return $sourcePath;
+        if (!$this->_isViewFileOperationAllowed()) {
+            throw new Mage_Core_Exception('Filesystem operations are not permitted for view files');
         }
+
+        $sourcePath = $this->getViewFile($themeFile, $params);
 
         $minifiedSourcePath = $this->_minifiedPathForStaticFiles($sourcePath);
         if ($minifiedSourcePath && ($this->_getAppMode() != Mage::APP_MODE_DEVELOPER)
@@ -491,7 +499,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         }
 
         if (!$this->_filesystem->has($sourcePath)) {
-            throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
+            throw new Mage_Core_Exception("Unable to locate theme file '{$sourcePath}'.");
         }
         if (!$this->_needToProcessFile($sourcePath)) {
             return $sourcePath;
@@ -711,7 +719,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected function _publishRelatedViewFile($fileUrl, $parentFilePath, $parentFileName, $params)
     {
         if (strpos($fileUrl, self::SCOPE_SEPARATOR)) {
-            $relativeThemeFile = $fileUrl;
+            $relativeThemeFile = $this->_extractScope($fileUrl, $params);
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
             if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir(Mage_Core_Model_Dir::THEMES)) === 0) {
@@ -779,6 +787,10 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     public function mergeFiles($files, $contentType)
     {
+        if (!$this->isMergingViewFilesAllowed()) {
+            throw new Mage_Core_Exception('Merging of view files is not allowed');
+        }
+
         $filesToMerge = array();
         $mergedFile = array();
         $jsDir = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB);
@@ -825,6 +837,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $this->_filesystem->write($mergedFile, $result);
         $this->_filesystem->write($mergedMTimeFile, $filesMTimeData);
         return $mergedFile;
+    }
+
+    /**
+     * Return whether view files merging is allowed or not
+     *
+     * @return bool
+     */
+    public function isMergingViewFilesAllowed()
+    {
+        return $this->_isViewFileOperationAllowed();
     }
 
     /**
