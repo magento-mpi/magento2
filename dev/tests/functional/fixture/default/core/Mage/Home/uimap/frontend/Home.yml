@@ -67,3 +67,8 @@ home_storeview:
     mca: ?___store=%storeViewCode%/
     title: Home page
     uimap: *homePage
+
+login_after_captcha_save:
+    mca: backend
+    title: Log into Magento Admin Page
+    uimap:
