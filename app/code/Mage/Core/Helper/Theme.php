@@ -400,7 +400,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         if (!($themeId && $theme->load($themeId)->getId())) {
             throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
         }
-        if (!$theme->isEditable()) {
+        if (!$theme->isVisible()) {
             throw new Mage_Core_Exception($this->__('Theme "%s" is not editable.', $themeId));
         }
         return $theme;
