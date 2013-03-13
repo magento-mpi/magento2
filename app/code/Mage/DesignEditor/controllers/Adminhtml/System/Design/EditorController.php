@@ -65,9 +65,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
             $theme = $helper->loadTheme($themeId);
-            $editableTheme = $theme->getType() == Mage_Core_Model_Theme::TYPE_VIRTUAL
-                 ? $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme()
-                 : $theme;
+            $editableTheme = $theme->isVirtual() ? $theme->getDomainModel()->getStagingTheme() : $theme;
             $this->_getSession()->setData(
                 Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY, $editableTheme->getId()
             );
@@ -354,7 +352,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
             $theme = $helper->loadTheme($themeId);
-            $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->updateFromStagingTheme();
+            $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_STAGING)->updateFromStagingTheme();
             $response = array('message' =>  $this->_helper->__('All changes applied'));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
@@ -518,7 +516,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         }
 
         $blocks = array(
-            'design_editor_tools_code_image-sizing',
+            'design_editor_tools_code_image_sizing',
             'design_editor_tools_quick-styles_header',
             'design_editor_tools_quick-styles_backgrounds',
             'design_editor_tools_quick-styles_buttons',

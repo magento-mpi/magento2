@@ -72,7 +72,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/system_design_editor/save');
+        return $this->getUrl('*/system_design_editor/save', array('theme_id' => $this->getThemeId()));
     }
 
     /**

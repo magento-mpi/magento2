@@ -122,7 +122,7 @@
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom" name="design_editor_tools_code_custom" template="Mage_DesignEditor::editor/tools/code/custom.phtml">
                             <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/message.phtml" />
                         </block>
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing" name="design_editor_tools_code_image-sizing" template="Mage_DesignEditor::editor/tools/code/image-sizing.phtml">
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing" name="design_editor_tools_code_image_sizing" template="Mage_DesignEditor::editor/tools/code/image-sizing.phtml">
                             <block type="Mage_Core_Block_Messages" name="messages" template="Mage_DesignEditor::editor/tools/code/message.phtml" />
                         </block>
                     </block>

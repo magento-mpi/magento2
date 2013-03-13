@@ -44,6 +44,7 @@ abstract class Mage_Core_Model_Theme_Copy_Abstract implements Mage_Core_Model_Th
      *
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Theme $stagingTheme
+     * @return Mage_Core_Model_Theme_Copy_Abstract
      */
     protected function _copyLayoutUpdates($theme, $stagingTheme)
     {
@@ -58,5 +59,6 @@ abstract class Mage_Core_Model_Theme_Copy_Abstract implements Mage_Core_Model_Th
             $link->setThemeId($stagingTheme->getId());
             $link->save();
         }
+        return $this;
     }
 }

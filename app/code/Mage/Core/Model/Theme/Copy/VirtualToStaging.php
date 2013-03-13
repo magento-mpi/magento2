@@ -43,7 +43,7 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging extends Mage_Core_Model_Theme_
      * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Theme
      */
-    public function copy($theme)
+    public function copy(Mage_Core_Model_Theme $theme)
     {
         $stagingTheme = $this->_copyPrimaryData($theme);
         $this->_copyLayoutUpdates($theme, $stagingTheme);

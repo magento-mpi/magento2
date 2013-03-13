@@ -19,5 +19,5 @@ interface Mage_Core_Model_Theme_Copy_Interface
      * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Theme
      */
-    public function copy($theme);
+    public function copy(Mage_Core_Model_Theme $theme);
 }
