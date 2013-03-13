@@ -35,7 +35,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
     {
         $this->_title($this->__('Reports'))
              ->_title($this->__('Reviews'))
-             ->_title($this->__('Customer Reviews'));
+             ->_title($this->__('Customers Reviews'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Review::report_review_customer')
