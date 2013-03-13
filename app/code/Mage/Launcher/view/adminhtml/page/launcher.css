@@ -3317,6 +3317,21 @@
     text-shadow: none;
 }
 
+.action-design-editor:link,
+.action-design-editor:visited,
+.action-design-editor:hover,
+.action-design-editor:active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 26px;
+    margin-left: 8px;
+    padding: 0;
+    text-decoration: underline;
+    text-shadow: none;
+}
+
 /* TODO@ Remove after merge with master */
 .switcher {
     -webkit-touch-callout: none;
