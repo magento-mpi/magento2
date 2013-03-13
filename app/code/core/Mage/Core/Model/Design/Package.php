@@ -403,6 +403,10 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     public function cleanMergedJsCss()
     {
+        if (!$this->isMergingViewFilesAllowed()) {
+            throw new Magento_Exception('Cleaning of merged view files is not allowed');
+        }
+
         $dir = $this->_buildPublicViewFilename(self::PUBLIC_MERGE_DIR);
         try {
             $this->_filesystem->delete($dir);

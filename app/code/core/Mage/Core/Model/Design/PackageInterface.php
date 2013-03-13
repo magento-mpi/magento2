@@ -183,6 +183,13 @@ interface Mage_Core_Model_Design_PackageInterface
     public function getPublicDir();
 
     /**
+     * Return whether view files merging is allowed or not
+     *
+     * @return bool
+     */
+    public function isMergingViewFilesAllowed();
+
+    /**
      * Merge files, located under the same folder, into one and return file name of merged file
      *
      * @param array $files list of names relative to the same folder
