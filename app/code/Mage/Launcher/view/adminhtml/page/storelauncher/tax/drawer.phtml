@@ -24,8 +24,8 @@
                value="tax-enabled" />
         <label class="switcher-label"
                for="tax-enabled"
-               data-text-on="<?php echo $this->__('Tax rules enabled'); ?>"
-               data-text-off="<?php echo $this->__('Tax rules disabled'); ?>"
+               data-text-on="<?php echo $this->__('Tax rules On'); ?>"
+               data-text-off="<?php echo $this->__('Tax rules Off'); ?>"
                title="<?php echo $this->__('Tax Rules Status'); ?>">
         </label>
         <div class="drawer-switcher-tooltip">
@@ -33,11 +33,11 @@
                 <p><?php if ($this->isUseTaxControlDisabled()) {
                     echo $this->__('To turn off tax rules usage, please delete existing tax rules first.');
                 } else {
-                    echo $this->__('Turn off tax rules here if your business is legally exempt. Legal disclaimer text needed.');
+                    echo $this->__('Turn off tax rules here if your business is legally exempt.');
                 } ?></p>
             </div>
             <div class="tooltip-text-off">
-                <p><?php echo $this->__('You can always choose to enable tax rules again if you disabled it by mistake'); ?></p>
+                <p><?php echo $this->__('Use this switch to turn on your store\'s tax rules'); ?></p>
             </div>
         </div>
     </div>

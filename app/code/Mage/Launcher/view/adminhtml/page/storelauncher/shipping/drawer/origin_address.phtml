@@ -16,7 +16,7 @@ $address = $this->getAddress();
     <div id="shipping-origin-address-view"
          class="shipping-origin-address-view"
          style="<?php if ($address['show_form']): ?>display:none;<?php endif; ?>">
-        <h2 class="title" id="shipping-origin-address-view-title"><?php echo $this->helper('Mage_Launcher_Helper_Data')->__('Sent-From Address'); ?></h2>
+        <h2 class="title" id="shipping-origin-address-view-title"><?php echo $this->helper('Mage_Launcher_Helper_Data')->__('Shipping Address'); ?></h2>
         <ul class="shipping-origin-address-data">
             <?php foreach ($address['data'] as $addressValue): ?>
             <?php if (!empty($addressValue)) :?>
@@ -33,7 +33,7 @@ $address = $this->getAddress();
     <div id="shipping-origin-address-form"
          class="shipping-origin-address-form"
          style="<?php if (!$address['show_form']): ?>display:none;<?php endif; ?>">
-        <h2 class="title"><?php echo $this->helper('Mage_Launcher_Helper_Data')->__('Edit Sent-From Address'); ?></h2>
+        <h2 class="title"><?php echo $this->helper('Mage_Launcher_Helper_Data')->__('Edit Shipping Address'); ?></h2>
         <?php echo $this->getFormHtml(); ?>
         <?php echo $this->getChildHtml('form_after'); ?>
         <div class="actions">
