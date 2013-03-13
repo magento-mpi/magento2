@@ -165,14 +165,9 @@ class Generator
      */
     protected function _getDestinationPath($filename, $area, $themePath, $module)
     {
-        return Mage_Core_Model_Design_FileResolution_Strategy_View_ByParamsOnly::getViewFileStatic(
-            $this->_destinationDir,
-            $area,
-            $themePath,
-            '',
-            $filename,
-            $module
-        );
+        $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath($area, $themePath, '', $filename,
+            $module);
+        return $this->_destinationDir . DIRECTORY_SEPARATOR . $relPath;
     }
 
     /**

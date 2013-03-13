@@ -439,8 +439,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
                 $url .= '?' . $fileMTime;
             }
         } else {
-            $sourcePath = $this->getViewFile($file, $params);
-            $url = $this->getPublicFileUrl($sourcePath, $isSecure);
+            $subPath = self::getPublishedViewFileRelPath($params['area'], $params['themeModel']->getThemePath(),
+                $params['locale'], $params['file'], $params['module']);
+            $url = $this->getPublicDir() . '/' . str_replace(DIRECTORY_SEPARATOR, '/', $subPath);
         }
 
         return $url;
@@ -775,6 +776,24 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         }
         return $prefix . implode('/', $result);
+    }
+
+    /**
+     * Return relative path for a view file, blindly composing the path, where it must be located,
+     * when published with duplication.
+     * Note: locale is not supported as for now and is just ignored!
+     *
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @param string $file
+     * @param string|null $module
+     * @return string
+     */
+    public static function getPublishedViewFileRelPath($area, $themePath, $locale, $file, $module = null)
+    {
+        return $area . DIRECTORY_SEPARATOR . $themePath . DIRECTORY_SEPARATOR
+            . ($module ? $module . DIRECTORY_SEPARATOR : '') . $file;
     }
 
     /**
