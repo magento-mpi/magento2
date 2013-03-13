@@ -485,7 +485,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected function _publishViewFile($themeFile, $params)
     {
         if (!$this->_isViewFileOperationAllowed()) {
-            throw new Mage_Core_Exception('Filesystem operations are not permitted for view files');
+            throw new Magento_Exception('Filesystem operations are not permitted for view files');
         }
 
         $sourcePath = $this->getViewFile($themeFile, $params);
@@ -499,7 +499,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         }
 
         if (!$this->_filesystem->has($sourcePath)) {
-            throw new Mage_Core_Exception("Unable to locate theme file '{$sourcePath}'.");
+            throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
         }
         if (!$this->_needToProcessFile($sourcePath)) {
             return $sourcePath;
@@ -788,7 +788,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     public function mergeFiles($files, $contentType)
     {
         if (!$this->isMergingViewFilesAllowed()) {
-            throw new Mage_Core_Exception('Merging of view files is not allowed');
+            throw new Magento_Exception('Merging of view files is not allowed');
         }
 
         $filesToMerge = array();
