@@ -17,20 +17,24 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Mage_Core_Model_Theme_Service::isPresentCustomizedThemes
      * @dataProvider isIsCustomizationsExistDataProvider
-     * @param array $availableIsVirtual
+     * @param int $countVirtualThemes
      * @param bool $expectedResult
      */
-    public function testIsCustomizationsExist($availableIsVirtual, $expectedResult)
+    public function testIsCustomizationsExist($countVirtualThemes, $expectedResult)
     {
-        $themeCollectionMock = array();
-        foreach ($availableIsVirtual as $isVirtual) {
-            /** @var $themeItemMock Mage_Core_Model_Theme */
-            $themeItemMock = $this->getMock('Mage_Core_Model_Theme', array('isVirtual'), array(), '', false);
-            $themeItemMock->expects($this->any())
-                ->method('isVirtual')
-                ->will($this->returnValue($isVirtual));
-            $themeCollectionMock[] = $themeItemMock;
-        }
+        $themeCollectionMock = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_Collection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('addTypeFilter', 'getSize'))
+            ->getMock();
+
+        $themeCollectionMock->expects($this->once())
+            ->method('addTypeFilter')
+            ->with(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+            ->will($this->returnValue($themeCollectionMock));
+
+        $themeCollectionMock->expects($this->once())
+            ->method('getSize')
+            ->will($this->returnValue($countVirtualThemes));
 
         /** @var $themeMock Mage_Core_Model_Theme */
         $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection'), array(), '', false);
@@ -60,8 +64,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     public function isIsCustomizationsExistDataProvider()
     {
         return array(
-            array(array(false, false, false), false),
-            array(array(false, true, false), true)
+            array(4, true),
+            array(0, false)
         );
     }
 
