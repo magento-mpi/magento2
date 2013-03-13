@@ -56,12 +56,12 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
         return array(
             'updates (default config)' => array(
                 file_get_contents($fixturePath . 'config.xml'),
-                null,
+                Mage::APP_MODE_DEFAULT,
                 true
             ),
             'no updates when skipped' => array(
                 file_get_contents($fixturePath . 'config_skip_updates.xml'),
-                null,
+                Mage::APP_MODE_DEFAULT,
                 false
             ),
             'updates when skipped, if in dev mode' => array(
