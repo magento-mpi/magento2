@@ -98,7 +98,7 @@
                 type: 'POST',
                 dataType: 'json',
                 data: this.element.serialize(),
-                context: $(document),
+                context: $('body'),
                 success: $.proxy(this._onSuccess, this),
                 error: $.proxy(this._onError, this),
                 showLoader: true
@@ -113,21 +113,16 @@
          * @param {Object} The jQuery XMLHttpRequest object returned by $.ajax()
          */
         _onSuccess: function(response) {
-            var attributes = response.attributes || {};
             if (response.attribute) {
-                attributes[response.attribute] = response.message;
-            }
-
-            for (var attributeCode in attributes) {
-                if (attributes.hasOwnProperty(attributeCode)) {
-                    $('#' + attributeCode)
-                        .addClass('validate-ajax-error')
-                        .data('msg-validate-ajax-error', attributes[attributeCode]);
-                    this.validate.element("#" + attributeCode);
-                }
+                $('#' + response.attribute)
+                    .addClass('validate-ajax-error')
+                    .data('msg-validate-ajax-error', response.message);
+                this.validate.element("#" + response.attribute);
             }
             if (!response.error) {
                 this.element[0].submit();
+            } else {
+                $('.messages').html(response.message)
             }
         },
 
