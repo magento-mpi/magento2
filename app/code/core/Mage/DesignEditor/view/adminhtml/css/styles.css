@@ -901,6 +901,10 @@
     text-overflow: ellipsis;
 }
 
+.custom-file {
+    padding-bottom: 10px;
+}
+
 .custom-file .action-add,
 .files-list-header > .action-add {
     display: inline-block;

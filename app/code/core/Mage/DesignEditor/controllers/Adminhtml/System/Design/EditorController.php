@@ -155,7 +155,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $virtualTheme = $this->_getThemeCustomization($theme);
             $response = array(
                 'error'         => false,
-                'redirect_url'  => $this->getUrl('*/*/launch/', array('theme_id' => $virtualTheme->getId()))
+                'redirect_url'  => $this->getUrl('*/*/launch', array('theme_id' => $virtualTheme->getId()))
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());

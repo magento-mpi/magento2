@@ -365,4 +365,21 @@ class Mage_Core_Model_Theme_Service
 
         return $storesByThemes;
     }
+
+    /**
+     * Is theme assigned to specific store
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Store $store
+     * @return bool
+     */
+    public function isThemeAssignedToSpecificStore($theme, $store)
+    {
+        $themeId = $this->_design->getConfigurationDesignTheme(
+            Mage_Core_Model_App_Area::AREA_FRONTEND,
+            array('store' => $store)
+        );
+
+        return $theme->getId() == $themeId;
+    }
 }

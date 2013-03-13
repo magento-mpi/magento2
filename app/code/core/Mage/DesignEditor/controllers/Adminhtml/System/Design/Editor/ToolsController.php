@@ -287,23 +287,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      */
     public function uploadStoreLogoAction()
     {
+        $storeId = (int)$this->getRequest()->getParam('store_id');
         try {
             $theme = $this->_getEditableTheme();
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-            $stores = $themeService->getStoresByThemes();
+            $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
-            if (!isset($stores[$theme->getId()])) {
+            if (!$themeService->isThemeAssignedToSpecificStore($theme, $store)) {
                 throw new Mage_Core_Exception($this->__('Theme is not assigned to any store.', $theme->getId()));
             }
-
             /** @var $storeLogo Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
             $storeLogo = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
+            $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
 
-            foreach ($stores[$theme->getId()] as $store) {
-                $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
-            }
             $response = array('error' => false, 'content' => array('name' => $storeLogo->getValue()));
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -322,22 +320,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      */
     public function removeStoreLogoAction()
     {
+        $storeId = (int)$this->getRequest()->getParam('store_id');
         try {
             $theme = $this->_getEditableTheme();
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-            $stores = $themeService->getStoresByThemes();
+            $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
 
-            if (!isset($stores[$theme->getId()])) {
+            if (!$themeService->isThemeAssignedToSpecificStore($theme, $store)) {
                 throw new Mage_Core_Exception($this->__('Theme is not assigned to any store.', $theme->getId()));
             }
 
-            foreach ($stores[$theme->getId()] as $store) {
-                $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Store')
-                    ->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')
-                    ->setValue('')->save();
-            }
+            $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Store')
+                ->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')
+                ->setValue('')->save();
 
             $response = array('error' => false, 'content' => array());
         } catch (Mage_Core_Exception $e) {

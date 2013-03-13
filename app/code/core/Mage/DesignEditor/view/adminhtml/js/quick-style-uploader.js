@@ -78,7 +78,7 @@
                     if (response.error) {
                         alert($.mage.__('Error') + ': "' + response.message + '".');
                     } else {
-                        $('.uploaded-image.clone').remove();
+                        $(this._prepareId(this.options.uploader_id + '-image')).remove();
                         this.setValue(null);
                     }
                 }, this),
@@ -133,7 +133,7 @@
 
             fileTemplate.html(fileInfoHtml) ;
             fileTemplate.removeClass('no-display');
-            fileTemplate.prependTo($('.uploaded-file-wrapper'));
+            fileTemplate.appendTo(this._prepareId(this.options.container));
 
             if (this.options.remove_url) {
                 $(document).on('click.removeUploadedImage', '#' + removeId, $.proxy(function() {

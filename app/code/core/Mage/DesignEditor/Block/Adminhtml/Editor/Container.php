@@ -72,6 +72,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Mage_Backend_Bl
      */
     public function getVirtualThemeCreationUrl()
     {
-        return $this->getUrl('*/*/createVirtualTheme/', array('theme_id' => $this->getTheme()->getId()));
+        return $this->getUrl('*/*/createVirtualTheme', array('theme_id' => $this->getTheme()->getId()));
     }
 }
