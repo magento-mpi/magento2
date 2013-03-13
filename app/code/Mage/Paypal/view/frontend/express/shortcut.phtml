@@ -26,21 +26,21 @@
 <?php if ($this->getIsInCatalogProduct()): ?>
     <input type="hidden" id="pp_checkout_url" name="return_url" value="" />
 <?php endif; ?>
-<script type="text/javascript">
-//<![CDATA[
-    Event.observe('<?php echo $shortcutHtmlId ?>', 'click', function(event) {
-        <?php if ($this->getConfirmationUrl()): ?>
-            if (confirm('<?php echo Mage::helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->getConfirmationMessage())?>')) {
-                this.href = '<?php echo $this->getConfirmationUrl() ?>';
-            }
-        <?php endif; ?>
-        <?php if ($this->getIsInCatalogProduct()): ?>
-            $('pp_checkout_url').value = this.href;
-            productAddToCartForm.submit(this);
-            event.stop();
-        <?php endif; ?>
-    });
-//]]>
-</script>
+
+    <script type="text/javascript">
+        (function($) {
+            head.js(
+                "<?php echo $this->getViewFileUrl('Mage_Paypal::paypal-checkout.js') ?>",
+                function() {
+                    $('#<?php echo $shortcutHtmlId ?>').paypalCheckout({
+                        confirmMessage: "<?php echo Mage::helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->getConfirmationMessage())?>",
+                        confirmUrl: "<?php echo $this->getConfirmationUrl() ?>",
+                        isCatalogProduct: "<?php echo $this->getIsInCatalogProduct() ?>",
+                        paypalCheckoutSelector: '#pp_checkout_url',
+                        productAddToCartForm: '#product_addtocart_form'
+                    });
+                });
+        })(jQuery);
+    </script>
 <?php endif; ?>
 </p>

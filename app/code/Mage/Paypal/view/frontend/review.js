@@ -198,7 +198,6 @@ OrderReviewController.prototype = {
         }
         if (this._copyElement.checked) {
             this._copyElementValue($('shipping:country_id'));
-            billingRegionUpdater.update();
             $$('[id^="shipping:"]').each(this._copyElementValue);
             this._clearValidation('billing');
         } else {
