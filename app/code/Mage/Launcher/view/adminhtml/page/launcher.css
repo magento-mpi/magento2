@@ -3275,6 +3275,21 @@
     display: block;
 }
 
+.action-manage-products:link,
+.action-manage-products:visited,
+.action-manage-products:hover,
+.action-manage-products:active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 26px;
+    margin-left: 8px;
+    padding: 0;
+    text-decoration: underline;
+    text-shadow: none;
+}
+
 .dialog table.table_window  {
     border-collapse: collapse;
     border-spacing: 0;
