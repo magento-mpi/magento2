@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing */ ?>
+<div>
+    <div id="vde-tab-imagesizing-messages-placeholder">
+        <?php echo $this->getChildHtml('messages') ?>
+    </div>
+
+    <?php echo $this->__('Width is a required field. If only width is specified, the image will be re-sized proportionally. If both width and height are specified, the image will be re-sized exactly.'); ?>
+    <?php echo $this->__('You will need to update your custom CSS in order to have the resized images displayed correctly in your store.'); ?>
+</div>
+<?php echo $this->getFormHtml(); ?>
+<script type="text/javascript">
+    (function ($) {
+        $('#product_image_sizing_form').vdeImageSizing({
+            formId: '#product_image_sizing_form',
+            formUrl: '<?php echo $this->getUrl('*/system_design_editor_tools/saveImageSizing', array('id' => $this->getTheme()->getId())) ?>',
+            maxSizeValue: <?php echo Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator::MAX_SIZE_VALUE ?>,
+            messagesContainer: '#vde-tab-imagesizing-messages-placeholder'
+        });
+    })(jQuery);
+</script>

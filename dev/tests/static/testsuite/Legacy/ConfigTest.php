@@ -22,6 +22,7 @@ class Legacy_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $obsoleteNodes = array(
             '/config/global/fieldsets'                 => '',
+            '/config/global/cache/betatypes'           => '',
             '/config/admin/fieldsets'                  => '',
             '/config/global/models/*/deprecatedNode'   => '',
             '/config/global/models/*/entities/*/table' => '',
@@ -38,6 +39,8 @@ class Legacy_ConfigTest extends PHPUnit_Framework_TestCase
             '/config/default/design/theme' => 'Relocated to /config/<area>/design/theme',
             '/config/default/web/*/base_js_url' => 'See /config/default/web/*/base_lib_url',
             '/config/default/web/*/base_skin_url' => '',
+            '/config/global/disable_local_modules' => '',
+
         );
         $xml = simplexml_load_file($file);
         foreach ($obsoleteNodes as $xpath => $suggestion) {

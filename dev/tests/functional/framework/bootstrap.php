@@ -17,18 +17,21 @@ define('SELENIUM_TESTS_SCREENSHOTDIR', realpath(
 define('SELENIUM_TESTS_LOGS', realpath(
     SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'logs'));
 
-set_include_path(implode(PATH_SEPARATOR, array(realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
-                                               realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'),
-                                               get_include_path(),)));
+set_include_path(implode(PATH_SEPARATOR, array(
+    realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
+    realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'),
+    realpath(SELENIUM_TESTS_BASEDIR . '/../../../lib'),
+    get_include_path(),
+)));
 
-require_once 'Mage/Selenium/Autoloader.php';
-Mage_Selenium_Autoloader::register();
-
+require_once realpath(SELENIUM_TESTS_BASEDIR . '/../../../app/autoload.php');
 require_once 'functions.php';
 
 if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
-    $baseDir = realpath(__DIR__ . '/../../../../');
-    $installCmd = sprintf('php -f %s --', escapeshellarg($baseDir . '/dev/shell/install.php'));
+    $installCmd = sprintf(
+        'php -f %s --',
+        escapeshellarg(realpath(SELENIUM_TESTS_BASEDIR . '/../../../dev/shell/install.php'))
+    );
     if (defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && SELENIUM_TESTS_INSTALLATION_CLEANUP === 'enabled') {
         passthru("$installCmd --uninstall", $exitCode);
         if ($exitCode) {

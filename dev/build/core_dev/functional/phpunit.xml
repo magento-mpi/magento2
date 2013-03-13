@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit backupGlobals="true"
+         backupStaticAttributes="false"
+         bootstrap="./framework/bootstrap.php"
+         cacheTokens="true"
+         colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         mapTestClassNameToCoveredClassName="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
+         strict="false"
+         verbose="true">
+    <testsuites>
+        <testsuite name="All Tests">
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/AdminUser</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/AttributeSet</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Category</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CustomerGroups</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsPolls</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsStaticBlocks</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CmsWidgets</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/CompareProducts</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Wishlist</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Newsletter</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Rating</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Order</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderCreditMemo</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderInvoice</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderShipment</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Tax</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Various</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Installation</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Paypal</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/ShoppingCart</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/SystemConfiguration</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <!-- Whether to install the application before tests execution. Value 'enabled' turns installation on. -->
+        <const name="SELENIUM_TESTS_INSTALLATION" value="disabled"/>
+        <!-- Whether to perform a cleanup to guarantee the "clean" installation before the next tests execution. -->
+        <const name="SELENIUM_TESTS_INSTALLATION_CLEANUP" value="disabled"/>
+        <ini name="memory_limit" value="512M"/>
+        <ini name="error_reporting" value="32767"/>
+    </php>
+    <logging>
+        <log type="json" target="./var/logs/logfile.json"/>
+        <log type="tap" target="./var/logs/logfile.tap"/>
+        <log type="junit" target="./var/logs/logfile.xml"/>
+        <log type="testdox-html" target="./var/logs/testdox.html"/>
+        <log type="testdox-text" target="./var/logs/testdox.txt"/>
+    </logging>
+</phpunit>

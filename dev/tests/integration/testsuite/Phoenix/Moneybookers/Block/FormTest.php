@@ -23,11 +23,6 @@ class Phoenix_Moneybookers_Block_FormTest extends PHPUnit_Framework_TestCase
         $this->_block = $blockFactory->createBlock('Phoenix_Moneybookers_Block_Form');
     }
 
-    protected function tearDown()
-    {
-        unset($this->_block);
-    }
-
     public function testConstruct()
     {
         $this->assertStringEndsWith('form.phtml', $this->_block->getTemplate());

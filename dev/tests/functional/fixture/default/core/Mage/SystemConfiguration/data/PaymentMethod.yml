@@ -53,6 +53,23 @@ paypal_api_settings:
                 api_sandbox_mode: Yes
                 api_uses_proxy: No
 
+paypal_disable:
+    configuration_scope: Default Config
+    tab_1: &enablePaypal
+        tab_name: sales_paypal
+        configuration:
+            merchant_account:
+                merchant_country: United States
+                email_associated_with_paypal_merchant_account: test@test.com
+            select_a_paypal_solution:
+                website_payments_pro: No
+                website_payments_pro_payflow_edition: No
+                express_checkout: No
+                website_payments_standard: No
+                payflow_pro_gateway: No
+                payflow_link: No
+                website_payments_advanced: No
+
 #<-------------PayPal Direct Payment Payflow Edition------------------------>
 paypaldirectuk_without_3Dsecure:
     configuration_scope: Default Config
@@ -404,7 +421,7 @@ cash_on_delivery_disable:
     tab_1:
         tab_name: sales_payment_methods
         configuration:
-            cash_on_delivery_payment:
+            cashondelivery:
                 cod_enabled: No
 
 #<-------------Purchase Order------------------------>

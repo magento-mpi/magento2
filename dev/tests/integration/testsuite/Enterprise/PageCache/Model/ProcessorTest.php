@@ -26,19 +26,6 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         $this->_model = Mage::getModel('Enterprise_PageCache_Model_Processor');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
-    public function testPrepareCacheId()
-    {
-        $this->assertStringStartsWith(
-            Enterprise_PageCache_Model_Processor::REQUEST_ID_PREFIX,
-            $this->_model->prepareCacheId('test')
-        );
-    }
-
     public function testIsAllowedHttps()
     {
         $this->assertTrue($this->_model->isAllowed());
@@ -49,7 +36,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     public function testIsAllowedNoCacheCookie()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_COOKIE[Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE] = '1';
+        $_COOKIE[Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE] = '1';
         $this->assertFalse($this->_model->isAllowed());
     }
 

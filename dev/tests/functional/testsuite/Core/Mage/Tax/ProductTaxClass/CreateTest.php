@@ -24,84 +24,117 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
+        $this->currentWindow()->maximize();
         $this->loginAdminUser();
-        $this->navigate('manage_product_tax_class');
+        $this->navigate('manage_tax_rule');
     }
 
     /**
-     * <p>Creating Product Tax class Core_Mage_with required field</p>
-     *
-     * @return array $productTaxClassData
-     * @test
-     */
-    public function withRequiredFieldsOnly()
-    {
-        //Data
-        $productTaxClassData = $this->loadDataSet('Tax', 'new_product_tax_class');
-        //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        $this->taxHelper()->openTaxItem($productTaxClassData, 'product_class');
-        $this->assertTrue($this->verifyForm($productTaxClassData), $this->getParsedMessages());
-
-        return $productTaxClassData;
-    }
-
-    /**
-     * <p>Creating Product Tax class Core_Mage_with name that exists</p>
-     *
-     * @param array $productTaxClassData
+     * <p>Need to verify that product tax class are created by default and displayed in the field.</p>
      *
      * @test
-     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-6380
      */
-    public function withNameThatAlreadyExists($productTaxClassData)
+    public function productTaxClassByDefault()
     {
-        //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('error', 'tax_class_exists');
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array('Taxable Goods')),
+            '"Taxable Goods" is absent or not selected');
     }
 
     /**
-     * <p>Creating Product Tax class Core_Mage_with empty name</p>
+     * <p>Need verified that admin user will be able to create any Product Tax Class.</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @TestLinkId TL-MAGE-6381
      */
-    public function withEmptyName()
+    public function creatingProductTaxClass()
     {
-        //Data
-        $productTaxClassData = $this->loadDataSet('Tax', 'new_product_tax_class', array('product_class_name' => ''));
-        //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('error', 'empty_class_name');
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $taxClass = $this->generate('string', 26);
+        $this->fillCompositeMultiselect('product_tax_class', array($taxClass));
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array($taxClass)),
+            'Failed to add new value');
     }
 
     /**
-     * Fails because of MAGE-5237
+     * <p>Need verified that admin user will be not able to create any Customer Tax Class with same name.</p>
      *
+     * @test
+     * @depends creatingProductTaxClass
+     * @TestLinkId TL-MAGE-6389
+     */
+    public function creatingWithSameName()
+    {
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $taxClass = $this->generate('string', 26);
+        $this->addCompositeMultiselectValue('product_tax_class', $taxClass);
+        $this->addCompositeMultiselectValue('product_tax_class', $taxClass, null, false);
+        $this->assertTrue($this->alertIsPresent(), 'No validation alert');
+        $alertText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertEquals($this->_getMessageXpath('tax_class_exists'), $alertText);
+    }
+
+    /**
+     * <p>Need verified that admin user will be not able to create any Product Tax Class with no name.</p>
+     *
+     * @test
+     * @depends creatingProductTaxClass
+     * @TestLinkId TL-MAGE-6383
+     */
+    public function creatingWithEmptyName()
+    {
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->setExpectedException('RuntimeException');
+        $this->addCompositeMultiselectValue('product_tax_class', '', null, false);
+    }
+
+    /**
+     * <p>Need verified that admin user will be able to edit any Product Tax Class.</p>
+     *
+     * @test
+     * @depends creatingProductTaxClass
+     * @TestLinkId TL-MAGE-6384
+     */
+    public function editingProductTaxClass()
+    {
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $taxClass = $this->generate('string', 26);
+        $newProductTaxClass = $this->generate('string', 26);
+        $this->fillCompositeMultiselect('product_tax_class', $taxClass);
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', $taxClass));
+        $this->editCompositeMultiselectOption('product_tax_class', $taxClass, $newProductTaxClass);
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', $newProductTaxClass));
+    }
+
+    /**
+     * <p>Fails because of MAGE-5237</p>
+     *
+     * @test
+     * @depends creatingProductTaxClass
      * @param string $specialValue
-     *
-     * @test
      * @dataProvider withSpecialValuesDataProvider
      */
     public function withSpecialValues($specialValue)
     {
-        //Data
-        $taxClass = $this->loadDataSet('Tax', 'new_product_tax_class', array('product_class_name' => $specialValue));
-        //Steps
-        $this->taxHelper()->createTaxItem($taxClass, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        //Steps
-        $this->taxHelper()->openTaxItem($taxClass, 'product_class');
-        //Verifying
-        $this->assertTrue($this->verifyForm($taxClass), $this->getParsedMessages());
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->fillCompositeMultiselect('product_tax_class', array($specialValue));
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array($specialValue)),
+            'Failed to add new value');
     }
 
+    /**
+     * Data provider for withSpecialValues() test
+     *
+     * @return array
+     */
     public function withSpecialValuesDataProvider()
     {
         return array(

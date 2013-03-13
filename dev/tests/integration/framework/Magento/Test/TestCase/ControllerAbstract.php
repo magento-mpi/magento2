@@ -60,6 +60,12 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     {
         $this->_assertSessionErrors = false;
         $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager->configure(array(
+            'preferences' => array(
+                'Mage_Core_Controller_Request_Http' => 'Magento_Test_Request',
+                'Mage_Core_Controller_Response_Http' => 'Magento_Test_Response'
+            )
+        ));
     }
 
     protected function tearDown()
@@ -88,10 +94,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     public function dispatch($uri)
     {
         $this->getRequest()->setRequestUri($uri);
-        $this->_getBootstrap()->runApp(array(
-            'request' => $this->getRequest(),
-            'response' => $this->getResponse()
-        ));
+        $this->_getBootstrap()->runApp($this->getRequest(), $this->getResponse());
     }
 
     /**
@@ -103,7 +106,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     {
         if (!$this->_request) {
             $this->_request = new Magento_Test_Request();
-            $this->_objectManager->addSharedInstance($this->_request, 'Mage_Core_Controller_Request_Http');
+            $this->_objectManager->addSharedInstance($this->_request, 'Magento_Test_Request');
         }
         return $this->_request;
     }
@@ -117,7 +120,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     {
         if (!$this->_response) {
             $this->_response = new Magento_Test_Response();
-            $this->_objectManager->addSharedInstance($this->_response, 'Mage_Core_Controller_Response_Http');
+            $this->_objectManager->addSharedInstance($this->_response, 'Magento_Test_Response');
         }
         return $this->_response;
     }

@@ -44,7 +44,7 @@ class Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_Framework_Tes
     public function obsoleteMethodsDataProvider()
     {
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
-            Utility_Files::init()->getPathToSource() . '/app/code/core/Enterprise/Invitation'
+            Utility_Files::init()->getPathToSource() . '/app/code/Enterprise/Invitation'
         ));
         $regexIterator = new RegexIterator($iterator, '/\.(?:php|phtml)$/');
         $files = array();

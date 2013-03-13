@@ -31,7 +31,7 @@ class Mage_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_TestCas
         'key' => 'value'
     );
 
-    public function testCreateFromArray()
+    public function testCreate()
     {
         $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManagerMock->expects($this->once())
@@ -40,6 +40,6 @@ class Mage_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue(self::CREATE_RESULT));
 
         $factory = new Mage_Index_Model_Process_FileFactory($objectManagerMock);
-        $this->assertEquals(self::CREATE_RESULT, $factory->createFromArray($this->_arguments));
+        $this->assertEquals(self::CREATE_RESULT, $factory->create($this->_arguments));
     }
 }

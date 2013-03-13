@@ -1,0 +1,192 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var $this Mage_Adminhtml_Block_Catalog_Product_Edit
+ */
+?>
+
+<div class="page-actions">
+    <div id="product-template-suggest-container" class="suggest-expandable">
+        <div class="actions-split">
+            <button class="action-toggle" data-toggle="dropdown">
+                <span><?php echo $this->getAttributeSetName()?></span>
+            </button>
+            <ul class="dropdown-menu">
+                <input type="search" id="product-template-suggest" placeholder="start typing to search template"/>
+            </ul>
+        </div>
+    </div>
+
+    <div class="switcher" onselectstart='return false;'>
+        <input type="checkbox" id="product-online-switcher" name="product-online-switcher" />
+        <label class="switcher-label"
+               for="product-online-switcher"
+               data-text-on="<?php echo $this->__('Product online'); ?>"
+               data-text-off="<?php echo $this->__('Product offline'); ?>"
+               title="<?php echo $this->__('Product online status'); ?>"></label>
+    </div>
+
+    <?php if($this->getProductId()): ?>
+        <?php echo $this->getDeleteButtonHtml() ?>
+        <?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
+            <?php echo $this->getDuplicateButtonHtml() ?>
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if ($this->getProductSetId()): ?>
+        <?php echo $this->getChangeAttributeSetButtonHtml() ?>
+        <?php echo $this->getSaveSplitButtonHtml(); ?>
+    <?php endif; ?>
+    <?php echo $this->getBackButtonHtml() ?>
+</div>
+
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <div id="product-edit-form-tabs"></div>
+    <?php echo $this->getChildHtml('product-type-tabs') ?>
+    <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
+    <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
+</form>
+<script type="text/javascript">
+
+jQuery(function($) {
+    $('#meta_description').on('change keyup paste', function () {
+        var maxLength = $(this).data('maxLength') || 255;
+        if ($(this).val().length >= maxLength) {
+            $(this).val($(this).val().substr(0, maxLength));
+        }
+    });
+    $('#product-edit-form')
+        .mage('form')
+        .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+
+    <?php if ($this->getSelectedTabId()): ?>
+    if($('#<?php echo $this->getSelectedTabId() ?>').length) {
+        $('#<?php echo $this->getSelectedTabId() ?>').trigger('click');
+    }
+    <?php endif; ?>
+
+    $('#product_info_tabs').on('tabsbeforeactivate', function (event, ui) {
+        var action = $(ui.newPanel).find('#attribute-name-container').length ? 'show' : 'hide';
+        $('#config_super_product, #grouped_product_container')[action]();
+    });
+
+    var masks = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
+    var availablePlaceholders = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getAttributesAllowedForAutogeneration())?>;
+    var Autogenerator = function(masks) {
+        this._masks = masks || {};
+        this._fieldReverseIndex = this._buildReverseIndex(this._masks);
+    };
+
+    $.extend(Autogenerator.prototype, {
+        varRegexp: /{{([\w_]+?)}}/,
+        varsRegexp: new RegExp('{{(' + availablePlaceholders.join('|') + ')}}', 'g'),
+        data: {
+            disabled: 'autogenerator-disabled'
+        },
+        bindAll: function(events) {
+            var self = this;
+
+            $.each(self._masks, function(field, mask) {
+                var disabler = function() {
+                    $(this).data(self.data.disabled, $(this).val().replace(/\s/g, '') != '');
+                };
+                var $field = $('#' + field);
+                if (!$field.val() && mask.length > 0 && !self.varRegexp.test(mask)) {
+                    $field.val(mask);
+                }
+                if ($field.length) {
+                    disabler.call($field);
+                    $field.bind('focus blur change keyup click', disabler);
+                }
+            });
+
+            $.each(self._fieldReverseIndex, function(field) {
+                var fields = this, $field = $('#' + field);
+                var filler = function(onlyText) {
+                    $.each(fields, function() {
+                        var $el = $('#' + this);
+                        if ($el.data(self.data.disabled)) {
+                            return;
+                        }
+                        if (onlyText === true && self.varRegexp.test(self._masks[this])) {
+                            return;
+                        }
+                        var value = self._masks[this].replace(self.varsRegexp, function(maskfieldName) {
+                            return $('#' + maskfieldName.slice(2, -2)).val();
+                        });
+                        $el.val(value);
+
+                    });
+                };
+                if ($field.length) {
+                    $field.bind(events || 'keyup change blur click', filler);
+                    filler.call($field, true);
+                }
+
+            });
+        },
+        _buildReverseIndex: function(masks) {
+            var self = this;
+            var fieldReverseIndex = {};
+            $.each(masks, function(field, mask) {
+                $.each(mask.toString().match(self.varsRegexp) || [], function(key, maskName) {
+                    var fieldName = maskName.slice(2, -2);
+                    if (!(fieldName in fieldReverseIndex)) {
+                        fieldReverseIndex[fieldName] = [];
+                    }
+                    fieldReverseIndex[fieldName].push(field);
+                })
+            });
+            return fieldReverseIndex;
+        }
+    });
+
+    new Autogenerator(masks).bindAll();
+
+    new TypeSwitcher(<?php echo $this->getTypeSwitcherData();?>).bindAll();
+
+    $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
+    var $form = $('#product-edit-form'),
+        fieldSelector = '.required-entry, .required-option-select',
+        updateSaveSplitButtonAvailability = function () {
+            var disabled = false;
+            $.each($form.find(fieldSelector), function () {
+                if (!$.trim($(this).val()) && !$(this).closest('.ignore-validate').length
+                    && $(this).is('input, select, textarea') && !$(this).prop('disabled')
+                ) {
+                    disabled = true;
+                    return false;
+                }
+            });
+            $('.widget-button-save, .widget-button-save > *').toggleClass('disabled', disabled).prop('disabled', disabled);
+        };
+    $form.on('focus change keyup click', fieldSelector + ',:checkbox,button', updateSaveSplitButtonAvailability);
+    $(window).load(function() {
+        if ($.trim($('#name').val()) == '') {
+            $('#name').focus();
+        } else {
+            updateSaveSplitButtonAvailability();
+        }
+
+        $('#product-online-switcher').prop('checked', $('#status').val() == '1')
+            .siblings('#product-online-status')
+            .text($.mage.__($('#status').val() == '1' ? 'Product online' : 'Product offline'));
+    });
+
+    $('#product-online-switcher').on('change', function(event) {
+        $('#status').val($(this).prop('checked') ? '1' : '2');
+        $('#product-online-switcher').siblings('#product-online-status').text(
+            $.mage.__($(this).prop('checked') ? 'Product online' : 'Product offline')
+        );
+    });
+});
+</script>

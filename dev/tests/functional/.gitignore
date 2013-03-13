@@ -1,4 +1,5 @@
 config/browsers.yml
+config/config.yml
 config/install.php
 framework/tests/unit/phpunit.xml
 config/local.yml
@@ -9,3 +10,4 @@ var/*
 !var/screenshots
 .idea
 nbproject
+vendor

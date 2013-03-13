@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Catalog_Product_EditTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Adminhtml_Block_Catalog_Product_Edit
@@ -18,6 +18,7 @@ class Mage_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
+        parent::setUp();
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getMock('Mage_Catalog_Model_Product', array('getAttributes'), array(), '', false);
         $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));

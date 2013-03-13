@@ -9,24 +9,20 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_GridTest extends PHPUnit_Framework_TestCase
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_GridTest extends Mage_Backend_Area_TestCase
 {
     /** @var Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid */
     protected $_block;
 
     public function setUp()
     {
+        parent::setUp();
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout->createBlock(
             'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid',
             'giftcardaccount.grid'
         );
-    }
-
-    public function tearDown()
-    {
-        $this->_block = null;
     }
 
     /**

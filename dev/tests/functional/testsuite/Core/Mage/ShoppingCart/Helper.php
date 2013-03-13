@@ -321,11 +321,11 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_AbstractHelper
         if ($this->getArea() == 'frontend' && !$this->controlIsPresent('link', 'empty_my_cart')) {
             $this->frontend('shopping_cart');
             $productCount = $this->getControlCount('pageelement', 'product_line');
-            for ($i = 1; $i <= $productCount; $i++) {
-                $this->addParameter('productNumber', $i);
-                $this->fillField('product_qty', 0);
+            if (0 == $productCount) {
+                $this->assertMessagePresent('success', 'shopping_cart_is_empty');
+                return;
             }
-            $this->clickButton('update_shopping_cart');
+            $this->clickButton('clear_shopping_cart');
             $this->assertMessagePresent('success', 'shopping_cart_is_empty');
         }
     }

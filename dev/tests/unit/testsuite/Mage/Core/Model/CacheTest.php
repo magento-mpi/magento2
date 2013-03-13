@@ -11,7 +11,7 @@
 class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_model;
 
@@ -297,7 +297,7 @@ XML
     }
 
     /**
-     * @return Mage_Core_Model_Cache
+     * @return Mage_Core_Model_CacheInterface
      */
     public function testCanUse()
     {
@@ -309,10 +309,10 @@ XML
 
     /**
      * @depends testCanUse
-     * @param Mage_Core_Model_Cache $model
+     * @param Mage_Core_Model_CacheInterface $model
      * @return Mage_Core_Model_CacheTest
      */
-    public function testBanUse(Mage_Core_Model_Cache $model)
+    public function testBanUse(Mage_Core_Model_CacheInterface $model)
     {
         $this->_emulateCacheTypeOptions();
         $this->assertTrue($model->canUse('config'));
@@ -323,9 +323,9 @@ XML
 
     /**
      * @depends testBanUse
-     * @param Mage_Core_Model_Cache $model
+     * @param Mage_Core_Model_CacheInterface $model
      */
-    public function testAllowUse(Mage_Core_Model_Cache $model)
+    public function testAllowUse(Mage_Core_Model_CacheInterface $model)
     {
         $this->_emulateCacheTypeOptions();
         $this->assertFalse($model->canUse('config'));

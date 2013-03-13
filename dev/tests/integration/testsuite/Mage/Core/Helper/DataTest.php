@@ -39,11 +39,6 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_dateTime->setTimezone(new DateTimeZone(self::DATE_TIMEZONE));
     }
 
-    protected function tearDown()
-    {
-        $this->_helper = null;
-    }
-
     public function testGetEncryptor()
     {
         $this->assertInstanceOf('Mage_Core_Model_Encryption', $this->_helper->getEncryptor());
@@ -165,7 +160,6 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetCacheTypes()
     {
         $this->assertTrue(is_array($this->_helper->getCacheTypes()));
-        $this->assertTrue(is_array($this->_helper->getCacheBetaTypes()));
     }
 
     public function testCopyFieldset()
