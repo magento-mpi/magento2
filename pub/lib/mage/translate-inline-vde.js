@@ -40,7 +40,9 @@
             templateName: "translateInlineDialogVdeTemplate",
             dataAttrName: "translate",
             onSubmitComplete: function() { },
-            onCancel: function() { }
+            onCancel: function() { },
+            area: "vde",
+            ajaxUrl: null
         },
 
         /**
@@ -73,6 +75,8 @@
          *
          * @param {Element} element the element to open the dialog near,
          *     must also contain data-translate attribute
+         * @param function callback invoked with the new translation data after
+         *     form submssion. parameters are index and the translated string
          */
         open: function(element, callback) {
             this.callback = callback;
@@ -190,8 +194,6 @@
         options: {
             img: null,
             imgHover: null,
-            area: "vde",
-            ajaxUrl: null,
             offsetLeft: -16,
             templateId: "translate-inline-icon",
             dataAttrName: "translate",
