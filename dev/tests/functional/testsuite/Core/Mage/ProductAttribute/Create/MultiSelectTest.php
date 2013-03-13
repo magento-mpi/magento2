@@ -76,7 +76,6 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
-        $this->markTestIncomplete('MAGETWO-5787');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
