@@ -32,6 +32,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::review_page_product_image:width</var>
             </control>
+            <control name="review_page_product_image-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::review_page_product_image:ratio</var>
+            </control>
             <control name="review_page_product_image-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::review_page_product_image:height</var>
@@ -49,6 +53,10 @@
             <control name="customer_account_product_review_page-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::customer_account_product_review_page:width</var>
+            </control>
+            <control name="customer_account_product_review_page-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::customer_account_product_review_page:ratio</var>
             </control>
             <control name="customer_account_product_review_page-height">
                 <type>image-height</type>
@@ -68,6 +76,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::category_page_list:width</var>
             </control>
+            <control name="category_page_list-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::category_page_list:ratio</var>
+            </control>
             <control name="category_page_list-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::category_page_list:height</var>
@@ -85,6 +97,10 @@
             <control name="category_page_grid-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::category_page_grid:width</var>
+            </control>
+            <control name="category_page_grid-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::category_page_grid:ratio</var>
             </control>
             <control name="category_page_grid-height">
                 <type>image-height</type>
@@ -104,6 +120,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::product_comparison_list:width</var>
             </control>
+            <control name="product_comparison_list-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::product_comparison_list:ratio</var>
+            </control>
             <control name="product_comparison_list-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::product_comparison_list:height</var>
@@ -121,6 +141,10 @@
             <control name="related_products_list-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::related_products_list:width</var>
+            </control>
+            <control name="related_products_list-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::related_products_list:ratio</var>
             </control>
             <control name="related_products_list-height">
                 <type>image-height</type>
@@ -140,6 +164,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::upsell_products_list:width</var>
             </control>
+            <control name="upsell_products_list-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::upsell_products_list:ratio</var>
+            </control>
             <control name="upsell_products_list-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::upsell_products_list:height</var>
@@ -157,6 +185,10 @@
             <control name="product_page_main_image-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::product_page_main_image:width</var>
+            </control>
+            <control name="product_page_main_image-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::product_page_main_image:ratio</var>
             </control>
             <control name="product_page_main_image-height">
                 <type>image-height</type>
@@ -176,6 +208,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::product_page_main_image_default:width</var>
             </control>
+            <control name="product_page_main_image_default-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::product_page_main_image_default:ratio</var>
+            </control>
             <control name="product_page_main_image_default-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::product_page_main_image_default:height</var>
@@ -193,6 +229,10 @@
             <control name="product_page_more_views-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::product_page_more_views:width</var>
+            </control>
+            <control name="product_page_more_views-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::product_page_more_views:ratio</var>
             </control>
             <control name="product_page_more_views-height">
                 <type>image-height</type>
@@ -212,6 +252,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::side_column_widget_product_thumbnail:width</var>
             </control>
+            <control name="side_column_widget_product_thumbnail-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::side_column_widget_product_thumbnail:ratio</var>
+            </control>
             <control name="side_column_widget_product_thumbnail-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::side_column_widget_product_thumbnail:height</var>
@@ -229,6 +273,10 @@
             <control name="new_products_content_widget_list-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::new_products_content_widget_list:width</var>
+            </control>
+            <control name="new_products_content_widget_list-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::new_products_content_widget_list:ratio</var>
             </control>
             <control name="new_products_content_widget_list-height">
                 <type>image-height</type>
@@ -248,6 +296,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::new_products_content_widget_grid:width</var>
             </control>
+            <control name="new_products_content_widget_grid-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::new_products_content_widget_grid:ratio</var>
+            </control>
             <control name="new_products_content_widget_grid-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::new_products_content_widget_grid:height</var>
@@ -265,6 +317,10 @@
             <control name="recently_compared_products_images_names_widget-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_compared_products_images_names_widget:width</var>
+            </control>
+            <control name="recently_compared_products_images_names_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::recently_compared_products_images_names_widget:ratio</var>
             </control>
             <control name="recently_compared_products_images_names_widget-height">
                 <type>image-height</type>
@@ -284,6 +340,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_viewed_products_images_names_widget:width</var>
             </control>
+            <control name="recently_viewed_products_images_names_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::recently_viewed_products_images_names_widget:ratio</var>
+            </control>
             <control name="recently_viewed_products_images_names_widget-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_viewed_products_images_names_widget:height</var>
@@ -301,6 +361,10 @@
             <control name="recently_compared_products_images_only_widget-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_compared_products_images_only_widget:width</var>
+            </control>
+            <control name="recently_compared_products_images_only_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::recently_compared_products_images_only_widget:ratio</var>
             </control>
             <control name="recently_compared_products_images_only_widget-height">
                 <type>image-height</type>
@@ -320,6 +384,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_viewed_products_images_only_widget:width</var>
             </control>
+            <control name="recently_viewed_products_images_only_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::recently_viewed_products_images_only_widget:ratio</var>
+            </control>
             <control name="recently_viewed_products_images_only_widget-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_viewed_products_images_only_widget:height</var>
@@ -337,6 +405,10 @@
             <control name="bundled_product_customization_page-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::bundled_product_customization_page:width</var>
+            </control>
+            <control name="bundled_product_customization_page-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::bundled_product_customization_page:ratio</var>
             </control>
             <control name="bundled_product_customization_page-height">
                 <type>image-height</type>
@@ -356,6 +428,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_compared_products_grid_content_widget:width</var>
             </control>
+            <control name="recently_compared_products_grid_content_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::recently_compared_products_grid_content_widget:ratio</var>
+            </control>
             <control name="recently_compared_products_grid_content_widget-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_compared_products_grid_content_widget:height</var>
@@ -373,6 +449,10 @@
             <control name="recently_compared_products_list_content_widget-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_compared_products_list_content_widget:width</var>
+            </control>
+            <control name="recently_compared_products_list_content_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::recently_compared_products_list_content_widget:ratio</var>
             </control>
             <control name="recently_compared_products_list_content_widget-height">
                 <type>image-height</type>
@@ -392,6 +472,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_viewed_products_grid_content_widget:width</var>
             </control>
+            <control name="recently_viewed_products_grid_content_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::recently_viewed_products_grid_content_widget:ratio</var>
+            </control>
             <control name="recently_viewed_products_grid_content_widget-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::recently_viewed_products_grid_content_widget:height</var>
@@ -409,6 +493,10 @@
             <control name="recently_viewed_products_list_content_widget-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::recently_viewed_products_list_content_widget:width</var>
+            </control>
+            <control name="recently_viewed_products_list_content_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::recently_viewed_products_list_content_widget:ratio</var>
             </control>
             <control name="recently_viewed_products_list_content_widget-height">
                 <type>image-height</type>
@@ -428,6 +516,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::customer_shared_wishlist:width</var>
             </control>
+            <control name="customer_shared_wishlist-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::customer_shared_wishlist:ratio</var>
+            </control>
             <control name="customer_shared_wishlist-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::customer_shared_wishlist:height</var>
@@ -445,6 +537,10 @@
             <control name="wishlist_thumbnail-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::wishlist_thumbnail:width</var>
+            </control>
+            <control name="wishlist_thumbnail-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::wishlist_thumbnail:ratio</var>
             </control>
             <control name="wishlist_thumbnail-height">
                 <type>image-height</type>
@@ -464,6 +560,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::wishlist_sidebar_block:width</var>
             </control>
+            <control name="wishlist_sidebar_block-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::wishlist_sidebar_block:ratio</var>
+            </control>
             <control name="wishlist_sidebar_block-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::wishlist_sidebar_block:height</var>
@@ -481,6 +581,10 @@
             <control name="shared_wishlist_email-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::shared_wishlist_email:width</var>
+            </control>
+            <control name="shared_wishlist_email-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::shared_wishlist_email:ratio</var>
             </control>
             <control name="shared_wishlist_email-height">
                 <type>image-height</type>
@@ -500,6 +604,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::customer_account_my_tags_tag_view:width</var>
             </control>
+            <control name="customer_account_my_tags_tag_view-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::customer_account_my_tags_tag_view:ratio</var>
+            </control>
             <control name="customer_account_my_tags_tag_view-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::customer_account_my_tags_tag_view:height</var>
@@ -517,6 +625,10 @@
             <control name="cart_cross_sell_products-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::cart_cross_sell_products:width</var>
+            </control>
+            <control name="cart_cross_sell_products-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::cart_cross_sell_products:ratio</var>
             </control>
             <control name="cart_cross_sell_products-height">
                 <type>image-height</type>
@@ -536,6 +648,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::gift_messages_checkout_thumbnail:width</var>
             </control>
+            <control name="gift_messages_checkout_thumbnail-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::gift_messages_checkout_thumbnail:ratio</var>
+            </control>
             <control name="gift_messages_checkout_thumbnail-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::gift_messages_checkout_thumbnail:height</var>
@@ -553,6 +669,10 @@
             <control name="gift_messages_checkout_small_image-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::gift_messages_checkout_small_image:width</var>
+            </control>
+            <control name="gift_messages_checkout_small_image-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::gift_messages_checkout_small_image:ratio</var>
             </control>
             <control name="gift_messages_checkout_small_image-height">
                 <type>image-height</type>
@@ -572,6 +692,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::mini_cart_product_thumbnail:width</var>
             </control>
+            <control name="mini_cart_product_thumbnail-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::mini_cart_product_thumbnail:ratio</var>
+            </control>
             <control name="mini_cart_product_thumbnail-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::mini_cart_product_thumbnail:height</var>
@@ -589,6 +713,10 @@
             <control name="new_products_images_only_widget-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::new_products_images_only_widget:width</var>
+            </control>
+            <control name="new_products_images_only_widget-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::new_products_images_only_widget:ratio</var>
             </control>
             <control name="new_products_images_only_widget-height">
                 <type>image-height</type>
@@ -608,6 +736,10 @@
                 <type>image-width</type>
                 <var>Mage_Catalog::cart_page_product_thumbnail:width</var>
             </control>
+            <control name="cart_page_product_thumbnail-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::cart_page_product_thumbnail:ratio</var>
+            </control>
             <control name="cart_page_product_thumbnail-height">
                 <type>image-height</type>
                 <var>Mage_Catalog::cart_page_product_thumbnail:height</var>
@@ -625,6 +757,10 @@
             <control name="product_stock_alert_email_product_image-width">
                 <type>image-width</type>
                 <var>Mage_Catalog::product_stock_alert_email_product_image:width</var>
+            </control>
+            <control name="product_stock_alert_email_product_image-ratio">
+                <type>image-ratio</type>
+                <var>Mage_Catalog::product_stock_alert_email_product_image:ratio</var>
             </control>
             <control name="product_stock_alert_email_product_image-height">
                 <type>image-height</type>
