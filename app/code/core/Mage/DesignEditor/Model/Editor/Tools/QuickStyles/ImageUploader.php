@@ -40,7 +40,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
      *
      * @var array
      */
-    protected $_allowedExtensions = array('jpg','jpeg','gif','png');
+    protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png');
 
     /**
      * Generic constructor of change instance

@@ -21,25 +21,41 @@ class Mage_Core_Model_Theme_Domain_Virtual
     protected $_theme;
 
     /**
+     * Staging theme model instance
+     *
+     * @var Mage_Core_Model_Theme
+     */
+    protected $_stagingTheme;
+
+    /**
      * Model to create 'staging' copy of current 'virtual' theme
      *
      * @var Mage_Core_Model_Theme_Copy_VirtualToStaging
      */
-    protected $_copyModel;
+    protected $_copyModelVS;
+
+    /**
+     * Model to update current 'virtual' theme with changes taken form associated 'staging' theme
+     *
+     * @var Mage_Core_Model_Theme_Copy_StagingToVirtual
+     */
+    protected $_copyModelSV;
 
     /**
      * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModel
+     * @param Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModelVS
+     * @param Mage_Core_Model_Theme_Copy_StagingToVirtual $copyModelSV
      * @param array $data
-     *
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
-        Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModel,
+        Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModelVS,
+        Mage_Core_Model_Theme_Copy_StagingToVirtual $copyModelSV,
         array $data = array()
     ) {
         $this->_theme = $theme;
-        $this->_copyModel = $copyModel;
+        $this->_copyModelVS = $copyModelVS;
+        $this->_copyModelSV = $copyModelSV;
     }
 
     /**
@@ -49,17 +65,23 @@ class Mage_Core_Model_Theme_Domain_Virtual
      */
     public function getStagingTheme()
     {
-        return $this->_hasStagingTheme() ? $this->_getStagingTheme() : $this->createStagingTheme();
+        if (!$this->_stagingTheme) {
+            $stagingTheme = $this->_getStagingTheme();
+            $this->_stagingTheme =  $stagingTheme->getId() ? $stagingTheme : $this->_createStagingTheme();
+        }
+        return $this->_stagingTheme;
     }
 
     /**
-     * Check if theme has associated 'staging' theme
+     * Copy changes from 'staging' theme
      *
-     * @return bool
+     * @return Mage_Core_Model_Theme_Domain_Virtual
      */
-    protected function _hasStagingTheme()
+    public function updateFromStagingTheme()
     {
-        return (bool)$this->_getStagingTheme()->getId();
+        $this->_copyModelSV->copy($this->_theme);
+
+        return $this;
     }
 
     /**
@@ -80,8 +102,8 @@ class Mage_Core_Model_Theme_Domain_Virtual
      *
      * @return Mage_Core_Model_Theme
      */
-    public function createStagingTheme()
+    protected function _createStagingTheme()
     {
-        return $this->_copyModel->copy($this->_theme);
+        return $this->_copyModelVS->copy($this->_theme);
     }
 }

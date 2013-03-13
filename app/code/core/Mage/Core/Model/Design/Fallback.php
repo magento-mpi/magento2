@@ -113,15 +113,10 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getFile($file, $module = null)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $dirs = array();
-        $themeModel = $this->_theme;
-        while ($themeModel) {
-            $themePath = $themeModel->getThemePath();
-            if ($themePath) {
-                $dirs[] = "{$dir}/{$this->_area}/{$themePath}";
-            }
-            $themeModel = $themeModel->getParentTheme();
+        foreach ($this->getDirs($this->_theme) as $dir) {
+            $dirs[] = "{$dir}/locale/{$this->_locale}";
+            $dirs[] = $dir;
         }
 
         if ($module) {
@@ -141,15 +136,9 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getLocaleFile($file)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $dirs = array();
-        $themeModel = $this->_theme;
-        while ($themeModel) {
-            $themePath = $themeModel->getThemePath();
-            if ($themePath) {
-                $dirs[] = "{$dir}/{$this->_area}/{$themePath}/locale/{$this->_locale}";
-            }
-            $themeModel = $themeModel->getParentTheme();
+        foreach ($this->getDirs($this->_theme) as $dir) {
+            $dirs[] = "{$dir}/locale/{$this->_locale}";
         }
 
         return $this->_fallback($file, $dirs);
@@ -164,20 +153,13 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getViewFile($file, $module = null)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $moduleDir = $module ? $this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module) : '';
-
         $dirs = array();
-        $themeModel = $this->_theme;
-        while ($themeModel) {
-            $themePath = $themeModel->getThemePath();
-            if ($themePath) {
-                $dirs[] = "{$dir}/{$this->_area}/{$themePath}/locale/{$this->_locale}";
-                $dirs[] = "{$dir}/{$this->_area}/{$themePath}";
-            }
-            $themeModel = $themeModel->getParentTheme();
+        foreach ($this->getDirs($this->_theme) as $dir) {
+            $dirs[] = "{$dir}/locale/{$this->_locale}";
+            $dirs[] = $dir;
         }
 
+        $moduleDir = $module ? $this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module) : '';
         return $this->_fallback(
             $file,
             $dirs,
@@ -185,6 +167,21 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             array("{$moduleDir}/{$this->_area}/locale/{$this->_locale}", "{$moduleDir}/{$this->_area}"),
             array($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB))
         );
+    }
+
+    /**
+     * @param Mage_Core_Model_Theme $theme
+     * @return array
+     */
+    public function getDirs($theme)
+    {
+        $dirs = array();
+        while ($theme) {
+            $dirs[] = $theme->getThemeFilesPath();
+            $theme = $theme->getParentTheme();
+        }
+
+        return $dirs;
     }
 
     /**
@@ -201,11 +198,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     protected function _fallback($file, $themeDirs, $module = false, $moduleDirs = array(), $extraDirs = array())
     {
-        // add customization path
         $dirs = array();
-        if ($this->_theme->getCustomizationPath()) {
-            $dirs[] = $this->_theme->getCustomizationPath();
-        }
 
         // add modules to lookup
         $dirs = array_merge($dirs, $themeDirs);

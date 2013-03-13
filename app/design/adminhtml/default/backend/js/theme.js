@@ -162,13 +162,15 @@
     $.widget('mage.modalPopup', {
         options: {
             popup: '.popup',
-            btnClose: '[data-dismiss="popup"]'
+            btnDismiss: '[data-dismiss="popup"]',
+            btnHide: '[data-hide="popup"]'
         },
 
         _create: function() {
             this.fade = this.element;
             this.popup = $(this.options.popup, this.fade);
-            this.btnClose = $(this.options.btnClose, this.popup);
+            this.btnDismiss = $(this.options.btnDismiss, this.popup);
+            this.btnHide = $(this.options.btnHide, this.popup);
 
             this._events();
         },
@@ -176,9 +178,14 @@
         _events: function() {
             var self = this;
 
-            this.btnClose
-                .on('click.closeModalPopup', function() {
+            this.btnDismiss
+                .on('click.dismissModalPopup', function() {
                     self.fade.remove();
+                });
+
+            this.btnHide
+                .on('click.hideModalPopup', function() {
+                    self.fade.hide();
                 });
         }
     });

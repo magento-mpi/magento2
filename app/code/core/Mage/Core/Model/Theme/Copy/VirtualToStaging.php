@@ -11,7 +11,7 @@
 /**
  * Model to create 'staging' copy of 'virtual' theme
  */
-class Mage_Core_Model_Theme_Copy_VirtualToStaging
+class Mage_Core_Model_Theme_Copy_VirtualToStaging extends Mage_Core_Model_Theme_Copy_Abstract
 {
     /**
      * Theme model factory
@@ -21,15 +21,20 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging
     protected $_themeFactory;
 
     /**
+     * @var Mage_Core_Model_Resource_Layout_Link_Collection
+     */
+    protected $_linkCollection;
+
+    /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
-     * @param array $data
-     *
+     * @param Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
-        array $data = array()
+        Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
     ) {
         $this->_themeFactory = $themeFactory;
+        $this->_linkCollection = $linkCollection;
     }
 
     /**
@@ -41,8 +46,7 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging
     public function copy($theme)
     {
         $stagingTheme = $this->_copyPrimaryData($theme);
-        $this->_copyCustomizations($theme);
-        $this->_copyLayoutUpdates($theme);
+        $this->_copyLayoutUpdates($theme, $stagingTheme);
         return $stagingTheme;
     }
 
@@ -72,25 +76,5 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging
         $stagingTheme->save();
 
         return $stagingTheme;
-    }
-
-    /**
-     * Copy theme customizations
-     *
-     * @param Mage_Core_Model_Theme $theme
-     */
-    protected function _copyCustomizations($theme)
-    {
-        //TODO _copyCustomizations
-    }
-
-    /**
-     * Copy theme customizations
-     *
-     * @param Mage_Core_Model_Theme $theme
-     */
-    protected function _copyLayoutUpdates($theme)
-    {
-        //TODO _copyLayoutUpdates
     }
 }

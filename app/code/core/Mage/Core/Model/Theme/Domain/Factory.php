@@ -40,10 +40,15 @@ class Mage_Core_Model_Theme_Domain_Factory
      *
      * @param Mage_Core_Model_Theme $theme
      * @param array $data
-     * @return Mage_Core_Model_Theme_Domain_Physical|Mage_Core_Model_Theme_Domain_Virtual|Mage_Core_Model_Theme_Domain_Staging
+     * @return Mage_Core_Model_Theme_Domain_Physical|Mage_Core_Model_Theme_Domain_Virtual|
+     * Mage_Core_Model_Theme_Domain_Staging
+     * @throws Mage_Core_Exception
      */
     public function create(Mage_Core_Model_Theme $theme, array $data = array())
     {
+        if (!isset($this->_types[$theme->getType()])) {
+            throw new Mage_Core_Exception(sprintf('Invalid type of theme domain model "%s"', $theme->getType()));
+        }
         $class = $this->_types[$theme->getType()];
         return $this->_objectManager->create($class, array('theme' => $theme, $data));
     }

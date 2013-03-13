@@ -18,7 +18,8 @@
         _pageSize: 4,
         options: {
             url: '',
-            loadDataOnCreate: true
+            loadDataOnCreate: true,
+            loadEvent: 'loaded'
         },
 
         /**
@@ -48,7 +49,7 @@
                     }
 
                     var eventData = {};
-                    this.element.trigger('loaded', eventData);
+                    this.element.trigger(this.options.loadEvent, eventData);
                 }, this),
                 error: $.proxy(function() {
                     this.options.url = '';
