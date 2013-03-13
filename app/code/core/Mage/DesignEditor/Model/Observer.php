@@ -71,10 +71,10 @@ class Mage_DesignEditor_Model_Observer
      *
      * @param Varien_Event_Observer $event
      */
-    public function clearJs($event)
+    public function clearJs(Varien_Event_Observer $event)
     {
         /** @var $layout Mage_Core_Model_Layout */
-        $layout = $event->getLayout();
+        $layout = $event->getEvent()->getLayout();
         $blockHead = $layout->getBlock('head');
         if (!$blockHead || !$blockHead->getData('vde_design_mode')) {
             return;
