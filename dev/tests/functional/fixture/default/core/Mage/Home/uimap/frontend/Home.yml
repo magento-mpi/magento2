@@ -71,4 +71,3 @@ home_storeview:
 login_after_captcha_save:
     mca: backend
     title: Log into Magento Admin Page
-    uimap:
