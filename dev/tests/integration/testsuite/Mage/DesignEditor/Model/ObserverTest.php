@@ -15,7 +15,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @param string $area
      * @param string $designMode
      * @param array $expectedAssets
-
+     *
      * @magentoAppIsolation enabled
      * @dataProvider cleanJsDataProvider
      */
