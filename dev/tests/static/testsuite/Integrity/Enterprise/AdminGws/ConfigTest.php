@@ -28,7 +28,7 @@ class Integrity_Enterprise_AdminGws_ConfigTest extends PHPUnit_Framework_TestCas
         /** @var SimpleXMLElement $node */
         foreach ($nodes as $node) {
             $class = implode('_', array_map('ucfirst', explode('_', $node->getName())));
-            if (!Utility_Files::init()->codePoolClassFileExists($class, $path)) {
+            if (!Utility_Files::init()->classFileExists($class, $path)) {
                 $errors[] = "'{$node->getName()}' => '{$path}'";
             }
         }

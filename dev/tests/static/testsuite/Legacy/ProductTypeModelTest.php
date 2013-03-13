@@ -34,14 +34,14 @@ class Legacy_ProductTypeModelTest extends PHPUnit_Framework_TestCase
     {
         $root = Utility_Files::init()->getPathToSource();
         $files = array(
-            "$root/app/code/core/Enterprise/GiftCard/Model/Catalog/Product/Type/Giftcard.php",
-            "$root/app/code/core/Mage/Bundle/Model/Product/Type.php",
-            "$root/app/code/core/Mage/Catalog/Model/Product/Type/Abstract.php",
-            "$root/app/code/core/Mage/Catalog/Model/Product/Type/Configurable.php",
-            "$root/app/code/core/Mage/Catalog/Model/Product/Type/Grouped.php",
-            "$root/app/code/core/Mage/Catalog/Model/Product/Type/Simple.php",
-            "$root/app/code/core/Mage/Catalog/Model/Product/Type/Virtual.php",
-            "$root/app/code/core/Mage/Downloadable/Model/Product/Type.php",
+            "$root/app/code/Enterprise/GiftCard/Model/Catalog/Product/Type/Giftcard.php",
+            "$root/app/code/Mage/Bundle/Model/Product/Type.php",
+            "$root/app/code/Mage/Catalog/Model/Product/Type/Abstract.php",
+            "$root/app/code/Mage/Catalog/Model/Product/Type/Configurable.php",
+            "$root/app/code/Mage/Catalog/Model/Product/Type/Grouped.php",
+            "$root/app/code/Mage/Catalog/Model/Product/Type/Simple.php",
+            "$root/app/code/Mage/Catalog/Model/Product/Type/Virtual.php",
+            "$root/app/code/Mage/Downloadable/Model/Product/Type.php",
         );
         return Utility_Files::composeDataSets($files);
     }

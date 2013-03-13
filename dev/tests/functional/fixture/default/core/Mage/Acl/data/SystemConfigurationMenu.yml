@@ -160,7 +160,7 @@ configuration_menu_default:
         dhl: ~
     sales_payment_methods:
         saved_cc: ~
-        cash_on_delivery_payment: ~
+        cashondelivery: ~
         banktransfer_payment: ~
         check_money_order: ~
         zero_subtotal_checkout: ~
@@ -190,12 +190,7 @@ configuration_menu_default:
         poli_powered_by_moneybookers_australia: ~
         przelewy24_powered_by_moneybookers_poland: ~
         moneybookers_ewallet: ~
-        online_bank_transfer_powered_by_moneybookers: ~
-    services_magento_core_api:
-        general_settings: ~
-    services_oauth:
-        email: ~
-        cleanup_settings: ~
+        online_bank_transfer_powered_by_moneybookers: ~    
     advanced_admin:
         admin_user_emails: ~
         startup_page: ~
@@ -302,9 +297,7 @@ configuration_menu_website:
         name_and_address_options: ~
         login_options: ~
         address_templates: ~
-        customer_captcha: ~
-        account_sharing_options: ~
-        online_customer_options: ~
+        customer_captcha: ~        
     customers_wishlist:
         general_options_wishlist: ~
         share_options: ~
@@ -360,7 +353,7 @@ configuration_menu_website:
         dhl: ~
     sales_payment_methods:
         saved_cc: ~
-        cash_on_delivery_payment: ~
+        cashondelivery: ~
         banktransfer_payment: ~
         check_money_order: ~
         zero_subtotal_checkout: ~
@@ -390,11 +383,7 @@ configuration_menu_website:
         poli_powered_by_moneybookers_australia: ~
         przelewy24_powered_by_moneybookers_poland: ~
         moneybookers_ewallet: ~
-        online_bank_transfer_powered_by_moneybookers: ~
-    services_magento_core_api:
-        general_settings: ~
-    services_oauth:
-        email: ~
+        online_bank_transfer_powered_by_moneybookers: ~   
     advanced_system:
         mail_sending_settings: ~
     advanced_advanced:

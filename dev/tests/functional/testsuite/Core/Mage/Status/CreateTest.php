@@ -98,8 +98,7 @@ class Core_Mage_Status_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->createStatus($statusData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -145,6 +144,7 @@ class Core_Mage_Status_CreateTest extends Mage_Selenium_TestCase
         $statusData = $this->loadDataSet('Status', 'generic_status', array('status_code' => $invalidCode));
         //Steps
         $this->storeHelper()->createStatus($statusData);
+        $this->addFieldIdToMessage('field', 'status_code');
         //Verifying
         $this->assertMessagePresent('error', 'wrong_status_view_code');
     }

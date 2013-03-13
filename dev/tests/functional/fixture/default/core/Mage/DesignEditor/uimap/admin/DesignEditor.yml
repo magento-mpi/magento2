@@ -11,7 +11,7 @@
 # Design editor theme selector page
 design_editor_selector:
     mca: system_design_editor/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design_editor/')]
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
     title: Editor / Design / System / Magento Admin
     uimap: &designEditorSelector
         pageelements:

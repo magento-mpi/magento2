@@ -4,8 +4,8 @@
 saas
 saas.php
 saas_robots.txt
-app/code/core/Saas
-app/code/core/Mage/Launcher
+app/code/Saas
+app/code/Mage/Launcher
 app/etc/modules/XSaas_Enabler.xml.dist
 dev/tests/integration/etc/modules/XSaas_Enabler.xml
 dev/tests/integration/testsuite/Mage/Launcher

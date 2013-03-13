@@ -25,6 +25,7 @@ admin_header:
                     global_header:
                         xpath: //div[contains(a/@class,'logo')]
                         links:
+                            account_avatar: //a[@class='account-avatar']
                             log_out: //a[@class='account-signout']
                         pageelements:
                             admin_logo: //a[@class='logo']

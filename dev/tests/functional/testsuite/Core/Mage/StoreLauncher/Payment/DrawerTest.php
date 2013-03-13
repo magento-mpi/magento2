@@ -32,7 +32,7 @@ class Core_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure($paypalConfig);
         $authorizeConfig = $this->loadDataSet('PaymentMethod', 'authorize_net_disable');
         $this->systemConfigurationHelper()->configure($authorizeConfig);
-        $this->navigate('store_launcher');
+        $this->admin();
     }
 
     /**
@@ -41,7 +41,6 @@ class Core_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
         $tileState = $this->getControlAttribute('fieldset', 'payment_tile', 'class');
         $changeState = ('tile-store-settings tile-payments tile-complete' == $tileState) ? true : false;
         if ($changeState) {

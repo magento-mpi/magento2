@@ -3987,18 +3987,35 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addForeignKeyDeleteAction($tableName, $columnName, $refTableName, $refColumnName, $fkAction)
     {
-        $sqlTrigger = $this->_getInsteadTriggerBody($refTableName);
+        $pkColumns = $this->_getPrimaryKeyColumns($tableName);
+        $isPrimary = in_array($refColumnName, $pkColumns);
+        $sqlTrigger = $this->_getInsteadTriggerBody($refTableName, $isPrimary);
         if ($tableName == $refTableName) {
-            $ids = "\n;WITH depended_ids ({$refColumnName}) AS (                    \n"
-                . "SELECT m.{$refColumnName}                                        \n"
+            if (!$isPrimary) {
+                $uniqueColumns = $this->_getUniqueIndexColumns($tableName);
+                $columns = array_merge($pkColumns, $uniqueColumns);
+                $fields = implode(', ', $columns);
+
+                $mColumns = array();
+                foreach ($columns as $column) {
+                    $mColumns[] = 'm.' . $column;
+                }
+                $mFields = implode(', ', $mColumns);
+            } else {
+                $fields = $refColumnName;
+                $mFields = 'm.' . $refColumnName;
+            }
+
+            $ids = "\n;WITH depended_ids ({$fields}) AS (                    \n"
+                . "SELECT {$mFields}                                        \n"
                 . "FROM {$tableName} AS m                                           \n"
                 . "INNER JOIN deleted d ON m.{$refColumnName} = d.{$refColumnName}  \n"
                 . "UNION ALL                                                        \n"
-                . "SELECT m.{$refColumnName}                                        \n"
+                . "SELECT {$mFields}                                        \n"
                 . "FROM {$tableName} AS m                                           \n"
                 . "INNER JOIN depended_ids AS di ON di.{$refColumnName} = m.{$columnName}\n)"
                 . "INSERT INTO @deletedRows                                         \n"
-                . "SELECT $refColumnName FROM depended_ids                          \n";
+                . "SELECT {$fields} FROM depended_ids                          \n";
             if (strpos($sqlTrigger, "/*place ids here*/") === false) {
                 throw new Zend_Db_Exception("Hierarchical query already exist! Cannot add anymore!");
             }
@@ -4523,13 +4540,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * Get instead trigger sql template
      *
      * @param string $tableName
+     * @param boolean $isPrimary
      * @return string
      */
-    protected function _getInsteadTriggerBody($tableName)
+    protected function _getInsteadTriggerBody($tableName, $isPrimary = true)
     {
         $pkColumns = $this->_getPrimaryKeyColumns($tableName);
-        $uniqueColumns = $this->_getUniqueIndexColumns($tableName);
-        $columns = array_merge($pkColumns, $uniqueColumns);
+        if (!$isPrimary) {
+            $uniqueColumns = $this->_getUniqueIndexColumns($tableName);
+            $columns = array_merge($pkColumns, $uniqueColumns);
+        } else {
+            $columns = $pkColumns;
+        }
 
         $query = sprintf(" SELECT CAST(OBJECT_DEFINITION (object_id) AS VARCHAR(MAX)) \n"
                     . " FROM sys.triggers t                \n"
@@ -4546,7 +4568,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (empty($triggerBody)) {
             $triggerName = $this->_getTriggerName($tableName, self::TRIGGER_CASCADE_DEL);
             $pKeysCond = array();
-            foreach ($columns as $column) {
+            foreach ($pkColumns as $column) {
                 $pKeysCond[] = sprintf('t.%s = d.%s', $column, $column);
             }
 

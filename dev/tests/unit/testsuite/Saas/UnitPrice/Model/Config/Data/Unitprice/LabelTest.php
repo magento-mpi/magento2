@@ -25,10 +25,7 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_LabelTest extends PHPUnit_Frame
 
     protected function cacheManagerMock()
     {
-        return $this->getMockBuilder('Mage_Core_Model_Cache')
-            ->disableOriginalConstructor()
-            ->setMethods(array('clean'))
-            ->getMock();
+        return $this->getMock('Mage_Core_Model_CacheInterface');
     }
 
     protected function unitPriceMock()

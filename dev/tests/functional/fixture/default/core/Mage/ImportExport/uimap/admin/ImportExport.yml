@@ -13,7 +13,7 @@
 
 import:
     mca: import/
-    click_xpath: //div[@class='nav-bar']//a[span='Import']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/import/')]
     title: Import / Import/Export / Magento Admin
     uimap:
         form:
@@ -50,7 +50,7 @@ import:
 
 export:
     mca: export
-    click_xpath: //div[@class='nav-bar']//a[span='Export']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/export/')]
     title: Export / Import/Export / Magento Admin
     uimap:
         form:

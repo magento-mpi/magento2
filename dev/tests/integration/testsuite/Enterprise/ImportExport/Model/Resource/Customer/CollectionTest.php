@@ -21,13 +21,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
 {
     /**
      * Remove not used websites
-     *
-     * @static
      */
-    public static function tearDownAfterClass()
+    protected function tearDown()
     {
         Mage::app()->reinitStores();
-        parent::tearDownAfterClass();
     }
 
     /**

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Di_Definition_ArrayDefinition_Zend extends Zend\Di\Definition\ArrayDefinition
     implements Magento_Di_Definition_ArrayDefinition
 {
