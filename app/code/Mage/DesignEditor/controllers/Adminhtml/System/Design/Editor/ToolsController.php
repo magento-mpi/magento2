@@ -131,8 +131,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     public function deleteCustomFilesAction()
     {
         $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
-        /** @var $helper Mage_Core_Helper_Theme */
-        $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
             $theme = $this->_getEditableTheme();
 
@@ -219,8 +217,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      */
     public function uploadQuickStyleImageAction()
     {
-        $themeId = (int)$this->getRequest()->getParam('theme_id');
-
         /** @var $uploaderModel Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader */
         $uploaderModel = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
         /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
