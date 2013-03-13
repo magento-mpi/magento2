@@ -11,6 +11,8 @@
 /**
  * Theme selectors tabs container
  *
+ * @method int getThemeId()
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Backend_Block_Template
@@ -182,8 +184,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     {
         $options = array();
         $options['storesByThemes'] = $this->_getStoresByThemes();
-        $options['assignSaveUrl'] = $this->getUrl('*/*/assignThemeToStore');
-        $options['afterAssignSaveUrl'] = $this->getUrl('*/*/launch');
+        $options['assignSaveUrl'] = $this->getUrl('*/*/assignThemeToStore', array('theme_id' => $this->getThemeId()));
+        $options['afterAssignSaveUrl'] = $this->getUrl('*/*/launch', array('theme_id' => $this->getThemeId()));
         $options['isMultipleStoreViewMode'] = $this->_isMultipleStoreViewMode();
         $options['redirectToVdeOnAssign'] = $this->getData('redirectToVdeOnAssign');
 

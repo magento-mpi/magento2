@@ -219,14 +219,9 @@ class Mage_Core_Model_Theme_Service
     public function isCustomizationsExist()
     {
         if ($this->_isCustomizationsExist === null) {
-            $this->_isCustomizationsExist = false;
-            /** @var $theme Mage_Core_Model_Theme */
-            foreach ($this->_themeFactory->create()->getCollection() as $theme) {
-                if ($theme->isVirtual()) {
-                    $this->_isCustomizationsExist = true;
-                    break;
-                }
-            }
+            $this->_isCustomizationsExist = (bool)$this->_themeFactory->create()->getCollection()
+                ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+                ->getSize();
         }
         return $this->_isCustomizationsExist;
     }

@@ -29,16 +29,26 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     );
 
     /**
+     * Return theme identification number
+     *
+     * @return int|null
+     */
+    protected function getThemeId()
+    {
+        /** @var $helper Mage_DesignEditor_Helper_Data */
+        $helper = $this->_helperFactory->get('Mage_DesignEditor_Helper_Data');
+        return $helper->getEditableThemeId();
+    }
+
+    /**
      * Get logo upload url
      *
      * @return string
      */
     public function getLogoUploadUrl()
     {
-        //@TODO get rid of registry usage
-
         return $this->getUrl('*/system_design_editor_tools/uploadStoreLogo',
-            array('theme_id' => Mage::registry('theme')->getId())
+            array('theme_id' => $this->getThemeId())
         );
     }
 
@@ -49,10 +59,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
      */
     public function getLogoRemoveUrl()
     {
-        //@TODO get rid of registry usage
-
         return $this->getUrl('*/system_design_editor_tools/removeStoreLogo',
-            array('theme_id' => Mage::registry('theme')->getId())
+            array('theme_id' => $this->getThemeId())
         );
     }
 
@@ -70,8 +78,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
          * Get rid of registry usage
          */
         $stores = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Service')->getStoresByThemes();
-        if (isset($stores[Mage::registry('theme')->getId()])) {
-            $store = reset($stores[Mage::registry('theme')->getId()]);
+        $themeId = $this->getThemeId();
+        if (isset($stores[$themeId])) {
+            $storesByTheme = $stores[$themeId];
+            $store = reset($storesByTheme);
             return $this->_storeConfig->getConfig('design/header/logo_src', $store->getId());
         }
         return null;

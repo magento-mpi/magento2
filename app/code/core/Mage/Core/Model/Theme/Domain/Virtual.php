@@ -21,6 +21,13 @@ class Mage_Core_Model_Theme_Domain_Virtual
     protected $_theme;
 
     /**
+     * Staging theme model instance
+     *
+     * @var Mage_Core_Model_Theme
+     */
+    protected $_stagingTheme;
+
+    /**
      * Model to create 'staging' copy of current 'virtual' theme
      *
      * @var Mage_Core_Model_Theme_Copy_VirtualToStaging
@@ -58,7 +65,11 @@ class Mage_Core_Model_Theme_Domain_Virtual
      */
     public function getStagingTheme()
     {
-        return $this->_hasStagingTheme() ? $this->_getStagingTheme() : $this->_createStagingTheme();
+        if (!$this->_stagingTheme) {
+            $stagingTheme = $this->_getStagingTheme();
+            $this->_stagingTheme =  $stagingTheme->getId() ? $stagingTheme : $this->_createStagingTheme();
+        }
+        return $this->_stagingTheme;
     }
 
     /**
@@ -71,16 +82,6 @@ class Mage_Core_Model_Theme_Domain_Virtual
         $this->_copyModelSV->copy($this->_theme);
 
         return $this;
-    }
-
-    /**
-     * Check if theme has associated 'staging' theme
-     *
-     * @return bool
-     */
-    protected function _hasStagingTheme()
-    {
-        return (bool)$this->_getStagingTheme()->getId();
     }
 
     /**

@@ -31,13 +31,23 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_configuration;
 
     /**
+     * @var Mage_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config $configuration
+     * @param Mage_Backend_Model_Session $backendSession
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $configuration)
-    {
+    public function __construct(
+        Mage_Core_Helper_Context $context,
+        Mage_Core_Model_Config $configuration,
+        Mage_Backend_Model_Session $backendSession
+    ) {
         parent::__construct($context);
         $this->_configuration = $configuration;
+        $this->_backendSession = $backendSession;
     }
 
     /**
@@ -128,5 +138,15 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     public function getDaysToExpire()
     {
         return (int)$this->_configuration->getNode(self::XML_PATH_DAYS_TO_EXPIRE);
+    }
+
+    /**
+     * Get theme id which was launched in editor
+     *
+     * @return int|null
+     */
+    public function getEditableThemeId()
+    {
+        return $this->_backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY);
     }
 }

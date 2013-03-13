@@ -11,7 +11,7 @@
 /**
  * Model to create 'staging' copy of 'virtual' theme
  */
-class Mage_Core_Model_Theme_Copy_VirtualToStaging
+class Mage_Core_Model_Theme_Copy_VirtualToStaging extends Mage_Core_Model_Theme_Copy_Abstract
 {
     /**
      * Theme model factory
@@ -76,26 +76,5 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging
         $stagingTheme->save();
 
         return $stagingTheme;
-    }
-
-    /**
-     * Copy theme customizations
-     *
-     * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Theme $stagingTheme
-     */
-    protected function _copyLayoutUpdates($theme, $stagingTheme)
-    {
-        /** @var $collection Mage_Core_Model_Resource_Layout_Link_Collection */
-        $collection = $this->_linkCollection->addTemporaryFilter(false)
-            ->addFieldToFilter('theme_id', $theme->getId());
-
-        /** @var $link Mage_Core_Model_Layout_Link */
-        foreach ($collection as $link) {
-            //copy links from 'virtual' to 'staging' theme
-            $link->setId(null);
-            $link->setThemeId($stagingTheme->getId());
-            $link->save();
-        }
     }
 }

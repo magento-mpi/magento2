@@ -216,7 +216,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isEditable()
     {
-        return $this->isVirtual();
+        return self::TYPE_PHYSICAL != $this->getType();
     }
 
     /**
