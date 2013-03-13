@@ -151,10 +151,10 @@
     $( document ).ready(function( ) {
         var body = $('body');
         body.on('preview', function(event, data) {
-            document.location = data.preview_url;
+            window.open(data.preview_url);
         });
         body.on('edit', function(event, data) {
-            document.location = data.edit_url;
+            window.open(data.edit_url);
         });
         body.on('delete', function(event, data) {
             deleteConfirm($.mage.__('Are you sure you want to do this?'), data.url);

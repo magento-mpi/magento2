@@ -11,18 +11,15 @@
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */ ?>
 
 <div class="switcher" onselectstart="return false;">
-    <input type="checkbox" id="product-online-switcher" name="design-mode">
-    <label class="switcher-label" for="product-online-switcher" data-text-on="<?php echo $this->__('Design Mode'); ?>" data-text-off="<?php echo $this->__('Design Mode'); ?>" title="<?php echo $this->__('Design Mode status'); ?>"></label>
+    <input type="checkbox" id="product-online-switcher" name="design-mode" <?php if(!$this->isNavigationMode()): ?> checked="checked"<?php endif; ?>>
+    <label class="switcher-label" for="product-online-switcher" data-mage-init="<?php echo $this->getSwitchModeButtonInitData() ?>" data-text-on="<?php echo $this->__('Design Mode'); ?>" data-text-off="<?php echo $this->__('Design Mode'); ?>" title="<?php echo $this->__('Design Mode status'); ?>"></label>
 </div>
 
 <div id="vde_toolbar_buttons" <?php echo $this->getUiId()?>>
-    <?php //TODO Why every button is made in it's own way? ?>
-    <?php echo $this->getSwitchModeButtonHtml(); ?>
     <?php if ($this->isDesignMode()) : ?>
-        <?php echo $this->getViewLayoutButtonHtml(); ?>
+        <?php /** @todo View layout button is temporary disabled  */ ?>
+        <?php //echo $this->getViewLayoutButtonHtml(); ?>
     <?php endif; ?>
-    <?php echo $this->getQuitButtonHtml(); ?>
-    <?php echo $this->getAssignButtonHtml(); ?>
 
     <?php echo $this->getChildHtml('design_editor_toolbar_buttons_save'); ?>
 </div>
