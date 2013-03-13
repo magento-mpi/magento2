@@ -18,11 +18,14 @@ class Magento_ObjectManager_Definition_Runtime implements Magento_ObjectManager_
 
     /**
      * @param Magento_Di_Definition_RuntimeDefinition $reader
+     * @param Magento_Di_Generator $generator
      */
-    public function __construct(Magento_Di_Definition_RuntimeDefinition $reader = null)
-    {
+    public function __construct(
+        Magento_Di_Definition_RuntimeDefinition $reader = null,
+        Magento_Di_Generator $generator = null
+    ) {
         $this->_reader = $reader ?: new Magento_Di_Definition_RuntimeDefinition_Zend();
-        $this->_generator = new Magento_Di_Generator();
+        $this->_generator = $generator ?: new Magento_Di_Generator();
     }
 
     /**

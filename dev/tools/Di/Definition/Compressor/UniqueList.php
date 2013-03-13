@@ -5,6 +5,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
+namespace Magento\Tools\Di\Definition\Compressor;
+
 class UniqueList
 {
     /**
@@ -26,7 +28,7 @@ class UniqueList
             return array_search($item, $this->_items);
         } else {
             $this->_items[] = $item;
-            return count($this->_items)-1;
+            return count($this->_items) - 1;
         }
     }
 
@@ -35,11 +37,8 @@ class UniqueList
      *
      * @return array
      */
-    public function asArray($serializer)
+    public function asArray()
     {
-        foreach ($this->_items as &$item) {
-            $item = $serializer($item);
-        }
         return $this->_items;
     }
 }
