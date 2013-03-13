@@ -42,8 +42,24 @@ class Mage_Core_Model_Design_FileResolution_Strategy_View_ByParamsOnly
      */
     public function getViewFile($area, Mage_Core_Model_Theme $themeModel, $locale, $file, $module = null)
     {
-        return $this->_pubViewDir . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR
-            . $themeModel->getThemePath() . DIRECTORY_SEPARATOR
+        return self::getViewFileStatic($this->_pubViewDir, $area, $themeModel->getThemePath(), $locale, $file, $module);
+    }
+
+    /**
+     * Get theme file name (e.g. a javascript file).
+     * Note: locale is not supported and is just ignored!
+     *
+     * @param string $pubViewDir
+     * @param string $area
+     * @param string $themePath
+     * @param string $locale
+     * @param string $file
+     * @param string|null $module
+     * @return string
+     */
+    public static function getViewFileStatic($pubViewDir, $area, $themePath, $locale, $file, $module = null)
+    {
+        return $pubViewDir . DIRECTORY_SEPARATOR . $area . DIRECTORY_SEPARATOR . $themePath . DIRECTORY_SEPARATOR
             . ($module ? $module . DIRECTORY_SEPARATOR : '')
             . $file;
     }

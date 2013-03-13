@@ -86,8 +86,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 'fr_FR',
             ),
             'modular file' => array(
-                'Module::favicon.ico',
-                'static/frontend/test/default/en_US/Module/favicon.ico',
+                'Namespace_Module::favicon.ico',
+                'static/frontend/test/default/en_US/Namespace_Module/favicon.ico',
             ),
             'lib file' => array(
                 'varien/product.js',
@@ -553,7 +553,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         );
         $filePath = $this->_model->getViewFile('css/base64.css', $params);
 
-        // publicate static content
+        // publish static content
         $this->_model->getViewFileUrl('css/base64.css', $params);
         $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
 

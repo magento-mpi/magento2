@@ -13,7 +13,6 @@
  *
  * @method Mage_Core_Model_Theme save()
  * @method string getPackageCode()
- * @method string getThemePath()
  * @method string getParentThemePath()
  * @method string getParentId()
  * @method string getArea()
@@ -36,7 +35,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
-    implements Mage_Core_Model_Theme_Customization_CustomizedInterface
+    implements Mage_Core_Model_Theme_Customization_CustomizedInterface, Mage_Core_Model_ThemeInterface
 {
     /**
      * Cache tag for empty theme
@@ -484,6 +483,16 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function getLabelsCollectionForSystemConfiguration()
     {
         return $this->getLabelsCollection($this->_helper->__('-- No Theme --'));
+    }
+
+    /**
+     * Get theme path
+     *
+     * @return string
+     */
+    public function getThemePath()
+    {
+        return parent::getThemePath();
     }
 
     /**

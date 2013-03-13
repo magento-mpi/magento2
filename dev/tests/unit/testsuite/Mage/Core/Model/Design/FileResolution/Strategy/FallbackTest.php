@@ -24,29 +24,25 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
      */
     public function testGetFile($theme, $file, $targetFile, $expectedFileName)
     {
-        $designDir = 'design_dir';
-        $moduleDir = 'module_view_dir';
         $module = 'Mage_Core11';
 
         $filesystem = $this->_getFileSystemMock($targetFile);
         $objectManager = $this->_getObjectManagerMock();
         $dirs = $this->_getDirsMock();
 
-        $configModel = $this->getMock('Mage_Core_Model_Config', array('getModuleDir'), array(), '', false);
+        $configModel = $this->getMock('Mage_Core_Model_Config', array('getModuleConfig'), array(), '', false);
+
+        $moduleConfig = (object)array('codePool' => 'core');
 
         $configModel->expects($this->any())
-            ->method('getModuleDir')
-            ->will($this->returnValue($moduleDir));
+            ->method('getModuleConfig')
+            ->with($this->equalTo($module))
+            ->will($this->returnValue($moduleConfig));
 
         $objectManager->expects($this->any())
             ->method('get')
             ->with('Mage_Core_Model_Config')
             ->will($this->returnValue($configModel));
-
-        $dirs->expects($this->any())
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::THEMES)
-            ->will($this->returnValue($designDir));
 
         $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($objectManager, $filesystem, $dirs);
         $filename = $fallback->getFile('area51', $theme, $file, $module);
@@ -110,16 +106,22 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
 
         return array(
             'no theme' => array(
-                $themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'
+                $themeSimple, $file,
+                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'
             ),
             'no theme and non-existent module file' => array(
-                $themeSimple, $file, null, 'module_view_dir/area51/test.txt'
+                $themeSimple, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
             ),
-            'theme with non-existent file' => array($themeCustomized, $file, null, 'module_view_dir/area51/test.txt'),
+            'theme with non-existent file' => array(
+                $themeCustomized, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
+            ),
             'theme file exists' => array(
-                $themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'
+                $themeCustomized, $file,
+                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'
             ),
-            'custom theme' => array($customizedPhysical, $file, null, 'module_view_dir/area51/test.txt'),
+            'custom theme' => array(
+                $customizedPhysical, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
+            ),
             'theme inherited' => array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
                 'design_dir/area51/parent_theme_path/test.txt'
             ),
@@ -128,13 +130,14 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
             'theme inherited, file not found in theme' => array(
-                $themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'
+                $themeInherited, $file,
+                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'
             ),
             'theme inherited with non-existent file' => array(
-                $themeInherited, $file, null, 'module_view_dir/area51/test.txt'
+                $themeInherited, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
             ),
             'custom inherited theme with custom file' => array(
-                $themeComplicated, $file, null, 'module_view_dir/area51/test.txt'
+                $themeComplicated, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
             ),
             'custom inherited theme with theme file' => array(
                 $themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
@@ -153,10 +156,11 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
             'custom inherited theme with file existing in module' => array(
-                $themeComplicated, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'
+                $themeComplicated, $file,
+                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'
             ),
             'custom inherited theme with non-existent file' => array(
-                $themeComplicated, $file, null, 'module_view_dir/area51/test.txt'
+                $themeComplicated, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
             ),
         );
     }
@@ -171,16 +175,9 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
      */
     public function testGetLocaleFile($theme, $file, $targetFile, $expectedFileName)
     {
-        $designDir = 'design_dir';
-
         $filesystem = $this->_getFileSystemMock($targetFile);
         $objectManager = $this->_getObjectManagerMock();
         $dirs = $this->_getDirsMock();
-
-        $dirs->expects($this->any())
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::THEMES)
-            ->will($this->returnValue($designDir));
 
         $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($objectManager, $filesystem, $dirs);
         $filename = $fallback->getLocaleFile('area51', $theme, 'en_EN', $file);
@@ -309,36 +306,25 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
      */
     public function testGetViewFile($theme, $file, $targetFile, $expectedFileName)
     {
-        $designDir = 'design_dir';
-        $moduleDir = 'module_view_dir';
-        $jsDir = 'js_dir';
         $module = 'Mage_Core11';
 
         $filesystem = $this->_getFileSystemMock($targetFile);
         $objectManager = $this->_getObjectManagerMock();
         $dirs = $this->_getDirsMock();
 
-        $configModel = $this->getMock('Mage_Core_Model_Config', array('getModuleDir'), array(), '', false);
+        $configModel = $this->getMock('Mage_Core_Model_Config', array('getModuleConfig'), array(), '', false);
+
+        $moduleConfig = (object)array('codePool' => 'core');
 
         $configModel->expects($this->any())
-            ->method('getModuleDir')
-            ->with($this->equalTo('view'), $this->equalTo($module))
-            ->will($this->returnValue($moduleDir));
+            ->method('getModuleConfig')
+            ->with($this->equalTo($module))
+            ->will($this->returnValue($moduleConfig));
 
         $objectManager->expects($this->any())
             ->method('get')
             ->with('Mage_Core_Model_Config')
             ->will($this->returnValue($configModel));
-
-        $dirs->expects($this->at(0))
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::THEMES)
-            ->will($this->returnValue($designDir));
-
-        $dirs->expects($this->at(1))
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::PUB_LIB)
-            ->will($this->returnValue($jsDir));
 
         $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($objectManager, $filesystem, $dirs);
         $filename = $fallback->getViewFile('area51', $theme, 'en_EN', $file, $module);
@@ -433,20 +419,22 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
 
         return array(
             'no theme, module localized file exists' => array($themeSimple, $file,
-                'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
-            'no theme, module file exists' => array($themeSimple, $file, 'module_view_dir/area51/test.txt',
-                'module_view_dir/area51/test.txt'),
+            'no theme, module file exists' => array($themeSimple, $file,
+                'module_dir/core/Mage/Core11/view/area51/test.txt',
+                'module_dir/core/Mage/Core11/view/area51/test.txt'
+            ),
             'no theme, file exists in pub lib dir' => array($themeSimple, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
             'no theme, no file found' => array($themeSimple, $file, null, 'js_dir/test.txt'),
             'custom virtual theme' => array($themeCustomized, $file, null, 'js_dir/test.txt'),
             'custom virtual theme, module localized file exists' => array($themeCustomized, $file,
-                'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'custom virtual theme, module file exists' => array($themeCustomized, $file,
-                'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'),
             'custom virtual theme, file exists in pub lib dir' => array($themeCustomized, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'custom virtual theme, no file found' => array($themeCustomized, $file, null, 'js_dir/test.txt'),
@@ -466,11 +454,11 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
             'custom physical theme with localized module file' => array($customizedPhysical, $file,
-                'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'custom physical theme with module file' => array($customizedPhysical, $file,
-                'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'),
             'custom physical theme with file in pub lib dir' => array($customizedPhysical, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'inherited theme with localized file in parent theme' => array($themeInherited, $file,
@@ -490,11 +478,13 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
             'inherited theme with localized module file' => array($themeInherited, $file,
-                'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
-            'inherited theme with module file' => array($themeInherited, $file, 'module_view_dir/area51/test.txt',
-                'module_view_dir/area51/test.txt'),
+            'inherited theme with module file' => array($themeInherited, $file,
+                'module_dir/core/Mage/Core11/view/area51/test.txt',
+                'module_dir/core/Mage/Core11/view/area51/test.txt'
+            ),
             'inherited theme with file in pub lib dir' => array($themeInherited, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'inherited theme, no file found' => array($themeInherited, $file, null, 'js_dir/test.txt'),
@@ -529,11 +519,11 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
             'custom inherited theme with localized module file' => array($themeComplicated, $file,
-                'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'custom inherited theme with module file' => array($themeComplicated, $file,
-                'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'),
             'custom inherited theme with file in pub lib dir' => array($themeComplicated, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'custom inherited theme, no file found' => array($themeComplicated, $file, null, 'js_dir/test.txt'),
@@ -571,56 +561,15 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt'
             ),
             'theme inherited twice with localized module file' => array($themeInheritedTwice, $file,
-                'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'theme inherited twice with module file' => array($themeInheritedTwice, $file,
-                'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'),
             'theme inherited twice with file in pub lib dir' => array($themeInheritedTwice, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'theme inherited twice, no file found' => array($themeInheritedTwice, $file, null, 'js_dir/test.txt'),
         );
-    }
-
-    /**
-     * @param array $data
-     * @return Mage_Core_Model_Config_Options|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getOptionsMock(array $data)
-    {
-        /** @var $options Mage_Core_Model_Config_Options */
-        $options = $this->getMock('Mage_Core_Model_Config_Options',
-            array('getDesignDir', 'getJsDir'), array(), '', false);
-        if (isset($data['designDir'])) {
-            $options->expects($this->any())
-                ->method('getDesignDir')
-                ->will($this->returnValue($data['designDir']));
-        }
-        if (isset($data['jsDir'])) {
-            $options->expects($this->any())
-                ->method('getJsDir')
-                ->will($this->returnValue($data['jsDir']));
-        }
-
-        return $options;
-    }
-
-    /**
-     * @param array $data
-     * @param array $methods
-     * @return Mage_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getAppConfigMock(array $data, $methods = array('getOptions'))
-    {
-        $options = $this->_getOptionsMock($data);
-
-        /** @var $appConfig Mage_Core_Model_Config */
-        $appConfig = $this->getMock('Mage_Core_Model_Config', $methods, array(), '', false);
-        $appConfig->expects($this->any())
-            ->method('getOptions')
-            ->will($this->returnValue($options));
-
-        return $appConfig;
     }
 
     /**
@@ -660,6 +609,21 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
     {
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = $this->getMock('Mage_Core_Model_Dir', array('getDir'), array(), '', false);
+
+        $designDir = 'design_dir';
+        $moduleDir = 'module_dir';
+        $jsDir = 'js_dir';
+
+        $getDirMap = array(
+            array(Mage_Core_Model_Dir::PUB_LIB, $jsDir),
+            array(Mage_Core_Model_Dir::THEMES, $designDir),
+            array(Mage_Core_Model_Dir::MODULES, $moduleDir),
+        );
+
+        $dirs->expects($this->any())
+            ->method('getDir')
+            ->will($this->returnValueMap($getDirMap));
+
         return $dirs;
     }
 }

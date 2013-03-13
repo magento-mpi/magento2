@@ -41,6 +41,7 @@ app/code/core/Mage/Core/Model/Config
 app/code/core/Mage/Core/Model/Cache
 app/code/core/Mage/Core/Model/Design.php
 app/code/core/Mage/Core/Model/Design/FileResolution
+app/code/core/Mage/Core/Model/Design/Fallback
 app/code/core/Mage/Core/Model/Design/Source/Design.php
 app/code/core/Mage/Core/Model/Dir.php
 app/code/core/Mage/Core/Model/EntryPoint
@@ -55,6 +56,7 @@ app/code/core/Mage/Core/Model/Resource/Theme.php
 app/code/core/Mage/Core/Model/ShellAbstract.php
 app/code/core/Mage/Core/Model/Theme/Validator.php
 app/code/core/Mage/Core/Model/Theme.php
+app/code/core/Mage/Core/Model/ThemeInterface.php
 app/code/core/Mage/Core/Model/Translate.php
 app/code/core/Mage/Core/Model/Translate/Expr.php
 app/code/core/Mage/Core/Helper/Abstract.php

@@ -17,6 +17,26 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
     Mage_Core_Model_Design_FileResolution_Strategy_ViewInterface
 {
     /**
+     * @var array
+     */
+    protected $_themeList = array();
+
+    /**
+     * @var Mage_Core_Model_Design_Fallback_List_File
+     */
+    protected $_fallbackFile;
+
+    /**
+     * @var Mage_Core_Model_Design_Fallback_List_Locale
+     */
+    protected $_fallbackLocale;
+
+    /**
+     * @var Mage_Core_Model_Design_Fallback_List_View
+     */
+    protected $_fallbackViewFile;
+
+    /**
      * Constructor.
      * Following entries in $params are required: 'area', 'themeModel', 'locale'. The 'appConfig' and
      * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
@@ -34,6 +54,9 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
         $this->_dirs = $dirs;
         $this->_objectManager = $objectManager;
         $this->_filesystem = $filesystem;
+        $this->_fallbackFile = new Mage_Core_Model_Design_Fallback_List_File($this->_dirs);
+        $this->_fallbackLocale = new Mage_Core_Model_Design_Fallback_List_Locale($this->_dirs);
+        $this->_fallbackViewFile = new Mage_Core_Model_Design_Fallback_List_View($this->_dirs);
     }
 
     /**
@@ -47,24 +70,16 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      */
     public function getFile($area, Mage_Core_Model_Theme $themeModel, $file, $module = null)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $dirs = array();
-        $currentThemeModel = $themeModel;
-        while ($currentThemeModel) {
-            $themePath = $currentThemeModel->getThemePath();
-            if ($themePath) {
-                $dirs[] = "{$dir}/{$area}/{$themePath}";
-            }
-            $currentThemeModel = $currentThemeModel->getParentTheme();
-        }
-
+        $params = array();
         if ($module) {
-            $moduleDir = array($this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module)
-                . "/{$area}");
+            list($params['namespace'], $params['module']) = explode('_', $module);
+            $params['pool'] =
+                (string)$this->_objectManager->get('Mage_Core_Model_Config')->getModuleConfig($module)->codePool;
         } else {
-            $moduleDir = array();
+            $params['namespace'] = null;
+            $params['module'] = null;
         }
-        return $this->_fallback($file, $dirs, $module, $moduleDir);
+        return $this->_getFallbackFile($area, $themeModel, $file, $this->_fallbackFile, $params);
     }
 
     /**
@@ -78,18 +93,9 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      */
     public function getLocaleFile($area, Mage_Core_Model_Theme $themeModel, $locale, $file)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $dirs = array();
-        $currentThemeModel = $themeModel;
-        while ($currentThemeModel) {
-            $themePath = $currentThemeModel->getThemePath();
-            if ($themePath) {
-                $dirs[] = "{$dir}/{$area}/{$themePath}/locale/{$locale}";
-            }
-            $currentThemeModel = $currentThemeModel->getParentTheme();
-        }
+        $params = array('locale' => $locale);
 
-        return $this->_fallback($file, $dirs);
+        return $this->_getFallbackFile($area, $themeModel, $file, $this->_fallbackLocale, $params);
     }
 
     /**
@@ -104,61 +110,65 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      */
     public function getViewFile($area, Mage_Core_Model_Theme $themeModel, $locale, $file, $module = null)
     {
-        $dir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $moduleDir = $module ? $this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module) : '';
-
-        $dirs = array();
-        $currentThemeModel = $themeModel;
-        while ($currentThemeModel) {
-            $themePath = $currentThemeModel->getThemePath();
-            if ($themePath) {
-                $dirs[] = "{$dir}/{$area}/{$themePath}/locale/{$locale}";
-                $dirs[] = "{$dir}/{$area}/{$themePath}";
-            }
-            $currentThemeModel = $currentThemeModel->getParentTheme();
+        $params = array();
+        if ($module) {
+            list($params['namespace'], $params['module']) = explode('_', $module);
+            $params['pool'] =
+                (string)$this->_objectManager->get('Mage_Core_Model_Config')->getModuleConfig($module)->codePool;
+        } else {
+            $params['namespace'] = null;
+            $params['module'] = null;
         }
+        $params['locale'] = $locale;
 
-        return $this->_fallback(
-            $file,
-            $dirs,
-            $module,
-            array("{$moduleDir}/{$area}/locale/{$locale}", "{$moduleDir}/{$area}"),
-            array($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB))
-        );
+        return $this->_getFallbackFile($area, $themeModel, $file, $this->_fallbackViewFile, $params);
     }
 
     /**
-     * Go through specified directories and try to locate the file
+     * Get path of file after using fallback rules
      *
-     * Returns the first found file or last file from the list as absolute path
-     *
-     * @param string $file relative file name
-     * @param array $themeDirs theme directories (absolute paths) - must not be empty
-     * @param string|bool $module module context
-     * @param array $moduleDirs module directories (absolute paths, makes sense with previous parameter only)
-     * @param array $extraDirs additional lookup directories (absolute paths)
+     * @param string $area
+     * @param Mage_Core_Model_Theme $themeModel
+     * @param string $file
+     * @param Mage_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackList
+     * @param array $specificParams
      * @return string
      */
-    protected function _fallback($file, $themeDirs, $module = false, $moduleDirs = array(), $extraDirs = array())
-    {
-        // add modules to lookup
-        $dirs = $themeDirs;
-        if ($module) {
-            array_walk($themeDirs, function (&$dir) use ($module) {
-                $dir = "{$dir}/{$module}";
-            });
-            $dirs = array_merge($dirs, $themeDirs, $moduleDirs);
-        }
-        $dirs = array_merge($dirs, $extraDirs);
+    protected function _getFallbackFile($area, Mage_Core_Model_Theme $themeModel, $file, $fallbackList,
+        $specificParams = array()
+    ) {
+        $params = array(
+            'area'          => $area,
+            'theme_path'    => $themeModel->getThemePath(),
+            'theme'         => $themeModel,
+        );
+        $params = array_merge($params, $specificParams);
+        $path = '';
 
-        // look for files
-        $tryFile = '';
-        foreach ($dirs as $dir) {
-            $tryFile = str_replace('/', DIRECTORY_SEPARATOR, "{$dir}/{$file}");
-            if ($this->_filesystem->has($tryFile)) {
-                break;
+        foreach ($fallbackList->getPatternDirs($file, $params, $this->_getThemeList($themeModel)) as $dir) {
+            $path = $dir . DS . $file;
+            if ($this->_filesystem->has($path)) {
+                return $path;
             }
         }
-        return $tryFile;
+        return $path;
+    }
+
+    /**
+     * Get list of themes, which should be used for fallback. It's current theme and all its parent themes
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return array
+     */
+    protected function _getThemeList(Mage_Core_Model_Theme $theme)
+    {
+        if (empty($this->_themeList[$theme->getThemePath()])) {
+            $themeModel = $theme;
+            while ($themeModel) {
+                $this->_themeList[$theme->getThemePath()][] = $themeModel;
+                $themeModel = $themeModel->getParentTheme();
+            }
+        }
+        return $this->_themeList[$theme->getThemePath()];
     }
 }
