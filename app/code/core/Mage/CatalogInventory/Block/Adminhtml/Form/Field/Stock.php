@@ -50,7 +50,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
     protected function _createQtyElement()
     {
         $element = Mage::getModel('Varien_Data_Form_Element_Text');
-        $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty');
+        $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty')->addClass('validate-number input-text');
         return $element;
     }
 
