@@ -149,6 +149,10 @@ tinyMceWysiwygSetup.prototype =
             settings.height = this.config.height;
         }
 
+        if (this.config.settings) {
+            Object.extend(settings, this.config.settings)
+        }
+
         return settings;
     },
 
@@ -222,9 +226,11 @@ tinyMceWysiwygSetup.prototype =
     },
 
     closePopups: function() {
-        // close all popups to avoid problems with updating parent content area
-        closeEditorPopup('widget_window' + this.id);
-        closeEditorPopup('browser_window' + this.id);
+        if (typeof closeEditorPopup == 'function') {
+            // close all popups to avoid problems with updating parent content area
+            closeEditorPopup('widget_window' + this.id);
+            closeEditorPopup('browser_window' + this.id);
+        }
     },
 
     toggle: function() {
