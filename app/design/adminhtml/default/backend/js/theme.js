@@ -104,7 +104,7 @@
                     $(this)
                     .addClass('recent')
                     .siblings('.level-0')
-                    .removeClass('recent');
+                    .removeClass('recent hover');
 /*                    $(this)
                         .siblings('.level-0')
                             .removeClass('hover')
