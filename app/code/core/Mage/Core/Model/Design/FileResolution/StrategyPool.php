@@ -16,7 +16,7 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
     /**
      * Path to config node that allows automatically updating map files in runtime
      */
-    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/file_fallback/allow_map_update';
+    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/design_fallback/allow_map_update';
 
     /**
      * Sub-directory where to store maps of view files fallback (if used)

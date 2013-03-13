@@ -28,9 +28,9 @@
             </aliases>
         </di>
         <dev>
-            <file_fallback>
+            <design_fallback>
                 <allow_map_update>0</allow_map_update>
-            </file_fallback>
+            </design_fallback>
         </dev>
     </global>
     <frontend>
