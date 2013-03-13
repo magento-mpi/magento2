@@ -781,7 +781,7 @@ edit_product:
         messages: *productMesssages
 
 new_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/tab/%tab%
+    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/active_tab/%tab%
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
