@@ -24,10 +24,16 @@
     </div>
 
     <div class="tile-done">
-        <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
-        <a href="<?php echo $this->getUrl('adminhtml/tax_rule/index'); ?>" class="action-more-settings" >
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Set Additional Tax Rules') ?>
-        </a>
+        <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) : ?>
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode(); ?>"
+                data-save-url="<?php echo $this->getUrl('*/storelauncher_tax_drawer/save'); ?>"
+                data-load-url="<?php echo $this->getUrl('*/storelauncher_tax_drawer/load'); ?>">
+            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Set Tax Rules'); ?></span>
+        </button>
+        <p class="tile-more-info">
+            <?php echo $this->escapeHtml($this->__('You can find more settings on System -> Manage Tax Rules page')); ?>
+            (<a href="<?php echo $this->getUrl('adminhtml/tax_rule/index'); ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('direct link'); ?></a>)
+        </p>
         <?php endif; ?>
     </div>
 </article>

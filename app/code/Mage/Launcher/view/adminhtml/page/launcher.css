@@ -3391,3 +3391,7 @@
 .eq-ie8 .switcher.checked .switcher-label:before {
     content: attr(data-text-on);
 }
+
+.tile-more-info {
+    margin-top: 10px;
+}

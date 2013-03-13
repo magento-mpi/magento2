@@ -14,7 +14,14 @@
     <?php echo $this->getBlockHtml('formkey')?>
 
     <div class="switcher drawer-switcher" onselectstart="return false;">
-        <input type="checkbox" id="tax-enabled" name="use_tax" checked="checked" value="tax-enabled" />
+    <?php if ($this->isUseTaxControlDisabled()) : ?>
+        <input type="hidden" name="use_tax" value="tax-enabled" />
+    <?php endif; ?>
+        <input type="checkbox"
+               id="tax-enabled"
+                <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>checked="checked" <?php endif; ?>
+                <?php if ($this->isUseTaxControlDisabled()) : ?>disabled="disabled" <?php else : ?>name="use_tax" <?php endif; ?>
+               value="tax-enabled" />
         <label class="switcher-label"
                for="tax-enabled"
                data-text-on="<?php echo $this->__('Tax rules enabled'); ?>"
@@ -23,7 +30,11 @@
         </label>
         <div class="drawer-switcher-tooltip">
             <div class="tooltip-text-on">
-                <p><?php echo $this->__('Turn off tax rules here if your business is legally exempt. Legal disclaimer text needed.'); ?></p>
+                <p><?php if ($this->isUseTaxControlDisabled()) {
+                    echo $this->__('To turn off tax rules usage, please delete existing tax rules first.');
+                } else {
+                    echo $this->__('Turn off tax rules here if your business is legally exempt. Legal disclaimer text needed.');
+                } ?></p>
             </div>
             <div class="tooltip-text-off">
                 <p><?php echo $this->__('You can always choose to enable tax rules again if you disabled it by mistake'); ?></p>
@@ -31,7 +42,7 @@
         </div>
     </div>
 
-    <div class="tax-rule-config">
+    <div class="tax-rule-config <?php if ($this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>">
         <div class="tax-rule-info">
             <?php echo $this->getChildHtml('tax-rule-edit');?>
             <?php echo $this->getChildBlock('tax-rule-form')->setUseContainer(false)->toHtml();?>
@@ -41,7 +52,7 @@
 
     </div>
 
-    <div class="no-tax-info hidden">
+    <div class="no-tax-info <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>">
         <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have disabled Tax Rules') ?></h2>
         <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
         <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
