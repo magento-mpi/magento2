@@ -456,6 +456,7 @@ button.primary.disabled,
 .mage-suggest-dropdown li a {
     display: block;
 }
+
 .mage-suggest-dropdown li a,
 .mage-suggest-dropdown .jstree li a:hover,
 .mage-suggest-dropdown .jstree .jstree-hovered,
@@ -464,6 +465,7 @@ button.primary.disabled,
     text-decoration: none;
     color: #333;
 }
+
 .mage-suggest-dropdown .jstree li a:hover,
 .mage-suggest-dropdown .jstree .jstree-hovered,
 .mage-suggest-dropdown .jstree .jstree-clicked {
@@ -481,22 +483,24 @@ button.primary.disabled,
 .mage-suggest-dropdown .jstree li a {
     display: inline-block;
 }
+
 .mage-suggest-dropdown .jstree .mage-suggest-selected > a {
     color: #000000;
     background: #F1FFEB;
 }
+
 .mage-suggest-dropdown .jstree .mage-suggest-selected > a:hover,
 .mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-hovered,
 .mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-clicked,
 .mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-hovered,
-.mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-clicked
-{
+.mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-clicked {
     background: #E5FFD9;
 }
 
 .mage-suggest-dropdown .jstree .mage-suggest-not-active > a {
     color: #D4D4D4;
 }
+
 .mage-suggest-dropdown .jstree .mage-suggest-not-active > a:hover,
 .mage-suggest-dropdown .jstree .mage-suggest-not-active > .jstree-hovered,
 .mage-suggest-dropdown .jstree .mage-suggest-not-active > .jstree-clicked {
@@ -982,6 +986,7 @@ option.placeholder {
 .fieldset-wrapper > .fieldset-wrapper-title {
     float: none;
 }
+
 .fieldset-wrapper > .fieldset-wrapper-title .title,
 .fieldset > .legend span {
     font-family: 'CallunaSans', Arial, sans-serif;
@@ -1150,11 +1155,6 @@ option.placeholder {
 
 .fieldset .field {
     margin: 0 0 29px;
-}
-
-.tabs .removed,
-.fieldset .field.removed {
-    display: none !important;
 }
 
 [class^="fields-group-"] .field {
@@ -1793,57 +1793,53 @@ table tbody tr:nth-child(odd):hover th {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 }
 
-/* Old loading popup */
-/* TODO: remove this popup after refactoring of "varienLoader.js" file */
-.loading-old {
-    border: 1px solid #d85909;
-    position: fixed;
-    z-index: 1015;
-    width: 200px !important;
-    height: auto !important;
-    background: rgba(255, 255, 255, .8);
-    left: 50% !important;
-    top: 40% !important;
-    margin-left: -100px;
-    color: #d85909;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    padding: 100px 0 10px;
-}
-
+/* Loading mask */
+.loading-old,
 .loading-mask {
-    position: fixed;
-    z-index: 1003;
-    background: rgba(255, 255, 255, .8);
-    color: #d85909;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
+    background: rgba(255, 255, 255, .5);
+    z-index: 999;
 }
 
-.loading-old:after,
-.loading-mask:after {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    background-image: url(../mui/images/ajax-loader-big.gif);
-    width: 64px;
-    height: 64px;
-    margin: -32px 0 0 -32px;
-    content: '';
-    z-index: 2;
+.loading-old {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .loading-old .loader,
 .loading-mask .loader {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #d85909;
+    width: 200px;
+    height: 150px;
+    color: #d85909;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    background: #fff url(../mui/images/ajax-loader-big.gif) no-repeat 50% 40%;
+}
+
+.eq-ie8 .loading-old .loader {
+    bottom: auto;
+    right: auto;
+    margin: auto;
+    left: auto;
 }
 
 .loading-mask img {
     display: none;
+}
+
+.loading-old p,
+.loading-mask p {
+    margin-top: 120px;
 }
 
 .eq-ie8 .loading-old,
@@ -3324,13 +3320,8 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid table td {
     border: solid #c0bbaf;
-    border-width: 0 1px 1px 0;
-    padding: 5px;
-}
-
-.grid table td:first-child,
-.grid table td:last-child {
     border-width: 0 1px 1px;
+    padding: 5px;
 }
 
 .grid table.border td {
@@ -3393,7 +3384,7 @@ table tbody tr:nth-child(odd):hover th {
     background: -o-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
     background: -ms-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
     background: linear-gradient(to bottom, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f6f3ec', endColorstr = '#edeae1', GradientType = 0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f3ec', endColorstr='#edeae1', GradientType=0);
     padding: 7px 8px 8px;
     position: relative;
 }
@@ -3952,11 +3943,12 @@ tr.dynamic-grid input.input-text {
     Data table - alternative view
 -------------------------------------- */
 .invitation_information .data-table,
-.invitee_information .data-table, 
+.invitee_information .data-table,
 .inviter_information .data-table,
 .customer-information .data-table {
-    width:100%;
+    width: 100%;
 }
+
 .invitation_information .data-table tbody tr th,
 .invitee_information .data-table tbody tr th,
 .inviter_information .data-table tbody tr th,
