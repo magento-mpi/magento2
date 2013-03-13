@@ -348,25 +348,11 @@ new_product:
                                         prices_price_view_bundle: //select[@id='price_view']
                                         prices_apply_map: //select[@id='msrp_enabled']
                                         prices_display_actual_price: //select[@id='msrp_display_actual_price_type']
-                                        prices_enable_recurring_profile: //select[@id='is_recurring']
-                                        prices_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
-                                        prices_auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
-                                        prices_billing_period_unit: //select[@id='recurring_profileperiod_unit']
-                                        prices_trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
-                                        prices_allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
                                     fields:
                                         prices_special_price: //input[@id='special_price']
                                         prices_special_price_from: //input[@id='special_from_date']
                                         prices_special_price_to: //input[@id='special_to_date']
                                         prices_manu_suggested_retail_price: //input[@id='msrp']
-                                        prices_schedule_description: //input[@id='recurring_profileschedule_description']
-                                        prices_max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
-                                        prices_billing_frequency: //input[@id='recurring_profileperiod_frequency']
-                                        prices_max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
-                                        prices_trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
-                                        prices_max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
-                                        prices_trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
-                                        prices_initial_fee: //input[@id='recurring_profileinit_amount']
                                     pageelements:
                                         prices_group_price_grid_head: //table[@id="group_prices_table"]/thead
                                         prices_group_price_grid_table: //table[@id="group_prices_table"]/tbody
@@ -381,6 +367,25 @@ new_product:
                                     fields:
                                         prices_tier_price_qty: //input[@id='tier_price_row_%tierPriceId%_qty']
                                         prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
+                            -
+                                recurring_profile:
+                                    xpath: //div[div/strong/span='Recurring Profile']
+                                    dropdowns:
+                                        prices_enable_recurring_profile: //select[@id='is_recurring']
+                                        prices_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
+                                        prices_auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
+                                        prices_billing_period_unit: //select[@id='recurring_profileperiod_unit']
+                                        prices_trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
+                                        prices_allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
+                                    fields:
+                                        prices_schedule_description: //input[@id='recurring_profileschedule_description']
+                                        prices_max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
+                                        prices_billing_frequency: //input[@id='recurring_profileperiod_frequency']
+                                        prices_max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
+                                        prices_trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
+                                        prices_max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
+                                        prices_trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
+                                        prices_initial_fee: //input[@id='recurring_profileinit_amount']
                 -
                     meta_information: &metaInformationTab
                         xpath: //a[@title='Search Optimization']

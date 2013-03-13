@@ -212,7 +212,6 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             array(array('general_name' => '%noValue%'), 'field'),
             array(array('general_sku' => ''), 'field'),
             array(array('general_price' => '%noValue%'), 'field'),
-            array(array('general_tax_class' => '-- Please Select --'), 'dropdown'),
         );
     }
 
