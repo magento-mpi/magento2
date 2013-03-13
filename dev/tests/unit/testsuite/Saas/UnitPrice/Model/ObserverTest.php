@@ -17,18 +17,8 @@ class Saas_UnitPrice_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function createProduct()
     {
-        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
-        $cacheManager = $this->getMockBuilder('Mage_Core_Model_Cache')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $resource = $this->getMockBuilder('Mage_Catalog_Model_Resource_Product')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $resourceCollection = $this->getMockBuilder('Mage_Catalog_Model_Resource_Product_Collection')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return new Mage_Catalog_Model_Product($eventManager, $cacheManager, $resource, $resourceCollection);
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        return $helper->getObject('Mage_Catalog_Model_Product');
     }
 
     public function testBcpUpdateDefaultsOnConfigurableProduct()

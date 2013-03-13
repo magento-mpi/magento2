@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="field field-rate">
+    <label class="label" for="rate_value"><span><?php echo $this->getElement()->getLabel(); ?></span></label>
+    <div class="control">
+        <input type="text" class="input-text" id="rate_value" style="width:125px" name="rate[value]" value="<?php echo $this->getValue(); ?>"/>
+        <label for="rate_equal_value">&nbsp;&raquo;&nbsp;</label>
+        <input type="text" class="input-text" id="rate_equal_value" style="width:125px" name="rate[equal_value]" value="<?php echo $this->getEqualValue(); ?>"/>
+    </div>
+</div>

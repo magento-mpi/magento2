@@ -20,8 +20,7 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Mage_Core_Model_Event_Manager',
-        'Mage_Core_Model_Cache',
+        'Mage_Core_Model_Context',
         null,
         null
     );

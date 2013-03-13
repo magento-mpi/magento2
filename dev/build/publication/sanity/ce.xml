@@ -30,7 +30,7 @@
         </item>
         <item>
             <word>oracle</word>
-            <path>app/code/core/Mage/Reports/Model/Resource/Report/Abstract.php</path>
+            <path>app/code/Mage/Reports/Model/Resource/Report/Abstract.php</path>
         </item>
         <item>
             <word>oracle</word>

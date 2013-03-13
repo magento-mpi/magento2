@@ -28,11 +28,6 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
     }
 
-    protected function tearDown()
-    {
-        $this->_layout = null;
-    }
-
     /**
      * @param array $inputArguments
      * @param string $expectedArea
@@ -179,7 +174,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $expectedData = $blockData + array('type' => $blockType);
 
-        $block = $this->_layout->createBlock($blockType, $blockName, $blockData);
+        $block = $this->_layout->createBlock($blockType, $blockName, array('data' => $blockData));
 
         $this->assertEquals($this->_layout, $block->getLayout());
         $this->assertRegExp($expectedName, $block->getNameInLayout());

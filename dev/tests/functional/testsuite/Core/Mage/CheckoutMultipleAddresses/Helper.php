@@ -566,12 +566,13 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_AbstractH
      */
     protected function _getOrderReviewData(array $checkout)
     {
-        $result['paymentData'] = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();
-        $result['billing'] = (isset($paymentData['billing_address'])) ? $paymentData['billing_address'] : array();
-        $result['shippings'] = (isset($checkout['shipping_data'])) ? $checkout['shipping_data'] : array();
+        $result['paymentData'] = array_key_exists('payment_data', $checkout) ? $checkout['payment_data'] : array();
+        $paymentData = $result['paymentData'];
+        $result['billing'] = array_key_exists('billing_address', $paymentData) ? $paymentData['billing_address'] : array();
+        $result['shippings'] = array_key_exists('shipping_data', $checkout) ? $checkout['shipping_data'] : array();
         $result['expectedPayment'] =
             (isset($paymentData['payment']['payment_method'])) ? $paymentData['payment']['payment_method'] : array();
-        $result['verifyPrices'] = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
+        $result['verifyPrices'] = array_key_exists('verify_prices', $checkout) ? $checkout['verify_prices'] : array();
         return $result;
     }
 

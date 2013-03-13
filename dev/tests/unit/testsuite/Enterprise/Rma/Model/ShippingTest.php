@@ -19,7 +19,7 @@ class Enterprise_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getModel('Enterprise_Rma_Model_Shipping');
+        $this->_model = $objectManagerHelper->getObject('Enterprise_Rma_Model_Shipping');
     }
 
     /**

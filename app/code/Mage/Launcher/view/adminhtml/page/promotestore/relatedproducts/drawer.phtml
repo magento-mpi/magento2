@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Relatedproducts_Drawer */
+?>
+<div class="drawer-header-content">
+    <form id="drawer-form">
+        <h2 class="title"><?php echo $this->__('Guidelines and Best Practices'); ?></h2>
+        <article class="entry">
+            <p><?php echo $this->__('Related and cross-sell products are items your customers are likely to buy based on what\'s in their shopping carts. Upsell products are items your customer could buy instead of the product being viewed and may be more expensive, of higher quality, or more popular, or produce a higher profit margin. Set promotion rules using these links.'); ?></p>
+        </article>
+        <div class="go-do">
+            <h2 class="title-checklist"><?php echo $this->__('Go Do'); ?></h2>
+            <ul class="checklist">
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/targetrule/new'); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Add Product Rule'); ?></a></li>
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'catalog')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Edit Product Rules'); ?></a></li>
+            </ul>
+        </div>
+    </form>
+</div>

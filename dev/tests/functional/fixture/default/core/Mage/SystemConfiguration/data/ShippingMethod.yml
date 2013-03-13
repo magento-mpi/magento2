@@ -167,6 +167,10 @@ shipping_disable:
     tab_1:
         tab_name: sales_shipping_methods
         configuration:
+            flat_rate:
+                flat_rate_enabled: No
+            table_rates:
+                table_rates_enabled: No
             fedex:
                 fedex_enabled_for_checkout: No
             usps:

@@ -32,7 +32,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         //Data
         $attributeData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
-            array('General' => $attributeData['attribute_code']));
+            array('Product Details' => $attributeData['attribute_code']));
         //Create attribute
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attributeData);

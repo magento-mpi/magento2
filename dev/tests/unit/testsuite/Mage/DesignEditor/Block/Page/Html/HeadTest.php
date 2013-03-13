@@ -33,7 +33,7 @@ class Mage_DesignEditor_Block_Page_Html_HeadTest extends PHPUnit_Framework_TestC
         $helper = new Magento_Test_Helper_ObjectManager($this);
         if ($vdeItems !== null) {
             /** @var $vdeHead Mage_DesignEditor_Block_Page_Html_Head_Vde */
-            $vdeHead = $helper->getBlock('Mage_DesignEditor_Block_Page_Html_Head_Vde');
+            $vdeHead = $helper->getObject('Mage_DesignEditor_Block_Page_Html_Head_Vde');
             $vdeHead->setData('items', $vdeItems);
 
             $layoutMock = $this->getMock('Mage_Core_Model_Layout', array('getBlock'), array(), '', false);
@@ -41,12 +41,12 @@ class Mage_DesignEditor_Block_Page_Html_HeadTest extends PHPUnit_Framework_TestC
                 ->method('getBlock')
                 ->will($this->returnValue($vdeHead));
 
-            $this->_model = $helper->getBlock(
+            $this->_model = $helper->getObject(
                 'Mage_DesignEditor_Block_Page_Html_Head',
                 array('layout' => $layoutMock)
             );
         } else {
-            $this->_model = $helper->getBlock('Mage_DesignEditor_Block_Page_Html_Head');
+            $this->_model = $helper->getObject('Mage_DesignEditor_Block_Page_Html_Head');
         }
         $this->_model->setData('items', $sourceItems);
 

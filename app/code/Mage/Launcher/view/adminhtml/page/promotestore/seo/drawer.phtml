@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Seo_Drawer */
+?>
+<div class="drawer-header-content">
+    <form id="drawer-form">
+        <h2 class="title"><?php echo $this->__('Guidelines and Best Practices') ?> </h2>
+        <article class="entry">
+            <p><?php echo $this->__('There\'s no such thing as too much traffic, right? But not enough traffic is a big problem. If you\'re serious about increasing visits to your site, you need to enhance your search engine optimization (SEO). Customers are much more likely to discover your store after you add search terms and configure your site map to show up on search engines. Don\'t let competitors "out-SEO" you. Get started right here, right now.') ?> </p>
+        </article>
+        <div class="go-do">
+            <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
+            <ul class="checklist">
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'sitemap', '_fragment' => 'sitemap_category-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Configure Site Map') ?></a></li>
+
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'catalog', '_fragment' => 'catalog_seo-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Search Engine Optimization') ?></a></li>
+
+                <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'web', '_fragment' => 'web_url-link')); ?>
+                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('URL Redirects') ?></a></li>
+            </ul>
+        </div>
+    </form>
+</div>

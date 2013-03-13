@@ -28,11 +28,6 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         $this->_model = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product');
     }
 
-    public function tearDown()
-    {
-        unset($this->_model);
-    }
-
     /**
      * Options for assertion
      *

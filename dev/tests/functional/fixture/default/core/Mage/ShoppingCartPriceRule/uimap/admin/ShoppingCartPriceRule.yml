@@ -71,7 +71,7 @@ create_shopping_cart_price_rule:
                         fieldsets:
                             -
                                 general_information:
-                                    xpath: //div[@id='rule_base_fieldset']
+                                    xpath: //fieldset[@id='rule_base_fieldset']
                                     fields:
                                         rule_name: //input[@name='name']
                                         description: //textarea[@name='description']

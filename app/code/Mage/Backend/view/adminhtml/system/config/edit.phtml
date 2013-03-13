@@ -1,0 +1,57 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @methods
+ *  getTitle() - string
+ *  getSaveUrl() - string
+ *  getSections() - array
+ *  getForm() - html
+ */
+?>
+<div class="page-actions"><?php echo $this->getSaveButtonHtml() ?></div>
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="config-edit-form" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <div class="accordion">
+        <?php echo $this->getChildHtml('form') ?>
+    </div>
+</form>
+<script type="text/javascript">
+(function($, window) {
+    $(function() {
+        $('#config-edit-form').mage('form').mage('validation');
+
+        var handleHash = function () {
+            if (window.location.hash == '') {
+                return false;
+            }
+            try {
+                var hashString = window.location.hash.replace('#', ''),
+                    containerId = hashString.replace('-link', ''),
+                    state = $('#' + containerId + '-state'),
+                    head = $('#' + containerId + '-head');
+                if (state.length) {
+                    state.val(1);
+                }
+                if (head.length) {
+                    head.collapsed = 0;
+                }
+                Fieldset.applyCollapse(containerId);
+            } catch(err) {
+            }
+            return false;
+        }
+
+        $(window).hashchange(handleHash);
+        handleHash();
+    });
+})(jQuery, window);
+</script>

@@ -17,10 +17,7 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_UnitTest extends PHPUnit_Framew
 
     protected function cacheManagerMock()
     {
-        return $this->getMockBuilder('Mage_Core_Model_Cache')
-            ->disableOriginalConstructor()
-            ->setMethods(array('clean'))
-            ->getMock();
+        return $this->getMock('Mage_Core_Model_CacheInterface');
     }
 
     protected function helperMock($defaultValue = 'defaut value')
@@ -75,10 +72,11 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_UnitTest extends PHPUnit_Framew
         $eventManager = $eventManager ?: $this->eventManagerMock();
         $helper = $helper ?: $this->helperMock();
 
+        $context = new Mage_Core_Model_Context($eventManager, $this->cacheManagerMock());
         $model = $this->getMock(
             'Saas_UnitPrice_Model_Config_Data_Unitprice_Unit',
             array('_getUnitPrice', '_getHelper', 'getOldValue'),
-            array($eventManager, $this->cacheManagerMock(), $resource)
+            array($context, $resource)
         );
 
         if ($unitPrice) {

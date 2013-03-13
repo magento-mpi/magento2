@@ -21,11 +21,6 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
         $this->_model = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * Isolation level has been raised in order to flush themes configuration in-memory cache
      */
