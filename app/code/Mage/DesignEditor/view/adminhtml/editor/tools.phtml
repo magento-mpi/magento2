@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <ul class="vde-tab-controls">
-                    <li class="item item-translate">
+                    <li id="vde-translate-edit" class="item-text-edit text-edit-text-off">
                         <a id="vde-translate" title="<?php echo $this->__('Edit Text'); ?>" onmouseover="this.style.cursor='pointer'">
                             <span><?php echo $this->__('Edit Text'); ?></span>
                         </a>
@@ -141,13 +141,10 @@
         },
 
         /**
-         * This method displays the text editing sub-menus to select from and defaults the currently selected mode.
+         * This method displays the translate menu to select from and defaults the currently selected mode.
          */
         toggleTranslationInline: function() {
-            // Display the text editing sub-menus.
             parent.jQuery('#vde-translate-menu').removeClass('text-menu-hide').addClass('text-menu-show');
-
-            /** todo SDW Change the icon in the footer */
         },
 
         /**
@@ -161,7 +158,7 @@
         toggleTranslationMode: function(mode) {
             this.options.disableInlineTranslation = false;
 
-            // Hide text editing sub-menus.
+            // Hide menu.
             parent.jQuery('#vde-translate-menu').removeClass('text-menu-show').addClass('text-menu-hide');
 
             var disable_one = "text";
@@ -181,6 +178,9 @@
                 parent.jQuery('#vde-translate-' + mode).removeClass('text-menu-background-on').addClass('text-menu-background-off');
                 parent.jQuery('#vde-translate-' + mode + '-img').removeClass('text-menu-' + mode + '-on').addClass('text-menu-' + mode + '-off');
 
+                // Update toolbar button.
+                parent.jQuery('#vde-translate-edit').removeClass('text-edit-' + mode + '-on').addClass('text-edit-' + mode + '-off');
+
                 // Refresh iframe minus the translation mode on the url.
                 this.options.disableInlineTranslation = true;
             }
@@ -189,16 +189,20 @@
                 parent.jQuery('#vde-translate-' + mode).removeClass('text-menu-background-off').addClass('text-menu-background-on');
                 parent.jQuery('#vde-translate-' + mode + '-img').removeClass('text-menu-' + mode + '-off').addClass('text-menu-' + mode + '-on');
 
-                // Disable other options.
+                // Update toolbar button.
+                parent.jQuery('#vde-translate-edit').addClass('text-edit-' + mode + '-on');
+
+                // Disable other two options.
                 parent.jQuery('#vde-translate-' + disable_one + '').removeClass('text-menu-background-on').addClass('text-menu-background-off');
                 parent.jQuery('#vde-translate-' + disable_one + '-img').removeClass('text-menu-' + disable_one + '-on').addClass('text-menu-'+ disable_one + '-off');
+                // Update toolbar button.
+                parent.jQuery('#vde-translate-edit').removeClass('text-edit-' + disable_one + '-on');
+
                 parent.jQuery('#vde-translate-' + disable_two + '').removeClass('text-menu-background-on').addClass('text-menu-background-off');
                 parent.jQuery('#vde-translate-' + disable_two + '-img').removeClass('text-menu-' + disable_two + '-on').addClass('text-menu-' + disable_two + '-off');
+                // Update toolbar button.
+                parent.jQuery('#vde-translate-edit').removeClass('text-edit-' + disable_two + '-on');
             }
-
-            /** todo SDW Change toolbar button as well */
-
-            /** todo SDW Call into translate_inline widget to hide/show appropriate wrapping based on translation mode. */
 
             // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
             // Also, if disabling inline translation, refresh minus the translation mode on the url.
