@@ -15,7 +15,7 @@
 
 require __DIR__ . '/../../../app/bootstrap.php';
 require __DIR__ . '/Generator/ThemeProxy.php';
-require __DIR__ . '/Generator/Comma nd.php';
+require __DIR__ . '/Generator/Command.php';
 
 // ----Parse params and run the tool-------------------------
 define('USAGE', <<<USAGE
