@@ -24,6 +24,11 @@ require __DIR__ . '/ThemeProxy.php';
 class Generator
 {
     /**
+     * @var Zend_Log
+     */
+    private $_logger;
+
+    /**
      * @var Mage_Core_Model_Design_Fallback_List_View|null
      */
     private $_fallbackList = null;
@@ -36,55 +41,57 @@ class Generator
     /**
      * @var string
      */
-    private $_destinationDir;
+    private $_destinationPath;
 
     /**
-     * @var bool
+     * @var string
      */
-    private $_error = false;
+    private $_isDryRun;
 
-    private $_dir;
+    /**
+     * @var Mage_Core_Model_Dir
+     */
+    private $_dirs;
 
     /**
      * Constructor
      *
-     * @param $argv
+     * @param Zend_Log $logger
+     * @param array $options
      */
-    public function __construct($argv)
+    public function __construct(Zend_Log $logger, $options)
     {
-        foreach ($argv as $key => $value) {
-            switch($value) {
-                case '--dstDir':
-                    $destinationDir = @$argv[$key+1];
-                    break;
-            }
-        }
+        $this->_logger = $logger;
 
-        $this->_dir = new Mage_Core_Model_Dir(new Magento_Filesystem(new Magento_Filesystem_Adapter_Local), BP);
-        if (empty($destinationDir)) {
-            $this->_destinationDir = $this->_dir->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
+        $this->_dirs = new Mage_Core_Model_Dir(new Magento_Filesystem(new Magento_Filesystem_Adapter_Local), BP);
+        if (empty($options['destination'])) {
+            $this->_destinationPath = $this->_dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
         } else {
-            $this->_destinationDir = $destinationDir;
+            $this->_destinationPath = $options['destination'];
         }
+        $this->_destinationPath = rtrim($this->_destinationPath, '\\/') . DIRECTORY_SEPARATOR;
+
+        $this->_isDryRun = isset($options['dry-run']);
 
         $this->_initThemes();
         $this->_addDescendantThemes();
         $this->_sortThemes();
 
-        $this->_fallbackList = new Mage_Core_Model_Design_Fallback_List_View($this->_dir);
+        $this->_fallbackList = new Mage_Core_Model_Design_Fallback_List_View($this->_dirs);
     }
 
     /**
      * Main method
-     *
-     * @return array
-     * @throws
      */
     public function run()
     {
-        if ($this->_error) {
-            return array();
+        if ($this->_isDryRun) {
+            $this->_log('Running in dry-run mode: no changes are applied');
         }
+
+        $this->_verifyDestinationEmpty();
+        $this->_createDestinationIfNeeded();
+
         $params = array(
             'area'          => '<area>',
             'theme_path'    => '<theme_path>',
@@ -139,19 +146,55 @@ class Generator
                 }
             }
         }
-        return $return;
+    }
+
+    /**
+     * Check that destination is empty, as we'd better not mess different files together
+     *
+     * @throws Magento_Exception
+     */
+    protected function _verifyDestinationEmpty()
+    {
+        if (glob($this->_destinationPath . DIRECTORY_SEPARATOR . '*')) {
+            throw new Magento_Exception("The destionation path {$this->_destinationPath} must be empty");
+        }
+    }
+
+    /**
+     * Create destination dir if needed
+     *
+     * @throws Magento_Exception
+     */
+    protected function _createDestinationIfNeeded()
+    {
+        if ($this->_isDryRun || is_dir($this->_destinationPath)) {
+            return;
+        }
+        if (!@mkdir($this->_destinationPath, 0666, true)) {
+            throw new Magento_Exception("Unable to create destination path {$this->_destinationPath}");
+        }
+    }
+
+    /**
+     * Log message
+     *
+     * @param string $message
+     * @param int $priority
+     */
+    protected function _log($message, $priority = Zend_Log::INFO)
+    {
+        $this->_logger->log($message, $priority);
     }
 
     /**
      * Copy files
      *
-     * @param $sourceDir
-     * @param $destinationDir
+     * @param string $sourceDir
+     * @param string $destinationDir
      */
     protected function _copyFiles($sourceDir, $destinationDir)
     {
-        $destinationDir = $destinationDir;
-        echo "copy '$sourceDir' to '$destinationDir'\n";
+        $this->_logger->log("Copy '$sourceDir' to '$destinationDir'", Zend_Log::INFO);
     }
 
     /**
@@ -167,7 +210,7 @@ class Generator
     {
         $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath($area, $themePath, '', $filename,
             $module);
-        return $this->_destinationDir . DIRECTORY_SEPARATOR . $relPath;
+        return $this->_destinationPath . $relPath;
     }
 
     /**
@@ -300,5 +343,31 @@ class Generator
     }
 }
 
-$generator = new Generator($argv);
-var_dump($generator->run());
+// ----Parse params and run the tool-------------------------
+define('USAGE', <<<USAGE
+$>./generator.php -- [--destination=<path>] [--dry-run] [-h] [--help]
+    Pre-deploy Magento view files to a public directory.
+    Additional parameters:
+    --destination=<path>    custom path to copy files to, if not specified, then default one within system is used
+    --dry-run               run through files, but do not copy anything
+    -h or --help            print usage
+USAGE
+);
+
+$options = getopt('h', array('help', 'dry-run', 'destination:'));
+if (isset($options['h']) || isset($options['help'])) {
+    echo USAGE;
+    exit(0);
+}
+
+$logWriter = new Zend_Log_Writer_Stream('php://output');
+$logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+$logger = new Zend_Log($logWriter);
+
+try {
+    $generator = new Generator($logger, $options);
+    $generator->run();
+} catch (Exception $e) {
+    $logger->log('Error: ' . $e->getMessage(), Zend_Log::ERR);
+    exit(1);
+}
