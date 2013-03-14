@@ -134,8 +134,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
                 'after_element_html' => $fieldMessage
             ));
         }
-        $hintMessage =  $this->__('<p class="description">If an image goes beyond the container edges, it will be re-scaled to match the container size. By default, the white borders will be added to an image to fill in the container space.</p>');
-        $form->addField('add_white_borders_hint', 'note', array('after_element_html' => $hintMessage));
+        /** @todo Get valid message from PO */
+        $hintMessage =  $this->__('If an image goes beyond the container edges,'
+            . ' it will be re-scaled to match the container size.'
+            . ' By default, the white borders will be added to an image to fill in the container space');
+        $form->addField('add_white_borders_hint', 'note', array(
+            'after_element_html' => '<p class="description">' . $hintMessage . '</p>'));
 
         return $this;
     }
