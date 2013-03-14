@@ -87,7 +87,7 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
         /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
         $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
         $themeCollection->addAreaFilter($area);
-        $this->assertEquals($themeCount, count($themeCollection));
+        $this->assertCount($themeCount, $themeCollection);
     }
 
     /**
@@ -116,7 +116,7 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
         if ($themeType !== false) {
             $themeCollection->addTypeFilter($themeType);
         }
-        $this->assertEquals($themeCount, count($themeCollection));
+        $this->assertCount($themeCount, $themeCollection);
     }
 
     /**
@@ -142,7 +142,7 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
         /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
         $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
         $themeCollection->addAreaFilter('test_area3')->filterVisibleThemes();
-        $this->assertEquals(2, count($themeCollection));
+        $this->assertCount(2, $themeCollection);
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
             $this->assertTrue(in_array(
