@@ -11,10 +11,10 @@
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */ ?>
 
 <div class="actions-split">
-    <button class="action-default primary" data-mage-init="<?php echo $this->getSaveInitData() ?>">
+    <button class="action-default primary <?php echo $this->isEnable() ? '' : 'disabled' ?>" data-mage-init="<?php echo $this->getSaveInitData() ?>">
         <span>Save</span>
     </button>
-    <button class="action-toggle primary" data-toggle="dropdown">
+    <button class="action-toggle primary <?php echo $this->isEnable() ? '' : 'disabled' ?>" data-toggle="dropdown">
         <span>Select</span>
     </button>
     <ul class="dropdown-menu"  data-ui-id="products-list-add-new-button-dropdown-menu" >
