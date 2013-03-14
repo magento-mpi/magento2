@@ -133,7 +133,7 @@
 
             fileTemplate.html(fileInfoHtml) ;
             fileTemplate.removeClass('no-display');
-            fileTemplate.appendTo(this._prepareId(this.options.container));
+            fileTemplate.prependTo($('.uploaded-file-wrapper', this._prepareId(this.options.container)));
 
             if (this.options.remove_url) {
                 $(document).on('click.removeUploadedImage', '#' + removeId, $.proxy(function() {

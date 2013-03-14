@@ -88,11 +88,17 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             $this->_addImageSizeElement($name, $control);
         }
 
-        $form->addField('save_image_sizing', 'button_button', array(
+        $fieldset = $form->addFieldset('save_image_sizing_fieldset', array(
+            'name'   => 'save_image_sizing_fieldset',
+            'fieldset_type' => 'field',
+            'class' => 'save_image_sizing'
+        ));
+        $this->_addElementTypes($fieldset);
+
+        $fieldset->addField('save_image_sizing', 'button_button', array(
             'name'  => 'save_image_sizing',
             'title' => $this->__('Update'),
             'value' => $this->__('Update'),
-            'class' => 'primary',
             'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
                 'button' => array(
                     'event'  => 'saveForm',
@@ -128,11 +134,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
                 'after_element_html' => $fieldMessage
             ));
         }
-        $hintMessage =  $this->__('If an image goes beyond the container edges,'
-            . ' it will be re-scaled to match the container size.'
-            . ' By default, the white borders will be added to an image to fill in the container space');
-        $form->addField('add_white_borders_hint', 'note', array(
-            'after_element_html' => '<p class="description">' . $hintMessage . '</p>'));
+        $hintMessage =  $this->__('<p class="description">If an image goes beyond the container edges, it will be re-scaled to match the container size. By default, the white borders will be added to an image to fill in the container space.</p>');
+        $form->addField('add_white_borders_hint', 'note', array('after_element_html' => $hintMessage));
 
         return $this;
     }
