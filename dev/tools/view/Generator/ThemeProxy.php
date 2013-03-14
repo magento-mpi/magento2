@@ -11,7 +11,7 @@
 /**
  * Fake theme class to be used for generate view static files
  */
-class ThemeProxy implements Mage_Core_Model_ThemeInterface
+class Generator_ThemeProxy implements Mage_Core_Model_ThemeInterface
 {
     /**
      * @var string
