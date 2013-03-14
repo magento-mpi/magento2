@@ -1411,6 +1411,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $currentArea = '';
         $currentUrl = preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl));
+        $currentUrl = preg_replace('#backend(/backend|/admin)?/?#', 'backend/', $currentUrl);
         $possibleAreas = array();
         foreach ($areasConfig as $area => $areaConfig) {
             $areaUrl =
@@ -1653,7 +1654,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
         //@TODO Fix for StoreLauncher tests
         $baseUrl = preg_replace('#backend/(backend|admin)/?$#', 'backend/', $baseUrl);
-        $currentUrl = preg_replace('#backend/(backend|admin)/#', 'backend/', $currentUrl);
+        $currentUrl = preg_replace('#backend(/backend|/admin)?/?#', 'backend/', $currentUrl);
         if (strpos($currentUrl, $baseUrl) !== false) {
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\#");
         }
