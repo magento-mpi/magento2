@@ -13,6 +13,31 @@
 class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Translate_InlineAbstract
 {
     /**
+     * translate-mode html element attribute name
+     */
+    const TRANSLATE_MODE = 'translate-mode';
+
+    /**
+     * text translate-mode
+     */
+    const TEXT = 'text';
+
+    /**
+     * img element name
+     */
+    const IMG = 'img';
+
+    /**
+     * alt translate-mode
+     */
+    const ALT = 'alt';
+
+    /**
+     * script translate-mode and element name
+     */
+    const SCRIPT = 'script';
+
+    /**
      * Translation within the vde will be enabled by the client when the 'Edit' button is enabled.
      *
      * @param mixed $store
@@ -123,11 +148,13 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      */
     protected function _getTranslateMode($tagName)
     {
-        if ('script' == $tagName || 'img' == $tagName) {
-            return $tagName;
-        } else {
-            return 'text';
+        $mode = self::TEXT;
+        if (self::SCRIPT == $tagName) {
+            $mode = $tagName;
+        } else if (self::IMG == $tagName) {
+            $mode = self::ALT;
         }
+        return $mode;
     }
 
     /**
@@ -140,7 +167,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
     public function _getDataTranslateSpan($data, $text)
     {
         return '<span '. $this->_getHtmlAttribute(self::DATA_TRANSLATE, $data) . ' '
-            . $this->_getHtmlAttribute(self::TRANSLATE_MODE, 'text') . '>' . $text . '</span>';
+            . $this->_getHtmlAttribute(self::TRANSLATE_MODE, self::TEXT) . '>' . $text . '</span>';
     }
 
     /**
