@@ -137,20 +137,28 @@ class Mage_Core_Model_Translate
     protected $_designPackage;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Initialize translate model
      *
      * @param Mage_Core_Model_Design_Package $designPackage
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
      * @param Mage_core_Model_Translate_Factory $translateFactory
+     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Mage_Core_Model_Design_Package $designPackage,
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
-        Mage_Core_Model_Translate_Factory $translateFactory
+        Mage_Core_Model_Translate_Factory $translateFactory,
+        Magento_ObjectManager $objectManager
     ) {
         $this->_designPackage = $designPackage;
         $this->_localeHierarchy = $loader->load();
         $this->_translateFactory = $translateFactory;
+        $this->_objectManager = $objectManager;
     }
 
     /**
