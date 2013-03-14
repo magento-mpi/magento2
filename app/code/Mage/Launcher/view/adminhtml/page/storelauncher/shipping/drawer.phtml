@@ -12,10 +12,10 @@
 
 $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
 ?>
-<form action="" class="shipping-config-form" id="drawer-form" method="post">
+<form action="" class="shipping-config-form <?php if (!$this->isShippingEnabled()): ?> ignore-validate hidden<?php endif; ?>" id="drawer-form" method="post">
 
     <div class="switcher drawer-switcher">
-        <input type="checkbox" id="shipping_enabled" name="shipping_enabled" checked="checked" value="1" />
+        <input type="checkbox" id="shipping_enabled" name="shipping_enabled" <?php if ($this->isShippingEnabled()): ?> checked="checked" <?php endif; ?> value="1" />
         <label class="switcher-label"
                for="shipping_enabled"
                data-text-on="<?php echo $this->__('Shipping enabled'); ?>"
@@ -259,7 +259,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
 
 <?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
 
-<div class="shipping-disabled hidden">
+<div class="shipping-disabled <?php if ($this->isShippingEnabled()): ?> hidden <?php endif; ?>">
     <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping Disabled') ?></h2>
     <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have disabled shipping. If your products are all Virtual, Downloadable, or you sell a Service then you don\'t need shipping set up on your Magento store') ?></p>
     <div class="shipping-disabled-reasons">
