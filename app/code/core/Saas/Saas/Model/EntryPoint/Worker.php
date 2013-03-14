@@ -53,7 +53,7 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
          */
         $dispatcher = $this->_objectManager->create('Mage_Core_Model_Event_Manager');
         $dispatcher->addEventArea(self::WORKER_EVENT_AREA);
-        foreach($this->_params[self::TASK_KEY] as $taskDetails) {
+        foreach($this->_params[self::TASK_OPTIONS_KEY] as $taskDetails) {
             if (!isset($taskDetails['task_name'], $taskDetails['params'])) {
                 Mage::log(
                     sprintf('Incorrect task details. Task: %s.', $taskDetails['task_name']),
