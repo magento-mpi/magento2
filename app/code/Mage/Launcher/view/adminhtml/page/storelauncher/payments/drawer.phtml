@@ -27,7 +27,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 
 <div class="payments-tiles">
 
-    <div class="payment-method active" data-payment-method="express-checkout">
+    <div class="payment-method <?php if ($this->getConfigValue('payment/paypal_express/active')): ?> configured <?php endif; ?> active" data-payment-method="express-checkout">
         <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
         <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Express Checkout'); ?></h3>
         <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Help boost sales with PayPal button'); ?></p>
@@ -54,7 +54,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 
     <div class="payments-tab-content">
         <div class="tab-pane active" id="non-merchant-account">
-            <div class="payment-method" data-payment-method="paypal-standard">
+            <div class="payment-method <?php if ($this->getConfigValue('payment/paypal_standard/active')): ?> configured <?php endif; ?>" data-payment-method="paypal-standard">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Standard'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('The fast and easy way to pay online'); ?></p>
@@ -78,7 +78,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     </div>
                 </footer>
             </div>
-            <div class="payment-method" data-payment-method="payments-advanced">
+            <div class="payment-method <?php if ($this->getConfigValue('payment/payflow_advanced/active')): ?> configured <?php endif; ?>" data-payment-method="payments-advanced">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Advanced'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
@@ -102,7 +102,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     </div>
                 </footer>
             </div>
-            <div class="payment-method" data-payment-method="payments-pro">
+            <div class="payment-method <?php if ($this->getConfigValue('payment/paypal_direct/active')): ?> configured <?php endif; ?>" data-payment-method="payments-pro">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments Pro'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("You control your customers' checkout experience"); ?></p>
@@ -128,7 +128,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
             </div>
         </div>
         <div class="tab-pane" id="merchant-account">
-            <div class="payment-method" data-payment-method="payflow-link">
+            <div class="payment-method <?php if ($this->getConfigValue('payment/payflow_link/active')): ?> configured <?php endif; ?>" data-payment-method="payflow-link">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Link'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers pay without leaving your site'); ?></p>
@@ -152,7 +152,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     </div>
                 </footer>
             </div>
-            <div class="payment-method" data-payment-method="payflow-pro">
+            <div class="payment-method <?php if ($this->getConfigValue('payment/verisign/active')): ?> configured <?php endif; ?>" data-payment-method="payflow-pro">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/paypal-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('PayPal Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payflow Pro'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__("You control your customers' checkout experience"); ?></p>
@@ -176,7 +176,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     </div>
                 </footer>
             </div>
-            <div class="payment-method" data-payment-method="authorize">
+            <div class="payment-method <?php if ($this->getConfigValue('payment/authorizenet/active')): ?> configured <?php endif; ?>" data-payment-method="authorize">
                 <img class="payment-logo" src="<?php echo $this->getViewFileUrl('Mage_Launcher::page/images/authorizenet-logo.png');?>" alt="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net Logo'); ?>"/>
                 <h3 class="payment-title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Authorize.net'); ?></h3>
                 <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Flexible, reliable and secure web transactions'); ?></p>

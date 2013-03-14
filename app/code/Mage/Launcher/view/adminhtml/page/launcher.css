@@ -3302,6 +3302,21 @@
     display: none;
 }
 
+.action-payment-methods:link,
+.action-payment-methods:visited,
+.action-payment-methods:hover,
+.action-payment-methods:active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 26px;
+    margin-left: 8px;
+    padding: 0;
+    text-decoration: underline;
+    text-shadow: none;
+}
+
 /* TODO@ Remove after merge with master */
 .switcher {
     -webkit-touch-callout: none;
