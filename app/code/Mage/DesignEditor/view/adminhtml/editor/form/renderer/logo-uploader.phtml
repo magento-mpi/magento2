@@ -19,19 +19,21 @@
     <?php foreach($stores as $store) : ?>
         <?php $elementId = $element->getHtmlId() . '-' . $store->getId(); ?>
         <div id="<?php echo $elementId; ?>-uploader" class="custom-file">
-            <div><?php echo $store->getName(); ?>:</div>
+            <div class="custom-file-for-store-view"><?php echo $store->getName(); ?>:</div>
 
             <div id="<?php echo $elementId; ?>-container" class="action-add">
                 <?php echo $this->getHtml(); ?>
             </div>
             <label for="<?php echo $elementId; ?>"><?php echo $this->__('Upload a Logo'); ?></label>
 
-            <div class="no-display uploaded-file-wrapper" id="<?php echo $elementId; ?>-template">
-                <div class="file-row">
-                    <span class="label">{{name}}</span>
-                    <button type="button" class="action-delete" id="{{remove-id}}">
-                        <span><?php echo $this->__('Remove'); ?></span>
-                    </button>
+            <div class="uploaded-file-wrapper">
+                <div class="no-display uploaded-image" id="<?php echo $elementId; ?>-template">
+                    <div class="file-row">
+                        <span class="label">{{name}}</span>
+                        <button type="button" class="action-delete" id="{{remove-id}}">
+                            <span><?php echo $this->__('Remove'); ?></span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

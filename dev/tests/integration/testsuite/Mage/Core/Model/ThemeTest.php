@@ -132,7 +132,8 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $theme Mage_Core_Model_Theme */
         /** @var $currentTheme Mage_Core_Model_Theme */
         $theme = Mage::getObjectManager()->get('Mage_Core_Model_Theme');
-        foreach ($theme->getCollection() as $currentTheme) {
+        $collection = $theme->getCollection()->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL);
+        foreach ($collection as $currentTheme) {
             $parentTheme = $currentTheme->getParentTheme();
             if (!empty($parentTheme)) {
                 $this->assertTrue($parentTheme->hasChildThemes());
