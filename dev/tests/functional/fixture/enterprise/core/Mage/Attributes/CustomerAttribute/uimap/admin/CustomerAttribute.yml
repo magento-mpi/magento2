@@ -100,7 +100,7 @@ new_customer_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@id="customer_attribute_tabs_options_content"]//fieldset[1]
+                                    xpath: //div[@id="customer_attribute_tabs_options_content"]//table[@id="attribute-labels-table"]
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
@@ -144,7 +144,7 @@ edit_customer_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@id="customer_attribute_tabs_options_content"]//fieldset[1]
+                                    xpath: //div[@id="customer_attribute_tabs_options_content"]//table[@id="attribute-labels-table"]
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input

@@ -104,7 +104,7 @@ new_customer_address_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//fieldset[1]
+                                    xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]///table[@id ="attribute-labels-table"]
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
@@ -148,7 +148,7 @@ edit_customer_address_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//fieldset[1]
+                                    xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]///table[@id ="attribute-labels-table"]
                                     fields:
                                         admin_title: //input[@name='frontend_label[%storeViewNumber%]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
