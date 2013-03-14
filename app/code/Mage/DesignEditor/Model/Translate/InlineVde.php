@@ -177,16 +177,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
         }
 
         $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore();
-        if ($store->isAdmin()) {
-            $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
-            $urlModel = $this->_objectManager->get('Mage_Backend_Model_Url');
-        } else {
-            $urlPrefix = 'core';
-            $urlModel = $this->_objectManager->get('Mage_Core_Model_Url');
-        }
-
-        /** @todo ACB fix bug that required _useVdeFrontend */
-        $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
+        $ajaxUrl = $this->_objectManager->get('Mage_Core_Model_Url')->getUrl('core/ajax/translate',
             array('_secure'=>$store->isCurrentlySecure(),
                   '_useRealRoute' => true,
                   '_useVdeFrontend' => true));

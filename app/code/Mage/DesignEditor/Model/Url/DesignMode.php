@@ -23,7 +23,6 @@ class Mage_DesignEditor_Model_Url_DesignMode extends Mage_Core_Model_Url
      */
     public function getUrl($routePath = null, $routeParams = null)
     {
-        /** @todo ACB temporary fix */
         if (isset($routeParams['_useRealRoute'])) {
             $useRealRoute = (bool)$routeParams['_useRealRoute'];
             unset($routeParams['_useRealRoute']);
@@ -35,9 +34,14 @@ class Mage_DesignEditor_Model_Url_DesignMode extends Mage_Core_Model_Url
         return '#';
     }
 
+    /**
+     * This method ensures ajax requests are routed through vde.
+     *
+     * @param array $routeParams
+     * @return string
+     */
     public function getRoutePath($routeParams = array())
     {
-        /** @todo ACB temporary fix */
         if (isset($routeParams['_useVdeFrontend'])) {
             $useVdeFrontend = (bool)$routeParams['_useVdeFrontend'];
             unset($routeParams['_useVdeFrontend']);
