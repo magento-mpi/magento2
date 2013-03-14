@@ -18,22 +18,30 @@ class Mage_Core_Model_Theme_Copy_StagingToVirtual extends Mage_Core_Model_Theme_
     /**
      * @var Magento_Filesystem
      */
-    protected $filesystem;
+    protected $_filesystem;
+
+    /**
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_design;
 
     /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Design_Package $design
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection,
         Magento_Filesystem $filesystem,
+        Mage_Core_Model_Design_Package $design,
         array $data = array()
     ) {
-        $this->_filesystem = $filesystem;
         parent::__construct($themeFactory, $linkCollection, $data);
+        $this->_filesystem = $filesystem;
+        $this->_design = $design;
     }
 
     /**
@@ -47,6 +55,9 @@ class Mage_Core_Model_Theme_Copy_StagingToVirtual extends Mage_Core_Model_Theme_
         $virtualTheme = $theme->getParentTheme();
         $this->_copyLayoutUpdates($theme, $virtualTheme)
             ->_copyAllThemeFiles($theme, $virtualTheme);
+        $this->_design->dropPublicationCache(array(
+            'area' => Mage_Core_Model_Design_Package::DEFAULT_AREA, 'themeModel' => $virtualTheme
+        ));
         return $virtualTheme;
     }
 
