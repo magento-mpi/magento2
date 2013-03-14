@@ -13,12 +13,31 @@
  */
 class Mage_Install_WizardController extends Mage_Install_Controller_Action
 {
+    /**
+     * Perform necessary checks for all actions
+     *
+     * Redirect out if system is already installed
+     * Throw a bootstrap exception if page cannot be displayed due to misconfigured base directories
+     *
+     * @throws Magento_BootstrapException
+     */
     public function preDispatch()
     {
         if (Mage::isInstalled()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_redirect('/');
             return;
+        }
+
+        /** @var $dirs Mage_Core_Model_Dir */
+        $dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $dir = $dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
+        /** @var $filesystem Magento_Filesystem */
+        $filesystem = $this->_objectManager->get('Magento_Filesystem');
+        if (!$filesystem->isDirectory($dir) || !$filesystem->isWritable($dir)) {
+            throw new Magento_BootstrapException(
+                "To proceed with installation, ensure that path '{$dir}' is a writable directory."
+            );
         }
 
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
