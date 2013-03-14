@@ -37,7 +37,8 @@
             var eventData = {
                 elements: {
                     focus: ['#product_image_sizing_form input', '#product_image_sizing_form select'],
-                    click: ['#product_image_sizing_form .action-connect']
+                    click: ['#product_image_sizing_form .action-connect'],
+                    mousedown: ['#product_image_sizing_form button']
                 }
             };
             $('body').trigger('registerElements', eventData);
