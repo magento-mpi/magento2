@@ -91,6 +91,8 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
         }
         if (is_array($value) && isset($value['is_in_stock'])) {
             parent::setValue($value['is_in_stock']);
+        } else {
+            parent::setValue($value);
         }
         return $this;
     }
@@ -166,7 +168,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         if (manageStockValue) {
                             stockAvailabilityField.prop('disabled', false);
                         } else {
-                            stockAvailabilityField.prop('disabled', true).val(0);
+                            stockAvailabilityField.prop('disabled', true);
                         }
                         if (manageStockField.val() != manageStockValue) {
                             if (useConfigManageStockField.val() == 1) {
