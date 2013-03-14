@@ -98,7 +98,9 @@ class Mage_Core_Model_Observer
      */
     public function initializeTranslation(Varien_Event_Observer $observer)
     {
-        if (Mage::getObjectManager()->get('Mage_DesignEditor_Helper_Data')->isVdeRequest()) {
+        /** @var $helper Mage_DesignEditor_Helper_Data */
+        $helper = Mage::getObjectManager()->get('Mage_DesignEditor_Helper_Data');
+        if ($helper && $helper->isVdeRequest()) {
             // Request is for vde.  Override the translation class.
             $observer->getResult()->setInlineType('Mage_DesignEditor_Model_Translate_InlineVde');
         }
