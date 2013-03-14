@@ -84,15 +84,15 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
     /**
      * Builds model to be tested
      *
-     * @param array|false $typeOptionsViaCache
-     * @param array|false $typeOptionsViaResource
+     * @param array|false $cacheTypeOptions
+     * @param array|false $resourceTypeOptions
      * @param bool $appInstalled
      * @param bool $banAll
      * @return Mage_Core_Model_Cache_Types
      */
     protected function _buildModel(
-        $typeOptionsViaCache,
-        $typeOptionsViaResource = false,
+        $cacheTypeOptions,
+        $resourceTypeOptions = false,
         $appInstalled = true,
         $banAll = false
     ) {
@@ -101,7 +101,7 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
             ->method('load')
             ->with(Mage_Core_Model_Cache_Types::CACHE_ID)
             ->will($this->returnValue(
-            $typeOptionsViaCache === false ? false : serialize($typeOptionsViaCache)
+            $cacheTypeOptions === false ? false : serialize($cacheTypeOptions)
         ));
         $cacheFrontendPool = $this->getMock('Mage_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
         $cacheFrontendPool->expects($this->any())
@@ -112,7 +112,7 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
         $this->_resource = $this->getMock('Mage_Core_Model_Resource_Cache', array(), array(), '', false);
         $this->_resource->expects($this->any())
             ->method('getAllOptions')
-            ->will($this->returnValue($typeOptionsViaResource));
+            ->will($this->returnValue($resourceTypeOptions));
 
         $appState = $this->getMock('Mage_Core_Model_App_State');
         $appState->expects($this->any())

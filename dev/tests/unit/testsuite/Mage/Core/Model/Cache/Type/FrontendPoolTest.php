@@ -13,7 +13,7 @@ class Mage_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_Test
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager_Zend|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -24,7 +24,7 @@ class Mage_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_ObjectManager_Zend', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $this->_cachePool = $this->getMock('Mage_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
         $this->_model = new Mage_Core_Model_Cache_Type_FrontendPool($this->_objectManager, $this->_cachePool);
     }

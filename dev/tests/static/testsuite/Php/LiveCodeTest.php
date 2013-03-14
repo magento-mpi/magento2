@@ -54,7 +54,6 @@ class Php_LiveCodeTest extends PHPUnit_Framework_TestCase
 
     public function testCodeMess()
     {
-        $this->markTestIncomplete("Memory issues in PHP Depend");
         $reportFile = self::$_reportDir . '/phpmd_report.xml';
         $codeMessDetector = new CodingStandard_Tool_CodeMessDetector(realpath(__DIR__ . '/_files/phpmd/ruleset.xml'),
             $reportFile

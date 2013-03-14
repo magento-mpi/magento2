@@ -63,7 +63,7 @@ class Mage_Core_Model_Cache_Frontend_Factory
      *
      * @var array
      */
-    protected $_defaultBackendOptions = array(
+    protected $_backendOptions = array(
         'hashed_directory_level'    => 1,
         'hashed_directory_umask'    => 0777,
         'file_name_prefix'          => 'mage',
@@ -109,7 +109,7 @@ class Mage_Core_Model_Cache_Frontend_Factory
             }
         }
 
-        $this->_defaultBackendOptions['cache_dir'] = $this->_dirs->getDir(Mage_Core_Model_Dir::CACHE);
+        $this->_backendOptions['cache_dir'] = $this->_dirs->getDir(Mage_Core_Model_Dir::CACHE);
 
         $idPrefix = isset($options['id_prefix']) ? $options['id_prefix'] : '';
         if (!$idPrefix && isset($options['prefix'])) {
@@ -184,13 +184,15 @@ class Mage_Core_Model_Cache_Frontend_Factory
     /**
      * Get cache backend options. Result array contain backend type ('type' key) and backend options ('options')
      *
-     * @param   array $cacheOptions
-     * @return  array
+     * @param  array $cacheOptions
+     * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _getBackendOptions(array $cacheOptions)
     {
         $enableTwoLevels = false;
-        $type   = isset($cacheOptions['backend']) ? $cacheOptions['backend'] : $this->_defaultBackend;
+        $type = isset($cacheOptions['backend']) ? $cacheOptions['backend'] : $this->_defaultBackend;
         if (isset($cacheOptions['backend_options']) && is_array($cacheOptions['backend_options'])) {
             $options = $cacheOptions['backend_options'];
         } else {
@@ -258,7 +260,7 @@ class Mage_Core_Model_Cache_Frontend_Factory
 
         if (!$backendType) {
             $backendType = $this->_defaultBackend;
-            foreach ($this->_defaultBackendOptions as $option => $value) {
+            foreach ($this->_backendOptions as $option => $value) {
                 if (!array_key_exists($option, $options)) {
                     $options[$option] = $value;
                 }
@@ -317,7 +319,7 @@ class Mage_Core_Model_Cache_Frontend_Factory
         if (isset($cacheOptions['slow_backend_options'])) {
             $options['slow_backend_options'] = $cacheOptions['slow_backend_options'];
         } else {
-            $options['slow_backend_options'] = $this->_defaultBackendOptions;
+            $options['slow_backend_options'] = $this->_backendOptions;
         }
         if ($options['slow_backend'] == 'database') {
             $options['slow_backend'] = 'Varien_Cache_Backend_Database';
@@ -339,8 +341,9 @@ class Mage_Core_Model_Cache_Frontend_Factory
     /**
      * Get options of cache frontend (options of Zend_Cache_Core)
      *
-     * @param   array $cacheOptions
-     * @return  array
+     * @param  array $cacheOptions
+     * @return array
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _getFrontendOptions(array $cacheOptions)
     {

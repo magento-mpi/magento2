@@ -149,7 +149,6 @@ class Magento_Test_Application
      */
     public function initialize($overriddenParams = array())
     {
-        $overriddenParams[Mage::PARAM_BASEDIR] = BP;
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
         Mage::$headersSentThrowsException = false;
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
@@ -292,6 +291,7 @@ class Magento_Test_Application
         $resource = Mage::registry('_singleton/Mage_Core_Model_Resource');
 
         Mage::reset();
+        Mage::setObjectManager($objectManager);
         Varien_Data_Form::setElementRenderer(null);
         Varien_Data_Form::setFieldsetRenderer(null);
         Varien_Data_Form::setFieldsetElementRenderer(null);

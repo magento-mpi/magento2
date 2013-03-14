@@ -15,15 +15,22 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
+    protected $_config;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_objectManager;
 
     protected function setUp()
     {
+        $this->_config = $this->getMock('Mage_Core_Model_Config_Primary', array('getParam'), array(), '', false);
+
         $cacheFrontend = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $cacheFrontend->expects($this->once())->method('clean')->with('all', array());
         $cacheFrontendPool = $this->getMock(
             'Mage_Core_Model_Cache_Frontend_Pool', array('valid', 'current'), array(
-                $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false),
+                $this->_config,
                 $this->getMock('Mage_Core_Model_Cache_Frontend_Factory', array(), array(), '', false),
             )
         );
@@ -42,40 +49,37 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
 
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $this->_objectManager->expects($this->any())->method('get')->will($this->returnValueMap(array(
-            array('Mage_Core_Model_Cache_Frontend_Pool', array(), $cacheFrontendPool),
-            array('Mage_Core_Model_App_State', array(), $appState),
-            array('Mage_Core_Model_Db_Updater', array(), $update),
-            array('Mage_Index_Model_Indexer', array(), $this->_indexer),
+            array('Mage_Core_Model_Cache_Frontend_Pool', $cacheFrontendPool),
+            array('Mage_Core_Model_App_State', $appState),
+            array('Mage_Core_Model_Db_Updater', $update),
+            array('Mage_Core_Model_Config_Primary', $this->_config),
+            array('Mage_Index_Model_Indexer', $this->_indexer),
         )));
     }
 
     /**
-     * @param array $inputParams
+     * @param string $reindexMode
      * @param int $reindexAllCount
      * @param int $reindexReqCount
      * @dataProvider processRequestDataProvider
      */
-    public function testProcessRequest(array $inputParams, $reindexAllCount, $reindexReqCount)
+    public function testProcessRequest($reindexMode, $reindexAllCount, $reindexReqCount)
     {
         $this->_indexer->expects($this->exactly($reindexAllCount))->method('reindexAll');
         $this->_indexer->expects($this->exactly($reindexReqCount))->method('reindexRequired');
-        $upgrade = new Mage_Install_Model_EntryPoint_Upgrade(__DIR__, $inputParams, $this->_objectManager);
+        $this->_config->expects($this->once())->method('getParam')->with(Mage_Install_Model_EntryPoint_Upgrade::REINDEX)
+            ->will($this->returnValue($reindexMode));
+        Mage::reset(); // hack to reset object manager if it happens to be set in this class already
+        $upgrade = new Mage_Install_Model_EntryPoint_Upgrade($this->_config, $this->_objectManager);
         $upgrade->processRequest();
     }
 
     public function processRequestDataProvider()
     {
-        $reindexParam = Mage_Install_Model_EntryPoint_Upgrade::REINDEX;
         return array(
-            'no reindex' => array(
-                array(), 0, 0
-            ),
-            'reindex all' => array(
-                array($reindexParam => Mage_Install_Model_EntryPoint_Upgrade::REINDEX_ALL), 1, 0
-            ),
-            'reindex required' => array(
-                array($reindexParam => Mage_Install_Model_EntryPoint_Upgrade::REINDEX_INVALID), 0, 1
-            ),
+            'no reindex'       => array('', 0, 0),
+            'reindex all'      => array(Mage_Install_Model_EntryPoint_Upgrade::REINDEX_ALL, 1, 0),
+            'reindex required' => array(Mage_Install_Model_EntryPoint_Upgrade::REINDEX_INVALID, 0, 1),
         );
     }
 }

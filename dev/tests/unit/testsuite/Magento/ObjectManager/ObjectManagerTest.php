@@ -138,14 +138,43 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
             'secondScalar' => 'secondScalarValue',
             'secondOptionalScalar' => 'secondOptionalValue'
         ));
-        $this->assertInstanceOf('Magento_Test_Di_Aggregate_Child', $result);
-        $this->assertInstanceOf('Magento_Test_Di_Child', $result->interface);
-        $this->assertInstanceOf('Magento_Test_Di_Child', $result->parent);
-        $this->assertInstanceOf('Magento_Test_Di_Child_A', $result->child);
-        $this->assertEquals('scalarValue', $result->scalar);
-        $this->assertEquals('secondScalarValue', $result->secondScalar);
-        $this->assertEquals('1', $result->optionalScalar);
-        $this->assertEquals('secondOptionalValue', $result->secondOptionalScalar);
+        $this->_assertCreateResolvesScalarCallTimeParametersAutomatically($result);
+    }
+
+    /**
+     * Sub-routine for asserting test case of resolving arguments
+     *
+     * @param Magento_Test_Di_Aggregate_Child $object
+     */
+    private function _assertCreateResolvesScalarCallTimeParametersAutomatically(Magento_Test_Di_Aggregate_Child $object)
+    {
+        $this->assertInstanceOf('Magento_Test_Di_Aggregate_Child', $object);
+        $this->assertInstanceOf('Magento_Test_Di_Child', $object->interface);
+        $this->assertInstanceOf('Magento_Test_Di_Child', $object->parent);
+        $this->assertInstanceOf('Magento_Test_Di_Child_A', $object->child);
+        $this->assertEquals('scalarValue', $object->scalar);
+        $this->assertEquals('secondScalarValue', $object->secondScalar);
+        $this->assertEquals('1', $object->optionalScalar);
+        $this->assertEquals('secondOptionalValue', $object->secondOptionalScalar);
+    }
+
+    public function testCreateResolveNumericParameters()
+    {
+        $this->_object->configure(array(
+            'preferences' => array(
+                'Magento_Test_Di_Interface' => 'Magento_Test_Di_Parent',
+                'Magento_Test_Di_Parent' => 'Magento_Test_Di_Child'
+            ),
+        ));
+        /** @var $result Magento_Test_Di_Aggregate_Child */
+        $result = $this->_object->create('Magento_Test_Di_Aggregate_Child', array(
+            2 => 'Magento_Test_Di_Child_A',
+            'secondOptionalScalar' => 'secondOptionalValue',
+            4 => 'secondScalarValue',
+            3 => 'scalarValue',
+        ));
+        // use exactly same assertions as in previous test case to make sure arguments are not confused
+        $this->_assertCreateResolvesScalarCallTimeParametersAutomatically($result);
     }
 
     public function testGetCreatesSharedInstancesEveryTime()

@@ -71,13 +71,12 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_configCacheType;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      */
-    public function __construct(
-        Mage_Core_Model_Translate $translator, Mage_Core_Model_Cache_Type_Config $configCacheType
-    ) {
-        parent::__construct($translator);
+    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Cache_Type_Config $configCacheType)
+    {
+        parent::__construct($context);
         $this->_configCacheType = $configCacheType;
     }
 

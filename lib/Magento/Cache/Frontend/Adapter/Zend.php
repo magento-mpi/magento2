@@ -25,60 +25,35 @@ class Magento_Cache_Frontend_Adapter_Zend implements Magento_Cache_FrontendInter
     }
 
     /**
-     * Retrieve single unified identifier
-     *
-     * @param string $id
-     * @return string
+     * {@inheritdoc}
      */
-    protected function _unifyIdentifier($id)
+    public function test($identifier)
     {
-        return strtoupper($id);
-    }
-
-    /**
-     * Retrieve multiple unified identifiers
-     *
-     * @param array $ids
-     * @return array
-     */
-    protected function _unifyIdentifiers(array $ids)
-    {
-        foreach ($ids as $key => $value) {
-            $ids[$key] = $this->_unifyIdentifier($value);
-        }
-        return $ids;
+        return $this->_frontend->test($this->_unifyId($identifier));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function test($id)
+    public function load($identifier)
     {
-        return $this->_frontend->test($this->_unifyIdentifier($id));
+        return $this->_frontend->load($this->_unifyId($identifier));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function load($id)
+    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
     {
-        return $this->_frontend->load($this->_unifyIdentifier($id));
+        return $this->_frontend->save($data, $this->_unifyId($identifier), $this->_unifyIds($tags), $lifeTime);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function save($data, $id, array $tags = array(), $lifeTime = null)
+    public function remove($identifier)
     {
-        return $this->_frontend->save($data, $this->_unifyIdentifier($id), $this->_unifyIdentifiers($tags), $lifeTime);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove($id)
-    {
-        return $this->_frontend->remove($this->_unifyIdentifier($id));
+        return $this->_frontend->remove($this->_unifyId($identifier));
     }
 
     /**
@@ -96,7 +71,7 @@ class Magento_Cache_Frontend_Adapter_Zend implements Magento_Cache_FrontendInter
         ))) {
             throw new InvalidArgumentException("Magento cache frontend does not support the cleaning mode '$mode'.");
         }
-        return $this->_frontend->clean($mode, $this->_unifyIdentifiers($tags));
+        return $this->_frontend->clean($mode, $this->_unifyIds($tags));
     }
 
     /**
@@ -113,5 +88,30 @@ class Magento_Cache_Frontend_Adapter_Zend implements Magento_Cache_FrontendInter
     public function getLowLevelFrontend()
     {
         return $this->_frontend;
+    }
+
+    /**
+     * Retrieve single unified identifier
+     *
+     * @param string $identifier
+     * @return string
+     */
+    protected function _unifyId($identifier)
+    {
+        return strtoupper($identifier);
+    }
+
+    /**
+     * Retrieve multiple unified identifiers
+     *
+     * @param array $ids
+     * @return array
+     */
+    protected function _unifyIds(array $ids)
+    {
+        foreach ($ids as $key => $value) {
+            $ids[$key] = $this->_unifyId($value);
+        }
+        return $ids;
     }
 }

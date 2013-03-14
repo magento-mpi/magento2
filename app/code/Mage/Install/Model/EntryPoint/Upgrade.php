@@ -22,28 +22,9 @@ class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAb
     /**@#-*/
 
     /**
-     * @var array
-     */
-    private $_params;
-
-    /**
-     * Memorize the parameters for further reusing in some methods
-     *
-     * @param string $baseDir
-     * @param array $params
-     * @param Magento_ObjectManager $objectManager
-     */
-    public function __construct(
-        $baseDir, array $params = array(), Magento_ObjectManager $objectManager = null
-    ) {
-        $this->_params = $params;
-        parent::__construct($baseDir, $params, $objectManager);
-    }
-
-    /**
      * Apply scheme & data updates
      */
-    protected function _processRequest()
+    public function processRequest()
     {
         /** @var $cacheFrontendPool Mage_Core_Model_Cache_Frontend_Pool */
         $cacheFrontendPool = $this->_objectManager->get('Mage_Core_Model_Cache_Frontend_Pool');
@@ -69,13 +50,15 @@ class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAb
      */
     private function _reindex()
     {
-        if (!empty($this->_params[self::REINDEX])) {
-            $mode = $this->_params[self::REINDEX];
+        /** @var $config Mage_Core_Model_Config_Primary */
+        $config = $this->_objectManager->get('Mage_Core_Model_Config_Primary');
+        $reindexMode = $config->getParam(self::REINDEX);
+        if ($reindexMode) {
             /** @var $indexer Mage_Index_Model_Indexer */
             $indexer = $this->_objectManager->get('Mage_Index_Model_Indexer');
-            if (self::REINDEX_ALL == $mode) {
+            if (self::REINDEX_ALL == $reindexMode) {
                 $indexer->reindexAll();
-            } elseif (self::REINDEX_INVALID == $mode) {
+            } elseif (self::REINDEX_INVALID == $reindexMode) {
                 $indexer->reindexRequired();
             }
         }

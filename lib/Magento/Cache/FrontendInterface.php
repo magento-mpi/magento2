@@ -14,37 +14,37 @@ interface Magento_Cache_FrontendInterface
     /**
      * Test if a cache is available for the given id
      *
-     * @param string $id Cache id
+     * @param string $identifier Cache id
      * @return int|bool Last modified time of cache entry if it is available, false otherwise
      */
-    public function test($id);
+    public function test($identifier);
 
     /**
      * Load cache record by its unique identifier
      *
-     * @param string $id
+     * @param string $identifier
      * @return string|bool
      */
-    public function load($id);
+    public function load($identifier);
 
     /**
      * Save cache record
      *
      * @param string $data
-     * @param string $id
+     * @param string $identifier
      * @param array $tags
      * @param int|bool|null $lifeTime
      * @return bool
      */
-    public function save($data, $id, array $tags = array(), $lifeTime = null);
+    public function save($data, $identifier, array $tags = array(), $lifeTime = null);
 
     /**
      * Remove cache record by its unique identifier
      *
-     * @param string $id
+     * @param string $identifier
      * @return bool
      */
-    public function remove($id);
+    public function remove($identifier);
 
     /**
      * Clean cache records matching specified tags

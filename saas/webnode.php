@@ -35,7 +35,9 @@ return function (array $params)
     }
 
     Magento_Profiler::start('mage');
-    $entryPoint = new Mage_Core_Model_EntryPoint_Http(new Mage_Core_Model_Config_Primary($rootDir, $config->getApplicationParams()));
+    $entryPoint = new Mage_Core_Model_EntryPoint_Http(
+        new Mage_Core_Model_Config_Primary($rootDir, $config->getApplicationParams())
+    );
     $entryPoint->processRequest();
     Magento_Profiler::stop('mage');
 };

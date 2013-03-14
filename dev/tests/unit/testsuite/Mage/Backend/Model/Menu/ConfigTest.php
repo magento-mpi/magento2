@@ -340,20 +340,6 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function get($model)
     {
-        if ($model == 'Mage_Backend_Model_Menu_Director_Dom') {
-            return $this->_directorDomMock;
-        } elseif ($model == 'Mage_Backend_Model_Menu_Config_Menu') {
-            return $this->_configMenuMock;
-        } elseif ($model == 'Mage_Backend_Model_Menu_Builder') {
-            return $this->_menuBuilderMock;
-        } elseif ($model == 'Mage_Core_Model_App') {
-            $appMock = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
-            $appMock->expects($this->any())
-                ->method('getStore')
-                ->will($this->returnValue($this->getMock('Mage_Core_Model_Store', array(), array(), '', false)));
-            return $appMock;
-        } else {
-            return $this->getMock($model, array(), array(), '', false);
-        }
+        return $this->getModelInstance($model, array());
     }
 }

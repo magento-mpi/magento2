@@ -57,45 +57,45 @@ class Mage_Core_Model_Cache_Type_AccessProxy extends Magento_Cache_Frontend_Deco
     /**
      * {@inheritdoc}
      */
-    public function test($id)
+    public function test($identifier)
     {
         if (!$this->_isEnabled()) {
             return false;
         }
-        return parent::test($id);
+        return parent::test($identifier);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function load($id)
+    public function load($identifier)
     {
         if (!$this->_isEnabled()) {
             return false;
         }
-        return parent::load($id);
+        return parent::load($identifier);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function save($data, $id, array $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
     {
         if (!$this->_isEnabled()) {
             return true;
         }
-        return parent::save($data, $id, $tags, $lifeTime);
+        return parent::save($data, $identifier, $tags, $lifeTime);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove($id)
+    public function remove($identifier)
     {
         if (!$this->_isEnabled()) {
             return true;
         }
-        return parent::remove($id);
+        return parent::remove($identifier);
     }
 
     /**

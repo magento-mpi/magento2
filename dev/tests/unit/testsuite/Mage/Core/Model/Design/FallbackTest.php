@@ -614,11 +614,11 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Magento_ObjectManager_Zend
+     * @return Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getObjectManagerMock()
     {
-        /** @var $objectManager Magento_ObjectManager_Zend */
+        /** @var $objectManager Magento_ObjectManager */
         $objectManager = $this->getMock('Magento_ObjectManager');
         return $objectManager;
     }

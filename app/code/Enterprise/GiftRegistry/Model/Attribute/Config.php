@@ -48,6 +48,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_configCacheType = $configCacheType;
         $this->_configReader = $configReader;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }

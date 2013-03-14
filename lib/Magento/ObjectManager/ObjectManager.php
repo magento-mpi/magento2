@@ -91,21 +91,25 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
         if (isset($this->_arguments[$className])) {
             $arguments = array_replace($this->_arguments[$className], $arguments);
         }
-        foreach ($parameters as $parameter) {
-            list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
+        $paramKeys = array_keys($parameters);
+        foreach ($paramKeys as $position => $key) {
+            list($paramName, $paramType, $paramRequired, $paramDefault) = $parameters[$key];
             $argument = null;
-            if (array_key_exists($paramName, $arguments)) {
+            if (array_key_exists($position, $arguments)) {
+                $argument = $arguments[$position];
+            } elseif (array_key_exists($paramName, $arguments)) {
                 $argument = $arguments[$paramName];
-            } else if ($paramRequired) {
-                if ($paramType) {
+            } else {
+                if ($paramRequired) {
+                    if (!$paramType) {
+                        throw new BadMethodCallException(
+                            'Missing required argument $' . $paramName . ' for ' . $className . '.'
+                        );
+                    }
                     $argument = $paramType;
                 } else {
-                    throw new BadMethodCallException(
-                        'Missing required argument $' . $paramName . ' for ' . $className . '.'
-                    );
+                    $argument = $paramDefault;
                 }
-            } else {
-                $argument = $paramDefault;
             }
             if ($paramRequired && $paramType && !is_object($argument)) {
                 if (isset($this->_creationStack[$argument])) {

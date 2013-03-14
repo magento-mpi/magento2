@@ -57,37 +57,37 @@ class Mage_Core_Model_Cache_Proxy implements Mage_Core_Model_CacheInterface
     /**
      * Load data from cache by id
      *
-     * @param   string $id
-     * @return  string
+     * @param  string $identifier
+     * @return string
      */
-    public function load($id)
+    public function load($identifier)
     {
-        return $this->_getCache()->load($id);
+        return $this->_getCache()->load($identifier);
     }
 
     /**
      * Save data
      *
      * @param string $data
-     * @param string $id
+     * @param string $identifier
      * @param array $tags
      * @param int $lifeTime
      * @return bool
      */
-    public function save($data, $id, $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, $tags = array(), $lifeTime = null)
     {
-        return $this->_getCache()->save($data, $id, $tags, $lifeTime);
+        return $this->_getCache()->save($data, $identifier, $tags, $lifeTime);
     }
 
     /**
      * Remove cached data by identifier
      *
-     * @param string $id
+     * @param string $identifier
      * @return bool
      */
-    public function remove($id)
+    public function remove($identifier)
     {
-        return $this->_getCache()->remove($id);
+        return $this->_getCache()->remove($identifier);
     }
 
     /**

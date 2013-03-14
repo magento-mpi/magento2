@@ -43,9 +43,9 @@ class Magento_Cache_Frontend_Decorator_TagMarker extends Magento_Cache_Frontend_
      *
      * {@inheritdoc}
      */
-    public function save($data, $id, array $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
     {
         $tags[] = $this->_tag;
-        return parent::save($data, $id, $tags, $lifeTime);
+        return parent::save($data, $identifier, $tags, $lifeTime);
     }
 }
