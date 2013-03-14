@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($, undefined) {
+(function($, window) {
     "use strict";
     $.widget('mage.paypalCheckout', {
         /**
@@ -15,10 +15,10 @@
          * @private
          */
         _create: function() {
-            this.element.on('click', $.proxy(function(e) {
-                var returnUrl = $(e.target).parent().prop("href");
-                if (this.options.confirmUrl) {
-                    if (confirm(this.options.confirmMessage)) {
+            this.element.on('click', '[data-action="checkout-form-submit"]', $.proxy(function(e) {
+                var returnUrl = $(e.target).data('checkout-url');
+                if (this.options.confirmUrl && this.options.confirmMessage) {
+                    if (window.confirm(this.options.confirmMessage)) {
                         returnUrl = this.options.confirmUrl;
                     }
                 }
@@ -29,4 +29,4 @@
             }, this));
         }
     });
-})(jQuery);
+})(jQuery, window);
