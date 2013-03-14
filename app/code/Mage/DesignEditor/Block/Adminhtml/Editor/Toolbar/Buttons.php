@@ -179,4 +179,20 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
 
         return $button;
     }
+
+    /**
+     * Get Quit button HTML
+     *
+     * @return string
+     */
+    public function getQuitButtonHtml()
+    {
+        $button = sprintf('<a href="%s" title="%s"class="vde_button">%s</a>',
+            $this->getQuitUrl(),
+            $this->__('Quit'),
+            $this->__('Quit')
+        );
+
+        return $button;
+    }
 }
