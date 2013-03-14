@@ -251,13 +251,16 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check is theme has child themes
+     * Check is theme has child virtual themes
      *
      * @return bool
      */
     public function hasChildThemes()
     {
-        return (bool)$this->getCollection()->addFieldToFilter('parent_id', array('eq' => $this->getId()))->getSize();
+        return (bool)$this->getCollection()
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+            ->addFieldToFilter('parent_id', array('eq' => $this->getId()))
+            ->getSize();
     }
 
     /**
