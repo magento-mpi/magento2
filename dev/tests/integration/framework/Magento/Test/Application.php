@@ -13,6 +13,8 @@
  * Encapsulates application installation, initialization and uninstall
  *
  * @todo Implement MAGETWO-1689: Standard Installation Method for Integration Tests
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Test_Application
 {
@@ -150,20 +152,20 @@ class Magento_Test_Application
         $overriddenParams[Mage::PARAM_BASEDIR] = BP;
         Mage::setIsDeveloperMode($this->_isDeveloperMode);
         Mage::$headersSentThrowsException = false;
-        $config = new Mage_Core_Model_ObjectManager_Config(
-            $this->_customizeParams($overriddenParams)
-        );
+        $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
-            /** @var $app Mage_Core_Model_App */
-            new Magento_Test_ObjectManager($config, BP);
+            $objectManager = new Magento_Test_ObjectManager(new Magento_ObjectManager_Definition_Runtime(), $config);
+            Mage::setObjectManager($objectManager);
         } else {
             $config->configure(Mage::getObjectManager());
+            Mage::getObjectManager()->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
+            Mage::getObjectManager()->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
         }
 
         Mage::getObjectManager()->get('Mage_Core_Model_Resource')
             ->setResourceConfig(Mage::getObjectManager()->get('Mage_Core_Model_Config_Resource'));
         Mage::getObjectManager()->get('Mage_Core_Model_Resource')
-            ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_Cache'));
+            ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface'));
     }
 
     /**
@@ -179,15 +181,15 @@ class Magento_Test_Application
 
     /**
      * Run application normally, but with encapsulated initialization options
+     *
+     * @param Magento_Test_Request $request
+     * @param Magento_Test_Response $response
      */
-    public function run()
+    public function run(Magento_Test_Request $request, Magento_Test_Response $response)
     {
         $composer = Mage::getObjectManager();
         $handler = $composer->get('Magento_Http_Handler_Composite');
-        $handler->handle(
-            isset($params['request']) ? $params['request'] : $composer->get('Mage_Core_Controller_Request_Http'),
-            isset($params['response']) ? $params['response'] : $composer->get('Mage_Core_Controller_Response_Http')
-        );
+        $handler->handle($request, $response);
     }
 
     /**

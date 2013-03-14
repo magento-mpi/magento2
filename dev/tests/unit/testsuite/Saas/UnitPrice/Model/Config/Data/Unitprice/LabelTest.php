@@ -25,10 +25,7 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_LabelTest extends PHPUnit_Frame
 
     protected function cacheManagerMock()
     {
-        return $this->getMockBuilder('Mage_Core_Model_Cache')
-            ->disableOriginalConstructor()
-            ->setMethods(array('clean'))
-            ->getMock();
+        return $this->getMock('Mage_Core_Model_CacheInterface');
     }
 
     protected function unitPriceMock()
@@ -61,9 +58,10 @@ class Saas_UnitPrice_Model_Config_Data_Unitprice_LabelTest extends PHPUnit_Frame
 
     protected function modelMock(Mage_Core_Model_Resource_Abstract $resource)
     {
-         $model = $this->getMockBuilder('Saas_UnitPrice_Model_Config_Data_Unitprice_Label')
+        $context = new Mage_Core_Model_Context($this->eventManagerMock(), $this->cacheManagerMock());
+        $model = $this->getMockBuilder('Saas_UnitPrice_Model_Config_Data_Unitprice_Label')
             ->setMethods(array('_getHelper'))
-            ->setConstructorArgs(array($this->eventManagerMock(), $this->cacheManagerMock(), $resource))
+            ->setConstructorArgs(array($context, $resource))
             ->getMock();
 
         $model->expects($this->any())

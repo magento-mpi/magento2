@@ -22,11 +22,6 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Mage_Core_Model_App_Area', array('areaCode' => 'frontend'));
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * @magentoAppIsolation enabled
      */

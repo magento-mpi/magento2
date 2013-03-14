@@ -58,13 +58,14 @@ create_tax_rate:
                         dropdowns:
                             country: //select[@id='tax_country_id']
                             state: //select[@id='tax_region_id']
-                            zip_is_range: //select[@id='zip_is_range']
                         fields:
                             tax_identifier: //input[@id='code']
                             zip_postal_code: //input[@id='tax_postcode']
                             zip_range_from: //input[@id='zip_from']
                             zip_range_to: //input[@id='zip_to']
                             rate_percent: //input[@id='rate']
+                        checkboxes:
+                            zip_is_range: //input[@id='zip_is_range']
                         required: [tax_identifier, country, rate_percent]
                 -
                     tax_titles:
@@ -101,13 +102,14 @@ edit_tax_rate:
                         dropdowns:
                             country: //select[@id='tax_country_id']
                             state: //select[@id='tax_region_id']
-                            zip_is_range: //select[@id='zip_is_range']
                         fields:
                             tax_identifier: //input[@id='code']
                             zip_postal_code: //input[@id='tax_postcode']
                             zip_range_from: //input[@id='zip_from']
                             zip_range_to: //input[@id='zip_to']
                             rate_percent: //input[@id='rate']
+                        checkboxes:
+                            zip_is_range: //input[@id='zip_is_range']
                         required: [tax_identifier, country, rate_percent]
                 -
                     tax_titles:
@@ -233,8 +235,8 @@ create_tax_rule:
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
             confirmation_for_delete_class: Do you really want to delete this tax class?
             used_in_rule_error: You cannot delete this tax class as it is used in Tax Rules. You have to delete the rules it is used in first.
-            used_in_product_error: You cannot delete this tax class as it is used for 1 products.
             used_in_customer_group_error: You cannot delete this tax class as it is used for 1 customer groups.
+            used_in_product_error: You cannot delete this tax class as it is used for 1 products.
 
 # Edit Tax Rule page
 edit_tax_rule:

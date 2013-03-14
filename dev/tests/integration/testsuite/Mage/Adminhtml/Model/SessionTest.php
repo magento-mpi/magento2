@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Model_SessionTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Model_SessionTest extends Mage_Backend_Area_TestCase
 {
     public function testConstructor()
     {

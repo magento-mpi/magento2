@@ -24,11 +24,6 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
         $this->_collection = Mage::getResourceModel('Enterprise_CatalogEvent_Model_Resource_Event_Collection');
     }
 
-    protected function tearDown()
-    {
-        $this->_collection = null;
-    }
-
     /**
      * Assert that collection contains expected item at expected index within the expected number of items
      *

@@ -20,13 +20,14 @@ manage_products:
                     product_grid:
                         xpath: //*[@id='productGrid']
                         links:
-                            selectall: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
+                            mass_action_select_all: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
+                            mass_action_select_visible: //div[@id='productGrid_massaction']//a[contains(.,'Select Visible')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                             submit: //button[span='Submit']
                         dropdowns:
-                            product_massaction: //select[@id='productGrid_massaction-select']
+                            mass_action_select_action: //select[@id='productGrid_massaction-select']
                             filter_massaction: //select[@name='massaction']
                             product_type: //select[@name='type']
                             product_attribute_set: //select[@name='set_name']

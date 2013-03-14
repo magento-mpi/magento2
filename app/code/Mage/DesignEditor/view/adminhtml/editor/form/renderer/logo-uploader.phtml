@@ -1,0 +1,43 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader */ ?>
+<?php
+/** @var $element Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader */
+$element = $this->getElement();
+?>
+
+<div style="border:1px solid gray; padding:10px 5px;">
+    <div id="<?php echo $element->getHtmlId(); ?>-uploader">
+        <div id="<?php echo $element->getHtmlId(); ?>-container">
+            <?php echo $this->getHtml(); ?>
+        </div>
+
+        <div class="no-display" id="<?php echo $element->getHtmlId(); ?>-template">
+            <div class="file-row">
+                <span class="label">{{name}}</span>
+                <span id="{{remove-id}}">remove</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function($) {
+        $(document.getElementById('<?php echo $element->getHtmlId(); ?>-uploader')).quickStyleUploader({
+            uploader_id:   '<?php echo $element->getHtmlId(); ?>',
+            container:     '<?php echo $element->getHtmlId(); ?>-uploader',
+            value:         '<?php echo $this->getLogoImage(); ?>',
+            url:           '<?php echo $this->getLogoUploadUrl(); ?>',
+            remove_url:    '<?php echo $this->getLogoRemoveUrl(); ?>',
+            hide_uploader: false
+        });
+    })(jQuery);
+</script>
