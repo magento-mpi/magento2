@@ -350,12 +350,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $theme = $helper->loadEditableTheme($themeId)
                 ->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
                 ->getStagingTheme();
-            $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_STAGING)->updateFromStagingTheme();
             $this->_saveLayoutUpdate(
                 $this->getRequest()->getParam('layoutUpdate', array()),
                 $this->getRequest()->getParam('handle'),
                 $theme->getId()
             );
+            $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_STAGING)->updateFromStagingTheme();
             $response = array('message' =>  $this->_helper->__('All changes applied'));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);

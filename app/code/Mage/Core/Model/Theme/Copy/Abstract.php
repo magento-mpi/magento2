@@ -56,30 +56,41 @@ abstract class Mage_Core_Model_Theme_Copy_Abstract implements Mage_Core_Model_Th
      */
     protected function _copyLayoutUpdates($sourceTheme, $targetTheme)
     {
-        /** @var $collection Mage_Core_Model_Resource_Layout_Link_Collection */
-        $collection = $this->_layoutLink->getCollection();
-        $collection->addTemporaryFilter(false)->addFieldToFilter('theme_id', $sourceTheme->getId());
+        /** @var $sourceCollection Mage_Core_Model_Resource_Layout_Link_Collection */
+        $sourceCollection = $this->_layoutLink->getCollection();
+        $sourceCollection->addTemporaryFilter(false)->addFieldToFilter('theme_id', $sourceTheme->getId());
+
+        /** @var $targetCollection Mage_Core_Model_Resource_Layout_Link_Collection */
+        $targetCollection = $this->_layoutLink->getCollection();
+        $targetCollection->addTemporaryFilter(false)->addFieldToFilter('theme_id', $targetTheme->getId());
 
         /** @var $link Mage_Core_Model_Layout_Link */
-        foreach ($collection as $link) {
-            $link->setId(null);
-            $link->setThemeId($targetTheme->getId());
-            $link->save();
+        foreach ($sourceCollection as $link) {
+            if (!$this->_isLinkCreated($targetCollection, $targetTheme->getId(), $link->getLayoutUpdateId())) {
+                $link->setId(null);
+                $link->setThemeId($targetTheme->getId());
+                $link->save();
+            }
         }
         return $this;
     }
 
     /**
-     * @param Mage_Core_Model_Theme $theme
-     * @param int $layoutUpdateId
-     * @return Mage_Core_Model_Resource_Layout_Link_Collection
+     * Check if link is already created
+     *
+     * @param Mage_Core_Model_Resource_Layout_Link_Collection $targetCollection
+     * @param int $updateId
+     * @param int $themeId
+     * @return bool
      */
-    protected function _loadLayoutLinks(Mage_Core_Model_Theme $theme, $layoutUpdateId)
+    protected function _isLinkCreated($targetCollection, $themeId, $updateId)
     {
-        /** @var $collection Mage_Core_Model_Resource_Layout_Link_Collection */
-        $collection = $this->_layoutLink->getCollection();
-        $collection->addFieldToFilter('theme_id', $theme->getId())
-            ->addFieldToFilter('layout_update_id', $layoutUpdateId);
-        return $collection;
+        /** @var $createdLink Mage_Core_Model_Layout_Link */
+        foreach ($targetCollection as $createdLink) {
+            if ($createdLink->getThemeId() == $themeId && $createdLink->getLayoutUpdateId() == $updateId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

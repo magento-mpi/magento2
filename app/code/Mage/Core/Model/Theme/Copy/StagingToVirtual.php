@@ -55,7 +55,7 @@ class Mage_Core_Model_Theme_Copy_StagingToVirtual extends Mage_Core_Model_Theme_
     public function copy(Mage_Core_Model_Theme $theme)
     {
         $virtualTheme = $theme->getParentTheme();
-        $this->_copyAllThemeFiles($theme, $virtualTheme);
+        $this->_copyLayoutUpdates($theme, $virtualTheme)->_copyAllThemeFiles($theme, $virtualTheme);
         $this->_design->dropPublicationCache(array(
             'area' => Mage_Core_Model_Design_Package::DEFAULT_AREA, 'themeModel' => $virtualTheme
         ));
