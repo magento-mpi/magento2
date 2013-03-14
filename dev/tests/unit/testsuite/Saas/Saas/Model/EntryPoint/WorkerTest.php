@@ -26,7 +26,11 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
      */
     public function testWorkerTaskHandler($taskName, $taskParams)
     {
-        $params = array('tasks_config' => array(array('task_name' => $taskName, 'params' => $taskParams)));
+        $params = array(
+            Saas_Saas_Model_EntryPoint_Worker::TASK_OPTIONS_KEY => array(
+                array('task_name' => $taskName, 'params' => $taskParams)
+            )
+        );
         $worker = new Saas_Saas_Model_EntryPoint_Worker(__DIR__, $params, $this->_objectManagerMock);
         $dispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
         $dispatcher->expects($this->once())->method('dispatch')->with($taskName, $taskParams);
