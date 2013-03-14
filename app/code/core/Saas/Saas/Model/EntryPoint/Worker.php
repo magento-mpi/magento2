@@ -17,7 +17,7 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
     /**
      * Key of tasks node in config
      */
-    const TASK_KEY = 'worker_task_options';
+    const TASK_OPTIONS_KEY = 'worker_task_options';
 
     /**
      * @var array

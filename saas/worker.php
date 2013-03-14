@@ -19,10 +19,12 @@ return function (array $params)
 
     $config = new Saas_Saas_Model_Tenant_Config($rootDir, $params);
     $appParams = $config->getApplicationParams();
-    if (!isset($params[Saas_Saas_Model_EntryPoint_Worker::TASK_KEY])) {
+    if (!isset($params[Saas_Saas_Model_EntryPoint_Worker::TASK_OPTIONS_KEY])) {
         throw new LogicException('You have to define task parameters.');
     }
-    $appParams[Saas_Saas_Model_EntryPoint_Worker::TASK_KEY] = $params[Saas_Saas_Model_EntryPoint_Worker::TASK_KEY];
+    $appParams[Saas_Saas_Model_EntryPoint_Worker::TASK_OPTIONS_KEY] = $params[
+        Saas_Saas_Model_EntryPoint_Worker::TASK_OPTIONS_KEY
+    ];
 
     $entryPoint = new Saas_Saas_Model_EntryPoint_Worker($rootDir, $appParams);
     $entryPoint->processRequest();
