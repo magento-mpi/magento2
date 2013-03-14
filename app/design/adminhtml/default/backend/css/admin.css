@@ -794,9 +794,10 @@ textarea[readonly] {
     cursor: not-allowed;
     background-color: #eee;
     border-color: #ddd;
+    color:#676056;
 }
 
-select[disabled] > option[selected] { 
+select[disabled].multiselect > option[selected] { 
     color: #fff;
     background: #6d6d6d;
 }

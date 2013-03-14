@@ -444,13 +444,15 @@ th.required:before {
     position: relative;
     z-index: 1;
     padding: 0;
+    border: 0;
     text-align: center;
 }
 
 .adminhtml-sales-order-index .page-actions .add > span {
     text-indent: -999em;
     display: block;
-    padding: 0;
+    width: 36px;
+    height: 36px;
 }
 
 .adminhtml-sales-order-index .page-actions .add > span:before {
@@ -458,17 +460,20 @@ th.required:before {
     text-indent: 0;
     content: '+';
     font-weight: normal;
-    font-size: 36px;
+    font-size: 38px;
     color: #fff;
     position: absolute;
-    line-height: 36px;
+    line-height: 28px;
     height: 36px;
     width: 36px;
     overflow: hidden;
     text-align: center;
-    top: -4px;
-    left: -1px;
-    vertical-align: top;
+    top: 0;
+    left: 0;
+}
+
+.eq-ie8 .adminhtml-sales-order-index .page-actions .add > span:before {
+    line-height: 38px;
 }
 
 .adminhtml-sales-order-index .grid-actions {
