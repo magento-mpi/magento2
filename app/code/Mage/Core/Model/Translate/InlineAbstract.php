@@ -24,11 +24,6 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     const DATA_TRANSLATE = 'data-translate';
 
     /**
-     * translate-mode html element attribute name
-     */
-    const TRANSLATE_MODE = 'translate-mode';
-
-    /**
      * Regular Expression for detected and replace translate
      *
      * @var string
