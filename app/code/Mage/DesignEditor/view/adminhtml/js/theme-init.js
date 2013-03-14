@@ -18,7 +18,7 @@
         /**
          * Initialize widget
          *
-         * @private
+         * @protected
          */
         _create: function() {
             if (this.options.isPhysicalTheme) {
@@ -29,7 +29,7 @@
         /**
          * Bind event handlers
          *
-         * @private
+         * @protected
          */
         _bind: function() {
             var body = $('body');
@@ -41,7 +41,7 @@
          *
          * @param e
          * @param data
-         * @private
+         * @protected
          */
         _onRegisterElements: function(e, data){
             var content = data.content || 'body';
@@ -54,7 +54,7 @@
          *
          * @param content
          * @param elements
-         * @private
+         * @protected
          */
         _registerElements: function(content, elements) {
             for (var eventType in elements) {
@@ -68,7 +68,7 @@
          * Manage change theme event
          *
          * @param event
-         * @private
+         * @protected
          */
         _onChangeTheme: function(event) {
             if (confirm($.mage.__('You want to change theme. It is necessary to create customization. Do you want to create?'))) {
