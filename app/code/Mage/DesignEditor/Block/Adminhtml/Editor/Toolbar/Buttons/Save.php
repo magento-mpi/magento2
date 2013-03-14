@@ -17,29 +17,29 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Current theme used for preview
      *
-     * @var int
+     * @var Mage_Core_Model_Theme
      */
-    protected $_themeId;
+    protected $_theme;
 
     /**
-     * Get current theme id
+     * Get current theme
      *
-     * @return int
+     * @return Mage_Core_Model_Theme
      */
-    public function getThemeId()
+    public function getTheme()
     {
-        return $this->_themeId;
+        return $this->_theme;
     }
 
     /**
-     * Get current theme id
+     * Set current theme
      *
-     * @param int $themeId
+     * @param Mage_Core_Model_Theme $theme
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      */
-    public function setThemeId($themeId)
+    public function setTheme($theme)
     {
-        $this->_themeId = $themeId;
+        $this->_theme = $theme;
 
         return $this;
     }
@@ -56,7 +56,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'event'     => 'save',
                 'target'    => 'body',
                 'eventData' => array(
-                    'theme_id' => $this->getThemeId(),
+                    'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
                 )
             ),
@@ -72,7 +72,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/system_design_editor/save', array('theme_id' => $this->getThemeId()));
+        return $this->getUrl('*/system_design_editor/save', array('theme_id' => $this->getTheme()->getId()));
     }
 
     /**
@@ -87,12 +87,22 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'event'     => 'save-and-assign',
                 'target'    => 'body',
                 'eventData' => array(
-                    'theme_id' => $this->getThemeId(),
+                    'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
                 )
             ),
         );
 
         return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
+    }
+
+    /**
+     * Whether button save is enable
+     *
+     * @return bool
+     */
+    public function isEnable()
+    {
+        return $this->getTheme()->isEditable();
     }
 }

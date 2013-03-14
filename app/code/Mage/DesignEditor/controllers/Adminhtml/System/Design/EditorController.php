@@ -94,7 +94,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */
             $saveButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_save');
-            $saveButtonBlock->setThemeId($editableTheme->getId())
+            $saveButtonBlock->setTheme($editableTheme)
                 ->setMode($mode);
 
             /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
