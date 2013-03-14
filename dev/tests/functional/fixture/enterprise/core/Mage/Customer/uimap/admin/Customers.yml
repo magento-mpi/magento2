@@ -316,8 +316,8 @@ new_reward_rate:
         buttons:
             back: //button[@id="back"]
             reset: //button[@id="reset"]
-            save: //button[@id="save" ]
-            delete: //button[span='Delete']
+            save: //button[@id="save"]
+            delete: //button[@id="delete"]
         messages:
             positive_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a positive integer number in the left rate field.')]
             confirmation_for_delete: Are you sure you want to do this?

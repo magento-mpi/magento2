@@ -323,6 +323,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessRewardPoints()
     {
+        $this->markTestIncomplete('MAGETWO-8404');
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
