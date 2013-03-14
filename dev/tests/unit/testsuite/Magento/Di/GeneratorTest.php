@@ -91,7 +91,10 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Magento_Di_Generator($this->_generator, $this->_autoloader);
 
-        $this->assertTrue($this->_model->generateClass($className . $entityType));
+        $this->assertEquals(
+            Magento_Di_Generator::GENERATION_SUCCESS,
+            $this->_model->generateClass($className . $entityType)
+        );
         $this->assertAttributeEmpty('_generator', $this->_model);
     }
 
@@ -108,7 +111,10 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Magento_Di_Generator($this->_generator, $this->_autoloader);
 
-        $this->assertFalse($this->_model->generateClass($className . $entityType));
+        $this->assertEquals(
+            Magento_Di_Generator::GENERATION_SKIP,
+            $this->_model->generateClass($className . $entityType)
+        );
     }
 
     public function testGenerateClassWithWrongName()
@@ -119,7 +125,9 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Magento_Di_Generator($this->_generator, $this->_autoloader);
 
-        $this->assertFalse($this->_model->generateClass(self::SOURCE_CLASS));
+        $this->assertEquals(
+            Magento_Di_Generator::GENERATION_ERROR,
+            $this->_model->generateClass(self::SOURCE_CLASS));
     }
 
     /**
