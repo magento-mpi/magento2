@@ -11,18 +11,20 @@
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */ ?>
 
 <div class="actions-split">
-    <button class="action-default primary <?php echo $this->isEnable() ? '' : 'disabled' ?>" data-mage-init="<?php echo $this->getSaveInitData() ?>">
+    <button class="action-default primary <?php echo $this->isEnable() ? '' : 'disabled' ?>" <?php if ($this->isEnable()): ?> data-mage-init="<?php echo $this->getSaveInitData() ?>" <?php endif; ?>>
         <span>Save</span>
     </button>
-    <button class="action-toggle primary <?php echo $this->isEnable() ? '' : 'disabled' ?>" data-toggle="dropdown">
+    <button class="action-toggle primary <?php echo $this->isEnable() ? '' : 'disabled' ?>" <?php if ($this->isEnable()): ?> data-toggle="dropdown"<?php endif; ?>>
         <span>Select</span>
     </button>
-    <ul class="dropdown-menu"  data-ui-id="products-list-add-new-button-dropdown-menu" >
-        <li>
-            <span class="item item-default" data-mage-init="<?php echo $this->getSaveInitData() ?>"><?php echo $this->__('Save'); ?></span>
-        </li>
-        <li>
-            <span class="item item-default" data-mage-init="<?php echo $this->getSaveAndAssignInitData() ?>"><?php echo $this->__('Save and Assign'); ?></span>
-        </li>
-    </ul>
+    <?php if ($this->isEnable()): ?>
+        <ul class="dropdown-menu"  data-ui-id="products-list-add-new-button-dropdown-menu" >
+            <li>
+                <span class="item item-default" data-mage-init="<?php echo $this->getSaveInitData() ?>"><?php echo $this->__('Save'); ?></span>
+            </li>
+            <li>
+                <span class="item item-default" data-mage-init="<?php echo $this->getSaveAndAssignInitData() ?>"><?php echo $this->__('Save and Assign'); ?></span>
+            </li>
+        </ul>
+    <?php endif; ?>
 </div>
