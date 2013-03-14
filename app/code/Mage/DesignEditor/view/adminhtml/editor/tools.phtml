@@ -152,8 +152,10 @@
 
             // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
             // Or, if disabling inline translation, refresh minus the translation mode on the url.
-            if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation)
+            if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation) {
+                parent.jQuery('#vde_container_frame').attr('src', url);
                 parent.jQuery('#vde_container_frame').get(0).contentWindow.location.href = url;
+            }
 
             /**
              * Since the url is being modified to support inline translation, the window is not reloaded since it
@@ -162,6 +164,7 @@
         },
 
         /**
+         * This method updates the menu's current status.
          *
          * @param mode
          * @private
@@ -172,48 +175,56 @@
             var TEXT_MENU_BACKGROUND_ON = 'text-menu-background-on';
             var TEXT_MENU_BACKGROUND_OFF = 'text-menu-background-off';
 
-            var disable_one = "text";
-            var disable_two = "script";
-
-            if (mode === 'text') {
-                disable_one = "script";
-                disable_two = "alt";
-            }
-            else if (mode === 'script') {
-                disable_one = "text";
-                disable_two = "alt";
-            }
+            var possibleModes = ["text", "script", "alt"];
+            var menuClass = '#vde-translate-' + mode;
+            var textEditClass = 'text-edit-' + mode;
+            var textMenuClass = 'text-menu-' + mode;
 
             // Check to see if turning off (selecting the already highlighted option).
-            if (parent.jQuery('#vde-translate-' + mode).hasClass(TEXT_MENU_BACKGROUND_ON)) {
-                parent.jQuery('#vde-translate-' + mode).removeClass(TEXT_MENU_BACKGROUND_ON).addClass(TEXT_MENU_BACKGROUND_OFF);
-                parent.jQuery('#vde-translate-' + mode + '-img').removeClass('text-menu-' + mode + '-on').addClass('text-menu-' + mode + '-off');
+            if (parent.jQuery(menuClass).hasClass(TEXT_MENU_BACKGROUND_ON)) {
+                parent.jQuery(menuClass).removeClass(TEXT_MENU_BACKGROUND_ON).addClass(TEXT_MENU_BACKGROUND_OFF);
+                parent.jQuery(menuClass + '-img').removeClass(textMenuClass + '-on').addClass(textMenuClass + '-off');
 
                 // Update toolbar button.
-                parent.jQuery('#vde-translate-edit').removeClass('text-edit-' + mode + '-on').addClass('text-edit-' + mode + '-off');
+                parent.jQuery('#vde-translate-edit').removeClass(textEditClass + '-on').addClass(textEditClass + '-off');
 
                 // Refresh iframe minus the translation mode on the url.
                 this.options.disableInlineTranslation = true;
             }
             else {
                 // Enable selected option
-                parent.jQuery('#vde-translate-' + mode).removeClass(TEXT_MENU_BACKGROUND_OFF).addClass(TEXT_MENU_BACKGROUND_ON);
-                parent.jQuery('#vde-translate-' + mode + '-img').removeClass('text-menu-' + mode + '-off').addClass('text-menu-' + mode + '-on');
-
-                // Update toolbar button.
-                parent.jQuery('#vde-translate-edit').addClass('text-edit-' + mode + '-on');
+                this._toggleSelected(mode, true, TEXT_MENU_BACKGROUND_OFF, TEXT_MENU_BACKGROUND_ON, textMenuClass + '-off', textMenuClass + '-on');
 
                 // Disable other two options.
-                parent.jQuery('#vde-translate-' + disable_one + '').removeClass(TEXT_MENU_BACKGROUND_ON).addClass(TEXT_MENU_BACKGROUND_OFF);
-                parent.jQuery('#vde-translate-' + disable_one + '-img').removeClass('text-menu-' + disable_one + '-on').addClass('text-menu-'+ disable_one + '-off');
-                // Update toolbar button.
-                parent.jQuery('#vde-translate-edit').removeClass('text-edit-' + disable_one + '-on');
-
-                parent.jQuery('#vde-translate-' + disable_two + '').removeClass(TEXT_MENU_BACKGROUND_ON).addClass(TEXT_MENU_BACKGROUND_OFF);
-                parent.jQuery('#vde-translate-' + disable_two + '-img').removeClass('text-menu-' + disable_two + '-on').addClass('text-menu-' + disable_two + '-off');
-                // Update toolbar button.
-                parent.jQuery('#vde-translate-edit').removeClass('text-edit-' + disable_two + '-on');
+                for (var i = 0; i < possibleModes.length; i++) {
+                    if (possibleModes[i] != mode)
+                        this._toggleSelected(possibleModes[i], false, TEXT_MENU_BACKGROUND_ON, TEXT_MENU_BACKGROUND_OFF, 'text-menu-' + possibleModes[i] + '-on', 'text-menu-' + possibleModes[i] + '-off');
+                }
             }
+        },
+
+        /**
+         * This method changes the classes of the menu option backgrounds and image and the toolbar link.
+         *
+         * @param mode
+         * @param enableOnToolbar
+         * @param backgroundRemove
+         * @param backgroundAdd
+         * @param imageRemove
+         * @param imageAdd
+         * @private
+         */
+        _toggleSelected: function (mode, enableOnToolbar, backgroundRemove, backgroundAdd, imageRemove, imageAdd) {
+            var menuClass = '#vde-translate-' + mode;
+            parent.jQuery(menuClass).removeClass(backgroundRemove).addClass(backgroundAdd);
+            parent.jQuery(menuClass + '-img').removeClass(imageRemove).addClass(imageAdd);
+
+            // Update toolbar button.
+            var textEditClassOn = 'text-edit-' + mode + '-on';
+            if (enableOnToolbar)
+                parent.jQuery('#vde-translate-edit').addClass(textEditClassOn);
+            else
+                parent.jQuery('#vde-translate-edit').removeClass(textEditClassOn);
         }
     });
 
