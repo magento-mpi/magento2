@@ -113,11 +113,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getFile($file, $module = null)
     {
-        $dirs = array();
-        foreach ($this->getDirs($this->_theme) as $dir) {
-            $dirs[] = "{$dir}/locale/{$this->_locale}";
-            $dirs[] = $dir;
-        }
+        $dirs = $this->getDirs($this->_theme);
 
         if ($module) {
             $moduleDir = array($this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module)
@@ -198,10 +194,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     protected function _fallback($file, $themeDirs, $module = false, $moduleDirs = array(), $extraDirs = array())
     {
-        $dirs = array();
-
-        // add modules to lookup
-        $dirs = array_merge($dirs, $themeDirs);
+        $dirs = $themeDirs;
         if ($module) {
             array_walk($themeDirs, function (&$dir) use ($module) {
                 $dir = "{$dir}/{$module}";

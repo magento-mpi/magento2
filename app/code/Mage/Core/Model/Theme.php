@@ -125,9 +125,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_Image $themeImage
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
      * @param Mage_Core_Model_Resource_Theme $resource
+     * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
      *
@@ -139,9 +139,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_Image $themeImage,
+        Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Theme_Domain_Factory $domainFactory,
         Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {
@@ -285,8 +285,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $customPath = $this->getData('customization_path');
         if ($this->getId() && empty($customPath)) {
-            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
-                . self::PATH_PREFIX_CUSTOMIZATION . DIRECTORY_SEPARATOR . $this->getId();
+            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::THEME) . Magento_Filesystem::DIRECTORY_SEPARATOR
+                . self::PATH_PREFIX_CUSTOMIZATION . Magento_Filesystem::DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
         return $customPath;
@@ -590,7 +590,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Get one of theme domain models
      *
      * @param int|null $type
-     * @return mixed
+     * @return Mage_Core_Model_Theme_Domain_Physical|Mage_Core_Model_Theme_Domain_Virtual|
+     * Mage_Core_Model_Theme_Domain_Staging
      * @throws Mage_Core_Exception
      */
     public function getDomainModel($type = null)
