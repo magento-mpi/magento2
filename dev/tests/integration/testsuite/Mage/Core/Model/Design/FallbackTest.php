@@ -90,6 +90,8 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->addFilter('area', $area)
             ->getFirstItem();
 
+        $this->_prepareThemesDirs($themeModel, $dirs);
+
         // Build model
         $params = array(
             'area'       => $area,
@@ -99,6 +101,16 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 
         return Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback',
             array('dirs' => $dirs, 'params' => $params));
+    }
+
+    protected function _prepareThemesDirs($theme, $dirs)
+    {
+        while ($theme) {
+            $property = new ReflectionProperty($theme, '_dirs');
+            $property->setAccessible(true);
+            $property->setValue($theme, $dirs);
+            $theme = $theme->getParentTheme();
+        }
     }
 
     /**
