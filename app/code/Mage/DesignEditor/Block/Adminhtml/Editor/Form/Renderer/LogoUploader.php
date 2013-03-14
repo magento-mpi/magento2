@@ -41,7 +41,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     {
         /** @var $helper Mage_DesignEditor_Helper_Data */
         $helper = $this->_helperFactory->get('Mage_DesignEditor_Helper_Data');
-        return $helper->getEditableThemeId();
+        return $helper->getVirtualThemeId();
     }
 
     /**
