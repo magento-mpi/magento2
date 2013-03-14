@@ -19,7 +19,7 @@
     <?php foreach($stores as $store) : ?>
         <?php $elementId = $element->getHtmlId() . '-' . $store->getId(); ?>
         <div id="<?php echo $elementId; ?>-uploader" class="custom-file">
-            <div><?php echo $store->getName(); ?>:</div>
+            <div class="custom-file-for-store-view"><?php echo $store->getName(); ?>:</div>
 
             <div id="<?php echo $elementId; ?>-container" class="action-add">
                 <?php echo $this->getHtml(); ?>
