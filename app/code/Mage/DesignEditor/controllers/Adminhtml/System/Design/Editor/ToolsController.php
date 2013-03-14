@@ -385,6 +385,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         $dataHelper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
         /** @var $helper Mage_Core_Helper_Theme */
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
-        return $helper->loadTheme($dataHelper->getEditableThemeId());
+        return $helper->loadEditableTheme($dataHelper->getEditableThemeId());
     }
 }

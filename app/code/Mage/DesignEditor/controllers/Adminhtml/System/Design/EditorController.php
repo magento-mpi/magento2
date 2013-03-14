@@ -64,7 +64,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $helper Mage_Core_Helper_Theme */
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
-            $theme = $helper->loadTheme($themeId);
+            $theme = $helper->loadVisibleTheme($themeId);
             $editableTheme = $theme->isVirtual() ? $theme->getDomainModel()->getStagingTheme() : $theme;
             $this->_getSession()->setData(
                 Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY, $editableTheme->getId()
@@ -146,7 +146,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $helper Mage_Core_Helper_Theme */
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
-            $theme = $helper->loadTheme($themeId);
+            $theme = $helper->loadVisibleTheme($themeId);
             if (!$theme->getId() || ($theme->getType() != Mage_Core_Model_Theme::TYPE_PHYSICAL)) {
                 throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $theme->getId()));
             }
@@ -255,7 +255,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
             /** @var $theme Mage_Core_Model_Theme */
-            $theme = $helper->loadTheme($themeId);
+            $theme = $helper->loadEditableTheme($themeId);
             $theme->setThemeTitle($themeTitle);
             $theme->save();
             $response = array('success' => true);
@@ -351,7 +351,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $helper Mage_Core_Helper_Theme */
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
-            $theme = $helper->loadTheme($themeId);
+            $theme = $helper->loadEditableTheme($themeId);
             $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_STAGING)->updateFromStagingTheme();
             $response = array('message' =>  $this->_helper->__('All changes applied'));
         } catch (Exception $e) {

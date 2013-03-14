@@ -394,14 +394,44 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      * @return Mage_Core_Model_Theme
      * @throws Mage_Core_Exception
      */
-    public function loadTheme($themeId)
+    public function loadEditableTheme($themeId)
+    {
+        $theme = $this->_loadTheme($themeId);
+        if (!$theme->isEditable()) {
+            throw new Mage_Core_Exception($this->__('Theme "%s" is not editable.', $themeId));
+        }
+        return $theme;
+    }
+
+    /**
+     * Load theme by theme id
+     * Method also checks if theme actually loaded and if theme is visible
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
+     */
+    public function loadVisibleTheme($themeId)
+    {
+        $theme = $this->_loadTheme($themeId);
+        if (!$theme->isVisible()) {
+            throw new Mage_Core_Exception($this->__('Theme "%s" is not visible.', $themeId));
+        }
+        return $theme;
+    }
+
+    /**
+     * Load theme by theme id and checks if theme actually loaded
+     *
+     * @param $themeId
+     * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
+     */
+    protected function _loadTheme($themeId)
     {
         $theme = $this->_themeFactory->create();
         if (!($themeId && $theme->load($themeId)->getId())) {
             throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
-        }
-        if (!$theme->isEditable()) {
-            throw new Mage_Core_Exception($this->__('Theme "%s" is not editable.', $themeId));
         }
         return $theme;
     }
