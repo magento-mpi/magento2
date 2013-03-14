@@ -49,18 +49,17 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage
     }
 
     /**
-     * Get Address
+     * Retrieve Business Address
      *
      * @return array
      */
     public function getAddress()
     {
         $addressValues = array();
-        $addressValues['store_name'] = $this->_storeConfig->getConfig('general/store_information/name');
-        $addressValues['street_line1'] = $this->_storeConfig->getConfig('general/store_information/street_line1');
-        $addressValues['street_line2'] = $this->_storeConfig->getConfig('general/store_information/street_line2');
-        $addressValues['city'] = $this->_storeConfig->getConfig('general/store_information/city');
-        $addressValues['postcode'] = $this->_storeConfig->getConfig('general/store_information/postcode');
+        $addressValues['address-street-line1'] = $this->_storeConfig->getConfig('general/store_information/street_line1');
+        $addressValues['address-street-line2'] = $this->_storeConfig->getConfig('general/store_information/street_line2');
+        $addressValues['address-city'] = $this->_storeConfig->getConfig('general/store_information/city');
+        $addressValues['address-postcode'] = $this->_storeConfig->getConfig('general/store_information/postcode');
         $countryCode = $this->_storeConfig->getConfig('general/store_information/country_id');
         if (!empty($countryCode)) {
             $countryName = $this->_countryModel->loadByCode($countryCode)->getName();
@@ -72,10 +71,29 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage
                 $this->_regionModel->load($regionName);
                 $regionName = $this->_regionModel->getName();
             }
-            $addressValues['region'] = $regionName;
-            $addressValues['country'] = $countryName;
+            $addressValues['address-region-name'] = $regionName;
+            $addressValues['address-country-name'] = $countryName;
         }
-        $addressValues['email'] = $this->_storeConfig->getConfig('trans_email/ident_general/email');
         return $addressValues;
+    }
+
+    /**
+     * Retrieve store name
+     *
+     * @return string
+     */
+    public function getStoreName()
+    {
+        return (string)$this->_storeConfig->getConfig('general/store_information/name');
+    }
+
+    /**
+     * Retrieve general email address
+     *
+     * @return string
+     */
+    public function getGeneralEmail()
+    {
+        return (string)$this->_storeConfig->getConfig('trans_email/ident_general/email');
     }
 }

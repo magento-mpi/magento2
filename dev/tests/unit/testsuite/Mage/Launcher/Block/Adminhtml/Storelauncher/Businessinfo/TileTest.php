@@ -28,6 +28,11 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
      */
     protected $_config;
 
+    /**
+     * @var Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile
+     */
+    protected $_tileBlock;
+
     public function setUp()
     {
         $this->_data = array(
@@ -39,12 +44,21 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             'region_id' => 5,
             'country_id' => 'US',
             'email' => 'test@example.com',
+            'name' => 'Store Name',
         );
 
         $this->_config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
         $this->_config->expects($this->any())
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_tileBlock = $objectManagerHelper->getObject(
+            'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
+            array(
+                'storeConfig' => $this->_config,
+            )
+        );
     }
 
     /**
@@ -173,12 +187,10 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
         return array(
             array(
                 array(
-                    'store_name' => 'Magento',
-                    'street_line1' => 'Zoologichna',
-                    'street_line2' => '5 A',
-                    'city' => 'Kiev',
-                    'postcode' => '03344',
-                    'email' => 'test@example.com'
+                    'address-street-line1' => 'Zoologichna',
+                    'address-street-line2' => '5 A',
+                    'address-city' => 'Kiev',
+                    'address-postcode' => '03344',
                 )
             )
         );
@@ -194,14 +206,12 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
         return array(
             array(
                 array(
-                    'store_name' => 'Magento',
-                    'street_line1' => 'Zoologichna',
-                    'street_line2' => '5 A',
-                    'city' => 'Kiev',
-                    'postcode' => '03344',
-                    'region' => 'Alaska',
-                    'country' => 'United States',
-                    'email' => 'test@example.com'
+                    'address-street-line1' => 'Zoologichna',
+                    'address-street-line2' => '5 A',
+                    'address-city' => 'Kiev',
+                    'address-postcode' => '03344',
+                    'address-region-name' =>'Alaska',
+                    'address-country-name' => 'United States',
                 ),
                 array(
                     'Alaska',
@@ -211,17 +221,25 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             ),
             array(
                 array(
-                    'store_name' => 'Magento',
-                    'street_line1' => 'Zoologichna',
-                    'street_line2' => '5 A',
-                    'city' => 'Kiev',
-                    'postcode' => '03344',
-                    'region' => 5,
-                    'country' => 'United States',
-                    'email' => 'test@example.com'
+                    'address-street-line1' => 'Zoologichna',
+                    'address-street-line2' => '5 A',
+                    'address-city' => 'Kiev',
+                    'address-postcode' => '03344',
+                    'address-region-name' => 5,
+                    'address-country-name' => 'United States',
                 ),
                 array()
             )
         );
+    }
+
+    public function testGetStoreName()
+    {
+        $this->assertEquals('Store Name', $this->_tileBlock->getStoreName());
+    }
+
+    public function testGetGeneralEmail()
+    {
+        $this->assertEquals('test@example.com', $this->_tileBlock->getGeneralEmail());
     }
 }
