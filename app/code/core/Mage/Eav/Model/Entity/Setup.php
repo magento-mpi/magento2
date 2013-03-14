@@ -660,7 +660,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
            !Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
         {
             throw Mage::exception('Mage_Eav',
-                Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less then %s symbols', $attributeCodeMaxLength)
+                Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %s symbols', $attributeCodeMaxLength)
             );
         }
 

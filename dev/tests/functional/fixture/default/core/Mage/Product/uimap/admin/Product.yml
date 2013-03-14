@@ -58,11 +58,11 @@ manage_products:
             success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been created.')]
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been saved.')]
             specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
-            incorrect_sku_length: //*[@class='mage-error' and text()='SKU length should be 64 characters maximum.']
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This field is required.' and not(contains(@style,'display: none;'))]
+            incorrect_sku_length: //*[@class='mage-error' and text()='Maximum length of this field must be equal or less than 64 symbols.']
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
             enter_valid_number: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
             enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]
-            enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field' and not(contains(@style,'display: none;'))]
+            enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?

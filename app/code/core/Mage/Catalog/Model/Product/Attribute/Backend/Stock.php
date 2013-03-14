@@ -67,4 +67,23 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Stock extends Mage_Eav_Model_
         $object->unsetData($this->getAttribute()->getAttributeCode());
         parent::beforeSave($object);
     }
+
+    /**
+     * Validate
+     *
+     * @param Mage_Catalog_Model_Product $object
+     * @throws Mage_Core_Exception
+     * @return bool
+     */
+    public function validate($object)
+    {
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        $value = $object->getData($attrCode);
+        if (!empty($value['qty']) && !Zend_Validate::is($value['qty'], 'Float')) {
+            Mage::throwException(
+                Mage::helper('Mage_Catalog_Helper_Data')->__('Please enter a valid number in this field.')
+            );
+        }
+        return true;
+    }
 }

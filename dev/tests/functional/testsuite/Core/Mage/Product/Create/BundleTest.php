@@ -259,7 +259,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInBundle()
     {
-        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));

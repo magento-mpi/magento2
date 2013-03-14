@@ -225,7 +225,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInSimple()
     {
-        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));
