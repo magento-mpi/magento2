@@ -27,6 +27,6 @@ class Enterprise_Tag_Block_Reward_TooltipTest extends PHPUnit_Framework_TestCase
         $data = array(
             'data' => array('helpers' => array('Enterprise_Tag_Helper_Data' => $helperMock))
         );
-        $objectManagerHelper->getBlock('Enterprise_Tag_Block_Reward_Tooltip', $data);
+        $objectManagerHelper->getObject('Enterprise_Tag_Block_Reward_Tooltip', $data);
     }
 }

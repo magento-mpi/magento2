@@ -1,6 +1,6 @@
 <?php
 /**
- * Check whether XEnterprise_Edition.xml.dist exactly corresponds to /app/code/core/Enterprise contents
+ * Check whether XEnterprise_Edition.xml.dist exactly corresponds to /app/code/Enterprise contents
  *
  * {license_notice}
  *
@@ -28,7 +28,7 @@ class Integrity_Enterprise_EditionTest extends PHPUnit_Framework_TestCase
             $modules[$moduleName] = 1;
         }
 
-        $poolPath = $root . '/app/code/core/Enterprise';
+        $poolPath = $root . '/app/code/Enterprise';
         foreach (new DirectoryIterator($poolPath) as $dir) {
             if (!$dir->isDot()) {
                 $moduleName = 'Enterprise_' . $dir->getFilename();

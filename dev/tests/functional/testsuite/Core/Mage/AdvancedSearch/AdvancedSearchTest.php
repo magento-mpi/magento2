@@ -113,7 +113,7 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         $searchData = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price',
             array('name' => $productData['general_name'],
                 'description' => $productData['general_description'],
-                'short_description' => $productData['general_short_description'],
+                'autosettings_short_description' => $productData['autosettings_short_description'],
                 'sku' => $productData['general_sku']));
         //Steps
         $this->advancedSearchHelper()->frontCatalogAdvancedSearch($searchData);
@@ -147,7 +147,7 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         //Data
         $searchData = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price',
             array('price_from' => $productData['prices_special_price'],
-                'price_to' => $productData['prices_price']));
+                'price_to' => $productData['general_price']));
         //Steps
         $this->advancedSearchHelper()->frontCatalogAdvancedSearch($searchData);
         $this->clickButton('search');
@@ -248,7 +248,7 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         return array(
             array('name','general_name'),
             array('description','general_description'),
-            array('short_description','general_short_description'),
+            array('short_description','autosettings_short_description'),
             array('sku','general_sku'));
     }
 }

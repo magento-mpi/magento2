@@ -32,10 +32,10 @@ class Enterprise_PageCache_Model_ObjectManager_ConfiguratorTest extends PHPUnit_
             'Enterprise_PageCache_Model_Cache' => array(
                 'parameters' => array('config' => 'Mage_Core_Model_Config_Proxy')
             ),
-            'Enterprise_PageCache_Model_Processor' => array(
+            'Enterprise_PageCache_Model_Request_Identifier' => array(
                 'parameters' => array('scopeCode' => 'run_code'),
             ));
-        $objectManager->expects($this->once())->method('setConfiguration')->with($expectedParams);
+        $objectManager->expects($this->once())->method('configure')->with($expectedParams);
         $this->_model->configure($objectManager);
     }
 

@@ -68,4 +68,15 @@ class Varien_Cache_CoreTest extends PHPUnit_Framework_TestCase
             'non-existing class passed' => array(array('decorator' => array('class' => 'NonExistingClass'))),
         );
     }
+
+    public function testSaveDisabled()
+    {
+        $backendMock = $this->getMock('Zend_Cache_Backend_BlackHole');
+        $backendMock->expects($this->never())
+            ->method('save');
+        $frontend = new Varien_Cache_Core(array('disable_save' => true));
+        $frontend->setBackend($backendMock);
+        $result = $frontend->save('data', 'id');
+        $this->assertTrue($result);
+    }
 }

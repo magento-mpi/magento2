@@ -349,6 +349,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         }
     }
 
+    /**
+     * @return array
+     */
     public function publishCssFileFromModuleDataProvider()
     {
         return array(

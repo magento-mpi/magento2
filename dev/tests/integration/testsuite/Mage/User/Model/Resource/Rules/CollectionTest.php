@@ -21,11 +21,6 @@ class Mage_User_Model_Resource_Rules_CollectionTest extends PHPUnit_Framework_Te
         $this->_collection = Mage::getResourceModel('Mage_User_Model_Resource_Rules_Collection');
     }
 
-    protected function tearDown()
-    {
-        $this->_collection = null;
-    }
-
     public function testGetByRoles()
     {
         $user = Mage::getModel('Mage_User_Model_User');

@@ -38,7 +38,7 @@ class Core_Mage_Customer_AddressFormTest extends Mage_Selenium_TestCase
         $this->openTab('addresses');
         $this->clickButton('add_new_address', false);
         $this->pleaseWait();
-        $this->addParameter('address_number', '1');
+        $this->addParameter('address_number', '2');
         //Verification
         $this->assertTrue($this->controlIsPresent('field', 'state'), 'Input field state/province is missing');
     }

@@ -29,11 +29,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPUnit
         );
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testValidate()
     {
         $product = new Varien_Object();

@@ -76,7 +76,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associated = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['attribute_code']));
         $configurable = $this->loadDataSet('Product', 'configurable_product_required', array('associated_weight' => 15),
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));

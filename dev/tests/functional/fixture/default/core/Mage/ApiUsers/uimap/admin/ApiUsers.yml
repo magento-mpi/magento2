@@ -27,7 +27,7 @@
 #API Users
 api_users:
     mca: webapi_user/
-    click_xpath: //div[@class='nav-bar']//a[span='API Users']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/webapi_user/')]
     title: API Users / Web Services / System / Magento Admin
     uimap:
         form:

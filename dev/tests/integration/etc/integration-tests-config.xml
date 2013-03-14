@@ -23,9 +23,9 @@
             </core_app_init_current_store_after>
         </events>
         <di>
-            <aliases>
+            <preferences>
                 <Mage_Core_Model_Cookie>Magento_Test_Cookie</Mage_Core_Model_Cookie>
-            </aliases>
+            </preferences>
         </di>
         <dev>
             <design_fallback>

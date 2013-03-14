@@ -24,9 +24,6 @@
             <path>dev/build</path>
         </item>
         <item>
-            <path>dev/tools/license_placeholder</path>
-        </item>
-        <item>
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>

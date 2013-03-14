@@ -11,14 +11,13 @@
  */
 
 return array(
-    'app/code/core/*/*/etc/{wsi,wsdl,wsdl2}.xml',
-    'app/code/core/Zend',
+    'app/code/*/*/etc/{wsi,wsdl,wsdl2}.xml',
+    'app/code/Zend',
     'app/design/frontend/*/*/js/dnd.js',
     'app/design/frontend/*/*/js/modernizr.js',
     'app/design/frontend/enterprise/fixed/js/jqzoom',
     'app/etc/local.xml',
     'dev/build/publication/license',
-    'dev/build/saas_qa/tenants',
     'dev/tests/functional',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',

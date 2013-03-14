@@ -21,11 +21,6 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Mage_Widget_Model_Widget');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     public function testGetWidgetsArray()
     {
         $declaredWidgets = $this->_model->getWidgetsArray();

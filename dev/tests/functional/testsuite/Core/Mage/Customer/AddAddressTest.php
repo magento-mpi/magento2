@@ -96,17 +96,12 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
         $this->customerHelper()->addAddress($addressData);
         $this->saveForm('save_customer');
         //Verifying
-        // Defining and adding %fieldXpath% for customer Uimap
-        $fieldSet = $this->getUimapPage('admin', 'edit_customer')->findFieldset('edit_address');
         if ($emptyField != 'country' and $emptyField != 'state') {
-            $fieldXpath = $fieldSet->findField($emptyField);
+            $fieldType = 'field';
         } else {
-            $fieldXpath = $fieldSet->findDropdown($emptyField);
+            $fieldType = 'dropdown';
         }
-        if ($emptyField == 'street_address_line_1') {
-            $this->addParameter('address_number', '1');
-        }
-        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }

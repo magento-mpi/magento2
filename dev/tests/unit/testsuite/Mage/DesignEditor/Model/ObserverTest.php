@@ -90,7 +90,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             $layoutCollection->addItem($layout);
         }
 
-        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array('create'), array(), '', false);
+        $objectManager = $this->getMock('Magento_ObjectManager');
         $objectManager->expects($this->at(0))
             ->method('create')
             ->with('Mage_Core_Model_Resource_Layout_Link_Collection')
@@ -100,7 +100,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->with('Mage_Core_Model_Resource_Layout_Update_Collection')
             ->will($this->returnValue($layoutCollection));
 
-        $cacheManager = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+        $cacheManager = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
 
         // test
         $this->_model = new Mage_DesignEditor_Model_Observer($objectManager, $helper, $cacheManager);

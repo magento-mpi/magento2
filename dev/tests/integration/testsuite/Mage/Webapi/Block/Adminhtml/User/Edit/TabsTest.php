@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Magento_Test_ObjectManager
@@ -26,6 +26,8 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_objectManager = Mage::getObjectManager();
         $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit_Tabs',

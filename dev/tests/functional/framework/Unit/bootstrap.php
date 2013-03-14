@@ -19,10 +19,11 @@ define('SELENIUM_TESTS_SCREENSHOTDIR', realpath(
 define('SELENIUM_TESTS_LOGS', realpath(
     SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'logs'));
 
-set_include_path(implode(PATH_SEPARATOR, array(realpath(SELENIUM_TESTS_FWDIR),
-                                               realpath(SELENIUM_UNIT_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'),
-                                               get_include_path())));
+set_include_path(implode(PATH_SEPARATOR, array(
+    realpath(SELENIUM_TESTS_FWDIR),
+    realpath(SELENIUM_UNIT_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'),
+    get_include_path()
+)));
 
-require_once 'Mage/Selenium/Autoloader.php';
-Mage_Selenium_Autoloader::register();
+require_once realpath(SELENIUM_TESTS_BASEDIR . '/../../../app/autoload.php');
 require_once 'functions.php';

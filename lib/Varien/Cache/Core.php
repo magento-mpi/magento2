@@ -21,6 +21,7 @@ class Varien_Cache_Core extends Zend_Cache_Core
      */
     protected $_specificOptions = array(
         'backend_decorators'    => array(),
+        'disable_save'          => false,
     );
 
     /**
@@ -71,6 +72,9 @@ class Varien_Cache_Core extends Zend_Cache_Core
      */
     public function save($data, $cacheId = null, $tags = array(), $specificLifetime = false, $priority = 8)
     {
+        if ($this->getOption('disable_save')) {
+            return true;
+        }
         $tags = $this->_tags($tags);
         return parent::save($data, $cacheId, $tags, $specificLifetime, $priority);
     }
@@ -136,7 +140,7 @@ class Varien_Cache_Core extends Zend_Cache_Core
     public function setBackend(Zend_Cache_Backend $backendObject)
     {
         $backendObject = $this->_decorateBackend($backendObject);
-        return parent::setBackend($backendObject);
+        parent::setBackend($backendObject);
     }
 
     /**
@@ -160,7 +164,8 @@ class Varien_Cache_Core extends Zend_Cache_Core
             $classOptions['concrete_backend'] = $backendObject;
 
             if (!class_exists($decoratorOptions['class'])) {
-                Zend_Cache::throwException("Class specified in '" . $decoratorName . "' does not exist");
+                Zend_Cache::throwException("Class '" . $decoratorOptions['class'] . "' specified in '"
+                    . $decoratorName . "' does not exist");
             }
 
             $backendObject = new $decoratorOptions['class']($classOptions);

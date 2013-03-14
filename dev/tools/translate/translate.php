@@ -78,7 +78,7 @@ $> php -f translate.php -- --path ~/dev/magento/ --dups [--key "Checkout"]
 # Output example:
 
 "Checkout":
-   Mage_Adminhtml.csv (1472) from app/code/core/Mage/Adminhtml/Block/Widget/Grid/Container.php (46)
+   Mage_Adminhtml.csv (1472) from app/code/Mage/Adminhtml/Block/Widget/Grid/Container.php (46)
    Mage_Catalog.csv (723) from design/frontend/default/default/catalog/product/view.phtml (172)
 
 ################################################################################
