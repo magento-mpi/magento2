@@ -284,8 +284,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     public function uploadStoreLogoAction()
     {
         $storeId = (int)$this->getRequest()->getParam('store_id');
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        /** @var $helper Mage_Core_Helper_Theme */
+        $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
-            $theme = $this->_getEditableTheme();
+            $theme = $helper->loadVisibleTheme($themeId);
+            if (!$theme->getId() || ($theme->getType() != Mage_Core_Model_Theme::TYPE_VIRTUAL)) {
+                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $theme->getId()));
+            }
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
@@ -317,8 +323,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     public function removeStoreLogoAction()
     {
         $storeId = (int)$this->getRequest()->getParam('store_id');
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        /** @var $helper Mage_Core_Helper_Theme */
+        $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
-            $theme = $this->_getEditableTheme();
+            $theme = $helper->loadVisibleTheme($themeId);
+            if (!$theme->getId() || ($theme->getType() != Mage_Core_Model_Theme::TYPE_VIRTUAL)) {
+                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $theme->getId()));
+            }
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');

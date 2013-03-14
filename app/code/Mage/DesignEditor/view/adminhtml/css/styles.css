@@ -1763,7 +1763,6 @@
 .vde-image-sizing .description {
     position: relative;
     padding: 17px 0 17px 70px;
-    background: url(Mage_Backend::images/vde-tools-image-settings-fill-frame.png) no-repeat;
 }
 
 .vde-image-sizing .explain {
