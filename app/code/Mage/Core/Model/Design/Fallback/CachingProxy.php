@@ -202,17 +202,29 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
     }
 
     /**
-     * Set file path to map.
+     * Object notified, that view file was published, thus it can return published file name on next calls
      *
-     * @param string $filePath
+     * @param string $publicFilePath
      * @param string $file
      * @param string|null $module
-     * @param string $type
      * @return Mage_Core_Model_Design_Fallback_CachingProxy
      */
-    public function setFilePathToMap($filePath, $file, $module = null, $type = null)
+    public function notifyViewFilePublished($publicFilePath, $file, $module = null)
     {
-        $this->_setToMap($type ?: 'view', $file, $module, $filePath);
+        $this->_setToMap('view', $file, $module, $publicFilePath);
+        return $this;
+    }
+
+    /**
+     * Clean map file for current theme
+     *
+     * @return Mage_Core_Model_Design_Fallback_CachingProxy
+     */
+    public function resetCache()
+    {
+        $this->_map = array();
+        $this->_isMapChanged = false;
+        $this->_filesystem->delete($this->_mapFile);
         return $this;
     }
 }

@@ -54,7 +54,6 @@ abstract class Mage_Core_Model_Theme_Copy_Abstract implements Mage_Core_Model_Th
 
         /** @var $link Mage_Core_Model_Layout_Link */
         foreach ($collection as $link) {
-            //copy links from 'virtual' to 'staging' theme
             $link->setId(null);
             $link->setThemeId($stagingTheme->getId());
             $link->save();

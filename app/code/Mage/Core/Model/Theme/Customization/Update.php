@@ -173,20 +173,16 @@ class Mage_Core_Model_Theme_Customization_Update extends Mage_Core_Model_Abstrac
         foreach ($customFiles as $customFile) {
             if ($customFile->hasContent()) {
                 $xmlActions[] = $this->_getInclusionAction($customFile);
-                $params = array(
-                    'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
-                    'themeModel' => $customFile->getTheme()
-                );
-                $this->_designPackage->updateFilePathInMap(
-                    $customFile->getFullPath(),
-                    $customFile->getRelativePath(),
-                    $params
-                );
             }
         }
         if (!empty($xmlActions)) {
             $update->setXml('<reference name="head">' . join('', $xmlActions) . '</reference>')->save();
         }
+        $params = array(
+            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            'themeModel' => $customFile->getTheme()
+        );
+        $this->_designPackage->dropPublicationCache($params);
         return $this;
     }
 
