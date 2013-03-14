@@ -229,8 +229,6 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
-                  'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'autosettings_short_description' => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')),
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
@@ -260,8 +258,6 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
-                  'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'autosettings_short_description' => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:')),
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));

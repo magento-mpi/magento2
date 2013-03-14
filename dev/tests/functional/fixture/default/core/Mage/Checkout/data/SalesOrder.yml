@@ -219,8 +219,8 @@ simple_low_qty:
     general_qty: 2
     general_stock_availability: In Stock
     general_weight: 18.56
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
 
@@ -234,8 +234,8 @@ simple_with_increments:
     general_qty: 120
     general_stock_availability: In Stock
     general_weight: 18.56
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     inventory_enable_qty_increments_default: No
     inventory_enable_qty_increments: Yes
@@ -253,8 +253,8 @@ simple_out_of_stock:
     general_qty: 0
     general_stock_availability: Out of Stock
     general_weight: 18.56
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
 
@@ -268,8 +268,8 @@ simple_min_allowed_qty:
     general_qty: 120
     general_stock_availability: In Stock
     general_weight: 18.56
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 10
@@ -285,8 +285,8 @@ simple_max_allowed_qty:
     general_qty: 120
     general_stock_availability: In Stock
     general_weight: 18.56
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     inventory_max_allowed_qty_default: No
     inventory_max_allowed_qty: 10
@@ -303,8 +303,8 @@ downloadable_product_for_order:
     general_qty: 120
     general_stock_availability: In Stock
     general_categories: %noValue%
-    general_description: Description for Downloadable Product
-    autosettings_short_description: Short Description for Downloadable Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
     custom_options_data: %noValue%
@@ -331,8 +331,8 @@ grouped_product_for_order:
     general_sku: grouped_sku_Order(%randomize%)
     general_stock_availability: In Stock
     general_categories: %noValue%
-    general_description: Description for Grouped Product
-    autosettings_short_description: Short Description for Grouped Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
     general_grouped_data:
@@ -357,8 +357,8 @@ fixed_bundle_for_order:
     general_weight_type: Fixed
     general_weight: 0.999
     general_categories: %noValue%
-    general_description: Description for Bundle(Fixed) Product
-    autosettings_short_description: Short Description for Bundle(Fixed) Product Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
     general_bundle_items:
@@ -419,8 +419,8 @@ configurable_product_for_order:
     general_stock_availability: In Stock
     general_weight: 0.1
     general_categories: %noValue%
-    general_description: Description for Configurable Product
-    autosettings_short_description: Short Description for Configurable Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
     general_configurable_attributes:

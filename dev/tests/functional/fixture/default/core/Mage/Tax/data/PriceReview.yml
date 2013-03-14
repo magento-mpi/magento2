@@ -20,8 +20,8 @@ simple_product_for_prices_validation_1:
     general_stock_availability: In Stock
     general_weight: 18.56
     general_categories: Default Category
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
 
@@ -36,8 +36,8 @@ simple_product_for_prices_validation_2:
     general_stock_availability: In Stock
     general_weight: 18.56
     general_categories: Default Category
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
 
@@ -52,8 +52,8 @@ simple_product_for_prices_validation_3:
     general_stock_availability: In Stock
     general_weight: 18.56
     general_categories: Default Category
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     websites: Main Website
 
@@ -5975,8 +5975,8 @@ simple_product_for_prices_validation_front_1:
     general_stock_availability: In Stock
     general_weight: 18.56
     general_categories: Default Category
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
@@ -5993,8 +5993,8 @@ simple_product_for_prices_validation_front_2:
     general_stock_availability: In Stock
     general_weight: 18.56
     general_categories: Default Category
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 3
@@ -6011,8 +6011,8 @@ simple_product_for_prices_validation_front_3:
     general_stock_availability: In Stock
     general_weight: 18.56
     general_categories: Default Category
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     autosettings_visibility: Catalog, Search
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 5
@@ -7709,8 +7709,8 @@ total_cat_in_ship_in_front_prices_on_order_details:
 simple_product_for_price_rules_validation_front:
     product_attribute_set: Default
     general_name: Simple Product For Price Rule Validation(%randomize%)
-    general_description: Description for Simple Product For Price Rule Validation
-    autosettings_short_description: Short Description for Simple Product For Price Rule Validation
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     general_sku: simple_sku_price_rule_validation_%randomize%
     general_weight: 18.56
     product_online_status: Enabled
