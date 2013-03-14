@@ -43,7 +43,7 @@ switch ($entityType) {
 }
 
 try {
-    if ($generator->generateClass($className)) {
+    if (Magento_Di_Generator::GENERATION_SUCCESS == $generator->generateClass($className)) {
         print("Class {$className} was successfully generated.\n");
     } else {
         print("Can't generate class {$className}. This class either not generated entity, or it already exists.\n");

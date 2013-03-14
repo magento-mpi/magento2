@@ -58,7 +58,7 @@ class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAb
                     array(),
                 ),
             ),
-            'body'       => 'return $this->_objectManager->create(self::CLASS_NAME, $data, false);',
+            'body'       => 'return $this->_objectManager->create(self::CLASS_NAME, $data);',
             'docblock'   =>
             array(
                 'shortDescription' => 'Create class instance with specified parameters',
