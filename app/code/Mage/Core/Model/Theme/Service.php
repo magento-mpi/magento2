@@ -126,11 +126,13 @@ class Mage_Core_Model_Theme_Service
 
         $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
 
+        $isUnassigned = false;
         // Unassign given theme from stores that were unchecked
         /** @var $config Mage_Core_Model_Config_Data */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
                 $this->_configWriter->delete($configPath, $scope, $config->getScopeId());
+                $isUnassigned = true;
             }
         }
 
@@ -138,7 +140,8 @@ class Mage_Core_Model_Theme_Service
             foreach ($stores as $storeId) {
                 $this->_configWriter->save($configPath, $themeCustomization->getId(), $scope, $storeId);
             }
-
+        }
+        if (count($stores) > 0 || $isUnassigned) {
             $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
         }
         $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
