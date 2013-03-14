@@ -21,20 +21,19 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging extends Mage_Core_Model_Theme_
     protected $_themeFactory;
 
     /**
-     * @var Mage_Core_Model_Resource_Layout_Link_Collection
-     */
-    protected $_linkCollection;
-
-    /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
-     * @param Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
+     * @param Mage_Core_Model_Layout_Link $layoutLink
+     * @param Mage_Core_Model_Layout_Update $layoutUpdate
+     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
-        Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
+        Mage_Core_Model_Layout_Link $layoutLink,
+        Mage_Core_Model_Layout_Update $layoutUpdate,
+        array $data = array()
     ) {
         $this->_themeFactory = $themeFactory;
-        $this->_linkCollection = $linkCollection;
+        parent::__construct($themeFactory, $layoutLink, $layoutUpdate, $data);
     }
 
     /**
