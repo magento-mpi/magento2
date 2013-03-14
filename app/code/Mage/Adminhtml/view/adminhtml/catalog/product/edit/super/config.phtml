@@ -73,7 +73,7 @@ jQuery(function($) {
 
     collapsableArea
         .collapse(hasVariations ? 'show' : 'hide')
-        .on('show', function() {
+        .on('show change', function() {
             currentProductTemplateControl
                 .addClass('disabled')
                 .prop('disabled', true);
@@ -90,7 +90,19 @@ jQuery(function($) {
             $.each($('#configurable-attributes-container').variationsAttributes('getAttributes'), function() {
                 $('#attribute-' + this.code + '-container select').prop('disabled', true);
             })
-        });
+        })
+        .on('hide', function() {
+            currentProductTemplateControl
+                .removeClass('disabled')
+                .removeProp('disabled');
+
+            qtyField
+                .removeProp('disabled')
+                .trigger('change');
+
+            stockAvailabilityField
+                .prop('disabled', true);
+        }).trigger('change');
 
     var $gridDialog = $('#associated-products-container').dialog({
         title: 'Select Associated Product',
