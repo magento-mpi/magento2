@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Page asset residing outside of the local file system
+ */
 class Mage_Core_Model_Page_Asset_Remote implements Mage_Core_Model_Page_Asset_AssetInterface
 {
     /**

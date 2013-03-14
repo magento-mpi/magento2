@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Page asset representing a view file
+ */
 class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_MergeableInterface
 {
     /**

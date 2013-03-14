@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Composite asset that aggregates one or more assets and provides a single public file with equivalent behavior
+ */
 class Mage_Core_Model_Page_Asset_Merged implements Mage_Core_Model_Page_Asset_AssetInterface
 {
     /**

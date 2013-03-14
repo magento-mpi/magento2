@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Value object carrying page properties
+ */
 class Mage_Core_Model_Page
 {
     /**
@@ -21,7 +24,7 @@ class Mage_Core_Model_Page
     }
 
     /**
-     * Retrieve collection of instances
+     * Retrieve collection of assets linked to a page
      *
      * @return Mage_Core_Model_Page_Asset_Collection
      */

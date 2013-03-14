@@ -8,6 +8,10 @@
  * @license     {license_link}
  */
 
+/**
+ * List of page assets that maintains association of properties with a uniquely identified page type.
+ * Allows to combine page types with the same properties into groups.
+ */
 class Mage_Page_Model_GroupedAssets
 {
     /**#@+

@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Interface of a resource linked to a page
+ */
 interface Mage_Core_Model_Page_Asset_AssetInterface
 {
     /**

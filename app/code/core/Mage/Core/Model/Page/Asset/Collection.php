@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * List of page asset instances associated with unique identifiers
+ */
 class Mage_Core_Model_Page_Asset_Collection
 {
     /**

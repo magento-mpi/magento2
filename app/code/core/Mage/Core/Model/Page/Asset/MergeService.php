@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Service model responsible for making a decision of whether to use the merged asset in place of original ones
+ */
 class Mage_Core_Model_Page_Asset_MergeService
 {
     /**#@+
@@ -35,6 +38,7 @@ class Mage_Core_Model_Page_Asset_MergeService
     /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Core_Model_Design_Package $designPackage
      */
     public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Model_Design_Package $designPackage

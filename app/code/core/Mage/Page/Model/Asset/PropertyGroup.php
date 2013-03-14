@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Association of arbitrary properties with a list of page assets
+ */
 class Mage_Page_Model_Asset_PropertyGroup extends Mage_Core_Model_Page_Asset_Collection
 {
     /**
