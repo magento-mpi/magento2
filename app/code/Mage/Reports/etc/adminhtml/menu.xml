@@ -19,7 +19,6 @@
         <add id="Mage_Reports::report_salesroot_shipping" title="Shipping" module="Mage_Reports" sortOrder="40" parent="Mage_Reports::report_salesroot" action="adminhtml/report_sales/shipping" resource="Mage_Reports::shipping"/>
         <add id="Mage_Reports::report_salesroot_refunded" title="Refunds" module="Mage_Reports" sortOrder="50" parent="Mage_Reports::report_salesroot" action="adminhtml/report_sales/refunded" resource="Mage_Reports::refunded"/>
         <add id="Mage_Reports::report_salesroot_coupons" title="Coupons" module="Mage_Reports" sortOrder="60" parent="Mage_Reports::report_salesroot" action="adminhtml/report_sales/coupons" resource="Mage_Reports::coupons"/>
-        <add id="Mage_Reports::report_shopcart" title="Shopping Cart" module="Mage_Reports" sortOrder="20" parent="removed" resource="Mage_Reports::shopcart"/>
         <add id="Mage_Reports::report_shopcart_product" title="Products in Cart" module="Mage_Reports" sortOrder="10" parent="Mage_Adminhtml::reports_marketing" action="adminhtml/report_shopcart/product" resource="Mage_Reports::product"/>
         <add id="Mage_Reports::report_shopcart_abandoned" title="Abandoned Carts" module="Mage_Reports" sortOrder="20" parent="Mage_Adminhtml::reports_marketing" action="adminhtml/report_shopcart/abandoned" resource="Mage_Reports::abandoned"/>
         <add id="Mage_Reports::report_products" title="Products" module="Mage_Reports" sortOrder="60" parent="Mage_Reports::report" resource="Mage_Reports::report_products"/>

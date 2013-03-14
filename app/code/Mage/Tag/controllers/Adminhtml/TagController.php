@@ -21,7 +21,6 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Tag::catalog_tag')
             ->_addBreadcrumb(
                 Mage::helper('Mage_Tag_Helper_Data')->__('Catalog'), Mage::helper('Mage_Tag_Helper_Data')->__('Catalog')
             )
@@ -244,7 +243,6 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                 Mage::helper('Mage_Tag_Helper_Data')->__('Pending Tags'),
                 Mage::helper('Mage_Tag_Helper_Data')->__('Pending Tags')
             )
-            ->_setActiveMenu('Mage_Tag::catalog_tag_pending')
             ->renderLayout();
     }
 

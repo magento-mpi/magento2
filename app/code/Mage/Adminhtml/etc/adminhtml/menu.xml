@@ -13,10 +13,9 @@
     <menu>
         <add id="Mage_Adminhtml::dashboard" title="Dashboard" module="Mage_Adminhtml" sortOrder="10" action="adminhtml/dashboard" resource="Mage_Adminhtml::dashboard"/>
         <add id="Mage_Adminhtml::system" title="System" module="Mage_Adminhtml" sortOrder="80" resource="Mage_Adminhtml::system"/>
-        <add id="Mage_Adminhtml::system_myaccount" title="My Account" module="Mage_Adminhtml" sortOrder="10" parent="removed" action="adminhtml/system_account" resource="Mage_Adminhtml::myaccount"/>
         <add id="Mage_Adminhtml::system_tools" title="Tools" module="Mage_Adminhtml" sortOrder="50" parent="Mage_Adminhtml::system" resource="Mage_Adminhtml::tools"/>
         <add id="Mage_Adminhtml::system_design" title="Design" module="Mage_Adminhtml" sortOrder="20" parent="Mage_Adminhtml::content" resource="Mage_Adminhtml::design"/>
-        <add id="Mage_Adminhtml::system_design_schedule" title="Schedule" module="Mage_Adminhtml" sortOrder="10" parent="other" action="adminhtml/system_design" resource="Mage_Adminhtml::schedule"/>
+        <add id="Mage_Adminhtml::system_design_schedule" title="Schedule" module="Mage_Adminhtml" sortOrder="30" parent="Mage_Adminhtml::system_design" action="adminhtml/system_design" resource="Mage_Adminhtml::schedule"/>
         <add id="Mage_Adminhtml::system_convert" title="Data Transfer" module="Mage_Adminhtml" sortOrder="10" parent="Mage_Adminhtml::system" resource="Mage_Adminhtml::convert"/>
         <add id="Mage_Adminhtml::system_currency" title="Currency" module="Mage_Adminhtml" sortOrder="30" parent="Mage_Adminhtml::stores" action="adminhtml/system_currency" resource="Mage_CurrencySymbol::system_currency"/>
         <add id="Mage_Adminhtml::system_email_template" title="Email Templates" module="Mage_Adminhtml" sortOrder="10" parent="Mage_Adminhtml::marketing_communications" action="adminhtml/system_email_template" resource="Mage_Adminhtml::email_template"/>
@@ -24,9 +23,6 @@
         <add id="Mage_Adminhtml::system_cache" title="Cache Management" module="Mage_Adminhtml" sortOrder="10" parent="Mage_Adminhtml::system_tools" action="adminhtml/cache" resource="Mage_Adminhtml::cache"/>
         <add id="Mage_Adminhtml::system_store" title="All Stores" module="Mage_Core" sortOrder="10" parent="Mage_Adminhtml::stores_settings" action="adminhtml/system_store/" resource="Mage_Adminhtml::store"/>
         <add id="Mage_Adminhtml::system_config" title="Configurations" module="Mage_Adminhtml" sortOrder="20" parent="Mage_Adminhtml::stores_settings" action="adminhtml/system_config" resource="Mage_Adminhtml::config"/>
-
-        <add id="other" title="Not Mapped" module="Mage_Adminhtml" sortOrder="100" resource="Mage_Adminhtml::all"/>
-        <add id="removed" title="Removed" module="Mage_Adminhtml" sortOrder="200" resource="Mage_Adminhtml::all"/>
 
         <add id="Mage_Catalog::inventory" title="Inventory" module="Mage_Catalog" sortOrder="10" parent="Mage_Catalog::catalog" dependsOnModule="Mage_Catalog" resource="Mage_Catalog::catalog"/>
 
