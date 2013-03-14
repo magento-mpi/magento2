@@ -54,22 +54,22 @@
                 <div id="vde-translate-menu" class="text-menu-hide">
                     <div id="vde-translate-text" class="text-menu-div">
                         <span id="vde-translate-text-img" class="text-menu-text-off"></span>
-                        <span class="text-menu-label">Page Text</span>
+                        <span class="text-menu-label"><?php echo $this->__('Page Text'); ?></span>
                     </div>
 
                     <div id="vde-translate-script" class="text-menu-div">
                         <span id="vde-translate-script-img" class="text-menu-script-off"></span>
-                        <span class="text-menu-label">Variable Text</span>
+                        <span class="text-menu-label"><?php echo $this->__('Variable Text'); ?></span>
                     </div>
 
                     <div id="vde-translate-alt" class="text-menu-div">
                         <span id="vde-translate-alt-img" class="text-menu-alt-off"></span>
-                        <span class="text-menu-label">Alternative Text</span>
+                        <span class="text-menu-label"><?php echo $this->__('Alternative Text'); ?></span>
                     </div>
                 </div>
                 <ul class="vde-tab-controls">
                     <li id="vde-translate-edit" class="item-text-edit text-edit-text-off">
-                        <a id="vde-translate" title="<?php echo $this->__('Edit Text'); ?>" onmouseover="this.style.cursor='pointer'">
+                        <a id="vde-translate" title="<?php echo $this->__('Edit Text'); ?>">
                             <span><?php echo $this->__('Edit Text'); ?></span>
                         </a>
                     </li>
@@ -105,46 +105,19 @@
         options: {
             frameUrl: null,
             refreshVdeCanvas: false,
-            refreshIframeEvent: 'refreshIframe',
             disableInlineTranslation: false
         },
 
         _create: function() {
-            $('body').on(this.options.refreshIframeEvent, $.proxy(this._onIframeRefresh, this));
             this.element.on('click', $.proxy(this.options.onClick, this));
         },
 
         /**
-         * Iframe refresh
-         * @protected
-         */
-        _onIframeRefresh: function() {
-            /** todo SDW Add animation when refreshing the iframe. */
-
-            var url = this.options.frameUrl;
-            if (!this.options.disableInlineTranslation)
-                url = url + "translation_mode/text";
-
-            var container_frame = parent.jQuery('#vde_container_frame');
-
-            container_frame.prop('src', url);
-
-            /** todo SDW Is there a way to get to the content window through jQuery so that this will
-             * be supported across all browsers.
-             */
-            container_frame.get(0).contentWindow.location.href = url;
-
-            /**
-             * Since the url is being modified to support inline translation, the window is not reloaded since it
-             * is using the url from the cache to display.
-             */
-        },
-
-        /**
-         * This method displays the translate menu to select from and defaults the currently selected mode.
+         * This method displays the translate menu and defaults the currently selected mode.
          */
         toggleTranslationInline: function() {
-            parent.jQuery('#vde-translate-menu').removeClass('text-menu-hide').addClass('text-menu-show');
+            parent.jQuery('#vde-translate-menu').toggleClass('text-menu-hide');
+            parent.jQuery('#vde-translate-menu').toggleClass('text-menu-show');
         },
 
         /**
@@ -156,10 +129,48 @@
          * @param mode
          */
         toggleTranslationMode: function(mode) {
+            // Hide menu.
+            parent.jQuery('#vde-translate-menu').toggleClass('text-menu-hide');
+            parent.jQuery('#vde-translate-menu').toggleClass('text-menu-show');
+
+            // Change menu to reflect what was selected, so will display correctly when displayed again.
+            this._updateMenu(mode);
+
+            // Refresh iframe with new url
+            this._refresh(mode);
+        },
+
+        _refresh: function (mode) {
+            var url = this.options.frameUrl;
+            if (this.options.disableInlineTranslation) {
+                parent.jQuery('#vde_container_frame').attr('translation-mode', '');
+            }
+            else {
+                url = url + "translation_mode/" + mode;
+                parent.jQuery('#vde_container_frame').attr('translation-mode', mode);
+            }
+
+            // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
+            // Or, if disabling inline translation, refresh minus the translation mode on the url.
+            if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation)
+                parent.jQuery('#vde_container_frame').get(0).contentWindow.location.href = url;
+
+            /**
+             * Since the url is being modified to support inline translation, the window is not reloaded since it
+             * is using the url from the cache to display.
+             */
+        },
+
+        /**
+         *
+         * @param mode
+         * @private
+         */
+        _updateMenu: function (mode) {
             this.options.disableInlineTranslation = false;
 
-            // Hide menu.
-            parent.jQuery('#vde-translate-menu').removeClass('text-menu-show').addClass('text-menu-hide');
+            var TEXT_MENU_BACKGROUND_ON = 'text-menu-background-on';
+            var TEXT_MENU_BACKGROUND_OFF = 'text-menu-background-off';
 
             var disable_one = "text";
             var disable_two = "script";
@@ -174,8 +185,8 @@
             }
 
             // Check to see if turning off (selecting the already highlighted option).
-            if (parent.jQuery('#vde-translate-' + mode).hasClass('text-menu-background-on')) {
-                parent.jQuery('#vde-translate-' + mode).removeClass('text-menu-background-on').addClass('text-menu-background-off');
+            if (parent.jQuery('#vde-translate-' + mode).hasClass(TEXT_MENU_BACKGROUND_ON)) {
+                parent.jQuery('#vde-translate-' + mode).removeClass(TEXT_MENU_BACKGROUND_ON).addClass(TEXT_MENU_BACKGROUND_OFF);
                 parent.jQuery('#vde-translate-' + mode + '-img').removeClass('text-menu-' + mode + '-on').addClass('text-menu-' + mode + '-off');
 
                 // Update toolbar button.
@@ -186,29 +197,22 @@
             }
             else {
                 // Enable selected option
-                parent.jQuery('#vde-translate-' + mode).removeClass('text-menu-background-off').addClass('text-menu-background-on');
+                parent.jQuery('#vde-translate-' + mode).removeClass(TEXT_MENU_BACKGROUND_OFF).addClass(TEXT_MENU_BACKGROUND_ON);
                 parent.jQuery('#vde-translate-' + mode + '-img').removeClass('text-menu-' + mode + '-off').addClass('text-menu-' + mode + '-on');
 
                 // Update toolbar button.
                 parent.jQuery('#vde-translate-edit').addClass('text-edit-' + mode + '-on');
 
                 // Disable other two options.
-                parent.jQuery('#vde-translate-' + disable_one + '').removeClass('text-menu-background-on').addClass('text-menu-background-off');
+                parent.jQuery('#vde-translate-' + disable_one + '').removeClass(TEXT_MENU_BACKGROUND_ON).addClass(TEXT_MENU_BACKGROUND_OFF);
                 parent.jQuery('#vde-translate-' + disable_one + '-img').removeClass('text-menu-' + disable_one + '-on').addClass('text-menu-'+ disable_one + '-off');
                 // Update toolbar button.
                 parent.jQuery('#vde-translate-edit').removeClass('text-edit-' + disable_one + '-on');
 
-                parent.jQuery('#vde-translate-' + disable_two + '').removeClass('text-menu-background-on').addClass('text-menu-background-off');
+                parent.jQuery('#vde-translate-' + disable_two + '').removeClass(TEXT_MENU_BACKGROUND_ON).addClass(TEXT_MENU_BACKGROUND_OFF);
                 parent.jQuery('#vde-translate-' + disable_two + '-img').removeClass('text-menu-' + disable_two + '-on').addClass('text-menu-' + disable_two + '-off');
                 // Update toolbar button.
                 parent.jQuery('#vde-translate-edit').removeClass('text-edit-' + disable_two + '-on');
-            }
-
-            // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
-            // Also, if disabling inline translation, refresh minus the translation mode on the url.
-            if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation) {
-                // Refresh iframe with new url
-                this.element.trigger('refreshIframe');
             }
         }
     });
