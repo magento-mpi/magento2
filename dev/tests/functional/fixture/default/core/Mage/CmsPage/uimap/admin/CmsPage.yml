@@ -62,7 +62,7 @@ create_cms_page:
                         fieldsets:
                             -
                                 page_information_fieldset:
-                                    xpath: //div[@id='page_base_fieldset']
+                                    xpath: //fieldset[@id='page_base_fieldset']
                                     fields:
                                         page_title: //input[@name='title']
                                         url_key: //input[@name='identifier']
@@ -107,7 +107,7 @@ create_cms_page:
                                         cache_lifetime: //input[@name='parameters[cache_lifetime]']
                                     buttons:
                                         submit_widget_insert: //button[span='Insert Widget']
-                                        select_option: //div[div/h3='Widget Insertion']//button[contains(span,'Select')]
+                                        select_option: //button[contains(span,'Select')]
                                         close_widget_insertion: //div[@id='widget_window_close']
                                     pageelements:
                                         chosen_option: //label[@class='widget-option-label']
@@ -209,14 +209,14 @@ create_cms_page:
                         fieldsets:
                             -
                                 page_layout_fieldset:
-                                    xpath: //div[@id='page_layout_fieldset']
+                                    xpath: //fieldset[@id='page_layout_fieldset']
                                     fields:
                                         layout_update_xml: //textarea[@name='layout_update_xml']
                                     dropdowns:
                                         layout: //select[@name='root_template']
                             -
                                 custom_design:
-                                    xpath: //div[@id='page_design_fieldset']
+                                    xpath: //fieldset[@id='page_design_fieldset']
                                     fields:
                                         custom_design_from: //input[@name='custom_theme_from']
                                         custom_design_to: //input[@name='custom_theme_to']
@@ -230,13 +230,13 @@ create_cms_page:
                         fieldsets:
                             -
                                 meta_data_fieldset:
-                                    xpath: //div[@id='page_meta_fieldset']
+                                    xpath: //fieldset[@id='page_meta_fieldset']
                                     fields:
                                         keywords: //textarea[@name='meta_keywords']
                                         description: //textarea[@name='meta_description']
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
+            back: //button[@id="back"]
+            reset: //button[@id="reset"]
             save_page: //button[@data-ui-id='cms-page-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
         messages: *pageMessages
@@ -247,8 +247,8 @@ create_cms_page_with_sharp:
     uimap:
         form: *createPage
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
+            back: //button[@id="back"]
+            reset: //button[@id="reset"]
             save_page: //button[@data-ui-id='cms-page-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
         messages: *pageMessages
@@ -259,11 +259,11 @@ edit_cms_page:
     uimap:
         form: *createPage
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
+            back: //button[@id="back"]
+            reset: //button[@id="reset"]
             save_page: //button[@data-ui-id='cms-page-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
-            delete_page: //button[span='Delete Page']
+            delete_page: //button[@id="delete"]
         messages: *pageMessages
 
 save_and_continue_edit_cms_page:
@@ -272,11 +272,11 @@ save_and_continue_edit_cms_page:
     uimap:
         form: *createPage
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
+            back: //button[@id="back"]
+            reset: //button[@id="reset"]
             save_page: //button[@data-ui-id='cms-page-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
-            delete_page: //button[span='Delete Page']
+            delete_page: //button[@id="delete"]
         messages: *pageMessages
 
 error_cms_page:
@@ -285,8 +285,8 @@ error_cms_page:
     uimap:
         form: *createPage
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
+            back: //button[@id="back"]
+            reset: //button[@id="reset"]
             save_page: //button[@data-ui-id='cms-page-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
             delete_page: //button[span='Delete Page']
