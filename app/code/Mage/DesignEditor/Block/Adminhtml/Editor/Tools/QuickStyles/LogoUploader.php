@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader extends Mage_Backend_Model_Config_Backend_Image_Logo
+class Mage_DesignEditor_Block_Editor_Tools_QuickStyles_LogoUploader extends Mage_Backend_Model_Config_Backend_Image_Logo
 {
     /**
      * @param Mage_Core_Model_Context $context
