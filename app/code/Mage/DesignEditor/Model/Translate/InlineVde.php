@@ -46,7 +46,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
     public function isAllowed($store = null)
     {
         $isAllowed = false;
-        if (Mage::getObjectManager()->get('Mage_DesignEditor_Helper_Data')->getTranslationMode() != null) {
+        if ($this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getTranslationMode() != null) {
             $isAllowed = true;
         }
         return $isAllowed;
@@ -60,14 +60,11 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      */
     public function processAjaxPost($translateParams)
     {
-        /** @var $objectManager Magento_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-
         /* @var $resource Mage_Core_Model_Resource_Translate_String */
-        $resource = $objectManager->get('Mage_Core_Model_Resource_Translate_String');
+        $resource = $this->_objectManager->get('Mage_Core_Model_Resource_Translate_String');
 
         /** @var $validStoreId int */
-        $validStoreId = $objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getId();
+        $validStoreId = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getId();
 
         foreach ($translateParams as $param) {
             if (empty($param['perstore'])) {
@@ -179,16 +176,13 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
             return;
         }
 
-        /** @var $objectManager Magento_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-
-        $store = $objectManager->get('Mage_Core_Model_StoreManager')->getStore();
+        $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore();
         if ($store->isAdmin()) {
             $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
-            $urlModel = $objectManager->get('Mage_Backend_Model_Url');
+            $urlModel = $this->_objectManager->get('Mage_Backend_Model_Url');
         } else {
             $urlPrefix = 'core';
-            $urlModel = $objectManager->get('Mage_Core_Model_Url');
+            $urlModel = $this->_objectManager->get('Mage_Core_Model_Url');
         }
 
         /** @todo ACB fix bug that required _useVdeFrontend */
@@ -198,11 +192,11 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
                   '_useVdeFrontend' => true));
 
         /** @var $block Mage_Core_Block_Template */
-        $block = $objectManager->create('Mage_Core_Block_Template');
+        $block = $this->_objectManager->create('Mage_Core_Block_Template');
 
         $block->setDesign(Mage::getDesign());
         $block->setAjaxUrl($ajaxUrl);
-        $block->setFrameUrl($objectManager->get('Mage_DesignEditor_Helper_Data')->getCurrentHandleUrl());
+        $block->setFrameUrl($this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getCurrentHandleUrl());
         $block->setRefreshCanvas($this->isAllowed());
 
         $block->setTemplate('Mage_DesignEditor::translate_inline.phtml');

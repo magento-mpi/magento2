@@ -120,6 +120,22 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     );
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * Initialize inline abstract translate model
+     *
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(
+        Magento_ObjectManager $objectManager
+    ) {
+        $this->_objectManager = $objectManager;
+    }
+
+    /**
      * Strip inline translations from text
      *
      * @param array|string $body
@@ -141,7 +157,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      * Parse and save edited translate
      *
      * @param array $translateParams
-     * @return Mage_Core_Model_Translate_Inline
+     * @return Mage_Core_Model_Translate_InlineAbstract
      */
     public function processAjaxPost($translateParams)
     {
@@ -149,14 +165,11 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
             return $this;
         }
 
-        /** @var $objectManager Magento_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-
         /* @var $resource Mage_Core_Model_Resource_Translate_String */
-        $resource = $objectManager->get('Mage_Core_Model_Resource_Translate_String');
+        $resource = $this->_objectManager->get('Mage_Core_Model_Resource_Translate_String');
 
         /** @var $validStoreId int */
-        $validStoreId = $objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getId();
+        $validStoreId = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getId();
 
         foreach ($translateParams as $param) {
             if (Mage::getDesign()->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
@@ -179,7 +192,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      *
      * @param array|string $body
      * @param bool $isJson
-     * @return Mage_Core_Model_Translate_Inline
+     * @return Mage_Core_Model_Translate_InlineAbstract
      */
     public function processResponseBody(&$body, $isJson)
     {
@@ -218,22 +231,19 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
             return;
         }
 
-        /** @var $objectManager Magento_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-
-        $store = $objectManager->get('Mage_Core_Model_StoreManager')->getStore();
+        $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore();
         if ($store->isAdmin()) {
             $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
-            $urlModel = $objectManager->get('Mage_Backend_Model_Url');
+            $urlModel = $this->_objectManager->get('Mage_Backend_Model_Url');
         } else {
             $urlPrefix = 'core';
-            $urlModel = $objectManager->get('Mage_Core_Model_Url');
+            $urlModel = $this->_objectManager->get('Mage_Core_Model_Url');
         }
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure' => $store->isCurrentlySecure()));
 
         /** @var $block Mage_Core_Block_Template */
-        $block = $objectManager->create('Mage_Core_Block_Template');
+        $block = $this->_objectManager->create('Mage_Core_Block_Template');
 
         $block->setDesign(Mage::getDesign());
         $block->setAjaxUrl($ajaxUrl);
@@ -267,7 +277,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      */
     protected function _getAttributeLocation($matches, $options)
     {
-        return 'Tag attribute (ALT, TITLE, etc.)';
+        return $this->_objectManager->get('Mage_Core_Helper_Data')->__('Tag attribute (ALT, TITLE, etc.)');
     }
 
     /**
@@ -344,7 +354,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
             if ($trArr) {
                 $transRegExp = '# ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                     '\[([^' . preg_quote($quoteHtml) . ']*)]') . '#i';
-                if (preg_match($transRegExp, $tagHtml, $m)) {
+                if (preg_match($transRegExp, $tagHtml, $matches)) {
                     $tagHtml = str_replace($matches[0], '', $tagHtml); //remove tra
                     $trAttr  = $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                         htmlspecialchars('[' . $matches[1] . ',' . join(',', $trArr) . ']'));
@@ -517,7 +527,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
         $next = 0;
         $matches = array();
         while (preg_match('#' . $this->_tokenRegex . '#', $this->_content, $matches, PREG_OFFSET_CAPTURE, $next)) {
-            $tr = json_encode(array(
+            $dataTranslateProperties = json_encode(array(
                 'shown' => $matches[1][0],
                 'translated' => $matches[2][0],
                 'original' => $matches[3][0],
@@ -525,7 +535,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
                 'scope' => $matches[4][0],
             ));
 
-            $spanHtml = $this->_getDataTranslateSpan(htmlspecialchars('[' . $tr . ']'), $matches[1][0]);
+            $spanHtml = $this->_getDataTranslateSpan(htmlspecialchars('[' . $dataTranslateProperties . ']'), $matches[1][0]);
             $this->_content = substr_replace($this->_content, $spanHtml, $matches[0][1], strlen($matches[0][0]));
             $next = $matches[0][1] + strlen($spanHtml) - 1;
         }
