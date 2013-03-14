@@ -10,6 +10,7 @@
 class Integrity_Mage_Backend_SystemConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @param string $configFile
      * @dataProvider schemaDataProvider
      */
     public function testSchema($configFile)
