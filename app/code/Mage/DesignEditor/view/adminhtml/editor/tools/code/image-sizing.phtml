@@ -36,9 +36,9 @@
         $(document).ready(function() {
             var eventData = {
                 elements: {
-                    focus: ['#product_image_sizing_form input', '#product_image_sizing_form select'],
+                    focus: ['#product_image_sizing_form input'],
                     click: ['#product_image_sizing_form .action-connect'],
-                    mousedown: ['#product_image_sizing_form button']
+                    mousedown: ['#product_image_sizing_form button', '#product_image_sizing_form select']
                 }
             };
             $('body').trigger('registerElements', eventData);
