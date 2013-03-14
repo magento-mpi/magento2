@@ -35,7 +35,7 @@
                     $('#<?php echo $shortcutHtmlId ?>').paypalCheckout({
                         confirmMessage: "<?php echo Mage::helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->getConfirmationMessage())?>",
                         confirmUrl: "<?php echo $this->getConfirmationUrl() ?>",
-                        isCatalogProduct: "<?php echo $this->getIsInCatalogProduct() ?>",
+                        isCatalogProduct: <?php echo $this->getIsInCatalogProduct() ?>,
                         paypalCheckoutSelector: '#pp-checkout-url',
                         productAddToCartForm: '#product_addtocart_form'
                     });
