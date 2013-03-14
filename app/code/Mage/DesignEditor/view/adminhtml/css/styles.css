@@ -1563,6 +1563,10 @@
     color: #9f978b;
 }
 
+.element-logo .custom-file-for-store-view {
+    margin: 5px 0;
+}
+
 .fieldset.column .element-color-picker {
     margin-bottom: 5px;
 }
@@ -1618,7 +1622,7 @@
 .uploaded-file-wrapper {
     background: #201f1b;
     border-radius: 5px;
-    margin: 15px 0 0 0;
+    margin: 10px 0 20px;
 }
 
 .uploaded-file-wrapper .file-row,
