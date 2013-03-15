@@ -91,3 +91,5 @@ edit_automated_email_reminder_rules:
     uimap:
         buttons:
             save_rule: //button[@id='save']
+        messages:
+            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The reminder rule has been saved.')]
