@@ -47,6 +47,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 $isWrapped = true;
             }
             $isCollapsable = $isWrapped && $group->getAttributeGroupCode() == 'product-details';
+            $legend = $isWrapped ? Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()) : null;
             // Initialize product object as form property to use it during elements generation
             $form->setDataObject($product);
 
@@ -54,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 'group-fields-' .$group->getAttributeGroupCode(),
                  array(
                     'class' => 'user-defined',
-                    'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
+                    'legend' => $legend,
                     'collapsable' => $isCollapsable
                 )
             );
