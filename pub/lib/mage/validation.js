@@ -875,9 +875,9 @@
                         validator.attrLength = length;
                         result = (v.length <= length);
                     }
-                    if (name.match(reMin) && result && !Validation.get('IsEmpty').test(v)) {
+                    if (name.match(reMin) && result && $.mage.isEmpty(v)) {
                         length = name.split('-')[2];
-                        result = (v.length >= length);
+                        result = v.length >= length;
                     }
                 });
                 return result;

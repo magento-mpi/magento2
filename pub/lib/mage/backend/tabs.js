@@ -187,7 +187,7 @@
          */
         _movePanelsInDestination: function(panels) {
             if (this.options.destination && !panels.parents(this.options.destination).length) {
-                this.element.trigger('beforePanelsMove', panels)
+                this.element.trigger('beforePanelsMove', panels);
                 panels
                     .find('script[type!="text/x-jquery-tmpl"]').remove();
                 panels.appendTo(this.options.destination)

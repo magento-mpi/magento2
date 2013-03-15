@@ -169,7 +169,6 @@ $.widget('mage.menu', {
 	},
 
 	_keydown: function( event ) {
-		/*jshint maxcomplexity:20*/
 		var match, prev, character, skip, regex,
 			preventDefault = true;
 

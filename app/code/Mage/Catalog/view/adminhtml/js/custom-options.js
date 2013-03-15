@@ -287,7 +287,7 @@
             }
             this._bindUseDefault(this.options.fieldId + '_' + data.id + '_select_' + data.select_id, data);
             this.refreshSortableElements();
-            this.options.selectionItemCount[data.id] = parseInt(this.options.selectionItemCount[data.id]) + 1;
+            this.options.selectionItemCount[data.id] = parseInt(this.options.selectionItemCount[data.id], 10) + 1;
         },
         //Add custom option
         addOption: function (event) {
@@ -328,7 +328,7 @@
             return this;
         },
         getFreeOptionId: function (id) {
-            return $('#' + this.options.fieldId + '_' + id).length ? this.getFreeOptionId(parseInt(id) + 1) : id;
+            return $('#' + this.options.fieldId + '_' + id).length ? this.getFreeOptionId(parseInt(id, 10) + 1) : id;
         }
     });
 })(jQuery);

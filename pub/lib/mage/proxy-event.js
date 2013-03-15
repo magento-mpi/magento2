@@ -19,7 +19,7 @@
                     throw new Error('Event name mast be string type');
                 }
 
-                var options = $.extend({
+                options = $.extend({
                     preventDefault: true,
                     stopPropagation: false,
                     to: 'body'
@@ -31,9 +31,8 @@
                     }
                     if (options.stopPropagation) {
                         event.stopPropagation();
-                    };
+                    }
                     $(options.to).trigger(options.event || event, data);
-
                 });
 
             }, this));

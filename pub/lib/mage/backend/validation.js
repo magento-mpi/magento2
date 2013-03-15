@@ -128,7 +128,7 @@
             if (!response.error) {
                 this.element[0].submit();
             } else {
-                $('.messages').html(response.message)
+                $('.messages').html(response.message);
             }
         },
 
