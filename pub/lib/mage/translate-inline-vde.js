@@ -190,12 +190,14 @@
     /**
      * Widget for an icon to be displayed indicating that text can be translated.
      */
-    $.widget("mage.translateInlineIconVde", {
+    $.widget("mage.translateInlineVde", {
         options: {
+            iconTemplateId: "translate-inline-icon",
             img: null,
             imgHover: null,
+
             offsetLeft: -16,
-            templateId: "translate-inline-icon",
+
             dataAttrName: "translate",
             onClick: function(element) { },
         },
@@ -207,12 +209,17 @@
          */
         isTemplateAttached : false,
 
+        iconTemplate: null,
+        iconWrapperTemplate: null,
+        elementWrapperTemplate: null,
+
         /**
          * Creates the icon widget to indicate text that can be translated.
          * Fulfills jQuery's WidgetFactory _create hook.
          */
         _create: function() {
-            this._initTemplate();
+            this.element.addClass('translate-edit-icon-container');
+            this._initTemplates();
             this.show();
         },
 
@@ -220,17 +227,19 @@
          * Shows the widget.
          */
         show: function() {
-            var self = this;
+            this._attachIcon();
 
+            this.iconTemplate.removeClass('hidden');
+
+            this.element.on("dblclick", $.proxy(this._invokeAction, this));
+            this._disableElementClicks();
+        },
+
+        _attachIcon: function() {
             if (!this.isTemplateAttached) {
-                this.template.appendTo(this.element);
+                this.iconTemplate.appendTo(this.element);
                 this.isTemplateAttached = true;
             }
-
-            this.template.removeClass('hidden');
-
-            this.element.on("dblclick", $.proxy(this._onClick, this));
-            this._disableElementClicks();
 
             $(this.element).css({
                 visibility: "visible"
@@ -248,7 +257,7 @@
                 });
             });
 
-            if ($(this.element).prop('tagName') === 'A') {
+            if ($(this.element).is('A')) {
                 this.element.on('click', function(e) {
                     e.preventDefault();
                     return false;
@@ -260,8 +269,8 @@
          * Hides the widget.
          */
         hide: function() {
-            this.template.addClass('hidden');
             this.element.off("dblclick");
+            this.iconTemplate.addClass('hidden');
         },
 
         /**
@@ -285,38 +294,41 @@
         },
 
         /**
-         * Initializes the template for the widget. Sets the widget up to
-         * respond to events.
+         * Initializes all the templates for the widget.
          */
-        _initTemplate: function() {
-            var self = this;
-
-            this.template = $("#" + this.options.templateId).tmpl(this.options)
-                .addClass("translate-edit-icon");
-            this.element.addClass('translate-edit-icon-container');
-
-            this.template.on("click", $.proxy(this._onClick, this));
-
-            this.template.on("mouseover", function() {
-                if (self.options.imgHover) {
-                    self.template.prop('src', self.options.imgHover);
-                }
-            });
-
-            this.template.on("mouseout", function() {
-                self.template.prop('src', self.options.img);
-            });
+        _initTemplates: function() {
+            this._initIconTemplate();
+            this.iconTemplate.addClass('translate-edit-icon-text');
         },
 
         /**
-         * Activates the inline vde dialog.
+         * Initializes the icon template for the widget. Sets the widget up to
+         * respond to events.
          */
-        _onClick: function() {
-            $(this.template).detach();
-            this.isTemplateAttached = false;
-            $(this.element).css({
-                visibility: "hidden"
+        _initIconTemplate: function() {
+            var self = this;
+
+            this.iconTemplate = $("#" + this.options.iconTemplateId).tmpl(this.options);
+
+            this.iconTemplate.on("click", $.proxy(this._invokeAction, this));
+
+            this.iconTemplate.on("mouseover", function() {
+                if (self.options.imgHover) {
+                    self.iconTemplate.prop('src', self.options.imgHover);
+                }
             });
+
+            this.iconTemplate.on("mouseout", function() {
+                self.iconTemplate.prop('src', self.options.img);
+            });
+
+        },
+
+        /**
+         * Invokes the action (e.g. activate the inline dialog)
+         */
+        _invokeAction: function() {
+            this._detachIcon();
             this.options.onClick(this);
         },
 
@@ -324,7 +336,48 @@
          * Destroys the widget. Fulfills jQuery's WidgetFactory _destroy hook.
          */
         _destroy: function() {
-            this.template.remove();
+            this.iconTemplate.remove();
+            this._detachIcon();
+        },
+
+        _detachIcon: function() {
+            $(this.iconTemplate).detach();
+
+            this.isTemplateAttached = false;
+            $(this.element).css({
+                visibility: "hidden"
+            });
+        }
+    });
+
+    $.widget("mage.translateInlineImageVde", $.mage.translateInlineVde, {
+        _attachIcon: function() {
+            if (!this.isTemplateAttached) {
+                this.iconWrapperTemplate = this.iconTemplate.wrap('<div/>').parent();
+                this.iconWrapperTemplate.addClass('translate-edit-icon-wrapper-image');
+
+                this.elementWrapperTemplate = this.element.wrap('<div/>').parent();
+                this.elementWrapperTemplate.addClass('translate-edit-icon-container');
+
+                this.iconTemplate.appendTo(this.iconWrapperTemplate);
+                this.iconWrapperTemplate.appendTo(this.elementWrapperTemplate);
+
+                this.isTemplateAttached = true;
+            }
+        },
+
+        _initTemplates: function() {
+            this._initIconTemplate();
+            this.iconTemplate.addClass('translate-edit-icon-image');
+        },
+
+        _detachIcon: function() {
+            $(this.iconTemplate).detach();
+            this.iconWrapperTemplate.remove();
+            this.element.unwrap();
+            this.elementWrapperTemplate.remove();
+
+            this.isTemplateAttached = false;
         }
     });
 

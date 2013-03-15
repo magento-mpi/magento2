@@ -31,7 +31,12 @@ $design = $this->getDesign();
 </script>
 
 <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
-    <img src="${img}" height="16" width="16" alt="Click to translate text.">
+  <img src="${img}" height="16" width="16" alt="Click to translate text." class="translate-edit-icon">
+</script>
+
+<script id="translate-inline-icon-wrapper" type="text/x-jQuery-tmpl">
+  <div class="translate-edit-icon-container">
+  </div>
 </script>
 
 <div id="translate-dialog"></div>
@@ -46,21 +51,35 @@ $design = $this->getDesign();
                 area: '<?php echo $design->getArea() ?>',
                 onSubmitComplete: function() {
                     $('body').addClass('trnslate-inline-area');
-                    $('[data-translate]').translateInlineIconVde('show');
+                    $('[data-translate][translate-mode="text"]').translateInlineVde('show');
+                    $('[data-translate][translate-mode="alt"]').translateInlineImageVde('show');
                 },
 
                 onCancel: function() {
                     $('body').addClass('trnslate-inline-area');
-                    $('[data-translate]').translateInlineIconVde('show');
+                    $('[data-translate][translate-mode="text"]').translateInlineVde('show');
+                    $('[data-translate][translate-mode="alt"]').translateInlineImageVde('show');
                 }
             });
 
-            $('[data-translate]').translateInlineIconVde({
+            $('[data-translate][translate-mode="text"]').translateInlineVde({
                 img: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 onClick: function(widget) {
                     $('body').removeClass('trnslate-inline-area');
-                    $('[data-translate]').translateInlineIconVde('hide');
+                    $('[data-translate][translate-mode="text"]').translateInlineVde('hide');
+                    $('[data-translate][translate-mode="alt"]').translateInlineImageVde('hide');
+                    $('body').translateInlineDialogVde('open', widget.element, $.proxy(widget.replaceText, widget));
+                }
+            });
+
+            $('[data-translate][translate-mode="alt"]').translateInlineImageVde({
+                img: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
+                imgHover: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
+                onClick: function(widget) {
+                    $('body').removeClass('trnslate-inline-area');
+                    $('[data-translate][translate-mode="text"]').translateInlineVde('hide');
+                    $('[data-translate][translate-mode="alt"]').translateInlineImageVde('hide');
                     $('body').translateInlineDialogVde('open', widget.element, $.proxy(widget.replaceText, widget));
                 }
             });
