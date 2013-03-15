@@ -271,10 +271,10 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
         </div>
     </div>
 </form>
-
-<?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
-
-<div class="shipping-disabled <?php if ($this->isShippingEnabled()): ?> hidden <?php endif; ?>">
+<div id="shipping-origin-address-wrapper" class="<?php if (!$this->isShippingEnabled()): ?>hidden<?php endif; ?>">
+    <?php echo $this->getChildBlock('shipping-origin-address')->toHtml(); ?>
+</div>
+<div class="shipping-disabled <?php if ($this->isShippingEnabled()): ?>hidden<?php endif; ?>">
     <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping Disabled') ?></h2>
     <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping for your store is now turned off. Use the switch above to turn on shipping.') ?></p>
     <div class="shipping-disabled-reasons">
@@ -301,6 +301,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
             var drawerForm = $('#drawer-form'),
                 shippingConfig = $('.shipping-config-form'),
                 noShipping = $('.shipping-disabled'),
+                shippingOriginAddress  = '#shipping-origin-address-wrapper',
                 drawerSwitcher = '.drawer-header-inner .drawer-switcher :checkbox',
                 shippingTabsNav = $('.shipping-tabs-nav'),
                 removeValidationMessage = function() {
@@ -316,12 +317,16 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
 
                     if (elem.is(':checked')) {
                         drawerForm.removeClass('ignore-validate');
-                        shippingConfig.removeClass('hidden');
+                        shippingConfig
+                            .add(shippingOriginAddress)
+                            .removeClass('hidden');
                         noShipping.addClass('hidden');
                         $('#'+elemId).prop('checked', true);
                     } else {
                         drawerForm.addClass('ignore-validate');
-                        shippingConfig.addClass('hidden');
+                        shippingConfig
+                            .add(shippingOriginAddress)
+                            .addClass('hidden');
                         noShipping.removeClass('hidden');
                         $('#'+elemId).prop('checked', false);
                     }
