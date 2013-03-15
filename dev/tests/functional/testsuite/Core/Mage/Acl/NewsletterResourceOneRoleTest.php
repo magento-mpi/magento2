@@ -125,6 +125,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function editNewsletterResourceOneRole($loginData, $newsData)
     {
+        $this->markTestIncomplete('MAGETWO-8369: There is no ability to edit existing Newsletter Template');
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
@@ -160,7 +161,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->validatePage('newsletter_queue');
         //$this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
         $this->assertNotNull($this->search(array('filter_queue_subject' => $newData['newsletter_template_subject']),
-                'newsletter_templates_grid'),
+                'newsletter_queue'),
             'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid');
     }
 

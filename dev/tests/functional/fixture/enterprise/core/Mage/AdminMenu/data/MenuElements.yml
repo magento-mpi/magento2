@@ -10,7 +10,6 @@
 #
 #---
 menu:
-    dashboard: ~
     sales:
         manage_sales_orders: ~
         manage_sales_invoices: ~

@@ -66,6 +66,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
      */
     public function permissionCreateOrder($testData)
     {
+        $this->markTestSkipped('MAGETTWO-7635');
         // Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
@@ -119,6 +120,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
      */
     public function createOrderForTest($testData)
     {
+        $this->markTestSkipped('MAGETTWO-7635');
         $orderData = $this->loadDataSet('SalesOrderActions', 'order_data',
             array('filter_sku' => $testData['sku'], 'email' => $testData['email']));
         //Steps And Verifying

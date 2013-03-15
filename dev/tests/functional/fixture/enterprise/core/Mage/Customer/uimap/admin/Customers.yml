@@ -154,16 +154,16 @@ new_invitations:
             fieldsets:
                 -
                     invitations_properties:
-                        xpath: //div[@id='base_fieldset']
+                        xpath: //fieldset[@id='base_fieldset']
                         dropdowns:
                             invitee_group: //select[@id='group_id']
                         fields:
                             email_on_new_line: //textarea[@id='email']
                             message: //textarea[@id='message']
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save: //button[span='Save']
+            back: //button[@id="back"]
+            reset: //button[@id="reset]
+            save: //button[@id="save"]
 
 #Edit Customer Invitations page
 
@@ -179,13 +179,13 @@ edit_invitations:
                         fieldsets:
                             -
                                 invitations_informations:
-                                    xpath: //div[@class='fieldset']
+                                    xpath: //fieldset[@class='fieldset']
                                     fields:
                                         email: //input[@name='email']
                                         message: //textarea[@name='message']
         buttons:
-            back: //button[span='Back']
-            discard_invitation: //button[span='Discard Invitation']
+            back: //button[@id="back"]
+            discard_invitation: //button[@id="cancel"]
             save_invitation: //button[span='Save Invitation']
             send_invitation: //button[span='Send Invitation']
 
@@ -314,10 +314,10 @@ new_reward_rate:
                             rate_value: //input[@name='rate[value]']
                             rate_equal_value: //input[@name='rate[equal_value]']
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save: //button[span='Save']
-            delete: //button[span='Delete']
+            back: //button[@id="back"]
+            reset: //button[@id="reset"]
+            save: //button[@id="save"]
+            delete: //button[@id="delete"]
         messages:
             positive_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a positive integer number in the left rate field.')]
             confirmation_for_delete: Are you sure you want to do this?

@@ -62,4 +62,18 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
         }
         return $items;
     }
+
+    /**
+     * <p>Need to verify that element menu HUB is highlighted when we on Store Launcher page</p>
+     *
+     * @test
+     */
+    public function testHubMenuItemIsHighlighted ()
+    {
+        $this->navigate('store_launcher');
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'active_menu_element'),
+            'Top level menu item Hub isn\'t active');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'active_hub_menu'),
+            "Hub menu  doesn't exist");
+    }
 }
