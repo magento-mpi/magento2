@@ -619,19 +619,15 @@
 }
 
 .text-menu-show {
-    background-color: white;
+    background-color: #fff;
     width: 170px;
     position: absolute;
-    top: -120px;
-    left: -130px;
-    border: 1px solid gray;
+    margin-top: -120px;
+    margin-left: -130px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-
-.text-menu-hide {
-    display:none;
+    -webkit-border-radius: 4px;
+    padding: 2px 0;
 }
 
 .text-menu-div {
@@ -641,8 +637,7 @@
 }
 
 .text-menu-label {
-    font: Arial, Helvetica, sans-serif;
-    color: black;
+    color: #000;
     font-size: 14px;
     margin-left: 10px;
     line-height: 32px;
@@ -653,11 +648,15 @@
 }
 
 .text-menu-background-off {
-    background-color: white;
+    background-color: #fff;
 }
 
-.text-menu-text-off, .text-menu-script-off, .text-menu-alt-off,
-.text-menu-text-on, .text-menu-script-on, .text-menu-alt-on {
+.text-menu-text-off,
+.text-menu-script-off,
+.text-menu-alt-off,
+.text-menu-text-on,
+.text-menu-script-on,
+.text-menu-alt-on {
     display: block;
     background-image:url(Mage_DesignEditor::images/vde-tools-text-menu-icon.png);
     width: 38px;
@@ -787,8 +786,12 @@
     cursor: pointer;
 }
 
-.vde-tab-controls > .item-text-edit > a span, .vde-tab-controls > .text-edit-text-off > a span, .vde-tab-controls > .text-edit-alt-off > a span,
-.vde-tab-controls > .text-edit-script-off > a span, .vde-tab-controls > .text-edit-text-on > a span, .vde-tab-controls > .text-edit-alt-on > a span,
+.vde-tab-controls > .item-text-edit > a span,
+.vde-tab-controls > .text-edit-text-off > a span,
+.vde-tab-controls > .text-edit-alt-off > a span,
+.vde-tab-controls > .text-edit-script-off > a span,
+.vde-tab-controls > .text-edit-text-on > a span,
+.vde-tab-controls > .text-edit-alt-on > a span,
 .vde-tab-controls > .text-edit-script-on > a span {
     display: block;
     overflow: hidden;

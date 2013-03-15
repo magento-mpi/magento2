@@ -51,7 +51,7 @@
                 </ul>
             </div>
             <div class="vde-tools-button">
-                <div id="vde-translate-menu" class="text-menu-hide">
+                <div id="vde-translate-menu" class="text-menu-show no-display">
                     <div id="vde-translate-text" class="text-menu-div">
                         <span id="vde-translate-text-img" class="text-menu-text-off"></span>
                         <span class="text-menu-label"><?php echo $this->__('Page Text'); ?></span>
@@ -116,8 +116,7 @@
          * This method displays the translate menu and defaults the currently selected mode.
          */
         toggleTranslationInline: function() {
-            parent.jQuery('#vde-translate-menu').toggleClass('text-menu-hide');
-            parent.jQuery('#vde-translate-menu').toggleClass('text-menu-show');
+            parent.jQuery('#vde-translate-menu').removeClass('no-display');
         },
 
         /**
@@ -130,8 +129,7 @@
          */
         toggleTranslationMode: function(mode) {
             // Hide menu.
-            parent.jQuery('#vde-translate-menu').toggleClass('text-menu-hide');
-            parent.jQuery('#vde-translate-menu').toggleClass('text-menu-show');
+            parent.jQuery('#vde-translate-menu').addClass('no-display');
 
             // Change menu to reflect what was selected, so will display correctly when displayed again.
             this._updateMenu(mode);
@@ -153,8 +151,8 @@
             // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
             // Or, if disabling inline translation, refresh minus the translation mode on the url.
             if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation) {
-                parent.jQuery('#vde_container_frame').attr('src', url);
-                parent.jQuery('#vde_container_frame').get(0).contentWindow.location.href = url;
+                parent.jQuery('#vde_container_frame').prop('src', url);
+                parent.jQuery('#vde_container_frame').contentWindow.location.href = url;
             }
 
             /**
