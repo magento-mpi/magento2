@@ -66,10 +66,21 @@ $design = $this->getDesign();
                 img: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 onClick: function(widget) {
+                    var translateData = $(widget.element).data(widget.options.dataAttrName);
                     $('body').removeClass('trnslate-inline-area');
                     $('[data-translate][translate-mode="text"]').translateInlineVde('hide');
                     $('[data-translate][translate-mode="alt"]').translateInlineImageVde('hide');
-                    $('body').translateInlineDialogVde('open', widget.element, $.proxy(widget.replaceText, widget));
+                    $('body').translateInlineDialogVde(
+                        'open',
+                        translateData,
+                        $.proxy(widget.replaceText, widget),
+                        function(translateDialog) {
+                            translateDialog.dialog("option", {
+                                position: { of : widget.element, my: "left top", at: "left-3 top-9" },
+                                width: $(widget.element).width()
+                            });
+                        }
+                    );
                 }
             });
 
@@ -77,10 +88,21 @@ $design = $this->getDesign();
                 img: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 onClick: function(widget) {
+                    var translateData = $(widget.element).data(widget.options.dataAttrName);
                     $('body').removeClass('trnslate-inline-area');
                     $('[data-translate][translate-mode="text"]').translateInlineVde('hide');
                     $('[data-translate][translate-mode="alt"]').translateInlineImageVde('hide');
-                    $('body').translateInlineDialogVde('open', widget.element, $.proxy(widget.replaceText, widget));
+                    $('body').translateInlineDialogVde(
+                        'open',
+                        translateData,
+                        $.proxy(widget.replaceText, widget),
+                        function(translateDialog) {
+                            translateDialog.dialog("option", {
+                                position: { my: "center", at: "center", of: window },
+                                width: $(widget.element).width()
+                            });
+                        }
+                    );
                 }
             });
 

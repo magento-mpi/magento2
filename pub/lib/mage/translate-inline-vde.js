@@ -37,6 +37,7 @@
                     "class" : "translate-dialog-save",
                 }]
             },
+            positionDialog: function(element, dialog) { },
             templateName: "translateInlineDialogVdeTemplate",
             dataAttrName: "translate",
             onSubmitComplete: function() { },
@@ -77,12 +78,13 @@
          *     must also contain data-translate attribute
          * @param function callback invoked with the new translation data after
          *     form submssion. parameters are index and the translated string
+         * @param function callback invoked to position the dialog
          */
-        open: function(element, callback) {
+        open: function(translateData, callback, positionDialog) {
             this.callback = callback;
 
-            this._fillDialogContent(element);
-            this._positionDialog(element);
+            this._fillDialogContent(translateData);
+            positionDialog(this.translateDialog);
             this.translateDialog.dialog("open");
         },
 
@@ -100,10 +102,10 @@
          *
          * @param {Element} element the element to get the translation data from
          */
-        _fillDialogContent: function(element) {
+        _fillDialogContent: function(translateData) {
             this.translateDialog
                 .html($.tmpl(this.options.templateName, {
-                    data: $.extend({items: $(element).data(this.options.dataAttrName)},
+                    data: $.extend({items: translateData},
                         this.options.translateForm.data),
                     escape: $.mage.escapeHTML
                 }));
@@ -125,18 +127,6 @@
                     $.proxy(self._formSubmit, self)();
                     return true;
                 });
-            });
-        },
-
-        /**
-         * Positions the dialog relative to the element.
-         *
-         * @param {Element} element the element to position the dialog near
-         */
-        _positionDialog: function(element) {
-            this.translateDialog.dialog("option", {
-                position: { of : element, my: "left top", at: "left-3 top-9" },
-                width: $(element).width()
             });
         },
 
@@ -199,7 +189,7 @@
             offsetLeft: -16,
 
             dataAttrName: "translate",
-            onClick: function(element) { },
+            onClick: function(widget) { },
         },
 
         /**
