@@ -83,17 +83,29 @@
         open: function(translateData, callback, positionDialog) {
             this.callback = callback;
 
+
             this._fillDialogContent(translateData);
+            this.positionDialog = positionDialog;
             positionDialog(this.translateDialog);
+
+            $(window).on('resize.translateInlineVdeDialog', $.proxy(this.reposition, this));
+
             this.translateDialog.dialog("open");
         },
 
+        reposition: function() {
+            this.positionDialog(this.translateDialog);
+        },
+
         /**
-         * Closes the dialog.
+         * Closes the dialog. This is if the dialog is closed manually. If the form
+         * submit is executed, then the dialog will close via the _formSubmitComplete
+         * function.
          */
         close: function() {
             this.translateDialog.dialog("close");
             this.options.onCancel();
+            $(window).off('resize.translateInlineVdeDialog');
         },
 
         /**
@@ -170,6 +182,7 @@
             });
 
             this.translateDialog.dialog("close");
+            $(window).off('resize.translateInlineVdeDialog');
 
             this.options.onSubmitComplete();
 
