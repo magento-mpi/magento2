@@ -3469,7 +3469,8 @@ table tbody tr:nth-child(odd):hover th {
     border-color: #504841;
 }
 
-.grid tr.headings th.no-link:hover > span {
+.grid tr.headings th.no-link:hover > span,
+.grid tr.headings th.col-select:hover > span {
     border-color: transparent;
 }
 
