@@ -24,13 +24,17 @@ admin_header:
                 -
                     global_header:
                         xpath: //div[contains(a/@class,'logo')]
-                        links:
-                            account_avatar: //a[@class='account-avatar']
-                            log_out: //a[@class='account-signout']
                         pageelements:
                             admin_logo: //a[@class='logo']
                         fields:
                             global_record_search: //*[@id='search-global']
+                -
+                    user_account:
+                        xpath: //div[contains(@class, 'account')]
+                        links:
+                            account_avatar: //a[@class='account-avatar']
+                            account_settings: //a[@class='account-settings']
+                            log_out: //a[@class='account-signout']
                 -
                     notification_global:
                         xpath: //div[@class='notification-global']
