@@ -32,7 +32,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     {
         $this->currentWindow()->maximize();
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
     }
 
     /**
@@ -42,8 +41,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
-        $tileState = $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class');
+        $tileState = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class');
         $changeState = ('tile-store-settings tile-tax tile-complete' == $tileState) ? true : false;
         if ($changeState) {
             $this->storeLauncherHelper()->setTileState('tax', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
@@ -63,19 +61,26 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function disableTaxRules()
     {
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->assertTrue($this->controlIsPresent('button', 'tax_rules_enabled'), 'Tax Rules could not be disabled');
-        $this->clickButton('tax_rules_enabled', false);
-        $this->assertTrue($this->controlIsVisible('pageelement', 'no_tax_title'), 'Tax Rules are not disabled');
+        $this->assertTrue($this->controlIsPresent('button', 'tax_rules_switcher'), 'Tax Rules could not be disabled');
+        $this->clickButton('tax_rules_switcher', false);
+        $this->assertTrue(
+            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'no_tax_title'), 'Tax Rules are not disabled');
 
-        $this->clickButton('tax_rules_disabled', false);
-        $this->assertTrue($this->controlIsVisible('pageelement', 'tax_title'), 'Tax Rules are not enabled');
+        $this->clickButton('tax_rules_switcher', false);
+        $this->assertFalse(
+            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'no_tax_title'), 'Tax Rules are not enabled');
 
-        $this->clickButton('tax_rules_enabled', false);
+        $this->clickButton('tax_rules_switcher', false);
         $this->storeLauncherHelper()->saveDrawer();
         $this->assertEquals('tile-store-settings tile-tax tile-complete',
-            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state is not Equal to Complete');
+            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'),
+            'Tile state is not Equal to Complete'
+        );
         $tileElement = $this->storeLauncherHelper()->mouseOverDrawer('tax_rules_tile');
-        $this->getChildElement($tileElement, $this->_getControlXpath('link', 'additional_action'), false)->click();
+        $action = $this->getChildElement($tileElement,
+            $this->_getControlXpath(self::FIELD_TYPE_LINK, 'additional_action'));
+        $this->assertNotNull($action, 'Could not find "Additional action link"');
+        $action->click();
         $this->waitForPageToLoad();
         $this->validatePage('manage_tax_rule');
     }
@@ -88,16 +93,16 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function tileStateOnAddTaxRule()
     {
         $this->assertEquals('tile-store-settings tile-tax tile-todo',
-            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state is not Equal to TODO');
+            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'), 'Tile state is not Equal to TODO');
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required');
         $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->createTaxRule($taxRuleData);
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
         $this->_ruleToBeDeleted = $searchTaxRuleData;
-        $this->navigate('store_launcher');
+        $this->admin();
         $this->assertEquals('tile-store-settings tile-tax tile-complete',
-            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state in Equal to Complete');
+            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'), 'Tile state in Equal to Complete');
     }
 
     //************************* Tax Rate **********************************************
@@ -148,13 +153,13 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyCompositeMultiselect('tax_rate', array($rate['tax_identifier'])),
             $this->getParsedMessages());
         $newRate = $this->loadDataSet('Tax', 'tax_rate_create_test_zip_yes');
-        $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $rate['tax_identifier']));
+        $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $newRate['tax_identifier']));
         $this->taxRuleHelper()->editTaxRate($rate['tax_identifier'], $newRate);
-        $this->assertTrue($this->verifyCompositeMultiselect('tax_rate', array($rate['tax_identifier'])),
+        $this->assertTrue($this->verifyCompositeMultiselect('tax_rate', array($newRate['tax_identifier'])),
             $this->getParsedMessages());
         $this->navigate('manage_tax_zones_and_rates');
         $this->taxHelper()->openTaxItem($search, 'rate');
-        $this->assertTrue($this->verifyForm($rate), $this->getParsedMessages());
+        $this->assertTrue($this->verifyForm($newRate), $this->getParsedMessages());
     }
 
     /**
@@ -182,7 +187,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function createCustomerTaxClass()
     {
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->clickControl('link', 'tax_rule_info_additional_link', false);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $taxClass = $this->loadDataSet('Tax', 'new_customer_tax_class');
         $this->fillCompositeMultiselect('customer_tax_class', array($taxClass['customer_tax_class']));
         $this->assertTrue($this->verifyCompositeMultiselect('customer_tax_class',
@@ -198,7 +203,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function editExistingCustomerTaxClass()
     {
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->clickControl('link', 'tax_rule_info_additional_link', false);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $taxClass = $this->loadDataSet('Tax', 'new_customer_tax_class');
         $this->fillCompositeMultiselect('customer_tax_class', array($taxClass['customer_tax_class']));
         $this->assertTrue($this->verifyCompositeMultiselect('customer_tax_class',
@@ -217,7 +222,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function deleteCustomerTaxClass()
     {
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->clickControl('link', 'tax_rule_info_additional_link', false);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $taxClass = $this->loadDataSet('Tax', 'new_customer_tax_class');
         $this->fillCompositeMultiselect('customer_tax_class', array($taxClass['customer_tax_class']));
         $this->assertTrue($this->verifyCompositeMultiselect('customer_tax_class',
@@ -235,7 +240,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function createProductTaxClass()
     {
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->clickControl('link', 'tax_rule_info_additional_link', false);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $taxClass = $this->loadDataSet('Tax', 'new_product_tax_class');
         $this->fillCompositeMultiselect('product_tax_class', array($taxClass['product_tax_class']));
         $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array($taxClass['product_tax_class'])),
@@ -251,7 +256,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function editExistingProductTaxClass()
     {
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->clickControl('link', 'tax_rule_info_additional_link', false);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $taxClass = $this->loadDataSet('Tax', 'new_product_tax_class');
         $this->fillCompositeMultiselect('product_tax_class', array($taxClass['product_tax_class']));
         $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class',
@@ -270,7 +275,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function deleteProductTaxClass()
     {
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->clickControl('link', 'tax_rule_info_additional_link', false);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $taxClass = $this->loadDataSet('Tax', 'new_product_tax_class');
         $this->fillCompositeMultiselect('product_tax_class', array($taxClass['product_tax_class']));
         $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class',
@@ -290,15 +295,15 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required');
         $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->clickControl('link', 'tax_rule_info_additional_link', false);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $this->fillFieldset($taxRuleData, 'tax_rules_drawer');
         $this->storeLauncherHelper()->saveDrawer();
         $this->_ruleToBeDeleted = $searchTaxRuleData;
         $this->assertEquals('tile-store-settings tile-tax tile-complete',
-            $this->getControlAttribute('fieldset', 'tax_rules_tile', 'class'), 'Tile state is not Equal to Complete');
+            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'), 'Tile state is not Equal to Complete');
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->openTaxItem($searchTaxRuleData, 'rule');
-        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link');
         $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
     }
 
@@ -314,7 +319,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     {
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required', array($emptyFieldName => ''));
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
-        $this->clickControl('link', 'tax_rule_info_additional_link', false);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $this->fillFieldset($taxRuleData, 'tax_rules_drawer');
         $this->clickButton('save_my_settings', false);
         $this->assertMessagePresent('validation', 'empty_required_field');
@@ -350,6 +355,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     {
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required', array('priority' => $specialValue));
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $this->fillFieldset($taxRuleData, 'tax_rules_drawer');
         $this->clickButton('save_my_settings', false);
         $this->addFieldIdToMessage('field', 'priority');
@@ -368,6 +374,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     {
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required', array('sort_order' => $specialValue));
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
+        $this->clickControl(self::FIELD_TYPE_LINK, 'tax_rule_info_additional_link', false);
         $this->fillFieldset($taxRuleData, 'tax_rules_drawer');
         $this->clickButton('save_my_settings', false);
         $this->addFieldIdToMessage('field', 'sort_order');

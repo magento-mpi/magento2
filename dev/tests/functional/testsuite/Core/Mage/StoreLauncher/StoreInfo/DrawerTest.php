@@ -34,7 +34,6 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     {
         $this->currentWindow()->maximize();
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
     }
 
     /**

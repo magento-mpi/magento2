@@ -102,22 +102,6 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Theme_Helper_Storage::convertPathToId
-     * @covers Mage_Theme_Helper_Storage::convertIdToPath
-     */
-    public function testConvertPathToId()
-    {
-        $storageRoot = $this->_customizationPath . Magento_Filesystem::DIRECTORY_SEPARATOR
-            . Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE;
-        $this->_mockStorageRoot($storageRoot);
-        $path = $storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR . 'some_dir';
-
-        $pathId = $this->_storageHelper->convertPathToId($path);
-        $this->assertEquals('L3NvbWVfZGly', $pathId);
-        $this->assertEquals($path, $this->_storageHelper->convertIdToPath($pathId));
-    }
-
-    /**
      * @covers Mage_Theme_Helper_Storage::getShortFilename
      */
     public function testGetShortFilename()
@@ -164,70 +148,6 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
             Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
         ));
         $this->assertEquals($expectedStorageRoot, $this->_storageHelper->getStorageRoot());
-    }
-
-    /**
-     * @covers Mage_Theme_Helper_Storage::getRelativeUrl
-     */
-    public function testGetRelativeUrl()
-    {
-        $imageName = 'imageName.jpg';
-        $dirOne = 'some_dir';
-        $dirTwo = 'test_der';
-        $nodePath = Magento_Filesystem::DIRECTORY_SEPARATOR
-            . implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array($dirOne, $dirTwo));
-
-        $requestMap = array(
-            array(Mage_Theme_Helper_Storage::PARAM_NODE, null, $this->_storageHelper->urlEncode($nodePath)),
-            array(Mage_Theme_Helper_Storage::PARAM_FILENAME, null, $this->_storageHelper->urlEncode($imageName)),
-            array(Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE, null, Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE)
-        );
-        $this->_request->expects($this->any())
-            ->method('getParam')
-            ->will($this->returnValueMap($requestMap));
-
-        //'../image/some_dir/test_der/imageName.jpg'
-        $expectedPath = implode('/', array(
-             '..',
-             Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE,
-             $dirOne,
-             $dirTwo,
-             $imageName
-        ));
-        $this->assertEquals($expectedPath, $this->_storageHelper->getRelativeUrl());
-    }
-
-    /**
-     * @covers Mage_Theme_Helper_Storage::getCurrentPath
-     */
-    public function testGetCurrentPath()
-    {
-        $subPath = Magento_Filesystem::DIRECTORY_SEPARATOR . 'some_dir';
-        $encodedSubPath = $this->_storageHelper->urlEncode($subPath);
-        $storageRoot = $this->_customizationPath . Magento_Filesystem::DIRECTORY_SEPARATOR
-            . Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE;
-
-        $expectedPath = $storageRoot . $subPath;
-        $this->_request->expects($this->once())
-            ->method('getParam')
-            ->will($this->returnValue($encodedSubPath));
-
-        $this->_filesystem->expects($this->atLeastOnce())
-            ->method('isDirectory')
-            ->with($expectedPath)
-            ->will($this->returnValue(true));
-
-        $filesystem = $this->_filesystem;
-        $filesystem::staticExpects($this->atLeastOnce())
-            ->method('isPathInDirectory')->with($expectedPath, $storageRoot)
-            ->will($this->returnValue(true));
-
-        $filesystem::staticExpects($this->atLeastOnce())
-            ->method('getAbsolutePath')
-            ->will($this->returnArgument(0));
-
-        $this->_mockStorageRoot($storageRoot);
-        $this->assertEquals($expectedPath, $this->_storageHelper->getCurrentPath());
     }
 
     /**

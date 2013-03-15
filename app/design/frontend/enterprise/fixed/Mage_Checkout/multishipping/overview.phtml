@@ -13,7 +13,7 @@
     <h1><?php echo $this->__('Review Order') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<form action="<?php echo $this->getPostActionUrl() ?>" method="post" onsubmit="return showLoader();">
+<form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="review-order-form">
 <fieldset class="multiple-checkout">
     <div class="col2-set">
         <h2 class="sub-title"><?php echo $this->__('Billing Information') ?></h2>
@@ -103,7 +103,7 @@
                     <?php endforeach; ?>
                     </tbody>
                 </table>
-                <script type="text/javascript">(function($) {$('#overview-table-<?php echo $_address->getId() ?>').decorate('table')})(jQuery)</script>
+                <script type="text/javascript">jQuery('#overview-table-<?php echo $_address->getId() ?>').decorate('table')</script>
             </div>
         </div>
         <?php if($this->getShippingAddressCount()!=$_index+1): ?>
@@ -153,7 +153,7 @@
                 <?php endforeach; ?>
                 </tbody>
                 </table>
-                <script type="text/javascript">(function($) {$('#virtual-overview-table').decorate('table')})(jQuery)</script>
+                <script type="text/javascript">jQuery('#virtual-overview-table').decorate('table')</script>
             </div>
     </div>
     <?php endif; ?>
@@ -174,32 +174,7 @@
 </fieldset>
 </form>
 <script type="text/javascript">
-//<![CDATA[
-    var submitted = false;
-
-    function showLoader()
-    {
-        if (submitted) {
-            return false;
-        }
-        if ($('checkout-agreements')) {
-            var checkboxes = $$('#checkout-agreements input');
-            for (var i=0, l=checkboxes.length; i<l; i++) {
-                if (!checkboxes[i].checked) {
-                    alert("<?php echo $this->__('Please agree to all Terms and Conditions before placing the orders.')?>");
-                    return false;
-                }
-            }
-        }
-
-        submitted = true;
-        var step='review';
-        Element.show(step+'-please-wait');
-        $(step+'-buttons-container').setStyle({opacity:.5});
-        $(step+'-buttons-container').descendants().each(function(s) {
-              s.disabled = true;
-        });
-        return true;
-    }
-//]]>
+    head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/overview.js')?>", function() {
+        jQuery('#review-order-form').orderOverview();
+    });
 </script>

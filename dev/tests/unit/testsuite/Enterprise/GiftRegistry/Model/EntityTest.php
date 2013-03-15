@@ -77,7 +77,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
             ));
 
         $eventDispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
-        $cacheManager = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false, false);
+        $cacheManager = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false, false);
         $context = new Mage_Core_Model_Context($eventDispatcher, $cacheManager);
 
         $this->_model = new Enterprise_GiftRegistry_Model_Entity(

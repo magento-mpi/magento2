@@ -2654,6 +2654,7 @@ table tbody tr:nth-child(odd):hover th {
 -------------------------------------- */
 .wrapper {
     padding: 0 0 60px;
+    min-width: 1000px;
 }
 
 .page-content {

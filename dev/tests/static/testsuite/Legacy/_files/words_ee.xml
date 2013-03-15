@@ -18,15 +18,15 @@
     </words>
     <whitelist>
         <item>
-            <path>app/code/core/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.0-1.11.0.1.php</path>
+            <path>app/code/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.0-1.11.0.1.php</path>
             <word>staging</word>
         </item>
         <item>
-            <path>app/code/core/Enterprise/Enterprise/sql/enterprise_enterprise_setup/upgrade-1.11.0.1-1.11.0.2.php</path>
+            <path>app/code/Enterprise/Enterprise/sql/enterprise_enterprise_setup/upgrade-1.11.0.1-1.11.0.2.php</path>
             <word>staging</word>
         </item>
         <item>
-            <path>app/code/core/Mage/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
+            <path>app/code/Mage/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
             <word>staging</word>
         </item>
     </whitelist>

@@ -21,7 +21,11 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Backend_Utility_Co
      */
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
-        $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
+        /** @var $backendUrlModel Mage_Backend_Model_Url */
+        $backendUrlModel = Mage::getObjectManager()->get('Mage_Backend_Model_Url');
+        $url = $backendUrlModel->getStartupPageUrl();
+        $expected = $backendUrlModel->getUrl($url);
         $this->dispatch('backend');
         $this->assertRedirect($this->stringStartsWith($expected));
     }

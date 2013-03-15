@@ -26,7 +26,6 @@ class Core_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->navigate('store_launcher');
     }
 
     /**
@@ -39,7 +38,7 @@ class Core_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
      */
     public function tileIsDisplayed($tile)
     {
-        $this->assertTrue($this->controlIsPresent('fieldset', $tile),
+        $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_FIELDSET, $tile),
             'Ttile is absent on Store Launcher page. Tile code: ' . $tile);
     }
 
@@ -60,8 +59,8 @@ class Core_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $tileElement
          */
-        $this->moveto($this->getElement($this->_getControlXpath('pageelement', 'page_title')));
-        $tileXpath = $this->_getControlXpath('fieldset', $tile);
+        $this->moveto($this->getElement($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'page_title')));
+        $tileXpath = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, $tile);
         $tileElement = $this->getElement($tileXpath);
         $style = $helper->getTileBgColor($tileElement);
         $this->assertNotEmpty($style, 'Could not get Tile style');
@@ -89,7 +88,9 @@ class Core_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
         return array(
             array('bussines_info_tile'),
             array('tax_rules_tile'),
-            array('payment_tile')
+            array('payment_tile'),
+            array('product_tile'), //TL-MAGE-6819, TL-MAGE-6820
+            array('shipping_tile')
         );
     }
 }

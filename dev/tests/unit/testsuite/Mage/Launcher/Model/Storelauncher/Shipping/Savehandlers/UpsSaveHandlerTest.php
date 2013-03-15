@@ -46,14 +46,8 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandlerTest
         $preparedData0['carriers']['ups']['fields']['type']['value'] = 'UPS_XML';
         $preparedData0['carriers']['ups']['fields']['active']['value'] = 1;
 
-        // data set #1
-        $data1 = $data0;
-        $preparedData1 = $preparedData0;
-        $data1['groups']['ups']['fields']['active']['value'] = '0';
-        $preparedData1['carriers']['ups']['fields']['active']['value'] = 0;
         return array(
             array($data0, $preparedData0, array('carriers')),
-            array($data1, $preparedData1, array('carriers')),
         );
 
     }

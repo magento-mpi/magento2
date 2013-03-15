@@ -37,7 +37,7 @@ class Mage_Core_Model_Config_CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false, false);
+        $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false, false);
         $this->_configSectionsMock = $this->getMock('Mage_Core_Model_Config_Sections',
             array(), array(), '', false, false);
         $this->_contFactoryMock = $this->getMock('Mage_Core_Model_Config_ContainerFactory',

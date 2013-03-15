@@ -22,6 +22,27 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     protected $_drawerBlock;
 
     /**
+     * Object Manager Mock
+     *
+     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManagerMock;
+
+    /**
+     * Launcher helper mock
+     *
+     * @var Mage_Launcher_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperLauncherMock;
+
+    /**
+     * DB file storage mock
+     *
+     * @var Mage_Core_Helper_File_Storage_Database|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperFileDbMock;
+
+    /**
      * Config data array, used in configCallback method
      *
      * @var array
@@ -66,22 +87,32 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             ->method('getCode')
             ->will($this->returnValue('default'));
 
-        $helperMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->any())
+        $this->_helperLauncherMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
+        $this->_helperLauncherMock->expects($this->any())
             ->method('getCurrentStoreView')
             ->will($this->returnValue($store));
+
+        $this->_helperFileDbMock = $this->getMock('Mage_Core_Helper_File_Storage_Database',
+            array(), array(), '', false);
+        $this->_helperFileDbMock->expects($this->any())
+            ->method('checkDbUsage')
+            ->will($this->returnValue(false));
 
         $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper',
             array(), array(), '', false, false
         );
-        $helperFactoryMock->expects($this->any())->method('get')->with('Mage_Launcher_Helper_Data')
-            ->will($this->returnValue($helperMock));
+        $helperFactoryMock->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback(array($this, 'helperCallback')));
+
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
 
         $arguments = array(
             'layout' => $layout,
             'storeConfig' => $config,
             'helperFactory' => $helperFactoryMock,
-            'themeService' => $themeService
+            'themeService' => $themeService,
+            'objectManager' => $this->_objectManagerMock
         );
 
         $this->_drawerBlock = $objectManagerHelper->getObject(
@@ -95,15 +126,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     public function tearDown()
     {
         unset($this->_drawerBlock);
-    }
-
-    /**
-     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer::getThemesBlocks
-     */
-    public function testGetThemesBlocks()
-    {
-        $themesBlocks = $this->_drawerBlock->getThemesBlocks();
-        $this->assertEquals(5, count($themesBlocks));
     }
 
     /**
@@ -133,6 +155,23 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     }
 
     /**
+     * Callback function for Helper Factory
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function helperCallback($name)
+    {
+        switch ($name) {
+            case 'Mage_Launcher_Helper_Data':
+                return $this->_helperLauncherMock;
+            case 'Mage_Core_Helper_File_Storage_Database':
+                return $this->_helperFileDbMock;
+        }
+        return null;
+    }
+
+    /**
      * Get Config Source data
      *
      * @return array
@@ -143,6 +182,28 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             1 => array('design/theme/theme_id' => '118'),
             null => array('design/theme/theme_id' => '272'),
         );
+    }
+
+    /**
+     * Get Config Source data
+     *
+     * @return array
+     */
+    protected function _getConfigSourceLogo()
+    {
+        return array(
+            1 => array('design/header/logo_src' => 'dragons.png'),
+            null => array('design/header/logo_src' => 'magento.png'),
+        );
+    }
+
+    /**
+     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer::getThemesBlocks
+     */
+    public function testGetThemesBlocks()
+    {
+        $themesBlocks = $this->_drawerBlock->getThemesBlocks();
+        $this->assertEquals(5, count($themesBlocks));
     }
 
     /**
@@ -157,4 +218,23 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
         $this->assertEquals($result, 118);
     }
 
+    public function testGetLogoUrl()
+    {
+        $this->_configData = $this->_getConfigSourceLogo();
+
+        $fileSystemMock = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $fileSystemMock->expects($this->any())
+            ->method('isFile')
+            ->with($this->stringContains('logo' . DIRECTORY_SEPARATOR . 'dragons.png'), $this->isNull())
+            ->will($this->returnValue(true));
+
+        $this->_objectManagerMock
+            ->expects($this->any())
+            ->method('get')
+            ->with('Magento_Filesystem')
+            ->will($this->returnValue($fileSystemMock));
+
+        $result = $this->_drawerBlock->getLogoUrl();
+        $this->assertEquals('logo/dragons.png', $result);
+    }
 }

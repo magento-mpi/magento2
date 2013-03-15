@@ -19,7 +19,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends Mage_Backen
      *
      * @var array
      */
-    protected static $_expectedFieldsets = array(
+    protected $_expectedFieldsets = array(
         'base_fieldset',
         'upload_file_fieldset',
     );
@@ -29,19 +29,12 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends Mage_Backen
      *
      * @static
      */
-    public static function setUpBeforeClass()
+    protected function setUp()
     {
-        parent::setUpBeforeClass();
-
         $uniqueBehaviors = Mage_ImportExport_Model_Import::getUniqueEntityBehaviors();
         foreach (array_keys($uniqueBehaviors) as $behavior) {
-            self::$_expectedFieldsets[] = $behavior . '_fieldset';
+            $this->_expectedFieldsets[] = $behavior . '_fieldset';
         }
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$_expectedFieldsets = null;
     }
 
     /**
@@ -67,11 +60,11 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends Mage_Backen
         $formElements = $form->getElements();
         foreach ($formElements as $element) {
             /** @var $element Varien_Data_Form_Element_Abstract */
-            if (in_array($element->getId(), self::$_expectedFieldsets)) {
+            if (in_array($element->getId(), $this->_expectedFieldsets)) {
                 $formFieldsets[] = $element;
             }
         }
-        $this->assertSameSize(self::$_expectedFieldsets, $formFieldsets);
+        $this->assertSameSize($this->_expectedFieldsets, $formFieldsets);
         foreach ($formFieldsets as $fieldset) {
             $this->assertInstanceOf('Varien_Data_Form_Element_Fieldset', $fieldset, 'Incorrect fieldset class.');
         }

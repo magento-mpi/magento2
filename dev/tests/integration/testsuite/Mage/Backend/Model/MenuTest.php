@@ -35,7 +35,7 @@ class Mage_Backend_Model_MenuTest extends Mage_Backend_Area_TestCase
         $itemFactory = Mage::getModel('Mage_Backend_Model_Menu_Item_Factory');
 
         // Add new item in top level
-        $menu->add($itemFactory->createFromArray(array(
+        $menu->add($itemFactory->create(array(
             'id' => 'Mage_Backend::system2',
             'title' => 'Extended System',
             'module' => 'Mage_Backend',
@@ -43,7 +43,7 @@ class Mage_Backend_Model_MenuTest extends Mage_Backend_Area_TestCase
         )));
 
          //Add submenu
-        $menu->add($itemFactory->createFromArray(array(
+        $menu->add($itemFactory->create(array(
             'id' => 'Mage_Backend::system2_acl',
             'title' => 'Acl',
             'module' => 'Mage_Backend',

@@ -195,7 +195,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testGetCacheInstance()
     {
         $cache = $this->_mageModel->getCacheInstance();
-        $this->assertInstanceOf('Mage_Core_Model_Cache', $cache);
+        $this->assertInstanceOf('Mage_Core_Model_CacheInterface', $cache);
         $this->assertSame($cache, $this->_mageModel->getCacheInstance());
     }
 

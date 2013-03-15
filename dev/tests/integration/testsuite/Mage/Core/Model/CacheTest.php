@@ -12,7 +12,7 @@
 class Mage_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_model;
 

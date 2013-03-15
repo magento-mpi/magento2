@@ -48,7 +48,8 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
                     $tileButton->click();
                     $this->waitForAjax();
                     $this->pleaseWait();
-                    return (bool)$this->waitForElement($this->_getControlXpath('pageelement', 'drawer_footer'));
+                    return (bool)$this->waitForElement(
+                        $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'drawer_footer'));
                 }
             }
         }
@@ -63,7 +64,7 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
     public function closeDrawer()
     {
         $this->clickButton('close_drawer', false);
-        return $this->waitForElementInvisible($this->_getControlXpath('fieldset', 'common_drawer'));
+        return $this->waitForElementInvisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'common_drawer'));
     }
 
     /**
@@ -73,7 +74,7 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->clickButton('save_my_settings', false);
         $this->waitForAjax();
-        return $this->waitForElementInvisible($this->_getControlXpath('fieldset', 'common_drawer'));
+        return $this->waitForElementInvisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'common_drawer'));
     }
 
     /**
@@ -84,7 +85,7 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
      */
     public function mouseOverDrawer($tile)
     {
-        $tileXpath = $this->_getControlXpath('fieldset', $tile);
+        $tileXpath = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, $tile);
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $tileElement
          */

@@ -22,11 +22,25 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected $_definitions;
 
     /**
-     * Runtime configuration
+     * List of configured arguments
      *
-     * @var Magento_ObjectManager_Config
+     * @var array
      */
-    protected $_configuration;
+    protected $_arguments = array();
+
+    /**
+     * List of not shared classes
+     *
+     * @var array
+     */
+    protected $_nonShared = array();
+
+    /**
+     * Interface preferences
+     *
+     * @var array
+     */
+    protected $_preferences = array();
 
     /**
      * List of classes being created
@@ -44,15 +58,18 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
 
     /**
      * @param Magento_ObjectManager_Definition $definitions
-     * @param Magento_ObjectManager_Config $configuration
+     * @param array $configuration
+     * @param array $sharedInstances
      */
     public function __construct(
         Magento_ObjectManager_Definition $definitions = null,
-        array $configuration = array()
+        array $configuration = array(),
+        array $sharedInstances = array()
     ) {
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
+        $this->_sharedInstances = $sharedInstances;
         $this->_sharedInstances['Magento_ObjectManager'] = $this;
-        $this->_configuration = $configuration;
+        $this->configure($configuration);
     }
 
 
@@ -71,8 +88,8 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected function _resolveArguments($className, array $parameters, array $arguments = array())
     {
         $resolvedArguments = array();
-        if (isset($this->_configuration[$className]['parameters'])) {
-            $arguments = array_replace($this->_configuration[$className]['parameters'], $arguments);
+        if (isset($this->_arguments[$className])) {
+            $arguments = array_replace($this->_arguments[$className], $arguments);
         }
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
@@ -98,9 +115,9 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                 }
 
                 $this->_creationStack[$className] = 1;
-                $argument = $this->_isShared($argument) ?
-                    $this->get($argument) :
-                    $this->create($argument);
+                $argument = isset($this->_nonShared[$argument]) ?
+                    $this->create($argument) :
+                    $this->get($argument);
                 unset($this->_creationStack[$className]);
             }
             $resolvedArguments[] = $argument;
@@ -115,27 +132,17 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     protected function _resolveClassName($className)
     {
         $preferencePath = array();
-        while (isset($this->_configuration['preferences'][$className])) {
-            if (isset($preferencePath[$this->_configuration['preferences'][$className]])) {
+        while (isset($this->_preferences[$className])) {
+            if (isset($preferencePath[$this->_preferences[$className]])) {
                 throw new LogicException(
                     'Circular type preference: ' . $className . ' relates to '
-                        . $this->_configuration['preferences'][$className] . ' and viceversa.'
+                        . $this->_preferences[$className] . ' and viceversa.'
                 );
             }
-            $className = $this->_configuration['preferences'][$className];
+            $className = $this->_preferences[$className];
             $preferencePath[$className] = 1;
         }
         return $className;
-    }
-
-    /**
-     * @param $className
-     * @return bool
-     */
-    protected function _isShared($className)
-    {
-        return !(isset($this->_configuration[$className]['shared'])
-            && $this->_configuration[$className]['shared'] == false);
     }
 
     /**
@@ -257,7 +264,10 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function create($className, array $arguments = array())
     {
-        return $this->_create($this->_resolveClassName($className), $arguments);
+        if (isset($this->_preferences[$className])) {
+            $className = $this->_resolveClassName($className);
+        }
+        return $this->_create($className, $arguments);
     }
 
     /**
@@ -268,11 +278,13 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function get($className)
     {
-        $resolvedName = $this->_resolveClassName($className);
-        if (!isset($this->_sharedInstances[$resolvedName])) {
-            $this->_sharedInstances[$resolvedName] = $this->_create($resolvedName);
+        if (isset($this->_preferences[$className])) {
+            $className = $this->_resolveClassName($className);
         }
-        return $this->_sharedInstances[$resolvedName];
+        if (!isset($this->_sharedInstances[$className])) {
+            $this->_sharedInstances[$className] = $this->_create($className);
+        }
+        return $this->_sharedInstances[$className];
     }
 
     /**
@@ -282,6 +294,29 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      */
     public function configure(array $configuration)
     {
-        $this->_configuration = array_replace_recursive($this->_configuration, $configuration);
+        foreach ($configuration as $key => $curConfig) {
+            switch ($key) {
+                case 'preferences':
+                    $this->_preferences = array_replace($this->_preferences, $curConfig);
+                    break;
+
+                default:
+                    if (isset($curConfig['parameters'])) {
+                        if (isset($this->_arguments[$key])) {
+                            $this->_arguments[$key] = array_replace($this->_arguments[$key], $curConfig['parameters']);
+                        } else {
+                            $this->_arguments[$key] = $curConfig['parameters'];
+                        }
+                    }
+                    if (isset($curConfig['shared'])) {
+                        if (!$curConfig['shared'] || $curConfig['shared'] == 'false') {
+                            $this->_nonShared[$key] = 1;
+                        } else {
+                            unset($this->_nonShared[$key]);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }
