@@ -16,4 +16,8 @@
             <active>false</active>
         </Saas_Saas>
     </modules>
+    <workers>
+        <events>
+        </events>
+    </workers>
 </config>
