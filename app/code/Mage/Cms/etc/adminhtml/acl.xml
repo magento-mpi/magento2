@@ -12,6 +12,15 @@
 <config>
     <acl>
         <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::content">
+                    <resource id="Mage_Adminhtml::content_elements">
+                        <resource id="Mage_Cms::page" title="Pages" module="Mage_Cms" sortOrder="10" />
+                        <resource id="Mage_Cms::block" title="Blocks" module="Mage_Cms" sortOrder="30" />
+                    </resource>
+                </resource>
+            </resource>
+
             <resource id="Old_Mage_Adminhtml::admin">
                 <resource id="Old_Mage_Cms::cms" module="Mage_Cms" title="CMS" sortOrder="70">
                     <resource id="Old_Mage_Cms::block" title="Static Blocks" sortOrder="10" />

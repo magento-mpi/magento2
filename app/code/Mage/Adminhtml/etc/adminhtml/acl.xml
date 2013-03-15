@@ -22,6 +22,13 @@
                     <resource id="Mage_Adminhtml::marketing_seo" title="SEO &amp; Search" module="Mage_Adminhtml" sortOrder="40" />
                     <resource id="Mage_Adminhtml::marketing_user_content" title="User Content" module="Mage_Adminhtml" sortOrder="50" />
                 </resource>
+                <resource id="Mage_Adminhtml::content" module="Mage_Adminhtml" title="Content" sortOrder="60">
+                    <resource id="Mage_Adminhtml::content_elements" module="Mage_Adminhtml" title="Elements" sortOrder="10" />
+                    <resource id="Mage_Adminhtml::design"  module="Mage_Adminhtml" title="Design" sortOrder="20">
+                        <resource id="Mage_Adminhtml::schedule" module="Mage_Adminhtml" title="Schedule" sortOrder="30" />
+                    </resource>
+                </resource>
+
                 <resource id="Mage_Adminhtml::stores" module="Mage_Adminhtml" title="Stores" sortOrder="80">
                     <resource id="Mage_Adminhtml::stores_settings" title="Settings" module="Mage_Adminhtml" sortOrder="10">
                         <resource id="Mage_Adminhtml::store" title="All Stores" module="Mage_Adminhtml" sortOrder="10"/>
