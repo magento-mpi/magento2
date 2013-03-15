@@ -583,11 +583,11 @@
     speak: none;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
-    content: '\e040'; /* user icon */
+    content: '\e03f'; /* user icon */
 }
 
 #product-variations-matrix .col-name > a + .action-choose:before {
-    content: '\e03f'; /* user icon */
+    content: '\e040'; /* user icon */
     color: #a09a8c;
 }
 
