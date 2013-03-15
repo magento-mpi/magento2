@@ -21,6 +21,13 @@ class Mage_Core_Model_Design_Fallback_Rule_Simple implements Mage_Core_Model_Des
     protected $_optionalParams;
 
     /**
+     * Pattern for a simple rule
+     *
+     * @var string
+     */
+    protected $_pattern;
+
+    /**
      * Constructor
      *
      * @param string $pattern
@@ -28,7 +35,7 @@ class Mage_Core_Model_Design_Fallback_Rule_Simple implements Mage_Core_Model_Des
      */
     public function __construct($pattern, $optionalParams = array())
     {
-        $this->_pattern = str_replace('/', DIRECTORY_SEPARATOR, $pattern);
+        $this->_pattern = $pattern;
         $this->_optionalParams = $optionalParams;
     }
 
@@ -55,9 +62,6 @@ class Mage_Core_Model_Design_Fallback_Rule_Simple implements Mage_Core_Model_Des
             }
         }
 
-        return array(array(
-            'dir' => str_replace('/', DIRECTORY_SEPARATOR, $pattern),
-            'pattern' => str_replace('/', DIRECTORY_SEPARATOR, $this->_pattern)
-        ));
+        return array(array('dir' => $pattern, 'pattern' => $this->_pattern));
     }
 }

@@ -49,30 +49,30 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
             ->method('getParentTheme')
             ->will($this->returnValue($parentTheme));
 
-        $pattern1 = '<theme_path> <other_one> one';
-        $pattern2 = '<theme_path> <other_two> two';
+        $patternOne = '<theme_path> <other_one> one';
+        $patternTwo = '<theme_path> <other_two> two';
         $params = array('other_one' => 'oo', 'other_two' => 'ot', 'theme' => $theme);
-        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme(array(array($pattern1), array($pattern2)));
+        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme(array(array($patternOne), array($patternTwo)));
 
         $expectedResult = array(
             array(
                 'dir' => 'package/theme oo one',
-                'pattern' => $pattern1
+                'pattern' => $patternOne
             ),
             array(
                 'dir' => 'package/theme ot two',
-                'pattern' => $pattern2
+                'pattern' => $patternTwo
             ),
             array(
                 'dir' => 'parent_package/parent_theme oo one',
-                'pattern' => $pattern1
+                'pattern' => $patternOne
             ),
             array(
                 'dir' => 'parent_package/parent_theme ot two',
-                'pattern' => $pattern2
+                'pattern' => $patternTwo
             )
         );
 
-        $this->assertEquals($model->getPatternDirs($params), $expectedResult);
+        $this->assertEquals($expectedResult, $model->getPatternDirs($params));
     }
 }

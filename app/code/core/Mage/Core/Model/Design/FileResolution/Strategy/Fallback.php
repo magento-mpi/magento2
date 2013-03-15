@@ -145,7 +145,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
         $path = '';
 
         foreach ($fallbackList->getPatternDirs($params) as $dir) {
-            $path = $dir . DS . $file;
+            $path = str_replace('/', DIRECTORY_SEPARATOR, "{$dir}/{$file}");
             if ($this->_filesystem->has($path)) {
                 return $path;
             }
