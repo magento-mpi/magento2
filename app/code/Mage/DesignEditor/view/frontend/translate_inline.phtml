@@ -106,36 +106,11 @@ $design = $this->getDesign();
                 }
             });
 
-            parent.jQuery('#vde-translate').translateInlineToggle({
-                frameUrl: '<?php echo $this->getFrameUrl() ?>',
-                refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
-                onClick: function(element) {
-                    parent.jQuery('#vde-translate').translateInlineToggle('toggleTranslationInline');
-                }
-            });
+            parent.jQuery('[vde-translate]').translateInlineToggle({});
 
-            parent.jQuery('#vde-translate-text').translateInlineToggle({
+            parent.jQuery('[translate-selected]').translateInlineToggleMode({
                 frameUrl: '<?php echo $this->getFrameUrl() ?>',
-                refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
-                onClick: function(element) {
-                    parent.jQuery('#vde-translate-text').translateInlineToggle('toggleTranslationMode', 'text');
-                }
-            });
-
-            parent.jQuery('#vde-translate-script').translateInlineToggle({
-                frameUrl: '<?php echo $this->getFrameUrl() ?>',
-                refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
-                onClick: function(element) {
-                    parent.jQuery('#vde-translate-script').translateInlineToggle('toggleTranslationMode', 'script');
-                }
-            });
-
-            parent.jQuery('#vde-translate-alt').translateInlineToggle({
-                frameUrl: '<?php echo $this->getFrameUrl() ?>',
-                refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
-                onClick: function(element) {
-                    parent.jQuery('#vde-translate-alt').translateInlineToggle('toggleTranslationMode', 'alt');
-                }
+                refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>
             });
         });
     })(jQuery);

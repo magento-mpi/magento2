@@ -613,7 +613,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: none repeat scroll 0 0 #32312C;
+    background: #32312C;
     height: 52px;
     z-index: 1001;
 }
@@ -631,7 +631,6 @@
 }
 
 .text-menu-div {
-    height: 32px;
     padding: 5px;
     cursor: pointer;
 }
@@ -644,7 +643,7 @@
 }
 
 .text-menu-background-on {
-    background-color: #DCDCDC;
+    background-color: #ccc;
 }
 
 .text-menu-background-off {
@@ -832,11 +831,12 @@
     right: 20%;
 }
 
-.vde-tools-button {
+.vde-tools-menu {
     left: 95%;
     position: absolute;
     right: 0;
 }
+
 .tab-panel {
     position: relative;
     display: none;

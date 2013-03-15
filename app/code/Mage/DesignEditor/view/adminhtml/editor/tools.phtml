@@ -50,26 +50,26 @@
                     </li>
                 </ul>
             </div>
-            <div class="vde-tools-button">
-                <div id="vde-translate-menu" class="text-menu-show no-display">
-                    <div id="vde-translate-text" class="text-menu-div">
+            <div class="vde-tools-menu">
+                <div translate-menu class="text-menu-show hidden">
+                    <div id="vde-translate-text" translate-selected='text' class="text-menu-div">
                         <span id="vde-translate-text-img" class="text-menu-text-off"></span>
                         <span class="text-menu-label"><?php echo $this->__('Page Text'); ?></span>
                     </div>
 
-                    <div id="vde-translate-script" class="text-menu-div">
+                    <div id="vde-translate-script" translate-selected='script' class="text-menu-div">
                         <span id="vde-translate-script-img" class="text-menu-script-off"></span>
                         <span class="text-menu-label"><?php echo $this->__('Variable Text'); ?></span>
                     </div>
 
-                    <div id="vde-translate-alt" class="text-menu-div">
+                    <div id="vde-translate-alt" translate-selected='alt' class="text-menu-div">
                         <span id="vde-translate-alt-img" class="text-menu-alt-off"></span>
                         <span class="text-menu-label"><?php echo $this->__('Alternative Text'); ?></span>
                     </div>
                 </div>
                 <ul class="vde-tab-controls">
                     <li id="vde-translate-edit" class="item-text-edit text-edit-text-off">
-                        <a id="vde-translate" title="<?php echo $this->__('Edit Text'); ?>">
+                        <a vde-translate title="<?php echo $this->__('Edit Text'); ?>">
                             <span><?php echo $this->__('Edit Text'); ?></span>
                         </a>
                     </li>
@@ -102,6 +102,19 @@
     });
 
     $.widget("mage.translateInlineToggle", {
+        _create: function() {
+            this.element.on('click', $.proxy(this._onClick, this));
+        },
+
+        /**
+         * This method displays the translate menu.
+         */
+        _onClick: function () {
+            parent.jQuery('[translate-menu]').toggleClass('hidden');
+        }
+    });
+
+    $.widget("mage.translateInlineToggleMode", {
         options: {
             frameUrl: null,
             refreshVdeCanvas: false,
@@ -109,14 +122,7 @@
         },
 
         _create: function() {
-            this.element.on('click', $.proxy(this.options.onClick, this));
-        },
-
-        /**
-         * This method displays the translate menu and defaults the currently selected mode.
-         */
-        toggleTranslationInline: function() {
-            parent.jQuery('#vde-translate-menu').removeClass('no-display');
+            this.element.on('click', $.proxy(this._onClick, this));
         },
 
         /**
@@ -125,20 +131,27 @@
          * If this is the first time a mode is selected, the contents of the iframe will be wrapped with the appropriate
          * attributes where applicable (translate-mode, either 'text', 'script' or 'alt').
          *
-         * @param mode
          */
-        toggleTranslationMode: function(mode) {
+        _onClick: function () {
             // Hide menu.
-            parent.jQuery('#vde-translate-menu').addClass('no-display');
+            parent.jQuery('[translate-menu]').toggleClass('hidden');
 
             // Change menu to reflect what was selected, so will display correctly when displayed again.
-            this._updateMenu(mode);
+            this._updateMenu(this.element.attr('translate-selected'));
 
             // Refresh iframe with new url
-            this._refresh(mode);
+            this._refresh(this.element.attr('translate-selected'));
         },
 
+        /**
+         * This method refreshes the icons, background and toolbar button based on the currently selected menu option.
+         *
+         * @param mode
+         * @private
+         */
         _refresh: function (mode) {
+            /** todo SDW Add animation when refreshing the iframe. */
+
             var url = this.options.frameUrl;
             if (this.options.disableInlineTranslation) {
                 parent.jQuery('#vde_container_frame').attr('translation-mode', '');
@@ -152,7 +165,6 @@
             // Or, if disabling inline translation, refresh minus the translation mode on the url.
             if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation) {
                 parent.jQuery('#vde_container_frame').prop('src', url);
-                parent.jQuery('#vde_container_frame').contentWindow.location.href = url;
             }
 
             /**
