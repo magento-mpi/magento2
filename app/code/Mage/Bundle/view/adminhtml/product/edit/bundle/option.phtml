@@ -148,6 +148,7 @@ Bundle.Option.prototype = {
         } else {
             data.title = data.title.replace(/</g, "&lt;");
             data.title = data.title.replace(/"/g, "&quot;");
+            data.default_title =  data.title;
         }
         data.index = this.itemsCount++;
 
