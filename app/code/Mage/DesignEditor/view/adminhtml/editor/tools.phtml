@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <ul class="vde-tab-controls">
-                    <li id="vde-translate-edit" class="item-text-edit text-edit-text-off">
+                    <li vde-translate-edit class="item-text-edit text-edit-text-off">
                         <a vde-translate title="<?php echo $this->__('Edit Text'); ?>">
                             <span><?php echo $this->__('Edit Text'); ?></span>
                         </a>
@@ -154,11 +154,11 @@
 
             var url = this.options.frameUrl;
             if (this.options.disableInlineTranslation) {
-                parent.jQuery('#vde_container_frame').attr('translation-mode', '');
+                parent.jQuery('#vde_container_frame').attr('data-translation-mode-selected', '');
             }
             else {
                 url = url + "translation_mode/" + mode;
-                parent.jQuery('#vde_container_frame').attr('translation-mode', mode);
+                parent.jQuery('#vde_container_frame').attr('data-translation-mode-selected', mode);
             }
 
             // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
@@ -196,7 +196,7 @@
                 parent.jQuery(menuClass + '-img').removeClass(textMenuClass + '-on').addClass(textMenuClass + '-off');
 
                 // Update toolbar button.
-                parent.jQuery('#vde-translate-edit').removeClass(textEditClass + '-on').addClass(textEditClass + '-off');
+                parent.jQuery('[vde-translate-edit]').removeClass(textEditClass + '-on').addClass(textEditClass + '-off');
 
                 // Refresh iframe minus the translation mode on the url.
                 this.options.disableInlineTranslation = true;
@@ -232,9 +232,9 @@
             // Update toolbar button.
             var textEditClassOn = 'text-edit-' + mode + '-on';
             if (enableOnToolbar)
-                parent.jQuery('#vde-translate-edit').addClass(textEditClassOn);
+                parent.jQuery('[vde-translate-edit]').addClass(textEditClassOn);
             else
-                parent.jQuery('#vde-translate-edit').removeClass(textEditClassOn);
+                parent.jQuery('[vde-translate-edit]').removeClass(textEditClassOn);
         }
     });
 
