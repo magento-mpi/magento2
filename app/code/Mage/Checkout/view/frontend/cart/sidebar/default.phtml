@@ -107,7 +107,7 @@
     <?php endif; //Can apply MSRP ?>
 
         <?php if ($_options = $this->getOptionList()):?>
-        <div class="truncated">
+        <div class="truncated" data-mage-init="{truncateOptions:[]}">
           <div class="truncated_full_value">
             <dl class="item-options">
                 <?php foreach ($_options as $_option) : ?>
