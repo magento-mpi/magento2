@@ -13,9 +13,9 @@ TranslateInlineIconVdeTest.prototype.testInit = function() {
         <img src="${img}" height="16" width="16">
     </script>
     */
-    var translateInlineIconVde = jQuery('[data-translate]').translateInlineIconVde();
-    assertEquals(true, translateInlineIconVde.is(':mage-translateInlineIconVde'));
-    translateInlineIconVde.translateInlineIconVde('destroy');
+    var translateInlineVde = jQuery('[data-translate]').translateInlineVde();
+    assertEquals(true, translateInlineVde.is(':mage-translateInlineVde'));
+    translateInlineVde.translateInlineVde('destroy');
 };
 TranslateInlineIconVdeTest.prototype.testCreate = function() {
     /*:DOC += <div data-translate="true">text</div>
@@ -24,9 +24,9 @@ TranslateInlineIconVdeTest.prototype.testCreate = function() {
     </script>
     */
     assertEquals(0, jQuery('[data-translate] > img').size());
-    var translateInlineIconVde = jQuery('[data-translate]').translateInlineIconVde();
+    var translateInlineVde = jQuery('[data-translate]').translateInlineVde();
     assertEquals(1, jQuery('[data-translate] > img').size());
-    translateInlineIconVde.translateInlineIconVde('destroy');
+    translateInlineVde.translateInlineVde('destroy');
 };
 TranslateInlineIconVdeTest.prototype.testHideAndShow = function() {
     /*:DOC += <div data-translate="true">text</div>
@@ -34,18 +34,18 @@ TranslateInlineIconVdeTest.prototype.testHideAndShow = function() {
         <img src="${img}" height="16" width="16">
     </script>
     */
-    var translateInlineIconVde = jQuery('[data-translate]').translateInlineIconVde(),
+    var translateInlineVde = jQuery('[data-translate]').translateInlineVde(),
         iconImg = jQuery('[data-translate] > img');
     assertFalse(iconImg.is('.hidden'));
 
-    translateInlineIconVde.translateInlineIconVde('hide');
+    translateInlineVde.translateInlineVde('hide');
     assertTrue(iconImg.is('.hidden') );
 
-    translateInlineIconVde.translateInlineIconVde('show');
+    translateInlineVde.translateInlineVde('show');
     assertFalse(iconImg.is('.hidden') );
     assertFalse(jQuery('[data-translate]').is(':hidden') );
 
-    translateInlineIconVde.translateInlineIconVde('destroy');
+    translateInlineVde.translateInlineVde('destroy');
 };
 TranslateInlineIconVdeTest.prototype.testReplaceTextNormal = function() {
     /*:DOC += <div id="translateElem"
@@ -54,16 +54,16 @@ TranslateInlineIconVdeTest.prototype.testReplaceTextNormal = function() {
         <img src="${img}" height="16" width="16">
     </script>
     */
-    var translateInlineIconVde = jQuery('[data-translate]').translateInlineIconVde();
+    var translateInlineVde = jQuery('[data-translate]').translateInlineVde();
     var newValue = 'New value';
 
-    jQuery('[data-translate]').translateInlineIconVde('replaceText', 0, newValue);
+    jQuery('[data-translate]').translateInlineVde('replaceText', 0, newValue);
 
     var translateData = jQuery('#translateElem').data('translate');
     assertEquals(newValue, translateData[0]['shown']);
     assertEquals(newValue, translateData[0]['translated']);
 
-    translateInlineIconVde.translateInlineIconVde('destroy');
+    translateInlineVde.translateInlineVde('destroy');
 };
 TranslateInlineIconVdeTest.prototype.testReplaceTextNullOrBlank = function() {
     /*:DOC += <div id="translateElem"
@@ -72,30 +72,30 @@ TranslateInlineIconVdeTest.prototype.testReplaceTextNullOrBlank = function() {
         <img src="${img}" height="16" width="16">
     </script>
     */
-    var translateInlineIconVde = jQuery('[data-translate]').translateInlineIconVde();
+    var translateInlineVde = jQuery('[data-translate]').translateInlineVde();
     var newValue = null;
 
-    jQuery('[data-translate]').translateInlineIconVde('replaceText', 0, newValue);
+    jQuery('[data-translate]').translateInlineVde('replaceText', 0, newValue);
 
     var translateData = jQuery('#translateElem').data('translate');
     assertEquals('&nbsp;', translateData[0]['shown']);
     assertEquals('&nbsp;', translateData[0]['translated']);
 
     newValue = 'Some value';
-    jQuery('[data-translate]').translateInlineIconVde('replaceText', 0, newValue);
+    jQuery('[data-translate]').translateInlineVde('replaceText', 0, newValue);
 
     translateData = jQuery('#translateElem').data('translate');
     assertEquals(newValue, translateData[0]['shown']);
     assertEquals(newValue, translateData[0]['translated']);
 
     newValue = '';
-    jQuery('[data-translate]').translateInlineIconVde('replaceText', 0, newValue);
+    jQuery('[data-translate]').translateInlineVde('replaceText', 0, newValue);
 
     translateData = jQuery('#translateElem').data('translate');
     assertEquals('&nbsp;', translateData[0]['shown']);
     assertEquals('&nbsp;', translateData[0]['translated']);
 
-    translateInlineIconVde.translateInlineIconVde('destroy');
+    translateInlineVde.translateInlineVde('destroy');
 };
 TranslateInlineIconVdeTest.prototype.testClick = function() {
     /*:DOC += <div id="translateElem" data-translate="[]">text</div>
@@ -107,7 +107,7 @@ TranslateInlineIconVdeTest.prototype.testClick = function() {
     var callback = function() {
       counter++;
     };
-    var translateInlineIconVde = jQuery('[data-translate]').translateInlineIconVde({
+    var translateInlineVde = jQuery('[data-translate]').translateInlineVde({
       onClick: callback
       }),
       iconImg = jQuery('[data-translate] > img');
@@ -116,7 +116,7 @@ TranslateInlineIconVdeTest.prototype.testClick = function() {
     assertEquals(1, counter);
     assertEquals('hidden', jQuery('#translateElem').css('visibility'));
 
-    translateInlineIconVde.translateInlineIconVde('destroy');
+    translateInlineVde.translateInlineVde('destroy');
 };
 TranslateInlineIconVdeTest.prototype.testDblClick = function() {
     /*:DOC += <div id="translateElem" data-translate="[]">text</div>
@@ -128,18 +128,18 @@ TranslateInlineIconVdeTest.prototype.testDblClick = function() {
     var callback = function() {
       counter++;
     };
-    var translateInlineIconVde = jQuery('[data-translate]').translateInlineIconVde({
+    var translateInlineVde = jQuery('[data-translate]').translateInlineVde({
       onClick: callback
       }),
       iconImg = jQuery('[data-translate] > img');
 
     assertEquals(1, jQuery('#translateElem').find('img').size());
 
-    translateInlineIconVde.trigger('dblclick');
+    translateInlineVde.trigger('dblclick');
     assertEquals(1, counter);
 
     assertEquals(0, jQuery('#translateElem').find('img').size());
     assertEquals('hidden', jQuery('#translateElem').css('visibility'));
 
-    translateInlineIconVde.translateInlineIconVde('destroy');
+    translateInlineVde.translateInlineVde('destroy');
 };
