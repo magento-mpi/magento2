@@ -32,4 +32,3 @@ class Integrity_Mage_Backend_SystemConfigTest extends PHPUnit_Framework_TestCase
         return Utility_Files::init()->getConfigFiles('adminhtml/system.xml', array());
     }
 }
-require_once __DIR__ . '/../../../../../../../lib/Magento/Config/Dom.php';
