@@ -26,6 +26,8 @@ return function (array $params)
         Saas_Saas_Model_EntryPoint_Worker::TASK_OPTIONS_KEY
     ];
 
-    $entryPoint = new Saas_Saas_Model_EntryPoint_Worker($rootDir, $appParams);
+    $entryPoint = new Saas_Saas_Model_EntryPoint_Worker(
+        new Mage_Core_Model_Config_Primary($rootDir, $appParams)
+    );
     $entryPoint->processRequest();
 };

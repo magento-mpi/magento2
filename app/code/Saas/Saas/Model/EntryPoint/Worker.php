@@ -20,25 +20,6 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
     const TASK_OPTIONS_KEY = 'worker_task_options';
 
     /**
-     * @var array
-     */
-    private $_params;
-
-    /**
-     * Memorize parameters for further reuse in some methods
-     *
-     * @param string $baseDir
-     * @param array $params
-     * @param Magento_ObjectManager $objectManager
-     */
-    public function __construct(
-        $baseDir, array $params = array(), Magento_ObjectManager $objectManager = null
-    ) {
-        $this->_params = $params;
-        parent::__construct(new Mage_Core_Model_Config_Primary($baseDir, $params), $objectManager);
-    }
-
-    /**
      * Execute worker task(s)
      */
     public function processRequest()
@@ -53,15 +34,20 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
          */
         $dispatcher = $this->_objectManager->create('Mage_Core_Model_Event_Manager');
         $dispatcher->addEventArea(self::WORKER_EVENT_AREA);
-        foreach($this->_params[self::TASK_OPTIONS_KEY] as $taskDetails) {
-            if (!isset($taskDetails['task_name'], $taskDetails['params'])) {
+
+        /** @var $primaryConfig Mage_Core_Model_Config_Primary */
+        $primaryConfig = $this->_objectManager->get('Mage_Core_Model_Config_Primary');
+        $taskOptions = $primaryConfig->getParam(self::TASK_OPTIONS_KEY);
+
+        foreach($taskOptions as $option) {
+            if (!isset($option['task_name'], $option['params'])) {
                 Mage::log(
-                    sprintf('Incorrect task details. Task: %s.', $taskDetails['task_name']),
+                    sprintf('Incorrect task details. Task: %s.', $option['task_name']),
                     Zend_Log::WARN
                 );
                 continue;
             }
-            $dispatcher->dispatch($taskDetails['task_name'], $taskDetails['params']);
+            $dispatcher->dispatch($option['task_name'], $option['params']);
         }
     }
 }

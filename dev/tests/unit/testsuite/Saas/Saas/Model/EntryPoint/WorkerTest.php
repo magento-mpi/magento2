@@ -31,23 +31,27 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
                 array('task_name' => $taskName, 'params' => $taskParams)
             )
         );
-        $worker = new Saas_Saas_Model_EntryPoint_Worker(BP, $params, $this->_objectManagerMock);
+        $config = new Mage_Core_Model_Config_Primary(BP, $params);
+        $worker = new Saas_Saas_Model_EntryPoint_Worker($config, $this->_objectManagerMock);
         $dispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
         $dispatcher->expects($this->once())->method('dispatch')->with($taskName, $taskParams);
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $app->expects($this->once())->method('setUseSessionInUrl')->with(false);
         $app->expects($this->once())->method('requireInstalledInstance');
 
+        $valueMap = array(
+            array('Mage_Core_Model_Config_Primary', $config),
+            array('Mage_Core_Model_App', $app),
+        );
+        $this->_objectManagerMock
+            ->expects($this->exactly(2))
+            ->method('get')
+            ->will($this->returnValueMap($valueMap));
         $this->_objectManagerMock
             ->expects($this->once())
             ->method('create')
             ->with('Mage_Core_Model_Event_Manager')
             ->will($this->returnValue($dispatcher));
-        $this->_objectManagerMock
-            ->expects($this->once())
-            ->method('get')
-            ->with('Mage_Core_Model_App')
-            ->will($this->returnValue($app));
         $worker->processRequest();
     }
 
