@@ -19,12 +19,6 @@
                         <resource id="Enterprise_Customer::customer_address_attributes" title="Customer Address" sortOrder="20" />
                     </resource>
                 </resource>
-                <resource id="Mage_Customer::customer">
-                    <resource id="Enterprise_Customer::attributes" title="Attributes">
-                        <resource id="Enterprise_Customer::customer_attributes" title="Manage Customer Attributes" />
-                        <resource id="Enterprise_Customer::customer_address_attributes" title="Manage Customer Address Attributes" />
-                    </resource>
-                </resource>
             </resource>
         </resources>
     </acl>
