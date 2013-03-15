@@ -72,8 +72,7 @@ jQuery(function($) {
     $('#configurable-attributes-container').variationsAttributes();
 
     collapsableArea
-        .collapse(hasVariations ? 'show' : 'hide')
-        .on('show change', function() {
+        .on('show', function() {
             currentProductTemplateControl
                 .addClass('disabled')
                 .prop('disabled', true);
@@ -105,11 +104,8 @@ jQuery(function($) {
 
             stockAvailabilityField
                 .prop('disabled', true);
-        });
-
-    if ($('#product_type_id').val() == 'configurable') {
-        collapsableArea.trigger('change');
-    }
+        })
+        .collapse(hasVariations ? 'show' : 'hide');
 
     var $gridDialog = $('#associated-products-container').dialog({
         title: 'Select Associated Product',
