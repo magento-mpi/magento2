@@ -2491,6 +2491,8 @@ table tbody tr:nth-child(odd):hover th {
     color: #676056;
     display: inline-block;
     margin: 0;
+    width: 100%;
+    word-wrap: break-word;
 }
 
 .page-title-inner .title > h3 {
@@ -3651,12 +3653,10 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid .filter .range input {
-    width: 56px;
     margin-top: 0;
 }
 
 .grid .filter .range select {
-    width: 56px;
     margin: 0;
 }
 
@@ -3729,6 +3729,10 @@ table tbody tr:nth-child(odd):hover th {
 .massaction .entry-edit .outer-span {
     display: inline-block;
     vertical-align: middle;
+}
+
+.eq-ie8 .massaction .entry-edit .field-row:first-child {
+    margin-right: 1px;
 }
 
 .massaction .entry-edit .field-row button {
@@ -3821,6 +3825,47 @@ tr.dynamic-grid input.input-text {
 
 .categories-side-col {
     padding: 0 3%;
+}
+
+/*
+    Manage Products Grid
+-------------------------------------- */
+#productGrid_table {
+    word-wrap: break-word;
+    table-layout: fixed;
+}
+
+#productGrid_table .col-select,
+#productGrid_table .col-qty,
+#productGrid_table .col-action,
+#productGrid_table .col-id {
+    width: 5%;
+}
+
+#productGrid_table .col-visibility,
+#productGrid_table .col-status,
+#productGrid_table .col-websites {
+    width: 7%;
+}
+
+#productGrid_table .col-type,
+#productGrid_table .col-price {
+    width: 8%;
+}
+
+#productGrid_table .col-name,
+#productGrid_table .col-sku {
+    width: 15%;
+}
+
+#productGrid_table .col-attr-name {
+    width: 120px;
+}
+
+#productGrid_table .col-id,
+#productGrid_table thead .col-price,
+#productGrid_table thead .col-qty {
+    text-align: left;
 }
 
 /*
