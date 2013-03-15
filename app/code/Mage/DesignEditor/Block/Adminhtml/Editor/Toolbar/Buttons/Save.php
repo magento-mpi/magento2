@@ -25,9 +25,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      * Get current theme
      *
      * @return Mage_Core_Model_Theme
+     * @throws InvalidArgumentException
      */
     public function getTheme()
     {
+        if (null === $this->_theme) {
+            throw new InvalidArgumentException('Current theme was not passed to save button');
+        }
         return $this->_theme;
     }
 
