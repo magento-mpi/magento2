@@ -572,7 +572,8 @@ button.primary.disabled,
     z-index: 1;
 }
 
-.suggest-expandable .mage-suggest-inner > input[type="search"].ui-autocomplete-loading {
+.suggest-expandable .mage-suggest-inner > input.ui-autocomplete-loading,
+.suggest-expandable .mage-suggest-inner > input.mage-suggest-state-loading {
     background: #fff url(../mui/images/ajax-loader-small.gif) no-repeat 190px 50%;
 }
 

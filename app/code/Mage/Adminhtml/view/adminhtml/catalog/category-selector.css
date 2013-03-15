@@ -101,7 +101,7 @@
     padding: 0 3px;
 }
 
-.mage-suggest-search-field > input.ui-autocomplete-loading {
+.mage-suggest-search-field > input.mage-suggest-state-loading {
     background: #fff url('images/spinner.gif') no-repeat 100%;
     padding-right: 18px;
 }
