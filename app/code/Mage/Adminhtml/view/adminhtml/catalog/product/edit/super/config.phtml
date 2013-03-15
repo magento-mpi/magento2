@@ -117,7 +117,6 @@ jQuery(function($) {
 
     $('#product-variations-matrix')
         .on('generate', function(event, data) {
-            $('#product_type_id').val('configurable').trigger('change');
             $.ajax({
                 url: data.url,
                 data: $('#product-edit-form').serialize(),
@@ -126,6 +125,7 @@ jQuery(function($) {
                 showLoader: true
             }).success(function(data) {
                 $('#product-variations-matrix').html(data);
+                $('#product_type_id').val('configurable').trigger('change');
             });
         })
         .on('disable', function() {
