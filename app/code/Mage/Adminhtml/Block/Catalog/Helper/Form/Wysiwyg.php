@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Varien_Data_Form_
                     'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('WYSIWYG Editor'),
                     'type'    => 'button',
                     'disabled' => $disabled,
-                    'class' => ($disabled) ? 'disabled btn-wysiwyg' : 'btn-wysiwyg',
+                    'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',
                     'onclick' => 'catalogWysiwygEditor.open(\''
                         . Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/wysiwyg')
                         . '\', \'' . $this->getHtmlId().'\')'

@@ -103,10 +103,6 @@ ul.messages li.success-msg li:before {
     color: #185b00;
 }
 
-label.mage-error {
-    color: red;
-}
-
 /*
     Accordion
 ------------------------*/

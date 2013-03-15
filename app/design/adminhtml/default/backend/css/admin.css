@@ -947,6 +947,14 @@ option.placeholder {
 }
 
 /*
+    Form Validation
+-------------------------------------- */
+label.mage-error {
+    color: red;
+    text-align: left;
+}
+
+/*
     Forms styles
 -------------------------------------- */
 .page-content-inner {
@@ -3254,6 +3262,9 @@ table tbody tr:nth-child(odd):hover th {
     font-family: 'CallunaSans';
     font-size: 20px;
     max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /*
@@ -3900,6 +3911,11 @@ tr.dynamic-grid input.input-text {
     border-width: 0 0 1px;
 }
 
+.eq-ie8 .data-table td,
+.eq-ie8 .data-table tbody tr td {
+    border-width: 0 0 1px;
+}
+
 .data-table tbody tr.selected td,
 .data-table tbody tr.selected th,
 .data-table tbody tr:hover td,
@@ -3916,6 +3932,10 @@ tr.dynamic-grid input.input-text {
 
 .data-table tfoot tr:last-child td {
     border: 0;
+}
+
+.eq-ie8 .data-table tfoot tr td {
+    border: none;
 }
 
 .data-table input[type="text"] {
@@ -4265,6 +4285,13 @@ tr.dynamic-grid input.input-text {
     font-size: 12px;
     color: #666;
     margin-bottom: 13px;
+}
+
+/*
+    WYSIWYG
+-------------------------------------- */
+.action-wysiwyg {
+    margin: 10px 0;
 }
 
 /*
