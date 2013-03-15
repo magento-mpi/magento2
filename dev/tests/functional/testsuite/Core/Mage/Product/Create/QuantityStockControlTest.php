@@ -180,7 +180,6 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
 
     public function emptyGeneralQuantity($defaultValue)
     {
-        $this->markTestIncomplete('MAGETWO-6266');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
