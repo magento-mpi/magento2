@@ -22,15 +22,6 @@
                     </resource>
                 </resource>
             </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Adminhtml::system">
-                    <resource id="Old_Enterprise_Pci::crypt_key" module="Enterprise_Pci" title="Manage Encryption Key" sortOrder="30" />
-                    <resource id="Old_Mage_User::acl">
-                        <resource id="Old_Enterprise_Pci::locks" module="Enterprise_Pci" title="Locked Admins" sortOrder="100" />
-                    </resource>
-                </resource>
-            </resource>
         </resources>
     </acl>
 </config>

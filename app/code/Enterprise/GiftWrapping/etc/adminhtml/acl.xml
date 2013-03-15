@@ -19,12 +19,6 @@
                     </resource>
                 </resource>
             </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Sales::sales">
-                    <resource id="Old_Enterprise_GiftWrapping::enterprise_giftwrapping" module="Enterprise_GiftWrapping" title="Gift Wrapping" sortOrder="130" />
-                </resource>
-            </resource>
         </resources>
     </acl>
 </config>
