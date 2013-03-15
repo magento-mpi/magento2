@@ -15,16 +15,8 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::tools">
-                        <resource id="Mage_Backup::backup" module="Mage_Backup" title="Backups" sortOrder="30" />
-                    </resource>
-                </resource>
-            </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Adminhtml::system">
-                    <resource id="Old_Mage_Adminhtml::tools">
-                        <resource id="Old_Mage_Backup::backup" module="Mage_Backup" title="Backups">
-                            <resource id="Old_Mage_Backup::rollback" module="Mage_Backup" title="Rollback" />
+                        <resource id="Mage_Backup::backup" module="Mage_Backup" title="Backups" sortOrder="30">
+                            <resource id="Mage_Backup::rollback" module="Mage_Backup" title="Rollback" />
                         </resource>
                     </resource>
                 </resource>
