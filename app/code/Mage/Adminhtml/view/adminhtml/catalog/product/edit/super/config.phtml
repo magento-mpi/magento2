@@ -92,6 +92,9 @@ jQuery(function($) {
             })
         })
         .on('hide', function() {
+            if ($('#configurable-attributes-container').variationsAttributes('getAttributes').length) {
+                return;
+            }
             currentProductTemplateControl
                 .removeClass('disabled')
                 .removeProp('disabled');
