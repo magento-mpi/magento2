@@ -35,13 +35,13 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
         $baseDir, array $params = array(), Magento_ObjectManager $objectManager = null
     ) {
         $this->_params = $params;
-        parent::__construct($baseDir, $params, $objectManager);
+        parent::__construct(new Mage_Core_Model_Config_Primary($baseDir, $params), $objectManager);
     }
 
     /**
      * Execute worker task(s)
      */
-    protected function _processRequest()
+    public function processRequest()
     {
         /** @var $app Mage_Core_Model_App */
         $app = $this->_objectManager->get('Mage_Core_Model_App');
