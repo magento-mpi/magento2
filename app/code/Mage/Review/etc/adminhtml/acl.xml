@@ -13,11 +13,19 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Catalog::catalog">
-                    <resource id="Mage_Review::reviews_ratings" module="Mage_Review" title="Reviews and Ratings">
-                        <resource id="Mage_Review::reviews" title="Customer Reviews">
-                            <resource id="Mage_Review::reviews_all" title="All Reviews" />
-                            <resource id="Mage_Review::pending" title="Pending Reviews" />
+                <resource id="Mage_Adminhtml::marketing">
+                    <resource id="Mage_Adminhtml::marketing_user_content">
+                        <resource id="Mage_Review::reviews_all" title="Reviews" module="Mage_Review" sortOrder="10"/>
+                    </resource>
+                </resource>
+            </resource>
+
+            <resource id="Old_Mage_Adminhtml::admin">
+                <resource id="Old_Mage_Catalog::catalog">
+                    <resource id="Old_Mage_Review::reviews_ratings" module="Mage_Review" title="Reviews and Ratings">
+                        <resource id="Old_Mage_Review::reviews" title="Customer Reviews">
+                            <resource id="Old_Mage_Review::reviews_all" title="All Reviews" />
+                            <resource id="Old_Mage_Review::pending" title="Pending Reviews" />
                         </resource>
                     </resource>
                 </resource>

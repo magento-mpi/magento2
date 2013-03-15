@@ -14,9 +14,18 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Catalog::catalog">
-                    <resource id="Mage_GoogleShopping::googleshopping" module="Mage_GoogleShopping" title="Google Content" sortOrder="500">
-                        <resource id="Mage_GoogleShopping::types" title="Manage Attributes" sortOrder="0" />
-                        <resource id="Mage_GoogleShopping::items" title="Manage Items" sortOrder="5" />
+                    <resource id="Mage_GoogleShopping::googleshopping" module="Mage_GoogleShopping" title="Google Content" sortOrder="20">
+                        <resource id="Mage_GoogleShopping::types" title="Attributes" sortOrder="10" />
+                        <resource id="Mage_GoogleShopping::items" title="Items" sortOrder="20" />
+                    </resource>
+                </resource>
+            </resource>
+
+            <resource id="Old_Mage_Adminhtml::admin">
+                <resource id="Old_Mage_Catalog::catalog">
+                    <resource id="Old_Mage_GoogleShopping::googleshopping" module="Mage_GoogleShopping" title="Google Content" sortOrder="500">
+                        <resource id="Old_Mage_GoogleShopping::types" title="Manage Attributes" sortOrder="0" />
+                        <resource id="Old_Mage_GoogleShopping::items" title="Manage Items" sortOrder="5" />
                     </resource>
                 </resource>
             </resource>

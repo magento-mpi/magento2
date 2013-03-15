@@ -13,8 +13,16 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Catalog::catalog">
-                    <resource id="Mage_CatalogSearch::search" module="Mage_CatalogSearch" title="Search Terms" />
+                <resource id="Mage_Adminhtml::marketing">
+                    <resource id="Mage_Adminhtml::marketing_seo">
+                        <resource id="Mage_CatalogSearch::search" module="Mage_CatalogSearch" title="Search Terms" sortOrder="10" />
+                    </resource>
+                </resource>
+            </resource>
+
+            <resource id="Old_Mage_Adminhtml::admin">
+                <resource id="Old_Mage_Catalog::catalog">
+                    <resource id="Old_Mage_CatalogSearch::search" module="Mage_CatalogSearch" title="Search Terms" />
                 </resource>
             </resource>
         </resources>

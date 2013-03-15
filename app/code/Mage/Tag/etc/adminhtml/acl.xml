@@ -13,17 +13,25 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Catalog::catalog">
-                    <resource id="Mage_Tag::tag" module="Mage_Tag" title="Tags">
-                        <resource id="Mage_Tag::tag_all" title="All Tags" />
-                        <resource id="Mage_Tag::tag_pending" title="Pending Tags" />
+                <resource id="Mage_Adminhtml::marketing">
+                    <resource id="Mage_Adminhtml::marketing_user_content">
+                        <resource id="Mage_Tag::tag_all" title="All Tags" module="Mage_Tag" sortOrder="20" />
                     </resource>
                 </resource>
-                <resource id="Mage_Reports::report" module="Mage_Reports" title="Reports" sortOrder="80">
-                    <resource id="Mage_Reports::tags" module="Mage_Tag" title="Tags">
-                        <resource id="Mage_Reports::tags_customer" module="Mage_Tag" title="Customers" />
-                        <resource id="Mage_Reports::popular" module="Mage_Tag" title="Popular" />
-                        <resource id="Mage_Reports::tags_product" module="Mage_Tag" title="Products" />
+            </resource>
+
+            <resource id="Old_Mage_Adminhtml::admin">
+                <resource id="Old_Mage_Catalog::catalog">
+                    <resource id="Old_Mage_Tag::tag" module="Mage_Tag" title="Tags">
+                        <resource id="Old_Mage_Tag::tag_all" title="All Tags" />
+                        <resource id="Old_Mage_Tag::tag_pending" title="Pending Tags" />
+                    </resource>
+                </resource>
+                <resource id="Old_Mage_Reports::report" module="Mage_Reports" title="Reports" sortOrder="80">
+                    <resource id="Old_Mage_Reports::tags" module="Mage_Tag" title="Tags">
+                        <resource id="Old_Mage_Reports::tags_customer" module="Mage_Tag" title="Customers" />
+                        <resource id="Old_Mage_Reports::popular" module="Mage_Tag" title="Popular" />
+                        <resource id="Old_Mage_Reports::tags_product" module="Mage_Tag" title="Products" />
                     </resource>
                 </resource>
             </resource>

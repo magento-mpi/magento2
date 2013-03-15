@@ -13,16 +13,26 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Newsletter::newsletter" module="Mage_Newsletter" title="Newsletter Section" />
+                <resource id="Mage_Adminhtml::marketing">
+                    <resource id="Mage_Adminhtml::marketing_communications">
+                        <resource id="Mage_Newsletter::template" title="Newsletter Template" module="Mage_Newsletter" sortOrder="20" />
+                        <resource id="Mage_Newsletter::queue" title="Newsletter Queue" module="Mage_Newsletter" sortOrder="30"/>
+                        <resource id="Mage_Newsletter::subscriber" title="Newsletter Subscribers" module="Mage_Newsletter" sortOrder="40"/>
                     </resource>
                 </resource>
-                <resource id="Mage_Newsletter::admin_newsletter" module="Mage_Newsletter" title="Newsletter" sortOrder="60">
-                    <resource id="Mage_Newsletter::problem" title="Newsletter Problem Reports" />
-                    <resource id="Mage_Newsletter::queue" title="Newsletter Queue" />
-                    <resource id="Mage_Newsletter::subscriber" title="Newsletter Subscribers" />
-                    <resource id="Mage_Newsletter::template" title="Newsletter Templates" />
+            </resource>
+
+            <resource id="Old_Mage_Adminhtml::admin">
+                <resource id="Old_Mage_Adminhtml::system">
+                    <resource id="Old_Mage_Adminhtml::config">
+                        <resource id="Old_Mage_Newsletter::newsletter" module="Mage_Newsletter" title="Newsletter Section" />
+                    </resource>
+                </resource>
+                <resource id="Old_Mage_Newsletter::admin_newsletter" module="Mage_Newsletter" title="Newsletter" sortOrder="60">
+                    <resource id="Old_Mage_Newsletter::problem" title="Newsletter Problem Reports" />
+                    <resource id="Old_Mage_Newsletter::queue" title="Newsletter Queue" />
+                    <resource id="Old_Mage_Newsletter::subscriber" title="Newsletter Subscribers" />
+                    <resource id="Old_Mage_Newsletter::template" title="Newsletter Templates" />
                 </resource>
             </resource>
         </resources>

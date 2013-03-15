@@ -12,17 +12,17 @@
 <config>
     <acl>
         <resources>
-            <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Paypal::paypal" title="PayPal Section" />
+            <resource id="Old_Mage_Adminhtml::admin">
+                <resource id="Old_Mage_Adminhtml::system">
+                    <resource id="Old_Mage_Adminhtml::config">
+                        <resource id="Old_Mage_Paypal::paypal" title="PayPal Section" />
                     </resource>
                 </resource>
-                <resource id="Mage_Reports::report">
-                    <resource id="Mage_Reports::salesroot">
-                        <resource id="Mage_Paypal::paypal_settlement_reports" title="PayPal Settlement Reports">
-                            <resource id="Mage_Paypal::paypal_settlement_reports_view" title="View" />
-                            <resource id="Mage_Paypal::fetch" title="Fetch" />
+                <resource id="Old_Mage_Reports::report">
+                    <resource id="Old_Mage_Reports::salesroot">
+                        <resource id="Old_Mage_Paypal::paypal_settlement_reports" title="PayPal Settlement Reports">
+                            <resource id="Old_Mage_Paypal::paypal_settlement_reports_view" title="View" />
+                            <resource id="Old_Mage_Paypal::fetch" title="Fetch" />
                         </resource>
                     </resource>
                 </resource>
