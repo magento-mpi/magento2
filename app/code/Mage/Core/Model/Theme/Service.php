@@ -10,6 +10,8 @@
 
 /**
  * Theme Service model
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme_Service
 {
@@ -33,7 +35,7 @@ class Mage_Core_Model_Theme_Service
      *
      * @var bool
      */
-    protected $_isCustomizationsExist;
+    protected $_isCustomized;
 
     /**
      * Theme customizations which are assigned to store views or as default
@@ -41,7 +43,7 @@ class Mage_Core_Model_Theme_Service
      * @see self::_prepareThemeCustomizations()
      * @var array
      */
-    protected $_assignedThemeCustomizations;
+    protected $_assignedThemeC;
 
     /**
      * Theme customizations which are not assigned to store views or as default
@@ -49,7 +51,7 @@ class Mage_Core_Model_Theme_Service
      * @see self::_prepareThemeCustomizations()
      * @var array
      */
-    protected $_unassignedThemeCustomizations;
+    protected $_unassignedThemeC;
 
     /**
      * @var Mage_Core_Helper_Data
@@ -121,29 +123,16 @@ class Mage_Core_Model_Theme_Service
         if (!$theme->getId()) {
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
-
         $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);
 
-        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
-
         $isUnassigned = false;
-        // Unassign given theme from stores that were unchecked
-        /** @var $config Mage_Core_Model_Config_Data */
-        foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
-            if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
-                $this->_configWriter->delete($configPath, $scope, $config->getScopeId());
-                $isUnassigned = true;
-            }
-        }
+        $this->_unassignThemeFormStores($themeId, $stores, $scope, $isUnassigned);
+        $this->_assignThemeToStores($themeCustomization->getId(), $stores, $scope, $isUnassigned);
 
-        if (count($stores) > 0) {
-            foreach ($stores as $storeId) {
-                $this->_configWriter->save($configPath, $themeCustomization->getId(), $scope, $storeId);
-            }
-        }
-        if (count($stores) > 0 || $isUnassigned) {
+        if ($isUnassigned) {
             $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
         }
+
         $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
         $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
 
@@ -159,6 +148,49 @@ class Mage_Core_Model_Theme_Service
         );
 
         return $themeCustomization;
+    }
+
+    /**
+     * Unassign given theme from stores that were unchecked
+     *
+     * @param int $themeId
+     * @param array $stores
+     * @param string $scope
+     * @param bool $isUnassigned
+     * @return Mage_Core_Model_Theme_Service
+     */
+    protected function _unassignThemeFormStores($themeId, $stores, $scope, &$isUnassigned)
+    {
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        /** @var $config Mage_Core_Model_Config_Data */
+        foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
+            if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
+                $this->_configWriter->delete($configPath, $scope, $config->getScopeId());
+                $isUnassigned = true;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Assign given theme to stores
+     *
+     * @param int $themeId
+     * @param array $stores
+     * @param string $scope
+     * @param bool $isUnassigned
+     * @return Mage_Core_Model_Theme_Service
+     */
+    protected function _assignThemeToStores($themeId, $stores, $scope, &$isUnassigned)
+    {
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        if (count($stores) > 0) {
+            foreach ($stores as $storeId) {
+                $this->_configWriter->save($configPath, $themeId, $scope, $storeId);
+                $isUnassigned = true;
+            }
+        }
+        return $this;
     }
 
     /**
@@ -221,12 +253,12 @@ class Mage_Core_Model_Theme_Service
      */
     public function isCustomizationsExist()
     {
-        if ($this->_isCustomizationsExist === null) {
-            $this->_isCustomizationsExist = (bool)$this->_themeFactory->create()->getCollection()
+        if ($this->_isCustomized === null) {
+            $this->_isCustomized = (bool)$this->_themeFactory->create()->getCollection()
                 ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL)
                 ->getSize();
         }
-        return $this->_isCustomizationsExist;
+        return $this->_isCustomized;
     }
 
     /**
@@ -271,10 +303,10 @@ class Mage_Core_Model_Theme_Service
      */
     public function getAssignedThemeCustomizations()
     {
-        if (is_null($this->_assignedThemeCustomizations)) {
+        if (is_null($this->_assignedThemeC)) {
             $this->_prepareThemeCustomizations();
         }
-        return $this->_assignedThemeCustomizations;
+        return $this->_assignedThemeC;
     }
 
     /**
@@ -285,10 +317,10 @@ class Mage_Core_Model_Theme_Service
      */
     public function getUnassignedThemeCustomizations()
     {
-        if (is_null($this->_unassignedThemeCustomizations)) {
+        if (is_null($this->_unassignedThemeC)) {
             $this->_prepareThemeCustomizations();
         }
-        return $this->_unassignedThemeCustomizations;
+        return $this->_unassignedThemeC;
     }
 
     /**
@@ -317,15 +349,15 @@ class Mage_Core_Model_Theme_Service
         $themeCustomizations = $this->_getThemeCustomizations();
         $assignedThemes = $this->getStoresByThemes();
 
-        $this->_assignedThemeCustomizations = array();
-        $this->_unassignedThemeCustomizations = array();
+        $this->_assignedThemeC = array();
+        $this->_unassignedThemeC = array();
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCustomizations as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);
-                $this->_assignedThemeCustomizations[$theme->getId()] = $theme;
+                $this->_assignedThemeC[$theme->getId()] = $theme;
             } else {
-                $this->_unassignedThemeCustomizations[$theme->getId()] = $theme;
+                $this->_unassignedThemeC[$theme->getId()] = $theme;
             }
         }
         return $this;

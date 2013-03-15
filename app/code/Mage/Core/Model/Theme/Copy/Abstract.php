@@ -34,13 +34,11 @@ abstract class Mage_Core_Model_Theme_Copy_Abstract implements Mage_Core_Model_Th
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Model_Layout_Link $layoutLink
      * @param Mage_Core_Model_Layout_Update $layoutUpdate
-     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_Layout_Link $layoutLink,
-        Mage_Core_Model_Layout_Update $layoutUpdate,
-        array $data = array()
+        Mage_Core_Model_Layout_Update $layoutUpdate
     ) {
         $this->_themeFactory = $themeFactory;
         $this->_layoutLink = $layoutLink;
