@@ -22,11 +22,17 @@ class Mage_Core_Model_Design_Fallback_List_File extends Mage_Core_Model_Design_F
     {
         return array(
             new Mage_Core_Model_Design_Fallback_Rule_Theme(array(
-                $this->_dir->getDir(Mage_Core_Model_Dir::THEMES) . '/<area>/<theme_path>',
-                $this->_dir->getDir(Mage_Core_Model_Dir::THEMES) . '/<area>/<theme_path>/<namespace>_<module>',
+                array(
+                    $this->_dir->getDir(Mage_Core_Model_Dir::THEMES) . '/<area>/<theme_path>',
+                ),
+                array(
+                    $this->_dir->getDir(Mage_Core_Model_Dir::THEMES) . '/<area>/<theme_path>/<namespace>_<module>',
+                    array('namespace', 'module')
+                ),
             )),
             new Mage_Core_Model_Design_Fallback_Rule_Simple(
-                $this->_dir->getDir(Mage_Core_Model_Dir::MODULES) . '/<pool>/<namespace>/<module>/view/<area>'
+                $this->_dir->getDir(Mage_Core_Model_Dir::MODULES) . '/<pool>/<namespace>/<module>/view/<area>',
+                array('pool', 'namespace', 'module')
             )
         );
     }

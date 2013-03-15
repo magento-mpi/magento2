@@ -139,36 +139,17 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
     ) {
         $params = array(
             'area'          => $area,
-            'theme_path'    => $themeModel->getThemePath(),
             'theme'         => $themeModel,
         );
         $params = array_merge($params, $specificParams);
         $path = '';
 
-        foreach ($fallbackList->getPatternDirs($file, $params, $this->_getThemeList($themeModel)) as $dir) {
+        foreach ($fallbackList->getPatternDirs($params) as $dir) {
             $path = $dir . DS . $file;
             if ($this->_filesystem->has($path)) {
                 return $path;
             }
         }
         return $path;
-    }
-
-    /**
-     * Get list of themes, which should be used for fallback. It's current theme and all its parent themes
-     *
-     * @param Mage_Core_Model_Theme $theme
-     * @return array
-     */
-    protected function _getThemeList(Mage_Core_Model_Theme $theme)
-    {
-        if (empty($this->_themeList[$theme->getThemePath()])) {
-            $themeModel = $theme;
-            while ($themeModel) {
-                $this->_themeList[$theme->getThemePath()][] = $themeModel;
-                $themeModel = $themeModel->getParentTheme();
-            }
-        }
-        return $this->_themeList[$theme->getThemePath()];
     }
 }

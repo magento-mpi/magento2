@@ -13,34 +13,46 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
 {
     /**
      * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Each pattern in list must be an array
      */
-    public function testConstructException()
+    public function testConstructExceptionNotAnArray()
     {
-        $patterns = array('pattern');
+        $patterns = array('not an array');
+        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Pattern must contain '<theme_path>' node
+     */
+    public function testConstructExceptionNoThemePath()
+    {
+        $patterns = array(array('no theme path'));
         $model = new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
     }
 
     public function testGetPatternsDirs()
     {
-        $themePath = 'package/theme';
-        $theme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
-        $theme->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($themePath));
-
-
         $parentThemePath = 'parent_package/parent_theme';
         $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
         $parentTheme->expects($this->any())
             ->method('getThemePath')
             ->will($this->returnValue($parentThemePath));
 
-        $themeList = array($theme, $parentTheme);
+        $themePath = 'package/theme';
+        $theme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath', 'getParentTheme'), array(), '', false);
+        $theme->expects($this->any())
+            ->method('getThemePath')
+            ->will($this->returnValue($themePath));
+
+        $theme->expects($this->any())
+            ->method('getParentTheme')
+            ->will($this->returnValue($parentTheme));
 
         $pattern1 = '<theme_path> <other_one> one';
         $pattern2 = '<theme_path> <other_two> two';
-        $params = array('other_one' => 'oo', 'other_two' => 'ot');
-        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme(array($pattern1, $pattern2));
+        $params = array('other_one' => 'oo', 'other_two' => 'ot', 'theme' => $theme);
+        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme(array(array($pattern1), array($pattern2)));
 
         $expectedResult = array(
             array(
@@ -61,6 +73,6 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
             )
         );
 
-        $this->assertEquals($model->getPatternDirs('', $params, $themeList), $expectedResult);
+        $this->assertEquals($model->getPatternDirs($params), $expectedResult);
     }
 }

@@ -9,9 +9,9 @@
  */
 
 /**
- * Generator of folders where static files should be copied
+ * Generator of rules which and where folders from code base should be copied
  */
-class Generator_Command
+class Generator_CopyRule
 {
     /**
      * @var Zend_Log
@@ -64,8 +64,6 @@ class Generator_Command
         $this->_isDryRun = isset($options['dry-run']);
 
         $this->_initThemes();
-        $this->_addDescendantThemes();
-        $this->_sortThemes();
 
         $this->_fallbackList = new Mage_Core_Model_Design_Fallback_List_View($this->_dirs);
     }
@@ -73,7 +71,7 @@ class Generator_Command
     /**
      * Main method
      */
-    public function run()
+    public function getCopyRules()
     {
         if ($this->_isDryRun) {
             $this->_log('Running in dry-run mode: no changes are applied');
@@ -83,56 +81,40 @@ class Generator_Command
         $this->_createDestinationIfNeeded();
 
         $params = array(
-            'area'          => '<area>',
-            'theme_path'    => '<theme_path>',
-            'locale'        => '<locale>',
-            'pool'          => 'core',
-            'namespace'     => '<namespace>',
-            'module'        => '<module>',
+            'area'          => '*',
+            'theme_path'    => '*',
+            'locale'        => null,
+            'pool'          => '*',
+            'namespace'     => '*',
+            'module'        => '*',
         );
 
-        $patternDirs = $this->_fallbackList->getPatternDirs('', $params, $this->_themes, false);
-        foreach (array_reverse($patternDirs) as $pattern) {
-            $globPattern = $this->_fixPattern($pattern['dir']);
-            $srcPaths = glob($globPattern);
-
-            foreach ($srcPaths as $src) {
-                $paramsFromDir = $this->_getParams(
-                    str_replace(BP, '', $src),
-                    str_replace(
-                        array(BP, '<theme_path>'),
-                        array('', '<package>/<theme>'),
-                        $pattern['pattern']
-                    )
-                );
-
-                if (empty($paramsFromDir['theme'])
-                    || empty($paramsFromDir['package'])
-                    || empty($paramsFromDir['area'])
-                ) {
-                    $descendants = $this->_themes;
-                } else {
-                    $themeKey = $paramsFromDir['area'] . '/' . $paramsFromDir['package'] . '/'
-                        . $paramsFromDir['theme'];
-
-                    if (!array_key_exists($themeKey, $this->_themes)) {
-                        throw InvalidArgumentException("Theme with parameters $themeKey was not found");
-                    }
-                    $descendants = array_merge(
-                        array($this->_themes[$themeKey]),
-                        $this->_themes[$themeKey]->getDescendants()
+        $result = array();
+        foreach ($this->_themes as $theme) {
+            $params['theme'] = $theme;
+            $params['area'] = $theme->getArea();
+            $patternDirs = $this->_fallbackList->getPatternDirs($params, false);
+            foreach (array_reverse($patternDirs) as $pattern) {
+                $srcPaths = glob($pattern['dir']);
+                foreach ($srcPaths as $src) {
+                    $paramsFromDir = $this->_getParams(
+                        str_replace(BP, '', $src),
+                        str_replace(
+                            array(BP, '<theme_path>'),
+                            array('', '<package>/<theme>'),
+                            $pattern['pattern']
+                        )
                     );
-                }
-                if (!empty($paramsFromDir['namespace']) && !empty($paramsFromDir['module'])) {
-                    $module = $paramsFromDir['namespace'] . '_' . $paramsFromDir['module'];
-                } else {
-                    $module = null;
-                }
-                foreach ($descendants as $theme) {
-                    $destination =
-                        $this->_getDestinationPath('', $theme->getArea(), $theme->getThemePath(), $module);
-                    $this->_copyFiles($src, $destination);
-                    $return[] = array($src, $destination);
+                    if (!empty($paramsFromDir['namespace']) && !empty($paramsFromDir['module'])) {
+                        $module = $paramsFromDir['namespace'] . '_' . $paramsFromDir['module'];
+                    } else {
+                        $module = null;
+                    }
+
+                    $result[] = array(
+                        $src,
+                        $this->_getDestinationPath('', $theme->getArea(), $theme->getThemePath(), $module)
+                    );
                 }
             }
         }
@@ -146,7 +128,7 @@ class Generator_Command
     protected function _verifyDestinationEmpty()
     {
         if (glob($this->_destinationPath . DIRECTORY_SEPARATOR . '*')) {
-            throw new Magento_Exception("The destionation path {$this->_destinationPath} must be empty");
+            throw new Magento_Exception("The destination path {$this->_destinationPath} must be empty");
         }
     }
 
@@ -174,17 +156,6 @@ class Generator_Command
     protected function _log($message, $priority = Zend_Log::INFO)
     {
         $this->_logger->log($message, $priority);
-    }
-
-    /**
-     * Copy files
-     *
-     * @param string $sourceDir
-     * @param string $destinationDir
-     */
-    protected function _copyFiles($sourceDir, $destinationDir)
-    {
-        $this->_logger->log("Copy '$sourceDir' to '$destinationDir'", Zend_Log::INFO);
     }
 
     /**
@@ -238,56 +209,6 @@ class Generator_Command
                 }
             }
         }
-    }
-
-    /**
-     * Add descendant themes
-     */
-    protected function _addDescendantThemes()
-    {
-        foreach ($this->_themes as $theme) {
-            $rotateTheme = $theme;
-            while ($rotateTheme = $rotateTheme->getParentTheme()) {
-                $rotateTheme->addDescendantTheme($theme);
-            }
-        }
-    }
-
-    /**
-     * Sort themes. Themes without parents go first
-     */
-    protected function _sortThemes()
-    {
-        uasort($this->_themes, array($this, '_sortThemesCompare'));
-    }
-
-    /**
-     * Callback method for sorting themes
-     *
-     * @param Command_ThemeProxy $theme1
-     * @param Command_ThemeProxy $theme2
-     * @return int
-     */
-    protected function _sortThemesCompare($theme1, $theme2)
-    {
-        if (in_array($theme2, $theme1->getDescendants())) {
-            return 1;
-        } elseif (in_array($theme1, $theme2->getDescendants())) {
-            return -1;
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Change pattern for using in glob()
-     *
-     * @param string $pattern
-     * @return string mixed
-     */
-    protected function _fixPattern($pattern)
-    {
-        return preg_replace("/\<[^\>]+\>/", '*', $pattern);
     }
 
     /**

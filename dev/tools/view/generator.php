@@ -39,8 +39,8 @@ $logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new Zend_Log($logWriter);
 
 try {
-    $generator = new Generator_Command($logger, $options);
-    $generator->run();
+    $generator = new Generator_CopyRule($logger, $options);
+    $generator->getCopyRules();
 } catch (Exception $e) {
     $logger->log('Error: ' . $e->getMessage(), Zend_Log::ERR);
     exit(1);

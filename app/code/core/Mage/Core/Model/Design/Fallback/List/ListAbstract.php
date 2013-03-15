@@ -45,17 +45,15 @@ abstract class Mage_Core_Model_Design_Fallback_List_ListAbstract
     /**
      * Get ordered list of folders to search for a file
      *
-     * @param string $fileName - relative file name
      * @param array $params - array of parameters
-     * @param array $themeList - ordered array of themes - current theme and all its parents
      * @param bool $qualifiedDirsOnly - if false returns also pattern together with directory path
      * @return array of folders to perform a search
      */
-    public function getPatternDirs($fileName, $params, $themeList, $qualifiedDirsOnly = true)
+    public function getPatternDirs($params, $qualifiedDirsOnly = true)
     {
         $dirs = array();
         foreach ($this->_rules as $rule) {
-            $dirs = array_merge($dirs, $rule->getPatternDirs($fileName, $params, $themeList));
+            $dirs = array_merge($dirs, $rule->getPatternDirs($params));
         }
         if ($qualifiedDirsOnly) {
             $return = array();

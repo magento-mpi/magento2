@@ -17,46 +17,46 @@ class Mage_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framework_
     public function testGetPatternsDirsException()
     {
         $model = new Mage_Core_Model_Design_Fallback_Rule_Simple('<other_param> other text');
-        $model->getPatternDirs('', array(), array());
+        $model->getPatternDirs(array());
     }
 
     /**
      * @dataProvider getPatternsDirsDataProvider
      */
-    public function testGetPatternsDirs($pattern, $module = null, $expectedResult = null)
+    public function testGetPatternsDirs($pattern, $param = null, $expectedResult = null)
     {
         $params = array(
-            'module' => $module,
-            'other_param' => 'other param'
+            'param' => $param,
+            'other_param' => 'other param',
         );
-        $model = new Mage_Core_Model_Design_Fallback_Rule_Simple($pattern);
+        $model = new Mage_Core_Model_Design_Fallback_Rule_Simple($pattern, array('param'));
 
         $this->assertEquals(
-            $model->getPatternDirs('', $params, array()),
-            $expectedResult
+            $expectedResult,
+            $model->getPatternDirs($params)
         );
     }
 
     public function getPatternsDirsDataProvider()
     {
-        $patternModules = '<module> <other_param> other text';
-        $patternNoModules = '<other_param> other text';
+        $patternOptional = '<param> <other_param> other text';
+        $patternNoOptional = '<other_param> other text';
 
         return array(
-            'no modules in param' => array(
-                $patternModules,
+            'no optional param' => array(
+                $patternOptional,
                 null,
                 array()
             ),
             'no modules in pattern' => array(
-                $patternNoModules,
+                $patternNoOptional,
                 'Module',
-                array(array('dir' => 'other param other text', 'pattern' => $patternNoModules))
+                array(array('dir' => 'other param other text', 'pattern' => $patternNoOptional))
             ),
             'modules' => array(
-                $patternModules,
+                $patternOptional,
                 'Module',
-                array(array('dir' => 'Module other param other text', 'pattern' => $patternModules))
+                array(array('dir' => 'Module other param other text', 'pattern' => $patternOptional))
             ),
         );
     }
