@@ -123,23 +123,19 @@ status:
     attribute_code: status
     admin_title: Status
     option_1:
-        admin_option_name: -- Please Select --
-    option_2:
         admin_option_name: Enabled
-    option_3:
+    option_2:
         admin_option_name: Disabled
-    default_value: Disabled
+    default_value: Enabled
 
 tax_class_id:
     attribute_code: tax_class_id
     admin_title: Tax Class
     option_1:
-        admin_option_name: -- Please Select --
-    option_2:
         admin_option_name: None
-    option_3:
+    option_2:
         admin_option_name: Taxable Goods
-    option_4:
+    option_3:
         admin_option_name: Shipping
     default_value: Taxable Goods
 
@@ -147,16 +143,14 @@ visibility:
     attribute_code: visibility
     admin_title: Visibility
     option_1:
-        admin_option_name: -- Please Select --
-    option_2:
         admin_option_name: Not Visible Individually
-    option_3:
+    option_2:
         admin_option_name: Catalog
-    option_4:
+    option_3:
         admin_option_name: Search
-    option_5:
+    option_4:
         admin_option_name: 'Catalog, Search'
-    default_value: Not Visible Individually
+    default_value: 'Catalog, Search'
 
 country_of_manufacture:
     attribute_code: country_of_manufacture
