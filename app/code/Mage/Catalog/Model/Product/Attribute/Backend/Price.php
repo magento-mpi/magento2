@@ -132,13 +132,16 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Price extends Mage_Eav_Model_
     public function validate($object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
+        if (empty($value)) {
+            return parent::validate($object);
+        }
 
-        if (!empty($value) && (!Zend_Validate::is($value, 'Float')
-            || !Zend_Validate::is($value, 'GreaterThan', array('min' => 0)))) {
+        if (!preg_match('/^(\d*|\d+(.|,)?\d{1,4})$/i', $value) || $value < 0) {
             Mage::throwException(
                 Mage::helper('Mage_Catalog_Helper_Data')->__('Please enter a number 0 or greater in this field.')
             );
         }
+
         return true;
     }
 }
