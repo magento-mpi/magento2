@@ -85,6 +85,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @throws BadMethodCallException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _resolveArguments($className, array $parameters, array $arguments = array())
     {
