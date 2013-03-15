@@ -14,8 +14,6 @@
  */
 
 require __DIR__ . '/../../../app/bootstrap.php';
-require __DIR__ . '/Generator/ThemeLight.php';
-require __DIR__ . '/Generator/CopyRule.php';
 
 // ----Parse params and run the tool-------------------------
 define('USAGE', <<<USAGE
@@ -36,17 +34,23 @@ if (isset($options['h']) || isset($options['help'])) {
     echo USAGE;
     exit(0);
 }
-if (!isset($options['source'])) {
-    $options['source'] = BP;
-}
 
 $logWriter = new Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new Zend_Log($logWriter);
 
 try {
-    $generator = new Generator_CopyRule($options['source']);
+    $config = new Generator_Config(BP, $options);
+
+    $generator = new Generator_CopyRule($config->getSourceDir());
     $copyRules = $generator->getCopyRules();
+
+    $deployment = new Generator_ThemeDeployment(
+        $logger,
+        __DIR__ . '/config/permitted.txt',
+        __DIR__ . '/config/forbidden.txt'
+    );
+    $deployment->run($copyRules, $config->getDestinationDir(), $config->isDryRun());
 } catch (Exception $e) {
     $logger->log('Error: ' . $e->getMessage(), Zend_Log::ERR);
     exit(1);
