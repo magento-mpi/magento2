@@ -102,7 +102,11 @@ jQuery(function($) {
 
             stockAvailabilityField
                 .prop('disabled', true);
-        }).trigger('change');
+        });
+
+    if ($('#product_type_id').val() == 'configurable') {
+        collapsableArea.trigger('change');
+    }
 
     var $gridDialog = $('#associated-products-container').dialog({
         title: 'Select Associated Product',
