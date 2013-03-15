@@ -590,11 +590,9 @@ Varien.FileElement.prototype = {
     }
 };
 
-Validation.addAllThese([
-    ['validate-custom', ' ', function(v,elm) {
-        return elm.validate();
-    }]
-]);
+jQuery.validator.addMethod('validate-custom', function(v,elm) {
+    return elm.validate();
+}, ' ');
 
 function truncateOptions() {
     $$('.truncated').each(function(element){

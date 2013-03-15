@@ -61,6 +61,7 @@
         nodes: <?php echo $treeNodes ?>,
         removedNodes: $A(),
         initialize: function(){
+            jQuery.mage.load('validation');
             this.increment = 0;
             this.pageIdentifiers = $H({});
             this.tree = new Ext.tree.TreePanel('tree-container', {
@@ -274,7 +275,7 @@
             // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
             jQuery('#node_id').addClass('validate-no-empty');
             var nodeValue = $('node_id').value,
-                isNodeSaved = jQuery('#edit_form').validate({errorClass: 'mage-error'}).element('#node_id')
+                isNodeSaved = jQuery.validator.validateElement('#node_id')
                     || (!isNaN(parseNumber(nodeValue)) && !/^\s+$/.test(parseNumber(nodeValue))),
                 isStoreViewLevel = $('store') && $('store').value;
             jQuery('#node_id').removeClass('validate-no-empty');
@@ -433,11 +434,7 @@
             $('node_label').addClassName('required-entry');
             $('node_identifier').addClassName('required-entry');
 
-            var isValid = true;
-            $('node_properties_fieldset').select('input').each(function(el){
-                // Temporary solution will be removed after refactoring hierarchyNodes and validation functionality
-                isValid = jQuery('#edit_form').validate({errorClass: 'mage-error'}).element('#' + el.id) && isValid;
-            });
+            var isValid = jQuery('#edit_form').mage('validation').valid();
 
             $('node_label').removeClassName('required-entry');
             $('node_identifier').removeClassName('required-entry');
@@ -446,9 +443,9 @@
         },
 
         nodePropReset: function(){
-            $('node_properties_fieldset').select('input').each(function(el){
-                Validation.reset(el);
-            });
+            jQuery('#edit_form')
+                .mage('validation')
+                .validation('clearError');
         },
 
         _changeNodePropShow: function(hasPageId){
@@ -699,9 +696,9 @@
 
                 if (save != undefined) {
                     if (save) {
-                        btn.down(2).update('<?php echo $this->getButtonSaveLabel() ?>');
+                        btn.down().update('<?php echo $this->getButtonSaveLabel() ?>');
                     } else {
-                        btn.down(2).update('<?php echo $this->getButtonUpdateLabel() ?>');
+                        btn.down().update('<?php echo $this->getButtonUpdateLabel() ?>');
                     }
                 }
             } else {

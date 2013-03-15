@@ -369,7 +369,8 @@ PaypalConfig.prototype = {
     trackBusinessAccount: function()
     {
         var elem = $('paypal_account_business_account');
-        if (!Validation.validate(elem) || !elem.value) {
+
+        if (jQuery.validator.validateElement(elem) || !elem.value) {
             this.disableMethod('wps', true);
             this.disableMethod('ec', true);
             this.disabledMethods.push('wps','ec');

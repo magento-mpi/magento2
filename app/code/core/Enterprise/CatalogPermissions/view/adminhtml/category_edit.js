@@ -33,11 +33,13 @@
             this.addButton.observe('click', this.onAddButton);
          }
          this.index = 1;
-         Validation.addAllThese([
-            ['validate-duplicate-' + this.container.id, this.config.duplicate_message, function(v, elem) {
-                return !$(elem).isDuplicate;
-            }]
-         ]);
+         jQuery.validator.addMethod(
+             'validate-duplicate-' + this.container.id,
+             function(v, elem) {
+                 return !$(elem).isDuplicate;
+             },
+             this.config.duplicate_message
+         );
          this.permissions.each(this.add.bind(this));
     },
     add: function () {
