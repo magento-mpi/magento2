@@ -16,6 +16,7 @@ var catalogWysiwygEditor = {
     overlayShowEffectOptions : null,
     overlayHideEffectOptions : null,
     open : function(editorUrl, elementId) {
+        tinyMCE.triggerSave();
         if (editorUrl && elementId) {
             new Ajax.Request(editorUrl, {
                 parameters: {
@@ -83,6 +84,8 @@ var catalogWysiwygEditor = {
         if (typeof varienGlobalEvents != undefined && editorFormValidationHandler) {
             varienGlobalEvents.removeEventHandler('formSubmit', editorFormValidationHandler);
         }
+
+        tinyMCE.editors[dialogWindow.options.firedElementId].load();
 
         //IE fix - blocked form fields after closing
         $(dialogWindow.options.firedElementId).focus();

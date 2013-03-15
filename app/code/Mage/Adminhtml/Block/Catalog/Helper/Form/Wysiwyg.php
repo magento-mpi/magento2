@@ -45,7 +45,8 @@ jQuery('#{$this->getHtmlId()}').data(
         '{$this->getHtmlId()}',
          {
             settings: {
-                theme_advanced_buttons1 : 'magentowidget,bold,italic,|,justifyleft,justifycenter,justifyright,|,fontselect,fontsizeselect,|,forecolor,backcolor,|,link,unlink,image,|,bullist,numlist',
+                theme_advanced_buttons1 : 'magentowidget,bold,italic,|,justifyleft,justifycenter,justifyright,|,' +
+                    'fontselect,fontsizeselect,|,forecolor,backcolor,|,link,unlink,image,|,bullist,numlist,|,code',
                 theme_advanced_buttons2: null,
                 theme_advanced_buttons3: null,
                 theme_advanced_buttons4: null,
