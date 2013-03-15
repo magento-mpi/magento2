@@ -18,6 +18,11 @@
                         <resource id="Enterprise_Rma::enterprise_rma" module="Enterprise_Rma" title="Returns" sortOrder="50" />
                     </resource>
                 </resource>
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_attributes">
+                        <resource id="Enterprise_Rma::rma_attribute" module="Enterprise_Rma" title="Returns" sortOrder="50" />
+                    </resource>
+                </resource>
             </resource>
 
 

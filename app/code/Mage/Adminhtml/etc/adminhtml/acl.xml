@@ -22,6 +22,27 @@
                     <resource id="Mage_Adminhtml::marketing_seo" title="SEO &amp; Search" module="Mage_Adminhtml" sortOrder="40" />
                     <resource id="Mage_Adminhtml::marketing_user_content" title="User Content" module="Mage_Adminhtml" sortOrder="50" />
                 </resource>
+                <resource id="Mage_Adminhtml::stores" module="Mage_Adminhtml" title="Stores" sortOrder="80">
+                    <resource id="Mage_Adminhtml::stores_settings" title="Settings" module="Mage_Adminhtml" sortOrder="10">
+                        <resource id="Mage_Adminhtml::store" title="All Stores" module="Mage_Adminhtml" sortOrder="10"/>
+                        <resource id="Mage_Adminhtml::config" title="Configurations" module="Mage_Adminhtml" sortOrder="20" />
+                    </resource>
+                    <resource id="Mage_Adminhtml::stores_attributes" module="Mage_Adminhtml" title="Attributes" sortOrder="40" />
+                    <resource id="Mage_Adminhtml::stores_other_settings" module="Mage_Adminhtml" title="Other Settings" sortOrder="50" />
+                </resource>
+                <resource id="Mage_Adminhtml::system" title="System" module="Mage_Adminhtml" sortOrder="90">
+                    <resource id="Mage_Adminhtml::convert" module="Mage_Adminhtml" title="Data Transfer" sortOrder="10" />
+                    <resource id="Mage_Adminhtml::extensions" title="Magento Connect" module="Mage_Adminhtml" sortOrder="20">
+                        <resource id="Mage_Adminhtml::local" module="Mage_Adminhtml" title="Connect Manager" sortOrder="10" />
+                        <resource id="Mage_Adminhtml::custom" module="Mage_Adminhtml" title="Package Extensions" sortOrder="20" />
+                    </resource>
+                    <resource id="Mage_Adminhtml::tools" module="Mage_Adminhtml" title="Tools" sortOrder="50">
+                        <resource id="Mage_Adminhtml::cache" title="Cache Management"  module="Mage_Adminhtml" sortOrder="10" />
+                    </resource>
+                    <resource id="Mage_Adminhtml::system_other_settings" title="Other Settings"  module="Mage_Adminhtml" sortOrder="80">
+                        <resource id="Mage_Adminhtml::variable" title="Custom Variables"  module="Mage_Adminhtml" sortOrder="20" />
+                    </resource>
+                </resource>
             </resource>
 
             <resource id="Old_Mage_Adminhtml::admin" module="Mage_Adminhtml" title="Magento Admin">

@@ -12,6 +12,14 @@
 <config>
     <acl>
         <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_other_settings">
+                        <resource id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" module="Enterprise_GiftRegistry" title="Gift Registry" sortOrder="40" />
+                    </resource>
+                </resource>
+            </resource>
+
             <resource id="Old_Mage_Adminhtml::admin">
                 <resource id="Old_Mage_Adminhtml::system">
                     <resource id="Old_Mage_Adminhtml::config">

@@ -12,6 +12,14 @@
 <config>
     <acl>
         <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_settings">
+                        <resource id="Mage_Checkout::checkoutagreement" module="Mage_Checkout" title="Terms &amp; Conditions" sortOrder="30" />
+                    </resource>
+                </resource>
+            </resource>
+
             <resource id="Old_Mage_Adminhtml::admin">
                 <resource id="Old_Mage_Sales::sales">
                     <resource id="Old_Mage_Checkout::checkoutagreement" module="Mage_Checkout" title="Terms and Conditions" sortOrder="50" />

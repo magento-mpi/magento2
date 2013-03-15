@@ -15,17 +15,21 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Sales::sales" module="Mage_Sales" title="Sales" sortOrder="20">
                     <resource id="Mage_Sales::sales_operation" module="Mage_Sales" title="Operations" sortOrder="10">
-                        <resource id="Mage_Sales::sales_order" title="Orders" sortOrder="10" />
-                        <resource id="Mage_Sales::sales_invoice" title="Invoices" sortOrder="20" />
-                        <resource id="Mage_Sales::shipment" title="Shipments" sortOrder="30" />
-                        <resource id="Mage_Sales::sales_creditmemo" title="Credit Memos" sortOrder="40" />
-                        <resource id="Mage_Sales::billing_agreement" title="Billing Agreements" sortOrder="60" />
-                        <resource id="Mage_Sales::transactions" title="Transactions" sortOrder="70" />
-                        <resource id="Mage_Sales::recurring_profile" title="Recurring Profiles" sortOrder="80" />
+                        <resource id="Mage_Sales::sales_order"  module="Mage_Sales"  title="Orders" sortOrder="10" />
+                        <resource id="Mage_Sales::sales_invoice"  module="Mage_Sales"  title="Invoices" sortOrder="20" />
+                        <resource id="Mage_Sales::shipment"  module="Mage_Sales"  title="Shipments" sortOrder="30" />
+                        <resource id="Mage_Sales::sales_creditmemo"  module="Mage_Sales"  title="Credit Memos" sortOrder="40" />
+                        <resource id="Mage_Sales::billing_agreement"  module="Mage_Sales"  title="Billing Agreements" sortOrder="60" />
+                        <resource id="Mage_Sales::transactions"  module="Mage_Sales"  title="Transactions" sortOrder="70" />
+                        <resource id="Mage_Sales::recurring_profile"  module="Mage_Sales"  title="Recurring Profiles" sortOrder="80" />
+                    </resource>
+                </resource>
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_settings">
+                        <resource id="Mage_Sales::order_statuses"  module="Mage_Sales" title="Order Statuses" sortOrder="40" />
                     </resource>
                 </resource>
             </resource>
-
 
             <resource id="Old_Mage_Adminhtml::admin">
                 <resource id="Old_Mage_Sales::sales" module="Mage_Sales" title="Sales">
