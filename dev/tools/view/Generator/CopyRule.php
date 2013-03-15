@@ -14,11 +14,6 @@
 class Generator_CopyRule
 {
     /**
-     * @var Zend_Log
-     */
-    private $_logger;
-
-    /**
      * @var Mage_Core_Model_Design_Fallback_List_View|null
      */
     private $_fallbackList = null;
@@ -29,16 +24,6 @@ class Generator_CopyRule
     private $_themes = array();
 
     /**
-     * @var string
-     */
-    private $_destinationPath;
-
-    /**
-     * @var string
-     */
-    private $_isDryRun;
-
-    /**
      * @var Mage_Core_Model_Dir
      */
     private $_dirs;
@@ -46,44 +31,37 @@ class Generator_CopyRule
     /**
      * Constructor
      *
-     * @param Zend_Log $logger
-     * @param array $options
+     * @param string $sourcePath
      */
-    public function __construct(Zend_Log $logger, $options)
+    public function __construct($sourcePath = '')
     {
-        $this->_logger = $logger;
-
-        $this->_dirs = new Mage_Core_Model_Dir(new Magento_Filesystem(new Magento_Filesystem_Adapter_Local), BP);
-        if (empty($options['destination'])) {
-            $this->_destinationPath = $this->_dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
-        } else {
-            $this->_destinationPath = $options['destination'];
+        if (empty($sourcePath)) {
+            $sourcePath = BP;
         }
-        $this->_destinationPath = rtrim($this->_destinationPath, '\\/') . DIRECTORY_SEPARATOR;
-
-        $this->_isDryRun = isset($options['dry-run']);
+        $this->_dirs = new Mage_Core_Model_Dir(
+            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
+            $sourcePath
+        );
 
         $this->_initThemes();
-
         $this->_fallbackList = new Mage_Core_Model_Design_Fallback_List_View($this->_dirs);
     }
 
     /**
-     * Main method
+     * Get rules for copying static view files
+     * returns array(
+     *      array('source' => <Absolute Source Path>, 'destination' => <Relative Destination Path>),
+     *      ......
+     * )
+     *
+     * @return array
      */
     public function getCopyRules()
     {
-        if ($this->_isDryRun) {
-            $this->_log('Running in dry-run mode: no changes are applied');
-        }
-
-        $this->_verifyDestinationEmpty();
-        $this->_createDestinationIfNeeded();
-
         $params = array(
             'area'          => '*',
             'theme_path'    => '*',
-            'locale'        => null,
+            'locale'        => null, //temporary locale is not taken into account
             'pool'          => '*',
             'namespace'     => '*',
             'module'        => '*',
@@ -112,54 +90,18 @@ class Generator_CopyRule
                     }
 
                     $result[] = array(
-                        $src,
-                        $this->_getDestinationPath('', $theme->getArea(), $theme->getThemePath(), $module)
+                        'source' => $src,
+                        'destination' =>
+                            $this->_getDestinationPath('', $theme->getArea(), $theme->getThemePath(), $module)
                     );
                 }
             }
         }
+        return $result;
     }
 
     /**
-     * Check that destination is empty, as we'd better not mess different files together
-     *
-     * @throws Magento_Exception
-     */
-    protected function _verifyDestinationEmpty()
-    {
-        if (glob($this->_destinationPath . DIRECTORY_SEPARATOR . '*')) {
-            throw new Magento_Exception("The destination path {$this->_destinationPath} must be empty");
-        }
-    }
-
-    /**
-     * Create destination dir if needed
-     *
-     * @throws Magento_Exception
-     */
-    protected function _createDestinationIfNeeded()
-    {
-        if ($this->_isDryRun || is_dir($this->_destinationPath)) {
-            return;
-        }
-        if (!@mkdir($this->_destinationPath, 0666, true)) {
-            throw new Magento_Exception("Unable to create destination path {$this->_destinationPath}");
-        }
-    }
-
-    /**
-     * Log message
-     *
-     * @param string $message
-     * @param int $priority
-     */
-    protected function _log($message, $priority = Zend_Log::INFO)
-    {
-        $this->_logger->log($message, $priority);
-    }
-
-    /**
-     * Function from Magento
+     * Get relative destination path based on parameters. Calls method used in Production Mode in application
      *
      * @param $filename
      * @param $area
@@ -167,17 +109,15 @@ class Generator_CopyRule
      * @param $module
      * @return string
      */
-    protected function _getDestinationPath($filename, $area, $themePath, $module)
+    private function _getDestinationPath($filename, $area, $themePath, $module)
     {
-        $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath($area, $themePath, '', $filename,
-            $module);
-        return $this->_destinationPath . $relPath;
+        return Mage_Core_Model_Design_Package::getPublishedViewFileRelPath($area, $themePath, '', $filename, $module);
     }
 
     /**
      * Get themes from file system
      */
-    protected function _initThemes()
+    private function _initThemes()
     {
         $themesDir = BP . '/app/design';
         $dir = dir($themesDir);
@@ -218,7 +158,7 @@ class Generator_CopyRule
      * @param string $pattern
      * @return array
      */
-    protected function _getParams($path, $pattern)
+    private function _getParams($path, $pattern)
     {
         $path = str_replace(DS, '/', $path);
         $pattern = str_replace(DS, '/', $pattern);
