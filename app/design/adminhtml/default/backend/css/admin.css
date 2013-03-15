@@ -3594,6 +3594,7 @@ table tbody tr:nth-child(odd):hover th {
 .grid .filter .range input {
     width: 56px;
     margin-top: 0;
+    vertical-align: middle;
 }
 
 .grid .filter .range select {
@@ -3606,6 +3607,7 @@ table tbody tr:nth-child(odd):hover th {
     height: 15px;
     cursor: pointer;
     vertical-align: middle;
+    margin-left: 5px;
 }
 
 .grid .head-massaction select {
