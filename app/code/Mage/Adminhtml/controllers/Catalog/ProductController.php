@@ -123,7 +123,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         if ($product->dataHasChangedFor('attribute_set_id')) {
             $this->_initProductSave($product);
-            $this->_getSession()->setAttributeSetId($setId);
         }
 
         Mage::register('product', $product);
