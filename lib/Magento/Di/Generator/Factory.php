@@ -28,7 +28,7 @@ class Magento_Di_Generator_Factory extends Magento_Di_Generator_EntityAbstract
             'parameters' => array(
                 array('name' => 'data', 'type' => 'array', 'defaultValue' => array()),
             ),
-            'body' => 'return $this->_objectManager->create(self::CLASS_NAME, $data, false);',
+            'body' => 'return $this->_objectManager->create(self::CLASS_NAME, $data);',
             'docblock' => array(
                 'shortDescription' => 'Create class instance with specified parameters',
                 'tags'             => array(

@@ -13,13 +13,13 @@
     <li>
         <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
         <div class="input-box">
-            <input type="text" title="<?php echo $this->__('Name on Card') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" name="payment[cc_owner]" value="<?php echo $this->escapeHtml($this->getInfoData('cc_owner')) ?>" />
+            <input type="text" title="<?php echo $this->__('Name on Card') ?>" class="input-text" id="<?php echo $_code ?>_cc_owner" name="payment[cc_owner]" value="<?php echo $this->escapeHtml($this->getInfoData('cc_owner')) ?>" data-validate='{required:true}'/>
         </div>
     </li>
     <li>
         <label for="<?php echo $_code ?>_cc_type" class="required"><em>*</em><?php echo $this->__('Credit Card Type') ?></label>
         <div class="input-box">
-            <select id="<?php echo $_code ?>_cc_type" name="payment[cc_type]" title="<?php echo $this->__('Credit Card Type') ?>" class="required-entry validate-cc-type-select">
+            <select id="<?php echo $_code ?>_cc_type" name="payment[cc_type]" title="<?php echo $this->__('Credit Card Type') ?>" data-validate='{required:true, "validate-cc-type-select":"#<?php echo $_code ?>_cc_number"}'>
                 <option value=""><?php echo $this->__('--Please Select--') ?></option>
             <?php $_ccType = $this->getInfoData('cc_type') ?>
             <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
@@ -31,7 +31,7 @@
     <li>
         <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
         <div class="input-box">
-            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number validate-cc-type" value="" />
+            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text" value="" data-validate='{required:true, "validate-cc-number":"#<?php echo $_code ?>_cc_type", "validate-cc-type":"#<?php echo $_code ?>_cc_type"}'/>
         </div>
     </li>
     <li>
@@ -61,9 +61,13 @@
         <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
         <div class="input-box">
             <div class="v-fix">
-                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" />
+                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" data-validate='{required:true, "validate-cc-cvn":"#<?php echo $_code ?>_cc_type"}'/>
             </div>
-            <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+            <a href="#" class="cvv-what-is-this" data-mage-init='{toggleAdvanced: {toggleContainers:"#ccv-save-tooltip"}}'><?php echo $this->__('What is this?') ?></a>
+            <div class="tool-tip hidden" id="ccv-save-tooltip">
+                <div class="btn-close"><a data-mage-init='{toggleAdvanced: {toggleContainers:"#ccv-save-tooltip"}}' href="#" title="<?php echo $this->__('Close') ?>"><img src="<?php echo $this->getViewFileUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" title="<?php echo $this->__('Close') ?>" /></a></div>
+                <div class="tool-tip-content"><img src="<?php echo $this->getViewFileUrl('Mage_Checkout::cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" title="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></div>
+            </div>
         </div>
     </li>
     <?php endif; ?>
@@ -100,19 +104,11 @@
             <li class="adv-container">&nbsp;</li>
         </ul>
         <script type="text/javascript">
-        //<![CDATA[
-        var SSChecked<?php echo $_code ?> = function() {
-            var elm = $('<?php echo $_code ?>_cc_type');
-            if (['SS','SM','SO'].indexOf(elm.value) != -1) {
-                $('<?php echo $_code ?>_cc_type_ss_div').show();
-            } else {
-                $('<?php echo $_code ?>_cc_type_ss_div').hide();
-            }
-        };
-
-        Event.observe($('<?php echo $_code ?>_cc_type'), 'change', SSChecked<?php echo $_code ?>);
-        SSChecked<?php echo $_code ?>();
-        //]]>
+            head.js("<?php echo $this->getViewFileUrl('Mage_Payment::cc-type.js')?>", function() {
+                jQuery('#<?php echo $_code ?>_cc_type').creditCardType({
+                    creditCardTypeContainer: '#<?php echo $_code ?>_cc_type_ss_div'
+                });
+            });
         </script>
     </li>
     <?php endif; ?>
