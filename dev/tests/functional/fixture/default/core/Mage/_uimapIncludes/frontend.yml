@@ -46,6 +46,7 @@ frontend_header:
                             qty_elements_in_specific_table: "%tableHeadXpath%//td[@class='pager']//span[contains(@id,'total-count')]"
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
                             loadingHolder: "//*[@id='loading-mask']"
+                            newLoadingHolder: //*[@class='loading-mask']
                             dropdown_option: "%dropdownXpath%//option"
                             dropdown_option_text: "%dropdownXpath%//option[normalize-space(text())='%optionText%']"
                             dropdown_option_index: "%dropdownXpath%//option[%index%]"

@@ -3679,7 +3679,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->waitUntil(
             function ($testCase) {
                 /** @var Mage_Selenium_TestCase $testCase */
-                if (!$testCase->getElement($testCase->_getControlXpath('pageelement', 'loadingHolder'))->displayed()) {
+                if (!$testCase->getControlElement('pageelement', 'loadingHolder')->displayed()
+                    && !$testCase->getControlElement('pageelement', 'newLoadingHolder')->displayed()
+                ) {
                     return true;
                 }
             },
