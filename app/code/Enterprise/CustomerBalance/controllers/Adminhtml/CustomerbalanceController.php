@@ -17,7 +17,7 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
     /**
      * Check is enabled module in config
      *
-     * @return Enterprise_CatalogEvent_Adminhtml_Catalog_EventController
+     * @return Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController
      */
     public function preDispatch()
     {

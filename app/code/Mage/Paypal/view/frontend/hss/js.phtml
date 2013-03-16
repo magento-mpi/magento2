@@ -13,38 +13,4 @@
  */
 ?>
 <div id="checkout-paypaliframe-load" class="authentication"></div>
-<script type="text/javascript">
-//<![CDATA[
-Review.prototype.save = function() {
-    if (checkout.loadWaiting!=false) return;
-    checkout.setLoadWaiting('review');
-    var params = Form.serialize(payment.form);
-    if (this.agreementsForm) {
-        params += '&'+Form.serialize(this.agreementsForm);
-    }
-    params.save = true;
-    var request = new Ajax.Request(
-        this.saveUrl,
-        {
-            method:'post',
-            parameters:params,
-            onComplete: function(transport) {
-                if (transport && transport.responseText) {
-                    try{
-                        response = eval('(' + transport.responseText + ')');
-                    }
-                    catch (e) {
-                        response = {};
-                    }
-                    if (response.error_messages) {
-                        checkout.setLoadWaiting(false);
-                    }
-                }
-            },
-            onSuccess: this.onSave,
-            onFailure: checkout.ajaxFailure.bind(checkout)
-        }
-    );
-}
-//]]>
-</script>
+

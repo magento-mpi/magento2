@@ -19,6 +19,19 @@
 class Mage_Core_Model_Observer
 {
     /**
+     * @var Mage_Core_Model_Cache_Frontend_Pool
+     */
+    private $_cacheFrontendPool;
+
+    /**
+     * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
+     */
+    public function __construct(Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool)
+    {
+        $this->_cacheFrontendPool = $cacheFrontendPool;
+    }
+
+    /**
      * Check if synchronize process is finished and generate notification message
      *
      * @param  Varien_Event_Observer $observer
@@ -86,8 +99,11 @@ class Mage_Core_Model_Observer
      */
     public function cleanCache(Mage_Cron_Model_Schedule $schedule)
     {
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_OLD);
-        Mage::dispatchEvent('core_clean_cache');
+        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        foreach ($this->_cacheFrontendPool as $cacheFrontend) {
+            // Magento cache frontend does not support the 'old' cleaning mode, that's why backend is used directly
+            $cacheFrontend->getBackend()->clean(Zend_Cache::CLEANING_MODE_OLD);
+        }
     }
 
     /**

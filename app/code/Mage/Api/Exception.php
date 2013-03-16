@@ -19,7 +19,7 @@ class Mage_Api_Exception extends Mage_Core_Exception
 {
     protected $_customMessage = null;
 
-    public function __construct($faultCode, $customMessage=null)
+    public function __construct($faultCode, $customMessage = null)
     {
         parent::__construct($faultCode);
         $this->_customMessage = $customMessage;

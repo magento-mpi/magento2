@@ -31,11 +31,6 @@ final class Mage
     const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
 
     /**
-     * Base directory
-     */
-    const PARAM_BASEDIR = 'base_dir';
-
-    /**
      * Custom application dirs
      */
     const PARAM_APP_DIRS = 'app_dirs';
@@ -245,6 +240,7 @@ final class Mage
         self::$_isDeveloperMode = false;
         self::$_loggers         = array();
         self::$_design          = null;
+        self::$_objectManager   = null;
         // do not reset $headersSentThrowsException
     }
 
@@ -741,20 +737,14 @@ final class Mage
     {
         if (self::$_isDeveloperMode) {
             print '<pre>';
-
             if (!empty($extra)) {
                 print $extra . "\n\n";
             }
-
-            print $e->getMessage() . "\n\n";
-            print $e->getTraceAsString();
+            print $e;
             print '</pre>';
         } else {
 
-            $reportData = array(
-                !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
-                $e->getTraceAsString()
-            );
+            $reportData = array(($extra ? $extra . "\n\n" : '') . $e);
 
             // retrieve server data
             if (isset($_SERVER)) {
@@ -775,8 +765,7 @@ final class Mage
 
             require_once(self::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . 'report.php');
         }
-
-        die();
+        exit(1);
     }
 
     /**

@@ -76,6 +76,7 @@
             </preferences>
             <Mage_Core_Model_Cache>
                 <parameters>
+                    <cacheTypes>Mage_Core_Model_Cache_Types_Proxy</cacheTypes><!-- @todo remove cache types proxy as soon as deprecated methods of Mage_Core_Model_Cache are removed -->
                     <config>Mage_Core_Model_Config_Proxy</config>
                 </parameters>
             </Mage_Core_Model_Cache>
