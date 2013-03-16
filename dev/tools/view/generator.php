@@ -37,7 +37,7 @@ if (isset($options['h']) || isset($options['help'])) {
     exit(0);
 }
 if (!isset($options['source'])) {
-    $options['source'] = null;
+    $options['source'] = BP;
 }
 
 $logWriter = new Zend_Log_Writer_Stream('php://output');

@@ -29,18 +29,23 @@ class Generator_CopyRule
     private $_dirs;
 
     /**
+     * Base dir to start search from
+     *
+     * @var string
+     */
+    private $_sourcePath;
+
+    /**
      * Constructor
      *
      * @param string $sourcePath
      */
-    public function __construct($sourcePath = '')
+    public function __construct($sourcePath)
     {
-        if (empty($sourcePath)) {
-            $sourcePath = BP;
-        }
+        $this->_sourcePath = $sourcePath;
         $this->_dirs = new Mage_Core_Model_Dir(
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
-            $sourcePath
+            $this->_sourcePath
         );
 
         $this->_initThemes();
@@ -76,9 +81,9 @@ class Generator_CopyRule
                 $srcPaths = glob($pattern['dir']);
                 foreach ($srcPaths as $src) {
                     $paramsFromDir = $this->_getParams(
-                        str_replace(BP, '', $src),
+                        str_replace($this->_sourcePath, '', $src),
                         str_replace(
-                            array(BP, '<theme_path>'),
+                            array($this->_sourcePath, '<theme_path>'),
                             array('', '<package>/<theme>'),
                             $pattern['pattern']
                         )
@@ -119,7 +124,7 @@ class Generator_CopyRule
      */
     private function _initThemes()
     {
-        $themesDir = BP . '/app/design';
+        $themesDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         $dir = dir($themesDir);
         while (false !== ($area = $dir->read())) {
             if ($area == '..' || $area == '.') {
