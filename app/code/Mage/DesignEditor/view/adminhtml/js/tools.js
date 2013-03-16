@@ -87,61 +87,45 @@
         * @private
         */
         _updateMenu: function (mode) {
-            this.options.disableInlineTranslation = false;
+            function _toggleSelected (translateOption, mode, enableOnToolbar, backgroundRemove, backgroundAdd, imageRemove, imageAdd) {
+                translateOption.removeClass(backgroundRemove).addClass(backgroundAdd);
+                translateOption.children('[vde-translate-img]').removeClass(imageRemove).addClass(imageAdd);
+
+                // Update toolbar button.
+                var textEditClassOn = 'text-edit-' + mode + '-on';
+                if (enableOnToolbar)
+                    parent.jQuery('[vde-translate-edit]').addClass(textEditClassOn);
+                else
+                    parent.jQuery('[vde-translate-edit]').removeClass(textEditClassOn);
+            }
+
+            var disableInlineTranslation = false;
 
             var TEXT_MENU_BACKGROUND_ON = 'text-menu-background-on';
             var TEXT_MENU_BACKGROUND_OFF = 'text-menu-background-off';
 
-            var possibleModes = ["text", "script", "alt"];
-            var menuClass = '#vde-translate-' + mode;
-            var textEditClass = 'text-edit-' + mode;
             var textMenuClass = 'text-menu-' + mode;
 
-            // Check to see if turning off (selecting the already highlighted option).
-            if (parent.jQuery(menuClass).hasClass(TEXT_MENU_BACKGROUND_ON)) {
-                parent.jQuery(menuClass).removeClass(TEXT_MENU_BACKGROUND_ON).addClass(TEXT_MENU_BACKGROUND_OFF);
-                parent.jQuery(menuClass + '-img').removeClass(textMenuClass + '-on').addClass(textMenuClass + '-off');
+            parent.jQuery('[translate-selected]').each(function() {
+                if ($(this).attr('translate-selected') === mode) {
+                    // Check to see if turning off (selecting the already highlighted option).
+                    if ($(this).hasClass(TEXT_MENU_BACKGROUND_ON)) {
+                        // Disable option.
+                        _toggleSelected($(this), mode, false, TEXT_MENU_BACKGROUND_ON, TEXT_MENU_BACKGROUND_OFF, textMenuClass + '-on', textMenuClass + '-off');
 
-                // Update toolbar button.
-                parent.jQuery('[vde-translate-edit]').removeClass(textEditClass + '-on').addClass(textEditClass + '-off');
-
-                // Refresh iframe minus the translation mode on the url.
-                this.options.disableInlineTranslation = true;
-            }
-            else {
-                // Enable selected option
-                this._toggleSelected(mode, true, TEXT_MENU_BACKGROUND_OFF, TEXT_MENU_BACKGROUND_ON, textMenuClass + '-off', textMenuClass + '-on');
-
-                // Disable other two options.
-                for (var i = 0; i < possibleModes.length; i++) {
-                    if (possibleModes[i] != mode)
-                        this._toggleSelected(possibleModes[i], false, TEXT_MENU_BACKGROUND_ON, TEXT_MENU_BACKGROUND_OFF, 'text-menu-' + possibleModes[i] + '-on', 'text-menu-' + possibleModes[i] + '-off');
+                        // Refresh iframe minus the translation mode on the url.
+                        disableInlineTranslation = true;
+                    }
+                    else
+                        // Enable selected option
+                        _toggleSelected($(this), mode, true, TEXT_MENU_BACKGROUND_OFF, TEXT_MENU_BACKGROUND_ON, textMenuClass + '-off', textMenuClass + '-on');
                 }
-            }
-        },
+                else
+                    // Disable option.
+                    _toggleSelected($(this), $(this).attr('translate-selected'), false, TEXT_MENU_BACKGROUND_ON, TEXT_MENU_BACKGROUND_OFF, 'text-menu-' + $(this).attr('translate-selected') + '-on', 'text-menu-' + $(this).attr('translate-selected') + '-off');
+            });
 
-        /**
-        * This method changes the classes of the menu option backgrounds and image and the toolbar link.
-        *
-        * @param mode
-        * @param enableOnToolbar
-        * @param backgroundRemove
-        * @param backgroundAdd
-        * @param imageRemove
-        * @param imageAdd
-        * @private
-        */
-        _toggleSelected: function (mode, enableOnToolbar, backgroundRemove, backgroundAdd, imageRemove, imageAdd) {
-            var menuClass = '#vde-translate-' + mode;
-            parent.jQuery(menuClass).removeClass(backgroundRemove).addClass(backgroundAdd);
-            parent.jQuery(menuClass + '-img').removeClass(imageRemove).addClass(imageAdd);
-
-            // Update toolbar button.
-            var textEditClassOn = 'text-edit-' + mode + '-on';
-            if (enableOnToolbar)
-                parent.jQuery('[vde-translate-edit]').addClass(textEditClassOn);
-            else
-                parent.jQuery('[vde-translate-edit]').removeClass(textEditClassOn);
+            this.options.disableInlineTranslation = disableInlineTranslation;
         }
     });
 
