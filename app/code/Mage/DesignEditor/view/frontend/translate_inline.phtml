@@ -40,19 +40,20 @@
 <script type="text/javascript">
     (function($){
         $(window).load(function() {
-            $('body').addClass('trnslate-inline-area');
+            $('body').addClass('<?php echo 'trnslate-inline-' . $this->getTranslateMode() . '-area' ?>');
 
             $('body').translateInlineDialogVde({
                 ajaxUrl: '<?php echo $this->getAjaxUrl() ?>',
                 area: '<?php echo $this->getArea() ?>',
+                translateMode: '<?php echo $this->getTranslateMode() ?>',
                 onSubmitComplete: function() {
-                    $('body').addClass('trnslate-inline-area');
+                    $('body').translateInlineDialogVde('showMode');
                     $('[data-translate][translate-mode="text"]').translateInlineVde('show');
                     $('[data-translate][translate-mode="alt"]').translateInlineImageVde('show');
                 },
 
                 onCancel: function() {
-                    $('body').addClass('trnslate-inline-area');
+                    $('body').translateInlineDialogVde('showMode');
                     $('[data-translate][translate-mode="text"]').translateInlineVde('show');
                     $('[data-translate][translate-mode="alt"]').translateInlineImageVde('show');
                 }
@@ -61,11 +62,12 @@
             $('[data-translate][translate-mode="text"]').translateInlineVde({
                 img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
+                translateMode: '<?php echo $this->getTranslateMode() ?>',
                 onClick: function(widget) {
                     var translateData = $(widget.element).data(widget.options.dataAttrName);
-                    $('body').removeClass('trnslate-inline-area');
-                    $('[data-translate][translate-mode="text"]').translateInlineVde('hide');
-                    $('[data-translate][translate-mode="alt"]').translateInlineImageVde('hide');
+                    $('body').removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
+                    $('[data-translate][translate-mode=' + widget.options.translateMode + ']')
+                            .translateInlineVde('hide');
                     $('body').translateInlineDialogVde(
                         'open',
                         translateData,
@@ -83,11 +85,12 @@
             $('[data-translate][translate-mode="alt"]').translateInlineImageVde({
                 img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
+                translateMode: '<?php echo $this->getTranslateMode() ?>',
                 onClick: function(widget) {
                     var translateData = $(widget.element).data(widget.options.dataAttrName);
-                    $('body').removeClass('trnslate-inline-area');
-                    $('[data-translate][translate-mode="text"]').translateInlineVde('hide');
-                    $('[data-translate][translate-mode="alt"]').translateInlineImageVde('hide');
+                    $('body').removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
+                    $('[data-translate][translate-mode=' + widget.options.translateMode + ']')
+                            .translateInlineVde('hide');
                     $('body').translateInlineDialogVde(
                         'open',
                         translateData,
