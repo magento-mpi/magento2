@@ -104,7 +104,7 @@
 
             parent.jQuery('[vde-translate]').translateInlineToggle({});
 
-            parent.jQuery('[translate-selected]').translateInlineToggleMode({
+            parent.jQuery('[data-translate-selected]').translateInlineToggleMode({
                 frameUrl: '<?php echo $this->getFrameUrl() ?>',
                 refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>
             });

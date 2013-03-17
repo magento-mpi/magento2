@@ -46,10 +46,10 @@
             parent.jQuery('[translate-menu]').toggleClass('hidden');
 
             // Change menu to reflect what was selected, so will display correctly when displayed again.
-            this._updateMenu(this.element.attr('translate-selected'));
+            this._updateMenu(this.element.attr('data-translate-selected'));
 
             // Refresh iframe with new url
-            this._refresh(this.element.attr('translate-selected'));
+            this._refresh(this.element.attr('data-translate-selected'));
         },
 
         /**
@@ -89,7 +89,7 @@
         _updateMenu: function (mode) {
             function _toggleSelected (translateOption, mode, enableOnToolbar, backgroundRemove, backgroundAdd, imageRemove, imageAdd) {
                 translateOption.removeClass(backgroundRemove).addClass(backgroundAdd);
-                translateOption.children('[vde-translate-img]').removeClass(imageRemove).addClass(imageAdd);
+                translateOption.children('[data-translate-img]').removeClass(imageRemove).addClass(imageAdd);
 
                 // Update toolbar button.
                 var textEditClassOn = 'text-edit-' + mode + '-on';
@@ -106,8 +106,8 @@
 
             var textMenuClass = 'text-menu-' + mode;
 
-            parent.jQuery('[translate-selected]').each(function() {
-                if ($(this).attr('translate-selected') === mode) {
+            parent.jQuery('[data-translate-selected]').each(function() {
+                if ($(this).attr('data-translate-selected') === mode) {
                     // Check to see if turning off (selecting the already highlighted option).
                     if ($(this).hasClass(TEXT_MENU_BACKGROUND_ON)) {
                         // Disable option.
@@ -122,7 +122,7 @@
                 }
                 else
                     // Disable option.
-                    _toggleSelected($(this), $(this).attr('translate-selected'), false, TEXT_MENU_BACKGROUND_ON, TEXT_MENU_BACKGROUND_OFF, 'text-menu-' + $(this).attr('translate-selected') + '-on', 'text-menu-' + $(this).attr('translate-selected') + '-off');
+                    _toggleSelected($(this), $(this).attr('data-translate-selected'), false, TEXT_MENU_BACKGROUND_ON, TEXT_MENU_BACKGROUND_OFF, 'text-menu-' + $(this).attr('data-translate-selected') + '-on', 'text-menu-' + $(this).attr('data-translate-selected') + '-off');
             });
 
             this.options.disableInlineTranslation = disableInlineTranslation;
