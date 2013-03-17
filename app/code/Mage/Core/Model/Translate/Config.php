@@ -80,7 +80,7 @@ class Mage_Core_Model_Translate_Config
      */
     public function getParams()
     {
-        return array(CONFIG_PARAMS => $this->_params);
+        return array(self::CONFIG_PARAMS => $this->_params);
     }
 
     /**

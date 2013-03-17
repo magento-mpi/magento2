@@ -45,11 +45,9 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      */
     public function isAllowed($store = null)
     {
-        $isAllowed = false;
-        if ($this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getTranslationMode() != null) {
-            $isAllowed = true;
-        }
-        return $isAllowed;
+        /** @var $helper Mage_DesignEditor_Helper_Data */
+        $helper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
+        return ($helper->getTranslationMode() === null ? false : true);
     }
 
     /**
@@ -185,7 +183,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
         /** @var $block Mage_Core_Block_Template */
         $block = $this->_objectManager->create('Mage_Core_Block_Template');
 
-        $block->setDesign(Mage::getDesign());
+        $block->setArea($this->_objectManager->get('Mage_Core_Model_Design_Package')->getArea());
         $block->setAjaxUrl($ajaxUrl);
         $block->setFrameUrl($this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getCurrentHandleUrl());
         $block->setRefreshCanvas($this->isAllowed());

@@ -8,25 +8,20 @@
  */
 ?>
 
-<?php /** @var $this Mage_Core_Block_Template */ ?>
-<?php
-/** @var $this->design Mage_Core_Model_Design_Package */
-$design = $this->getDesign();
-?>
-<script type="text/javascript" src="<?php echo $design->getViewFileUrl('prototype/window.js') ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('prototype/windows/themes/default.css') ?>"/>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('Mage_Core::prototype/magento.css') ?>"/>
-<script type="text/javascript" src="<?php echo $design->getViewFileUrl('mage/edit-trigger.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getViewFileUrl('mage/translate-inline.js') ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('mage/translate-inline.css') ?>"/>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('prototype/window.js') ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('prototype/windows/themes/default.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('Mage_Core::prototype/magento.css') ?>"/>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/edit-trigger.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/translate-inline.js') ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('mage/translate-inline.css') ?>"/>
 
 <script type="text/javascript">
     (function($){
         $(document).ready(function() {
             $(this).translateInline({
                 ajaxUrl: '<?php echo $this->getAjaxUrl() ?>',
-                area: '<?php echo $design->getArea() ?>',
-                editTrigger: {img: '<?php echo $design->getViewFileUrl('Mage_Core::fam_book_open.png') ?>'}
+                area: '<?php echo $this->getArea() ?>',
+                editTrigger: {img: '<?php echo $this->getViewFileUrl('Mage_Core::fam_book_open.png') ?>'}
             });
         });
     })(jQuery);

@@ -9,16 +9,12 @@
 ?>
 
 <?php /** @var $this Mage_Core_Block_Template */ ?>
-<?php
-/** @var $this->design Mage_Core_Model_Design_Package */
-$design = $this->getDesign();
-?>
-<script type="text/javascript" src="<?php echo $design->getViewFileUrl('prototype/window.js') ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('prototype/windows/themes/default.css') ?>"/>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('Mage_Core::prototype/magento.css') ?>"/>
-<script type="text/javascript" src="<?php echo $design->getViewFileUrl('mage/edit-trigger.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $design->getViewFileUrl('mage/translate-inline-vde.js') ?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $design->getViewFileUrl('mage/translate-inline-vde.css') ?>"/>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('prototype/window.js') ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('prototype/windows/themes/default.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('Mage_Core::prototype/magento.css') ?>"/>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/edit-trigger.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/translate-inline-vde.js') ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('mage/translate-inline-vde.css') ?>"/>
 
 <script id="translate-inline-dialog-form-template" type="text/x-jQuery-tmpl">
     <form id="${data.id}">
@@ -48,7 +44,7 @@ $design = $this->getDesign();
 
             $('body').translateInlineDialogVde({
                 ajaxUrl: '<?php echo $this->getAjaxUrl() ?>',
-                area: '<?php echo $design->getArea() ?>',
+                area: '<?php echo $this->getArea() ?>',
                 onSubmitComplete: function() {
                     $('body').addClass('trnslate-inline-area');
                     $('[data-translate][translate-mode="text"]').translateInlineVde('show');
@@ -63,8 +59,8 @@ $design = $this->getDesign();
             });
 
             $('[data-translate][translate-mode="text"]').translateInlineVde({
-                img: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
-                imgHover: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
+                img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
+                imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 onClick: function(widget) {
                     var translateData = $(widget.element).data(widget.options.dataAttrName);
                     $('body').removeClass('trnslate-inline-area');
@@ -85,8 +81,8 @@ $design = $this->getDesign();
             });
 
             $('[data-translate][translate-mode="alt"]').translateInlineImageVde({
-                img: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
-                imgHover: '<?php echo $design->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
+                img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
+                imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 onClick: function(widget) {
                     var translateData = $(widget.element).data(widget.options.dataAttrName);
                     $('body').removeClass('trnslate-inline-area');

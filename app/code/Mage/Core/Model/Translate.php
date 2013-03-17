@@ -108,11 +108,6 @@ class Mage_Core_Model_Translate
     protected $_translateInline;
 
     /**
-     * @var Mage_Core_Model_Translate_Factory
-     */
-    protected $_translateFactory;
-
-    /**
      * @var Mage_Core_Model_Translate_TranslateInterface
      */
     protected $_translateObject;
@@ -132,11 +127,6 @@ class Mage_Core_Model_Translate
     protected $_localeHierarchy = array();
 
     /**
-     * @var Mage_Core_Model_Design_Package
-     */
-    protected $_designPackage;
-
-    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -144,20 +134,14 @@ class Mage_Core_Model_Translate
     /**
      * Initialize translate model
      *
-     * @param Mage_Core_Model_Design_Package $designPackage
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
-     * @param Mage_core_Model_Translate_Factory $translateFactory
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Mage_Core_Model_Design_Package $designPackage,
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
-        Mage_Core_Model_Translate_Factory $translateFactory,
         Magento_ObjectManager $objectManager
     ) {
-        $this->_designPackage = $designPackage;
         $this->_localeHierarchy = $loader->load();
-        $this->_translateFactory = $translateFactory;
         $this->_objectManager = $objectManager;
     }
 
@@ -174,8 +158,9 @@ class Mage_Core_Model_Translate
 
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
-        $this->_translateObject = $this->_translateFactory
-            ->createFromConfig($translateConfig);
+        /** @var $translateFactory Mage_Core_Model_Translate_Factory */
+        $translateFactory = $this->_objectManager->get('Mage_Core_Model_Translate_Factory');
+        $this->_translateObject = $translateFactory->createFromConfig($translateConfig);
 
         $this->_translateInline = $this->_translateObject->isAllowed(
             $area == Mage_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
@@ -242,7 +227,9 @@ class Mage_Core_Model_Translate
             $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
-            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $this->_designPackage->getDesignTheme()->getId();
+            /** @var $designPackage Mage_Core_Model_Design_Package */
+            $designPackage = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $designPackage->getDesignTheme()->getId();
         }
         return $this;
     }
@@ -269,7 +256,7 @@ class Mage_Core_Model_Translate
      */
     public function isAllowed($store = null)
     {
-        /** @todo ACB fix implementation */
+        /** @todo see jira entry MAGETWO-8296 */
         return $this->_translateObject->isAllowed($store);
     }
 
@@ -394,7 +381,9 @@ class Mage_Core_Model_Translate
 
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $file = $this->_designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
+            /** @var $designPackage Mage_Core_Model_Design_Package */
+            $designPackage = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+            $file = $designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
             $this->_addData(
                 $this->_getFileData($file),
                 self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
@@ -606,7 +595,7 @@ class Mage_Core_Model_Translate
     public function getCacheId()
     {
         if (is_null($this->_cacheId)) {
-            /** @todo ACB create or use const for that */
+            /** @todo see jira entry MAGETWO-8267 */
             $this->_cacheId = 'translate';
             if (isset($this->_config[self::CONFIG_KEY_LOCALE])) {
                 $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_LOCALE];

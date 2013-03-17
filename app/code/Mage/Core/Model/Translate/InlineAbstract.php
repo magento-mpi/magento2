@@ -198,7 +198,9 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     {
         $this->_setIsJson($isJson);
         if (!$this->isAllowed()) {
-            if (Mage::getDesign()->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
+            /** @var $design Mage_Core_Model_Design_Package */
+            $design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+            if ($design->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
                 $this->stripInlineTranslations($body);
             }
             return $this;
@@ -245,7 +247,6 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
         /** @var $block Mage_Core_Block_Template */
         $block = $this->_objectManager->create('Mage_Core_Block_Template');
 
-        $block->setDesign(Mage::getDesign());
         $block->setAjaxUrl($ajaxUrl);
 
         $block->setTemplate('Mage_Core::translate_inline.phtml');
