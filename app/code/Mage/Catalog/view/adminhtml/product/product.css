@@ -446,8 +446,9 @@
     vertical-align: bottom;
 }
 
-.field-price .addon {
-    width: 140px;
+.field-price .addon > input{
+    width: 99px;
+    float: left;
 }
 
 /* Validation for Product Fields with addons  */

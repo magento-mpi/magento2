@@ -1031,6 +1031,7 @@ label.mage-error {
     position: relative;
     padding-left: 22px;
     cursor: pointer;
+    float: left;
 }
 
 .collapsable-wrapper .fieldset-wrapper-title > .title:before {
@@ -1142,7 +1143,7 @@ label.mage-error {
 
 .fieldset-wrapper-title > .actions {
     float: right;
-    padding-top: 6px;
+    padding-top: 8px;
 }
 
 .fieldset > .legend + br {
@@ -1352,6 +1353,7 @@ label.mage-error {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
 }
 
+.field .control input[type='text'][disabled],
 .field .control input[type='text'][disabled] ~ .addafter {
     background-color: #fff;
     border-color: #eee;
@@ -3853,44 +3855,54 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    TODO: change ids to 'table.data' after refactoring of all templates for grids
     Manage Products Grid
 -------------------------------------- */
-#productGrid_table {
+#cross_sell_product_grid table.data,
+#up_sell_product_grid table.data,
+#related_product_grid table.data,
+#productGrid_table,
+.ui-dialog .data {
     word-wrap: break-word;
     table-layout: fixed;
 }
 
-#productGrid_table .col-select,
-#productGrid_table .col-qty,
-#productGrid_table .col-action,
-#productGrid_table .col-id {
+table .col-select,
+table .col-qty,
+table .col-action,
+table .col-id {
     width: 5%;
 }
 
-#productGrid_table .col-visibility,
-#productGrid_table .col-status,
-#productGrid_table .col-websites {
+table .col-visibility,
+table .col-status,
+table .col-websites,
+table .col-position {
     width: 7%;
 }
 
-#productGrid_table .col-type,
-#productGrid_table .col-price {
+table .col-type,
+table .col-price {
     width: 8%;
 }
 
-#productGrid_table .col-name,
-#productGrid_table .col-sku {
+table .col-name,
+table .col-sku {
     width: 15%;
 }
 
-#productGrid_table .col-attr-name {
+table .col-attr-name {
     width: 120px;
 }
 
-#productGrid_table .col-id,
-#productGrid_table thead .col-price,
-#productGrid_table thead .col-qty {
+table .col-id,
+table thead .col-price,
+table thead .col-qty {
     text-align: left;
+}
+
+.ui-dialog .selection-search table .col-select {
+    width: 25px;
 }
 
 /*
