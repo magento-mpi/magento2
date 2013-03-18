@@ -50,12 +50,14 @@
                     $('body').translateInlineDialogVde('showMode');
                     $('[data-translate][translate-mode="text"]').translateInlineVde('show');
                     $('[data-translate][translate-mode="alt"]').translateInlineImageVde('show');
+                    $('[data-translate][translate-mode="script"]').translateInlineScriptVde('show');
                 },
 
                 onCancel: function() {
                     $('body').translateInlineDialogVde('showMode');
                     $('[data-translate][translate-mode="text"]').translateInlineVde('show');
                     $('[data-translate][translate-mode="alt"]').translateInlineImageVde('show');
+                    $('[data-translate][translate-mode="script"]').translateInlineScriptVde('show');
                 }
             });
 
@@ -90,7 +92,7 @@
                     var translateData = $(widget.element).data(widget.options.dataAttrName);
                     $('body').removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
                     $('[data-translate][translate-mode=' + widget.options.translateMode + ']')
-                            .translateInlineVde('hide');
+                            .translateInlineImageVde('hide');
                     $('body').translateInlineDialogVde(
                         'open',
                         translateData,
@@ -98,6 +100,29 @@
                         function(translateDialog) {
                             translateDialog.dialog("option", {
                                 position: { my: "center", at: "center", of: window },
+                                width: $(widget.element).width()
+                            });
+                        }
+                    );
+                }
+            });
+
+            $('[data-translate][translate-mode="script"]').translateInlineScriptVde({
+                img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
+                imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
+                translateMode: '<?php echo $this->getTranslateMode() ?>',
+                onClick: function(widget) {
+                    var translateData = $(widget.element).data(widget.options.dataAttrName);
+                    $('body').removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
+                    $('[data-translate][translate-mode=' + widget.options.translateMode + ']')
+                            .translateInlineScriptVde('hide');
+                    $('body').translateInlineDialogVde(
+                        'open',
+                        translateData,
+                        $.proxy(widget.replaceText, widget),
+                        function(translateDialog) {
+                            translateDialog.dialog("option", {
+                                position: { of : widget.element, my: "left top", at: "left-3 top-9" },
                                 width: $(widget.element).width()
                             });
                         }

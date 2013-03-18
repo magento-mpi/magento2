@@ -406,6 +406,9 @@
         }
     });
 
+    $.widget("mage.translateInlineScriptVde", $.mage.translateInlineVde, {
+    });
+
     /*
      * @TODO move the "escapeHTML" method into the file with global utility functions
      */
