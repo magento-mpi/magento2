@@ -20,15 +20,6 @@
                     </resource>
                 </resource>
             </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Adminhtml::system">
-                    <resource id="Old_Mage_Adminhtml::convert" module="Mage_ImportExport">
-                        <resource id="Old_Mage_ImportExport::import" title="Import" sortOrder="10" />
-                        <resource id="Old_Mage_ImportExport::export" title="Export" sortOrder="20" />
-                    </resource>
-                </resource>
-            </resource>
         </resources>
     </acl>
 </config>
