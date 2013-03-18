@@ -113,7 +113,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getFile($file, $module = null)
     {
-        $dirs = $this->getDirs($this->_theme);
+        $dirs = $this->_getDirs($this->_theme);
 
         if ($module) {
             $moduleDir = array($this->_objectManager->get('Mage_Core_Model_Config')->getModuleDir('view', $module)
@@ -133,7 +133,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     public function getLocaleFile($file)
     {
         $dirs = array();
-        foreach ($this->getDirs($this->_theme) as $dir) {
+        foreach ($this->_getDirs($this->_theme) as $dir) {
             $dirs[] = "{$dir}/locale/{$this->_locale}";
         }
 
@@ -150,7 +150,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     public function getViewFile($file, $module = null)
     {
         $dirs = array();
-        foreach ($this->getDirs($this->_theme) as $dir) {
+        foreach ($this->_getDirs($this->_theme) as $dir) {
             $dirs[] = "{$dir}/locale/{$this->_locale}";
             $dirs[] = $dir;
         }
@@ -169,7 +169,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      * @param Mage_Core_Model_Theme $theme
      * @return array
      */
-    public function getDirs($theme)
+    protected function _getDirs($theme)
     {
         $dirs = array();
         while ($theme) {

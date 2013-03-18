@@ -41,9 +41,13 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging extends Mage_Core_Model_Theme_
      *
      * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
      */
     public function copy(Mage_Core_Model_Theme $theme)
     {
+        if ($theme->getType() != Mage_Core_Model_Theme::TYPE_VIRTUAL) {
+            throw new Mage_Core_Exception(sprintf('Invalid theme of type "%s"', $theme->getType()));
+        }
         $stagingTheme = $this->_copyPrimaryData($theme);
         $this->_copyLayoutUpdates($theme, $stagingTheme);
         return $stagingTheme;
