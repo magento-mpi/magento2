@@ -128,8 +128,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     protected function _getLoadDesignTheme($themeId, $area = self::DEFAULT_AREA)
     {
-        if (isset($this->_themes[$themeId])) {
-            return $this->_themes[$themeId];
+        $key = sprintf('%s/%s', $area, $themeId);
+        if (isset($this->_themes[$key])) {
+            return $this->_themes[$key];
         }
 
         if (is_numeric($themeId)) {
@@ -140,7 +141,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             $collection = $this->getDesignTheme()->getCollection();
             $themeModel = $collection->getThemeByFullPath($area . '/' . $themeId);
         }
-        $this->_themes[$themeId] = $themeModel;
+        $this->_themes[$key] = $themeModel;
 
         return $themeModel;
     }
