@@ -324,7 +324,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
                 $this->skipTestWithScreenshot('3D Secure frame is not loaded(maybe wrong card)');
                 //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
-            $this->frame('centinel_authenticate_iframe');
+            $this->frame('centinel-authenticate-iframe');
             $this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10);
             $this->fillField('3d_password', $password);
             $this->clickButton('3d_submit', false);

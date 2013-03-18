@@ -142,9 +142,9 @@ onepage_checkout:
                         required: [card_type, card_number, expiration_month, expiration_year, card_verification_number, name_on_card]
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
-                        xpath: //div[@id='centinel_authenticate_block']
+                        xpath: //div[@id='centinel-authenticate-block']
                         pageelements:
-                            3d_secure_iframe: //iframe[@id='centinel_authenticate_iframe']
+                            3d_secure_iframe: //iframe[@id='centinel-authenticate-iframe']
                 -
                     3d_secure_frame: &3DSecureCardValidation
                         xpath:
