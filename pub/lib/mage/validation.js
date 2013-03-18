@@ -635,7 +635,7 @@
                             (isNaN(minValidRange) || minValue >= minValidRange) &&
                             (isNaN(maxValidRange) || maxValue <= maxValidRange);
                     }
-                };
+                }
                 return result;
             },
             'The value is not within the specified range.'
