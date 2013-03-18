@@ -791,9 +791,10 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Return relative path for a view file, blindly composing the path, where it must be located,
-     * when published with duplication.
-     * Note: locale is not supported as for now and is just ignored!
+     * Build a relative path to a static view file, if published with duplication.
+     *
+     * Just concatenates all context arguments.
+     * Note: despite $locale is specified, it is currently ignored.
      *
      * @param string $area
      * @param string $themePath
