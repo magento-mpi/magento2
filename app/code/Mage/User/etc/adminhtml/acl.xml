@@ -20,15 +20,6 @@
                     </resource>
                 </resource>
             </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Adminhtml::system">
-                    <resource id="Old_Mage_User::acl" module="Mage_User" title="Permissions" sortOrder="0">
-                        <resource id="Old_Mage_User::acl_roles" title="Roles" sortOrder="10" />
-                        <resource id="Old_Mage_User::acl_users" title="Users" sortOrder="20" />
-                    </resource>
-                </resource>
-            </resource>
         </resources>
     </acl>
 </config>
