@@ -122,9 +122,13 @@
                         // Enable selected option
                         _toggleSelected($(this), mode, true, TEXT_MENU_BACKGROUND_OFF, TEXT_MENU_BACKGROUND_ON, textMenuClass + '-off', textMenuClass + '-on');
                 }
-                else
+                else {
                     // Disable option.
-                    _toggleSelected($(this), $(this).attr('data-translate-selected'), false, TEXT_MENU_BACKGROUND_ON, TEXT_MENU_BACKGROUND_OFF, 'text-menu-' + $(this).attr('data-translate-selected') + '-on', 'text-menu-' + $(this).attr('data-translate-selected') + '-off');
+                    var translateOptionMode = $(this).attr('data-translate-selected');
+                    var translateOptionModeClass = 'text-menu-' + translateOptionMode;
+
+                    _toggleSelected($(this), translateOptionMode, false, TEXT_MENU_BACKGROUND_ON, TEXT_MENU_BACKGROUND_OFF, translateOptionModeClass + '-on', translateOptionModeClass + '-off');
+                }
             });
 
             this.options.disableInlineTranslation = disableInlineTranslation;
