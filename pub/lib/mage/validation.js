@@ -971,10 +971,10 @@
                         currentTime  = new Date(),
                         currentMonth = currentTime.getMonth() + 1,
                         currentYear  = currentTime.getFullYear();
-                    if (!year) {
+                    if (!year || year > currentYear) {
                         return true;
                     }
-                    if (year >= currentYear && month >= currentMonth) {
+                    if (year == currentYear && month >= currentMonth) {
                         return true;
                     }
                 }
