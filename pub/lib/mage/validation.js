@@ -879,7 +879,24 @@
             onclick: false,
             ignoreTitle: true,
             errorClass: 'mage-error',
-            errorElement: 'div'
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                var errorPlacement = element;
+                // logic for date-picker error placement
+                if (element.hasClass('hasDatepicker')) {
+                    errorPlacement = element.siblings('img');
+                }
+                // logic for field wrapper
+                var fieldWrapper = element.closest('.addon');
+                if (fieldWrapper.length) {
+                    errorPlacement = fieldWrapper.after(error);
+                }
+                //logic for checkboxes/radio
+                if (element.is(':checkbox') || element.is(':radio')) {
+                    errorPlacement = element.siblings('label').last();
+                }
+                errorPlacement.after(error);
+            }
         },
         /**
          * Validation creation
