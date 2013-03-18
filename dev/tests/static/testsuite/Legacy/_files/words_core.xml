@@ -107,5 +107,13 @@
             <path>dev/tests/unit/testsuite/Mage/Core/Model/ThemeTest.php</path>
             <word>staging</word>
         </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Mage/Core/Model/Theme/Domain/StagingTest.php</path>
+            <word>staging</word>
+        </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Mage/Core/Model/Theme/Domain/VirtualTest.php</path>
+            <word>staging</word>
+        </item>
     </whitelist>
 </config>
