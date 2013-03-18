@@ -160,10 +160,6 @@
                 });
             });
 
-            this.translateDialog.find("input[data-translate-input-index]").each(function(count, input) {
-                $(input).change
-            });
-
             this.translateDialog.find("#" + this.options.translateForm.data.id).each(function(count, form) {
                 $(form).on('submit', function(e) {
                     e.preventDefault();
