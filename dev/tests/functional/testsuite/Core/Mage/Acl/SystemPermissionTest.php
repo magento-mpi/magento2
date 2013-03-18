@@ -75,23 +75,26 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
      */
     public function systemPermissions($testData)
     {
+        $this->markTestIncomplete('MAGETWO-8428:Exception on page if admin user edit his own role and fatal
+                                   error on login page');
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
         // Verify that navigation menu has only 2 child elements
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
-        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 1, should be equal 1');
+        $this->assertEquals(5, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of child Navigation Menu not equal 5, should be equal 5');
         $this->navigate('manage_roles');
         $editedRole = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name',
-            array('resource_1' => 'System/Configuration'), array('roleName' => $testData['role_name']));
+            array('resource_1' => 'System/Configuration'), array('roleName' => $testData['role_name'],
+                  'newRoleName' => $testData['role_name']));
         //Data
         $this->adminUserHelper()->editRole($editedRole);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('system_configuration');
-        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 2, should be equal 2');
+        $this->assertEquals(6, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of child Navigation Menu not equal 6, should be equal 6');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         //verify that this tab equal to resource from ACL tree
         foreach ($tabElement as $tab => $tabName) {
@@ -114,7 +117,8 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
+                                         array('resource_1' => 'System/Configuration'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');

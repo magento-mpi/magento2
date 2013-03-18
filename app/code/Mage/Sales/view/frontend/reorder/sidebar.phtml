@@ -30,12 +30,8 @@
                 <li class="item">
                     <?php if ($this->isItemAvailableForReorder($_item)): ?>
                         <?php $_showAddButtonFlag = true ?>
-                        <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" title="<?php echo $this->__('Add to Cart') ?>" class="checkbox validate-one-required-by-name" />
-                        <script type="text/javascript">
-                        //<![CDATA[
-                            $('reorder-item-<?php echo $_item->getId() ?>').advaiceContainer = 'cart-sidebar-reorder-advice-container';
-                        //]]>
-                        </script>
+                        <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" title="<?php echo $this->__('Add to Cart') ?>"
+                               class="checkbox" data-validate='{"validate-one-checkbox-required-by-name": true}'/>
                     <?php endif; ?>
                     <p class="product-name"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></p>
                 </li>
@@ -54,8 +50,18 @@
 </div>
 <?php echo $this->getPagerHtml(); ?>
 <script type="text/javascript">
-//<![CDATA[
-    var reorderFormDetail = new VarienForm('reorder-validate-detail');
-//]]>
+    head.js(
+        "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+        function() {
+            jQuery('#reorder-validate-detail').validation({
+                errorPlacement: function(error, element) {
+                    error.appendTo('#cart-sidebar-reorder-advice-container');
+                }
+            });
+        }
+    );
 </script>
 <?php endif ?>
