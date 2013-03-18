@@ -40,37 +40,40 @@
 <script type="text/javascript">
     (function($){
         $(window).load(function() {
-            $('body').addClass('<?php echo 'trnslate-inline-' . $this->getTranslateMode() . '-area' ?>');
+            var $body = $('body');
+            var $textTranslations = $('[data-translate][translate-mode="text"]');
+            var $imageTranslations = $('[data-translate][translate-mode="alt"]');
+            var $scriptTranslations = $('[data-translate][translate-mode="script"]');
+            $body.addClass('<?php echo 'trnslate-inline-' . $this->getTranslateMode() . '-area' ?>');
 
-            $('body').translateInlineDialogVde({
+            $body.translateInlineDialogVde({
                 ajaxUrl: '<?php echo $this->getAjaxUrl() ?>',
                 area: '<?php echo $this->getArea() ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
                 onSubmitComplete: function() {
-                    $('body').translateInlineDialogVde('showMode');
-                    $('[data-translate][translate-mode="text"]').translateInlineVde('show');
-                    $('[data-translate][translate-mode="alt"]').translateInlineImageVde('show');
-                    $('[data-translate][translate-mode="script"]').translateInlineScriptVde('show');
+                    $body.translateInlineDialogVde('toggleStyle');
+                    $textTranslations.translateInlineVde('show');
+                    $imageTranslations.translateInlineImageVde('show');
+                    $scriptTranslations.translateInlineScriptVde('show');
                 },
 
                 onCancel: function() {
-                    $('body').translateInlineDialogVde('showMode');
-                    $('[data-translate][translate-mode="text"]').translateInlineVde('show');
-                    $('[data-translate][translate-mode="alt"]').translateInlineImageVde('show');
-                    $('[data-translate][translate-mode="script"]').translateInlineScriptVde('show');
+                    $body.translateInlineDialogVde('toggleStyle');
+                    $textTranslations.translateInlineVde('show');
+                    $imageTranslations.translateInlineImageVde('show');
+                    $scriptTranslations.translateInlineScriptVde('show');
                 }
             });
 
-            $('[data-translate][translate-mode="text"]').translateInlineVde({
+            $textTranslations.translateInlineVde({
                 img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
                 onClick: function(widget) {
                     var translateData = $(widget.element).data(widget.options.dataAttrName);
-                    $('body').removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
-                    $('[data-translate][translate-mode=' + widget.options.translateMode + ']')
-                            .translateInlineVde('hide');
-                    $('body').translateInlineDialogVde(
+                    $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
+                    $textTranslations.translateInlineVde('hide');
+                    $body.translateInlineDialogVde(
                         'open',
                         translateData,
                         $.proxy(widget.replaceText, widget),
@@ -84,16 +87,15 @@
                 }
             });
 
-            $('[data-translate][translate-mode="alt"]').translateInlineImageVde({
+            $imageTranslations.translateInlineImageVde({
                 img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
                 onClick: function(widget) {
                     var translateData = $(widget.element).data(widget.options.dataAttrName);
-                    $('body').removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
-                    $('[data-translate][translate-mode=' + widget.options.translateMode + ']')
-                            .translateInlineImageVde('hide');
-                    $('body').translateInlineDialogVde(
+                    $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
+                    $imageTranslations.translateInlineImageVde('hide');
+                    $body.translateInlineDialogVde(
                         'open',
                         translateData,
                         $.proxy(widget.replaceText, widget),
@@ -107,16 +109,15 @@
                 }
             });
 
-            $('[data-translate][translate-mode="script"]').translateInlineScriptVde({
+            $scriptTranslations.translateInlineScriptVde({
                 img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
                 onClick: function(widget) {
                     var translateData = $(widget.element).data(widget.options.dataAttrName);
-                    $('body').removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
-                    $('[data-translate][translate-mode=' + widget.options.translateMode + ']')
-                            .translateInlineScriptVde('hide');
-                    $('body').translateInlineDialogVde(
+                    $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
+                    $scriptTranslations.translateInlineScriptVde('hide');
+                    $body.translateInlineDialogVde(
                         'open',
                         translateData,
                         $.proxy(widget.replaceText, widget),
@@ -135,7 +136,10 @@
             parent.jQuery('[data-translate-selected]').translateInlineToggleMode({
                 frameUrl: '<?php echo $this->getFrameUrl() ?>',
                 refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
-                frameBody: $('body')
+                frameBody: $body,
+                textTranslations: $textTranslations,
+                imageTranslations: $imageTranslations,
+                scriptTranslations: $scriptTranslations
             });
         });
     })(jQuery);

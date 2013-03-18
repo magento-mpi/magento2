@@ -70,8 +70,12 @@
             // Or, if disabling inline translation, refresh minus the translation mode on the url.
             if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation)
                 parent.jQuery('#vde_container_frame').prop('src', url);
-            else
-                this.options.frameBody.translateInlineDialogVde('showMode', mode);
+            else {
+                this.options.frameBody.translateInlineDialogVde('toggleStyle', mode);
+                this.options.textTranslations.translateInlineVde('toggleIcon', mode);
+                this.options.imageTranslations.translateInlineImageVde('toggleIcon', mode);
+                this.options.scriptTranslations.translateInlineScriptVde('toggleIcon', mode);
+            }
 
             /**
             * Since the url is being modified to support inline translation, the window is not reloaded since it

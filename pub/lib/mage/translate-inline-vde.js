@@ -44,7 +44,7 @@
             onCancel: function() { },
             area: "vde",
             ajaxUrl: null,
-            translateMode: "text",
+            translateMode: null,
             translateModes : ["text", "script", "alt"]
         },
 
@@ -121,7 +121,7 @@
         /**
          * Shows translate mode applicable css styles.
          */
-        showMode: function(mode) {
+        toggleStyle: function(mode) {
             mode = mode == null ? mode = this.options.translateMode : mode;
             $('body').addClass('trnslate-inline-' + mode + '-area');
             $.each(this.options.translateModes, function(){
@@ -230,7 +230,7 @@
             offsetLeft: -16,
 
             dataAttrName: "translate",
-            translateMode: "text",
+            translateMode: null,
             onClick: function(widget) { }
         },
 
@@ -268,6 +268,16 @@
 
             this.element.on("dblclick", $.proxy(this._invokeAction, this));
             this._disableElementClicks();
+        },
+
+        /**
+         * Show edit icon for given translate mode.
+         */
+        toggleIcon: function(mode) {
+            if (mode == this.element[0].getAttribute("translate-mode"))
+                this.iconTemplate.removeClass('hidden');
+            else
+                this.iconTemplate.addClass('hidden');
         },
 
         _attachIcon: function() {
@@ -396,9 +406,6 @@
 
                 this.iconTemplate.appendTo(this.iconWrapperTemplate);
                 this.iconWrapperTemplate.appendTo(this.elementWrapperTemplate);
-
-                if (this.options.translateMode != 'alt')
-                    this.iconTemplate.addClass('hidden');
 
                 this.isTemplateAttached = true;
             }
