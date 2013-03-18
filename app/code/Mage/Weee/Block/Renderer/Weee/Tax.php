@@ -30,13 +30,33 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
-        $this->_setAddButton();
-        $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Tax'),
-            'data_attribute' => array('action' => 'delete-fpt-item'),
-            'class' => 'delete'
-        ));
         return $this->toHtml();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _prepareLayout()
+    {
+        $this->addChild(
+            'add_button',
+            'Mage_Adminhtml_Block_Widget_Button',
+            array(
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Tax'),
+                'data_attribute' => array('action' => 'add-fpt-item'),
+                'class' => 'add'
+            )
+        );
+        $this->addChild(
+            'delete_button',
+            'Mage_Adminhtml_Block_Widget_Button',
+            array(
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Tax'),
+                'data_attribute' => array('action' => 'delete-fpt-item'),
+                'class' => 'delete'
+            )
+        );
+        return parent::_prepareLayout();
     }
 
     public function setElement(Varien_Data_Form_Element_Abstract $element)
@@ -124,16 +144,6 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         }
         $this->_websites = $websites;
         return $this->_websites;
-    }
-
-    protected function _setAddButton()
-    {
-        $this->addChild('add_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'id' => $this->getElement()->getHtmlId() . '_add_new_tax_item',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Tax'),
-            'data_attribute' => array('action' => 'add-fpt-item'),
-            'class' => 'add'
-        ));
     }
 
     public function getAddButtonHtml()
