@@ -93,7 +93,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_block->addRss('RSS Feed', 'http://127.0.0.1/test.rss');
     }
 
-    public function testLinkRel()
+    public function testAddLinkRel()
     {
         $this->_assets->expects($this->once())
             ->method('addAsset')

@@ -54,6 +54,7 @@ return array(
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Mage_Core_Model_Design_PackageInterface'),
     array('FALLBACK_MAP_DIR', 'Mage_Core_Model_Design_PackageInterface'),
     array('PATH_PREFIX_CUSTOMIZED', 'Mage_Core_Model_Theme_Files'),
+    array('PATH_PREFIX_CUSTOMIZATION', 'Mage_Core_Model_Theme'),
     array('REGISTRY_FORM_PARAMS_KEY', null, 'direct value'),
     array('SCOPE_TYPE_GROUP', 'Mage_Core_Model_App', 'Mage_Core_Model_StoreManagerInterface::SCOPE_TYPE_GROUP'),
     array('SCOPE_TYPE_STORE', 'Mage_Core_Model_App', 'Mage_Core_Model_StoreManagerInterface::SCOPE_TYPE_STORE'),
