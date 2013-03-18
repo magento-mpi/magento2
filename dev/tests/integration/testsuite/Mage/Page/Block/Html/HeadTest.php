@@ -26,11 +26,6 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Head');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-    }
-
     public function testAddCss()
     {
         $this->assertEmpty($this->_block->getItems());

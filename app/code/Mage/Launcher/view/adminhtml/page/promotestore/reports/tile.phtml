@@ -1,0 +1,36 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Reports_Tile */
+?>
+<article class="tile-store-settings tile-reports <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>" tabindex="0">
+    <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Reports') ?></h2>
+    <div class="tile-teaser">
+        <p>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Stay up-to-the-minute on sales and shipments.') ?>
+        </p>
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                data-save-url="<?php echo $this->getUrl('*/promotestore_reports_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/promotestore_reports_drawer/load') ?>">
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
+        </button>
+    </div>
+
+    <div class="tile-done">
+        <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
+        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Stay up-to-the-minute on sales and shipments.') ?></p>
+        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                data-save-url="<?php echo $this->getUrl('*/promotestore_reports_drawer/save') ?>"
+                data-load-url="<?php echo $this->getUrl('*/promotestore_reports_drawer/load') ?>">
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
+        </button>
+        <?php endif; ?>
+    </div>
+</article>

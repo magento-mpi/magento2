@@ -3,13 +3,13 @@
 #
 LICENSE_EE.html
 LICENSE_EE.txt
-app/code/core/Enterprise
+app/code/Enterprise
 app/design/adminhtml/default/enterprise
 app/design/frontend/enterprise
 app/design/install/default/enterprise
 app/etc/enterprise.xml
-app/etc/modules/XEnterprise_Enabler.xml.dist
-dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
+app/etc/modules/XEnterprise_Edition.xml.dist
+dev/tests/integration/etc/modules/XEnterprise_Edition.xml
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
@@ -19,6 +19,7 @@ dev/tests/static/testsuite/Integrity/Enterprise
 dev/tests/static/testsuite/Js/_files/{whitelist,blacklist}/ee.txt
 dev/tests/static/testsuite/Legacy/ProductTypeModelTest.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
+dev/tests/static/testsuite/Legacy/_files/obsolete_config_nodes_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_constants_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_methods_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php

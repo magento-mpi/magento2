@@ -19,8 +19,9 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $params = array(
-            'eventDispatcher' => Mage::getObjectManager()->get('Mage_Core_Model_Event_Manager'),
-            'cacheManager'    => Mage::getObjectManager()->get('Mage_Core_Model_Cache')
+            'context' => Mage::getObjectManager()->get('Mage_Core_Model_Context'),
+            'configCacheType' => Mage::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
+            'urlModel'    => Mage::getObjectManager()->get('Mage_Core_Model_Url'),
         );
 
         $this->_model = $this->getMock(
@@ -28,11 +29,6 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             array('getUrl'),
             $params
         );
-    }
-
-    protected function tearDown()
-    {
-        $this->_model = null;
     }
 
     /**
@@ -300,7 +296,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture global/functional_limitation/max_store_count 1
+     * @magentoConfigFixture limitations/store 1
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      * @expectedException Mage_Core_Exception
@@ -322,33 +318,5 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         /* emulate admin store */
         Mage::app()->getStore()->setId(Mage_Core_Model_App::ADMIN_STORE_ID);
         $this->_model->save();
-    }
-
-    /**
-     *
-     * @dataProvider getUrlClassNameDataProvider
-     * @param $urlClassName
-     * @param $expectedModel
-     */
-    public function testGetUrlModel($urlClassName, $expectedModel)
-    {
-        $urlModel = $this->_model->setUrlClassName($urlClassName)
-            ->getUrlModel();
-        $this->assertEquals($expectedModel, get_class($urlModel));
-    }
-
-    public function getUrlClassNameDataProvider()
-    {
-        return array(
-            array(
-                null,'Mage_Core_Model_Url'
-            ),
-            array(
-                'Mage_Core_Model_Url', 'Mage_Core_Model_Url'
-            ),
-            array(
-                'Mage_Backend_Model_Url', 'Mage_Backend_Model_Url'
-            ),
-        );
     }
 }

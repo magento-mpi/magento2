@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Customer_OnlineTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Customer_OnlineTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @magentoAppIsolation enabled

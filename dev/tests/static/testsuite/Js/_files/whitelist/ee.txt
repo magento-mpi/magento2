@@ -1,2 +1,9 @@
-app/code/core/Enterprise/Cms
-app/code/core/Enterprise/Rma
+app/code/Enterprise/Cms
+app/code/Enterprise/Customer
+app/code/Enterprise/GiftCard
+app/code/Enterprise/GiftCardAccount
+app/code/Enterprise/GiftRegistry
+app/code/Enterprise/Rma
+app/code/Enterprise/Wishlist
+app/code/Enterprise/CustomerBalance
+app/design/frontend/enterprise/fixed/js

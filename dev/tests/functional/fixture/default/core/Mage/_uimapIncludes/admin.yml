@@ -23,13 +23,14 @@ admin_header:
                             close: //a[span='close']
                 -
                     global_header:
-                        xpath: //*[@class='header']
+                        xpath: //div[contains(a/@class,'logo')]
                         links:
-                            log_out: //a[@class='link-logout']
+                            account_avatar: //a[@class='account-avatar']
+                            log_out: //a[@class='account-signout']
                         pageelements:
-                            admin_logo: //*[@class='logo' and @title='Magento Admin Panel']
+                            admin_logo: //a[@class='logo']
                         fields:
-                            global_record_search: //*[@id='global_search']
+                            global_record_search: //*[@id='search-global']
                 -
                     notification_global:
                         xpath: //div[@class='notification-global']

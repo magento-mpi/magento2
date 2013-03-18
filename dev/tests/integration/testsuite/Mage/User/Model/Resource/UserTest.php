@@ -15,11 +15,6 @@ class Mage_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getResourceSingleton('Mage_User_Model_Resource_User');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * No node - no limitation
      */
@@ -31,7 +26,7 @@ class Mage_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Explicit zero - don't allow creating
      *
-     * @magentoConfigFixture global/functional_limitation/max_admin_user_count 0
+     * @magentoConfigFixture limitations/admin_account 0
      */
     public function testCanCreateUserZero()
     {
@@ -41,7 +36,7 @@ class Mage_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Any other values - compare with users count
      *
-     * @magentoConfigFixture global/functional_limitation/max_admin_user_count 1
+     * @magentoConfigFixture limitations/admin_account 1
      */
     public function testCanCreateUserFalse()
     {

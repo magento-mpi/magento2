@@ -13,8 +13,9 @@ body          { background:#fff; font:11px/1.35 Arial, Helvetica, sans-serif; co
 
 img           { border:0; vertical-align:top; }
 
-a             { color:#444; text-decoration:underline; }
-a:hover       { text-decoration:none; }
+a,.l          { color:#444; text-decoration:underline; display: inline; border: 0; background: transparent;}
+a:hover,
+.l:hover      { text-decoration:none; cursor: pointer;}
 :focus        { outline:0; }
 
 /* Headings */
@@ -67,6 +68,7 @@ ul,ol         { list-style:none; }
 .no-margin    { margin:0 !important; }
 .no-padding   { padding:0 !important; }
 .no-bg        { background:none !important; }
+.clear        { clear: both; }
 /* ======================================================================================= */
 
 /* Layout ================================================================================ */
@@ -905,6 +907,10 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 
 /* Block: Compare Products */
 .block-compare li {}
+
+/* Block: RMA */
+[id^="sh_"] > td { background:#F5F5F5; }
+table.data-table button.l {font-size: 0.9em;}
 
 /* Block: List */
 .block-list .block-content ol { margin:-5px -13px; }
@@ -1770,7 +1776,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .opc .active .step-title { margin:0 0 0; padding:0 0 0 0; }
 .opc .active .step-title h2 { background:#d12c01 url(../images/bkg_active-step.gif) repeat-x 0 0; color:#fff; text-transform:capitalize; font-weight:normal; border-bottom:1px solid #cfcfcf; cursor:default; font-size:16px; padding:5px 20px 2px; line-height:24px; height:24px; }
 .opc .step { padding:20px; min-height:300px; font-size:12px; background:#fcfcfc; border-top:0; }
-.opc .step .tool-tip { right:10px; }
+.opc .step .tool-tip { right:0; bottom: 0; margin: 0 0 30px 0; }
 .opc .order-review {}
 .opc .order-review .authentication { margin:0 auto; width:570px; }
 .opc .order-review .warning-message { color:#222; font-weight:bold; text-align:center; padding:10px 10px 0; }
@@ -1855,7 +1861,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .multiple-checkout .col2-set { margin:0 0 15px; }
 .multiple-checkout .buttons-set { padding:15px 0; clear:both; width:auto; }
 .multiple-checkout .buttons-set .button { float:right; }
-.multiple-checkout .tool-tip { top:50%; margin-top:-120px; right:10px; }
+.multiple-checkout .tool-tip { top:50%; margin-top:-200px; right:-5px; }
 .multiple-checkout .grand-total { font-weight:normal; font-size:18px; color:#cd3800; text-align:right; display:block; margin:10px 0 15px; }
 .multiple-checkout .grand-total .price-label { font-weight:normal; }
 .multiple-checkout .grand-total .price { font-weight:bold; }
@@ -1873,7 +1879,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* Shipping and Payment methods */
 .sp-methods dt { font-weight:bold; margin-bottom:5px; }
 .sp-methods dd { margin:0 0 7px; }
-.sp-methods dd li { margin:5px 0; }
+.sp-methods dd li { margin:5px 0; position: relative;}
 .sp-methods .price { font-weight:bold; }
 .sp-methods .form-list { padding-left:20px; margin:15px 0; }
 .sp-methods .form-list .input-text { width:250px; }
@@ -2130,7 +2136,7 @@ li#remember-me-box.control .link-tip { display:inline-block; font-size:11px; lin
 .split-button.active { z-index:100; }
 .split-button strong { cursor:default; font-weight:bold; text-transform:uppercase; font-size:11px; background:url(../images/bkg_btn.gif) no-repeat 100% 0; height:19px; padding:3px 30px 0 5px; margin:0; display:block; overflow-x:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .split-button.clickable > strong,
-.split-button strong[onclick] { text-transform:uppercase; font-size:11px; color:#C73615; text-transform:uppercase; cursor:pointer; }
+.split-button strong[onclick], .split-button strong span[data-wishlist-move-selected], .split-button strong span[data-wishlist-copy-selected]{ text-transform:uppercase; font-size:11px; color:#C73615; text-transform:uppercase; cursor:pointer; }
 .split-button .change { display:inline-block; border:1px solid; border-color:transparent transparent transparent #999; background:url(../images/bkg_btn-split-change.png) 5px 50% no-repeat; text-indent:-999em; overflow:hidden; width:15px; cursor:pointer; height:11px; margin-left:8px; vertical-align:middle; }
 .split-button .change { position:absolute; right:5px; top:0px; height:19px; border-left-color:#ccc; }
 
@@ -2138,9 +2144,9 @@ li#remember-me-box.control .link-tip { display:inline-block; font-size:11px; lin
 .split-button.light.clickable:active { top:auto; left:auto; }
 .split-button.light strong { display:inline-block; font-size:11px; text-transform:none; background:none; font-weight:normal; padding:0; height:auto; overflow:visible; white-space:normal; text-overflow:visible; }
 .split-button.light.clickable > strong,
-.split-button.light strong[onclick] { text-transform:none; text-decoration:underline; color:#999; }
+.split-button.light strong[onclick], .split-button.light strong span[data-wishlist-move-item], .split-button.light strong span[data-wishlist-copy-item] { text-transform:none; text-decoration:underline; color:#999; }
 .split-button.light.clickable > strong:hover,
-.split-button.light strong[onclick]:hover { text-decoration:none; }
+.split-button.light strong[onclick]:hover, .split-button.light strong span[data-wishlist-move-item]:hover, .split-button.light strong span[data-wishlist-copy-item]:hover { text-decoration:none; cursor:pointer; }
 .split-button.light .change { position:static; right:auto; top:auto; height:11px; border-left-color:#999; }
 
 .split-button.active .change,

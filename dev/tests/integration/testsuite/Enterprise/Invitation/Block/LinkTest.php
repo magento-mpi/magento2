@@ -21,11 +21,6 @@ class Enterprise_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
         $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Invitation_Block_Link');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-    }
-
     /**
      * @magentoConfigFixture current_store enterprise_invitation/general/enabled 1
      * @magentoConfigFixture current_store enterprise_invitation/general/enabled_on_front 1

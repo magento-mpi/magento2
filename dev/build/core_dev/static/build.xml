@@ -27,9 +27,13 @@
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <copy file="${basedir}/dev/build/core_dev/static/pdepend.xml"
               tofile="${product_root_dir}/dev/tests/static/pdepend.xml" overwrite="true"/>
+        <replace file="${product_root_dir}/dev/tests/static/pdepend.xml">
+            <replacefilter token="{{pdepend_cache_path}}" value="${product_root_dir}/var/pdepend"/>
+        </replace>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_no_js.xml"/>
         </exec>
+        <delete dir="${product_root_dir}/var/pdepend"/>
     </target>
 
     <target name="_code_legacy_tests" depends="_product_location" description="Code Legacy Tests">
@@ -69,7 +73,7 @@
             <target name="_sanity_check"/>
         </antcall>
     </target>
-    <target name="static_tests_go" description="Static tests for Go">
+    <target name="static_tests_saas" description="Static tests for Go">
         <antcall>
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="saas"/>
@@ -92,6 +96,13 @@
 
     <target name="code_legacy_tests" description="Code Legacy Tests">
         <antcall>
+            <target name="_code_legacy_tests"/>
+        </antcall>
+    </target>
+    <target name="code_legacy_tests_saas" description="Code Legacy Tests for Go Edition">
+        <antcall>
+            <param name="product_edition_code" value="saas"/>
+            <target name="_product_edition"/>
             <target name="_code_legacy_tests"/>
         </antcall>
     </target>

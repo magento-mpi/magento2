@@ -33,7 +33,7 @@ class Mage_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framework
 
         $this->_expectedObject = $this->getMock('Mage_Webapi_Model_Authorization_Role', array(), array(), '', false);
 
-        $this->_model = $helper->getModel('Mage_Webapi_Model_Authorization_Role_Factory', array(
+        $this->_model = $helper->getObject('Mage_Webapi_Model_Authorization_Role_Factory', array(
             'objectManager' => $this->_objectManager,
         ));
     }

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Framework_TestCase
+class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip
@@ -18,12 +18,8 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Fram
 
     protected function setUp()
     {
+        parent::setUp();
         $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip');
-    }
-
-    protected function tearDown()
-    {
-        $this->_block = null;
     }
 
     public function testGetCondition()

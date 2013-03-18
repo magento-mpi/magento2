@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Block_Rating_Edit_Tab_FormTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Rating_Edit_Tab_FormTest extends Mage_Backend_Area_TestCase
 {
     public function testConstruct()
     {

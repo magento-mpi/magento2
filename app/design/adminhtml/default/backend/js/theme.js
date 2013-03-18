@@ -325,13 +325,17 @@
     var switcherForIe8 = function() {
         /* Switcher for IE8 */
         if ($.browser.msie && $.browser.version == '8.0') {
-            $('.switcher input')
+            var checkboxSwitcher = $('.switcher input');
+
+            var toggleCheckboxState = function(elem) {
+                elem.toggleClass('checked', elem.prop('checked'));
+            };
+            toggleCheckboxState(checkboxSwitcher);
+
+            $('.switcher')
                 .on('change.toggleSwitcher', function() {
-                    $(this)
-                        .closest('.switcher')
-                            .toggleClass('checked', $(this).prop('checked'));
-                })
-                .trigger('change');
+                    toggleCheckboxState(checkboxSwitcher);
+                });
         }
     };
 

@@ -43,11 +43,6 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Mage_Install_Model_Installer');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * Emulate configuration directory for the installer config model.
      * Method usage should be accompanied with '@magentoAppIsolation enabled' because of the object manager pollution.
@@ -57,11 +52,12 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     protected function _emulateInstallerConfigDir($dir)
     {
         $objectManager = Mage::getObjectManager();
+        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local());
         $installerConfig = new Mage_Install_Model_Installer_Config(
             $objectManager->get('Mage_Core_Model_Config'),
-            new Mage_Core_Model_Dir(__DIR__, new Varien_Io_File(), array(), array(Mage_Core_Model_Dir::CONFIG => $dir)),
+            new Mage_Core_Model_Dir($filesystem, __DIR__, array(), array(Mage_Core_Model_Dir::CONFIG => $dir)),
             $objectManager->get('Mage_Core_Model_Config_Resource'),
-            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())
+            $filesystem
         );
         $objectManager->addSharedInstance($installerConfig, 'Mage_Install_Model_Installer_Config');
     }
@@ -157,5 +153,28 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         $actualKey = $this->_model->getValidEncryptionKey();
         $this->assertRegExp('/^[a-f0-9]{32}$/', $actualKey);
         $this->assertNotEquals($actualKey, $this->_model->getValidEncryptionKey());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/cache/all_types_disabled.php
+     */
+    public function testFinish()
+    {
+        $this->_emulateInstallerConfigDir(self::$_tmpDir);
+        $configFile = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/etc/local.xml';
+        copy($configFile, self::$_tmpConfigFile);
+
+        $this->_model->finish();
+
+        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
+        $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
+        $types = array_keys(Mage::getModel('Mage_Core_Model_Cache')->getTypes());
+        foreach ($types as $type) {
+            $this->assertTrue(
+                $cacheTypes->isEnabled($type),
+                "'$type' cache type has not been enabled after installation"
+            );
+        }
     }
 }

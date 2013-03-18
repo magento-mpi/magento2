@@ -32,6 +32,7 @@ shopping_cart:
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']
                             update_shopping_cart: //button[span='Update Shopping Cart']
+                            clear_shopping_cart: //button[@id='empty_cart_button']
                         links:
                             remove_item: /tbody/tr[%productNumber%]//a[@title='Remove item']
                             product_name: //h2[@class='product-name']/a[text()='%productName%']

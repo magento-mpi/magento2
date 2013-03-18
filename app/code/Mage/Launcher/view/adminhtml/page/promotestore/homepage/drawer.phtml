@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Homepage_Drawer */
+?>
+<div class="drawer-item">
+    <form id="drawer-form">
+    <h2 class="title"><?php echo $this->__('Guidelines and Best Practices') ?></h2>
+    <article class="entry">
+        <p><?php echo $this->__('Your home page is the most important page on your site. It\'s where most visitors first enter your store and form lasting impressions of your brand. It\'s also the first place search engines look. So build your home page with products and metadata that accurately represent the rest of your site. And remember to make your guests feel welcome – it\'s called a "home" page, after all.') ?> </p>
+    </article>
+    <div class="go-do">
+        <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
+        <ul class="checklist">
+            <?php $trackerLink = $this->getTrackerLink('adminhtml/cms_page/edit', array('page_id' => 2)); ?>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Home Page'); ?></a></li>
+            <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'design', '_fragment' => 'design_head-link')); ?>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Home Page Metadata'); ?></a></li>
+        </ul>
+    </div>
+    </form>
+</div>

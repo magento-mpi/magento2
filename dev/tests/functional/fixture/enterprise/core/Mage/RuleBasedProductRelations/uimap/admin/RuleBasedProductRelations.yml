@@ -55,7 +55,7 @@ create_product_rule:
                         fieldsets:
                             -
                                 general_rule_information:
-                                    xpath: //div[@id='rule_base_fieldset']
+                                    xpath: //fieldset[@id='rule_base_fieldset']
                                     fields:
                                         rule_name: //input[@id='rule_name']
                                         priority: //input[@id='rule_sort_order']
