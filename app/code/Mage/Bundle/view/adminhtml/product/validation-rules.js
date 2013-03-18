@@ -14,8 +14,8 @@
                 .closest('.form-list')
                 .prev('.fieldset-alt')
                 .find('select.select-product-option-type'),
-            optionTypeVal = optionType.val(),
-            v = Number(v) || 0;
+            optionTypeVal = optionType.val();
+        v = Number(v) || 0;
         if (optionType && (optionTypeVal == 'checkbox' || optionTypeVal == 'multi') && v <= 0) {
             return false;
         }

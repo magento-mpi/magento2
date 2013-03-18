@@ -631,9 +631,9 @@
                     if (validRange) {
                         var minValidRange = $.mage.parseNumber(validRange[1]);
                         var maxValidRange = $.mage.parseNumber(validRange[2]);
-                        result = result
-                            && (isNaN(minValidRange) || minValue >= minValidRange)
-                            && (isNaN(maxValidRange) || maxValue <= maxValidRange);
+                        result = result &&
+                            (isNaN(minValidRange) || minValue >= minValidRange) &&
+                            (isNaN(maxValidRange) || maxValue <= maxValidRange);
                     }
                 };
                 return result;
@@ -846,12 +846,12 @@
         'required-entry': [
             function(value) {
                 return !$.mage.isEmpty(value);
-            }, $.validator.messages['required']
+            }, $.validator.messages.required
         ],
         'not-negative-amount': [
             function(v) {
                 if(v.length)
-                    return /^\s*\d+([,.]\d+)*\s*%?\s*$/.test(v);
+                    return (/^\s*\d+([,.]\d+)*\s*%?\s*$/).test(v);
                 else
                     return true;
             },
@@ -887,7 +887,7 @@
                     !jQuery.validator.methods['validate-password'](v)) {
                     return false;
                 }
-                if ($.mage.isEmpty(v) && v != '') {
+                if ($.mage.isEmpty(v) && v !== '') {
                     return false;
                 }
                 return true;
@@ -947,7 +947,7 @@
             }, this));
             return valid;
         }
-    }
+    };
 
     $.widget("mage.validation", {
         options: {

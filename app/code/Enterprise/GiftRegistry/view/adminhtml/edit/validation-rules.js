@@ -14,7 +14,7 @@
             select = $($('#' + $(element).prop('id').sub('_code','_type')));
         $.each(select.find('option'), function(i, option) {
             parts = $(option).val().split(':');
-            if (parts[1] != undefined && parts[1] == v) {
+            if (parts[1] !== undefined && parts[1] == v) {
                 resultFlag = false;
             }
         });

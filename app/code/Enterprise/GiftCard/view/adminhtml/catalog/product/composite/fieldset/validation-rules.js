@@ -14,7 +14,7 @@
     }, 'Entered amount is too low');
 
     $.validator.addMethod('giftcard-max-amount', function(v) {
-        if (productConfigure.giftcardConfig.maxAllowedAmount == 0) {
+        if (productConfigure.giftcardConfig.maxAllowedAmount === 0) {
             return true;
         }
         return (productConfigure.giftcardConfig.parsePrice(v) <= productConfigure.giftcardConfig.maxAllowedAmount);

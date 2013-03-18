@@ -11,7 +11,7 @@
 (function ($) {
     //validation for selected input type
     $.validator.addMethod('required-option-select', function(v, elm) {
-        if (elm.getValue() == '') {
+        if (elm.getValue() === '') {
             return false;
         }
         return true;
