@@ -102,7 +102,7 @@ edit_cms_static_block:
                             cache_lifetime: //input[@name='parameters[cache_lifetime]']
                         buttons:
                             submit_widget_insert: //button[span='Insert Widget']
-                            select_option: //div[div/h3='Widget Insertion']//button[contains(span,'Select')]
+                            select_option: //button[@data-ui-id='widget-button-3']
                             close_widget_insertion: //div[@id='widget_window_close']
                         pageelements:
                             chosen_option: //label[@class='widget-option-label']
