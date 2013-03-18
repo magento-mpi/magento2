@@ -27,7 +27,8 @@
         options: {
             frameUrl: null,
             refreshVdeCanvas: false,
-            disableInlineTranslation: false
+            disableInlineTranslation: false,
+            frameBody: null
         },
 
         _create: function() {
@@ -62,17 +63,15 @@
             parent.jQuery('[spinner]').toggleClass('hidden');
 
             var url = this.options.frameUrl;
-            if (this.options.disableInlineTranslation)
-                parent.jQuery('#vde_container_frame').attr('data-translation-mode-selected', '');
-            else {
+            if (!this.options.disableInlineTranslation)
                 url = url + "translation_mode/" + mode;
-                parent.jQuery('#vde_container_frame').attr('data-translation-mode-selected', mode);
-            }
 
             // If this is the first time selecting a mode, refresh the iframe to wrap all the applicable content.
             // Or, if disabling inline translation, refresh minus the translation mode on the url.
             if (this.options.refreshVdeCanvas || this.options.disableInlineTranslation)
                 parent.jQuery('#vde_container_frame').prop('src', url);
+            else
+                this.options.frameBody.translateInlineDialogVde('showMode', mode);
 
             /**
             * Since the url is being modified to support inline translation, the window is not reloaded since it
