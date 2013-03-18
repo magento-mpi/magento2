@@ -24,10 +24,12 @@
                     </resource>
                 </resource>
                 <resource id="Mage_Sales::sales">
-                    <resource id="Mage_Sales::sales_order">
-                        <resource id="Mage_Sales::actions">
-                            <resource id="Mage_Sales::create">
-                                <resource id="Enterprise_Reward::reward_spend" module="Enterprise_Reward" title="Can Spend Reward Points" sortOrder="30" />
+                    <resource id="Mage_Sales::sales_operation">
+                        <resource id="Mage_Sales::sales_order">
+                            <resource id="Mage_Sales::actions">
+                                <resource id="Mage_Sales::create">
+                                    <resource id="Enterprise_Reward::reward_spend" module="Enterprise_Reward" title="Can Spend Reward Points" sortOrder="30" />
+                                </resource>
                             </resource>
                         </resource>
                     </resource>

@@ -103,7 +103,6 @@ class Mage_Backend_Model_Acl_Config implements Mage_Core_Model_Acl_Config_Config
             $this->_saveAclResourcesToCache($aclResources->saveXML());
         }
         $xpath = new DOMXPath($aclResources);
-        $aclResources->save('c:/folks.xml');
         return $xpath->query('/config/acl/resources/*');
     }
 
