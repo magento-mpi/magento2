@@ -60,7 +60,9 @@ abstract class Mage_Core_Model_Acl_Loader_Resource_ResourceAbstract implements M
                 continue;
             }
             /** @var $resource Magento_Acl_Resource */
-            $resource = $this->_resourceFactory->createResource(array($resourceConfig->getAttribute('id')));
+            $resource = $this->_resourceFactory->createResource(
+                array('resourceId' => $resourceConfig->getAttribute('id'))
+            );
             $acl->addResource($resource, $parent);
             if ($resourceConfig->hasChildNodes()) {
                 $this->_addResourceTree($acl, $resourceConfig->childNodes, $resource);
