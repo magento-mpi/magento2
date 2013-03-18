@@ -33,7 +33,7 @@ admin_header:
                         xpath: //div[contains(@class, 'account')]
                         links:
                             account_avatar: //a[@class='account-avatar']
-                            account_settings: //a[@class='account-settings']
+                            account_settings: //a[@data-ui-id='header-user-account-settings']
                             log_out: //a[@class='account-signout']
                 -
                     notification_global:
