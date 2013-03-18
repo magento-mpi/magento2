@@ -397,7 +397,15 @@
                     }
                 }, this))
                 .on('click', this.options.payment.form + ' dt input:radio', $.proxy(this._paymentMethodHandler, this))
-                .find(this.options.payment.form).validation();
+                .find(this.options.payment.form).validation({
+                    errorPlacement: function(error, element) {
+                        if (element.attr('data-validate') && element.attr('data-validate').indexOf('validate-cc-ukss') >= 0) {
+                            element.parents('ul').find('li:last').html(error);
+                        } else {
+                            element.after(error);
+                        }
+                    }
+                });
         },
 
         /**
@@ -454,6 +462,7 @@
         _enablePaymentMethods: function() {
             var paymentForm = $(this.options.payment.form);
             paymentForm.find('input[name="payment[method]"]').prop('disabled', false);
+            paymentForm.find('input[name="payment[method]"]:checked').trigger('click');
             paymentForm.find(this.options.payment.methodsContainer).show();
             paymentForm.find('input[id^="use"][name^="payment[use"]:not(:checked)').prop('disabled', false).parent().show();
             paymentForm.find(this.options.payment.freeInput.selector).remove();
