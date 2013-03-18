@@ -17,6 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model_Adapter_Solr_Abstract
+    implements Enterprise_Search_Model_Adapter_Interface
 {
     /**
      * Object name used to create solr document object
@@ -257,5 +258,28 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         } catch (Exception $e) {
             Mage::logException($e);
         }
+    }
+
+    /**
+     * Checks if Solr server is still up
+     *
+     * @return bool
+     */
+    public function ping()
+    {
+        return parent::ping();
+    }
+
+    /**
+     * Retrieve attribute solr field name
+     *
+     * @param   Mage_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   string $target - default|sort|nav
+     *
+     * @return  string|bool
+     */
+    public function getSearchEngineFieldName($attribute, $target = 'default')
+    {
+        return parent::getSearchEngineFieldName($attribute, $target);
     }
 }
