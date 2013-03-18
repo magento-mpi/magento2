@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu">
                     <?php if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::myaccount')): ?>
                     <li class="first">
-                        <a href="<?php echo $this->getUrl('adminhtml/system_account/index') ?>" class="account-settings" title="<?php echo $this->__('Account Setting') ?>"><?php echo $this->__('Account Setting') ?></a>
+                        <a href="<?php echo $this->getUrl('adminhtml/system_account/index') ?>" <?php echo $this->getUiId('user', 'account', 'settings')?> title="<?php echo $this->__('Account Setting') ?>"><?php echo $this->__('Account Setting') ?></a>
                         <div><?php echo $this->escapeHtml($this->getUser()->getUsername()); ?></div>
                     </li>
                     <?php endif; ?>
