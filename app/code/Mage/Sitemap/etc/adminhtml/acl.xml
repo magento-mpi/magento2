@@ -18,15 +18,11 @@
                         <resource id="Mage_Sitemap::sitemap" module="Mage_Sitemap" title="Site Map" sortOrder="30" />
                     </resource>
                 </resource>
-            </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Catalog::catalog">
-                    <resource id="Old_Mage_Sitemap::sitemap" module="Mage_Sitemap" title="XML Sitemap" />
-                </resource>
-                <resource id="Old_Mage_Adminhtml::system">
-                    <resource id="Old_Mage_Adminhtml::config">
-                        <resource id="Old_Mage_Sitemap::config_sitemap" module="Mage_Sitemap" title="XML Sitemap Section" />
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_settings">
+                        <resource id="Mage_Adminhtml::config">
+                            <resource id="Mage_Sitemap::config_sitemap" module="Mage_Sitemap" title="XML Sitemap Section" sortOrder="70"/>
+                        </resource>
                     </resource>
                 </resource>
             </resource>
