@@ -15,8 +15,10 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Reports::report" module="Mage_Reports" title="Reports" sortOrder="70">
                     <resource id="Mage_Reports::report_marketing" title="Marketing" module="Mage_Reports" sortOrder="10">
-                        <resource id="Mage_Reports::product" title="Products in carts" module="Mage_Reports" sortOrder="10" />
-                        <resource id="Mage_Reports::abandoned" title="Abandoned carts" module="Mage_Reports" sortOrder="20" />
+                        <resource id="Mage_Reports::shopcart" module="Mage_Reports" title="Shopping Cart" sortOrder="10">
+                            <resource id="Mage_Reports::product" title="Products in carts" module="Mage_Reports" sortOrder="10" />
+                            <resource id="Mage_Reports::abandoned" title="Abandoned carts" module="Mage_Reports" sortOrder="20" />
+                        </resource>
                         <resource id="Mage_Reports::report_search" title="Search Terms" module="Mage_Reports" sortOrder="30" />
                     </resource>
                     <resource id="Mage_Reports::review" title="Reviews" module="Mage_Reports" sortOrder="20">
