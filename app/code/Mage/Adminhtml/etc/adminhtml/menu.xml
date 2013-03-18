@@ -35,9 +35,6 @@
         <add id="Mage_Adminhtml::content" title="Content" module="Mage_Adminhtml" sortOrder="50" resource="Mage_Adminhtml::content"/>
         <add id="Mage_Adminhtml::content_elements" title="Elements" module="Mage_Adminhtml" sortOrder="10" parent="Mage_Adminhtml::content" resource="Mage_Adminhtml::content_elements"/>
 
-        <add id="Mage_Adminhtml::reports_marketing" title="Marketing" module="Mage_Adminhtml" sortOrder="10" parent="Mage_Reports::report" resource="Mage_Reports::report"/>
-        <add id="Mage_Adminhtml::report_statistics" title="Statistics" module="Mage_Adminhtml" sortOrder="80" parent="Mage_Reports::report" resource="Mage_Reports::report"/>
-
         <add id="Mage_Adminhtml::stores" title="Stores" module="Mage_Adminhtml" sortOrder="70" resource="Mage_Adminhtml::stores"/>
         <add id="Mage_Adminhtml::stores_settings" title="Settings" module="Mage_Adminhtml" sortOrder="10" parent="Mage_Adminhtml::stores" resource="Mage_Adminhtml::stores_settings"/>
         <add id="Mage_Adminhtml::stores_attributes" title="Attributes" module="Mage_Adminhtml" sortOrder="40" parent="Mage_Adminhtml::stores" resource="Mage_Adminhtml::stores_attributes"/>

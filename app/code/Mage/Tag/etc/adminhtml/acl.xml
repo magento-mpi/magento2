@@ -18,20 +18,11 @@
                         <resource id="Mage_Tag::tag_all" title="All Tags" module="Mage_Tag" sortOrder="20" />
                     </resource>
                 </resource>
-            </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Catalog::catalog">
-                    <resource id="Old_Mage_Tag::tag" module="Mage_Tag" title="Tags">
-                        <resource id="Old_Mage_Tag::tag_all" title="All Tags" />
-                        <resource id="Old_Mage_Tag::tag_pending" title="Pending Tags" />
-                    </resource>
-                </resource>
-                <resource id="Old_Mage_Reports::report" module="Mage_Reports" title="Reports" sortOrder="80">
-                    <resource id="Old_Mage_Reports::tags" module="Mage_Tag" title="Tags">
-                        <resource id="Old_Mage_Reports::tags_customer" module="Mage_Tag" title="Customers" />
-                        <resource id="Old_Mage_Reports::popular" module="Mage_Tag" title="Popular" />
-                        <resource id="Old_Mage_Reports::tags_product" module="Mage_Tag" title="Products" />
+                <resource id="Mage_Reports::report">
+                    <resource id="Mage_Reports::tags" module="Mage_Tag" title="Tags" sortOrder="30">
+                        <resource id="Mage_Reports::tags_customer" module="Mage_Tag" title="By Customer" sortOrder="10" />
+                        <resource id="Mage_Reports::tags_product" module="Mage_Tag" title="By Product" sortOrder="20" />
+                        <resource id="Mage_Reports::popular" module="Mage_Tag" title="Popularity" sortOrder="30" />
                     </resource>
                 </resource>
             </resource>

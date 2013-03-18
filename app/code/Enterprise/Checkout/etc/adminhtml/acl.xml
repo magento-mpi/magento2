@@ -12,11 +12,11 @@
 <config>
     <acl>
         <resources>
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Sales::sales">
-                    <resource id="Old_Enterprise_Checkout::enterprise_checkout" module="Enterprise_Checkout" title="Shopping Cart Management" sortOrder="100">
-                        <resource id="Old_Enterprise_Checkout::view" title="View Shopping Cart" sortOrder="0" />
-                        <resource id="Old_Enterprise_Checkout::update" title="View and modify Shopping Cart" sortOrder="10" />
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Sales::sales">
+                    <resource id="Enterprise_Checkout::enterprise_checkout" module="Enterprise_Checkout" title="Shopping Cart Management" sortOrder="100">
+                        <resource id="Enterprise_Checkout::view" title="View Shopping Cart" sortOrder="0" />
+                        <resource id="Enterprise_Checkout::update" title="View and modify Shopping Cart" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>
