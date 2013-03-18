@@ -351,19 +351,10 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     /**
      * Check currently called action by permissions for current user
      *
+     * @return bool
      */
     protected function _isAllowed()
     {
-        switch ($this->getRequest()->getActionName()) {
-            case 'pending':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag_pending');
-                break;
-            case 'all':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag_all');
-                break;
-            default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag');
-                break;
-        }
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag_all');
     }
 }
