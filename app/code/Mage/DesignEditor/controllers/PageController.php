@@ -74,8 +74,8 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
             // set sanitize and wrapping flags
             $layout->setSanitizing(true);
 
-            // Only allow drag and drop when inline translation is disabled.
-            $layout->setWrapping(!$helper->getTranslationMode());
+            // Only allow drag and drop when inline translation is disabled
+            $layout->setWrapping(!$helper->isAllowed());
 
             $this->loadLayout(array(
                 'default',

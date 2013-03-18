@@ -45,9 +45,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      */
     public function isAllowed($store = null)
     {
-        /** @var $helper Mage_DesignEditor_Helper_Data */
-        $helper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
-        return ($helper->getTranslationMode() === null ? false : true);
+        return $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->isAllowed();
     }
 
     /**

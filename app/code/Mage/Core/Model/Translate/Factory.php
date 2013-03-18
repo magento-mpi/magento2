@@ -43,7 +43,7 @@ class Mage_Core_Model_Translate_Factory
     public function createFromConfig($translateConfig)
     {
         $className = $translateConfig->getInlineType();
-        if ($className == null) {
+        if ($className === null) {
             $className = self::DEFAULT_CLASS_NAME;
         }
         return $this->_objectManager->get($className, $translateConfig->getParams());

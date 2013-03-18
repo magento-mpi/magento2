@@ -26,7 +26,7 @@ class Mage_Core_Model_Translate
     /**
      * Cache tag
      */
-    const CACHE_TAG         = Mage_Core_Model_Cache_Type_Translate::CACHE_TAG;
+    const CACHE_TAG         = Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER;
 
     /**
      * Configuration area key
@@ -127,6 +127,11 @@ class Mage_Core_Model_Translate
     protected $_localeHierarchy = array();
 
     /**
+     *
+     * @var
+     */
+    protected $_translateConfig;
+    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -135,12 +140,15 @@ class Mage_Core_Model_Translate
      * Initialize translate model
      *
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
+     * @param Mage_Core_Model_Translate_Config $translateConfig
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
+        Mage_Core_Model_Translate_Config $translateConfig,
         Magento_ObjectManager $objectManager
     ) {
+        $this->_translateConfig = $translateConfig;
         $this->_localeHierarchy = $loader->load();
         $this->_objectManager = $objectManager;
     }
@@ -148,19 +156,18 @@ class Mage_Core_Model_Translate
     /**
      * Initialization translation data
      *
-     * @param Mage_Core_Model_Translate_Config $translateConfig
      * @return Mage_Core_Model_Translate
      */
-    public function init($translateConfig)
+    public function init()
     {
-        $area = $translateConfig->getArea();
-        $forceReload = $translateConfig->getForceReload();
+        $area = $this->_translateConfig->getArea();
+        $forceReload = $this->_translateConfig->getForceReload();
 
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
         /** @var $translateFactory Mage_Core_Model_Translate_Factory */
         $translateFactory = $this->_objectManager->get('Mage_Core_Model_Translate_Factory');
-        $this->_translateObject = $translateFactory->createFromConfig($translateConfig);
+        $this->_translateObject = $translateFactory->createFromConfig($this->_translateConfig);
 
         $this->_translateInline = $this->_translateObject->isAllowed(
             $area == Mage_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
@@ -282,6 +289,16 @@ class Mage_Core_Model_Translate
         $isJson = Mage_Core_Model_Translate_InlineAbstract::JSON_FLAG_DEFAULT_STATE
     ) {
         return $this->_translateObject->processResponseBody($body, $isJson);
+    }
+
+    /**
+     * Returns the translate config for this translate instance.
+     *
+     * @return Mage_Core_Model_Translate_Config
+     */
+    public function getTranslateConfig()
+    {
+        return $this->_translateConfig;
     }
 
     /**
@@ -595,8 +612,7 @@ class Mage_Core_Model_Translate
     public function getCacheId()
     {
         if (is_null($this->_cacheId)) {
-            /** @todo see jira entry MAGETWO-8267 */
-            $this->_cacheId = 'translate';
+            $this->_cacheId = Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER;
             if (isset($this->_config[self::CONFIG_KEY_LOCALE])) {
                 $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_LOCALE];
             }

@@ -107,23 +107,6 @@ class Mage_Core_Model_Observer
     }
 
     /**
-     * Determine if the vde specific translation class should be used.
-     *
-     * @param  Varien_Event_Observer $observer
-     * @return Mage_Core_Model_Observer
-     */
-    public function initializeTranslation(Varien_Event_Observer $observer)
-    {
-        /** @var $helper Mage_DesignEditor_Helper_Data */
-        $helper = Mage::getObjectManager()->get('Mage_DesignEditor_Helper_Data');
-        if ($helper && $helper->isVdeRequest()) {
-            // Request is for vde.  Override the translation class.
-            $observer->getResult()->setInlineType('Mage_DesignEditor_Model_Translate_InlineVde');
-        }
-        return $this;
-    }
-
-    /**
      * Theme registration
      *
      * @param Varien_Event_Observer $observer

@@ -772,8 +772,7 @@ class Mage_Core_Model_Locale
 
         /** @var $config Mage_Core_Model_Translate_Config */
         $config = $objectManager->get('Mage_Core_Model_Translate_Config');
-        $config->setInlineType(null);
-        $config->addParam(Mage_Core_Model_App_Area::PARAM_AREA, $area);
+        $config->setArea($area);
         $config->setForceReload($forceReload);
 
         /** @var $translate Mage_Core_Model_Translate */
@@ -782,9 +781,8 @@ class Mage_Core_Model_Locale
 
         $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
         $eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $translate,
-            'result' => $this->_translateConfig
+            'translate_object' => $translate
         ));
-        $translate->init($config);
+        $translate->init();
     }
 }

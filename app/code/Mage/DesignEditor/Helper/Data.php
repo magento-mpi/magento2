@@ -88,6 +88,16 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Returns the translate object for this helper.
+     *
+     * @return Mage_Core_Model_Translate
+     */
+    public function getTranslator()
+    {
+        return $this->_translator;
+    }
+
+    /**
      * Get list of configuration element values
      *
      * @param string $xmlPath
@@ -147,44 +157,41 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @return bool
-     */
-    public function isVdeRequest()
-    {
-        return $this->_isVdeRequest;
-    }
-
-    /**
      * This method returns an indicator of whether or not the current request is for vde.
      *
      * @param $request Mage_Core_Controller_Request_Http
      * @return _isVdeRequest bool
      */
-    public function setVdeRequest(Mage_Core_Controller_Request_Http $request)
+    public function isVdeRequest(Mage_Core_Controller_Request_Http $request = null)
     {
-        $url = trim($request->getOriginalPathInfo(), '/');
-        $vdeFrontName = $this->getFrontName();
-        $this->_isVdeRequest = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
-
+        if (null !== $request) {
+            $url = trim($request->getOriginalPathInfo(), '/');
+            $vdeFrontName = $this->getFrontName();
+            $this->_isVdeRequest = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
+        }
         return $this->_isVdeRequest;
     }
 
     /**
-     * Returns the translation mode the current request is in (null, text, script, or alt).
-     * @return mixed
+     * Returns an indicator of whether or not inline translation is allowed in VDE.
+     *
+     * @return bool
      */
-    public function getTranslationMode()
+    public function isAllowed()
     {
-        return $this->_translationMode;
+        return (bool)$this->_translationMode;
     }
 
     /**
      * Sets the translation mode for the current request (null, text, script, or alt);
+     *
      * @param Mage_Core_Controller_Request_Http $request
+     * @return Mage_DesignEditor_Helper_Data
      */
     public function setTranslationMode(Mage_Core_Controller_Request_Http $request)
     {
-        $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, null);
+        $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, false);
+        return $this;
     }
 
     /**

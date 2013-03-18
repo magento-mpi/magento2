@@ -74,6 +74,7 @@ class Mage_Core_Model_App_Area
 
     /**
      * Translate config
+     *
      * @var Mage_Core_Model_Translate_Config
      */
     protected $_translateConfig;
@@ -249,15 +250,13 @@ class Mage_Core_Model_App_Area
 
         /** @var _translateConfig Mage_Core_Model_Translate_Config */
         $this->_translateConfig = $objectManager->get('Mage_Core_Model_Translate_Config');
-        $this->_translateConfig->setInlineType(null);
-        $this->_translateConfig->addParam(self::PARAM_AREA, $this->_code);
+        $this->_translateConfig->setArea($this->_code);
 
         $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
         $eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $objectManager->get('Mage_Core_Model_Translate'),
-            'result' => $this->_translateConfig
+            'translate_object' => $this->_translator
         ));
-        $this->_translator->init($this->_translateConfig);
+        $this->_translator->init();
         return $this;
     }
 

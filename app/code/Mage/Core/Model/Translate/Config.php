@@ -18,39 +18,48 @@ class Mage_Core_Model_Translate_Config
      */
     const CONFIG_PARAMS = 'params';
 
-    /**
-     * Constant for area parameter for this config instance.
-     */
-    const PARAM_AREA = 'area';
+    /** @var Mage_Core_Model_App_Area */
+    protected $_area;
 
     /**
-     * @var mixed|Mage_Core_Model_Translate_InlineAbstract
+     * @var mixed|Mage_Core_Model_Translate_TranslateInterface
      */
     protected $_inlineType;
 
     /**
      * @var array
      */
-    protected $_params;
+    protected $_params = array();
 
     /**
      * @var bool
      */
-    protected $_forceReload;
+    protected $_forceReload = false;
 
     /**
-     * Class constructor
+     * This helper method returns the area for the current translation.
+     *
+     * @return Mage_Core_Model_App_Area
      */
-    public function __construct(
-    ) {
-        $this->_inlineType = null;
-        $this->_params = array();
-        $this->_forceReload = false;
+    public function getArea()
+    {
+        return $this->_area;
+    }
+
+    /**
+     * This method sets the area for the current translation.
+     *
+     * @param Mage_Core_Model_App_Area $area
+     */
+    public function setArea(Mage_Core_Model_App_Area $area)
+    {
+        $this->_area = $area;
     }
 
     /**
      * This method returns the inline type for the current translation.
-     * @return mixed|Mage_Core_Model_Translate_InlineAbstract
+     *
+     * @return mixed|Mage_Core_Model_Translate_TranslateInterface
      */
     public function getInlineType()
     {
@@ -58,16 +67,22 @@ class Mage_Core_Model_Translate_Config
     }
 
     /**
-     * @param $inlineType mixed|Mage_Core_Model_Translate_InlineAbstract
+     * This method sets the inline type for the current translation.
+     *
+     * @param $inlineType mixed|Mage_Core_Model_Translate_TranslateInterface
+     * @return Mage_Core_Model_Translate_Config
      */
     public function setInlineType($inlineType)
     {
         $this->_inlineType = $inlineType;
+        return $this;
     }
 
     /**
-     * @param $name
-     * @param $value
+     * This method adds a parameter to this config instance.
+     *
+     * @param $name string
+     * @param $value mixed
      */
     public function addParam($name, $value)
     {
@@ -76,6 +91,7 @@ class Mage_Core_Model_Translate_Config
 
     /**
      * This method returns the array of parameters specific to this config instance.
+     *
      * @return array
      */
     public function getParams()
@@ -84,16 +100,8 @@ class Mage_Core_Model_Translate_Config
     }
 
     /**
-     * This helper method returns the 'area' parameter.
-     * @return mixed
-     */
-    public function getArea()
-    {
-        return $this->_params[self::PARAM_AREA];
-    }
-
-    /**
      * This method returns the force reload indicator of this config instance.
+     *
      * @return bool
      */
     public function getForceReload()
@@ -102,6 +110,8 @@ class Mage_Core_Model_Translate_Config
     }
 
     /**
+     * This method sets the force reload indicator of this config instance.
+     *
      * @param $forceReload
      */
     public function setForceReload($forceReload)
