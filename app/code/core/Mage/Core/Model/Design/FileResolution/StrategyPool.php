@@ -58,8 +58,8 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
     protected $_strategies = array(
         'production_mode' => array(
             'file' => 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
-            'locale' => 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
-            'view' => 'Mage_Core_Model_Design_FileResolution_Strategy_View_ByParamsOnly',
+            'locale' => 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback',
+            'view' => 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback',
         ),
         'caching_map' => array(
             'file' => 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
