@@ -29,9 +29,9 @@
                 <div class="fieldset-wrapper-title">
                     <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
                 </div>
-                <div>
-                    <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
-                    <div>
+                <div class="shipping-description-wrapper">
+                    <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>
+                    <div class="shipping-description-content">
                         <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
 
                         <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>

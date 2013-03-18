@@ -32,21 +32,23 @@
         <div class="fieldset-wrapper-title">
             <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
         </div>
-        <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
-        <div>
-            <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
+        <div class="shipping-description-wrapper">
+            <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>
+            <div class="shipping-description-content">
+                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
 
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
-                <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
-            <?php else: ?>
-                <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
-            <?php endif; ?>
-            <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
+                <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
+                    <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
+                <?php else: ?>
+                    <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                <?php endif; ?>
+                <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
 
-            <?php echo $_excl; ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
-            <?php endif; ?>
+                <?php echo $_excl; ?>
+                <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                    (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
@@ -70,7 +72,7 @@
     <div class="order-comments-history">
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title"><span class="title"><?php echo $this->__('Credit Memo History') ?></span></div>
-            <?php echo $this->getChildHtml('order_comments') ?>
+            <fieldset><?php echo $this->getChildHtml('order_comments') ?></fieldset>
         </div>
     </div>
     <div class="order-totals">

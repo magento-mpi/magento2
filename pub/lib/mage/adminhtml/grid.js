@@ -157,7 +157,7 @@ varienGrid.prototype = {
                 onComplete: this.initGridAjax.bind(this),
                 onSuccess: function(transport) {
                     try {
-                        var responseText = transport.responseText.replace(/>\s+</g, '><');
+                        var responseText = transport.responseText;
 
                         if (transport.responseText.isJSON()) {
                             var response = transport.responseText.evalJSON()

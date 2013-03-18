@@ -27,14 +27,13 @@
             <div class="fieldset-wrapper-title">
                 <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipping and Tracking Information') ?></span>
             </div>
-            <div>
+            <div class="shipping-description-wrapper">
                 <?php if($this->getShipment()->getTracksCollection()->count()): ?>
                 <p>
                     <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($this->getShipment()) ?>','trackshipment','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track this shipment') ?>"><?php echo $this->__('Track this shipment') ?></a>
                 </p>
                 <?php endif; ?>
-                <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
-                <br>
+                <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>
                 <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
 
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
@@ -96,7 +95,7 @@
     <div class="order-comments-history">
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title"><span class="title"><?php echo $this->__('Shipment History') ?></span></div>
-            <?php echo $this->getChildHtml('order_comments') ?>
+            <fieldset><?php echo $this->getChildHtml('order_comments') ?></fieldset>
         </div>
     </div>
 </div>

@@ -794,9 +794,10 @@ textarea[readonly] {
     cursor: not-allowed;
     background-color: #eee;
     border-color: #ddd;
+    color:#676056;
 }
 
-select[disabled] > option[selected] { 
+select[disabled].multiselect > option[selected] { 
     color: #fff;
     background: #6d6d6d;
 }
@@ -3455,7 +3456,13 @@ table tbody tr:nth-child(odd):hover th {
     margin-left: -3px;
 }
 
-/* Grid - Headings */
+.grid-actions .link-feed {
+    white-space: nowrap;
+}
+
+/*
+    Grid - Headings
+-------------------------------------- */
 .grid tr.headings th {
     font-size: 13px;
     border-right: 1px solid #837f79;
@@ -3479,7 +3486,8 @@ table tbody tr:nth-child(odd):hover th {
     border-color: #504841;
 }
 
-.grid tr.headings th.no-link:hover > span {
+.grid tr.headings th.no-link:hover > span,
+.grid tr.headings th.col-select:hover > span {
     border-color: transparent;
 }
 
@@ -3593,6 +3601,12 @@ table tbody tr:nth-child(odd):hover th {
     text-align: left;
 }
 
+.grid .action-select {
+    background: #fff;
+    border: 1px solid #ccc;
+    margin: 0;
+}
+
 .grid .filter .range .range-line {
     margin-bottom: 3px;
 }
@@ -3604,6 +3618,7 @@ table tbody tr:nth-child(odd):hover th {
 .grid .filter .range input {
     width: 56px;
     margin-top: 0;
+    vertical-align: middle;
 }
 
 .grid .filter .range select {
@@ -3611,11 +3626,43 @@ table tbody tr:nth-child(odd):hover th {
     margin: 0;
 }
 
+.grid .filter .date {
+    position: relative;
+}
+
 .grid .filter .date img {
     width: 15px;
     height: 15px;
     cursor: pointer;
     vertical-align: middle;
+    margin-left: 5px;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+
+.eq-ie8 .grid .filter .date img {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+.grid .filter .date:before {
+    position: absolute;
+    left: 61px;
+    top: 2px;
+    margin-top: 0;
+    text-shadow: none;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    content: '\e06a'; /* icon calendar  */
+    color: #cac3b4;
+    z-index: 1;
 }
 
 .grid .head-massaction select {
@@ -3624,7 +3671,7 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Grid - Mass Action */
 .massaction {
-    color: #CAC3B4;
+    color: #cac3b4;
     padding: 7px 8px;
     background: #666158;
     box-shadow: 0 1px 2px 0 #504d46 inset, 0 -1px 2px 0 #504d46 inset;
@@ -3929,8 +3976,8 @@ tr.dynamic-grid input.input-text {
 .order-information .data-table tbody tr th,
 .order-account-information .data-table tbody tr td,
 .order-account-information .data-table tbody tr th,
-.adminhtml-rma-new .data-table tbody tr td,
-.adminhtml-rma-new .data-table tbody tr th {
+[class^=" adminhtml-rma-"] .data-table tbody tr td,
+[class^=" adminhtml-rma-"] .data-table tbody tr th {
     background-color: #fff;
     border: 0;
     padding: 9px 10px 10px;
@@ -3950,8 +3997,8 @@ tr.dynamic-grid input.input-text {
 .order-information .data-table tbody tr:nth-child(2n+1) th,
 .order-account-information .data-table tbody tr:nth-child(2n+1) td,
 .order-account-information .data-table tbody tr:nth-child(2n+1) th,
-.adminhtml-rma-new .data-table tbody tr:nth-child(2n+1) td,
-.adminhtml-rma-new .data-table tbody tr:nth-child(2n+1) th {
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) td,
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) th {
     background-color: #fbfaf6;
 }
 

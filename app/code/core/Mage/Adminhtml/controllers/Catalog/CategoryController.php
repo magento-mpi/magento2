@@ -124,7 +124,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
             return;
         }
 
-        $this->_title($categoryId ? $category->getName() : $this->__('New Category'));
+        $this->_title($categoryId ? $category->getName() : $this->__('Categories'));
 
         /**
          * Check if we have data in session (if duering category save was exceprion)

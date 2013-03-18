@@ -32,21 +32,25 @@
             <div class="fieldset-wrapper-title">
                 <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipping Information') ?></span>
             </div>
-            <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
-            <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
+            <div class="shipping-description-wrapper">
+                <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>
+                <div class="shipping-description-content">
+                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
 
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
-                <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
-            <?php else: ?>
-                <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
-            <?php endif; ?>
-            <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
+                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
+                        <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
+                    <?php else: ?>
+                        <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                    <?php endif; ?>
+                    <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
 
-            <?php echo $_excl; ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
-            <?php endif; ?>
-            <div><?php echo $this->getChildHtml('shipment_tracking') ?></div>
+                    <?php echo $_excl; ?>
+                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                    <?php endif; ?>
+                    <div><?php echo $this->getChildHtml('shipment_tracking') ?></div>
+                </div>
+            </div>
         </div>
     <?php endif; ?>
     </div>
@@ -67,7 +71,9 @@
             <div class="fieldset-wrapper-title">
                 <span class="title"><?php echo $this->__('Invoice History') ?></span>
             </div>
-            <?php echo $this->getChildHtml('order_comments') ?>
+            <fieldset>
+                <?php echo $this->getChildHtml('order_comments') ?>
+            </fieldset>
         </div>
     </div>
     <div class="order-totals">
