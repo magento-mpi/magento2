@@ -187,6 +187,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
         $block->setRefreshCanvas($this->isAllowed());
 
         $block->setTemplate('Mage_DesignEditor::translate_inline.phtml');
+        $block->setTranslateMode($this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getTranslationMode());
 
         $html = $block->toHtml();
 

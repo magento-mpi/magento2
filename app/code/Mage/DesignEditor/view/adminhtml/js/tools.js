@@ -59,7 +59,7 @@
         * @private
         */
         _refresh: function (mode) {
-            /** todo SDW Add animation when refreshing the iframe. */
+            parent.jQuery('[spinner]').toggleClass('hidden');
 
             var url = this.options.frameUrl;
             if (this.options.disableInlineTranslation)
@@ -78,6 +78,8 @@
             * Since the url is being modified to support inline translation, the window is not reloaded since it
             * is using the url from the cache to display.
             */
+
+            parent.jQuery('[spinner]').toggleClass('hidden');
         },
 
         /**

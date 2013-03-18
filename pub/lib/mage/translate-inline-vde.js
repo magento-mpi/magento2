@@ -30,11 +30,11 @@
                 minHeight: 0,
                 buttons: [{
                     text: $.mage.__('Cancel'),
-                    "class" : "translate-dialog-cancel",
+                    "class" : "translate-dialog-cancel"
                 },
                 {
                     text: $.mage.__('Save'),
-                    "class" : "translate-dialog-save",
+                    "class" : "translate-dialog-save"
                 }]
             },
             positionDialog: function(element, dialog) { },
@@ -43,7 +43,9 @@
             onSubmitComplete: function() { },
             onCancel: function() { },
             area: "vde",
-            ajaxUrl: null
+            ajaxUrl: null,
+            translateMode: "text",
+            translateModes : ["text", "script", "alt"]
         },
 
         /**
@@ -106,6 +108,19 @@
             this.translateDialog.dialog("close");
             this.options.onCancel();
             $(window).off('resize.translateInlineVdeDialog');
+        },
+
+        /**
+         * Shows translate mode applicable css styles.
+         */
+        showMode: function(mode) {
+            mode = mode == null ? mode = this.options.translateMode : mode;
+            $('body').addClass('trnslate-inline-' + mode + '-area');
+            $.each(this.options.translateModes, function(){
+                if (this != mode) {
+                    $('body').removeClass('trnslate-inline-' + this + '-area');
+                }
+            });
         },
 
         /**
@@ -202,7 +217,8 @@
             offsetLeft: -16,
 
             dataAttrName: "translate",
-            onClick: function(widget) { },
+            translateMode: "text",
+            onClick: function(widget) { }
         },
 
         /**
@@ -233,6 +249,9 @@
             this._attachIcon();
 
             this.iconTemplate.removeClass('hidden');
+
+            if (this.element[0].getAttribute("translate-mode") != this.options.translateMode)
+                this.iconTemplate.addClass('hidden');
 
             this.element.on("dblclick", $.proxy(this._invokeAction, this));
             this._disableElementClicks();
@@ -364,6 +383,9 @@
 
                 this.iconTemplate.appendTo(this.iconWrapperTemplate);
                 this.iconWrapperTemplate.appendTo(this.elementWrapperTemplate);
+
+                if (this.options.translateMode != 'alt')
+                    this.iconTemplate.addClass('hidden');
 
                 this.isTemplateAttached = true;
             }

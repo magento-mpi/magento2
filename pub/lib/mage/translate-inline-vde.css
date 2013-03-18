@@ -7,7 +7,11 @@
  * @license     {license_link}
  */
 
-.trnslate-inline-area [data-translate], .trnslate-inline-area .translate-inline { outline: dashed 2px darkgray!important;}
+.trnslate-inline-area [data-translate],
+.trnslate-inline-text-area [translate-mode=text],
+.trnslate-inline-script-area [translate-mode=script],
+.trnslate-inline-alt-area [translate-mode=alt],
+.trnslate-inline-area .translate-inline { outline: dashed 2px darkgray!important;}
 
 .translate-dialog {
     border: 0;
