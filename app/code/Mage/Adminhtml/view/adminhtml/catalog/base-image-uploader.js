@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*global alert:true*/
 (function ($) {
     $.widget('mage.baseImage', {
         /**

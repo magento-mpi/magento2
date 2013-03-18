@@ -10,7 +10,7 @@
 ?>
 
 <p><strong><?php echo Mage::helper('Mage_Ogone_Helper_Data')->__('Please, wait a moment. This page will transfer your data to Ogone payment gateway in a few seconds.'); ?></strong></p>
-<form name="ogone" id="ogone_review_form" action="<?php echo $this->getFormAction();?>" method="post" accept-charset="ISO-8859-1">
+<form name="ogone" id="ogone-review-form" action="<?php echo $this->getFormAction();?>" method="post" accept-charset="ISO-8859-1">
     <?php if ($formData = $this->getFormData()): ?>
     <fieldset>
         <?php foreach ($formData as $name => $value) { ?>
@@ -20,10 +20,8 @@
     <?php endif; ?>
 </form>
 <script type="text/javascript">
-//<![CDATA[
-    var review = new VarienForm('ogone_review_form', '');
-    Event.observe(window, 'load', function() {
-        review.submit();
-    });
-//]]>
+    // submit the form as soon as it is displayed to transfer over to the ogone website
+    window.onload = function() {
+        jQuery("#ogone-review-form").submit();
+    };
 </script>

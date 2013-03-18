@@ -47,9 +47,24 @@ class Enterprise_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         // set configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('LockedUser/login_failures');
-        $this->logoutAdminUser();
-
+        $parameters = $this->fixtureDataToArray('LockedUser/login_failures');
+        if (isset($parameters['configuration_scope'])) {
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
+        }
+        foreach ($parameters as $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+            $settings = (isset($value['configuration'])) ? $value['configuration'] : array();
+            if (!empty($value['tab_name'])) {
+                $this->systemConfigurationHelper()->openConfigurationTab($value['tab_name']);
+                foreach ($settings as $fieldsetName => $fieldsetData) {
+                    $this->systemConfigurationHelper()->expandFieldSet($fieldsetName);
+                    $this->systemConfigurationHelper()->fillFieldset($fieldsetData, $fieldsetName);
+                }
+                $this->clickButton('save_config');
+            }
+        }
         return $testData;
     }
 
