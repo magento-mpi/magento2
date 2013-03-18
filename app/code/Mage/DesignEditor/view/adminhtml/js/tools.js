@@ -10,7 +10,7 @@
 (function($) {
     'use strict';
 
-    $.widget("mage.translateInlineToggle", {
+    $.widget("vde.translateInlineToggle", {
         _create: function() {
             this.element.on('click', $.proxy(this._onClick, this));
         },
@@ -23,7 +23,7 @@
         }
     });
 
-    $.widget("mage.translateInlineToggleMode", {
+    $.widget("vde.translateInlineToggleMode", {
         options: {
             frameUrl: null,
             refreshVdeCanvas: false,
