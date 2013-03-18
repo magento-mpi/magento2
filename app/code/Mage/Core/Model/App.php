@@ -390,7 +390,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve cache object
      *
-     * @return Zend_Cache_Core
+     * @return Magento_Cache_FrontendInterface
      */
     public function getCache()
     {
@@ -453,22 +453,11 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      *
      * @param null|string $type
      * @return boolean
+     * @deprecated deprecated after 2.0.0.0-dev42 in favour of Mage_Core_Model_Cache_Types::isEnabled()
      */
     public function useCache($type = null)
     {
         return $this->_cache->canUse($type);
-    }
-
-    /**
-     * Save cache usage settings
-     *
-     * @param array $data
-     * @return Mage_Core_Model_App
-     */
-    public function saveUseCache($data)
-    {
-        $this->_cache->saveOptions($data);
-        return $this;
     }
 
     /**

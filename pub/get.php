@@ -44,7 +44,7 @@ try {
     $params = $_SERVER;
     if (empty($mediaDirectory)) {
         $params[Mage::PARAM_ALLOWED_MODULES] = array('Mage_Core');
-        $params[Mage::PARAM_CACHE_OPTIONS]['disable_save'] = true;
+        $params[Mage::PARAM_CACHE_OPTIONS]['frontend_options']['disable_save'] = true;
     }
 
     $config = new Mage_Core_Model_Config_Primary(dirname(__DIR__), $params);

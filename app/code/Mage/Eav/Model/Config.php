@@ -209,7 +209,7 @@ class Mage_Eav_Model_Config
     protected function _isCacheEnabled()
     {
         if ($this->_isCacheEnabled === null) {
-            $this->_isCacheEnabled = Mage::app()->useCache('eav');
+            $this->_isCacheEnabled = Mage::app()->useCache(Mage_Eav_Model_Cache_Type::TYPE_IDENTIFIER);
         }
         return $this->_isCacheEnabled;
     }
@@ -263,7 +263,7 @@ class Mage_Eav_Model_Config
 
         if ($this->_isCacheEnabled()) {
             Mage::app()->saveCache(serialize($this->_entityData), self::ENTITIES_CACHE_ID,
-                array('eav', Mage_Eav_Model_Entity_Attribute::CACHE_TAG)
+                array(Mage_Eav_Model_Cache_Type::CACHE_TAG, Mage_Eav_Model_Entity_Attribute::CACHE_TAG)
             );
         }
         Magento_Profiler::stop('EAV: '.__METHOD__);

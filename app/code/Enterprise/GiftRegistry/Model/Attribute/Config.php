@@ -17,6 +17,11 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     protected $_staticTypes = null;
 
     /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
      * @var Mage_Core_Model_Config_StorageInterface
      */
     protected $_configReader;
@@ -30,6 +35,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -37,10 +43,12 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Config_Modules_Reader $configReader,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_configCacheType = $configCacheType;
         $this->_configReader = $configReader;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
@@ -53,17 +61,13 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     public function getXmlConfig()
     {
         if (is_null($this->_config)) {
-            if ($cachedXml = Mage::app()->loadCache('giftregistry_config')) {
+            if ($cachedXml = $this->_configCacheType->load('giftregistry_config')) {
                 $xmlConfig = new Varien_Simplexml_Config($cachedXml);
             } else {
                 $xmlConfig = new Varien_Simplexml_Config();
                 $xmlConfig->loadString('<?xml version="1.0"?><prototype></prototype>');
                 $this->_configReader->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
-
-                if (Mage::app()->useCache('config')) {
-                    Mage::app()->saveCache($xmlConfig->getXmlString(), 'giftregistry_config',
-                        array(Mage_Core_Model_Config::CACHE_TAG));
-                }
+                $this->_configCacheType->save($xmlConfig->getXmlString(), 'giftregistry_config');
             }
             $this->_config = $xmlConfig;
         }

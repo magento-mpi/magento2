@@ -57,7 +57,7 @@ class Mage_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var Magento_ObjectManager_Zend
+     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 

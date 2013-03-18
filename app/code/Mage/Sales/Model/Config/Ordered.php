@@ -53,6 +53,21 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
     protected $_collectors = array();
 
     /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Varien_Simplexml_Element $sourceData
+     */
+    public function __construct(Mage_Core_Model_Cache_Type_Config $configCacheType, $sourceData = null)
+    {
+        parent::__construct($sourceData);
+        $this->_configCacheType = $configCacheType;
+    }
+
+    /**
      * Initialize total models configuration and objects
      *
      * @return Mage_Sales_Model_Config_Ordered
@@ -168,13 +183,10 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
      */
     protected function _initCollectors()
     {
-        $useCache = Mage::app()->useCache('config');
         $sortedCodes = array();
-        if ($useCache) {
-            $cachedData = Mage::app()->loadCache($this->_collectorsCacheKey);
-            if ($cachedData) {
-                $sortedCodes = unserialize($cachedData);
-            }
+        $cachedData = $this->_configCacheType->load($this->_collectorsCacheKey);
+        if ($cachedData) {
+            $sortedCodes = unserialize($cachedData);
         }
         if (!$sortedCodes) {
             try {
@@ -183,11 +195,7 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
                 Mage::logException($e);
             }
             $sortedCodes = $this->_getSortedCollectorCodes($this->_modelsConfig);
-            if ($useCache) {
-                Mage::app()->saveCache(serialize($sortedCodes), $this->_collectorsCacheKey, array(
-                    Mage_Core_Model_Config::CACHE_TAG
-                ));
-            }
+            $this->_configCacheType->save(serialize($sortedCodes), $this->_collectorsCacheKey);
         }
         foreach ($sortedCodes as $code) {
             $this->_collectors[$code] = $this->_models[$code];
