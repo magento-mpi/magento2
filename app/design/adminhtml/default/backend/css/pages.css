@@ -1592,6 +1592,7 @@
     width: 20%;
 }
 
+.order-details-inner,
 .customer-current-activity-inner {
     background: #fff;
     border: 1px solid #eae6e0;
@@ -1746,7 +1747,8 @@
 
 .adminhtml-giftwrapping-index .col-id,
 .adminhtml-checkout-agreement-index .col-id,
-[class^=" adminhtml-sales-billing-"] .col-id {
+[class^=" adminhtml-sales-billing-"] .col-id,
+[class^=" adminhtml-sales-transactions-"] .col-id {
     width: 35px;
 }
 
@@ -1807,8 +1809,8 @@
 [class^=" adminhtml-rma-"] .col-condition {
     width: 70px;
 }
-
 [class^=" adminhtml-sales-"] .col-refund,
+[class^=" adminhtml-sales-transactions-"] .col-closed,
 .adminhtml-sales-order-view .col-closed {
     text-align: center;
     width: 70px;
@@ -1822,6 +1824,7 @@
 [class^=" adminhtml-sales-"] .col-status,
 [class^=" adminhtml-rma-"] .col-order-number,
 [class^=" adminhtml-rma-"] .col-rma-number,
+[class^=" adminhtml-sales-transactions-"] .col-order-id,
 .adminhtml-giftwrapping-index .col-status,
 .adminhtml-sales-order-view .col-refunded {
     white-space: normal;
@@ -1844,8 +1847,14 @@
 [class^=" adminhtml-rma-"] .col-status,
 [class^=" adminhtml-rma-"] .col-reason,
 [class^=" adminhtml-rma-"] .col-resolution,
-.adminhtml-sales-order-view .col-memo {
+.adminhtml-sales-order-view .col-memo,
+[class^=" adminhtml-sales-transactions-"] .col-transaction-type {
     width: 100px;
+}
+
+[class^=" adminhtml-sales-"] .col-parent-transaction-id,
+[class^=" adminhtml-sales-"] .col-transaction-id {
+    width: 140px;
 }
 
 [class^=" adminhtml-sales-"] .col-period,
@@ -1862,6 +1871,11 @@
 .adminhtml-checkout-agreement-index .col-store-view {
     white-space: nowrap;
     width: 200px;
+}
+
+[class^=" adminhtml-sales-transactions-"] .log-details .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .col-key {
+    width: 22%;
 }
 
 [class^=" adminhtml-sales-order-"] .order-totals .actions,

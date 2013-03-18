@@ -3952,7 +3952,7 @@ tr.dynamic-grid input.input-text {
 .order-information .data-table,
 .order-account-information .data-table,
 .adminhtml-rma-new .data-table {
-    width:100%;
+    width: 100%;
 }
 .invitation_information .data-table tbody tr th,
 .invitee_information .data-table tbody tr th,
@@ -3960,7 +3960,8 @@ tr.dynamic-grid input.input-text {
 .customer-information .data-table tbody tr th,
 .order-information .data-table tbody tr th,
 .order-account-information .data-table tbody tr th,
-.adminhtml-rma-new .data-table tbody tr th {
+.adminhtml-rma-new .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr th {
     font-weight: bold;
 }
 
@@ -3977,7 +3978,9 @@ tr.dynamic-grid input.input-text {
 .order-account-information .data-table tbody tr td,
 .order-account-information .data-table tbody tr th,
 [class^=" adminhtml-rma-"] .data-table tbody tr td,
-[class^=" adminhtml-rma-"] .data-table tbody tr th {
+[class^=" adminhtml-rma-"] .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr td {
     background-color: #fff;
     border: 0;
     padding: 9px 10px 10px;
@@ -3998,7 +4001,9 @@ tr.dynamic-grid input.input-text {
 .order-account-information .data-table tbody tr:nth-child(2n+1) td,
 .order-account-information .data-table tbody tr:nth-child(2n+1) th,
 [class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) td,
-[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) th {
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr:nth-child(2n+1) td {
     background-color: #fbfaf6;
 }
 
