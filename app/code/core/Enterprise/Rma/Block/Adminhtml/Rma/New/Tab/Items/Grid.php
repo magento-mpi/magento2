@@ -183,8 +183,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
                 'actions'   => $actionsArray,
                 'sortable'  => false,
                 'is_system' => true,
-                'header_css_class'  => 'col-action',
-                'column_css_class'  => 'col-action'
+                'header_css_class'  => 'col-actions',
+                'column_css_class'  => 'col-actions'
         ));
 
         return parent::_prepareColumns();

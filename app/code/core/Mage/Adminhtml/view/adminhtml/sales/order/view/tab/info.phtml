@@ -10,7 +10,7 @@
 ?>
 <?php /** @var $this Mage_Adminhtml_Block_Sales_Order_View_Tab_Info */ ?>
 <?php $_order = $this->getOrder() ?>
-    <div id="order-messages">
+<div id="order-messages">
         <?php echo $this->getChildHtml('order_messages') ?>
     </div>
     <?php echo $this->getChildHtml('order_info') ?>
@@ -35,26 +35,28 @@
             <div class="fieldset-wrapper-title">
                 <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping &amp; Handling Information') ?></span>
             </div>
-            <?php  if ($_order->getTracksCollection()->count()) : ?>
-            <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track Order') ?>"><?php echo $this->__('Track Order') ?></a>
-            <?php endif; ?>
-            <?php if ($_order->getShippingDescription()): ?>
-                <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
+            <div class="shipping-description-wrapper">
+                <?php  if ($_order->getTracksCollection()->count()) : ?>
+                <p><a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track Order') ?>"><?php echo $this->__('Track Order') ?></a></p>
+                <?php endif; ?>
+                <?php if ($_order->getShippingDescription()): ?>
+                    <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
 
-                <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
-                    <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
+                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
+                        <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
+                    <?php else: ?>
+                        <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                    <?php endif; ?>
+                    <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
+
+                    <?php echo $_excl; ?>
+                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                        (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                    <?php endif; ?>
                 <?php else: ?>
-                    <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('No shipping information available'); ?>
                 <?php endif; ?>
-                <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
-
-                <?php echo $_excl; ?>
-                <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                    (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
-                <?php endif; ?>
-            <?php else: ?>
-                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('No shipping information available'); ?>
-            <?php endif; ?>
+            </div>
         </div>
     </div>
     <?php endif; ?>
@@ -74,7 +76,7 @@
             <div class="fieldset-wrapper-title">
                 <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Comments History') ?></span>
             </div>
-            <?php echo $this->getChildHtml('order_history') ?>
+            <fieldset><?php echo $this->getChildHtml('order_history') ?></fieldset>
         </div>
     </div>
     <div class="order-totals">

@@ -40,10 +40,12 @@
     <div class="order-comments-history">
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title"><span class="title"><?php echo $this->__('Shipment Comments') ?></span></div>
-            <div id="order-history_form">
-                <label class="normal" for="shipment_comment_text"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipment Comments') ?></label>
-                <textarea id="shipment_comment_text" name="shipment[comment_text]" rows="3" cols="5"><?php echo $this->getShipment()->getCommentText(); ?></textarea>
-            </div>
+            <fieldset>
+                <div id="order-history_form">
+                    <label class="normal" for="shipment_comment_text"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipment Comments') ?></label>
+                    <textarea id="shipment_comment_text" name="shipment[comment_text]" rows="3" cols="5"><?php echo $this->getShipment()->getCommentText(); ?></textarea>
+                </div>
+            </fieldset>
         </div>
     </div>
     <div class="order-totals">

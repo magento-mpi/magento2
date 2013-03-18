@@ -3445,7 +3445,13 @@ table tbody tr:nth-child(odd):hover th {
     margin-left: -3px;
 }
 
-/* Grid - Headings */
+.grid-actions .link-feed {
+    white-space: nowrap;
+}
+
+/*
+    Grid - Headings
+-------------------------------------- */
 .grid tr.headings th {
     font-size: 13px;
     border-right: 1px solid #837f79;
@@ -3582,6 +3588,12 @@ table tbody tr:nth-child(odd):hover th {
     font-size: 13px;
     padding: 4px 4px 5px;
     text-align: left;
+}
+
+.grid .action-select {
+    background: #fff;
+    border: 1px solid #ccc;
+    margin: 0;
 }
 
 .grid .filter .range .range-line {
@@ -3922,8 +3934,8 @@ tr.dynamic-grid input.input-text {
 .order-information .data-table tbody tr th,
 .order-account-information .data-table tbody tr td,
 .order-account-information .data-table tbody tr th,
-.adminhtml-rma-new .data-table tbody tr td,
-.adminhtml-rma-new .data-table tbody tr th {
+[class^=" adminhtml-rma-"] .data-table tbody tr td,
+[class^=" adminhtml-rma-"] .data-table tbody tr th {
     background-color: #fff;
     border: 0;
     padding: 9px 10px 10px;
@@ -3943,8 +3955,8 @@ tr.dynamic-grid input.input-text {
 .order-information .data-table tbody tr:nth-child(2n+1) th,
 .order-account-information .data-table tbody tr:nth-child(2n+1) td,
 .order-account-information .data-table tbody tr:nth-child(2n+1) th,
-.adminhtml-rma-new .data-table tbody tr:nth-child(2n+1) td,
-.adminhtml-rma-new .data-table tbody tr:nth-child(2n+1) th {
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) td,
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) th {
     background-color: #fbfaf6;
 }
 
