@@ -173,13 +173,13 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns an indicator of whether or not inline translation is allowed in VDE.
+     * Returns the translation mode the current request is in (null, text, script, or alt).
      *
-     * @return bool
+     * @return mixed
      */
-    public function isAllowed()
+    public function getTranslationMode()
     {
-        return (bool)$this->_translationMode;
+        return $this->_translationMode;
     }
 
     /**
@@ -190,8 +190,18 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function setTranslationMode(Mage_Core_Controller_Request_Http $request)
     {
-        $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, false);
+        $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, null);
         return $this;
+    }
+
+    /**
+     * Returns an indicator of whether or not inline translation is allowed in VDE.
+     *
+     * @return bool
+     */
+    public function isAllowed()
+    {
+        return ($this->_translationMode === null ? false : true);
     }
 
     /**
