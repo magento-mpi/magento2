@@ -134,3 +134,7 @@
     min-height: 16px;
     display: inline-block;
 }
+
+.invisible {
+  visibility: hidden;
+}

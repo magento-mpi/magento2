@@ -14,7 +14,7 @@ TranslateInlineIconVdeTest.prototype.testInit = function() {
     </script>
     */
     var translateInlineVde = jQuery('[data-translate]').translateInlineVde();
-    assertEquals(true, translateInlineVde.is(':mage-translateInlineVde'));
+    assertTrue(translateInlineVde.is(':mage-translateInlineVde'));
     translateInlineVde.translateInlineVde('destroy');
 };
 TranslateInlineIconVdeTest.prototype.testCreate = function() {
@@ -114,7 +114,7 @@ TranslateInlineIconVdeTest.prototype.testClick = function() {
 
     iconImg.trigger('click');
     assertEquals(1, counter);
-    assertEquals('hidden', jQuery('#translateElem').css('visibility'));
+    assertTrue(jQuery('#translateElem').hasClass('invisible'));
 
     translateInlineVde.translateInlineVde('destroy');
 };
@@ -139,7 +139,7 @@ TranslateInlineIconVdeTest.prototype.testDblClick = function() {
     assertEquals(1, counter);
 
     assertEquals(0, jQuery('#translateElem').find('img').size());
-    assertEquals('hidden', jQuery('#translateElem').css('visibility'));
+    assertTrue(jQuery('#translateElem').hasClass('invisible'));
 
     translateInlineVde.translateInlineVde('destroy');
 };

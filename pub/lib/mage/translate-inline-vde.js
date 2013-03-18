@@ -40,8 +40,8 @@
             positionDialog: function(element, dialog) { },
             templateName: "translateInlineDialogVdeTemplate",
             dataAttrName: "translate",
-            onSubmitComplete: function() { },
-            onCancel: function() { },
+            onSubmitComplete: function() {},
+            onCancel: function() {},
             area: "vde",
             ajaxUrl: null,
             translateMode: null,
@@ -149,7 +149,7 @@
             this.translateDialog.find("input[data-translate-input-index]").each(function(count, input) {
                 /* discard changes if pressing esc */
                 $(input).keydown(function(e) {
-                    if (e.keyCode == 27) {
+                    if (e.keyCode == $.ui.keyCode.ESCAPE) {
                         e.preventDefault();
                         $.proxy(self.close, self)();
                     }
@@ -201,7 +201,7 @@
                     var index = id.substring(7),
                         value = elem.value;
 
-                    if (value === null || value === '') {
+                    if (value === null) {
                         value = '';
                     }
 
@@ -231,7 +231,7 @@
 
             dataAttrName: "translate",
             translateMode: null,
-            onClick: function(widget) { }
+            onClick: function(widget) {}
         },
 
         /**
@@ -286,25 +286,17 @@
                 this.isTemplateAttached = true;
             }
 
-            $(this.element).css({
-                visibility: "visible"
-            });
+            $(this.element).removeClass('invisible');
         },
 
         /**
          * Disables the element click from actually performing a click.
          */
         _disableElementClicks: function() {
-            this.element.find('a').each(function(count, link) {
-                link.on('click', function(e) {
-                    e.preventDefault();
-                    return false;
-                });
-            });
+            this.element.find('a').off('click');
 
             if ($(this.element).is('A')) {
                 this.element.on('click', function(e) {
-                    e.preventDefault();
                     return false;
                 });
             }
@@ -347,6 +339,15 @@
         },
 
         /**
+         * Changes depending on hover action.
+         */
+        _hoverIcon: function() {
+            if (this.options.imgHover) {
+                this.iconTemplate.prop('src', this.options.imgHover);
+            }
+        },
+
+        /**
          * Initializes the icon template for the widget. Sets the widget up to
          * respond to events.
          */
@@ -357,11 +358,7 @@
 
             this.iconTemplate.on("click", $.proxy(this._invokeAction, this));
 
-            this.iconTemplate.on("mouseover", function() {
-                if (self.options.imgHover) {
-                    self.iconTemplate.prop('src', self.options.imgHover);
-                }
-            });
+            this.iconTemplate.on("mouseover", $.proxy(this._hoverIcon, this));
 
             this.iconTemplate.on("mouseout", function() {
                 self.iconTemplate.prop('src', self.options.img);
@@ -389,9 +386,7 @@
             $(this.iconTemplate).detach();
 
             this.isTemplateAttached = false;
-            $(this.element).css({
-                visibility: "hidden"
-            });
+            $(this.element).addClass('invisible');
         }
     });
 
