@@ -20,12 +20,6 @@
                     </resource>
                 </resource>
             </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Adminhtml::system">
-                    <resource id="Old_Mage_Adminhtml::launcher" module="Mage_Launcher" title="Launcher" sortOrder="10" />
-                </resource>
-            </resource>
         </resources>
     </acl>
 </config>

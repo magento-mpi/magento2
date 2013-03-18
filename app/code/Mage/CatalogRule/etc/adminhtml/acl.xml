@@ -19,12 +19,6 @@
                     </resource>
                 </resource>
             </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_CatalogRule::promo" module="Mage_CatalogRule" title="Promotions" sortOrder="50">
-                    <resource id="Old_Mage_CatalogRule::promo_catalog" title="Catalog Price Rules" />
-                </resource>
-            </resource>
         </resources>
     </acl>
 </config>

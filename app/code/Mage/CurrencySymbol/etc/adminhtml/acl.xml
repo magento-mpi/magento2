@@ -20,15 +20,6 @@
                     </resource>
                 </resource>
             </resource>
-
-            <resource id="Old_Mage_Adminhtml::admin">
-                <resource id="Old_Mage_Adminhtml::system">
-                    <resource id="Old_Mage_CurrencySymbol::system_currency" title="Manage Currency">
-                        <resource id="Old_Mage_CurrencySymbol::currency_rates" title="Rates" sortOrder="50" />
-                        <resource id="Old_Mage_CurrencySymbol::symbols" title="Symbols" sortOrder="100" />
-                    </resource>
-                </resource>
-            </resource>
         </resources>
     </acl>
 </config>
