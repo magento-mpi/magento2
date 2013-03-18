@@ -101,9 +101,19 @@
     text-decoration: underline;
 }
 
+.translate-dialog .ui-dialog-buttonpane button.translate-dialog-cancel .ui-button-text:hover {
+    cursor: pointer;
+    background-color: #618499;
+}
+
 .translate-dialog .ui-dialog-buttonpane button.translate-dialog-save .ui-button-text {
     background-color: #fe7834;
     color: white;
+}
+
+.translate-dialog .ui-dialog-buttonpane button.translate-dialog-save .ui-button-text:hover {
+    cursor: pointer;
+    background-color: #d75f07;
 }
 
 .translate-edit-icon-text {
