@@ -11,7 +11,7 @@
 #---
 menu:
     sales:
-#   Operations group
+#     Operations group
         manage_sales_orders: ~
         manage_sales_invoices: ~
         manage_sales_shipments: ~
@@ -57,6 +57,7 @@ menu:
 #     User Content group
         manage_all_reviews: ~
         all_tags: ~
+
     content:
 #     Elements group
         manage_cms_pages: ~
@@ -134,7 +135,6 @@ menu:
         manage_reward_rates: ~
         manage_gift_wrapping: ~
         manage_gift_registry: ~
-        store_launcher: ~
 #     TODO need to implement UIMap page for promotestore_index/
 
     system:
