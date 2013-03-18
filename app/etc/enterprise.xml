@@ -18,11 +18,13 @@
                 </ee>
             </request_processors>
         </cache>
-        <full_page_cache>
-            <backend_options>
-                <cache_dir>full_page_cache</cache_dir>
-            </backend_options>
-        </full_page_cache>
+        <cache_advanced>
+            <full_page>
+                <backend_options>
+                    <cache_dir>full_page_cache</cache_dir>
+                </backend_options>
+            </full_page>
+        </cache_advanced>
         <skip_process_modules_updates>0</skip_process_modules_updates>
         <di>
             <preferences>

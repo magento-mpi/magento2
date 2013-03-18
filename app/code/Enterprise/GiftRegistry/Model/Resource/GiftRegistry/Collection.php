@@ -10,7 +10,7 @@
 
 
 /**
- * Customer segment data grid collection
+ * Gift registry data grid collection
  *
  * @category    Enterise
  * @package     Enterpise_GiftRegistry

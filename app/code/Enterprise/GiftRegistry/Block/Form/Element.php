@@ -13,8 +13,28 @@
  */
 class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Template
 {
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
     protected $_countryCollection;
     protected $_regionCollection;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        array $data = array()
+    ) {
+        $this->_configCacheType = $configCacheType;
+        parent::__construct($context, $data);
+    }
+
 
     /**
      * Load country collection
@@ -56,20 +76,13 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     protected function _getCountryOptions()
     {
         $options  = false;
-        $useCache = Mage::app()->useCache('config');
-        if ($useCache) {
-            $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
-            $cacheTags = array('config');
-            if ($optionsCache = Mage::app()->loadCache($cacheId)) {
-                $options = unserialize($optionsCache);
-            }
+        $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+        if ($optionsCache = $this->_configCacheType->load($cacheId)) {
+            $options = unserialize($optionsCache);
         }
-
         if ($options == false) {
             $options = $this->_getCountryCollection()->toOptionArray();
-            if ($useCache) {
-                Mage::app()->saveCache(serialize($options), $cacheId, $cacheTags);
-            }
+            $this->_configCacheType->save(serialize($options), $cacheId);
         }
         return $options;
     }

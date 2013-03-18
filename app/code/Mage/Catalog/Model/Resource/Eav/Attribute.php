@@ -48,10 +48,6 @@
  * @method int setIsWysiwygEnabled(int $value)
  * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsUsedForPromoRules()
  * @method int setIsUsedForPromoRules(int $value)
- * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsUsedForCustomerSegment()
- * @method int setIsUsedForCustomerSegment(int $value)
- * @method Mage_Catalog_Model_Resource_Eav_Attribute getIsUsedForTargetRules()
- * @method int setIsUsedForTargetRules(int $value)
  * @method string getFrontendLabel()
  *
  * @category    Mage

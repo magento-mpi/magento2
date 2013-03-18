@@ -53,10 +53,12 @@ class Mage_Sales_Model_Quote_Address_Total_Collector extends Mage_Sales_Model_Co
     /**
      * Init corresponding total models
      *
-     * @param array $options
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_Store $store
      */
-    public function __construct($store = null)
+    public function __construct(Mage_Core_Model_Cache_Type_Config $configCacheType, $store = null)
     {
+        parent::__construct($configCacheType);
         $this->_store = $store ?: Mage::app()->getStore();
         $this->_initModels()
             ->_initCollectors()

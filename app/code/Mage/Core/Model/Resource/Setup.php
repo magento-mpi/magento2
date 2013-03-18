@@ -514,7 +514,6 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
                     Mage::log("Failed resource setup: {$fileName}");
                 }
             } catch (Exception $e) {
-                printf('<pre>%s</pre>', print_r($e, true));
                 throw new Magento_Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
             }
             $version = $file['toVersion'];
