@@ -672,3 +672,9 @@
 .field-recurring_profile > .control > .fieldset > .field > .field-service {
     display: none;
 }
+
+/* Change Attribute Set */
+#product_info_tabs li.removed,
+.field.removed {
+    display:none !important;
+}
