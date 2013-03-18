@@ -3615,12 +3615,43 @@ table tbody tr:nth-child(odd):hover th {
     margin: 0;
 }
 
+.grid .filter .date {
+    position: relative;
+}
+
 .grid .filter .date img {
     width: 15px;
     height: 15px;
     cursor: pointer;
     vertical-align: middle;
     margin-left: 5px;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+
+.eq-ie8 .grid .filter .date img {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+.grid .filter .date:before {
+    position: absolute;
+    left: 61px;
+    top: 2px;
+    margin-top: 0;
+    text-shadow: none;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    content: '\e06a'; /* icon calendar  */
+    color: #cac3b4;
+    z-index: 1;
 }
 
 .grid .head-massaction select {
@@ -3629,7 +3660,7 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Grid - Mass Action */
 .massaction {
-    color: #CAC3B4;
+    color: #cac3b4;
     padding: 7px 8px;
     background: #666158;
     box-shadow: 0 1px 2px 0 #504d46 inset, 0 -1px 2px 0 #504d46 inset;
