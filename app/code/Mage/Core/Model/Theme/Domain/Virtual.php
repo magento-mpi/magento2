@@ -37,12 +37,10 @@ class Mage_Core_Model_Theme_Domain_Virtual
     /**
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModelVS
-     * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
-        Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModelVS,
-        array $data = array()
+        Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModelVS
     ) {
         $this->_theme = $theme;
         $this->_copyModelVS = $copyModelVS;

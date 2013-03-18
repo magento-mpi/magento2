@@ -95,7 +95,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
             /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */
             $saveButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_save');
-            $saveButtonBlock->setTheme($editableTheme)
+            $saveButtonBlock->setTheme($theme)
                 ->setMode($mode);
 
             /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
@@ -213,11 +213,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 throw new InvalidArgumentException('Param "stores" is not valid');
             }
 
-            $this->_saveLayoutUpdate(
-                $this->getRequest()->getParam('layoutUpdate', array()),
-                $this->getRequest()->getParam('handle'),
-                $themeId
-            );
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             /** @var $themeCustomization Mage_Core_Model_Theme */
@@ -352,7 +347,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         /** @var $helper Mage_Core_Helper_Theme */
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         try {
-            $theme = $helper->loadEditableTheme($themeId);
+            $theme = $helper->loadEditableTheme($themeId)
+                ->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+                ->getStagingTheme();
+            $this->_saveLayoutUpdate(
+                $this->getRequest()->getParam('layoutUpdate', array()),
+                $this->getRequest()->getParam('handle'),
+                $theme->getId()
+            );
             $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_STAGING)->updateFromStagingTheme();
             $response = array('message' =>  $this->_helper->__('All changes applied'));
         } catch (Exception $e) {

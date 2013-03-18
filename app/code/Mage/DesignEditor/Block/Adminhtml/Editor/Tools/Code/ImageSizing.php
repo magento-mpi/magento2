@@ -13,9 +13,6 @@
  *
  * @method Mage_Core_Model_Theme getTheme()
  * @method setTheme($theme)
- *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Mage_Backend_Block_Widget_Form
 {
@@ -85,7 +82,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             if ($control['type'] != 'image-sizing') {
                 continue;
             }
-            $this->_addImageSizeElement($name, $control);
+            $this->_addImageSizeFieldset($name, $control);
         }
 
         $fieldset = $form->addFieldset('save_image_sizing_fieldset', array(
@@ -134,8 +131,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
                 'after_element_html' => $fieldMessage
             ));
         }
-        $hintMessage =  $this->__('<p class="description">If an image goes beyond the container edges, it will be re-scaled to match the container size. By default, the white borders will be added to an image to fill in the container space.</p>');
-        $form->addField('add_white_borders_hint', 'note', array('after_element_html' => $hintMessage));
+        /** @todo Get valid message from PO */
+        $hintMessage =  $this->__('If an image goes beyond the container edges,'
+            . ' it will be re-scaled to match the container size.'
+            . ' By default, the white borders will be added to an image to fill in the container space');
+        $form->addField('add_white_borders_hint', 'note', array(
+            'after_element_html' => '<p class="description">' . $hintMessage . '</p>'));
 
         return $this;
     }
@@ -147,7 +148,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      * @param array $control
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
      */
-    protected function _addImageSizeElement($name, $control)
+    protected function _addImageSizeFieldset($name, $control)
     {
         /** @var $form Varien_Data_Form */
         $form = $this->getForm();
@@ -161,45 +162,130 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         $defaultValues = array();
         foreach ($control['components'] as $componentName => $component) {
             $defaultValues[$componentName] = $component['default'];
-            switch ($component['type']) {
-                case 'image-type':
-                    $fieldset->addField($componentName, 'select', array(
-                        'name'   => $componentName,
-                        'values' => $this->_getSelectOptions(),
-                        'value'  => $this->_getValue($component)
-                    ));
-                    break;
-                case 'image-width':
-                    $fieldset->addField($componentName, 'text', array(
-                        'name'   => $componentName,
-                        'class'  => 'image-width',
-                        'value'  => $this->_getValue($component),
-                        'before_element_html' => '<span>W</span>'
-                    ));
-                    break;
-                case 'image-ratio':
-                    $fieldset->addField($componentName . '-hidden', 'hidden', array(
-                        'name'  => $componentName,
-                        'value' => '0'
-                    ));
-                    $fieldset->addField($componentName, 'checkbox', array(
-                        'checked'=> $this->_getValue($component) ? 'checked' : false,
-                        'name'   => $componentName,
-                        'class'  => 'image-ratio',
-                        'value'  => '1',
-                        'after_element_html' => '<span class="action-connect"></span>'
-                    ));
-                    break;
-                case 'image-height':
-                    $fieldset->addField($componentName, 'text', array(
-                        'name'   => $componentName,
-                        'class'  => 'image-height',
-                        'value'  => $this->_getValue($component),
-                        'before_element_html' => '<span>H</span>'
-                    ));
-                    break;
-            }
+            $this->_addFormElement($fieldset, $component, $componentName);
         }
+        $this-> _addResetButton($fieldset, $defaultValues, $name);
+
+        return $this;
+    }
+
+    /**
+     * Add image size form element by component type
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param array $component
+     * @param string $componentName
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     */
+    protected function _addFormElement($fieldset, $component, $componentName)
+    {
+        switch ($component['type']) {
+            case 'image-type':
+                $this->_addImageTypeElement($fieldset, $component, $componentName);
+                break;
+            case 'image-width':
+                $this->_addImageWidthElement($fieldset, $component, $componentName);
+                break;
+            case 'image-ratio':
+                $this->_addImageRatioElement($fieldset, $component, $componentName);
+                break;
+            case 'image-height':
+                $this->_addImageHeightElement($fieldset, $component, $componentName);
+                break;
+        }
+        return $this;
+    }
+
+    /**
+     * Add image type form element to fieldset
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param array $component
+     * @param string $componentName
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     */
+    protected function _addImageTypeElement($fieldset, $component, $componentName)
+    {
+        $fieldset->addField($componentName, 'select', array(
+            'name'   => $componentName,
+            'values' => $this->_getSelectOptions(),
+            'value'  => $this->_getValue($component)
+        ));
+        return $this;
+    }
+
+    /**
+     * Add image width form element to fieldset
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param array $component
+     * @param string $componentName
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     */
+    protected function _addImageWidthElement($fieldset, $component, $componentName)
+    {
+        $fieldset->addField($componentName, 'text', array(
+            'name'   => $componentName,
+            'class'  => 'image-width',
+            'value'  => $this->_getValue($component),
+            'before_element_html' => '<span>W</span>'
+        ));
+        return $this;
+    }
+
+    /**
+     * Add image height form element to fieldset
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param array $component
+     * @param string $componentName
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     */
+    protected function _addImageHeightElement($fieldset, $component, $componentName)
+    {
+        $fieldset->addField($componentName, 'text', array(
+            'name'   => $componentName,
+            'class'  => 'image-height',
+            'value'  => $this->_getValue($component),
+            'before_element_html' => '<span>H</span>'
+        ));
+        return $this;
+    }
+
+    /**
+     * Add image ratio form element to fieldset
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param array $component
+     * @param string $componentName
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     */
+    protected function _addImageRatioElement($fieldset, $component, $componentName)
+    {
+        $fieldset->addField($componentName . '-hidden', 'hidden', array(
+            'name'  => $componentName,
+            'value' => '0'
+        ));
+        $fieldset->addField($componentName, 'checkbox', array(
+            'checked'=> $this->_getValue($component) ? 'checked' : false,
+            'name'   => $componentName,
+            'class'  => 'image-ratio',
+            'value'  => '1',
+            'after_element_html' => '<span class="action-connect"></span>'
+        ));
+        return $this;
+    }
+
+    /**
+     * Add reset button to fieldset
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param array $defaultValues
+     * @param string $name
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     */
+    protected function _addResetButton($fieldset, $defaultValues, $name)
+    {
         $fieldset->addField($name . '_reset', 'button_button', array(
             'name'  => $name . '_reset',
             'title' => $this->__('Reset to Original'),
@@ -210,9 +296,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
                     'event'     => 'restoreDefaultData',
                     'target'    => 'body',
                     'eventData' => $defaultValues
-                )
-        )))));
-
+        ))))));
         return $this;
     }
 

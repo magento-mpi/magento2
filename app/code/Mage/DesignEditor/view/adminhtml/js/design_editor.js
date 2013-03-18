@@ -118,6 +118,18 @@
                 }
             };
 
+            if ($(this.options.editorFrameSelector).get(0)) {
+                var historyObject = $(this.options.editorFrameSelector).get(0).contentWindow.vdeHistoryObject;
+                if (historyObject && historyObject.getItems().length != 0) {
+                    data.layoutUpdate = this._preparePostItems(historyObject.getItems());
+                }
+                var frameUrl = $(this.options.editorFrameSelector).attr('src');
+                var urlParts = frameUrl.split('handle');
+                if (urlParts.length > 1) {
+                    data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
+                }
+            }
+
             $.ajax({
                 type: 'POST',
                 url:  eventData.save_url,

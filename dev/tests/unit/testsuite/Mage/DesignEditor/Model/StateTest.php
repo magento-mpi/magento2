@@ -224,6 +224,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
                 Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_MODE_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY,
+                Mage_DesignEditor_Model_State::VIRTUAL_THEME_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY
             ))
             ->will($this->returnValue($this->_backendSession));

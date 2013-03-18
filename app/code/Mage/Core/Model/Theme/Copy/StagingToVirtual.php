@@ -26,22 +26,32 @@ class Mage_Core_Model_Theme_Copy_StagingToVirtual extends Mage_Core_Model_Theme_
     protected $_design;
 
     /**
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
-     * @param Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection
+     * @param Mage_Core_Model_Layout_Link $layoutLink
+     * @param Mage_Core_Model_Layout_Update $layoutUpdate
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_Package $design
+     * @param Mage_Core_Model_App $app
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
-        Mage_Core_Model_Resource_Layout_Link_Collection $linkCollection,
+        Mage_Core_Model_Layout_Link $layoutLink,
+        Mage_Core_Model_Layout_Update $layoutUpdate,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Design_Package $design,
+        Mage_Core_Model_App $app,
         array $data = array()
     ) {
-        parent::__construct($themeFactory, $linkCollection, $data);
         $this->_filesystem = $filesystem;
         $this->_design = $design;
+        $this->_app = $app;
+        parent::__construct($themeFactory, $layoutLink, $layoutUpdate, $data);
     }
 
     /**
@@ -53,11 +63,12 @@ class Mage_Core_Model_Theme_Copy_StagingToVirtual extends Mage_Core_Model_Theme_
     public function copy(Mage_Core_Model_Theme $theme)
     {
         $virtualTheme = $theme->getParentTheme();
-        $this->_copyLayoutUpdates($theme, $virtualTheme)
-            ->_copyAllThemeFiles($theme, $virtualTheme);
+        $this->_copyLayoutUpdates($theme, $virtualTheme)->_copyAllThemeFiles($theme, $virtualTheme);
         $this->_design->dropPublicationCache(array(
             'area' => Mage_Core_Model_Design_Package::DEFAULT_AREA, 'themeModel' => $virtualTheme
         ));
+        $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
+        $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
         return $virtualTheme;
     }
 

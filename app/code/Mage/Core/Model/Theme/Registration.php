@@ -182,7 +182,7 @@ class Mage_Core_Model_Theme_Registration
     protected function _getResetParentId(Mage_Core_Model_Theme $theme)
     {
         $parentTheme = $theme->getParentTheme();
-        while($parentTheme) {
+        while ($parentTheme) {
             foreach ($this->_allowedRelations as $typesSequence) {
                 list($parentType, $childType) = $typesSequence;
                 if ($theme->getType() == $childType && $parentTheme->getType() == $parentType) {

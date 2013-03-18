@@ -22,12 +22,9 @@ class Mage_Core_Model_Theme_Domain_Physical
 
     /**
      * @param Mage_Core_Model_Theme $theme
-     * @param array $data
      */
-    public function __construct(
-        Mage_Core_Model_Theme $theme,
-        array $data = array()
-    ) {
+    public function __construct(Mage_Core_Model_Theme $theme)
+    {
         $this->_theme = $theme;
     }
 }
