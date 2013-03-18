@@ -56,6 +56,13 @@
         isSubmitting : false,
 
         /**
+         * Identifies if inline text is being editied.  Only one element can be edited at a time.
+         *
+         * @type {boolean}
+         */
+        isBeingEdited : false,
+
+        /**
          * Creates the translation dialog widget. Fulfills jQuery WidgetFactory _create hook.
          */
         _create: function() {
@@ -107,6 +114,7 @@
         close: function() {
             this.translateDialog.dialog("close");
             this.options.onCancel();
+            this.isBeingEdited = false;
             $(window).off('resize.translateInlineVdeDialog');
         },
 
@@ -146,6 +154,14 @@
                         $.proxy(self.close, self)();
                     }
                 });
+                /* keep track of the fact that translate text has been changed */
+                $(input).on('change', function(e) {
+                    this.isBeingEdited = true;
+                });
+            });
+
+            this.translateDialog.find("input[data-translate-input-index]").each(function(count, input) {
+                $(input).change
             });
 
             this.translateDialog.find("#" + this.options.translateForm.data.id).each(function(count, form) {
@@ -165,6 +181,7 @@
                 return;
             }
             this.isSubmitting = true;
+            this.isBeingEdited = false;
 
             var parameters = $.param({area: this.options.area}) +
                 "&" + $("#" + this.options.translateForm.data.id).serialize();
