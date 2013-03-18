@@ -129,8 +129,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             array('custom_layout_update'),
             array('enable_googlecheckout'),
             array('gallery'),
-            array('gift_message_available'),
-            array('group_price'),
             array('is_recurring'),
             array('media_gallery'),
             array('meta_description'),
@@ -149,7 +147,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             array('special_price'),
             array('special_to_date'),
             array('thumbnail'),
-            array('tier_price'),
             array('url_key')
         );
     }
@@ -205,19 +202,22 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     public function nonUnassignableSystemAttributesDataProvider()
     {
         return array(
+            array('category_ids'),
             array('description'),
+            array('gift_message_available'),
+            array('group_price'),
+            array('image'),
             array('name'),
             array('price'),
             array('price_view'),
+            array('quantity_and_stock_status'),
             array('short_description'),
             array('sku'),
             array('status'),
             array('tax_class_id'),
+            array('tier_price'),
             array('visibility'),
             array('weight'),
-            array('quantity_and_stock_status'),
-            array('category_ids'),
-            array('image'),
         );
     }
 }
