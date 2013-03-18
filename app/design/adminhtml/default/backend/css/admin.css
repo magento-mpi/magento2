@@ -2274,9 +2274,7 @@ table tbody tr:nth-child(odd):hover th {
     z-index: 2;
 }
 
-/*.navigation .level-0.item-stores > a span:before, */
-/* TODO: place the gear icon to the "Stores" nav item when it appears */
-.navigation .level-0.item-system > a span:before {
+.navigation .level-0.item-stores > a span:before {
     position: absolute;
     left: -22px;
     top: -1px;

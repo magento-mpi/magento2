@@ -13,20 +13,28 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Catalog::config_catalog" module="Mage_Catalog" title="Catalog Section" />
+                <resource id="Mage_Catalog::catalog" module="Mage_Catalog" title="Products" sortOrder="30">
+                    <resource id="Mage_Catalog::catalog_inventory" module="Mage_Catalog" title="Inventory" sortOrder="10">
+                        <resource id="Mage_Catalog::products" title="Catalog" module="Mage_Catalog" sortOrder="10" />
+                        <resource id="Mage_Catalog::categories" title="Categories" module="Mage_Catalog" sortOrder="20" />
                     </resource>
                 </resource>
-                <resource id="Mage_Catalog::catalog" module="Mage_Catalog" title="Catalog" sortOrder="30">
-                    <resource id="Mage_Catalog::catalog_attributes" title="Attributes">
-                        <resource id="Mage_Catalog::attributes_attributes" title="Manage Attributes" />
-                        <resource id="Mage_Catalog::sets" title="Manage Attribute Sets" />
+                <resource id="Mage_Adminhtml::marketing">
+                    <resource id="Mage_Adminhtml::marketing_seo">
+                        <resource id="Mage_Catalog::urlrewrite" title="URL Redirects" module="Mage_Catalog" sortOrder="20" />
                     </resource>
-                    <resource id="Mage_Catalog::categories" title="Manage Categories" />
-                    <resource id="Mage_Catalog::products" title="Manage Products" />
-                    <resource id="Mage_Catalog::update_attributes" title="Update Attributes" />
-                    <resource id="Mage_Catalog::urlrewrite" title="URL Rewrite Management" />
+                </resource>
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_settings">
+                        <resource id="Mage_Adminhtml::config">
+                            <resource id="Mage_Catalog::config_catalog" module="Mage_Catalog" title="Catalog Section" />
+                        </resource>
+                    </resource>
+                    <resource id="Mage_Adminhtml::stores_attributes">
+                        <resource id="Mage_Catalog::attributes_attributes" title="Manage Attributes" module="Mage_Catalog" sortOrder="30" />
+                        <resource id="Mage_Catalog::update_attributes" title="Update Attributes" sortOrder="35" />
+                        <resource id="Mage_Catalog::sets" title="Product Template" module="Mage_Catalog" sortOrder="40"/>
+                    </resource>
                 </resource>
             </resource>
         </resources>

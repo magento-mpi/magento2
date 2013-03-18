@@ -13,8 +13,10 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Cms::cms">
-                    <resource id="Enterprise_Banner::enterprise_banner" module="Enterprise_Banner" title="Banners" sortOrder="15" />
+                <resource id="Mage_Adminhtml::content">
+                    <resource id="Mage_Adminhtml::content_elements">
+                        <resource id="Enterprise_Banner::enterprise_banner" module="Enterprise_Banner" title="Banners" sortOrder="40" />
+                    </resource>
                 </resource>
             </resource>
         </resources>

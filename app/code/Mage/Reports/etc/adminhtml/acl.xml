@@ -13,41 +13,47 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Reports::report" module="Mage_Reports" title="Reports" sortOrder="80">
-                    <resource id="Mage_Reports::salesroot" title="Sales">
-                        <resource id="Mage_Reports::salesroot_sales" title="Sales Report" />
-                        <resource id="Mage_Reports::tax" title="Tax" />
-                        <resource id="Mage_Reports::shipping" title="Shipping" />
-                        <resource id="Mage_Reports::invoiced" title="Total invoiced" />
-                        <resource id="Mage_Reports::refunded" title="Total refunded" />
-                        <resource id="Mage_Reports::coupons" title="Coupons" />
+                <resource id="Mage_Reports::report" module="Mage_Reports" title="Reports" sortOrder="70">
+                    <resource id="Mage_Reports::report_marketing" title="Marketing" module="Mage_Reports" sortOrder="10">
+                        <resource id="Mage_Reports::shopcart" module="Mage_Reports" title="Shopping Cart" sortOrder="10">
+                            <resource id="Mage_Reports::product" title="Products in carts" module="Mage_Reports" sortOrder="10" />
+                            <resource id="Mage_Reports::abandoned" title="Abandoned carts" module="Mage_Reports" sortOrder="20" />
+                        </resource>
+                        <resource id="Mage_Reports::report_search" title="Search Terms" module="Mage_Reports" sortOrder="30" />
                     </resource>
-                    <resource id="Mage_Reports::shopcart" title="Shopping Cart">
-                        <resource id="Mage_Reports::product" title="Products in carts" />
-                        <resource id="Mage_Reports::abandoned" title="Abandoned carts" />
+                    <resource id="Mage_Reports::review" title="Reviews" module="Mage_Reports" sortOrder="20">
+                        <resource id="Mage_Reports::review_customer" title="By Customers" module="Mage_Reports" sortOrder="10" />
+                        <resource id="Mage_Reports::review_product" title="By Products" module="Mage_Reports" sortOrder="20" />
                     </resource>
-                    <resource id="Mage_Reports::report_products" title="Products">
-                        <resource id="Mage_Reports::bestsellers" title="Bestsellers" />
-                        <resource id="Mage_Reports::sold" title="Products Ordered" />
-                        <resource id="Mage_Reports::viewed" title="Most Viewed" />
-                        <resource id="Mage_Reports::lowstock" title="Low stock" />
-                        <resource id="Mage_Reports::downloads" title="Downloads" />
+                    <resource id="Mage_Reports::salesroot" title="Sales" module="Mage_Reports" sortOrder="40">
+                        <resource id="Mage_Reports::salesroot_sales" title="Orders" module="Mage_Reports" sortOrder="10" />
+                        <resource id="Mage_Reports::tax" title="Tax" module="Mage_Reports" sortOrder="20" />
+                        <resource id="Mage_Reports::invoiced" title="Invoiced" module="Mage_Reports" sortOrder="30" />
+                        <resource id="Mage_Reports::shipping" title="Shipping" module="Mage_Reports" sortOrder="40" />
+                        <resource id="Mage_Reports::refunded" title="Refunds" module="Mage_Reports" sortOrder="50" />
+                        <resource id="Mage_Reports::coupons" title="Coupons" module="Mage_Reports" sortOrder="50" />
                     </resource>
-                    <resource id="Mage_Reports::customers" title="Customers">
-                        <resource id="Mage_Reports::accounts" title="New Accounts" />
-                        <resource id="Mage_Reports::totals" title="Customers by orders total" />
-                        <resource id="Mage_Reports::customers_orders" title="Customers by number of orders" />
+                    <resource id="Mage_Reports::customers" title="Customers" module="Mage_Reports" sortOrder="50">
+                        <resource id="Mage_Reports::totals" title="Order total" module="Mage_Reports" sortOrder="10" />
+                        <resource id="Mage_Reports::customers_orders" title="Order count" module="Mage_Reports" sortOrder="20" />
+                        <resource id="Mage_Reports::accounts" title="New" module="Mage_Reports" sortOrder="30" />
                     </resource>
-                    <resource id="Mage_Reports::review" module="Mage_Catalog" title="Reviews">
-                        <resource id="Mage_Reports::review_customer" title="Customers Reviews" />
-                        <resource id="Mage_Reports::review_product" title="Products Reviews" />
+                    <resource id="Mage_Reports::report_products" title="Products" module="Mage_Reports" sortOrder="60">
+                        <resource id="Mage_Reports::viewed" title="Views" module="Mage_Reports" sortOrder="10" />
+                        <resource id="Mage_Reports::bestsellers" title="Bestsellers" module="Mage_Reports" sortOrder="20" />
+                        <resource id="Mage_Reports::lowstock" title="Low stock" module="Mage_Reports" sortOrder="30" />
+                        <resource id="Mage_Reports::sold" title="Ordered" module="Mage_Reports" sortOrder="40" />
+                        <resource id="Mage_Reports::downloads" title="Downloads" module="Mage_Reports" sortOrder="50" />
                     </resource>
-                    <resource id="Mage_Reports::report_search" title="Search Terms" />
-                    <resource id="Mage_Reports::statistics" title="Statistics" />
+                    <resource id="Mage_Reports::statistics" title="Statistics" module="Mage_Reports" sortOrder="80">
+                        <resource id="Mage_Reports::statistics_refresh" title="Refresh" module="Mage_Reports" sortOrder="10"/>
+                    </resource>
                 </resource>
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Reports::reports" module="Mage_Reports" title="Reports" />
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_settings">
+                        <resource id="Mage_Adminhtml::config">
+                            <resource id="Mage_Reports::reports" module="Mage_Reports" title="Reports" sortOrder="70" />
+                        </resource>
                     </resource>
                 </resource>
             </resource>
