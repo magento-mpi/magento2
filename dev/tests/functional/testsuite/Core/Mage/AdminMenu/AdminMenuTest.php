@@ -42,7 +42,7 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
         $mca = $this->getUimapHelper()->getPageMca($area, $currentPageName);
         $this->addParameter('mcaXpath', $mca);
         $this->assertEquals(1, $this->getControlCount('pageelement', 'active_menu_element'),
-            "Top level menu item for '$currentPageName' isn\'t active");
+            "Top level menu item for '$currentPageName' isn't active");
         $this->assertTrue($this->controlIsPresent('pageelement', 'general_menu_xpath'),
             "Expected active menu item for page $currentPageName doesn't exist");
     }
