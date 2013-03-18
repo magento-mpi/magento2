@@ -18,7 +18,7 @@
         return $('.validate-one-gws-store:checked').length;
     }, 'Please select one of the options.');
 
-    $.widget('mage.validation', {
+    $.widget('mage.validation', $.mage.validation, {
         options: {
             errorPlacement: function(error, element) {
                 if (element.is('[name="gws_store_groups[]"]')) {
