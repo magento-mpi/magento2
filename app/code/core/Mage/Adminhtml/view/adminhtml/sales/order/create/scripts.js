@@ -946,7 +946,7 @@ AdminOrder.prototype = {
                 if ('message' != id || response[id]) {
                     var wrapper = new Element('div');
                     wrapper.update(response[id] ? response[id] : '');
-                    $(this.getAreaId(id)).update(Prototype.Browser.IE ? wrapper.outerHTML : wrapper);
+                    $(this.getAreaId(id)).update(wrapper.innerHTML);
                 }
                 if ($(this.getAreaId(id)).callback) {
                     this[$(this.getAreaId(id)).callback]();

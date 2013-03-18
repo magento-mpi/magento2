@@ -18,29 +18,11 @@
 
 class Mage_Adminhtml_Block_Sales_Order_Create_Customer extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
-    /**
-     * Buttons to print in own template if any
-     * @var array
-     */
-    protected $_buttonData;
-
 
     protected function _construct()
     {
         parent::_construct();
         $this->setId('sales_order_create_customer');
-        $buttonData = array(
-            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Create New Customer'),
-            'onclick'   => 'order.setCustomerId(false)',
-            'class'     => 'action-add',
-        );
-        $contentBlock = $this->getLayout()->getBlock('content');
-        if ($contentBlock) {
-            $id = $this->helper('Mage_Core_Helper_Data')->uniqHash('id_');
-            $contentBlock->addButton($id, $buttonData);
-        } else {
-            $this->_buttonData = $buttonData;
-        }
     }
 
     public function getHeaderText()
@@ -50,7 +32,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer extends Mage_Adminhtml_Bl
 
     public function getButtonsHtml()
     {
-        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($this->_buttonData)->toHtml();
+        $addButtonData = array(
+            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Create New Customer'),
+            'onclick'   => 'order.setCustomerId(false)',
+            'class'     => 'action-add',
+        );
+        return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
     }
 
 }

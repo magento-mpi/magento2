@@ -9,7 +9,8 @@
  */
 ?>
 
-<?php if (!empty($this->_buttonData))
-	echo $this->getButtonsHtml();
-?>
+<div class="fieldset-wrapper-title">
+	<span class="title"><?php echo $this->getHeaderText() ?></span>
+	<div class="actions"><?php echo $this->getButtonsHtml() ?></div>
+</div>
 <?php echo $this->getChildHtml('', true) ?>

@@ -54,6 +54,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $this->_updateButton('reset', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
+
+        $pageTitle = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Create_Header')->toHtml();
+        $this->getLayout()->getBlock('page-title')->setPageTitle($pageTitle);
     }
 
     /**
@@ -77,7 +80,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
     public function getFormHtml()
     {
         $html = parent::getFormHtml();
-        $html .= $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Composite_Configure')->toHtml();
         return $html;
     }
 

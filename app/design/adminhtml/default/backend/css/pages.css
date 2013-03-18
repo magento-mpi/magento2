@@ -1584,8 +1584,7 @@
     width: 20%;
 }
 
-.customer-current-activity-inner,
-.order-details-inner {
+.customer-current-activity-inner {
     background: #fff;
     border: 1px solid #eae6e0;
     padding: 18px;
@@ -1626,6 +1625,32 @@
     float: right;
     width: 49%;
 }
+
+.adminhtml-sales-order-create-index .order-account-information {
+    float: none;
+    width: auto;
+}
+
+.order-coupons .box-left {
+    float: left;
+    width: 49%;
+}
+
+.order-coupons .box-right {
+    float: right;
+    width: 49%;
+}
+
+.adminhtml-sales-order-create-index .box-left fieldset,
+.adminhtml-sales-order-create-index .box-right fieldset {
+    border-radius: 5px;
+}
+
+.order-search-items thead th:nth-child(1) { width: 60px; }
+.order-search-items thead th:nth-child(3) { width: 80px; }
+.order-search-items thead th:nth-child(4) { width: 100px; }
+.order-search-items thead th:nth-child(5) { width: 55px; }
+.order-search-items thead th:nth-child(6) { width: 1px; }
 
 .adminhtml-rma-new .order-totals  {
     float: none;

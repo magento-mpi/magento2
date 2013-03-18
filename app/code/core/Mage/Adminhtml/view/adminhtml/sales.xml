@@ -725,6 +725,11 @@
     </adminhtml_sales_transactions_view>
 
     <adminhtml_sales_order_create_index>
+        <reference name="page-title">
+            <action method="setTitleId" translate="id"><id>order-header</id></action>
+            <!--action method="setTitlePrefix" translate="value"><value>Prefix</value></action-->
+            <!--action method="setTitleSuffix" translate="value"><value>suffix</value></action-->
+        </reference>
         <reference name="left">
             <action method="setIsCollapsed"><value>true</value></action>
         </reference>
@@ -735,6 +740,7 @@
             <action method="addJs"><file>varien/configurable.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::sales/order/giftoptions_tooltip.js</file></action>
             <block type="Mage_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml" />
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
         </reference>
         <reference name="js">
             <block type="Mage_Adminhtml_Block_Template" template="sales/order/create/js.phtml" name="create" />
@@ -790,6 +796,9 @@
                     </block>
                 </block>
             </block>
+        </reference>
+        <reference name="before_body_end">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" template="catalog/product/composite/configure.phtml" />
         </reference>
     </adminhtml_sales_order_create_index>
 

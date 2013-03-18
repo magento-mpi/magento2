@@ -1113,6 +1113,17 @@ option.placeholder {
     margin: 0 0 29px;
 }
 
+.fieldset .field .options-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fieldset .field .options-list input[type="checkbox"],
+.fieldset .field .options-list input[type="radio"] {
+    margin-right: 5px;
+}
+
 [class^="fields-group-"] .field {
     margin-bottom: 0;
 }

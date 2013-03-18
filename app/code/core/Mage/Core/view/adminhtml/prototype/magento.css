@@ -448,6 +448,10 @@
     padding: 25px 25px 0;
 }
 
+.ui-dialog .ui-dialog-content label.mage-error {
+    margin: 0;
+}
+
 .ui-dialog .ui-dialog-content form {
     display: block;
     overflow: hidden;

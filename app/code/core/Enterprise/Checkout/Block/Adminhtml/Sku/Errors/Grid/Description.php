@@ -37,7 +37,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
 
         /* @var $button Mage_Adminhtml_Block_Widget_Button */
         $button = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button', '', array(
-            'class'    => $canConfigure ? '' : 'disabled',
+            'class'    => $canConfigure ? 'action-configure' : 'action-configure action-disabled',
             'onclick'  => $canConfigure ? "addBySku.configure({$productId}, {$itemSku})" : '',
             'disabled' => !$canConfigure,
             'label'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Configure'),
