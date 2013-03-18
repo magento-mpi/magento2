@@ -121,10 +121,10 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testReset()
     {
-        Mage::setIsDeveloperMode(true);
-        $this->assertTrue(Mage::getIsDeveloperMode());
+        Mage::register('a', 'b');
+        $this->assertEquals('b', Mage::registry('a'));
         Mage::reset();
-        $this->assertFalse(Mage::getIsDeveloperMode());
+        $this->assertEquals(null, Mage::registry('a'));
     }
 
     /**

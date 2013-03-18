@@ -151,11 +151,11 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
     protected function _getStrategyClass($fileType, $skipProxy = false)
     {
         $mode = $this->_appState->getMode();
-        if ($mode == Mage::APP_MODE_PRODUCTION) {
+        if ($mode == Mage_Core_Model_App_State::MODE_PRODUCTION) {
             $strategyClasses = $this->_strategies['production_mode'];
-        } else if (($mode == Mage::APP_MODE_DEVELOPER) || $skipProxy) {
+        } else if (($mode == Mage_Core_Model_App_State::MODE_DEVELOPER) || $skipProxy) {
             $strategyClasses = $this->_strategies['full_check'];
-        } else if ($mode == Mage::APP_MODE_DEFAULT) {
+        } else if ($mode == Mage_Core_Model_App_State::MODE_DEFAULT) {
             $strategyClasses = $this->_strategies['caching_map'];
         } else {
             throw new Mage_Core_Exception("Unknown mode to choose strategy: {$mode}");

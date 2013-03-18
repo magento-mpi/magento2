@@ -187,8 +187,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrl($devMode, $file, $result)
     {
+        if ($devMode != Mage::getIsDeveloperMode()) {
+            $this->markTestSkipped('Implemented to be run in developer mode');
+        }
         $this->_emulateFixtureTheme();
-        Mage::setIsDeveloperMode($devMode);
         $this->assertEquals($this->_model->getViewFileUrl($file), $result);
     }
 
@@ -204,7 +206,9 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewUrlSigned($devMode, $file, $result)
     {
-        Mage::setIsDeveloperMode($devMode);
+        if ($devMode != Mage::getIsDeveloperMode()) {
+            $this->markTestSkipped('Implemented to be run in developer mode');
+        }
         $url = $this->_model->getViewFileUrl($file);
         $this->assertEquals(strpos($url, $result), 0);
         $lastModified = array();

@@ -30,9 +30,10 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', array());
         $this->_strategyPool = $this->getMock('Mage_Core_Model_Design_FileResolution_StrategyPool', array(),
             array(), '', false);
+        $appState = new Mage_Core_Model_App_State();
 
         $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults'),
-            array($modulesReader, $filesystem, $this->_strategyPool)
+            array($modulesReader, $filesystem, $this->_strategyPool, $appState)
         );
     }
 

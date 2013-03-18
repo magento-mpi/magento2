@@ -76,18 +76,26 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_filesystem;
 
     /**
+     * @var Mage_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
+     * @param Mage_Core_Model_App_State $appState
      */
     public function __construct(
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
+        Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
+        Mage_Core_Model_App_State $appState
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
         $this->_resolutionPool = $resolutionPool;
+        $this->_appState = $appState;
     }
 
     /**
@@ -356,7 +364,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     protected function _getAppMode()
     {
-        return Mage::getAppMode();
+        return $this->_appState->getMode();
     }
 
     /**
@@ -366,7 +374,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     protected function _isViewFileOperationAllowed()
     {
-        return $this->_getAppMode() != MAGE::APP_MODE_PRODUCTION;
+        return $this->_getAppMode() != Mage_Core_Model_App_State::MODE_PRODUCTION;
     }
 
     /**
@@ -496,9 +504,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $sourcePath = $this->getViewFile($themeFile, $params);
 
         $minifiedSourcePath = $this->_minifiedPathForStaticFiles($sourcePath);
-        if ($minifiedSourcePath && ($this->_getAppMode() != Mage::APP_MODE_DEVELOPER)
-            && $this->_filesystem->has($minifiedSourcePath))
-        {
+        if ($minifiedSourcePath && ($this->_getAppMode() != Mage_Core_Model_App_State::MODE_DEVELOPER)
+            && $this->_filesystem->has($minifiedSourcePath)
+        ) {
             $sourcePath = $minifiedSourcePath;
             $themeFile = $this->_minifiedPathForStaticFiles($themeFile);
         }
@@ -584,7 +592,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             return true;
         }
 
-        return ($this->_getAppMode() == MAGE::APP_MODE_DEVELOPER)
+        return ($this->_getAppMode() == Mage_Core_Model_App_State::MODE_DEVELOPER)
             && $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
     }
 

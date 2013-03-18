@@ -31,6 +31,11 @@ final class Mage
     const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
 
     /**
+     * Application run code
+     */
+    const PARAM_MODE = 'MAGE_MODE';
+
+    /**
      * Base directory
      */
     const PARAM_BASEDIR = 'base_dir';
@@ -77,13 +82,6 @@ final class Mage
     const EDITION_ENTERPRISE   = 'Enterprise';
     const EDITION_PROFESSIONAL = 'Professional';
     const EDITION_GO           = 'Go';
-
-    /**
-     * Application modes
-     */
-    const APP_MODE_DEVELOPER       = 'developer';
-    const APP_MODE_PRODUCTION      = 'production';
-    const APP_MODE_DEFAULT         = 'default';
 
     /**
      * Registry collection
@@ -133,13 +131,6 @@ final class Mage
      * @var bool
      */
     static private $_isDownloader = false;
-
-    /**
-     * Application mode
-     *
-     * @var string|null
-     */
-    static private $_appMode = self::APP_MODE_DEFAULT;
 
     /**
      * Is allow throw Exception about headers already sent
@@ -249,7 +240,6 @@ final class Mage
         self::$_config          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
-        self::$_appMode         = self::APP_MODE_DEFAULT;
         self::$_loggers         = array();
         self::$_design          = null;
         // do not reset $headersSentThrowsException
@@ -715,57 +705,6 @@ final class Mage
     }
 
     /**
-     * Set special application mode - can be Production or Developer mode.
-     * If null passed, then special mode is just unset.
-     *
-     * @param string $mode
-     *
-     * @deprecated use Mage_Core_Model_App_State::setMode()
-     */
-    public static function setAppMode($mode)
-    {
-        switch ($mode) {
-            case self::APP_MODE_DEVELOPER:
-            case self::APP_MODE_PRODUCTION:
-            case self::APP_MODE_DEFAULT:
-                self::$_appMode = $mode;
-                break;
-            default:
-                self::throwException("Unknown application mode: {$mode}");
-        }
-    }
-
-    /**
-     * Return current app mode
-     *
-     * @return string
-     *
-     * @deprecated use Mage_Core_Model_App_State::getMode()
-     */
-    public static function getAppMode()
-    {
-        return self::$_appMode;
-    }
-
-    /**
-     * Set enabled developer mode
-     *
-     * @param bool $mode
-     * @return bool
-     *
-     * @deprecated use Mage_Core_Model_App_State::setMode()
-     */
-    public static function setIsDeveloperMode($mode)
-    {
-        if ((bool)$mode) {
-            self::setAppMode(self::APP_MODE_DEVELOPER);
-        } else if (self::getAppMode() == self::APP_MODE_DEVELOPER) {
-            self::setAppMode(self::APP_MODE_DEFAULT);
-        }
-        return self::getIsDeveloperMode();
-    }
-
-    /**
      * Retrieve enabled developer mode
      *
      * @return bool
@@ -773,7 +712,18 @@ final class Mage
      */
     public static function getIsDeveloperMode()
     {
-        return self::getAppMode() == self::APP_MODE_DEVELOPER;
+        $objectManager = self::getObjectManager();
+        if (!$objectManager) {
+            return false;
+        }
+
+        $appState = $objectManager->get('Mage_Core_Model_App_State');
+        if (!$appState) {
+            return false;
+        }
+
+        $mode = $appState->getMode();
+        return $mode == Mage_Core_Model_App_State::MODE_DEVELOPER;
     }
 
     /**

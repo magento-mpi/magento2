@@ -68,7 +68,7 @@ class Magento_Test_Application
      *
      * @var bool
      */
-    protected $_isDeveloperMode = false;
+    protected $_appMode = false;
 
     /**
      * Constructor
@@ -78,17 +78,17 @@ class Magento_Test_Application
      * @param Varien_Simplexml_Element $localXml
      * @param array $globalEtcFiles
      * @param array $moduleEtcFiles
-     * @param bool $isDeveloperMode
+     * @param string $appMode
      */
     public function __construct(
         Magento_Test_Db_DbAbstract $dbInstance, $installDir, Varien_Simplexml_Element $localXml,
-        array $globalEtcFiles, array $moduleEtcFiles, $isDeveloperMode
+        array $globalEtcFiles, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
         $this->_localXml        = $localXml;
         $this->_globalEtcFiles  = $globalEtcFiles;
         $this->_moduleEtcFiles  = $moduleEtcFiles;
-        $this->_isDeveloperMode = $isDeveloperMode;
+        $this->_appMode = $appMode;
 
         $this->_installDir = $installDir;
         $this->_installEtcDir = "$installDir/etc";
@@ -149,7 +149,7 @@ class Magento_Test_Application
     public function initialize($overriddenParams = array())
     {
         $overriddenParams[Mage::PARAM_BASEDIR] = BP;
-        Mage::setIsDeveloperMode($this->_isDeveloperMode);
+        $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
         $config = new Mage_Core_Model_ObjectManager_Config(
             $this->_customizeParams($overriddenParams)

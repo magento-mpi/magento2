@@ -72,9 +72,6 @@ HTML;
         }
         exit;
     }
-    if (isset($_SERVER['MAGE_MODE'])) {
-        Mage::setAppMode($_SERVER['MAGE_MODE']);
-    }
     if (!empty($_SERVER['MAGE_PROFILER'])) {
         $profilerConfigData = $_SERVER['MAGE_PROFILER'];
 

@@ -53,8 +53,8 @@ class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAb
         }
 
         /** @var $appState \Mage_Core_Model_App_State */
-        $appState = $this->_objectManager->get('Mage_Core_Model_App_State');
-        $appState->setMode(Mage::APP_MODE_DEVELOPER);
+        $this->_objectManager->create('Mage_Core_Model_App_State',
+            array('mode' => Mage_Core_Model_App_State::MODE_DEVELOPER), true);
 
         /** @var $updater \Mage_Core_Model_Db_Updater */
         $updater = $this->_objectManager->get('Mage_Core_Model_Db_Updater');

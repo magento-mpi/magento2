@@ -500,6 +500,7 @@ return array(
     array('setCustomerId', 'Mage_Customer_Model_Resource_Address'),
     array('setInstance', 'Magento_Test_Bootstrap', 'Magento_Test_Helper_Bootstrap::setInstance'),
     array('setIsAjaxRequest', 'Mage_Core_Model_Translate_Inline'),
+    array('setIsDeveloperMode', 'Mage', 'Initialization parameter of the application'),
     array('setJoinFlag', 'Mage_Tag_Model_Resource_Customer_Collection'),
     array('setJoinFlag', 'Mage_Tag_Model_Resource_Product_Collection'),
     array('setJoinFlag', 'Mage_Tag_Model_Resource_Tag_Collection'),

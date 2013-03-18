@@ -83,10 +83,17 @@ class Mage_Core_Model_ObjectManager_Config extends Mage_Core_Model_ObjectManager
         $objectManager->setConfiguration(array_replace_recursive(
             $this->_initialConfig,
             array(
+                'Mage_Core_Model_App_State' => array(
+                    array(
+                        'parameters' => array(
+                            'mode' => $this->_getParam(Mage::PARAM_MODE),
+                        )
+                    ),
+                ),
                 'Mage_Core_Model_Dir' => array(
                     'parameters' => array(
                         'baseDir' => $this->_getParam(Mage::PARAM_BASEDIR),
-                        'uris' => $this->_getParam(MAGE::PARAM_APP_URIS, array()),
+                        'uris' => $this->_getParam(Mage::PARAM_APP_URIS, array()),
                         'dirs' => $this->_getParam(Mage::PARAM_APP_DIRS, array())
                     )
                 ),

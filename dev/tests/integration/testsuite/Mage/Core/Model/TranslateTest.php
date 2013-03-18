@@ -36,6 +36,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 Mage::getSingleton('Magento_Filesystem'),
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
+                new Mage_Core_Model_App_State(),
             )
         );
         $this->_designModel->expects($this->any())
@@ -137,6 +138,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 $filesystem,
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
+                new Mage_Core_Model_App_State(),
             )
         );
         $this->_designModel->expects($this->any())

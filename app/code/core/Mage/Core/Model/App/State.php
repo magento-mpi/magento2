@@ -11,6 +11,37 @@
 class Mage_Core_Model_App_State
 {
     /**
+     * Application mode
+     *
+     * @var string
+     */
+    private $_appMode;
+
+    /**
+     * Application modes
+     */
+    const MODE_DEVELOPER       = 'developer';
+    const MODE_PRODUCTION      = 'production';
+    const MODE_DEFAULT         = 'default';
+
+    /**
+     * @param string $mode
+     * @throws Mage_Core_Exception
+     */
+    public function __construct($mode = self::MODE_DEFAULT)
+    {
+        switch ($mode) {
+            case self::MODE_DEVELOPER:
+            case self::MODE_PRODUCTION:
+            case self::MODE_DEFAULT:
+                $this->_appMode = $mode;
+                break;
+            default:
+                throw new Mage_Core_Exception("Unknown application mode: {$mode}");
+        }
+    }
+
+    /**
      * Check if application is installed
      *
      * @return bool
@@ -27,17 +58,7 @@ class Mage_Core_Model_App_State
      */
     public function getMode()
     {
-        return Mage::getAppMode();
-    }
-
-    /**
-     * Set new app mode
-     *
-     * @param string $mode
-     */
-    public function setMode($mode)
-    {
-        Mage::setAppMode($mode);
+        return $this->_appMode;
     }
 
     /**
