@@ -14,7 +14,6 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends Mage_Ba
     /** @var array $_carriers Array of predefined carrierrs */
     protected $_activeCarriers = array(
         'flatrate',
-        'googlecheckout',
         'dhl2',
         'fedex2',
         'ups2',
@@ -34,11 +33,15 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends Mage_Ba
 
         $shippingSaveHandler->save(array('shipping_enabled' => true));
         $activeCarries = $this->_getActiveShippingCarriers();
-        $this->assertEquals($activeCarries, $this->_activeCarriers);
+        foreach ($this->_activeCarriers as $carrier) {
+            $this->assertContains($carrier, $activeCarries);
+        }
 
         $shippingSaveHandler->save(array());
         $activeCarries = $this->_getActiveShippingCarriers();
-        $this->assertEmpty($activeCarries);
+        foreach ($this->_activeCarriers as $carrier) {
+            $this->assertNotContains($carrier, $activeCarries);
+        }
     }
 
     /**
