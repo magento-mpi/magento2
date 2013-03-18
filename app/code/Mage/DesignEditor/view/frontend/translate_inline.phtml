@@ -134,7 +134,8 @@
 
             parent.jQuery('[data-translate-selected]').translateInlineToggleMode({
                 frameUrl: '<?php echo $this->getFrameUrl() ?>',
-                refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>
+                refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
+                frameBody: $('body')
             });
         });
     })(jQuery);
