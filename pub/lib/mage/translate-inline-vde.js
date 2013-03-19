@@ -122,7 +122,12 @@
          * Shows translate mode applicable css styles.
          */
         toggleStyle: function(mode) {
-            mode = mode == null ? mode = this.options.translateMode : mode;
+            if (mode == null)
+                mode = this.options.translateMode;
+            else
+                /* change translateMode */
+                this.options.translateMode = mode;
+
             $('body').addClass('trnslate-inline-' + mode + '-area');
             $.each(this.options.translateModes, function(){
                 if (this != mode) {
@@ -278,6 +283,8 @@
                 this.iconTemplate.removeClass('hidden');
             else
                 this.iconTemplate.addClass('hidden');
+
+            this.options.translateMode = mode;
         },
 
         _attachIcon: function() {
