@@ -7,6 +7,16 @@
  * @license     {license_link}
  */
 ConnectorTest = TestCase('DesignEditor_ConnectorTest');
+ConnectorTest.prototype.tearDown = function() {
+    var vdeWidgets = ['vde_container', 'vde_history', 'vde_historyToolbar', 'vde_connector', 'vde_page'];
+    jQuery.each(vdeWidgets, function(i, widgetName) {
+        var instance = jQuery(window).data(widgetName);
+        if (instance) {
+            instance.destroy();
+        }
+    });
+    jQuery(window).off();
+};
 ConnectorTest.prototype.testDefaultOptions = function() {
     var connector = jQuery(window).vde_connector();
     assertEquals('.vde_element_wrapper.vde_container', connector.vde_connector('option', 'containerSelector'));
