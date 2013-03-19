@@ -78,7 +78,7 @@ class Generator_CopyRule
             $params['area'] = $theme->getArea();
             $patternDirs = $this->_fallbackList->getPatternDirs($params, false);
             foreach (array_reverse($patternDirs) as $pattern) {
-                $srcPaths = glob($this->_fixPattern($pattern));
+                $srcPaths = glob($this->_fixPattern($pattern), GLOB_ONLYDIR);
                 foreach ($srcPaths as $src) {
                     $paramsFromDir = $this->_getParams(
                         str_replace($this->_sourcePath, '', $src),
