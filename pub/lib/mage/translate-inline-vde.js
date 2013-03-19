@@ -200,7 +200,7 @@
             this.isSubmitting = true;
             this.isBeingEdited = false;
 
-            $('[spinner]').removeClass('hidden');
+            $('[data-container="spinner"]').removeClass('hidden');
 
             var parameters = $.param({area: this.options.area}) +
                 "&" + $("#" + this.options.translateForm.data.id).serialize();
@@ -217,7 +217,7 @@
          * Callback for when the AJAX call in _formSubmit is completed.
          */
         _formSubmitComplete: function() {
-            $('[spinner]').addClass('hidden');
+            $('[data-container="spinner"]').addClass('hidden');
 
             var self = this;
             this.translateDialog.find("textarea").each(function(count, elem) {
