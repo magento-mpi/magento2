@@ -27,7 +27,11 @@ ConnectorTest.prototype.testDefaultOptions = function() {
     connector.vde_connector('destroy');
 };
 ConnectorTest.prototype.testInitHistory = function() {
-    var connector = jQuery(window).vde_connector();
+    var connector = jQuery(window).vde_connector(),
+        connectorInstance = jQuery(window).data('vde_connector');
+
+    connectorInstance._initHistory();
+    assertNotNull(window.vdeHistoryObject);
     assertEquals(true, jQuery(window).is(':vde-vde_history'));
     connector.vde_connector('destroy');
 };

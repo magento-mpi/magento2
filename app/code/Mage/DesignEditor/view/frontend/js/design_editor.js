@@ -280,7 +280,7 @@
         },
         _initHistory: function() {
             // @TODO can we make this not a widget but global object?
-            window.vdeHistoryObject = $( window ).vde_history().data('vde_history');
+            window.vdeHistoryObject = $(window).vde_history().data('vde_history');
             return window.vdeHistoryObject;
         },
         _initHistoryToolbar: function(history) {
