@@ -83,4 +83,39 @@ class Mage_Launcher_Adminhtml_Storelauncher_Design_DrawerController
 
         $this->getResponse()->setBody($this->_helperFactory->get('Mage_Launcher_Helper_Data')->jsonEncode($result));
     }
+
+    /**
+     * Generate logo based on provided string
+     */
+    public function generateLogoAction()
+    {
+        if (!$this->getRequest()->isPost()) {
+            return;
+        }
+        $responseContent = '';
+        try {
+            $logoCaption = (string)$this->getRequest()->getPost('generated_logo_caption');
+            if (empty($logoCaption)) {
+                throw new Mage_Launcher_Exception('Logo caption must not be empty.');
+            }
+            /** @var $launcherHelper Mage_Launcher_Helper_Data */
+            $launcherHelper = $this->_helperFactory->get('Mage_Launcher_Helper_Data');
+
+            $imageAdapterType = $this->_helperFactory->get('Mage_Core_Helper_Data')->getImageAdapterType();
+            $logoImage = new Varien_Image(null, $imageAdapterType);
+            $logoImage->createPngFromString($logoCaption);
+            $logoImage->save($launcherHelper->getTmpLogoPath(), Mage_Launcher_Helper_Data::GENERATED_LOGO_NAME);
+
+            $responseData = array(
+                'url' => $launcherHelper->getTmpLogoUrl(Mage_Launcher_Helper_Data::GENERATED_LOGO_NAME),
+                'file' => Mage_Launcher_Helper_Data::GENERATED_LOGO_NAME . '.tmp',
+            );
+            $responseContent = $this->_composeAjaxResponseContent('', true, $responseData);
+        } catch (Exception $exception) {
+            $responseContent = $this->_composeAjaxResponseContent($this->__($exception->getMessage()), false, array(
+                'errorcode' => $exception->getCode()
+            ));
+        }
+        $this->getResponse()->setBody($responseContent);
+    }
 }

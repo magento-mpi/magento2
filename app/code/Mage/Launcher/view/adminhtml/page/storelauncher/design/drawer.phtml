@@ -49,15 +49,15 @@
                         <div class="control">
                             <div class="addon">
                                 <input type="text"
-                                       id="store-name"
-                                       name="store_information"
-                                       value="<?php echo $this->getConfigValue('general/store_information/name'); ?>"
+                                       id="generated_logo_caption"
+                                       name="generated_logo_caption"
                                        placeholder="My Store Name"
                                        class="input-text" />
                                 <div class="addafter">
                                     <button type="button"
                                             class="action-generate-logo"
-                                            id="action-generate-logo">
+                                            id="action-generate-logo"
+                                            data-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/generateLogo'); ?>">
                                         <span><?php echo $this->__('Generate Logo'); ?></span>
                                     </button>
                                 </div>
@@ -158,6 +158,34 @@
                     data.submit();
                 });
             }
+        });
+
+        // Add click event listener to 'Generate Logo' button
+        $('#action-generate-logo').on('click.generateLogo', function(e) {
+            var logoCaption = $('#generated_logo_caption').val();
+            if (logoCaption.length == 0) {
+                insertValidationMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Logo caption must not be empty.'); ?>', 'error')
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: $(this).attr('data-url'),
+                data: {
+                    generated_logo_caption: logoCaption
+                },
+                success: function(data, status, jqXHR) {
+                    if (data.success == true) {
+                        showUploadedImage(data.url);
+                        $('#design_header_logo_src').val(data.file)
+                    } else {
+                        insertValidationMessage(data.error_message, 'error')
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    insertValidationMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
+                }
+            });
         });
 
         $(document).ready(function() {

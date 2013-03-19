@@ -25,6 +25,8 @@ class Mage_Launcher_Helper_Data extends Mage_Core_Helper_Data
     const LAUNCHER_PHASE_STORE_LAUNCHER = 'store_launcher';
     const LAUNCHER_PHASE_PROMOTE_STORE = 'promote_store';
 
+    const GENERATED_LOGO_NAME = 'store_logo.png';
+
     /**
      * Store Manager
      *
