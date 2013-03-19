@@ -206,19 +206,6 @@ product_attribute:
             save_and_continue_edit: //button[@data-ui-id='attribute-edit-content-save-and-edit-button-button']
         messages: *productAttributeMessages
 
-# Add New Product Attribute page from Product page
-new_product_attribute_from_product_page:
-    mca: catalog_product_attribute/new/group/%tabId%/product_tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
-    title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
-    uimap:
-        form: *newProductAttributeForm
-        buttons:
-            close_window: //button[span='Close Window']
-            reset: //button[span='Reset']
-            save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
-            save_in_new_attribute_set: //button[@id='save_in_new_set']
-        messages: *productAttributeMessages
-
 # Add New Product Attribute from Product page and save it in new attribute set
 new_product_attribute_from_saved_product_page:
     mca: catalog_product_attribute/new/group/%tabId%/product_tab/group_%tabId%/store/0/product/%productId%/set/%setId%/type/%productType%/popup/1/

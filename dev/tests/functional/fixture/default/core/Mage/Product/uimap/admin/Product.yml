@@ -331,6 +331,12 @@ new_product:
                                         associated_search_sku: //input[@name='sku']
                                         associated_search_price_from: //input[@name='price[from]']
                                         associated_search_price_to: //input[@name='price[to]']
+                            #Add new attribute for product
+                            -
+                                add_attribute:
+                                    xpath: //div[div/span='New Attribute']
+                                    pageelements:
+                                        add_new_attribute_iframe: //iframe[@id='create_new_attribute_container']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Advanced Pricing']
