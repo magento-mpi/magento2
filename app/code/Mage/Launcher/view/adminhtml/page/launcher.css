@@ -500,6 +500,7 @@
 .drawer {
     position: absolute;
     width: 100%;
+    min-width: 1000px;
     background: #fff;
     left:0;
     top: 1000px;
