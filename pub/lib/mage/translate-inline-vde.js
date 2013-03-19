@@ -219,8 +219,7 @@
         _formSubmitComplete: function() {
             $('[data-container="spinner"]').addClass('hidden');
 
-            var self = this;
-            this.translateDialog.find("textarea").each(function(count, elem) {
+            this.translateDialog.find("textarea").each($.proxy(function(count, elem) {
                 var id = elem.id;
                 if (id.indexOf("custom_") === 0) {
                     var index = id.substring(7),
@@ -230,9 +229,9 @@
                         value = '';
                     }
 
-                    self.callback(index, value);
+                    this.callback(index, value);
                 }
-            });
+            }), this);
 
             this.translateDialog.dialog("close");
             $(window).off('resize.translateInlineVdeDialog');
@@ -375,6 +374,15 @@
         },
 
         /**
+         * Changes depending on hover action.
+         */
+        _unhoverIcon: function() {
+            if (this.options.imgHover) {
+                this.iconTemplate.prop('src', this.options.img);
+            }
+        },
+
+        /**
          * Initializes the icon template for the widget. Sets the widget up to
          * respond to events.
          */
@@ -383,14 +391,9 @@
 
             this.iconTemplate = $("#" + this.options.iconTemplateId).tmpl(this.options);
 
-            this.iconTemplate.on("click", $.proxy(this._invokeAction, this));
-
-            this.iconTemplate.on("mouseover", $.proxy(this._hoverIcon, this));
-
-            this.iconTemplate.on("mouseout", function() {
-                self.iconTemplate.prop('src', self.options.img);
-            });
-
+            this.iconTemplate.on("click", $.proxy(this._invokeAction, this))
+                             .on("mouseover", $.proxy(this._hoverIcon, this))
+                             .on("mouseout", $.proxy(this._unhoverIcon, this));
         },
 
         /**
