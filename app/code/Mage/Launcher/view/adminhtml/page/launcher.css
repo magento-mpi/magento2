@@ -81,7 +81,9 @@
 .tile-store-settings:first-child + .tile-store-settings + .tile-store-settings + .tile-store-settings,
 .tile-store-settings:first-child,
 .eq-ie8 .tile-home-page,
-.eq-ie8 .tile-customer-communication {
+.eq-ie8 .tile-customer-communication,
+.eq-ie8 .tile-catalog-price-rule,
+.eq-ie8 .tile-wishlist {
     margin-left: 0;
     clear: left;
 }
@@ -129,63 +131,63 @@
 }
 
 .tile-store-settings h2:before {
-    margin: 50px auto 20px;
+    margin: 58px auto 34px;
     text-align: center;
     color: #F0EBDF;
     display: block;
     content: "";
     background-image: url(images/icons-promote-your-store.png);
     background-repeat: no-repeat;
-    width: 133px;
-    height: 100px;
+    width: 122px;
+    height: 110px;
 }
 
 .tile-store-info h2:before {
-    background-position: 0 -1200px;
+    background-position: 0 -1320px;
 }
 
 .tile-store-info.tile-complete h2:before {
-    background-position: -133px -1200px;
+    background-position: -123px -1320px;
 }
 
 .tile-payments h2:before {
-    background-position: 0 -1400px;
+    background-position: 0 -1540px;
 }
 
 .tile-payments.tile-complete h2:before {
-    background-position: -133px -1400px;
+    background-position: -123px -1540px;
 }
 
 .tile-product h2:before {
-    background-position: 0 -1700px;
+    background-position: 0 -1870px;
 }
 
 .tile-product.tile-complete h2:before {
-    background-position: -133px -1700px;
+    background-position: -123px -1870px;
 }
 
 .tile-shipping h2:before {
-    background-position: 0 -1500px;
+    background-position: 0 -1650px;
 }
 
 .tile-shipping.tile-complete h2:before {
-    background-position: -133px -1500px;
+    background-position: -123px -1650px;
 }
 
 .tile-design h2:before {
-    background-position: 0 -1300px;
+    background-position: 0 -1430px;
 }
 
 .tile-design.tile-complete h2:before {
-    background-position: -133px -1300px;
+    background-position: -123px -1430px;
 }
 
 .tile-tax h2:before {
-    background-position: 0 -1600px;
+    background-position: 0 -1760px;
 }
 
 .tile-tax.tile-complete h2:before {
-    background-position: -133px -1600px;
+    background-position: -123px -1760px;
 }
 
 .tile-home-page h2:before {
@@ -193,95 +195,95 @@
 }
 
 .tile-home-page.tile-complete h2:before {
-    background-position: -133px 0;
+    background-position: -123px 0;
 }
 
 .tile-catalog-price-rule h2:before {
-    background-position: 0 -500px;
+    background-position: 0 -550px;
 }
 
 .tile-catalog-price-rule.tile-complete h2:before {
-    background-position: -133px -500px;
+    background-position: -123px -550px;
 }
 
 .tile-seo h2:before {
-    background-position: 0 -200px;
+    background-position: 0 -220px;
 }
 
 .tile-seo.tile-complete h2:before {
-    background-position: -133px -200px;
+    background-position: -123px -220px;
 }
 
 .tile-rss h2:before {
-    background-position: 0 -900px;
+    background-position: 0 -990px;
 }
 
 .tile-rss.tile-complete h2:before {
-    background-position: -133px -900px;
+    background-position: -123px -990px;
 }
 
 .tile-reports h2:before {
-    background-position: 0 -400px;
+    background-position: 0 -440px;
 }
 
 .tile-reports.tile-complete h2:before {
-    background-position: -133px -400px;
+    background-position: -123px -440px;
 }
 
 .tile-related-products h2:before {
-    background-position: 0 -700px;
+    background-position: 0 -880px;
 }
 
 .tile-related-products.tile-complete h2:before {
-    background-position: -133px -700px;
+    background-position: -123px -880px;
 }
 
 .tile-google-analytics h2:before {
-    background-position: 0 -1100px;
+    background-position: 0 -1210px;
 }
 
 .tile-google-analytics.tile-complete h2:before {
-    background-position: -133px -1100px;
+    background-position: -123px -1210px;
 }
 
 .tile-ebay h2:before {
-    background-position: 0 -1000px;
+    background-position: 0 -1100px;
 }
 
 .tile-ebay.tile-complete h2:before {
-    background-position: -133px -1000px;
+    background-position: -123px -1100px;
 }
 
 .tile-customer-communication h2:before {
-    background-position: 0 -300px;
+    background-position: 0 -330px;
 }
 
 .tile-customer-communication.tile-complete h2:before {
-    background-position: -133px -300px;
+    background-position: -123px -330px;
 }
 
 .tile-wishlist h2:before {
-    background-position: 0 -800px;
+    background-position: 0 -770px;
 }
 
 .tile-wishlist.tile-complete h2:before {
-    background-position: -133px -800px;
+    background-position: -123px -770px;
 }
 
 .tile-promotion h2:before {
-    background-position: 0 -600px;
+    background-position: 0 -660px;
 }
 
 .tile-promotion.tile-complete h2:before {
-    background-position: -133px -600px;
+    background-position: -123px -660px;
 }
 
 .tile-content-pages h2:before {
-    background-position: 0 -100px;
+    background-position: 0 -110px;
 }
 
 .tile-content-pages.tile-complete h2:before {
-    background-position: -133px -100px;
+    background-position: -123px -110px;
 }
 
 .tile-store-settings:hover h2:before,
