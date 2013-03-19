@@ -11,4 +11,5 @@
  */
 
 $config = require __DIR__ . '/ee.php';
+$config['saas'] = array('php' => 'MEL');
 return $config;
