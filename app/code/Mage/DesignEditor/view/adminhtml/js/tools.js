@@ -39,7 +39,7 @@
         * This method will only enable editing for the translation mode specified.
         *
         * If this is the first time a mode is selected, the contents of the iframe will be wrapped with the appropriate
-        * attributes where applicable (translate-mode, either 'text', 'script' or 'alt').
+        * attributes where applicable (data-translate-mode, either 'text', 'script' or 'alt').
         *
         */
         _onClick: function () {
