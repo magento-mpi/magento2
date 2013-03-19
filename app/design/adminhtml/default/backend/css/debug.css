@@ -456,7 +456,6 @@ th.required:before {
 }
 
 .adminhtml-sales-order-index .page-actions .add > span:before {
-    display: block;
     text-indent: 0;
     content: '+';
     font-weight: normal;
@@ -470,10 +469,6 @@ th.required:before {
     text-align: center;
     top: 0;
     left: 0;
-}
-
-.eq-ie8 .adminhtml-sales-order-index .page-actions .add > span:before {
-    line-height: 38px;
 }
 
 .adminhtml-sales-order-index .grid-actions {
@@ -633,4 +628,11 @@ th.required:before {
 .adminhtml-catalog-product-index .page-actions {
     float: right;
     padding: 0;
+}
+
+/*
+    URL Rewrite
+-------------------------------------- */
+.field-url-rewrite-option-select {
+    padding-top: 13px;
 }

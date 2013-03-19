@@ -193,61 +193,75 @@ button.primary.disabled,
 .data-table .action-.delete:hover,
 .data-table .action-.delete:active,
 .data-table .action-.delete.active,
-.data-table .action-.delete:disabled,
 #product-variations-matrix .action-choose,
 #product-variations-matrix .action-choose:hover,
 #product-variations-matrix .action-choose:active,
 #product-variations-matrix .action-choose.active,
-#product-variations-matrix .action-choose:disabled,
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
 .image-panel .action-close.active,
-.image-panel .action-close:disabled,
 .image-panel-controls .action-remove,
 .image-panel-controls .action-remove:hover,
 .image-panel-controls .action-remove:active,
 .image-panel-controls .action-remove.active,
-.image-panel-controls .action-remove:disabled,
 .suggest-expandable .action-show-all,
 .suggest-expandable .action-show-all:hover,
 .suggest-expandable .action-show-all:active,
 .suggest-expandable .action-show-all.active,
-.suggest-expandable .action-show-all:disabled,
 .fieldset-wrapper-title .action-add,
 .fieldset-wrapper-title .action-add:hover,
 .fieldset-wrapper-title .action-add:active,
 .fieldset-wrapper-title .action-add.active,
+.custom-file > .action-add,
+.custom-file > .action-add:hover,
+.custom-file > .action-add:active,
+.custom-file > .action-add.active,
+.vde-tools-header .action-close,
+.vde-tools-header .action-close:hover,
+.vde-tools-header .action-close:active,
+.vde-tools-header .action-close.active,
+.image .action-delete,
+.image .action-delete:hover,
+.image .action-delete:active,
+.image .action-delete.active,
+.fieldset-wrapper-title .actions .action-delete,
+.fieldset-wrapper-title .actions .action-delete:hover,
+.fieldset-wrapper-title .actions .action-delete:active,
+.fieldset-wrapper-title .actions .action-delete.active,
+.address-list-item-actions .action-delete,
+.address-list-item-actions .action-delete:hover,
+.address-list-item-actions .action-delete:active,
+.address-list-item-actions .action-delete.active,
+.notification .action-close,
+.notification .action-close:hover,
+.notification .action-close:active,
+.notification .action-close.active,
+ {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.data-table .action-.delete:disabled,
+#product-variations-matrix .action-choose:disabled,
+.image-panel .action-close:disabled,
+.image-panel-controls .action-remove:disabled,
+.suggest-expandable .action-show-all:disabled,
 .fieldset-wrapper-title .action-add:disabled,
 #store-view-window [class^='action-close'],
 #store-view-window [class^='action-close']:hover,
 #store-view-window [class^='action-close']:active,
 #store-view-window [class^='action-close'].active,
 #store-view-window [class^='action-close']:disabled,
-.custom-file > .action-add,
-.custom-file > .action-add:hover,
-.custom-file > .action-add:active,
-.custom-file > .action-add.active,
 .custom-file > .action-add:disabled,
-.vde-tools-header .action-close,
-.vde-tools-header .action-close:hover,
-.vde-tools-header .action-close:active,
-.vde-tools-header .action-close.active,
 .vde-tools-header .action-close:disabled,
-.image .action-delete,
-.image .action-delete:hover,
-.image .action-delete:active,
-.image .action-delete.active,
 .image .action-delete:disabled,
-.fieldset-wrapper-title .actions .action-delete,
-.fieldset-wrapper-title .actions .action-delete:hover,
-.fieldset-wrapper-title .actions .action-delete:active,
-.fieldset-wrapper-title .actions .action-delete.active,
 .fieldset-wrapper-title .actions .action-delete:disabled,
-.address-list-item-actions .action-delete,
-.address-list-item-actions .action-delete:hover,
-.address-list-item-actions .action-delete:active,
-.address-list-item-actions .action-delete.active,
 .address-list-item-actions .action-delete:disabled,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
@@ -264,10 +278,6 @@ button.primary.disabled,
 .notifications [class^="action-"]:active,
 .notifications [class^="action-"].active,
 .notifications [class^="action-"]:disabled,
-.notification .action-close,
-.notification .action-close:hover,
-.notification .action-close:active,
-.notification .action-close.active,
 .notification .action-close:disabled {
     border: none;
     border-radius: 0;
@@ -904,6 +914,18 @@ option.placeholder {
 .control > .hasDatepicker + img {
     margin: -3px 0 0 5px;
     vertical-align: middle;
+}
+
+/*
+    Forms for Store Scope
+-------------------------------------- */
+.form-inline .field-store_id .label + .control,
+.form-inline .field-store_ids .label + .control,
+.form-inline .field-website_ids .label + .control,
+.form-inline .field-website_id .label + .control,
+.form-inline .field-select_stores .label + .control,
+.form-inline .field-stores .label + .control {
+    width: auto;
 }
 
 /*
@@ -2929,7 +2951,8 @@ table tbody tr:nth-child(odd):hover th {
     overflow: hidden;
     z-index: 4;
 }
-.side-col .tabs > .ui-state-active a:after {
+
+.side-col .tabs > .ui-state-active a:before {
     color: #bdbbb7;
     margin-top: -13px;
     z-index: 3;
@@ -3301,7 +3324,10 @@ table tbody tr:nth-child(odd):hover th {
     padding: 5px;
 }
 
-.grid table td:first-child,
+.grid table td:first-child {
+    border-width: 0 1px 1px;
+}
+
 .grid table td:last-child {
     border-width: 0 1px 1px;
 }
@@ -3753,6 +3779,10 @@ table tbody tr:nth-child(odd):hover th {
 .massaction .entry-edit .field-row {
     display: inline-block;
     vertical-align: middle;
+}
+
+.eq-ie8 .massaction .entry-edit .field-row {
+    display: inline;
 }
 
 .massaction .entry-edit .field-row button {
