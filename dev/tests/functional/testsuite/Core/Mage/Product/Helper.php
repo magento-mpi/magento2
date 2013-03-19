@@ -1853,6 +1853,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found'),
                     'There are products assigned to "' . $type . '" tab');
             }
+            $this->refresh();
         }
     }
 
