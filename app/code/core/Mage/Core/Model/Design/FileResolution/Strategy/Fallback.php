@@ -38,25 +38,28 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
 
     /**
      * Constructor.
-     * Following entries in $params are required: 'area', 'themeModel', 'locale'. The 'appConfig' and
-     * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
-     * present or null, then they will be retrieved from global application instance.
      *
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Design_Fallback_List_File $fallbackFile
+     * @param Mage_Core_Model_Design_Fallback_List_Locale $fallbackLocale
+     * @param Mage_Core_Model_Design_Fallback_List_View $fallbackViewFile
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Dir $dirs
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Design_Fallback_List_File $fallbackFile,
+        Mage_Core_Model_Design_Fallback_List_Locale $fallbackLocale,
+        Mage_Core_Model_Design_Fallback_List_View $fallbackViewFile
     ) {
         $this->_dirs = $dirs;
         $this->_objectManager = $objectManager;
         $this->_filesystem = $filesystem;
-        $this->_fallbackFile = new Mage_Core_Model_Design_Fallback_List_File($this->_dirs);
-        $this->_fallbackLocale = new Mage_Core_Model_Design_Fallback_List_Locale($this->_dirs);
-        $this->_fallbackViewFile = new Mage_Core_Model_Design_Fallback_List_View($this->_dirs);
+        $this->_fallbackFile = $fallbackFile;
+        $this->_fallbackLocale = $fallbackLocale;
+        $this->_fallbackViewFile = $fallbackViewFile;
     }
 
     /**
@@ -134,8 +137,8 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      * @param array $specificParams
      * @return string
      */
-    protected function _getFallbackFile($area, Mage_Core_Model_Theme $themeModel, $file, $fallbackList,
-        $specificParams = array()
+    protected function _getFallbackFile($area, Mage_Core_Model_Theme $themeModel, $file,
+        Mage_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackList, $specificParams = array()
     ) {
         $params = array(
             'area'          => $area,

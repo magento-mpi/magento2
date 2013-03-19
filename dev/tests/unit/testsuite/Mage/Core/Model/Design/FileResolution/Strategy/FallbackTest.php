@@ -44,7 +44,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
             ->with('Mage_Core_Model_Config')
             ->will($this->returnValue($configModel));
 
-        $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($objectManager, $filesystem, $dirs);
+        $fallback = $this->_getModel($objectManager, $filesystem, $dirs);
         $filename = $fallback->getFile('area51', $theme, $file, $module);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
@@ -179,7 +179,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
         $objectManager = $this->_getObjectManagerMock();
         $dirs = $this->_getDirsMock();
 
-        $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($objectManager, $filesystem, $dirs);
+        $fallback = $this->_getModel($objectManager, $filesystem, $dirs);
         $filename = $fallback->getLocaleFile('area51', $theme, 'en_EN', $file);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
@@ -326,7 +326,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
             ->with('Mage_Core_Model_Config')
             ->will($this->returnValue($configModel));
 
-        $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($objectManager, $filesystem, $dirs);
+        $fallback = $this->_getModel($objectManager, $filesystem, $dirs);
         $filename = $fallback->getViewFile('area51', $theme, 'en_EN', $file, $module);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
@@ -570,6 +570,16 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'js_dir/test.txt'),
             'theme inherited twice, no file found' => array($themeInheritedTwice, $file, null, 'js_dir/test.txt'),
         );
+    }
+
+    protected function _getModel($objectManager, $filesystem, $dirs)
+    {
+        $fallbackFile = new Mage_Core_Model_Design_Fallback_List_File($dirs);
+        $fallbackLocale = new Mage_Core_Model_Design_Fallback_List_Locale($dirs);
+        $fallbackViewFile = new Mage_Core_Model_Design_Fallback_List_View($dirs);
+
+        return new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($objectManager, $filesystem, $dirs,
+            $fallbackFile, $fallbackLocale, $fallbackViewFile);
     }
 
     /**

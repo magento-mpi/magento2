@@ -14,7 +14,7 @@
  */
 
 require __DIR__ . '/../../../app/bootstrap.php';
-require __DIR__ . '/Generator/ThemeProxy.php';
+require __DIR__ . '/Generator/ThemeLight.php';
 require __DIR__ . '/Generator/CopyRule.php';
 
 // ----Parse params and run the tool-------------------------

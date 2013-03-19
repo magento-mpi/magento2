@@ -14,22 +14,26 @@
 class Mage_Core_Model_Design_Fallback_Rule_Theme implements Mage_Core_Model_Design_Fallback_Rule_RuleInterface
 {
     /**
+     * @var array of rules that should be iteratively applied for each theme in the row
+     */
+    protected $_rules;
+
+    /**
      * Constructor
      *
-     * @param array $patternsArray
+     * @param array $rules
      * @throws InvalidArgumentException
      */
-    public function __construct(array $patternsArray)
+    public function __construct(array $rules)
     {
-        foreach ($patternsArray as $pattern) {
-            if (!is_array($pattern)) {
-                throw new InvalidArgumentException("Each pattern in list must be an array");
-            }
-            if (strpos($pattern[0], '<theme_path>') === false) {
-                throw new InvalidArgumentException("Pattern must contain '<theme_path>' node");
+        foreach ($rules as $rule) {
+            if (!($rule instanceof Mage_Core_Model_Design_Fallback_Rule_RuleInterface)) {
+                throw new InvalidArgumentException(
+                    'Each element should implement Mage_Core_Model_Design_Fallback_Rule_RuleInterface'
+                );
             }
         }
-        $this->_patternsArray = $patternsArray;
+        $this->_rules = $rules;
     }
 
     /**
@@ -39,9 +43,9 @@ class Mage_Core_Model_Design_Fallback_Rule_Theme implements Mage_Core_Model_Desi
      * @return array of folders to perform a search
      * @throws InvalidArgumentException
      */
-    public function getPatternDirs($params)
+    public function getPatternDirs(array $params)
     {
-        $patterns = array();
+        $patternDirs = array();
         if (!array_key_exists('theme', $params) || !($params['theme'] instanceof Mage_Core_Model_ThemeInterface)) {
             throw new InvalidArgumentException(
                 '$params["theme"] should be passed and should implement Mage_Core_Model_ThemeInterface'
@@ -51,15 +55,12 @@ class Mage_Core_Model_Design_Fallback_Rule_Theme implements Mage_Core_Model_Desi
         foreach ($this->_getThemeList($params['theme']) as $theme) {
             $params['theme_path'] = $theme->getThemePath();
             if ($params['theme_path']) {
-                foreach ($this->_patternsArray as $pattern) {
-                    $simplePattern = $pattern[0];
-                    $optionalParams = empty($pattern[1]) ? array() : $pattern[1];
-                    $simpleRule = new Mage_Core_Model_Design_Fallback_Rule_Simple($simplePattern, $optionalParams);
-                    $patterns = array_merge($patterns, $simpleRule->getPatternDirs($params));
+                foreach ($this->_rules as $rule) {
+                    $patternDirs = array_merge($patternDirs, $rule->getPatternDirs($params));
                 }
             }
         }
-        return $patterns;
+        return $patternDirs;
     }
 
     /**

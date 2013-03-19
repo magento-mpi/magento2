@@ -32,7 +32,7 @@ abstract class Mage_Core_Model_Design_Fallback_List_ListAbstract
     public function __construct(Mage_Core_Model_Dir $dir)
     {
         $this->_dir = $dir;
-        $this->_rules = $this->_setFallbackRules();
+        $this->_rules = $this->_getFallbackRules();
     }
 
     /**
@@ -40,29 +40,20 @@ abstract class Mage_Core_Model_Design_Fallback_List_ListAbstract
      *
      * @return array of rules Mage_Core_Model_Design_Fallback_Rule_RuleInterface
      */
-    abstract protected function _setFallbackRules();
+    abstract protected function _getFallbackRules();
 
     /**
      * Get ordered list of folders to search for a file
      *
      * @param array $params - array of parameters
-     * @param bool $qualifiedDirsOnly - if false returns also pattern together with directory path
      * @return array of folders to perform a search
      */
-    public function getPatternDirs($params, $qualifiedDirsOnly = true)
+    public function getPatternDirs(array $params)
     {
         $dirs = array();
         foreach ($this->_rules as $rule) {
             $dirs = array_merge($dirs, $rule->getPatternDirs($params));
         }
-        if ($qualifiedDirsOnly) {
-            $return = array();
-            foreach ($dirs as $dir) {
-                $return[] = $dir['dir'];
-            }
-            return $return;
-        } else {
-            return $dirs;
-        }
+        return $dirs;
     }
 }

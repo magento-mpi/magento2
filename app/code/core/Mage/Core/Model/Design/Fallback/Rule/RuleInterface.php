@@ -17,7 +17,7 @@ interface Mage_Core_Model_Design_Fallback_Rule_RuleInterface
      * Get ordered list of folders to search for a file
      *
      * @param array $params - array of parameters
-     * @return array of folders to perform a search
+     * @return array folders to perform a search
      */
-    public function getPatternDirs($params);
+    public function getPatternDirs(array $params);
 }

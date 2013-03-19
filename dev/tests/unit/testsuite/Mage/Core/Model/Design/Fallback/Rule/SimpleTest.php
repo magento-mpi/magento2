@@ -51,12 +51,12 @@ class Mage_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framework_
             'no modules in pattern' => array(
                 $patternNoOptional,
                 'Module',
-                array(array('dir' => 'other param other text', 'pattern' => $patternNoOptional))
+                array('other param other text')
             ),
             'modules' => array(
                 $patternOptional,
                 'Module',
-                array(array('dir' => 'Module other param other text', 'pattern' => $patternOptional))
+                array('Module other param other text')
             ),
         );
     }
