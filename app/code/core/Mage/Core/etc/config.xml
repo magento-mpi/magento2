@@ -107,6 +107,9 @@
             <Mage_Core_Model_Theme_Image>
                 <shared>0</shared>
             </Mage_Core_Model_Theme_Image>
+            <Mage_Core_Model_Page_Asset_Collection>
+                <shared>0</shared>
+            </Mage_Core_Model_Page_Asset_Collection>
         </di>
     </global>
     <frontend>

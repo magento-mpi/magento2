@@ -26,10 +26,15 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $headBlock = $layout->createBlock('Mage_Page_Block_Html_Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);
 
-        /** @var $assets Mage_Core_Model_Page_Asset_Collection */
         $objectManager = Mage::getObjectManager();
 
-        $assets = array(
+        /** @var $page Mage_Core_Model_Page */
+        $page = $objectManager->get('Mage_Core_Model_Page');
+
+        /** @var $pageAssets Mage_Page_Model_Asset_GroupedCollection */
+        $pageAssets = $page->getAssets();
+
+        $fixtureAssets = array(
             array('name'   => 'test_css', 'type' => Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
                   'params' => array()),
             array('name'   => 'test_css_vde', 'type' => Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
@@ -40,21 +45,22 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
                   'params' => array('flag_name' => 'vde_design_mode')),
         );
 
-        /** @var $groupAssets Mage_Page_Model_GroupedAssets */
-        $groupAssets = $objectManager->get('Mage_Page_Model_GroupedAssets');
-        foreach ($assets as $asset) {
-            $groupAssets->addAsset($asset['name'],
-                $objectManager->get('Mage_Core_Model_Page_Asset_ViewFile', array(
+        foreach ($fixtureAssets as $asset) {
+            $pageAssets->add(
+                $asset['name'],
+                $objectManager->create('Mage_Core_Model_Page_Asset_ViewFile', array(
                     'file' => 'some_file',
-                    'contentType' => $asset['type'])),
-                $asset['params']);
+                    'contentType' => $asset['type'],
+                )),
+                $asset['params']
+            );
         }
 
         /** @var $eventManager Mage_Core_Model_Event_Manager */
         $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager')->addEventArea($area);
         $eventManager->dispatch('controller_action_layout_generate_blocks_after', array('layout' => $layout));
 
-        $actualAssets = array_keys($objectManager->get('Mage_Core_Model_Page')->getAssets()->getAll());
+        $actualAssets = array_keys($pageAssets->getAll());
         $this->assertEquals($expectedAssets, $actualAssets);
     }
 

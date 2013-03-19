@@ -18,9 +18,12 @@ class Mage_Core_Model_Page
      */
     private $_assets;
 
-    public function __construct()
+    /**
+     * @param Mage_Core_Model_Page_Asset_Collection $assets
+     */
+    public function __construct(Mage_Core_Model_Page_Asset_Collection $assets)
     {
-        $this->_assets = new Mage_Core_Model_Page_Asset_Collection();
+        $this->_assets = $assets;
     }
 
     /**

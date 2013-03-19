@@ -16,15 +16,25 @@ class Mage_Core_Model_PageTest extends PHPUnit_Framework_TestCase
      */
     protected $_object;
 
+    /**
+     * @var
+     */
+    protected $_pageAssets;
+
     protected function setUp()
     {
-        $this->_object = new Mage_Core_Model_Page();
+        $this->_pageAssets = new Mage_Core_Model_Page_Asset_Collection;
+        $this->_object = new Mage_Core_Model_Page($this->_pageAssets);
+    }
+
+    protected function tearDown()
+    {
+        $this->_pageAssets = null;
+        $this->_object = null;
     }
 
     public function testGetAssets()
     {
-        $actualResult = $this->_object->getAssets();
-        $this->assertInstanceOf('Mage_Core_Model_Page_Asset_Collection', $actualResult);
-        $this->assertSame($actualResult, $this->_object->getAssets(), 'The same assets are to be returned.');
+        $this->assertSame($this->_pageAssets, $this->_object->getAssets());
     }
 }

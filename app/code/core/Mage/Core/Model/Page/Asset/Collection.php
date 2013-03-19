@@ -23,7 +23,6 @@ class Mage_Core_Model_Page_Asset_Collection
      *
      * @param string $identifier
      * @param Mage_Core_Model_Page_Asset_AssetInterface $asset
-     * @throws LogicException
      */
     public function add($identifier, Mage_Core_Model_Page_Asset_AssetInterface $asset)
     {
@@ -31,7 +30,18 @@ class Mage_Core_Model_Page_Asset_Collection
     }
 
     /**
-     * Remove an instance from the list
+     * Whether an item belongs to a collection or not
+     *
+     * @param string $identifier
+     * @return bool
+     */
+    public function has($identifier)
+    {
+        return isset($this->_assets[$identifier]);
+    }
+
+    /**
+     * Remove an item from the list
      *
      * @param string $identifier
      */
