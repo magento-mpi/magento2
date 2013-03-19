@@ -289,7 +289,7 @@
 
             this.iconTemplate.removeClass('hidden');
 
-            if (this.element[0].getAttribute("translate-mode") != this.options.translateMode)
+            if (this.element.data('translateMode') != this.options.translateMode)
                 this.iconTemplate.addClass('hidden');
 
             this.element.on("dblclick", $.proxy(this._invokeAction, this));
@@ -300,7 +300,7 @@
          * Show edit icon for given translate mode.
          */
         toggleIcon: function(mode) {
-            if (mode == this.element[0].getAttribute("translate-mode"))
+            if (mode == this.element.data('translateMode'))
                 this.iconTemplate.removeClass('hidden');
             else
                 this.iconTemplate.addClass('hidden');

@@ -45,10 +45,13 @@
     (function($){
         $(window).load(function() {
             var $body = $('body');
-            var $textTranslations = $('[data-translate][translate-mode="text"]');
-            var $imageTranslations = $('[data-translate][translate-mode="alt"]');
-            var $scriptTranslations = $('[data-translate][translate-mode="script"]');
-            $body.addClass('<?php echo 'trnslate-inline-' . $this->getTranslateMode() . '-area' ?>');
+            var $textTranslations = $('[data-translate-mode="text"]');
+            var $imageTranslations = $('[data-translate-mode="alt"]');
+            var $scriptTranslations = $('[data-translate-mode="script"]');
+
+            <?php if($this->getTranslateMode()): ?>
+                $body.addClass('<?php echo 'trnslate-inline-' . $this->getTranslateMode() . '-area' ?>');
+            <?php endif; ?>
 
             /** @todo temporary fix to add data- attribute to body. */
             $body.attr("data-container", "body");
