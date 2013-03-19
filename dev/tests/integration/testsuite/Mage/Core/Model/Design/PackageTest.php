@@ -44,11 +44,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Mage_Core_Model_Design_Package');
     }
 
-    protected function tearDown()
-    {
-        $this->_model = null;
-    }
-
     /**
      * Emulate fixture design theme
      *

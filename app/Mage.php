@@ -202,7 +202,7 @@ final class Mage
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '42',
+            'number'    => '43',
         );
     }
 
@@ -242,6 +242,7 @@ final class Mage
         self::$_isDownloader    = false;
         self::$_loggers         = array();
         self::$_design          = null;
+        self::$_objectManager   = null;
         // do not reset $headersSentThrowsException
     }
 
@@ -356,9 +357,7 @@ final class Mage
      */
     public static function getBaseDir($type = Mage_Core_Model_Dir::ROOT)
     {
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = self::$_objectManager->get('Mage_Core_Model_Dir');
-        return $dirs->getDir($type);
+        return self::getSingleton('Mage_Core_Model_Dir')->getDir($type);
     }
 
     /**
@@ -423,8 +422,7 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return self::getObjectManager()->create('Mage_Core_Model_Url', array('data' => array()))
-            ->getUrl($route, $params);
+        return self::getObjectManager()->create('Mage_Core_Model_Url')->getUrl($route, $params);
     }
 
     /**
@@ -469,9 +467,7 @@ final class Mage
      */
     public static function dispatchEvent($name, array $data = array())
     {
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
-        $eventManager = self::$_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch($name, $data);
+        return Mage::getSingleton('Mage_Core_Model_Event_Manager')->dispatch($name, $data);
     }
 
     /**
@@ -494,14 +490,13 @@ final class Mage
      * Retrieve model object singleton
      *
      * @param   string $modelClass
-     * @param   array $arguments
      * @return  Mage_Core_Model_Abstract
      */
-    public static function getSingleton($modelClass = '', array $arguments=array())
+    public static function getSingleton($modelClass = '')
     {
         $registryKey = '_singleton/'.$modelClass;
         if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($modelClass, $arguments));
+            self::register($registryKey, self::getObjectManager()->get($modelClass));
         }
         return self::registry($registryKey);
     }
@@ -546,17 +541,16 @@ final class Mage
     }
 
     /**
-     * Retrieve resource vodel object singleton
+     * Retrieve resource model object singleton
      *
      * @param   string $modelClass
-     * @param   array $arguments
      * @return  object
      */
-    public static function getResourceSingleton($modelClass = '', array $arguments = array())
+    public static function getResourceSingleton($modelClass = '')
     {
         $registryKey = '_resource_singleton/'.$modelClass;
         if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getObjectManager()->get($modelClass, $arguments));
+            self::register($registryKey, self::getObjectManager()->get($modelClass));
         }
         return self::registry($registryKey);
     }
@@ -610,7 +604,13 @@ final class Mage
         if (substr($moduleName, 0, 5) == 'Mage_') {
             $connection = substr($connection, 5);
         }
-        return self::getObjectManager()->get($helperClassName, array('modulePrefix' => $connection));
+        $key = 'resourceHelper/' . $connection;
+        if (!self::registry($key)) {
+            self::register(
+                $key, self::getObjectManager()->create($helperClassName, array('modulePrefix' => $connection))
+            );
+        }
+        return self::registry($key);
     }
 
     /**
@@ -663,7 +663,7 @@ final class Mage
      */
     public static function isInstalled()
     {
-        return (bool) self::$_objectManager->get('Mage_Core_Model_Config_Primary')->getInstallDate();
+        return (bool) Mage::getSingleton('Mage_Core_Model_Config_Primary')->getInstallDate();
     }
 
     /**

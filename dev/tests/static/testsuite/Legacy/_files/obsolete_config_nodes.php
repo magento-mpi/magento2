@@ -29,4 +29,5 @@ return array(
     '/config/default/web/*/base_js_url' => '/config/default/web/*/base_lib_url',
     '/config/default/web/*/base_skin_url' => '/config/default/web/*/base_static_url',
     '/config/global/cache/types/*/tags' => 'use /config/global/cache/types/*/class node instead',
+    '/config/global/disable_local_modules' => '',
 );

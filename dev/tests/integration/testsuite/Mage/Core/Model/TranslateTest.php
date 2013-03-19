@@ -45,13 +45,8 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
-        $this->_model = Mage::getModel('Mage_Core_Model_Translate', array($this->_designModel));
+        $this->_model = Mage::getModel('Mage_Core_Model_Translate', array('designPackage' => $this->_designModel));
         $this->_model->init('frontend');
-    }
-
-    protected function tearDown()
-    {
-        $this->_model = null;
     }
 
     public function testGetModulesConfig()
@@ -151,7 +146,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
-        $this->_model = Mage::getModel('Mage_Core_Model_Translate', array($this->_designModel));
+        $this->_model = Mage::getModel('Mage_Core_Model_Translate', array('designPackage' => $this->_designModel));
         $this->_model->init('frontend');
 
 

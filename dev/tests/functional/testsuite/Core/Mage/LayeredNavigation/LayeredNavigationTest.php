@@ -30,28 +30,28 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         $anchorCategory = $this->loadDataSet('Category', 'sub_category_required');
         $anchorCategory['is_anchor'] = 'Yes';
         $anchorCategoryPath = $anchorCategory['parent_category'] . '/' . $anchorCategory['name'];
-        $anchorSubCategory =
-            $this->loadDataSet('Category', 'sub_category_required', array('parent_category' => $anchorCategoryPath));
+        $anchorSubCategory = $this->loadDataSet('Category', 'sub_category_required',
+            array('parent_category' => $anchorCategoryPath));
         $nonAnchorCategory = $this->loadDataSet('Category', 'sub_category_required');
         $nonAnchorCategPath = $nonAnchorCategory['parent_category'] . '/' . $nonAnchorCategory['name'];
-        $nonAnchorSubCategory =
-            $this->loadDataSet('Category', 'sub_category_required', array('parent_category' => $nonAnchorCategPath));
+        $nonAnchorSubCategory = $this->loadDataSet('Category', 'sub_category_required',
+            array('parent_category' => $nonAnchorCategPath));
         $dropDown = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $multiSelect = $this->loadDataSet('ProductAttribute', 'product_attribute_multiselect_with_options');
         $price = $this->loadDataSet('ProductAttribute', 'product_attribute_price');
         $attributes = array($dropDown['attribute_code'], $multiSelect['attribute_code'], $price['attribute_code']);
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
-            array('associated_attributes' => array('General' => $attributes)));
+            array('associated_attributes' => array('Product Details' => $attributes)));
         $simpleWithAttributes = $this->loadDataSet('Product', 'simple_product_visible',
-            array('general_categories'                    => $anchorCategoryPath . '/' . $anchorSubCategory['name'],
-                  'product_attribute_set'         => $attributeSet['set_name']));
+            array('general_categories' => $anchorCategoryPath . '/' . $anchorSubCategory['name'],
+                'product_attribute_set' => $attributeSet['set_name']));
         $simpleWithAttributes['general_user_attr']['dropdown'][$dropDown['attribute_code']] =
             $dropDown['option_1']['admin_option_name'];
         $simpleWithAttributes['general_user_attr']['field'][$price['attribute_code']] = '999';
         $simpleWithAttributes['general_user_attr']['multiselect'][$multiSelect['attribute_code']] =
             $multiSelect['option_2']['admin_option_name'];
-        $simpleWithoutAttrs =
-            $this->loadDataSet('Product', 'simple_product_visible', array('general_categories' => $anchorCategoryPath));
+        $simpleWithoutAttrs = $this->loadDataSet('Product', 'simple_product_visible',
+            array('general_categories' => $anchorCategoryPath));
         //Steps
         $this->loginAdminUser();
         //Creating categories

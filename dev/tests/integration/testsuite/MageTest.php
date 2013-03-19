@@ -118,17 +118,6 @@ class MageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     */
-    public function testReset()
-    {
-        Mage::register('a', 'b');
-        $this->assertEquals('b', Mage::registry('a'));
-        Mage::reset();
-        $this->assertEquals(null, Mage::registry('a'));
-    }
-
-    /**
-     * @magentoAppIsolation enabled
      *
      */
     public function testGetDesign()

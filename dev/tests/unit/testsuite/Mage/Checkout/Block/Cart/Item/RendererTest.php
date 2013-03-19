@@ -24,7 +24,7 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
         );
         $designPackage->expects($this->any())->method('getViewConfig')->will($this->returnValue($configView));
 
-        $configurable = $objectManagerHelper->getBlock('Mage_Checkout_Block_Cart_Item_Renderer_Configurable',
+        $configurable = $objectManagerHelper->getObject('Mage_Checkout_Block_Cart_Item_Renderer_Configurable',
             array('designPackage' => $designPackage));
 
         $product = $this->getMock('Mage_Catalog_Model_Product', array('isConfigurable'), array(), '', false);
@@ -37,10 +37,10 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
         $arguments = array(
             'statusListFactory' => $this->getMock('Mage_Sales_Model_Status_ListFactory', array(), array(), '', false),
         );
-        $childItem = $objectManagerHelper->getModel('Mage_Sales_Model_Quote_Item', $arguments);
+        $childItem = $objectManagerHelper->getObject('Mage_Sales_Model_Quote_Item', $arguments);
         $childItem->setData('product', $childProduct);
 
-        $item = $objectManagerHelper->getModel('Mage_Sales_Model_Quote_Item', $arguments);
+        $item = $objectManagerHelper->getObject('Mage_Sales_Model_Quote_Item', $arguments);
         $item->setData('product', $product);
         $item->addChild($childItem);
 

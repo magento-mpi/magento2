@@ -89,10 +89,6 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 'Namespace_Module::favicon.ico',
                 'static/frontend/test/default/en_US/Namespace_Module/favicon.ico',
             ),
-            'lib file' => array(
-                'varien/product.js',
-                'http://localhost/pub/lib/varien/product.js',
-            ),
             'lib folder' => array(
                 'varien',
                 'http://localhost/pub/lib/varien',
@@ -321,6 +317,9 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         }
     }
 
+    /**
+     * @return array
+     */
     public function publishCssFileFromModuleDataProvider()
     {
         return array(

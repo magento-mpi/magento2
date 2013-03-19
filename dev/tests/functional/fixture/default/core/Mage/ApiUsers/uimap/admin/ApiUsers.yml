@@ -27,7 +27,7 @@
 #API Users
 api_users:
     mca: webapi_user/
-    click_xpath: //div[@class='nav-bar']//a[span='API Users']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/webapi_user/')]
     title: API Users / Web Services / System / Magento Admin
     uimap:
         form:
@@ -70,7 +70,7 @@ add_new_api_user:
                         fieldsets:
                             -
                                 api_new_user_grid:
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     fields:
                                         api_user_api_key: //input[@id='api_key']
                                         api_user_api_secret: //input[@id='secret']

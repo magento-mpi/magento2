@@ -8,7 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once __DIR__ . '/Generator/TestAsset/SourceClassWithNamespace.php';
+require_once __DIR__ . '/Generator/TestAsset/ParentClassWithNamespace.php';
 /**
  * @magentoAppIsolation enabled
  */
@@ -42,7 +43,7 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
             new Magento_Autoload_IncludePath(),
             $generationDirectory
         );
-        $this->_generator = Mage::getObjectManager()->get('Magento_Di_Generator', array('ioObject' => $ioObject));
+        $this->_generator = Mage::getObjectManager()->create('Magento_Di_Generator', array('ioObject' => $ioObject));
     }
 
     protected function tearDown()
@@ -59,33 +60,39 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     public function testGenerateClassFactoryWithoutNamespace()
     {
         $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory';
-        $this->assertTrue($this->_generator->generateClass($factoryClassName));
+        $this->assertEquals(
+            Magento_Di_Generator::GENERATION_SUCCESS,
+            $this->_generator->generateClass($factoryClassName)
+        );
 
         /** @var $factory Magento_ObjectManager_Factory */
         $factory = Mage::getObjectManager()->create($factoryClassName);
-        $this->assertInstanceOf('Magento_ObjectManager_Factory', $factory);
-
-        $object = $factory->createFromArray();
+        $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
     }
 
     public function testGenerateClassFactoryWithNamespace()
     {
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Factory';
-        $this->assertTrue($this->_generator->generateClass($factoryClassName));
+        $this->assertEquals(
+            Magento_Di_Generator::GENERATION_SUCCESS,
+            $this->_generator->generateClass($factoryClassName)
+        );
 
         /** @var $factory Magento_ObjectManager_Factory */
         $factory = Mage::getObjectManager()->create($factoryClassName);
-        $this->assertInstanceOf('Magento_ObjectManager_Factory', $factory);
 
-        $object = $factory->createFromArray();
+        $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $object);
     }
 
     public function testGenerateClassProxyWithoutNamespace()
     {
         $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy';
-        $this->assertTrue($this->_generator->generateClass($factoryClassName));
+        $this->assertEquals(
+            Magento_Di_Generator::GENERATION_SUCCESS,
+            $this->_generator->generateClass($factoryClassName)
+        );
 
         $proxy = Mage::getObjectManager()->create($factoryClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $proxy);
@@ -96,7 +103,10 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     public function testGenerateClassProxyWithNamespace()
     {
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
-        $this->assertTrue($this->_generator->generateClass($factoryClassName));
+        $this->assertEquals(
+            Magento_Di_Generator::GENERATION_SUCCESS,
+            $this->_generator->generateClass($factoryClassName)
+        );
 
         $proxy = Mage::getObjectManager()->create($factoryClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $proxy);

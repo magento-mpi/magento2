@@ -20,9 +20,9 @@ class Mage_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Load config from fixture file
-        $loader = $this->getMock('Mage_Core_Model_Config_Loader_Primary', array(), array(), '', false);
-        $cacheConfig = new Mage_Core_Model_Config_Primary($loader);
-        $cacheConfig->loadString(file_get_contents(__DIR__ . '/_files/config.xml'));
+        $cacheConfig = new Mage_Core_Model_Config_Primary(__DIR__, array(Mage::PARAM_APP_DIRS => array(
+            Mage_Core_Model_Dir::CONFIG => __DIR__ . '/_files'
+        )));
 
         // Init frontend factory
         $frontendFactory = $this->getMock('Mage_Core_Model_Cache_Frontend_Factory', array(), array(), '', false);

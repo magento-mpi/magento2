@@ -92,7 +92,6 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
-                Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
                 'Mage_Eav_Model_Entity_Attribute_Abstract'
             );
             $arguments['data'] = $attributeData;

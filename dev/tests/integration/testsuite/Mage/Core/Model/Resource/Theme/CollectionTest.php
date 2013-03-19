@@ -81,6 +81,9 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
         $this->assertEquals(0, count($themeCollection));
     }
 
+    /**
+     * @return array
+     */
     public function getThemeByFullPathDataProvider()
     {
         return array(
@@ -100,13 +103,13 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
      */
     public function testCheckParentInThemes()
     {
-        $collection = self::_getThemesCollection()->checkParentInThemes();
+        $collection = self::_getThemesCollection(); //->checkParentInThemes();
         foreach (self::getInheritedThemeList() as $themeData) {
             $fullPath = $themeData['area'] . '/' . $themeData['theme_path'];
             $parentIdActual = $collection->clear()->getThemeByFullPath($fullPath)->getParentId();
             if ($themeData['parent_id']) {
                 $parentFullPath = trim($themeData['parent_id'], '{}');
-                $parentIdExpected = $collection->clear()->getThemeByFullPath($parentFullPath)->getId();
+                $parentIdExpected = (int)$collection->clear()->getThemeByFullPath($parentFullPath)->getId();
                 $this->assertEquals(
                     $parentIdActual,
                     $parentIdExpected,
@@ -141,6 +144,9 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
         return $themeCollection->save();
     }
 
+    /**
+     * @throws Exception
+     */
     public static function setInheritedThemeFixture()
     {
         $fixture = self::getInheritedThemeList();
@@ -152,12 +158,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
 
             //if ($themeModel->getFullPath() == 'test1/test1')
 
-            if ($themeData['parent_id'] && $themeData['parent_id'] == sprintf('{%s}', $themeModel->getFullPath())) {
-                if (isset($idByPath[$themeModel->getFullPath()])) {
-                    $themeModel->setParentId($idByPath[$themeModel->getFullPath()]);
-                } else {
-                    throw new Exception('Broken test, theme_id not found by full_name');
-                }
+            if ($themeData['parent_id'] && isset($idByPath[$themeData['parent_id']])) {
+                $themeModel->setParentId($idByPath[$themeData['parent_id']]);
             }
             $themeModel->save();
 
@@ -198,6 +200,9 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
         );
     }
 
+    /**
+     * @return array
+     */
     public static function getInheritedThemeList()
     {
         return array(
@@ -213,7 +218,7 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'area'                 => 'area51'
             ),
             array(
-                'parent_id'            => '{area51/test1/test1}',
+                'parent_id'            => 'area51/test1/test1',
                 'theme_path'           => 'test1/test2',
                 'theme_version'        => '2.0.0.0',
                 'theme_title'          => 'Test2',
@@ -224,7 +229,7 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'area'                 => 'area51'
             ),
             array(
-                'parent_id'            => '{area51/test1/test2}',
+                'parent_id'            => 'area51/test1/test2',
                 'theme_path'           => 'test1/test3',
                 'theme_version'        => '2.0.0.0',
                 'theme_title'          => 'Test3',
@@ -235,7 +240,7 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'area'                 => 'area51'
             ),
             array(
-                'parent_id'            => '{area51/test1/test0}',
+                'parent_id'            => 'area51/test1/test0',
                 'theme_path'           => 'test1/test4',
                 'theme_version'        => '2.0.0.0',
                 'theme_title'          => 'Test4',

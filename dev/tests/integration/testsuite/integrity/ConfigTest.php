@@ -26,8 +26,8 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(class_exists($node->class),
             "Class '{$node->class}', specified for '" . $node->getName() . "' cache type, doesn't exist");
-        $implementedInterfaces = class_implements((string) $node->class);
-        $this->assertContains('Magento_Cache_FrontendInterface', $implementedInterfaces,
+        $interfaces = class_implements((string) $node->class);
+        $this->assertContains('Magento_Cache_FrontendInterface', $interfaces,
             "Class '{$node->class}', specified for '" . $node->getName()
                 . "' cache type, must implement 'Magento_Cache_FrontendInterface'"
         );

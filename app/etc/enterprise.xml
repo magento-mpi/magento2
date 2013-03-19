@@ -12,7 +12,10 @@
     <global>
         <cache>
             <request_processors>
-                <ee>Enterprise_PageCache_Model_Processor</ee>
+                <ee>
+                    <sortOrder>50</sortOrder>
+                    <class>Enterprise_PageCache_Model_Processor</class>
+                </ee>
             </request_processors>
         </cache>
         <cache_advanced>
@@ -24,6 +27,22 @@
         </cache_advanced>
         <skip_process_modules_updates>0</skip_process_modules_updates>
         <di>
+            <preferences>
+                <Enterprise_PageCache_Model_Processor_RestrictionInterface>Enterprise_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
+            </preferences>
+            <Enterprise_PageCache_Model_Processor>
+                <parameters>
+                    <storeManager>Mage_Core_Model_StoreManager_Proxy</storeManager>
+                    <metadata>Enterprise_PageCache_Model_Metadata_Proxy</metadata>
+                    <requestIdentifier>Enterprise_PageCache_Model_Request_Identifier_Proxy</requestIdentifier>
+                </parameters>
+            </Enterprise_PageCache_Model_Processor>
+            <Enterprise_PageCache_Model_DesignPackage_Rules>
+                <parameters>
+                    <design>Mage_Core_Model_Design_Proxy</design>
+                    <designPackage>Mage_Core_Model_Design_Package_Proxy</designPackage>
+                </parameters>
+            </Enterprise_PageCache_Model_DesignPackage_Rules>
             <Magento_Http_Handler_Composite>
                 <parameters>
                     <handlers>

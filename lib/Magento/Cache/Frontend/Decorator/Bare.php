@@ -40,17 +40,17 @@ class Magento_Cache_Frontend_Decorator_Bare implements Magento_Cache_FrontendInt
     /**
      * {@inheritdoc}
      */
-    public function test($id)
+    public function test($identifier)
     {
-        return $this->_frontend->test($id);
+        return $this->_frontend->test($identifier);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function load($id)
+    public function load($identifier)
     {
-        return $this->_frontend->load($id);
+        return $this->_frontend->load($identifier);
     }
 
     /**
@@ -58,17 +58,17 @@ class Magento_Cache_Frontend_Decorator_Bare implements Magento_Cache_FrontendInt
      *
      * {@inheritdoc}
      */
-    public function save($data, $id, array $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
     {
-        return $this->_frontend->save($data, $id, $tags, $lifeTime);
+        return $this->_frontend->save($data, $identifier, $tags, $lifeTime);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove($id)
+    public function remove($identifier)
     {
-        return $this->_frontend->remove($id);
+        return $this->_frontend->remove($identifier);
     }
 
     /**

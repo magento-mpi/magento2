@@ -18,7 +18,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_configMock;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cacheInstanceMock;
 
@@ -83,15 +83,13 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false
         );
 
-        $this->_objectManagerMock = $this->getMock(
-            'Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false
-        );
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_objectManagerMock->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
         $this->_objectManagerMock->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(array($this, 'getModelInstance')));
+            ->will($this->returnCallback(array($this, 'get')));
 
         $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
 
@@ -332,5 +330,16 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         } else {
             return $this->getMock($model, array(), $arguments, '', false);
         }
+    }
+
+    /**
+     * Callback method for mock object Mage_Core_Model_Config object
+     *
+     * @param mixed $model
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    public function get($model)
+    {
+        return $this->getModelInstance($model, array());
     }
 }

@@ -560,6 +560,7 @@ return array(
     array('Mage_Core_Model_Language'),
     array('Mage_Core_Model_Resource_Language'),
     array('Mage_Core_Model_Resource_Language_Collection'),
+    array('Mage_Core_Model_Resource_Setup_Query_Modifier'),
     array('Mage_Core_Model_Session_Abstract_Varien'),
     array('Mage_Core_Model_Session_Abstract_Zend'),
     array('Mage_Core_Model_Layout_Data', 'Mage_Core_Model_Layout_Update'),

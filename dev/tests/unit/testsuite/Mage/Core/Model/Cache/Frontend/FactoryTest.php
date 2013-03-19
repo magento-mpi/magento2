@@ -73,7 +73,7 @@ class Mage_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_TestC
         $result = $model->create($options);
 
         $frontend = $result->getLowLevelFrontend();
-        $idPrefix = $this->assertEquals($expectedPrefix, $frontend->getOption('cache_id_prefix'));
+        $this->assertEquals($expectedPrefix, $frontend->getOption('cache_id_prefix'));
     }
 
     /**
@@ -142,7 +142,8 @@ class Mage_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_TestC
                     break;
             }
         };
-        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array(), array(), '', false);
+        /** @var $objectManager PHPUnit_Framework_MockObject_MockObject */
+        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnCallback($processFrontendFunc));

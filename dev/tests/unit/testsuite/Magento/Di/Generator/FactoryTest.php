@@ -11,11 +11,6 @@
 
 class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAbstract
 {
-    /**
-     * Generic object manager factory interface
-     */
-    const FACTORY_INTERFACE = '\Magento_ObjectManager_Factory';
-
     /**#@+
      * Source and result class parameters
      */
@@ -53,7 +48,7 @@ class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAb
             ),
         ),
         array(
-            'name'       => 'createFromArray',
+            'name'       => 'create',
             'parameters' =>
             array(
                 array(
@@ -63,7 +58,7 @@ class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAb
                     array(),
                 ),
             ),
-            'body'       => 'return $this->_objectManager->create(self::CLASS_NAME, $data, false);',
+            'body'       => 'return $this->_objectManager->create(self::CLASS_NAME, $data);',
             'docblock'   =>
             array(
                 'shortDescription' => 'Create class instance with specified parameters',
@@ -97,10 +92,6 @@ class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAb
             'generate'
         );
         $codeGeneratorMock = $this->_getCodeGeneratorMock($methods);
-        $codeGeneratorMock->expects($this->once())
-            ->method('setImplementedInterfaces')
-            ->with(array(self::FACTORY_INTERFACE))
-            ->will($this->returnSelf());
 
         $autoLoaderMock = $this->_getAutoloaderMock();
 

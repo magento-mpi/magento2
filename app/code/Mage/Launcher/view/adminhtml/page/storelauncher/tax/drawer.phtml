@@ -1,0 +1,92 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer */
+?>
+<form action="" id="drawer-form" method="post">
+    <?php echo $this->getBlockHtml('formkey')?>
+
+    <div class="switcher drawer-switcher" onselectstart="return false;">
+    <?php if ($this->isUseTaxControlDisabled()) : ?>
+        <input type="hidden" name="use_tax" value="tax-enabled" />
+    <?php endif; ?>
+        <input type="checkbox"
+               id="tax-enabled"
+                <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>checked="checked" <?php endif; ?>
+                <?php if ($this->isUseTaxControlDisabled()) : ?>disabled="disabled" <?php else : ?>name="use_tax" <?php endif; ?>
+               value="tax-enabled" />
+        <label class="switcher-label"
+               for="tax-enabled"
+               data-text-on="<?php echo $this->__('Tax rules On'); ?>"
+               data-text-off="<?php echo $this->__('Tax rules Off'); ?>"
+               title="<?php echo $this->__('Tax Rules Status'); ?>">
+        </label>
+        <div class="drawer-switcher-tooltip">
+            <div class="tooltip-text-on">
+                <p><?php if ($this->isUseTaxControlDisabled()) {
+                    echo $this->__('To turn off tax rules usage, please delete existing tax rules first.');
+                } else {
+                    echo $this->__('Turn off tax rules here if your business is legally exempt.');
+                } ?></p>
+            </div>
+            <div class="tooltip-text-off">
+                <p><?php echo $this->__('Use this switch to turn on your store\'s tax rules'); ?></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tax-rule-config <?php if ($this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>">
+        <div class="tax-rule-info">
+            <?php echo $this->getChildHtml('tax-rule-edit');?>
+            <?php echo $this->getChildBlock('tax-rule-form')->setUseContainer(false)->toHtml();?>
+        </div>
+
+        <?php echo $this->getChildBlock('tax-rate-importExport')->setUseContainer(false)->toHtml();?>
+
+    </div>
+
+    <div class="no-tax-info <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>">
+        <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have disabled Tax Rules') ?></h2>
+        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
+        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
+    </div>
+
+</form>
+
+<?php echo $this->getChildHtml('tax-rate-form'); ?>
+
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function() {
+            'use strict';
+            var drawerForm = $('#drawer-form'),
+                taxRuleConfig = $('.tax-rule-config'),
+                noTaxInfo = $('.no-tax-info'),
+                drawerSwitcher = '.drawer-header-inner .drawer-switcher :checkbox';
+
+            $('body').on('change.drawerStatus', drawerSwitcher, function() {
+                var elem = $(this),
+                    elemId = elem.prop('id').replace('copy-','');
+
+                if (elem.is(':checked')) {
+                    drawerForm.removeClass('ignore-validate');
+                    taxRuleConfig.removeClass('hidden');
+                    noTaxInfo.addClass('hidden');
+                    $('#' + elemId).prop('checked', true);
+                } else {
+                    drawerForm.addClass('ignore-validate');
+                    taxRuleConfig.addClass('hidden');
+                    noTaxInfo.removeClass('hidden');
+                    $('#' + elemId).prop('checked', false);
+                }
+            });
+        });
+    })(window.jQuery);
+</script>

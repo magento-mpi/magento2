@@ -63,16 +63,17 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             $this->attributeSetHelper()->unassignAttributeFromSet(array($attributeCode));
             $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode), false);
         }
-        $this->attributeSetHelper()->deleteGroup(array('Meta Information'));
+        $this->attributeSetHelper()->deleteGroup(array('Search Optimization'));
         //Verifying
-        $this->assertFalse($this->controlIsPresent('link', 'group_folder'), '"Meta Information" group was not deleted');
+        $this->assertFalse($this->controlIsPresent('link', 'group_folder'),
+            '"Search Optimization" group was not deleted');
     }
 
     /**
      * Remove system attribute group with system attributes
      *
      * Expected results:
-     *  1. Meta information group has been deleted.
+     *  1. Search Optimization group has been deleted.
      *
      * @param string $setName
      *
@@ -84,9 +85,10 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     {
         //Steps
         $this->attributeSetHelper()->openAttributeSet($setName);
-        $this->attributeSetHelper()->deleteGroup(array('Meta Information'));
+        $this->attributeSetHelper()->deleteGroup(array('Search Optimization'));
         //Verifying
-        $this->assertFalse($this->controlIsPresent('link', 'group_folder'), '"Meta Information" group was not deleted');
+        $this->assertFalse($this->controlIsPresent('link', 'group_folder'),
+            '"Search Optimization" group was not deleted');
     }
 
     /**
@@ -126,7 +128,7 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
         $setName = 'Minimal';
         //Steps
         $this->attributeSetHelper()->openAttributeSet($setName);
-        $this->attributeSetHelper()->addAttributeToSet(array('General' => $attributeCode));
+        $this->attributeSetHelper()->addAttributeToSet(array('Product Details' => $attributeCode));
         $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode));
         $this->attributeSetHelper()->unassignAttributeFromSet(array($attributeCode));
         //Verifying

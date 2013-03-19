@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_Dashboard_GraphTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Mage_Adminhtml_Block_Dashboard_Graph
@@ -18,13 +18,9 @@ class Mage_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
+        parent::setUp();
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Dashboard_Graph');
         $this->_block->setDataHelperName('Mage_Adminhtml_Helper_Dashboard_Order');
-    }
-
-    protected function tearDown()
-    {
-        $this->_block = null;
     }
 
     public function testGetChartUrl()

@@ -37,12 +37,6 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->create('Enterprise_PageCache_Model_Observer', array('cookie' => $this->_cookie));
     }
 
-    protected function tearDown()
-    {
-        $this->_cookie = null;
-        $this->_observer = null;
-    }
-
     public function testProcessPreDispatchCanProcessRequest()
     {
         $request = new Magento_Test_Request();
@@ -74,15 +68,20 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testProcessPreDispatchCannotProcessRequest()
     {
-        $request = new Magento_Test_Request();
-        $request->setParam('no_cache', '1');
+        /** @var $restriction Enterprise_PageCache_Model_Processor_Restriction */
+        $restriction = Mage::getSingleton('Enterprise_PageCache_Model_Processor_Restriction');
+        $restriction->setIsDenied();
+
         $observerData = new Varien_Event_Observer();
         $observerData->setEvent(new Varien_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('request' => $request, 'response' => new Magento_Test_Response())
+                array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response())
             )
         )));
         $this->_cookie
@@ -99,7 +98,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_cookie
             ->expects($this->once())
             ->method('set')
-            ->with(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE)
+            ->with(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
         ;
         $this->_observer->setNoCacheCookie(new Varien_Event_Observer());
     }
@@ -109,7 +108,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_cookie
             ->expects($this->once())
             ->method('delete')
-            ->with(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE)
+            ->with(Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
         ;
         $this->_observer->deleteNoCacheCookie(new Varien_Event_Observer());
     }

@@ -3,7 +3,7 @@
 #
 LICENSE_EE.html
 LICENSE_EE.txt
-app/code/core/Enterprise
+app/code/Enterprise
 app/design/adminhtml/default/enterprise
 app/design/frontend/enterprise
 app/design/install/default/enterprise

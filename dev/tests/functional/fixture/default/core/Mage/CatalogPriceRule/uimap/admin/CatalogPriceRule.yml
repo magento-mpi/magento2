@@ -67,7 +67,7 @@ add_new_rule:
                         fieldsets:
                             -
                                 rule_information_fieldset:
-                                    xpath: //div[@id='rule_base_fieldset']
+                                    xpath: //fieldset[@id='rule_base_fieldset']
                                     fields:
                                         rule_name: //input[@name='name']
                                         description: //textarea[@name='description']

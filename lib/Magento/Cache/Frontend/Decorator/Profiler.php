@@ -66,10 +66,10 @@ class Magento_Cache_Frontend_Decorator_Profiler extends Magento_Cache_Frontend_D
     /**
      * {@inheritdoc}
      */
-    public function test($id)
+    public function test($identifier)
     {
         Magento_Profiler::start('cache_test', $this->_getProfilerTags('test'));
-        $result = parent::test($id);
+        $result = parent::test($identifier);
         Magento_Profiler::stop('cache_test');
         return $result;
     }
@@ -77,10 +77,10 @@ class Magento_Cache_Frontend_Decorator_Profiler extends Magento_Cache_Frontend_D
     /**
      * {@inheritdoc}
      */
-    public function load($id)
+    public function load($identifier)
     {
         Magento_Profiler::start('cache_load', $this->_getProfilerTags('load'));
-        $result = parent::load($id);
+        $result = parent::load($identifier);
         Magento_Profiler::stop('cache_load');
         return $result;
     }
@@ -90,10 +90,10 @@ class Magento_Cache_Frontend_Decorator_Profiler extends Magento_Cache_Frontend_D
      *
      * {@inheritdoc}
      */
-    public function save($data, $id, array $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
     {
         Magento_Profiler::start('cache_save', $this->_getProfilerTags('save'));
-        $result = parent::save($data, $id, $tags, $lifeTime);
+        $result = parent::save($data, $identifier, $tags, $lifeTime);
         Magento_Profiler::stop('cache_save');
         return $result;
     }
@@ -101,10 +101,10 @@ class Magento_Cache_Frontend_Decorator_Profiler extends Magento_Cache_Frontend_D
     /**
      * {@inheritdoc}
      */
-    public function remove($id)
+    public function remove($identifier)
     {
         Magento_Profiler::start('cache_remove', $this->_getProfilerTags('remove'));
-        $result = parent::remove($id);
+        $result = parent::remove($identifier);
         Magento_Profiler::stop('cache_remove');
         return $result;
     }

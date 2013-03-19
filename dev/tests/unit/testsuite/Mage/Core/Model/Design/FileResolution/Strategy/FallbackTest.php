@@ -593,12 +593,12 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
     }
 
     /**
-     * @return Magento_ObjectManager_Zend
+     * @return Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getObjectManagerMock()
     {
-        /** @var $objectManager Magento_ObjectManager_Zend */
-        $objectManager = $this->getMock('Magento_ObjectManager_Zend', array('get'), array(), '', false);
+        /** @var $objectManager Magento_ObjectManager */
+        $objectManager = $this->getMock('Magento_ObjectManager');
         return $objectManager;
     }
 

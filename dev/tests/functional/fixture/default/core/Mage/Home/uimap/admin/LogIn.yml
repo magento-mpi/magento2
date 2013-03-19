@@ -18,9 +18,9 @@ log_in_to_admin:
             fieldsets:
                 -
                     log_in:
-                        xpath: //*[@class='fieldset']
+                        xpath: //div[@class='form-login form-inline']
                         buttons:
-                            login: //*[@title='Login']
+                            login: //button[@title='Login']
                             captcha_reload: //*[@id='captcha-reload']
                         fields:
                             user_name: //input[@id='username']
@@ -57,7 +57,7 @@ forgot_password:
             fieldsets:
                 -
                     forgot_password:
-                        xpath: //div[@class='login-container']
+                        xpath: //form[@id='login-form']
                         buttons:
                             retrieve_password: //button[span="Retrieve Password"]
                             captcha_reload: //*[@id='captcha-reload']
@@ -65,7 +65,7 @@ forgot_password:
                             email: //input[@id='email']
                             captcha_field: //input[@id='captcha']
                         links:
-                            back_to_login: //a[text()='« Back to Login']
+                            back_to_login: //a[(@class='action-back')]
                         pageelements:
                             captcha: //*[@id='backend_forgotpassword']
         messages: *loginMessages

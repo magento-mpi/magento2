@@ -22,12 +22,12 @@
     <filter>
         <whitelist>
             <!-- All CE modules -->
-            <directory suffix=".php">../../../app/code/core/Mage</directory>
+            <directory suffix=".php">../../../app/code/Mage</directory>
             <exclude>
                 <!-- Excluding installation and upgrade scripts -->
-                <directory>../../../app/code/core/Mage/*/sql</directory>
+                <directory>../../../app/code/Mage/*/sql</directory>
                 <!-- Excluding data installation and upgrade scripts -->
-                <directory>../../../app/code/core/Mage/*/data</directory>
+                <directory>../../../app/code/Mage/*/data</directory>
             </exclude>
         </whitelist>
     </filter>

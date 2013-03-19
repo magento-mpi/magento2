@@ -1,0 +1,68 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs */
+?>
+<?php if (!empty($tabs)): ?>
+<?php $tabGroups = array(
+    Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::BASIC_TAB_GROUP_CODE,
+    Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::ADVANCED_TAB_GROUP_CODE
+);?>
+<div id="<?php echo $this->getId() ?>">
+    <?php foreach ($tabGroups as $tabGroupCode): ?>
+    <?php $tabGroupId = $this->getId() . '-' . $tabGroupCode; ?>
+    <?php $isBasic = $tabGroupCode == Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs::BASIC_TAB_GROUP_CODE; ?>
+    <div id="<?php echo $tabGroupId ?>"
+        <?php if (!$isBasic): ?>
+        data-mage-init="{accordion:{active:<?php echo $this->isAdvancedTabGroupActive() ? 'true' : 'false'?>,collapsible:true}}"
+        <?php endif;?>>
+        <h3 <?php echo $this->getUiId('title') ?>>
+            <?php echo $isBasic ? Mage::helper('Mage_Catalog_Helper_Data')->__('Basic Settings')
+            : Mage::helper('Mage_Catalog_Helper_Data')->__('Advanced Settings') ?>
+        </h3>
+        <ul <?php echo $this->getUiId('tab', $tabGroupId) ?> class="tabs">
+            <?php foreach ($tabs as $_tab): ?>
+            <?php if (!$this->canShowTab($_tab) || $_tab->getGroupCode() != $tabGroupCode): continue; endif;?>
+            <?php $_tabClass = 'tab-item-link ' . $this->getTabClass($_tab) . ' ' . (preg_match('/\s?ajax\s?/', $_tab->getClass()) ? 'notloaded' : '') ?>
+            <?php $_tabType = (!preg_match('/\s?ajax\s?/', $_tabClass) && $this->getTabUrl($_tab) != '#') ? 'link' : '' ?>
+            <?php $_tabHref = $this->getTabUrl($_tab) == '#' ? '#' . $this->getTabId($_tab) . '_content' : $this->getTabUrl($_tab) ?>
+            <li <?php if ($this->getTabIsHidden($_tab)): ?> style="display:none"<?php endif; ?><?php echo $this->getUiId('tab', 'item', $_tab->getId()) ?>>
+                <a href="<?php echo $_tabHref ?>" id="<?php echo $this->getTabId($_tab) ?>"
+                   name="<?php echo $this->getTabId($_tab, false) ?>" title="<?php echo $this->getTabTitle($_tab) ?>"
+                   class="<?php echo $_tabClass;?>"
+                   data-tab-type="<?php echo $_tabType;?>" <?php echo $this->getUiId('tab', 'link', $_tab->getId()) ?>>
+                    <span>
+                        <span class="changed" title="<?php echo $this->__('The information in this tab has been changed.') ?>"></span>
+                        <span class="error" title="<?php echo $this->__('This tab contains invalid data. Please solve the problem before saving.') ?>"></span>
+                        <span class="loading" title="<?php echo $this->__('Loading...') ?>"></span>
+                        <?php echo $this->escapeHtml($this->getTabLabel($_tab)); ?>
+                    </span>
+                </a>
+                <div id="<?php echo $this->getTabId($_tab) ?>_content"
+                     style="display:none"<?php echo $this->getUiId('tab', 'content', $_tab->getId()) ?>>
+                    <?php echo $this->getTabContent($_tab) ?>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php endforeach; ?>
+</div>
+<script type="text/javascript">
+jQuery(function($) {
+    $('#<?php echo $this->getId() ?>').tabs({
+        active: '<?php echo $this->getActiveTabId() ?>',
+        destination: '#<?php echo $this->getDestElementId() ?>',
+        shadowTabs: <?php echo $this->getAllShadowTabs()?>,
+        groups: 'ul.tabs'
+    });
+});
+</script>
+<?php endif; ?>

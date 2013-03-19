@@ -21,11 +21,6 @@ class Enterprise_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_
         $this->_block = Mage::app()->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Customer_Edit');
     }
 
-    protected function tearDown()
-    {
-        $this->_block = null;
-    }
-
     public function testAddInputTypeTemplate()
     {
         $this->assertEmpty($this->_block->getInputTypeTemplate('test'));
