@@ -17,8 +17,6 @@
  */
 class Mage_Api_Model_Config extends Varien_Simplexml_Config
 {
-    const CACHE_TAG         = 'config_api';
-
     /**
      * Constructor
      *
@@ -27,7 +25,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     public function __construct($sourceData=null)
     {
         $this->setCacheId('config_api');
-        $this->setCacheTags(array(self::CACHE_TAG));
+        $this->setCacheTags(array(Mage_Api_Model_Cache_Type::CACHE_TAG));
 
         parent::__construct($sourceData);
         $this->_construct();
@@ -40,7 +38,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
      */
     protected function _construct()
     {
-        if (Mage::app()->useCache('config_api')) {
+        if (Mage::app()->useCache(Mage_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
             if ($this->loadCache()) {
                 return $this;
             }
@@ -49,7 +47,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         $config = Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')->loadModulesConfiguration('api.xml');
         $this->setXml($config->getNode('api'));
 
-        if (Mage::app()->useCache('config_api')) {
+        if (Mage::app()->useCache(Mage_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
             $this->saveCache();
         }
         return $this;

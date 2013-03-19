@@ -43,9 +43,9 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
      * @var array
      */
     protected $_cacheTypes = array(
-        'config',
-        'block_html',
-        'layout'
+        Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER,
+        Mage_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER,
+        Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER,
     );
 
     /**

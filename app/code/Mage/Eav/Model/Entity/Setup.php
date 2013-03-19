@@ -90,7 +90,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function cleanCache()
     {
-        $this->_cache->clean(array('eav'));
+        $this->_cache->clean(array(Mage_Eav_Model_Cache_Type::CACHE_TAG));
         return $this;
     }
 
