@@ -36,7 +36,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      * script translate mode and element name
      */
     const SCRIPT_MODE = 'script';
-    const SCRIPT_ELEMENT = SCRIPT_MODE;
+    const SCRIPT_ELEMENT = self::SCRIPT_MODE;
 
     /**
      * Translation within the vde will be enabled by the client when the 'Edit' button is enabled.
@@ -144,7 +144,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
     {
         $mode = self::TEXT_MODE;
         if (self::SCRIPT_ELEMENT == $tagName) {
-            $mode = SCRIPT_MODE;
+            $mode = self::SCRIPT_MODE;
         } else if (self::IMG_ELEMENT == $tagName) {
             $mode = self::ALT_MODE;
         }
