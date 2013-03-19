@@ -300,11 +300,10 @@
          * Show edit icon for given translate mode.
          */
         toggleIcon: function(mode) {
-            if (mode == this.element.data('translate-mode')) {
+            if (mode == this.element[0].getAttribute("translate-mode"))
                 this.iconTemplate.removeClass('hidden');
-            } else {
+            else
                 this.iconTemplate.addClass('hidden');
-            }
 
             this.options.translateMode = mode;
         },
