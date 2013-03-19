@@ -82,8 +82,7 @@
     /**
      * Widget container with ability to log "move" operations
      */
-    var containerBasePrototype = $.vde.vde_container.prototype;
-    $.widget( "vde.vde_container", $.extend({}, containerBasePrototype, {
+    $.widget( "vde.vde_container", $.vde.vde_container, {
         history: null,
         _onDragElementStart: function(event, ui) {
             var block = ui.item;
@@ -152,7 +151,7 @@
             }
             return this.history;
         }
-    }));
+    });
 
     /**
      * Widget history
@@ -271,10 +270,9 @@
     /**
      * Widget page history init
      */
-    var pagePrototype = $.vde.vde_connector.prototype;
-    $.widget( "vde.vde_connector", $.extend({}, pagePrototype, {
+    $.widget( "vde.vde_connector", $.vde.vde_page, {
         _create: function() {
-            pagePrototype._create.apply(this, arguments);
+            this._super();
             var history = this._initHistory();
             this._initHistoryToolbar(history);
             this._initRemoveOperation(history);
@@ -321,9 +319,9 @@
             if($(this.options.containerSelector).is(':vde-vde_container')) {
                 $(this.options.containerSelector).vde_container('destroy');
             }
-            pagePrototype._destroy.call(this);
+            this._super();
         }
-    }));
+    });
 
     /**
      * Widget removable
