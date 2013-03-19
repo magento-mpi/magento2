@@ -472,6 +472,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function openProduct(array $searchData)
     {
         //Search product
+        $this->waitForControlVisible('fieldset', 'product_grid');
         $searchData = $this->_prepareDataForSearch($searchData);
         $productLocator = $this->search($searchData, 'product_grid');
         $this->assertNotNull($productLocator, 'Product is not found');

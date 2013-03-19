@@ -65,7 +65,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         //System settings
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array('meta_title_mask' => '{{name}}', 'meta_description_mask' => '{{name}} {{description}}',
-                  'meta_keyword_mask' => '{{name}},{{sku}}', 'sku_mask' => '{{name}}'));
+                  'meta_keyword_mask' => '{{name}}', 'sku_mask' => '{{name}}'));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($systemConfig);
         //System attributes
@@ -126,7 +126,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         return array(
             array('meta_title', 'meta_information_meta_title', '{{name}}'),
             array('meta_description', 'meta_information_meta_description', '{{name}} {{description}}'),
-            array('meta_keyword', 'meta_information_meta_keywords', '{{name}}, {{sku}}')
+            array('meta_keyword', 'meta_information_meta_keywords', '{{name}}')
         );
     }
 
@@ -304,7 +304,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         return array(
             array('meta_title', 'meta_information_meta_title', 'text_field', '{{name}}'),
             array('meta_description', 'meta_information_meta_description', 'text_area', '{{name}} {{description}}'),
-            array('meta_keyword', 'meta_information_meta_keywords', 'text_area', '{{name}},{{sku}}')
+            array('meta_keyword', 'meta_information_meta_keywords', 'text_area', '{{name}}')
         );
     }
 
