@@ -270,7 +270,7 @@
     /**
      * Widget page history init
      */
-    $.widget( "vde.vde_connector", $.vde.vde_page, {
+    $.widget( "vde.vde_connector", $.vde.vde_connector, {
         _create: function() {
             this._super();
             var history = this._initHistory();
