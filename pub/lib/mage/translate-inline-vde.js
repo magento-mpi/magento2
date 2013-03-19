@@ -164,12 +164,15 @@
                 }));
 
             var self = this;
-            this.translateDialog.find("input[data-translate-input-index]").each(function(count, input) {
+            this.translateDialog.find("textarea[data-translate-input-index]").each(function(count, input) {
                 /* discard changes if pressing esc */
                 $(input).keydown(function(e) {
                     if (e.keyCode == $.ui.keyCode.ESCAPE) {
                         e.preventDefault();
                         $.proxy(self.close, self)();
+                    } else if (e.keyCode == $.ui.keyCode.ENTER) {
+                        e.preventDefault();
+                        $.proxy(self._formSubmit, self)();
                     }
                 });
                 /* keep track of the fact that translate text has been changed */
@@ -217,11 +220,11 @@
             $('[spinner]').addClass('hidden');
 
             var self = this;
-            this.translateDialog.find("input").each(function(count, elem) {
+            this.translateDialog.find("textarea").each(function(count, elem) {
                 var id = elem.id;
                 if (id.indexOf("custom_") === 0) {
                     var index = id.substring(7),
-                        value = elem.value;
+                        value = $(elem).val();
 
                     if (value === null) {
                         value = '';

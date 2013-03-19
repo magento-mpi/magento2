@@ -21,7 +21,7 @@
         {{each(i, item) data.items}}
         <input id="perstore_${i}" name="translate[${i}][perstore]" type="hidden" value="0"/>
         <input name="translate[${i}][original]" type="hidden" value="${item.scope}::${escape(item.original)}"/>
-        <input id="custom_${i}" name="translate[${i}][custom]" value="${escape(item.translated)}" data-translate-input-index="${i}"/>
+        <textarea id="custom_${i}" name="translate[${i}][custom]" data-translate-input-index="${i}">${escape(item.translated)}</textarea>
         {{/each}}
     </form>
 </script>
