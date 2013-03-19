@@ -54,7 +54,7 @@ class Mage_Core_Model_Theme_Copy_VirtualToStagingTest extends PHPUnit_Framework_
         // Test if result is what was expected
         $skipData = array('id');
         $result = $stagingTheme->getData();
-        foreach ($expectedData as $key => $value) {
+        foreach (array_keys($expectedData) as $key) {
             if (!in_array($key, $skipData)) {
                 $this->assertEquals($expectedData[$key], $result[$key]);
             }
