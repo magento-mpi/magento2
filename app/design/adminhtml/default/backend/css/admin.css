@@ -1132,6 +1132,10 @@ option.placeholder {
 .fieldset .legend > span {
 }
 
+.fieldset .comment {
+    margin: 0 0 29px 10px;
+}
+
 .fieldset .field {
     margin: 0 0 29px;
 }
