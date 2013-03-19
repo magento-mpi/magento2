@@ -27,7 +27,7 @@
 </script>
 
 <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
-  <img src="${img}" height="16" width="16" alt="Click to translate text." class="translate-edit-icon">
+  <img src="${img}" height="16" width="16" class="translate-edit-icon">
 </script>
 
 <script id="translate-inline-icon-wrapper" type="text/x-jQuery-tmpl">
@@ -36,6 +36,10 @@
 </script>
 
 <div id="translate-dialog"></div>
+
+<div spinner class="translate-dialog-form-submit-loader hidden">
+    <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif', array('area' => 'adminhtml')) ?>"/>
+</div>
 
 <script type="text/javascript">
     (function($){
