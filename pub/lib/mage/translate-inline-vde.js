@@ -219,7 +219,8 @@
         _formSubmitComplete: function() {
             $('[data-container="spinner"]').addClass('hidden');
 
-            this.translateDialog.find("textarea").each($.proxy(function(count, elem) {
+            var self = this;
+            this.translateDialog.find("textarea").each(function(count, elem) {
                 var id = elem.id;
                 if (id.indexOf("custom_") === 0) {
                     var index = id.substring(7),
@@ -229,9 +230,10 @@
                         value = '';
                     }
 
-                    this.callback(index, value);
+                    self.callback(index, value);
                 }
-            }), this);
+                self = null;
+            });
 
             this.translateDialog.dialog("close");
             $(window).off('resize.translateInlineVdeDialog');
