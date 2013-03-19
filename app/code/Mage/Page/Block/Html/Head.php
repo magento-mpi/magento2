@@ -55,27 +55,13 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     private $_assets;
 
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Url $urlBuilder,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Session_Abstract $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Logger $logger,
-        Magento_Filesystem $filesystem,
+        Mage_Core_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
         Mage_Page_Model_GroupedAssets $assets,
         array $data = array()
     ) {
-        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $designPackage,
-            $session, $storeConfig, $frontController, $helperFactory, $dirs, $logger, $filesystem, $data);
+        parent::__construct($context, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
         $this->_assets = $assets;

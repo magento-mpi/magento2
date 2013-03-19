@@ -30,10 +30,11 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         );
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_block = $objectManagerHelper->getBlock(
+        $arguments = $objectManagerHelper->getConstructArguments(
             'Mage_Page_Block_Html_Head',
             array('assets' => $this->_assets, 'objectManager' => $this->_objectManager)
         );
+        $this->_block = $objectManagerHelper->getObject('Mage_Page_Block_Html_Head', $arguments);
     }
 
     protected function tearDown()
