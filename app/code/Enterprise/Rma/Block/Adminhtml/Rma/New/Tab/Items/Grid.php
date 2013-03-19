@@ -118,7 +118,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         $this->addColumn('qty_requested', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested Qty'),
-            'width' => '80px',
             'index' => 'qty_requested',
             'type'  => 'input',
             'sortable' => false,
@@ -129,7 +128,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
         $this->addColumn('reason', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Reason to Return'),
-            'width' => '80px',
             'getter'   => array($this, 'getReasonOptionStringValue'),
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('reason'),
@@ -141,7 +139,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         $this->addColumn('condition', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Item Condition'),
-            'width' => '80px',
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('condition'),
             'index' => 'condition',
@@ -152,7 +149,6 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         $this->addColumn('resolution', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Resolution'),
-            'width' => '80px',
             'index' => 'resolution',
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('resolution'),

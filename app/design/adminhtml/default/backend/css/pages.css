@@ -2007,7 +2007,8 @@ table.items-to-invoice tbody tr:hover td {
     white-space: normal;
 }
 
-.adminhtml-rma-edit .data-table .col-carrier {
+.adminhtml-rma-edit .data-table .col-carrier,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table th {
     width: 20%;
 }
 
@@ -2033,8 +2034,17 @@ table.items-to-invoice tbody tr:hover td {
     margin: 5px 0 0;
     width: 100%;
 }
+
 [class^=" adminhtml-rma-"] .col-actions .separator {
     margin: 0 3px;
+}
+
+[class^=" adminhtml-sales-"] .order-payment-method .data-table {
+    margin-top: 15px;
+}
+
+[class^=" adminhtml-sales-"] .order-payment-currency {
+    margin-top: 15px;
 }
 
 /*
