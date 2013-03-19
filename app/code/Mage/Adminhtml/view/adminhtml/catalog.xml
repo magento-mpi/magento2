@@ -172,7 +172,8 @@
                             <id>name</id>
                             <filter>0</filter>
                             <sortable>1</sortable>
-                            <column_css_class>associated-product-name</column_css_class>
+                            <header_css_class>col-name</header_css_class>
+                            <column_css_class>col-name</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
@@ -332,7 +333,7 @@ Layout handle for grouped products
                 <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.container" template="Mage_Catalog::product/grouped/grouped.phtml">
                     <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.grid.container" as="catalog.product.group.grid.container"/>
                     <block type="Mage_Core_Block_Template" name="catalog.product.edit.tab.super.grid.popup.container" as="catalog.product.group.grid.popup.container"/>
-                    </block>
+                </block>
             </block>
         </reference>
     </adminhtml_catalog_product_grouped>
@@ -354,6 +355,7 @@ Layout handle for grouped products
                             <_current>1</_current>
                         </params>
                     </grid_url>
+                    <grid_css_class>data-table</grid_css_class>
                 </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="catalog.product.edit.tab.super.group.columnSet" as="grid.columnSet">
                     <arguments>
@@ -364,54 +366,54 @@ Layout handle for grouped products
                         <arguments>
                             <type>grip</type>
                             <index>entity_id</index>
-                            <width>5px</width>
                             <sortable>0</sortable>
-                            <inline_css>ui-icon ui-icon-grip-dotted-vertical</inline_css>
+                            <inline_css>draggable-handle</inline_css>
+                            <header_css_class>col-draggable</header_css_class>
+                            <column_css_class>col-draggable</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Name</header>
-                            <column_css_class>grouped-product-name</column_css_class>
                             <type>text</type>
                             <index>name</index>
                             <editable>1</editable>
                             <sortable>0</sortable>
                             <escape>1</escape>
+                            <header_css_class>col-name</header_css_class>
+                            <column_css_class>col-name</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">SKU</header>
-                            <column_css_class>grouped-product-sku</column_css_class>
                             <type>text</type>
                             <index>sku</index>
-                            <width>80px</width>
                             <sortable>0</sortable>
                             <escape>1</escape>
+                            <header_css_class>col-sku</header_css_class>
+                            <column_css_class>col-sku</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Price</header>
-                            <column_css_class>grouped-product-price</column_css_class>
                             <type>currency</type>
                             <index>price</index>
-                            <width>110px</width>
-                            <align>right</align>
                             <sortable>0</sortable>
+                            <header_css_class>col-price</header_css_class>
+                            <column_css_class>col-price</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Default Qty</header>
-                            <column_css_class>grouped-product-qty</column_css_class>
                             <type>number</type>
                             <index>qty</index>
-                            <width>110px</width>
-                            <align>right</align>
                             <editable>1</editable>
                             <sortable>0</sortable>
+                            <header_css_class>col-qty</header_css_class>
+                            <column_css_class>col-qty</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="delete">
@@ -420,10 +422,10 @@ Layout handle for grouped products
                             <type>button</type>
                             <button_type>button</button_type>
                             <column_css_class>grouped-product-delete</column_css_class>
-                            <width>60px</width>
                             <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Button</renderer>
-                            <align>right</align>
                             <sortable>0</sortable>
+                            <header_css_class>col-actions</header_css_class>
+                            <column_css_class>col-actions</column_css_class>
                         </arguments>
                     </block>
                 </block>
@@ -462,41 +464,39 @@ Layout handle for grouped products
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="in_products">
                         <arguments>
                             <type>checkbox</type>
-                            <header_css_class>a-center</header_css_class>
-                            <column_css_class>selected-products</column_css_class>
-                            <width>60px</width>
-                            <align>center</align>
                             <index>entity_id</index>
+                            <header_css_class>col-select</header_css_class>
+                            <column_css_class>col-select</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Name</header>
-                            <column_css_class>associated-product-name</column_css_class>
                             <type>text</type>
                             <index>name</index>
                             <editable>1</editable>
                             <escape>1</escape>
+                            <header_css_class>col-name</header_css_class>
+                            <column_css_class>col-name</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">SKU</header>
-                            <column_css_class>associated-product-sku</column_css_class>
                             <type>text</type>
                             <index>sku</index>
-                            <width>80px</width>
                             <escape>1</escape>
+                            <header_css_class>col-sku</header_css_class>
+                            <column_css_class>col-sku</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Price</header>
-                            <column_css_class>associated-product-price</column_css_class>
                             <type>currency</type>
                             <index>price</index>
-                            <width>110px</width>
-                            <align>right</align>
+                            <header_css_class>col-price</header_css_class>
+                            <column_css_class>col-price</column_css_class>
                         </arguments>
                     </block>
                 </block>

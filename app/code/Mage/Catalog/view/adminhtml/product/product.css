@@ -678,3 +678,18 @@
 .field.removed {
     display:none !important;
 }
+
+/*
+    Grouped Products Grid
+-------------------------------------- */
+#grouped_grid .col-name {
+    width: 25%;
+}
+
+#grouped_grid .col-sku {
+    width: 10%;
+}
+
+#grouped_grid .col-qty {
+    width: 7%;
+}

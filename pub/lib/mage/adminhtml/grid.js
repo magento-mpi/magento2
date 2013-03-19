@@ -266,10 +266,10 @@ varienGrid.prototype = {
         }
     },
     bindSortable: function(){
-        if (jQuery('#' + this.containerId).find('.ui-icon-grip-dotted-vertical').length) {
+        if (jQuery('#' + this.containerId).find('.draggable-handle').length) {
             jQuery('#' + this.containerId).find('tbody').sortable({
                 axis: 'y',
-                handle: '.ui-icon-grip-dotted-vertical',
+                handle: '.draggable-handle',
                 helper: function(event, ui) {
                     ui.children().each(function() {
                         jQuery(this).width(jQuery(this).width());

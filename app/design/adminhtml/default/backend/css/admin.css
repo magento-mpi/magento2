@@ -1117,15 +1117,18 @@ label.mage-error {
 }
 
 .fieldset .draggable-handle {
-    position: absolute;
-    left: 10px;
-    top: 12px;
     width: 8px;
     height: 14px;
     line-height: 14px;
     background: url(Mage_Backend::images/dragable-handler-vertical.gif) no-repeat 0 0;
     cursor: pointer;
     color: #b2b0ad;
+}
+
+.fieldset .fieldset-wrapper-title > .draggable-handle {
+    position: absolute;
+    left: 10px;
+    top: 12px;
 }
 
 .fieldset .fieldset-wrapper .fieldset-wrapper-content,
@@ -3287,6 +3290,10 @@ table tbody tr:nth-child(odd):hover th {
 -------------------------------------- */
 
 /* Grid - General */
+.grid-container {
+    margin-bottom: 10px;
+}
+
 .grid {
     border-bottom: 0;
     font-size: 13px;
@@ -3867,9 +3874,13 @@ tr.dynamic-grid input.input-text {
     table-layout: fixed;
 }
 
+table .col-draggable {
+    width: 1%;
+}
+
 table .col-select,
 table .col-qty,
-table .col-action,
+table .col-actions,
 table .col-id {
     width: 5%;
 }
@@ -3895,9 +3906,16 @@ table .col-attr-name {
     width: 120px;
 }
 
-table .col-id,
-table thead .col-price,
-table thead .col-qty {
+table .col-draggable .draggable-handle {
+    position: relative;
+    top: 0;
+    float: left;
+}
+
+.grid table .col-id,
+.grid table thead th.col-price,
+.grid table thead th.col-qty,
+.grid table thead th.col-number {
     text-align: left;
 }
 
