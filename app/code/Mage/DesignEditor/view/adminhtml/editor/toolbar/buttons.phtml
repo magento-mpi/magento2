@@ -9,7 +9,7 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */ ?>
-<div id="vde_toolbar_buttons" <?php echo $this->getUiId()?>>
+<div id="vde_toolbar_buttons" data-editing="translate" <?php echo $this->getUiId()?>>
     <?php echo $this->getSwitchModeButtonHtml(); ?>
     <?php echo $this->getAssignButtonHtml(); ?>
     <?php if ($this->isDesignMode()) : ?>

@@ -48,6 +48,11 @@
             $body.on(this.options.loadEvent, function() {
                 $body.trigger('contentUpdated');
             });
+
+            var buttons =  $('[data-editing="translate"]');
+            buttons.bind(
+                'click', $.proxy(this._onToolbarButtonClick, this)
+            );
         },
 
         _initCells : function() {
@@ -96,6 +101,18 @@
             } finally {
                 return false;
             }
+        },
+
+        /**
+         * Trigger event the iFrame translateInlineDialogVde widget is listening for to determine if inline
+         * translation text has been modified without being saved.
+         *
+         * @param event
+         * @private
+         */
+        _onToolbarButtonClick: function(event) {
+            var editorIFrameBody = $('#vde_container_frame').contents().find("body");
+            editorIFrameBody.trigger('toolbarButtonClick');
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {

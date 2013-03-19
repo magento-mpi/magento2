@@ -50,6 +50,9 @@
             var $scriptTranslations = $('[data-translate][translate-mode="script"]');
             $body.addClass('<?php echo 'trnslate-inline-' . $this->getTranslateMode() . '-area' ?>');
 
+            /** @todo temporary fix to add data- attribute to body. */
+            $body.attr("data-container", "body");
+
             $body.translateInlineDialogVde({
                 ajaxUrl: '<?php echo $this->getAjaxUrl() ?>',
                 area: '<?php echo $this->getArea() ?>',
