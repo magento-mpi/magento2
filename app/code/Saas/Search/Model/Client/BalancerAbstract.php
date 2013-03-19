@@ -1,21 +1,13 @@
 <?php
 /**
+ * Abstract solr load balancer
+ *
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Abstract solr load balancer
- *
- * @category   Saas
- * @package    Saas_Search
- */
-
-abstract class Saas_Search_Model_Client_Balancer_Abstract extends Apache_Solr_Service_Balancer
+abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Service_Balancer
 {
     /**
      * Search helper
@@ -31,7 +23,14 @@ abstract class Saas_Search_Model_Client_Balancer_Abstract extends Apache_Solr_Se
      */
     protected $_registryManager;
 
-        /**
+    /**
+     * Logger
+     *
+     * @var Mage_Core_Model_Logger
+     */
+    protected $_log;
+
+    /**
      * Retrieve solr client object
      *
      * @abstract
@@ -51,11 +50,13 @@ abstract class Saas_Search_Model_Client_Balancer_Abstract extends Apache_Solr_Se
      *
      * @param Saas_Search_Helper_Data $helper
      * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Core_Model_Logger $logger
      * @param array $options
      */
     public function __construct(
         Saas_Search_Helper_Data $helper,
         Mage_Core_Model_Registry $registry,
+        Mage_Core_Model_Logger $logger,
         array $options = array()
     ) {
         $this->_helper = $helper;
@@ -221,7 +222,7 @@ abstract class Saas_Search_Model_Client_Balancer_Abstract extends Apache_Solr_Se
      * that satisfies configured timeout restrictions (or the default)
      *
      * @param  bool $forceSelect
-     * @return Apache_Solr_Service
+     * @return Saas_Search_Model_Client_Solr
      *
      * @throws Exception If there are no read services that meet requirements
      */
@@ -271,7 +272,7 @@ abstract class Saas_Search_Model_Client_Balancer_Abstract extends Apache_Solr_Se
      * that satisfies configured timeout restrictions (or the default)
      *
      * @param  bool $forceSelect
-     * @return Apache_Solr_Service
+     * @return Saas_Search_Model_Client_Solr
      *
      * @throws Exception If there are no write services that meet requirements
      */
@@ -321,7 +322,7 @@ abstract class Saas_Search_Model_Client_Balancer_Abstract extends Apache_Solr_Se
     /**
      * Save version of index in registry
      *
-     * @return Saas_Search_Model_Client_Balancer_Abstract
+     * @return Saas_Search_Model_Client_BalancerAbstract
      */
     protected function _rememberIndexVersion()
     {
@@ -330,7 +331,7 @@ abstract class Saas_Search_Model_Client_Balancer_Abstract extends Apache_Solr_Se
                 $indexVersion = $this->getIndexVersion();
                 $this->_registryManager->register('search_engine_index_version', $indexVersion);
             } catch (Exception $e) {
-                Mage::log('An error occurred while saving search engine index version');
+                $this->_log->logException($e);
             }
         }
         return $this;

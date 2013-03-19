@@ -1,18 +1,11 @@
 <?php
 /**
+ * Cashe Helper
+ *
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Search
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
- /**
- * Saas search helper
- *
- * @category   Saas
- * @package    Saas_Search
  */
 class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
 {
@@ -31,15 +24,26 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
     protected $_registryManager;
 
     /**
+     * @var Mage_Core_Model_ConfigInterface
+     */
+    private $_config;
+
+    /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Registry $registry
+     * @param Enterprise_Search_Model_AdapterInterface $client
+     * @param Mage_Core_Model_Config_Primary $config
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Registry $registry
+        Mage_Core_Model_Registry $registry,
+        Enterprise_Search_Model_AdapterInterface $client,
+        Mage_Core_Model_Config_Primary $config
     ) {
         parent::__construct($context);
         $this->_registryManager = $registry;
+        $this->_client = $client;
+        $this->_config = $config;
     }
     /**
      * Retrieve information from search engine configuration not used store config
@@ -52,25 +56,7 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
     public function getSearchConfigData($field, $storeId = null)
     {
         $path = 'catalog/search/' . $field;
-        return Mage::getConfig()->getNode($path, 'default');
-    }
-
-    /**
-     * Retrieve instance of search engine client
-     *
-     * @return Saas_Search_Model_Adapter_HttpStream|Saas_Search_Model_Adapter_PhpExtension
-     */
-    protected function _getClient()
-    {
-        if (null === $this->_client) {
-            if (extension_loaded('solr')) {
-               $model = 'Saas_Search_Model_Adapter_PhpExtension';
-            } else {
-               $model = 'Saas_Search_Model_Adapter_HttpStream';
-            }
-            $this->_client = Mage::getModel($model, $this->getSolrServers());
-        }
-        return $this->_client;
+        return $this->_config->getNode($path, 'default');
     }
 
     /**
@@ -82,7 +68,7 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
     public function isReplicationCompleted($indexVersion)
     {
         try {
-            $engineIndexVersion = (string)$this->_getClient()->getIndexVersion();
+            $engineIndexVersion = (string)$this->_client->getIndexVersion();
             if ($engineIndexVersion) {
                 $this->_registryManager->register('search_engine_index_version', $engineIndexVersion);
             }

@@ -23,7 +23,7 @@ class Enterprise_Search_Model_ObjectManager_Configurator extends Mage_Core_Model
         }
         $objectManager->configure(array(
             'preferences' => array(
-                'Enterprise_Search_Model_Adapter_Interface' => $adapter
+                'Enterprise_Search_Model_AdapterInterface' => $adapter
             )
         ));
     }

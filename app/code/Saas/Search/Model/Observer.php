@@ -1,18 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Saas
- * @package     Saas_Search
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
- /**
  * Saas search model observer
  *
- * @category   Saas
- * @package    Saas_Search
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Saas_Search_Model_Observer
 {

@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model_Adapter_Solr_Abstract
-    implements Enterprise_Search_Model_Adapter_Interface
+    implements Enterprise_Search_Model_AdapterInterface
 {
     /**
      * Object name used to create solr document object

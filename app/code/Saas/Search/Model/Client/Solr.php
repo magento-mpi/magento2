@@ -1,20 +1,12 @@
 <?php
 /**
+ * Solr client
+ *
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Solr client
- *
- * @category   Saas
- * @package    Saas_Search
- */
-
 class Saas_Search_Model_Client_Solr extends Enterprise_Search_Model_Client_Solr
 {
     /**

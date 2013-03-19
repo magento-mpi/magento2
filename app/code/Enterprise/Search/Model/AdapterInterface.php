@@ -1,13 +1,13 @@
 <?php
 /**
+ * Adapter Interface
+ *
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Enterprise_Search_Model_Adapter_Interface
+interface Enterprise_Search_Model_AdapterInterface
 {
     /**
      * Retrieve server status
@@ -64,7 +64,7 @@ interface Enterprise_Search_Model_Adapter_Interface
      * Add prepared Solr Input documents to Solr index
      *
      * @param array $docs
-     * @return Enterprise_Search_Model_Adapter_Solr
+     * @return Enterprise_Search_Model_Adapter_Solr_Abstract
      */
     public function addDocs($docs);
 

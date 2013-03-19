@@ -1,20 +1,12 @@
 <?php
 /**
+ * Saas Search Helper
+ *
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
- /**
- * Saas search helper
- *
- * @category   Saas
- * @package    Saas_Search
- */
-
 class Saas_Search_Helper_Data extends Enterprise_Search_Helper_Data
 {
     /**

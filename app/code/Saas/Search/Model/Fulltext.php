@@ -1,18 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Saas
- * @package     Saas_Search
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Catalog fulltext search model
  *
- * @category    Saas
- * @package     Saas_Search
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Saas_Search_Model_Fulltext extends Mage_CatalogSearch_Model_Fulltext
 {

@@ -1,22 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Saas
- * @package     Saas_Search
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Solr balancer (http-stream)
+ *
+ * {license_notice}
  *
  * @method Saas_Search_Model_Client_Solr _selectReadService()
  *
- * @category   Saas
- * @package    Saas_Search
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-class Saas_Search_Model_Client_Balancer_HttpStream extends Saas_Search_Model_Client_Balancer_Abstract
+class Saas_Search_Model_Client_Balancer_HttpStream extends Saas_Search_Model_Client_BalancerAbstract
 {
     /**
      * Retrieve search suggestions using balancer

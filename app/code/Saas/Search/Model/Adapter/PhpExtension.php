@@ -1,19 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Saas
- * @package     Saas_Search
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Solr search engine adapter that perform raw queries to Solr server based on Conduit solr client library
  * and basic solr adapter
  *
- * @category   Saas
- * @package    Saas_Search
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Saas_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Model_Adapter_PhpExtension
 {

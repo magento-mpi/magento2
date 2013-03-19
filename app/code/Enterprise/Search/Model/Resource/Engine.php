@@ -102,9 +102,7 @@ class Enterprise_Search_Model_Resource_Engine
     /**
      * Set search engine adapter
      */
-    public function __construct(
-        Enterprise_Search_Model_Adapter_Interface $adapter
-    ) {
+    public function __construct(Enterprise_Search_Model_AdapterInterface $adapter) {
         $this->_adapter = $adapter;
         $this->_initAdapter();
     }
@@ -304,18 +302,6 @@ class Enterprise_Search_Model_Resource_Engine
     public function isLayeredNavigationAllowed()
     {
         return true;
-    }
-
-    /**
-     * Retrieve search engine adapter model by adapter name
-     * Now supporting only Solr search engine adapter
-     *
-     * @param string $adapterName
-     * @return object
-     */
-    protected function _getAdapterModel()
-    {
-        return $this->_adapter;
     }
 
     /**

@@ -1,20 +1,13 @@
 <?php
 /**
+ * Solr balancer (php extension)
+ *
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Solr balancer (php extension)
- *
- * @category   Saas
- * @package    Saas_Search
- */
-class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_Client_Balancer_Abstract
+class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_Client_BalancerAbstract
 {
     /**
      * Add an array of Solr Documents to the index all at once
@@ -35,7 +28,7 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
                 return $service->addDocuments($documents, $allowDups, $overwritePending);
             } catch (Exception $e) {
                 if ($e->getCode() != 0) {
-                  //  throw $e;
+                    $this->_log->logException($e);
                 }
             }
             $service = $this->_selectWriteService(true);
