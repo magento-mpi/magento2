@@ -313,7 +313,7 @@
                 this.isTemplateAttached = true;
             }
 
-            $(this.element).removeClass('invisible');
+            this.element.removeClass('invisible');
         },
 
         /**
@@ -322,7 +322,7 @@
         _disableElementClicks: function() {
             this.element.find('a').off('click');
 
-            if ($(this.element).is('A')) {
+            if (this.element.is('A')) {
                 this.element.on('click', function(e) {
                     return false;
                 });
@@ -341,8 +341,8 @@
          * Replaces the translated text inside the widget with the new value.
          */
         replaceText: function(index, value) {
-            var translateData = $(this.element).data(this.options.dataAttrName),
-                innerHtmlStr = $(this.element).html();
+            var translateData = this.element.data(this.options.dataAttrName),
+                innerHtmlStr = this.element.html();
 
             if (value === null || value === '') {
                 value = "&nbsp;";
@@ -350,11 +350,11 @@
 
             innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
 
-            $(this.element).html(innerHtmlStr);
+            this.element.html(innerHtmlStr);
 
             translateData[index]["shown"] = value;
             translateData[index]["translated"] = value;
-            $(this.element).data(this.options.dataAttrName, translateData);
+            this.element.data(this.options.dataAttrName, translateData);
         },
 
         /**
@@ -413,7 +413,7 @@
             $(this.iconTemplate).detach();
 
             this.isTemplateAttached = false;
-            $(this.element).addClass('invisible');
+            this.element.addClass('invisible');
         }
     });
 
