@@ -17,4 +17,13 @@
  */
 class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Tile extends Mage_Launcher_Block_Adminhtml_Tile
 {
+    /**
+     * Get a list of configured Shipping methods
+     *
+     * @return array
+     */
+    public function getConfiguredShippingMethods()
+    {
+        return $this->getTile()->getStateResolver()->getConfiguredShippingMethods();
+    }
 }
