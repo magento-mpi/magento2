@@ -119,11 +119,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             ->loadByCode($this->_entityTypeId, $attributeCode);
 
         if ($attribute->getId() && !$attributeId) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code already exists'));
-            $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
+            $response->setAttributes(array(
+                'attribute_code' =>  Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code already exists')
+            ));
             $response->setError(true);
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());
