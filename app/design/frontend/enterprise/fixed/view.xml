@@ -196,9 +196,9 @@
     <vars module="Mage_DesignEditor">
         <var name="store-name:font-picker">Tahoma, Geneva, sans-serif</var>
         <var name="store-name:color-picker">#ccc</var>
-        <var name="store-name:logo-uploader"></var>
+        <var name="store-name:logo-uploader"> </var>
         <var name="header-background:color-picker">transparent</var>
-        <var name="header-background:image-uploader"></var>
+        <var name="header-background:image-uploader"> </var>
         <var name="header-background:tile">repeat</var>
 
         <var name="menu-background">#f8f8f8</var>
@@ -215,7 +215,7 @@
 
 
         <var name="page-background:color-picker">#ffffff</var>
-        <var name="page-background:image-uploader"></var>
+        <var name="page-background:image-uploader"> </var>
         <var name="page-background:tile">no-repeat</var>
 
         <var name="form-background">#f8f8f8</var>
