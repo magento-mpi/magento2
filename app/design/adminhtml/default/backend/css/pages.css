@@ -57,10 +57,6 @@
     margin: 6px 17px 6px 6px;
 }
 
-.page-actions .action-.delete {
-    margin-top: 2px;
-}
-
 /* Image Management */
 .images {
     position: relative;
@@ -2476,6 +2472,59 @@ table.items-to-invoice tbody tr:hover td {
 .grid tr.even .rma-popup .form-list tr,
 .grid tr.on-mouse .rma-popup .form-list tr {
     background: #fff !important;
+}
+
+.adminhtml-giftwrapping-edit .field-image .control {
+    line-height: 28px;
+}
+
+.adminhtml-giftwrapping-edit .field-image a {
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+.adminhtml-giftwrapping-edit .field-image img {
+    vertical-align: middle;
+}
+
+.adminhtml-giftwrapping-new .field-image .input-file,
+.adminhtml-giftwrapping-edit .field-image .input-file {
+    display: inline-block;
+    margin: 0 15px 0 0;
+    width: auto;
+}
+
+.adminhtml-giftwrapping-new .field-image .addafter,
+.adminhtml-giftwrapping-edit .field-image .addafter {
+    border: 0;
+    box-shadow: none;
+    display: inline-block;
+    margin: 0 15px 0 0;
+    height: auto;
+    width: auto;
+}
+
+.adminhtml-giftwrapping-new .field-image .delete-image,
+.adminhtml-giftwrapping-edit .field-image .delete-image {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.adminhtml-giftwrapping-edit .field-image .delete-image input {
+    margin: -3px 5px 0 0;
+    width: auto;
+    display: inline-block;
+}
+
+.adminhtml-giftwrapping-edit .field-image .addon .delete-image input:focus + label {
+    border: 0;
+    box-shadow: none;
+}
+
+.adminhtml-giftwrapping-edit .store-switcher {
+    float: left;
+    position: relative;
+    bottom: -14px;
 }
 
 /*
