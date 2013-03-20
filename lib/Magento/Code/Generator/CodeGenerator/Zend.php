@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_CodeGenerator_Zend extends Zend\Code\Generator\ClassGenerator
-    implements Magento_Di_Generator_CodeGenerator_Interface
+class Magento_Code_Generator_CodeGenerator_Zend extends Zend\Code\Generator\ClassGenerator
+    implements Magento_Code_Generator_CodeGenerator_Interface
 {
     /**
      * Possible doc block options
@@ -80,7 +80,7 @@ class Magento_Di_Generator_CodeGenerator_Zend extends Zend\Code\Generator\ClassG
      * Set class dock block
      *
      * @param array $docBlock
-     * @return Magento_Di_Generator_CodeGenerator_Zend
+     * @return Magento_Code_Generator_CodeGenerator_Zend
      */
     public function setClassDocBlock(array $docBlock)
     {
@@ -94,7 +94,7 @@ class Magento_Di_Generator_CodeGenerator_Zend extends Zend\Code\Generator\ClassG
      * addMethods()
      *
      * @param array $methods
-     * @return Magento_Di_Generator_CodeGenerator_Zend
+     * @return Magento_Code_Generator_CodeGenerator_Zend
      */
     public function addMethods(array $methods)
     {
@@ -131,7 +131,7 @@ class Magento_Di_Generator_CodeGenerator_Zend extends Zend\Code\Generator\ClassG
      * Add method from MethodGenerator
      *
      * @param  Zend\Code\Generator\MethodGenerator $method
-     * @return Magento_Di_Generator_CodeGenerator_Zend
+     * @return Magento_Code_Generator_CodeGenerator_Zend
      * @throws InvalidArgumentException
      */
     public function addMethodFromGenerator(Zend\Code\Generator\MethodGenerator $method)
@@ -149,7 +149,7 @@ class Magento_Di_Generator_CodeGenerator_Zend extends Zend\Code\Generator\ClassG
      * addProperties()
      *
      * @param array $properties
-     * @return Magento_Di_Generator_CodeGenerator_Zend
+     * @return Magento_Code_Generator_CodeGenerator_Zend
      * @throws InvalidArgumentException
      */
     public function addProperties(array $properties)
@@ -178,7 +178,7 @@ class Magento_Di_Generator_CodeGenerator_Zend extends Zend\Code\Generator\ClassG
      *
      * @param  Zend\Code\Generator\PropertyGenerator $property
      * @throws InvalidArgumentException
-     * @return Magento_Di_Generator_CodeGenerator_Zend
+     * @return Magento_Code_Generator_CodeGenerator_Zend
      */
     public function addPropertyFromGenerator(Zend\Code\Generator\PropertyGenerator $property)
     {

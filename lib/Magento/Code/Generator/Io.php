@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_Io
+class Magento_Code_Generator_Io
 {
     /**
      * Default code generation directory

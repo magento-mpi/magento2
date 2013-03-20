@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator
+class Magento_Code_Generator
 {
     const GENERATION_SUCCESS = 'success';
     const GENERATION_ERROR = 'error';
     const GENERATION_SKIP = 'skip';
 
     /**
-     * @var Magento_Di_Generator_EntityAbstract
+     * @var Magento_Code_Generator_EntityAbstract
      */
     protected $_generator;
 
@@ -25,7 +25,7 @@ class Magento_Di_Generator
     protected $_autoloader;
 
     /**
-     * @var Magento_Di_Generator_Io
+     * @var Magento_Code_Generator_Io
      */
     protected $_ioObject;
 
@@ -33,23 +33,23 @@ class Magento_Di_Generator
      * @var array
      */
     protected $_generatedEntities = array(
-        Magento_Di_Generator_Factory::ENTITY_TYPE,
-        Magento_Di_Generator_Proxy::ENTITY_TYPE
+        Magento_Code_Generator_Factory::ENTITY_TYPE,
+        Magento_Code_Generator_Proxy::ENTITY_TYPE
     );
 
     /**
-     * @param Magento_Di_Generator_EntityAbstract $generator
+     * @param Magento_Code_Generator_EntityAbstract $generator
      * @param Magento_Autoload_IncludePath $autoloader
-     * @param Magento_Di_Generator_Io $ioObject
+     * @param Magento_Code_Generator_Io $ioObject
      */
     public function __construct(
-        Magento_Di_Generator_EntityAbstract $generator = null,
+        Magento_Code_Generator_EntityAbstract $generator = null,
         Magento_Autoload_IncludePath $autoloader = null,
-        Magento_Di_Generator_Io $ioObject = null
+        Magento_Code_Generator_Io $ioObject = null
     ) {
         $this->_generator  = $generator;
         $this->_autoloader = $autoloader ? : new Magento_Autoload_IncludePath();
-        $this->_ioObject   = $ioObject ? : new Magento_Di_Generator_Io(new Varien_Io_File(), $this->_autoloader);
+        $this->_ioObject   = $ioObject ? : new Magento_Code_Generator_Io(new Varien_Io_File(), $this->_autoloader);
     }
 
     /**
@@ -108,20 +108,20 @@ class Magento_Di_Generator
      * @param string $entity
      * @param string $sourceClassName
      * @param string $resultClassName
-     * @return Magento_Di_Generator_EntityAbstract|Magento_Di_Generator_Factory|Magento_Di_Generator_Proxy
+     * @return Magento_Code_Generator_EntityAbstract|Magento_Code_Generator_Factory|Magento_Code_Generator_Proxy
      * @throws InvalidArgumentException
      */
     protected function _initGenerator($entity, $sourceClassName, $resultClassName)
     {
         if (!$this->_generator) {
             switch ($entity) {
-                case Magento_Di_Generator_Factory::ENTITY_TYPE:
-                    $this->_generator = new Magento_Di_Generator_Factory($sourceClassName, $resultClassName,
+                case Magento_Code_Generator_Factory::ENTITY_TYPE:
+                    $this->_generator = new Magento_Code_Generator_Factory($sourceClassName, $resultClassName,
                         $this->_ioObject
                     );
                     break;
-                case Magento_Di_Generator_Proxy::ENTITY_TYPE:
-                    $this->_generator = new Magento_Di_Generator_Proxy($sourceClassName, $resultClassName,
+                case Magento_Code_Generator_Proxy::ENTITY_TYPE:
+                    $this->_generator = new Magento_Code_Generator_Proxy($sourceClassName, $resultClassName,
                         $this->_ioObject
                     );
                     break;

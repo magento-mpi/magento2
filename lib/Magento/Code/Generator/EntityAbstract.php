@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-abstract class Magento_Di_Generator_EntityAbstract
+abstract class Magento_Code_Generator_EntityAbstract
 {
     /**
      * Entity type
@@ -35,7 +35,7 @@ abstract class Magento_Di_Generator_EntityAbstract
     private $_resultClassName;
 
     /**
-     * @var Magento_Di_Generator_Io
+     * @var Magento_Code_Generator_Io
      */
     private $_ioObject;
 
@@ -49,22 +49,22 @@ abstract class Magento_Di_Generator_EntityAbstract
     /**
      * Class generator object
      *
-     * @var Magento_Di_Generator_CodeGenerator_Interface
+     * @var Magento_Code_Generator_CodeGenerator_Interface
      */
     protected $_classGenerator;
 
     /**
      * @param string $sourceClassName
      * @param string $resultClassName
-     * @param Magento_Di_Generator_Io $ioObject
-     * @param Magento_Di_Generator_CodeGenerator_Interface $classGenerator
+     * @param Magento_Code_Generator_Io $ioObject
+     * @param Magento_Code_Generator_CodeGenerator_Interface $classGenerator
      * @param Magento_Autoload_IncludePath $autoLoader
      */
     public function __construct(
         $sourceClassName = null,
         $resultClassName = null,
-        Magento_Di_Generator_Io $ioObject = null,
-        Magento_Di_Generator_CodeGenerator_Interface $classGenerator = null,
+        Magento_Code_Generator_Io $ioObject = null,
+        Magento_Code_Generator_CodeGenerator_Interface $classGenerator = null,
         Magento_Autoload_IncludePath $autoLoader = null
     ) {
         if ($autoLoader) {
@@ -75,12 +75,12 @@ abstract class Magento_Di_Generator_EntityAbstract
         if ($ioObject) {
             $this->_ioObject = $ioObject;
         } else {
-            $this->_ioObject = new Magento_Di_Generator_Io(new Varien_Io_File(), $this->_autoloader);
+            $this->_ioObject = new Magento_Code_Generator_Io(new Varien_Io_File(), $this->_autoloader);
         }
         if ($classGenerator) {
             $this->_classGenerator = $classGenerator;
         } else {
-            $this->_classGenerator = new Magento_Di_Generator_CodeGenerator_Zend();
+            $this->_classGenerator = new Magento_Code_Generator_CodeGenerator_Zend();
         }
 
         $this->_sourceClassName = ltrim($sourceClassName, Magento_Autoload_IncludePath::NS_SEPARATOR);
@@ -239,7 +239,7 @@ abstract class Magento_Di_Generator_EntityAbstract
 
     /**
      * @param string $message
-     * @return Magento_Di_Generator_EntityAbstract
+     * @return Magento_Code_Generator_EntityAbstract
      */
     protected function _addError($message)
     {

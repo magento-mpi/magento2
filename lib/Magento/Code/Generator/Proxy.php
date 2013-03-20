@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_Proxy extends Magento_Di_Generator_EntityAbstract
+class Magento_Code_Generator_Proxy extends Magento_Code_Generator_EntityAbstract
 {
     /**
      * Entity type

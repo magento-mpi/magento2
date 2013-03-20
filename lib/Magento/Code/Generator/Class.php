@@ -3,24 +3,24 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_Class
+class Magento_Code_Generator_Class
 {
     /**
-     * @var Magento_Di_Generator
+     * @var Magento_Code_Generator
      */
     protected $_generator;
 
     /**
-     * @param Magento_Di_Generator $generator
+     * @param Magento_Code_Generator $generator
      */
-    public function __construct(Magento_Di_Generator $generator = null)
+    public function __construct(Magento_Code_Generator $generator = null)
     {
-        $this->_generator = $generator ?: new Magento_Di_Generator();
+        $this->_generator = $generator ?: new Magento_Code_Generator();
     }
 
     /**
