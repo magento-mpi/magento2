@@ -40,25 +40,22 @@
     <ul class="note-list">
     <?php foreach ($this->getOrder()->getStatusHistoryCollection(true) as $_item): ?>
         <li>
-            <strong><?php echo $this->helper('Mage_Core_Helper_Data')->formatDate($_item->getCreatedAtDate(), 'medium') ?></strong>
-            <?php echo $this->helper('Mage_Core_Helper_Data')->formatTime($_item->getCreatedAtDate(), 'medium') ?>
-            <strong><?php echo $_item->getStatusLabel() ?></strong>
-            <div>
+            <span class="note-list-date"><?php echo $this->helper('Mage_Core_Helper_Data')->formatDate($_item->getCreatedAtDate(), 'medium') ?></span>
+            <span class="note-list-time"><?php echo $this->helper('Mage_Core_Helper_Data')->formatTime($_item->getCreatedAtDate(), 'medium') ?></span>
+            <span class="note-list-status"><?php echo $_item->getStatusLabel() ?></span>
+            <span class="note-list-customer">
                 <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
-                <strong>
-                    <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notification Not Applicable') ?>
-                    <?php elseif ($_item->getIsCustomerNotified()): ?>
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?>
-                    <img src="<?php echo $this->getViewFileUrl('images/ico_success.gif') ?>" width="16" height="16" alt="" />
-                    <?php else: ?>
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?>
-                    <?php endif; ?>
-                </strong>
-                <?php if ($_item->getComment()): ?>
-                    <br/><?php echo $this->escapeHtml($_item->getComment(), array('b','br','strong','i','u')) ?>
+                <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
+                    <span class="note-list-customer-notapplicable"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notification Not Applicable') ?></span>
+                <?php elseif ($_item->getIsCustomerNotified()): ?>
+                    <span class="note-list-customer-notified"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?></span>
+                <?php else: ?>
+                    <span class="note-list-customer-not-notified"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?></span>
                 <?php endif; ?>
-            </div>
+            </span>
+            <?php if ($_item->getComment()): ?>
+                <div class="note-list-comment"><?php echo $this->escapeHtml($_item->getComment(), array('b','br','strong','i','u')) ?></div>
+            <?php endif; ?>
         </li>
     <?php endforeach; ?>
     </ul>
