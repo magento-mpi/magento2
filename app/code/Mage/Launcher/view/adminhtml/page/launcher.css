@@ -833,44 +833,6 @@
     margin: 0;
 }
 
-/* Tax Rate Popup */
-
-.tax-rate-popup .fieldset {
-    margin: 0;
-}
-
-.tax-rate-popup .field {
-    margin-bottom: 20px;
-}
-
-.tax-rate-popup .field .label {
-    margin: 5px 0 0 0;
-    width: 26%;
-    padding: 0 20px 0 0;
-    float: left;
-    text-align: right;
-}
-
-.tax-rate-popup .field .control {
-    width: 47%;
-    margin: 0;
-    float: left;
-}
-
-.tax-rate-popup .field .control select,
-.tax-rate-popup .field .control .input-text {
-    width: 100%;
-}
-
-.tax-rate-popup .field-rate .control .input-text {
-    width: 50%;
-}
-
-.tax-rate-popup .legend,
-.tax-rate-popup .legend + br {
-    display: none;
-}
-
 .tax-rules-form h2 {
     color: #f4863e;
     font-family: 'CallunaSans';
@@ -1034,7 +996,6 @@
 }
 
 .shipping-origin-address {
-    margin-top: 11px;
     width: 25%;
     float: right;
 }
@@ -1045,7 +1006,6 @@
     color: #676056;
     margin: 0 0 2px 0;
 }
-
 
 .shipping-tabs-nav {
     margin: 25px -20px 0 -20px;
@@ -1061,7 +1021,6 @@
     margin-bottom: -1px;
     margin-right: -1px;
 }
-
 
 .shipping-tabs-nav > li > a {
     display: block;
@@ -1079,7 +1038,6 @@
     text-indent: -9999px;
     outline: none;
 }
-
 
 .shipping-tabs-nav > .active > a,
 .shipping-tabs-nav > .active > a:hover {
@@ -1177,6 +1135,10 @@
     margin: 25px 0 20px 0;
 }
 
+.shipping-origin-address .title {
+    margin-top: 11px;
+}
+
 .shipping-origin-address-data li {
     margin: 10px 0;
 }
@@ -1209,7 +1171,8 @@
 }
 
 .shipping-config .field-fedex-key,
-.field-dhl-account-number {
+.field-dhl-account-number,
+.field-ups-user-id {
     clear: left;
 }
 
@@ -2293,7 +2256,7 @@
 }
 
 .add-product .field-quantity_and_stock_status input[type="text"] {
-    width: 41.5%;
+    width: 36%;
 }
 
 .add-product .field-quantity_and_stock_status select {
@@ -2311,14 +2274,6 @@
     color: #676056;
 }
 
-.add-product .field-weight .input-text {
-    width: 80%;
-}
-
-.add-product .field-weight .field:first-child {
-    width: 45%;
-}
-
 .add-product .field-weight .choice,
 .add-product .field-service {
     display: none;
@@ -2329,7 +2284,11 @@
 }
 
 .add-product .field-category_ids .category-select {
-    width: 99%;
+    width: 66%;
+}
+
+.add-product .field-category_ids .addon > button {
+   width: 30%;
 }
 
 .add-product .field-price .control {
@@ -3316,6 +3275,21 @@
     display: block;
 }
 
+.action-manage-products:link,
+.action-manage-products:visited,
+.action-manage-products:hover,
+.action-manage-products:active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 26px;
+    margin-left: 8px;
+    padding: 0;
+    text-decoration: underline;
+    text-shadow: none;
+}
+
 .dialog table.table_window  {
     border-collapse: collapse;
     border-spacing: 0;
@@ -3326,6 +3300,36 @@
 
 .page-actions {
     display: none;
+}
+
+.action-payment-methods:link,
+.action-payment-methods:visited,
+.action-payment-methods:hover,
+.action-payment-methods:active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 26px;
+    margin-left: 8px;
+    padding: 0;
+    text-decoration: underline;
+    text-shadow: none;
+}
+
+.action-design-editor:link,
+.action-design-editor:visited,
+.action-design-editor:hover,
+.action-design-editor:active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 26px;
+    margin-left: 8px;
+    padding: 0;
+    text-decoration: underline;
+    text-shadow: none;
 }
 
 /* TODO@ Remove after merge with master */
@@ -3386,4 +3390,8 @@
 
 .eq-ie8 .switcher.checked .switcher-label:before {
     content: attr(data-text-on);
+}
+
+.tile-more-info {
+    margin-top: 10px;
 }
