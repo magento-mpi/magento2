@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_CodeGenerator_ZendTest extends PHPUnit_Framework_TestCase
+class Magento_Code_Generator_CodeGenerator_ZendTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Possible flags for assertion
@@ -22,7 +22,7 @@ class Magento_Di_Generator_CodeGenerator_ZendTest extends PHPUnit_Framework_Test
     /**#@-*/
 
     /**
-     * @var Magento_Di_Generator_CodeGenerator_Zend
+     * @var Magento_Code_Generator_CodeGenerator_Zend
      */
     protected $_model;
 
@@ -125,7 +125,7 @@ class Magento_Di_Generator_CodeGenerator_ZendTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->_model = new Magento_Di_Generator_CodeGenerator_Zend();
+        $this->_model = new Magento_Code_Generator_CodeGenerator_Zend();
     }
 
     protected function tearDown()

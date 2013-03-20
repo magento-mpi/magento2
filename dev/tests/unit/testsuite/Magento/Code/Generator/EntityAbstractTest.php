@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
+class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Source and result class parameters
@@ -35,13 +35,13 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
     /**
      * Model under test
      *
-     * @var Magento_Di_Generator_EntityAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Code_Generator_EntityAbstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_Di_Generator_EntityAbstract');
+        $this->_model = $this->getMockForAbstractClass('Magento_Code_Generator_EntityAbstract');
     }
 
     protected function tearDown()
@@ -54,24 +54,24 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
         // without parameters
         $this->assertAttributeEmpty('_sourceClassName', $this->_model);
         $this->assertAttributeEmpty('_resultClassName', $this->_model);
-        $this->assertAttributeInstanceOf('Magento_Di_Generator_Io', '_ioObject', $this->_model);
-        $this->assertAttributeInstanceOf('Magento_Di_Generator_CodeGenerator_Zend', '_classGenerator', $this->_model);
+        $this->assertAttributeInstanceOf('Magento_Code_Generator_Io', '_ioObject', $this->_model);
+        $this->assertAttributeInstanceOf('Magento_Code_Generator_CodeGenerator_Zend', '_classGenerator', $this->_model);
         $this->assertAttributeInstanceOf('Magento_Autoload_IncludePath', '_autoloader', $this->_model);
 
         // with source class name
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Di_Generator_EntityAbstract', array(self::SOURCE_CLASS)
+            'Magento_Code_Generator_EntityAbstract', array(self::SOURCE_CLASS)
         );
         $this->assertAttributeEquals(self::SOURCE_CLASS, '_sourceClassName', $this->_model);
         $this->assertAttributeEquals(self::SOURCE_CLASS . 'Abstract', '_resultClassName', $this->_model);
 
         // with all arguments
-        $ioObject      = $this->getMock('Magento_Di_Generator_Io', array(), array(), '', false);
-        $codeGenerator = $this->getMock('Magento_Di_Generator_CodeGenerator_Zend', array(), array(), '', false);
+        $ioObject      = $this->getMock('Magento_Code_Generator_Io', array(), array(), '', false);
+        $codeGenerator = $this->getMock('Magento_Code_Generator_CodeGenerator_Zend', array(), array(), '', false);
         $autoloader    = $this->getMock('Magento_Autoload_IncludePath', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Di_Generator_EntityAbstract',
+            'Magento_Code_Generator_EntityAbstract',
             array(self::SOURCE_CLASS, self::RESULT_CLASS, $ioObject, $codeGenerator, $autoloader)
         );
         $this->assertAttributeEquals(self::RESULT_CLASS, '_resultClassName', $this->_model);
@@ -149,17 +149,17 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
      * @param bool $isValid
      *
      * @dataProvider generateDataProvider
-     * @covers Magento_Di_Generator_EntityAbstract::generate
-     * @covers Magento_Di_Generator_EntityAbstract::getErrors
-     * @covers Magento_Di_Generator_EntityAbstract::_getSourceClassName
-     * @covers Magento_Di_Generator_EntityAbstract::_getResultClassName
-     * @covers Magento_Di_Generator_EntityAbstract::_getDefaultResultClassName
-     * @covers Magento_Di_Generator_EntityAbstract::_generateCode
-     * @covers Magento_Di_Generator_EntityAbstract::_addError
-     * @covers Magento_Di_Generator_EntityAbstract::_validateData
-     * @covers Magento_Di_Generator_EntityAbstract::_getClassDocBlock
-     * @covers Magento_Di_Generator_EntityAbstract::_getGeneratedCode
-     * @covers Magento_Di_Generator_EntityAbstract::_fixCodeStyle
+     * @covers Magento_Code_Generator_EntityAbstract::generate
+     * @covers Magento_Code_Generator_EntityAbstract::getErrors
+     * @covers Magento_Code_Generator_EntityAbstract::_getSourceClassName
+     * @covers Magento_Code_Generator_EntityAbstract::_getResultClassName
+     * @covers Magento_Code_Generator_EntityAbstract::_getDefaultResultClassName
+     * @covers Magento_Code_Generator_EntityAbstract::_generateCode
+     * @covers Magento_Code_Generator_EntityAbstract::_addError
+     * @covers Magento_Code_Generator_EntityAbstract::_validateData
+     * @covers Magento_Code_Generator_EntityAbstract::_getClassDocBlock
+     * @covers Magento_Code_Generator_EntityAbstract::_getGeneratedCode
+     * @covers Magento_Code_Generator_EntityAbstract::_fixCodeStyle
      */
     public function testGenerate(
         $errors = array(),
@@ -184,7 +184,7 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
         }
         $abstractGetters = array('_getClassProperties', '_getClassMethods');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Di_Generator_EntityAbstract', $arguments, '', true, true, true, $abstractGetters
+            'Magento_Code_Generator_EntityAbstract', $arguments, '', true, true, true, $abstractGetters
         );
         // we need to mock abstract methods to set correct return value type
         foreach ($abstractGetters as $methodName) {
@@ -220,7 +220,7 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
         $makeResultFile = true,
         $fileExists = false
     ) {
-        $ioObject = $this->getMock('Magento_Di_Generator_Io',
+        $ioObject = $this->getMock('Magento_Code_Generator_Io',
             array(
                 'getResultFileName',
                 'makeGenerationDirectory',
@@ -330,7 +330,7 @@ class Magento_Di_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
     {
         $mocks = $this->_prepareMocksForValidateData();
 
-        $codeGenerator = $this->getMock('Magento_Di_Generator_CodeGenerator_Zend',
+        $codeGenerator = $this->getMock('Magento_Code_Generator_CodeGenerator_Zend',
             array('setName', 'addProperties', 'addMethods', 'setClassDocBlock', 'generate'), array(), '', false
         );
         $codeGenerator->expects($this->once())

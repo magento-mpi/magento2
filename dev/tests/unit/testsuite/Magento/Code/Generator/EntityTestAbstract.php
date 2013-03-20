@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCase
+class Magento_Code_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Source and result class parameters
@@ -27,11 +27,11 @@ class Magento_Di_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCase
     protected static $_expectedMethods = array();
 
     /**
-     * @return Magento_Di_Generator_Io|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Code_Generator_Io|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getIoObjectMock()
     {
-        $ioObjectMock = $this->getMock('Magento_Di_Generator_Io',
+        $ioObjectMock = $this->getMock('Magento_Code_Generator_Io',
             array('getResultFileName', 'makeGenerationDirectory', 'makeResultFileDirectory', 'fileExists',
                 'writeResultFile'
             ), array(), '', false
@@ -75,12 +75,12 @@ class Magento_Di_Generator_EntityTestAbstract extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $methodNames
-     * @return Magento_Di_Generator_CodeGenerator_Zend|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Code_Generator_CodeGenerator_Zend|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getCodeGeneratorMock(array $methodNames)
     {
         $codeGeneratorMock
-            = $this->getMock('Magento_Di_Generator_CodeGenerator_Zend', $methodNames, array(), '', false);
+            = $this->getMock('Magento_Code_Generator_CodeGenerator_Zend', $methodNames, array(), '', false);
         $codeGeneratorMock->expects($this->once())
             ->method('setName')
             ->with(static::RESULT_CLASS)

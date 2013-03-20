@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_IoTest extends PHPUnit_Framework_TestCase
+class Magento_Code_Generator_IoTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Source and result class parameters
@@ -30,7 +30,7 @@ class Magento_Di_Generator_IoTest extends PHPUnit_Framework_TestCase
     protected $_generationDirectory;
 
     /**
-     * @var Magento_Di_Generator_Io
+     * @var Magento_Code_Generator_Io
      */
     protected $_object;
 
@@ -64,7 +64,7 @@ class Magento_Di_Generator_IoTest extends PHPUnit_Framework_TestCase
             ->with(self::CLASS_NAME)
             ->will($this->returnValue(self::CLASS_FILE_NAME));
 
-        $this->_object = new Magento_Di_Generator_Io($this->_ioObjectMock, $this->_autoLoaderMock,
+        $this->_object = new Magento_Code_Generator_Io($this->_ioObjectMock, $this->_autoLoaderMock,
             self::GENERATION_DIRECTORY
         );
     }

@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAbstract
+class Magento_Code_Generator_FactoryTest extends Magento_Code_Generator_EntityTestAbstract
 {
     /**#@+
      * Source and result class parameters
@@ -80,7 +80,7 @@ class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAb
     /**
      * Model under test
      *
-     * @var Magento_Di_Generator_Factory
+     * @var Magento_Code_Generator_Factory
      */
     protected $_model;
 
@@ -95,10 +95,10 @@ class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAb
 
         $autoLoaderMock = $this->_getAutoloaderMock();
 
-        /** @var $ioObjectMock Magento_Di_Generator_Io */
-        /** @var $codeGeneratorMock Magento_Di_Generator_CodeGenerator_Zend */
+        /** @var $ioObjectMock Magento_Code_Generator_Io */
+        /** @var $codeGeneratorMock Magento_Code_Generator_CodeGenerator_Zend */
         /** @var $autoLoaderMock Magento_Autoload_IncludePath */
-        $this->_model = new Magento_Di_Generator_Factory(self::SOURCE_CLASS, self::RESULT_CLASS, $ioObjectMock,
+        $this->_model = new Magento_Code_Generator_Factory(self::SOURCE_CLASS, self::RESULT_CLASS, $ioObjectMock,
             $codeGeneratorMock, $autoLoaderMock
         );
     }
@@ -109,8 +109,8 @@ class Magento_Di_Generator_FactoryTest extends Magento_Di_Generator_EntityTestAb
     }
 
     /**
-     * @covers Magento_Di_Generator_Factory::_generateCode
-     * @covers Magento_Di_Generator_Factory::_getClassMethods
+     * @covers Magento_Code_Generator_Factory::_generateCode
+     * @covers Magento_Code_Generator_Factory::_getClassMethods
      */
     public function testGenerate()
     {
