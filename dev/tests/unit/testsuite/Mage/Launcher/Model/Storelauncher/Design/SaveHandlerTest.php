@@ -72,8 +72,8 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->with($this->equalTo('design/header'), $this->equalTo(Mage_Core_Model_Config::SCOPE_STORES),
                 $this->equalTo(1))
             ->will($this->returnValue(array (
-                'design/header/logo_src' => array (
-                    'path' => 'design/header/logo_src',
+                Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => array (
+                    'path' => Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
                     'value' => 'default/design_logo_1.png',
                     'config_id' => '69',
                 ),
@@ -84,7 +84,8 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         );
         $this->_configWriter->expects($this->any())
             ->method('save')
-            ->with($this->equalTo('design/header/logo_src'), $this->isEmpty(), Mage_Core_Model_Config::SCOPE_STORES, 1)
+            ->with($this->equalTo(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO),
+                $this->isEmpty(), Mage_Core_Model_Config::SCOPE_STORES, 1)
             ->will($this->returnSelf());
 
         $this->_modelLogo = $this->getMockBuilder('Mage_Backend_Model_Config_Backend_Image_Logo')

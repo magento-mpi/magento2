@@ -111,4 +111,28 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler extends Mage_Launch
         );
         return $originAddressData;
     }
+
+    /**
+     * Handle Tile saving process
+     *
+     * @param array $data Request data
+     */
+    public function save(array $data)
+    {
+        $preparedData = $this->prepareData($data);
+        if (empty($preparedData['shipping_enabled'])) {
+            $carriers = $this->_config->getNode('default/carriers');
+            foreach ($carriers->children() as $carrierName => $carrier) {
+                $currentCarrier = $carrier->asCanonicalArray();
+                if (isset($currentCarrier['active']) && $currentCarrier['active'] == '1') {
+                    $carrierData = array();
+                    $carrierData[$carrierName]['fields']['active']['value'] = 0;
+                    $this->_backendConfigModel->setSection('carriers')
+                        ->setGroups($carrierData)
+                        ->save();
+                }
+            }
+            $this->_config->reinit();
+        }
+    }
 }

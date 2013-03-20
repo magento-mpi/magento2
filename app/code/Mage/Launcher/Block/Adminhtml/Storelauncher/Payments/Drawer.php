@@ -24,6 +24,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer extends Mage_L
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Payment Methods');
+        return $this->helper('Mage_Launcher_Helper_Data')->__('Payments');
     }
 }
