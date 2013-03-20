@@ -1867,6 +1867,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function addCustomOption(array $customOptionData)
     {
+        $this->markTestIncomplete('MAGETWO-7167');
         $optionId = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'custom_option_set') + 1;
         $this->addParameter('optionId', $optionId);
         $this->clickButton('add_option', false);
@@ -1890,6 +1891,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyCustomOptions(array $customOptionData)
     {
+        $this->markTestIncomplete('MAGETWO-7167');
         $this->openProductTab('custom_options');
         $optionsQty = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'custom_option_set');
         $needCount = count($customOptionData);
@@ -1968,6 +1970,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function importCustomOptions(array $productData)
     {
+        $this->markTestIncomplete('MAGETWO-7167');
         $this->openProductTab('custom_options');
         $this->clickButton('import_options', false);
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'select_product_custom_option');
@@ -1983,6 +1986,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteAllCustomOptions()
     {
+        $this->markTestIncomplete('MAGETWO-7167');
         $this->openProductTab('custom_options');
         while ($this->controlIsPresent(self::UIMAP_TYPE_FIELDSET, 'custom_option_set')) {
             $this->assertTrue($this->buttonIsPresent('delete_custom_option'),
