@@ -12,26 +12,23 @@
     <ul class="note-list">
     <?php foreach ($this->getFullHistory() as $_item): ?>
         <li>
-            <strong><?php echo $this->getItemCreatedAt($_item) ?></strong>
-            <?php echo $this->getItemCreatedAt($_item, 'time') ?><span class="separator">|</span>
-            <strong><?php echo $this->getItemTitle($_item) ?></strong>
+            <span class="note-list-date"><?php echo $this->getItemCreatedAt($_item) ?></span>
+            <span class="note-list-time"><?php echo $this->getItemCreatedAt($_item, 'time') ?></span>
+            <span class="note-list-status"><?php echo $this->getItemTitle($_item) ?></span>
             <?php if ($this->isItemNotified($_item, false)): ?>
-                <div>
-                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
-                <strong class="subdue">
-                <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notification Not Applicable') ?>
-                <?php elseif ($this->isItemNotified($_item)): ?>
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?>
-                    <img src="<?php echo $this->getViewFileUrl('images/ico_success.gif') ?>" width="16px" height="16px" alt="" />
-                <?php else: ?>
-                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?>
-                <?php endif; ?>
-                </strong>
-                </div>
+                <span class="note-list-customer">
+                    <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
+                    <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
+                        <span class="note-list-customer-notapplicable"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notification Not Applicable') ?></span>
+                    <?php elseif ($this->isItemNotified($_item)): ?>
+                        <span class="note-list-customer-notified"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?></span>
+                    <?php else: ?>
+                        <span class="note-list-customer-not-notified"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?></span>
+                    <?php endif; ?>
+                </span>
             <?php endif; ?>
             <?php if ($_comment = $this->getItemComment($_item)): ?>
-                <br/><?php echo $_comment ?>
+                <div class="note-list-comment"><?php echo $_comment ?></div>
             <?php endif; ?>
         </li>
     <?php endforeach; ?>
