@@ -35,6 +35,12 @@ class Mage_Core_Model_Page_Asset_CollectionTest extends PHPUnit_Framework_TestCa
         $this->assertSame(array('asset' => $this->_asset, 'asset_new' => $assetNew), $this->_object->getAll());
     }
 
+    public function testHas()
+    {
+        $this->assertTrue($this->_object->has('asset'));
+        $this->assertFalse($this->_object->has('non_existing_asset'));
+    }
+
     public function testAddSameInstance()
     {
         $this->_object->add('asset_clone', $this->_asset);

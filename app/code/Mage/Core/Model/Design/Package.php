@@ -408,6 +408,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * Remove all merged js/css files
      *
      * @return bool
+     * @throws Magento_Exception
      */
     public function cleanMergedJsCss()
     {
@@ -452,8 +453,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         } else {
             $subPath = self::getPublishedViewFileRelPath($params['area'], $params['themeModel']->getThemePath(),
-                $params['locale'], $params['file'], $params['module']);
-            $url = $this->getPublicDir() . '/' . str_replace(DIRECTORY_SEPARATOR, '/', $subPath);
+                $params['locale'], $file, $params['module']);
+            $publicFile = str_replace(DIRECTORY_SEPARATOR, '/', $this->getPublicDir() . '/' . $subPath);
+            $url = $this->getPublicFileUrl($publicFile, $isSecure);
         }
 
         return $url;

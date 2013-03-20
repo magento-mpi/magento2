@@ -50,42 +50,42 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     private $_assetMergeService;
 
     /**
-     * @var Mage_Page_Model_GroupedAssets
+     * @var Mage_Page_Model_Asset_GroupedCollection
      */
-    private $_assets;
+    private $_pageAssets;
 
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Page $page,
         Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
-        Mage_Page_Model_GroupedAssets $assets,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
-        $this->_assets = $assets;
+        $this->_pageAssets = $page->getAssets();
     }
 
     /**
      * Add CSS file to HEAD entity
      *
-     * @param string $name
-     * @param string $params
-     * @param string|null $if
-     * @param string|null $cond
+     * @param string $file
+     * @param string $attributes
+     * @param string|null $ieCondition
+     * @param string|null $flagName
      * @return Mage_Page_Block_Html_Head
      */
-    public function addCss($name, $params = '', $if = null, $cond = null)
+    public function addCss($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
         $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$name, 'contentType' => $contentType), false
+            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType), false
         );
-        $this->_assets->addAsset("$contentType/$name", $asset, array(
-            'attributes'    => (string)$params,
-            'ie_condition'  => (string)$if,
-            'flag_name'     => (string)$cond,
+        $this->_pageAssets->add("$contentType/$file", $asset, array(
+            'attributes'    => (string)$attributes,
+            'ie_condition'  => (string)$ieCondition,
+            'flag_name'     => (string)$flagName,
         ));
         return $this;
     }
@@ -93,22 +93,22 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     /**
      * Add JavaScript file to HEAD entity
      *
-     * @param string $name
-     * @param string $params
-     * @param string|null $if
-     * @param string|null $cond
+     * @param string $file
+     * @param string $attributes
+     * @param string|null $ieCondition
+     * @param string|null $flagName
      * @return Mage_Page_Block_Html_Head
      */
-    public function addJs($name, $params = '', $if = null, $cond = null)
+    public function addJs($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
         $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_JS;
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$name, 'contentType' => $contentType), false
+            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType), false
         );
-        $this->_assets->addAsset("$contentType/$name", $asset, array(
-            'attributes'    => (string)$params,
-            'ie_condition'  => (string)$if,
-            'flag_name'     => (string)$cond,
+        $this->_pageAssets->add("$contentType/$file", $asset, array(
+            'attributes'    => (string)$attributes,
+            'ie_condition'  => (string)$ieCondition,
+            'flag_name'     => (string)$flagName,
         ));
         return $this;
     }
@@ -116,27 +116,27 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     /**
      * Add CSS file for Internet Explorer only to HEAD entity
      *
-     * @param string $name
-     * @param string $params
-     * @param string|null $cond
+     * @param string $file
+     * @param string $attributes
+     * @param string|null $flagName
      * @return Mage_Page_Block_Html_Head
      */
-    public function addCssIe($name, $params = '', $cond = null)
+    public function addCssIe($file, $attributes = '', $flagName = null)
     {
-        return $this->addCss($name, $params, 'IE', $cond);
+        return $this->addCss($file, $attributes, 'IE', $flagName);
     }
 
     /**
      * Add JavaScript file for Internet Explorer only to HEAD entity
      *
-     * @param string $name
-     * @param string $params
-     * @param string|null $cond
+     * @param string $file
+     * @param string $attributes
+     * @param string|null $flagName
      * @return Mage_Page_Block_Html_Head
      */
-    public function addJsIe($name, $params = '', $cond = null)
+    public function addJsIe($file, $attributes = '', $flagName = null)
     {
-        return $this->addJs($name, $params, 'IE', $cond);
+        return $this->addJs($file, $attributes, 'IE', $flagName);
     }
 
     /**
@@ -152,7 +152,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         $asset = $this->_objectManager->create(
             'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href), false
         );
-        $this->_assets->addAsset("link/$href", $asset, array('attributes' => $attributes));
+        $this->_pageAssets->add("link/$href", $asset, array('attributes' => $attributes));
         return $this;
     }
 
@@ -168,7 +168,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         $asset = $this->_objectManager->create(
             'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href), false
         );
-        $this->_assets->addAsset("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
+        $this->_pageAssets->add("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
         return $this;
     }
 
@@ -181,7 +181,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function removeItem($type, $name)
     {
-        $this->_assets->removeAsset("$type/$name");
+        $this->_pageAssets->remove("$type/$name");
         return $this;
     }
 
@@ -194,9 +194,9 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $result = '';
         /** @var $group Mage_Page_Model_Asset_PropertyGroup */
-        foreach ($this->_assets->groupByProperties() as $group) {
-            $contentType = $group->getProperty(Mage_Page_Model_GroupedAssets::PROPERTY_CONTENT_TYPE);
-            $canMerge = $group->getProperty(Mage_Page_Model_GroupedAssets::PROPERTY_CAN_MERGE);
+        foreach ($this->_pageAssets->getGroups() as $group) {
+            $contentType = $group->getProperty(Mage_Page_Model_Asset_GroupedCollection::PROPERTY_CONTENT_TYPE);
+            $canMerge = $group->getProperty(Mage_Page_Model_Asset_GroupedCollection::PROPERTY_CAN_MERGE);
             $attributes = $group->getProperty('attributes');
             $ieCondition = $group->getProperty('ie_condition');
             $flagName = $group->getProperty('flag_name');

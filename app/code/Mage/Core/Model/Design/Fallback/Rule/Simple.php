@@ -33,7 +33,7 @@ class Mage_Core_Model_Design_Fallback_Rule_Simple implements Mage_Core_Model_Des
      * @param string $pattern
      * @param array $optionalParams
      */
-    public function __construct($pattern, $optionalParams = array())
+    public function __construct($pattern, array $optionalParams = array())
     {
         $this->_pattern = $pattern;
         $this->_optionalParams = $optionalParams;
@@ -42,11 +42,11 @@ class Mage_Core_Model_Design_Fallback_Rule_Simple implements Mage_Core_Model_Des
     /**
      * Get ordered list of folders to search for a file
      *
-     * @param array $params - array of parameters
-     * @return array of folders to perform a search
+     * @param array $params array of parameters
+     * @return array folders to perform a search
      * @throws InvalidArgumentException
      */
-    public function getPatternDirs($params)
+    public function getPatternDirs(array $params)
     {
         $pattern = $this->_pattern;
         if (preg_match_all('/<([a-zA-Z\_]+)>/', $pattern, $matches)) {
@@ -61,7 +61,6 @@ class Mage_Core_Model_Design_Fallback_Rule_Simple implements Mage_Core_Model_Des
                 $pattern = str_replace('<' . $placeholder . '>', $params[$placeholder], $pattern);
             }
         }
-
-        return array(array('dir' => $pattern, 'pattern' => $this->_pattern));
+        return array($pattern);
     }
 }

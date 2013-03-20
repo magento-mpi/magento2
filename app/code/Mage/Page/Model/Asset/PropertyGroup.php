@@ -40,7 +40,7 @@ class Mage_Page_Model_Asset_PropertyGroup extends Mage_Core_Model_Page_Asset_Col
      * Retrieve value of an individual property
      *
      * @param string $name
-     * @return mixed|null
+     * @return mixed
      */
     public function getProperty($name)
     {

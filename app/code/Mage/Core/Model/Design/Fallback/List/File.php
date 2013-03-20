@@ -18,14 +18,14 @@ class Mage_Core_Model_Design_Fallback_List_File extends Mage_Core_Model_Design_F
      *
      * @return array of rules Mage_Core_Model_Design_Fallback_Rule_RuleInterface
      */
-    protected function _setFallbackRules()
+    protected function _getFallbackRules()
     {
         return array(
             new Mage_Core_Model_Design_Fallback_Rule_Theme(array(
-                array(
-                    $this->_dir->getDir(Mage_Core_Model_Dir::THEMES) . '/<area>/<theme_path>',
+                new Mage_Core_Model_Design_Fallback_Rule_Simple(
+                    $this->_dir->getDir(Mage_Core_Model_Dir::THEMES) . '/<area>/<theme_path>'
                 ),
-                array(
+                new Mage_Core_Model_Design_Fallback_Rule_Simple(
                     $this->_dir->getDir(Mage_Core_Model_Dir::THEMES) . '/<area>/<theme_path>/<namespace>_<module>',
                     array('namespace', 'module')
                 ),

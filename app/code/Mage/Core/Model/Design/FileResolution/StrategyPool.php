@@ -131,7 +131,7 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
      * @param bool $skipProxy
      * @return mixed
      */
-    public function _getStrategy($fileType, $skipProxy = false)
+    protected function _getStrategy($fileType, $skipProxy = false)
     {
         $strategyClass = $this->_getStrategyClass($fileType, $skipProxy);
         if (!isset($this->_strategyPool[$strategyClass])) {
@@ -173,9 +173,10 @@ class Mage_Core_Model_Design_FileResolution_StrategyPool
     {
         switch ($className) {
             case 'Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy':
+                $mapDir = $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR
+                    . self::FALLBACK_MAP_DIR;
                 $arguments = array(
-                    'mapDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR
-                        . self::FALLBACK_MAP_DIR,
+                    'mapDir' => str_replace('/', DIRECTORY_SEPARATOR, $mapDir),
                     'baseDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT),
                     'canSaveMap' => (bool)(string)$this->_objectManager->get('Mage_Core_Model_Config')
                         ->getNode(self::XML_PATH_ALLOW_MAP_UPDATE),

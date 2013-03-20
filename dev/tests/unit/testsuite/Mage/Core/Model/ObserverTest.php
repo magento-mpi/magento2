@@ -25,11 +25,6 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_pageMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_assetsMock;
 
     /**
@@ -54,13 +49,10 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ;
         $this->_themeFilesMock = $this->getMock('Mage_Core_Model_Theme_Files', array(), array(), '', false);
         $this->_assetsMock = $this->getMock('Mage_Core_Model_Page_Asset_Collection');
-        $this->_pageMock = $this->getMock('Mage_Core_Model_Page');
-        $this->_pageMock->expects($this->once())
-            ->method('getAssets')
-            ->will($this->returnValue($this->_assetsMock));
 
-        $this->_model = new Mage_Core_Model_Observer($this->_frontendPoolMock, $this->_themeFilesMock,
-            $this->_pageMock);
+        $this->_model = new Mage_Core_Model_Observer(
+            $this->_frontendPoolMock, $this->_themeFilesMock, new Mage_Core_Model_Page($this->_assetsMock)
+        );
     }
 
     protected function tearDown()
@@ -68,7 +60,6 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_cacheFrontendMock = null;
         $this->_frontendPoolMock = null;
         $this->_themeFilesMock = null;
-        $this->_pageMock = null;
         $this->_assetsMock = null;
         $this->_model = null;
     }

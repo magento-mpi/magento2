@@ -80,25 +80,25 @@ class Mage_DesignEditor_Model_Observer
             return;
         }
 
+        /** @var $page Mage_Core_Model_Page */
+        $page = $this->_objectManager->get('Mage_Core_Model_Page');
+
+        /** @var $pageAssets Mage_Page_Model_Asset_GroupedCollection */
+        $pageAssets = $page->getAssets();
+
         $vdeAssets = array();
-        /** @var $groups Mage_Page_Model_Asset_PropertyGroup[] */
-        $groups = $this->_objectManager->get('Mage_Page_Model_GroupedAssets')->groupByProperties();
-        foreach ($groups as $group) {
-            if ($group->getProperty('flag_name') == 'vde_design_mode'
-                && $group->getProperty(Mage_Page_Model_GroupedAssets::PROPERTY_CONTENT_TYPE)
-                    == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS) {
+        foreach ($pageAssets->getGroups() as $group) {
+            if ($group->getProperty('flag_name') == 'vde_design_mode') {
                 $vdeAssets = array_merge($vdeAssets, $group->getAll());
             }
         }
-        /** @var $assets Mage_Core_Model_Page_Asset_Collection */
-        $assets = $this->_objectManager->get('Mage_Core_Model_Page')->getAssets();
 
         /** @var $nonVdeAssets Mage_Core_Model_Page_Asset_AssetInterface[] */
-        $nonVdeAssets = array_diff_key($assets->getAll(), $vdeAssets);
+        $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
 
         foreach ($nonVdeAssets as $assetId => $asset) {
             if ($asset->getContentType() == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS) {
-                $assets->remove($assetId);
+                $pageAssets->remove($assetId);
             }
         }
     }

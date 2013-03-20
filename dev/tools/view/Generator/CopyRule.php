@@ -19,7 +19,7 @@ class Generator_CopyRule
     private $_fallbackList = null;
 
     /**
-     * @var Generator_ThemeProxy[]
+     * @var Generator_ThemeLight[]
      */
     private $_themes = array();
 
@@ -64,12 +64,12 @@ class Generator_CopyRule
     public function getCopyRules()
     {
         $params = array(
-            'area'          => '*',
-            'theme_path'    => '*',
+            'area'          => '<area>',
+            'theme_path'    => '<theme_path>',
             'locale'        => null, //temporary locale is not taken into account
-            'pool'          => '*',
-            'namespace'     => '*',
-            'module'        => '*',
+            'pool'          => '<pool>',
+            'namespace'     => '<namespace>',
+            'module'        => '<module>',
         );
 
         $result = array();
@@ -78,14 +78,14 @@ class Generator_CopyRule
             $params['area'] = $theme->getArea();
             $patternDirs = $this->_fallbackList->getPatternDirs($params, false);
             foreach (array_reverse($patternDirs) as $pattern) {
-                $srcPaths = glob($pattern['dir']);
+                $srcPaths = glob($this->_fixPattern($pattern), GLOB_ONLYDIR);
                 foreach ($srcPaths as $src) {
                     $paramsFromDir = $this->_getParams(
                         str_replace($this->_sourcePath, '', $src),
                         str_replace(
                             array($this->_sourcePath, '<theme_path>'),
                             array('', '<package>/<theme>'),
-                            $pattern['pattern']
+                            $pattern
                         )
                     );
                     if (!empty($paramsFromDir['namespace']) && !empty($paramsFromDir['module'])) {
@@ -137,23 +137,53 @@ class Generator_CopyRule
                 }
                 $dirPackage = dir($themesDir . DS . $area . DS . $package);
                 while (false !== ($theme = $dirPackage->read())) {
-                    if ($theme == '..' || $theme == '.') {
-                        continue;
-                    }
-                    $themeConfig =
-                        simplexml_load_file($themesDir . DS . $area . DS . $package . DS . $theme . DS . 'theme.xml');
-                    $themeInfo = $themeConfig->xpath('/design/package/theme');
-
-                    if (isset($themeInfo[0]['parent'])) {
-                        $parent = $package . '/' . (string)$themeInfo[0]['parent'];
-                    } else {
-                        $parent = null;
-                    }
-                    $this->_themes[$area . '/' . $package . '/' . $theme] =
-                        new Generator_ThemeProxy($area, $package . '/' . $theme, $parent);
+                    $this->_addThemeToList($themesDir, $area, $package, $theme);
                 }
             }
         }
+    }
+
+    /**
+     * Find theme definition file inside the folder and add the theme to list
+     *
+     * @param string $themesDir
+     * @param string $area
+     * @param string $package
+     * @param string $theme
+     * @throws LogicException
+     */
+    private function _addThemeToList($themesDir, $area, $package, $theme)
+    {
+        if ($theme == '..' || $theme == '.') {
+            return;
+        }
+        $themeXmlFile = $themesDir . DS . $area . DS . $package . DS . $theme . DS . 'theme.xml';
+        if (!file_exists($themeXmlFile)) {
+            throw new LogicException(
+                'No theme.xml file in ' . $themesDir . DS . $area . DS . $package . DS . $theme . ' folder'
+            );
+        }
+        $themeConfig = simplexml_load_file($themeXmlFile);
+        $themeInfo = $themeConfig->xpath('/design/package/theme');
+
+        if (isset($themeInfo[0]['parent'])) {
+            $parent = $package . '/' . (string)$themeInfo[0]['parent'];
+        } else {
+            $parent = null;
+        }
+        $this->_themes[$area . '/' . $package . '/' . $theme] =
+            new Generator_ThemeLight($area, $package . '/' . $theme, $parent);
+    }
+
+    /**
+     * Change pattern for using in glob()
+     *
+     * @param string $pattern
+     * @return string
+     */
+    private function _fixPattern($pattern)
+    {
+        return preg_replace("/\<[^\>]+\>/", '*', $pattern);
     }
 
     /**
