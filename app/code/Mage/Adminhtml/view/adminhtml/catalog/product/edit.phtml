@@ -156,25 +156,9 @@ jQuery(function($) {
     $form.data('autogenerator', new Autogenerator(masks).bindAll());
 
     $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
-    var fieldSelector = '.required-entry, .required-option-select',
-        updateSaveSplitButtonAvailability = function () {
-            var disabled = false;
-            $.each($form.find(fieldSelector), function () {
-                if (!$.trim($(this).val()) && !$(this).closest('.ignore-validate').length
-                    && $(this).is('input, select, textarea') && !$(this).prop('disabled')
-                ) {
-                    disabled = true;
-                    return false;
-                }
-            });
-            $('.widget-button-save, .widget-button-save > *').toggleClass('disabled', disabled).prop('disabled', disabled);
-        };
-    $form.on('focus change keyup click', fieldSelector + ',:checkbox,button', updateSaveSplitButtonAvailability);
     $(window).load(function() {
         if ($.trim($('#name').val()) == '') {
             $('#name').focus();
-        } else {
-            updateSaveSplitButtonAvailability();
         }
 
         $('#product-online-switcher').prop('checked', $('#status').val() == '1')
