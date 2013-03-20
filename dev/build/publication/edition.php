@@ -7,13 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee|saas>" [--build]' . PHP_EOL);
+define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build]' . PHP_EOL);
 try {
     $options = getopt('', array('dir:', 'edition:', 'build'));
     if (!isset($options['dir']) || !isset($options['edition'])) {
         throw new Exception(USAGE);
     }
+
+    $basePath = realpath($options['dir']);
+    require $basePath . '/app/autoload.php';
+    Magento_Autoload_IncludePath::addIncludePath(
+        array(
+            realpath($basePath . '/dev/build/publication/edition/'),
+            realpath($basePath . '/lib/'),
+        )
+    );
+
+    /** @var $configurator ConfiguratorInterface */
+    $configurator = null;
+
     $lists = array('common.txt');
     $isBuild = isset($options['build']);
     if (!$isBuild) {
@@ -23,12 +35,15 @@ try {
         case 'ce':
             $lists[] = 'ee.txt';
             $lists[] = 'saas.txt';
+            $configurator = new CommunityConfigurator();
             break;
         case 'ee':
             $lists[] = 'saas.txt';
+            $configurator = new EnterpriseConfigurator($options['dir'], new Varien_Io_File());
             break;
         case 'saas':
             $lists[] = 'not_saas.txt';
+            $configurator = new SaasConfigurator($options['dir'], new Varien_Io_File());
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
@@ -37,6 +52,8 @@ try {
     foreach ($lists as $list) {
         $command .= ' -l ' . escapeshellarg(__DIR__ . '/extruder/' . $list);
     }
+
+    $configurator->configure();
 
     echo $command . PHP_EOL;
     passthru($command, $exitCode);
