@@ -96,7 +96,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $this->attributeOptions($attrData);
         $waitCondition = $this->getBasicXpathMessagesExcludeCurrent(array('error', 'validation'));
         if (isset($attrData['attribute_code'])) {
-            $this->addParameter('elementId', $attrData['attribute_code']);
+            $this->addParameter('elementId', 'attribute-' . $attrData['attribute_code'] . '-container');
             $waitCondition[] = $this->_getControlXpath('pageelement', 'element_by_id');
         }
         $this->clickButton($saveButton, false);
