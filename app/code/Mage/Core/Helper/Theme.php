@@ -104,8 +104,8 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $layoutElement = $layoutMerge->getFileLayoutUpdatesXml();
 
         $elements = array_merge(
-            $layoutElement->xpath(self::XPATH_SELECTOR_REFS),
-            $layoutElement->xpath(self::XPATH_SELECTOR_BLOCKS)
+            $layoutElement->xpath(self::XPATH_SELECTOR_REFS) ?: array(),
+            $layoutElement->xpath(self::XPATH_SELECTOR_BLOCKS) ?: array()
         );
 
         $params = array(
