@@ -1817,23 +1817,22 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function isAssignedProduct(array $data, $fieldSetName)
     {
-        $fillingData = array();
+        $fillingData['select_' . $fieldSetName . '_product'] = 'Yes';
         foreach ($data as $key => $value) {
             if (!preg_match('/^' . $fieldSetName . '_search_/', $key)) {
                 $fillingData[$key] = $value;
                 unset($data[$key]);
             }
         }
-
-        $xpathTR = $this->search($data, $fieldSetName);
-        if (is_null($xpathTR)) {
-            $this->addVerificationMessage(
-                $fieldSetName . " tab: Product is not assigned with data: \n" . print_r($data, true));
-        } elseif ($fillingData) {
-            $fieldsetXpath = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, $fieldSetName);
-            $this->addParameter('productXpath', str_replace($fieldsetXpath, '', $xpathTR));
-            $this->verifyForm($fillingData, $fieldSetName);
+        $productLocator = $this->formSearchXpath($data);
+        if (!$this->elementIsPresent($productLocator)) {
+            $this->addVerificationMessage($fieldSetName . " tab: Product is not assigned with data: \n"
+                . print_r($data, true));
+            return;
         }
+        $this->addParameter('productXpath', $productLocator);
+        $this->expandAdvancedSettings(); //@TODO remove when fix MAGETWO-8318
+        $this->verifyForm($fillingData, $fieldSetName);
     }
 
     /**
@@ -1852,8 +1851,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->saveProduct('continueEdit');
                 $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found'),
                     'There are products assigned to "' . $type . '" tab');
+                $this->refresh();
+                $this->waitForControlVisible('checkbox', $type . '_select_all');
             }
-            $this->refresh();
         }
     }
 

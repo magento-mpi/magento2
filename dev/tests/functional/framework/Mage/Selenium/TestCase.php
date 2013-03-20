@@ -4233,24 +4233,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function focusOnElement(PHPUnit_Extensions_Selenium2TestCase_Element $element)
     {
-        $elementId = $element->attribute('id');
-        if ($elementId) {
-            $script = 'Element.prototype.documentOffsetTop = function()'
-                      . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
-                      . 'var element = document.getElementById("' . $elementId . '");'
-                      . 'var top = element.documentOffsetTop() - (window.innerHeight / 2);'
-                      . 'element.focus();window.scrollTo( 0, top );';
-        } elseif ($element->attribute('name')) {
-            $elementId = $element->attribute('name');
-            $script = 'Element.prototype.documentOffsetTop = function()'
-                      . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
-                      . 'var element = document.getElementsByName("' . $elementId . '");'
-                      . 'var top = element[0].documentOffsetTop() - (window.innerHeight / 2);'
-                      . 'element[0].focus();window.scrollTo( 0, top );';
+        if ($this->getBrowser() == 'firefox') {
+            $elementId = $element->attribute('id');
+            if ($elementId) {
+                $script = 'Element.prototype.documentOffsetTop = function()'
+                    . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
+                    . 'var element = document.getElementById("' . $elementId . '");'
+                    . 'var top = element.documentOffsetTop() - (window.innerHeight / 2);'
+                    . 'element.focus();window.scrollTo( 0, top );';
+            } elseif ($element->attribute('name')) {
+                $elementId = $element->attribute('name');
+                $script = 'Element.prototype.documentOffsetTop = function()'
+                    . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
+                    . 'var element = document.getElementsByName("' . $elementId . '");'
+                    . 'var top = element[0].documentOffsetTop() - (window.innerHeight / 2);'
+                    . 'element[0].focus();window.scrollTo( 0, top );';
+            } else {
+                return;
+            }
+            $this->execute(array('script' => $script, 'args' => array()));
         } else {
-            return;
+            $this->moveto($element);
         }
-        $this->execute(array('script' => $script, 'args' => array()));
     }
 
     /**
@@ -4258,7 +4262,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function clearActiveFocus()
     {
-        $this->execute(array('script' => 'document.activeElement.blur()', 'args' => array()));
+        if ($this->getBrowser() == 'firefox') {
+            $this->execute(array('script' => 'document.activeElement.blur()', 'args' => array()));
+        }
     }
 
     /**

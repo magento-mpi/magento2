@@ -516,6 +516,7 @@ new_product:
                                     checkboxes:
                                         related_select_all: //input[@title='Select All']
                                         selected_related_product: //tbody/tr%index%//input[@checked='checked']
+                                        select_related_product: %productXpath%//input[@type='checkbox']
                 -
                     up_sells: &upSellsProductsTab
                         xpath: //a[@title='Up-sells']
@@ -544,6 +545,7 @@ new_product:
                                     checkboxes:
                                         up_sells_select_all: //input[@title='Select All']
                                         selected_up_sells_product: //tbody/tr%index%//input[@checked='checked']
+                                        select_up_sells_product: %productXpath%//input[@type='checkbox']
                 -
                     cross_sells: &crossSellsProductsTab
                         xpath: //a[@title='Cross-sells']
@@ -572,6 +574,7 @@ new_product:
                                     checkboxes:
                                         cross_sells_select_all: //input[@title='Select All']
                                         selected_cross_sells_product: //tbody/tr%index%//input[@checked='checked']
+                                        select_cross_sells_product: %productXpath%//input[@type='checkbox']
                 -
                     custom_options: &customOptionsTab
                         xpath: //a[@title='Custom Options']
