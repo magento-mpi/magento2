@@ -604,10 +604,3 @@ th.required:before {
     background: url(../mui/images/ajax-loader-small.gif) no-repeat left center;
     padding-left: 20px;
 }
-
-/*
-    Catalog Manage Products
--------------------------------------- */
-.adminhtml-catalog-product-index .page-actions {
-    float: right;
-}
