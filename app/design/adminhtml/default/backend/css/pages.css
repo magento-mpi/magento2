@@ -1714,6 +1714,7 @@
 .rma-history-form textarea {
     height: 6em;
     margin: 5px 0 10px;
+    resize: vertical;
     width: 100%;
 }
 
