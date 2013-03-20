@@ -964,21 +964,17 @@
              * @param params - year selector
              * @return {Boolean}
              */
-                function(value, element, params) {
+            function(value, element, params) {
+                var isValid = false;
                 if (value && params) {
                     var month = value,
                         year = $(params).val(),
                         currentTime  = new Date(),
                         currentMonth = currentTime.getMonth() + 1,
                         currentYear  = currentTime.getFullYear();
-                    if (!year || year > currentYear) {
-                        return true;
-                    }
-                    if (year == currentYear && month >= currentMonth) {
-                        return true;
-                    }
+                    isValid = !year || year > currentYear || (year == currentYear && month >= currentMonth);
                 }
-                return false;
+                return isValid;
             }, 'Incorrect credit card expiration date.'
         ],
         "validate-cc-cvn": [

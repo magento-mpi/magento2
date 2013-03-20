@@ -84,7 +84,7 @@
                     }).validation({
                         errorPlacement: function(error, element) {
                             if (element.attr('data-validate') && element.attr('data-validate').indexOf('validate-cc-ukss') >= 0) {
-                                element.parents('ul').find('li:last').html(error);
+                                element.parents('form').find('[data-validation-msg="validate-cc-ukss"]').html(error);
                             } else {
                                 element.after(error);
                             }
