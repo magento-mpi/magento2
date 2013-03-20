@@ -10,7 +10,6 @@
 <config>
     <menu>
         <!-- Sales -->
-        <remove id="Enterprise_Rma::sales_enterprise_rma_rma" />
         <remove id="Mage_Sales::sales_recurring_profile" />
         <remove id="Mage_Sales::sales_transactions" />
 
@@ -19,24 +18,19 @@
         <remove id="Enterprise_CustomerSegment::customer_customersegment" />
 
         <!-- Marketing -->
-        <remove id="Enterprise_TargetRule::catalog_targetrule"/>
         <remove id="Enterprise_Enterprise::private_sales" />
-        <remove id="Enterprise_Reminder::promo_reminder" />
         <remove id="Mage_Newsletter::newsletter_queue" />
         <remove id="Mage_Newsletter::newsletter_template" />
 
         <!-- Reports -->
         <remove id="Enterprise_CustomerSegment::report_customers_segment" />
         <remove id="Mage_Downloadable::report_products_downloads" />
-        <remove id="Enterprise_Invitation::report_enterprise_invitation" />
 
         <!-- Stores -->
         <remove id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" />
-        <remove id="Enterprise_GiftWrapping::sales_enterprise_giftwrapping"/>
         <remove id="Enterprise_Reward::customer_reward" />
 
         <!-- System -->
-        <remove id="Enterprise_ImportExport::system_convert_enterprise_scheduled_operation" />
         <remove id="Mage_Connect::system_extensions" />
         <remove id="Mage_Adminhtml::system_tools" />
         <remove id="Enterprise_Pci::system_crypt_key" />
