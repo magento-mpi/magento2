@@ -287,7 +287,7 @@
             if (!history) {
                 throw new Error('History object is not set');
             }
-            if ($( this.options.historyToolbarSelector )) {
+            if ($(this.options.historyToolbarSelector).length) {
                 var toolbar = $( this.options.historyToolbarSelector).vde_historyToolbar().data('vde_historyToolbar');
                 if (toolbar) {
                     toolbar.setHistory(history);
@@ -308,16 +308,22 @@
         },
         _destroy: function() {
             //DOM structure can be missed when test executed
-            var toolbarContainer = $(this.options.historyToolbarSelector);
-            if (toolbarContainer.length) {
-                toolbarContainer.vde_historyToolbar('destroy');
-            }
-            $(window).vde_history('destroy');
-            if($(this.options.highlightElementSelector).is(':vde-vde_removable')) {
-                $(this.options.highlightElementSelector).vde_removable('destroy');
-            }
-            if($(this.options.containerSelector).is(':vde-vde_container')) {
-                $(this.options.containerSelector).vde_container('destroy');
+            var widgetNames = ['vde_historyToolbar', 'vde_removable', 'vde_container'];
+            $(this.options.historyToolbarSelector)
+                .add(this.options.highlightElementSelector)
+                .add(this.options.containerSelector)
+                .each(function(eIndex, element) {
+                    element = $(element);
+                    $.each(widgetNames, function(sIndex, name) {
+                        var instance = element.data(name);
+                        if (instance) {
+                            instance.destroy();
+                        }
+                    });
+                });
+
+            if ($(window).is(':vde-vde_history')) {
+                $(window).vde_history('destroy');
             }
             this._super();
         }
