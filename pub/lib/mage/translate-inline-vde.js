@@ -79,7 +79,7 @@
                     ]
                 }, this.options.dialog));
 
-            this.element.closest('[data-frame="editor"]')
+            parent.jQuery('[data-frame="editor"]')
                 .on('toolbarButtonClick', $.proxy(this._checkTranslateEditing, this));
         },
 
@@ -142,9 +142,10 @@
         /**
          * Determine if user has modified inline translation text, but has not saved it.
          */
-        _checkTranslateEditing: function() {
-            if (this.isBeingEdited)
-                alert("todo:  warn user that text has not been saved");
+        _checkTranslateEditing: function(e) {
+            if (this.isBeingEdited) {
+                alert($.mage.__("Please cancel or save text before continuing!"));
+            }
         },
 
         /**
@@ -171,11 +172,10 @@
                     } else if (e.keyCode == $.ui.keyCode.ENTER) {
                         e.preventDefault();
                         $.proxy(self._formSubmit, self)();
+                    } else {
+                        /* keep track of the fact that translate text has been changed */
+                        self.isBeingEdited = true;
                     }
-                });
-                /* keep track of the fact that translate text has been changed */
-                $(input).on('change', function(e) {
-                    this.isBeingEdited = true;
                 });
             });
 

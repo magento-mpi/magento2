@@ -108,7 +108,7 @@
          * @private
          */
         _onToolbarButtonClick: function(event) {
-            this.element.closest('[data-frame="editor"]').trigger('toolbarButtonClick');
+            parent.jQuery('[data-frame="editor"]').trigger('toolbarButtonClick');
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {
