@@ -198,7 +198,7 @@
             this.isSubmitting = true;
             this.isBeingEdited = false;
 
-            $('[spinner]').removeClass('hidden');
+            $('[data-container="spinner"]').removeClass('hidden');
 
             var parameters = $.param({area: this.options.area}) +
                 "&" + $("#" + this.options.translateForm.data.id).serialize();
@@ -215,7 +215,7 @@
          * Callback for when the AJAX call in _formSubmit is completed.
          */
         _formSubmitComplete: function() {
-            $('[spinner]').addClass('hidden');
+            $('[data-container="spinner"]').addClass('hidden');
 
             var self = this;
             this.translateDialog.find("textarea").each(function(count, elem) {
@@ -230,6 +230,7 @@
 
                     self.callback(index, value);
                 }
+                self = null;
             });
 
             this.translateDialog.dialog("close");
@@ -286,7 +287,7 @@
 
             this.iconTemplate.removeClass('hidden');
 
-            if (this.element[0].getAttribute("translate-mode") != this.options.translateMode)
+            if (this.element.data('translateMode') != this.options.translateMode)
                 this.iconTemplate.addClass('hidden');
 
             this.element.on("dblclick", $.proxy(this._invokeAction, this));
@@ -297,7 +298,7 @@
          * Show edit icon for given translate mode.
          */
         toggleIcon: function(mode) {
-            if (mode == this.element[0].getAttribute("translate-mode"))
+            if (mode == this.element.data('translateMode'))
                 this.iconTemplate.removeClass('hidden');
             else
                 this.iconTemplate.addClass('hidden');
@@ -311,7 +312,7 @@
                 this.isTemplateAttached = true;
             }
 
-            $(this.element).removeClass('invisible');
+            this.element.removeClass('invisible');
         },
 
         /**
@@ -320,7 +321,7 @@
         _disableElementClicks: function() {
             this.element.find('a').off('click');
 
-            if ($(this.element).is('A')) {
+            if (this.element.is('A')) {
                 this.element.on('click', function(e) {
                     return false;
                 });
@@ -339,8 +340,8 @@
          * Replaces the translated text inside the widget with the new value.
          */
         replaceText: function(index, value) {
-            var translateData = $(this.element).data(this.options.dataAttrName),
-                innerHtmlStr = $(this.element).html();
+            var translateData = this.element.data(this.options.dataAttrName),
+                innerHtmlStr = this.element.html();
 
             if (value === null || value === '') {
                 value = "&nbsp;";
@@ -348,11 +349,11 @@
 
             innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
 
-            $(this.element).html(innerHtmlStr);
+            this.element.html(innerHtmlStr);
 
             translateData[index]["shown"] = value;
             translateData[index]["translated"] = value;
-            $(this.element).data(this.options.dataAttrName, translateData);
+            this.element.data(this.options.dataAttrName, translateData);
         },
 
         /**
@@ -373,6 +374,15 @@
         },
 
         /**
+         * Changes depending on hover action.
+         */
+        _unhoverIcon: function() {
+            if (this.options.imgHover) {
+                this.iconTemplate.prop('src', this.options.img);
+            }
+        },
+
+        /**
          * Initializes the icon template for the widget. Sets the widget up to
          * respond to events.
          */
@@ -381,14 +391,9 @@
 
             this.iconTemplate = $("#" + this.options.iconTemplateId).tmpl(this.options);
 
-            this.iconTemplate.on("click", $.proxy(this._invokeAction, this));
-
-            this.iconTemplate.on("mouseover", $.proxy(this._hoverIcon, this));
-
-            this.iconTemplate.on("mouseout", function() {
-                self.iconTemplate.prop('src', self.options.img);
-            });
-
+            this.iconTemplate.on("click", $.proxy(this._invokeAction, this))
+                             .on("mouseover", $.proxy(this._hoverIcon, this))
+                             .on("mouseout", $.proxy(this._unhoverIcon, this));
         },
 
         /**
@@ -411,7 +416,7 @@
             $(this.iconTemplate).detach();
 
             this.isTemplateAttached = false;
-            $(this.element).addClass('invisible');
+            this.element.addClass('invisible');
         }
     });
 

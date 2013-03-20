@@ -8,10 +8,16 @@
  */
 
 .trnslate-inline-area [data-translate],
-.trnslate-inline-text-area [translate-mode=text],
-.trnslate-inline-script-area [translate-mode=script],
-.trnslate-inline-alt-area [translate-mode=alt],
+.trnslate-inline-text-area [data-translate-mode=text],
+.trnslate-inline-script-area [data-translate-mode=script],
+.trnslate-inline-alt-area [data-translate-mode=alt],
 .trnslate-inline-area .translate-inline { outline: dashed 2px darkgray!important;}
+
+.translate-inline-script {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+}
 
 .translate-dialog {
     border: 0;
