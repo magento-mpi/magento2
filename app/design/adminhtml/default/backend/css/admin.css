@@ -4226,6 +4226,16 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    Tree Store Scope
+-------------------------------------- */
+.tree-store-scope .buttons-set {
+    margin-bottom: 9px;
+}
+.tree-store-scope .buttons-set button {
+    margin-right: 4px;
+}
+
+/*
     Widgets
 -------------------------------------- */
 .widget-layout-updates .fieldset-wrapper,
