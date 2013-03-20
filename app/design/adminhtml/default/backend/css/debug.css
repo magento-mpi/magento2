@@ -365,15 +365,6 @@ th.required:before {
     color: #185b00;
 }
 
-/* TODO: Store views tree */
-.tree-store-scope .field {
-    margin: 0;
-}
-
-.tree-store-scope .field .label {
-    padding-top: 0;
-}
-
 /*
     Sales
 -------------------------------------- */

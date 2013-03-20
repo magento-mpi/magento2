@@ -4231,8 +4231,17 @@ tr.dynamic-grid input.input-text {
 .tree-store-scope .buttons-set {
     margin-bottom: 9px;
 }
+
 .tree-store-scope .buttons-set button {
     margin-right: 4px;
+}
+
+.tree-store-scope .field {
+    margin: 0 0 5px;
+}
+
+.tree-store-scope .field .label {
+    padding-top: 0;
 }
 
 /*
