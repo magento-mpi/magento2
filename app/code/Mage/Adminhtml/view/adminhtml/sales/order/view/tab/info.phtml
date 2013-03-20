@@ -24,8 +24,8 @@
             <div class="fieldset-wrapper-title">
                 <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
             </div>
-            <?php echo $this->getPaymentHtml() ?>
-            <div><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
+            <div><?php echo $this->getPaymentHtml() ?></div>
+            <div class="order-payment-currency"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
         </div>
     </div>
     <?php if (!$_order->getIsVirtual()): ?>
