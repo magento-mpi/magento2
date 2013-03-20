@@ -49,10 +49,7 @@
                 $body.trigger('contentUpdated');
             });
 
-            var buttons =  $('[data-editing="translate"]');
-            buttons.bind(
-                'click', $.proxy(this._onToolbarButtonClick, this)
-            );
+            $('[data-editing="translate"]').on('click', $.proxy(this._onToolbarButtonClick, this));
         },
 
         _initCells : function() {
@@ -111,8 +108,7 @@
          * @private
          */
         _onToolbarButtonClick: function(event) {
-            var editorIFrameBody = $('#vde_container_frame').contents().find("body");
-            editorIFrameBody.trigger('toolbarButtonClick');
+            this.element.closest('[data-frame="editor"]').trigger('toolbarButtonClick');
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {
