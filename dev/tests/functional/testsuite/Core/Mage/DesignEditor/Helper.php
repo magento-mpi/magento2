@@ -47,4 +47,18 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButtonAndConfirm('delete_theme_button', 'confirmation_for_delete');
         $this->assertMessagePresent('success', 'success_deleted_theme');
     }
+
+    /**
+     * Function for switching on/off Design mode
+     * @param $statusData
+     */
+    public function selectModeSwitcher($statusData)
+    {
+        $script = "return jQuery('#product-online-switcher').prop('checked')";
+        $status = $this->execute(array('script' => $script, 'args' => array()));
+        if (($status && $statusData == 'Disabled') || (!$status && $statusData == 'Enabled')) {
+            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'mode_switcher');
+        }
+    }
+
 }

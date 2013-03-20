@@ -18,6 +18,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
      */
     public function uploadAction()
     {
+        /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
         $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
         /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
         $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
@@ -26,7 +27,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $cssFileContent = $serviceModel->uploadCssFile(
                 Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom::FILE_ELEMENT_NAME
             )->getFileContent();
-            $themeCss->setDataForSave($cssFileContent);
+            $themeCss->setDataForSave(
+                array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $cssFileContent)
+            );
             $themeCss->saveData($theme);
             $response = array('error' => false, 'content' => $cssFileContent);
             $this->_session->addSuccess($this->__('Success: Theme custom css was saved.'));

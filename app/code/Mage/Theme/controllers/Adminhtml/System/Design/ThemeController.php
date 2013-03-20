@@ -241,7 +241,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
 
             if ($customCssFile->getContent()) {
                 $this->_prepareDownloadResponse(
-                    $filesCss->getFileNameByName(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS),
+                    basename($filesCss->getFilePathByType(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS)),
                     array(
                         'type'  => 'filename',
                         'value' => $customCssFile->getFullPath()

@@ -20,7 +20,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 {
     /**
      * Preconditions:
-     * Navigate to System -> Themes
      */
     protected function assertPreConditions()
     {
@@ -34,7 +33,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-6663
      */
-    public function onlyRequiredNotFilledFields()
+    public function onlyRequiredFilledFields()
     {
         //Data:
         $themeData = $this->loadDataSet('Theme', 'default_new_theme');
@@ -65,7 +64,33 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $searchData = $this->_prepareDataForSearch($themeData['theme']);
         $themeLocator = $this->search($searchData, 'theme_list_grid');
         $this->assertNotNull($themeLocator, 'Theme is not found');
-        $this->themeHelper()->deleteTheme($themeData);
+
+        return $themeData;
+    }
+
+    /**
+     * Edit Theme
+     * @param $themeData
+     * @depends allFields
+     * @test
+     */
+    public function editTheme($themeData)
+    {
+        //Data:
+        $editData = $this->loadDataSet('Theme', 'edit_theme');
+        //Steps:
+        $this->navigate('theme_list');
+        $this->themeHelper()->openTheme($themeData);
+        $this->fillFieldset($editData['theme'], 'theme');
+        $this->fillFieldset($themeData['requirements'], 'requirements');
+        $this->clickButton('save_theme');
+        //Verify:
+        $this->assertMessagePresent('success', 'success_saved_theme');
+        $searchData = $this->_prepareDataForSearch($editData['theme']);
+        $themeLocator = $this->search($searchData, 'theme_list_grid');
+        $this->assertNotNull($themeLocator, 'Theme is not found');
+
+        $this->themeHelper()->deleteTheme($editData);
     }
 
     /**
@@ -105,7 +130,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      *
      * Download theme css files
      *
-     * @depends onlyRequiredNotFilledFields
+     * @depends onlyRequiredFilledFields
      * @param array $themeData
      * @param $linkName
      * @param $fileName
@@ -118,7 +143,6 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->navigate('theme_list');
         $this->themeHelper()->openTheme($themeData);
         $this->openTab('css_editor');
-
         $this->clickControl('link', $linkName, false);
         //Verify:
         $appConfig = $this->getApplicationConfig();
@@ -127,20 +151,26 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         }
         $downloadDir  = $appConfig['downloadDir'];
         $filePath = $downloadDir . DIRECTORY_SEPARATOR . $fileName;
+        if (!file_exists($filePath)) {
+            sleep(2);
+            $this->assertTrue(file_exists($filePath), 'File was not downloaded');
+            $this->assertTrue(unlink($filePath), 'File was not deleted');
+        }
         $this->assertTrue(file_exists($filePath), 'File was not downloaded');
+        $this->assertTrue(unlink($filePath), 'File was not deleted');
     }
 
     public function allThemeCss()
     {
         return array(
-            array('Mage_Catalog__widgets.css', 'mage_catalog_widget'),
-            array('Mage_Catalog__zoom.css', 'mage_catalog_zoom'),
-            array('Mage_Cms__widgets.css', 'mage_cms_widgets'),
-            array('Mage_Oauth__css_oauth-simple.css', 'mage_oauth_css_oauth_simple'),
-            array('Mage_Page__css_tabs.css', 'mage_page_css_tabs'),
-            array('Mage_Reports__widgets.css', 'mage_reports_widgets'),
-            array('Mage_Widget__widgets.css', 'mage_widget_widgets'),
-            array('Social_Facebook__css_facebook.css', 'social_facebook_css_facebook'),
+            array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),
+            array('Mage_Catalog--zoom.css', 'mage_catalog_zoom'),
+            array('Mage_Cms--widgets.css', 'mage_cms_widgets'),
+            array('Mage_Oauth--css_oauth-simple.css', 'mage_oauth_css_oauth_simple'),
+            array('Mage_Page--css_tabs.css', 'mage_page_css_tabs'),
+            array('Mage_Reports--widgets.css', 'mage_reports_widgets'),
+            array('Mage_Widget--widgets.css', 'mage_widget_widgets'),
+            array('Social_Facebook--css_facebook.css', 'social_facebook_css_facebook'),
             array('mage_calendar.css', 'mage_calendar'),
             array('css_print.css', 'css_print'),
             array('css_styles-ie.css', 'css_style_ie'),
@@ -150,7 +180,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 
     /**
      * clear test
-     * @depends onlyRequiredNotFilledFields
+     * @depends onlyRequiredFilledFields
      * @params $themeData
      * @test
      */
@@ -163,12 +193,14 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * TBD. Should be resolved problem with file upload
      *
      * Upload custom.css
-     * @depends onlyRequiredNotFilledFields
+     * @depends onlyRequiredFilledFields
      * @param array $themeData
-     * @te st
+     * @test
      */
     public function uploadThemeCss($themeData)
     {
+        $this->markTestIncomplete('WIncomplete because problem with upload file.');
+
         //Steps:
         $this->navigate('theme_list');
         $this->themeHelper()->openTheme($themeData);
@@ -191,12 +223,14 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * TBD. Should be resolved problem with file upload
      *
      * Upload JS files
-     * @depends onlyRequiredNotFilledFields
+     * @depends onlyRequiredFilledFields
      * @param array $themeData
-     * @t est
+     * @test
      */
     public function uploadThemeJs($themeData)
     {
+        $this->markTestIncomplete('WIncomplete because problem with upload file.');
+
         //Steps:
         $this->navigate('theme_list');
         $this->themeHelper()->openTheme($themeData);
