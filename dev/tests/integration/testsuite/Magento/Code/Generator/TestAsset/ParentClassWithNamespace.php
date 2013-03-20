@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Di\Generator\TestAsset;
+namespace Magento\Code\Generator\TestAsset;
 use Zend\Code\Generator\DocBlockGenerator;
 
 class ParentClassWithNamespace

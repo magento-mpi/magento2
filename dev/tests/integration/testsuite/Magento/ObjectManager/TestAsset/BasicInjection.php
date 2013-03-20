@@ -3,23 +3,23 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_TestAsset_BasicInjection
+class Magento_ObjectManager_TestAsset_BasicInjection
 {
     /**
-     * @var Magento_Di_TestAsset_Basic
+     * @var Magento_ObjectManager_TestAsset_Basic
      */
     protected $_object;
 
     /**
-     * @param Magento_Di_TestAsset_Basic $object
+     * @param Magento_ObjectManager_TestAsset_Basic $object
      */
-    public function __construct(Magento_Di_TestAsset_Basic $object)
+    public function __construct(Magento_ObjectManager_TestAsset_Basic $object)
     {
         $this->_object = $object;
     }

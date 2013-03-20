@@ -1,13 +1,13 @@
 <?php
 /**
- * Proxy class for Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace
+ * Proxy class for Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
  */
-class Magento_Di_Generator_TestAsset_SourceClassWithoutNamespaceProxy extends \Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace
+class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceProxy extends \Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
 {
     /**
      * Entity class name
      */
-    const CLASS_NAME = 'Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace';
+    const CLASS_NAME = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace';
 
     /**
      * Object Manager instance
@@ -19,7 +19,7 @@ class Magento_Di_Generator_TestAsset_SourceClassWithoutNamespaceProxy extends \M
     /**
      * Proxied instance
      *
-     * @var Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace
+     * @var Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
      */
     protected $_subject = null;
 

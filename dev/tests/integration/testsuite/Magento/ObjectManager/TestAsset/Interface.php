@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-interface Magento_Di_TestAsset_Interface
+interface Magento_ObjectManager_TestAsset_Interface
 {
 }

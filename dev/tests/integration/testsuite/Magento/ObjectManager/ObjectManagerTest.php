@@ -3,27 +3,27 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_DiTest extends PHPUnit_Framework_TestCase
+class Magento_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test classes for basic instantiation
      */
-    const TEST_CLASS           = 'Magento_Di_TestAsset_Basic';
-    const TEST_CLASS_INJECTION = 'Magento_Di_TestAsset_BasicInjection';
+    const TEST_CLASS           = 'Magento_ObjectManager_TestAsset_Basic';
+    const TEST_CLASS_INJECTION = 'Magento_ObjectManager_TestAsset_BasicInjection';
     /**#@-*/
 
     /**#@+
      * Test classes and interface to test preferences
      */
-    const TEST_INTERFACE                = 'Magento_Di_TestAsset_Interface';
-    const TEST_INTERFACE_IMPLEMENTATION = 'Magento_Di_TestAsset_InterfaceImplementation';
-    const TEST_CLASS_WITH_INTERFACE     = 'Magento_Di_TestAsset_InterfaceInjection';
+    const TEST_INTERFACE                = 'Magento_ObjectManager_TestAsset_Interface';
+    const TEST_INTERFACE_IMPLEMENTATION = 'Magento_ObjectManager_TestAsset_InterfaceImplementation';
+    const TEST_CLASS_WITH_INTERFACE     = 'Magento_ObjectManager_TestAsset_InterfaceInjection';
     /**#@-*/
 
     /**
@@ -37,17 +37,17 @@ class Magento_DiTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_numerableClasses = array(
-        0  => 'Magento_Di_TestAsset_ConstructorNoArguments',
-        1  => 'Magento_Di_TestAsset_ConstructorOneArgument',
-        2  => 'Magento_Di_TestAsset_ConstructorTwoArguments',
-        3  => 'Magento_Di_TestAsset_ConstructorThreeArguments',
-        4  => 'Magento_Di_TestAsset_ConstructorFourArguments',
-        5  => 'Magento_Di_TestAsset_ConstructorFiveArguments',
-        6  => 'Magento_Di_TestAsset_ConstructorSixArguments',
-        7  => 'Magento_Di_TestAsset_ConstructorSevenArguments',
-        8  => 'Magento_Di_TestAsset_ConstructorEightArguments',
-        9  => 'Magento_Di_TestAsset_ConstructorNineArguments',
-        10 => 'Magento_Di_TestAsset_ConstructorTenArguments',
+        0  => 'Magento_ObjectManager_TestAsset_ConstructorNoArguments',
+        1  => 'Magento_ObjectManager_TestAsset_ConstructorOneArgument',
+        2  => 'Magento_ObjectManager_TestAsset_ConstructorTwoArguments',
+        3  => 'Magento_ObjectManager_TestAsset_ConstructorThreeArguments',
+        4  => 'Magento_ObjectManager_TestAsset_ConstructorFourArguments',
+        5  => 'Magento_ObjectManager_TestAsset_ConstructorFiveArguments',
+        6  => 'Magento_ObjectManager_TestAsset_ConstructorSixArguments',
+        7  => 'Magento_ObjectManager_TestAsset_ConstructorSevenArguments',
+        8  => 'Magento_ObjectManager_TestAsset_ConstructorEightArguments',
+        9  => 'Magento_ObjectManager_TestAsset_ConstructorNineArguments',
+        10 => 'Magento_ObjectManager_TestAsset_ConstructorTenArguments',
     );
 
     /**

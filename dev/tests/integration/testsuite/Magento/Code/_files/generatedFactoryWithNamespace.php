@@ -1,15 +1,15 @@
 <?php
-namespace Magento\Di\Generator\TestAsset;
+namespace Magento\Code\Generator\TestAsset;
 
 /**
- * Factory class for Magento\Di\Generator\TestAsset\SourceClassWithNamespace
+ * Factory class for Magento\Code\Generator\TestAsset\SourceClassWithNamespace
  */
 class SourceClassWithNamespaceFactory
 {
     /**
      * Entity class name
      */
-    const CLASS_NAME = 'Magento\Di\Generator\TestAsset\SourceClassWithNamespace';
+    const CLASS_NAME = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace';
 
     /**
      * Object Manager instance
@@ -32,7 +32,7 @@ class SourceClassWithNamespaceFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Di\Generator\TestAsset\SourceClassWithNamespace
+     * @return \Magento\Code\Generator\TestAsset\SourceClassWithNamespace
      */
     public function create(array $data = array())
     {

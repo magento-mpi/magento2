@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_TestAsset_ConstructorOneArgument
+class Magento_ObjectManager_TestAsset_ConstructorOneArgument
 {
     /**
-     * @var Magento_Di_TestAsset_Basic
+     * @var Magento_ObjectManager_TestAsset_Basic
      */
     protected $_one;
 
@@ -23,10 +23,10 @@ class Magento_Di_TestAsset_ConstructorOneArgument
     /**
      * One argument
      *
-     * @param Magento_Di_TestAsset_Basic $one
+     * @param Magento_ObjectManager_TestAsset_Basic $one
      */
     public function __construct(
-        Magento_Di_TestAsset_Basic $one
+        Magento_ObjectManager_TestAsset_Basic $one
     ) {
         $this->_one = $one;
     }

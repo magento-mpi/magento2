@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 return array(
-    'Magento_Di_Definition_CompilerDefinition_TestAsset_NoConstructor'                   =>
+    'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_NoConstructor'                   =>
     array(
         'supertypes'   =>
         array(),
@@ -20,7 +20,7 @@ return array(
         'parameters'   =>
         array(),
     ),
-    'Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument'             =>
+    'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneOptionalArgument'             =>
     array(
         'supertypes'   =>
         array(),
@@ -33,17 +33,17 @@ return array(
         array(
             '__construct' =>
             array(
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument::__construct:0' =>
+                'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneOptionalArgument::__construct:0' =>
                 array(
                     0 => 'varA',
-                    1 => 'Magento_Di_Definition_CompilerDefinition_TestAsset_NoConstructor',
+                    1 => 'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_NoConstructor',
                     2 => false,
                     3 => NULL,
                 ),
             ),
         ),
     ),
-    'Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredArgument'             =>
+    'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneRequiredArgument'             =>
     array(
         'supertypes'   =>
         array(),
@@ -56,17 +56,17 @@ return array(
         array(
             '__construct' =>
             array(
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredArgument::__construct:0' =>
+                'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneRequiredArgument::__construct:0' =>
                 array(
                     0 => 'varA',
-                    1 => 'Magento_Di_Definition_CompilerDefinition_TestAsset_NoConstructor',
+                    1 => 'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_NoConstructor',
                     2 => true,
                     3 => NULL,
                 ),
             ),
         ),
     ),
-    'Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments' =>
+    'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments' =>
     array(
         'supertypes'   =>
         array(),
@@ -79,24 +79,24 @@ return array(
         array(
             '__construct' =>
             array(
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments::__construct:0' =>
+                'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments::__construct:0' =>
                 array(
                     0 => 'varA',
                     1 => NULL,
                     2 => true,
                     3 => NULL,
                 ),
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments::__construct:1' =>
+                'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneRequiredOneOptionalArguments::__construct:1' =>
                 array(
                     0 => 'varB',
-                    1 => 'Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument',
+                    1 => 'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneOptionalArgument',
                     2 => false,
                     3 => NULL,
                 ),
             ),
         ),
     ),
-    'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments'            =>
+    'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments'            =>
     array(
         'supertypes'   =>
         array(),
@@ -109,24 +109,24 @@ return array(
         array(
             '__construct' =>
             array(
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments::__construct:0' =>
+                'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments::__construct:0' =>
                 array(
                     0 => 'varA',
                     1 => NULL,
                     2 => false,
                     3 => 1,
                 ),
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments::__construct:1' =>
+                'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments::__construct:1' =>
                 array(
                     0 => 'varB',
-                    1 => 'Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument',
+                    1 => 'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneOptionalArgument',
                     2 => false,
                     3 => NULL,
                 ),
             ),
         ),
     ),
-    'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoRequiredArguments'            =>
+    'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_TwoRequiredArguments'            =>
     array(
         'supertypes'   =>
         array(),
@@ -139,17 +139,17 @@ return array(
         array(
             '__construct' =>
             array(
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoRequiredArguments::__construct:0' =>
+                'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_TwoRequiredArguments::__construct:0' =>
                 array(
                     0 => 'varA',
-                    1 => 'Magento_Di_Definition_CompilerDefinition_TestAsset_NoConstructor',
+                    1 => 'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_NoConstructor',
                     2 => true,
                     3 => NULL,
                 ),
-                'Magento_Di_Definition_CompilerDefinition_TestAsset_TwoRequiredArguments::__construct:1' =>
+                'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_TwoRequiredArguments::__construct:1' =>
                 array(
                     0 => 'varB',
-                    1 => 'Magento_Di_Definition_CompilerDefinition_TestAsset_OneRequiredArgument',
+                    1 => 'Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneRequiredArgument',
                     2 => true,
                     3 => NULL,
                 ),

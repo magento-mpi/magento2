@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument
+class Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneOptionalArgument
 {
     /**
-     * @var Magento_Di_Definition_CompilerDefinition_TestAsset_NoConstructor
+     * @var Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_NoConstructor
      */
     protected $_varA;
 
-    public function __construct(Magento_Di_Definition_CompilerDefinition_TestAsset_NoConstructor $varA = null)
+    public function __construct(Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_NoConstructor $varA = null)
     {
         $this->_varA = $varA;
     }

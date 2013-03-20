@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,10 +13,10 @@ require_once __DIR__ . '/Generator/TestAsset/ParentClassWithNamespace.php';
 /**
  * @magentoAppIsolation enabled
  */
-class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
+class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 {
-    const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace';
-    const CLASS_NAME_WITH_NAMESPACE = 'Magento\Di\Generator\TestAsset\SourceClassWithNamespace';
+    const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace';
+    const CLASS_NAME_WITH_NAMESPACE = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace';
 
     /**
      * @var string
@@ -24,12 +24,12 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     protected $_includePath;
 
     /**
-     * @var Magento_Di_Generator
+     * @var Magento_Code_Generator
      */
     protected $_generator;
 
     /**
-     * @var Magento_Di_Generator_Io
+     * @var Magento_Code_Generator_Io
      */
     protected $_ioObject;
 
@@ -43,13 +43,13 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         Magento_Autoload_IncludePath::addIncludePath($generationDirectory);
 
-        $this->_ioObject = new Magento_Di_Generator_Io(
+        $this->_ioObject = new Magento_Code_Generator_Io(
             new Varien_Io_File(),
             new Magento_Autoload_IncludePath(),
             $generationDirectory
         );
         $this->_generator = Mage::getObjectManager()->create(
-            'Magento_Di_Generator', array('ioObject' => $this->_ioObject)
+            'Magento_Code_Generator', array('ioObject' => $this->_ioObject)
         );
     }
 
@@ -68,7 +68,7 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory';
         $this->assertEquals(
-            Magento_Di_Generator::GENERATION_SUCCESS,
+            Magento_Code_Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 
@@ -88,7 +88,7 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Factory';
         $this->assertEquals(
-            Magento_Di_Generator::GENERATION_SUCCESS,
+            Magento_Code_Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 
@@ -107,7 +107,7 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy';
         $this->assertEquals(
-            Magento_Di_Generator::GENERATION_SUCCESS,
+            Magento_Code_Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 
@@ -122,7 +122,7 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Proxy';
         $this->assertEquals(
-            Magento_Di_Generator::GENERATION_SUCCESS,
+            Magento_Code_Generator::GENERATION_SUCCESS,
             $this->_generator->generateClass($factoryClassName)
         );
 

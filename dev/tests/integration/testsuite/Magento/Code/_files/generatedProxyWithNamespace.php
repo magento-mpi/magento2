@@ -1,15 +1,15 @@
 <?php
-namespace Magento\Di\Generator\TestAsset;
+namespace Magento\Code\Generator\TestAsset;
 
 /**
- * Proxy class for Magento\Di\Generator\TestAsset\SourceClassWithNamespace
+ * Proxy class for Magento\Code\Generator\TestAsset\SourceClassWithNamespace
  */
-class SourceClassWithNamespaceProxy extends \Magento\Di\Generator\TestAsset\SourceClassWithNamespace
+class SourceClassWithNamespaceProxy extends \Magento\Code\Generator\TestAsset\SourceClassWithNamespace
 {
     /**
      * Entity class name
      */
-    const CLASS_NAME = 'Magento\Di\Generator\TestAsset\SourceClassWithNamespace';
+    const CLASS_NAME = 'Magento\Code\Generator\TestAsset\SourceClassWithNamespace';
 
     /**
      * Object Manager instance
@@ -21,7 +21,7 @@ class SourceClassWithNamespaceProxy extends \Magento\Di\Generator\TestAsset\Sour
     /**
      * Proxied instance
      *
-     * @var Magento\Di\Generator\TestAsset\SourceClassWithNamespace
+     * @var Magento\Code\Generator\TestAsset\SourceClassWithNamespace
      */
     protected $_subject = null;
 

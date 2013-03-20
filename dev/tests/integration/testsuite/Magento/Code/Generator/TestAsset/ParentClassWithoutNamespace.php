@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_Code
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,7 +11,7 @@
 
 use Zend\Code\Generator\DocBlockGenerator;
 
-class Magento_Di_Generator_TestAsset_ParentClassWithoutNamespace
+class Magento_Code_Generator_TestAsset_ParentClassWithoutNamespace
 {
     /**
      * Public parent method

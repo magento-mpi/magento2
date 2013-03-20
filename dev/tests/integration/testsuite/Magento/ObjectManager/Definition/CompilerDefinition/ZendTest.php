@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Definition_CompilerDefinition_ZendTest extends PHPUnit_Framework_TestCase
+class Magento_ObjectManager_Definition_CompilerDefinition_ZendTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Di_Definition_CompilerDefinition_Zend::addDirectory
-     * @covers Magento_Di_Definition_CompilerDefinition_Zend::compile
-     * @covers Magento_Di_Definition_CompilerDefinition_Zend::toArray
+     * @covers Magento_ObjectManager_Definition_CompilerDefinition_Zend::addDirectory
+     * @covers Magento_ObjectManager_Definition_CompilerDefinition_Zend::compile
+     * @covers Magento_ObjectManager_Definition_CompilerDefinition_Zend::toArray
      */
     public function testCompiler()
     {
-        $compiler = new Magento_Di_Definition_CompilerDefinition_Zend();
+        $compiler = new Magento_ObjectManager_Definition_CompilerDefinition_Zend();
 
         $compiler->addDirectory(__DIR__ . '/TestAsset');
         $compiler->compile();

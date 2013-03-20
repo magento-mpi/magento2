@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments
+class Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments
 {
     /**
      * @var int
@@ -17,12 +17,12 @@ class Magento_Di_Definition_CompilerDefinition_TestAsset_TwoOptionalArguments
     protected $_varA;
 
     /**
-     * @var Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument
+     * @var Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneOptionalArgument
      */
     protected $_varB;
 
     public function __construct($varA = 1,
-        Magento_Di_Definition_CompilerDefinition_TestAsset_OneOptionalArgument $varB = null
+        Magento_ObjectManager_Definition_CompilerDefinition_TestAsset_OneOptionalArgument $varB = null
     ) {
         $this->_varA = $varA;
         $this->_varB = $varB;

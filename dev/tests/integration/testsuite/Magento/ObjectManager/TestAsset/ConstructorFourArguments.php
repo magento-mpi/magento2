@@ -3,32 +3,33 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Di
+ * @package     Magento_ObjectManager
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Magento_Di_TestAsset_ConstructorFourArguments extends Magento_Di_TestAsset_ConstructorThreeArguments
+class Magento_ObjectManager_TestAsset_ConstructorFourArguments
+    extends Magento_ObjectManager_TestAsset_ConstructorThreeArguments
 {
     /**
-     * @var Magento_Di_TestAsset_Basic
+     * @var Magento_ObjectManager_TestAsset_Basic
      */
     protected $_four;
 
     /**
      * Four arguments
      *
-     * @param Magento_Di_TestAsset_Basic $one
-     * @param Magento_Di_TestAsset_Basic $two
-     * @param Magento_Di_TestAsset_Basic $three
-     * @param Magento_Di_TestAsset_Basic $four
+     * @param Magento_ObjectManager_TestAsset_Basic $one
+     * @param Magento_ObjectManager_TestAsset_Basic $two
+     * @param Magento_ObjectManager_TestAsset_Basic $three
+     * @param Magento_ObjectManager_TestAsset_Basic $four
      */
     public function __construct(
-        Magento_Di_TestAsset_Basic $one,
-        Magento_Di_TestAsset_Basic $two,
-        Magento_Di_TestAsset_Basic $three,
-        Magento_Di_TestAsset_Basic $four
+        Magento_ObjectManager_TestAsset_Basic $one,
+        Magento_ObjectManager_TestAsset_Basic $two,
+        Magento_ObjectManager_TestAsset_Basic $three,
+        Magento_ObjectManager_TestAsset_Basic $four
     ) {
         parent::__construct($one, $two, $three);
         $this->_four = $four;

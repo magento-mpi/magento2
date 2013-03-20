@@ -1,13 +1,13 @@
 <?php
 /**
- * Factory class for Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace
+ * Factory class for Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
  */
-class Magento_Di_Generator_TestAsset_SourceClassWithoutNamespaceFactory
+class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceFactory
 {
     /**
      * Entity class name
      */
-    const CLASS_NAME = 'Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace';
+    const CLASS_NAME = 'Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace';
 
     /**
      * Object Manager instance
@@ -30,7 +30,7 @@ class Magento_Di_Generator_TestAsset_SourceClassWithoutNamespaceFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace
+     * @return \Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
      */
     public function create(array $data = array())
     {
