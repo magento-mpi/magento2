@@ -48,6 +48,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
+     * Filename of view configuration
+     */
+    const FILENAME_VIEW_CONFIG = 'view.xml';
+
+    /**
      * Labels collection array
      *
      * @var array
@@ -497,5 +502,19 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function __clone()
     {
         $this->unsetData()->setOrigData();
+    }
+
+    /**
+     * Get path to custom view configuration file
+     *
+     * @return string
+     */
+    public function getCustomViewConfigPath()
+    {
+        $config = $this->getCustomizationPath();
+        if (!empty($config)) {
+            $config .= DIRECTORY_SEPARATOR . self::FILENAME_VIEW_CONFIG;
+        }
+        return $config;
     }
 }

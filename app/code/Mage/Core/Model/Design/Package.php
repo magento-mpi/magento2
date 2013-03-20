@@ -975,13 +975,18 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     public function getViewConfig(array $params = array())
     {
         $this->_updateParamDefaults($params);
-        $key = $params['themeModel']->getId();
+        /** @var $currentTheme Mage_Core_Model_Theme */
+        $currentTheme = $params['themeModel'];
+        $key = $currentTheme->getId();
         if (isset($this->_viewConfigs[$key])) {
             return $this->_viewConfigs[$key];
         }
 
-        $configFiles = $this->_moduleReader->getModuleConfigurationFiles(self::FILENAME_VIEW_CONFIG);
-        $themeConfigFile = $this->getFilename(self::FILENAME_VIEW_CONFIG, $params);
+        $configFiles = $this->_moduleReader->getModuleConfigurationFiles(Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG);
+        $themeConfigFile = $currentTheme->getCustomViewConfigPath();
+        if (empty($themeConfigFile) || !$this->_filesystem->has($themeConfigFile)) {
+            $themeConfigFile = $this->getFilename(Mage_Core_Model_Theme::FILENAME_VIEW_CONFIG, $params);
+        }
         if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }
