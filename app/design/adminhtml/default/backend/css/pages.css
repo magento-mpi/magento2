@@ -786,6 +786,9 @@
 .field-poll_answers_container .action-add {
     margin-top: 7px;
 }
+.field-poll_answers_container .data-table tbody tr td {
+    vertical-align: top;
+}
 
 /*
     CMS -> Banners
