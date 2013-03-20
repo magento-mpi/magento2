@@ -268,12 +268,12 @@
     },
     validate: function () {
         if (arguments.length > 0) {
-            Validation.validate(arguments[0]);
+            jQuery.validator.validateElement(arguments[0]);
             return;
         }
         var fields = this.container.select('input.permission-duplicate');
         for (var i=0, l=fields.length; i < l; i++) {
-            Validation.validate(fields[i]);
+            jQuery.validator.validateElement(fields[i]);
         }
     },
     modifyParentValue : function(row) {
