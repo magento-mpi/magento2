@@ -18,7 +18,7 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
     public function testConstructExceptionNotAnArray()
     {
         $patterns = array('not an array');
-        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
+        new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
     }
 
     /**
@@ -28,7 +28,7 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
     public function testConstructExceptionNoThemePath()
     {
         $patterns = array(array('no theme path'));
-        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
+        new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
     }
 
     public function testGetPatternsDirs()

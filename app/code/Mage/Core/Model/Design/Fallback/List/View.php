@@ -36,12 +36,12 @@ class Mage_Core_Model_Design_Fallback_List_View extends Mage_Core_Model_Design_F
 
         $moduleDir = $this->_dir->getDir(Mage_Core_Model_Dir::MODULES);
         $return[] = new Mage_Core_Model_Design_Fallback_Rule_Simple(
-            $moduleDir . '/<pool>/<namespace>/<module>/view/<area>/locale/<locale>',
-            array('pool', 'namespace', 'module', 'locale')
+            $moduleDir . '/<namespace>/<module>/view/<area>/locale/<locale>',
+            array('namespace', 'module', 'locale')
         );
         $return[] = new Mage_Core_Model_Design_Fallback_Rule_Simple(
-            $moduleDir . '/<pool>/<namespace>/<module>/view/<area>',
-            array('pool', 'namespace', 'module')
+            $moduleDir . '/<namespace>/<module>/view/<area>',
+            array('namespace', 'module')
         );
 
         $return[] = new Mage_Core_Model_Design_Fallback_Rule_Simple(

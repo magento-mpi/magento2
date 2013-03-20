@@ -73,8 +73,6 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
         $params = array();
         if ($module) {
             list($params['namespace'], $params['module']) = explode('_', $module);
-            $params['pool'] =
-                (string)$this->_objectManager->get('Mage_Core_Model_Config')->getModuleConfig($module)->codePool;
         } else {
             $params['namespace'] = null;
             $params['module'] = null;
@@ -113,8 +111,6 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback
         $params = array();
         if ($module) {
             list($params['namespace'], $params['module']) = explode('_', $module);
-            $params['pool'] =
-                (string)$this->_objectManager->get('Mage_Core_Model_Config')->getModuleConfig($module)->codePool;
         } else {
             $params['namespace'] = null;
             $params['module'] = null;

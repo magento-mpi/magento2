@@ -31,8 +31,8 @@ class Mage_Core_Model_Design_Fallback_List_File extends Mage_Core_Model_Design_F
                 ),
             )),
             new Mage_Core_Model_Design_Fallback_Rule_Simple(
-                $this->_dir->getDir(Mage_Core_Model_Dir::MODULES) . '/<pool>/<namespace>/<module>/view/<area>',
-                array('pool', 'namespace', 'module')
+                $this->_dir->getDir(Mage_Core_Model_Dir::MODULES) . '/<namespace>/<module>/view/<area>',
+                array('namespace', 'module')
             )
         );
     }

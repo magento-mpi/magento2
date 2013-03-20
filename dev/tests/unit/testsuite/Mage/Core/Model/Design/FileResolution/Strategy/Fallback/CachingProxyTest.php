@@ -169,16 +169,16 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTest e
 
     public function testSetViewFilePathToMap()
     {
-        $materializedPathToFile = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'file.txt';
+        $materializedFilePath = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'file.txt';
 
         $result = $this->_model->setViewFilePathToMap('area51', $this->_themeModel, 'en_US', 'Some_Module', 'file.txt',
-            $materializedPathToFile);
+            $materializedFilePath);
         $this->assertEquals($this->_model, $result);
 
         $this->_fallback->expects($this->never())
             ->method('getViewFile');
         $result = $this->_model->getViewFile('area51', $this->_themeModel, 'en_US', 'file.txt', 'Some_Module');
-        $this->assertEquals($materializedPathToFile, $result);
+        $this->assertEquals($materializedFilePath, $result);
     }
 
     /**

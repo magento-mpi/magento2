@@ -44,7 +44,7 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $groupAssets = $objectManager->get('Mage_Page_Model_GroupedAssets');
         foreach ($assets as $asset) {
             $groupAssets->addAsset($asset['name'],
-                $objectManager->get('Mage_Core_Model_Page_Asset_ViewFile', array(
+                $objectManager->create('Mage_Core_Model_Page_Asset_ViewFile', array(
                     'file' => 'some_file',
                     'contentType' => $asset['type'])),
                 $asset['params']);

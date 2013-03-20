@@ -94,7 +94,6 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             'locale' => 'some_locale'
         );
         $file = 'Some_Module::some_file.ext';
-        $expectedParams = $params + array('module' => 'Some_Module');
         $expected = 'path/to/some_file.ext';
 
         $strategyMock = $this->getMock('Mage_Core_Model_Design_FileResolution_Strategy_ViewInterface');

@@ -36,7 +36,7 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
      *
      * @bool
      */
-    protected $_isMergingAllowedByMock = true;
+    protected $_isMergingAllowed = true;
 
     public function setUp()
     {
@@ -44,7 +44,7 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
 
         $this->_storeConfig = $this->getMock('Mage_Core_Model_Store_Config', array('getConfigFlag'));
 
-        $this->_isMergingAllowedByMock = true;
+        $this->_isMergingAllowed = true;
         $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
         $this->_designPackage->expects($this->any())
             ->method('isMergingViewFilesAllowed')
@@ -59,9 +59,9 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
      *
      * @return bool
      */
-    public function isMergingAllowedByMock()
+    public function isMergingAllowed()
     {
-        return $this->_isMergingAllowedByMock;
+        return $this->_isMergingAllowed;
     }
 
     /**
@@ -100,7 +100,7 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
         ;
 
         // Disable merging for whole system, which must overwrite settings for js/css
-        $this->_isMergingAllowedByMock = false;
+        $this->_isMergingAllowed = false;
 
         // Test
         $this->assertSame($assets, $this->_object->getMergedAssets($assets, $contentType));
