@@ -1118,14 +1118,7 @@ AdminOrder.prototype = {
 
         parentEl.setStyle({position: 'relative'});
         el.setStyle({
-            display: show ? 'none' : '',
-            position: 'absolute',
-            backgroundColor: '#999999',
-            opacity: 0.8,
-            width: parentEl.getWidth() + 'px',
-            height: parentEl.getHeight() + 'px',
-            top: 0,
-            left: 0
+            display: show ? 'none' : ''
         });
     },
 

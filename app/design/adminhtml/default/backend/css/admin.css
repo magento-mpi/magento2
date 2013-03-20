@@ -185,6 +185,7 @@ button.primary.disabled,
 /*
     Reset 'button view' for actions
 -------------------------------------- */
+.customer-current-activity .action-refresh,
 .pager .action-next,
 .pager .action-previous,
 .pager .action-next:hover,
@@ -979,7 +980,7 @@ option.placeholder {
     font-size: 18px;
     color: #666;
     font-weight: normal;
-    padding: 7px 0 10px 10px;
+    padding: 7px 0 10px;
     display: inline-block;
 }
 

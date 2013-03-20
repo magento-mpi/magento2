@@ -1603,10 +1603,10 @@
 
 .customer-current-activity {
     float: left;
-    width: 20%;
+    display: table;
+    width: 250px;
 }
 
-.order-details-inner,
 .customer-current-activity-inner {
     background: #fff;
     border: 1px solid #eae6e0;
@@ -1615,10 +1615,9 @@
 }
 
 .order-details-existing-customer {
-    padding: 0 1% 1%;
+    display: table;
+    padding-left: 1%;
     position: relative;
-    width: 78%;
-    float: right;
 }
 
 .order-billing-address,
@@ -1632,7 +1631,7 @@
 [class^=" adminhtml-rma-"] .order-shipping-address,
 [class^=" adminhtml-rma-"] .rma-request-details {
     float: left;
-    width: 49%;
+    width: 49.5%;
 }
 
 .order-shipping-address,
@@ -1654,12 +1653,39 @@
     width: auto;
 }
 
-.order-coupons .box-left {
+.adminhtml-sales-order-create-index .actions .action-add {
+    margin: 0 0 0 20px;
+}
+
+.adminhtml-sales-order-create-index .order-methods ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.adminhtml-sales-order-create-index .order-methods dl,
+.adminhtml-sales-order-create-index .order-methods dt,
+.adminhtml-sales-order-create-index .order-methods dd {
+    margin: 0;
+    padding: 0;
+}
+
+.adminhtml-sales-order-create-index .order-methods dd + dt {
+    margin-top: 17px;
+}
+
+.adminhtml-sales-order-create-index .order-methods dt {
+    margin: 0 0 8px;
+}
+
+.order-coupons .box-left,
+.order-gift-options .box-left {
     float: left;
     width: 49%;
 }
 
-.order-coupons .box-right {
+.order-coupons .box-right,
+.order-gift-options .box-right {
     float: right;
     width: 49%;
 }
@@ -1682,13 +1708,103 @@
     width: 100%;
 }
 
-.create-order-sidebar-container > div {
-    border-bottom: 1px solid #ccc;
+[class^=" adminhtml-sales-order-"] .order-billing-address .actions ,
+[class^=" adminhtml-sales-order-"] .order-shipping-address .actions {
+    margin: 17px 0;
+}
+
+[class^=" adminhtml-sales-order-"] .order-billing-address .control + label ,
+[class^=" adminhtml-sales-order-"] .order-shipping-address .control + label {
+    margin: 17px 0 0;
+}
+
+.adminhtml-sales-order-create-index .page-actions { padding-top: 0; }
+
+.adminhtml-sales-order-create-index .store-switcher { margin: -46px 0 0; position: relative; width: 50%; }
+
+.create-order-sidebar-container > div + div {
+    border-top: 1px solid #ededed;
+    margin-top: 35px;
+}
+
+.create-order-sidebar-container > div .head h5 {
+    margin: 17px 0 7px;
+}
+
+.customer-current-activity-inner > h4 {
+    border-bottom: 1px solid #ededed;
+    margin-top: 0;
+    padding: 0 0 16px;
+}
+
+.customer-current-activity-inner .data-table th {
+    font-size: 11px;
+}
+
+.customer-current-activity .action-refresh {
+    float: right;
+}
+
+.customer-current-activity .action-refresh,
+.customer-current-activity .data-table .icon {
+    display: inline-block;
+    text-indent: 100%;
+    overflow: hidden;
+    height: 16px;
+    width: 16px;
+    white-space: nowrap;
+}
+
+.customer-current-activity .action-refresh:before,
+.customer-current-activity .data-table .icon:before {
+    content: "\e010";
+    color: #c3c2be;
+    display: block;
+    text-indent: 0;
+    font-size: 16px;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.customer-current-activity .data-table .icon-remove:before { content: "\e07f"; }
+.customer-current-activity .data-table .icon-add:before    { content: "\e071"; }
+
+.customer-current-activity .auto-scroll {
+    overflow: auto;
+    max-height: 150px;
+}
+
+.customer-current-activity .auto-scroll + button {
+    margin: 22px 0 0;
 }
 
 .customer-current-activity .actions {
-    border-bottom: none;
-    margin-top: 20px;
+    border-top: none;
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.overlay span {
+    color: #111;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -100px;
+    width: 200px;
 }
 
 /*
@@ -2534,6 +2650,8 @@ table.items-to-invoice tbody tr:hover td {
 /*
     Clearfix
 -------------------------------------- */
+.order-gift-options:before,
+.order-gift-options:after,
 .image-panel:before,
 .image-panel:after,
 .images:before,
@@ -2544,6 +2662,7 @@ table.items-to-invoice tbody tr:hover td {
     display: table;
 }
 
+.order-gift-options:after,
 .image-panel:after,
 .images:after,
 .clearfix:after {
