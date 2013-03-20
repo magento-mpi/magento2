@@ -206,7 +206,7 @@ class Enterprise_PromotionPermissions_Model_Observer
             case 'promo_catalog_edit_tabs' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $relatedBannersBlock = $block->getChildBlock('catalogrule.related.banners');
-                    if (!is_null($relatedBannersBlock)) {
+                    if ($relatedBannersBlock) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
                     }
                 }
