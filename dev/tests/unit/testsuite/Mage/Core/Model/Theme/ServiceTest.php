@@ -63,7 +63,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     }
     
     /**
-     * @dataProvider isIsCustomizationsExistDataProvider
+     * @dataProvider isCustomizationsExistDataProvider
      * @param int $countVirtualThemes
      * @param bool $expectedResult
      */

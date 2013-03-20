@@ -213,17 +213,18 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      * Test id deletable
      *
      * @dataProvider isDeletableDataProvider
-     * @param bool $isVirtual
+     * @param string $themeType
+     * @param bool $isDeletable
      * @covers Mage_Core_Model_Theme::isDeletable
      */
-    public function testIsDeletable($isVirtual)
+    public function testIsDeletable($themeType, $isDeletable)
     {
         /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('isVirtual'), array(), '', false);
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', array('getType'), array(), '', false);
         $themeModel->expects($this->once())
-            ->method('isVirtual')
-            ->will($this->returnValue($isVirtual));
-        $this->assertEquals($isVirtual, $themeModel->isDeletable());
+            ->method('getType')
+            ->will($this->returnValue($themeType));
+        $this->assertEquals($isDeletable, $themeModel->isDeletable());
     }
 
     /**
@@ -231,7 +232,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function isDeletableDataProvider()
     {
-        return array(array(true), array(false));
+        return array(
+            array(Mage_Core_Model_Theme::TYPE_VIRTUAL, true),
+            array(Mage_Core_Model_Theme::TYPE_STAGING,true),
+            array(Mage_Core_Model_Theme::TYPE_PHYSICAL,false)
+        );
     }
 
     public function testIsThemeCompatible()
