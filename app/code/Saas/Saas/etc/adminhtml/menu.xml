@@ -20,7 +20,7 @@
 
         <!-- Marketing -->
         <remove id="Enterprise_TargetRule::catalog_targetrule"/>
-        <remove id="Mage_Adminhtml::private_sales" />
+        <remove id="Enterprise_Enterprise::private_sales" />
         <remove id="Enterprise_Reminder::promo_reminder" />
         <remove id="Mage_Newsletter::newsletter_queue" />
         <remove id="Mage_Newsletter::newsletter_template" />
