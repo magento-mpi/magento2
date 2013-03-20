@@ -87,4 +87,19 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Launche
         ));
         $this->getResponse()->setBody($responseContent);
     }
+
+    /**
+     * Change state after showing Welcome Screen
+     */
+    public function showScreenAction()
+    {
+        $launcherFlag = $this->_objectManager->get('Mage_Launcher_Model_Storelauncher_Flag');
+        $launcherFlag->loadSelf()->setState(1);
+        $launcherFlag->save();
+        $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
+            'success' => true,
+            'error_message' => '',
+        ));
+        $this->getResponse()->setBody($responseContent);
+    }
 }

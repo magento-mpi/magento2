@@ -2504,11 +2504,15 @@
     left: 0;
     right: 0;
     padding: 0;
-    z-index: 1300;
+    z-index: 1305;
 }
 
 .store-tour-wrapper.fade {
     z-index: 1298;
+}
+
+.welcome-screen-wrapper.fade {
+    z-index: 1300;
 }
 
 .eq-ie8 .fade {
@@ -2714,7 +2718,8 @@
     -ms-box-sizing: border-box;
 }
 
-.store-tour-hint {
+.store-tour-hint,
+.welcome-screen-hint {
     position: absolute;
     display: none;
     top: 330px;
@@ -2723,7 +2728,8 @@
     width: 620px;
 }
 
-.store-tour-hint p {
+.store-tour-hint p,
+.welcome-screen-hint p {
     color: #fff;
     font-family: 'CallunaSans', Arial, sans-serif;
     font-weight: 500;
@@ -2732,38 +2738,45 @@
     text-shadow:0 0 6px #000;
 }
 
-.store-tour-content .store-tour-tags {
+.store-tour-content .store-tour-tags,
+.welcome-screen-content .welcome-screen-tags {
     display: none;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-[class^="store-tour-tag-"] {
+[class^="store-tour-tag-"],
+[class^="welcome-screen-tag-"] {
     cursor: pointer;
     position: absolute;
 }
 
-.store-tour-tag-main-menu {
+.store-tour-tag-main-menu,
+.welcome-screen-tag-main-menu {
     left: 22%;
 }
 
-.store-tour-tag-top-menu {
+.store-tour-tag-top-menu,
+.welcome-screen-tag-top-menu {
     left: 80%;
 }
 
-.store-tour-tag-store-launcher {
+.store-tour-tag-store-launcher,
+.welcome-screen-tag-store-launcher {
     left: 40%;
     margin-top: 110px
 }
 
-.hidden-store-tour-tag-labels [class^="store-tour-tag-"] {
+.hidden-store-tour-tag-labels [class^="store-tour-tag-"],
+.hidden-welcome-screen-tag-labels [class^="welcome-screen-tag-"] {
     overflow: hidden;
     white-space: nowrap;
     width: 36px;
 }
 
-.store-tour-tags span:before {
+.store-tour-tags span:before,
+.welcome-screen-tags span:before {
     position: absolute;
     width: 0;
     height: 0;
@@ -2775,7 +2788,8 @@
     content: '';
 }
 
-.store-tour-tags span {
+.store-tour-tags span,
+.welcome-screen-tags span {
     position: relative;
     background: #f7f3eb;
     border-radius: 4px;
@@ -2792,20 +2806,24 @@
     box-shadow: 0 1px 1px rgba(49, 48, 43, .2);
 }
 
-.hidden-store-tour-tag-labels span {
+.hidden-store-tour-tag-labels span,
+.hidden-welcome-screen-tag-labels span {
     display: none;
 }
 
-.store-tour-tags span:hover {
+.store-tour-tags span:hover,
+.welcome-screen-tags span:hover {
     color: #fff;
     background: #f2843d;
 }
 
-.store-tour-tags span:hover:before {
+.store-tour-tags span:hover:before,
+.welcome-screen-tags span:hover:before {
     border-right-color: #f2843d;
 }
 
-[class^="store-tour-tag-"]:before {
+[class^="store-tour-tag-"]:before,
+[class^="welcome-screen-tag-"]:before {
     content: '';
     background: url(images/store-tour-tags-bg.png) no-repeat 0 5px;
     display: inline-block;
@@ -2814,7 +2832,8 @@
     vertical-align: top;
 }
 
-[class^="store-tour-data"] {
+[class^="store-tour-data"],
+[class^="welcome-screen-data"] {
     display: none;
     background: url(images/body-bg.jpg);
     border-radius: 4px;
@@ -2823,18 +2842,21 @@
     z-index: 10002;
 }
 
-.store-tour-data-top-menu {
+.store-tour-data-top-menu,
+.welcome-screen-data-top-menu {
     position: absolute;
     padding: 5px 5px 10px 5px;
     margin: -5px 0 0 -5px;
     border-radius: 4px;
 }
 
-.eq-ie9 .store-tour-data-top-menu .search {
+.eq-ie9 .store-tour-data-top-menu .search,
+.eq-ie9 .welcome-screen-data-top-menu .search {
     margin-left: 49px;
 }
 
-.store-tour-data-launcher {
+.store-tour-data-launcher,
+.welcome-screen-data-launcher {
     border-radius: 10px;
     box-shadow: none;
     top: 147px;
@@ -2844,7 +2866,8 @@
     width: 100%;
 }
 
-.store-tour-data-main-menu {
+.store-tour-data-main-menu,
+.welcome-screen-data-main-menu {
     border-radius: 4px;
     padding: 2px 0;
     margin: -2px 0;
@@ -2854,7 +2877,8 @@
     left: 0;
 }
 
-.store-tour-data-launcher:after {
+.store-tour-data-launcher:after,
+.welcome-screen-data-launcher:after {
     content: '';
     display: block;
     position: absolute;
@@ -2867,7 +2891,8 @@
     box-shadow: inset 0 0 300px rgba(0, 0, 0, .75);
 }
 
-.store-tour-overlay {
+.store-tour-overlay,
+.welcome-screen-overlay {
     content: '';
     display: block;
     position: absolute;
@@ -2882,7 +2907,8 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
 }
 
-[class^="store-tour-description"] {
+[class^="store-tour-description"],
+[class^="welcome-screen-description"] {
     background: #f7f3eb;
     border-radius: 4px;
     padding: 40px;
@@ -2894,23 +2920,27 @@
     z-index: 10005;
 }
 
-.store-tour-description-top-menu {
+.store-tour-description-top-menu,
+.welcome-screen-description-top-menu {
     right: 0;
     top: 50px;
 }
 
-.store-tour-description-main-menu {
+.store-tour-description-main-menu,
+.welcome-screen-description-main-menu {
     top: 100px;
     left: 25%;
 }
 
-.store-tour-description-launcher {
+.store-tour-description-launcher,
+.welcome-screen-description-launcher {
     top: 100px;
     left: 50%;
     margin-left: -230px;
 }
 
-[class^="store-tour-description"]:before {
+[class^="store-tour-description"]:before,
+[class^="welcome-screen-description"]:before {
     content: '';
     position: absolute;
     width: 0;
@@ -2923,11 +2953,13 @@
     border-bottom: 5px solid #f7f3eb;
 }
 
-.store-tour-description-launcher:before {
+.store-tour-description-launcher:before,
+.welcome-screen-description-launcher:before {
     display: none;
 }
 
-[class^="store-tour-description"] .title {
+[class^="store-tour-description"] .title,
+[class^="welcome-screen-description"] .title {
     color: #f47b20;
     font-family: 'CallunaSans', Arial, sans-serif;
     font-weight: 500;
@@ -2938,7 +2970,10 @@
 
 .action-close-store-tour-description,
 .action-close-store-tour-description:hover,
-.action-close-store-tour-description:active {
+.action-close-store-tour-description:active,
+.action-close-welcome-screen-description,
+.action-close-welcome-screen-description:hover,
+.action-close-welcome-screen-description:active {
     cursor: pointer;
     float: right;
     text-align: center;
@@ -2950,13 +2985,15 @@
     border-radius: 0;
 }
 
-.action-close-store-tour-description span {
+.action-close-store-tour-description span,
+.action-close-welcome-screen-description span {
     text-indent: -9999px;
     display: block;
     height: 0;
 }
 
-.action-close-store-tour-description:after {
+.action-close-store-tour-description:after,
+.action-close-welcome-screen-description:after {
     color: #676056;
     content: "\e07d";
     font-family: 'MUI-Icons';
@@ -2973,7 +3010,15 @@
     z-index: 1299;
 }
 
-.store-tour-actions .action-toggle-site-tour-mode {
+.welcome-screen-actions {
+    position: fixed;
+    right: 0;
+    top: 140px;
+    z-index: 1301;
+}
+
+.store-tour-actions .action-toggle-store-tour-mode,
+.welcome-screen-actions .action-toggle-welcome-screen-mode {
     position: relative;
     right: -100%;
     background:#F47B20;
@@ -2999,7 +3044,8 @@
 }
 
 
-.store-tour-actions .action-toggle-site-tour-mode:before {
+.store-tour-actions .action-toggle-store-tour-mode:before,
+.welcome-screen-actions .action-toggle-welcome-screen-mode:before {
     display: inline-block;
     font-size: 16px;
     color: #fff;
@@ -3017,17 +3063,22 @@
     content: "\e03b";
 }
 
-.store-tour-actions .action-toggle-site-tour-mode.active,
-.store-tour-actions .action-toggle-site-tour-mode.active:before {
+.store-tour-actions .action-toggle-store-tour-mode.active,
+.store-tour-actions .action-toggle-store-tour-mode.active:before,
+.welcome-screen-actions .action-toggle-welcome-screen-mode.active,
+.welcome-screen-actions .action-toggle-welcome-screen-mode.active:before {
     background: #D65100;
 }
 
-.store-tour-actions .action-toggle-site-tour-mode:hover,
-.store-tour-actions .action-toggle-site-tour-mode:hover:before {
+.store-tour-actions .action-toggle-store-tour-mode:hover,
+.store-tour-actions .action-toggle-store-tour-mode:hover:before,
+.welcome-screen-actions .action-toggle-welcome-screen-mode:hover,
+.welcome-screen-actions .action-toggle-welcome-screen-mode:hover:before {
     background: #f47a1f;
 }
 
-.store-tour-actions .action-toggle-site-tour-mode.active {
+.store-tour-actions .action-toggle-store-tour-mode.active,
+.welcome-screen-actions .action-toggle-welcome-screen-mode.active {
     right: 0;
 }
 
