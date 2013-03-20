@@ -1033,14 +1033,15 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param   Varien_Object $object
+     * @param   Mage_Core_Model_Abstract $object
      * @param   mixed $rowId
      * @return  Zend_Db_Select
      */
     protected function _getLoadRowSelect($object, $rowId)
     {
+        $columns = $this->_getColumnsForEntityLoad($object, $this->getEntityTable());
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getEntityTable())
+            ->from($this->getEntityTable(), $columns)
             ->where($this->getEntityIdField() . ' =?', $rowId);
 
         return $select;
@@ -1049,8 +1050,8 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     /**
      * Retrieve select object for loading entity attributes values
      *
-     * @param   Varien_Object $object
-     * @param   mixed $rowId
+     * @param   Mage_Core_Model_Abstract $object
+     * @param   string $table
      * @return  Zend_Db_Select
      */
     protected function _getLoadAttributesSelect($object, $table)
@@ -1058,8 +1059,43 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         $select = $this->_getReadAdapter()->select()
             ->from($table, array())
             ->where($this->getEntityIdField() . ' =?', $object->getId());
-
+        $this->_applyFieldsetFilter($select, $object->getFieldset());
         return $select;
+    }
+
+    /**
+     * Apply filter to the attributes select object based on entity active fieldset.
+     *
+     * @param Zend_Db_Select $select
+     * @param array $fieldset
+     */
+    protected function _applyFieldsetFilter(&$select, $fieldset)
+    {
+        $selectFromPart = $select->getPart(Zend_Db_Select::FROM);
+        /** Exactly one part must exist in From part of select to continue processing. */
+        if (count($selectFromPart) == 1) {
+            $attributeTables = array_keys($selectFromPart);
+            $attributeTable = reset($attributeTables);
+        } else {
+            return;
+        }
+
+        $fieldsetAttributeIds = array();
+        /** @var $eavConfig Mage_Eav_Model_Config */
+        $eavConfig = Mage::getSingleton('Mage_Eav_Model_Config');
+        foreach ($fieldset as $attributeCode) {
+            $attribute = $eavConfig->getAttribute($this->getEntityType(), $attributeCode);
+            if ($attribute->getId()) {
+                $backendType = $attribute->getBackendType();
+                if (substr($attributeTable, -strlen($backendType)) == $backendType) {
+                    /** Current attribute filter should be applied to current select expression */
+                    $fieldsetAttributeIds[] = $attribute->getId();
+                }
+            }
+        }
+        if (!empty($fieldsetAttributeIds)) {
+            $select->where('attribute_id IN (?)', implode(',', $fieldsetAttributeIds));
+        }
     }
 
     /**
