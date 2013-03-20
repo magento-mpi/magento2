@@ -1603,8 +1603,7 @@
 
 .customer-current-activity {
     float: left;
-    display: table;
-    width: 250px;
+    width: 22%;
 }
 
 .customer-current-activity-inner {
@@ -1615,9 +1614,10 @@
 }
 
 .order-details-existing-customer {
-    display: table;
     padding-left: 1%;
     position: relative;
+    width: 77%;
+    float: right;
 }
 
 .order-billing-address,
