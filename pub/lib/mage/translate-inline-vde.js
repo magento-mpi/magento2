@@ -131,10 +131,10 @@
                 /* change translateMode */
                 this.options.translateMode = mode;
 
-            $('body').addClass('trnslate-inline-' + mode + '-area');
+            $('[data-container="body"]').addClass('trnslate-inline-' + mode + '-area');
             $.each(this.options.translateModes, function(){
                 if (this != mode) {
-                    $('body').removeClass('trnslate-inline-' + this + '-area');
+                    $('[data-container="body"]').removeClass('trnslate-inline-' + this + '-area');
                 }
             });
         },
