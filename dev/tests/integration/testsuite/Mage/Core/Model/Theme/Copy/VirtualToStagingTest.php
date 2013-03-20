@@ -12,22 +12,12 @@
 /**
  * Test theme copy functionality
  */
-class Mage_Core_Model_Theme_Copy_VirtualToStagingTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Theme_Copy_VirtualToStagingTest extends Mage_Core_Model_Theme_Copy_TestCase
 {
     /**
-     * @var Mage_Core_Model_Theme_Copy_VirtualToStaging
+     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Theme_Copy_VirtualToStaging
      */
-    protected $_model;
-
-    /**
-     * @var Mage_Core_Model_Resource_Theme_Collection
-     */
-    protected $_collection;
-
-    /**
-     * Initialize Mage_Core_Model_Theme_Copy_VirtualToStaging model
-     */
-    protected function setUp()
+    protected function _getCopyModel()
     {
         $constructorArgs = array(
             $this->_getThemeFactory(),
@@ -35,35 +25,10 @@ class Mage_Core_Model_Theme_Copy_VirtualToStagingTest extends PHPUnit_Framework_
             $this->_getLayoutUpdate(),
             array()
         );
-        $this->_model = $this->getMockBuilder('Mage_Core_Model_Theme_Copy_VirtualToStaging')
+        return $this->getMockBuilder('Mage_Core_Model_Theme_Copy_VirtualToStaging')
             ->setMethods(null)
             ->setConstructorArgs($constructorArgs)
             ->getMock();
-        $this->_collection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
-    }
-
-    /**
-     * @return Mage_Core_Model_Theme_Factory
-     */
-    protected function _getThemeFactory()
-    {
-        return Mage::getObjectManager()->get('Mage_Core_Model_Theme_Factory');
-    }
-
-    /**
-     * @return Mage_Core_Model_Layout_Link
-     */
-    protected function _getLayoutLink()
-    {
-        return Mage::getObjectManager()->create('Mage_Core_Model_Layout_Link');
-    }
-
-    /**
-     * @return Mage_Core_Model_Layout_Update
-     */
-    protected function _getLayoutUpdate()
-    {
-        return Mage::getObjectManager()->create('Mage_Core_Model_Layout_Update');
     }
 
     /**

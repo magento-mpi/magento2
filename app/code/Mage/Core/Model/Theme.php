@@ -206,7 +206,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isDeletable()
     {
-        return $this->isVirtual();
+        return $this->isEditable();
     }
 
     /**

@@ -55,19 +55,22 @@ class Mage_Core_Model_Theme_Copy_StagingToVirtual extends Mage_Core_Model_Theme_
     }
 
     /**
-     * Create 'staging' theme associated with current 'virtual' theme
+     * Copy 'staging' theme related data to current 'virtual' theme
      *
      * @param Mage_Core_Model_Theme $theme
      * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
      */
     public function copy(Mage_Core_Model_Theme $theme)
     {
+        if ($theme->getType() != Mage_Core_Model_Theme::TYPE_STAGING) {
+            throw new Mage_Core_Exception('Invalid theme type');
+        }
         $virtualTheme = $theme->getParentTheme();
         $this->_copyLayoutUpdates($theme, $virtualTheme)->_copyAllThemeFiles($theme, $virtualTheme);
         $this->_design->dropPublicationCache(array(
             'area' => Mage_Core_Model_Design_Package::DEFAULT_AREA, 'themeModel' => $virtualTheme
         ));
-        $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
         $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
         return $virtualTheme;
     }

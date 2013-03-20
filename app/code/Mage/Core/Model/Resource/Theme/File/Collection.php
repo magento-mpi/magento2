@@ -45,4 +45,18 @@ class Mage_Core_Model_Resource_Theme_File_Collection extends Mage_Core_Model_Res
     {
         return $this->setOrder('sort_order', $direction);
     }
+
+    /**
+     * Select all files related to theme by type
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @param string $type
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
+     */
+    public function addFilterThemeFilesByType(Mage_Core_Model_Theme $theme, $type)
+    {
+        $this->addFieldToFilter('theme_id', $theme->getId())
+            ->addFieldToFilter('file_type', $type);
+        return $this;
+    }
 }
