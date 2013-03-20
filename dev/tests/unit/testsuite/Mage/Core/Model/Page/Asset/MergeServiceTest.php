@@ -48,7 +48,7 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
         $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
         $this->_designPackage->expects($this->any())
             ->method('isMergingViewFilesAllowed')
-            ->will($this->returnCallback(array($this, 'isMergingAllowedByMock')));
+            ->will($this->returnCallback(array($this, 'isMergingAllowed')));
 
         $this->_object = new Mage_Core_Model_Page_Asset_MergeService($this->_objectManager, $this->_storeConfig,
             $this->_designPackage);

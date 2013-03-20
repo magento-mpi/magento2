@@ -21,16 +21,6 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
         new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Pattern must contain '<theme_path>' node
-     */
-    public function testConstructExceptionNoThemePath()
-    {
-        $patterns = array(array('no theme path'));
-        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
-    }
-
     public function testGetPatternsDirs()
     {
         $parentThemePath = 'parent_package/parent_theme';

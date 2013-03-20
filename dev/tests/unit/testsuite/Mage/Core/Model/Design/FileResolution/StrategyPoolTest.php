@@ -90,10 +90,9 @@ class Mage_Core_Model_Design_StrategyPoolTest extends PHPUnit_Framework_TestCase
                     'baseDir' => 'base_dir',
                     'canSaveMap' => true
                 ),
-                true,
                 $strategy
             ),
-            array('Mage_Core_Model_Design_FileResolution_Strategy_Fallback', array(), true, $strategy),
+            array('Mage_Core_Model_Design_FileResolution_Strategy_Fallback', array(), $strategy),
         );
         $this->_objectManager->expects($this->atLeastOnce())
             ->method('create')

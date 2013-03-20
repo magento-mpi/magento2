@@ -52,6 +52,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
 
     /**
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function getFileDataProvider()
     {
@@ -107,20 +108,20 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
         return array(
             'no theme' => array(
                 $themeSimple, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                'module_dir/Mage/Core11/view/area51/test.txt', 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'no theme and non-existent module file' => array(
-                $themeSimple, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                $themeSimple, $file, null, 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'theme with non-existent file' => array(
-                $themeCustomized, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                $themeCustomized, $file, null, 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'theme file exists' => array(
                 $themeCustomized, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                'module_dir/Mage/Core11/view/area51/test.txt', 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'custom theme' => array(
-                $customizedPhysical, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                $customizedPhysical, $file, null, 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'theme inherited' => array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
                 'design_dir/area51/parent_theme_path/test.txt'
@@ -131,13 +132,13 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
             ),
             'theme inherited, file not found in theme' => array(
                 $themeInherited, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                'module_dir/Mage/Core11/view/area51/test.txt', 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'theme inherited with non-existent file' => array(
-                $themeInherited, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                $themeInherited, $file, null, 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'custom inherited theme with custom file' => array(
-                $themeComplicated, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                $themeComplicated, $file, null, 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'custom inherited theme with theme file' => array(
                 $themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
@@ -157,10 +158,10 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
             ),
             'custom inherited theme with file existing in module' => array(
                 $themeComplicated, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                'module_dir/Mage/Core11/view/area51/test.txt', 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'custom inherited theme with non-existent file' => array(
-                $themeComplicated, $file, null, 'module_dir/core/Mage/Core11/view/area51/test.txt'
+                $themeComplicated, $file, null, 'module_dir/Mage/Core11/view/area51/test.txt'
             ),
         );
     }
@@ -419,22 +420,22 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
 
         return array(
             'no theme, module localized file exists' => array($themeSimple, $file,
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'no theme, module file exists' => array($themeSimple, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt',
-                'module_dir/core/Mage/Core11/view/area51/test.txt'
+                'module_dir/Mage/Core11/view/area51/test.txt',
+                'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'no theme, file exists in pub lib dir' => array($themeSimple, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
             'no theme, no file found' => array($themeSimple, $file, null, 'js_dir/test.txt'),
             'custom virtual theme' => array($themeCustomized, $file, null, 'js_dir/test.txt'),
             'custom virtual theme, module localized file exists' => array($themeCustomized, $file,
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'custom virtual theme, module file exists' => array($themeCustomized, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'),
+                'module_dir/Mage/Core11/view/area51/test.txt', 'module_dir/Mage/Core11/view/area51/test.txt'),
             'custom virtual theme, file exists in pub lib dir' => array($themeCustomized, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'custom virtual theme, no file found' => array($themeCustomized, $file, null, 'js_dir/test.txt'),
@@ -454,11 +455,11 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/theme_path/Mage_Core11/test.txt'
             ),
             'custom physical theme with localized module file' => array($customizedPhysical, $file,
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'custom physical theme with module file' => array($customizedPhysical, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'),
+                'module_dir/Mage/Core11/view/area51/test.txt', 'module_dir/Mage/Core11/view/area51/test.txt'),
             'custom physical theme with file in pub lib dir' => array($customizedPhysical, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'inherited theme with localized file in parent theme' => array($themeInherited, $file,
@@ -478,12 +479,12 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
             'inherited theme with localized module file' => array($themeInherited, $file,
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'inherited theme with module file' => array($themeInherited, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt',
-                'module_dir/core/Mage/Core11/view/area51/test.txt'
+                'module_dir/Mage/Core11/view/area51/test.txt',
+                'module_dir/Mage/Core11/view/area51/test.txt'
             ),
             'inherited theme with file in pub lib dir' => array($themeInherited, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
@@ -519,11 +520,11 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
             ),
             'custom inherited theme with localized module file' => array($themeComplicated, $file,
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'custom inherited theme with module file' => array($themeComplicated, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'),
+                'module_dir/Mage/Core11/view/area51/test.txt', 'module_dir/Mage/Core11/view/area51/test.txt'),
             'custom inherited theme with file in pub lib dir' => array($themeComplicated, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'custom inherited theme, no file found' => array($themeComplicated, $file, null, 'js_dir/test.txt'),
@@ -561,11 +562,11 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
                 'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt'
             ),
             'theme inherited twice with localized module file' => array($themeInheritedTwice, $file,
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt',
-                'module_dir/core/Mage/Core11/view/area51/locale/en_EN/test.txt'
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt',
+                'module_dir/Mage/Core11/view/area51/locale/en_EN/test.txt'
             ),
             'theme inherited twice with module file' => array($themeInheritedTwice, $file,
-                'module_dir/core/Mage/Core11/view/area51/test.txt', 'module_dir/core/Mage/Core11/view/area51/test.txt'),
+                'module_dir/Mage/Core11/view/area51/test.txt', 'module_dir/Mage/Core11/view/area51/test.txt'),
             'theme inherited twice with file in pub lib dir' => array($themeInheritedTwice, $file, 'js_dir/test.txt',
                 'js_dir/test.txt'),
             'theme inherited twice, no file found' => array($themeInheritedTwice, $file, null, 'js_dir/test.txt'),
