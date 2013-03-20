@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Enterprise
- * @package     Enterprise_Checkout
+ * @package     Enterprise_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */

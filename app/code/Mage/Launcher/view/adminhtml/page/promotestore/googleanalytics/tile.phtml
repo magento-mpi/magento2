@@ -14,22 +14,22 @@
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Google Analytics') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Gain powerful insights with strategic data analysis.') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Gain powerful insights with strategy-oriented analysis.') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_googleanalytics_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_googleanalytics_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure Google Analytics') ?>
         </button>
     </div>
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
-        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Gain powerful insights with strategic data analysis.') ?></p>
+        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Gain powerful insights with strategy-oriented analysis.') ?></p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/promotestore_googleanalytics_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/promotestore_googleanalytics_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure') ?>
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Configure Google Analytics') ?>
         </button>
         <?php endif; ?>
     </div>

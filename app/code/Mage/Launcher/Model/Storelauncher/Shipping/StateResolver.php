@@ -50,20 +50,58 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolver
             return true;
         }
 
-        $shippingConfigPaths = array(
-            'carriers_flatrate' => 'carriers/flatrate/active',
-            'carriers_ups' => 'carriers/ups/active',
-            'carriers_usps' => 'carriers/usps/active',
-            'carriers_fedex' => 'carriers/fedex/active',
-            'carriers_dhlint' => 'carriers/dhlint/active',
-        );
+        return $this->isShippingConfigured();
+    }
+
+    /**
+     * Check whether at least one of main shipping methods has been configured
+     *
+     * @return boolean
+     */
+    public function isShippingConfigured()
+    {
+        $shippingConfigPaths = $this->_getRelatedShippingMethods();
         $currentStore = $this->_app->getStore();
-        // the tile is considered to be complete if at least one of the related shipping methods is active
+        // the Shipping is considered to be configured if at least one of the related shipping methods is active
         foreach ($shippingConfigPaths as $configPath) {
             if ((bool)$currentStore->getConfig($configPath)) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Retrieve a list of shipping method ID => path pairs related to the 'Shipping' tile
+     *
+     * @return array
+     */
+    protected function _getRelatedShippingMethods()
+    {
+        return array(
+            'flatrate' => 'carriers/flatrate/active',
+            'ups' => 'carriers/ups/active',
+            'usps' => 'carriers/usps/active',
+            'fedex' => 'carriers/fedex/active',
+            'dhlint' => 'carriers/dhlint/active',
+        );
+    }
+
+    /**
+     * Get a list of configured Shipping methods
+     *
+     * @return array
+     */
+    public function getConfiguredShippingMethods()
+    {
+        $shippingConfigPaths = $this->_getRelatedShippingMethods();
+        $currentStore = $this->_app->getStore();
+        $configuredMethods = array();
+        foreach ($shippingConfigPaths as $methodName => $configPath) {
+            if ((bool)$currentStore->getConfig($configPath)) {
+                $configuredMethods[$methodName] = $currentStore->getConfig('carriers/' . $methodName . '/title');
+            }
+        }
+        return $configuredMethods;
     }
 }
