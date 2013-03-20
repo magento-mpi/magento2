@@ -96,4 +96,16 @@ class Mage_Catalog_ProductController
         $this->loadLayout();
         $this->renderLayout();
     }
+
+    /**
+     * Test action for product service
+     * @todo remove
+     */
+    public function serviceAction()
+    {
+        /** @var $product Mage_Catalog_Service_Product */
+        $product = Mage::getObjectManager()->create('Mage_Catalog_Service_Product');
+        die(nl2br(print_r($product->item(1), true)));
+    }
+
 }
