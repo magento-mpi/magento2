@@ -13,6 +13,8 @@
     $.widget("vde.translateInlineToggle", {
         _create: function() {
             this.element.on('click', $.proxy(this._onClick, this));
+            this.element.on('mouseover', $.proxy(this._onMouseOver, this));
+            this.element.on('mouseout', $.proxy(this._onMouseOut, this));
         },
 
         /**
@@ -20,6 +22,24 @@
         */
         _onClick: function () {
             $('[translate-menu]').toggleClass('hidden');
+        },
+
+        /**
+         * This method displays the tooltip dialog.
+         *
+         * @private
+         */
+        _onMouseOver: function () {
+            $('[data-tip="translate"]').removeClass('hidden');
+        },
+
+        /**
+         * This method hides the tooltip dialog.
+         *
+         * @private
+         */
+        _onMouseOut: function () {
+            $('[data-tip="translate"]').addClass('hidden');
         }
     });
 
@@ -39,7 +59,7 @@
         * This method will only enable editing for the translation mode specified.
         *
         * If this is the first time a mode is selected, the contents of the iframe will be wrapped with the appropriate
-        * attributes where applicable (data-translate-mode, either 'text', 'script' or 'alt').
+        * attributes where applicable (translate-mode, either 'text', 'script' or 'alt').
         *
         */
         _onClick: function () {
