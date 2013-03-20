@@ -240,8 +240,7 @@ button.primary.disabled,
 .notification .action-close,
 .notification .action-close:hover,
 .notification .action-close:active,
-.notification .action-close.active,
- {
+.notification .action-close.active {
     border: none;
     border-radius: 0;
     background: none;
