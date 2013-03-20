@@ -37,7 +37,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
      */
     protected function _getValue($source, $key, $default = null)
     {
-        return array_key_exists($key, $source) ? $source['key'] : $default;
+        return array_key_exists($key, $source) ? $source[$key] : $default;
     }
     
     /**
