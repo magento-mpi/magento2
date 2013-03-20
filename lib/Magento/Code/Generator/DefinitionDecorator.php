@@ -35,10 +35,11 @@ class Magento_Code_Generator_DefinitionDecorator implements Magento_ObjectManage
      * @param Magento_ObjectManager_Definition $definition
      * @param Magento_Code_Generator_Class $generator
      */
-    public function __construct(Magento_ObjectManager_Definition $definition, Magento_Code_Generator_Class $generator)
-    {
+    public function __construct(
+        Magento_ObjectManager_Definition $definition, Magento_Code_Generator_Class $generator = null
+    ) {
         $this->_decoratedDefinition = $definition;
-        $this->_generator = $generator;
+        $this->_generator = $generator ?: new Magento_Code_Generator_Class();
     }
 
     /**
