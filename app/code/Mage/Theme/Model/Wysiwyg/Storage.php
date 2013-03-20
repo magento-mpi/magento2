@@ -131,7 +131,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         try {
             $this->_filesystem->ensureDirectoryExists($thumbnailDir);
             $adapter = $this->_objectManager->get('Mage_Core_Helper_Data')->getImageAdapterType();
-            $image = Varien_Image_Adapter::factory($adapter);
+            $image = $this->_objectManager->get('Varien_Image_Adapter')->factory($adapter);
             $image->open($source);
             $image->keepAspectRatio(true);
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
