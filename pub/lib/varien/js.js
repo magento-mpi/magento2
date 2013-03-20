@@ -590,9 +590,11 @@ Varien.FileElement.prototype = {
     }
 };
 
-jQuery.validator.addMethod('validate-custom', function(v,elm) {
-    return elm.validate();
-}, ' ');
+Validation.addAllThese([
+    ['validate-custom', ' ', function(v,elm) {
+        return elm.validate();
+    }]
+]);
 
 Element.addMethods({
     getInnerText: function(element)
