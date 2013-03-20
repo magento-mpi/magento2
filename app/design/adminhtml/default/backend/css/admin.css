@@ -3907,8 +3907,16 @@ tr.dynamic-grid input.input-text {
 }
 
 .data-table td,
-.data-table tbody tr:not(:last-child) td,
 .data-table tbody tr td {
+    background: #fff;
+    padding: 5px 7px;
+    font-size: 12px;
+    vertical-align: middle;
+    border: solid #eae8e4;
+    border-width: 0 0 1px;
+}
+
+.data-table tbody tr:not(:last-child) td {
     background: #fff;
     padding: 5px 7px;
     font-size: 12px;
@@ -3920,14 +3928,16 @@ tr.dynamic-grid input.input-text {
 .data-table tbody tr.selected td,
 .data-table tbody tr.selected th,
 .data-table tbody tr:hover td,
-.data-table tbody tr:hover th,
-.data-table tbody tr:nth-child(odd) th,
-.data-table tbody tr:nth-child(odd):hover th {
+.data-table tbody tr:hover th {
     background: #fff;
 }
 
 .data-table tbody tr:nth-child(odd) td,
 .data-table tbody tr:nth-child(odd):hover td {
+    background: #fbfaf6;
+}
+
+.data-table tbody tr.odd td {
     background: #fbfaf6;
 }
 
