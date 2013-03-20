@@ -11,7 +11,7 @@
 <?php  $_order = $this->getOrder() ?>
 <p class="order-links">
     <?php  if ($_order->getTracksCollection()->count()) : ?>
-        <a href="#" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;" title="<?php echo $this->__('Track all shipment(s)') ?>"><?php echo $this->__('Track all shipments') ?></a> <span class="separator">|</span>
+        <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>',windowName:'trackorder',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}" title="<?php echo $this->__('Track all shipment(s)') ?>"><?php echo $this->__('Track all shipments') ?></a> <span class="separator">|</span>
     <?php endif; ?>
     <a href="<?php echo $this->getPrintAllShipmentsUrl($_order) ?>" onclick="this.target='_blank'" class="link-print"><?php echo $this->__('Print All Shipments') ?></a>
 </p>
@@ -23,7 +23,7 @@
         <tbody>
             <tr>
                 <td colspan="2">
-                    <a href="#" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_shipment) ?>','trackshipment','width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;" title="<?php echo $this->__('Track this shipment') ?>"><?php echo $this->__('Track this shipment') ?></a>
+                    <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_shipment) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}" title="<?php echo $this->__('Track this shipment') ?>"><?php echo $this->__('Track this shipment') ?></a>
                 </td>
             </tr>
             <tr>
@@ -36,7 +36,7 @@
                 <?php if($track->isCustom()): ?>
                     <?php echo $this->escapeHtml($track->getNumber()) ?>
                 <?php else: ?>
-                    <a href="#" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($track) ?>','trackorder','width=800,height=600,left=0,top=0,resizable=yes,scrollbars=yes')" ><?php echo $this->escapeHtml($track->getNumber()) ?></a>
+                    <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($track) ?>',windowName:'trackorder',width:800,height:600,left:0,top:0,resizable:1,scrollbars:1}}"><?php echo $this->escapeHtml($track->getNumber()) ?></a>
                 <?php endif; ?>
                 <?php if($i!=$_size): ?>, <?php endif; ?>
                 <?php $i++;
@@ -45,7 +45,7 @@
             </tr>
         </tbody>
     </table>
-    <script type="text/javascript">(function($) {$('#my-tracking-table-<?php echo $_shipment->getId(); ?>').decorate('table')})(jQuery)</script>
+    <script type="text/javascript">jQuery('#my-tracking-table-<?php echo $_shipment->getId(); ?>').decorate('table')</script>
 <?php  endif; ?>
 <h3 class="table-caption"><?php echo $this->__('Items Shipped') ?></h3>
 <table class="data-table" id="my-shipment-table-<?php echo $_shipment->getId(); ?>">
@@ -68,6 +68,6 @@
     </tbody>
     <?php endforeach; ?>
 </table>
-<script type="text/javascript">(function($) {$('#my-shipment-table-<?php echo $_shipment->getId(); ?>').decorate('table', {'tbody': ['odd','even'], 'tbody tr': ['first','last']})})(jQuery)</script>
+<script type="text/javascript">jQuery('#my-shipment-table-<?php echo $_shipment->getId(); ?>').decorate('table', {'tbody': ['odd','even'], 'tbody tr': ['first','last']})</script>
 <?php echo $this->getCommentsHtml($_shipment)?>
 <?php endforeach; ?>

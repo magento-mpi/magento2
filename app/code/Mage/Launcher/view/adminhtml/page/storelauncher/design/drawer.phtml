@@ -12,7 +12,7 @@
 ?>
 <form action="" id="drawer-form" method="post">
 <div class="themes-list-wrapper">
-<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('First choose a store theme, then customize it for your business') ?>
+<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('First choose a theme, then customize it for your business.') ?>
 
 <ul class="themes-list">
     <?php foreach ($this->getThemesBlocks() as $theme):?>
@@ -24,10 +24,10 @@
 
 <div class="theme-page hidden">
     <input type="hidden" name="groups[design][theme][fields][theme_id][value]" id="theme-id" value="<?php echo $this->getCurrentThemeId(); ?>">
-    <h2><?php echo $this->__('You\'ve created your store theme, name, and logo'); ?></h2>
+    <h2><?php echo $this->__('Great job! You\'ve chosen your store theme.'); ?></h2>
     <dl class="theme-selected-thumbnail">
         <dt>
-            <?php echo $this->__('Your Theme'); ?> <a href="#" class="button btn-edit edit-theme" id="edit-theme"><?php echo $this->__('Edit'); ?></a>
+            <?php echo $this->__('Your Store Theme'); ?> <a href="#" class="button btn-edit edit-theme" id="edit-theme"><?php echo $this->__('Back to Theme Gallery'); ?></a>
         </dt>
         <dd>
             <img src="<?php echo $this->getCurrentTheme()->getThemeImage()->getPreviewImageUrl() ?>" id="theme-image">
@@ -127,7 +127,7 @@
                 .drawerPages('headerButtonCreate', {
                     name: 'skip',
                     id: 'button_skip',
-                    title: '<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Skip This for Now'); ?>',
+                    title: '<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Skip this step'); ?>',
                     click: function() {
                         $('#drawer').drawerPages('drawerPageSwitch', 'theme-page');
                     },

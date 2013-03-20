@@ -644,6 +644,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (!$fieldId) {
             $fieldId = $element->attribute('name');
         }
+        if (!$fieldId) {
+            $fieldId = $element->attribute('for');
+        }
         $this->addParameter('fieldId', $fieldId);
     }
 

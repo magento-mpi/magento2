@@ -154,10 +154,15 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
                     'allowedModules' => $this->getParam(Mage::PARAM_ALLOWED_MODULES, array())
                 )
             ),
-            'Mage_Core_Model_Cache' => array(
+            'Mage_Core_Model_Cache_Frontend_Factory' => array(
                 'parameters' => array(
-                    'options' => $this->getParam(Mage::PARAM_CACHE_OPTIONS, array()),
-                    'banCache' => $this->getParam(Mage::PARAM_BAN_CACHE, false),
+                    'enforcedOptions' => $this->getParam(Mage::PARAM_CACHE_OPTIONS, array()),
+                    'decorators' => $this->_getCacheFrontendDecorators(),
+                )
+            ),
+            'Mage_Core_Model_Cache_Types' => array(
+                'parameters' => array(
+                    'banAll' => $this->getParam(Mage::PARAM_BAN_CACHE, false),
                 )
             ),
             'Mage_Core_Model_StoreManager' => array(
@@ -187,5 +192,27 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
         }
 
         Magento_Profiler::stop('global_primary');
+    }
+
+    /**
+     * Retrieve cache frontend decorators configuration
+     *
+     * @return array
+     */
+    protected function _getCacheFrontendDecorators()
+    {
+        $result = array();
+        // mark all cache entries with a special tag to be able to clean only cache belonging to the application
+        $result[] = array(
+            'class' => 'Magento_Cache_Frontend_Decorator_TagMarker',
+            'parameters' => array('tag' => Mage_Core_Model_AppInterface::CACHE_TAG),
+        );
+        if (Magento_Profiler::isEnabled()) {
+            $result[] = array(
+                'class' => 'Magento_Cache_Frontend_Decorator_Profiler',
+                'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Varien_Cache_Backend_')),
+            );
+        }
+        return $result;
     }
 }

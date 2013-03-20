@@ -73,7 +73,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
      */
     public function getCurrentThemeId()
     {
-        return $this->getConfigValue('design/theme/theme_id', $this->_getCurrentStoreId());
+        return $this->getConfigValue(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID,
+            $this->_getCurrentStoreId());
     }
 
     /**
@@ -116,7 +117,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
         $helper = $this->_helperFactory->get('Mage_Core_Helper_File_Storage_Database');
 
         $folderName = Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
-        $storeLogoPath = $this->getConfigValue('design/header/logo_src', $this->_getCurrentStoreId());
+        $storeLogoPath = $this->getConfigValue(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
+            $this->_getCurrentStoreId());
         $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_MEDIA))
             . $folderName . '/' . $storeLogoPath;
         $absolutePath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR

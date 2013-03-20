@@ -19,10 +19,29 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
 {
     protected static $_namespacesPrefix = null;
 
-    public function __construct($sourceData = null)
-    {
-        $this->setCacheId('wsdl_config_global');
+    /**
+     * @var Mage_Core_Model_Config_Modules_Reader
+     */
+    protected $_configReader;
+
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
+     * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Varien_Simplexml_Element|null $sourceData
+     */
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $configReader,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        $sourceData = null
+    ) {
         parent::__construct($sourceData);
+        $this->_configReader = $configReader;
+        $this->_configCacheType = $configCacheType;
     }
 
     /**
@@ -52,65 +71,51 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
         return self::$_namespacesPrefix;
     }
 
-    public function getCache()
-    {
-        return Mage::app()->getCache();
-    }
-
     protected function _loadCache($id)
     {
-        return Mage::app()->loadCache($id);
+        return $this->_configCacheType->load($id);
     }
 
     protected function _saveCache($data, $id, $tags = array(), $lifetime = false)
     {
-        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+        return $this->_configCacheType->save($data, $id, $tags, $lifetime);
     }
 
     protected function _removeCache($id)
     {
-        return Mage::app()->removeCache($id);
+        return $this->_configCacheType->remove($id);
     }
 
     public function init()
     {
-        $this->setCacheChecksum(null);
-        $saveCache = true;
-
-        if (Mage::app()->useCache('config')) {
-            $loaded = $this->loadCache();
-            if ($loaded) {
-                return $this;
-            }
-        }
-
-        $mergeWsdl = new Mage_Api_Model_Wsdl_Config_Base();
-        $mergeWsdl->setHandler($this->getHandler());
-
-        /** @var Mage_Api_Helper_Data $helper */
-        $helper = Mage::helper('Mage_Api_Helper_Data');
-        if ($helper->isWsiCompliant()) {
-            /**
-             * Exclude Mage_Api wsdl xml file because it used for previous version
-             * of API wsdl declaration
-             */
-            $mergeWsdl->addLoadedFile(Mage::getConfig()->getModuleDir('etc', "Mage_Api") . DS . 'wsi.xml');
-
-            $baseWsdlFile = Mage::getConfig()->getModuleDir('etc', "Mage_Api") . DS . 'wsi.xml';
-            $this->loadFile($baseWsdlFile);
-            Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')
-                ->loadModulesConfiguration('wsi.xml', $this, $mergeWsdl);
+        $cacheId = 'wsdl_config_global';
+        $cachedXml = $this->_configCacheType->load($cacheId);
+        if ($cachedXml) {
+            $this->loadString($cachedXml);
         } else {
-            $baseWsdlFile = Mage::getConfig()->getModuleDir('etc', "Mage_Api") . DS . 'wsdl.xml';
-            $this->loadFile($baseWsdlFile);
-            Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')
-                ->loadModulesConfiguration('wsdl.xml', $this, $mergeWsdl);
-        }
+            $mergeWsdl = new Mage_Api_Model_Wsdl_Config_Base();
+            $mergeWsdl->setHandler($this->getHandler());
 
-        if (Mage::app()->useCache('config')) {
-            $this->saveCache(array('config'));
-        }
+            /** @var Mage_Api_Helper_Data $helper */
+            $helper = Mage::helper('Mage_Api_Helper_Data');
+            if ($helper->isWsiCompliant()) {
+                /**
+                 * Exclude Mage_Api wsdl xml file because it used for previous version
+                 * of API wsdl declaration
+                 */
+                $mergeWsdl->addLoadedFile($this->_configReader->getModuleDir('etc', "Mage_Api") . DS . 'wsi.xml');
 
+                $baseWsdlFile = $this->_configReader->getModuleDir('etc', "Mage_Api") . DS . 'wsi.xml';
+                $this->loadFile($baseWsdlFile);
+                $this->_configReader->loadModulesConfiguration('wsi.xml', $this, $mergeWsdl);
+            } else {
+                $baseWsdlFile = $this->_configReader->getModuleDir('etc', "Mage_Api") . DS . 'wsdl.xml';
+                $this->loadFile($baseWsdlFile);
+                $this->_configReader->loadModulesConfiguration('wsdl.xml', $this, $mergeWsdl);
+            }
+
+            $this->_configCacheType->save($this->getXmlString(), $cacheId);
+        }
         return $this;
     }
 

@@ -123,7 +123,11 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('1', $result->optionalScalar);
     }
 
-    public function testCreateResolvesScalarCallTimeParametersAutomatically()
+    /**
+     * @param array $arguments
+     * @dataProvider createResolvesScalarCallTimeParametersAutomaticallyDataProvider
+     */
+    public function testCreateResolvesScalarCallTimeParametersAutomatically(array $arguments)
     {
         $this->_object->configure(array(
             'preferences' => array(
@@ -132,12 +136,7 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
             ),
         ));
         /** @var $result Magento_Test_Di_Aggregate_Child */
-        $result = $this->_object->create('Magento_Test_Di_Aggregate_Child', array(
-            'child' => 'Magento_Test_Di_Child_A',
-            'scalar' => 'scalarValue',
-            'secondScalar' => 'secondScalarValue',
-            'secondOptionalScalar' => 'secondOptionalValue'
-        ));
+        $result = $this->_object->create('Magento_Test_Di_Aggregate_Child', $arguments);
         $this->assertInstanceOf('Magento_Test_Di_Aggregate_Child', $result);
         $this->assertInstanceOf('Magento_Test_Di_Child', $result->interface);
         $this->assertInstanceOf('Magento_Test_Di_Child', $result->parent);
@@ -146,6 +145,40 @@ class Magento_ObjectManager_ObjectManagerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('secondScalarValue', $result->secondScalar);
         $this->assertEquals('1', $result->optionalScalar);
         $this->assertEquals('secondOptionalValue', $result->secondOptionalScalar);
+    }
+
+    public function createResolvesScalarCallTimeParametersAutomaticallyDataProvider()
+    {
+        return array(
+            'named binding' => array(
+                array(
+                    'child' => 'Magento_Test_Di_Child_A',
+                    'scalar' => 'scalarValue',
+                    'secondScalar' => 'secondScalarValue',
+                    'secondOptionalScalar' => 'secondOptionalValue'
+                )
+            ),
+            'positional binding' => array(
+                array(
+                    2 => 'Magento_Test_Di_Child_A',
+                    'secondOptionalScalar' => 'secondOptionalValue',
+                    4 => 'secondScalarValue',
+                    3 => 'scalarValue',
+                )
+            ),
+        );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Ambiguous argument $child: positional and named binding is used at the same time.
+     */
+    public function testCreateResolveParametersAmbiguity()
+    {
+        $this->_object->create('Magento_Test_Di_Aggregate_WithOptional', array(
+            1 => 'Magento_Test_Di_Child_A',
+            'child' => 'Magento_Test_Di_Child_A',
+        ));
     }
 
     public function testGetCreatesSharedInstancesEveryTime()

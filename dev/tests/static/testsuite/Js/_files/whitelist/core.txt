@@ -14,3 +14,6 @@ app/code/Mage/Persistent
 app/code/Mage/Wishlist
 app/code/Mage/Bundle
 app/code/Mage/Adminhtml
+app/code/Mage/Payment
+app/code/Mage/GiftMessage
+app/code/Mage/Sales

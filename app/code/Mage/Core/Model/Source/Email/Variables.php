@@ -78,7 +78,7 @@ class Mage_Core_Model_Source_Email_Variables
             ),
             array(
                 'value' => 'general/store_information/phone',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Store Contact Telephone')
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Store Phone Number')
             ),
             array(
                 'value' => 'general/store_information/country_id',
