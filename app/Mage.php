@@ -481,7 +481,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return self::getObjectManager()->create($modelClass, $arguments, false);
+        return self::getObjectManager()->create($modelClass, $arguments);
     }
 
     /**
