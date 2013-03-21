@@ -56,7 +56,7 @@
         </di>
         <configurators>
             <pageCache>Enterprise_PageCache_Model_ObjectManager_Configurator</pageCache>
-            <search>Enterprise_Search_Model_ObjectManager_Configurator</search>
+            <enterprise_search>Enterprise_Search_Model_ObjectManager_Configurator</enterprise_search>
         </configurators>
     </global>
 </config>

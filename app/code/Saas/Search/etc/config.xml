@@ -12,13 +12,14 @@
         <Saas_Search>
              <version>0.0.0.1</version>
         </Saas_Search>
+        <depends>
+            <Enterprise_Search/>
+        </depends>
     </modules>
     <global>
         <di>
             <preferences>
-                <Enterprise_Search_Model_Adapter_HttpStream>Saas_Search_Model_Adapter_HttpStream</Enterprise_Search_Model_Adapter_HttpStream>
-                <Enterprise_Search_Model_Adapter_PhpExtension>Saas_Search_Model_Adapter_PhpExtension</Enterprise_Search_Model_Adapter_PhpExtension>
-                <Enterprise_Search_Model_Client_Solr>Saas_Search_Model_Client_Solr</Enterprise_Search_Model_Client_Solr>
+                <Enterprise_Search_Helper_ClientInterface>Saas_Search_Helper_Data</Enterprise_Search_Helper_ClientInterface>
             </preferences>
         </di>
         <events>

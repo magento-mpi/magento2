@@ -27,48 +27,6 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
     protected $_clientDocObjectName = 'Apache_Solr_Document';
 
     /**
-     * Initialize connect to Solr Client
-     *
-     * @param array $options
-     */
-    public function __construct($options = array())
-    {
-        try {
-            $this->_connect($options);
-        } catch (Exception $e){
-            Mage::logException($e);
-        }
-    }
-
-    /**
-     * Connect to Solr Client by specified options that will be merged with default
-     *
-     * @param array $options
-     * @return Apache_Solr_Service
-     */
-    protected function _connect($options = array())
-    {
-        $helper = Mage::helper('Enterprise_Search_Helper_Data');
-        $def_options = array(
-            'hostname' => $helper->getSolrConfigData('server_hostname'),
-            'login'    => $helper->getSolrConfigData('server_username'),
-            'password' => $helper->getSolrConfigData('server_password'),
-            'port'     => $helper->getSolrConfigData('server_port'),
-            'timeout'  => $helper->getSolrConfigData('server_timeout'),
-            'path'     => $helper->getSolrConfigData('server_path')
-        );
-        $options = array_merge($def_options, $options);
-
-        try {
-            $this->_client = Mage::getModel('Enterprise_Search_Model_Client_Solr', array('options' => $options));
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
-
-        return $this->_client;
-    }
-
-    /**
      * Simple Search interface
      *
      * @param string $query The raw query string
@@ -256,7 +214,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 
             return $result;
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_log->logException($e);
         }
     }
 

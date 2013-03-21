@@ -10,13 +10,6 @@
 abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Service_Balancer
 {
     /**
-     * Search helper
-     *
-     * @var Saas_Search_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Registry model
      *
      * @var Mage_Core_Model_Registry
@@ -29,6 +22,13 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
      * @var Mage_Core_Model_Logger
      */
     protected $_log;
+
+    /**
+     * Solr client factory
+     *
+     * @var Enterprise_Search_Model_Client_FactoryInterface
+     */
+    protected $_solrClientFactory;
 
     /**
      * Retrieve solr client object
@@ -48,25 +48,24 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
     /**
      * Initialize Solr client
      *
-     * @param Saas_Search_Helper_Data $helper
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_Core_Model_Logger $logger
      * @param array $options
+     * @throws InvalidArgumentException
      */
     public function __construct(
-        Saas_Search_Helper_Data $helper,
         Mage_Core_Model_Registry $registry,
         Mage_Core_Model_Logger $logger,
         array $options = array()
     ) {
-        $this->_helper = $helper;
         $this->_registryManager = $registry;
+        $this->_log = $logger;
         $_optionsNames = array(
             'masters',
             'slaves',
         );
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
-            Mage::throwException($this->_helper->__('Unable to perform search because of search engine missed configuration.'));
+            throw new InvalidArgumentException('Missing required keys in the options.');
         }
         if (isset($options['timeout'])) {
             ini_set('default_socket_timeout', $options['timeout']);
@@ -209,7 +208,7 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
                 }
             } catch (Exception $e) {
                 if ($e->getcode() != 0) {
-                    Mage::logException($e);
+                    $this->_log->logException($e);
                 }
             }
             $service = $this->_selectReadService(true);

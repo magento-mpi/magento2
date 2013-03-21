@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Search_Model_ObjectManager_Configurator extends Mage_Core_Model_ObjectManager_ConfigAbstract
+class Saas_Search_Model_ObjectManager_Configurator extends Mage_Core_Model_ObjectManager_ConfigAbstract
 {
     /**
      * Configure di instance
@@ -17,15 +17,12 @@ class Enterprise_Search_Model_ObjectManager_Configurator extends Mage_Core_Model
     public function configure(Magento_ObjectManager $objectManager)
     {
         if (extension_loaded('solr')) {
-            $adapter = 'Enterprise_Search_Model_Adapter_PhpExtension';
-            $clientFactory = 'Enterprise_Search_Model_Client_SolrClient_Factory';
+            $clientFactory = 'Saas_Search_Model_Client_Balancer_PhpExtension_Factory';
         } else {
-            $adapter = 'Enterprise_Search_Model_Adapter_HttpStream';
-            $clientFactory = 'Enterprise_Search_Model_Client_Solr_Factory';
+            $clientFactory = 'Saas_Search_Model_Client_Balancer_HttpStream_Factory';
         }
         $objectManager->configure(array(
             'preferences' => array(
-                'Enterprise_Search_Model_AdapterInterface' => $adapter,
                 'Enterprise_Search_Model_Client_FactoryInterface' => $clientFactory
             )
         ));

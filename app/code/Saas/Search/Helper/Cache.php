@@ -24,26 +24,30 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
     protected $_registryManager;
 
     /**
-     * @var Mage_Core_Model_ConfigInterface
+     * Logger
+     *
+     * @var Mage_Core_Model_Logger
      */
-    private $_config;
+    protected $_log;
 
     /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Registry $registry
      * @param Enterprise_Search_Model_AdapterInterface $client
      * @param Mage_Core_Model_Config_Primary $config
+     * @param Mage_Core_Model_Logger $logger
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
+        Mage_Core_Model_Config_Primary $config,
         Mage_Core_Model_Registry $registry,
         Enterprise_Search_Model_AdapterInterface $client,
-        Mage_Core_Model_Config_Primary $config
+        Mage_Core_Model_Logger $logger
     ) {
-        parent::__construct($context);
+        parent::__construct($context, $config);
+        $this->_log = $logger;
         $this->_registryManager = $registry;
         $this->_client = $client;
-        $this->_config = $config;
     }
     /**
      * Retrieve information from search engine configuration not used store config
@@ -74,7 +78,7 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
             }
             return ($indexVersion < $engineIndexVersion);
         } catch (Exception $e) {
-           Mage::log($e);
+            $this->_log->logException($e);
         }
         return true;
     }

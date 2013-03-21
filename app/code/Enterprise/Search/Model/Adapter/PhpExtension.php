@@ -28,49 +28,22 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
     /**
      * Initialize connect to Solr Client
      *
+     * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
+     * @param Mage_Core_Model_Logger $logger
+     * @param Enterprise_Search_Helper_ClientInterface $clientHelper
      * @param array $options
+     * @throws Exception
      */
-    public function __construct($options = array())
-    {
-        try {
-            if (!extension_loaded('solr')) {
-                throw new Exception('Solr extension not enabled!');
-            }
-            $this->_connect($options);
-        } catch (Exception $e) {
-            Mage::logException($e);
-            Mage::throwException(
-                Mage::helper('Enterprise_Search_Helper_Data')->__('Unable to perform search because of search engine missed configuration.')
-            );
+    public function __construct(
+        Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
+        Mage_Core_Model_Logger $logger,
+        Enterprise_Search_Helper_ClientInterface $clientHelper,
+        $options = array()
+    ) {
+        if (!extension_loaded('solr')) {
+            throw new Exception('Solr extension not enabled!');
         }
-    }
-
-    /**
-     * Connect to Solr Client by specified options that will be merged with default
-     *
-     * @param  array $options
-     * @return SolrClient
-     */
-    protected function _connect($options = array())
-    {
-        $helper = Mage::helper('Enterprise_Search_Helper_Data');
-        $def_options = array(
-            'hostname' => $helper->getSolrConfigData('server_hostname'),
-            'login'    => $helper->getSolrConfigData('server_username'),
-            'password' => $helper->getSolrConfigData('server_password'),
-            'port'     => $helper->getSolrConfigData('server_port'),
-            'timeout'  => $helper->getSolrConfigData('server_timeout'),
-            'path'     => $helper->getSolrConfigData('server_path')
-        );
-        $options = array_merge($def_options, $options);
-
-        try {
-            $this->_client = new SolrClient($options);
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
-
-        return $this->_client;
+        parent::__construct($clientFactory, $logger, $clientHelper, $options);
     }
 
     /**
@@ -295,7 +268,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
 
             return $result;
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_log->logException($e);
         }
     }
 
@@ -306,7 +279,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      */
     public function ping()
     {
-        Mage::helper('Enterprise_Search_Helper_Data')->getSolrSupportedLanguages();
+        $this->_clientHelper->getSolrSupportedLanguages();
         return parent::ping();
     }
 

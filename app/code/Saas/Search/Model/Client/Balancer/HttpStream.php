@@ -12,6 +12,24 @@
 class Saas_Search_Model_Client_Balancer_HttpStream extends Saas_Search_Model_Client_BalancerAbstract
 {
     /**
+     * Initialize Solr client
+     *
+     * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Core_Model_Logger $logger
+     * @param Saas_Search_Model_Client_Solr_Factory $_solrClientFactory
+     * @param array $options
+     */
+    public function __construct(
+        Mage_Core_Model_Registry $registry,
+        Mage_Core_Model_Logger $logger,
+        Saas_Search_Model_Client_Solr_Factory $_solrClientFactory,
+        array $options = array()
+    ) {
+        $this->_solrClientFactory = $_solrClientFactory;
+        parent::__construct($registry, $logger, $options);
+    }
+
+    /**
      * Retrieve search suggestions using balancer
      *
      * @param  string $query
@@ -44,7 +62,7 @@ class Saas_Search_Model_Client_Balancer_HttpStream extends Saas_Search_Model_Cli
      */
     protected function _getService($configs)
     {
-        return Mage::getModel('Saas_Search_Model_Client_Solr', array('options' => $configs));
+        return $this->_solrClientFactory->createClient($configs);
     }
 
     /**

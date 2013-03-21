@@ -10,6 +10,24 @@
 class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_Client_BalancerAbstract
 {
     /**
+     * Initialize Solr client
+     *
+     * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Core_Model_Logger $logger
+     * @param Enterprise_Search_Model_Client_SolrClient_Factory $_solrClientFactory
+     * @param array $options
+     */
+    public function __construct(
+        Mage_Core_Model_Registry $registry,
+        Mage_Core_Model_Logger $logger,
+        Enterprise_Search_Model_Client_SolrClient_Factory $_solrClientFactory,
+        array $options = array()
+    ) {
+        $this->_solrClientFactory = $_solrClientFactory;
+        parent::__construct($registry, $logger, $options);
+    }
+
+    /**
      * Add an array of Solr Documents to the index all at once
      *
      * @param  array $documents Should be an array of Apache_Solr_Document instances
@@ -156,7 +174,7 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
      */
     protected function _getService($config)
     {
-        return new SolrClient($config);
+        return $this->_solrClientFactory->createClient($config);
     }
 
     /**
