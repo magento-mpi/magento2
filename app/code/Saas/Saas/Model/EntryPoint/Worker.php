@@ -39,7 +39,7 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
         $primaryConfig = $this->_objectManager->get('Mage_Core_Model_Config_Primary');
         $taskOptions = $primaryConfig->getParam(self::TASK_OPTIONS_KEY);
 
-        foreach($taskOptions as $option) {
+        foreach ($taskOptions as $option) {
             if (!isset($option['task_name'], $option['params'])) {
                 Mage::log(
                     sprintf('Incorrect task details. Task: %s.', $option['task_name']),

@@ -32,6 +32,7 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
             )
         );
         $config = new Mage_Core_Model_Config_Primary(BP, $params);
+        Mage::reset(); // hack to reset object manager if it happens to be set in this class already
         $worker = new Saas_Saas_Model_EntryPoint_Worker($config, $this->_objectManagerMock);
         $dispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
         $dispatcher->expects($this->once())->method('dispatch')->with($taskName, $taskParams);
