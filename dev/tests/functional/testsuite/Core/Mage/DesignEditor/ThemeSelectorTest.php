@@ -201,6 +201,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         //Clean after test
         $this->themeHelper()->deleteTheme($themeData);
         $this->navigate('manage_stores');
+        $this->clickButton('reset_filter');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
     }
 
@@ -237,11 +238,12 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
     {
         //Data
         $this->themeHelper()->createTheme();
+        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
+        $this->addParameter('id', $themeId);
         //Steps
         $this->navigate('design_editor_selector');
         $this->clickControl('link', 'available_themes_tab', false);
-        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
-        $this->addParameter('id', $themeId);
+        $this->waitForAjax();
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
         $this->clickButton('edit_theme_button');
         $this->_windowId = $this->selectLastWindow();
