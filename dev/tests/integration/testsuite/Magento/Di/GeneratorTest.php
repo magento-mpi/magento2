@@ -64,6 +64,11 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         unset($this->_generator);
     }
 
+    protected function _clearDocBlock($classBody)
+    {
+        return preg_replace('/(\/\*[\w\W]*)class/', 'class', $classBody);
+    }
+
     public function testGenerateClassFactoryWithoutNamespace()
     {
         $factoryClassName = self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory';
@@ -77,10 +82,12 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
 
-        $content = file_get_contents($this->_ioObject->getResultFileName(
+        $content = $this->_clearDocBlock(file_get_contents($this->_ioObject->getResultFileName(
             self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory')
+        ));
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedFactoryWithoutNamespace.php')
         );
-        $expectedContent = file_get_contents(__DIR__ . '/_files/generatedFactoryWithoutNamespace.php');
         $this->assertEquals($expectedContent, $content);
     }
 
@@ -98,8 +105,12 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $object);
 
-        $content = file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Factory'));
-        $expectedContent = file_get_contents(__DIR__ . '/_files/generatedFactoryWithNamespace.php');
+        $content = $this->_clearDocBlock(
+            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Factory'))
+        );
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedFactoryWithNamespace.php')
+        );
         $this->assertEquals($expectedContent, $content);
     }
 
@@ -113,8 +124,12 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $proxy = Mage::getObjectManager()->create($factoryClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $proxy);
-        $content = file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy'));
-        $expectedContent = file_get_contents(__DIR__ . '/_files/generatedProxyWithoutNamespace.php');
+        $content = $this->_clearDocBlock(
+            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy'))
+        );
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedProxyWithoutNamespace.php')
+        );
         $this->assertEquals($expectedContent, $content);
     }
 
@@ -129,8 +144,12 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         $proxy = Mage::getObjectManager()->create($factoryClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $proxy);
 
-        $content = file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Proxy'));
-        $expectedContent = file_get_contents(__DIR__ . '/_files/generatedProxyWithNamespace.php');
+        $content = $this->_clearDocBlock(
+            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Proxy'))
+        );
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedProxyWithNamespace.php')
+        );
         $this->assertEquals($expectedContent, $content);
     }
 }

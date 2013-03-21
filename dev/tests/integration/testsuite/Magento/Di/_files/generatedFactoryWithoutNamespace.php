@@ -1,6 +1,11 @@
 <?php
 /**
  * Factory class for Magento_Di_Generator_TestAsset_SourceClassWithoutNamespace
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 class Magento_Di_Generator_TestAsset_SourceClassWithoutNamespaceFactory
 {
