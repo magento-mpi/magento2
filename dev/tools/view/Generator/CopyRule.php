@@ -14,6 +14,11 @@
 class Generator_CopyRule
 {
     /**
+     * @var Magento_Filesystem
+     */
+    private $_filesystem;
+
+    /**
      * @var Mage_Core_Model_Theme_Collection
      */
     private $_themes;
@@ -33,13 +38,16 @@ class Generator_CopyRule
     /**
      * Constructor
      *
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Theme_Collection $themes
      * @param Mage_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
      */
     public function __construct(
+        Magento_Filesystem $filesystem,
         Mage_Core_Model_Theme_Collection $themes,
         Mage_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
     ) {
+        $this->_filesystem = $filesystem;
         $this->_themes = $themes;
         $this->_fallbackRule = $fallbackRule;
     }
@@ -117,8 +125,24 @@ class Generator_CopyRule
      */
     private function _getMatchingDirs($dirPattern)
     {
-        $patternGlob = preg_replace($this->_placeholderPcre, '*', $dirPattern);
-        return glob($patternGlob, GLOB_ONLYDIR);
+        $patternGlob = preg_replace($this->_placeholderPcre, '*', $dirPattern, -1, $placeholderCount);
+        if ($placeholderCount) {
+            // autodetect pattern base directory because the filesystem interface requires it
+            $firstPlaceholderPos = strpos($patternGlob, '*');
+            $patternBaseDir = substr($patternGlob, 0, $firstPlaceholderPos);
+            $patternTrailing = substr($patternGlob, $firstPlaceholderPos);
+            $paths = $this->_filesystem->searchKeys($patternBaseDir, $patternTrailing);
+        } else {
+            // pattern is already a valid path containing no placeholders
+            $paths = array($dirPattern);
+        }
+        $result = array();
+        foreach ($paths as $path) {
+            if ($this->_filesystem->isDirectory($path)) {
+                $result[] = $path;
+            }
+        }
+        return $result;
     }
 
     /**
