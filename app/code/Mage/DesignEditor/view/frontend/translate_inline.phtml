@@ -111,7 +111,7 @@
                         $.proxy(widget.replaceText, widget),
                         function(translateDialog) {
                             translateDialog.dialog("option", {
-                                position: { my: "center", at: "center", of: window },
+                                position: { of : widget.element, my: "left top", at: "left-3 top-9" },
                                 width: $(widget.element).width()
                             });
                         }
