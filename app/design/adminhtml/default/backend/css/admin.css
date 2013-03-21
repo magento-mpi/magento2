@@ -4255,6 +4255,12 @@ tr.dynamic-grid input.input-text {
     padding-top: 0;
 }
 
+.tree-store-scope .field input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+}
+
 /*
     Widgets
 -------------------------------------- */

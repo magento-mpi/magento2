@@ -862,6 +862,12 @@
     margin-right: 4px;
 }
 
+.field-store_0_content_use input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+}
+
 /*
     CMS -> Static Blocks
 -------------------------------------- */
