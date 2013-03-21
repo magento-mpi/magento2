@@ -39,16 +39,16 @@ try {
             break;
         case 'ee':
             $lists[] = 'saas.txt';
-            $configurator = new EnterpriseConfigurator($options['dir'], new Varien_Io_File());
+            $configurator = new EnterpriseConfigurator($basePath, new Varien_Io_File());
             break;
         case 'saas':
             $lists[] = 'not_saas.txt';
-            $configurator = new SaasConfigurator($options['dir'], new Varien_Io_File());
+            $configurator = new SaasConfigurator($basePath, new Varien_Io_File());
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
-    $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($options['dir']);
+    $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($basePath);
     foreach ($lists as $list) {
         $command .= ' -l ' . escapeshellarg(__DIR__ . '/extruder/' . $list);
     }

@@ -46,5 +46,11 @@ class SaasConfigurator implements ConfiguratorInterface
 
         //enable saas edition modules
         $this->_filesystem->cp($enablerPath . 'XSaas_Edition.xml.dist', $enablerPath . 'XSaas_Edition.xml');
+
+        //set edition constant
+        $mageFile = $this->_basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';
+        $content = $this->_filesystem->read($mageFile);
+        $content = str_replace('self::EDITION_COMMUNITY', 'self::EDITION_GO', $content);
+        $this->_filesystem->write($mageFile, $content);
     }
 }

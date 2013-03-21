@@ -46,5 +46,17 @@ class EnterpriseConfigurator implements ConfiguratorInterface
 
         //enable enterprise edition modules
         $this->_filesystem->cp($enablerPath . 'XEnterprise_Edition.xml.dist', $enablerPath . 'XEnterprise_Edition.xml');
+
+        //set edition constant
+        $mageFile = $this->_basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';
+        $content = $this->_filesystem->read($mageFile);
+        $content = str_replace('self::EDITION_COMMUNITY', 'self::EDITION_ENTERPRISE', $content);
+        $this->_filesystem->write($mageFile, $content);
+
+        //set downloader chanel
+        $configFile = $this->_basePath . DIRECTORY_SEPARATOR . 'downloader' . DIRECTORY_SEPARATOR . 'config.ini';
+        $content = $this->_filesystem->read($configFile);
+        $content = str_replace('community', 'enterprise', $content);
+        $this->_filesystem->write($configFile, $content);
     }
 }
