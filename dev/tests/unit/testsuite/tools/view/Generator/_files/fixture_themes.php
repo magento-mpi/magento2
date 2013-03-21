@@ -37,11 +37,21 @@ return array(
         'expected_result' => array(
             array(
                 'source' => '/base/dir/area_one/fixture/theme_one/Mage_Core',
-                'destination' => 'area_one/fixture/theme_one/Mage_Core',
+                'destinationContext' => array(
+                    'area' => 'area_one',
+                    'themePath' => 'fixture/theme_one',
+                    'locale' => null,
+                    'module' => 'Mage_Core',
+                ),
             ),
             array(
                 'source' => '/base/dir/area_one/fixture/theme_one',
-                'destination' => 'area_one/fixture/theme_one',
+                'destinationContext' => array(
+                    'area' => 'area_one',
+                    'themePath' => 'fixture/theme_one',
+                    'locale' => null,
+                    'module' => null,
+                ),
             ),
         ),
     ),
@@ -64,15 +74,30 @@ return array(
         'expected_result' => array(
             array(
                 'source' => '/base/dir/area_one/fixture/theme_two/Fixture_ModuleOne',
-                'destination' => 'area_one/fixture/theme_two/Fixture_ModuleOne',
+                'destinationContext' => array(
+                    'area' => 'area_one',
+                    'themePath' => 'fixture/theme_two',
+                    'locale' => null,
+                    'module' => 'Fixture_ModuleOne',
+                ),
             ),
             array(
                 'source' => '/base/dir/area_one/fixture/theme_two/Fixture_ModuleTwo',
-                'destination' => 'area_one/fixture/theme_two/Fixture_ModuleTwo',
+                'destinationContext' => array(
+                    'area' => 'area_one',
+                    'themePath' => 'fixture/theme_two',
+                    'locale' => null,
+                    'module' => 'Fixture_ModuleTwo',
+                ),
             ),
             array(
                 'source' => '/base/dir/area_one/fixture/theme_two',
-                'destination' => 'area_one/fixture/theme_two',
+                'destinationContext' => array(
+                    'area' => 'area_one',
+                    'themePath' => 'fixture/theme_two',
+                    'locale' => null,
+                    'module' => null,
+                ),
             ),
         ),
     ),
@@ -91,7 +116,12 @@ return array(
         'expected_result' => array(
             array(
                 'source' => '/base/dir/area_two/fixture/theme_three',
-                'destination' => 'area_two/fixture/theme_three',
+                'destinationContext' => array(
+                    'area' => 'area_two',
+                    'themePath' => 'fixture/theme_three',
+                    'locale' => null,
+                    'module' => null,
+                )
             ),
         ),
     ),

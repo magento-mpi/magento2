@@ -55,7 +55,7 @@ class Generator_CopyRule
     /**
      * Get rules for copying static view files
      * returns array(
-     *      array('source' => <Absolute Source Path>, 'destination' => <Relative Destination Path>),
+     *      array('source' => <Absolute Source Path>, 'destinationContext' => <Destination Path Context>),
      *      ......
      * )
      *
@@ -82,17 +82,17 @@ class Generator_CopyRule
                     } else {
                         $module = null;
                     }
-                    $destination = $this->_getDestinationPath('', $area, $theme->getThemePath(), $module);
-                    $destination = rtrim($destination, '\\/');
+
+                    $destinationContext = array(
+                        'area' => $area,
+                        'themePath' => $theme->getThemePath(),
+                        'locale' => null, // Temporary locale is not taken into account
+                        'module' => $module
+                    );
+
                     $result[] = array(
                         'source' => $srcDir,
-                        'destination' => $destination,
-                        'path_info' => array(
-                            'area' => $area,
-                            'locale' => null, // Temporary locale is not taken into account
-                            'themePath' => $theme->getThemePath(),
-                            'module' => $module
-                        ),
+                        'destinationContext' => $destinationContext,
                     );
                 }
             }
@@ -154,19 +154,5 @@ class Generator_CopyRule
             return $placeholders;
         }
         return array();
-    }
-
-    /**
-     * Get relative destination path based on parameters. Calls method used in Production Mode in application
-     *
-     * @param $filename
-     * @param $area
-     * @param $themePath
-     * @param $module
-     * @return string
-     */
-    private function _getDestinationPath($filename, $area, $themePath, $module)
-    {
-        return Mage_Core_Model_Design_Package::getPublishedViewFileRelPath($area, $themePath, '', $filename, $module);
     }
 }

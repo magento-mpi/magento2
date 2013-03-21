@@ -84,7 +84,6 @@ class Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_TestCase
         ;
         $actualResult = array();
         foreach ($this->_object->getCopyRules() as $actualCopyRule) {
-            unset($actualCopyRule['path_info']);
             $actualResult[] = $actualCopyRule;
         }
         $this->assertEquals($expectedResult, $actualResult);

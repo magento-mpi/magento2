@@ -96,16 +96,26 @@ class Generator_ThemeDeployment
         }
 
         foreach ($copyRules as $copyRule) {
+            $destinationContext = $copyRule['destinationContext'];
             $context = array(
                 'source' => $copyRule['source'],
-                'destination' => $copyRule['destination'],
+                'destinationContext' => $destinationContext,
                 'destinationHomeDir' => $destinationHomeDir,
-                'path_info' => $copyRule['path_info'],
                 'is_dry_run' => $isDryRun
             );
+
+            $destDir = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
+                $destinationContext['area'],
+                $destinationContext['themePath'],
+                $destinationContext['locale'],
+                '',
+                $destinationContext['module']
+            );
+            $destDir = rtrim($destDir, '\\/');
+
             $this->_copyDirStructure(
                 $copyRule['source'],
-                $destinationHomeDir . DIRECTORY_SEPARATOR . $copyRule['destination'],
+                $destinationHomeDir . DIRECTORY_SEPARATOR . $destDir,
                 $context
             );
         }
@@ -198,6 +208,7 @@ class Generator_ThemeDeployment
             $urlNotationNew = str_replace($moduleUrl, $fileUrlNew, $urlNotation);
             $content = str_replace($urlNotation, $urlNotationNew, $content);
         }
+        return $content;
     }
 
     /**
@@ -235,11 +246,11 @@ class Generator_ThemeDeployment
     {
         $destinationHomeDir = $context['destinationHomeDir'];
         $fileDestination = $context['fileDestination'];
-        $pathInfo = $context['path_info'];
+        $destinationContext = $context['destinationContext'];
 
         list($module, $file) = $this->_extractModuleAndFile($moduleUrl);
         $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
-            $pathInfo['area'], $pathInfo['themePath'], $pathInfo['locale'], $file, $module
+            $destinationContext['area'], $destinationContext['themePath'], $destinationContext['locale'], $file, $module
         );
         $relatedFile =  $destinationHomeDir . DIRECTORY_SEPARATOR . $relPath;
 
