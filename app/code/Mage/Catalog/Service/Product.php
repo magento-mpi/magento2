@@ -7,18 +7,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Service_Product extends Mage_Webapi_Service_Abstract
+
+/**
+ * @Service catalogProduct
+ * @Version 1.0
+ * @Path /catalog/product
+ */
+class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
 {
     /**
      * Returns info about one particular product.
-     * @todo Develop format for methods' input so it conforms with input schema
      *
-     * @param int $productId
+     * @Type call
+     * @Method GET
+     * @Path /{id}
+     * @Bindings [REST]
+     * @Consumes /resources/product/item/input.xsd
+     * @Produces /resources/product/item/output.xsd
+     *
+     * @param Mage_Core_Service_Parameter_Input $input
      * @return array
      */
-    public function item($productId)
+    public function item(Mage_Core_Service_Parameter_Input $input)
     {
-        $data = $this->_getData($productId);
+        $data = $this->_getData($input->getProductId());
 
         return $data;
     }
@@ -26,12 +38,19 @@ class Mage_Catalog_Service_Product extends Mage_Webapi_Service_Abstract
     /**
      * Returns info about several products.
      *
-     * @param array $productIds
+     * @Type call
+     * @Method GET
+     * @todo Not sure how to define @Path that might be given 1..Inf number of parameters
+     * @Bindings [REST]
+     * @Consumes input.xsd
+     * @Produces output.xsd
+     *
+     * @param Mage_Core_Service_Parameter_Input $input
      * @return array
      */
-    public function items(array $productIds)
+    public function items(Mage_Core_Service_Parameter_Input $input)
     {
-        $data = $this->_getCollectionData($productIds);
+        $data = $this->_getCollectionData($input->getProductIds());
 
         return $data;
     }
@@ -57,7 +76,68 @@ class Mage_Catalog_Service_Product extends Mage_Webapi_Service_Abstract
             /** @var $wishlistHelper Mage_Wishlist_Helper_Data */
             $wishlistHelper = $productBlock->helper('Mage_Wishlist_Helper_Data');
 
-            $this->_dictionary = array(
+            // Calling to these methods set value to _data
+            $product->getStatus();
+            $product->getCategoryIds();
+            $product->getWebsiteIds();
+            $product->getStoreIds();
+            $product->getRelatedProductIds();
+            $product->getCrossSellProductIds();
+            $product->getMediaAttributes();
+            $product->getMediaGalleryImages();
+
+            $propertiesWithoutMapping = array(
+                'isDisabled',
+                'isSuperGroup',
+                'isSuperConfig',
+                'isGrouped',
+                'isConfigurable',
+                'isSuper',
+                'isVisibleInCatalog',
+                'isDuplicable',
+                'isAvailable',
+                'isVirtual',
+                'isRecurring',
+                'isInStock',
+                'isComposite',
+                'hasCustomOptions',
+                'canAffectOptions',
+                'options',
+                'customOptions',
+                'defaultAttributeSetId',
+                'reservedAttributes',
+                'image',
+                'storeId',
+                'price',
+                'sku',
+                'weight',
+                'categoryId',
+                'attributes',
+                'groupPrice',
+                'tierPrice',
+                'tierPriceCount',
+                'finalPrice',
+                'minimalPrice',
+                'visibleInCatalogStatuses',
+                'visibleStatuses',
+                'visibleInSiteVisibilities',
+                'urlInStore',
+                'urlPath',
+            );
+
+            foreach ($propertiesWithoutMapping as $property) {
+                $first3Letters = substr($property, 0, 3) === 'has';
+
+                if ($first3Letters == 'can' || $first3Letters === 'has' || substr($property, 0, 3) === 'is') {
+                    $method = $property;
+                } else {
+                    $method = 'get' . ucwords($property);
+                }
+
+                $this->_dictionary[$property] = $product->$method();
+            }
+
+            $this->_dictionary += array(
                 'url' => $product->getProductUrl(),
                 'submitUrl' => $productBlock->getSubmitUrl($product),
                 'compareUrl' => $productCompareHelper->getAddUrl($product),
@@ -69,6 +149,8 @@ class Mage_Catalog_Service_Product extends Mage_Webapi_Service_Abstract
                 'optionsContainer' => $productBlock->getOptionsContainer(),
                 'jsonConfig' => $productBlock->getJsonConfig(),
                 'isSaleable' => $product->isSalable(),
+                'formattedPrice' => $product->getFormatedPrice(),
+                'formattedTierPrice' => $product->getFormatedTierPrice(),
             );
         }
 
@@ -108,5 +190,45 @@ class Mage_Catalog_Service_Product extends Mage_Webapi_Service_Abstract
         $collection->addIdFilter($productIds);
 
         return $collection;
+    }
+
+    protected function _getObjectData(Varien_Object $object)
+    {
+        $data = parent::_getObjectData($object);
+
+//        $return = array(
+//            'name' => $data['name'],
+//            'sku' => $data['sku'],
+//            'description' => $data['description'],
+//            'shortDescription' => $data['short_description'],
+//            'price' => array(
+//                'amount' => '', // @todo
+//                'currencyCode' => '', // @todo
+//                'formattedPrice' => '', // @todo
+//            ),
+//            'special_price' => array(
+//                'special_price' => '', // @todo
+//                'special_from_date' => '', // @todo
+//                'special_to_date' => '', // @todo
+//            ),
+//            'cost' => array(
+//                'amount' => '', // @todo
+//                'currencyCode' => '', // @todo
+//                'formattedPrice' => '', // @todo
+//            ),
+//            ...
+//        );
+
+        return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return string
+     */
+    protected function _getServiceId()
+    {
+        return 'catalog_product';
     }
 }
