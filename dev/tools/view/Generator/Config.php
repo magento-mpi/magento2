@@ -30,18 +30,18 @@ class Generator_Config
 
     /**
      * @param string $appBaseDir
-     * @param array $options
+     * @param array $cmdOptions
      * @throws Magento_Exception
      */
-    public function __construct($appBaseDir, $options)
+    public function __construct($appBaseDir, $cmdOptions)
     {
-        $sourceDir = isset($options['source']) ? $options['source'] : $appBaseDir;
+        $sourceDir = isset($cmdOptions['source']) ? $cmdOptions['source'] : $appBaseDir;
         if (!is_dir($sourceDir)) {
             throw new Magento_Exception('Source directory do not exist: ' . $sourceDir);
         }
 
-        if (isset($options['destination'])) {
-            $destinationDir = $options['destination'];
+        if (isset($cmdOptions['destination'])) {
+            $destinationDir = $cmdOptions['destination'];
         } else {
             $dirs = new Mage_Core_Model_Dir(new Magento_Filesystem(new Magento_Filesystem_Adapter_Local), $sourceDir);
             $destinationDir = $dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
@@ -53,7 +53,7 @@ class Generator_Config
             throw new Magento_Exception("The destination path must be empty: {$destinationDir}");
         }
 
-        $isDryRun = isset($options['dry-run']) ? (bool)$options['dry-run'] : false;
+        $isDryRun = isset($cmdOptions['dry-run']);
 
         // Assign to internal values
         $this->_sourceDir = $sourceDir;

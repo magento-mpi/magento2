@@ -14,42 +14,34 @@
 class Generator_CopyRule
 {
     /**
-     * @var Mage_Core_Model_Design_Fallback_List_View|null
+     * @var Mage_Core_Model_Theme_Collection
      */
-    private $_fallbackList = null;
+    private $_themes;
 
     /**
-     * @var Generator_ThemeLight[]
+     * @var Mage_Core_Model_Design_Fallback_Rule_RuleInterface
      */
-    private $_themes = array();
+    private $_fallbackRule;
 
     /**
-     * @var Mage_Core_Model_Dir
-     */
-    private $_dirs;
-
-    /**
-     * Base dir to start search from
+     * PCRE matching a named placeholder
      *
      * @var string
      */
-    private $_sourcePath;
+    private $_placeholderPcre = '#%(.+?)%#';
 
     /**
      * Constructor
      *
-     * @param string $sourcePath
+     * @param Mage_Core_Model_Theme_Collection $themes
+     * @param Mage_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
      */
-    public function __construct($sourcePath)
-    {
-        $this->_sourcePath = $sourcePath;
-        $this->_dirs = new Mage_Core_Model_Dir(
-            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
-            $this->_sourcePath
-        );
-
-        $this->_initThemes();
-        $this->_fallbackList = new Mage_Core_Model_Design_Fallback_List_View($this->_dirs);
+    public function __construct(
+        Mage_Core_Model_Theme_Collection $themes,
+        Mage_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
+    ) {
+        $this->_themes = $themes;
+        $this->_fallbackRule = $fallbackRule;
     }
 
     /**
@@ -63,46 +55,87 @@ class Generator_CopyRule
      */
     public function getCopyRules()
     {
+        $locale = null; // Temporary locale is not taken into account
         $params = array(
-            'area'          => '<area>',
-            'theme_path'    => '<theme_path>',
-            'locale'        => null, //temporary locale is not taken into account
-            'pool'          => '<pool>',
-            'namespace'     => '<namespace>',
-            'module'        => '<module>',
+            'theme_path'    => $this->_composePlaceholder('theme_path'),
+            'locale'        => $locale,
+            'namespace'     => $this->_composePlaceholder('namespace'),
+            'module'        => $this->_composePlaceholder('module'),
         );
-
         $result = array();
+        /** @var $theme Mage_Core_Model_ThemeInterface */
         foreach ($this->_themes as $theme) {
+            $area = $theme->getArea();
+            $params['area'] = $area;
             $params['theme'] = $theme;
-            $params['area'] = $theme->getArea();
-            $patternDirs = $this->_fallbackList->getPatternDirs($params, false);
+            $patternDirs = $this->_fallbackRule->getPatternDirs($params);
             foreach (array_reverse($patternDirs) as $pattern) {
-                $srcPaths = glob($this->_fixPattern($pattern), GLOB_ONLYDIR);
-                foreach ($srcPaths as $src) {
-                    $paramsFromDir = $this->_getParams(
-                        str_replace($this->_sourcePath, '', $src),
-                        str_replace(
-                            array($this->_sourcePath, '<theme_path>'),
-                            array('', '<package>/<theme>'),
-                            $pattern
-                        )
-                    );
+                foreach ($this->_getMatchingDirs($pattern) as $srcDir) {
+                    $paramsFromDir = $this->_parsePlaceholders($srcDir, $pattern);
                     if (!empty($paramsFromDir['namespace']) && !empty($paramsFromDir['module'])) {
                         $module = $paramsFromDir['namespace'] . '_' . $paramsFromDir['module'];
                     } else {
                         $module = null;
                     }
 
+                    $pathInfo = array(
+                        'area' => $area,
+                        'locale' => $locale,
+                        'themePath' => $theme->getThemePath(),
+                        'module' => $module
+                    );
+                    $destination = $this->_getDestinationPath('', $pathInfo['area'], $pathInfo['themePath'], $module);
+                    $destination = rtrim($destination, "\\/");
+
                     $result[] = array(
-                        'source' => $src,
-                        'destination' =>
-                            $this->_getDestinationPath('', $theme->getArea(), $theme->getThemePath(), $module)
+                        'source' => $srcDir,
+                        'destination' => $destination,
+                        'path_info' => $pathInfo
                     );
                 }
             }
         }
         return $result;
+    }
+
+    /**
+     * Compose a named placeholder that does not require escaping when directly used in a PCRE
+     *
+     * @param string $name
+     * @return string
+     */
+    private function _composePlaceholder($name)
+    {
+        return '%' . $name . '%';
+    }
+
+    /**
+     * Retrieve absolute directory paths matching a pattern with placeholders
+     *
+     * @param string $dirPattern
+     * @return array
+     */
+    private function _getMatchingDirs($dirPattern)
+    {
+        $patternGlob = preg_replace($this->_placeholderPcre, '*', $dirPattern);
+        return glob($patternGlob, GLOB_ONLYDIR);
+    }
+
+    /**
+     * Retrieve placeholder values
+     *
+     * @param string $subject
+     * @param string $pattern
+     * @return array
+     */
+    private function _parsePlaceholders($subject, $pattern)
+    {
+        $pattern = preg_quote($pattern, '#');
+        $parserPcre = '#^' . preg_replace($this->_placeholderPcre, '(?P<\\1>.+?)', $pattern) . '$#';
+        if (preg_match($parserPcre, $subject, $placeholders)) {
+            return $placeholders;
+        }
+        return array();
     }
 
     /**
@@ -117,114 +150,5 @@ class Generator_CopyRule
     private function _getDestinationPath($filename, $area, $themePath, $module)
     {
         return Mage_Core_Model_Design_Package::getPublishedViewFileRelPath($area, $themePath, '', $filename, $module);
-    }
-
-    /**
-     * Get themes from file system
-     */
-    private function _initThemes()
-    {
-        $themesDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-        $dir = dir($themesDir);
-        while (false !== ($area = $dir->read())) {
-            if ($area == '..' || $area == '.') {
-                continue;
-            }
-            $dirArea = dir($themesDir . DS . $area);
-            while (false !== ($package = $dirArea->read())) {
-                if ($package == '..' || $package == '.') {
-                    continue;
-                }
-                $dirPackage = dir($themesDir . DS . $area . DS . $package);
-                while (false !== ($theme = $dirPackage->read())) {
-                    $this->_addThemeToList($themesDir, $area, $package, $theme);
-                }
-            }
-        }
-    }
-
-    /**
-     * Find theme definition file inside the folder and add the theme to list
-     *
-     * @param string $themesDir
-     * @param string $area
-     * @param string $package
-     * @param string $theme
-     * @throws LogicException
-     */
-    private function _addThemeToList($themesDir, $area, $package, $theme)
-    {
-        if ($theme == '..' || $theme == '.') {
-            return;
-        }
-        $themeXmlFile = $themesDir . DS . $area . DS . $package . DS . $theme . DS . 'theme.xml';
-        if (!file_exists($themeXmlFile)) {
-            throw new LogicException(
-                'No theme.xml file in ' . $themesDir . DS . $area . DS . $package . DS . $theme . ' folder'
-            );
-        }
-        $themeConfig = simplexml_load_file($themeXmlFile);
-        $themeInfo = $themeConfig->xpath('/design/package/theme');
-
-        if (isset($themeInfo[0]['parent'])) {
-            $parent = $package . '/' . (string)$themeInfo[0]['parent'];
-        } else {
-            $parent = null;
-        }
-        $this->_themes[$area . '/' . $package . '/' . $theme] =
-            new Generator_ThemeLight($area, $package . '/' . $theme, $parent);
-    }
-
-    /**
-     * Change pattern for using in glob()
-     *
-     * @param string $pattern
-     * @return string
-     */
-    private function _fixPattern($pattern)
-    {
-        return preg_replace("/\<[^\>]+\>/", '*', $pattern);
-    }
-
-    /**
-     * Extract params from $path using $pattern
-     *
-     * @param string $path
-     * @param string $pattern
-     * @return array
-     */
-    private function _getParams($path, $pattern)
-    {
-        $path = str_replace(DS, '/', $path);
-        $pattern = str_replace(DS, '/', $pattern);
-        $params = explode('/', $pattern);
-        $pathParts = explode('/', $path);
-        $result = array();
-        foreach ($params as $k => $param) {
-            if (!isset($pathParts[$k])) {
-                $result = array();
-                break;
-            }
-            if (!preg_match("/^\<.+\>$/", $param)) {
-                continue;
-            }
-            $param = ltrim($param, '<');
-            $param = rtrim($param, '>');
-            if (preg_match("/\>_\</", $param)) {
-                $pathSubParts = explode('_', $pathParts[$k]);
-                $subParams = explode('>_<', $param);
-                if (count($subParams) == count($pathSubParts)) {
-                    foreach ($subParams as $j => $subParam) {
-                        $result[$subParam] = $pathSubParts[$j];
-                    }
-                } else {
-                    $result = array();
-                    break;
-                }
-            } else {
-                $result[$param] = $pathParts[$k];
-            }
-        }
-        return $result;
     }
 }

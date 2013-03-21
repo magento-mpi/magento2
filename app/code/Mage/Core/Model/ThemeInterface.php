@@ -9,21 +9,35 @@
  */
 
 /**
- * Theme Interface
+ * Minimal required interface a theme has to implement
  */
 interface Mage_Core_Model_ThemeInterface
 {
     /**
-     * Get parent theme
+     * Retrieve code of an area a theme belongs to
      *
-     * @return Mage_Core_Model_ThemeInterface
+     * @return string
      */
-    public function getParentTheme();
+    public function getArea();
 
     /**
-     * Get theme path
+     * Retrieve theme path unique within an area
      *
      * @return string
      */
     public function getThemePath();
+
+    /**
+     * Retrieve theme path unique across areas
+     *
+     * @return string
+     */
+    public function getFullPath();
+
+    /**
+     * Retrieve parent theme instance
+     *
+     * @return Mage_Core_Model_ThemeInterface|null
+     */
+    public function getParentTheme();
 }

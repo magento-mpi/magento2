@@ -14,14 +14,14 @@
 class Mage_Core_Model_Design_Fallback_Rule_Theme implements Mage_Core_Model_Design_Fallback_Rule_RuleInterface
 {
     /**
-     * @var array of rules that should be iteratively applied for each theme in the row
+     * @var Mage_Core_Model_Design_Fallback_Rule_RuleInterface[]
      */
     protected $_rules;
 
     /**
      * Constructor
      *
-     * @param array $rules
+     * @param array $rules Rules to be propagated to every theme involved into inheritance
      * @throws InvalidArgumentException
      */
     public function __construct(array $rules)
@@ -45,37 +45,22 @@ class Mage_Core_Model_Design_Fallback_Rule_Theme implements Mage_Core_Model_Desi
      */
     public function getPatternDirs(array $params)
     {
-        $patternDirs = array();
         if (!array_key_exists('theme', $params) || !($params['theme'] instanceof Mage_Core_Model_ThemeInterface)) {
             throw new InvalidArgumentException(
                 '$params["theme"] should be passed and should implement Mage_Core_Model_ThemeInterface'
             );
         }
-
-        foreach ($this->_getThemeList($params['theme']) as $theme) {
-            $params['theme_path'] = $theme->getThemePath();
-            if ($params['theme_path']) {
+        $result = array();
+        /** @var $theme Mage_Core_Model_ThemeInterface */
+        $theme = $params['theme'];
+        while ($theme) {
+            if ($theme->getThemePath()) {
+                $params['theme_path'] = $theme->getThemePath();
                 foreach ($this->_rules as $rule) {
-                    $patternDirs = array_merge($patternDirs, $rule->getPatternDirs($params));
+                    $result = array_merge($result, $rule->getPatternDirs($params));
                 }
             }
-        }
-        return $patternDirs;
-    }
-
-    /**
-     * Get list of themes, which should be used for fallback. It's passed theme and all its parent themes
-     *
-     * @param Mage_Core_Model_ThemeInterface $theme
-     * @return array
-     */
-    protected function _getThemeList(Mage_Core_Model_ThemeInterface $theme)
-    {
-        $result = array();
-        $themeModel = $theme;
-        while ($themeModel) {
-            $result[] = $themeModel;
-            $themeModel = $themeModel->getParentTheme();
+            $theme = $theme->getParentTheme();
         }
         return $result;
     }

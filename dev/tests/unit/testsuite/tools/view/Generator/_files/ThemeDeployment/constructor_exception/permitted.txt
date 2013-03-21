@@ -1,0 +1,9 @@
+// Permitted config, conflicting with the forbidden one
+forbidden1
+forbidden2
+// commented_extension
+conflict1
+conflict2
+// Empty lines must be ignored
+
+forbidden3
