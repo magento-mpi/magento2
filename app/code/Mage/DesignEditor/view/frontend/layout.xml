@@ -12,23 +12,21 @@
 <layout>
     <designeditor_page_type>
         <reference name="root">
-            <block type="Mage_DesignEditor_Block_Page_Html_Head" name="head" as="head" />
-            <block type="Mage_DesignEditor_Block_Page_Html_Head_Vde" name="vde_head" as="vde_head" />
-        </reference>
-
-        <reference name="vde_head">
-            <action method="addJs"><file>jquery/jquery.js</file></action>
-            <action method="addJs"><file>jquery/jquery-ui.js</file></action>
-            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
-            <action method="addJs"><file>head.load.min.js</file></action>
-            <action method="addJs"><file>mage/mage.js</file></action>
-            <action method="addJs"><file>mage/decorate.js</file></action>
-            <action method="addJs"><file>mage/translate.js</file></action>
-            <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/form_deactivation.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/change/layout.js</file></action>
-            <action method="addCss"><file>Mage_DesignEditor::css/design.css</file></action>
+            <reference name="head">
+                <action method="setVdeDesignMode"><flag>1</flag></action>
+                <action method="addJs"><file>jquery/jquery.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>jquery/jquery-ui.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>mage/jquery-no-conflict.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>head.load.min.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>mage/mage.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>mage/decorate.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>mage/translate.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>jquery/jquery.tmpl.min.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>Mage_DesignEditor::js/form_deactivation.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addJs"><file>Mage_DesignEditor::js/change/layout.js</file><params/><if/><flag>vde_design_mode</flag></action>
+                <action method="addCss"><file>Mage_DesignEditor::css/design.css</file><params/><if/><flag>vde_design_mode</flag></action>
+            </reference>
         </reference>
 
         <reference name="before_body_end">

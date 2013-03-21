@@ -79,7 +79,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      *
      * Returned array has a structure
      * array(
-     *   'Mage_Catalog::widgets.css' => 'http://mage2.com/pub/media/theme/frontend/_theme15/en_US/Mage_Cms/widgets.css'
+     *   'Mage_Catalog::widgets.css' => 'http://mage2.com/pub/static/frontend/_theme15/en_US/Mage_Cms/widgets.css'
      * )
      *
      * @param Mage_Core_Model_Theme $theme
@@ -129,28 +129,26 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Core_Model_Theme $theme
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws LogicException
      */
     public function getGroupedCssFiles($theme)
     {
-        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
-        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
-        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+        $jsDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB));
+        $codeDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Mage_Core_Model_Dir::MODULES));
+        $designDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Mage_Core_Model_Dir::THEMES));
 
         $groups = array();
         $themes = array();
         foreach ($this->getCssFiles($theme) as $file) {
             $this->_detectTheme($file, $designDir);
-            $this->_detectGroup($file);
+            $this->_detectGroup($file, $designDir, $jsDir, $codeDir);
 
             if (isset($file['theme']) && $file['theme']->getThemeId()) {
                 $themes[$file['theme']->getThemeId()] = $file['theme'];
             }
 
             if (!isset($file['group'])) {
-                Mage::throwException(
-                    $this->__('Group is missed for file "%s"', $file['safePath'])
-                );
+                throw new LogicException($this->__('Group is missed for file "%s"', $file['safePath']));
             }
             $group = $file['group'];
             unset($file['theme']);
@@ -186,8 +184,8 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      *
      * @param array $file
      * @param string $designDir
-     * @return Mage_Theme_Helper_Data
-     * @throws Mage_Core_Exception
+     * @return Mage_Core_Helper_Theme
+     * @throws LogicException
      */
     protected function _detectTheme(&$file, $designDir)
     {
@@ -205,12 +203,14 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $theme = strtok(Magento_Filesystem::DIRECTORY_SEPARATOR);
 
         if ($area === false || $package === false || $theme === false) {
-            Mage::throwException($this->__('Theme path "%s/%s/%s" is incorrect', $area, $package, $theme));
+            throw new LogicException($this->__('Theme path "%s/%s/%s" is incorrect', $area, $package, $theme));
         }
         $themeModel = $this->_themeCollection->getThemeByFullPath($area . '/' . $package . '/' . $theme);
 
         if (!$themeModel || !$themeModel->getThemeId()) {
-            Mage::throwException($this->__('Invalid theme loaded by theme path "%s/%s/%s"', $area, $package, $theme));
+            throw new LogicException(
+                $this->__('Invalid theme loaded by theme path "%s/%s/%s"', $area, $package, $theme)
+            );
         }
 
         $file['theme'] = $themeModel;
@@ -222,21 +222,18 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      * Detect group where file should be placed and set it to file data under "group" key
      *
      * @param array $file
-     * @return Mage_Theme_Helper_Data
-     * @throws Mage_Core_Exception
+     * @param string $designDir
+     * @param string $jsDir
+     * @param string $codeDir
+     * @return Mage_Core_Helper_Theme
+     * @throws LogicException
      */
-    protected function _detectGroup(&$file)
+    protected function _detectGroup(&$file, $designDir, $jsDir, $codeDir)
     {
-        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
-        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
-        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-
         $group = null;
         if (substr($file['path'], 0, strlen($designDir)) == $designDir) {
             if (!isset($file['theme']) || !$file['theme']->getThemeId()) {
-                Mage::throwException(
-                    $this->__('Theme is missed for file "%s"', $file['safePath'])
-                );
+                throw new LogicException($this->__('Theme is missed for file "%s"', $file['safePath']));
             }
             $group = $file['theme']->getThemeId();
         } elseif (substr($file['path'], 0, strlen($jsDir)) == $jsDir) {
@@ -244,9 +241,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         } elseif (substr($file['path'], 0, strlen($codeDir)) == $codeDir) {
             $group = $codeDir;
         } else {
-            Mage::throwException(
-                $this->__('Invalid view file directory "%s"', $file['safePath'])
-            );
+            throw new LogicException($this->__('Invalid view file directory "%s"', $file['safePath']));
         }
         $file['group'] = $group;
 

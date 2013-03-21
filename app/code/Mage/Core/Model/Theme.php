@@ -13,7 +13,6 @@
  *
  * @method Mage_Core_Model_Theme save()
  * @method string getPackageCode()
- * @method string getThemePath()
  * @method string getParentThemePath()
  * @method string getParentId()
  * @method string getArea()
@@ -36,7 +35,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
-    implements Mage_Core_Model_Theme_Customization_CustomizedInterface
+    implements Mage_Core_Model_Theme_Customization_CustomizedInterface, Mage_Core_Model_ThemeInterface
 {
     /**
      * Cache tag for empty theme
@@ -49,9 +48,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
-     * Path prefix to customized theme files
+     * Filename of view configuration
      */
-    const PATH_PREFIX_CUSTOMIZATION = 'customization';
+    const FILENAME_VIEW_CONFIG = 'view.xml';
 
     /**
      * Labels collection array
@@ -214,8 +213,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         if ($this->getId() && empty($customPath)) {
             /** @var $modelDir Mage_Core_Model_Dir */
             $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
-            $customPath = $modelDir->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
-                . self::PATH_PREFIX_CUSTOMIZATION . DIRECTORY_SEPARATOR . $this->getId();
+            $customPath = $modelDir->getDir(Mage_Core_Model_Dir::MEDIA)
+                . DIRECTORY_SEPARATOR . 'theme_customization'
+                . DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
         return $customPath;
@@ -263,22 +263,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Include customized files on default handle
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _applyCustomizationFiles()
-    {
-        if (!$this->isCustomized()) {
-            return $this;
-        }
-        /** @var $link Mage_Core_Model_Theme_Customization_Link */
-        $link = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Link');
-        $link->setThemeId($this->getId())->changeCustomFilesUpdate();
-        return $this;
-    }
-
-    /**
      * Check if theme object data was changed.
      *
      * @return bool
@@ -306,10 +290,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         $this->saveThemeCustomization();
-        if ($this->isCustomized()) {
-            $this->_applyCustomizationFiles();
-        }
-
         $this->_checkAssignedThemeChanged();
         return parent::_afterSave();
     }
@@ -507,10 +487,34 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Get theme path
+     *
+     * @return string
+     */
+    public function getThemePath()
+    {
+        return parent::getThemePath();
+    }
+
+    /**
      * Clear data for clone
      */
     public function __clone()
     {
         $this->unsetData()->setOrigData();
+    }
+
+    /**
+     * Get path to custom view configuration file
+     *
+     * @return string
+     */
+    public function getCustomViewConfigPath()
+    {
+        $config = $this->getCustomizationPath();
+        if (!empty($config)) {
+            $config .= DIRECTORY_SEPARATOR . self::FILENAME_VIEW_CONFIG;
+        }
+        return $config;
     }
 }

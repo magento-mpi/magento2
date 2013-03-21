@@ -43,16 +43,17 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsCreateUser()
     {
         //Create new Role
-        $userData = $this->loadDataSet('ApiUsers', 'new_api_users_create');
+        $roleData = $this->loadDataSet('ApiRoles', 'api_role_new');
 
         $this->navigate('api_roles_management');
         $this->clickButton('add_new_role', true);
-        $this->fillField('role_name', $userData['role_name']);
+        $this->fillField('role_name', $roleData['role_name']);
         $this->openTab('resources');
         $this->fillDropdown('role_access', 'All');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_role');
 
+        $userData = $this->loadDataSet('ApiUsers', 'new_api_users_create');
         //Create Data and open APi Users page
         $this->navigate('api_users');
         $this->clickButton('add_new_api_user', true);
@@ -62,10 +63,10 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 
         // Set role
         $this->openTab('user_role');
-        $this->fillField('role_name', $userData['role_name']);
+        $this->fillField('role_name', $roleData['role_name']);
         $this->clickButton('search', false);
         $this->waitForAjax();
-        $this->addParameter('roleName', $userData['role_name']);
+        $this->addParameter('roleName', $roleData['role_name']);
         $this->clickControl('radiobutton', 'select_role', false);
 
         //Save data
@@ -74,7 +75,7 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
 
         // Check that user was saved with role
         $this->addParameter('email', $userData['api_user_contact_email']);
-        $this->addParameter('role', $userData['role_name']);
+        $this->addParameter('role', $roleData['role_name']);
         $this->assertTrue($this->controlIsPresent('link', 'check_user'));
 
         return $userData;
@@ -165,7 +166,7 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         //Open APi users page and find in the grid users
         $this->navigate('api_users');
         $userSearch = array('filter_api_users_api_key' => $userData['api_user_api_key']);
-        $this->searchAndOpen($userSearch, false);
+        $this->searchAndOpen($userSearch, 'api_users_grid', false);
         $this->waitForPageToLoad();
         $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
         $this->addParameter('apiKey', $userData['api_user_api_key']);

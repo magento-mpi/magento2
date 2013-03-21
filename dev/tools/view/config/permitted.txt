@@ -1,0 +1,18 @@
+// These are extensions of files that are permitted to be deployed to a public directory
+js
+css
+gif
+png
+jpg
+ico
+swf
+html
+txt
+jbf
+htc
+LICENSE
+htm
+ttf
+eot
+woff
+svg

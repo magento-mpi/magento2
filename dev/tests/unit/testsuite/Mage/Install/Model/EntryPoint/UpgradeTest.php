@@ -37,7 +37,7 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
         $cacheFrontendPool->expects($this->at(0))->method('valid')->will($this->returnValue(true));
         $cacheFrontendPool->expects($this->once())->method('current')->will($this->returnValue($cacheFrontend));
 
-        $appState = $this->getMock('Mage_Core_Model_App_State', array('setIsDeveloperMode'), array(), '', false);
+        $appState = $this->getMock('Mage_Core_Model_App_State', array('setMode'), array(), '', false);
 
         $update = $this->getMock('Mage_Core_Model_Db_Updater', array('updateScheme', 'updateData'), array(), '', false);
         $update->expects($this->once())->method('updateScheme');

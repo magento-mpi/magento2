@@ -70,7 +70,7 @@ class Magento_Test_Application
      *
      * @var bool
      */
-    protected $_isDeveloperMode = false;
+    protected $_appMode = false;
 
     /**
      * Constructor
@@ -80,26 +80,27 @@ class Magento_Test_Application
      * @param Varien_Simplexml_Element $localXml
      * @param array $globalEtcFiles
      * @param array $moduleEtcFiles
-     * @param bool $isDeveloperMode
+     * @param string $appMode
      */
     public function __construct(
         Magento_Test_Db_DbAbstract $dbInstance, $installDir, Varien_Simplexml_Element $localXml,
-        array $globalEtcFiles, array $moduleEtcFiles, $isDeveloperMode
+        array $globalEtcFiles, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
         $this->_localXml        = $localXml;
         $this->_globalEtcFiles  = $globalEtcFiles;
         $this->_moduleEtcFiles  = $moduleEtcFiles;
-        $this->_isDeveloperMode = $isDeveloperMode;
+        $this->_appMode = $appMode;
 
         $this->_installDir = $installDir;
         $this->_installEtcDir = "$installDir/etc";
 
         $this->_initParams = array(
             Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::CONFIG     => $this->_installEtcDir,
-                Mage_Core_Model_Dir::VAR_DIR    => $installDir,
-                Mage_Core_Model_Dir::MEDIA      => "$installDir/media",
+                Mage_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
+                Mage_Core_Model_Dir::VAR_DIR     => $installDir,
+                Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
+                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/static",
             ),
         );
     }
@@ -149,7 +150,8 @@ class Magento_Test_Application
      */
     public function initialize($overriddenParams = array())
     {
-        Mage::setIsDeveloperMode($this->_isDeveloperMode);
+        $overriddenParams[Mage::PARAM_BASEDIR] = BP;
+        $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
@@ -213,7 +215,7 @@ class Magento_Test_Application
         $this->_ensureDirExists($this->_installDir);
         $this->_ensureDirExists($this->_installEtcDir);
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
-        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'theme');
+        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'static');
 
         /* Copy configuration files */
         $etcDirsToFilesMap = array(

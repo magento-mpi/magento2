@@ -35,6 +35,8 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             array(
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 Mage::getSingleton('Magento_Filesystem'),
+                Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
+                new Mage_Core_Model_App_State(),
             )
         );
         $this->_designModel->expects($this->any())
@@ -127,7 +129,12 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
         $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
             array('getLocaleFileName', 'getDesignTheme'),
-            array(Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'), $filesystem)
+            array(
+                Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
+                $filesystem,
+                Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
+                new Mage_Core_Model_App_State(),
+            )
         );
         $this->_designModel->expects($this->any())
             ->method('getLocaleFileName')

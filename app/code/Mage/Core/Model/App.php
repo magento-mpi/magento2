@@ -106,7 +106,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 
     /**
      * Store list manager
-     * 
+     *
      * @var Mage_Core_Model_StoreManager
      */
     protected $_storeManager;
@@ -573,12 +573,12 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 
     /**
      * Check if developer mode is enabled
-     * 
+     *
      * @return bool
      */
     public function isDeveloperMode()
     {
-        return $this->_appState->isDeveloperMode();
+        return $this->_appState->getMode() == Mage_Core_Model_App_State::MODE_DEVELOPER;
     }
 
     /**
