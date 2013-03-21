@@ -55,6 +55,9 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
      */
     public function relatedInStock($linkingType, $testData)
     {
+        if ($linkingType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-7277');
+        }
         //Data
         $assignType = 'related';
         $assignProductType = 'downloadable';
@@ -95,6 +98,9 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
      */
     public function crossSellsInStock($linkingType, $testData)
     {
+        if ($linkingType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-7277');
+        }
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'downloadable';
@@ -140,6 +146,9 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
      */
     public function upSellsInStock($linkingType, $testData)
     {
+        if ($linkingType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-7277');
+        }
         //Data
         $assignType = 'up_sells';
         $assignProductType = 'downloadable';
