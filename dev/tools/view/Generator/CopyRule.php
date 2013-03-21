@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Tools
- * @package    translate
+ * @package    view
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -63,12 +63,9 @@ class Generator_CopyRule
      */
     public function getCopyRules()
     {
-        $locale = null; // Temporary locale is not taken into account
         $params = array(
-            'theme_path'    => $this->_composePlaceholder('theme_path'),
-            'locale'        => $locale,
-            'namespace'     => $this->_composePlaceholder('namespace'),
-            'module'        => $this->_composePlaceholder('module'),
+            'namespace' => $this->_composePlaceholder('namespace'),
+            'module'    => $this->_composePlaceholder('module'),
         );
         $result = array();
         /** @var $theme Mage_Core_Model_ThemeInterface */
@@ -85,20 +82,17 @@ class Generator_CopyRule
                     } else {
                         $module = null;
                     }
-
-                    $pathInfo = array(
-                        'area' => $area,
-                        'locale' => $locale,
-                        'themePath' => $theme->getThemePath(),
-                        'module' => $module
-                    );
-                    $destination = $this->_getDestinationPath('', $pathInfo['area'], $pathInfo['themePath'], $module);
-                    $destination = rtrim($destination, "\\/");
-
+                    $destination = $this->_getDestinationPath('', $area, $theme->getThemePath(), $module);
+                    $destination = rtrim($destination, '\\/');
                     $result[] = array(
                         'source' => $srcDir,
                         'destination' => $destination,
-                        'path_info' => $pathInfo
+                        'path_info' => array(
+                            'area' => $area,
+                            'locale' => null, // Temporary locale is not taken into account
+                            'themePath' => $theme->getThemePath(),
+                            'module' => $module
+                        ),
                     );
                 }
             }
