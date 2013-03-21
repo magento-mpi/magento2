@@ -53,7 +53,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
      * <p>Test Theme selector page when no customization themes</p>
      *
      * @TestlinkId TL-MAGE-6478
-     * @test
+     * @te st
      */
     public function firstEntranceWithoutVirtualThemes()
     {
@@ -67,7 +67,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
      * <p>Test Theme selector page when customized themes present</p>
      *
      * @TestlinkId TL-MAGE-6481
-     * @test
+     * @te st
      */
     public function firstEntranceWithVirtualTheme()
     {
@@ -92,7 +92,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
     /**
      * <p>Assign theme to default store view</p>
      * Present one store view only
-     * @test
+     * @t est
      */
     public function assignThemeToDefaultStoreView()
     {
@@ -117,7 +117,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Assign theme to store view</p>
-     * @test
+     * @te st
      */
     public function assignThemeWithMultipleStoreViews()
     {
@@ -175,7 +175,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Cancel multiple assign operation</p>
-     * @test
+     * @te st
      */
     public function cancelMultipleAssignTheme()
     {
@@ -226,7 +226,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'));
         $this->clickControl('link', 'quit');
         $this->_windowId = $this->selectLastWindow();
-        $this->validatePage('preview_theme_in_design');
+        $this->validatePage('design_editor_selector');
         $this->assertTrue($this->controlIsPresent('pageelement', 'header_available_themes'));
     }
 
@@ -247,6 +247,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
         $this->clickButton('edit_theme_button');
         $this->_windowId = $this->selectLastWindow();
+        $this->addParameter('id', $themeId);
         //Verify
         $this->validatePage('preview_theme_in_design');
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'));

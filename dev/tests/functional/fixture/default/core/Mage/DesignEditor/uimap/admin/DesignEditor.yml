@@ -72,6 +72,7 @@ preview_theme_in_design:
                             save_and_assign: //div[@id='vde_toolbar_buttons']//span[contains(text(), 'Save and Assign')]
                         pageelements:
                             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
+                            vde_toolbar_row: //div[@id='vde_toolbar_row']
                         links:
                             view_layout: //div[@id='vde_toolbar_buttons']//a[@title='View Layout']
                             quit: //div[@id='vde_toolbar_buttons']//a[contains(@href, 'quit/')]
