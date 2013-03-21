@@ -141,7 +141,14 @@
                 }
             });
 
-            parent.jQuery('[vde-translate]').translateInlineToggle({});
+            parent.jQuery('[vde-translate]').translateInlineToggle({
+                frameUrl: '<?php echo $this->getFrameUrl() ?>',
+                refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
+                frameBody: $body,
+                textTranslations: $textTranslations,
+                imageTranslations: $imageTranslations,
+                scriptTranslations: $scriptTranslations
+            });
 
             parent.jQuery('[data-translate-selected]').translateInlineToggleMode({
                 frameUrl: '<?php echo $this->getFrameUrl() ?>',
