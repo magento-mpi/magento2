@@ -21,11 +21,19 @@ class Mage_Backend_Model_Observer
 
     public function bindLocale($observer)
     {
-        if ($locale=$observer->getEvent()->getLocale()) {
-            if ($choosedLocale = Mage::getSingleton('Mage_Backend_Model_Session')->getLocale()) {
-                $locale->setLocaleCode($choosedLocale);
+        if ($locale = $observer->getEvent()->getLocale()) {
+
+            $forceLocale = Mage::app()->getRequest()->getParam('locale', null);
+            $sessionLocale = Mage::getSingleton('Mage_Backend_Model_Session')->getSessionLocale();
+            $userLocale = Mage::helper('Mage_Backend_Helper_Data')->getUserInterfaceLocale();
+
+            $localeCodes = array_filter(array($forceLocale, $sessionLocale, $userLocale));
+
+            if (count($localeCodes)) {
+                $locale->setLocaleCode(reset($localeCodes));
             }
         }
+
         return $this;
     }
 

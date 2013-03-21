@@ -171,4 +171,40 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
         $this->_areaFrontName = null;
         return $this;
     }
+
+    /**
+     * Switch backend locale according to locale code
+     *
+     * @param string $localeCode
+     * @return Mage_Backend_Helper_Data
+     */
+    public function switchBackendInterfaceLocale($localeCode)
+    {
+        Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+            ->getUser()
+            ->setInterfaceLocale($localeCode);
+
+        Mage::getSingleton('Mage_Core_Model_Translate')
+            ->setLocale($localeCode)
+            ->init(self::BACKEND_AREA_CODE, true);
+
+        return $this;
+    }
+
+    /**
+     * Get user interface locale stored in session data
+     *
+     * @return string
+     */
+    public function getUserInterfaceLocale()
+    {
+        $interfaceLocale = Mage_Core_Model_Locale::DEFAULT_LOCALE;
+
+        $userData = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+        if ($userData) {
+            $interfaceLocale = $userData->getInterfaceLocale();
+        }
+
+        return $interfaceLocale;
+    }
 }

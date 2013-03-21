@@ -81,6 +81,15 @@ class Mage_Adminhtml_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block
             )
         );
 
+        $fieldset->addField('interface_locale', 'select', array(
+                'name'   => 'interface_locale',
+                'label'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface locale'),
+                'title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface locale'),
+                'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
+                'class'  => 'select',
+            )
+        );
+
         $form->setValues($user->getData());
         $form->setAction($this->getUrl('*/system_account/save'));
         $form->setMethod('post');

@@ -85,6 +85,15 @@ class Mage_User_Block_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
         $confirmationLabel = Mage::helper('Mage_User_Helper_Data')->__('Password Confirmation');
         $this->_addPasswordFields($fieldset, $passwordLabel, $confirmationLabel, $isNewObject);
 
+        $fieldset->addField('interface_locale', 'select', array(
+                'name'   => 'interface_locale',
+                'label'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface locale'),
+                'title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface locale'),
+                'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
+                'class'  => 'select',
+            )
+        );
+
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(
                 'name'  	=> 'is_active',

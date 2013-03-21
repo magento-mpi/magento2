@@ -192,9 +192,8 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         if ($this->_isUrlChecked()) {
             $this->setFlag('', self::FLAG_IS_URLS_CHECKED, true);
         }
-        if (is_null(Mage::getSingleton('Mage_Backend_Model_Session')->getLocale())) {
-            Mage::getSingleton('Mage_Backend_Model_Session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
-        }
+
+        $this->_processLocaleSettings();
 
         return $this;
     }
@@ -247,6 +246,26 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             return false;
         }
         return true;
+    }
+
+    /**
+     * Set session locale,
+     * process force locale set through url params
+     *
+     * @return Mage_Backend_Controller_ActionAbstract
+     */
+    protected function _processLocaleSettings()
+    {
+        $forceLocale = $this->getRequest()->getParam('locale', null);
+        if ($forceLocale) {
+            Mage::getSingleton('Mage_Backend_Model_Session')->setSessionLocale($forceLocale);
+        }
+
+        if (is_null(Mage::getSingleton('Mage_Backend_Model_Session')->getLocale())) {
+            Mage::getSingleton('Mage_Backend_Model_Session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
+        }
+
+        return $this;
     }
 
     /**
