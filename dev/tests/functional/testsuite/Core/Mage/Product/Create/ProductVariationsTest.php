@@ -144,6 +144,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function createSimpleViaVariationGrid($attributeData)
     {
         //Data for creation
+        $this->markTestIncomplete('MAGETWO-8582');
         $associated = $this->loadDataSet('Product', 'generate_simple_associated', null,
             array(
                 'general_attribute_1' => $attributeData['attribute1']['admin_title'],
@@ -202,6 +203,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function createVirtualViaVariationGrid($attributeData)
     {
         //Data for creation
+        $this->markTestIncomplete('MAGETWO-8582');
         $associated = $this->loadDataSet('Product', 'generate_virtual_associated', null,
             array(
                 'general_attribute_1' => $attributeData['attribute1']['admin_title'],
@@ -650,8 +652,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function priceRuleTypeDataProvider()
     {
         return array(
-            array('Fixed', '68.95'),
-            array('Percentage', '28.425'),
+            array('USD', '68.95'),
+            array('%', '28.425'),
         );
     }
 

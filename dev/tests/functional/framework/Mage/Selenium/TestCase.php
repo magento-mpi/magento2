@@ -2187,10 +2187,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $availableElement = $this->elementIsPresent($locator);
         if (!$availableElement || !$availableElement->displayed()) {
             $this->fail($this->locationToString() . "Problem with $controlType '$controlName', xpath '$locator':\n"
-                        . 'Control is not present(visible) on the page');
+                . 'Control is not present(visible) on the page');
         }
         $this->focusOnElement($availableElement);
-        $availableElement->click();
+        $this->getElement($locator)->click();
         if ($willChangePage) {
             $this->waitForPageToLoad();
             $this->addParameter('id', $this->defineIdFromUrl());
@@ -2230,7 +2230,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($availableElement) {
             $confirmation = $this->_getMessageXpath($message);
             $this->focusOnElement($availableElement);
-            $availableElement->click();
+            $this->getElement($locator)->click();
             $actualText = $this->alertText();
             $this->acceptAlert();
             $this->waitForAjax();
@@ -2360,7 +2360,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $waitAjax = strpos($tabElement->attribute('class'), 'ajax');
         $this->focusOnElement($tabElement);
-        $tabElement->click();
+        $this->getControlElement('tab', $tabName)->click();
         if ($waitAjax !== false) {
             $this->pleaseWait();
             $this->assertEmptyPageErrors();

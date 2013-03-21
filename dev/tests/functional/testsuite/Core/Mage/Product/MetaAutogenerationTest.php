@@ -241,7 +241,6 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
      */
     public function afterChangeAttributeSet($metaCode, $metaField, $metaMask, $attributeSet)
     {
-        $this->markTestIncomplete('MAGETWO-7054');
         //Data
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask' => $metaMask, 'sku_mask' => '{{name}}'));

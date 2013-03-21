@@ -36,7 +36,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
     public function deleteNegative()
     {
         //Steps
-        $this->fillDropdown('product_massaction', 'Delete');
+        $this->fillDropdown('mass_action_select_action', 'Delete');
         $this->clickButton('submit', false);
         //Verifying
         $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
@@ -53,7 +53,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
     public function changeStatusNegative()
     {
         //Steps
-        $this->fillDropdown('product_massaction', 'Change status');
+        $this->fillDropdown('mass_action_select_action', 'Change status');
         $this->fillDropdown('product_status', 'Disabled');
         $this->clickButton('submit', false);
         //Verifying
@@ -71,7 +71,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
     public function updateAttributesNegative()
     {
         //Steps
-        $this->fillDropdown('product_massaction', 'Update Attributes');
+        $this->fillDropdown('mass_action_select_action', 'Update Attributes');
         $this->clickButton('submit', false);
         //Verifying
         $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
@@ -100,7 +100,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
             $this->searchAndChoose($searchData[$i], 'product_grid');
         }
         $this->addParameter('qtyUpdatedProducts', $productQty);
-        $this->fillDropdown('product_massaction', 'Change status');
+        $this->fillDropdown('mass_action_select_action', 'Change status');
         $this->fillDropdown('product_status', 'Disabled');
         $this->addParameter('storeId', '');
         $this->clickButton('submit');
@@ -128,7 +128,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
             $this->searchAndChoose($searchData[$i], 'product_grid');
         }
         $this->addParameter('qtyUpdatedAtrProducts', $productQty);
-        $this->fillDropdown('product_massaction', 'Update Attributes');
+        $this->fillDropdown('mass_action_select_action', 'Update Attributes');
         $this->addParameter('storeId', '0');
         $this->clickButton('submit');
         //Data
@@ -165,7 +165,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
             $this->searchAndChoose($searchData[$i], 'product_grid');
         }
         $this->addParameter('qtyUpdatedAtrProducts', $productQty);
-        $this->fillDropdown('product_massaction', 'Update Attributes');
+        $this->fillDropdown('mass_action_select_action', 'Update Attributes');
         $this->addParameter('storeId', '0');
         $this->clickButton('submit');
         //Verifying

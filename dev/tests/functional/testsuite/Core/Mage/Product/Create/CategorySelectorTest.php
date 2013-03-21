@@ -18,6 +18,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
 {
     protected function assertPreConditions()
     {
+        $this->markTestIncomplete('MAGETWO-8078, MAGETWO-8265');
         $this->loginAdminUser();
     }
 

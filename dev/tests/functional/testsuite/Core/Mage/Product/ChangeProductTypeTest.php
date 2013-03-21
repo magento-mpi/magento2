@@ -139,7 +139,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function fromSimpleToVirtualDuringEditing($changedProduct, $changedType)
     {
         //Data
-        $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible');
+        $simpleProduct = $this->loadDataSet('Product', 'simple_product_required');
         $productData = $this->loadDataSet('Product', $changedProduct . '_product_visible');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
@@ -176,7 +176,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function fromVirtualDownloadableDuringEditing($initialProduct, $changedProduct, $changedType, $initialType)
     {
         //Data
-        $initialProductData = $this->loadDataSet('Product', $initialProduct . '_product_visible');
+        $initialProductData = $this->loadDataSet('Product', $initialProduct . '_product_required');
         $productData = $this->loadDataSet('Product', $changedProduct . '_product_visible');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
@@ -226,9 +226,6 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function checkDefaultIsVirtual($productType, $isWeightDisabled)
     {
         //Steps
-        if ($productType == 'bundle') {
-            $this->markTestIncomplete('MAGETWO-6269');
-        }
         $this->productHelper()->selectTypeProduct($productType);
         if ($isWeightDisabled) {
             //Verification grouped product
@@ -367,7 +364,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function fromConfigurableWithAttributesToSimpleDuringCreation($data)
     {
         //Data
-        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $simple = $this->loadDataSet('Product', 'simple_product_required');
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array('general_attribute_1' => $data['attributeName'], 'var1_attr_value1' => $data['attributeValue']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $simple['general_sku']));
@@ -402,7 +399,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
     public function toConfigurableDuringEditing($initialType, $data)
     {
         //Data
-        $initialProduct = $this->loadDataSet('Product', $initialType . '_product_visible');
+        $initialProduct = $this->loadDataSet('Product', $initialType . '_product_required');
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array('general_attribute_1' => $data['attributeName'], 'var1_attr_value1' => $data['attributeValue']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));

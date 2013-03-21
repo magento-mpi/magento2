@@ -138,6 +138,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     public function allFieldsInConfigurable($attrData)
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-8582');
         $productData = $this->loadDataSet('Product', 'configurable_product_required', null,
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
@@ -227,6 +228,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     public function specialCharactersInRequiredFields($attrData)
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-8582');
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')),
@@ -256,6 +258,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     public function longValuesInRequiredFields($attrData)
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-8582');
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:')),

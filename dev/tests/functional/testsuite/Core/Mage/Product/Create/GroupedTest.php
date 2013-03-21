@@ -210,6 +210,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithSimpleProduct()
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-7277');
         $simpleData = $this->loadDataSet('Product', 'simple_product_required');
         $groupedData = $this->loadDataSet('Product', 'grouped_product_required',
             array('associated_search_sku' => $simpleData['general_sku']));
@@ -242,6 +243,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithVirtualProduct()
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-7277');
         $virtualData = $this->loadDataSet('Product', 'virtual_product_required');
         $groupedData = $this->loadDataSet('Product', 'grouped_product_required',
             array('associated_search_sku' => $virtualData['general_sku']));
@@ -274,6 +276,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithDownloadableProduct()
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-7277');
         $downloadableData = $this->loadDataSet('Product', 'downloadable_product_required',
             array('downloadable_links_purchased_separately' => 'No'));
         $groupedData = $this->loadDataSet('Product', 'grouped_product_required',
