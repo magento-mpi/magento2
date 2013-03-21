@@ -11,11 +11,11 @@
 (function($) {
     "use strict";
 
-    $.widget('mage.ppExpressOrderReview', {
+    $.widget('mage.orderReview', {
         options: {
             orderReviewSubmitSelector: '#review-button',
             shippingSelector: '#shipping_method',
-            shippingSubmitForm: null,
+            shippingSubmitFormSelector: null,
             updateOrderSelector: '#update-order',
             billingAsShippingSelector: '#billing\\:as_shipping',
             updateContainerSelector: '#details-reload',
@@ -23,7 +23,9 @@
             shippingMethodContainer: '#shipping-method-container',
             isAjax: false,
             updateShippingMethodSubmitSelector: "#update-shipping-method-submit",
-            reviewSubmitSelector: "#review-submit"
+            reviewSubmitSelector: "#review-submit",
+            shippingMethodUpdateUrl:null,
+            updateOrderSubmitUrl:null
         },
 
         /**
@@ -45,12 +47,12 @@
                 .find(this.options.updateShippingMethodSubmitSelector).hide().end()
                 .find(this.options.reviewSubmitSelector).hide();
             this._shippingTobilling();
-            if ($(this.options.shippingSubmitForm).length) {
+            if ($(this.options.shippingSubmitFormSelector).length) {
                 this.isShippingSubmitForm = true;
-                $(this.options.shippingSubmitForm).find(this.options.updateShippingMethodSubmitSelector).hide().end()
+                $(this.options.shippingSubmitFormSelector).find(this.options.updateShippingMethodSubmitSelector).hide().end()
                     .on('change',
-                    this.options.shippingSelector, $.proxy(this._submitUpdateOrder, this, $(this.options.shippingSubmitForm).prop('action'), this.options.updateContainerSelector));
-                this._updateOrderSubmit(!$(this.options.shippingSubmitForm).find(this.options.shippingSelector).val());
+                    this.options.shippingSelector, $.proxy(this._submitUpdateOrder, this, $(this.options.shippingSubmitFormSelector).prop('action'), this.options.updateContainerSelector));
+                this._updateOrderSubmit(!$(this.options.shippingSubmitFormSelector).find(this.options.shippingSelector).val());
             } else {
                 this.element.on('input propertychange', ":input[name]", $.proxy(this._updateOrderSubmit, this, true, this._onShippingChange))
                     .find('select').not(this.options.shippingSelector).on('change', this._propertyChange);
@@ -92,7 +94,7 @@
          */
         _submitOrder: function() {
             if (this._validateForm()) {
-                this.element.find(this.options.updateOrderSelector).css('opacity', 0.5)
+                this.element.find(this.options.updateOrderSelector).fadeTo(0, 0.5)
                     .end().find(this.options.waitLoadingContainer).show()
                     .end().submit();
             }
@@ -146,7 +148,6 @@
                     this._ajaxComplete();
                 }
             });
-
         },
 
         /**
@@ -170,7 +171,6 @@
             if ($.type(fn) === 'function') {
                 fn.call(this);
             }
-
         },
 
         /**
@@ -179,7 +179,7 @@
          * @param disable  boolean for toggling
          */
         _toggleButton: function(button, disable) {
-            $(button).prop({"disabled": disable}).toggleClass('no-checkout', disable).css('opacity', disable ? 0.5 : 1);
+            $(button).prop({"disabled": disable}).toggleClass('no-checkout', disable).fadeTo(0, disable ? 0.5 : 1);
         },
 
         /**
@@ -187,7 +187,7 @@
          * @param e optional
          */
         _shippingTobilling: function(e) {
-            if (this.options.shippingSubmitForm) {
+            if (this.options.shippingSubmitFormSelector) {
                 return false;
             }
             var isChecked = $(this.options.billingAsShippingSelector).is(':checked'),
@@ -197,11 +197,14 @@
             }
             $(':input[name^="shipping"]', this.element).each($.proxy(function(key, value) {
                 var fieldObj = $(value.id.replace('shipping:', '#billing\\:'));
-                fieldObj.val($(value).val()).prop({"readonly": isChecked, "disabled": isChecked}).css("opacity", opacity);
-                if (fieldObj.is("select")) {
-                    this.triggerPropertyChange = false;
-                    fieldObj.trigger('change');
+                if(isChecked){
+                    fieldObj=fieldObj.val($(value).val());
+                    if (fieldObj.is("select")) {
+                        this.triggerPropertyChange = false;
+                        fieldObj.trigger('change');
+                    }
                 }
+                fieldObj.prop({"readonly": isChecked, "disabled": isChecked}).fadeTo(0, opacity);
             }, this));
             if (isChecked || e) {
                 this._updateOrderSubmit(true);
@@ -228,7 +231,7 @@
                 this._toggleButton(this.options.updateOrderSelector, true);
                 // form data and callBack updated based on the shippping Form element
                 if (this.isShippingSubmitForm) {
-                    formData = $(this.options.shippingSubmitForm).serialize() + "&isAjax=true";
+                    formData = $(this.options.shippingSubmitFormSelector).serialize() + "&isAjax=true";
                     callBackResponseHandler = function(response) {
                         $(resultId).html(response);
                         this._updateOrderSubmit(false);

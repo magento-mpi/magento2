@@ -90,8 +90,7 @@ $shippingAddress = $this->getShippingAddress();
         "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
         "<?php echo $this->getViewFileUrl('Mage_Paypal::order-review.js') ?>",
         function() {
-            jQuery('#order-review-form').validation().ppExpressOrderReview({
-                shippingResultId: 'details-reload',
+            jQuery('#order-review-form').validation().orderReview({
                 shippingMethodUpdateUrl: '<?php echo $this->escapeHtml($this->getUpdateShippingMethodsUrl()) ?>',
                 updateOrderSubmitUrl: '<?php echo $this->escapeHtml($this->getUpdateOrderSubmitUrl()) ?>',
                 isAjax: <?php echo $this->getUseAjax() ? 'true' : 'false' ?>
