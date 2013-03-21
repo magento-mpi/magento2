@@ -16,7 +16,7 @@
 <?php if(null === $stores): ?>
     <?php echo $this->__('Please assign theme to specific store. And then upload store logo.'); ?>
 <?php else: ?>
-    <?php foreach($stores as $store) : ?>
+    <?php foreach ($stores as $store): ?>
         <?php $elementId = $element->getHtmlId() . '-' . $store->getId(); ?>
         <div id="<?php echo $elementId; ?>-uploader" class="custom-file">
             <div class="custom-file-for-store-view"><?php echo $store->getName(); ?>:</div>

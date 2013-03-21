@@ -27,7 +27,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
 
     /**
      * Preconditions:
-     *
      */
     protected function assertPreConditions()
     {
@@ -54,7 +53,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function openAvailableThemePage()
     {
+        //Data
         $this->themeHelper()->deleteAllVirtualThemes();
+        //Steps
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
         $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'));
@@ -73,9 +74,11 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function themeControls()
     {
+        //Data
         $this->themeHelper()->deleteAllVirtualThemes();
         $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
         $this->addParameter('id', $themeId);
+        //Steps
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
 
@@ -130,15 +133,17 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function previewCustomizedTheme()
     {
+        //Data
         $themeData = $this->themeHelper()->createTheme();
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
         $this->addParameter('id', $themeData['id']);
-
+        //Steps
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
         $this->clickButton('preview_theme_button');
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeData['id']);
+        //Verify
         $this->validatePage('preview_theme_in_navigation');
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'),
             'Theme is not opened in design mode');
@@ -146,7 +151,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeData['id']);
         $this->validatePage('design_editor_selector');
-
+        //Clear after test
         $this->designEditorHelper()->deleteTheme($themeData);
     }
 
@@ -156,11 +161,12 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function deleteUnassignedTheme()
     {
+        //Steps
         $themeData = $this->themeHelper()->createTheme();
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
         $this->addParameter('id', $themeData['id']);
         $this->navigate('design_editor_selector');
-
+        //Verify
         $this->assertTrue($this->controlIsPresent('button', 'delete_theme_button'),
             'Delete button is not exists');
         $this->designEditorHelper()->deleteTheme($themeData);
@@ -172,7 +178,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * @test
      * @return array
      */
-    public function customizeTheme()
+    public function createTheme()
     {
         $themeData = $this->loadDataSet('Theme', 'all_fields');
         $this->themeHelper()->createTheme($themeData);
@@ -185,11 +191,12 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * Check Mode switcher button
      *
      * @param $themeData
-     * @depends customizeTheme
+     * @depends createTheme
      * @test
      */
     public function checkModeSwitcher($themeData)
     {
+        //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
         $this->addParameter('id', $themeData['id']);
@@ -197,6 +204,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeData['id']);
         $this->validatePage('preview_theme_in_navigation');
+        //Verify
         $this->assertTrue($this->controlIsPresent('pageelement', 'mode_switcher'));
         $this->designEditorHelper()->selectModeSwitcher('Enabled');
         $this->validatePage('preview_theme_in_design');
@@ -207,7 +215,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeData['id']);
         $this->validatePage('design_editor_selector');
-
         $this->assertTrue($this->controlIsPresent('pageelement', 'customized_themes_tab_content'));
         $this->assertTrue($this->controlIsVisible('pageelement', 'customized_themes_tab_content'));
     }
@@ -217,29 +224,27 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * <p>Assign theme from navigation mode</p>
      * Present one store view only
      * @param $themeData
-     * @depends customizeTheme
+     * @depends createTheme
      * @test
      */
     public function assignThemeFromNavigationMode($themeData)
     {
         $this->markTestIncomplete('Incomplete test with wrong logic. Functionality will be changed');
-
+        //Data
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
-
+        //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
-
         $this->addParameter('id', $themeData['id']);
         $this->clickButton('edit_theme_button');
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeData['id']);
         $this->validatePage('preview_theme_in_design');
-
         $this->designEditorHelper()->selectModeSwitcher('Disabled');
         $this->validatePage('preview_theme_in_navigation');
-
         $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign');
+        //Verify
         $this->assertTrue($this->checkCurrentPage('assigned_theme_default_in_design'));
         $this->clickControl('link', 'quit');
         $this->_windowId = $this->selectLastWindow();
@@ -251,25 +256,25 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * <p>Assign theme from design mode</p>
      * Present one store view only
      * @param $themeData
-     * @depends customizeTheme
+     * @depends createTheme
      * @test
      */
     public function assignThemeFromDesignMode($themeData)
     {
+        //Data
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
-
+        //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
-
         $this->addParameter('id', $themeData['id']);
         $this->clickButton('edit_theme_button');
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeData['id']);
         $this->validatePage('preview_theme_in_design');
-
         $this->clickButton('select');
         $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign');
+        //Verify
         $this->assertTrue($this->checkCurrentPage('save_and_assign_theme_default_in_design'));
         $this->clickControl('link', 'quit');
         $this->_windowId = $this->selectLastWindow();
@@ -281,19 +286,20 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * <p>Test theme selector page when customized themes present and has preview button</p>
      *
      * @param $themeData
-     * @depends customizeTheme
+     * @depends createTheme
      * @test
      */
     public function assignThemeFromCustomizeTab($themeData)
     {
+        //Data
         $this->navigate('manage_stores');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
-
+        //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
-
         $this->addParameter('id', $themeData['id']);
         $this->clickButtonAndConfirm('assign_theme_button', 'confirmation_for_assign');
+        //Verify
         $this->clickControl('link', 'quit');
         $this->addParameter('id', $themeData['id']);
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
@@ -304,11 +310,12 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     /**
      * Check Quick Styles attributes
      * @param $themeData
-     * @depends customizeTheme
+     * @depends createTheme
      * @test
      */
     public function openAndCheckQuickStylesAttributes($themeData)
     {
+        //Steps
         $this->navigate('design_editor_selector');
         $this->clickControl('link', 'customized_themes_tab');
         $this->addParameter('id', $themeData['id']);
@@ -317,7 +324,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->addParameter('id', $themeData['id']);
         $this->validatePage('preview_theme_in_design');
         $this->clickControl('link', 'quick_styles_doc');
-
+        //Verify
         $this->openTab('header');
         $this->assertTrue($this->controlIsPresent('pageelement', 'store_name'));
         $this->assertTrue($this->controlIsPresent('pageelement', 'background_image'));
@@ -401,7 +408,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * Download theme css
      *
      * @param $themeData
-     * @depends customizeTheme
+     * @depends createTheme
      * @param $linkName
      * @param $fileName
      * @dataProvider allThemeCss
@@ -458,7 +465,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     /**
      * Delete customized theme.
      * @param $themeData
-     * @depends customizeTheme
+     * @depends createTheme
      * @test
      */
     public function deleteCustomizedTheme($themeData)

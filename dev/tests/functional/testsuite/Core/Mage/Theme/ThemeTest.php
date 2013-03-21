@@ -27,13 +27,55 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Bug Cover<p/>
+     * <p>Verification of MAGETWO-4638:</p>
+     *
+     * @test
+     */
+    public function openGridPage()
+    {
+        $this->navigate('theme_list');
+        $this->validatePage('theme_list');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'), 'Theme grid table is not present');
+    }
+
+    /**
+     * <p>Bug Cover<p/>
+     * <p>Verification of MAGETWO-4638:</p>
+     *
+     * @test
+     */
+    public function openNewThemePage()
+    {
+        $this->navigate('theme_list');
+        $this->clickButton('add_new_theme');
+        $this->validatePage('new_theme');
+        $this->assertTrue($this->controlIsPresent('fieldset', 'theme'), 'Theme form fieldset is not present');
+    }
+
+    /**
+     * Retest Back button functionality
+     * @test
+     */
+    public function backToGrid()
+    {
+        //Steps
+        $this->navigate('theme_list');
+        $this->clickButton('add_new_theme');
+        $this->clickButton('back');
+        //Verify
+        $this->validatePage('theme_list');
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_grid'), 'Theme grid table is not present');
+    }
+
+    /**
      * Create Theme with required field only
      *
      * @return array
      * @test
      * @TestlinkId TL-MAGE-6663
      */
-    public function onlyRequiredFilledFields()
+    public function createOnlyRequiredFilledFields()
     {
         //Data:
         $themeData = $this->loadDataSet('Theme', 'default_new_theme');
@@ -53,7 +95,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      *
      * @test
      */
-    public function allFields()
+    public function createWithAllFields()
     {
         //Data:
         $themeData = $this->loadDataSet('Theme', 'all_fields');
@@ -71,7 +113,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     /**
      * Edit Theme
      * @param $themeData
-     * @depends allFields
+     * @depends createWithAllFields
      * @test
      */
     public function editTheme($themeData)
@@ -83,6 +125,8 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->themeHelper()->openTheme($themeData);
         $this->fillFieldset($editData['theme'], 'theme');
         $this->fillFieldset($themeData['requirements'], 'requirements');
+        $this->clickButton('save_and_continue_edit');
+        $this->validatePage('edit_theme');
         $this->clickButton('save_theme');
         //Verify:
         $this->assertMessagePresent('success', 'success_saved_theme');
@@ -91,6 +135,30 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->assertNotNull($themeLocator, 'Theme is not found');
 
         $this->themeHelper()->deleteTheme($editData);
+    }
+
+    /**
+     * Reset button functionality
+     * @param $themeData
+     * @depends createWithAllFields
+     * @test
+     */
+    public function resetThemeForm($themeData)
+    {
+        //Data:
+        $editData = $this->loadDataSet('Theme', 'edit_theme');
+        //Steps:
+        $this->navigate('theme_list');
+        $this->themeHelper()->openTheme($themeData);
+        $this->fillFieldset($editData['theme'], 'theme');
+        $this->fillFieldset($themeData['requirements'], 'requirements');
+        $this->clickButton('reset');
+        $this->clickButton('save_theme');
+        $this->assertMessagePresent('success', 'success_saved_theme');
+        //Verify
+        $searchData = $this->_prepareDataForSearch($themeData['theme']);
+        $themeLocator = $this->search($searchData, 'theme_list_grid');
+        $this->assertNotNull($themeLocator, 'Theme is not found');
     }
 
     /**
@@ -130,7 +198,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      *
      * Download theme css files
      *
-     * @depends onlyRequiredFilledFields
+     * @depends createOnlyRequiredFilledFields
      * @param array $themeData
      * @param $linkName
      * @param $fileName
@@ -151,10 +219,8 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         }
         $downloadDir  = $appConfig['downloadDir'];
         $filePath = $downloadDir . DIRECTORY_SEPARATOR . $fileName;
-        if (!file_exists($filePath)) {
-            sleep(2);
-            $this->assertTrue(file_exists($filePath), 'File was not downloaded');
-            $this->assertTrue(unlink($filePath), 'File was not deleted');
+        while (!file_exists($filePath)) {
+            sleep(1);
         }
         $this->assertTrue(file_exists($filePath), 'File was not downloaded');
         $this->assertTrue(unlink($filePath), 'File was not deleted');
@@ -180,7 +246,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 
     /**
      * clear test
-     * @depends onlyRequiredFilledFields
+     * @depends createOnlyRequiredFilledFields
      * @params $themeData
      * @test
      */
@@ -193,7 +259,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * TBD. Should be resolved problem with file upload
      *
      * Upload custom.css
-     * @depends onlyRequiredFilledFields
+     * @depends createOnlyRequiredFilledFields
      * @param array $themeData
      * @test
      */
@@ -223,7 +289,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      * TBD. Should be resolved problem with file upload
      *
      * Upload JS files
-     * @depends onlyRequiredFilledFields
+     * @depends createOnlyRequiredFilledFields
      * @param array $themeData
      * @test
      */
