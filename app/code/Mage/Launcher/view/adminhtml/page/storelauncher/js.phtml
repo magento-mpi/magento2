@@ -13,6 +13,12 @@
 
 <script type="text/javascript">
 (function($) {
+    var checkPageCompleted = function() {
+        var content = $('#store-launcher-content'),
+            completeSteps = content.eq(0).find('.tile-complete').length;
+        return completeSteps == content.find('article').size();
+    };
+
     // Launch store
     $('#action-launch-store')
         .on('click.launchStore', function(event) {
@@ -23,7 +29,7 @@
                     showLoader: true,
                     dataType: 'json',
                     async: false,
-                    context: $('.store-launcher-popup > div'),
+                    context: $('#launch-my-store-popup'),
                     url: launchUrl,
                     success: function(result, status) {
                         if (result.success) {
@@ -36,7 +42,11 @@
                         }
                     }
                 };
-            $.ajax(ajaxOptions);
+            if (checkPageCompleted()) {
+                $.ajax(ajaxOptions);
+            } else {
+                alert($.mage.__('All Tiles have to be completed before this action.'));
+            }
             if (!startSuccess) {
                 event.preventDefault();
             }
@@ -60,13 +70,17 @@
                 popupData = elem.data('show-popup'),
                 popupElem = $('.' + popupData + '-popup');
 
-            popupElem
-                .closest('.fade')
-                .fadeIn(400, function() {
-                    popupElem.animate({
-                        top: '50%'
+            if (checkPageCompleted()) {
+                popupElem
+                    .closest('.fade')
+                    .fadeIn(400, function() {
+                        popupElem.animate({
+                            top: '50%'
+                        });
                     });
-                });
+            } else {
+                alert($.mage.__('All Tiles have to be completed before this action.'));
+            }
         });
 
     // Close storelauncher popup
@@ -83,6 +97,10 @@
                 .closest('.fade')
                 .fadeOut();
         });
+
+    $(document).ready(function() {
+        $('#action-launch-my-store').prop("disabled", !checkPageCompleted())
+    });
 })(jQuery);
 </script>
 
