@@ -26,13 +26,13 @@
                     <th class="col-total last"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Row Total') ?></span></th>
                 </tr>
             </thead>
-            <tbody>
             <?php $i=0;foreach ($_items as $_item): ?>
                 <?php if ($_item->getOrderItem()->getParentItem()) continue; else $i++; ?>
-                <?php echo $this->getItemHtml($_item) ?>
-                <?php echo $this->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+                <tbody class="<?php echo $i%2?'even':'odd' ?>">
+                    <?php echo $this->getItemHtml($_item) ?>
+                    <?php echo $this->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+                </tbody>
             <?php endforeach; ?>
-            </tbody>
         </table>
     </div>
 </div>

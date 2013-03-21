@@ -550,6 +550,12 @@
     top: -5px;
 }
 
+.ui-dialog ul.form-list,
+.ui-dialog ul.options-list {
+    list-style: none;
+    padding: 0;
+}
+
 /*
     Clearfix
 -------------------------------------- */

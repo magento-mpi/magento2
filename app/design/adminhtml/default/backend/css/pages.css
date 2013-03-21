@@ -1761,7 +1761,7 @@
     width: 100%;
 }
 
-[class^=" adminhtml-sales-order-"] .order-billing-address .actions ,
+[class^=" adminhtml-sales-order-"] .order-billing-address .actions,
 [class^=" adminhtml-sales-order-"] .order-shipping-address .actions {
     margin: 17px 0;
 }
@@ -2139,7 +2139,7 @@
 }
 
 [class^=" adminhtml-sales-order-"] .item-options {
-    margin: 5px 0;
+    margin: 5px 0 5px 10px;
 }
 
 [class^=" adminhtml-sales-order-"] .item-options dt {
@@ -2248,6 +2248,34 @@ table.items-to-invoice tbody tr:hover td {
     margin-top: 15px;
 }
 
+[class^=" adminhtml-sales-"] .grid tbody td {
+    vertical-align: top;
+}
+
+[class^=" adminhtml-sales-"] .grid tbody.even tr td {
+    background: #e6e3de;
+}
+
+[class^=" adminhtml-sales-"] .grid tbody.odd tr td {
+    border-bottom: 0;
+    background: #f5f2ed;
+}
+
+[class^=" adminhtml-sales-"] .grid .data {
+    border-bottom: 1px solid #c0bbaf;
+}
+
+[class^=" adminhtml-sales-"] .grid td .option-label {
+    font-weight: bold;
+}
+
+[class^=" adminhtml-sales-"] .grid td .option-value {
+    margin: 0 0 0 10px;
+}
+
+.col-product .product_to_add {
+    float: right;
+}
 /*
     Packaging for Shipping Popup
 -------------------------------------- */
@@ -2488,6 +2516,11 @@ table.items-to-invoice tbody tr:hover td {
     padding: 25px 25px 0;
 }
 
+.popup-window-content > ul {
+    list-style: none;
+    padding: 0;
+}
+
 .packaging-window .col-weight {
     text-align: left;
     width: 60px;
@@ -2584,6 +2617,11 @@ table.items-to-invoice tbody tr:hover td {
 .sp-methods > dd > ul {
     list-style: none;
     padding: 0;
+}
+
+[class^=" adminhtml-sales-order-"] .order-billing-address .packaging-window .actions,
+[class^=" adminhtml-sales-order-"] .order-shipping-address .packaging-window .actions {
+    margin: 0;
 }
 
 /*
