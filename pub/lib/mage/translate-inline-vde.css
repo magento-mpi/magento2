@@ -13,12 +13,6 @@
 .trnslate-inline-alt-area [data-translate-mode=alt],
 .trnslate-inline-area .translate-inline { outline: dashed 2px darkgray!important;}
 
-.translate-inline-script {
-    background-color: yellow;
-    color: black;
-    font-weight: bold;
-}
-
 .translate-dialog {
     border: 0;
 }
