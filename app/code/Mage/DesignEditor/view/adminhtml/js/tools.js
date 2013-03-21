@@ -12,16 +12,10 @@
 
     $.widget("vde.translateInlineToggle", {
         _create: function() {
-            this.element.on('click', $.proxy(this._onClick, this));
-            this.element.on('mouseover', $.proxy(this._onMouseOver, this));
-            this.element.on('mouseout', $.proxy(this._onMouseOut, this));
-        },
-
-        /**
-        * This method displays the translate menu.
-        */
-        _onClick: function () {
-            $('[translate-menu]').toggleClass('hidden');
+            this.element.on('mouseover', $.proxy(this._onMouseOver, this))
+                        .on('mouseout', $.proxy(this._onMouseOut, this))
+                        .on('mousedown', $.proxy(this._onMouseDown, this))
+                        .on('mouseup', $.proxy(this._onMouseUp, this));
         },
 
         /**
@@ -30,7 +24,9 @@
          * @private
          */
         _onMouseOver: function () {
-            $('[data-tip="translate"]').removeClass('hidden');
+            /** Only display if menu is not being shown */
+            if ($('[translate-menu]').hasClass('hidden'))
+                $('[data-tip="translate"]').removeClass('hidden');
         },
 
         /**
@@ -40,6 +36,41 @@
          */
         _onMouseOut: function () {
             $('[data-tip="translate"]').addClass('hidden');
+        },
+
+        /**
+         * This method will check to see if the mouse button has been held down for more than 1 second.
+         * If it has, then the menu should be displayed, else assume a toggle of the current text mode.
+         *
+         * @private
+         */
+        _onMouseDown: function () {
+            $('[data-tip="translate"]').addClass('hidden');
+            clearTimeout(this.downTimer);
+            this.downTimer = setTimeout(function() {
+                $('[translate-menu]').toggleClass('hidden');
+            }, 1000);
+        },
+
+        _onMouseUp: function () {
+            /** If the menu is displaying, hide tooltip, else, toggle text mode.
+             */
+            if ($('[translate-menu]').hasClass('hidden')) {
+                $('[data-translate-selected]').each(function() {
+                    if ($(this).hasClass('text-menu-background-on')) {
+                        var mode = $(this).translateInlineToggleMode();
+                        return false;
+                    }
+                    else {
+                        // If the disabled image for this mode is displaying in the toolbar,
+                        // then toggle on.
+                    }
+                });
+            }
+            else
+                $('[data-tip="translate"]').addClass('hidden');
+
+            clearTimeout(this.downTimer);
         }
     });
 
@@ -52,7 +83,7 @@
         },
 
         _create: function() {
-            this.element.on('click', $.proxy(this._onClick, this));
+            this.element.on('click', $.proxy(this.onClick, this));
         },
 
         /**
@@ -62,9 +93,10 @@
         * attributes where applicable (translate-mode, either 'text', 'script' or 'alt').
         *
         */
-        _onClick: function () {
+        onClick: function () {
             // Hide menu.
-            $('[translate-menu]').toggleClass('hidden');
+            if (!$('[translate-menu]').hasClass('hidden'))
+                $('[translate-menu]').toggleClass('hidden');
 
             // Change menu to reflect what was selected, so will display correctly when displayed again.
             this._updateMenu(this.element.attr('data-translate-selected'));
