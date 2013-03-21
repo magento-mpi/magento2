@@ -171,6 +171,31 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
+     */
+    public function testGetConfigCustomized()
+    {
+        $this->_emulateFixtureTheme();
+        $theme = $this->_model->getDesignTheme();
+        $customConfigFile = $theme->getCustomViewConfigPath();
+        /** @var $filesystem Magento_Filesystem */
+        $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
+        $filesystem->setIsAllowCreateDirectories(true);
+        try {
+            $filesystem->write($customConfigFile, '<?xml version="1.0" encoding="UTF-8"?>
+                <view><vars  module="Namespace_Module"><var name="customVar">custom value</var></vars></view>');
+
+            $config = $this->_model->getViewConfig();
+            $this->assertInstanceOf('Magento_Config_View', $config);
+            $this->assertEquals(array('customVar' => 'custom value'), $config->getVars('Namespace_Module'));
+        } catch (Exception $e) {
+            $filesystem->delete($customConfigFile);
+            throw $e;
+        }
+        $filesystem->delete($customConfigFile);
+    }
+
+    /**
      * @param bool $devMode
      * @param string $file
      * @param string $result

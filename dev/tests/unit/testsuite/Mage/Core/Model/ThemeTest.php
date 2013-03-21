@@ -27,10 +27,21 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
         $themeCollection = $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false);
 
+        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+        $dirMock->expects($this->any())
+            ->method('getDir')
+            ->with(Mage_Core_Model_Dir::MEDIA)
+            ->will($this->returnValue('media'));
+        $objectManager->expects($this->any())
+            ->method('get')
+            ->with('Mage_Core_Model_Dir')
+            ->will($this->returnValue($dirMock));
+
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme',
             array(
-                 'objectManager' => $this->getMock('Magento_ObjectManager', array(), array(), '', false),
+                 'objectManager' => $objectManager,
                  'themeFactory' => $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
                  'helper' => $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
                  'themeImage' => $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
@@ -142,5 +153,39 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
         $themeMock->setCustomization($jsFile);
         $this->assertInstanceOf('Mage_Core_Model_Theme', $themeMock->saveThemeCustomization());
+    }
+
+    /**
+     * @param $customizationPath
+     * @param $themeId
+     * @param $expected
+     * @dataProvider getCustomViewConfigDataProvider
+     */
+    public function testGetCustomViewConfigPath($customizationPath, $themeId, PHPUnit_Framework_Constraint $expected)
+    {
+        $themeMock = $this->_getThemeModel();
+        $themeMock->setData('customization_path', $customizationPath);
+        $themeMock->setId($themeId);
+        $actual = $themeMock->getCustomViewConfigPath();
+        $this->assertThat($actual, $expected);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomViewConfigDataProvider()
+    {
+        return array(
+            'no custom path, theme is not loaded' => array(null, null, $this->isEmpty()),
+            'no custom path, theme is loaded' => array(null, 'theme_id',
+                $this->equalTo('media' . DIRECTORY_SEPARATOR . 'theme_customization' . DIRECTORY_SEPARATOR . 'theme_id'
+                . DIRECTORY_SEPARATOR . 'view.xml')
+            ),
+            'with custom path, theme is not loaded' => array('custom/path', null,
+                $this->equalTo('custom/path' . DIRECTORY_SEPARATOR . 'view.xml')),
+            'with custom path, theme is loaded' => array('custom/path', 'theme_id',
+                $this->equalTo('custom/path' . DIRECTORY_SEPARATOR . 'view.xml')
+            ),
+        );
     }
 }
