@@ -149,7 +149,11 @@
                 });
         },
 
-        _hoverEffects: function () {
+        _hoverEffects: function (e) {
+            var targetSubmenu = $(e.target).closest('.submenu');
+            if(targetSubmenu.length && targetSubmenu.is(':visible')) {
+                return;
+            }
             var availableWidth = parseInt($(this).parent().css('width')) - $(this).position().left,
                 submenu = $('> .submenu', this),
                 colsWidth = 0;
@@ -175,7 +179,11 @@
                 .slideDown('fast');
         },
 
-        _leaveEffects: function () {
+        _leaveEffects: function (e) {
+            var targetSubmenu = $(e.target).closest('.submenu');
+            if(targetSubmenu.length && targetSubmenu.is(':hidden')) {
+                return;
+            }
             var self = $(this);
 
             $('> .submenu', this)
