@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Core_Model_Event_Config
 {
     /**

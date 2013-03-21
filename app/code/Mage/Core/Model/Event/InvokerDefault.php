@@ -1,15 +1,11 @@
 <?php
 /**
+ * Default event invoker
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Default event invoker.
  */
 class Mage_Core_Model_Event_InvokerDefault implements Mage_Core_Model_Event_InvokerInterface
 {

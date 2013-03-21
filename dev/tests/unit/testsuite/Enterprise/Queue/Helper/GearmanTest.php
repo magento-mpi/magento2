@@ -2,51 +2,49 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_Queue_Helper_GearmanTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param array $arguments
-     * @return Enterprise_Queue_Helper_Gearman
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getHelperGearman($arguments = array())
-    {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+    protected $_configMock;
 
-        return $objectManagerHelper->getObject('Enterprise_Queue_Helper_Gearman', $arguments);
+    /**
+     * @var Enterprise_Queue_Helper_Gearman
+     */
+    protected $_helperGearman;
+
+    protected function setUp()
+    {
+        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_helperGearman = $objectManagerHelper->getObject('Enterprise_Queue_Helper_Gearman', array(
+            'config' => $this->_configMock,
+        ));
     }
 
     public function testGetServers()
     {
-        $configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $configMock->expects($this->once())->method('getNode')
+        $this->_configMock->expects($this->once())->method('getNode')
             ->with(Enterprise_Queue_Helper_Gearman::XML_PATH_QUEUE_ADAPTER_GEARMAN_SERVERS)
             ->will($this->returnValue('127.0.0.1:4730'));
 
-        $helperGearman = $this->_getHelperGearman(array(
-            'config' => $configMock
-        ));
-
-        $this->assertEquals('127.0.0.1:4730', $helperGearman->getServers());
+        $this->assertEquals('127.0.0.1:4730', $this->_helperGearman->getServers());
     }
 
-    public function testPrepareData()
+    public function testEncodeData()
     {
-        $helperGearman = $this->_getHelperGearman();
-
         $data = array(
             'foo' => array(
-                'baz' => 'bar'
+                'baz' => 'bar',
             ),
             'qux' => 123,
-            2 => true
+            2 => true,
         );
-        $this->assertEquals(json_encode($data), $helperGearman->prepareData($data));
+        $this->assertEquals(json_encode($data), $this->_helperGearman->encodeData($data));
     }
 }

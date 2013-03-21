@@ -14,7 +14,6 @@
         <Enterprise_Queue>
             <version>2.0.0.0</version>
             <active>false</active>
-            <codePool>core</codePool>
         </Enterprise_Queue>
     </modules>
     <global>
@@ -30,7 +29,7 @@
             <preferences>
                 <Mage_Core_Model_Event_InvokerInterface>Enterprise_Queue_Model_Core_Event_InvokerAsynchronous</Mage_Core_Model_Event_InvokerInterface>
                 <Enterprise_Queue_Model_Queue_HandlerInterface>Enterprise_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
-                <Enterprise_Queue_Model_Queue_Adapter_AdapterInterface>Enterprise_Queue_Model_Queue_Adapter_Gearman</Enterprise_Queue_Model_Queue_Adapter_AdapterInterface>
+                <Enterprise_Queue_Model_Queue_AdapterInterface>Enterprise_Queue_Model_Queue_Adapter_Gearman</Enterprise_Queue_Model_Queue_AdapterInterface>
             </preferences>
         </di>
     </global>

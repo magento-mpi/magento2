@@ -2,24 +2,50 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_Queue_Model_Core_Event_InvokerAsynchronousTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param array $arguments
-     * @return Enterprise_Queue_Model_Core_Event_InvokerAsynchronous
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getEventInvokerAsynchronous($arguments = array())
-    {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+    protected $_queueHandlerMock;
 
-        return $objectManagerHelper->getObject('Enterprise_Queue_Model_Core_Event_InvokerAsynchronous', $arguments);
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_invokerDefaultMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_eventMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_eventObserverMock;
+
+    /**
+     * @var Enterprise_Queue_Model_Core_Event_InvokerAsynchronous
+     */
+    protected $_invokerAsynchronous;
+
+    protected function setUp()
+    {
+        $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Queue_HandlerInterface');
+        $this->_invokerDefaultMock = $this->getMock('Mage_Core_Model_Event_InvokerDefault', array(), array(), '',
+            false);
+        $this->_eventMock = $this->getMock('Varien_Event', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_invokerAsynchronous = $objectManagerHelper->getObject(
+            'Enterprise_Queue_Model_Core_Event_InvokerAsynchronous', array(
+            'queueHandler' => $this->_queueHandlerMock,
+            'invokerDefault' => $this->_invokerDefaultMock,
+        ));
     }
 
     public function testDispatchWithAsynchronousMode()
@@ -28,58 +54,40 @@ class Enterprise_Queue_Model_Core_Event_InvokerAsynchronousTest extends PHPUnit_
             'model' => 'some_model',
             'method' => 'some_method',
             'config' => array(
-                Enterprise_Queue_Model_Core_Event_InvokerAsynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => true,
+                Enterprise_Queue_Model_Core_Event_InvokerAsynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 1,
                 Enterprise_Queue_Model_Core_Event_InvokerAsynchronous::CONFIG_PARAMETER_PRIORITY => 7,
-            )
+            ),
         );
 
-        $eventMock = $this->getMock('Varien_Event', array(), array(), '', false);
-        $eventMock->expects($this->once())->method('getName')->will($this->returnValue('some_event'));
+        $this->_eventMock->expects($this->once())->method('getName')->will($this->returnValue('some_event'));
+        $this->_eventObserverMock->expects($this->once())->method('toArray')->will($this->returnValue(array('123')));
+        $this->_eventObserverMock->expects($this->once())->method('getEvent')
+            ->will($this->returnValue($this->_eventMock));
 
-        $eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
-        $eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
-        $eventObserverMock->expects($this->once())->method('toArray')->will($this->returnValue(array('123')));
+        $this->_queueHandlerMock->expects($this->once())->method('addTask')
+            ->with('some_event', array('observer' => array('123'), 'configuration' => $configuration), 7);
+        $this->_invokerDefaultMock->expects($this->never())->method('dispatch');
 
-        $queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Queue_HandlerInterface', array(), array(), '',
-            false);
-        $queueHandlerMock->expects($this->once())->method('addTask')->with('some_event', array('123'), 7);
-
-        $invokerDefaultMock = $this->getMock('Mage_Core_Model_Event_InvokerDefault', array(), array(), '', false);
-        $invokerDefaultMock->expects($this->never())->method('dispatch');
-
-        $invokerAsynchronous = $this->_getEventInvokerAsynchronous(array(
-            'queueHandler' => $queueHandlerMock,
-            'invokerDefault' => $invokerDefaultMock,
-        ));
-        $invokerAsynchronous->dispatch($configuration, $eventObserverMock);
+        $this->_invokerAsynchronous->dispatch($configuration, $this->_eventObserverMock);
     }
 
     /**
      * @param array $configuration
-     * @dataProvider dataProviderForDispatchWithNotAsynchronousMode
+     * @dataProvider dataProviderForDispatchWithNonAsynchronousMode
      */
     public function testDispatchWithNonAsynchronousMode($configuration)
     {
-        $eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_queueHandlerMock->expects($this->never())->method('addTask');
+        $this->_invokerDefaultMock->expects($this->once())->method('dispatch')
+            ->with($configuration, $this->_eventObserverMock);
 
-        $queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Queue_HandlerInterface', array(), array(), '',
-            false);
-        $queueHandlerMock->expects($this->never())->method('addTask');
-
-        $invokerDefaultMock = $this->getMock('Mage_Core_Model_Event_InvokerDefault', array(), array(), '', false);
-        $invokerDefaultMock->expects($this->once())->method('dispatch')->with($configuration, $eventObserverMock);
-
-        $invokerAsynchronous = $this->_getEventInvokerAsynchronous(array(
-            'queueHandler' => $queueHandlerMock,
-            'invokerDefault' => $invokerDefaultMock,
-        ));
-        $invokerAsynchronous->dispatch($configuration, $eventObserverMock);
+        $this->_invokerAsynchronous->dispatch($configuration, $this->_eventObserverMock);
     }
 
     /**
      * @return array
      */
-    public function dataProviderForDispatchWithNotAsynchronousMode()
+    public function dataProviderForDispatchWithNonAsynchronousMode()
     {
         return array(
             array(
@@ -87,16 +95,16 @@ class Enterprise_Queue_Model_Core_Event_InvokerAsynchronousTest extends PHPUnit_
                     'model' => 'some_model',
                     'method' => 'some_method',
                     'config' => array(
-                        Enterprise_Queue_Model_Core_Event_InvokerAsynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => false,
-                    )
-                )
+                        Enterprise_Queue_Model_Core_Event_InvokerAsynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 0,
+                    ),
+                ),
             ),
             array(
                 array(
                     'model' => 'some_model',
                     'method' => 'some_method',
-                )
-            )
+                ),
+            ),
         );
     }
 }

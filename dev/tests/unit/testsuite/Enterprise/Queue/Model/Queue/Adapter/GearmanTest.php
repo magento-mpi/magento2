@@ -2,24 +2,40 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_Queue_Model_Queue_Adapter_GearmanTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param array $arguments
-     * @return Enterprise_Queue_Model_Queue_DefaultHandler
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getQueueAdapterGearman($arguments = array())
-    {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+    protected $_clientMock;
 
-        return $objectManagerHelper->getObject('Enterprise_Queue_Model_Queue_Adapter_Gearman', $arguments);
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperGearmanMock;
+
+    /**
+     * @var Enterprise_Queue_Model_Queue_Adapter_Gearman
+     */
+    protected $_adapterGearman;
+
+    protected function setUp()
+    {
+        $this->_clientMock = $this->getMock('GearmanClient', array(), array(), '', false);
+        $this->_clientMock->expects($this->once())->method('addServers')->with('127.0.0.1:4730');
+
+        $this->_helperGearmanMock = $this->getMock('Enterprise_Queue_Helper_Gearman', array(), array(), '', false);
+        $this->_helperGearmanMock->expects($this->once())->method('getServers')
+            ->will($this->returnValue('127.0.0.1:4730'));
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_adapterGearman = $objectManagerHelper->getObject('Enterprise_Queue_Model_Queue_Adapter_Gearman', array(
+            'client' => $this->_clientMock,
+            'helperGearman' => $this->_helperGearmanMock,
+        ));
     }
 
     public function testAddTaskTest()
@@ -27,19 +43,10 @@ class Enterprise_Queue_Model_Queue_Adapter_GearmanTest extends PHPUnit_Framework
         $data = array('123');
         $preparedData = '{prepared_data}';
 
-        $clientMock = $this->getMock('GearmanClient', array(), array(), '', false);
-        $clientMock->expects($this->once())->method('addServers')->with('127.0.0.1:4730');
-        $clientMock->expects($this->once())->method('doBackground')->with('some_event', $preparedData);
-
-        $helperGearmanMock = $this->getMock('Enterprise_Queue_Helper_Gearman', array(), array(), '', false);
-        $helperGearmanMock->expects($this->once())->method('getServers')->will($this->returnValue('127.0.0.1:4730'));
-        $helperGearmanMock->expects($this->once())->method('prepareData')->with($data)
+        $this->_clientMock->expects($this->once())->method('doBackground')->with('some_event', $preparedData);
+        $this->_helperGearmanMock->expects($this->once())->method('encodeData')->with($data)
             ->will($this->returnValue($preparedData));
 
-        $adapterGearman = $this->_getQueueAdapterGearman(array(
-            'client' => $clientMock,
-            'helperGearman' => $helperGearmanMock,
-        ));
-        $this->assertEquals($adapterGearman, $adapterGearman->addTask('some_event', $data, 7));
+        $this->assertEquals($this->_adapterGearman, $this->_adapterGearman->addTask('some_event', $data, 7));
     }
 }

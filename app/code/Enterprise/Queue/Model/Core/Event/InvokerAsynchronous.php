@@ -1,15 +1,11 @@
 <?php
 /**
+ * Asynchronous event invoker
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Default event invoker.
  */
 class Enterprise_Queue_Model_Core_Event_InvokerAsynchronous implements Mage_Core_Model_Event_InvokerInterface
 {
@@ -68,7 +64,10 @@ class Enterprise_Queue_Model_Core_Event_InvokerAsynchronous implements Mage_Core
     protected function _addTaskToAsynchronousProcessing($configuration, $observer)
     {
         $eventName = $observer->getEvent()->getName();
-        $data = array_merge($observer->toArray());
+        $data = array(
+            'observer' => $observer->toArray(),
+            'configuration' => $configuration,
+        );
         $priority = isset($configuration['config'][self::CONFIG_PARAMETER_PRIORITY])
             ? $configuration['config'][self::CONFIG_PARAMETER_PRIORITY] : null;
 

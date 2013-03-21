@@ -1,15 +1,12 @@
 <?php
 /**
+ * Event manager
+ * Used to dispatch global events
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Event manager. Used to dispatch global events
  */
 class Mage_Core_Model_Event_Manager
 {

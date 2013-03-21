@@ -1,15 +1,11 @@
 <?php
 /**
+ * Gearman helper
+ *
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_Queue
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Gearman helper
  */
 class Enterprise_Queue_Helper_Gearman extends Mage_Core_Helper_Abstract
 {
@@ -25,14 +21,17 @@ class Enterprise_Queue_Helper_Gearman extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Helper_Context $context
      */
-    public function __construct(Mage_Core_Model_Config $config)
+    public function __construct(Mage_Core_Model_Config $config, Mage_Core_Helper_Context $context)
     {
         $this->_config = $config;
+
+        parent::__construct($context);
     }
 
     /**
-     * Return a comma-separated list of servers, each server specified in the format host:port.
+     * Return a comma-separated list of servers, each server specified in the format host:port
      *
      * @return string
      */
@@ -42,12 +41,12 @@ class Enterprise_Queue_Helper_Gearman extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Prepare data.
+     * Encode data to string before running task in the background
      *
      * @param array $data
      * @return string
      */
-    public function prepareData(array $data)
+    public function encodeData(array $data)
     {
         return json_encode($data);
     }

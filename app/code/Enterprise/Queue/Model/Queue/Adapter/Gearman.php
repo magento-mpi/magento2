@@ -1,17 +1,13 @@
 <?php
 /**
+ * Queue gearman Adapter
+ *
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_Queue
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Gearman Adapter
- */
-class Enterprise_Queue_Model_Queue_Adapter_Gearman implements Enterprise_Queue_Model_Queue_Adapter_AdapterInterface
+class Enterprise_Queue_Model_Queue_Adapter_Gearman implements Enterprise_Queue_Model_Queue_AdapterInterface
 {
     /**
      * @var GearmanClient
@@ -42,11 +38,11 @@ class Enterprise_Queue_Model_Queue_Adapter_Gearman implements Enterprise_Queue_M
      * @param string $eventName
      * @param array $data
      * @param string|null $priority
-     * @return Enterprise_Queue_Model_Queue_Adapter_AdapterInterface
+     * @return Enterprise_Queue_Model_Queue_AdapterInterface
      */
     public function addTask($eventName, $data, $priority = null)
     {
-        $this->_client->doBackground($eventName, $this->_helperGearman->prepareData($data));
+        $this->_client->doBackground($eventName, $this->_helperGearman->encodeData($data));
 
         return $this;
     }

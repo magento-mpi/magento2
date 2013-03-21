@@ -2,36 +2,36 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_Queue_Model_Queue_DefaultHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param array $arguments
-     * @return Enterprise_Queue_Model_Queue_DefaultHandler
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getQueueDefaultHandler($arguments = array())
-    {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+    protected $_adapterMock;
 
-        return $objectManagerHelper->getObject('Enterprise_Queue_Model_Queue_DefaultHandler', $arguments);
+    /**
+     * @var Enterprise_Queue_Model_Queue_DefaultHandler
+     */
+    protected $_defaultHandler;
+
+    protected function setUp()
+    {
+        $this->_adapterMock = $this->getMock('Enterprise_Queue_Model_Queue_AdapterInterface');
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_defaultHandler = $objectManagerHelper->getObject('Enterprise_Queue_Model_Queue_DefaultHandler', array(
+            'adapter' => $this->_adapterMock,
+        ));
     }
 
     public function testAddTaskTest()
     {
-        $adapterMock = $this->getMock('Enterprise_Queue_Model_Queue_Adapter_AdapterInterface', array(), array(), '',
-            false);
-        $adapterMock->expects($this->once())->method('addTask')->with('some_event', array('123'), 7)
+        $this->_adapterMock->expects($this->once())->method('addTask')->with('some_event', array('123'), 7)
             ->will($this->returnSelf());
 
-        $defaultHandler = $this->_getQueueDefaultHandler(array(
-            'adapter' => $adapterMock
-        ));
-        $this->assertEquals($defaultHandler, $defaultHandler->addTask('some_event', array('123'), 7));
+        $this->assertEquals($this->_defaultHandler, $this->_defaultHandler->addTask('some_event', array('123'), 7));
     }
 }

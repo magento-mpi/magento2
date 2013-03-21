@@ -2,38 +2,57 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param array $arguments
-     * @return Mage_Core_Model_Event_InvokerDefault
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getEventInvokerDefault($arguments = array())
-    {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+    protected $_observerFactoryMock;
 
-        return $objectManagerHelper->getObject('Mage_Core_Model_Event_InvokerDefault', $arguments);
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_observerMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_listenerMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_appStateMock;
+
+    /**
+     * @var Enterprise_Queue_Model_Core_Event_InvokerAsynchronous
+     */
+    protected $_invokerDefault;
+
+    protected function setUp()
+    {
+        $this->_observerFactoryMock = $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_listenerMock = $this->getMock('Mage_Some_Model_Observer_Some', array('method_name'), array(), '',
+            false);
+        $this->_appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false);
+
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_invokerDefault = $objectManagerHelper->getObject('Mage_Core_Model_Event_InvokerDefault', array(
+            'observerFactory' => $this->_observerFactoryMock,
+            'appState' => $this->_appStateMock,
+        ));
     }
 
     public function testDispatchWithDisabledType()
     {
-        $observerFactoryMock = $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false);
-        $observerFactoryMock->expects($this->never())->method('get');
-        $observerFactoryMock->expects($this->never())->method('create');
-        $configuration = array('type' => 'disabled');
-        $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_observerFactoryMock->expects($this->never())->method('get');
+        $this->_observerFactoryMock->expects($this->never())->method('create');
 
-        $invokerDefault = $this->_getEventInvokerDefault(array(
-            'observerFactory' => $observerFactoryMock,
-        ));
-        $invokerDefault->dispatch($configuration, $observerMock);
+        $this->_invokerDefault->dispatch(array('type' => 'disabled'), $this->_observerMock);
     }
 
     /**
@@ -42,22 +61,15 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
      */
     public function testDispatchWithNotSingletonType($type)
     {
-        $objectMock = $this->getMock('Mage_Some_Model_Observer_Some', array('method_name'), array(), '', false);
-        $objectMock->expects($this->once())
-            ->method('method_name');
+        $this->_listenerMock->expects($this->once())->method('method_name');
+        $this->_observerFactoryMock->expects($this->never())->method('get');
+        $this->_observerFactoryMock->expects($this->once())->method('create')->with('class_name')
+            ->will($this->returnValue($this->_listenerMock));
 
-        $observerFactoryMock = $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false);
-        $observerFactoryMock->expects($this->never())->method('get');
-        $observerFactoryMock->expects($this->once())->method('create')->with('class_name')
-            ->will($this->returnValue($objectMock));
-
-        $configuration = array('type' => $type, 'model' => 'class_name', 'method' => 'method_name');
-        $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
-
-        $invokerDefault = $this->_getEventInvokerDefault(array(
-            'observerFactory' => $observerFactoryMock,
-        ));
-        $invokerDefault->dispatch($configuration, $observerMock);
+        $this->_invokerDefault->dispatch(
+            array('type' => $type, 'model' => 'class_name', 'method' => 'method_name'),
+            $this->_observerMock
+        );
     }
 
     /**
@@ -73,22 +85,15 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
 
     public function testDispatchWithSingletonType()
     {
-        $objectMock = $this->getMock('Mage_Some_Model_Observer_Some', array('method_name'), array(), '', false);
-        $objectMock->expects($this->once())
-            ->method('method_name');
+        $this->_listenerMock->expects($this->once())->method('method_name');
+        $this->_observerFactoryMock->expects($this->never())->method('create');
+        $this->_observerFactoryMock->expects($this->once())->method('get')->with('class_name')
+            ->will($this->returnValue($this->_listenerMock));
 
-        $observerFactoryMock = $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false);
-        $observerFactoryMock->expects($this->never())->method('create');
-        $observerFactoryMock->expects($this->once())->method('get')->with('class_name')
-            ->will($this->returnValue($objectMock));
-
-        $configuration = array('type' => 'unknown', 'model' => 'class_name', 'method' => 'method_name');
-        $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
-
-        $invokerDefault = $this->_getEventInvokerDefault(array(
-            'observerFactory' => $observerFactoryMock,
-        ));
-        $invokerDefault->dispatch($configuration, $observerMock);
+        $this->_invokerDefault->dispatch(
+            array('type' => 'unknown', 'model' => 'class_name', 'method' => 'method_name'),
+            $this->_observerMock
+        );
     }
 
     /**
@@ -98,27 +103,16 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
      */
     public function testMethodIsNotDefinedExceptionWithEnabledDeveloperMode($type)
     {
-        $objectMock = $this->getMock('Mage_Some_Model_Observer_Some', array(), array(), '', false);
+        $this->_observerFactoryMock->expects($this->any())->method('create')->with('class_name')
+            ->will($this->returnValue($this->_listenerMock));
+        $this->_observerFactoryMock->expects($this->any())->method('get')->with('class_name')
+            ->will($this->returnValue($this->_listenerMock));
+        $this->_appStateMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(true));
 
-        $observerFactoryMock = $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false);
-        $observerFactoryMock->expects($this->any())->method('create')->with('class_name')
-            ->will($this->returnValue($objectMock));
-        $observerFactoryMock->expects($this->any())->method('get')->with('class_name')
-            ->will($this->returnValue($objectMock));
-
-        $appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false);
-        $appStateMock->expects($this->once())
-            ->method('isDeveloperMode')
-            ->will($this->returnValue(true));
-
-        $configuration = array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name');
-        $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
-
-        $invokerDefault = $this->_getEventInvokerDefault(array(
-            'observerFactory' => $observerFactoryMock,
-            'appState' => $appStateMock,
-        ));
-        $invokerDefault->dispatch($configuration, $observerMock);
+        $this->_invokerDefault->dispatch(
+            array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name'),
+            $this->_observerMock
+        );
     }
 
     /**
@@ -127,25 +121,16 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
      */
     public function testMethodIsNotDefinedWithDisabledDeveloperMode($type)
     {
-        $objectMock = $this->getMock('Mage_Some_Model_Observer_Some', array(), array(), '', false);
+        $this->_observerFactoryMock->expects($this->any())->method('create')->with('class_name')
+            ->will($this->returnValue($this->_listenerMock));
+        $this->_observerFactoryMock->expects($this->any())->method('get')->with('class_name')
+            ->will($this->returnValue($this->_listenerMock));
+        $this->_appStateMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(false));
 
-        $observerFactoryMock = $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false);
-        $observerFactoryMock->expects($this->any())->method('create')->with('class_name')
-            ->will($this->returnValue($objectMock));
-        $observerFactoryMock->expects($this->any())->method('get')->with('class_name')
-            ->will($this->returnValue($objectMock));
-
-        $appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false);
-        $appStateMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(false));
-
-        $configuration = array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name');
-        $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
-
-        $invokerDefault = $this->_getEventInvokerDefault(array(
-            'observerFactory' => $observerFactoryMock,
-            'appState' => $appStateMock,
-        ));
-        $invokerDefault->dispatch($configuration, $observerMock);
+        $this->_invokerDefault->dispatch(
+            array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name'),
+            $this->_observerMock
+        );
     }
 
     /**
