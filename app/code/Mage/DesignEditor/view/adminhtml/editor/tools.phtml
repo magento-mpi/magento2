@@ -70,9 +70,13 @@
                 <div spinner class="theme-loader hidden">
                     <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif') ?>"/>
                 </div>
+                <div data-tip="translate" class="tip hidden">
+                    <h1><?php echo $this->__('Edit Page Text'); ?></h1>
+                    <p><?php echo $this->__('(Hold down button for options)'); ?></p>
+                </div>
                 <ul class="vde-tab-controls" data-editing="translate">
                     <li vde-translate-edit class="item-text-edit text-edit-text-off">
-                        <a vde-translate title="<?php echo $this->__('Edit Text'); ?>">
+                        <a vde-translate>
                             <span><?php echo $this->__('Edit Text'); ?></span>
                         </a>
                     </li>

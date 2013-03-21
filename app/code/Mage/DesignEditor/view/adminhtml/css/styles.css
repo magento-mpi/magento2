@@ -1638,3 +1638,51 @@
 .hidden {
     display: none;
 }
+
+/*
+    ToolTip
+-------------------------------------- */
+.tip {
+    position: relative;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background-color: #31302b;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    border: 1px solid #31302b;
+    letter-spacing: .25px;
+    margin: 0;
+    padding: 12px;
+    position: absolute;
+    margin-top: -80px;
+    margin-left: -164px;
+    max-width: 260px;
+    color: #fff;
+}
+
+.tip h1 {
+    font-size: 16px;
+    padding: 0 0 6px 0;
+    margin: 0;
+}
+
+.tip p {
+    letter-spacing: .25px;
+    padding: 0;
+    margin: 0;
+}
+
+.tip:after {
+    position: absolute;
+    display: block;
+    content: "";
+    border-color: #31302b transparent transparent transparent;
+    border-style: solid;
+    border-width: 10px;
+    height: 0;
+    width: 0;
+    position: absolute;
+    bottom: -18px;
+    left: 13em;
+}
