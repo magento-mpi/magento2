@@ -24,8 +24,8 @@
             isAjax: false,
             updateShippingMethodSubmitSelector: "#update-shipping-method-submit",
             reviewSubmitSelector: "#review-submit",
-            shippingMethodUpdateUrl:null,
-            updateOrderSubmitUrl:null
+            shippingMethodUpdateUrl: null,
+            updateOrderSubmitUrl: null
         },
 
         /**
@@ -105,7 +105,7 @@
          * Attempt to ajax submit order
          */
         _ajaxSubmitOrder: function() {
-            if(this.element.find(this.options.waitLoadingContainer).is(":visible")) {
+            if (this.element.find(this.options.waitLoadingContainer).is(":visible")) {
                 return false;
             }
             $.ajax({
@@ -125,10 +125,8 @@
                                 if ($.type(msg) === 'array') {
                                     msg = msg.join("\n");
                                 }
-                                alert($.mage.__(msg));
-                            } else {
-                                alert($.mage.__(msg));
                             }
+                            alert($.mage.__(msg));
                             return false;
                         }
                         if (response.redirect) {
@@ -197,8 +195,8 @@
             }
             $(':input[name^="shipping"]', this.element).each($.proxy(function(key, value) {
                 var fieldObj = $(value.id.replace('shipping:', '#billing\\:'));
-                if(isChecked){
-                    fieldObj=fieldObj.val($(value).val());
+                if (isChecked) {
+                    fieldObj = fieldObj.val($(value).val());
                     if (fieldObj.is("select")) {
                         this.triggerPropertyChange = false;
                         fieldObj.trigger('change');
@@ -218,7 +216,7 @@
          * @param resultId - id of element to be updated
          */
         _submitUpdateOrder: function(url, resultId) {
-            if(this.element.find(this.options.waitLoadingContainer).is(":visible")) {
+            if (this.element.find(this.options.waitLoadingContainer).is(":visible")) {
                 return false;
             }
             var isChecked = $(this.options.billingAsShippingSelector).is(':checked'),
