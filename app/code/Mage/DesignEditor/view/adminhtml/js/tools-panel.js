@@ -88,7 +88,7 @@
         },
 
         _toggleClassIfScrollBarExist: function(elem) {
-            elem.toggleClass(this.options.scrollExistClass, elem.height() < this.options.panelDefaultHeight );
+            elem.toggleClass(this.options.scrollExistClass, elem.height() < $('.vde-tab-data', elem).height() + $('.vde-tools-header').height() );
         },
 
         _getActiveResizableAreaInner: function() {

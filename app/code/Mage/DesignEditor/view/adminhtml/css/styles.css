@@ -1566,6 +1566,7 @@
 .fieldset.column .legend {
     border: none;
     margin: 0;
+    float: none;
 }
 
 .fieldset.column .fieldset {
