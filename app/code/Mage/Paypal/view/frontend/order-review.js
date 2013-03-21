@@ -197,12 +197,12 @@
                 var fieldObj = $(value.id.replace('shipping:', '#billing\\:'));
                 if (isChecked) {
                     fieldObj = fieldObj.val($(value).val());
-                    if (fieldObj.is("select")) {
-                        this.triggerPropertyChange = false;
-                        fieldObj.trigger('change');
-                    }
                 }
                 fieldObj.prop({"readonly": isChecked, "disabled": isChecked}).fadeTo(0, opacity);
+                if (fieldObj.is("select")) {
+                    this.triggerPropertyChange = false;
+                    fieldObj.trigger('change');
+                }
             }, this));
             if (isChecked || e) {
                 this._updateOrderSubmit(true);
