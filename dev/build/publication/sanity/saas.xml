@@ -48,15 +48,15 @@
         </item>
         <item>
             <!-- Must be refactored to be modular -->
-            <path>app/code/core/Enterprise/Enterprise/Model/Resource/Setup/Migration.php</path>
+            <path>app/code/Enterprise/Enterprise/Model/Resource/Setup/Migration.php</path>
         </item>
         <item>
             <!-- Must be refactored to be modular -->
-            <path>app/code/core/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.0-1.11.0.1.php</path>
+            <path>app/code/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.0-1.11.0.1.php</path>
         </item>
         <item>
             <!-- Must be refactored to be modular -->
-            <path>app/code/core/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
+            <path>app/code/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
         </item>
         <item>
             <!-- Must be refactored to be modular to support saas edition -->
@@ -65,29 +65,29 @@
         <item>
             <!-- Must be removed, when CustomerSegment is removed as well -->
             <word>TargetRule</word>
-            <path>app/code/core/Enterprise/CustomerSegment/Model/Observer.php</path>
+            <path>app/code/Enterprise/CustomerSegment/Model/Observer.php</path>
         </item>
         <item>
             <!-- Must be removed, when CustomerSegment is removed as well -->
             <word>TargetRule</word>
-            <path>app/code/core/Enterprise/CustomerSegment/etc/config.xml</path>
+            <path>app/code/Enterprise/CustomerSegment/etc/config.xml</path>
         </item>
 
         <item>
             <!-- Must be refactored  -->
             <word>TargetRule</word>
-            <path>app/code/core/Enterprise/PageCache/Model/Container/CatalogProductItem.php</path>
+            <path>app/code/Enterprise/PageCache/Model/Container/CatalogProductItem.php</path>
         </item>
         <item>
             <!-- Must be refactored  -->
             <word>TargetRule</word>
-            <path>app/code/core/Enterprise/PageCache/etc/cache.xml</path>
+            <path>app/code/Enterprise/PageCache/etc/cache.xml</path>
         </item>
         <item>
             <!-- Must be modified to remove dependency on module, which doesn't exist in Saas -->
             <word>CatalogEvent</word>
             <word>Enterprise_Wishlist</word>
-            <path>app/code/core/Saas/PrintedTemplate/Model/Observer.php</path>
+            <path>app/code/Saas/PrintedTemplate/Model/Observer.php</path>
         </item>
         <item>
             <!-- Must be removed, when Oauth is removed as well -->
@@ -122,7 +122,7 @@
         </item>
         <item>
             <word>GiftWrapping</word>
-            <path>app/code/core/Enterprise/GiftCardAccount/etc/config.xml</path>
+            <path>app/code/Enterprise/GiftCardAccount/etc/config.xml</path>
         </item>
         <item>
             <word>{copyright}</word>
