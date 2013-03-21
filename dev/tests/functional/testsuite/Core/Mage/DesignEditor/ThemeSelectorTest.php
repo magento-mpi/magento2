@@ -226,7 +226,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'));
         $this->clickControl('link', 'quit');
         $this->_windowId = $this->selectLastWindow();
-        $this->validatePage('design_editor_selector');
+        $this->validatePage('preview_theme_in_design');
         $this->assertTrue($this->controlIsPresent('pageelement', 'header_available_themes'));
     }
 
