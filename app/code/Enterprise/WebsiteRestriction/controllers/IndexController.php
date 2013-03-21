@@ -19,6 +19,11 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
 {
     protected $_stubPageIdentifier = Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_LANDING_PAGE;
 
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
     protected $_cacheKey;
 
     /**
@@ -27,14 +32,26 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
     protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
 
     /**
-     * Cache  will be ralted on configuration and website
-     *
-     * @var array
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param null $areaCode
      */
-    protected $_cacheTags = array(
-        Mage_Core_Model_Website::CACHE_TAG,
-        Mage_Core_Model_Config::CACHE_TAG
-    );
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Controller_Response_Http $response,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        $areaCode = null
+    ) {
+        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode);
+        $this->_configCacheType = $configCacheType;
+    }
 
     protected function _construct()
     {
@@ -47,7 +64,7 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
      */
     public function stubAction()
     {
-        $cachedData = Mage::app()->loadCache($this->_cacheKey);
+        $cachedData = $this->_configCacheType->load($this->_cacheKey);
         if ($cachedData) {
             $this->getResponse()->setBody($cachedData);
         } else {
@@ -86,7 +103,9 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
 
             $this->renderLayout();
 
-            Mage::app()->saveCache($this->getResponse()->getBody(), $this->_cacheKey, $this->_cacheTags);
+            $this->_configCacheType->save(
+                $this->getResponse()->getBody(), $this->_cacheKey, array(Mage_Core_Model_Website::CACHE_TAG)
+            );
         }
     }
 }

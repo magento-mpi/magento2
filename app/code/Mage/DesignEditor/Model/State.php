@@ -233,7 +233,6 @@ class Mage_DesignEditor_Model_State
     {
         $themeId = $this->_backendSession->getData(self::CURRENT_THEME_SESSION_KEY);
         if ($themeId !== null) {
-            echo $themeId.'<br />' . PHP_EOL;
             $this->_application->getStore()->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $themeId);
         }
     }

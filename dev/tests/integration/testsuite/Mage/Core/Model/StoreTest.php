@@ -20,6 +20,7 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     {
         $params = array(
             'context' => Mage::getObjectManager()->get('Mage_Core_Model_Context'),
+            'configCacheType' => Mage::getObjectManager()->get('Mage_Core_Model_Cache_Type_Config'),
             'urlModel'    => Mage::getObjectManager()->get('Mage_Core_Model_Url'),
         );
 

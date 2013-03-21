@@ -73,7 +73,11 @@
             if (this.options.isMultipleStoreViewMode) {
                 this.showStoreViews(data.theme_id);
             } else {
-                if (!this._confirm($.mage.__('You are about to change this theme for your live store, are you sure want to do this?'))) {
+                if (!this._confirm($.mage.__(
+                    'You are about to change this theme for your live store, are you sure want to do this?\n\n' +
+                    'Note: only virtual theme can be assigned, if you are assigning physical theme then ' +
+                    'virtual copy will be created automatically and assigned instead.'
+                ))) {
                     return;
                 }
                 this.assignSaveTheme(data.theme_id, null);

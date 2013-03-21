@@ -24,6 +24,21 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer extends Mage_L
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Configure Shipping');
+        return $this->helper('Mage_Launcher_Helper_Data')->__('Shipping');
+    }
+
+    /**
+     * Check whether shipping is enabled
+     *
+     * @return boolean
+     */
+    public function isShippingEnabled()
+    {
+        if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE
+            && !$this->getTile()->getStateResolver()->isShippingConfigured()
+        ) {
+            return false;
+        }
+        return true;
     }
 }

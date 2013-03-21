@@ -99,7 +99,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
 
         $fieldset->addField('postcode', 'text', array(
             'name' => 'postcode',
-            'label' => $helper->__('ZIP'),
+            'label' => $helper->__('ZIP/Postal Code'),
             'required' => false,
             'value' => $addressData['postcode']
         ));
