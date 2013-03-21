@@ -3743,6 +3743,10 @@ table tbody tr:nth-child(odd):hover th {
     overflow: hidden;
 }
 
+.eq-ie8 .massaction {
+    border-bottom:  2px solid #504d46;
+}
+
 .massaction ul {
     list-style: none;
     margin: 0;
