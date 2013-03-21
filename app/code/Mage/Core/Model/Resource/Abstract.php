@@ -253,8 +253,9 @@ abstract class Mage_Core_Model_Resource_Abstract
                 $columns = array_intersect($fieldsetColumns, array_keys($entityTableColumns));
             }
         }
-        if (!isset($columns) || empty($columns)) {
-            $columns = '*';
+        if ((!isset($columns) || empty($columns))) {
+            /** In case when fieldset was specified but no columns were matched with it, ID column is returned. */
+            $columns = empty($fieldsetColumns) ? '*' : array($object->getIdFieldName());
         }
         return $columns;
     }

@@ -1001,6 +1001,9 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             $attribute = current($this->_attributesByTable[$table]);
             $eavType = $attribute->getBackendType();
             $select = $this->_getLoadAttributesSelect($object, $table);
+            if ($select === false) {
+                continue;
+            }
             $selects[$eavType][] = $this->_addLoadAttributesSelectFields($select, $table, $eavType);
         }
         $selectGroups = Mage::getResourceHelper('Mage_Eav')->getLoadAttributesSelectGroups($selects);
@@ -1052,14 +1055,17 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      *
      * @param   Mage_Core_Model_Abstract $object
      * @param   string $table
-     * @return  Zend_Db_Select
+     * @return  Zend_Db_Select|bool Return false in case when no attributes should be loaded from current table
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($table, array())
             ->where($this->getEntityIdField() . ' =?', $object->getId());
-        $this->_applyFieldsetFilter($select, $object->getFieldset());
+        $skipCurrentSelect = !$this->_applyFieldsetFilter($select, $object->getFieldset());
+        if ($skipCurrentSelect) {
+            return false;
+        }
         return $select;
     }
 
@@ -1068,16 +1074,19 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      *
      * @param Zend_Db_Select $select
      * @param array $fieldset
+     * @return bool Return false if current select object will not return any records
      */
     protected function _applyFieldsetFilter(&$select, $fieldset)
     {
-        $selectFromPart = $select->getPart(Zend_Db_Select::FROM);
-        /** Exactly one part must exist in From part of select to continue processing. */
-        if (count($selectFromPart) == 1) {
-            $attributeTables = array_keys($selectFromPart);
-            $attributeTable = reset($attributeTables);
+        /** Identify the list of tables participating in current select. */
+        $selectFromParts = $select->getPart(Zend_Db_Select::FROM);
+        $currentTables = array();
+        if (is_array($selectFromParts)) {
+            foreach ($selectFromParts as $selectFromPart) {
+                $currentTables[] = $selectFromPart['tableName'];
+            }
         } else {
-            return;
+            return true;
         }
 
         $fieldsetAttributeIds = array();
@@ -1086,16 +1095,28 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         foreach ($fieldset as $attributeCode) {
             $attribute = $eavConfig->getAttribute($this->getEntityType(), $attributeCode);
             if ($attribute->getId()) {
-                $backendType = $attribute->getBackendType();
-                if (substr($attributeTable, -strlen($backendType)) == $backendType) {
+                if (in_array($attribute->getBackendTable(), $currentTables)) {
                     /** Current attribute filter should be applied to current select expression */
                     $fieldsetAttributeIds[] = $attribute->getId();
                 }
             }
         }
         if (!empty($fieldsetAttributeIds)) {
-            $select->where('attribute_id IN (?)', implode(',', $fieldsetAttributeIds));
+            $tablesAliases = array_keys($selectFromParts);
+            /** Any table alias can be used as they are joined by attribute_id field. */
+            $tableName = reset($tablesAliases);
+            $select->where(
+                $this->_getReadAdapter()->quoteIdentifier($tableName) . '.attribute_id IN (?)',
+                $fieldsetAttributeIds
+            );
+        } elseif (!empty($fieldset)) {
+            /**
+             * Current select must not return any records as fieldset is not empty
+             * but there are no fields to be requested from current EAV table.
+             */
+             return false;
         }
+        return true;
     }
 
     /**
