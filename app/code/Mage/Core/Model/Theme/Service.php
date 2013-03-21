@@ -78,6 +78,11 @@ class Mage_Core_Model_Theme_Service
     protected $_configWriter;
 
     /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_App $app
@@ -85,6 +90,7 @@ class Mage_Core_Model_Theme_Service
      * @param Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
@@ -93,7 +99,8 @@ class Mage_Core_Model_Theme_Service
         Mage_Core_Helper_Data $helper,
         Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate,
         Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
+        Mage_Core_Model_Cache_Type_Config $configCacheType
     ) {
         $this->_themeFactory = $themeFactory;
         $this->_design       = $design;
@@ -102,6 +109,7 @@ class Mage_Core_Model_Theme_Service
         $this->_layoutUpdate = $layoutUpdate;
         $this->_eventManager = $eventManager;
         $this->_configWriter = $configWriter;
+        $this->_configCacheType = $configCacheType;
     }
 
     /**
@@ -130,7 +138,7 @@ class Mage_Core_Model_Theme_Service
         $this->_assignThemeToStores($themeCustomization->getId(), $stores, $scope, $isUnassigned);
 
         if ($isUnassigned) {
-            $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
+            $this->_configCacheType->clean();
         }
 
         $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);

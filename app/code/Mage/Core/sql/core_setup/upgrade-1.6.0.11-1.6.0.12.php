@@ -45,13 +45,8 @@ $newTableName = $installer->getTable($newName);
  */
 $oldColumn = 'files_link_id';
 $newColumn = 'file_update_id';
-$connection->dropIndex(
-    $newTableName,
-    $installer->getIdxName($newTableName, $oldColumn, Varien_Db_Adapter_Interface::INDEX_TYPE_PRIMARY)
-);
 $connection->changeColumn($newTableName, $oldColumn, $newColumn, array(
     'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
-    'identity' => true,
     'primary'  => true,
     'nullable' => false,
     'unsigned' => true,
