@@ -3753,14 +3753,14 @@ table tbody tr:nth-child(odd):hover th {
     display: inline-block;
 }
 
-.massaction li:after {
+.massaction li:before {
     color: #837F79;
     content: '|';
     display: inline-block;
     margin: 0 5px;
 }
 
-.massaction li:last-child:after {
+.massaction li:first-child:before {
     display: none;
 }
 
