@@ -20,23 +20,23 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
     /**
      * text translate mode
      */
-    const TEXT_MODE = 'text';
+    const MODE_TEXT = 'text';
 
     /**
      * img element name
      */
-    const IMG_ELEMENT = 'img';
+    const ELEMENT_IMG = 'img';
 
     /**
      * alt translate mode
      */
-    const ALT_MODE = 'alt';
+    const MODE_ALT = 'alt';
 
     /**
      * script translate mode and element name
      */
-    const SCRIPT_MODE = 'script';
-    const SCRIPT_ELEMENT = self::SCRIPT_MODE;
+    const MODE_SCRIPT = 'script';
+    const ELEMENT_SCRIPT = self::MODE_SCRIPT;
 
     /**
      * Translation within the vde will be enabled by the client when the 'Edit' button is enabled.
@@ -115,7 +115,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
         return $tagHtml . '<span class="translate-inline-' . $tagName . '" '
             . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'))
             . ' ' . $this->_getHtmlAttribute(self::TRANSLATE_MODE, $this->_getTranslateMode($tagName))
-            . '>' . '</span>';
+            . '>' . strtoupper($tagName) . '</span>';
     }
 
     /**
@@ -142,11 +142,11 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      */
     protected function _getTranslateMode($tagName)
     {
-        $mode = self::TEXT_MODE;
-        if (self::SCRIPT_ELEMENT == $tagName) {
-            $mode = self::SCRIPT_MODE;
-        } else if (self::IMG_ELEMENT == $tagName) {
-            $mode = self::ALT_MODE;
+        $mode = self::MODE_TEXT;
+        if (self::ELEMENT_SCRIPT == $tagName) {
+            $mode = self::MODE_SCRIPT;
+        } else if (self::ELEMENT_IMG == $tagName) {
+            $mode = self::MODE_ALT;
         }
         return $mode;
     }
@@ -161,7 +161,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
     public function _getDataTranslateSpan($data, $text)
     {
         return '<span '. $this->_getHtmlAttribute(self::DATA_TRANSLATE, $data) . ' '
-            . $this->_getHtmlAttribute(self::TRANSLATE_MODE, self::TEXT_MODE) . '>' . $text . '</span>';
+            . $this->_getHtmlAttribute(self::TRANSLATE_MODE, self::MODE_TEXT) . '>' . $text . '</span>';
     }
 
     /**
