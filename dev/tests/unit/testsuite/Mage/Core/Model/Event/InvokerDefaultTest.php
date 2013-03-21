@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Event_InvokerDefaultTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
