@@ -22,30 +22,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
     protected $_mode = 'add';
 
     /**
-     * Prepares form scripts
-     *
-     * @return Enterprise_Invitation_Block_Adminhtml_Invitation_Add
-     */
-    protected function _prepareLayout()
-    {
-        $validationMessage = addcslashes(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please enter valid email addresses, separated by new line.'), "\\'\n\r");
-        $this->_formInitScripts[] = "
-        Validation.addAllThese([
-            ['validate-emails', '$validationMessage', function (v) {
-                v = v.strip();
-                var emails = v.split(/[\\s]+/g);
-                for (var i = 0, l = emails.length; i < l; i++) {
-                    if (!Validation.get('validate-email').test(emails[i])) {
-                        return false;
-                    }
-                }
-                return true;
-            }]
-        ]);";
-        return parent::_prepareLayout();
-    }
-
-    /**
      * Get header text
      *
      * @return string

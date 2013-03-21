@@ -59,17 +59,10 @@
             input.addClassName('disabled');
         }
     });
-        <?php endif; ?>
+    <?php endif; ?>
 
-    Validation.add('validate-greater-zero-based-on-option', '<?php echo $this->__('Please enter a number greater 0 in this field.') ?>', function(v, el) {
-        var optionType = $(el).up('div.tier').previous('table.option-header').select('select.select-product-option-type')[0],
-            v = Number(v) || 0;
-
-        if (optionType && (optionType.value == 'checkbox' || optionType.value == 'multi') && v <= 0) {
-            return false;
-        }
-        return true;
-    });
+    jQuery.mage.extend('validation', 'validation',
+        '<?php echo $this->getViewFileUrl('Mage_Bundle::product/validation-rules.js'); ?>');
 
     jQuery(function($) {
         head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/bundle-product.js') ?>", function () {
