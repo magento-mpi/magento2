@@ -45,7 +45,7 @@ class Mage_Webapi_Model_Authorization_Config_Reader_FactoryTest extends PHPUnit_
 
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Mage_Webapi_Model_Authorization_Config_Reader', $arguments, false)
+            ->with('Mage_Webapi_Model_Authorization_Config_Reader', $arguments)
             ->will($this->returnValue($this->_expectedObject));
         $this->assertEquals($this->_expectedObject, $this->_model->createReader($arguments));
     }
