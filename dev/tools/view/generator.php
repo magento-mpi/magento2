@@ -14,6 +14,7 @@
  */
 
 require __DIR__ . '/../../../app/bootstrap.php';
+Magento_Autoload_IncludePath::addIncludePath(__DIR__);
 
 // ----Parse params and run the tool-------------------------
 define('USAGE', <<<USAGE
