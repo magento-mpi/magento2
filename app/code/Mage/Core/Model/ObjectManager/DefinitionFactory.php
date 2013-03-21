@@ -28,64 +28,36 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
     }
 
     /**
-     * Get value from array
+     * Create object manager definition reader based on configuration
      *
-     * @param array $source
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    protected function _getValue($source, $key, $default = null)
-    {
-        return array_key_exists($key, $source) ? $source['key'] : $default;
-    }
-    
-    /**
      * @param Mage_Core_Model_Config_Primary $config
      * @return Magento_ObjectManager_Definition
      */
     public function create(Mage_Core_Model_Config_Primary $config)
     {
         Magento_Profiler::start('di_definitions_create');
-        $configElement = $config->getNode('global/di/definitions');
-
-        $definitionConfig = $configElement ? $configElement->asArray() : array();
-        $format = $this->_getValue($definitionConfig, 'format', 'serialized');
-        $definitionModel = $this->_getDefinitionModel($format);
         $definitions = $config->getParam('definitions', false);
-        if (false === $definitions) {
-            $storageConfig = $this->_getValue($definitionConfig, 'storage', array());
-            $storageType = $this->_getValue($storageConfig, 'type', 'file');
-            switch ($storageType) {
-                case 'file':
-                default:
-                    $definitionsFile = $this->_getValue($definitionConfig, 'path', false) ?:
-                        $config->getDirectories()->getDir(Mage_Core_Model_Dir::DI)
-                            . DIRECTORY_SEPARATOR
-                            . 'definitions.php';
-                    if (is_readable($definitionsFile)) {
-                        $definitions = file_get_contents($definitionsFile);
-                    } else {
-                        $genDir = $config->getDirectories()->getDir(Mage_Core_Model_Dir::VAR_DIR) . '/generation';
-                        $autoloader = new Magento_Autoload_IncludePath();
-                        $generatorIo = new Magento_Di_Generator_Io(new Varien_Io_File(), $autoloader, $genDir);
-                        $generator = new Magento_Di_Generator(null, $autoloader, $generatorIo);
-                        return new Magento_ObjectManager_Definition_Runtime(null, $generator);
-                    }
-                    break;
-            };
-            switch ($format) {
-                case 'igbinary':
-                    $definitions = igbinary_unserialize($definitions);
-                    break;
-
-                case 'serialized':
-                default:
-                    $definitions = unserialize($definitions);
-                    break;
+        if (!$definitions) { // check whether definitions were provided as application init param
+            $path = $config->getDefinitionPath();
+            if (is_readable($path)) {
+                $definitions = file_get_contents($path);
             }
         }
-        $output = new $definitionModel($definitions);
+        if ($definitions) {
+            $format = $config->getDefinionFormat();
+            if (is_string($definitions)) {
+                $extractor = $format == 'igbinary' ? 'igbinary_unserialize' : 'unserialize';
+                $definitions = $extractor($definitions);
+            }
+            $definitionModel = $this->_getDefinitionModel($format);
+            $output = new $definitionModel($definitions);
+        } else {
+            $genDir = $config->getDirectories()->getDir(Mage_Core_Model_Dir::VAR_DIR) . '/generation';
+            $autoloader = new Magento_Autoload_IncludePath();
+            $generatorIo = new Magento_Di_Generator_Io(new Varien_Io_File(), $autoloader, $genDir);
+            $generator = new Magento_Di_Generator(null, $autoloader, $generatorIo);
+            $output = new Magento_ObjectManager_Definition_Runtime(null, $generator);
+        }
         Magento_Profiler::stop('di_definitions_create');
         return $output;
     }
