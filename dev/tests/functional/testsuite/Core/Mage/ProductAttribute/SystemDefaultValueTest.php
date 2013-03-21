@@ -128,11 +128,10 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
             'Option with value "' . $attribute['default_value'] . '" is not set as default for attribute');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('dropdown', 'general_tax_class');
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('dropdown', 'general_tax_class');
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 }
