@@ -133,15 +133,15 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      */
     public function getGroupedCssFiles($theme)
     {
-        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
-        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
-        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+        $jsDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB));
+        $codeDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Mage_Core_Model_Dir::MODULES));
+        $designDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Mage_Core_Model_Dir::THEMES));
 
         $groups = array();
         $themes = array();
         foreach ($this->getCssFiles($theme) as $file) {
             $this->_detectTheme($file, $designDir);
-            $this->_detectGroup($file);
+            $this->_detectGroup($file, $designDir, $jsDir, $codeDir);
 
             if (isset($file['theme']) && $file['theme']->getThemeId()) {
                 $themes[$file['theme']->getThemeId()] = $file['theme'];
@@ -222,15 +222,14 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      * Detect group where file should be placed and set it to file data under "group" key
      *
      * @param array $file
+     * @param string $designDir
+     * @param string $jsDir
+     * @param string $codeDir
      * @return Mage_Core_Helper_Theme
      * @throws LogicException
      */
-    protected function _detectGroup(&$file)
+    protected function _detectGroup(&$file, $designDir, $jsDir, $codeDir)
     {
-        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
-        $codeDir = $this->_dirs->getDir(Mage_Core_Model_Dir::MODULES);
-        $designDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
-
         $group = null;
         if (substr($file['path'], 0, strlen($designDir)) == $designDir) {
             if (!isset($file['theme']) || !$file['theme']->getThemeId()) {
