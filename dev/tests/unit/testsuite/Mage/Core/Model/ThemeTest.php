@@ -24,15 +24,11 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     protected function _getThemeModel($fromCollection = false, $designDir = '', $targetPath = '')
     {
-        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollection = $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false);
-
         $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
         $dirMock->expects($this->any())
             ->method('getDir')
-            ->with(Mage_Core_Model_Dir::MEDIA)
-            ->will($this->returnValue('media'));
+            ->will($this->returnArgument(0));
         $objectManager->expects($this->any())
             ->method('get')
             ->with('Mage_Core_Model_Dir')
@@ -46,12 +42,18 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
                  'helper' => $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
                  'themeImage' => $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
                  'resource' => $this->getMock('Mage_Core_Model_Resource_Theme', array(), array(), '', false),
-                 'resourceCollection' => $themeCollection
+                 'resourceCollection'
+                    => $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false),
             )
         );
         /** @var $themeMock Mage_Core_Model_Theme */
         $reflection = new \ReflectionClass('Mage_Core_Model_Theme');
         $themeMock = $reflection->newInstanceArgs($arguments);
+
+        $objectManager->expects($this->any())
+            ->method('create')
+            ->with('Mage_Core_Model_Theme')
+            ->will($this->returnValue($themeMock));
 
         if (!$fromCollection) {
             return $themeMock;
@@ -79,14 +81,9 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             )
         ));
 
-        /** @var $collectionMock Mage_Core_Model_Theme_Collection|PHPUnit_Framework_MockObject_MockObject */
-        $collectionMock = $this->getMock('Mage_Core_Model_Theme_Collection', array('getNewEmptyItem'),
-            array($filesystemMock));
-        $collectionMock->expects($this->any())
-            ->method('getNewEmptyItem')
-            ->will($this->returnValue($themeMock));
+        $themeCollection = new Mage_Core_Model_Theme_Collection($filesystemMock, $objectManager, $dirMock);
 
-        return $collectionMock->setBaseDir($designDir)->addTargetPattern($targetPath)->getFirstItem();
+        return $themeCollection->setBaseDir($designDir)->addTargetPattern($targetPath)->getFirstItem();
     }
 
     /**

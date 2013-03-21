@@ -43,7 +43,15 @@ $logger = new Zend_Log($logWriter);
 try {
     $config = new Generator_Config(BP, $options);
 
-    $generator = new Generator_CopyRule($config->getSourceDir());
+    $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
+    $dirs = new Mage_Core_Model_Dir($filesystem, $config->getSourceDir());
+    $objectManager = new Magento_ObjectManager_ObjectManager();
+
+    $themes = new Mage_Core_Model_Theme_Collection($filesystem, $objectManager, $dirs);
+    $themes->setItemObjectClass('Generator_ThemeLight');
+    $themes->addDefaultPattern('*');
+
+    $generator = new Generator_CopyRule($themes, new Mage_Core_Model_Design_Fallback_List_View($dirs));
     $copyRules = $generator->getCopyRules();
 
     $deployment = new Generator_ThemeDeployment(

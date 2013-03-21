@@ -67,7 +67,9 @@ class Mage_Core_Model_Theme_Registration
     public function register($baseDir = '', $pathPattern = '')
     {
         $this->_collection = $this->getThemeModel()->getCollectionFromFilesystem();
-        $this->_collection->setBaseDir($baseDir);
+        if ($baseDir) {
+            $this->_collection->setBaseDir($baseDir);
+        }
         if (empty($pathPattern)) {
             $this->_collection->addDefaultPattern('*');
         } else {

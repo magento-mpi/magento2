@@ -15,7 +15,6 @@
  * @method string getPackageCode()
  * @method string getParentThemePath()
  * @method string getParentId()
- * @method string getArea()
  * @method string getThemeTitle()
  * @method int getThemeId()
  * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
@@ -347,9 +346,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get parent theme model
-     *
-     * @return Mage_Core_Model_Theme|null
+     * {@inheritdoc}
      */
     public function getParentTheme()
     {
@@ -407,6 +404,22 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         return $this->getId() . $this->getThemePath();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArea()
+    {
+        return $this->getData('area');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getThemePath()
+    {
+        return $this->getData('theme_path');
     }
 
     /**
@@ -484,16 +497,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function getLabelsCollectionForSystemConfiguration()
     {
         return $this->getLabelsCollection($this->_helper->__('-- No Theme --'));
-    }
-
-    /**
-     * Get theme path
-     *
-     * @return string
-     */
-    public function getThemePath()
-    {
-        return parent::getThemePath();
     }
 
     /**
