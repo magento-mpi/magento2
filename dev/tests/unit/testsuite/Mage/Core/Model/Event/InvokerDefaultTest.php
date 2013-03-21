@@ -15,9 +15,10 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
      * @param array $arguments
      * @return Mage_Core_Model_Event_InvokerDefault
      */
-    protected function _getEventInvokerDefault($arguments)
+    protected function _getEventInvokerDefault($arguments = array())
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+
         return $objectManagerHelper->getObject('Mage_Core_Model_Event_InvokerDefault', $arguments);
     }
 
@@ -29,10 +30,10 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
         $configuration = array('type' => 'disabled');
         $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
-        $defaultInvoker = $this->_getEventInvokerDefault(array(
+        $invokerDefault = $this->_getEventInvokerDefault(array(
             'observerFactory' => $observerFactoryMock,
         ));
-        $defaultInvoker->dispatch($configuration, $observerMock);
+        $invokerDefault->dispatch($configuration, $observerMock);
     }
 
     /**
@@ -53,10 +54,10 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
         $configuration = array('type' => $type, 'model' => 'class_name', 'method' => 'method_name');
         $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
-        $defaultInvoker = $this->_getEventInvokerDefault(array(
+        $invokerDefault = $this->_getEventInvokerDefault(array(
             'observerFactory' => $observerFactoryMock,
         ));
-        $defaultInvoker->dispatch($configuration, $observerMock);
+        $invokerDefault->dispatch($configuration, $observerMock);
     }
 
     /**
@@ -84,10 +85,10 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
         $configuration = array('type' => 'unknown', 'model' => 'class_name', 'method' => 'method_name');
         $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
-        $defaultInvoker = $this->_getEventInvokerDefault(array(
+        $invokerDefault = $this->_getEventInvokerDefault(array(
             'observerFactory' => $observerFactoryMock,
         ));
-        $defaultInvoker->dispatch($configuration, $observerMock);
+        $invokerDefault->dispatch($configuration, $observerMock);
     }
 
     /**
@@ -113,11 +114,11 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
         $configuration = array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name');
         $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
-        $defaultInvoker = $this->_getEventInvokerDefault(array(
+        $invokerDefault = $this->_getEventInvokerDefault(array(
             'observerFactory' => $observerFactoryMock,
             'appState' => $appStateMock,
         ));
-        $defaultInvoker->dispatch($configuration, $observerMock);
+        $invokerDefault->dispatch($configuration, $observerMock);
     }
 
     /**
@@ -140,11 +141,11 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
         $configuration = array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name');
         $observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
-        $defaultInvoker = $this->_getEventInvokerDefault(array(
+        $invokerDefault = $this->_getEventInvokerDefault(array(
             'observerFactory' => $observerFactoryMock,
             'appState' => $appStateMock,
         ));
-        $defaultInvoker->dispatch($configuration, $observerMock);
+        $invokerDefault->dispatch($configuration, $observerMock);
     }
 
     /**

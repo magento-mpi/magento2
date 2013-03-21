@@ -35,7 +35,7 @@ class Mage_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
      * @param array $arguments
      * @return Mage_Core_Model_Event_Manager
      */
-    protected function _getEventManagerMock($arguments)
+    protected function _getEventManagerMock($arguments = array())
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         return $objectManagerHelper->getObject('Mage_Core_Model_Event_Manager', $arguments);

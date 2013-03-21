@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Queue
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_Queue>
+            <version>2.0.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+        </Enterprise_Queue>
+    </modules>
+    <global>
+        <queue>
+            <adapter>
+                <gearman>
+                    <title>Gearman</title>
+                    <servers>127.0.0.1:4730</servers>
+                </gearman>
+            </adapter>
+        </queue>
+        <di>
+            <preferences>
+                <Mage_Core_Model_Event_InvokerInterface>Enterprise_Queue_Model_Core_Event_InvokerAsynchronous</Mage_Core_Model_Event_InvokerInterface>
+                <Enterprise_Queue_Model_Queue_HandlerInterface>Enterprise_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
+                <Enterprise_Queue_Model_Queue_Adapter_AdapterInterface>Enterprise_Queue_Model_Queue_Adapter_Gearman</Enterprise_Queue_Model_Queue_Adapter_AdapterInterface>
+            </preferences>
+        </di>
+    </global>
+</config>
