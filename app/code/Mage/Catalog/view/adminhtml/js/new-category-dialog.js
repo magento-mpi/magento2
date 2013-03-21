@@ -33,10 +33,10 @@
             $('#new_category_parent-suggest').treeSuggestOneChoice(this.options.suggestOptions);
 
             /* @todo rewrite using jQuery validation */
-            Validation.add('validate-parent-category', 'Choose existing category.', function() {
+            jQuery.validator.addMethod('validate-parent-category', function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
-            });
-            var newCategoryForm = new Validation(this.element.get(0));
+            }, 'Choose existing category.');
+            var form =  this.element.find('#new_category_form').mage('validation');
 
             this.element.dialog({
                 title: 'Create New Category',
@@ -56,7 +56,7 @@
                 },
                 close: function() {
                     $('#new_category_name, #new_category_parent').val('');
-                    newCategoryForm.reset();
+                    form.validation('clearError');
                     $('#category_ids + .category-selector-container .category-selector-input').focus();
                 },
                 buttons: [{
@@ -69,7 +69,7 @@
                     text: 'Save',
                     id: 'mage-new-category-dialog-save-button',
                     click: function() {
-                        if (!newCategoryForm.validate()) {
+                        if (!form.valid()) {
                             return;
                         }
 

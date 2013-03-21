@@ -102,12 +102,6 @@ selectOptionType = {
         }
     }
 }
-
-Validation.addAllThese([
-    ['required-option-select-rows', <?php echo $coreHelper->jsonEncode($this->__('Please add rows to option.')); ?>, function(v, elm) {
-        var optionContainerElm = elm.up(1);
-        return !!$(optionContainerElm).select('tr:not(.no-display) .select-option-code').length;
-    }]
-]);
+head.js('<?php echo $this->getViewFileUrl('Enterprise_GiftRegistry::edit/validation-rules.js'); ?>');
 //]]>
 </script>

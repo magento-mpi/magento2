@@ -18,5 +18,7 @@
     <?php echo $this->getBlockHtml('formkey')?>
 </form>
 <script type="text/javascript">
-    jQuery('#role-edit-form').mage('form').mage('validation');
+    jQuery(document).ready(function() {
+        jQuery('#role-edit-form').mage('form').mage('validation');
+    });
 </script>
