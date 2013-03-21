@@ -284,8 +284,12 @@ class Mage_Core_Model_Cache_Frontend_Factory
         $options['adapter_callback'] = function () {
             return Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('core_write');
         };
-        $options['data_table']  = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('core_cache');
-        $options['tags_table']  = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('core_cache_tag');
+        $options['data_table_callback'] = function() {
+            return Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('core_cache');
+        };
+        $options['tags_table_callback'] = function() {
+            return Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('core_cache_tag');
+        };
         return $options;
     }
 
