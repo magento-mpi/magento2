@@ -117,4 +117,118 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolverTest
             ),
         );
     }
+
+    /**
+     * Get Shipping State Resolver Mock object
+     *
+     * @param array $configSettings
+     * @return Mage_Launcher_Model_Storelauncher_Shipping_StateResolver
+     */
+    protected function _getShippingStateResolverForConfiguredMethodsTest(array $configSettings)
+    {
+        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+
+        $store->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnCallback(
+            function ($configPath) use ($configSettings) {
+                return isset($configSettings[$configPath]) ? $configSettings[$configPath] : null;
+            }
+        ));
+
+        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $app->expects($this->once())
+            ->method('getStore')
+            ->will($this->returnValue($store));
+        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $stateResolver = new Mage_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
+        return $stateResolver;
+    }
+
+    /**
+     * @param array $configSettings
+     * @param boolean $expectedResult
+     * @dataProvider relatedShippingMethodDataProvider
+     */
+    public function testIsShippingConfigured($configSettings, $expectedResult)
+    {
+        $stateResolver = $this->_getShippingStateResolverForConfiguredMethodsTest($configSettings);
+        $this->assertEquals($expectedResult, $stateResolver->isShippingConfigured());
+    }
+
+    public function relatedShippingMethodDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'carriers/flatrate/active' => 0,
+                    'carriers/ups/active' => 0,
+                    'carriers/usps/active' => 1,
+                    'carriers/fedex/active' => 1,
+                    'carriers/dhlint/active' => 0,
+                ),
+                true
+            ),
+            array(
+                array(
+                    'carriers/flatrate/active' => 0,
+                    'carriers/ups/active' => 0,
+                    'carriers/usps/active' => 0,
+                    'carriers/fedex/active' => 0,
+                    'carriers/dhlint/active' => 0,
+                ),
+                false
+            )
+        );
+    }
+
+    /**
+     * @param array $configSettings
+     * @param boolean $expectedResult
+     * @dataProvider getConfiguredShippingMethods
+     */
+    public function testGetConfiguredShippingMethods($configSettings, $expectedResult)
+    {
+        $stateResolver = $this->_getShippingStateResolverForConfiguredMethodsTest($configSettings);
+        $this->assertEquals($expectedResult, $stateResolver->getConfiguredShippingMethods());
+    }
+
+    public function getConfiguredShippingMethods()
+    {
+        return array(
+            array(
+                array(
+                    'carriers/flatrate/active' => 0,
+                    'carriers/flatrate/title' => 'Flatrate Title',
+                    'carriers/ups/active' => 0,
+                    'carriers/ups/title' => 'UPS Title',
+                    'carriers/usps/active' => 1,
+                    'carriers/usps/title' => 'USPS Title',
+                    'carriers/fedex/active' => 1,
+                    'carriers/fedex/title' => 'Fedex Title',
+                    'carriers/dhlint/active' => 0,
+                    'carriers/dhlint/title' => 'DHL Title',
+                ),
+                array(
+                    'usps' => 'USPS Title',
+                    'fedex' => 'Fedex Title'
+                )
+            ),
+            array(
+                array(
+                    'carriers/flatrate/active' => 0,
+                    'carriers/flatrate/title' => 'Flatrate Title',
+                    'carriers/ups/active' => 0,
+                    'carriers/ups/title' => 'UPS Title',
+                    'carriers/usps/active' => 0,
+                    'carriers/usps/title' => 'USPS Title',
+                    'carriers/fedex/active' => 0,
+                    'carriers/fedex/title' => 'Fedex Title',
+                    'carriers/dhlint/active' => 0,
+                    'carriers/dhlint/title' => 'DHL Title',
+                ),
+                array()
+            )
+        );
+    }
 }
