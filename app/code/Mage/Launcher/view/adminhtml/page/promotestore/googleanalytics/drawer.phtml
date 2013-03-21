@@ -10,21 +10,35 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Drawer */
 ?>
-<div class="drawer-header-content">
-    <form id="drawer-form">
-        <h2 class="title"><?php echo $this->__('Powerful features of Google Analytics') ?> </h2>
-        <article class="entry">
-            <p><?php echo $this->__('Your new online business has a powerful asset: data. Leverage your store data with Google Analytics to track and evaluate customer conversions, clicks, purchases and browsing. Google Analytics helps turn all this info into meaningful, actionable insight for staging your store and selling more products.') ?> </p>
-        </article>
-        <div class="go-do">
-            <h2 class="title-checklist"><?php echo $this->__('Go Do') ?> </h2>
+<form id="drawer-form">
+    <article class="entry">
             <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_TODO) :?>
-                <p><?php echo $this->__('Log in to your Google account.') ?></p>
-                <input id="google_analytics_account" name="groups[google][analytics][fields][account][value]" data-ui-id="text-groups-analytics-fields-account-value" value="" class=" input-text" type="text">
+                <div class="field field-google_analytics_account">
+                    <label class="label" for="google_analytics_account">
+                        <span><?php echo $this->__('Log in to your Google account.') ?></span>
+                    </label>
+                    <div class="control">
+                        <input id="google_analytics_account"
+                               name="groups[google][analytics][fields][account][value]"
+                               data-ui-id="text-groups-analytics-fields-account-value"
+                               value=""
+                               class="input-text"
+                               type="text">
+                    </div>
+                </div>
             <?php endif; ?>
             <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
-                <li class="uncompleted"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'google', '_fragment' => 'google_analytics-link'))?>" target="_blank"><?php echo $this->__('Edit Google Analytics Settings'); ?></a></li>
+                <ul class="promote-actions">
+                    <li class="completed"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'google', '_fragment' => 'google_analytics-link'))?>" target="_blank"><?php echo $this->__('Edit Google Analytics Settings'); ?></a></li>
+                </ul>
             <?php endif; ?>
+        <div class="promote-content">
+            <div class="promote-content-section">
+                <p><?php echo $this->__('Your new online business has a powerful asset: data. Leverage your store data with Google Analytics to track and evaluate customer conversions, clicks, purchases and browsing.') ?> </p>
+            </div>
+            <div class="promote-content-section">
+                <p><?php echo $this->__('Google Analytics helps turn all this info into meaningful, actionable insight for staging your store and selling more products.') ?> </p>
+            </div>
         </div>
-    </form>
-</div>
+    </article>
+</form>

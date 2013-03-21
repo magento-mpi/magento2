@@ -262,6 +262,7 @@
 
     $(document).ready(function() {
         $('.tile-store-settings [class^="action"]')
+            .add('.tile-store-settings a')
             .on('focus.tileFocus', function() {
                 $(this).closest('.tile-store-settings')
                     .addClass('focus');

@@ -10,24 +10,25 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Reports_Drawer */
 ?>
-<div class="drawer-header-content">
-    <form id="drawer-form">
-        <h2 class="title"><?php echo $this->__('Guidelines and Best Practices') ?></h2>
-        <article class="entry">
-            <p><?php echo $this->__('What drives customers to buy your products? What products get the most views? Why are carts abandoned before checkout? We\'ve gathered three of our most insightful reports that can help you uncover trends and drive tactics to improve your business. Learn these reports, love them, study them inside and out, and run them often: on a daily basis, or weekly at the very least. You\'ll be glad you do.') ?></p>
-        </article>
-        <div class="go-do">
-            <h2 class="title-checklist"><?php echo $this->__('Go Do') ?></h2>
-            <ul class="checklist">
-                <?php $trackerLink = $this->getTrackerLink('adminhtml/report_product/viewed'); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('See Product Views Report') ?></a></li>
+<form id="drawer-form">
+    <article class="entry">
+        <ul class="promote-actions">
+            <?php $trackerLink = $this->getTrackerLink('adminhtml/report_product/viewed'); ?>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('See Product Views Report') ?></a></li>
 
-                <?php $trackerLink = $this->getTrackerLink('adminhtml/report/search'); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('See Search Terms Report') ?></a></li>
+            <?php $trackerLink = $this->getTrackerLink('adminhtml/report/search'); ?>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('See Search Terms Report') ?></a></li>
 
-                <?php $trackerLink = $this->getTrackerLink('adminhtml/report_shopcart/abandoned'); ?>
-                <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('See Abandoned Carts Report') ?></a></li>
-            </ul>
+            <?php $trackerLink = $this->getTrackerLink('adminhtml/report_shopcart/abandoned'); ?>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('See Abandoned Carts Report') ?></a></li>
+        </ul>
+        <div class="promote-content">
+            <div class="promote-content-section">
+                <p><?php echo $this->__('What drives customers to buy your products? What products get the most views? Why are carts abandoned before checkout? We\'ve gathered three of our most insightful reports that can help you uncover trends and drive tactics to improve your business.') ?></p>
+            </div>
+            <div class="promote-content-section">
+                <p><?php echo $this->__('Learn these reports, love them, study them inside and out, and run them often: on a daily basis, or weekly at the very least. You\'ll be glad you do.') ?></p>
+            </div>
         </div>
-    </form>
-</div>
+    </article>
+</form>

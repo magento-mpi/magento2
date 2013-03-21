@@ -10,7 +10,7 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer */
 ?>
-<form action="" id="drawer-form" method="post">
+<form action="" id="drawer-form" class="<?php if ($this->isUseTaxControlSwitchedOff()) : ?>ignore-validate<?php endif; ?>" method="post">
     <?php echo $this->getBlockHtml('formkey')?>
 
     <div class="switcher drawer-switcher" onselectstart="return false;">
@@ -42,22 +42,20 @@
         </div>
     </div>
 
-    <div class="tax-rule-config <?php if ($this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>">
-        <div class="tax-rule-info">
-            <?php echo $this->getChildHtml('tax-rule-edit');?>
-            <?php echo $this->getChildBlock('tax-rule-form')->setUseContainer(false)->toHtml();?>
-        </div>
-
-        <?php echo $this->getChildBlock('tax-rate-importExport')->setUseContainer(false)->toHtml();?>
-
-    </div>
-
-    <div class="no-tax-info <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>">
+    <div class="no-tax-info <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>" id="tax-rule-disabled">
         <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have disabled Tax Rules') ?></h2>
         <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
         <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
     </div>
 
+    <div class="tax-rule-config <?php if ($this->isUseTaxControlSwitchedOff()) : ?>disabled<?php endif; ?>" id="tax-rule-config">
+        <div class="tax-rule-info">
+            <?php echo $this->getChildHtml('tax-rule-edit');?>
+            <?php echo $this->getChildBlock('tax-rule-form')->setUseContainer(false)->toHtml();?>
+        </div>
+        <?php echo $this->getChildBlock('tax-rate-importExport')->setUseContainer(false)->toHtml();?>
+        <div class="disabled-mask"></div>
+    </div>
 </form>
 
 <?php echo $this->getChildHtml('tax-rate-form'); ?>
@@ -67,26 +65,27 @@
         $(document).ready(function() {
             'use strict';
             var drawerForm = $('#drawer-form'),
-                taxRuleConfig = $('.tax-rule-config'),
-                noTaxInfo = $('.no-tax-info'),
+                taxRuleConfig = $('#tax-rule-config'),
+                noTaxInfo = $('#tax-rule-disabled'),
                 drawerSwitcher = '.drawer-header-inner .drawer-switcher :checkbox';
 
-            $('body').on('change.drawerStatus', drawerSwitcher, function() {
-                var elem = $(this),
-                    elemId = elem.prop('id').replace('copy-','');
+            $('body')
+                .on('change.drawerStatus', drawerSwitcher, function() {
+                    var elem = $(this),
+                        elemId = elem.prop('id').replace('copy-','');
 
-                if (elem.is(':checked')) {
-                    drawerForm.removeClass('ignore-validate');
-                    taxRuleConfig.removeClass('hidden');
-                    noTaxInfo.addClass('hidden');
-                    $('#' + elemId).prop('checked', true);
-                } else {
-                    drawerForm.addClass('ignore-validate');
-                    taxRuleConfig.addClass('hidden');
-                    noTaxInfo.removeClass('hidden');
-                    $('#' + elemId).prop('checked', false);
-                }
-            });
+                    if (elem.is(':checked')) {
+                        drawerForm.removeClass('ignore-validate');
+                        taxRuleConfig.removeClass('disabled');
+                        noTaxInfo.addClass('hidden');
+                        $('#' + elemId).prop('checked', true);
+                    } else {
+                        drawerForm.addClass('ignore-validate');
+                        taxRuleConfig.addClass('disabled');
+                        noTaxInfo.removeClass('hidden');
+                        $('#' + elemId).prop('checked', false);
+                    }
+                });
         });
     })(window.jQuery);
 </script>

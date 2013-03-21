@@ -40,14 +40,11 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
             <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$0/Month'); ?></span>
             <div class="actions">
                 <button type="button" class="action-configure-payment-method" data-payment-config="express-checkout">
-                    <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose PayPal Express'); ?></span>
+                    <span data-text-default="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose PayPal Express'); ?>"
+                          data-text-active="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Selected'); ?>"
+                          data-text-edit="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit'); ?>">
+                    </span>
                 </button>
-            </div>
-            <strong class="note">
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Express Checkout'); ?>
-            </strong>
-            <div class="payment-status">
-                <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
             </div>
         </footer>
     </div>
@@ -67,14 +64,11 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
                     <div class="actions">
                         <button type="button" class="action-configure-payment-method" data-payment-config="paypal-standard">
-                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Standard'); ?></span>
+                            <span data-text-default="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Standard'); ?>"
+                                  data-text-active="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Selected'); ?>"
+                                  data-text-edit="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit'); ?>">
+                            </span>
                         </button>
-                    </div>
-                    <strong class="note">
-                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Standard'); ?>
-                    </strong>
-                    <div class="payment-status">
-                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
@@ -91,14 +85,11 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
                     <div class="actions">
                         <button type="button" class="action-configure-payment-method" data-payment-config="payments-advanced">
-                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Payments Advanced'); ?></span>
+                            <span data-text-default="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Payments Advanced'); ?>"
+                                  data-text-active="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Selected'); ?>"
+                                  data-text-edit="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit'); ?>">
+                            </span>
                         </button>
-                    </div>
-                    <strong class="note">
-                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payments Advanced'); ?>
-                    </strong>
-                    <div class="payment-status">
-                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
@@ -115,14 +106,11 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
                     <div class="actions">
                         <button type="button" class="action-configure-payment-method" data-payment-config="payments-pro">
-                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Payments Pro'); ?></span>
+                            <span data-text-default="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Payments Pro'); ?>"
+                                  data-text-active="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Selected'); ?>"
+                                  data-text-edit="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit'); ?>">
+                            </span>
                         </button>
-                    </div>
-                    <strong class="note">
-                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payments Pro'); ?>
-                    </strong>
-                    <div class="payment-status">
-                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
@@ -137,19 +125,16 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Simplifies PCI compliance'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Customers can pay by credit card, PayPal, or Bill Me Later&reg;.'); ?></li>
                 </ul>
-                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('*Requires a merchant banking account.'); ?></p>
+                <p class="note-required"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Requires a merchant banking account.'); ?></p>
                 <footer class="payment-method-footer">
                     <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
                     <div class="actions">
                         <button type="button" class="action-configure-payment-method" data-payment-config="payflow-link">
-                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Payflow Link'); ?></span>
+                            <span data-text-default="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Payflow Link'); ?>"
+                                  data-text-active="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Selected'); ?>"
+                                  data-text-edit="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit'); ?>">
+                            </span>
                         </button>
-                    </div>
-                    <strong class="note">
-                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payflow Link'); ?>
-                    </strong>
-                    <div class="payment-status">
-                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
@@ -162,19 +147,16 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design and host your checkout pages for full control'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Accept credit cards by phone, fax, or mail.'); ?></li>
                 </ul class="payment-features">
-                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('*Requires a merchant banking account.'); ?></p>
+                <p class="note-required"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Requires a merchant banking account.'); ?></p>
                 <footer class="payment-method-footer">
                     <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
                     <div class="actions">
                         <button type="button" class="action-configure-payment-method" data-payment-config="payflow-pro">
-                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Payflow Pro'); ?></span>
+                            <span data-text-default="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Payflow Pro'); ?>"
+                                  data-text-active="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Selected'); ?>"
+                                  data-text-edit="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit'); ?>">
+                            </span>
                         </button>
-                    </div>
-                    <strong class="note">
-                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Payflow Pro'); ?>
-                    </strong>
-                    <div class="payment-status">
-                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
@@ -187,19 +169,16 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Safe and secure (PCI-DSS compliant)'); ?></li>
                     <li><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Automatic deposit of funds into your bank account.'); ?></li>
                 </ul>
-                <p class="payment-tagline"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('*Requires a merchant banking account.'); ?></p>
+                <p class="note-required"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Requires a merchant banking account.'); ?></p>
                 <footer class="payment-method-footer">
                     <span class="price-plan"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('$?/Month'); ?></span>
                     <div class="actions">
                         <button type="button" class="action-configure-payment-method" data-payment-config="authorize">
-                            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Authorize.net'); ?></span>
+                            <span data-text-default="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose Authorize.net'); ?>"
+                                  data-text-active="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Selected'); ?>"
+                                  data-text-edit="<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit'); ?>">
+                            </span>
                         </button>
-                    </div>
-                    <strong class="note">
-                        <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Authorize.net'); ?>
-                    </strong>
-                    <div class="payment-status">
-                        <span class="payment-status-success"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Setup Successful'); ?></span>
                     </div>
                 </footer>
             </div>
@@ -436,7 +415,9 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
 </div>
 </div>
 
-<a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'payment')); ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Additional Payment Methods Settings'); ?></a>
+<div class="additional-payment-methods">
+    <a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'payment')); ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Additional Payment Methods Settings'); ?></a>
+</div>
 
 </form>
 
@@ -454,7 +435,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     activePaymentTile.removeClass('active');
                     elem.addClass('active');
 
-                    $('#'+paymentMethod)
+                    $('#' + paymentMethod)
                         .show()
                         .siblings()
                         .hide();

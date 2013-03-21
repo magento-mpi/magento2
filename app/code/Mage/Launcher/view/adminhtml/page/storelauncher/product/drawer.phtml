@@ -13,7 +13,6 @@
 <form action="" id="drawer-form" class="add-product-form" method="post">
     <div class="add-product">
         <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add a Product') ?></h2>
-        <h3><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Get started by adding a product.') ?></h3>
         <?php  echo $this->getGeneralTabContent();?>
         <?php echo $this->getChildBlock('new-category')->setUseContainer(false)->toHtml();?>
         <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>

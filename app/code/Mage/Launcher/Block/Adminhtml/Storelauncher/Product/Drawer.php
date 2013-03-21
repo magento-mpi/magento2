@@ -76,7 +76,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Add Product');
+        return $this->helper('Mage_Launcher_Helper_Data')->__('Product');
     }
 
     /**
