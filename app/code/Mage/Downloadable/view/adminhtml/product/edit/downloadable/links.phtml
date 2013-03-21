@@ -395,23 +395,7 @@ if($('add_link_item')) {
 <?php foreach ($this->getLinkData() as $item): ?>
     linkItems.add(<?php echo $item->toJson()?>);
 <?php endforeach; ?>
-
-Validation.addAllThese([
-    ['validate-downloadable-link-sample-file', 'Please specify File.', function(v,element) {
-            fileSaveElm = element.up('div').next('input[type="hidden"]');
-            if (element.checked && (fileSaveElm.value == '' || fileSaveElm.value == '[]')) {
-                return false;
-            }
-            return true;
-        }]
-    ]);
-Validation.addAllThese([
-    ['validate-downloadable-link-sample-url', 'Please specify Sample URL.', function(v,element) {
-            if (element.checked && element.up('p').down('input[type="text"]').value == '') {
-                return false;
-            }
-            return true;
-        }]
-    ]);
+jQuery.mage.extend('validation', 'validation',
+    '<?php echo $this->getViewFileUrl('Mage_Downloadable::product/validation-rules.js'); ?>');
 //]]>
 </script>

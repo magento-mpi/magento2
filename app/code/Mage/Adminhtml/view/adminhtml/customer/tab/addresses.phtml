@@ -587,7 +587,12 @@ addressesModel.prototype = {
         var regionRequired = this.requiredStateForCountries.indexOf(this.countryEl.value) >= 0;
 
         elements.each(function(currentElement) {
-            Validation.reset(currentElement);
+            var form = currentElement.form,
+                validationInstance = form ? jQuery(form).data('validation') : null;
+
+            if (validationInstance) {
+                validationInstance.clearError(currentElement);
+            }
             label = $$('label[for="' + currentElement.id + '"]')[0];
             if (label) {
                 wildCard = label.down('em') || label.down('span.required');
