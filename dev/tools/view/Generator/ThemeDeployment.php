@@ -19,7 +19,7 @@ class Generator_ThemeDeployment
     private $_logger;
 
     /**
-     * List of extensions for files, which should be published.
+     * List of extensions for files, which should be deployed.
      * For efficiency it is a map of ext => ext, so lookup by hash is possible.
      *
      * @var array
@@ -27,7 +27,7 @@ class Generator_ThemeDeployment
     private $_permitted;
 
     /**
-     * List of extensions for files, which must not be published
+     * List of extensions for files, which must not be deployed
      * For efficiency it is a map of ext => ext, so lookup by hash is possible.
      *
      * @var array
@@ -48,10 +48,10 @@ class Generator_ThemeDeployment
 
         $this->_permitted = $this->_loadConfig($configPermitted);
         $this->_forbidden = $this->_loadConfig($configForbidden);
-        $this->_forbidden[''] = '';
+        $this->_forbidden[''] = ''; // Force empty extension to be forbidden
         $conflicts = array_intersect($this->_permitted, $this->_forbidden);
         if ($conflicts) {
-            $message = 'The following extensions are both added to permitted and forbidden lists: %s';
+            $message = 'Conflicts: the following extensions are added both to permitted and forbidden lists: %s';
             throw new Magento_Exception(sprintf($message, implode(', ', $conflicts)));
         }
     }
@@ -83,23 +83,30 @@ class Generator_ThemeDeployment
     }
 
     /**
-     * Copy all the files according to $copyRules, which contains pairs of 'source' and 'destination' directories
+     * Copy all the files according to $copyRules
      *
      * @param array $copyRules
-     * @param string $destinationDir
+     * @param string $destinationHomeDir
      * @param bool $isDryRun
      */
-    public function run($copyRules, $destinationDir, $isDryRun = false)
+    public function run($copyRules, $destinationHomeDir, $isDryRun = false)
     {
         if ($isDryRun) {
             $this->_log('Running in dry-run mode');
         }
 
         foreach ($copyRules as $copyRule) {
+            $context = array(
+                'source' => $copyRule['source'],
+                'destination' => $copyRule['destination'],
+                'destinationHomeDir' => $destinationHomeDir,
+                'path_info' => $copyRule['path_info'],
+                'is_dry_run' => $isDryRun
+            );
             $this->_copyDirStructure(
                 $copyRule['source'],
-                $destinationDir . DIRECTORY_SEPARATOR . $copyRule['destination'],
-                $isDryRun
+                $destinationHomeDir . DIRECTORY_SEPARATOR . $copyRule['destination'],
+                $context
             );
         }
     }
@@ -110,51 +117,65 @@ class Generator_ThemeDeployment
      *
      * @param string $sourceDir
      * @param string $destinationDir
-     * @param bool $isDryRun
+     * @param array $context
      * @throws Magento_Exception
      */
-    protected function _copyDirStructure($sourceDir, $destinationDir, $isDryRun)
+    protected function _copyDirStructure($sourceDir, $destinationDir, $context)
     {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sourceDir));
         foreach ($files as $fileSource) {
+            $fileSource = (string) $fileSource;
             $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
+
             if (isset($this->_forbidden[$extension])) {
                 continue;
             }
+
             if (!isset($this->_permitted[$extension])) {
-                $message = 'The file extension "%s" must be added either to the permitted or forbidden list. File: %s';
-                throw new Magento_Exception(sprintf($message, $extension, $fileSource));
+                $message = sprintf(
+                    'The file extension "%s" must be added either to the permitted or forbidden list. File: %s',
+                    $extension,
+                    $fileSource
+                );
+                throw new Magento_Exception($message);
             }
+
             $fileDestination = $destinationDir . substr($fileSource, strlen($sourceDir));
-            $this->_publishFile($fileSource, $fileDestination, $isDryRun);
+            $this->_deployFile($fileSource, $fileDestination, $context);
         }
     }
 
     /**
-     * Publish file to the destination path, also processing paths inside css-files.
+     * Deploy file to the destination path, also processing modular paths inside css-files.
      *
      * @param string $fileSource
      * @param string $fileDestination
-     * @param bool $isDryRun
+     * @param array $context
      */
-    protected function _publishFile($fileSource, $fileDestination, $isDryRun)
+    protected function _deployFile($fileSource, $fileDestination, $context)
     {
+        $isDryRun = $context['is_dry_run'];
+
+        $context['fileSource'] = $fileSource;
+        $context['fileDestination'] = $fileDestination;
+
         // Create directory
         $dir = dirname($fileDestination);
-        if (!is_dir($dir)) {
+        if (!is_dir($dir) && !$isDryRun) {
             mkdir($dir, 0666, true);
         }
 
-        // Copy file, with additional relative urls processing for css
-        $extension = strtolower(pathinfo($fileSource, PATHINFO_EXTENSION));
-        if ($extension == 'css') {
-            $this->_log($fileSource . ' ==CSS==> ' . $fileDestination);
-            $content = $this->_processCssContent($fileSource);
+        // Copy file
+        $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
+        if (strtolower($extension) == 'css') {
+            // For CSS files we need to replace modular urls
+            $this->_log($fileSource . "\n ==CSS==> " . $fileDestination);
+            $content = $this->_processCssContent($fileSource, $context);
             if (!$isDryRun) {
                 file_put_contents($fileDestination, $content);
             }
         } else {
-            $this->_log($fileSource . ' => ' . $fileDestination);
+            $this->_log($fileSource . "\n => " . $fileDestination);
             if (!$isDryRun) {
                 copy($fileSource, $fileDestination);
             }
@@ -162,15 +183,119 @@ class Generator_ThemeDeployment
     }
 
     /**
-     * Processes CSS file contents, replacing relative and modular urls to the appropriate values
+     * Processes CSS file contents, replacing modular urls to the appropriate values
      *
-     * @param string $filePath
+     * @param string $fileSource
+     * @param array $context
      * @return string
      */
-    protected function _processCssContent($filePath)
+    protected function _processCssContent($fileSource, $context)
     {
-        // Not implemented yet
-        return file_get_contents($filePath);
+        $content = file_get_contents($fileSource);
+        $relativeUrls = $this->_extractModuleUrls($content);
+        foreach ($relativeUrls as $urlNotation => $moduleUrl) {
+            $fileUrlNew = $this->_expandModuleUrl($moduleUrl, $context);
+            $urlNotationNew = str_replace($moduleUrl, $fileUrlNew, $urlNotation);
+            $content = str_replace($urlNotation, $urlNotationNew, $content);
+        }
+    }
+
+    /**
+     * Extract module urls (e.g. Mage_Cms::images/something.png) from the css file content
+     *
+     * @param string $cssContent
+     * @return array
+     */
+    protected function _extractModuleUrls($cssContent)
+    {
+        preg_match_all(Mage_Core_Model_Design_Package::REGEX_CSS_RELATIVE_URLS, $cssContent, $matches);
+        if (empty($matches[0]) || empty($matches[1])) {
+            return array();
+        }
+        $relativeUrls = array_combine($matches[0], $matches[1]);
+
+        // Leave only modular urls
+        foreach ($relativeUrls as $key => $relativeUrl) {
+            if (!strpos($relativeUrl, Mage_Core_Model_Design_Package::SCOPE_SEPARATOR)) {
+                unset($relativeUrls[$key]);
+            }
+        }
+
+        return $relativeUrls;
+    }
+
+    /**
+     * Changes module url to normal relative url (it will be relative to the destination file location)
+     *
+     * @param string $moduleUrl
+     * @param array $context
+     * @return string
+     */
+    protected function _expandModuleUrl($moduleUrl, $context)
+    {
+        $destinationHomeDir = $context['destinationHomeDir'];
+        $fileDestination = $context['fileDestination'];
+        $pathInfo = $context['path_info'];
+
+        list($module, $file) = $this->_extractModuleAndFile($moduleUrl);
+        $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
+            $pathInfo['area'], $pathInfo['themePath'], $pathInfo['locale'], $file, $module
+        );
+        $relatedFile =  $destinationHomeDir . DIRECTORY_SEPARATOR . $relPath;
+
+        return $this->_composeUrlOffset($relatedFile, $fileDestination);
+    }
+
+    /**
+     * Divides module url into module name and file path.
+     *
+     * @param string $moduleUrl
+     * @return array
+     * @throws Magento_Exception
+     */
+    protected function _extractModuleAndFile($moduleUrl)
+    {
+        $parts = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $moduleUrl);
+        if ((count($parts) != 2) || !strlen($parts[0]) || !strlen($parts[1])) {
+            throw new Magento_Exception("Wrong module url: {$moduleUrl}");
+        }
+        return $parts;
+    }
+
+    /**
+     * Returns url offset to $filePath as relative to $baseFilePath
+     *
+     * @param string $filePath
+     * @param string $baseFilePath
+     * @return string
+     */
+    protected function _composeUrlOffset($filePath, $baseFilePath)
+    {
+        $filePath = str_replace('\\', '/', $filePath);
+        $baseFilePath = str_replace('\\', '/', $baseFilePath);
+
+        $partsFile = explode('/', dirname($filePath));
+        $partsBase = explode('/', dirname($baseFilePath));
+
+        // Go until paths become different
+        while (count($partsFile) && count($partsBase) && ($partsFile[0] == $partsBase[0])) {
+            array_shift($partsFile);
+            array_shift($partsBase);
+        }
+
+        // Add '../' for every left level in $partsBase
+        $relDir = '';
+        if (count($partsBase)) {
+            $relDir = str_repeat('../', count($partsBase));
+        }
+
+        // Add subdirs from $partsFile
+        if (count($partsFile)) {
+            $relDir .= implode('/', $partsFile) . '/';
+        }
+
+        // Return resulting path
+        return $relDir . basename($filePath);
     }
 
     /**

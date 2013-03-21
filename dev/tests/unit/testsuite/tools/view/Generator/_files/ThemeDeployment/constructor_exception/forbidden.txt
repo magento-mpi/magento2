@@ -1,0 +1,8 @@
+// Forbidden config, conflicting with the permitted one
+permitted1
+permitted2
+// commented_extension
+conflict1
+conflict2
+// Empty lines are ignored while loading, but one empty extension is forced for forbidden config
+permitted3

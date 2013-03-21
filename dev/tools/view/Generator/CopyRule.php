@@ -55,9 +55,10 @@ class Generator_CopyRule
      */
     public function getCopyRules()
     {
+        $locale = null; // Temporary locale is not taken into account
         $params = array(
             'theme_path'    => $this->_composePlaceholder('theme_path'),
-            'locale'        => null, // temporary locale is not taken into account
+            'locale'        => $locale,
             'namespace'     => $this->_composePlaceholder('namespace'),
             'module'        => $this->_composePlaceholder('module'),
         );
@@ -76,9 +77,20 @@ class Generator_CopyRule
                     } else {
                         $module = null;
                     }
+
+                    $pathInfo = array(
+                        'area' => $area,
+                        'locale' => $locale,
+                        'themePath' => $theme->getThemePath(),
+                        'module' => $module
+                    );
+                    $destination = $this->_getDestinationPath('', $pathInfo['area'], $pathInfo['themePath'], $module);
+                    $destination = rtrim($destination, "\\/");
+
                     $result[] = array(
                         'source' => $srcDir,
-                        'destination' => $this->_getDestinationPath('', $area, $theme->getThemePath(), $module),
+                        'destination' => $destination,
+                        'path_info' => $pathInfo
                     );
                 }
             }
