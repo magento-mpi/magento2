@@ -342,8 +342,9 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     protected function _getLoadSelect($field, $value, $object)
     {
         $field  = $this->_getReadAdapter()->quoteIdentifier(sprintf('%s.%s', $this->getMainTable(), $field));
+        $columns = $this->_getColumnsForEntityLoad($object, $this->getMainTable());
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
+            ->from($this->getMainTable(), $columns)
             ->where($field . '=?', $value);
         return $select;
     }
