@@ -106,7 +106,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                     ),
                 ),
             ),
-            'class'   => 'save action-theme-assign',
+            'class'   => 'save action-theme-assign primary',
             'target'  => '_blank'
         ));
 
@@ -155,7 +155,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         /** @var $editButton Mage_Backend_Block_Widget_Button */
         $editButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $editButton->setData(array(
-            'label'     => $this->__('Edit Theme'),
+            'label'     => $this->__('Edit'),
             'class'     => 'add action-edit',
             'data_attribute' => array(
                 'mage-init' => array(
