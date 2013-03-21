@@ -57,10 +57,6 @@
     margin: 6px 17px 6px 6px;
 }
 
-.page-actions .action-.delete {
-    margin-top: 2px;
-}
-
 /* Image Management */
 .images {
     position: relative;
@@ -789,6 +785,9 @@
 
 .field-poll_answers_container .action-add {
     margin-top: 7px;
+}
+.field-poll_answers_container .data-table tbody tr td {
+    vertical-align: top;
 }
 
 /*
@@ -1548,6 +1547,53 @@
 }
 
 /*
+    System - Tax
+--------------------------------------*/
+.tax-rate-popup .ui-dialog-content.ui-widget-content {
+    padding: 10px 10px 0;
+}
+
+.tax-rate-popup .fieldset {
+    margin: 0;
+}
+
+.tax-rate-popup .field {
+    margin-bottom: 20px;
+}
+
+.tax-rate-popup .field .label {
+    margin: 5px 0 0 0;
+    width: 26%;
+    padding: 0 20px 0 0;
+    float: left;
+    text-align: right;
+    box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -ms-box-sizing: content-box;
+}
+
+.tax-rate-popup .field .control {
+    width: 58%;
+    margin: 0;
+    float: left;
+}
+
+.tax-rate-popup .field .control select,
+.tax-rate-popup .field .control .input-text {
+    width: 100%;
+}
+
+.tax-rate-popup .field-rate .control .input-text {
+    width: 50%;
+}
+
+.tax-rate-popup .tax-rate-titles-note-td {
+    margin-left: 26%;
+    padding-left: 20px;
+}
+
+/*
     Tags
 -------------------------------------- */
 .tag-title .page-actions {
@@ -1604,10 +1650,9 @@
 
 .customer-current-activity {
     float: left;
-    width: 20%;
+    width: 22%;
 }
 
-.order-details-inner,
 .customer-current-activity-inner {
     background: #fff;
     border: 1px solid #eae6e0;
@@ -1616,9 +1661,9 @@
 }
 
 .order-details-existing-customer {
-    padding: 0 1% 1%;
+    padding-left: 1%;
     position: relative;
-    width: 78%;
+    width: 77%;
     float: right;
 }
 
@@ -1633,7 +1678,7 @@
 [class^=" adminhtml-rma-"] .order-shipping-address,
 [class^=" adminhtml-rma-"] .rma-request-details {
     float: left;
-    width: 49%;
+    width: 49.5%;
 }
 
 .order-shipping-address,
@@ -1655,12 +1700,39 @@
     width: auto;
 }
 
-.order-coupons .box-left {
+.adminhtml-sales-order-create-index .actions .action-add {
+    margin: 0 0 0 20px;
+}
+
+.adminhtml-sales-order-create-index .order-methods ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.adminhtml-sales-order-create-index .order-methods dl,
+.adminhtml-sales-order-create-index .order-methods dt,
+.adminhtml-sales-order-create-index .order-methods dd {
+    margin: 0;
+    padding: 0;
+}
+
+.adminhtml-sales-order-create-index .order-methods dd + dt {
+    margin-top: 17px;
+}
+
+.adminhtml-sales-order-create-index .order-methods dt {
+    margin: 0 0 8px;
+}
+
+.order-coupons .box-left,
+.order-gift-options .box-left {
     float: left;
     width: 49%;
 }
 
-.order-coupons .box-right {
+.order-coupons .box-right,
+.order-gift-options .box-right {
     float: right;
     width: 49%;
 }
@@ -1683,13 +1755,103 @@
     width: 100%;
 }
 
-.create-order-sidebar-container > div {
-    border-bottom: 1px solid #ccc;
+[class^=" adminhtml-sales-order-"] .order-billing-address .actions ,
+[class^=" adminhtml-sales-order-"] .order-shipping-address .actions {
+    margin: 17px 0;
+}
+
+[class^=" adminhtml-sales-order-"] .order-billing-address .control + label ,
+[class^=" adminhtml-sales-order-"] .order-shipping-address .control + label {
+    margin: 17px 0 0;
+}
+
+.adminhtml-sales-order-create-index .page-actions { padding-top: 0; }
+
+.adminhtml-sales-order-create-index .store-switcher { margin: -46px 0 0; position: relative; width: 50%; }
+
+.create-order-sidebar-container > div + div {
+    border-top: 1px solid #ededed;
+    margin-top: 35px;
+}
+
+.create-order-sidebar-container > div .head h5 {
+    margin: 17px 0 7px;
+}
+
+.customer-current-activity-inner > h4 {
+    border-bottom: 1px solid #ededed;
+    margin-top: 0;
+    padding: 0 0 16px;
+}
+
+.customer-current-activity-inner .data-table th {
+    font-size: 11px;
+}
+
+.customer-current-activity .action-refresh {
+    float: right;
+}
+
+.customer-current-activity .action-refresh,
+.customer-current-activity .data-table .icon {
+    display: inline-block;
+    text-indent: 100%;
+    overflow: hidden;
+    height: 16px;
+    width: 16px;
+    white-space: nowrap;
+}
+
+.customer-current-activity .action-refresh:before,
+.customer-current-activity .data-table .icon:before {
+    content: "\e010";
+    color: #c3c2be;
+    display: block;
+    text-indent: 0;
+    font-size: 16px;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.customer-current-activity .data-table .icon-remove:before { content: "\e07f"; }
+.customer-current-activity .data-table .icon-add:before    { content: "\e071"; }
+
+.customer-current-activity .auto-scroll {
+    overflow: auto;
+    max-height: 150px;
+}
+
+.customer-current-activity .auto-scroll + button {
+    margin: 22px 0 0;
 }
 
 .customer-current-activity .actions {
-    border-bottom: none;
-    margin-top: 20px;
+    border-top: none;
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.overlay span {
+    color: #111;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -100px;
+    width: 200px;
 }
 
 /*
@@ -1718,6 +1880,7 @@
 .rma-history-form textarea {
     height: 6em;
     margin: 5px 0 10px;
+    resize: vertical;
     width: 100%;
 }
 
@@ -1733,27 +1896,59 @@
     float: right;
 }
 
-[class^=" adminhtml-sales-order-"] .note-list,
-.order-comments-history .note-list {
+/*
+    Orders comments
+-------------------------------------- */
+.note-list {
     list-style: none;
     padding: 0;
 }
 
-[class^=" adminhtml-sales-order-"] .note-list li,
-[class^=" adminhtml-rma-"] .note-list li,
-.order-comments-history .note-list li {
+.note-list li {
     border-top: 1px solid #ededed;
-    padding: 7px 0;
+    padding: 9px 0;
 }
 
-[class^=" adminhtml-sales-order-"] .note-list li:first-child {
+.note-list li:first-child {
     border: 0;
     padding-top: 13px;
 }
 
-[class^=" adminhtml-sales-order-"] .note-list div,
-.order-comments-history .note-list div {
+.note-list div {
     font-size: 12px;
+}
+
+.note-list .note-list-date,
+.note-list .note-list-status,
+.note-list .note-list-customer span {
+    font-weight: bold;
+}
+
+.note-list .note-list-time,
+.note-list .note-list-status {
+    border-right: 1px solid #676056;
+    padding: 0 5px 0 0;
+    margin: 0 5px 0 0;
+}
+
+.note-list .note-list-customer {
+    white-space: nowrap;
+}
+
+.note-list .note-list-comment {
+    margin: 5px 0 0;
+}
+
+.note-list .note-list-customer-notapplicable {
+    color: #d87e34;
+}
+
+.note-list .note-list-customer-notified {
+    color: #185b00;
+}
+
+.note-list .note-list-customer-not-notified {
+    color: #963535;
 }
 
 .adminhtml-giftwrapping-index th.col-id {
@@ -2478,21 +2673,80 @@ table.items-to-invoice tbody tr:hover td {
     background: #fff !important;
 }
 
+.adminhtml-giftwrapping-edit .field-image .control {
+    line-height: 28px;
+}
+
+.adminhtml-giftwrapping-edit .field-image a {
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+.adminhtml-giftwrapping-edit .field-image img {
+    vertical-align: middle;
+}
+
+.adminhtml-giftwrapping-new .field-image .input-file,
+.adminhtml-giftwrapping-edit .field-image .input-file {
+    display: inline-block;
+    margin: 0 15px 0 0;
+    width: auto;
+}
+
+.adminhtml-giftwrapping-new .field-image .addafter,
+.adminhtml-giftwrapping-edit .field-image .addafter {
+    border: 0;
+    box-shadow: none;
+    display: inline-block;
+    margin: 0 15px 0 0;
+    height: auto;
+    width: auto;
+}
+
+.adminhtml-giftwrapping-new .field-image .delete-image,
+.adminhtml-giftwrapping-edit .field-image .delete-image {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.adminhtml-giftwrapping-edit .field-image .delete-image input {
+    margin: -3px 5px 0 0;
+    width: auto;
+    display: inline-block;
+}
+
+.adminhtml-giftwrapping-edit .field-image .addon .delete-image input:focus + label {
+    border: 0;
+    box-shadow: none;
+}
+
+.adminhtml-giftwrapping-edit .store-switcher {
+    float: left;
+    position: relative;
+    bottom: -14px;
+}
+
 /*
     Clearfix
 -------------------------------------- */
+.order-gift-options:before,
+.order-gift-options:after,
 .image-panel:before,
 .image-panel:after,
 .images:before,
 .images:after,
+.tax-rate-popup .field:before,
+.tax-rate-popup .field:after,
 .clearfix:before,
 .clearfix:after {
     content: "";
     display: table;
 }
 
+.order-gift-options:after,
 .image-panel:after,
 .images:after,
+.tax-rate-popup .field:after,
 .clearfix:after {
     clear: both;
 }

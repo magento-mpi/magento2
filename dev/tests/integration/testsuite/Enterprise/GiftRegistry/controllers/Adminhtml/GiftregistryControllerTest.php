@@ -14,7 +14,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_
     public function testNewAction()
     {
         $this->dispatch('backend/admin/giftregistry/new');
-        $this->assertRegExp('/<h1 class\="title">\s*New Gift Registry Type\s*</h1>/',
+        $this->assertRegExp('/<h1 class\="title">\s*New Gift Registry Type\s*<\/h1>/',
             $this->getResponse()->getBody()
         );
         $this->assertContains('<a href="#enterprise_giftregistry_tabs_general_section_content"'

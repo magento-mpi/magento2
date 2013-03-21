@@ -128,7 +128,8 @@ span.required {
     margin: 0;
 }
 
-.ie .addon textarea {
+.ie .addon textarea,
+.ie .addon select {
     display:inline-block;
 }
 

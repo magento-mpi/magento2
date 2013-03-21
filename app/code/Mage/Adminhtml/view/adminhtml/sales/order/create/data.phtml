@@ -23,7 +23,7 @@
     <script type="text/javascript">order.setCurrencySymbol('<?php echo $this->getCurrencySymbol($this->getCurrentCurrencyCode()) ?>')</script>
     <?php if($this->getCustomerId()): ?>
     <div class="customer-current-activity" id="order-sidebar">
-        <div class="customer-current-activity-inner"><?php echo $this->getChildHtml('sidebar') ?></div>
+        <?php echo $this->getChildHtml('sidebar') ?>
     </div>
     <?php endif; ?>
     <div class="order-details<?php if($this->getCustomerId()): ?> order-details-existing-customer<?php endif; ?>">
@@ -31,7 +31,7 @@
             <div id="order-additional_area" style="display:none" class="fieldset-wrapper order-additional-area"><?php echo $this->getChildHtml('additional_area') ?></div>
             <div id="order-search" style="display:none" class="fieldset-wrapper order-search-items"><?php echo $this->getChildHtml('search') ?></div>
             <div id="order-items" class="order-items fieldset-wrapper"><?php echo $this->getChildHtml('items') ?></div>
-            <div id="order-errors" class="fieldset-wrapper order-errors"><?php echo $this->getChildHtml('errors') ?></div>
+            <div id="order-errors" class="order-errors"><?php echo $this->getChildHtml('errors') ?></div>
             <div id="order-form_account" class="order-account-information fieldset-wrapper"><?php echo $this->getChildHtml('form_account') ?></div>
 
             <div id="order-addresses" class="order-addresses">
@@ -40,12 +40,13 @@
             </div>
 
             <div id="order-methods" class="order-methods">
-                <div id="order-billing_method" class="order-billing-method">
-                    <div class="fieldset-wrapper">
-                        <?php echo $this->getChildHtml('billing_method') ?></div>
+                <div class="order-billing-method">
+                    <div class="fieldset-wrapper" id="order-billing_method">
+                        <?php echo $this->getChildHtml('billing_method') ?>
                     </div>
-                <div id="order-shipping_method" class="order-shipping-method">
-                    <div class="fieldset-wrapper">
+                </div>
+                <div class="order-shipping-method">
+                    <div class="fieldset-wrapper" id="order-shipping_method">
                         <?php echo $this->getChildHtml('shipping_method') ?>
                     </div>
                 </div>
@@ -66,7 +67,6 @@
                 </div>
                 <div class="order-totals">
                     <fieldset id="order-totals" class="order-totals-content fieldset">
-                        <legend class="legend"><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order Totals') ?></span></legend>
                         <?php echo $this->getChildHtml('totals') ?>
                     </fieldset>
                 </div>

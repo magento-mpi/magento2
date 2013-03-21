@@ -28,19 +28,17 @@
     <ul class="note-list">
     <?php foreach ($_entity->getCommentsCollection(true) as $_comment): ?>
         <li>
-            <strong><?php echo $this->helper('Mage_Core_Helper_Data')->formatDate($_comment->getCreatedAtDate(), 'medium') ?></strong>
-            <?php echo $this->helper('Mage_Core_Helper_Data')->formatTime($_comment->getCreatedAtDate(), 'medium') ?>
-            <div><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
-            <strong>
+            <span class="note-list-date"><?php echo $this->helper('Mage_Core_Helper_Data')->formatDate($_comment->getCreatedAtDate(), 'medium') ?></span>
+            <span class="note-list-time"><?php echo $this->helper('Mage_Core_Helper_Data')->formatTime($_comment->getCreatedAtDate(), 'medium') ?></span>
+            <span class="note-list-customer">
+                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Customer') ?>
                 <?php if ($_comment->getIsCustomerNotified()): ?>
-                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?>
-                <img src="<?php echo $this->getViewFileUrl('images/ico_success.gif') ?>" width="16" height="16" alt="" />
+                    <span class="note-list-customer-notified"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Notified') ?></span>
                 <?php else: ?>
-                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?>
+                    <span class="note-list-customer-not-notified"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Not Notified') ?></span>
                 <?php endif; ?>
-            </strong>
-            </div>
-            <?php echo $this->escapeHtml($_comment->getComment(), array('b','br','strong','i','u')) ?>
+            </span>
+            <div class="note-list-comment"><?php echo $this->escapeHtml($_comment->getComment(), array('b','br','strong','i','u')) ?></div>
         </li>
     <?php endforeach; ?>
     </ul>
