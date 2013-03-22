@@ -549,6 +549,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
     public function createPngFromString($text, $font = '')
     {
         $error = false;
+        $this->_resized = true;
         try {
             $this->_createImageFromTtfText($text, $font);
         } catch (Exception $e) {

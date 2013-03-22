@@ -92,7 +92,7 @@ class Mage_Launcher_Helper_Data extends Mage_Core_Helper_Data
     public function getTmpLogoUrl($fileName = '')
     {
         return Mage::getBaseUrl('media') . 'tmp/' .  Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR
-            . '/' . $fileName;
+            . '/' . $fileName . '?' . md5(time());
     }
 
     /**
