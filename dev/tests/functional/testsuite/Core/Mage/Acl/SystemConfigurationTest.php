@@ -57,7 +57,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         //Steps
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
-        $this->navigate('system_configuration');
+        $this->navigate('system_configuration',false);
         //verify that only one tab is presented on page
         $this->assertEquals(1, $this->getControlCount('tab', 'all_tabs'),
             'Not only "' . $tabName . '" is presented on page.');
@@ -108,8 +108,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
             array('config_currency', 'general_currency_setup'),
             array('config_rss', 'catalog_rss_feeds'),
             array('config_email_to_friend', 'catalog_email_to_a_friend'),
-            array('config_paypal','sales_paypal'),
-            array('promotions','customers_promotions'),
+            array('config_promotion','customers_promotions'),
         );
     }
 
