@@ -48,8 +48,8 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
 
     public static function constructorExceptionDataProvider()
     {
-        $conflictPermitted = __DIR__ . '/_files/ThemeDeployment/constructor_exception/permitted.txt';
-        $conflictForbidden = __DIR__ . '/_files/ThemeDeployment/constructor_exception/forbidden.txt';
+        $conflictPermitted = __DIR__ . '/_files/ThemeDeployment/constructor_exception/permitted.php';
+        $conflictForbidden = __DIR__ . '/_files/ThemeDeployment/constructor_exception/forbidden.php';
         return array(
             'no permitted config' => array(
                 'non_existing_config.txt',
@@ -72,8 +72,8 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
 
     public function testRun()
     {
-        $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.txt';
-        $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.txt';
+        $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.php';
+        $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include  __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
         $object = new Generator_ThemeDeployment($this->_logger, $permitted, $forbidden);
@@ -126,8 +126,8 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
 
     public function testRunInDryRun()
     {
-        $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.txt';
-        $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.txt';
+        $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.php';
+        $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include  __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
         $object = new Generator_ThemeDeployment($this->_logger, $permitted, $forbidden);
@@ -144,8 +144,8 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
      */
     public function testRunWithUnknownExtension()
     {
-        $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.txt';
-        $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden_only_txt.txt';
+        $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.php';
+        $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden_without_php.php';
         $fixture = include  __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
         $object = new Generator_ThemeDeployment($this->_logger, $permitted, $forbidden);

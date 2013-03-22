@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Tools
- * @package    translate
+ * @package    view
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -48,7 +48,6 @@ class Generator_ThemeDeployment
 
         $this->_permitted = $this->_loadConfig($configPermitted);
         $this->_forbidden = $this->_loadConfig($configForbidden);
-        $this->_forbidden[''] = ''; // Force empty extension to be forbidden
         $conflicts = array_intersect($this->_permitted, $this->_forbidden);
         if ($conflicts) {
             $message = 'Conflicts: the following extensions are added both to permitted and forbidden lists: %s';
@@ -69,15 +68,8 @@ class Generator_ThemeDeployment
             throw new Magento_Exception("Config file does not exist: {$path}");
         }
 
-        $contents = explode("\n", file_get_contents($path));
+        $contents = include($path);
         $contents = array_unique($contents);
-
-        foreach ($contents as $key => $line) {
-            if ((substr($line, 0, 2) == '//') || !strlen($line)) {
-                unset($contents[$key]);
-            }
-        }
-
         $result = $contents ? array_combine($contents, $contents) : array();
         return $result;
     }

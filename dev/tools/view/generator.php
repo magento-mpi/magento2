@@ -56,8 +56,8 @@ try {
 
     $deployment = new Generator_ThemeDeployment(
         $logger,
-        __DIR__ . '/config/permitted.txt',
-        __DIR__ . '/config/forbidden.txt'
+        __DIR__ . '/config/permitted.php',
+        __DIR__ . '/config/forbidden.php'
     );
     $deployment->run($copyRules, $config->getDestinationDir(), $config->isDryRun());
 } catch (Exception $e) {
