@@ -25,6 +25,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest extend
         parent::setUp();
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_theme = Mage::getModel('Mage_Core_Model_Theme');
+        $this->_theme->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL);
         $this->_block = $this->_layout->createBlock('Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General');
     }
 

@@ -128,8 +128,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      */
     protected function _getLoadDesignTheme($themeId, $area = self::DEFAULT_AREA)
     {
-        if (isset($this->_themes[$themeId])) {
-            return $this->_themes[$themeId];
+        $key = sprintf('%s/%s', $area, $themeId);
+        if (isset($this->_themes[$key])) {
+            return $this->_themes[$key];
         }
 
         if (is_numeric($themeId)) {
@@ -140,7 +141,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             $collection = $this->getDesignTheme()->getCollection();
             $themeModel = $collection->getThemeByFullPath($area . '/' . $themeId);
         }
-        $this->_themes[$themeId] = $themeModel;
+        $this->_themes[$key] = $themeModel;
 
         return $themeModel;
     }
@@ -324,22 +325,18 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Update file path in map while we use caching mechanism
+     * Drop publication cache while we use caching mechanism
      *
-     * @param string $targetPath
-     * @param string $themeFile
      * @param array $params
-     * @param string $type
      * @return Mage_Core_Model_Design_Package
      */
-    public function updateFilePathInMap($targetPath, $themeFile, $params, $type = null)
+    public function dropPublicationCache(array $params = array())
     {
-        $themeFile = $this->_extractScope($themeFile, $params);
         $this->_updateParamDefaults($params);
         $fallback = $this->_getFallback($params);
         /** @var $fallback Mage_Core_Model_Design_Fallback_CachingProxy */
         if ($fallback instanceof Mage_Core_Model_Design_Fallback_CachingProxy) {
-            $fallback->setFilePathToMap($targetPath, $themeFile, $params['module'], $type);
+            $fallback->resetCache();
         }
         return $this;
     }
@@ -601,7 +598,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             }
         }
 
-        $this->updateFilePathInMap($targetPath, $themeFile, $params);
+        $this->_getFallback($params)->notifyViewFilePublished($targetPath, $themeFile, $params['module']);
         return $targetPath;
     }
 

@@ -17,29 +17,25 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
      * load cache configuration
      *
      * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param $data
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $configReader, $data = null)
-    {
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $configReader,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        $data = null
+    ) {
         parent::__construct($data);
-        $this->setCacheId('cache_config');
-        $this->_cacheChecksum   = null;
-        $this->_cache = Mage::app()->getCache();
-
-        $canUsaCache = Mage::app()->useCache('config');
-        if ($canUsaCache) {
-            if ($this->loadCache()) {
-                return $this;
-            }
+        $cacheId = 'cache_config';
+        $cachedXml = $configCacheType->load($cacheId);
+        if ($cachedXml) {
+            $this->loadString($cachedXml);
+        } else {
+            $config = $configReader->loadModulesConfiguration('cache.xml');
+            $xmlConfig = $config->getNode();
+            $configCacheType->save($xmlConfig->asNiceXml(), $cacheId);
+            $this->setXml($xmlConfig);
         }
-
-        $config = $configReader->loadModulesConfiguration('cache.xml');
-        $this->setXml($config->getNode());
-
-        if ($canUsaCache) {
-            $this->saveCache(array(Mage_Core_Model_Config::CACHE_TAG));
-        }
-        return $this;
     }
 
     /**

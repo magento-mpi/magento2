@@ -161,5 +161,12 @@
             }
         });
         $('.ui-sortable').disableSelection();
+
+        $(document).ready(function() {
+            var eventData = {
+                elements: {click: ['#js_files_uploader']}
+            };
+            $('body').trigger('registerElements', eventData);
+        });
     })(jQuery);
 </script>

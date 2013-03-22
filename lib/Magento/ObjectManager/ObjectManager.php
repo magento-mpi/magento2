@@ -80,10 +80,12 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
      * @param array $parameters
      * @param array $arguments
      * @return array
+     * @throws InvalidArgumentException
      * @throws LogicException
      * @throws BadMethodCallException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _resolveArguments($className, array $parameters, array $arguments = array())
     {
@@ -91,19 +93,28 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
         if (isset($this->_arguments[$className])) {
             $arguments = array_replace($this->_arguments[$className], $arguments);
         }
+        $paramPosition = 0;
         foreach ($parameters as $parameter) {
             list($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
             $argument = null;
-            if (array_key_exists($paramName, $arguments)) {
+            $hasPositionalArg = array_key_exists($paramPosition, $arguments);
+            $hasNamedArg = array_key_exists($paramName, $arguments);
+            if ($hasPositionalArg && $hasNamedArg) {
+                throw new InvalidArgumentException(
+                    'Ambiguous argument $' . $paramName . ': positional and named binding is used at the same time.'
+                );
+            }
+            if ($hasPositionalArg) {
+                $argument = $arguments[$paramPosition];
+            } else if ($hasNamedArg) {
                 $argument = $arguments[$paramName];
             } else if ($paramRequired) {
-                if ($paramType) {
-                    $argument = $paramType;
-                } else {
+                if (!$paramType) {
                     throw new BadMethodCallException(
                         'Missing required argument $' . $paramName . ' for ' . $className . '.'
                     );
                 }
+                $argument = $paramType;
             } else {
                 $argument = $paramDefault;
             }
@@ -121,6 +132,7 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
                 unset($this->_creationStack[$className]);
             }
             $resolvedArguments[] = $argument;
+            $paramPosition++;
         }
         return $resolvedArguments;
     }

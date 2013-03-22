@@ -18,4 +18,5 @@ $element = $this->getElement();
     name="<?php echo $element->getName() ?>"
     <?php echo $this->getUiId($element->getType(), $element->getName()) ?>
     value="<?php echo $element->getEscapedValue() ?>"
+    type="<?php echo $element->getType() ? $element->getType() : 'text' ?>"
     <?php echo $element->serialize($element->getHtmlAttributes()) ?> />

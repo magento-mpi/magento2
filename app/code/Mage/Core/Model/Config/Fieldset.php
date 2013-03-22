@@ -15,29 +15,24 @@ class Mage_Core_Model_Config_Fieldset extends Mage_Core_Model_Config_Base
      * Load configuration from enabled modules with appropriate caching.
      *
      * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Varien_Simplexml_Element|string|null $data
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $configReader, $data = null)
-    {
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $configReader,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        $data = null
+    ) {
         parent::__construct($data);
-
-        $canUseCache = Mage::app()->useCache('config');
-        if ($canUseCache) {
-            /* Setup caching with no checksum validation */
-            $this->setCache(Mage::app()->getCache())
-                ->setCacheChecksum(null)
-                ->setCacheId('fieldset_config')
-                ->setCacheTags(array(Mage_Core_Model_Config::CACHE_TAG));
-            if ($this->loadCache()) {
-                return;
-            }
-        }
-
-        $config = $configReader->loadModulesConfiguration('fieldset.xml');
-        $this->setXml($config->getNode());
-
-        if ($canUseCache) {
-            $this->saveCache();
+        $cacheId = 'fieldset_config';
+        $cachedXml = $configCacheType->load($cacheId);
+        if ($cachedXml) {
+            $this->loadString($cachedXml);
+        } else {
+            $config = $configReader->loadModulesConfiguration('fieldset.xml');
+            $xmlConfig = $config->getNode();
+            $configCacheType->save($xmlConfig->asXML(), $cacheId);
+            $this->setXml($xmlConfig);
         }
     }
 }

@@ -14,7 +14,7 @@
 class Enterprise_Reminder_Block_Adminhtml_Reminder extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
-     * Initialize invitation manage page
+     * Initialize reminders manage page
      *
      * @return void
      */
