@@ -66,7 +66,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
                     if (is_readable($definitionsFile)) {
                         $definitions = file_get_contents($definitionsFile);
                     } else {
-                        $genDir = $config->getDirectories()->getDir(Mage_Core_Model_Dir::VAR_DIR) . '/generation';
+                        $genDir = BP . '/var/generation';
                         $autoloader = new Magento_Autoload_IncludePath();
                         $generatorIo = new Magento_Di_Generator_Io(new Varien_Io_File(), $autoloader, $genDir);
                         $generator = new Magento_Di_Generator(null, $autoloader, $generatorIo);
