@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Saas
- * @package     Saas_PageCache
+ * @package     Saas_Saas
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,20 @@
     <modules>
         <Saas_Saas>
             <version>0.1.0</version>
-            <active>false</active>
+            <active>true</active>
         </Saas_Saas>
     </modules>
+    <global>
+        <di>
+            <preferences>
+                <Mage_Core_Model_Cache>Saas_Saas_Model_Cache</Mage_Core_Model_Cache>
+            </preferences>
+            <Saas_Saas_Model_Cache>
+                <parameters>
+                    <cacheTypes>Mage_Core_Model_Cache_Types_Proxy</cacheTypes><!-- @todo remove cache types proxy as soon as deprecated methods of Mage_Core_Model_Cache are removed -->
+                    <config>Mage_Core_Model_Config_Proxy</config>
+                </parameters>
+            </Saas_Saas_Model_Cache>
+        </di>
+    </global>
 </config>

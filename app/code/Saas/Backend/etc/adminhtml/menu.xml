@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Saas
+ * @package     Saas_Backend
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <remove id="Mage_Adminhtml::system_cache"/>
+    </menu>
+</config>

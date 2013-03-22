@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Saas
+ * @package     Saas_Backend
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Backend>
+            <version>2.0.0.0</version>
+            <active>true</active>
+            <depends>
+                <Mage_Backend/>
+            </depends>
+        </Saas_Backend>
+    </modules>
+    <global>
+        <events>
+            <adminhtml_controller_action_predispatch_start>
+                <observers>
+                    <saas_backend>
+                        <class>Saas_Backend_Model_Cache_Observer</class>
+                        <method>controllerActionFilter</method>
+                    </saas_backend>
+                </observers>
+            </adminhtml_controller_action_predispatch_start>
+        </events>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <backend module='Mage_Backend'>
+                    <file>layout.xml</file>
+                </backend>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>
