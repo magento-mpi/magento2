@@ -11,17 +11,12 @@
 /*global Validation*/
 (function($) {
     'use strict';
-    $.widget('mage.treeSuggestOneChoice', $.mage.treeSuggest, {
-        /**
-         * @override
-         * @todo refactor parent widget to make this possible without method overriding
-         */
-        _selectItem: function() {
-            $(this.elementWrapper).siblings('.mage-suggest-choice').trigger('removeOption');
-            this._superApply(arguments);
-            this._hideDropdown();
-        }
-    });
+
+    var clearParentCategory = function () {
+        $('#new_category_parent').find('option').each(function(){
+            $('#new_category_parent-suggest').treeSuggest('removeOption', null, this);
+        });
+    };
 
     $.widget('mage.newCategoryDialog', {
         _create: function () {
@@ -30,7 +25,12 @@
                 id: 'new_category_parent-suggest',
                 placeholder: 'start typing to search category'
             }));
-            $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions);
+            $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions)
+                .on('suggestbeforeselect', function (event, ui) {
+                    clearParentCategory();
+                    $(event.target).treeSuggest('close');
+                    $('#new_category_name').focus();
+                });
 
             /* @todo rewrite using jQuery validation */
             Validation.add('validate-parent-category', 'Choose existing category.', function() {
@@ -56,6 +56,7 @@
                 },
                 close: function() {
                     $('#new_category_name, #new_category_parent').val('');
+                    clearParentCategory();
                     newCategoryForm.reset();
                     $('#category_ids + .category-selector-container .category-selector-input').focus();
                 },

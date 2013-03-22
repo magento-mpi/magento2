@@ -46,7 +46,7 @@
                     select: ['menuselect']
                 }
             },
-            termAjaxArgument: 'name_part',
+            termAjaxArgument: 'label_part',
             className: null,
             inputWrapper:'<div class="mage-suggest"><div class="mage-suggest-inner"></div></div>',
             dropdownWrapper: '<div class="mage-suggest-dropdown"></div>',

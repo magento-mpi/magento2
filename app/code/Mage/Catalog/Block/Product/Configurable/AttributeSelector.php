@@ -76,7 +76,6 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
             'minLength' => 0,
             'className' => 'category-select',
             'showAll' => true,
-            'termAjaxArgument' => 'label_part',
         );
     }
 }
