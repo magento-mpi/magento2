@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Saas
+ * @package     Saas_Queue
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Queue>
+            <version>2.0.0.0</version>
+            <active>true</active>
+            <codePool>core</codePool>
+        </Saas_Queue>
+    </modules>
+    <global>
+        <queue>
+            <adapter>
+                <gearman>
+                    <title>Gearman</title>
+                    <servers>127.0.0.1:4730</servers>
+                    <task>
+                        <params>
+                            <!--<tenant_id>s51470ed65f9c9</tenant_id>-->
+                        </params>
+                    </task>
+                </gearman>
+            </adapter>
+        </queue>
+        <di>
+            <preferences>
+                <Enterprise_Queue_Model_Queue_HandlerInterface>Saas_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
+            </preferences>
+        </di>
+    </global>
+
+<!--
+    <frontend>
+        <events>
+            <some_event>
+                <observers>
+                    <some_observer>
+                        <asynchronous>true</asynchronous>
+                        <params>
+                            <task_name>refresh_catalog</task_name>
+                        </params>
+                    </some_observer>
+                </observers>
+            </some_event>
+        </events>
+    </frontend>
+-->
+</config>
