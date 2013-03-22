@@ -9,16 +9,16 @@
  */
 ?>
 <?php /* @var $this Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract */ ?>
-<div class="fieldset-wrapper-title">
-    <span class="title"><?php echo $this->getHeaderText() ?></span>
-    <div class="actions">
-        <?php echo $this->getButtonHtml($this->getAddButtonTitle(), 'addBySku.submitConfigured()') ?>
-        <?php echo $this->getButtonsHtml() ?>
-    </div>
+<div class="fieldset-wrapper">
+        <div class="fieldset-wrapper-title">
+            <span class="title"><?php echo $this->getHeaderText() ?></span>
+            <div class="actions">
+                <?php echo $this->getButtonHtml($this->getAddButtonTitle(), 'addBySku.submitConfigured()', 'action-add') ?>
+                <?php echo $this->getButtonsHtml() ?>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml() ?>
 </div>
-<fieldset class="fieldset">
-    <?php echo $this->getChildHtml() ?>
-</fieldset>
 <script type="text/javascript">
 //<![CDATA[
     function checkoutSkuErrorsInit()

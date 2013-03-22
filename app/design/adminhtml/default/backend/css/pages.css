@@ -1702,33 +1702,43 @@
     width: 49%;
 }
 
-.adminhtml-sales-order-create-index .order-account-information {
+#order-data .order-account-information {
     float: none;
     width: auto;
 }
 
-.adminhtml-sales-order-create-index .actions .action-add {
+#order-data .actions .action-add,
+#order-data .actions .action-add:active,
+#order-data .actions .action-add:hover,
+#order-data .actions .action-delete,
+#order-data .actions .action-delete:active,
+#order-data .actions .action-delete:hover {
     margin: 0 0 0 20px;
 }
 
-.adminhtml-sales-order-create-index .order-methods ul {
+#order-data .order-methods ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.adminhtml-sales-order-create-index .order-methods dl,
-.adminhtml-sales-order-create-index .order-methods dt,
-.adminhtml-sales-order-create-index .order-methods dd {
+#order-data .order-methods dl,
+#order-data .order-methods dt,
+#order-data .order-methods dd,
+#order-data .payment-methods dl,
+#order-data .payment-methods dt,
+#order-data .payment-methods dd {
     margin: 0;
     padding: 0;
 }
 
-.adminhtml-sales-order-create-index .order-methods dd + dt {
+#order-data .order-methods dd + dt,
+#order-data .payment-methods dd + dt {
     margin-top: 17px;
 }
 
-.adminhtml-sales-order-create-index .order-methods dt {
+#order-data .order-methods dt,
+#order-data .payment-methods dt {
     margin: 0 0 8px;
 }
 
@@ -1744,9 +1754,28 @@
     width: 49%;
 }
 
-.adminhtml-sales-order-create-index .box-left fieldset,
-.adminhtml-sales-order-create-index .box-right fieldset {
+.ui-dialog.gift-options-popup .ui-dialog-content {
+    padding: 25px;
+}
+
+.ui-dialog.gift-options-popup .ui-dialog-content h4 {
+    margin: 0 0 17px;
+}
+
+.gift-options-tooltip {
+    background: #fff;
     border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+}
+
+#order-data .box-left fieldset,
+#order-data .box-right fieldset {
+    border-radius: 5px;
+}
+
+#order-data .order-items td[colspan="8"] {
+    border: 1px solid #c0bbaf;
 }
 
 .order-search-items thead th:nth-child(1) { width: 60px; }
@@ -1772,9 +1801,14 @@
     margin: 17px 0 0;
 }
 
-.adminhtml-sales-order-create-index .page-actions { padding-top: 0; }
+.adminhtml-sales-order-create-index #order-message ul.messages > li,
+.adminhtml-sales-order-edit-index #order-message  ul.messages > li {
+    margin: 0 0 60px;
+}
 
-.adminhtml-sales-order-create-index .store-switcher { margin: -46px 0 0; position: relative; width: 50%; }
+#order-data .page-actions { padding-top: 0; }
+
+#order-data .store-switcher { margin: -46px 0 0; position: relative; width: 50%; }
 
 .create-order-sidebar-container > div + div {
     border-top: 1px solid #ededed;
