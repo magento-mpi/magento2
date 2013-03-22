@@ -13,7 +13,7 @@
     <modules>
         <Saas_Queue>
             <version>2.0.0.0</version>
-            <active>true</active>
+            <active>false</active>
             <codePool>core</codePool>
         </Saas_Queue>
     </modules>
