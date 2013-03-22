@@ -3,6 +3,11 @@ namespace Magento\Code\Generator\TestAsset;
 
 /**
  * Proxy class for Magento\Code\Generator\TestAsset\SourceClassWithNamespace
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 class SourceClassWithNamespaceProxy extends \Magento\Code\Generator\TestAsset\SourceClassWithNamespace
 {

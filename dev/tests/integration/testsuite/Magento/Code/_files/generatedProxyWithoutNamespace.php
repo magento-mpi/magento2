@@ -1,6 +1,11 @@
 <?php
 /**
  * Proxy class for Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 class Magento_Code_Generator_TestAsset_SourceClassWithoutNamespaceProxy extends \Magento_Code_Generator_TestAsset_SourceClassWithoutNamespace
 {

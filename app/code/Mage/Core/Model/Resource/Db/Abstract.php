@@ -132,6 +132,30 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     }
 
     /**
+     * Provide variables to serialize
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        $properties = array_keys(get_object_vars($this));
+        if (Mage::getIsSerializable()) {
+            $properties = array_diff($properties, array('_resources', '_connections'));
+        }
+        return $properties;
+    }
+
+    /**
+     * Restore global dependencies
+     */
+    public function __wakeup()
+    {
+        if (Mage::getIsSerializable()) {
+            $this->_resources = Mage::getSingleton('Mage_Core_Model_Resource');
+        }
+    }
+
+    /**
      * Standard resource model initialization
      *
      * @param string $mainTable

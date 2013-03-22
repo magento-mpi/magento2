@@ -264,7 +264,7 @@ admin_edit_role:
 # 'My Account' page
 my_account:
     mca: system_account/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_account')]
+    click_xpath: //a[@data-ui-id='header-user-account-settings']
     title: My Account / System / Magento Admin
     uimap:
         form: &myAccount

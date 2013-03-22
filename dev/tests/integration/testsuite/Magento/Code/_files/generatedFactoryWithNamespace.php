@@ -3,6 +3,11 @@ namespace Magento\Code\Generator\TestAsset;
 
 /**
  * Factory class for Magento\Code\Generator\TestAsset\SourceClassWithNamespace
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 class SourceClassWithNamespaceFactory
 {
