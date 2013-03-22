@@ -12,6 +12,7 @@ Packaging.prototype = {
      * Initialize object
      */
     initialize: function(params) {
+        jQuery.mage.load('validation');
         this.packageIncrement = 0;
         this.packages = [];
         this.itemsAll = [];
@@ -69,14 +70,35 @@ Packaging.prototype = {
         this.window.show().setStyle({
             'marginLeft': -this.window.getDimensions().width/2 + 'px'
         });
-        this.windowMask.setStyle({
-            height: $('html-body').getHeight() + 'px'
-        }).show();
+        if (this.windowMask) {
+            this.windowMask.setStyle({
+                height: $('html-body').getHeight() + 'px'
+            }).show();
+        } else {
+            if( $$('.popup-window-mask')[0] ){
+                $$('.popup-window-mask')[0].setStyle({
+                    'display': 'block'
+                });
+            } else {
+                $('html-body').insert('<div class="popup-window-mask"></div>');
+                $$('.popup-window-mask')[0].setStyle({
+                    height: $('html-body').getHeight() + 'px'
+                });
+
+            }
+        }
     },
 
     cancelPackaging: function() {
         packaging.window.hide();
-        packaging.windowMask.hide();
+        if (this.windowMask) {
+            packaging.windowMask.hide();
+        } else {
+            $$('.popup-window-mask')[0].setStyle({
+                'display': 'none'
+            });
+        }
+
         if (Object.isFunction(this.cancelCallback)) {
             this.cancelCallback();
         }
@@ -251,12 +273,13 @@ Packaging.prototype = {
     validateElement: function(elm) {
         var cn = $w(elm.className);
         return result = cn.all(function(value) {
-            var v = Validation.get(value);
-            if (Validation.isVisible(elm) && !v.test($F(elm), elm)) {
-                $(elm).addClassName('validation-failed');
+            var v = jQuery.validator.methods[value],
+                element = jQuery(elm);
+            if (element.is(':visible') && !v(element.val(), elm)) {
+                element.addClass('mage-error');
                 return false;
             } else {
-                $(elm).removeClassName('validation-failed');
+                element.removeClass('mage-error');
                 return true;
             }
         });

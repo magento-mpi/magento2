@@ -9,17 +9,17 @@
  */
 ?>
 <div id="rma_reason_container" class="rma-popup" style="display:none">
-    <div class="entry-edit">
-        <div class="entry-edit-head">
-            <h4 class="icon-head head-edit-form fieldset-legend">
+    <div class="popup-window-wrapper">
+        <div class="popup-window-title">
+            <div class="title">
                 <?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Reason to Return') ?>
-            </h4>
+            </div>
         </div>
-        <div id="rma_reason_content" class="content"></div>
-        <div class="buttons-set">
+        <div id="rma_reason_content" class="popup-window-content"></div>
+        <div class="popup-window-buttons-set">
             <div class="f-right">
-                <button style="" onclick="" class="scalable ok_button" type="button" id="">
-                    <span><span><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('OK') ?></span></span></span>
+                <button class="action-ok ok_button" type="button">
+                    <span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('OK') ?></span>
                 </button>
             </div>
         </div>

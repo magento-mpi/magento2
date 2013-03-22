@@ -15,7 +15,7 @@
         <span class="filename"><?php echo $this->__('No files found') ?></span>
     </li>
 <?php else: ?>
-    <?php /** @var $file Mage_Core_Model_Theme_Files */ ?>
+    <?php /** @var $file Mage_Core_Model_Theme_File */ ?>
     <?php foreach ($this->getJsFiles() as $file): ?>
         <li class="js-file item" id="js-file-<?php echo $file->getId() ?>">
             <span class="filename" title="<?php echo $file->getFileName() ?>"><?php echo $file->getFileName() ?></span>

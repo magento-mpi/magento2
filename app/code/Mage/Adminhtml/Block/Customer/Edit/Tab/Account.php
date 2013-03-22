@@ -234,15 +234,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
                 '<script type="text/javascript">'
                 . "
                 var {$prefix}_websites = " . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($websites) .";
-                Validation.add(
-                    'validate-website-has-store',
-                    '" . $note . "',
-                    function(v, elem){
+                jQuery.validator.addMethod('validate-website-has-store', function(v, elem){
                         return {$prefix}_websites[elem.value] == true;
-                    }
+                    },
+                    '" . $note . "'
                 );
                 Element.observe('{$prefix}website_id', 'change', function(){
-                    Validation.validate($('{$prefix}website_id'))
+                    jQuery.validator.validateElement('#{$prefix}website_id');
                 }.bind($('{$prefix}website_id')));
                 "
                 . '</script>'

@@ -104,7 +104,7 @@
                     $(this)
                     .addClass('recent')
                     .siblings('.level-0')
-                    .removeClass('recent');
+                    .removeClass('recent hover');
 /*                    $(this)
                         .siblings('.level-0')
                             .removeClass('hover')
@@ -162,13 +162,15 @@
     $.widget('mage.modalPopup', {
         options: {
             popup: '.popup',
-            btnClose: '[data-dismiss="popup"]'
+            btnDismiss: '[data-dismiss="popup"]',
+            btnHide: '[data-hide="popup"]'
         },
 
         _create: function() {
             this.fade = this.element;
             this.popup = $(this.options.popup, this.fade);
-            this.btnClose = $(this.options.btnClose, this.popup);
+            this.btnDismiss = $(this.options.btnDismiss, this.popup);
+            this.btnHide = $(this.options.btnHide, this.popup);
 
             this._events();
         },
@@ -176,9 +178,14 @@
         _events: function() {
             var self = this;
 
-            this.btnClose
-                .on('click.closeModalPopup', function() {
+            this.btnDismiss
+                .on('click.dismissModalPopup', function() {
                     self.fade.remove();
+                });
+
+            this.btnHide
+                .on('click.hideModalPopup', function() {
+                    self.fade.hide();
                 });
         }
     });
@@ -325,17 +332,13 @@
     var switcherForIe8 = function() {
         /* Switcher for IE8 */
         if ($.browser.msie && $.browser.version == '8.0') {
-            var checkboxSwitcher = $('.switcher input');
-
-            var toggleCheckboxState = function(elem) {
-                elem.toggleClass('checked', elem.prop('checked'));
-            };
-            toggleCheckboxState(checkboxSwitcher);
-
-            $('.switcher')
+            $('.switcher input')
                 .on('change.toggleSwitcher', function() {
-                    toggleCheckboxState(checkboxSwitcher);
-                });
+                    $(this)
+                        .closest('.switcher')
+                        .toggleClass('checked', $(this).prop('checked'));
+                })
+                .trigger('change');
         }
     };
 
@@ -351,6 +354,30 @@
         $.each($('.entry-edit'), function(i, entry) {
             $('.collapse:first', entry).collapse('show');
         });
+
+        // TODO: Move to VDE js widjets
+        $.each($('.color-box'), function(index, elem) {
+            $(elem).farbtastic(function(color) {
+                $(elem).css({
+                    'backgroundColor': color
+                });
+                $(elem).siblings('input').val(color);
+            });
+        });
+
+        $('.element-color-picker input')
+            .on('focus', function() {
+                $(this).siblings('.color-box').find('.farbtastic').show();
+            })
+            .on('blur', function() {
+                $(this).siblings('.color-box').find('.farbtastic').hide();
+                $(this).trigger('change.quickStyleElement');
+            });
+
+        $('.color-box')
+            .on('click', function() {
+                $(this).siblings('input').trigger('focus');
+            });
 
         switcherForIe8();
     });

@@ -40,15 +40,16 @@ class Mage_Core_Model_Theme_Validator
     public function __construct(Mage_Core_Helper_Data $helper)
     {
         $this->_helper = $helper;
-        $this->_setThemeValidators();
+        $this->_setVersionValidators();
+        $this->_setTypeValidators();
     }
 
     /**
-     * Set default theme validators
+     * Set version validators
      *
      * @return Mage_Core_Model_Theme_Validator
      */
-    protected function _setThemeValidators()
+    protected function _setVersionValidators()
     {
         $versionValidators = array(
             array('name' => 'not_empty', 'class' => 'Zend_Validate_NotEmpty', 'break' => true, 'options' => array(),
@@ -61,6 +62,35 @@ class Mage_Core_Model_Theme_Validator
         $this->addDataValidators('theme_version', $versionValidators)
             ->addDataValidators('magento_version_to', $versionValidators)
             ->addDataValidators('magento_version_from', $versionValidators);
+
+        return $this;
+    }
+
+    /**
+     * Set theme type validators
+     *
+     * @return Mage_Core_Model_Theme_Validator
+     */
+    protected function _setTypeValidators()
+    {
+        $typeValidators = array(
+            array(
+                'name' => 'not_empty',
+                'class' => 'Zend_Validate_NotEmpty',
+                'break' => true,
+                'options' => array(),
+                'message' => $this->_helper->__('Field can\'t be empty')
+            ),
+            array(
+                'name' => 'available',
+                'class' => 'Zend_Validate_InArray',
+                'break' => true,
+                'options' => array('haystack' => Mage_Core_Model_Theme::$types),
+                'message' => $this->_helper->__('Theme type is invalid')
+            )
+        );
+
+        $this->addDataValidators('type', $typeValidators);
 
         return $this;
     }

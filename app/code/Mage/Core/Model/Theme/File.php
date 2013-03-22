@@ -16,18 +16,18 @@
  * @method string getContent()
  * @method string getOrder()
  * @method bool getIsTemporary()
- * @method Mage_Core_Model_Resource_Theme_Files_Collection getCollection()
+ * @method Mage_Core_Model_Resource_Theme_File_Collection getCollection()
  * @method setThemeId(int $id)
  * @method setFileName(string $filename)
  * @method setFileType(string $type)
  * @method setContent(string $content)
  * @method setSortOrder(string $order)
- * @method Mage_Core_Model_Theme_Files setUpdatedAt($time)
- * @method Mage_Core_Model_Theme_Files setLayoutLinkId($id)
+ * @method Mage_Core_Model_Theme_File setUpdatedAt($time)
+ * @method Mage_Core_Model_Theme_File setLayoutLinkId($id)
  * @method string getFilePath() Relative path to file
  * @method int getLayoutLinkId()
  */
-class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
+class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
 {
     /**
      * Css file type
@@ -81,7 +81,7 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Mage_Core_Model_Resource_Theme_Files');
+        $this->_init('Mage_Core_Model_Resource_Theme_File');
     }
 
     /**
@@ -111,7 +111,7 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
      * Create/update/delete file after save
      * Delete file if only file is empty
      *
-     * @return Mage_Core_Model_Theme_Files
+     * @return Mage_Core_Model_Theme_File
      */
     protected function _afterSave()
     {
@@ -126,7 +126,7 @@ class Mage_Core_Model_Theme_Files extends Mage_Core_Model_Abstract
     /**
      * Delete file form file system after delete form db
      *
-     * @return Mage_Core_Model_Theme_Files
+     * @return Mage_Core_Model_Theme_File
      */
     protected function _afterDelete()
     {

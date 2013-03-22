@@ -134,7 +134,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $model->addData($data);
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New Tag'));
+        $this->_title($model->getId() ? $this->__('Edit Tag \'%s\'', $model->getName()) : $this->__('New Tag'));
 
         Mage::register('tag_tag', $model);
 

@@ -19,10 +19,10 @@
     <div id="order-message">
         <?php echo $this->getChildHtml('message') ?>
     </div>
-    <div id="order-customer-selector" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
+    <div id="order-customer-selector" class="fieldset-wrapper order-customer-selector" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
         <?php echo $this->getChildHtml('customer') ?>
     </div>
-    <div id="order-store-selector" style="display:<?php echo $this->getStoreSelectorDisplay() ?>">
+    <div id="order-store-selector" class="fieldset-wrapper" style="display:<?php echo $this->getStoreSelectorDisplay() ?>">
         <?php echo $this->getChildHtml('store') ?>
     </div>
     <div id="order-data" style="display:<?php echo $this->getDataSelectorDisplay() ?>">

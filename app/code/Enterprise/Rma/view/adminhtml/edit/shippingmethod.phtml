@@ -14,23 +14,22 @@
  */
 
 ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Shipping Method') ?></h4>
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Shipping Method') ?></span>
     </div>
-    <div class="fieldset">
-        <div class="hor-scroll">
-            <?php if ($this->getShipment()->getCarrierTitle()): ?>
-            <div style="margin: 0 0 10px 0;">
-                <div><strong><?php echo $this->escapeHtml($this->getShipment()->getCarrierTitle()); ?></strong></div>
-                <div><?php echo $this->escapeHtml($this->getShipment()->getMethodTitle()); ?> - <strong class="price"><?php echo $this->getShippingPrice($this->getShipment()->getPrice()) ?></strong></div>
-            </div>
-            <?php endif; ?>
-            <div class="a-center" style="margin: 0 0 10px 0;">
+    <div class="hor-scroll">
+        <?php if ($this->getShipment()->getCarrierTitle()): ?>
+            <p>
+                <strong><?php echo $this->escapeHtml($this->getShipment()->getCarrierTitle()); ?></strong>
+                <?php echo $this->escapeHtml($this->getShipment()->getMethodTitle()); ?> - <strong class="price"><?php echo $this->getShippingPrice($this->getShipment()->getPrice()) ?></strong>
+            </p>
+        <?php endif; ?>
+        <p>
             <?php if ($this->getIsPsl() == Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED): ?>
-                <button class="scalable save" type="button" id="get-shipping-method-and-rates"><span><span><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></span></span></button>
+                <button class="action- save" type="button" id="get-shipping-method-and-rates"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></button>
             <?php elseif ($this->getIsPsl() == Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED): ?>
-                <button class="scalable save disabled" type="button" title="<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Enabled when authorized items require a new shipment'); ?>"><span><span><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></span></span></button>
+                <button class="action- save disabled" type="button" title="<?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Enabled when authorized items require a new shipment'); ?>"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Create Shipping Label') ?></span></button>
             <?php endif; ?>
             <?php if ($this->getShipment()->getShippingLabel()): ?>
                 <?php echo $this->getPrintLabelButton() ?>
@@ -38,35 +37,26 @@
             <?php if ($this->getShipment()->getPackages()): ?>
                 <?php echo $this->getShowPackagesButton() ?>
             <?php endif ?>
-            </div>
-            <div id="get-psl"></div>
-        </div>
-        <div class="hor-scroll">
-            <?php echo $this->getChildHtml('enterprise_rma_shipment_tracking');?>
-        </div>
+        </p>
+        <div id="get-psl"></div>
+        <?php echo $this->getChildHtml('enterprise_rma_shipment_tracking');?>
     </div>
 </div>
 <div id="packed_window" style="display:none;" class="packed-window">
-    <div class="entry-edit">
-        <div class="entry-edit-head">
-            <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Packages') ?></h4>
+    <div class="popup-window-wrapper">
+        <div class="popup-window-title">
+            <span class="title"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Packages') ?></span>
         </div>
         <div class="packed-content">
             <?php foreach ($this->getPackages() as $packageId => $package): ?>
                 <div class="package">
                     <?php $package = new Varien_Object($package) ?>
                     <?php $params = new Varien_Object($package->getParams()) ?>
-                    <h4><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></h4>
+                    <div class="package-number popup-fieldset-title">
+                        <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></span>
+                    </div>
                     <div class="package-info">
                         <table class="package-options" cellspacing="0">
-                            <colgroup>
-                                <col width="100" />
-                                <col width="*" />
-                                <col width="60" />
-                                <col width="70" />
-                                <col width="70" />
-                                <col width="*" />
-                            </colgroup>
                             <tbody>
                                 <tr>
                                     <th><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Type') ?></th>
@@ -155,63 +145,53 @@
                             </tbody>
                         </table>
                     </div>
-                    <strong><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Items in the Package') ?></strong>
+                    <div class="package-number popup-fieldset-title">
+                        <span class="title"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Items in the Package') ?></span>
+                    </div>
                     <div class="grid">
-                        <div class="hor-scroll">
-                            <table cellspacing="0" class="data">
-                                <colgroup>
-                                    <col>
-                                    <col width="100">
+                        <table cellspacing="0" class="data">
+                            <thead>
+                            <tr class="headings">
+                                <th class="col-product no-link"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Product') ?></span></th>
+                                <th class="col-weight no-link"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Weight') ?></span></th>
+                                <?php if ($this->displayCustomsValue()): ?>
+                                    <th class="col-custom no-link"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Customs Value') ?></span></th>
+                                <?php endif; ?>
+                                <th class="col-qty_ordered no-link"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty Ordered') ?></span></th>
+                                <th class="col-qty no-link last"><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty') ?></span></th>
+                            </tr>
+                            </thead>
+                            <tbody id="">
+                            <?php foreach($package->getItems() as $itemId => $item) : ?>
+                                <?php $item = new Varien_Object($item) ?>
+                                <tr title="#" id="" class="">
+                                    <td class="col-product name">
+                                        <?php echo $item->getName(); ?>
+                                    </td>
+                                    <td class="col-weight weight ">
+                                        <?php echo $item->getWeight(); ?>
+                                    </td>
                                     <?php if ($this->displayCustomsValue()): ?>
-                                        <col width="100">
+                                        <td class="col-custom"><?php echo $this->displayPrice($item->getCustomsValue()) ?></td>
                                     <?php endif; ?>
-                                    <col width="100">
-                                    <col width="100">
-                                </colgroup>
-                                <thead>
-                                <tr class="headings">
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Product') ?></span></th>
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Weight') ?></span></th>
-                                    <?php if ($this->displayCustomsValue()): ?>
-                                        <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Customs Value') ?></span></th>
-                                    <?php endif; ?>
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty Ordered') ?></span></th>
-                                    <th class=" no-link last"><span class="nobr"><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty') ?></span></th>
+                                    <td class="col-qty_ordered">
+                                        <?php echo $this->getQtyOrderedItem($item->getOrderItemId()); ?>
+                                    </td>
+                                    <td class="col-qty last">
+                                        <?php echo $item->getQty()*1; ?>
+                                    </td>
                                 </tr>
-                                </thead>
-
-                                <tbody id="">
-                                <?php foreach($package->getItems() as $itemId => $item) : ?>
-                                    <?php $item = new Varien_Object($item) ?>
-                                    <tr title="#" id="" class="">
-                                        <td class="name">
-                                            <?php echo $item->getName(); ?>
-                                        </td>
-                                        <td class="a-center weight ">
-                                            <?php echo $item->getWeight(); ?>
-                                        </td>
-                                        <?php if ($this->displayCustomsValue()): ?>
-                                            <td class="a-right"><?php echo $this->displayPrice($item->getCustomsValue()) ?></td>
-                                        <?php endif; ?>
-                                        <td class="a-right">
-                                            <?php echo $this->getQtyOrderedItem($item->getOrderItemId()); ?>
-                                        </td>
-                                        <td class="a-right last">
-                                            <?php echo $item->getQty()*1; ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-        <div class="buttons-set a-right">
+        <div class="popup-window-buttons-set">
             <?php echo $this->getPrintButton() ?>
-            <button type="button" class="scalable SavePackagesBtn save" onclick="hidePackedWindow();" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)')?>">
-                <span><span><span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('OK') ?></span></span></span>
+            <button type="button" class="action-ok SavePackagesBtn save" onclick="hidePackedWindow();" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)')?>">
+                <span><?php echo Mage::helper('Enterprise_Rma_Helper_Data')->__('OK') ?></span>
             </button>
         </div>
     </div>
