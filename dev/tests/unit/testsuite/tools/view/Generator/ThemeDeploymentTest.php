@@ -24,7 +24,7 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_logger = new Zend_log(new Zend_Log_Writer_Null());
+        $this->_logger = new Zend_Log(new Zend_Log_Writer_Null());
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'tool_theme_deployment';
         mkdir($this->_tmpDir);
     }
