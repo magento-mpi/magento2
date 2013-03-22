@@ -411,4 +411,76 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         }
         return true;
     }
+
+    /**
+     * Create Image from string
+     *
+     * @param string $text
+     * @param string $font
+     * @return Varien_Image_Adapter_Abstract
+     */
+    public function createPngFromString($text, $font = '')
+    {
+        $image = $this->_getImagickObject();
+        if (!empty($font)) {
+            $image->setFont($font);
+        }
+
+        $draw = $this->_getImagickDrawObject();
+        $color = $this->_getImagickPixelObject('#000000');
+        $background = $this->_getImagickPixelObject('none'); // Transparent
+
+        // Font properties
+        $draw->setFontSize($this->_fontSize);
+        $draw->setFillColor($color);
+        $draw->setStrokeAntialias(true);
+        $draw->setTextAntialias(true);
+
+        // Get font metrics
+        $metrics = $image->queryFontMetrics($draw, $text);
+
+        // Create text
+        $draw->annotation(0, $metrics['ascender'], $text);
+
+        // Create image
+        $height = $metrics['textHeight'] + abs($metrics['descender']);
+        $image->newImage($metrics['textWidth'], $height, $background);
+        $image->setImageFormat('png');
+        $image->drawImage($draw);
+        $this->_imageHandler = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get Imagick object
+     *
+     * @param mixed $files
+     * @return Imagick
+     */
+    protected function _getImagickObject($files = null)
+    {
+        return new Imagick($files);
+    }
+
+    /**
+     * Get ImagickDraw object
+     *
+     * @return ImagickDraw
+     */
+    protected function _getImagickDrawObject()
+    {
+        return new ImagickDraw();
+    }
+
+    /**
+     * Get ImagickPixel object
+     *
+     * @param string|null $color
+     * @return ImagickPixel
+     */
+    protected function _getImagickPixelObject($color = null)
+    {
+        return new ImagickPixel($color);
+    }
 }

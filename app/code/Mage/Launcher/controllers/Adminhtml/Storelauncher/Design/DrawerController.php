@@ -103,7 +103,8 @@ class Mage_Launcher_Adminhtml_Storelauncher_Design_DrawerController
 
             $imageAdapterType = $this->_helperFactory->get('Mage_Core_Helper_Data')->getImageAdapterType();
             $logoImage = new Varien_Image(null, $imageAdapterType);
-            $logoImage->createPngFromString($logoCaption);
+            $logoImage->createPngFromString($logoCaption,
+                Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
             $logoImage->save($launcherHelper->getTmpLogoPath(), Mage_Launcher_Helper_Data::GENERATED_LOGO_NAME);
 
             $responseData = array(
