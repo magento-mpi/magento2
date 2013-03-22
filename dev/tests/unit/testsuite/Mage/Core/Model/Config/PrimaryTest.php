@@ -81,4 +81,13 @@ class Mage_Core_Model_Config_PrimaryTest extends PHPUnit_Framework_TestCase
         $expectedPath = '/path_to_root' . DIRECTORY_SEPARATOR . 'customPath';
         $this->assertEquals($expectedPath, $this->_model->getDefinitionPath());
     }
+
+    public function getDefinitionFormatReturnsConfiguredFormat()
+    {
+        $this->_configString = '<config><global><di>'
+            . '<definitions><format>igbinary</format></definitions>'
+            . '</di></global></config>';
+        $this->_model = new Mage_Core_Model_Config_Primary(BP, array(), $this->_dirMock, $this->_loaderMock);
+        $this->assertEquals('igbinary', $this->_model->getDefinitionFormat());
+    }
 }
