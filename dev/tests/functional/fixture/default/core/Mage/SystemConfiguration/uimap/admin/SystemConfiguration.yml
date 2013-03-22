@@ -995,13 +995,6 @@ system_configuration:
                         xpath: //a[contains(@href, 'edit/section/customer/')]
                         fieldsets:
                             -
-                                account_sharing_options:
-                                    xpath: //fieldset[@id='customer_account_share']
-                                    links:
-                                        account_sharing_options_link: //parent::div//a[@id='customer_account_share-head']
-                                    dropdowns:
-                                        share_customer_accounts: //select[@name='groups[account_share][fields][scope][value]']
-                            -
                                 online_customer_options:
                                     xpath: //fieldset[@id='customer_online_customers']
                                     links:

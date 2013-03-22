@@ -29,7 +29,8 @@ class Core_Mage_Acl_BugVerifications_CmsPageTest extends Mage_Selenium_TestCase
         //Preconditions
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('CmsPage', 'generic_admin_user_role_for_bug');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+         array('resource_acl' => 'content'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role

@@ -35,8 +35,8 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'CMS/Widgets'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'cms_widgets'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role

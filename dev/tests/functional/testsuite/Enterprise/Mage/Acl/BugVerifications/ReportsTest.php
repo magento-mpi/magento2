@@ -26,7 +26,7 @@ class Enterprise_Mage_Acl_BugVerifications_ReportsTest extends Mage_Selenium_Tes
     {
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
             array('resource_1' => 'Reports/Sales/PayPal Settlement Reports/View'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');

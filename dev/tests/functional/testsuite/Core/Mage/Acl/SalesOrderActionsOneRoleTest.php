@@ -65,11 +65,11 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Invoices';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'Sales/Shipments';
-        $roleSource['role_resources_tab']['role_resources']['resource_4'] = 'Sales/Credit Memos';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_order'));
+        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_invoice';
+        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_ship';
+        $roleSource['role_resources_tab']['role_resources']['resource_4'] = 'sales_orders_credit_memos';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
 

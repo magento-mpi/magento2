@@ -44,8 +44,8 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         //create user with specific role to verifying ACL permission
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'System/Configuration/' . $resourceCheckbox));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => $resourceCheckbox));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -75,39 +75,41 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
     public function systemConfigurationOneTabDataProvider()
     {
         return array(
-            array('Contacts Section', 'general_contacts'),
-            array('Payment Services', 'sales_payment_services'),
-            array('Payment Methods Section', 'sales_payment_methods'),
-            array('Catalog Section', 'catalog_catalog'),
-            array('Inventory Section', 'catalog_inventory'),
-            array('Wishlist Section', 'customers_wishlist'),
-            array('Google API', 'sales_google_api'),
-            array('Shipping Methods Section', 'sales_shipping_methods'),
-            array('Content Management', 'general_content_management'),
-            array('Shipping Settings Section', 'sales_shipping_settings'),
-            array('Newsletter Section', 'customers_newsletter'),
-            array('Moneybookers Settings', 'sales_moneybookers'),
-            array('XML Sitemap Section', 'catalog_google_sitemap'),
-            array('Persistent Shopping Cart', 'customers_persistent_shopping_cart'),
-            array('Reports', 'general_reports'),
-            array('General Section', 'general_general'),
-            array('Web Section', 'general_web'),
-            array('Design Section', 'general_design'),
-            array('Customers Section', 'customers_customer_configuration'),
-            array('Tax Section', 'sales_tax'),
-            array('Sales Section', 'sales_sales'),
-            array('Sales Emails Section', 'sales_sales_emails'),
-            array('PDF Print-outs', 'sales_pdf_print_outs'),
-            array('Checkout Section', 'sales_checkout'),
-            array('Facebook Section', 'social_facebook'),
-            array('System Section', 'advanced_system'),
-            array('Advanced Section', 'advanced_advanced'),
-            array('Store Email Addresses Section', 'general_store_email_addresses'),
-            array('Advanced Admin Section', 'advanced_admin'),
-            array('Developer Section', 'advanced_developer'),
-            array('Currency Setup Section', 'general_currency_setup'),
-            array('RSS Feeds Section', 'catalog_rss_feeds'),
-            array('Email to a Friend', 'catalog_email_to_a_friend'),
+            array('config_shipping', 'sales_shipping_settings'),
+            array('config_contacts', 'general_contacts'),
+            array('config_payment_service', 'sales_payment_services'),
+            array('config_payment', 'sales_payment_methods'),
+            array('config_catalog', 'catalog_catalog'),
+            array('config_inventory', 'catalog_inventory'),
+            array('config_wishlist', 'customers_wishlist'),
+            array('config_google_api', 'sales_google_api'),
+            array('config_carries', 'sales_shipping_methods'),
+            array('config_cms', 'general_content_management'),
+            array('config_newsletter', 'customers_newsletter'),
+            array('config_moneybookers', 'sales_moneybookers'),
+            array('config_sitemap', 'catalog_google_sitemap'),
+            array('config_persistent', 'customers_persistent_shopping_cart'),
+            array('config_reports', 'general_reports'),
+            array('config_general', 'general_general'),
+            array('config_web', 'general_web'),
+            array('config_design', 'general_design'),
+            array('config_customers', 'customers_customer_configuration'),
+            array('config_tax', 'sales_tax'),
+            array('config_sales', 'sales_sales'),
+            array('config_sales_email', 'sales_sales_emails'),
+            array('config_sales_pdf', 'sales_pdf_print_outs'),
+            array('config_checkout', 'sales_checkout'),
+            array('config_facebook', 'social_facebook'),
+            array('config_system', 'advanced_system'),
+            array('config_advanced', 'advanced_advanced'),
+            array('config_trans_email', 'general_store_email_addresses'),
+            array('config_admin', 'advanced_admin'),
+            array('config_developer', 'advanced_developer'),
+            array('config_currency', 'general_currency_setup'),
+            array('config_rss', 'catalog_rss_feeds'),
+            array('config_email_to_friend', 'catalog_email_to_a_friend'),
+            array('config_paypal','sales_paypal'),
+            array('promotions','customers_promotions'),
         );
     }
 
@@ -121,8 +123,8 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'System/Configuration'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'configurations'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');

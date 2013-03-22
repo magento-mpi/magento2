@@ -46,8 +46,8 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
     {
         //create specific role with test roleResource
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Customers/Attributes'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'customers_manage'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -136,8 +136,8 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Customers/Customer Segments'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_1' => 'Customers/Segments'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -203,8 +203,8 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Customers/Invitations'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_1' => 'Marketing/Private Sales/Invitations'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -260,8 +260,8 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Customers/Gift Registry'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_1' => 'Stores/Other Settings/Gift Registry'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -293,8 +293,8 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Customers/Gift Card Accounts'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_1' => 'Marketing/Promotions/Gift Card Accounts'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -327,7 +327,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
             array('resource_1' => 'Customers/Reward Exchange Rates'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role

@@ -40,8 +40,8 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         //create user with specific role to verifying ACL permission
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'System/Configuration/' . $resourceCheckbox));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => $resourceCheckbox));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -91,7 +91,7 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'System/Configuration'));
+            array('resource_1' => 'Stores/Settings/Configurations'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');

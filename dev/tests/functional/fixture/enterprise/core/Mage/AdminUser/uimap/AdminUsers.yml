@@ -1,0 +1,42 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Enterprise_AdminUser
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# 'New Role' page
+new_admin_role:
+    mca: user_role/editrole/
+    title: New Role / Roles / Permissions / System / Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    role_resources:
+                        xpath: //*[@id='role_info_tabs_account']
+                        fieldsets:
+                            -
+                                role_resources:
+                                    xpath: //fieldset[@id='role_resources']
+                                    checkboxes:
+                                        sales_returns: //*[@data-ui-id='Enterprise_Rma::enterprise_rma']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_archive_orders_restore: //*[@data-ui-id='Enterprise_SalesArchive::remove']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_archive_orders_move: //*[@data-ui-id='Enterprise_SalesArchive::add']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_archive_invoices: //*[@data-ui-id='Enterprise_SalesArchive::invoices']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_archive_shipments: //*[@data-ui-id='Enterprise_SalesArchive::shipments']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_archive_credit_memos: //*[@data-ui-id='Enterprise_SalesArchive::creditmemos']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_shopping_cart_managment_modify: //*[@data-ui-id='Enterprise_Checkout::update']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_shopping_cart_managment_view: //*[@data-ui-id='Enterprise_Checkout::view']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        products_category_permissions: //*[@data-ui-id='Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        products_inventory_edit_product_status: //*[@data-ui-id='Enterprise_PricePermissions::edit_product_status']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        products_inventory_edit_product_price: //*[@data-ui-id='Enterprise_PricePermissions::edit_product_price']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        email_reminder_full: //*[@data-ui-id='Enterprise_Reminder::enterprise_reminder']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        shopping_cart_edit: //*[@data-ui-id='Enterprise_PromotionPermissions::quote_edit']/div[contains(@class,'x-tree-node-el')]/input[@type="checkbox"]
+                                        catalog_price_edit: //*[@data-ui-id='Enterprise_PromotionPermissions::edit']/div[contains(@class,'x-tree-node-el')]/input[@type="checkbox"]
+                                        config_shipping: //*[@data-ui-id='Mage_Shipping::config_shipping']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_methods: //*[@data-ui-id='Mage_Shipping::carriers']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_gift_card_account: //*[@data-ui-id='Enterprise_GiftCardAccount::giftcardaccount']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]

@@ -54,8 +54,8 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => $access));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => $access));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -77,16 +77,10 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
     public function roleResourceAccessDataProvider()
     {
         return array(
-            array('Sales', 'manage_sales_orders', 1 ,0),
-            array('Customers', 'manage_customers', 1 ,0),
-            array('Dashboard', 'dashboard', 1 ,0),
-            array('Catalog', 'manage_products', 1 ,0),
-            array('Newsletter', 'newsletter_templates', 1 ,0),
-            array('CMS', 'manage_cms_pages', 1 ,0),
-            array('Reports', 'reports_sales_sales', 1 ,0),
-            array('System', 'my_account', 1 ,0),
-            array('External Page Cache', 'access_denied', 0 ,0),
-            array('Global Search', 'access_denied', 0 ,1)
+            array('external_page_cache', 'access_denied', 0 ,0),
+            array('dashboard', 'access_denied', 0 ,0),
+            array('hub', 'store_launcher', 1 ,0),
+            array('global_search', 'access_denied', 0 ,1)
         );
     }
 }

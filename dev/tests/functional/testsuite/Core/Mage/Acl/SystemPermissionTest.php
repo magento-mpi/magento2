@@ -38,8 +38,8 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'System/Permissions'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'permissions'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -117,8 +117,8 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-                                         array('resource_1' => 'System/Configuration'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                                         array('resource_acl' => 'configurations'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
