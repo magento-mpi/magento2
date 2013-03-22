@@ -29,36 +29,8 @@
 <script type="text/javascript">
 //@TODO: Fix validation
 //<![CDATA[
-    Validation.addAllThese(
-    [
-           ['validate-rating', '<?php echo Mage::helper('Mage_Rating_Helper_Data')->__('Please select one of each ratings above') ?>', function(v) {
-                var trs = $('product-review-table').getElementsBySelector('tr');
-                var inputs;
-                var error = 1;
-
-                for( var j=0; j < trs.length; j++ ) {
-                    var tr = trs[j];
-                    if( j > 0 ) {
-                        inputs = tr.getElementsBySelector('input');
-
-                        for( i in inputs ) {
-                            if( inputs[i].checked == true ) {
-                                error = 0;
-                            }
-                        }
-
-                        if( error == 1 ) {
-                            //console.log(tr)
-                            return false;
-                        } else {
-                            error = 1;
-                        }
-                    }
-                }
-                return true;
-            }]
-    ]
-    );
+    jQuery.mage.extend('validation', 'validation',
+        '<?php echo $this->getViewFileUrl('Mage_Adminhtml::validation-rules.js'); ?>');
 //]]>
 </script>
 <?php else: ?>

@@ -124,7 +124,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     /**
      * Get custom js files
      *
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
      */
     public function getJsFiles()
     {

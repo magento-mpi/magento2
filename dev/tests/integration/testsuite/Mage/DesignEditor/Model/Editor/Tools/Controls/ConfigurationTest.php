@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_DesignEditor_Model_Editor_Tools_ConfigurationTest extends PHPUnit_Framework_TestCase
+class Mage_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_DesignEditor_Model_Editor_Tools_Controls_Factory

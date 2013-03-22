@@ -35,10 +35,10 @@ $compiledFile = $rootDir . '/var/di/definitions.php';
 
 try {
     $opt = new Zend_Console_Getopt(array(
-        'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
-        'verbose|v' => 'output report after tool run',
-        'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
-    ));
+                                        'serializer=w' => 'serializer function that should be used (serialize|binary) default = serialize',
+                                        'verbose|v' => 'output report after tool run',
+                                        'extra-classes-file=s' => 'path to file with extra proxies and factories to generate',
+                                   ));
     $opt->parse();
     $writer = $opt->getOption('v') ? new Writer\Console() : new Writer\Quiet();
     $log = new Log($writer);

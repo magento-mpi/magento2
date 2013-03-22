@@ -44,7 +44,7 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
      */
     protected function _getFileType()
     {
-        return Mage_Core_Model_Theme_Files::TYPE_JS;
+        return Mage_Core_Model_Theme_File::TYPE_JS;
     }
 
     /**
@@ -86,9 +86,9 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
      */
     protected function _delete(Mage_Core_Model_Theme $theme)
     {
-        /** @var $jsCollection Mage_Core_Model_Resource_Theme_Files_Collection */
+        /** @var $jsCollection Mage_Core_Model_Resource_Theme_File_Collection */
         $jsCollection = $this->getCollectionByTheme($theme);
-        /** @var $jsFile Mage_Core_Model_Theme_Files */
+        /** @var $jsFile Mage_Core_Model_Theme_File */
         foreach ($jsCollection as $jsFile) {
             if (in_array($jsFile->getId(), $this->_dataForDelete)) {
                 $jsFile->delete();
@@ -106,13 +106,13 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
      */
     public function removeTemporaryFiles($theme)
     {
-        /** @var $jsFiles Mage_Core_Model_Resource_Theme_Files_Collection */
+        /** @var $jsFiles Mage_Core_Model_Resource_Theme_File_Collection */
         $jsFiles = $this->_themeFiles->getCollection()
             ->addFilter('is_temporary', true)
             ->addFilter('theme_id', $theme->getId())
-            ->addFilter('file_type', Mage_Core_Model_Theme_Files::TYPE_JS);
+            ->addFilter('file_type', Mage_Core_Model_Theme_File::TYPE_JS);
 
-        /** @var $file Mage_Core_Model_Theme_Files */
+        /** @var $file Mage_Core_Model_Theme_File */
         foreach ($jsFiles as $file) {
             $file->delete();
         }
@@ -145,7 +145,7 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
      * @param Mage_Core_Model_Theme $theme
      * @param array $file
      * @param bool $temporary
-     * @return Mage_Core_Model_Theme_Files
+     * @return Mage_Core_Model_Theme_File
      */
     public function saveJsFile($theme, $file, $temporary = true)
     {
@@ -153,7 +153,7 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
         return $newFileModel->addData(array(
             'theme_id'  => $theme->getId(),
             'file_path' => 'js/' . $this->_prepareFileName($theme, $file['name']),
-            'file_type' => Mage_Core_Model_Theme_Files::TYPE_JS,
+            'file_type' => Mage_Core_Model_Theme_File::TYPE_JS,
             'content'   => $file['content'],
             'is_temporary' => $temporary
         ))->save();
@@ -183,11 +183,11 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
      *
      * @param Mage_Core_Model_Theme $theme
      * @param string $fileName
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
      */
     protected function _getThemeFileByName($theme, $fileName)
     {
-        /** @var $jsFile Mage_Core_Model_Resource_Theme_Files_Collection */
+        /** @var $jsFile Mage_Core_Model_Resource_Theme_File_Collection */
         $jsFile = parent::getCollectionByTheme($theme)
             ->addFieldToFilter('file_path', array('like' => "%{$fileName}"))
             ->getFirstItem();
@@ -200,7 +200,7 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
      *
      * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
      * @param string $order
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection|Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Mage_Core_Model_Resource_Theme_File_Collection|Mage_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getCollectionByTheme(
         Mage_Core_Model_Theme_Customization_CustomizedInterface $theme,
@@ -218,9 +218,9 @@ class Mage_Core_Model_Theme_Customization_Files_Js extends Mage_Core_Model_Theme
      */
     public function _reorder(Mage_Core_Model_Theme $theme, $orderData)
     {
-        /** @var $collection Mage_Core_Model_Resource_Theme_Files_Collection */
+        /** @var $collection Mage_Core_Model_Resource_Theme_File_Collection */
         $collection = $this->getCollectionByTheme($theme);
-        /** @var $file Mage_Core_Model_Theme_Files */
+        /** @var $file Mage_Core_Model_Theme_File */
         foreach ($collection as $file) {
             $position = array_search($file->getId(), $orderData);
             if ($position === false) {
