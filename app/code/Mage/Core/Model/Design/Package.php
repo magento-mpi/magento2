@@ -11,7 +11,18 @@
 
 class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageInterface
 {
+    /**
+     * Regular expressions matches cache
+     *
+     * @var array
+     */
     private static $_regexMatchCache      = array();
+
+    /**
+     * Custom theme type cache
+     *
+     * @var array
+     */
     private static $_customThemeTypeCache = array();
 
     /**
@@ -38,6 +49,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Directory of the css file
      * Using only to transmit additional parameter in callback functions
+     *
      * @var string
      */
     protected $_callbackFileDir;
@@ -92,7 +104,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
     }
-   
+
     /**
      * Set package area
      *
