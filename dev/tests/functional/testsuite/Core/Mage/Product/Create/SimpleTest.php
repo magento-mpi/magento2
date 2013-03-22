@@ -123,12 +123,11 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $product = $this->loadDataSet('Product', 'simple_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($product, 'simple', false);
+        $this->productHelper()->createProduct($product, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage($fieldType, $field);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage($fieldType, $field);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -297,12 +296,11 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('field', $emptyTierPrice);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('field', $emptyTierPrice);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsDataProvider()

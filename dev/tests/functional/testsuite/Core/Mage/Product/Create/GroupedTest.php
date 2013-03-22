@@ -111,12 +111,11 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $product = $this->loadDataSet('Product', 'grouped_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($product, 'grouped', false);
+        $this->productHelper()->createProduct($product, 'grouped');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage($fieldType, $field);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage($fieldType, $field);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()

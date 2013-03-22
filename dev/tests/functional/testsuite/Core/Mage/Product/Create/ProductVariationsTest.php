@@ -327,11 +327,12 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         preg_match('/\w+\_(\w+)/', $emptyField, $result);
         $field = $result[1];
         //Steps
-        $this->productHelper()->createProduct($productData, 'configurable', false);
+        $this->productHelper()->createProduct($productData, 'configurable');
         $this->productHelper()->openProductTab('general');
         $this->addParameter('field', $field);
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()

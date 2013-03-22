@@ -98,6 +98,9 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
      */
     public function verifyDefaultMask($metaCode, $metaField, $metaMask)
     {
+        if ($metaCode == 'meta_description') {
+            $this->markTestSkipped('fillDescription method TBD');
+        }
         //Preconditions
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask' => $metaMask));
@@ -391,12 +394,11 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->productHelper()->openProductTab('meta_information');
-//        $this->addFieldIdToMessage('field', $metaField);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->productHelper()->openProductTab('meta_information');
+        $this->addFieldIdToMessage('field', $metaField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
