@@ -20,23 +20,6 @@ class Mage_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
     protected $_template = 'page/head.phtml';
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Page $page
-     * @param Mage_Core_Model_Page_Asset_MergeService $assetMergeService
-     * @param array $data
-     */
-    public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Page $page,
-        Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
-        array $data = array()
-    ) {
-        parent::__construct($context, $objectManager, $page, $assetMergeService, $data);
-    }
-
-    /**
      * Retrieve Session Form Key
      *
      * @return string

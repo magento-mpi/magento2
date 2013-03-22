@@ -139,11 +139,11 @@ class Mage_Launcher_Model_TileFactory
         $tileCode = $tile->getTileCode();
 
         $resolverClassName = $this->getStateResolverClassName($pageCode, $tileCode);
-        $stateResolver = $this->_objectManager->create($resolverClassName, array(), false);
+        $stateResolver = $this->_objectManager->create($resolverClassName, array());
         $tile->setStateResolver($stateResolver);
 
         $handlerClassName = $this->getSaveHandlerClassName($pageCode, $tileCode);
-        $saveHandler = $this->_objectManager->create($handlerClassName, array(), false);
+        $saveHandler = $this->_objectManager->create($handlerClassName, array());
         $tile->setSaveHandler($saveHandler);
     }
 }

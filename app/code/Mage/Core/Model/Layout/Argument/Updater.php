@@ -42,7 +42,7 @@ class Mage_Core_Model_Layout_Argument_Updater
     {
         foreach ($updaters as $updater) {
             /** @var Mage_Core_Model_Layout_Argument_UpdaterInterface $updaterInstance */
-            $updaterInstance = $this->_objectManager->create($updater, array(), false);
+            $updaterInstance = $this->_objectManager->create($updater, array());
             if (false === ($updaterInstance instanceof Mage_Core_Model_Layout_Argument_UpdaterInterface)) {
                 throw new InvalidArgumentException($updater
                         . ' should implement Mage_Core_Model_Layout_Argument_UpdaterInterface'
