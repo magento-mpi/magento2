@@ -60,41 +60,52 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Shipment #'),
             'index'     => 'increment_id',
             'type'      => 'text',
+            'header_css_class'  => 'col-shipment-number',
+            'column_css_class'  => 'col-shipment-number'
         ));
 
         $this->addColumn('created_at', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Date Shipped'),
             'index'     => 'created_at',
             'type'      => 'datetime',
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('order_increment_id', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order #'),
             'index'     => 'order_increment_id',
             'type'      => 'text',
+            'header_css_class'  => 'col-order-number',
+            'column_css_class'  => 'col-order-number'
         ));
 
         $this->addColumn('order_created_at', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order Date'),
             'index'     => 'order_created_at',
             'type'      => 'datetime',
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('shipping_name', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship to Name'),
             'index' => 'shipping_name',
+            'header_css_class'  => 'col-memo',
+            'column_css_class'  => 'col-memo'
         ));
 
         $this->addColumn('total_qty', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Total Qty'),
             'index' => 'total_qty',
             'type'  => 'number',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         $this->addColumn('action',
             array(
                 'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Action'),
-                'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
@@ -106,7 +117,9 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
                 ),
                 'filter'    => false,
                 'sortable'  => false,
-                'is_system' => true
+                'is_system' => true,
+                'header_css_class'  => 'col-actions',
+                'column_css_class'  => 'col-actions'
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Sales_Helper_Data')->__('CSV'));

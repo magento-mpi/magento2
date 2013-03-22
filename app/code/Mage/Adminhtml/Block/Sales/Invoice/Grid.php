@@ -49,29 +49,39 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoice #'),
             'index'     => 'increment_id',
             'type'      => 'text',
+            'header_css_class'  => 'col-invoice-number',
+            'column_css_class'  => 'col-invoice-number'
         ));
 
         $this->addColumn('created_at', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoice Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('order_increment_id', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order #'),
             'index'     => 'order_increment_id',
             'type'      => 'text',
+            'header_css_class'  => 'col-order-number',
+            'column_css_class'  => 'col-order-number'
         ));
 
         $this->addColumn('order_created_at', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order Date'),
             'index'     => 'order_created_at',
             'type'      => 'datetime',
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('billing_name', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill to Name'),
             'index' => 'billing_name',
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('state', array(
@@ -79,6 +89,8 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
             'index'     => 'state',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Sales_Model_Order_Invoice')->getStates(),
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         $this->addColumn('grand_total', array(
@@ -87,6 +99,8 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
             'type'      => 'currency',
             'align'     => 'right',
             'currency'  => 'order_currency_code',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         $this->addColumn('action',
@@ -104,7 +118,9 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
                 ),
                 'filter'    => false,
                 'sortable'  => false,
-                'is_system' => true
+                'is_system' => true,
+                'header_css_class'  => 'col-actions',
+                'column_css_class'  => 'col-actions'
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Sales_Helper_Data')->__('CSV'));

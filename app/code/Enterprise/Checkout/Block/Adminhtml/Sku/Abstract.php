@@ -64,7 +64,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         ));
 
         $this->addChild('addButton', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'   => '', // Widget button of class 'add' has '+' icon by default
+            'label'   => 'Add',
             'onclick' => 'addBySku.add()',
             'class'   => 'add'
         ));

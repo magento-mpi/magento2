@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 ?>
-<table cellspacing="0" cellpadding="8" width="100%">
+<legend class="legend"><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order Totals') ?></span></legend>
+<table class="data-table" cellspacing="0">
     <tbody>
         <?php echo $this->renderTotals(); ?>
         <?php echo $this->renderTotals('footer'); ?>
