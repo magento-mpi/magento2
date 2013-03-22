@@ -46,14 +46,24 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_translationMode;
 
     /**
+     * @var Mage_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config $configuration
      * @internal param \Mage_Core_Model_Translate $translator
+     * @param Mage_Backend_Model_Session $backendSession
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $configuration)
-    {
+    public function __construct(
+        Mage_Core_Helper_Context $context,
+        Mage_Core_Model_Config $configuration,
+        Mage_Backend_Model_Session $backendSession
+    ) {
         parent::__construct($context);
         $this->_configuration = $configuration;
+        $this->_backendSession = $backendSession;
     }
 
     /**
@@ -221,5 +231,25 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
             $handle = 'default';
         }
         return $vdeUrlModel->getUrl('design/page/type', array('handle' => $handle));
+    }
+
+    /**
+     * Get staging theme id which was launched in editor
+     *
+     * @return int|null
+     */
+    public function getEditableThemeId()
+    {
+        return $this->_backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY);
+    }
+
+    /**
+     * Get theme id which was launched in editor
+     *
+     * @return int|null
+     */
+    public function getVirtualThemeId()
+    {
+        return $this->_backendSession->getData(Mage_DesignEditor_Model_State::VIRTUAL_THEME_SESSION_KEY);
     }
 }

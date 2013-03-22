@@ -345,7 +345,9 @@ abstract class Mage_Core_Helper_Abstract
     public function urlDecode($url)
     {
         $url = base64_decode(strtr($url, '-_,', '+/='));
-        return Mage::getSingleton('Mage_Core_Model_Url')->sessionUrlVar($url);
+        /** @var $urlModel Mage_Core_Model_Url */
+        $urlModel = Mage::getSingleton('Mage_Core_Model_Url');
+        return $urlModel->sessionUrlVar($url);
     }
 
     /**

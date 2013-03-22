@@ -54,23 +54,31 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     protected $_themeCollection;
 
     /**
+     * @var Mage_Core_Model_Theme_Factory
+     */
+    protected $_themeFactory;
+
+    /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Layout_Merge_Factory $layoutMergeFactory
      * @param Mage_Core_Model_Resource_Theme_Collection $themeCollection
+     * @param Mage_Core_Model_Theme_Factory $themeFactory
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Layout_Merge_Factory $layoutMergeFactory,
-        Mage_Core_Model_Resource_Theme_Collection $themeCollection
+        Mage_Core_Model_Resource_Theme_Collection $themeCollection,
+        Mage_Core_Model_Theme_Factory $themeFactory
     ) {
         $this->_design = $design;
         $this->_dirs = $dirs;
         $this->_layoutMergeFactory = $layoutMergeFactory;
         $this->_themeCollection = $themeCollection;
+        $this->_themeFactory = $themeFactory;
         parent::__construct($context);
     }
 
@@ -96,8 +104,8 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $layoutElement = $layoutMerge->getFileLayoutUpdatesXml();
 
         $elements = array_merge(
-            $layoutElement->xpath(self::XPATH_SELECTOR_REFS),
-            $layoutElement->xpath(self::XPATH_SELECTOR_BLOCKS)
+            $layoutElement->xpath(self::XPATH_SELECTOR_REFS) ?: array(),
+            $layoutElement->xpath(self::XPATH_SELECTOR_BLOCKS) ?: array()
         );
 
         $params = array(
@@ -376,5 +384,55 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     public function getSafePath($filePath, $basePath)
     {
         return ltrim(str_ireplace($basePath, '', $filePath), '\\/');
+    }
+
+    /**
+     * Load theme by theme id
+     * Method also checks if theme actually loaded and if theme is editable
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
+     */
+    public function loadEditableTheme($themeId)
+    {
+        $theme = $this->_loadTheme($themeId);
+        if (!$theme->isEditable()) {
+            throw new Mage_Core_Exception($this->__('Theme "%s" is not editable.', $themeId));
+        }
+        return $theme;
+    }
+
+    /**
+     * Load theme by theme id
+     * Method also checks if theme actually loaded and if theme is visible
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
+     */
+    public function loadVisibleTheme($themeId)
+    {
+        $theme = $this->_loadTheme($themeId);
+        if (!$theme->isVisible()) {
+            throw new Mage_Core_Exception($this->__('Theme "%s" is not visible.', $themeId));
+        }
+        return $theme;
+    }
+
+    /**
+     * Load theme by theme id and checks if theme actually loaded
+     *
+     * @param $themeId
+     * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
+     */
+    protected function _loadTheme($themeId)
+    {
+        $theme = $this->_themeFactory->create();
+        if (!($themeId && $theme->load($themeId)->getId())) {
+            throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
+        }
+        return $theme;
     }
 }

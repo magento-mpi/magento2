@@ -54,7 +54,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code
                 'is_active'     => false,
                 'id'          => 'vde-tab-image-sizing',
                 'title'         => strtoupper($this->__('Image Sizing')),
-                'content_block' => 'design_editor_tools_code_image-sizing'
+                'content_block' => 'design_editor_tools_code_image_sizing'
             ),
         );
     }

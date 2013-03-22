@@ -833,6 +833,44 @@
     margin: 0;
 }
 
+/* Tax Rate Popup */
+
+.tax-rate-popup .fieldset {
+    margin: 0;
+}
+
+.tax-rate-popup .field {
+    margin-bottom: 20px;
+}
+
+.tax-rate-popup .field .label {
+    margin: 5px 0 0 0;
+    width: 26%;
+    padding: 0 20px 0 0;
+    float: left;
+    text-align: right;
+}
+
+.tax-rate-popup .field .control {
+    width: 47%;
+    margin: 0;
+    float: left;
+}
+
+.tax-rate-popup .field .control select,
+.tax-rate-popup .field .control .input-text {
+    width: 100%;
+}
+
+.tax-rate-popup .field-rate .control .input-text {
+    width: 50%;
+}
+
+.tax-rate-popup .legend,
+.tax-rate-popup .legend + br {
+    display: none;
+}
+
 .tax-rules-form h2 {
     color: #f4863e;
     font-family: 'CallunaSans';
@@ -1171,8 +1209,7 @@
 }
 
 .shipping-config .field-fedex-key,
-.field-dhl-account-number,
-.field-ups-user-id {
+.field-dhl-account-number {
     clear: left;
 }
 
@@ -2288,7 +2325,7 @@
 }
 
 .add-product .field-category_ids .addon > button {
-   width: 30%;
+    width: 30%;
 }
 
 .add-product .field-price .control {
@@ -3275,21 +3312,6 @@
     display: block;
 }
 
-.action-manage-products:link,
-.action-manage-products:visited,
-.action-manage-products:hover,
-.action-manage-products:active {
-    background: none;
-    border: none;
-    box-shadow: none;
-    font-size: 13px;
-    line-height: 26px;
-    margin-left: 8px;
-    padding: 0;
-    text-decoration: underline;
-    text-shadow: none;
-}
-
 .dialog table.table_window  {
     border-collapse: collapse;
     border-spacing: 0;
@@ -3300,36 +3322,6 @@
 
 .page-actions {
     display: none;
-}
-
-.action-payment-methods:link,
-.action-payment-methods:visited,
-.action-payment-methods:hover,
-.action-payment-methods:active {
-    background: none;
-    border: none;
-    box-shadow: none;
-    font-size: 13px;
-    line-height: 26px;
-    margin-left: 8px;
-    padding: 0;
-    text-decoration: underline;
-    text-shadow: none;
-}
-
-.action-design-editor:link,
-.action-design-editor:visited,
-.action-design-editor:hover,
-.action-design-editor:active {
-    background: none;
-    border: none;
-    box-shadow: none;
-    font-size: 13px;
-    line-height: 26px;
-    margin-left: 8px;
-    padding: 0;
-    text-decoration: underline;
-    text-shadow: none;
 }
 
 /* TODO@ Remove after merge with master */
@@ -3390,8 +3382,4 @@
 
 .eq-ie8 .switcher.checked .switcher-label:before {
     content: attr(data-text-on);
-}
-
-.tile-more-info {
-    margin-top: 10px;
 }

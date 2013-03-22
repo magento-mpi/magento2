@@ -13,11 +13,12 @@
         <div class="message-content"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Changing address information will not recalculate shipping, tax or other order amount.') ?></div>
     </div>
 </div>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head fieldset-legend"><?php echo $this->getHeaderText() ?></h4>
-    </div>
-    <div class="fieldset">
+<fieldset class="fieldset">
+    <legend class="legend">
+        <span><?php echo $this->getHeaderText() ?></span>
+    </legend>
+    <br>
+    <div class="form-inline">
         <?php echo $this->getForm()->toHtml() ?>
     </div>
-</div>
+</fieldset>

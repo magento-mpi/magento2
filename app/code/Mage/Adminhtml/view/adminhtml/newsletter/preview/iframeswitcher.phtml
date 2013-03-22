@@ -20,10 +20,10 @@
 <div id="preview" class="cms-revision-preview">
     <div class="toolbar">
         <?php if (!Mage::app()->isSingleStoreMode()) :?>
-        <p class="switcher">
+        <div class="store-switcher">
             <?php echo $this->getChildHtml('store_switcher') ?>
-            <button class="button" onclick="preview();"><span><span><span><?php echo $this->__('Preview'); ?></span></span></span></button>
-        </p>
+            <button class="button" onclick="preview();"><span><?php echo $this->__('Preview'); ?></span></button>
+        </div>
         <?php endif;?>
     </div>
     <iframe name="preview_iframe" id="preview_iframe" frameborder="0"></iframe>
