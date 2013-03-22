@@ -8,15 +8,12 @@
  * @license     {license_link}
  */
 ?>
-<div class="grid np">
-  <div class="hor-scroll">
-    <table cellspacing="0" class="data order-tables">
-        <col />
-        <col width="1" />
+<div class="grid">
+    <table cellspacing="0" class="data">
         <thead>
             <tr class="headings">
-                <th><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></th>
-                <th class="a-center last"><span class="nobr"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty Shipped') ?></span></th>
+                <th class="col-product"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
+                <th class="col-qty last"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty Shipped') ?></span></th>
             </tr>
         </thead>
         <?php $_items = $this->getShipment()->getAllItems() ?>
@@ -27,6 +24,4 @@
             </tbody>
         <?php endforeach; ?>
     </table>
-  </div>
 </div>
-<br />

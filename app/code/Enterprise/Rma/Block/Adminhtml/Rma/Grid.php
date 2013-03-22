@@ -63,9 +63,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
     {
         $this->addColumn('increment_id', array(
             'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA #'),
-            'width'  => '50px',
             'type'   => 'number',
-            'index'  => 'increment_id'
+            'index'  => 'increment_id',
+            'header_css_class'  => 'col-rma-number',
+            'column_css_class'  => 'col-rma-number'
         ));
 
         $this->addColumn('date_requested', array(
@@ -73,14 +74,16 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
             'index' => 'date_requested',
             'type' => 'datetime',
             'html_decorators' => array('nobr'),
-            'width' => 1,
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('order_increment_id', array(
             'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Order #'),
-            'width'  => '50px',
             'type'   => 'number',
-            'index'  => 'order_increment_id'
+            'index'  => 'order_increment_id',
+            'header_css_class'  => 'col-order-number',
+            'column_css_class'  => 'col-order-number'
         ));
 
         $this->addColumn('order_date', array(
@@ -88,26 +91,29 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
             'index' => 'order_date',
             'type' => 'datetime',
             'html_decorators' => array('nobr'),
-            'width' => 1,
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('customer_name', array(
             'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Customer Name'),
             'index' => 'customer_name',
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('status', array(
             'header'  => Mage::helper('Enterprise_Rma_Helper_Data')->__('Status'),
             'index'   => 'status',
             'type'    => 'options',
-            'width'   => '100px',
-            'options' => Mage::getModel('Enterprise_Rma_Model_Rma')->getAllStatuses()
+            'options' => Mage::getModel('Enterprise_Rma_Model_Rma')->getAllStatuses(),
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         $this->addColumn('action',
             array(
                 'header'    =>  Mage::helper('Enterprise_Rma_Helper_Data')->__('Action'),
-                'width'     => '100',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
@@ -121,6 +127,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
                 'sortable'  => false,
                 'index'     => 'stores',
                 'is_system' => true,
+                'header_css_class'  => 'col-actions',
+                'column_css_class'  => 'col-actions'
         ));
 
         return parent::_prepareColumns();

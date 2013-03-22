@@ -13,11 +13,9 @@
  * @see Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon
  */
 ?>
-<div class="entry-edit box-left" style="width:25%;">
-    <div class="entry-edit-head">
-        <h4 class="icon-head"><?php echo $this->__('Apply Coupon Code') ?></h4>
-     </div>
-     <fieldset class="np">
+<div class="box-left">
+    <h4><?php echo $this->__('Apply Coupon Code') ?></h4>
+     <fieldset>
          <div class="content">
             <p><input type="text" class="input-text" id="coupon_code" name="ccode" style="width:200px" /> <?php echo $this->getApplyButtonHtml() ?></p>
             <?php if($this->getCouponCode()): ?>
