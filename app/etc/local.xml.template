@@ -63,13 +63,5 @@
                 <frontName>{{backend_frontname}}</frontName>
             </adminhtml>
         </areas>
-        <di>
-            <definitions>
-                <!-- Absolute path to definitions file -->
-                <path>{{absolute_path_to_definitions_file}}</path>
-                <!-- OR path to definitions file relative to application root dir. Default: var/di/definitions.php -->
-                <relativePath>{{relative_path_to_definitions_file}}</relativePath>
-            </definitions>
-        </di>
     </global>
 </config>
