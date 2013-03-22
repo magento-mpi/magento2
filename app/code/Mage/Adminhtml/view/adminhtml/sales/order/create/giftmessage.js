@@ -147,33 +147,25 @@ GiftOptionsPopup.prototype = {
             formContents.parentNode.appendChild(form);
             form.appendChild(formContents);
         }
+
+        this.giftOptionsWindow = $('gift_options_configure');
+
+        jQuery(this.giftOptionsWindow).dialog({
+            autoOpen:   false,
+            modal:      true,
+            resizable:  false,
+            minWidth:   500,
+            dialogClass: 'gift-options-popup'
+        });
     },
 
     showItemGiftOptions : function(event) {
         var element = Event.element(event).id;
         var itemId = element.sub('gift_options_link_','');
 
-        //toggleSelectsUnderBlock(this.giftOptionsWindowMask, false);
-        //this.giftOptionsWindowMask = $('gift_options_window_mask');
-        this.giftOptionsWindow = $('gift_options_configure');
-
-        jQuery(this.giftOptionsWindow).dialog({
-            autoOpen:   false,
-            title:      "Insert Variable...",
-            modal:      true,
-            resizable:  false,
-            minWidth:   500
-        });
-
         jQuery(this.giftOptionsWindow).dialog('open');
 
-        //this.giftOptionsWindow.select('select').each(function(el){
-        //    el.style.visibility = 'visible';
-        //});
-
-        //this.giftOptionsWindowMask.setStyle({'height': $('html-body').getHeight() + 'px'}).show();
-        //this.giftOptionsWindow.setStyle({'marginTop': -this.giftOptionsWindow.getHeight()/2 + 'px', 'display': 'block'});
-        //this.setTitle(itemId);
+        this.setTitle(itemId);
 
         Event.observe($('gift_options_cancel_button'), 'click', this.onCloseButton.bind(this));
         Event.observe($('gift_options_ok_button'), 'click', this.onOkButton.bind(this));
@@ -186,7 +178,7 @@ GiftOptionsPopup.prototype = {
         if (productTitleElement) {
             productTitle = productTitleElement.innerHTML;
         }
-        $('gift_options_configure_title').update(productTitle);
+        jQuery(this.giftOptionsWindow).dialog({ title: jQuery.mage.__('Gift Options for ') + productTitle });
     },
 
     onOkButton : function() {
@@ -206,8 +198,6 @@ GiftOptionsPopup.prototype = {
     },
 
     closeWindow : function() {
-        //toggleSelectsUnderBlock(this.giftOptionsWindowMask, true);
-        //this.giftOptionsWindowMask.style.display = 'none';
         jQuery(this.giftOptionsWindow).dialog('close');
     }
 }
