@@ -231,4 +231,169 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
     {
         return 'catalog_product';
     }
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Return resource object or resource object data.
+     *
+     * @Type call
+     * @Method GET
+     * @Path /{skuOrId}
+     * @Bindings [REST]
+     * @Consumes /resources/product/item/input.xsd
+     * @Produces /resources/product/item/output.xsd
+     *
+     * @param mixed $args
+     * @return array
+     */
+    public function getItem(Mage_Core_Service_Args $args = null, $asObject = true)
+    {
+        $result = $this->_getItem($args);
+        if (!$asObject) {
+            $fieldset = $args->getFieldset();
+            $fields = $this->_getFields($fieldset);
+
+            $result = $this->_getItemData($result, $fields);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns model which operated by current service.
+     *
+     * @param Mage_Core_Service_Args $args
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getItem(Mage_Core_Service_Args $args)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->_objectManager->create('Mage_Catalog_Model_Product');
+
+        $id = $args->getId();
+        // TODO: try as `sku` first (can be voided if we won't be supporting numeric SKUs)
+        $productId = $product->getIdBySku($id);
+        if (false === $productId) {
+            if (is_numeric($id)) {
+                $productId = $id;
+            }
+        }
+
+        // `set` methods are creating troubles
+        foreach ($args->getData() as $k => $v) {
+            $product->setDataUsingMethod($k, $v);
+        }
+
+        if (false !== $productId) {
+            // TODO: Depends on MDS-167
+            //$fieldset = $args->getFieldset();
+            //$product->setFieldset($fieldset);
+
+            $product->load($productId);
+        }
+
+        if (!$product->getId()) {
+            // TODO: so what to do?
+            //assumption:
+            $product->unsetData();
+        } elseif (!$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
+            // TODO: so what to do?
+            //assumption:
+            $product->unsetData();
+        } elseif (!in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
+            // TODO: so what to do?
+            //assumption:
+            $product->unsetData();
+        }
+
+        return $product;
+    }
+
+    /**
+     * Returns info about several products.
+     *
+     * @Type call
+     * @Method GET
+     * @Path /[:field/:value]
+     * @Bindings [REST]
+     * @Consumes input.xsd
+     * @Produces output.xsd
+     *
+     * @param Mage_Core_Service_Parameter_Input $input
+     * @return array
+     */
+    public function getItems($args = null, $asObject = true)
+    {
+        $collection = $this->_getItems($args);
+        if ($asObject) {
+            return $collection;
+        }
+
+        $fieldset = $args->getFieldset();
+        $fields = $this->_getFields($fieldset);
+
+        $dataCollection = array();
+        foreach ($collection as $item) {
+            /** @var $item Varien_Object */
+            $dataCollection[] = $this->_getItemData($item, $fields);
+        }
+        return $dataCollection;
+    }
+
+    /**
+     * Get collection object of the current service
+     *
+     * @param Mage_Core_Service_Args $args
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    protected function _getItems(Mage_Core_Service_Args $args)
+    {
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+
+        $fieldset = $args->getFieldset();
+        $fields = $this->_getFields($fieldset);
+        if (!empty($fields)) {
+            $collection->addAttributeToSelect($fields);
+        }
+
+        $productIds = $args->getProductIds();
+        $collection->addIdFilter($productIds);
+
+        $filters = $args->getFilters();
+        $collection->addAttributeToFilter($filters);
+
+        // TODO or not TODO
+        //$collection->load();
+
+        return $collection;
+    }
+
+    protected function _getFields($fieldset)
+    {
+        $fields = Mage::getConfig()->getNode('global/fieldset/' . $fieldset)->asArray();
+        return array_keys($fields);
+    }
+
+    /**
+     * Extract data from the loaded object with service data added.
+     *
+     * @param Varien_Object $object
+     * @return array
+     */
+    protected function _getItemData(Varien_Object $item, array $fields = array())
+    {
+        $data = $item->toArray($fields);
+
+        $formattedData = $this->_formatObjectData($data);
+
+        return $formattedData;
+    }
 }
