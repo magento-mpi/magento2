@@ -21,7 +21,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme extends Mage_Backend_Block_
         parent::_construct();
         $this->_blockGroup = 'Mage_Theme';
         $this->_controller = 'Adminhtml_System_Design_Theme';
-        if (!$this->getLayout()->getBlock('page-title')) {
+        if (is_object($this->getLayout()->getBlock('page-title'))) {
             $this->getLayout()->addBlock('Mage_Page_Block_Html_Title', 'page-title', 'content');
         }
         $this->getLayout()->getBlock('page-title')->setPageTitle('Themes');
