@@ -121,14 +121,8 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
     {
         $moduleArg = '...';
         $fixture = __DIR__ . DIRECTORY_SEPARATOR . uniqid();
-        $anotherFixture = __DIR__ . DIRECTORY_SEPARATOR . uniqid();
-
         $this->_fallback->expects($this->once())->method('getViewFile')->will($this->returnValue($fixture));
         $this->assertEquals($fixture, $this->_model->getViewFile('file.txt', $moduleArg));
-        $this->assertSame(
-            $this->_model, $this->_model->setFilePathToMap($anotherFixture, 'file.txt', $moduleArg)
-        );
-        $this->assertEquals($anotherFixture, $this->_model->getViewFile('file.txt', $moduleArg));
     }
 
     /**

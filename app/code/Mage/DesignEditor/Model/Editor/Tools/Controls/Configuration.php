@@ -290,9 +290,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     {
         $targetPath = $this->getCustomViewConfigPath();
         $params = array('area' => Mage_Core_Model_Design_Package::DEFAULT_AREA, 'themeModel' => $this->_theme);
-        $this->_design->updateFilePathInMap(
-            $targetPath, Mage_Core_Model_Design_Package::FILENAME_VIEW_CONFIG, $params, 'theme'
-        );
+        $this->_design->dropPublicationCache($params);
         $this->_filesystem->setIsAllowCreateDirectories(true)->write($targetPath, $config->saveXML());
         return $this;
     }

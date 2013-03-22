@@ -54,7 +54,7 @@ var giftMessagesController = {
             $(container).toogleGiftMessage = false;
             $(this.getFieldId(container, 'message')).formObj = $(this.getFieldId(container, 'form'));
             var form = jQuery('#' + this.getFieldId(container, 'form'));
-            jQuery('#' + this.getFieldId(container, 'form')).validation();
+            jQuery('#' + this.getFieldId(container, 'form')).validate({errorClass: 'mage-error'});
 
             if(!form.valid()) {
                 return false;
@@ -87,7 +87,7 @@ var giftMessagesController = {
         $(this.getFieldId(container, 'message')).formObj = $(this.getFieldId(container, 'form'));
 
         var form = jQuery('#' + this.getFieldId(container, 'form'));
-        form.validation();
+        form.validate({errorClass: 'mage-error'});
 
         if(!form.valid()) {
             return;
@@ -191,7 +191,7 @@ GiftOptionsPopup.prototype = {
 
     onOkButton : function() {
         var giftOptionsForm = jQuery('#gift_options_configuration_form');
-        if (!giftOptionsForm.validation().valid()) {
+        if (!giftOptionsForm.validate({errorClass: 'mage-error'}).valid()) {
             return false;
         }
         if (jQuery.isFunction(giftOptionsForm[0].reset)) {

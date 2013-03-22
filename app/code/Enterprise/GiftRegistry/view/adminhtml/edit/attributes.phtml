@@ -342,17 +342,7 @@ $coreHelper = Mage::helper('Mage_Core_Helper_Data');
     customAttribute.bindScopeCheckbox();
     customAttribute.changeScopeInputs(<?php echo $this->getTypeStoreId() ?>);
 
-    Validation.addAllThese([
-        ['attribute-code', '<?php echo $this->__('Please use different input type for this code.') ?>', function(v, element) {
-            var resultFlag = true;
-            $A($(element.id.sub('_code','_type')).options).each(function(option){
-                parts = option.value.split(':');
-                if (parts[1] != undefined && parts[1] == v) {
-                    resultFlag = false;
-                }
-            });
-            return resultFlag;
-    }]]);
+    head.js('<?php echo $this->getViewFileUrl('Enterprise_GiftRegistry::edit/validation-rules.js'); ?>');
 
     function bindActiveRegistryTab(event, ui) {
         var anchor = jQuery(ui.newTab).find('a');

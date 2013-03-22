@@ -105,15 +105,8 @@ productConfigure.giftcardConfig = {};
                                         return parseFloat(value);
                                     }
 
-                                    Validation.add('giftcard-min-amount', '<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Entered amount is too low'); ?>', function(v) {
-                                        return (productConfigure.giftcardConfig.parsePrice(v) >= productConfigure.giftcardConfig.minAllowedAmount);
-                                    });
-                                    Validation.add('giftcard-max-amount', '<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Entered amount is too high'); ?>', function(v) {
-                                        if (productConfigure.giftcardConfig.maxAllowedAmount == 0) {
-                                            return true;
-                                        }
-                                        return (productConfigure.giftcardConfig.parsePrice(v) <= productConfigure.giftcardConfig.maxAllowedAmount);
-                                    });
+                                    jQuery.mage.extend('validation', 'validation',
+                                        '<?php echo $this->getViewFileUrl('Enterprise_GiftCard::catalog/product/composite/fieldset/validation-rules.js'); ?>');
                                 //]]>
                                 </script>
                             <?php endif; ?>
@@ -199,9 +192,9 @@ productConfigure.giftcardConfig = {};
                             <textarea name="giftcard_message" id="giftcard_message" class="input-text giftcard-message-max-length" cols="5" rows="3"><?php echo $this->escapeHtml($this->getDefaultValue('giftcard_message')) ?></textarea>
                             <?php if ($this->getMessageMaxLength()): ?>
                                 <script type="text/javascript">
-                                    Validation.add('giftcard-message-max-length', '<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum length of the message is %d characters.', $this->getMessageMaxLength()); ?>', function(v) {
+                                    jQuery.validator.addMethod('giftcard-message-max-length', function(v) {
                                         return v.length <= <?php echo $this->getMessageMaxLength(); ?>;
-                                    });
+                                    }, '<?php echo Mage::helper('Enterprise_GiftCard_Helper_Data')->__('Maximum length of the message is %d characters.', $this->getMessageMaxLength()); ?>');
                                 </script>
                             <?php endif; ?>
                         </div>
