@@ -3187,8 +3187,15 @@ table tbody tr:nth-child(odd):hover th {
     content: attr(data-text-on);
 }
 
+.eq-ie8 .switcher-label:after {
+    content: 'off';
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 100%;
+}
 .eq-ie8 .switcher.checked .switcher-label:after {
     background-position: -34px 0;
+    content: 'on';
 }
 
 .eq-ie8 .switcher.checked .switcher-label:before {
@@ -3736,6 +3743,10 @@ table tbody tr:nth-child(odd):hover th {
     overflow: hidden;
 }
 
+.eq-ie8 .massaction {
+    border-bottom:  2px solid #504d46;
+}
+
 .massaction ul {
     list-style: none;
     margin: 0;
@@ -3746,14 +3757,14 @@ table tbody tr:nth-child(odd):hover th {
     display: inline-block;
 }
 
-.massaction li:after {
+.massaction li:before {
     color: #837F79;
     content: '|';
     display: inline-block;
     margin: 0 5px;
 }
 
-.massaction li:last-child:after {
+.massaction li:first-child:before {
     display: none;
 }
 
@@ -4253,6 +4264,12 @@ tr.dynamic-grid input.input-text {
 
 .tree-store-scope .field .label {
     padding-top: 0;
+}
+
+.tree-store-scope .field input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
 }
 
 /*
