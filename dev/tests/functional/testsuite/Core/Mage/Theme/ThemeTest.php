@@ -126,6 +126,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $this->fillFieldset($editData['theme'], 'theme');
         $this->fillFieldset($themeData['requirements'], 'requirements');
         $this->clickButton('save_and_continue_edit');
+        $this->assertMessagePresent('success', 'success_saved_theme');
         $this->validatePage('edit_theme');
         $this->clickButton('save_theme');
         //Verify:
@@ -134,13 +135,12 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         $themeLocator = $this->search($searchData, 'theme_list_grid');
         $this->assertNotNull($themeLocator, 'Theme is not found');
 
-        $this->themeHelper()->deleteTheme($editData);
     }
 
     /**
      * Reset button functionality
      * @param $themeData
-     * @depends createWithAllFields
+     * @depends createOnlyRequiredFilledFields
      * @test
      */
     public function resetThemeForm($themeData)

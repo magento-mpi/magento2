@@ -191,31 +191,8 @@ Downloadable.FileList.prototype = {
 }
 
 var alertAlreadyDisplayed = false;
-
-Validation.addAllThese([
-    ['validate-downloadable-file', 'Please upload a file.', function(v,element) {
-            linkType = element.up(0).down('input[value="file"]');
-            if (linkType.checked && (v == '' || v == '[]')) {
-                newFileContainer = element.up(0).down('div.new-file');
-                if (!alertAlreadyDisplayed && (newFileContainer.empty() || newFileContainer.style.display != 'none')) {
-                    alertAlreadyDisplayed = true;
-                    alert('<?php echo $this->jsQuoteEscape($this->__('There are files that were selected but not uploaded yet. Please upload or remove them first'));?>');
-                }
-                return false;
-            }
-            return true;
-        }]
-    ]);
-
-Validation.addAllThese([
-    ['validate-downloadable-url', 'Please specify Url.', function(v,element) {
-            linkType = element.up(0).down('input[value="url"]');
-            if (linkType.checked && v == '') {
-                return false;
-            }
-            return true;
-        }]
-    ]);
+jQuery.mage.extend('validation', 'validation',
+    '<?php echo $this->getViewFileUrl('Mage_Downloadable::product/validation-rules.js'); ?>');
 //]]>
 </script>
 

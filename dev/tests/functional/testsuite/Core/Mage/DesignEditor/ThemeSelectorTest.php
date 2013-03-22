@@ -53,7 +53,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
      * <p>Test Theme selector page when no customization themes</p>
      *
      * @TestlinkId TL-MAGE-6478
-     * @test
+     * @te st
      */
     public function firstEntranceWithoutVirtualThemes()
     {
@@ -67,7 +67,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
      * <p>Test Theme selector page when customized themes present</p>
      *
      * @TestlinkId TL-MAGE-6481
-     * @test
+     * @te st
      */
     public function firstEntranceWithVirtualTheme()
     {
@@ -92,7 +92,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
     /**
      * <p>Assign theme to default store view</p>
      * Present one store view only
-     * @test
+     * @t est
      */
     public function assignThemeToDefaultStoreView()
     {
@@ -117,7 +117,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Assign theme to store view</p>
-     * @test
+     * @te st
      */
     public function assignThemeWithMultipleStoreViews()
     {
@@ -175,7 +175,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Cancel multiple assign operation</p>
-     * @test
+     * @te st
      */
     public function cancelMultipleAssignTheme()
     {
@@ -201,6 +201,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         //Clean after test
         $this->themeHelper()->deleteTheme($themeData);
         $this->navigate('manage_stores');
+        $this->clickButton('reset_filter');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
     }
 
@@ -237,14 +238,16 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
     {
         //Data
         $this->themeHelper()->createTheme();
+        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
+        $this->addParameter('id', $themeId);
         //Steps
         $this->navigate('design_editor_selector');
         $this->clickControl('link', 'available_themes_tab', false);
-        $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
-        $this->addParameter('id', $themeId);
+        $this->waitForAjax();
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
         $this->clickButton('edit_theme_button');
         $this->_windowId = $this->selectLastWindow();
+        $this->addParameter('id', $themeId);
         //Verify
         $this->validatePage('preview_theme_in_design');
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'));

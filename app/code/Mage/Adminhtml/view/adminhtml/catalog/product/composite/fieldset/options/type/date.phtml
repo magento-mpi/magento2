@@ -41,37 +41,29 @@
     <script type="text/javascript">
     //<![CDATA[
 <?php if ($_option->getIsRequire()): ?>
-        Validation.addAllThese(
-        [
-               ['validate-datetime-<?php echo $_optionId ?>', '<?php echo $this->jsQuoteEscape( Mage::helper('Mage_Catalog_Helper_Data')->__('This is a required option') )?>', function(v) {
-                   var dateTimeParts = $$('.datetime-picker[id^="options_<?php echo $_optionId ?>"]');
-                   for (var i=0; i < dateTimeParts.length; i++) {
-                       if (dateTimeParts[i].value == "") return false;
-                   }
-                   return true;
-                }]
-        ]
-        );
-<?php else: ?>
-        Validation.add(
-            'validate-datetime-<?php echo $_optionId ?>',
-            '<?php echo $this->jsQuoteEscape( Mage::helper('Mage_Catalog_Helper_Data')->__('Field is not complete') )?>',
-            function(v) {
-                var dateTimeParts = $$('.datetime-picker[id^="options_<?php echo $_optionId ?>"]');
-                var hasWithValue = false, hasWithNoValue = false;
-                var pattern = /day_part$/i;
-                for (var i=0; i < dateTimeParts.length; i++) {
-                   if (! pattern.test(dateTimeParts[i].id)) {
-                       if (dateTimeParts[i].value === "") {
-                           hasWithValue = true;
-                       } else {
-                           hasWithNoValue = true;
-                       }
-                   }
-                }
-                return hasWithValue ^ hasWithNoValue;
+        jQuery.validator.addMethod('validate-datetime-<?php echo $_optionId ?>', function(v) {
+            var dateTimeParts = jQuery('.datetime-picker[id^="options_<?php echo $_optionId ?>"]');
+            for (var i=0; i < dateTimeParts.length; i++) {
+                if (dateTimeParts[i].val() == "") return false;
             }
-        );
+            return true;
+        }, '<?php echo $this->jsQuoteEscape( Mage::helper('Mage_Catalog_Helper_Data')->__('This is a required option') )?>');
+<?php else: ?>
+        jQuery.validator.addMethod('validate-datetime-<?php echo $_optionId ?>', function(v) {
+            var dateTimeParts = jQuery('.datetime-picker[id^="options_<?php echo $_optionId ?>"]');
+            var hasWithValue = false, hasWithNoValue = false;
+            var pattern = /day_part$/i;
+            for (var i=0; i < dateTimeParts.length; i++) {
+                if (! pattern.test(dateTimeParts[i].id)) {
+                    if (dateTimeParts[i].value === "") {
+                        hasWithValue = true;
+                    } else {
+                        hasWithNoValue = true;
+                    }
+                }
+            }
+            return hasWithValue ^ hasWithNoValue;
+        }, '<?php echo $this->jsQuoteEscape( Mage::helper('Mage_Catalog_Helper_Data')->__('Field is not complete') )?>');
 <?php endif; ?>
     //]]>
     </script>
