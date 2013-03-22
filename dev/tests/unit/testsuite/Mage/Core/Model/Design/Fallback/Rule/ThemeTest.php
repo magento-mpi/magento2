@@ -21,6 +21,22 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
         new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage $params["theme"] should be passed and should implement Mage_Core_Model_ThemeInterface
+     */
+    public function testGetPatternsDirsException()
+    {
+        $simpleRuleMockOne = $this->getMock(
+            'Mage_Core_Model_Design_Fallback_Rule_Simple',
+            array(),
+            array('pattern')
+        );
+
+        $model = new Mage_Core_Model_Design_Fallback_Rule_Theme(array($simpleRuleMockOne));
+        $model->getPatternDirs(array());
+    }
+
     public function testGetPatternsDirs()
     {
         $parentThemePath = 'parent_package/parent_theme';
