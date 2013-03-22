@@ -1,7 +1,7 @@
 <?php
 /**
- * A command line tool that pre-populates static view files for the production mode with minimal filesystem lookup.
- * Interface of the tool is invariant, SaaS infrastructure relies on it when deploying a tenant on any Magento version.
+ * Shortcut for the command line tool that pre-populates static view files for the production mode.
+ * Interface is invariant, SaaS infrastructure relies on it when deploying a tenant on any Magento version.
  *
  * {license_notice}
  *
@@ -12,7 +12,7 @@
 define('SYNOPSIS', <<<USAGE
 Usage: php -f generate_view_files.php -- --destination <dir>
 
-    --destination <dir> absolute directory path to deploy static view files to
+  --destination <dir> Directory path to deploy static view files to
 
 USAGE
 );
