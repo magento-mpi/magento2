@@ -146,7 +146,7 @@ class Varien_Filter_Template implements Zend_Filter_Interface
         // Processing of {include template=... [...]} statement
         $includeParameters = $this->_getIncludeParameters($construction[2]);
         if (!isset($includeParameters['template']) or !$this->getIncludeProcessor()) {
-            // Not specified template or not seted include processor
+            // Not specified template or not set include processor
             $replacedValue = '{Error in include processing}';
         } else {
             // Including of template
@@ -165,7 +165,7 @@ class Varien_Filter_Template implements Zend_Filter_Interface
     public function dependDirective($construction)
     {
         if (count($this->_templateVars) == 0) {
-            // If template prepossessing
+            // If template processing
             return $construction[0];
         }
 
@@ -249,7 +249,7 @@ class Varien_Filter_Template implements Zend_Filter_Interface
                         || substr($stackVars[$i]['name'], 0, 3) == 'get'
                     ) {
                         $stackVars[$i]['variable'] = call_user_func_array(
-                            array($stackVars[$i-1]['variable'], $stackVars[$i]['name']),
+                            array($stackVars[$i - 1]['variable'], $stackVars[$i]['name']),
                             $stackVars[$i]['args']
                         );
                     }
