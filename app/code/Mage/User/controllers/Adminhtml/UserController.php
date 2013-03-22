@@ -99,6 +99,13 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
         if (count($uRoles)) {
             $model->setRoleId($uRoles[0]);
         }
+
+        $currentUser = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+        if ($userId == $currentUser->getId()) {
+            Mage::helper('Mage_Backend_Helper_Data')
+                ->switchBackendInterfaceLocale($data['interface_locale']);
+        }
+
         try {
             $model->save();
             $this->_getSession()->addSuccess($this->__('The user has been saved.'));
