@@ -1,0 +1,25 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+/**
+ * @var $this Mage_Page_Block_Html_Title
+ */
+$cssClass = $this->getCssClass() ? ' ' . $this->getCssClass() : '';
+$prefix = $this->getPrefix() ? '<span class="prefix">' . $this->getPrefix() . '</span>' : '';
+$suffix = $this->getSuffix() ? '<span class="suffix">' . $this->getSuffix() . '</span>' : '';
+?>
+<hgroup class="page title<?php echo $cssClass; ?>">
+    <h1 class="title">
+        <?php echo $prefix ?>
+        <span class="base"><?php echo $this->getPageTitle(); ?></span>
+        <?php echo $suffix ?>
+    </h1>
+    <?php echo $this->getChildHtml(); ?>
+</hgroup>

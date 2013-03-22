@@ -1,0 +1,63 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_lace
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+/**
+ * Product media data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ */
+?>
+<?php if (count($this->getGalleryImages()) > 0): ?>
+<div class="more-views">
+    <h2><?php echo $this->__('More Views') ?></h2>
+    <ul>
+    <?php foreach ($this->getGalleryImages() as $_image): ?>
+        <li>
+            <?php
+                /** @var $_imageHelper Saas_Catalog_Helper_Image */
+                $_originalImageHelper = $this->helper('saas_designeditor/catalog_image')->getResizedImage($_product, 'catalog_product_view_media', $_image->getFile());
+                $_resizedWidth = $_imageHelper->getImageWidth();
+                $_resizedHeight = $_imageHelper->getImageHeight();
+
+                /** @var $_imageHelper Saas_Catalog_Helper_Image */
+                $_imageHelper = $this->helper('saas_designeditor/catalog_image')->getResizedImage($_product, 'catalog_product_view_media_thumbnail', $_image->getFile());
+            ?>
+            <a class="magento-zoom" <?php echo ($_isOldDisplayMode) ?
+                'href="#" onclick="popWin(\'' . $this->getGalleryUrl($_image) . '\', \'gallery\', \'width=300,height=300,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes\'); return false;"' :
+                'href="' . $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()) . '" rel="' . $this->helper('catalog/image')->init($_product, 'image', $_image->getFile())->resize($_resizedWidth, $_resizedHeight) . '"'; ?> title="<?php echo $this->htmlEscape($_image->getLabel()) ?>">
+            <?php if(!$imageFrame): ?>
+                <span class="img" style="<?php echo $_imageHelper->getContainerStyle()?>">
+            <?php endif; ?>
+                <img src="<?php echo $_imageHelper; ?>" <?php echo $_imageHelper->getImageSizeHtmlAttributes(); ?> alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" />
+            <?php if(!$imageFrame): ?>
+                </span>
+            <?php endif; ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+</div>
+<?php endif; ?>
