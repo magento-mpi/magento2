@@ -17,8 +17,8 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     /**#@+
      * Cache parameters.
      */
-    const WEBSERVICE_CACHE_NAME = 'config_webservice';
-    const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
+    const WEBSERVICE_CACHE_NAME = Mage_Webapi_Model_Cache_Type::TYPE_IDENTIFIER;
+    const WEBSERVICE_CACHE_TAG = Mage_Webapi_Model_Cache_Type::CACHE_TAG;
     /**#@-*/
 
     /**#@+

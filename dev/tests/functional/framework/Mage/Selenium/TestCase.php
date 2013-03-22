@@ -73,6 +73,7 @@
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Core_Mage_Theme_Helper                                                                      themeHelper()
+ * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -642,6 +643,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $fieldId = $element->attribute('id');
         if (!$fieldId) {
             $fieldId = $element->attribute('name');
+        }
+        if (!$fieldId) {
+            $fieldId = $element->attribute('for');
         }
         $this->addParameter('fieldId', $fieldId);
     }

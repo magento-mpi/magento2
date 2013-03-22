@@ -40,7 +40,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
      *
      * @var array
      */
-    protected $_allowedExtensions = array('jpg','jpeg','gif','png');
+    protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png');
 
     /**
      * Generic constructor of change instance
@@ -69,7 +69,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Var
         if (null === $this->_storagePath) {
             $this->_storagePath = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
                 Magento_Filesystem::fixSeparator($this->_getTheme()->getCustomizationPath()),
-                Mage_Core_Model_Theme_Files::PATH_PREFIX_CUSTOMIZED,
+                Mage_Core_Model_Theme_File::PATH_PREFIX_CUSTOMIZED,
                 self::PATH_PREFIX_QUICK_STYLE,
             ));
         }

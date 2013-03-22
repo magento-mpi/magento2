@@ -25,7 +25,7 @@ class Mage_Core_Controller_Varien_Router_FactoryTest extends PHPUnit_Framework_T
     /**
      * ObjectManager mock for tests
      *
-     * @var Magento_ObjectManager_Zend
+     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 

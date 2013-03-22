@@ -20,6 +20,9 @@ class Mage_Core_Model_Theme_Factory
      */
     protected $_objectManager;
 
+    /**
+     * @param Magento_ObjectManager $objectManager
+     */
     public function __construct(Magento_ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;

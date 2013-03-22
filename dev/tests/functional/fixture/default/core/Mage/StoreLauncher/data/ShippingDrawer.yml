@@ -33,6 +33,7 @@ dhl:
 ups:
     ups_password: ups_password_%randomize%
     ups_number: ups_number_%randomize%
+    ups_user_id: ups_user_id_%randomize%
 
 sent_from_address:
     shipping_street_address: '10441 Jefferson Blvd'

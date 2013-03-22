@@ -16,7 +16,7 @@ class Mage_Core_Model_Layout_Merge
     /**
      * Additional tag for cleaning layout cache convenience
      */
-    const LAYOUT_GENERAL_CACHE_TAG = 'LAYOUT_GENERAL_CACHE_TAG';
+    const LAYOUT_GENERAL_CACHE_TAG = Mage_Core_Model_Cache_Type_Layout::CACHE_TAG;
 
     /**#@+
      * Available item type names
