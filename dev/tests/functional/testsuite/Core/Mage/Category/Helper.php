@@ -73,7 +73,8 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
     {
         $nodes = explode('/', $categoryPath);
         $rootCat = array_shift($nodes);
-
+        $this->addParameter('rootName', 'Default Category');
+        $this->waitForControl('link', $fieldsetName . '_root_category');
         $correctRoot = $this->defineCorrectCategory($rootCat, null, $fieldsetName);
         if (empty($correctRoot)) {
             $this->fail("'$rootCat' root category could not be selected.");
@@ -163,7 +164,8 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
                                $this->_getControlXpath('pageelement', 'created_category_name_header'),
                                $this->_getMessageXpath('general_validation'));
         $this->clickButton('save_category', false);
-        $this->waitForElement($waitCondition);
+        $this->waitForElementVisible($waitCondition);
+        $this->pleaseWait();
         $this->checkCategoriesPage();
     }
 

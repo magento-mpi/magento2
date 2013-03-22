@@ -131,7 +131,6 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
     public function verifyUneditabilityForComposite($productType, $attributeData)
     {
         //Data
-        $this->markTestIncomplete('MAGETWO-8582');
         $byValueParam = ($productType == 'configurable')
             ? array('var1_attr_value1'    => $attributeData['option'],
                     'general_attribute_1' => $attributeData['attribute'])
