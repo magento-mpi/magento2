@@ -101,7 +101,9 @@ class Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCas
     protected function _getRelativePaths($dir)
     {
         $dirLen = strlen($dir);
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS)
+        );
         $result = array();
         foreach ($files as $file) {
             $result[] = substr($file, $dirLen + 1);

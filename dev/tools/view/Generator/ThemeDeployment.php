@@ -124,7 +124,9 @@ class Generator_ThemeDeployment
      */
     protected function _copyDirStructure($sourceDir, $destinationDir, $context)
     {
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sourceDir));
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS)
+        );
         foreach ($files as $fileSource) {
             $fileSource = (string) $fileSource;
             $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
