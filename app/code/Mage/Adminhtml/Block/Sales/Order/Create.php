@@ -56,7 +56,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create extends Mage_Adminhtml_Block_Widge
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
 
         $pageTitle = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Order_Create_Header')->toHtml();
-        $this->getLayout()->getBlock('page-title')->setPageTitle($pageTitle);
+        if (is_object($this->getLayout()->getBlock('page-title'))) {
+            $this->getLayout()->getBlock('page-title')->setPageTitle($pageTitle);
+        }
     }
 
     /**
