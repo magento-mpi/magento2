@@ -30,6 +30,9 @@ class Magento_Code_Generator_Class
      */
     public function generateForConstructor($className)
     {
+        if (!class_exists($className)) {
+            $this->_generator->generateClass($className);
+        }
         $reflectionClass = new ReflectionClass($className);
         if ($reflectionClass->hasMethod('__construct')) {
             $constructor = $reflectionClass->getMethod('__construct');
