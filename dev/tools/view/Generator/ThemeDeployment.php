@@ -172,7 +172,7 @@ class Generator_ThemeDeployment
         // Create directory
         $dir = dirname($fileDestination);
         if (!is_dir($dir) && !$isDryRun) {
-            mkdir($dir, 0666, true);
+            mkdir($dir, 0777, true);
         }
 
         // Copy file
