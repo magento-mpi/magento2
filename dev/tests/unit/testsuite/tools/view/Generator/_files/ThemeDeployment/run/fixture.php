@@ -1,5 +1,16 @@
 <?php
-// Copy rules to feed the run() methods
+/**
+ * {license_notice}
+ *
+ * @category    Tools
+ * @package     unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * List of copy rules to feed the run() method
+ */
 $sourceDir = __DIR__ . '/source';
 $copyRules = array(
     array(
