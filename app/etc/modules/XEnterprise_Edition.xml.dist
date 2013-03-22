@@ -45,5 +45,6 @@
         <Enterprise_TargetRule><active>true</active></Enterprise_TargetRule>
         <Enterprise_WebsiteRestriction><active>true</active></Enterprise_WebsiteRestriction>
         <Enterprise_Wishlist><active>true</active></Enterprise_Wishlist>
+        <Enterprise_Queue><active>true</active></Enterprise_Queue>
     </modules>
 </config>
