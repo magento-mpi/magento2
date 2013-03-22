@@ -717,6 +717,7 @@
     border: 1px solid #dad1c8;
     background: #fff;
     box-shadow: 0 2px 1px 0 rgba(217, 210, 202, 0.5);
+    padding-left: 10px;
 }
 
 .address-item-edit-content .fieldset:last-child {
