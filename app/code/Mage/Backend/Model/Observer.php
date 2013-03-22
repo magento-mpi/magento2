@@ -18,7 +18,12 @@
  */
 class Mage_Backend_Model_Observer
 {
-
+    /**
+     * Bind backend locale
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Backend_Model_Observer
+     */
     public function bindLocale($observer)
     {
         if ($locale = $observer->getEvent()->getLocale()) {

@@ -87,8 +87,8 @@ class Mage_User_Block_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
 
         $fieldset->addField('interface_locale', 'select', array(
                 'name'   => 'interface_locale',
-                'label'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface locale'),
-                'title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface locale'),
+                'label'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface Locale'),
+                'title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface Locale'),
                 'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
                 'class'  => 'select',
             )

@@ -127,4 +127,74 @@ class Mage_Backend_Helper_DataTest extends Mage_Backend_Area_TestCase
             'index.php/backend/admin/', $this->_helper->getHomePageUrl(), 'Incorrect home page URL'
         );
     }
+
+    /**
+     * Test testSwitchBackendInterfaceLocale data provider
+     *
+     * @return array
+     */
+    public function switchBackendInterfaceLocaleDataProvider()
+    {
+        return array(
+            'case1' => array(
+                'locale' => 'de_DE',
+                'stringToTranslate' => 'Customer View',
+                'expectedTranslation' => 'Kundenansicht',
+            ),
+            'case2' => array(
+                'locale' => 'en_US',
+                'stringToTranslate' => 'Customer View',
+                'expectedTranslation' => 'Customer View',
+            ),
+        );
+    }
+
+    /**
+     * Test for switchBackendInterfaceLocale method
+     *
+     * @param string $locale
+     * @param string $stringToTranslate
+     * @param string $expectedTranslation
+     * @dataProvider switchBackendInterfaceLocaleDataProvider
+     * @covers Mage_Backend_Helper_Data::switchBackendInterfaceLocale
+     */
+    public function testSwitchBackendInterfaceLocale($locale, $stringToTranslate, $expectedTranslation)
+    {
+        $this->_login();
+
+        $this->_helper->switchBackendInterfaceLocale($locale);
+
+        $userInterfaceLocale = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getInterfaceLocale();
+        $this->assertEquals($userInterfaceLocale, $locale);
+
+        $translationModel = Mage::getSingleton('Mage_Core_Model_Translate');
+        $translationLocale = $translationModel->getLocale();
+        $this->assertEquals($translationLocale, $locale);
+
+        $translatedString = $translationModel->translate(array($stringToTranslate));
+        $this->assertEquals($translatedString, $expectedTranslation);
+
+        $this->_logout();
+    }
+
+    /**
+     * Test for getUserInterfaceLocale method
+     *
+     * @covers Mage_Backend_Helper_Data::getUserInterfaceLocale
+     */
+    public function testGetUserInterfaceLocale()
+    {
+        $this->_login();
+
+        $locale = $this->_helper->getUserInterfaceLocale();
+        $this->assertEquals($locale, Mage_Core_Model_Locale::DEFAULT_LOCALE);
+
+        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->setInterfaceLocale('de_DE');
+
+        $locale = $this->_helper->getUserInterfaceLocale();
+        $this->assertEquals($locale, 'de_DE');
+
+        $this->_logout();
+    }
+
 }

@@ -97,4 +97,51 @@ class Mage_Backend_Model_ObserverTest extends Mage_Backend_Area_TestCase
         $observer = new Varien_Object(array('event' => $event));
         return $observer;
     }
+
+    /**
+     * Test for getUserInterfaceLocale method
+     *
+     * @covers Mage_Backend_Model_Observer::bindLocale
+     */
+    public function testBindLocale()
+    {
+        //preconditions
+        $observer = new Varien_Event_Observer();
+        $event = new Varien_Event();
+        $observer->setEvent($event);
+        $observer->getEvent()->setLocale(Mage::getSingleton('Mage_Core_Model_Locale'));
+
+        //check default locale is set
+        $this->_checkSetLocale($observer, Mage_Core_Model_Locale::DEFAULT_LOCALE);
+
+        //check user Interface Locale is applied
+        $user = new Varien_Object();
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        $session->setUser($user);
+        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->setInterfaceLocale('fr_FR');
+        $this->_checkSetLocale($observer, 'fr_FR');
+
+        //check session locale (previously set through get param) is applied
+        Mage::getSingleton('Mage_Backend_Model_Session')->setSessionLocale('es_ES');
+        $this->_checkSetLocale($observer, 'es_ES');
+
+        //check current arrived (through get param) locale is applied
+        $request = Mage::app()->getRequest();
+        $request->setPost(array('locale' => 'de_DE'));
+        $this->_checkSetLocale($observer, 'de_DE');
+    }
+
+    /**
+     * Check set locale
+     *
+     * @param Varien_Event_Observer $observer
+     * @param string $localeCodeToCheck
+     * @return void
+     */
+    protected function _checkSetLocale($observer, $localeCodeToCheck)
+    {
+        $this->_model->bindLocale($observer);
+        $localeCode = $observer->getEvent()->getLocale()->getLocaleCode();
+        $this->assertEquals($localeCode, $localeCodeToCheck);
+    }
 }
