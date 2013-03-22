@@ -20,6 +20,7 @@
     $.widget('vde.vde_panel', {
         options: {
             switchModeEvent: 'switchMode',
+            continueSwitchModeEvent: 'continueSwitchMode',
             loadEvent: 'loaded',
             cellSelector: '.vde_toolbar_cell',
             handlesHierarchySelector: '#vde_handles_hierarchy',
@@ -49,7 +50,8 @@
                 $body.trigger('contentUpdated');
             });
 
-            $('[data-editing="translate"]').on('click', $.proxy(this._onToolbarButtonClick, this));
+            $('[data-frame="editor"]')
+                .on(this.options.continueSwitchModeEvent, $.proxy(this._continueSwitchMode, this));
         },
 
         _initCells : function() {
@@ -71,12 +73,24 @@
         },
 
         /**
-         * Switch mode event handler
+         * Switch mode event handler.
+         * Fire an event to determine if inline translation text is being edited.
          * @protected
          */
         _onSwitchMode: function(event, data) {
+            data.next_action = this.options.continueSwitchModeEvent;
+            data.alert_message = "To switch to the Navigation mode, please save or revert your current text edits."
+            $('[data-frame="editor"]').trigger('toolbarButtonClick', data);
+        },
+
+        /**
+         * Switch mode event handler.
+         * Passed inline translation validation.  Continue on with switching modes.
+         * @protected
+         */
+        _continueSwitchMode: function(event, data) {
             if ('save_changes_url' in data) {
-                this.saveTemporaryLayoutChanges(data.theme_id, data.save_changes_url, data.mode_url)
+                this.saveTemporaryLayoutChanges(data.theme_id, data.save_changes_url, data.mode_url);
             } else {
                 document.location = data.mode_url;
             }
@@ -98,17 +112,6 @@
             } finally {
                 return false;
             }
-        },
-
-        /**
-         * Trigger event the iFrame translateInlineDialogVde widget is listening for to determine if inline
-         * translation text has been modified without being saved.
-         *
-         * @param event
-         * @private
-         */
-        _onToolbarButtonClick: function(event) {
-            parent.jQuery('[data-frame="editor"]').trigger('toolbarButtonClick');
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {

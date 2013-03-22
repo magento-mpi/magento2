@@ -79,7 +79,9 @@
                     ]
                 }, this.options.dialog));
 
+            // Unbind previously bound events that may be present from previous loads of vde container.
             parent.jQuery('[data-frame="editor"]')
+                .off('toolbarButtonClick')
                 .on('toolbarButtonClick', $.proxy(this._checkTranslateEditing, this));
         },
 
@@ -94,7 +96,6 @@
          */
         open: function(translateData, callback, positionDialog) {
             this.callback = callback;
-
 
             this._fillDialogContent(translateData);
             this.positionDialog = positionDialog;
@@ -142,9 +143,13 @@
         /**
          * Determine if user has modified inline translation text, but has not saved it.
          */
-        _checkTranslateEditing: function(e) {
+        _checkTranslateEditing: function(event, data) {
             if (this.isBeingEdited) {
-                alert($.mage.__("Please cancel or save text before continuing!"));
+                alert($.mage.__(data.alert_message));
+            }
+            else {
+                // Inline translation text is not being edited.  Continue on.
+                parent.jQuery('[data-frame="editor"]').trigger(data.next_action, data);
             }
         },
 
