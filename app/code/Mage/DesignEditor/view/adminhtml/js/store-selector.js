@@ -22,7 +22,7 @@
             afterAssignSaveUrl: null,
             storesByThemes: {},
             isMultipleStoreViewMode: null,
-            redirectToVdeOnAssign: false
+            openVdeOnAssign: false
         },
 
         /**
@@ -193,7 +193,7 @@
         assignSaveThemeSuccess: function(response, stores, themeId) {
             if (response.error) {
                 alert($.mage.__('Error') + ': "' + response.message + '".');
-            } else if (this.options.redirectToVdeOnAssign) {
+            } else if (this.options.openVdeOnAssign) {
                 var defaultStore = 0;
                 var url = [
                     this.options.afterAssignSaveUrl + 'store_id',
@@ -203,7 +203,8 @@
                 ].join('/');
                 this.options.storesByThemes[themeId] = stores;
 
-                document.location = url;
+                window.open(url);
+                //document.location = url;
             }
         },
 

@@ -187,7 +187,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
         $options['assignSaveUrl'] = $this->getUrl('*/*/assignThemeToStore', array('theme_id' => $this->getThemeId()));
         $options['afterAssignSaveUrl'] = $this->getUrl('*/*/launch', array('theme_id' => $this->getThemeId()));
         $options['isMultipleStoreViewMode'] = $this->_isMultipleStoreViewMode();
-        $options['redirectToVdeOnAssign'] = $this->getData('redirectToVdeOnAssign');
+        $options['openVdeOnAssign'] = $this->getData('openVdeOnAssign');
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = $this->helper('Mage_Core_Helper_Data');
