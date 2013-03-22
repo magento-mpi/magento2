@@ -48,18 +48,21 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
     /**
      * @param string $baseDir
      * @param array $params
+     * @param Mage_Core_Model_Dir $dir
+     * @param Mage_Core_Model_Config_LoaderInterface $loader
      */
-    public function __construct($baseDir, array $params)
-    {
+    public function __construct(
+        $baseDir, array $params, Mage_Core_Model_Dir $dir = null, Mage_Core_Model_Config_LoaderInterface $loader = null
+    ) {
         parent::__construct('<config/>');
         $this->_params = $params;
-        $this->_dir = new Mage_Core_Model_Dir(
+        $this->_dir = $dir ?: new Mage_Core_Model_Dir(
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local()),
             $baseDir,
             $this->getParam(Mage::PARAM_APP_URIS, array()),
             $this->getParam(Mage::PARAM_APP_DIRS, array())
         );
-        $this->_loader = new Mage_Core_Model_Config_Loader_Primary(
+        $this->_loader = $loader ?: new Mage_Core_Model_Config_Loader_Primary(
             new Mage_Core_Model_Config_Loader_Local(
                 $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG),
                 $this->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
