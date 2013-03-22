@@ -2833,6 +2833,11 @@ table tbody tr:nth-child(odd):hover th {
     left: -1px;
 }
 
+.col-2-left-layout .main-col,
+.col-2-right-layout .main-col {
+    min-width: 730px;
+}
+
 /* Sidebar title and store view switcher*/
 /* TODO: temporary styles */
 .side-col h3,

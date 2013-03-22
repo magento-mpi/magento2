@@ -2082,17 +2082,18 @@
     width: 75px;
 }
 
+[class^=" adminhtml-sales-"] .col-gtbase,
+[class^=" adminhtml-sales-"] .col-gtpurchased {
+    text-align: right;
+    white-space: normal;
+    width: 75px;
+}
+
 [class^=" adminhtml-sales-"] .col-order-number,
 [class^=" adminhtml-sales-"] .col-rma-number,
 [class^=" adminhtml-rma-"] .col-order-number,
 [class^=" adminhtml-rma-"] .col-rma-number {
     text-align: left;
-}
-
-[class^=" adminhtml-sales-"] .col-gtbase,
-[class^=" adminhtml-sales-"] .col-gtpurchased {
-    text-align: right;
-    width: 80px;
 }
 
 [class^=" adminhtml-rma-"] .col-status,
@@ -2103,14 +2104,18 @@
     width: 100px;
 }
 
-[class^=" adminhtml-sales-"] .col-parent-transaction-id,
-[class^=" adminhtml-sales-"] .col-transaction-id {
-    width: 140px;
+[class^=" adminhtml-sales-"] tr.headings .col-parent-transaction-id > span,
+[class^=" adminhtml-sales-"] tr.headings .col-method > span,
+[class^=" adminhtml-sales-"] tr.headings .col-transaction-id > span,
+[class^=" adminhtml-sales-"] tr.headings .col-transaction-type > span,
+[class^=" adminhtml-sales-"] tr.headings .col-gtbase > span,
+[class^=" adminhtml-sales-"] tr.headings .col-gtpurchased > span,
+[class^=" adminhtml-sales-order-"] tr.headings .col-discont > span {
+    white-space: normal;
 }
 
 [class^=" adminhtml-sales-"] .col-period,
 [class^=" adminhtml-rma-"] .col-period {
-    white-space: nowrap;
     width: 150px;
 }
 
@@ -2183,6 +2188,13 @@
 
 [class^=" adminhtml-sales-order-"] .item-options dd {
     margin: 0 0 0 10px;
+}
+
+[class^=" adminhtml-sales-"] .hor-scroll {
+    margin-bottom: -4px;
+    overflow: auto;
+    padding-bottom: 4px;
+    width: 100%;
 }
 
 .adminhtml-rma-item-attribute-edit .col-position input {
