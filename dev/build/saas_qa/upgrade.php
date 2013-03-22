@@ -38,6 +38,7 @@ $configurations = array(
         Mage_Core_Model_Dir::MEDIA => $params['media-dir'],
         Mage_Core_Model_Dir::VAR_DIR => $params['var-dir'],
     ),
+    Mage::PARAM_MODE => Mage_Core_Model_App_State::MODE_DEVELOPER, // Force for better error reporting
 );
 $entryPoint = new Mage_Install_Model_EntryPoint_Upgrade(BP, $configurations);
 $entryPoint->processRequest();

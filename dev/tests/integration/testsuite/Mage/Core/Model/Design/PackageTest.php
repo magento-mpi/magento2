@@ -196,7 +196,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool $devMode
+     * @param string $appMode
      * @param string $file
      * @param string $result
      *
@@ -205,17 +205,18 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store dev/static/sign 0
      * @magentoAppIsolation enabled
      */
-    public function testGetViewUrl($devMode, $file, $result)
+    public function testGetViewUrl($appMode, $file, $result)
     {
-        if ($devMode != Mage::getIsDeveloperMode()) {
-            $this->markTestSkipped('Implemented to be run in developer mode');
+        $currentAppMode = Mage::getObjectManager()->get('Mage_Core_Model_App_State')->getMode();
+        if ($currentAppMode != $appMode) {
+            $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
         $this->_emulateFixtureTheme();
         $this->assertEquals($this->_model->getViewFileUrl($file), $result);
     }
 
     /**
-     * @param bool $devMode
+     * @param string $appMode
      * @param string $file
      * @param string $result
      *
@@ -224,10 +225,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store dev/static/sign 1
      * @magentoAppIsolation enabled
      */
-    public function testGetViewUrlSigned($devMode, $file, $result)
+    public function testGetViewUrlSigned($appMode, $file, $result)
     {
-        if ($devMode != Mage::getIsDeveloperMode()) {
-            $this->markTestSkipped('Implemented to be run in developer mode');
+        $currentAppMode = Mage::getObjectManager()->get('Mage_Core_Model_App_State')->getMode();
+        if ($currentAppMode != $appMode) {
+            $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
         $url = $this->_model->getViewFileUrl($file);
         $this->assertEquals(strpos($url, $result), 0);
@@ -246,37 +248,37 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                false,
+                Mage_Core_Model_App_State::MODE_DEFAULT,
                 'Mage_Page::favicon.ico',
                 'http://localhost/pub/static/frontend/test/default/en_US/Mage_Page/favicon.ico',
             ),
             array(
-                true,
+                Mage_Core_Model_App_State::MODE_DEVELOPER,
                 'prototype/prototype.js',
                 'http://localhost/pub/lib/prototype/prototype.js'
             ),
             array(
-                false,
+                Mage_Core_Model_App_State::MODE_DEFAULT,
                 'prototype/prototype.js',
                 'http://localhost/pub/lib/prototype/prototype.min.js'
             ),
             array(
-                true,
+                Mage_Core_Model_App_State::MODE_DEVELOPER,
                 'Mage_Page::menu.js',
                 'http://localhost/pub/static/frontend/test/default/en_US/Mage_Page/menu.js'
             ),
             array(
-                false,
+                Mage_Core_Model_App_State::MODE_DEFAULT,
                 'Mage_Page::menu.js',
                 'http://localhost/pub/static/frontend/test/default/en_US/Mage_Page/menu.js'
             ),
             array(
-                false,
+                Mage_Core_Model_App_State::MODE_DEFAULT,
                 'Mage_Catalog::widgets.css',
                 'http://localhost/pub/static/frontend/test/default/en_US/Mage_Catalog/widgets.css'
             ),
             array(
-                true,
+                Mage_Core_Model_App_State::MODE_DEVELOPER,
                 'Mage_Catalog::widgets.css',
                 'http://localhost/pub/static/frontend/test/default/en_US/Mage_Catalog/widgets.css'
             ),
