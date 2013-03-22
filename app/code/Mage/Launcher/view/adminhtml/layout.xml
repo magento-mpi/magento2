@@ -50,7 +50,6 @@
             <!--Product Tile-->
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::catalog/category-selector.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::json2.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::mage/backend/suggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.hotkeys.js</file></action>

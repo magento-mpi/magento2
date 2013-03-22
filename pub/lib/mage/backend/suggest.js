@@ -70,7 +70,7 @@
         },
 
         /**
-         * Render base elemments for suggest component
+         * Render base elements for suggest component
          * @private
          */
         _render: function() {
@@ -146,11 +146,9 @@
                 ctrlKey: event.ctrlKey,
                 keyCode: event.keyCode,
                 which: event.keyCode
-            });
-            (this._control.selector ?
-                this.dropdown.find(this._control.selector):
-                this.dropdown)
-                    .trigger(fakeEvent);
+            }),
+            target = this._control.selector ? this.dropdown.find(this._control.selector) : this.dropdown;
+            target.trigger(fakeEvent);
         },
 
         /**
@@ -448,10 +446,11 @@
                 items: this._items,
                 term: this._term,
                 optionData: function(item) {
-                    return 'data-suggest-option="' + JSON.stringify(item).replace(/"/g, '&quot;') + '"';
+                    return 'data-suggest-option="' +
+                        $('<div>').text(JSON.stringify(item)).html().replace(/"/g, '&quot;') + '"';
                 },
                 itemSelected: $.proxy(this._isItemSelected, this),
-                noRecordsText: $.mage.__('No records found')
+                noRecordsText: $.mage.__('No records found.')
             });
         },
 
@@ -882,14 +881,15 @@
          */
         _createOption: function(item) {
             var option = this._getOption(item);
-            return (option.length ?
-                option :
-                $('<option value="' + item.id + '" selected="selected">' + item.label + '</option>'))
-                .data('renderedOption', this._renderOption(item));
+            if (!option.length) {
+                option = $('<option>', {value: item.id, selected: true}).text(item.label);
+            }
+            return option.data('renderedOption', this._renderOption(item));
         },
 
         /**
          * Add selected item in to select options
+         * @param {Object} e - event object
          * @param item
          * @private
          */

@@ -21,7 +21,7 @@
     $.widget('mage.newCategoryDialog', {
         _create: function () {
             var widget = this;
-            $('#new_category_parent').after($('<input>', {
+            $('#new_category_parent').before($('<input>', {
                 id: 'new_category_parent-suggest',
                 placeholder: 'start typing to search category'
             }));
