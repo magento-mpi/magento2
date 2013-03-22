@@ -1,14 +1,13 @@
 <?php
 /**
- * Abstract API service.
- * @todo Currently this class suitable only for entity-oriented services (i.e. those for which "item" and "items" methods make sense)
+ * Abstract entity API service.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Webapi_Service_Abstract
+abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstract
 {
     /**
      * Array key which represents related data
@@ -79,15 +78,10 @@ abstract class Mage_Webapi_Service_Abstract
     protected function _getData($objectId, $fieldsetId = '')
     {
         $data = array();
+        $object = $this->_getObject($objectId, $fieldsetId);
 
-        try {
-            $object = $this->_getObject($objectId, $fieldsetId);
-
-            if ($object->getId()) {
-                $data = $this->_getObjectData($object);
-            }
-        } catch (Mage_Core_Exception $e) {
-            // Empty array is going to be returned
+        if ($object->getId()) {
+            $data = $this->_getObjectData($object);
         }
 
         return $data;
@@ -141,10 +135,9 @@ abstract class Mage_Webapi_Service_Abstract
     protected function _getObjectData(Varien_Object $object)
     {
         $data = $object->getData();
-        $this->_formatObjectData($data);
-
         // Additional data, which is not contained in object's _data
         $data = $this->_setRelatedData($data, $this->getDictionary($object));
+        $data = $this->_formatObjectData($data);
 
         return $data;
     }
@@ -154,13 +147,18 @@ abstract class Mage_Webapi_Service_Abstract
      * @todo Decide what to do with objects
      *
      * @param array $data
+     * @return array
      */
-    protected function _formatObjectData(array &$data)
+    protected function _formatObjectData(array $data)
     {
         foreach ($data as $key => $value) {
             if (is_object($value)) {
                 $data[$key] = '**OBJECT**';
+            } else if (is_array($value)) {
+                $data[$key] = $this->_formatObjectData($value);
             }
         }
+
+        return $data;
     }
 }
