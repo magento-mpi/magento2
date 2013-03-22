@@ -65,7 +65,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function setConfigurableAttributesToDefault()
     {
         //Data
-        $attributeThird = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $attributeThird = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
+            array('visible_on_product_view_page_on_frontend' => 'Yes'));
         $attributeForth = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $xssAttribute = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
             array(
@@ -327,7 +328,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         $this->productHelper()->openProductTab('general');
-        $this->addParameter('field', $field);
+        $this->addParameter('fieldId', $field);
         //Verifying
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
@@ -463,6 +464,9 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function selectAttributeWithSpecialData($attributeTitle, $attributeData)
     {
         //Data
+        if ($attributeData == 'attribute_xss') {
+            $this->markTestIncomplete('Sync Ninja-Suggest');
+        }
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array(
                 'general_attribute_1' => $attributeData[$attributeTitle]['admin_title'],
@@ -814,7 +818,10 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->addParameter('attributeTitle', $attributeData['attribute1']['admin_title']);
         $this->fillField('frontend_label', '');
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
+        $this->productHelper()->saveProduct('continueEdit');
+        $this->addFieldIdToMessage('field', 'frontend_label');
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
         $this->fillCheckbox('use_default_label', 'Yes');
         $this->productHelper()->saveProduct();
         //Verification
