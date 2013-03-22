@@ -44,7 +44,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
             }
         }
         if ($definitions) {
-            $format = $config->getDefinionFormat();
+            $format = $config->getDefinitionFormat();
             if (is_string($definitions)) {
                 $extractor = $format == 'igbinary' ? 'igbinary_unserialize' : 'unserialize';
                 $definitions = $extractor($definitions);
