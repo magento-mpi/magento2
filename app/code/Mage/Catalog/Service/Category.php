@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Catalog_Service_Product extends Mage_Core_Service_Abstract
+class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
 {
-    const SERVICE_ID = 'Mage_Catalog_Service_Product';
+    const SERVICE_ID = 'Mage_Catalog_Service_Category';
 
     /**
      * Return resource object or resource object data.
      *
+     * @adapter context | standard | legacy
      * @param mixed $args
      * @return mixed
      */
@@ -31,50 +32,33 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Abstract
      * Returns model which operated by current service.
      *
      * @param Mage_Core_Service_Args $args
-     * @return Mage_Catalog_Model_Product
+     * @return Mage_Catalog_Service_Category
      */
     protected function _getItem(Mage_Core_Service_Args $args)
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->_objectManager->create('Mage_Catalog_Model_Product');
+        /** @var $category Mage_Catalog_Model_Category */
+        $category = $this->_objectManager->create('Mage_Catalog_Model_Category');
 
         $id = $args->getId();
-        // TODO: try as `sku` first (can be voided if we won't be supporting numeric SKUs)
-        $productId = $product->getIdBySku($id);
-        if (false === $productId) {
-            if (is_numeric($id)) {
-                $productId = $id;
-            }
-        }
 
         // `set` methods are creating troubles
         foreach ($args->getData() as $k => $v) {
-            $product->setDataUsingMethod($k, $v);
+            $category->setDataUsingMethod($k, $v);
         }
 
-        if (false !== $productId) {
+        if (false !== $id) {
             // TODO: Depends on MDS-167
             //$fieldset = $args->getFieldset();
-            //$product->setFieldset($fieldset);
+            //$category->setFieldset($fieldset);
 
-            $product->load($productId);
+            $category->load($id);
         }
 
-        if (!$product->getId()) {
+        if (!$category->getId()) {
             // TODO: so what to do?
-            //assumption:
-            $product->unsetData();
-        } elseif (!$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
-            // TODO: so what to do?
-            //assumption:
-            $product->unsetData();
-        } elseif (!in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
-            // TODO: so what to do?
-            //assumption:
-            $product->unsetData();
         }
 
-        return $product;
+        return $category;
     }
 
     /**
@@ -97,18 +81,18 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Abstract
      * Get collection object of the current service
      *
      * @param Mage_Core_Service_Args $args
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Category_Collection
      */
     protected function _getItems(Mage_Core_Service_Args $args)
     {
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
 
         // Depends on MDS-167
         //$fieldset = $args->getFieldset();
         // $collection->setFieldset($fieldsetId);
 
-        $productIds = $args->getProductIds();
-        $collection->addIdFilter($productIds);
+        $categoryIds = $args->getCategoryIds();
+        $collection->addIdFilter($categoryIds);
 
         $filters = $args->getFilters();
         $collection->addAttributeToFilter($filters);
@@ -117,5 +101,21 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Abstract
         //$collection->load();
 
         return $collection;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param Mage_Catalog_Service_Category $category
+     * @return array
+     */
+    protected function _getDictionary($category)
+    {
+        if (empty($this->_dictionary)) {
+
+            $this->_dictionary = array();
+        }
+
+        return $this->_dictionary;
     }
 }

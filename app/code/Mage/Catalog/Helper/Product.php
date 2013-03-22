@@ -155,6 +155,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      */
     public function canShow($product, $where = 'catalog')
     {
+        // TODO: we shouldn't allow this case for any reason
         if (is_int($product)) {
             $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product);
         }
@@ -286,14 +287,13 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return false;
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($productId);
+        $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
+        //$argsObject = new Mage_Core_Service_Args();
+        //$product = $serviceManager->call('Mage_Catalog_Service_Product', 'getItem', $argsObject);
+        //$product = $serviceManager->call('Mage_Catalog_Service_Product', 'getItem', array('id' => $productId));
+        $product = $serviceManager->call('Mage_Catalog_Service_Product', 'getItem', $productId);
 
-        if (!$this->canShow($product)) {
-            return false;
-        }
-        if (!in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
+        if (!$product->getid()) {
             return false;
         }
 
@@ -307,9 +307,8 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         } elseif (!$product->canBeShowInCategory($categoryId)) {
             $categoryId = null;
         }
-
         if ($categoryId) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+            $category = $serviceManager->call('Mage_Catalog_Service_Category', 'getItem', array('id' => $categoryId));
             $product->setCategory($category);
             Mage::register('current_category', $category);
         }
@@ -321,9 +320,9 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         try {
             Mage::dispatchEvent('catalog_controller_product_init', array('product' => $product));
             Mage::dispatchEvent('catalog_controller_product_init_after',
-                            array('product' => $product,
-                                'controller_action' => $controller
-                            )
+                array('product' => $product,
+                    'controller_action' => $controller
+                )
             );
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
