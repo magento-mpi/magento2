@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build]' . PHP_EOL);
+define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee|saas>" [--build]' . PHP_EOL);
 try {
     $options = getopt('', array('dir:', 'edition:', 'build'));
     if (!isset($options['dir']) || !isset($options['edition'])) {
@@ -28,6 +28,7 @@ try {
             $lists[] = 'saas.txt';
             break;
         case 'saas':
+            $lists[] = 'not_saas.txt';
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");

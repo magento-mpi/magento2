@@ -134,20 +134,6 @@ if ($('option_panel_type_select')) {
 
 selectOptionType.bindRemoveButtons();
 
-Validation.addAllThese([
-    ['required-option-select-type-rows', <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode(Mage::helper('Mage_Catalog_Helper_Data')->__('Please add rows to option.')); ?>, function(v, elm) {
-            var optionContainerElm = elm.up('div.grid');
-            var selectTypesFlag = false;
-            selectTypeElements = $$('#'+optionContainerElm.id+' .select-type-title');
-            selectTypeElements.each(function(elm){
-                if (elm.id && elm.up('tr').visible()) {
-                    selectTypesFlag = true;
-                }
-            });
-            elm.advaiceContainer = optionContainerElm.id+'_advice';
-        return selectTypesFlag;
-}]]);
-
 if($('add_select_row_button')){
     Event.observe('add_select_row_button', 'click', selectOptionType.add.bind(selectOptionType));
 }

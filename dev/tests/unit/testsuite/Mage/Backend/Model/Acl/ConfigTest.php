@@ -35,7 +35,7 @@ class Mage_Backend_Model_Acl_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_readerMock = $this->getMock('Magento_Acl_Config_Reader', array(), array(), '', false);
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_cacheMock  = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
+        $this->_cacheMock  = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
 
         $this->_model = new Mage_Backend_Model_Acl_Config($this->_configMock, $this->_cacheMock,
             $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false)
@@ -50,9 +50,6 @@ class Mage_Backend_Model_Acl_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configMock->expects($this->once())->method('getModelInstance')
             ->with($this->equalTo('Magento_Acl_Config_Reader'))
             ->will($this->returnValue($this->_readerMock));
-
-        $this->_cacheMock->expects($this->exactly(2))->method('canUse')
-            ->with($this->equalTo('config'))->will($this->returnValue(true));
 
         $this->_cacheMock->expects($this->once())->method('load')
             ->with($this->equalTo(Mage_Backend_Model_Acl_Config::CACHE_ID))
@@ -85,9 +82,6 @@ class Mage_Backend_Model_Acl_ConfigTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Magento_Acl_Config_Reader'))
             ->will($this->returnValue($this->_readerMock));
 
-        $this->_cacheMock->expects($this->exactly(2))->method('canUse')
-            ->with($this->equalTo('config'))->will($this->returnValue(true));
-
         $this->_cacheMock->expects($this->once())->method('load')
             ->with($this->equalTo(Mage_Backend_Model_Acl_Config::CACHE_ID))
             ->will($this->returnValue(null));
@@ -109,9 +103,6 @@ class Mage_Backend_Model_Acl_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_configMock->expects($this->never())->method('getModelInstance');
 
-        $this->_cacheMock->expects($this->exactly(2))->method('canUse')
-            ->with($this->equalTo('config'))->will($this->returnValue(true));
-
         $this->_cacheMock->expects($this->exactly(2))->method('load')
             ->with($this->equalTo(Mage_Backend_Model_Acl_Config::CACHE_ID))
             ->will($this->returnValue('<?xml version="1.0" encoding="utf-8"?><config><acl></acl></config>'));
@@ -126,31 +117,6 @@ class Mage_Backend_Model_Acl_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($secondCall);
 
         $this->assertEquals($firstCall, $secondCall);
-    }
-
-    public function testGetAclResourcesWithDisabledCache()
-    {
-        $aclResources = new DOMDocument();
-        $aclResources->loadXML('<?xml version="1.0" encoding="utf-8"?><config><acl></acl></config>');
-
-        $this->_configMock->expects($this->once())->method('getModelInstance')
-            ->with($this->equalTo('Magento_Acl_Config_Reader'))
-            ->will($this->returnValue($this->_readerMock));
-
-        $this->_cacheMock->expects($this->exactly(4))->method('canUse')
-            ->with($this->equalTo('config'))->will($this->returnValue(false));
-
-        $this->_cacheMock->expects($this->never())->method('load');
-        $this->_cacheMock->expects($this->never())->method('save');
-
-        $this->_readerMock->expects($this->exactly(2))->method('getAclResources')
-            ->will($this->returnValue($aclResources));
-
-        $firstCall = $this->_model->getAclResources();
-        $secondCall = $this->_model->getAclResources();
-
-        $this->assertNotEmpty($firstCall);
-        $this->assertNotEmpty($secondCall);
     }
 }
 

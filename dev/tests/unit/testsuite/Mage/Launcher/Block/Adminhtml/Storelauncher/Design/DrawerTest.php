@@ -33,14 +33,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
      *
      * @var Mage_Launcher_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperLauncherMock;
+    protected $_launcherHelperMock;
 
     /**
      * DB file storage mock
      *
      * @var Mage_Core_Helper_File_Storage_Database|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFileDbMock;
+    protected $_fileDbHelperMock;
 
     /**
      * Config data array, used in configCallback method
@@ -73,10 +73,10 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             )
         );
 
-        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('getAllThemes'), array(), '', false);
+        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('getPhysicalThemes'), array(), '', false);
 
         $themeService->expects($this->any())
-            ->method('getAllThemes')
+            ->method('getPhysicalThemes')
             ->will($this->returnValue($this->_getThemes()));
 
         $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
@@ -87,14 +87,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             ->method('getCode')
             ->will($this->returnValue('default'));
 
-        $this->_helperLauncherMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
-        $this->_helperLauncherMock->expects($this->any())
+        $this->_launcherHelperMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
+        $this->_launcherHelperMock->expects($this->any())
             ->method('getCurrentStoreView')
             ->will($this->returnValue($store));
 
-        $this->_helperFileDbMock = $this->getMock('Mage_Core_Helper_File_Storage_Database',
+        $this->_fileDbHelperMock = $this->getMock('Mage_Core_Helper_File_Storage_Database',
             array(), array(), '', false);
-        $this->_helperFileDbMock->expects($this->any())
+        $this->_fileDbHelperMock->expects($this->any())
             ->method('checkDbUsage')
             ->will($this->returnValue(false));
 
@@ -164,9 +164,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     {
         switch ($name) {
             case 'Mage_Launcher_Helper_Data':
-                return $this->_helperLauncherMock;
+                return $this->_launcherHelperMock;
             case 'Mage_Core_Helper_File_Storage_Database':
-                return $this->_helperFileDbMock;
+                return $this->_fileDbHelperMock;
         }
         return null;
     }
@@ -179,8 +179,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     protected function _getConfigSource()
     {
         return array(
-            1 => array('design/theme/theme_id' => '118'),
-            null => array('design/theme/theme_id' => '272'),
+            1 => array(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID => '118'),
+            null => array(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID => '272'),
         );
     }
 
@@ -192,8 +192,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     protected function _getConfigSourceLogo()
     {
         return array(
-            1 => array('design/header/logo_src' => 'dragons.png'),
-            null => array('design/header/logo_src' => 'magento.png'),
+            1 => array(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'dragons.png'),
+            null => array(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'magento.png'),
         );
     }
 

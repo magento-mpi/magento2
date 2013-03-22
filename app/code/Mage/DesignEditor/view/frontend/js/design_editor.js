@@ -364,7 +364,17 @@
         }
     });
 
-    $(document).ready(function( ){
+    $(document).ready(function() {
         $(window).vde_connector();
+
+        if (window.parent) {
+            (function($) {
+                var eventData = {
+                    content: 'iframe',
+                    elements: {mousedown: ['.vde_removable .vde_element_remove img', '.vde_draggable']}
+                };
+                $('body').trigger('registerElements', eventData);
+            })(window.parent.jQuery);
+        }
     });
 })( jQuery );

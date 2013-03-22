@@ -36,7 +36,7 @@ class Phoenix_Moneybookers_Block_Placeform extends Mage_Core_Block_Template
     }
 
     /**
-     * Get Form data by using ogone payment api
+     * Retrieve form data
      *
      * @return array
      */
