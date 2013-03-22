@@ -17,11 +17,6 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    /**
-     * Contains related object data, which can not be retrieved through call to its getData() method
-     */
-    protected $_dictionary = array();
-
     public function __construct(Magento_ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
@@ -46,43 +41,51 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     abstract protected function _getObjectCollection(array $objectIds, $fieldsetId = '');
 
     /**
-     * Returns data related to the object, which can not be retrieved by simply calling getData() method.
-     *
-     * @param mixed $object Object from which data is going to be retrieved
-     * @return array
-     */
-    abstract protected function _getDictionary($object);
-
-    /**
-     * Wrapper around _getDictionary().
-     *
-     * @param mixed $object Object from which data is going to be retrieved
-     * @return array
-     */
-    public function getDictionary($object)
-    {
-        if (empty($this->_dictionary)) {
-            $this->_dictionary = $this->_getDictionary($object);
-        }
-
-        return $this->_dictionary;
-    }
-
-    /**
      * Extract data out of the project object retrieved by ID.
      *
      * @param mixed  $objectId
+     * @param string $methodId
      * @param string $fieldsetId
      * @return array
      */
-    protected function _getData($objectId, $fieldsetId = '')
+    protected function _getData($objectId, $methodId, $fieldsetId = '')
     {
         $data = array();
         $object = $this->_getObject($objectId, $fieldsetId);
 
         if ($object->getId()) {
             $data = $this->_getObjectData($object);
+            $data = $this->_applySchema($data, $object, $methodId);
         }
+
+        return $data;
+    }
+
+    /**
+     * Extract data from the loaded object and make it conform with schema.
+     *
+     * @param Varien_Object $object
+     * @return array
+     */
+    protected function _getObjectData(Varien_Object $object)
+    {
+        $data = $object->getData();
+
+        // Make camelCase out of underscore
+        foreach ($data as $key => $value) {
+            $camelCase = preg_replace_callback(
+                '/_(.)/',
+                function ($matches) { return strtoupper($matches[1]);},
+                $key
+            );
+
+            if ($camelCase !== $key) {
+                $data[$camelCase] = $data[$key];
+                unset($data[$key]);
+            }
+        }
+
+        $data = $this->_formatObjectData($data);
 
         return $data;
     }
@@ -91,10 +94,11 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
      * Get data from several objects at once.
      *
      * @param array  $objectIds
+     * @param string $methodId
      * @param string $fieldsetId
      * @return array
      */
-    protected function _getCollectionData(array $objectIds, $fieldsetId = '')
+    protected function _getCollectionData(array $objectIds, $methodId, $fieldsetId = '')
     {
         $collection = $this->_getObjectCollection($objectIds, $fieldsetId);
         $dataCollection = array();
@@ -102,6 +106,7 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
         foreach ($collection as $item) {
             /** @var $item Varien_Object */
             $dataCollection[] = $this->_getObjectData($item);
+            $dataCollection = $this->_applySchema($dataCollection, $item, $methodId);
         }
 
         return $dataCollection;
@@ -127,19 +132,16 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     }
 
     /**
-     * Extract data from the loaded object with service data added.
+     * Makes passed data to be compatible with schema.
      *
+     * @param array         $data
      * @param Varien_Object $object
+     * @param string        $methodId
      * @return array
      */
-    protected function _getObjectData(Varien_Object $object)
+    protected function _applySchema(array $data, Varien_Object $object, $methodId)
     {
-        $data = $object->getData();
-        // Additional data, which is not contained in object's _data
-        $data = $this->_setRelatedData($data, $this->getDictionary($object));
-        $data = $this->_formatObjectData($data);
-
-        return $data;
+        // @todo
     }
 
     /**
@@ -160,5 +162,19 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
         }
 
         return $data;
+    }
+
+    /**
+     * Returns fields given fieldset ID.
+     *
+     * @param string $fieldsetId
+     * @return array
+     */
+    protected function _getFieldset($fieldsetId)
+    {
+        // @todo
+//        $fields = Mage::getConfig()->getNode('global/fieldset/' . $fieldsetId)->asArray();
+//
+//        return array_keys($fields);
     }
 }

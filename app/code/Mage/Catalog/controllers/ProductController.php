@@ -107,7 +107,7 @@ class Mage_Catalog_ProductController
         $productService = Mage::getObjectManager()->create('Mage_Catalog_Service_Product');
 
         $data = $productService->item(
-            new Mage_Core_Service_Parameter_Input($productService->getMethodId('item'), array('product_id' => 1))
+            new Mage_Core_Service_Parameter_Input($productService->getMethodId('item'), array('id' => 1))
         );
 
         die(nl2br(print_r($data, true)));
