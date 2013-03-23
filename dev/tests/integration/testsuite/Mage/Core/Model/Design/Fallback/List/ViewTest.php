@@ -22,9 +22,9 @@ class Mage_Core_Model_Design_Fallback_List_ViewTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @dataProvider getPatternsDirsDataProvider
+     * @dataProvider getPatternDirsDataProvider
      */
-    public function testGetPatternsDirs($namespace, $module, $locale, $expectedIndexes)
+    public function testGetPatternDirs($namespace, $module, $locale, $expectedIndexes)
     {
         $dir = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
 
@@ -71,7 +71,7 @@ class Mage_Core_Model_Design_Fallback_List_ViewTest extends PHPUnit_Framework_Te
         $this->assertSame($expectedArray, $actualResult);
     }
 
-    public function getPatternsDirsDataProvider()
+    public function getPatternDirsDataProvider()
     {
         return array(
             'all parameters passed' => array(
@@ -108,11 +108,12 @@ class Mage_Core_Model_Design_Fallback_List_ViewTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @dataProvider getPatternsDirsDataExceptionProvider
-     * @expectedException InvalidArgumentException
+     * @dataProvider getPatternDirsExceptionDataProvider
      */
-    public function testGetPatternsDirsExceptions($setParams)
+    public function testGetPatternDirsException($setParams, $expectedMessage)
     {
+        $this->setExpectedException('InvalidArgumentException', $expectedMessage);
+
         $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme->setThemePath('theme_path');
 
@@ -127,11 +128,17 @@ class Mage_Core_Model_Design_Fallback_List_ViewTest extends PHPUnit_Framework_Te
         $this->_model->getPatternDirs($params);
     }
 
-    public function getPatternsDirsDataExceptionProvider()
+    public function getPatternDirsExceptionDataProvider()
     {
         return array(
-            'No theme' => array(array('theme' => null)),
-            'No area' => array(array('area' => null)),
+            'No theme' => array(
+                array('theme' => null),
+                '$params["theme"] should be passed and should implement Mage_Core_Model_ThemeInterface'
+            ),
+            'No area' => array(
+                array('area' => null),
+                'Required parameter \'area\' was not passed'
+            ),
         );
     }
 }

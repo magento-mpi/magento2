@@ -15,6 +15,11 @@
 class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @var Mage_Core_Model_Design_Fallback_List_File
      */
     protected $_fallbackFile;
@@ -41,6 +46,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
 
     public function setUp()
     {
+        $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $this->_dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
         $this->_fallbackFile =
             $this->getMock('Mage_Core_Model_Design_Fallback_List_File', array(), array($this->_dirs));
@@ -53,9 +59,12 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
 
     public function tearDown()
     {
+        $this->_objectManager = null;
+        $this->_dirs = null;
         $this->_fallbackFile = null;
         $this->_fallbackLocale = null;
         $this->_fallbackViewFile = null;
+        $this->_theme = null;
     }
 
     /**
@@ -64,9 +73,9 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
     public function testGetFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName)
     {
         $filesystem = $this->_getFileSystemMock($targetFile);
-        $objectManager = $this->_getObjectManagerMock();
 
-        $fallback = $this->_getModel($objectManager, $filesystem, $this->_dirs);
+        $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($this->_objectManager, $filesystem,
+            $this->_dirs, $this->_fallbackFile, $this->_fallbackLocale, $this->_fallbackViewFile);
 
         $params = array('area' => 'area51', 'theme' => $this->_theme, 'namespace' => $namespace, 'module' => $module);
 
@@ -120,9 +129,9 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
     public function testGetLocaleFile($targetFile, $expectedFileName)
     {
         $filesystem = $this->_getFileSystemMock($targetFile);
-        $objectManager = $this->_getObjectManagerMock();
 
-        $fallback = $this->_getModel($objectManager, $filesystem, $this->_dirs);
+        $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($this->_objectManager, $filesystem,
+            $this->_dirs, $this->_fallbackFile, $this->_fallbackLocale, $this->_fallbackViewFile);
 
         $params = array('area' => 'area51', 'theme' => $this->_theme, 'locale' => 'locale');
 
@@ -156,9 +165,9 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
     public function testGetViewFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName)
     {
         $filesystem = $this->_getFileSystemMock($targetFile);
-        $objectManager = $this->_getObjectManagerMock();
 
-        $fallback = $this->_getModel($objectManager, $filesystem, $this->_dirs);
+        $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($this->_objectManager, $filesystem,
+            $this->_dirs, $this->_fallbackFile, $this->_fallbackLocale, $this->_fallbackViewFile);
 
         $params = array('area' => 'area51', 'theme' => $this->_theme, 'namespace' => $namespace, 'module' => $module,
             'locale' => 'locale');
@@ -171,12 +180,6 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
         $filename = $fallback->getViewFile('area51', $this->_theme, 'locale', 'file.txt', $fullModuleName);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
-    }
-
-    protected function _getModel($objectManager, $filesystem, $dirs)
-    {
-        return new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($objectManager, $filesystem, $dirs,
-            $this->_fallbackFile, $this->_fallbackLocale, $this->_fallbackViewFile);
     }
 
     /**
@@ -197,15 +200,5 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
         ));
 
         return $filesystem;
-    }
-
-    /**
-     * @return Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getObjectManagerMock()
-    {
-        /** @var $objectManager Magento_ObjectManager */
-        $objectManager = $this->getMock('Magento_ObjectManager');
-        return $objectManager;
     }
 }

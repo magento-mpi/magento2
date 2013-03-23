@@ -130,9 +130,8 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @param string $file
      * @expectedException Magento_Exception
-     * @dataProvider getViewUrlDataExceptionProvider
+     * @dataProvider getViewUrlExceptionDataProvider
      */
     public function testGetViewUrlException($file)
     {
@@ -142,7 +141,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     /**
      * @return array
      */
-    public function getViewUrlDataExceptionProvider()
+    public function getViewUrlExceptionDataProvider()
     {
         return array(
             'non-existing theme file'  => array('path/to/non-existing-file.ext'),

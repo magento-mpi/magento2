@@ -21,7 +21,7 @@ class Mage_Core_Model_Design_Fallback_List_LocaleTest extends PHPUnit_Framework_
         $this->_model = Mage::getObjectManager()->create('Mage_Core_Model_Design_Fallback_List_Locale');
     }
 
-    public function testGetPatternsDirs()
+    public function testGetPatternDirs()
     {
         $dir = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
 
@@ -51,11 +51,13 @@ class Mage_Core_Model_Design_Fallback_List_LocaleTest extends PHPUnit_Framework_
     }
 
     /**
-     * @dataProvider getPatternsDirsDataExceptionProvider
+     * @dataProvider getPatternDirsExceptionDataProvider
      * @expectedException InvalidArgumentException
      */
-    public function testGetPatternsDirsExceptions($setParams)
+    public function testGetPatternDirsException($setParams, $expectedMessage)
     {
+        $this->setExpectedException('InvalidArgumentException', $expectedMessage);
+
         $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $theme->setThemePath('theme_path');
 
@@ -69,12 +71,21 @@ class Mage_Core_Model_Design_Fallback_List_LocaleTest extends PHPUnit_Framework_
         $this->_model->getPatternDirs($params);
     }
 
-    public function getPatternsDirsDataExceptionProvider()
+    public function getPatternDirsExceptionDataProvider()
     {
         return array(
-            'No theme' => array(array('theme' => null)),
-            'No area' => array(array('area' => null)),
-            'No locale' => array(array('locale' => null)),
+            'No theme' => array(
+                array('theme' => null),
+                '$params["theme"] should be passed and should implement Mage_Core_Model_ThemeInterface'
+            ),
+            'No area' => array(
+                array('area' => null),
+                'Required parameter \'area\' was not passed'
+            ),
+            'No locale' => array(
+                array('locale' => null),
+                'Required parameter \'locale\' was not passed'
+            ),
         );
     }
 }

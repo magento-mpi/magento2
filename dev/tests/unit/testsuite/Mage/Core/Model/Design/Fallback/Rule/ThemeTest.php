@@ -15,17 +15,17 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Each element should implement Mage_Core_Model_Design_Fallback_Rule_RuleInterface
      */
-    public function testConstructExceptionNotAnArray()
+    public function testConstructExceptionNotAnInterface()
     {
-        $patterns = array('not an interface');
-        new Mage_Core_Model_Design_Fallback_Rule_Theme($patterns);
+        $rules = array('not an interface');
+        new Mage_Core_Model_Design_Fallback_Rule_Theme($rules);
     }
 
     /**
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage $params["theme"] should be passed and should implement Mage_Core_Model_ThemeInterface
      */
-    public function testGetPatternsDirsException()
+    public function testGetPatternDirsException()
     {
         $simpleRuleMockOne = $this->getMock(
             'Mage_Core_Model_Design_Fallback_Rule_Simple',
@@ -37,7 +37,7 @@ class Mage_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_T
         $model->getPatternDirs(array());
     }
 
-    public function testGetPatternsDirs()
+    public function testGetPatternDirs()
     {
         $parentThemePath = 'parent_package/parent_theme';
         $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
