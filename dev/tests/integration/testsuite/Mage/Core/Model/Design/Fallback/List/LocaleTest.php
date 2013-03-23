@@ -52,7 +52,6 @@ class Mage_Core_Model_Design_Fallback_List_LocaleTest extends PHPUnit_Framework_
 
     /**
      * @dataProvider getPatternDirsExceptionDataProvider
-     * @expectedException InvalidArgumentException
      */
     public function testGetPatternDirsException($setParams, $expectedMessage)
     {

@@ -77,14 +77,14 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
         $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($this->_objectManager, $filesystem,
             $this->_dirs, $this->_fallbackFile, $this->_fallbackLocale, $this->_fallbackViewFile);
 
-        $params = array('area' => 'area51', 'theme' => $this->_theme, 'namespace' => $namespace, 'module' => $module);
+        $params = array('area' => 'area', 'theme' => $this->_theme, 'namespace' => $namespace, 'module' => $module);
 
         $this->_fallbackFile->expects($this->once())
             ->method('getPatternDirs')
             ->with($params)
             ->will($this->returnValue(array('found_folder', 'not_found_folder')));
 
-        $filename = $fallback->getFile('area51', $this->_theme, 'file.txt', $fullModuleName);
+        $filename = $fallback->getFile('area', $this->_theme, 'file.txt', $fullModuleName);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
     }
@@ -133,14 +133,14 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
         $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($this->_objectManager, $filesystem,
             $this->_dirs, $this->_fallbackFile, $this->_fallbackLocale, $this->_fallbackViewFile);
 
-        $params = array('area' => 'area51', 'theme' => $this->_theme, 'locale' => 'locale');
+        $params = array('area' => 'area', 'theme' => $this->_theme, 'locale' => 'locale');
 
         $this->_fallbackLocale->expects($this->once())
             ->method('getPatternDirs')
             ->with($params)
             ->will($this->returnValue(array('found_folder', 'not_found_folder')));
 
-        $filename = $fallback->getLocaleFile('area51', $this->_theme, 'locale', 'file.txt');
+        $filename = $fallback->getLocaleFile('area', $this->_theme, 'locale', 'file.txt');
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
     }
@@ -169,7 +169,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
         $fallback = new Mage_Core_Model_Design_FileResolution_Strategy_Fallback($this->_objectManager, $filesystem,
             $this->_dirs, $this->_fallbackFile, $this->_fallbackLocale, $this->_fallbackViewFile);
 
-        $params = array('area' => 'area51', 'theme' => $this->_theme, 'namespace' => $namespace, 'module' => $module,
+        $params = array('area' => 'area', 'theme' => $this->_theme, 'namespace' => $namespace, 'module' => $module,
             'locale' => 'locale');
 
         $this->_fallbackViewFile->expects($this->once())
@@ -177,7 +177,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
             ->with($params)
             ->will($this->returnValue(array('found_folder', 'not_found_folder')));
 
-        $filename = $fallback->getViewFile('area51', $this->_theme, 'locale', 'file.txt', $fullModuleName);
+        $filename = $fallback->getViewFile('area', $this->_theme, 'locale', 'file.txt', $fullModuleName);
 
         $this->assertEquals(str_replace('/', DIRECTORY_SEPARATOR, $expectedFileName), $filename);
     }
