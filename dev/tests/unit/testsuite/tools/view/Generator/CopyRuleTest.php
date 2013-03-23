@@ -82,11 +82,7 @@ class Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_TestCase
             ->method('isDirectory')
             ->will($this->returnValue(true))
         ;
-        $actualResult = array();
-        foreach ($this->_object->getCopyRules() as $actualCopyRule) {
-            $actualResult[] = $actualCopyRule;
-        }
-        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertEquals($expectedResult, $this->_object->getCopyRules());
     }
 
     public function getCopyRulesDataProvider()
@@ -102,22 +98,40 @@ class Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_TestCase
 
         return array(
             'reverse fallback traversal' => array(
-                array($fixture['fixture_one']['theme']),
+                array($fixture['theme_customizing_one_module']['theme']),
                 $patternDirMap,
                 $filesystemGlobMap,
-                $fixture['fixture_one']['expected_result'],
+                $fixture['theme_customizing_one_module']['expected_result'],
             ),
             'themes in the same area' => array(
-                array($fixture['fixture_one']['theme'], $fixture['fixture_two']['theme']),
+                array(
+                    $fixture['theme_customizing_one_module']['theme'],
+                    $fixture['theme_customizing_two_modules']['theme']
+                ),
                 $patternDirMap,
                 $filesystemGlobMap,
-                array_merge($fixture['fixture_one']['expected_result'], $fixture['fixture_two']['expected_result']),
+                array_merge(
+                    $fixture['theme_customizing_one_module']['expected_result'],
+                    $fixture['theme_customizing_two_modules']['expected_result']
+                ),
             ),
             'themes in different areas' => array(
-                array($fixture['fixture_one']['theme'], $fixture['fixture_three']['theme']),
+                array(
+                    $fixture['theme_customizing_one_module']['theme'],
+                    $fixture['theme_customizing_no_modules']['theme']
+                ),
                 $patternDirMap,
                 $filesystemGlobMap,
-                array_merge($fixture['fixture_one']['expected_result'], $fixture['fixture_three']['expected_result']),
+                array_merge(
+                    $fixture['theme_customizing_one_module']['expected_result'],
+                    $fixture['theme_customizing_no_modules']['expected_result']
+                ),
+            ),
+            'mixed directory separators in fallback pattern' => array(
+                array($fixture['fallback_pattern_mixing_slashes']['theme']),
+                $patternDirMap,
+                $filesystemGlobMap,
+                $fixture['fallback_pattern_mixing_slashes']['expected_result'],
             ),
         );
     }

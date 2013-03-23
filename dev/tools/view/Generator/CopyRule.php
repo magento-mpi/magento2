@@ -75,6 +75,7 @@ class Generator_CopyRule
             $params['theme'] = $theme;
             $patternDirs = $this->_fallbackRule->getPatternDirs($params);
             foreach (array_reverse($patternDirs) as $pattern) {
+                $pattern = Magento_Filesystem::fixSeparator($pattern);
                 foreach ($this->_getMatchingDirs($pattern) as $srcDir) {
                     $paramsFromDir = $this->_parsePlaceholders($srcDir, $pattern);
                     if (!empty($paramsFromDir['namespace']) && !empty($paramsFromDir['module'])) {

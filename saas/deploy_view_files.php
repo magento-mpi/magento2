@@ -1,6 +1,6 @@
 <?php
 /**
- * Shortcut for the command line tool that pre-populates static view files for the production mode.
+ * Interface adapter for the command line tool that pre-populates static view files for the production mode.
  * Interface is invariant, SaaS infrastructure relies on it when deploying a tenant on any Magento version.
  *
  * {license_notice}

@@ -20,9 +20,13 @@ $themeThree = new Varien_Object(array(
     'area' => 'area_two',
     'theme_path' => 'fixture/theme_three',
 ));
+$themeFour = new Varien_Object(array(
+    'area' => 'area_two',
+    'theme_path' => 'fixture/theme_four',
+));
 
 return array(
-    'fixture_one' => array(
+    'theme_customizing_one_module' => array(
         'theme' => $themeOne,
         'pattern_dir_map' => array(
             array('namespace' => '%namespace%', 'module' => '%module%', 'area' => 'area_one', 'theme' => $themeOne),
@@ -55,7 +59,7 @@ return array(
             ),
         ),
     ),
-    'fixture_two' => array(
+    'theme_customizing_two_modules' => array(
         'theme' => $themeTwo,
         'pattern_dir_map' => array(
             array('namespace' => '%namespace%', 'module' => '%module%', 'area' => 'area_one', 'theme' => $themeTwo),
@@ -101,7 +105,7 @@ return array(
             ),
         ),
     ),
-    'fixture_three' => array(
+    'theme_customizing_no_modules' => array(
         'theme' => $themeThree,
         'pattern_dir_map' => array(
             array('namespace' => '%namespace%', 'module' => '%module%', 'area' => 'area_two', 'theme' => $themeThree),
@@ -119,6 +123,30 @@ return array(
                 'destinationContext' => array(
                     'area' => 'area_two',
                     'themePath' => 'fixture/theme_three',
+                    'locale' => null,
+                    'module' => null,
+                )
+            ),
+        ),
+    ),
+    'fallback_pattern_mixing_slashes' => array(
+        'theme' => $themeFour,
+        'pattern_dir_map' => array(
+            array('namespace' => '%namespace%', 'module' => '%module%', 'area' => 'area_two', 'theme' => $themeFour),
+            array(
+                '/base/dir/area_two\\fixture\\theme_four',
+                '/base/dir/area_two\\fixture\\theme_four\\%namespace%_%module%',
+            ),
+        ),
+        'filesystem_glob_map' => array(
+            '/base/dir/area_two/fixture/theme_four/', '*_*', array()
+        ),
+        'expected_result' => array(
+            array(
+                'source' => '/base/dir/area_two/fixture/theme_four',
+                'destinationContext' => array(
+                    'area' => 'area_two',
+                    'themePath' => 'fixture/theme_four',
                     'locale' => null,
                     'module' => null,
                 )

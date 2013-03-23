@@ -15,23 +15,24 @@ require __DIR__ . '/../../../app/bootstrap.php';
 Magento_Autoload_IncludePath::addIncludePath(__DIR__);
 
 define('SYNOPSIS', <<<USAGE
-Usage: php -f generator.php -- [--source <dir>] [--destination <dir>] [switches]
+Usage: php -f generator.php -- [--source <dir>] [--destination <dir>] [--dry-run]
+       php -f generator.php -- --help
 
   --source <dir>      Root directory to start search of static view files from.
                       If omitted, the application root directory is used.
 
   --destination <dir> Directory to copy files to.
-                      If omitted, the default location is used.
+                      If omitted, public location of static view files is used.
 
-  --dry-run           Do everything, except actual copying of files.
+  --dry-run           Do not create directories and files in a destination path.
 
-  -h|--help           Prints this usage information.
+  --help              Print this usage information.
 
 USAGE
 );
 
-$options = getopt('h', array('help', 'dry-run', 'source:', 'destination:'));
-if (isset($options['h']) || isset($options['help'])) {
+$options = getopt('', array('help', 'dry-run', 'source:', 'destination:'));
+if (isset($options['help'])) {
     echo SYNOPSIS;
     exit(0);
 }
