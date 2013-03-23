@@ -14,7 +14,8 @@
 return array(
     '',
     'htaccess',
+    'php',
     'phtml',
     'xml',
-    'csv'
+    'csv',
 );

@@ -14,9 +14,11 @@
 class Generator_ThemeDeployment
 {
     /**
-     * @var Zend_Log
+     * Destination dir, where files will be copied to
+     *
+     * @var string
      */
-    private $_logger;
+    private $_destinationHomeDir;
 
     /**
      * List of extensions for files, which should be deployed.
@@ -24,7 +26,7 @@ class Generator_ThemeDeployment
      *
      * @var array
      */
-    private $_permitted;
+    private $_permitted = array();
 
     /**
      * List of extensions for files, which must not be deployed
@@ -32,22 +34,32 @@ class Generator_ThemeDeployment
      *
      * @var array
      */
-    private $_forbidden;
+    private $_forbidden = array();
+
+    /**
+     * Whether to actually do anything inside the filesystem
+     *
+     * @var bool
+     */
+    private $_isDryRun;
 
     /**
      * Constructor
      *
-     * @param Zend_Log $logger
+     * @param string $destinationHomeDir
      * @param string $configPermitted
-     * @param string $configForbidden
+     * @param string|null $configForbidden
+     * @param bool $isDryRun
      * @throws Magento_Exception
      */
-    public function __construct(Zend_Log $logger, $configPermitted, $configForbidden)
+    public function __construct($destinationHomeDir, $configPermitted, $configForbidden = null, $isDryRun = false)
     {
-        $this->_logger = $logger;
-
+        $this->_destinationHomeDir = $destinationHomeDir;
+        $this->_isDryRun = $isDryRun;
         $this->_permitted = $this->_loadConfig($configPermitted);
-        $this->_forbidden = $this->_loadConfig($configForbidden);
+        if ($configForbidden) {
+            $this->_forbidden = $this->_loadConfig($configForbidden);
+        }
         $conflicts = array_intersect($this->_permitted, $this->_forbidden);
         if ($conflicts) {
             $message = 'Conflicts: the following extensions are added both to permitted and forbidden lists: %s';
@@ -70,30 +82,23 @@ class Generator_ThemeDeployment
 
         $contents = include($path);
         $contents = array_unique($contents);
-        $result = $contents ? array_combine($contents, $contents) : array();
-        return $result;
+        $contents = array_map('strtolower', $contents);
+        $contents = $contents ? array_combine($contents, $contents) : array();
+        return $contents;
     }
 
     /**
      * Copy all the files according to $copyRules
      *
      * @param array $copyRules
-     * @param string $destinationHomeDir
-     * @param bool $isDryRun
      */
-    public function run($copyRules, $destinationHomeDir, $isDryRun = false)
+    public function run($copyRules)
     {
-        if ($isDryRun) {
-            $this->_log('Running in dry-run mode');
-        }
-
         foreach ($copyRules as $copyRule) {
             $destinationContext = $copyRule['destinationContext'];
             $context = array(
                 'source' => $copyRule['source'],
                 'destinationContext' => $destinationContext,
-                'destinationHomeDir' => $destinationHomeDir,
-                'is_dry_run' => $isDryRun
             );
 
             $destDir = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
@@ -107,7 +112,7 @@ class Generator_ThemeDeployment
 
             $this->_copyDirStructure(
                 $copyRule['source'],
-                $destinationHomeDir . DIRECTORY_SEPARATOR . $destDir,
+                $this->_destinationHomeDir . DIRECTORY_SEPARATOR . $destDir,
                 $context
             );
         }
@@ -129,7 +134,7 @@ class Generator_ThemeDeployment
         );
         foreach ($files as $fileSource) {
             $fileSource = (string) $fileSource;
-            $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
+            $extension = strtolower(pathinfo($fileSource, PATHINFO_EXTENSION));
 
             if (isset($this->_forbidden[$extension])) {
                 continue;
@@ -158,14 +163,12 @@ class Generator_ThemeDeployment
      */
     protected function _deployFile($fileSource, $fileDestination, $context)
     {
-        $isDryRun = $context['is_dry_run'];
-
         $context['fileSource'] = $fileSource;
         $context['fileDestination'] = $fileDestination;
 
         // Create directory
         $dir = dirname($fileDestination);
-        if (!is_dir($dir) && !$isDryRun) {
+        if (!is_dir($dir) && !$this->_isDryRun) {
             mkdir($dir, 0777, true);
         }
 
@@ -173,14 +176,12 @@ class Generator_ThemeDeployment
         $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
         if (strtolower($extension) == 'css') {
             // For CSS files we need to replace modular urls
-            $this->_log($fileSource . "\n ==CSS==> " . $fileDestination);
             $content = $this->_processCssContent($fileSource, $context);
-            if (!$isDryRun) {
+            if (!$this->_isDryRun) {
                 file_put_contents($fileDestination, $content);
             }
         } else {
-            $this->_log($fileSource . "\n => " . $fileDestination);
-            if (!$isDryRun) {
+            if (!$this->_isDryRun) {
                 copy($fileSource, $fileDestination);
             }
         }
@@ -238,7 +239,6 @@ class Generator_ThemeDeployment
      */
     protected function _expandModuleUrl($moduleUrl, $context)
     {
-        $destinationHomeDir = $context['destinationHomeDir'];
         $fileDestination = $context['fileDestination'];
         $destinationContext = $context['destinationContext'];
 
@@ -246,7 +246,7 @@ class Generator_ThemeDeployment
         $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
             $destinationContext['area'], $destinationContext['themePath'], $destinationContext['locale'], $file, $module
         );
-        $relatedFile =  $destinationHomeDir . DIRECTORY_SEPARATOR . $relPath;
+        $relatedFile =  $this->_destinationHomeDir . DIRECTORY_SEPARATOR . $relPath;
 
         return $this->_composeUrlOffset($relatedFile, $fileDestination);
     }
@@ -301,15 +301,5 @@ class Generator_ThemeDeployment
 
         // Return resulting path
         return $relDir . basename($filePath);
-    }
-
-    /**
-     * Log message, using the logger object
-     *
-     * @param string $message
-     */
-    protected function _log($message)
-    {
-        $this->_logger->log($message, Zend_Log::INFO);
     }
 }

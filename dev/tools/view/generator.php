@@ -37,10 +37,7 @@ if (isset($options['help'])) {
     exit(0);
 }
 
-$logWriter = new Zend_Log_Writer_Stream('php://output');
-$logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
-$logger = new Zend_Log($logWriter);
-
+echo "Deploying...\n";
 try {
     $config = new Generator_Config(BP, $options);
 
@@ -56,12 +53,14 @@ try {
     $copyRules = $generator->getCopyRules();
 
     $deployment = new Generator_ThemeDeployment(
-        $logger,
+        $config->getDestinationDir(),
         __DIR__ . '/config/permitted.php',
-        __DIR__ . '/config/forbidden.php'
+        __DIR__ . '/config/forbidden.php',
+        $config->isDryRun()
     );
-    $deployment->run($copyRules, $config->getDestinationDir(), $config->isDryRun());
+    $deployment->run($copyRules);
 } catch (Exception $e) {
-    $logger->log('Error: ' . $e->getMessage(), Zend_Log::ERR);
+    echo 'Error: ' . $e->getMessage();
     exit(1);
 }
+echo "Completed successfully.";
