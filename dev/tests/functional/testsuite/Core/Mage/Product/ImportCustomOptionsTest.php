@@ -94,18 +94,13 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
     public function withDifferentProductTypes($type, $attrData)
     {
         //Data
-        if ($type != 'configurable') {
-            $productWithOptions = $this->loadDataSet('Product', $type . '_product_required');
-            $productData = $this->loadDataSet('Product', $type . '_product_required');
-        } else {
-            $productWithOptions = $this->loadDataSet('Product', $type . '_product_required',
-                array('custom_options_data' => $this->loadDataSet('Product', 'custom_options_data')),
-                array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
-                      'general_attribute_1' => $attrData['admin_title']));
-            $productData = $this->loadDataSet('Product', $type . '_product_required', null,
-                array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
-                      'general_attribute_1' => $attrData['admin_title']));
-        }
+        $override = ($type === 'configurable')
+            ? array('var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'general_attribute_1' => $attrData['admin_title'])
+            : null;
+        $productWithOptions = $this->loadDataSet('Product', $type . '_product_required',
+            array('custom_options_data' => $this->loadDataSet('Product', 'custom_options_data')), $override);
+        $productData = $this->loadDataSet('Product', $type . '_product_required', null, $override);
         $selectProduct = array('product_sku' => $productWithOptions['general_sku']);
         //Preconditions
         $this->productHelper()->createProduct($productWithOptions, $type);

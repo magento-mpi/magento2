@@ -164,6 +164,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function existSkuInConfigurable($productData)
     {
+        $this->markTestIncomplete('MAGETWO-8640');
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->addParameter('elementTitle', $productData['general_name']);
@@ -435,6 +436,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     public function configurableWithSimpleProduct($attrData)
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-8640');
         $simple = $this->loadDataSet('Product', 'simple_product_required');
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
@@ -470,6 +472,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function configurableWithVirtualProduct($attrData)
     {
+        $this->markTestIncomplete('MAGETWO-8640');
         //Data
         $virtual = $this->loadDataSet('Product', 'virtual_product_required');
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -506,6 +509,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function configurableWithDownloadableProduct($attrData)
     {
+        $this->markTestIncomplete('MAGETWO-8640');
         //Data
         $download = $this->loadDataSet('Product', 'downloadable_product_required',
             array('downloadable_links_purchased_separately' => 'No'));
@@ -683,6 +687,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function assignProductFromExternalTemplate($attributeData)
     {
+        $this->markTestIncomplete('MAGETWO-8640');
         //Data
         $simpleProduct = $this->loadDataSet('Product', 'simple_product_visible',
             array('product_attribute_set' => $attributeData['newSet']['attributeSet']));
@@ -768,7 +773,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Verifying empty attribute set name
         $this->fillField('new_attribute_set_name', '');
         $this->saveForm('confirm', false);
-        $this->assertMessagePresent('validation', 'attribute_set_required');
+        $this->addFieldIdToMessage('field', 'new_attribute_set_name');
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
         //Verifying empty attribute set name
         $this->fillField('new_attribute_set_name', "<script>alert('XSS')</script>");

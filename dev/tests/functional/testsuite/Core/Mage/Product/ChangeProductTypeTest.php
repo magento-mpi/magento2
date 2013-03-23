@@ -371,8 +371,8 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($configurable, 'configurable', false);
         $this->productHelper()->openProductTab('general');
-        $this->clickControl('link', 'is_configurable', false);
-        $this->assertFalse($this->controlIsVisible('pageelement', 'product_variations_fieldset'),
+        $this->clickControl('link', 'delete_product_variation_attribute', false);
+        $this->assertFalse($this->controlIsVisible('fieldset', 'product_variation_attribute'),
             'Product variation block is present');
         $this->productHelper()->fillProductInfo($simple);
         $this->productHelper()->saveProduct();

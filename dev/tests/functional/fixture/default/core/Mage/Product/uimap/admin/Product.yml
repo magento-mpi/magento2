@@ -73,6 +73,8 @@ manage_products:
             category_name_required: //div[@id='advice-required-entry-new_category_name']
             parent_name_required: //div[@id='advice-required-entry-new_category_parent']
             parent_name_existent: //div[@id='advice-validate-parent-category-new_category_parent']
+            attribute_set_html: //*[@class='mage-error' and @for='%fieldId%' and contains(., 'HTML tags are not allowed')]
+            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
@@ -119,10 +121,11 @@ new_product:
                         buttons:
                             cancel: //*[contains(@id,'close-button')]
                             confirm: //*[contains(@id,'confirm-button')]
-                        messages:
-                            attribute_set_required: //*[@class='mage-error' and @for='new-attribute-set-name' and contains(., 'This field is required.')]
-                            attribute_set_html: //*[@class='mage-error' and @for='new-attribute-set-name' and contains(., 'HTML tags are not allowed')]
-                            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
+                -
+                    add_attribute:
+                        xpath: //div[div/span='New Attribute']
+                        pageelements:
+                            add_new_attribute_iframe: //iframe[@id='create_new_attribute_container']
             tabs:
                 -
                     general: &generalTab
@@ -331,12 +334,6 @@ new_product:
                                         associated_search_sku: //input[@name='sku']
                                         associated_search_price_from: //input[@name='price[from]']
                                         associated_search_price_to: //input[@name='price[to]']
-                            #Add new attribute for product
-                            -
-                                add_attribute:
-                                    xpath: //div[div/span='New Attribute']
-                                    pageelements:
-                                        add_new_attribute_iframe: //iframe[@id='create_new_attribute_container']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Advanced Pricing']

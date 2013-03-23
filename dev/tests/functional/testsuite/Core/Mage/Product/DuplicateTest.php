@@ -215,6 +215,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateGrouped($assignData)
     {
+        $this->markTestIncomplete('MAGETWO-7278');
         //Data
         $grouped = $this->loadDataSet('Product', 'duplicate_grouped', $assignData,
             array('product_1' => $assignData['related_search_sku'],

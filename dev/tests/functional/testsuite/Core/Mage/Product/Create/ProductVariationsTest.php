@@ -323,13 +323,11 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
                 'var1_attr_value1' => $attributeData['attribute1']['option_1']['admin_option_name']
             )
         );
-        preg_match('/\w+\_(\w+)/', $emptyField, $result);
-        $field = $result[1];
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         $this->productHelper()->openProductTab('general');
-        $this->addParameter('fieldId', $field);
         //Verifying
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -842,6 +840,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function verifyAssignmentAfterDoubleGeneration($attributeData)
     {
+        $this->markTestIncomplete('MAGETWO-8640');
         //Data for creation
         $assignOptionTitle = $attributeData['attribute1']['option_1']['admin_option_name'];
         $newOptionTitle = $attributeData['attribute1']['option_2']['admin_option_name'];

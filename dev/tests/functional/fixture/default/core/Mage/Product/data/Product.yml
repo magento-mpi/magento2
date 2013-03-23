@@ -439,6 +439,7 @@ simple_product_required:
     general_weight: 1.13
     general_description: %noValue%
     autosettings_short_description: %noValue%
+    custom_options_data: %noValue%
 
 # Product that has all needed fields set to be visible in frontend.
 simple_product_visible:
@@ -607,6 +608,7 @@ virtual_product_required:
     prices_special_price: %noValue%
     autosettings_visibility: Catalog, Search
     autosettings_short_description: %noValue%
+    custom_options_data: %noValue%
 
 # Product that has all needed fields set to be visible in frontend.
 virtual_product_visible:
@@ -781,6 +783,7 @@ fixed_bundle_required: &bundle
     autosettings_visibility: %noValue%
     general_bundle_items:
         item_1: %noValue%
+    custom_options_data: %noValue%
 
 bundle_product_required: *bundle
 
@@ -1051,6 +1054,7 @@ grouped_product_required:
     autosettings_visibility: Catalog, Search
     autosettings_short_description: %noValue%
     general_grouped_data: *associatedProductsGroupedData
+    custom_options_data: %noValue%
 
 # Product that has all needed fields set to be visible in frontend.
 grouped_product_visible:
@@ -1164,6 +1168,7 @@ configurable_product_required:
     autosettings_short_description: %noValue%
     general_configurable_attributes: *general_configurable_attributes
     general_configurable_variations: *associatedProductsConfigurableData
+    custom_options_data: %noValue%
 
 # Product that has all needed fields set to be visible in frontend.
 configurable_product_visible:
@@ -1293,6 +1298,7 @@ downloadable_product_required:
     autosettings_visibility: Catalog, Search
     autosettings_short_description: %noValue%
     downloadable_information_data: *downloadableData
+    custom_options_data: %noValue%
 
 # Product that has all needed fields set to be visible in frontend.
 downloadable_product_visible:

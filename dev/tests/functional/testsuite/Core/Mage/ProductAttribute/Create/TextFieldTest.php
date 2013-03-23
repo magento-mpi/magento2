@@ -76,6 +76,7 @@ class Core_Mage_ProductAttribute_Create_TextFieldTest extends Mage_Selenium_Test
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
+        $this->markTestIncomplete('MAGETWO-8616');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
