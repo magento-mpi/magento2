@@ -452,8 +452,15 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
                 $url .= '?' . $fileMTime;
             }
         } else {
-            $subPath = self::getPublishedViewFileRelPath($params['area'], $params['themeModel']->getThemePath(),
-                $params['locale'], $file, $params['module']);
+            /** @var $themeModel Mage_Core_Model_Theme */
+            $themeModel = $params['themeModel'];
+            $themePath = $themeModel->getThemePath();
+            if (!$themePath) {
+                // For virtual themes we get path from the parent
+                $themePath = $themeModel->getParentTheme()->getThemePath();
+            }
+            $subPath = self::getPublishedViewFileRelPath($params['area'], $themePath, $params['locale'], $file,
+                $params['module']);
             $url = $this->getPublicFileUrl($this->getPublicDir() . DIRECTORY_SEPARATOR . $subPath, $isSecure);
         }
 
