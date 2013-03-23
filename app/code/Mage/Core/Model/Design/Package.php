@@ -454,8 +454,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         } else {
             $subPath = self::getPublishedViewFileRelPath($params['area'], $params['themeModel']->getThemePath(),
                 $params['locale'], $file, $params['module']);
-            $publicFile = str_replace(DIRECTORY_SEPARATOR, '/', $this->getPublicDir() . '/' . $subPath);
-            $url = $this->getPublicFileUrl($publicFile, $isSecure);
+            $url = $this->getPublicFileUrl($this->getPublicDir() . DIRECTORY_SEPARATOR . $subPath, $isSecure);
         }
 
         return $url;

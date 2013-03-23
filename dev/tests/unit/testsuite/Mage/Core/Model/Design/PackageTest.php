@@ -71,7 +71,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('public_dir'));
         $model->expects($this->once())
             ->method('getPublicFileUrl')
-            ->with(str_replace(DIRECTORY_SEPARATOR, '/', 'public_dir/a/t/m/file.js'))
+            ->with(str_replace('/', DIRECTORY_SEPARATOR, 'public_dir/a/t/m/file.js'))
             ->will($this->returnValue('http://example.com/public_dir/a/t/m/file.js'));
 
 
