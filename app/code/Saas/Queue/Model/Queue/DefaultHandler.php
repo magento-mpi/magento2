@@ -13,7 +13,7 @@
  *
  * In this class in future adapters can be created according to a type that has been provided in configuration.
  */
-class Saas_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Model_Queue_HandlerInterface
+class Saas_Queue_Model_Queue_DefaultHandler extends Enterprise_Queue_Model_Queue_DefaultHandler
 {
     /**
      * @var Magento_ObjectManager
@@ -48,26 +48,33 @@ class Saas_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Model_Qu
      */
     public function addTask($eventName, $data, $priority = null)
     {
-        $taskName = $data['configuration']['config']['params']['task_name'];
-        if (!$taskName) {
-            throw new InvalidArgumentException('Can not found task name in observer configuration');
+        if (
+            !array_key_exists('params', $data['configuration']['config'])
+            || !is_array($data['configuration']['config']['params'])
+            || empty($data['configuration']['config']['params']['task_name'])
+        ) {
+            //Backward compatibility
+            return parent::addTask($eventName, $data, $priority);
         }
-
+        $taskName = $data['configuration']['config']['params']['task_name'];
         $eventData = $data['observer']['event']->getData();
+        if (!is_array($eventData)) {
+            $eventData = array();
+        }
         unset($eventData['name']);
-
+        $params = array(
+            'event_name' => $eventName,
+            'event_data' => $eventData,
+        );
+        if (array_key_exists('event_area', $data['configuration']['config']['params'])) {
+            $params['event_area'] = $data['configuration']['config']['params']['event_area'];
+        }
         $taskData = array(
             'task_name' => $taskName,
-            'params' => array(
-                'event_name' => $eventName,
-                'event_data' => $eventData,
-            ),
+            'params' => $params
         );
-
         $taskData = array_merge($taskData, $this->_helper->getTaskParams());
-
         $this->_adapter->addTask($taskName, $taskData, $priority);
-
         return $this;
     }
 }

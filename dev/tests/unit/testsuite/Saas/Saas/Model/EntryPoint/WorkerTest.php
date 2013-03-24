@@ -35,7 +35,21 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
         Mage::reset(); // hack to reset object manager if it happens to be set in this class already
         $worker = new Saas_Saas_Model_EntryPoint_Worker($config, $this->_objectManagerMock);
         $dispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
-        $dispatcher->expects($this->once())->method('dispatch')->with($taskName, $taskParams);
+
+        if (array_key_exists(Saas_Saas_Model_EntryPoint_Worker::EVENT_NAME_KEY, $taskParams)) {
+            //Using worker task as event transport
+            $eventName = $taskParams[Saas_Saas_Model_EntryPoint_Worker::EVENT_NAME_KEY];
+            if (array_key_exists(Saas_Saas_Model_EntryPoint_Worker::EVENT_DATA_KEY, $taskParams)) {
+                $eventData = $taskParams[Saas_Saas_Model_EntryPoint_Worker::EVENT_DATA_KEY];
+            } else {
+                $eventData = array();
+            }
+        } else {
+            $eventName = $taskName;
+            $eventData = $taskParams;
+        }
+        $dispatcher->expects($this->once())->method('dispatch')->with($eventName, $eventData);
+
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $app->expects($this->once())->method('setUseSessionInUrl')->with(false);
         $app->expects($this->once())->method('requireInstalledInstance');
@@ -51,7 +65,7 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
         $this->_objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with('Mage_Core_Model_Event_Manager')
+            ->with('Mage_Core_Model_Event_Manager', array('invoker' => 'Mage_Core_Model_Event_InvokerDefault'))
             ->will($this->returnValue($dispatcher));
         $worker->processRequest();
     }
@@ -59,7 +73,15 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
     public function taskParamsDataProvider()
     {
         return array(
-            array('dummy', array())
+            array('dummy', array()),
+            array('worker_as_event_transport', array(Saas_Saas_Model_EntryPoint_Worker::EVENT_NAME_KEY => 'test')),
+            array(
+                'worker_as_event_transport_with_data',
+                array(
+                    Saas_Saas_Model_EntryPoint_Worker::EVENT_NAME_KEY => 'test',
+                    Saas_Saas_Model_EntryPoint_Worker::EVENT_DATA_KEY => array('key' => 'value'),
+                )
+            ),
         );
     }
 }
