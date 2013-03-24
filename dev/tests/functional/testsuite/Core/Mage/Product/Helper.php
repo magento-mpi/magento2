@@ -565,7 +565,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
             $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
             $this->clickButton('save_product_by_action', false);
-            $this->pleaseWait();
             $this->waitForElementVisible($waitConditions);
             if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set')) {
                 if (strtolower($saveNewAttributeInSet) == 'current') {
@@ -578,7 +577,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
                 $this->clickButton('confirm', false);
                 array_pop($waitConditions);
-                $this->pleaseWait();
                 $this->waitForElementVisible($waitConditions);
             }
             $this->addParameter('id', $this->defineIdFromUrl());
