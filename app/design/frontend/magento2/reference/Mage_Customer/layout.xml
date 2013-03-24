@@ -66,7 +66,13 @@ Layout for customer login page
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml"/>
+            <!-- customer.form.login.extra -->
+            <container name="customer.login.container" label="Customer Login Container" htmlTag="div" htmlClass="login container">
+                <block type="Mage_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml">
+                    <container name="form.additional.info" label="invisible" as="form.additional.info" />
+                </block>
+                <block type="Mage_Customer_Block_Form_Login" name="customer.new" template="newcustomer.phtml"/>
+            </container>
         </reference>
     </customer_account_login>
 

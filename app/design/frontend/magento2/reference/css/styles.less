@@ -1086,6 +1086,7 @@ a > span {
 }
 
 textarea { .textArea(); }
+input[type="password"],
 input[type="text"] {
     .inputText();
 }
@@ -3068,6 +3069,90 @@ and (max-width : 768px)  {
 }
 .customer.menu + li { display: none!important; }
 
+.login.container {
+    background: @primary1;
+    .clearfix();
+    padding:40px;
+    position: relative;
+    z-index: 1;
+    padding-bottom:150px;
+    .block {
+        .borderBox();
+        float:left;
+        width:50%;
+        > .title {
+            margin-bottom:25px;
+        }
+        .actions {
+            .borderBox();
+            text-align: right;
+            position:absolute;
+            bottom:90px;
+            width:50%;
+            padding:0 40px;
+            .secondary {
+                margin-bottom:-2em;
+                margin-top:0.8em;
+                line-height: 1.2em;
+                float:right;
+            }
+        }
+        &.login {
+            padding-right:90px;
+            .actions {
+                margin-left:-90px;
+            }
+        }
+        &.new {
+            padding-left:40px;
+            .actions {
+                margin-left:-40px;
+            }
+            &:before {
+                content:'';
+                border-left:1px solid;
+                .borderColor(@primary1);
+                position: absolute;
+                top:40px;
+                margin-left:-40px;
+                bottom:60px;
+            }
+        }
+    }
+    .field.note {
+        display: none; // for Plushe
+    }
+    .action.login,
+    .action.create {
+        .primaryAction();
+    }
+    .fieldset.login {
+        .formFieldset();
+        .formInline(40%);
+        margin:0;
+        padding:0;
+        border:0;
+        .field {
+            .fieldStyle();
+            .label {
+                padding-top:7px;
+                padding-right:10px;
+                text-align: right;
+            }
+        }
+    }
+}
+
+.action.reload {
+    .resetAction();
+    margin-top:14px;
+    float:left;
+    margin-left:-32px;
+    span{
+        .iconAfter("\e010",22px);
+        .hideText(22px);
+    }
+}
 
 /*
  *    Homepage styles

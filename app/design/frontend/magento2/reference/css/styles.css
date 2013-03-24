@@ -1563,6 +1563,7 @@ textarea {
 textarea:disabled {
   opacity: 0.5;
 }
+input[type="password"],
 input[type="text"] {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -1582,12 +1583,15 @@ input[type="text"] {
   height: 32px;
   line-height: 1;
 }
+.no-borderradius input[type="password"],
 .no-borderradius input[type="text"] {
   padding-top: 8px;
 }
+.control input[type="password"],
 .control input[type="text"] {
   width: 100%;
 }
+input[type="password"]:disabled,
 input[type="text"]:disabled {
   opacity: 0.5;
 }
@@ -4570,6 +4574,215 @@ img[align="right"] {
 }
 .customer.menu + li {
   display: none!important;
+}
+.login.container {
+  background: #f8f8f8;
+  *zoom: 1;
+  padding: 40px;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 150px;
+}
+.login.container:before,
+.login.container:after {
+  content: "";
+  display: table;
+}
+.login.container:after {
+  clear: both;
+}
+.login.container .block {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  float: left;
+  width: 50%;
+}
+.login.container .block > .title {
+  margin-bottom: 25px;
+}
+.login.container .block .actions {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  text-align: right;
+  position: absolute;
+  bottom: 90px;
+  width: 50%;
+  padding: 0 40px;
+}
+.login.container .block .actions .secondary {
+  margin-bottom: -2em;
+  margin-top: 0.8em;
+  line-height: 1.2em;
+  float: right;
+}
+.login.container .block.login {
+  padding-right: 90px;
+}
+.login.container .block.login .actions {
+  margin-left: -90px;
+}
+.login.container .block.new {
+  padding-left: 40px;
+}
+.login.container .block.new .actions {
+  margin-left: -40px;
+}
+.login.container .block.new:before {
+  content: '';
+  border-left: 1px solid;
+  border-color: #d7d7d7;
+  position: absolute;
+  top: 40px;
+  margin-left: -40px;
+  bottom: 60px;
+}
+.login.container .field.note {
+  display: none;
+}
+.login.container .action.login,
+.login.container .action.create {
+  border: none;
+  border-radius: 0;
+  background: #f47a1f;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.login.container .action.login span,
+.login.container .action.create span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.login.container .fieldset.login {
+  margin: 0;
+  letter-spacing: -0.31em;
+  /* webkit */
+
+  word-spacing: -0.43em;
+  /* IE < 8 && gecko */
+
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.login.container .fieldset.login > * {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+.login.container .fieldset.login > .legend + br {
+  display: none;
+}
+.login.container .fieldset.login > .field {
+  *zoom: 1;
+}
+.login.container .fieldset.login > .field:before,
+.login.container .fieldset.login > .field:after {
+  content: "";
+  display: table;
+}
+.login.container .fieldset.login > .field:after {
+  clear: both;
+}
+.login.container .fieldset.login > .field > .control,
+.login.container .fieldset.login > .field > .label {
+  margin: 0;
+  float: left;
+  width: 40%;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+}
+.login.container .fieldset.login > .field > .control {
+  width: 60%;
+}
+.login.container .fieldset.login > .field.no-label .control {
+  margin-left: 40%;
+}
+.login.container .fieldset.login .field {
+  margin-bottom: 10px;
+}
+.login.container .fieldset.login .field:last-child {
+  margin-bottom: 0;
+}
+.login.container .fieldset.login .field .nested {
+  padding: 0 0 5px;
+}
+.login.container .fieldset.login .field .nested .field {
+  margin: 5px 0;
+}
+.login.container .fieldset.login .field .label {
+  padding-top: 7px;
+  padding-right: 10px;
+  text-align: right;
+}
+.action.reload {
+  border: none;
+  border-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  margin-top: 14px;
+  float: left;
+  margin-left: -32px;
+}
+.action.reload span {
+  width: 22px;
+  display: block;
+  line-height: 0px;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+}
+.action.reload span:after {
+  font-family: "MUI-Icons";
+  font-size: 22px;
+  line-height: 22px;
+  height: 22px;
+  overflow: hidden;
+  content: "\e010";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.action.reload span:active {
+  outline: 0;
+}
+.action.reload span:after {
+  text-indent: 0;
+  display: block;
 }
 /*
  *    Homepage styles
