@@ -21,9 +21,8 @@
     </customer_account_login>
 
     <customer_account_create>
-        <reference name="customer_form_register">
-            <action method="setTemplate"><template>Mage_Persistent::customer/form/register.phtml</template></action>
-            <block type="Mage_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml" />
+        <reference name="form.additional.info">
+            <block type="Mage_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml" before="-" />
             <block type="Mage_Core_Block_Template" name="persistent.remember.me.tooltip" template="Mage_Persistent::remember_me_tooltip.phtml" />
         </reference>
     </customer_account_create>

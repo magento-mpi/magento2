@@ -3145,14 +3145,114 @@ and (max-width : 768px)  {
 
 .action.reload {
     .resetAction();
-    margin-top:14px;
-    float:left;
-    margin-left:-32px;
+    position:absolute;
+    background: #fff;
+    padding:2px;
     span{
         .iconAfter("\e010",22px);
         .hideText(22px);
+        color:@secondary1;
+        text-shadow:0px 1px rgba(0,0,0,0.4);
     }
 }
+
+/* Registration */
+.form.password.forget,
+.form.create.account {
+
+    .fieldset {
+        .borderBox();
+        width:690px;
+        background: @primary1;
+        padding:30px 10px 30px 30px;
+        .formCols();
+        .formFieldset();
+        border:0;
+        margin:0 0 40px;
+        position: relative; z-index: 1;
+        .legend {
+            float:left;
+            line-height: 1.2;
+            font-size: 20px;
+            font-weight: 400;
+            padding-bottom:20px;
+            width:100%;
+            padding:0 40px 20px 0;
+            background: #fff;
+            margin:-30px -10px 30px -30px;
+            & + br {
+                display: block;
+                clear:both;
+            }
+        }
+        > .field {
+            .formField();
+            .fieldStyle();
+            > .label {
+                display:block;
+                padding:0 0 5px;
+            }
+            margin-bottom:20px;
+        }
+        > .field.note {
+            width:100%;
+        }
+        .field.street {
+            width:100%;
+        }
+        .field.fullname {
+            width:100%;
+            .fields.group-5 .field { width:20%; }
+        }
+        .field.choice.newsletter {
+            width:100%;
+        }
+        .field.dob {
+            .fields.group .field {
+                width:33%;
+                position: relative;
+                z-index: 1;
+                .label {
+                    position: absolute;
+                    bottom:0;
+                    font-size: 12px;
+                    line-height: 16px;
+                }
+                input {
+                    margin-bottom:16px;
+                }
+            }
+        }
+    }
+    .action.submit {
+        .primaryAction();
+    }
+    .actions {
+        .clearfix;
+        .primary {
+            float:right;
+        }
+        .secondary {
+            float:left;
+        }
+        width:690px;
+    }
+    .fieldset.create.account {
+
+        &:after {
+            content:attr(data-hasrequired);
+            display: block;
+            position: absolute;
+            top:100%;
+            left:0;
+            padding:10px 0 0;
+            letter-spacing: normal;
+            word-spacing: normal;
+            color:@secondary1;
+        }
+    }
+}
+
 
 /*
  *    Homepage styles

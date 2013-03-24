@@ -16,8 +16,7 @@
     <?php echo $this->getChildHtml('form_fields_before')?>
     <fieldset class="fieldset" data-hasrequired="<?php $this->__('* Required Fields'); ?>">
         <legend class="legend"><span><?php echo $this->__("You're reviewing:"); ?></span><strong><?php echo $this->escapeHtml($this->getProductInfo()->getName()) ?></strong></legend><br />
-        <?php //if ($this->getRatings() && $this->getRatings()->getSize()): ?>
-    <?php if (1==1): ?>
+        <?php if ($this->getRatings() && $this->getRatings()->getSize()): ?>
         <span id="input-message-box"></span>
         <div class="field ratings required">
             <label class="label"><span><?php echo $this->__('How do you rate this product?') ?></span></label>

@@ -4,6 +4,7 @@
     $.fn.dropdown = function(options) {
         var defaults = {
             parent: null,
+            autoclose: true,
             btnArrow: '.arrow',
             activeClass: 'active'
         };
@@ -41,22 +42,26 @@
         };
 
         /* document Event bindings */
-        $(document).on('click.hideDropdown', this.reset);
-        $(document).on('keyup.hideDropdown', function(e) {
-            var ESC_CODE = '27';
+        if(options.autoclose === true) {
+            $(document).on('click.hideDropdown', this.reset);
+            $(document).on('keyup.hideDropdown', function(e) {
+                var ESC_CODE = '27';
 
-            if (e.keyCode == ESC_CODE) {
-                self.reset();
-            }
-        });
+                if (e.keyCode == ESC_CODE) {
+                    self.reset();
+                }
+            });
+        };
 
         return this.each(function() {
             var elem = $(this),
                 parent = elem.parent(),
-                menu = $('.dropdown-menu', parent);
+                menu = $('[data-target="dropdown"]', parent) || $('.dropdown-menu', parent);
 
             elem.on('click.toggleDropdown', function() {
-                self.reset({elems: actionElem.not(elem)});
+                if(options.autoclose === true) {
+                    self.reset({elems: actionElem.not(elem)});
+                };
                 self[elem.hasClass('active') ? 'closeDropdown' : 'openDropdown'](elem);
 
                 return false;
