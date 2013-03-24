@@ -63,6 +63,11 @@
             <path>dev/tools/migration</path>
         </item>
         <item>
+            <!-- Must be refactored to be modular -->
+            <word>GiftWrapping</word>
+            <path>app/design/adminhtml/default/backend/css/pages.css</path>
+        </item>
+        <item>
             <!-- Must be removed, when CustomerSegment is removed as well -->
             <word>TargetRule</word>
             <path>app/code/Enterprise/CustomerSegment/Model/Observer.php</path>
