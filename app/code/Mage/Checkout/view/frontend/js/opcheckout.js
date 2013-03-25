@@ -46,6 +46,8 @@
                     _this.element.trigger('enableSection', {selector: _this.options.sectionSelectorPrefix + section});
                 })
                 .on('ajaxError', $.proxy(this._ajaxError, this))
+                .on('showAjaxLoader', $.proxy(this._ajaxSend, this))
+                .on('hideAjaxLoader', $.proxy(this._ajaxComplete, this))
                 .on('click', this.options.backSelector, function() {
                     _this.element.trigger('enableSection', {selector: '#' + _this.element.find('.active').prev().attr('id')});
                 })
