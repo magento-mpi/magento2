@@ -357,10 +357,10 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
                     '\[([^' . preg_quote($quoteHtml) . ']*)]') . '#i';
                 if (preg_match($transRegExp, $tagHtml, $matches)) {
                     $tagHtml = str_replace($matches[0], '', $tagHtml); //remove tra
-                    $trAttr  = $this->_getHtmlAttribute(self::DATA_TRANSLATE,
+                    $trAttr  = ' ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                         htmlspecialchars('[' . $matches[1] . ',' . join(',', $trArr) . ']'));
                 } else {
-                    $trAttr  = $this->_getHtmlAttribute(self::DATA_TRANSLATE,
+                    $trAttr  = ' ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                         htmlspecialchars('[' . join(',', $trArr) . ']'));
                 }
                 $tagHtml = substr_replace($tagHtml, $trAttr, strlen($tagMatch[1][0]) + 1, 1);
