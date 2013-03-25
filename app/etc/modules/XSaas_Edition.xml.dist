@@ -26,6 +26,7 @@
         <Enterprise_PageCache><active>true</active></Enterprise_PageCache>
         <Enterprise_Pbridge><active>true</active></Enterprise_Pbridge>
         <Enterprise_Pci><active>true</active></Enterprise_Pci>
+        <Enterprise_Queue><active>true</active></Enterprise_Queue>
         <Enterprise_Reward><active>true</active></Enterprise_Reward>
         <Enterprise_SalesArchive><active>true</active></Enterprise_SalesArchive>
         <Enterprise_Search><active>true</active></Enterprise_Search>
@@ -34,6 +35,7 @@
         <Saas_Core><active>true</active></Saas_Core>
         <Saas_PageCache><active>true</active></Saas_PageCache>
         <Saas_PrintedTemplate><active>true</active></Saas_PrintedTemplate>
+        <Saas_Queue><active>true</active></Saas_Queue>
         <Saas_Saas><active>true</active></Saas_Saas>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
     </modules>

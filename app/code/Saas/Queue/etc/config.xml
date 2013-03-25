@@ -15,6 +15,9 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <codePool>core</codePool>
+            <depends>
+                <Enterprise_Queue/>
+            </depends>
         </Saas_Queue>
     </modules>
     <global>
@@ -25,7 +28,6 @@
                     <servers>127.0.0.1:4730</servers>
                     <task>
                         <params>
-                            <!--<tenant_id>s51470ed65f9c9</tenant_id>-->
                         </params>
                     </task>
                 </gearman>
@@ -37,21 +39,4 @@
             </preferences>
         </di>
     </global>
-
-<!--
-    <frontend>
-        <events>
-            <some_event>
-                <observers>
-                    <some_observer>
-                        <asynchronous>true</asynchronous>
-                        <params>
-                            <task_name>refresh_catalog</task_name>
-                        </params>
-                    </some_observer>
-                </observers>
-            </some_event>
-        </events>
-    </frontend>
--->
 </config>
