@@ -10,6 +10,9 @@
 
 /**
  * Translate model
+ *
+ * @todo Remove this suppression when jira entry MAGETWO-8296 is completed.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Translate
 {
