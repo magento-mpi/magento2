@@ -104,7 +104,7 @@
                     $(this)
                     .addClass('recent')
                     .siblings('.level-0')
-                    .removeClass('recent');
+                    .removeClass('recent hover');
 /*                    $(this)
                         .siblings('.level-0')
                             .removeClass('hover')
@@ -332,17 +332,13 @@
     var switcherForIe8 = function() {
         /* Switcher for IE8 */
         if ($.browser.msie && $.browser.version == '8.0') {
-            var checkboxSwitcher = $('.switcher input');
-
-            var toggleCheckboxState = function(elem) {
-                elem.toggleClass('checked', elem.prop('checked'));
-            };
-            toggleCheckboxState(checkboxSwitcher);
-
-            $('.switcher')
+            $('.switcher input')
                 .on('change.toggleSwitcher', function() {
-                    toggleCheckboxState(checkboxSwitcher);
-                });
+                    $(this)
+                        .closest('.switcher')
+                        .toggleClass('checked', $(this).prop('checked'));
+                })
+                .trigger('change');
         }
     };
 
