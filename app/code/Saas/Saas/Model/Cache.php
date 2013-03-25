@@ -34,11 +34,12 @@ class Saas_Saas_Model_Cache extends Mage_Core_Model_Cache
     )
     {
         $this->_eventManager = $eventManager;
+
         parent::__construct($objectManager, $frontendPool, $cacheTypes, $config, $dirs, $helperFactory);
     }
 
     /**
-     * Sets task to the queue
+     * Refresh cache
      *
      * @param array|string $typeCode
      * @return Mage_Core_Model_CacheInterface

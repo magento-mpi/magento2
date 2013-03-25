@@ -5,16 +5,15 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-
 class Saas_Saas_Model_CacheTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Event_Manager
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManagerMock;
 
     /**
-     * @var Saas_Saas_Model_Cache
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modelCacheMock;
 
@@ -41,8 +40,8 @@ class Saas_Saas_Model_CacheTest extends PHPUnit_Framework_TestCase
     public function testInvalidateType()
     {
         $this->_eventManagerMock->expects($this->once())->method('dispatch')->with($this->equalTo('refresh_cache'));
-        $this->_modelCacheMock->expects($this->once())->method('_callOriginInvalidateType');
+        $this->_modelCacheMock->expects($this->once())->method('_callOriginInvalidateType')->will($this->returnSelf());
 
-        $this->_modelCacheMock->invalidateType('test');
+        $this->assertEquals($this->_modelCacheMock, $this->_modelCacheMock->invalidateType('test'));
     }
 }

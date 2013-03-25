@@ -27,10 +27,11 @@ class Saas_Backend_Model_Cache_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-    public function disableAdminhtmlCacheController(Varien_Event_Observer $observer = null)
+    public function disableAdminhtmlCacheController(Varien_Event_Observer $observer)
     {
-        if ($this->_request->getControllerName() == "cache"
-            && $this->_request->getControllerModule() == 'Mage_Adminhtml') {
+        if ($this->_request->getControllerName() == 'cache'
+            && $this->_request->getControllerModule() == 'Mage_Adminhtml'
+        ) {
             $this->_request->setRouteName('noRoute');
         }
     }

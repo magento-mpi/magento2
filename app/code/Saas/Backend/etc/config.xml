@@ -29,13 +29,4 @@
             </adminhtml_controller_action_predispatch_start>
         </events>
     </global>
-    <adminhtml>
-        <layout>
-            <updates>
-                <backend module='Mage_Backend'>
-                    <file>layout.xml</file>
-                </backend>
-            </updates>
-        </layout>
-    </adminhtml>
 </config>
