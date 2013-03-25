@@ -100,14 +100,7 @@
                 }))
                 .on('hover', function() {
                     $(this)
-<<<<<<< HEAD
-                    .addClass('recent')
-                    .siblings('.level-0')
-                    .removeClass('recent hover');
-/*                    $(this)
-=======
                         .addClass('recent')
->>>>>>> Implemented MAGETWO-8248 : System Menu - Change from OnHover to OnClick
                         .siblings('.level-0')
                         .removeClass('recent');
                     /*                    $(this)
