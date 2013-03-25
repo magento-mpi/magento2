@@ -63,7 +63,7 @@ class Enterprise_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
      * @param string $separator
      *
      */
-    public function fillAndClearRoleAccess(array $roleAccess,$aclResource, $separator = '/')
+    public function fillAndClearRoleAccess(array $roleAccess, $aclResource, $separator = '/')
     {
         if (!empty($roleAccess)) {
             if (isset($roleAccess['resource_access'])) {

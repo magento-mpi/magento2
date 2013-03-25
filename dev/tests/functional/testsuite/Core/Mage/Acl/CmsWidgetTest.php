@@ -69,7 +69,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
         $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Top Navigation Menu elements not equal 1, should be equal');
+            'Count of Top Navigation Menu elements not equal 2, should be equal');
         // Verify  that necessary elements are present on page
         $elements = $this->loadDataSet('CmsWidgetElements', 'manage_cms_widget_elements');
         $resultElementsArray = array();
