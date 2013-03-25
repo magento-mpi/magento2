@@ -42,9 +42,9 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
         $mca = $this->getUimapHelper()->getPageMca($area, $currentPageName);
         $this->addParameter('mcaXpath', $mca);
         $this->assertEquals(1, $this->getControlCount('pageelement', 'active_menu_element'),
-            'Top level menu item isn\'t active');
+            "Top level menu item for '$currentPageName' isn't active");
         $this->assertTrue($this->controlIsPresent('pageelement', 'general_menu_xpath'),
-            "Expected menu item for page $currentPageName doesn't exist");
+            "Expected active menu item for page $currentPageName doesn't exist");
     }
 
     /**
@@ -65,7 +65,7 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Need to verify that element menu HUB is highlighted when we on Store Launcher page</p>
-     *
+     * @TODO this test should be removed when Store Launcher will be removed from Mage modules
      * @test
      */
     public function testHubMenuItemIsHighlighted ()

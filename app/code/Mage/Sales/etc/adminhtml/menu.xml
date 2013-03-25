@@ -12,7 +12,7 @@
 <config>
     <menu>
         <add id="Mage_Sales::sales" title="Sales" module="Mage_Sales" sortOrder="10" dependsOnModule="Mage_Sales" resource="Mage_Sales::sales"/>
-        <add id="Mage_Sales::sales_operation" title="Operations" module="Mage_Sales" sortOrder="10" parent="Mage_Sales::sales" resource="Mage_Adminhtml::all" />
+        <add id="Mage_Sales::sales_operation" title="Operations" module="Mage_Sales" sortOrder="10" parent="Mage_Sales::sales" resource="Mage_Sales::sales_operation" />
         <add id="Mage_Sales::sales_order" title="Orders" module="Mage_Sales" sortOrder="10" parent="Mage_Sales::sales_operation" action="adminhtml/sales_order" resource="Mage_Sales::sales_order"/>
         <add id="Mage_Sales::sales_invoice" title="Invoices" module="Mage_Sales" sortOrder="20" parent="Mage_Sales::sales_operation" action="adminhtml/sales_invoice" resource="Mage_Sales::sales_invoice"/>
         <add id="Mage_Sales::sales_shipment" title="Shipments" module="Mage_Sales" sortOrder="30" parent="Mage_Sales::sales_operation" action="adminhtml/sales_shipment" resource="Mage_Sales::shipment"/>

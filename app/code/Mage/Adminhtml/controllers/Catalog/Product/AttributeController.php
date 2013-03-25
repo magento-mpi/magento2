@@ -51,6 +51,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     {
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute'))
+            ->_setActiveMenu('Mage_Catalog::catalog_attributes_attributes')
             ->renderLayout();
     }
 

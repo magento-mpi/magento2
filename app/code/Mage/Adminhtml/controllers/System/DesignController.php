@@ -15,7 +15,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
     {
         $this->_title($this->__('System'))->_title($this->__('Design'));
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Adminhtml::system');
+        $this->_setActiveMenu('Mage_Adminhtml::system_design_schedule');
         $this->renderLayout();
     }
 

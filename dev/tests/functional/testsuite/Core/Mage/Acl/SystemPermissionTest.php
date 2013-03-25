@@ -137,4 +137,63 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->deleteRole($dataForDeleteOwnRole);
         $this->assertMessagePresent('error', 'delete_self_assigned_role');
     }
+
+    /**
+     * <p>1. Do following checks for full-powered admin:</p>
+     * <p>  - "Sing Out" link is available</p>
+     * <p>  - "Account Setting" link is available</p>
+     * <p>  - fields on "My Account" page are editable</p>
+     * <p>2. Create role restricted to Catalog and Sales modules</p>
+     *
+     * @test
+     */
+    public function createSalesOnlyRole()
+    {
+        $this->loginAdminUser();
+        //Additional check for powerful admins
+        $this->assertTrue($this->controlIsPresent('link', 'log_out'));
+        $this->assertTrue($this->controlIsPresent('link', 'account_settings'));
+        $this->navigate('my_account');
+        $this->assertTrue($this->controlIsEditable('field', 'user_name'));
+
+        $this->navigate('manage_roles');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'catalog_sales_role');
+        $this->adminUserHelper()->createRole($roleSource);
+        $this->assertMessagePresent('success', 'success_saved_role');
+        return $roleSource['role_info_tab']['role_name'];
+    }
+
+    /**
+     * <p>Create admin user restricted to Catalog and Sales modules only.</p>
+     *
+     * @test
+     * @depends createSalesOnlyRole
+     */
+    public function createSalesOnlyUser($roleName)
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_admin_users');
+        $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', array('role_name' => $roleName));
+        $this->adminUserHelper()->createAdminUser($userData);
+        $this->assertMessagePresent('success', 'success_saved_user');
+
+        return $userData;
+    }
+
+    /**
+     * <p>1. Log in as user restricted to Catalog and Sales</p>
+     * <p>2. Check that link "Sign Out" is available</p>
+     * <p>3. Check that link "Account Setting" is absent.</p>
+     *
+     * @test
+     * @depends createSalesOnlyUser
+     */
+    public function loginSalesOnlyUser($loginData)
+    {
+        $this->admin('log_in_to_admin', false);
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->controlIsPresent('link', 'log_out'));
+        $this->assertFalse($this->controlIsPresent('link', 'account_settings'));
+        $this->logoutAdminUser();
+    }
 }

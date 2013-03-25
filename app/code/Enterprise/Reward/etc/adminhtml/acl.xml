@@ -18,11 +18,6 @@
                         <resource id="Enterprise_Reward::reward_balance" module="Enterprise_Reward" title="Manage Reward Points Balances" sortOrder="10" />
                     </resource>
                 </resource>
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_other_settings">
-                        <resource id="Enterprise_Reward::rates" title="Reward Exchange Rates" module="Enterprise_Reward" sortOrder="20" />
-                    </resource>
-                </resource>
                 <resource id="Mage_Sales::sales">
                     <resource id="Mage_Sales::sales_operation">
                         <resource id="Mage_Sales::sales_order">
@@ -39,6 +34,9 @@
                         <resource id="Mage_Adminhtml::config">
                             <resource id="Enterprise_Reward::enterprise_reward" module="Enterprise_Reward" title="Reward Points" sortOrder="10" />
                         </resource>
+                    </resource>
+                    <resource id="Mage_Adminhtml::stores_other_settings">
+                        <resource id="Enterprise_Reward::rates" title="Reward Exchange Rates" module="Enterprise_Reward" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

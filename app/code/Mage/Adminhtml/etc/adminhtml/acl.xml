@@ -18,7 +18,6 @@
                 <resource id="Mage_Adminhtml::global_search" title="Global Search" sortOrder="100" />
                 <resource id="Mage_Adminhtml::myaccount" title="My Account" sortOrder="50" />
                 <resource id="Mage_Adminhtml::marketing" module="Mage_Adminhtml" title="Marketing" sortOrder="50">
-                    <resource id="Mage_Adminhtml::marketing_private_sales" module="Mage_Adminhtml" title="Private Sales" sortOrder="20" />
                     <resource id="Mage_Adminhtml::marketing_communications" module="Mage_Adminhtml" title="Communications" sortOrder="30">
                         <resource id="Mage_Adminhtml::email_template" module="Mage_Adminhtml" title="Email Templates" sortOrder="10" />
                     </resource>

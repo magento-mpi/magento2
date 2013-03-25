@@ -27,7 +27,6 @@
         <add id="Mage_Catalog::inventory" title="Inventory" module="Mage_Catalog" sortOrder="10" parent="Mage_Catalog::catalog" dependsOnModule="Mage_Catalog" resource="Mage_Catalog::catalog"/>
 
         <add id="Mage_Adminhtml::marketing" title="Marketing" module="Mage_Adminhtml" sortOrder="40" resource="Mage_Adminhtml::marketing"/>
-        <add id="Mage_Adminhtml::private_sales" title="Private Sales" module="Mage_Adminhtml" sortOrder="20" parent="Mage_Adminhtml::marketing"  resource="Mage_Adminhtml::marketing_private_sales"/>
         <add id="Mage_Adminhtml::marketing_communications" title="Communications" module="Mage_Adminhtml" sortOrder="30" parent="Mage_Adminhtml::marketing"  resource="Mage_Adminhtml::marketing_communications"/>
         <add id="Mage_Adminhtml::marketing_seo" title="SEO &amp; Search" module="Mage_Adminhtml" sortOrder="40" parent="Mage_Adminhtml::marketing"  resource="Mage_Adminhtml::marketing_seo"/>
         <add id="Mage_Adminhtml::marketing_user_content" title="User Content" module="Mage_Adminhtml" sortOrder="50" parent="Mage_Adminhtml::marketing"  resource="Mage_Adminhtml::marketing_user_content"/>
