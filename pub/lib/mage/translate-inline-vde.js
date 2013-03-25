@@ -266,6 +266,14 @@
         },
 
         /**
+         * Elements to wrap instead of just inserting a child element. This is
+         * to work around some different behavior in Firefox vs. WebKit.
+         *
+         * @type {Array}
+         */
+        elementsToWrap : [ 'button' ],
+
+        /**
          * Determines if the template is already appended to the element.
          *
          * @type {boolean}
@@ -275,6 +283,13 @@
         iconTemplate: null,
         iconWrapperTemplate: null,
         elementWrapperTemplate: null,
+
+        /**
+         * Determines if the element is suppose to be wrapped or just attached.
+         *
+         * @type {boolean}, null is unset, false/true is set
+         */
+        isElementWrapped : null,
 
         /**
          * Creates the icon widget to indicate text that can be translated.
@@ -313,13 +328,47 @@
             this.options.translateMode = mode;
         },
 
-        _attachIcon: function() {
-            if (!this.isTemplateAttached) {
-                this.iconTemplate.appendTo(this.element);
-                this.isTemplateAttached = true;
+        /**
+         * Determines if the element should have an icon element wrapped around it or
+         * if an icon element should be added as a child element.
+         */
+        _shouldWrap: function() {
+            if (this.isElementWrapped !== null) {
+                return this.isElementWrapped;
             }
 
-            this.element.removeClass('invisible');
+            this.isElementWrapped = false;
+            for (var c = 0; c < this.elementsToWrap.length; c++) {
+                if (this.element.is(this.elementsToWrap[c])) {
+                    this.isElementWrapped = true;
+                    break;
+                }
+            }
+
+            return this.isElementWrapped;
+        },
+
+        /**
+         * Attaches an icon to the widget's element.
+         */
+       _attachIcon: function() {
+            if (this._shouldWrap()) {
+                if (!this.isTemplateAttached) {
+                    this.iconWrapperTemplate = this.iconTemplate.wrap('<div/>').parent();
+                    this.iconWrapperTemplate.addClass('translate-edit-icon-wrapper-text');
+
+                    this.elementWrapperTemplate = this.element.wrap('<div/>').parent();
+                    this.elementWrapperTemplate.addClass('translate-edit-icon-container');
+
+                    this.iconTemplate.appendTo(this.iconWrapperTemplate);
+                    this.iconWrapperTemplate.appendTo(this.elementWrapperTemplate);
+                }
+            } else {
+                this.iconTemplate.appendTo(this.element);
+                this.element.removeClass('invisible');
+            }
+
+            this.isTemplateAttached = true;
         },
 
         /**
@@ -419,11 +468,23 @@
             this._detachIcon();
         },
 
+        /**
+         * Detaches an icon from the widget's element.
+         */
         _detachIcon: function() {
+            this._unhoverIcon();
+
             $(this.iconTemplate).detach();
 
+            if (this._shouldWrap()) {
+                this.iconWrapperTemplate.remove();
+                this.element.unwrap();
+                this.elementWrapperTemplate.remove();
+            } else {
+                this.element.addClass('invisible');
+            }
+
             this.isTemplateAttached = false;
-            this.element.addClass('invisible');
         }
     });
 
