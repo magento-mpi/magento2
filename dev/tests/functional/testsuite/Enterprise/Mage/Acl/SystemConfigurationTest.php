@@ -71,11 +71,11 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
     public function systemConfigurationOneTabDataProvider()
     {
         return array(
-            array('Invitation Section', 'customer_invitations'),
-            array('Gift Registry Section', 'customer_gift_registry'),
-            array('Gift Cards', 'sales_gift_card'),
-            array('Promo Section','customers_promotions'),
-            array('Reward Points','customer_reward_points'),
+            array('config_invitations', 'customer_invitations'),
+            array('config_gift_registry', 'customer_gift_registry'),
+            array('config_gift_card_account', 'sales_gift_card'),
+            array('config_promotions','customers_promotions'),
+            array('config_reward_points','customer_reward_points'),
         );
     }
 
@@ -91,7 +91,7 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'Stores/Settings/Configurations'));
+            array('resource_acl' => 'configurations'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');

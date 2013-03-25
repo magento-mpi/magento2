@@ -89,7 +89,7 @@ role_promotions_catalog_rights:
         role_scopes: %noValue%
         role_resources:
             resource_access : Custom
-            resource_acl: price_rules
+            resource_acl: catalog_price_full
 
 role_promotions_shopping_cart_rights:
     role_info_tab:
@@ -98,4 +98,4 @@ role_promotions_shopping_cart_rights:
         role_scopes: %noValue%
         role_resources:
             resource_access : Custom
-            resource_1: Promotions/Shopping Cart Price Rules
+            resource_acl: shopping_cart_full

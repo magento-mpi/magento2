@@ -100,7 +100,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
         $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
         $aclResource = (isset($roleAccess['resource_acl'])) ? $roleAccess['resource_acl'] : array();
         $this->fillRoleScopes($roleWebsites);
-        $this->fillRoleAccess($roleAccess,$aclResource, $separator);
+        $this->fillRoleAccess($roleAccess, $aclResource, $separator);
     }
 
     /**

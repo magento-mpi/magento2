@@ -57,7 +57,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         //Steps
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
-        $this->navigate('system_configuration',false);
+        $this->navigate('system_configuration', false);
         //verify that only one tab is presented on page
         $this->assertEquals(1, $this->getControlCount('tab', 'all_tabs'),
             'Not only "' . $tabName . '" is presented on page.');

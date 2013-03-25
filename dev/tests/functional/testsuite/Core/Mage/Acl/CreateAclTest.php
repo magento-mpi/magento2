@@ -79,7 +79,6 @@ class Core_Mage_Acl_CreateAclTest extends Mage_Selenium_TestCase
         return array(
             array('external_page_cache', 'access_denied', 0 ,0),
             array('dashboard', 'access_denied', 0 ,0),
-            array('hub', 'store_launcher', 1 ,0),
             array('global_search', 'access_denied', 0 ,1)
         );
     }

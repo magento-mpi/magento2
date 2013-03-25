@@ -117,7 +117,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 4 child elements
         $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 4, should be equal 4');
+            'Count of child Navigation Menu not equal 2');
     }
 
     /**

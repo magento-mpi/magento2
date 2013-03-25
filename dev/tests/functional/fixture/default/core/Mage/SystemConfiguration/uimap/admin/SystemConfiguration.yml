@@ -20,7 +20,7 @@ system_configuration:
             fieldsets:
                 -
                     current_configuration_scope:
-                        xpath: //div[@class='switcher' and contains(.,'Current Configuration Scope')]
+                        xpath: //div[@class="store-switcher"]
                         dropdowns:
                             current_configuration_scope: //select[@id='store_switcher']
                         links:
@@ -994,6 +994,13 @@ system_configuration:
                     customers_customer_configuration:
                         xpath: //a[contains(@href, 'edit/section/customer/')]
                         fieldsets:
+                            -
+                                account_sharing_options:
+                                    xpath: //fieldset[@id='customer_account_share']
+                                    links:
+                                         account_sharing_options_link: //parent::div//a[@id='customer_account_share-head']
+                                         dropdowns:
+                                         share_customer_accounts: //select[@name='groups[account_share][fields][scope][value]']
                             -
                                 online_customer_options:
                                     xpath: //fieldset[@id='customer_online_customers']

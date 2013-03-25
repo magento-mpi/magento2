@@ -47,7 +47,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'customers_manage'));
+            array('resource_acl' => 'customer_attributes'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -137,7 +137,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_1' => 'Customers/Segments'));
+            array('resource_acl' => 'customer_segment'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -172,7 +172,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         $this->admin('log_in_to_admin', false);
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->navigate('manage_customer_segments');
+        $this->navigate('manage_customer_segments',false);
         $this->clickButton('add_new_segment');
         //verify that assigned to website multiselect is present
         if ($this->controlIsPresent('multiselect', 'assigned_to_website')) {
@@ -204,7 +204,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_1' => 'Marketing/Private Sales/Invitations'));
+            array('resource_acl' => 'invitations'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -261,7 +261,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_1' => 'Stores/Other Settings/Gift Registry'));
+            array('resource_acl' => 'gift_registry'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');
@@ -294,7 +294,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_1' => 'Marketing/Promotions/Gift Card Accounts'));
+            array('resource_acl' => 'gift_card_account'));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
         $this->navigate('manage_admin_users');

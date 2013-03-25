@@ -74,7 +74,7 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
                 $this->_getControlXpath('pageelement', 'navigation_menu_items'))),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals('1', count($this->getElements(
+        $this->assertEquals('2', count($this->getElements(
                 $this->_getControlXpath('pageelement', 'navigation_children_menu_items'))),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify  that necessary elements are present on page

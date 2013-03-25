@@ -97,7 +97,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         //create specific role with only to Catalog Read Promotions  rights
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_1' => 'Marketing/Promotions/Catalog Price Rules/Edit Catalog Price Rules'));
+            array('resource_acl' => 'catalog_price_edit'));
         $this->adminUserHelper()->createRestrictedRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with only to Catalog Read Promotions rights
@@ -187,7 +187,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         //create specific role with only Shopping Cart Price Rule Read rights
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_1' => 'Marketing/Promotions/Cart Price Rules/Edit Shopping Cart Price Rules'));
+            array('resource_acl' => 'shopping_cart_edit'));
         $this->adminUserHelper()->createRestrictedRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with  Only Read rights to Shopping Cart Price Rules Menu
@@ -231,7 +231,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         //create specific role with only Shopping Cart Price Rule Create rights
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_1' => 'Marketing/Communications/Email Reminders/Edit Automated Email Reminder Rules'));
+            array('resource_acl' => 'email_reminder_edit'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with Create rights Automated Email Reminder Rules Menu
