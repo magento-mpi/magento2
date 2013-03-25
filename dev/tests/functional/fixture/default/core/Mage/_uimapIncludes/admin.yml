@@ -24,13 +24,17 @@ admin_header:
                 -
                     global_header:
                         xpath: //div[contains(a/@class,'logo')]
-                        links:
-                            account_avatar: //a[@class='account-avatar']
-                            log_out: //a[@class='account-signout']
                         pageelements:
                             admin_logo: //a[@class='logo']
                         fields:
                             global_record_search: //*[@id='search-global']
+                -
+                    user_account:
+                        xpath: //div[contains(@class, 'account')]
+                        links:
+                            account_avatar: //a[@class='account-avatar']
+                            account_settings: //a[@data-ui-id='header-user-account-settings']
+                            log_out: //a[@class='account-signout']
                 -
                     notification_global:
                         xpath: //div[@class='notification-global']
@@ -81,7 +85,7 @@ admin_header:
                             website_view_hint: "/../../td[@class='scope-label'][contains(.,'[WEBSITE]')]"
                             access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
                             navigation_menu_items: //ul[@id='nav']/li
-                            navigation_children_menu_items: //*[@id='nav']/li/ul/li
+                            navigation_children_menu_items: //*[@id='nav']/li//ul/li
                             general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
                             active_menu_element: //*[@id='nav']/li[contains(@class, 'active')]
         messages:

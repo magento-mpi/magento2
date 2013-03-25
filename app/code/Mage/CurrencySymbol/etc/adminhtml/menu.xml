@@ -11,9 +11,9 @@
 -->
 <config>
     <menu>
-        <remove id="Mage_Adminhtml::system_currency"/>
-        <add id="Mage_Adminhtml::system_currency_header" title="Manage Currency" module="Mage_CurrencySymbol" sortOrder="50" parent="Mage_Adminhtml::system" resource="Mage_CurrencySymbol::system_currency"/>
-        <add id="Mage_CurrencySymbol::system_currency_rates" title="Rates" module="Mage_CurrencySymbol" sortOrder="50" parent="Mage_Adminhtml::system_currency_header" action="adminhtml/system_currency" resource="Mage_CurrencySymbol::currency_rates"/>
-        <add id="Mage_CurrencySymbol::system_currency_symbols" title="Symbols" module="Mage_CurrencySymbol" sortOrder="100" parent="Mage_Adminhtml::system_currency_header" action="adminhtml/system_currencysymbol" resource="Mage_CurrencySymbol::symbols"/>
+        <remove id="Mage_Adminhtml::system_currency" />
+        <add id="Mage_CurrencySymbol::system_currency" title="Currency" module="Mage_CurrencySymbol" sortOrder="30" parent="Mage_Adminhtml::stores" resource="Mage_CurrencySymbol::system_currency" />
+        <add id="Mage_CurrencySymbol::system_currency_rates" title="Currency Rates" module="Mage_CurrencySymbol" sortOrder="10" parent="Mage_CurrencySymbol::system_currency" action="adminhtml/system_currency" resource="Mage_CurrencySymbol::currency_rates"/>
+        <add id="Mage_CurrencySymbol::system_currency_symbols" title="Currency Symbols" module="Mage_CurrencySymbol" sortOrder="20" parent="Mage_CurrencySymbol::system_currency" action="adminhtml/system_currencysymbol" resource="Mage_CurrencySymbol::symbols"/>
     </menu>
 </config>

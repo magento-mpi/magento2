@@ -108,7 +108,6 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
             array('Currency Setup Section', 'general_currency_setup'),
             array('RSS Feeds Section', 'catalog_rss_feeds'),
             array('Email to a Friend', 'catalog_email_to_a_friend'),
-            array('Promotion','customers_promotions'),
         );
     }
 
