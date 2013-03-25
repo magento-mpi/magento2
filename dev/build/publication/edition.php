@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build]' . PHP_EOL);
+define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee|saas>" [--build]' . PHP_EOL);
 try {
     $options = getopt('', array('dir:', 'edition:', 'build'));
     if (!isset($options['dir']) || !isset($options['edition'])) {
