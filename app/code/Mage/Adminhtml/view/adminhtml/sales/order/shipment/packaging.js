@@ -70,14 +70,35 @@ Packaging.prototype = {
         this.window.show().setStyle({
             'marginLeft': -this.window.getDimensions().width/2 + 'px'
         });
-        this.windowMask.setStyle({
-            height: $('html-body').getHeight() + 'px'
-        }).show();
+        if (this.windowMask) {
+            this.windowMask.setStyle({
+                height: $('html-body').getHeight() + 'px'
+            }).show();
+        } else {
+            if( $$('.popup-window-mask')[0] ){
+                $$('.popup-window-mask')[0].setStyle({
+                    'display': 'block'
+                });
+            } else {
+                $('html-body').insert('<div class="popup-window-mask"></div>');
+                $$('.popup-window-mask')[0].setStyle({
+                    height: $('html-body').getHeight() + 'px'
+                });
+
+            }
+        }
     },
 
     cancelPackaging: function() {
         packaging.window.hide();
-        packaging.windowMask.hide();
+        if (this.windowMask) {
+            packaging.windowMask.hide();
+        } else {
+            $$('.popup-window-mask')[0].setStyle({
+                'display': 'none'
+            });
+        }
+
         if (Object.isFunction(this.cancelCallback)) {
             this.cancelCallback();
         }

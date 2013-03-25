@@ -8,10 +8,11 @@
  * @license     {license_link}
  */
 ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-cart"><?php echo $this->getHeaderText() ?></h4>
-        <div class="form-buttons"><?php echo $this->getButtonsHtml() ?></div>
+
+<div class="fieldset-wrapper-title">
+    <span class="title"><?php echo $this->getHeaderText() ?></span>
+    <div class="actions">
+        <?php echo $this->getButtonsHtml() ?>
     </div>
-    <?php echo $this->getChildHtml() ?>
 </div>
+<?php echo $this->getChildHtml() ?>

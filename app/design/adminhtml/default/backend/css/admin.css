@@ -185,30 +185,32 @@ button.primary.disabled,
 /*
     Reset 'button view' for actions
 -------------------------------------- */
+.customer-current-activity .action-refresh,
+.customer-current-activity .action-refresh,
 .pager .action-next,
 .pager .action-previous,
 .pager .action-next:hover,
 .pager .action-previous:hover,
-.action-.delete,
-.action-.delete:hover,
-.action-.delete:active,
-.action-.delete.active,
-.action-.delete:disabled,
+.data-table .action-.delete,
+.data-table .action-.delete:hover,
+.data-table .action-.delete:active,
+.data-table .action-.delete.active,
+.data-table .action-delete,
+.data-table .action-delete:hover,
+.data-table .action-delete:active,
+.data-table .action-delete.active,
 #product-variations-matrix .action-choose,
 #product-variations-matrix .action-choose:hover,
 #product-variations-matrix .action-choose:active,
 #product-variations-matrix .action-choose.active,
-#product-variations-matrix .action-choose:disabled,
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
 .image-panel .action-close.active,
-.image-panel .action-close:disabled,
 .image-panel-controls .action-remove,
 .image-panel-controls .action-remove:hover,
 .image-panel-controls .action-remove:active,
 .image-panel-controls .action-remove.active,
-.image-panel-controls .action-remove:disabled,
 .vde-image-sizing .action-connect,
 .vde-image-sizing .action-connect:hover,
 .vde-image-sizing .action-connect:active,
@@ -218,37 +220,103 @@ button.primary.disabled,
 .suggest-expandable .action-show-all:hover,
 .suggest-expandable .action-show-all:active,
 .suggest-expandable .action-show-all.active,
-.suggest-expandable .action-show-all:disabled,
 .fieldset-wrapper-title .action-add,
 .fieldset-wrapper-title .action-add:hover,
 .fieldset-wrapper-title .action-add:active,
 .fieldset-wrapper-title .action-add.active,
+.custom-file > .action-add,
+.custom-file > .action-add:hover,
+.custom-file > .action-add:active,
+.custom-file > .action-add.active,
+.vde-tools-header .action-close,
+.vde-tools-header .action-close:hover,
+.vde-tools-header .action-close:active,
+.vde-tools-header .action-close.active,
+.image .action-delete,
+.image .action-delete:hover,
+.image .action-delete:active,
+.image .action-delete.active,
+.fieldset-wrapper-title .actions .action-delete,
+.fieldset-wrapper-title .actions .action-delete:hover,
+.fieldset-wrapper-title .actions .action-delete:active,
+.fieldset-wrapper-title .actions .action-delete.active,
+.address-list-item-actions .action-delete,
+.address-list-item-actions .action-delete:hover,
+.address-list-item-actions .action-delete:active,
+.address-list-item-actions .action-delete.active,
+.notification .action-close,
+.notification .action-close:hover,
+.notification .action-close:active,
+.notification .action-close.active {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.data-table .action-.delete:disabled,
+.data-table .action-delete:disabled,
+#product-variations-matrix .action-choose:disabled,
+.image-panel .action-close:disabled,
+.image-panel-controls .action-remove:disabled,
+.suggest-expandable .action-show-all:disabled,
 .fieldset-wrapper-title .action-add:disabled,
 #store-view-window [class^='action-close'],
 #store-view-window [class^='action-close']:hover,
 #store-view-window [class^='action-close']:active,
 #store-view-window [class^='action-close'].active,
 #store-view-window [class^='action-close']:disabled,
-.custom-file > .action-add,
-.custom-file > .action-add:hover,
-.custom-file > .action-add:active,
-.custom-file > .action-add.active,
 .custom-file > .action-add:disabled,
-.vde-tools-header .action-close,
-.vde-tools-header .action-close:hover,
-.vde-tools-header .action-close:active,
-.vde-tools-header .action-close.active,
+.image .action-delete,
+.image .action-delete:hover,
+.image .action-delete:active,
+.image .action-delete.active,
+.fieldset-wrapper-title .actions .action-delete,
+.fieldset-wrapper-title .actions .action-delete:hover,
+.fieldset-wrapper-title .actions .action-delete:active,
+.fieldset-wrapper-title .actions .action-delete.active,
+.address-list-item-actions .action-delete,
+.address-list-item-actions .action-delete:hover,
+.address-list-item-actions .action-delete:active,
+.address-list-item-actions .action-delete.active,
+.notification .action-close,
+.notification .action-close:hover,
+.notification .action-close:active,
+.notification .action-close.active {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.data-table .action-.delete:disabled,
+.data-table .action-delete:disabled,
+#product-variations-matrix .action-choose:disabled,
+.image-panel .action-close:disabled,
+.image-panel-controls .action-remove:disabled,
+.suggest-expandable .action-show-all:disabled,
+.fieldset-wrapper-title .action-add:disabled,
+#store-view-window [class^='action-close'],
+#store-view-window [class^='action-close']:hover,
+#store-view-window [class^='action-close']:active,
+#store-view-window [class^='action-close'].active,
+#store-view-window [class^='action-close']:disabled,
+.custom-file > .action-add:disabled,
 .vde-tools-header .action-close:disabled,
 .vde-image-sizing .action-reset,
 .vde-image-sizing .action-reset:hover,
 .vde-image-sizing .action-reset:active,
 .vde-image-sizing .action-reset.active,
 .vde-image-sizing .action-reset[disabled],
-.action-delete,
-.action-delete:hover,
-.action-delete:active,
-.action-delete.active,
-.action-delete:disabled,
+.image .action-delete:disabled,
+.fieldset-wrapper-title .actions .action-delete:disabled,
+.address-list-item-actions .action-delete:disabled,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
@@ -264,10 +332,6 @@ button.primary.disabled,
 .notifications [class^="action-"]:active,
 .notifications [class^="action-"].active,
 .notifications [class^="action-"]:disabled,
-.notification .action-close,
-.notification .action-close:hover,
-.notification .action-close:active,
-.notification .action-close.active,
 .notification .action-close:disabled {
     border: none;
     border-radius: 0;
@@ -638,13 +702,19 @@ button.primary.disabled,
     Action delete icon
 -------------------------------------- */
 /* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
-.action-.delete span,
-.action-delete span {
+.data-table .action-.delete span,
+.data-table .action-delete span,
+.image .action-delete span,
+.fieldset-wrapper-title .actions .action-delete span,
+.address-list-item-actions .action-delete span {
     display: none;
 }
 
-.action-.delete:before,
-.action-delete:before {
+.data-table .action-.delete:before,
+.data-table .action-delete:before,
+.image .action-delete:before,
+.fieldset-wrapper-title .actions .action-delete:before,
+.address-list-item-actions .action-delete:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -655,39 +725,42 @@ button.primary.disabled,
     color: #b7b3ad;
 }
 
-.action-.delete:hover:before,
-.action-delete:hover:before {
+.data-table .action-.delete:hover:before,
+.data-table .action-delete:hover:before,
+.image .action-delete:hover:before,
+.fieldset-wrapper-title .actions .action-delete:hover:before,
+.address-list-item-actions .action-delete:hover:before {
     color: #7e7e7e;
 }
 
-input.action-.delete[type="button"],
-input.action-.delete[type="submit"],
-input.action-.delete[type="reset"],
-button.action-.delete,
-input.action-.delete[type="button"]:visited,
-input.action-.delete[type="submit"]:visited,
-input.action-.delete[type="reset"]:visited,
-button.action-.delete:visited,
-input.action-.delete[type="button"]:hover,
-input.action-.delete[type="submit"]:hover,
-input.action-.delete[type="reset"]:hover,
-button.action-.delete:hover,
-input.action-.delete[type="button"]:active,
-input.action-.delete[type="submit"]:active,
-input.action-.delete[type="reset"]:active,
-button.action-.delete:active {
+.data-table input.action-.delete[type="button"],
+.data-table input.action-.delete[type="submit"],
+.data-table input.action-.delete[type="reset"],
+.data-table button.action-.delete,
+.data-table input.action-.delete[type="button"]:visited,
+.data-table input.action-.delete[type="submit"]:visited,
+.data-table input.action-.delete[type="reset"]:visited,
+.data-table button.action-.delete:visited,
+.data-table input.action-.delete[type="button"]:hover,
+.data-table input.action-.delete[type="submit"]:hover,
+.data-table input.action-.delete[type="reset"]:hover,
+.data-table button.action-.delete:hover,
+.data-table input.action-.delete[type="button"]:active,
+.data-table input.action-.delete[type="submit"]:active,
+.data-table input.action-.delete[type="reset"]:active,
+.data-table button.action-.delete:active {
     background: transparent;
     padding: 3px 7px 0;
 }
 
-input.action-.delete[type=button]:hover:before,
-input.action-.delete[type=submit]:hover:before,
-input.action-.delete[type=reset]:hover:before,
-button.action-.delete:hover:before,
-input.action-.delete[type=button]:focus:before,
-input.action-.delete[type=submit]:focus:before,
-input.action-.delete[type=reset]:focus:before,
-button.action-.delete:focus:before {
+.data-table input.action-.delete[type=button]:hover:before,
+.data-table input.action-.delete[type=submit]:hover:before,
+.data-table input.action-.delete[type=reset]:hover:before,
+.data-table button.action-.delete:hover:before,
+.data-table input.action-.delete[type=button]:focus:before,
+.data-table input.action-.delete[type=submit]:focus:before,
+.data-table input.action-.delete[type=reset]:focus:before,
+.data-table button.action-.delete:focus:before {
     background: transparent;
     color: #a5a29d;
 }
@@ -805,6 +878,12 @@ textarea[readonly] {
     cursor: not-allowed;
     background-color: #eee;
     border-color: #ddd;
+    color:#676056;
+}
+
+select[disabled].multiselect > option[selected] { 
+    color: #fff;
+    background: #6d6d6d;
 }
 
 textarea:-moz-placeholder,
@@ -891,7 +970,8 @@ fieldset.field [class^='fields-group-'] .field .control {
 }
 
 .control > input[type="radio"],
-.control > input[type="checkbox"] {
+.control > input[type="checkbox"],
+.control > input[type="file"] {
     width: auto;
 }
 
@@ -911,6 +991,18 @@ fieldset.field [class^='fields-group-'] .field .control {
 .control > .hasDatepicker + img {
     margin: -3px 0 0 5px;
     vertical-align: middle;
+}
+
+/*
+    Forms for Store Scope
+-------------------------------------- */
+.form-inline .field-store_id .label + .control,
+.form-inline .field-store_ids .label + .control,
+.form-inline .field-website_ids .label + .control,
+.form-inline .field-website_id .label + .control,
+.form-inline .field-select_stores .label + .control,
+.form-inline .field-stores .label + .control {
+    width: auto;
 }
 
 /*
@@ -960,7 +1052,7 @@ fieldset.field [class^='fields-group-'] .field .control {
     font-size: 18px;
     color: #666;
     font-weight: normal;
-    padding: 7px 0 10px 10px;
+    padding: 7px 0 10px;
     display: inline-block;
 }
 
@@ -1109,7 +1201,8 @@ fieldset.field [class^='fields-group-'] .field .control {
 .ui-sortable .entry-edit .fieldset-wrapper-title > .title {
 }
 
-.fieldset-wrapper-title > .actions {
+.fieldset-wrapper-title > .actions,
+.fieldset .legend > .actions {
     float: right;
     padding-top: 6px;
 }
@@ -1133,8 +1226,23 @@ fieldset.field [class^='fields-group-'] .field .control {
 .fieldset .legend > span {
 }
 
+.fieldset .comment {
+    margin: 0 0 29px 10px;
+}
+
 .fieldset .field {
     margin: 0 0 29px;
+}
+
+.fieldset .field .options-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fieldset .field .options-list input[type="checkbox"],
+.fieldset .field .options-list input[type="radio"] {
+    margin-right: 5px;
 }
 
 [class^="fields-group-"] .field {
@@ -2765,7 +2873,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .adminhtml-dashboard-index .main-col {
-    width: 58%;
+    width: 60%;
 }
 
 /* Sidebar and main column vertical separator */
@@ -2798,16 +2906,16 @@ table tbody tr:nth-child(odd):hover th {
 /* Sidebar title and store view switcher*/
 /* TODO: temporary styles */
 .side-col h3,
-.side-col > .switcher {
+.side-col > .store-switcher {
     padding: 0 17px;
     margin-top: 16px;
 }
 
-.side-col > .switcher {
+.side-col > .store-switcher {
     padding-top: 6px;
 }
 
-.side-col > .switcher > a {
+.side-col > .store-switcher > a {
     white-space: nowrap;
 }
 
@@ -2900,7 +3008,8 @@ table tbody tr:nth-child(odd):hover th {
     box-shadow: 0 1px 2px #ccc inset;
 }
 
-.side-col .tabs > .ui-state-active a:after {
+.side-col .tabs > .ui-state-active a:after,
+.side-col .tabs > .ui-state-active a:before {
     position: absolute;
     top: 50%;
     right: 0;
@@ -2913,9 +3022,14 @@ table tbody tr:nth-child(odd):hover th {
     -webkit-font-smoothing: antialiased;
     content: '\e02b'; /* left turned triangle icon */
     font-size: 22px;
-    text-shadow: -1px 1px 0 #bdbbb7;
     color: #f5f2ed;
     overflow: hidden;
+    z-index: 4;
+}
+
+.side-col .tabs > .ui-state-active a:before {
+    color: #bdbbb7;
+    margin-top: -13px;
     z-index: 3;
 }
 
@@ -3143,8 +3257,15 @@ table tbody tr:nth-child(odd):hover th {
     content: attr(data-text-on);
 }
 
+.eq-ie8 .switcher-label:after {
+    content: 'off';
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 100%;
+}
 .eq-ie8 .switcher.checked .switcher-label:after {
     background-position: -34px 0;
+    content: 'on';
 }
 
 .eq-ie8 .switcher.checked .switcher-label:before {
@@ -3200,7 +3321,7 @@ table tbody tr:nth-child(odd):hover th {
     max-width: 1259px;
 }
 
-.lt-ie9 .page-actions.fixed .page-actions-inner {
+.eq-ie8 .page-actions.fixed .page-actions-inner {
     background: #f7f2ec;
 }
 
@@ -3285,7 +3406,10 @@ table tbody tr:nth-child(odd):hover th {
     padding: 5px;
 }
 
-.grid table td:first-child,
+.grid table td:first-child {
+    border-width: 0 1px 1px;
+}
+
 .grid table td:last-child {
     border-width: 0 1px 1px;
 }
@@ -3467,7 +3591,13 @@ table tbody tr:nth-child(odd):hover th {
     margin-left: -3px;
 }
 
-/* Grid - Headings */
+.grid-actions .link-feed {
+    white-space: nowrap;
+}
+
+/*
+    Grid - Headings
+-------------------------------------- */
 .grid tr.headings th {
     font-size: 13px;
     border-right: 1px solid #837f79;
@@ -3491,7 +3621,8 @@ table tbody tr:nth-child(odd):hover th {
     border-color: #504841;
 }
 
-.grid tr.headings th.no-link:hover > span {
+.grid tr.headings th.no-link:hover > span,
+.grid tr.headings th.col-select:hover > span {
     border-color: transparent;
 }
 
@@ -3605,6 +3736,12 @@ table tbody tr:nth-child(odd):hover th {
     text-align: left;
 }
 
+.grid .action-select {
+    background: #fff;
+    border: 1px solid #ccc;
+    margin: 0;
+}
+
 .grid .filter .range .range-line {
     margin-bottom: 3px;
 }
@@ -3616,6 +3753,7 @@ table tbody tr:nth-child(odd):hover th {
 .grid .filter .range input {
     width: 56px;
     margin-top: 0;
+    vertical-align: middle;
 }
 
 .grid .filter .range select {
@@ -3623,11 +3761,43 @@ table tbody tr:nth-child(odd):hover th {
     margin: 0;
 }
 
+.grid .filter .date {
+    position: relative;
+}
+
 .grid .filter .date img {
     width: 15px;
     height: 15px;
     cursor: pointer;
     vertical-align: middle;
+    margin-left: 5px;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+
+.eq-ie8 .grid .filter .date img {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+.grid .filter .date:before {
+    position: absolute;
+    left: 61px;
+    top: 2px;
+    margin-top: 0;
+    text-shadow: none;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    content: '\e06a'; /* icon calendar  */
+    color: #cac3b4;
+    z-index: 1;
 }
 
 .grid .head-massaction select {
@@ -3636,11 +3806,15 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Grid - Mass Action */
 .massaction {
-    color: #CAC3B4;
+    color: #cac3b4;
     padding: 7px 8px;
     background: #666158;
     box-shadow: 0 1px 2px 0 #504d46 inset, 0 -1px 2px 0 #504d46 inset;
     overflow: hidden;
+}
+
+.eq-ie8 .massaction {
+    border-bottom:  2px solid #504d46;
 }
 
 .massaction ul {
@@ -3653,14 +3827,14 @@ table tbody tr:nth-child(odd):hover th {
     display: inline-block;
 }
 
-.massaction li:after {
+.massaction li:before {
     color: #837F79;
     content: '|';
     display: inline-block;
     margin: 0 5px;
 }
 
-.massaction li:last-child:after {
+.massaction li:first-child:before {
     display: none;
 }
 
@@ -3688,10 +3862,13 @@ table tbody tr:nth-child(odd):hover th {
     background: #faebe7;
 }
 
-.massaction .entry-edit .field-row,
-.massaction .entry-edit .outer-span {
+.massaction .entry-edit .field-row {
     display: inline-block;
     vertical-align: middle;
+}
+
+.eq-ie8 .massaction .entry-edit .field-row {
+    display: inline;
 }
 
 .massaction .entry-edit .field-row button {
@@ -3706,7 +3883,10 @@ table tbody tr:nth-child(odd):hover th {
     color: #cac3b4;
     line-height: 26px;
     margin: 0 5px 0 20px;
+    padding: 0;
     vertical-align: middle;
+    width: auto;
+    float: none;
 }
 
 .massaction .entry-edit .validation-advice {
@@ -3808,8 +3988,16 @@ tr.dynamic-grid input.input-text {
 }
 
 .data-table td,
-.data-table tbody tr:not(:last-child) td,
 .data-table tbody tr td {
+    background: #fff;
+    padding: 5px 7px;
+    font-size: 12px;
+    vertical-align: middle;
+    border: solid #eae8e4;
+    border-width: 0 0 1px;
+}
+
+.data-table tbody tr:not(:last-child) td {
     background: #fff;
     padding: 5px 7px;
     font-size: 12px;
@@ -3821,14 +4009,16 @@ tr.dynamic-grid input.input-text {
 .data-table tbody tr.selected td,
 .data-table tbody tr.selected th,
 .data-table tbody tr:hover td,
-.data-table tbody tr:hover th,
-.data-table tbody tr:nth-child(odd) th,
-.data-table tbody tr:nth-child(odd):hover th {
+.data-table tbody tr:hover th {
     background: #fff;
 }
 
 .data-table tbody tr:nth-child(odd) td,
 .data-table tbody tr:nth-child(odd):hover td {
+    background: #fbfaf6;
+}
+
+.data-table tbody tr.odd td {
     background: #fbfaf6;
 }
 
@@ -3911,13 +4101,23 @@ tr.dynamic-grid input.input-text {
 .invitation_information .data-table,
 .invitee_information .data-table, 
 .inviter_information .data-table,
-.customer-information .data-table {
-    width:100%;
+.customer-information .data-table,
+.order-information .data-table,
+.order-account-information .data-table,
+.adminhtml-rma-new .data-table {
+    width: 100%;
 }
+
 .invitation_information .data-table tbody tr th,
 .invitee_information .data-table tbody tr th,
 .inviter_information .data-table tbody tr th,
-.customer-information .data-table tbody tr th {
+.customer-information .data-table tbody tr th,
+.order-information .data-table tbody tr th,
+.order-account-information .data-table tbody tr th,
+.adminhtml-rma-new .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr th,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr th,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr th{
     font-weight: bold;
 }
 
@@ -3928,7 +4128,19 @@ tr.dynamic-grid input.input-text {
 .inviter_information .data-table tbody tr td,
 .inviter_information .data-table tbody tr th,
 .customer-information .data-table tbody tr td,
-.customer-information .data-table tbody tr th {
+.customer-information .data-table tbody tr th,
+.order-information .data-table tbody tr td,
+.order-information .data-table tbody tr th,
+.order-account-information .data-table tbody tr td,
+.order-account-information .data-table tbody tr th,
+[class^=" adminhtml-rma-"] .data-table tbody tr td,
+[class^=" adminhtml-rma-"] .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr td,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr th,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr td,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr th,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr td {
     background-color: #fff;
     border: 0;
     padding: 9px 10px 10px;
@@ -3943,7 +4155,19 @@ tr.dynamic-grid input.input-text {
 .inviter_information .data-table tbody tr:nth-child(2n+1) td,
 .inviter_information .data-table tbody tr:nth-child(2n+1) th,
 .customer-information .data-table tbody tr:nth-child(2n+1) td,
-.customer-information .data-table tbody tr:nth-child(2n+1) th {
+.customer-information .data-table tbody tr:nth-child(2n+1) th,
+.order-information .data-table tbody tr:nth-child(2n+1) td,
+.order-information .data-table tbody tr:nth-child(2n+1) th,
+.order-account-information .data-table tbody tr:nth-child(2n+1) td,
+.order-account-information .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) td,
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr:nth-child(2n+1) td,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr:nth-child(2n+1) td,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr:nth-child(2n+1) td {
     background-color: #fbfaf6;
 }
 
@@ -4094,6 +4318,31 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    Tree Store Scope
+-------------------------------------- */
+.tree-store-scope .buttons-set {
+    margin-bottom: 9px;
+}
+
+.tree-store-scope .buttons-set button {
+    margin-right: 4px;
+}
+
+.tree-store-scope .field {
+    margin: 0 0 5px;
+}
+
+.tree-store-scope .field .label {
+    padding-top: 0;
+}
+
+.tree-store-scope .field input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+}
+
+/*
     Widgets
 -------------------------------------- */
 .widget-layout-updates .fieldset-wrapper,
@@ -4139,11 +4388,12 @@ tr.dynamic-grid input.input-text {
 }
 
 .widget-layout-updates .chooser_container {
-    padding: 0 10px 18px;
+    padding: 0 10px;
+    margin-bottom: 18px;
 }
 
 .widget-layout-updates .chooser_container p {
-    margin: 0;
+    margin: 0 0 18px;
 }
 
 .widget-layout-updates .chooser_container p img,

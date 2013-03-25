@@ -160,13 +160,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     {
         $this->addColumn('select', array(
             'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Select'),
-            'width'    => '40px',
             'type'     => 'checkbox',
             'align'    => 'center',
             'sortable' => false,
             'index'    => 'item_id',
             'values'   => $this->_getSelectedProducts(),
             'name'     => 'in_products',
+            'header_css_class'  => 'col-select',
+            'column_css_class'  => 'col-select'
         ));
 
         $this->addColumn('product_name', array(
@@ -174,31 +175,36 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
             'renderer' => 'Enterprise_Rma_Block_Adminhtml_Product_Bundle_Product',
             'index'    => 'name',
             'escape'   => true,
+            'header_css_class'  => 'col-product',
+            'column_css_class'  => 'col-product'
         ));
 
         $this->addColumn('sku', array(
             'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
-            'width'  => '80px',
             'type'   => 'text',
             'index'  => 'sku',
             'escape' => true,
+            'header_css_class'  => 'col-sku',
+            'column_css_class'  => 'col-sku'
         ));
 
         $this->addColumn('price', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Price'),
-            'width' => '80px',
             'type'  => 'currency',
             'index' => 'price',
+            'header_css_class'  => 'col-price',
+            'column_css_class'  => 'col-price'
         ));
 
         $this->addColumn('available_qty', array(
             'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining Qty'),
-            'width' => '80px',
             'type'  => 'text',
             'index' => 'available_qty',
             'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
             'filter' => false,
             'sortable' => false,
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         return parent::_prepareColumns();

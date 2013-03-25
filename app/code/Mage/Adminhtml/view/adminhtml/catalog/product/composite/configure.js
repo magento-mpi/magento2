@@ -39,6 +39,28 @@ ProductConfigure.prototype = {
      */
     initialize: function() {
         this._initWindowElements();
+        this.dialog = jQuery('#product_composite_configure').dialog({
+          autoOpen: false,
+          title: jQuery.mage.__('Configure Product'),
+          modal: true,
+          minWidth: 500,
+          dialogClass: 'popup-window',
+          open: function () {
+            jQuery(this).addClass('magento_message').css('max-height', '500px');
+          },
+          buttons: [{
+            id: "product_composite_configure_form_cancel",
+            text: "Cancel",
+            click: function() {
+                jQuery(this).dialog("close");
+            }
+          }, {
+            text: jQuery.mage.__('OK'),
+            click: function() {
+                jQuery('#product_composite_configure_form').submit();
+            }
+          }]
+        });
     },
 
     /**
@@ -53,10 +75,8 @@ ProductConfigure.prototype = {
         this.blockConfirmed             = $('product_composite_configure_confirmed');
         this.blockIFrame                = $('product_composite_configure_iframe');
         this.blockCancelBtn             = $('product_composite_configure_form_cancel');
-        this.blockMask                  = $('popup-window-mask');
         this.blockMsg                   = $('product_composite_configure_messages');
         this.blockMsgError              = this.blockMsg.select('.error-msg')[0];
-        this.windowHeight               = $('html-body').getHeight();
         this.iFrameJSVarname            = this.blockForm.select('input[name="as_js_varname"]')[0].value;
     },
 
@@ -397,9 +417,9 @@ ProductConfigure.prototype = {
      * Show configuration window
      */
     _showWindow: function() {
-        this._toggleSelectsExceptBlock(false);
-        this.blockMask.setStyle({'height':this.windowHeight+'px'}).show();
-        this.blockWindow.setStyle({'marginTop':-this.blockWindow.getHeight()/2 + "px", 'display':'block'});
+        this.dialog.dialog('open');
+        //this._toggleSelectsExceptBlock(false);
+
         if (Object.isFunction(this.showWindowCallback[this.current.listType])) {
             this.showWindowCallback[this.current.listType]();
         }
@@ -408,7 +428,7 @@ ProductConfigure.prototype = {
     /**
      * toggles Selects states (for IE) except those to be shown in popup
      */
-    _toggleSelectsExceptBlock: function(flag) {
+    /*_toggleSelectsExceptBlock: function(flag) {
         if(Prototype.Browser.IE){
             if (this.blockForm) {
                 var states = new Array;
@@ -417,23 +437,21 @@ ProductConfigure.prototype = {
                     states[i] = selects[i].style.visibility
                 }
             }
-            toggleSelectsUnderBlock(this.blockMask, flag);
             if (this.blockForm) {
                 for(i=0; i<selects.length; i++){
                     selects[i].style.visibility = states[i]
                 }
             }
         }
-    },
+    },*/
 
     /**
      * Close configuration window
      */
     _closeWindow: function() {
-        toggleSelectsUnderBlock(this.blockMask, true);
-        this.blockMask.style.display = 'none';
-        this.blockWindow.style.display = 'none';
-        this.clean('window');
+        this.dialog.dialog('close');
+        //this.blockWindow.style.display = 'none';
+        //this.clean('window');
     },
 
     /**
