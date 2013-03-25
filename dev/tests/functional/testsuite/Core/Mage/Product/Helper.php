@@ -680,41 +680,44 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
         $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_list');
         $this->addParameter('attributeSet', $newAttributeSet);
-        if (!$this->_chooseItemInAttributeSelector('attribute_set')
-            && $this->_chooseItemInAttributeSelector('show_all_attribute_sets')
-        ) {
-            if (!$this->_chooseItemInAttributeSelector('attribute_set')) {
-                $attributeSetField->value($newAttributeSet);
-                $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
-                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_list');
-                if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_no_records')
-                    || !$this->controlIsVisible(self::FIELD_TYPE_LINK, 'attribute_set')
-                    || $this->_chooseItemInAttributeSelector('attribute_set')
-                ) {
-                    $this->fail('Attribute set ' . $newAttributeSet . ' cannot be selected.');
-                }
-            }
+        //Search attribute set among recent attribute sets or in full list if it's first time
+        if ($this->_chooseItemInAttributeSelector('attribute_set')) {
+            return;
+        }
+        //Click 'Show all..' link
+        if (!$this->_chooseItemInAttributeSelector('show_all_attribute_sets')) {
+            $this->fail("Attribute set $newAttributeSet cannot be selected. 'Show all..' link is absent");
+        }
+        //Search attribute set in full attribute set list
+        if ($this->_chooseItemInAttributeSelector('attribute_set')) {
+            return;
+        }
+        //Search attribute set using attribute search control
+        $attributeSetField->value($newAttributeSet);
+        $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
+        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_list');
+        if (!$this->_chooseItemInAttributeSelector('attribute_set')) {
+            $this->fail('Attribute set ' . $newAttributeSet . ' cannot be selected.');
         }
     }
 
     /**
      * Choose item in suggest control for changing attribute set
      *
-     * @param string controlName
+     * @param string $controlName
      *
      * @return bool
      */
     protected function _chooseItemInAttributeSelector($controlName)
     {
         if ($this->controlIsVisible(self::FIELD_TYPE_LINK, $controlName)) {
-            $attributeSet = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, $controlName));
+            $attributeSet = $this->getControlElement(self::FIELD_TYPE_LINK, $controlName);
             $this->moveto($attributeSet);
             $attributeSet->click();
             $this->pleaseWait();
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
