@@ -115,7 +115,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
         return $tagHtml . '<span class="translate-inline-' . $tagName . '" '
             . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'))
             . ' ' . $this->_getHtmlAttribute(self::TRANSLATE_MODE, $this->_getTranslateMode($tagName))
-            . '>' . strtoupper($tagName) . '</span>';
+            . '>' . '</span>';
     }
 
     /**
