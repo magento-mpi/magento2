@@ -900,6 +900,19 @@
 }
 
 /*
+    System -> Export
+-------------------------------------- */
+
+#export_filter_grid .grid td .input-text-range-date {
+    vertical-align: middle;
+}
+
+#export_filter_grid .grid td .ui-datepicker-trigger {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+/*
     Reports
 -------------------------------------- */
 .reports-title .page-actions {
