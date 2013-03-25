@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
+/*global alert:true*/
 (function($) {
     "use strict";
     $.widget('mage.directpost', {
@@ -19,8 +20,7 @@
             ccMonthSelector: '[data-container="an-cc-month"]',
             ccYearSelector: '[data-container="an-cc-year"]',
             ccCvvSelector: '[data-container="an-cc-cvv"]',
-            iframeId: "directpost-iframe",
-            iframeTmpl: '<iframe id="${id}" allowtransparency="true" frameborder="0"  name="${name}" class="no-display" src="${src}" />',
+            iframeSelector: '[data-container="authorize-net-iframe"]',
             hiddenFormTmpl: '<form target="${target}" action="${action}" method="POST" enctype="application/x-www-form-urlencoded" class="no-display">' +
                             '{{each(key, val) inputs}} <input value="${val}" name="${key}" type="hidden"> {{/each}}' +
                             '</form>'
@@ -92,35 +92,12 @@
          * @private
          */
         _postPaymentToAuthorizeNet: function(data) {
-            // prototype has this vairable, not sure if we need it. keeping it here for reference
-            this._orderNumber = data['x_invoice_num'];
-            //this._recreateIframe();
             $.template('hiddenFormTmpl', this.options.hiddenFormTmpl);
             $.tmpl('hiddenFormTmpl', {
-                target: $('#' + this.options.iframeId).attr('name'),
+                target: $(this.options.iframeSelector).attr('name'),
                 action: this.options.cgiUrl,
                 inputs: data
             }).appendTo('body').submit();
-        },
-
-        /**
-         * Need to see if this code is needed...
-         * @private
-         */
-        _recreateIframe: function() {
-            if ($('#' + this.options.iframeId)) {
-                var iframe = $('#' + this.options.iframeId),
-                    nextElement = iframe.next(),
-                    src = iframe.attr('src'),
-                    name = iframe.attr('name');
-                iframe.remove();
-                $.template('iframeTmpl', this.options.hiddenFormTmpl);
-                nextElement.before($.tmpl('iframeTmpl', {
-                    dataAttribute: this.options.iframeSelector.substring(1, this.options.iframeSelector - 1),
-                    name: name,
-                    src: src
-                }));
-            }
         },
 
         /**
