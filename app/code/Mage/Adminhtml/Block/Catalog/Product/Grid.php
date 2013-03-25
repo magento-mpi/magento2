@@ -252,9 +252,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
             ));
         }
 
-        $this->addColumn('action',
+        $this->addColumn('edit',
             array(
-                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Action'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Edit'),
                 'width'     => '50px',
                 'type'      => 'action',
                 'getter'     => 'getId',
@@ -285,6 +285,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('entity_id');
+        $this->getMassactionBlock()->setTemplate('Mage_Catalog::product/grid/massaction_extended.phtml');
         $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('delete', array(
