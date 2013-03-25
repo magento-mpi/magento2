@@ -261,15 +261,17 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
 
             <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
                 <?php if ($isVisibleProduct): ?>
-                <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist use-ajax action towishlist"><?php echo $this->__('Move to Wishlist'); ?></a>
+                <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="use-ajax action towishlist">
+                    <span><?php echo $this->__('Move to Wishlist'); ?></span>
+                </a>
                 <?php endif ?>
             <?php endif ?>
 
             <?php if ($isVisibleProduct): ?>
-            <a class="action edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
+            <a class="action edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item parameters') ?>"><span><?php echo $this->__('Edit') ?></span></a>
             <?php endif ?>
 
-            <a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo $this->__('Remove item')?>" class="action delete"><?php echo $this->__('Remove item')?></a>
+            <a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo $this->__('Remove item')?>" class="action delete"><span><?php echo $this->__('Remove item')?></span></a>
         </div>
     </td>
 </tr>

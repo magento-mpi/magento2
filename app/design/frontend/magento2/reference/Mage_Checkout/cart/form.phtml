@@ -15,11 +15,11 @@
  * @see Mage_Checkout_Block_Cart
  */
 ?>
-<div class="cart table wrapper">
+<?php $mergedCells = ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices() ? 2 : 1); ?>
+<div class="cart table wrapper<?php echo $mergedCells == 2 ? ' detailed' : ''; ?>">
     <?php echo $this->getChildHtml('form_before') ?>
     <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post" id="form-validate" >
         <table id="shopping-cart-table" class="cart items data">
-        <?php $mergedCells = ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices() ? 2 : 1); ?>
             <thead>
                 <tr>
                     <th class="col item" rowspan="<?php echo $mergedCells; ?>"><span><?php echo $this->__('Item') ?></span></th>
@@ -72,17 +72,17 @@
         </div>
     </form>
     <?php echo $this->getChildHtml('shopping.cart.table.after'); ?>
+    <script type="text/javascript">
+        (function($) {
+            head.js(
+                "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
+                "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
+                "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+                "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
+                function() {
+                    $('#form-validate').validation();
+                });
+        })(jQuery);
+    </script>
 </div>
 
-<script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-            function() {
-                $('#form-validate').validation();
-            });
-    })(jQuery);
-</script>

@@ -14,7 +14,7 @@
  * @see Mage_Checkout_Block_Cart_Sidebar
  */
 ?>
-<div class="minicart wrapper">
+<div data-block="minicart" class="minicart wrapper">
 <?php $_cartQty = $this->getSummaryCount() ?>
 <?php if (!$this->getIsLinkMode() || !$this->getIsNeedToDisplaySideBar()): ?>
     <a data-toggle="dropdown" class="action showcart" href="<?php echo $this->getUrl('checkout/cart'); ?>">
@@ -100,8 +100,19 @@
             <?php endif ?>
         </div>
     </div>
-
 <?php endif; ?>
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/sidebar.js') ?>", function() {
+                $('[data-block="minicart"]').sidebar({
+                    checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
+                    checkoutButton: '#top-cart-btn-checkout',
+                    removeButton: 'a.action.delete',
+                    confirmMessage: '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
+                });
+            });
+    })(jQuery);
+</script>
 </div>
 
 <?php /*

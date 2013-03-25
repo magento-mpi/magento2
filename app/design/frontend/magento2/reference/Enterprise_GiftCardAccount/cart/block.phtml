@@ -25,21 +25,22 @@
                 <div class="field">
                     <label class="label" for="giftcard-code"><span><?php echo $this->__('Enter the gift card code') ?></span></label>
                     <div class="control">
-                        <input class="input-text" id="giftcard-code" name="giftcard_code" data-validate="{required:true}" value="" />
+                        <input class="input-text" type="text" id="giftcard-code" name="giftcard_code" data-validate="{required:true}" value="" />
                     </div>
+                </div>
+                <div class="actions">
+                    <div class="primary">
+                        <button class="action submit" type="submit" value="<?php echo $this->__('Add Gift Card') ?>">
+                            <span><?php echo $this->__('Add Gift Card') ?></span>
+                        </button>
+                    </div>
+                    <div class="secondary">
+                        <button class="action check" type="button" value="<?php echo $this->__('Check Gift Card status and balance') ?>">
+                            <span><?php echo $this->__('Check Gift Card status and balance') ?></span>
+                        </button>
+                    </div>
+                </div>
             </fieldset>
-            <div class="actions">
-                <div class="primary">
-                    <button class="action submit" type="submit" value="<?php echo $this->__('Add Gift Card') ?>">
-                        <span><?php echo $this->__('Add Gift Card') ?></span>
-                    </button>
-                </div>
-                <div class="secondary">
-                    <button class="action check" type="button" value="<?php echo $this->__('Check Gift Card status and balance') ?>">
-                        <span><?php echo $this->__('Check Gift Card status and balance') ?></span>
-                    </button>
-                </div>
-            </div>
         </form>
     </div>
 

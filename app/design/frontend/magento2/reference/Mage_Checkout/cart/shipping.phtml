@@ -46,10 +46,10 @@
                     <input class="input-text validate-postcode<?php if ($this->isZipCodeRequired()):?> required-entry<?php endif;?>" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->escapeHtml($this->getEstimatePostcode()) ?>" />
                 </div>
             </div>
+            <div class="actions">
+                <button type="submit" class="action quote"><span><?php echo $this->__('Get a Quote') ?></span></button>
+            </div>
         </fieldset>
-        <div class="actions">
-            <button type="submit" class="action quote"><span><?php echo $this->__('Get a Quote') ?></span></button>
-        </div>
     </form>
     <script type="text/javascript">
         (function($) {
@@ -100,10 +100,10 @@
                     </dd>
                 <?php endforeach; ?>
             </dl>
+            <div class="actions">
+                <button type="submit" class="action update" name="do" value="<?php echo $this->__('Update Total') ?>"><span><?php echo $this->__('Update Total') ?></span></button>
+            </div>
         </fieldset>
-        <div class="actions">
-            <button type="submit" class="action update" name="do" value="<?php echo $this->__('Update Total') ?>"><span><?php echo $this->__('Update Total') ?></span></button>
-        </div>
     </form>
     <?php endif; ?>
     </div>
