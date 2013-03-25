@@ -12,7 +12,6 @@
 <?php if ($websites): ?>
 <div class="store-switcher">
     <label for="website_switcher"><?php echo $this->__('Choose Website:') ?></label>
-    <?php echo $this->getHintHtml() ?>
     <select name="website_switcher" id="website_switcher" onchange="return switchWebsite(this);">
     <?php if ($this->hasDefaultOption()): ?>
         <option value=""><?php echo $this->getDefaultStoreName() ?></option>
@@ -21,6 +20,7 @@
             <option value="<?php echo $website->getId() ?>"<?php if ($this->getStoreId() == $website->getId()): ?> selected="selected"<?php endif; ?>><?php echo $website->getName() ?></option>
         <?php endforeach; ?>
     </select>
+    <?php echo $this->getHintHtml() ?>
 </div>
 <script type="text/javascript">
     function switchWebsite(obj){

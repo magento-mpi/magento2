@@ -190,6 +190,10 @@ button.primary.disabled,
 .pager .action-previous,
 .pager .action-next:hover,
 .pager .action-previous:hover,
+.pager .action-next.disabled:focus,
+.pager .action-previous.disabled:focus,
+.pager .action-next.disabled:active,
+.pager .action-previous.disabled:active,
 .data-table .action-.delete,
 .data-table .action-.delete:hover,
 .data-table .action-.delete:active,
@@ -1218,6 +1222,10 @@ option.placeholder {
 
 .fieldset-alt .field > .control {
 
+}
+
+.fieldset .tooltip .help {
+    margin: 7px 0 0 15px; 
 }
 
 /* "Use default" checkbox */
@@ -3365,6 +3373,10 @@ table tbody tr:nth-child(odd):hover th {
     padding: 15px;
 }
 
+.eq-ie8 .grid table td.empty-text {
+    border-width: 0 1px 1px;
+}
+
 .grid table tr:last-child td.empty-text {
     border-width: 0 1px 1px;
 }
@@ -4290,8 +4302,15 @@ tr.dynamic-grid input.input-text {
     margin: 0 0 5px;
 }
 
-.tree-store-scope .field .label {
-    padding-top: 0;
+.tree-store-scope .field-w_1_label .label,
+.tree-store-scope .field-sg_1_label .label {
+    text-align: left;
+    font-family: 'CallunaSans', Arial, sans-serif;
+    font-size: 18px;
+}
+
+.tree-store-scope .field-sg_1_label .label {
+    margin-left: 20px;
 }
 
 .tree-store-scope .field input[type="checkbox"] {

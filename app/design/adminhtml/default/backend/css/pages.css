@@ -2848,6 +2848,20 @@ table.items-to-invoice tbody tr:hover td {
 }
 
 /*
+    Shopping Cart Price Rule
+-------------------------------------- */
+.fieldset .field-coupon_code,
+.fieldset .field-rule_use_auto_generation {
+    margin-bottom: 0;
+}
+.field-rule_use_auto_generation .label {
+    margin-left: 5px;
+}
+.field-rule_use_auto_generation .nested {
+    margin-bottom: 29px;
+}
+
+/*
     Clearfix
 -------------------------------------- */
 .order-gift-options:before,
