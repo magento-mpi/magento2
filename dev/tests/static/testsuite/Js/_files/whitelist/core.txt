@@ -15,6 +15,6 @@ app/code/Mage/Wishlist
 app/code/Mage/Bundle
 app/code/Mage/Adminhtml
 app/code/Mage/Payment
-app/code/Mage/Paypal/view/frontend/js
+app/code/Mage/Paypal
 app/code/Mage/GiftMessage
 app/code/Mage/Sales

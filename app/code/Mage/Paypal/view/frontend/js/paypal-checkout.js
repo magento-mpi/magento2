@@ -22,7 +22,7 @@
                         returnUrl = this.options.confirmUrl;
                     }
                 }
-                if (this.options.isCatalogProduct == 1) {
+                if (this.options.isCatalogProduct) {
                     $(this.options.paypalCheckoutSelector).val(returnUrl);
                     $(this.options.productAddToCartForm).submit();
                 }
