@@ -905,11 +905,6 @@
     height: 52px;
 }
 
-.vde-tools-tabs {
-    position: relative;
-    z-index: 2;
-}
-
 .vde-tab-content-title {
     font: 20px/52px "CallunaSans", Arial, sans-serif;
     font-weight: 400;
