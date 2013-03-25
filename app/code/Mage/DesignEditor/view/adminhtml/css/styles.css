@@ -706,11 +706,47 @@
 
 .vde-tools .ui-resizable-n {
     cursor: n-resize;
-    width: 10px;
-    height: 16px;
-    top: 17px;
+    top: 0;
     left: 0;
-    background: url(Mage_DesignEditor::images/vde-tools-panel-draggable-handler-bg.png) no-repeat;
+    right: 0;
+    bottom: 0;
+    background: url(Mage_DesignEditor::images/vde-tools-panel-draggable-handler-bg.png) no-repeat 0 50%;
+    z-index: 1 !important;
+}
+
+.vde-tools input[type='text'] {
+    height: 30px;
+    line-height: 16px;
+    font-size: 14px;
+    padding: 0 7px;
+    border: 1px solid #30312c;
+    background: transparent;
+    color: #9f978c;
+}
+
+.eq-ie8 .vde-tools input[type='text'] {
+    height: 30px;
+    line-height: 26px;
+}
+
+.vde-tools input[type='text']:focus {
+    border: 1px solid #30312c;
+    box-shadow: none;
+}
+
+.vde-tools select {
+    border: 1px solid #30312c;
+    background: #000;
+}
+
+.vde-tools .field.with-addon .addbefore {
+    background: transparent;
+    border-color: #30312c;
+    color: #f2eadd;
+}
+
+.vde-tools .field.with-addon input[type='text'] {
+    border-left: 0;
 }
 
 .vde-tab-controls {
