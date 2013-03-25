@@ -33,18 +33,21 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
     const MODE_ALT = 'alt';
 
     /**
-     * script translate mode and element name
+     * script translate mode
      */
     const MODE_SCRIPT = 'script';
+
+    /**
+     * script element name
+     */
     const ELEMENT_SCRIPT = self::MODE_SCRIPT;
 
     /**
      * Translation within the vde will be enabled by the client when the 'Edit' button is enabled.
      *
-     * @param mixed $store
      * @return bool
      */
-    public function isAllowed($store = null)
+    public function isAllowed()
     {
         return $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->isAllowed();
     }
