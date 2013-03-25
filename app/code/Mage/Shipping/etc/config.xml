@@ -81,7 +81,7 @@
         </shipping>
         <carriers>
             <flatrate>
-                <active>1</active>
+                <active>0</active>
                 <sallowspecific>0</sallowspecific>
                 <model>Mage_Shipping_Model_Carrier_Flatrate</model>
                 <name>Fixed</name>
