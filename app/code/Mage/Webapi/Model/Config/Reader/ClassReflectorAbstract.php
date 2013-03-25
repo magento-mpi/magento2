@@ -13,6 +13,9 @@ use Zend\Server\Reflection,
  */
 abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
 {
+    const METHOD_TYPE_ANNOTATION = 'Type';
+    const METHOD_TYPE_CALL = 'call';
+
     /** @var Mage_Webapi_Helper_Config */
     protected $_helper;
 
@@ -51,21 +54,9 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
         $data = array(
             'controller' => $className,
         );
-        $serverReflection = new Reflection;
-        foreach ($serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
-            try {
-                $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
-            } catch (InvalidArgumentException $e) {
-                /** Resources can contain methods that should not be exposed through API. */
-                continue;
-            }
-            $version = $this->getMethodVersion($methodReflection);
-            if ($version) {
-                $data['versions'][$version]['methods'][$method] = $this->extractMethodData($methodReflection);
-            }
+        foreach ($this->_getServiceMethodsReflection($className) as $methodReflection) {
+            $data['methods'][$methodReflection->getName()] = $this->extractMethodData($methodReflection);
         }
-        // Sort versions array for further fallback.
-        ksort($data['versions']);
 
         return array(
             'resources' => array(
@@ -75,54 +66,27 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
     }
 
     /**
-     * Identify API method name without version suffix by its reflection.
+     * Retrieve class methods that are exposed as services.
      *
-     * @param ReflectionMethod|string $method Method name or method reflection.
-     * @return string Method name without version suffix on success.
-     * @throws InvalidArgumentException When method name is invalid API resource method.
+     * @param string $className
+     * @return array
      */
-    public function getMethodNameWithoutVersionSuffix($method)
+    protected function _getServiceMethodsReflection($className)
     {
-        if ($method instanceof ReflectionMethod) {
-            $methodNameWithSuffix = $method->getName();
-        } else {
-            $methodNameWithSuffix = $method;
+        $serviceMethods = array();
+        $serverReflection = new Reflection;
+        foreach ($serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
+            $methodDocumentation = $methodReflection->getDocComment();
+            if ($methodDocumentation) {
+                /** Zend server reflection is not able to work with annotation tags of the method. */
+                $docBlock = new DocBlockReflection($methodDocumentation);
+                $methodType = $docBlock->getTag(self::METHOD_TYPE_ANNOTATION);
+                if ($methodType && ($methodType->getContent() == self::METHOD_TYPE_CALL)) {
+                    $serviceMethods[] = $methodReflection;
+                }
+            }
         }
-        $regularExpression = $this->_getMethodNameRegularExpression();
-        if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $methodName = $methodMatches[1];
-            return $methodName;
-        }
-        throw new InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
-    }
-
-    /**
-     * Identify API method version by its reflection.
-     *
-     * @param ReflectionMethod $methodReflection
-     * @return string|bool Method version with prefix on success.
-     *      false is returned in case when method should not be exposed via API.
-     */
-    public function getMethodVersion(ReflectionMethod $methodReflection)
-    {
-        $methodVersion = false;
-        $methodNameWithSuffix = $methodReflection->getName();
-        $regularExpression = $this->_getMethodNameRegularExpression();
-        if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $resourceNamePosition = 2;
-            $methodVersion = ucfirst($methodMatches[$resourceNamePosition]);
-        }
-        return $methodVersion;
-    }
-
-    /**
-     * Get regular expression to be used for method name separation into name itself and version.
-     *
-     * @return string
-     */
-    protected function _getMethodNameRegularExpression()
-    {
-        return sprintf('/(%s)(V\d+)/', implode('|', Mage_Webapi_Controller_ActionAbstract::getAllowedMethods()));
+        return $serviceMethods;
     }
 
     /**
@@ -175,7 +139,6 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
      *     'deprecated'   => true,
      *     'use_resource' => 'operationName'  // resource to be used instead
      *     'use_method'   => 'operationName'  // method to be used instead
-     *     'use_version'  => N,               // version of method to be used instead
      * )
      * </pre>
      *
@@ -257,13 +220,6 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
                 throw new LogicException($invalidFormatMessage);
                 break;
         }
-        try {
-            $methodWithoutVersion = $this->getMethodNameWithoutVersionSuffix($methodName);
-        } catch (Exception $e) {
-            throw new LogicException($invalidFormatMessage);
-        }
-        $deprecationPolicy['use_method'] = $methodWithoutVersion;
-        $methodVersion = str_replace($methodWithoutVersion, '', $methodName);
-        $deprecationPolicy['use_version'] = ucfirst($methodVersion);
+        $deprecationPolicy['use_method'] = $methodName;
     }
 }

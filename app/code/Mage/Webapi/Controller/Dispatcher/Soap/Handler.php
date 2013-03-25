@@ -104,8 +104,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                     );
                 }
                 $this->_authentication->authenticate($this->_usernameToken);
-                $resourceVersion = $this->_getOperationVersion($operation);
-                $resourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
+                $resourceName = $this->_apiConfig->getResourceNameByOperation($operation);
                 if (!$resourceName) {
                     throw new Mage_Webapi_Exception(
                         $this->_helper->__('Method "%s" is not found.', $operation),
@@ -117,19 +116,16 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                     $controllerClass,
                     $this->_request
                 );
-                $method = $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
+                $method = $this->_apiConfig->getMethodNameByOperation($operation);
 
                 $this->_authorization->checkResourceAcl($resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
-                $versionAfterFallback = $this->_apiConfig->identifyVersionSuffix(
-                    $operation,
-                    $resourceVersion,
-                    $controllerInstance
-                );
-                $this->_apiConfig->checkDeprecationPolicy($resourceName, $method, $versionAfterFallback);
-                $action = $method . $versionAfterFallback;
+
+                $this->_apiConfig->checkDeprecationPolicy($resourceName, $method);
+                // TODO: Refactor after versioning removal
+                $action = $method;
                 $arguments = $this->_helper->prepareMethodParams(
                     $controllerClass,
                     $action,
@@ -180,31 +176,5 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 }
                 break;
         }
-    }
-
-    /**
-     * Identify version of requested operation.
-     *
-     * This method is required when there are two or more resource versions specified in request:
-     * http://magento.host/api/soap?wsdl&resources[resource_a]=v1&resources[resource_b]=v2 <br/>
-     * In this case it is not obvious what version of requested operation should be used.
-     *
-     * @param string $operationName
-     * @return int
-     * @throws Mage_Webapi_Exception
-     */
-    protected function _getOperationVersion($operationName)
-    {
-        $requestedResources = $this->_request->getRequestedResources();
-        $resourceName = $this->_apiConfig->getResourceNameByOperation($operationName);
-        if (!isset($requestedResources[$resourceName])) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('The version of "%s" operation cannot be identified.', $operationName),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND
-            );
-        }
-        $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));
-        $this->_apiConfig->validateVersionNumber($version, $resourceName);
-        return $version;
     }
 }

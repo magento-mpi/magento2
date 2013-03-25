@@ -40,37 +40,11 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
     {
         $routes = array();
         foreach ($this->_data['rest_routes'] as $routePath => $routeData) {
-            $routes[] = $this->_createRoute($routePath, $routeData['resourceName'], $routeData['actionType']);
-        }
-        return $routes;
-    }
-
-    /**
-     * Retrieve a list of all route objects associated with specified method.
-     *
-     * @param string $resourceName
-     * @param string $methodName
-     * @param string $version
-     * @return Mage_Webapi_Controller_Router_Route_Rest[]
-     * @throws InvalidArgumentException
-     */
-    public function getMethodRestRoutes($resourceName, $methodName, $version)
-    {
-        $resourceData = $this->_getResourceData($resourceName, $version);
-        if (!isset($resourceData['methods'][$methodName]['rest_routes'])) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'The "%s" resource does not have any REST routes for "%s" method.',
-                    $resourceName,
-                    $methodName
-                ));
-        }
-        $routes = array();
-        foreach ($resourceData['methods'][$methodName]['rest_routes'] as $routePath) {
             $routes[] = $this->_createRoute(
                 $routePath,
-                $resourceName,
-                Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName)
+                $routeData['resourceName'],
+                $routeData['methodName'],
+                $routeData['httpMethod']
             );
         }
         return $routes;
@@ -89,7 +63,8 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
         /** The shortest routes must go first. */
         ksort($restRoutes);
         foreach ($restRoutes as $routePath => $routeMetadata) {
-            if ($routeMetadata['actionType'] == Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
+            // TODO: Ensure that it works correctly with Item and Collection
+            if ($routeMetadata['httpMethod'] == Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET
                 && $routeMetadata['resourceName'] == $resourceName
             ) {
                 return $routePath;
@@ -103,17 +78,18 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
      *
      * @param string $routePath
      * @param string $resourceName
-     * @param string $actionType
+     * @param string $methodName
+     * @param string $httpMethod
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    protected function _createRoute($routePath, $resourceName, $actionType)
+    protected function _createRoute($routePath, $resourceName, $methodName, $httpMethod)
     {
         $apiTypeRoutePath = $this->_application->getConfig()->getAreaFrontName()
             . '/:' . Mage_Webapi_Controller_Front::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath . $routePath;
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
         $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $fullRoutePath);
-        $route->setResourceName($resourceName)->setResourceType($actionType);
+        $route->setResourceName($resourceName)->setHttpMethod($httpMethod)->setMethodName($methodName);
         return $route;
     }
 }

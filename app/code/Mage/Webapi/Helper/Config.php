@@ -1,5 +1,6 @@
 <?php
-use Zend\Server\Reflection\ReflectionMethod;
+use Zend\Server\Reflection\ReflectionMethod,
+    Zend\Code\Reflection\DocBlockReflection;
 
 /**
  * Webapi config helper.
@@ -195,38 +196,6 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Identify API method name without version suffix by its reflection.
-     *
-     * @param ReflectionMethod|string $method Method name or method reflection.
-     * @return string Method name without version suffix on success.
-     * @throws InvalidArgumentException When method name is invalid API resource method.
-     */
-    public function getMethodNameWithoutVersionSuffix($method)
-    {
-        if ($method instanceof ReflectionMethod) {
-            $methodNameWithSuffix = $method->getName();
-        } else {
-            $methodNameWithSuffix = $method;
-        }
-        $regularExpression = $this->getMethodNameRegularExpression();
-        if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $methodName = $methodMatches[1];
-            return $methodName;
-        }
-        throw new InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
-    }
-
-    /**
-     * Get regular expression to be used for method name separation into name itself and version.
-     *
-     * @return string
-     */
-    public function getMethodNameRegularExpression()
-    {
-        return sprintf('/(%s)(V\d+)/', implode('|', Mage_Webapi_Controller_ActionAbstract::getAllowedMethods()));
-    }
-
-    /**
      * Identify request body param name, if it is expected by method.
      *
      * @param ReflectionMethod $methodReflection
@@ -252,7 +221,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPosMultiUpdate,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $bodyPosMultiDelete
         );
-        $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+        $methodName = $methodReflection->getName();
         $isBodyExpected = isset($bodyParamPositions[$methodName]);
         if ($isBodyExpected) {
             $bodyParamPosition = $bodyParamPositions[$methodName];
@@ -300,7 +269,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
                 Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
             );
-            $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+            $methodName = $methodReflection->getName();
             if (in_array($methodName, $methodsWithId)) {
                 $isIdFieldExpected = true;
             }
@@ -345,5 +314,27 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             return count(explode('_', trim($matches[3], '_'))) > 1;
         }
         throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
+    }
+
+    /**
+     * Retrieve method annotation tag value.
+     *
+     * @param Zend\Server\Reflection\ReflectionMethod|Zend\Server\Reflection\ReflectionClass $entityReflection
+     * @param string $annotationTag
+     * @return string|null Return null if tag is not set
+     */
+    public function getAnnotationValue($entityReflection, $annotationTag)
+    {
+        $methodDocumentation = $entityReflection->getDocComment();
+        if ($methodDocumentation) {
+            /** Zend server reflection is not able to work with annotation tags. */
+            $docBlock = new DocBlockReflection($methodDocumentation);
+            $tag = $docBlock->getTag($annotationTag);
+            if ($tag) {
+                return $tag->getContent();
+            } else {
+                return null;
+            }
+        }
     }
 }

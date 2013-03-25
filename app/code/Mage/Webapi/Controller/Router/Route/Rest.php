@@ -21,7 +21,10 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     protected $_resourceName;
 
     /** @var string */
-    protected $_resourceType;
+    protected $_httpMethod;
+
+    /** @var string */
+    protected $_methodName;
 
     /**
      * Set route resource.
@@ -46,24 +49,46 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     }
 
     /**
-     * Set route resource type.
+     * Set HTTP method associated with current route.
      *
-     * @param string $resourceType
+     * @param string $httpMethod
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    public function setResourceType($resourceType)
+    public function setHttpMethod($httpMethod)
     {
-        $this->_resourceType = $resourceType;
+        $this->_httpMethod = $httpMethod;
         return $this;
     }
 
     /**
-     * Get route resource type.
+     * Get HTTP method associated with current route.
      *
      * @return string
      */
-    public function getResourceType()
+    public function getHttpMethod()
     {
-        return $this->_resourceType;
+        return $this->_httpMethod;
+    }
+
+    /**
+     * Retrieve service method name.
+     *
+     * @return string
+     */
+    public function getMethodName()
+    {
+        return $this->_methodName;
+    }
+
+    /**
+     * Set service method name.
+     *
+     * @param string $methodName
+     * @return Mage_Webapi_Controller_Router_Route_Rest
+     */
+    public function setMethodName($methodName)
+    {
+        $this->_methodName = $methodName;
+        return $this;
     }
 }

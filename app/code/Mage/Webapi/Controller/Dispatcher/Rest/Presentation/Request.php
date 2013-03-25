@@ -51,11 +51,10 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
     public function fetchRequestData($controllerInstance, $action)
     {
         $methodReflection = Mage_Webapi_Helper_Data::createMethodReflection($controllerInstance, $action);
-        $methodName = $this->_configHelper->getMethodNameWithoutVersionSuffix($methodReflection);
         $bodyParamName = $this->_configHelper->getOperationBodyParamName($methodReflection);
         $requestParams = array_merge(
             $this->_request->getParams(),
-            array($bodyParamName => $this->_getRequestBody($methodName))
+            array($bodyParamName => $this->_getRequestBody($this->_request->getHttpMethod()))
         );
         /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
         $idArgumentName = $this->_configHelper->getOperationIdParamName($methodReflection);
@@ -75,35 +74,25 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
     /**
      * Retrieve request data. Ensure that data is not empty.
      *
-     * @param string $method
+     * @param string $httpMethod
      * @return array
      */
-    protected function _getRequestBody($method)
+    protected function _getRequestBody($httpMethod)
     {
+        // TODO: Implement filtration of item and collection requests
         $processedInputData = null;
-        switch ($method) {
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE:
+        switch ($httpMethod) {
+            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_POST:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement data filtration of item
                 break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
-                $processedInputData = $this->_request->getBodyParams();
-                break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
+            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_PUT:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement data filtration
                 break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
-                $processedInputData = $this->_request->getBodyParams();
-                // TODO: Implement fields filtration
-                break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
+            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET:
                 // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_GET:
-                // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
-                // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_LIST:
+            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE:
                 break;
         }
         return $processedInputData;

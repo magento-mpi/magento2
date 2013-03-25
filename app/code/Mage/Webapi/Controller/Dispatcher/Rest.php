@@ -78,36 +78,31 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
     {
         try {
             $this->_authentication->authenticate();
+            // TODO: Routes must be added to rest_routes of config object
             $route = $this->_router->match($this->_request);
 
+            // TODO: Operation name should be matched using config
             $operation = $this->_request->getOperationName();
-            $resourceVersion = $this->_request->getResourceVersion();
-            $this->_apiConfig->validateVersionNumber($resourceVersion, $this->_request->getResourceName());
-            $method = $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
+
+            // TODO: Method name should be taken form config
+            $method = $this->_apiConfig->getMethodNameByOperation($operation);
             $controllerClassName = $this->_apiConfig->getControllerClassByOperationName($operation);
+
+            // TODO: Service should be created on this step as an alternative to controllers
             $controllerInstance = $this->_controllerFactory->createActionController(
                 $controllerClassName,
                 $this->_request
             );
-            $versionAfterFallback = $this->_apiConfig->identifyVersionSuffix(
-                $operation,
-                $resourceVersion,
-                $controllerInstance
-            );
-            /**
-             * Route check has two stages:
-             * The first is performed against full list of routes that is merged from all resources.
-             * The second stage of route check can be performed only when actual version to be executed is known.
-             */
-            $this->_router->checkRoute($this->_request, $method, $versionAfterFallback);
-            $this->_apiConfig->checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
-            $action = $method . $versionAfterFallback;
+
+            $this->_apiConfig->checkDeprecationPolicy($route->getResourceName(), $method);
+            // TODO: Refactor after versioning removal
+            $action = $method;
 
             $this->_authorization->checkResourceAcl($route->getResourceName(), $method);
 
             $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
-            $this->_restPresentation->prepareResponse($method, $outputData);
+            $this->_restPresentation->prepareResponse($this->_request->getHttpMethod(), $outputData);
         } catch (Exception $e) {
             $this->_response->setException($e);
         }

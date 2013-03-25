@@ -25,7 +25,6 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      * Version parameters.
      */
     const VERSION_NUMBER_PREFIX = 'V';
-    const VERSION_MIN = 1;
     /**#@-*/
 
     /** @var Mage_Webapi_Model_Config_ReaderAbstract */
@@ -96,21 +95,12 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      * Identify method name by operation name.
      *
      * @param string $operationName
-     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return string|bool Method name on success; false on failure
      */
-    public function getMethodNameByOperation($operationName, $resourceVersion = null)
+    public function getMethodNameByOperation($operationName)
     {
         list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        $versionCheckRequired = is_string($resourceVersion);
-        if (!$versionCheckRequired) {
-            return $methodName;
-        }
-        /** Allow to take resource version in two formats: with prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion)
-            ? self::VERSION_NUMBER_PREFIX . $resourceVersion
-            : ucfirst($resourceVersion);
-        return isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])
+        return isset($this->_data['resources'][$resourceName]['methods'][$methodName])
             ? $methodName : false;
     }
 
@@ -130,7 +120,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     protected function _parseOperationName($operationName)
     {
         /** Note that '(.*?)' must not be greedy to allow regexp to match 'multiUpdate' method before 'update' */
-        $regEx = sprintf('/(.*?)(%s)$/i', implode('|', Mage_Webapi_Controller_ActionAbstract::getAllowedMethods()));
+        $regEx = sprintf('/(%s)(.*?)$/i', implode('|', $this->getResourcesNames()));
         if (preg_match($regEx, $operationName, $matches)) {
             $resourceName = $matches[1];
             $methodName = lcfirst($matches[2]);
@@ -170,18 +160,16 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     public function getMethodMetadata(ReflectionMethod $methodReflection)
     {
         $resourceName = $this->_helper->translateResourceName($methodReflection->getDeclaringClass()->getName());
-        $resourceVersion = $this->_getMethodVersion($methodReflection);
-        $methodName = $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection);
+        $methodName = $methodReflection->getName();
 
-        if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
+        if (!isset($this->_data['resources'][$resourceName]['methods'][$methodName])) {
             throw new InvalidArgumentException(sprintf(
-                'The "%s" method of "%s" resource in version "%s" is not registered.',
+                'The "%s" method is not registered in "%s" resource.',
                 $methodName,
-                $resourceName,
-                $resourceVersion
+                $resourceName
             ));
         }
-        return $this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName];
+        return $this->_data['resources'][$resourceName]['methods'][$methodName];
     }
 
     /**
@@ -203,25 +191,22 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      *     'deprecated'   => true,
      *     'use_resource' => 'operationName'  // resource to be used instead
      *     'use_method'   => 'operationName'  // method to be used instead
-     *     'use_version'  => N,               // version of method to be used instead
      * )
      * </pre>
      *
      * @param string $resourceName
      * @param string $method
-     * @param string $resourceVersion
      * @return array|bool On success array with policy details; false otherwise.
      * @throws InvalidArgumentException
      */
-    public function getDeprecationPolicy($resourceName, $method, $resourceVersion)
+    public function getDeprecationPolicy($resourceName, $method)
     {
         $deprecationPolicy = false;
-        $resourceData = $this->_getResourceData($resourceName, $resourceVersion);
+        $resourceData = $this->getResourceData($resourceName);
         if (!isset($resourceData['methods'][$method])) {
             throw new InvalidArgumentException(sprintf(
-                'Method "%s" does not exist in "%s" version of resource "%s".',
+                'Method "%s" does not exist in resource "%s".',
                 $method,
-                $resourceVersion,
                 $resourceName
             ));
         }
@@ -241,21 +226,17 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      *
      * @param string $resourceName
      * @param string $method
-     * @param string $resourceVersion
      * @throws Mage_Webapi_Exception
      * @throws LogicException
      */
-    public function checkDeprecationPolicy($resourceName, $method, $resourceVersion)
+    public function checkDeprecationPolicy($resourceName, $method)
     {
-        $deprecationPolicy = $this->getDeprecationPolicy($resourceName, $method, $resourceVersion);
+        $deprecationPolicy = $this->getDeprecationPolicy($resourceName, $method);
         if ($deprecationPolicy) {
             /** Initialize message with information about what method should be used instead of requested one. */
-            if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])
-                && isset($deprecationPolicy['use_version'])
-            ) {
+            if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])) {
                 $messageUseMethod = $this->_helper
-                    ->__('Please use version "%s" of "%s" method in "%s" resource instead.',
-                    $deprecationPolicy['use_version'],
+                    ->__('Please use "%s" method in "%s" resource instead.',
                     $deprecationPolicy['use_method'],
                     $deprecationPolicy['use_resource']
                 );
@@ -266,16 +247,14 @@ abstract class Mage_Webapi_Model_ConfigAbstract
             $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
             if (isset($deprecationPolicy['removed'])) {
                 $removalMessage = $this->_helper
-                    ->__('Version "%s" of "%s" method in "%s" resource was removed.',
-                    $resourceVersion,
+                    ->__('"%s" method in "%s" resource was removed.',
                     $method,
                     $resourceName
                 );
                 throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
             } elseif (isset($deprecationPolicy['deprecated']) && $this->_application->isDeveloperMode()) {
                 $deprecationMessage = $this->_helper
-                    ->__('Version "%s" of "%s" method in "%s" resource is deprecated.',
-                    $resourceVersion,
+                    ->__('"%s" method in "%s" resource is deprecated.',
                     $method,
                     $resourceName
                 );
@@ -285,151 +264,23 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     }
 
     /**
-     * Identify the maximum version of the specified resource available.
-     *
-     * @param string $resourceName
-     * @return int
-     * @throws InvalidArgumentException When resource with the specified name does not exist.
-     */
-    public function getResourceMaxVersion($resourceName)
-    {
-        if (!isset($this->_data['resources'][$resourceName])) {
-            throw new InvalidArgumentException(sprintf('Resource "%s" does not exist.', $resourceName));
-        }
-        $resourceVersions = array_keys($this->_data['resources'][$resourceName]['versions']);
-        foreach ($resourceVersions as &$version) {
-            $version = str_replace(self::VERSION_NUMBER_PREFIX, '', $version);
-        }
-        $maxVersion = max($resourceVersions);
-        return (int)$maxVersion;
-    }
-
-    /**
-     * Find the most appropriate version suffix for the requested action.
-     *
-     * If there is no action with requested version, fallback mechanism is used.
-     * If there is no appropriate action found after fallback - exception is thrown.
-     *
-     * @param string $operationName
-     * @param int $requestedVersion
-     * @param Mage_Webapi_Controller_ActionAbstract $controllerInstance
-     * @return string
-     * @throws Mage_Webapi_Exception
-     */
-    public function identifyVersionSuffix($operationName, $requestedVersion, $controllerInstance)
-    {
-        $methodName = $this->getMethodNameByOperation($operationName, $requestedVersion);
-        $methodVersion = $requestedVersion;
-        while ($methodVersion >= self::VERSION_MIN) {
-            $versionSuffix = Mage_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX . $methodVersion;
-            if ($controllerInstance->hasAction($methodName . $versionSuffix)) {
-                return $versionSuffix;
-            }
-            $methodVersion--;
-        }
-        throw new Mage_Webapi_Exception($this->_helper
-                ->__('The "%s" operation is not implemented in version %s', $operationName, $requestedVersion),
-            Mage_Webapi_Exception::HTTP_BAD_REQUEST
-        );
-    }
-
-    /**
-     * Check if version number is from valid range.
-     *
-     * @param int $version
-     * @param string $resourceName
-     * @throws Mage_Webapi_Exception
-     */
-    public function validateVersionNumber($version, $resourceName)
-    {
-        $maxVersion = $this->getResourceMaxVersion($resourceName);
-        if ((int)$version > $maxVersion) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('The maximum version of the requested resource is "%s".', $maxVersion),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        } elseif ((int)$version < self::VERSION_MIN) {
-            throw new Mage_Webapi_Exception(
-                $this->_helper->__('Resource version cannot be lower than "%s".', self::VERSION_MIN),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        }
-    }
-
-    /**
-     * Retrieve the list of all resources with their versions.
+     * Retrieve the list of all resource names.
      *
      * @return array
      */
-    public function getAllResourcesVersions()
+    public function getResourcesNames()
     {
-        $resources = array();
-        foreach ($this->_data['resources'] as $resourceName => $data) {
-            $resources[$resourceName] = array_keys($data['versions']);
-        }
-
-        return $resources;
+        return array_keys($this->_data['resources']);
     }
 
     /**
-     * Identify API method version by its reflection.
-     *
-     * @param ReflectionMethod $methodReflection
-     * @return string|bool Method version with prefix on success.
-     *      false is returned in case when method should not be exposed via API.
-     */
-    protected function _getMethodVersion(ReflectionMethod $methodReflection)
-    {
-        $methodVersion = false;
-        $methodNameWithSuffix = $methodReflection->getName();
-        $regularExpression = $this->_helper->getMethodNameRegularExpression();
-        if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $resourceNamePosition = 2;
-            $methodVersion = ucfirst($methodMatches[$resourceNamePosition]);
-        }
-        return $methodVersion;
-    }
-
-    /**
-     * Retrieve resource description for specified version.
+     * Retrieve resource description.
      *
      * @param string $resourceName
-     * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return array
-     * @throws InvalidArgumentException When the specified resource version does not exist.
      */
-    protected function _getResourceData($resourceName, $resourceVersion)
+    public function getResourceData($resourceName)
     {
-        /** Allow to take resource version in two formats: with prefix and without it */
-        $resourceVersion = is_numeric($resourceVersion)
-            ? self::VERSION_NUMBER_PREFIX . $resourceVersion
-            : ucfirst($resourceVersion);
-        try {
-            $this->_checkIfResourceVersionExists($resourceName, $resourceVersion);
-        } catch (RuntimeException $e) {
-            throw new InvalidArgumentException($e->getMessage());
-        }
-        return $this->_data['resources'][$resourceName]['versions'][$resourceVersion];
-    }
-
-    /**
-     * Check if specified version of resource exists. If not - exception is thrown.
-     *
-     * @param string $resourceName
-     * @param string $resourceVersion
-     * @throws RuntimeException When resource does not exist.
-     */
-    protected function _checkIfResourceVersionExists($resourceName, $resourceVersion)
-    {
-        if (!isset($this->_data['resources'][$resourceName])) {
-            throw new RuntimeException($this->_helper->__('Unknown resource "%s".', $resourceName));
-        }
-        if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
-            throw new RuntimeException($this->_helper->__(
-                'Unknown version "%s" for resource "%s".',
-                $resourceVersion,
-                $resourceName
-            ));
-        }
+        return $this->_data['resources'][$resourceName];
     }
 }

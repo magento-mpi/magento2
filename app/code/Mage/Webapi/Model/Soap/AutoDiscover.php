@@ -86,7 +86,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         $resources = array();
         try {
             foreach ($requestedResources as $resourceName => $resourceVersion) {
-                $resources[$resourceName] = $this->_apiConfig->getResourceDataMerged($resourceName, $resourceVersion);
+                $resources[$resourceName] = $this->_apiConfig->getResourceData($resourceName);
             }
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);

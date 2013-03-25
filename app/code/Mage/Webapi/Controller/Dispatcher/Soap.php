@@ -103,15 +103,14 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_setResponseContentType('text/xml');
         $this->_response->setHttpResponseCode(400);
         $details = array();
-        foreach ($this->_apiConfig->getAllResourcesVersions() as $resourceName => $versions) {
-            foreach ($versions as $version) {
-                $details['availableResources'][$resourceName][$version] = sprintf(
-                    '%s?wsdl&resources[%s]=%s',
-                    $this->_soapServer->getEndpointUri(),
-                    $resourceName,
-                    $version
-                );
-            }
+        foreach ($this->_apiConfig->getResourcesNames() as $resourceName) {
+            $details['availableResources'][$resourceName] = sprintf(
+                '%s?wsdl&resources[%s]=%s',
+                $this->_soapServer->getEndpointUri(),
+                $resourceName,
+                // TODO: Change logic after versioning removal
+                1
+            );
         }
 
         $this->_setResponseBody(
