@@ -1855,7 +1855,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             return;
         }
         $this->addParameter('productXpath', $productLocator);
-        $this->expandAdvancedSettings(); //@TODO remove when fix MAGETWO-8318
         $this->verifyForm($fillingData, $fieldSetName);
     }
 

@@ -18,15 +18,19 @@ manage_categories:
         form:
             fieldsets:
                 -
-                    select_category:
+                    category_actions:
                         xpath: //*[@id='page:left']/div
                         buttons:
                             add_root_category: //button[@id='add_root_category_button']
                             add_sub_category: //button[@id='add_subcategory_button']
                         links:
-                            category_by_name: //span[contains(text(),'%categoryName%')]
                             collapse_all: //a[text()='Collapse All']
                             expand_all: //a[text()='Expand All']
+                -
+                    select_category:
+                        xpath: //div[@class='tree-holder']
+                        links:
+                            category_by_name: //span[contains(text(),'%categoryName%')]
                             select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                             select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                             select_category_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
