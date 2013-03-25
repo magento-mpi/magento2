@@ -170,19 +170,19 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
      */
     public function getCssClass()
     {
-        if (is_null($this->_cssClass)) {
+        if ($this->_cssClass === null) {
             if ($this->getAlign()) {
-                $this->_cssClass .= 'a-'.$this->getAlign();
+                $this->_cssClass .= 'a-' . $this->getAlign();
             }
             // Add a custom css class for column
             if ($this->hasData('column_css_class')) {
-                $this->_cssClass .= ' '. $this->getData('column_css_class');
+                $this->_cssClass .= ' ' . $this->getData('column_css_class');
             }
             if ($this->getEditable()) {
                 $this->_cssClass .= ' editable';
             }
+            $this->_cssClass .= ' col-' . $this->getId();
         }
-
         return $this->_cssClass;
     }
 
@@ -214,6 +214,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
     {
         $class = $this->getData('header_css_class');
         $class .= false === $this->getSortable() ? ' no-link' : '';
+        $class .= ' col-' . $this->getId();
         return $class;
     }
 
