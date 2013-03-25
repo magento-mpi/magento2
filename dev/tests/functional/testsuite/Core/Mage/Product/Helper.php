@@ -676,20 +676,45 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->clickButton('attribute_set_toggle', false);
         $attributeSetField = $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
-        $attributeSetField->value($newAttributeSet);
+        $attributeSetField->value(' '); // @TODO replace to '$attributeSetField->click();' after fix MAGETWO-8635
         $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
-        $this->addParameter('attributeSet', $newAttributeSet);
         $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_list');
-        if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_no_records')
-            || !$this->controlIsVisible(self::FIELD_TYPE_LINK, 'attribute_set')
+        $this->addParameter('attributeSet', $newAttributeSet);
+        if (!$this->_chooseItemInAttributeSelector('attribute_set')
+            && $this->_chooseItemInAttributeSelector('show_all_attribute_sets')
         ) {
-            $this->fail('Attribute set list is empty. No records found.');
+            if (!$this->_chooseItemInAttributeSelector('attribute_set')) {
+                $attributeSetField->value($newAttributeSet);
+                $this->waitForControlVisible(self::FIELD_TYPE_INPUT, 'attribute_set_name');
+                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_list');
+                if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_no_records')
+                    || !$this->controlIsVisible(self::FIELD_TYPE_LINK, 'attribute_set')
+                    || $this->_chooseItemInAttributeSelector('attribute_set')
+                ) {
+                    $this->fail('Attribute set ' . $newAttributeSet . ' cannot be selected.');
+                }
+            }
         }
-        $attributeSet = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, 'attribute_set'));
-        $this->moveto($attributeSet);
-        $attributeSet->click();
-        $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'product_attribute_set');
-        $this->pleaseWait();
+    }
+
+    /**
+     * Choose item in suggest control for changing attribute set
+     *
+     * @param string controlName
+     *
+     * @return bool
+     */
+    protected function _chooseItemInAttributeSelector($controlName)
+    {
+        if ($this->controlIsVisible(self::FIELD_TYPE_LINK, $controlName)) {
+            $attributeSet = $this->elementIsPresent($this->_getControlXpath(self::FIELD_TYPE_LINK, $controlName));
+            $this->moveto($attributeSet);
+            $attributeSet->click();
+            $this->pleaseWait();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

@@ -99,6 +99,7 @@ new_product:
                             attribute_set_name: //*[@id='product-template-suggest' and not(contains(@calss, 'mage-suggest-state-loading'))]
                         links:
                             attribute_set: //a[@role='menuitem' and text()='%attributeSet%']
+                            show_all_attribute_sets: //a[@role='menuitem' and text()='Show all...']
                         pageelements:
                             product_attribute_set: //div[@id='product-template-suggest-container']//span[text()='%attributeSet%']
                             attribute_set_no_records: //div[@class='mage-suggest-dropdown']/*[@class='mage-suggest-no-records']

@@ -83,7 +83,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
-        $this->assertTrue($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
+        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is absent attribute $assignedAttribute, but shouldn't");
         $this->productHelper()->verifyProductInfo($productDataInitial);
         $this->productHelper()->saveProduct();
@@ -113,7 +113,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
-        $this->assertFalse($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
+        $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");
         $this->productHelper()->verifyProductInfo($productDataInitial);
         $this->productHelper()->saveProduct();
@@ -144,7 +144,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
-        $this->assertTrue($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
+        $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is absent attribute $assignedAttribute, but shouldn't");
         $this->productHelper()->verifyProductInfo($productDataInitial);
         $this->productHelper()->saveProduct();
@@ -176,7 +176,7 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
-        $this->assertFalse($this->controlIsPresent('dropdown', 'general_user_attr_dropdown'),
+        $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");
         $this->productHelper()->verifyProductInfo($productDataInitial);
         $this->productHelper()->saveProduct();
@@ -235,11 +235,11 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
             $this->productHelper()->openProductTab('user_tab');
             //Verifying
             foreach ($attributeSetData['attributeCodes'] as $code) {
-                $this->addParameter('elementId', strstr($code, '_fpt_') ? $code . '_table' : $code);
-                $this->assertTrue($this->controlIsPresent('pageelement', 'element_by_id'));
+                $this->addParameter('elementId', strstr($code, '_fpt_') ? 'attribute-' . $code . '-container' : $code);
+                $this->assertTrue($this->controlIsVisible('pageelement', 'element_by_id'));
             }
             $this->productHelper()->verifyProductInfo($productDefaultSet);
-            $this->productHelper()->changeAttributeSet($attributeSetData['attributeSetName']);
+            $this->productHelper()->changeAttributeSet($productDefaultSet['product_attribute_set']);
         }
         $this->productHelper()->changeAttributeSet($attributeSetData['attributeSetName']);
         $this->productHelper()->saveProduct();

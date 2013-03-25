@@ -98,9 +98,6 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
      */
     public function verifyDefaultMask($metaCode, $metaField, $metaMask)
     {
-        if ($metaCode == 'meta_description') {
-            $this->markTestSkipped('fillDescription method TBD');
-        }
         //Preconditions
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask' => $metaMask));
