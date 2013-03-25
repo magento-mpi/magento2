@@ -119,7 +119,6 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteAssociatedToConfigurable($type, $attrData)
     {
-        $this->markTestIncomplete('MAGETWO-8640');
         //Data
         $associated = $this->loadDataSet('Product', $type . '_product_required');
         $associated['general_user_attr']['dropdown'][$attrData['attribute_code']] =
