@@ -63,14 +63,17 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
                 '0' => Mage::helper('Enterprise_Rma_Helper_Data')->__('No'),
                 '1' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Yes'),
             ),
-            'align'     => 'center',
+            'header_css_class'  => 'col-visible-on-front',
+            'column_css_class'  => 'col-visible-on-front'
         ));
 
         $this->addColumn('sort_order', array(
             'header'    => Mage::helper('Enterprise_Rma_Helper_Data')->__('Sort Order'),
             'sortable'  => true,
             'align'     => 'center',
-            'index'     => 'sort_order'
+            'index'     => 'sort_order',
+            'header_css_class'  => 'col-order',
+            'column_css_class'  => 'col-order'
         ));
 
         return $this;

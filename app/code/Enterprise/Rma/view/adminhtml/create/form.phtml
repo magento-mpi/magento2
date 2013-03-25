@@ -9,9 +9,6 @@
  */
 ?>
 <?php /** @var $this Enterprise_Rma_Block_Adminhtml_Rma_Create_Form */ ?>
-
 <form id="edit_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
-    <div class="entry-edit">
-        <?php echo $this->getChildHtml('rma_create_order') ?>
-    </div>
+    <?php echo $this->getChildHtml('rma_create_order') ?>
 </form>

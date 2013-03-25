@@ -38,13 +38,17 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Grid_Abstract extends Mage_Adm
         $this->addColumn('attribute_code', array(
             'header'=>Mage::helper('Mage_Eav_Helper_Data')->__('Attribute Code'),
             'sortable'=>true,
-            'index'=>'attribute_code'
+            'index'=>'attribute_code',
+            'header_css_class'  => 'col-attr-code',
+            'column_css_class'  => 'col-attr-code'
         ));
 
         $this->addColumn('frontend_label', array(
             'header'=>Mage::helper('Mage_Eav_Helper_Data')->__('Attribute Label'),
             'sortable'=>true,
-            'index'=>'frontend_label'
+            'index'=>'frontend_label',
+            'header_css_class'  => 'col-label',
+            'column_css_class'  => 'col-label'
         ));
 
         $this->addColumn('is_required', array(
@@ -56,7 +60,8 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Grid_Abstract extends Mage_Adm
                 '1' => Mage::helper('Mage_Eav_Helper_Data')->__('Yes'),
                 '0' => Mage::helper('Mage_Eav_Helper_Data')->__('No'),
             ),
-            'align' => 'center',
+            'header_css_class'  => 'col-required',
+            'column_css_class'  => 'col-required'
         ));
 
         $this->addColumn('is_user_defined', array(
@@ -64,11 +69,12 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Grid_Abstract extends Mage_Adm
             'sortable'=>true,
             'index'=>'is_user_defined',
             'type' => 'options',
-            'align' => 'center',
             'options' => array(
                 '0' => Mage::helper('Mage_Eav_Helper_Data')->__('Yes'),   // intended reverted use
                 '1' => Mage::helper('Mage_Eav_Helper_Data')->__('No'),    // intended reverted use
             ),
+            'header_css_class'  => 'col-system',
+            'column_css_class'  => 'col-system'
         ));
 
         return $this;
