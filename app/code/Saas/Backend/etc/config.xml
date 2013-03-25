@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,9 +11,9 @@
     <modules>
         <Saas_Backend>
             <version>2.0.0.0</version>
-            <active>true</active>
+            <active>false</active>
             <depends>
-                <Mage_Backend/>
+                <Mage_Core/>
             </depends>
         </Saas_Backend>
     </modules>
@@ -25,7 +23,7 @@
                 <observers>
                     <saas_backend>
                         <class>Saas_Backend_Model_Cache_Observer</class>
-                        <method>controllerActionFilter</method>
+                        <method>disableAdminhtmlCacheController</method>
                     </saas_backend>
                 </observers>
             </adminhtml_controller_action_predispatch_start>

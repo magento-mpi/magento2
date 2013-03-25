@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Saas
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
     <modules>
         <Saas_Saas>
             <version>0.1.0</version>
-            <active>true</active>
+            <active>false</active>
         </Saas_Saas>
     </modules>
     <global>
@@ -23,7 +21,7 @@
             </preferences>
             <Saas_Saas_Model_Cache>
                 <parameters>
-                    <cacheTypes>Mage_Core_Model_Cache_Types_Proxy</cacheTypes><!-- @todo remove cache types proxy as soon as deprecated methods of Mage_Core_Model_Cache are removed -->
+                    <cacheTypes>Mage_Core_Model_Cache_Types_Proxy</cacheTypes>
                     <config>Mage_Core_Model_Config_Proxy</config>
                 </parameters>
             </Saas_Saas_Model_Cache>

@@ -1,16 +1,11 @@
 <?php
 /**
+ * Cache observer
+ *
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Backend
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * adminhtml_controller_action_predispatch_start event observer
- * Class Saas_Backend_Model_Cache_Observer
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Saas_Backend_Model_Cache_Observer
 {
@@ -32,21 +27,10 @@ class Saas_Backend_Model_Cache_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-    public function controllerActionFilter(Varien_Event_Observer $observer)
+    public function disableAdminhtmlCacheController(Varien_Event_Observer $observer = null)
     {
-        $forbiddenActionList = array(
-            'index',
-            'flushAll',
-            'flushSystem',
-            'massEnable',
-            'massDisable',
-            'massRefresh',
-            'cleanMedia',
-            'cleanImages',
-        );
-
         if ($this->_request->getControllerName() == "cache"
-            && in_array($this->_request->getActionName(), $forbiddenActionList)) {
+            && $this->_request->getControllerModule() == 'Mage_Adminhtml') {
             $this->_request->setRouteName('noRoute');
         }
     }
