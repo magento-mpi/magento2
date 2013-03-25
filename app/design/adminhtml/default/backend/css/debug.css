@@ -327,9 +327,10 @@ ul.messages li.success-msg li:before {
 }
 
 /* TODO: styles for required TH fields */
-th.required:before {
+th.required:after {
     color: red;
     content: "*";
+    margin-left: 5px;
 }
 
 /* TODO: set color for messages in Cache Storage Management */

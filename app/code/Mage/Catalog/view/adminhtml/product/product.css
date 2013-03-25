@@ -446,7 +446,7 @@
     vertical-align: bottom;
 }
 
-.field-price .addon > input{
+.field-price .addon > input {
     width: 99px;
     float: left;
 }
@@ -676,7 +676,7 @@
 /* Change Attribute Set */
 #product_info_tabs li.removed,
 .field.removed {
-    display:none !important;
+    display: none !important;
 }
 
 /*
@@ -692,4 +692,34 @@
 
 #grouped_grid .col-qty {
     width: 7%;
+}
+
+/*
+    Custom Options
+-------------------------------------- */
+#product_options_container_top .field-option-title {
+    width: 500px;
+}
+
+#product_options_container_top .field-option-input-type {
+    width: 170px;
+}
+
+#product_options_container_top .col-draggable .draggable-handle {
+    top: 7px;
+}
+
+#product_options_container_top .col-name,
+#product_options_container_top .col-sku {
+    width: 38%;
+}
+
+#product_options_container_top .add-select-row ~ label.mage-error {
+    display: block;
+    margin: 5px 0 0;
+}
+
+.eq-ie8 #product_options_container_top .fieldset,
+.eq-ie8 #product_options_container_top .fieldset-alt {
+    margin-bottom: 0;
 }

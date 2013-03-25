@@ -981,6 +981,10 @@ label.mage-error {
     border-width: 0 0 1px;
 }
 
+.fieldset-wrapper {
+    clear: both;
+}
+
 .fieldset-wrapper > .fieldset-wrapper-title,
 .fieldset > .legend {
     position: static;
@@ -1116,6 +1120,7 @@ label.mage-error {
     padding-left: 22px;
 }
 
+.fieldset-wrapper .draggable-handle,
 .fieldset .draggable-handle {
     width: 8px;
     height: 14px;
@@ -1125,7 +1130,7 @@ label.mage-error {
     color: #b2b0ad;
 }
 
-.fieldset .fieldset-wrapper-title > .draggable-handle {
+.fieldset-wrapper-title > .draggable-handle {
     position: absolute;
     left: 10px;
     top: 12px;
@@ -1137,11 +1142,9 @@ label.mage-error {
 }
 
 /* Sortable fieldsets */
-.ui-sortable .entry-edit .fieldset-wrapper-title {
+.ui-sortable .entry-edit .fieldset-wrapper-title,
+#product_options_container_top .fieldset-wrapper-title {
     padding-left: 30px;
-}
-
-.ui-sortable .entry-edit .fieldset-wrapper-title > .title {
 }
 
 .fieldset-wrapper-title > .actions {
@@ -1165,7 +1168,14 @@ label.mage-error {
     margin: 0 0 29px;
 }
 
-.fieldset .legend > span {
+.eq-ie8 .fieldset-alt,
+.eq-ie8 .fieldset-alt > .fieldset {
+    display: block;
+    width: 100%;
+}
+
+.eq-ie8 .fieldset-alt > .field {
+    display: inline-block;
 }
 
 .fieldset .field {
@@ -1202,9 +1212,22 @@ label.mage-error {
 }
 
 .fieldset-alt {
+    position: relative;
+    display: table-row;
+    border: 0;
+    padding: 0;
+    margin-bottom: 30px;
+    width: 100%;
 }
 
-.fieldset-alt .field {
+.fieldset-alt > .field {
+    display: table-cell;
+    vertical-align: bottom;
+    padding-right: 4%;
+}
+
+.fieldset-alt > .field.no-display {
+    display: none;
 }
 
 .fieldset-alt .field > .label {
@@ -1215,8 +1238,38 @@ label.mage-error {
     margin: 0 0 10px;
 }
 
-.fieldset-alt .field > .control {
+.fieldset-alt .label + .control {
+    width: 100%;
+}
 
+.fieldset-alt .field-option-title {
+    width: 50%;
+}
+
+.fieldset-alt .field-option-store-view {
+    width: 20%;
+}
+
+.fieldset-alt .field-option-input-type {
+    width: 20%;
+}
+
+.fieldset-alt .field-option-input-type select {
+    width: 100%;
+}
+
+.fieldset-alt .field-option-req {
+    width: 105px;
+    white-space: nowrap;
+}
+
+.fieldset-alt .field-option-req .control {
+    padding-bottom: 5px;
+}
+
+.fieldset-alt .field-option-position,
+.fieldset-alt .field-option-position .control {
+    width: 60px;
 }
 
 /* "Use default" checkbox */
@@ -3878,6 +3931,7 @@ table .col-draggable {
     width: 1%;
 }
 
+table .col-default,
 table .col-select,
 table .col-qty,
 table .col-actions,
@@ -4129,6 +4183,7 @@ table .col-draggable .draggable-handle {
 .col-weight,
 .col-actions,
 .col-price,
+.col-price > input,
 .col-id,
 .col-total,
 .col-average {

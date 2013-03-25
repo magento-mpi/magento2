@@ -22,14 +22,19 @@
             if (!this.options.isReadonly) {
                 this.element.sortable({
                     axis: 'y',
-                    handle: 'div > [id^=product_option_][id$=_move]',
+                    handle: '[data-role="grip"]',
                     items: '#product_options_container_top > div',
                     update: this._updateOptionBoxPositions,
                     tolerance: 'pointer'
                 });
             }
             var syncOptionTitle = function (event) {
-                $(event.target).closest('#product_options_container_top > div').find('[id$="header_title"]').text($(event.target).val());
+                var originalValue = $(event.target).attr('data-store-label'),
+                    currentValue = $(event.target).val(),
+                    optionBoxTitle = $('.title > span', $(event.target).closest('.fieldset-wrapper')),
+                    newOptionTitle = $.mage.__('New Option');
+
+                optionBoxTitle.text(currentValue === '' && originalValue.length ? newOptionTitle : currentValue);
             };
             this._on({
                 //reset field value to Default
@@ -37,7 +42,7 @@
                     $(event.target).closest('label').find('input').prop('checked', true).trigger('change');
                 },
                 //Remove custom option or option row for 'select' type of custom option
-                'click button[id^=product_option_][id$=_delete]':  function (event) {
+                'click button[id^=product_option_][id$=_delete]': function (event) {
                     var element = $(event.target).closest('#product_options_container_top > div.fieldset-wrapper,tr');
                     if (element.length) {
                         $('#product_' + element.attr('id').replace('product_', '') + '_is_delete').val(1);
@@ -47,8 +52,8 @@
                 },
                 //Minimize custom option block
                 'click #product_options_container_top [data-target$=-content]': function (event) {
-                    if (!this.options.isReadonly) {
-                        $(event.target).closest('#product_options_container_top > div').find('table').toggle();
+                    if (this.options.isReadonly) {
+                        return false;
                     }
                 },
                 //Add new custom option
@@ -63,22 +68,23 @@
                 'click #import_new_defined_option': function () {
                     var importContainer = $('#import-container'),
                         widget = this;
+
                     importContainer.dialog({
-                        title: 'Select Product',
+                        title: $.mage.__('Select Product'),
                         autoOpen: false,
                         minWidth: 980,
                         modal: true,
                         resizable: true,
                         buttons: [
                             {
-                                text: 'Close',
+                                text: $.mage.__('Close'),
                                 id: 'import-custom-options-close-button',
                                 click: function () {
                                     $(this).dialog('close');
                                 }
                             },
                             {
-                                text: 'Import',
+                                text: $.mage.__('Import'),
                                 id: 'import-custom-options-apply-button',
                                 click: function (event, massActionTrigger) {
                                     var request = [];
@@ -133,7 +139,7 @@
                     data = data || {};
                     var widget = this,
                         currentElement = $(event.target),
-                        parentId = '#' + currentElement.closest('table').attr('id'),
+                        parentId = '#' + currentElement.closest('.fieldset-alt').attr('id'),
                         group = currentElement.find('[value="' + currentElement.val() + '"]').closest('optgroup').attr('label'),
                         previousGroup = $(parentId + '_previous_group').val(),
                         previousBlock = $(parentId + '_type_' + previousGroup);
@@ -157,7 +163,7 @@
                                 data.price = data.sku = '';
                             }
                             data.group = group;
-                            widget.element.find('#custom-option-' + group + '-type-template').tmpl(data).appendTo($(parentId));
+                            widget.element.find('#custom-option-' + group + '-type-template').tmpl(data).insertAfter($(parentId));
                             if (data.price_type) {
                                 var priceType = $('#' + widget.options.fieldId + '_' + data.option_id + '_price_type');
                                 priceType.val(data.price_type).attr('data-store-label', data.price_type);
@@ -173,15 +179,16 @@
                     }
                 },
                 //Sync title
-                'change .opt-title > input[id$="_title"]': syncOptionTitle,
-                'keyup .opt-title > input[id$="_title"]': syncOptionTitle
+                'change .field-option-title > .control > input[id$="_title"]': syncOptionTitle,
+                'keyup .field-option-title > .control > input[id$="_title"]': syncOptionTitle,
+                'paste .field-option-title > .control > input[id$="_title"]': syncOptionTitle
             });
         },
         _initSortableSelections: function () {
             if (!this.options.isReadonly) {
                 this.element.find('[id^=product_option_][id$=_type_select] tbody').sortable({
                     axis: 'y',
-                    handle: 'span.draggable-handle', //@TODO Change when html fixed
+                    handle: '[data-role="grip"]',
                     helper: function (event, ui) {
                         ui.children().each(function () {
                             $(this).width($(this).width());
@@ -189,7 +196,7 @@
                         return ui;
                     },
                     update:this._updateSelectionsPositions,
-                    tolerance:'pointer'
+                    tolerance: 'pointer'
                 });
             }
         },
@@ -207,7 +214,7 @@
         },
         //Update Custom option position
         _updateOptionBoxPositions: function () {
-            $(this).find('div[id^=option_]:not(.ignore-validate) table > [name$="[sort_order]"]').each(function (index) {
+            $(this).find('div[id^=option_]:not(.ignore-validate) .fieldset-alt > [name$="[sort_order]"]').each(function (index) {
                 $(this).val(index);
             });
         },
@@ -235,7 +242,7 @@
             //enable 'use default' link for title
             if (data.checkboxScopeTitle) {
                 title.useDefault({
-                    field:'tr',
+                    field:'.field',
                     useDefault:'label[for$=_title]',
                     checkbox:'input[id$=_title_use_default]',
                     label:'span'
@@ -244,14 +251,14 @@
             //enable 'use default' link for price and price_type
             if (data.checkboxScopePrice) {
                 price.useDefault({
-                    field:'tr',
+                    field:'.field',
                     useDefault:'label[for$=_price]',
                     checkbox:'input[id$=_price_use_default]',
                     label:'span'
                 });
                 //@TODO not work set default value for second field
                 priceType.useDefault({
-                    field:'tr',
+                    field:'.field',
                     useDefault:'label[for$=_price]',
                     checkbox:'input[id$=_price_use_default]',
                     label:'span'
