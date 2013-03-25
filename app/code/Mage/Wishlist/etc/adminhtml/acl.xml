@@ -13,9 +13,11 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Wishlist::config_wishlist" module="Mage_Wishlist" title="Wishlist Section" />
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_settings">
+                        <resource id="Mage_Adminhtml::config">
+                            <resource id="Mage_Wishlist::config_wishlist" module="Mage_Wishlist" title="Wishlist Section" sortOrder="80" />
+                        </resource>
                     </resource>
                 </resource>
             </resource>

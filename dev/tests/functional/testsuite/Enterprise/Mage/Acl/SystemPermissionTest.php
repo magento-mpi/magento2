@@ -47,9 +47,24 @@ class Enterprise_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         // set configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('LockedUser/login_failures');
-        $this->logoutAdminUser();
-
+        $parameters = $this->fixtureDataToArray('LockedUser/login_failures');
+        if (isset($parameters['configuration_scope'])) {
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
+        }
+        foreach ($parameters as $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+            $settings = (isset($value['configuration'])) ? $value['configuration'] : array();
+            if (!empty($value['tab_name'])) {
+                $this->systemConfigurationHelper()->openConfigurationTab($value['tab_name']);
+                foreach ($settings as $fieldsetName => $fieldsetData) {
+                    $this->systemConfigurationHelper()->expandFieldSet($fieldsetName);
+                    $this->systemConfigurationHelper()->fillFieldset($fieldsetData, $fieldsetName);
+                }
+                $this->clickButton('save_config');
+            }
+        }
         return $testData;
     }
 
@@ -100,10 +115,9 @@ class Enterprise_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
             array('username' => $newUserTestData['user_name'])), 'locked_user_grid');
         $this->fillDropdown('locked_actions', 'Unlock');
         $this->clickControlAndWaitMessage('button', 'submit');
-        //The test failed because of bug MAGETWO-2789
         //add quantity of unlocked users
         $this->addParameter('unLockedUser', 1);
-        $this->assertMessagePresent('success', 'locked_actions');
+        $this->assertMessagePresent('success', 'user_unlocked');
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($newUserTestData);
     }

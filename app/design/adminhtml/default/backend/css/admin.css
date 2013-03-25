@@ -186,6 +186,7 @@ button.primary.disabled,
     Reset 'button view' for actions
 -------------------------------------- */
 .customer-current-activity .action-refresh,
+.customer-current-activity .action-refresh,
 .pager .action-next,
 .pager .action-previous,
 .pager .action-next:hover,
@@ -231,6 +232,44 @@ button.primary.disabled,
 .vde-tools-header .action-close:hover,
 .vde-tools-header .action-close:active,
 .vde-tools-header .action-close.active,
+.image .action-delete,
+.image .action-delete:hover,
+.image .action-delete:active,
+.image .action-delete.active,
+.fieldset-wrapper-title .actions .action-delete,
+.fieldset-wrapper-title .actions .action-delete:hover,
+.fieldset-wrapper-title .actions .action-delete:active,
+.fieldset-wrapper-title .actions .action-delete.active,
+.address-list-item-actions .action-delete,
+.address-list-item-actions .action-delete:hover,
+.address-list-item-actions .action-delete:active,
+.address-list-item-actions .action-delete.active,
+.notification .action-close,
+.notification .action-close:hover,
+.notification .action-close:active,
+.notification .action-close.active {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.data-table .action-.delete:disabled,
+.data-table .action-delete:disabled,
+#product-variations-matrix .action-choose:disabled,
+.image-panel .action-close:disabled,
+.image-panel-controls .action-remove:disabled,
+.suggest-expandable .action-show-all:disabled,
+.fieldset-wrapper-title .action-add:disabled,
+#store-view-window [class^='action-close'],
+#store-view-window [class^='action-close']:hover,
+#store-view-window [class^='action-close']:active,
+#store-view-window [class^='action-close'].active,
+#store-view-window [class^='action-close']:disabled,
+.custom-file > .action-add:disabled,
 .image .action-delete,
 .image .action-delete:hover,
 .image .action-delete:active,
@@ -2376,9 +2415,7 @@ table tbody tr:nth-child(odd):hover th {
     z-index: 2;
 }
 
-/*.navigation .level-0.item-stores > a span:before, */
-/* TODO: place the gear icon to the "Stores" nav item when it appears */
-.navigation .level-0.item-system > a span:before {
+.navigation .level-0.item-stores > a span:before {
     position: absolute;
     left: -22px;
     top: -1px;

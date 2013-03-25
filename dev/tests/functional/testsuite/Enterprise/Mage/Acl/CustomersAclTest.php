@@ -243,7 +243,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         $this->navigate('manage_invitations');
         $this->clickButton('add_invitations');
         $this->validatePage('new_invitations');
-        $this->fillField('email_on_new_line', $this->generate('email', 128, 'valid'));
+        $this->fillField('email_on_new_line', $this->generate('email', 50, 'valid'));
         $this->clickButton('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_send');
@@ -323,6 +323,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessRewardPoints()
     {
+        $this->markTestIncomplete('MAGETWO-8404');
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
