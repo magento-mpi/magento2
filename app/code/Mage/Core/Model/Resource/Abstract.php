@@ -243,7 +243,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      * @param string $tableName
      * @return array|string
      */
-    protected function _getColumnsForEntityLoad($object, $tableName)
+    protected function _getColumnsForEntityLoad(Mage_Core_Model_Abstract $object, $tableName)
     {
         $fieldsetColumns = $object->getFieldset();
         if (!empty($fieldsetColumns)) {
@@ -253,7 +253,7 @@ abstract class Mage_Core_Model_Resource_Abstract
                 $columns = array_intersect($fieldsetColumns, array_keys($entityTableColumns));
             }
         }
-        if ((!isset($columns) || empty($columns))) {
+        if (empty($columns)) {
             /** In case when fieldset was specified but no columns were matched with it, ID column is returned. */
             $columns = empty($fieldsetColumns) ? '*' : array($object->getIdFieldName());
         }

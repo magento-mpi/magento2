@@ -1076,7 +1076,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      * @param array $fieldset
      * @return bool Return false if current select object will not return any records
      */
-    protected function _applyFieldsetFilter(&$select, $fieldset)
+    protected function _applyFieldsetFilter(Zend_Db_Select &$select, array $fieldset)
     {
         /** Identify the list of tables participating in current select. */
         $selectFromParts = $select->getPart(Zend_Db_Select::FROM);
