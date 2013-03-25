@@ -30,9 +30,8 @@ try {
     $isBuild = isset($options['build']);
     if (!$isBuild) {
         $lists[] = 'dev_build.txt';
-    } else {
-        $additionalConfig = isset($options['additional']) ? array($options['additional']) : array();
-        $lists = array_merge($lists, $additionalConfig);
+    } elseif (isset($options['additional'])) {
+        $lists[] = $options['additional'];
     }
     switch ($options['edition']) {
         case 'ce':
@@ -51,12 +50,15 @@ try {
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
+
+    //step #1: configure installation
+    $configurator->configure();
+
+    //step #2: remove files that not belong to edition
     $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($basePath);
     foreach ($lists as $list) {
         $command .= ' -l ' . escapeshellarg(__DIR__ . '/extruder/' . $list);
     }
-
-    $configurator->configure();
 
     echo $command . PHP_EOL;
     passthru($command, $exitCode);
