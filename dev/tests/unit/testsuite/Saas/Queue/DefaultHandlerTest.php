@@ -22,6 +22,11 @@ class Saas_Queue_Model_Queue_DefaultHandlerTest extends PHPUnit_Framework_TestCa
      */
     protected $_defaultHandler;
 
+    /**
+     * @var Varien_Event
+     */
+    protected $_eventMock;
+
     protected function setUp()
     {
         $this->_eventMock = $this->getMock('Varien_Event');
@@ -66,7 +71,29 @@ class Saas_Queue_Model_Queue_DefaultHandlerTest extends PHPUnit_Framework_TestCa
         $eventData = array(1,2,3);
 
         return array(
-            array(
+            'default' => array(
+                //Handler params
+                $eventName,
+                array(
+                    'observer' => array(
+                        'event' => null
+                    ),
+                    'configuration' => array (
+                        'config' => array (
+                            'params' => array (),
+                        ),
+                    ),
+                ),
+                $eventData,
+
+                //Expected adapter params
+                $eventName,
+                array(
+                    'task_name' => $eventName,
+                    'params' => $eventData,
+                ),
+            ),
+            'worker_as_event_transport' => array(
                 //Handler params
                 $eventName,
                 array(

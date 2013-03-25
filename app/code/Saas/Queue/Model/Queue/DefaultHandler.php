@@ -13,10 +13,10 @@
  *
  * In this class in future adapters can be created according to a type that has been provided in configuration.
  */
-class Saas_Queue_Model_Queue_DefaultHandler extends Enterprise_Queue_Model_Queue_DefaultHandler
+class Saas_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Model_Queue_HandlerInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * @var Enterprise_Queue_Model_Queue_AdapterInterface
      */
     protected $_adapter;
 
@@ -48,32 +48,32 @@ class Saas_Queue_Model_Queue_DefaultHandler extends Enterprise_Queue_Model_Queue
      */
     public function addTask($eventName, $data, $priority = null)
     {
+        $eventData = $data['observer']['event']->getData();
+        if (!is_array($eventData)) {
+            $eventData = array();
+        }
+        unset($eventData['name']);
+        $taskData = $this->_helper->getTaskParams();
         if (
             !array_key_exists('params', $data['configuration']['config'])
             || !is_array($data['configuration']['config']['params'])
             || empty($data['configuration']['config']['params']['task_name'])
         ) {
             //Backward compatibility
-            return parent::addTask($eventName, $data, $priority);
+            $taskName = $eventName;
+            $params = $eventData;
+        } else {
+            $taskName = $data['configuration']['config']['params']['task_name'];
+            $params = array(
+                'event_name' => $eventName,
+                'event_data' => $eventData,
+            );
+            if (array_key_exists('event_area', $data['configuration']['config']['params'])) {
+                $params['event_area'] = $data['configuration']['config']['params']['event_area'];
+            }
         }
-        $taskName = $data['configuration']['config']['params']['task_name'];
-        $eventData = $data['observer']['event']->getData();
-        if (!is_array($eventData)) {
-            $eventData = array();
-        }
-        unset($eventData['name']);
-        $params = array(
-            'event_name' => $eventName,
-            'event_data' => $eventData,
-        );
-        if (array_key_exists('event_area', $data['configuration']['config']['params'])) {
-            $params['event_area'] = $data['configuration']['config']['params']['event_area'];
-        }
-        $taskData = array(
-            'task_name' => $taskName,
-            'params' => $params
-        );
-        $taskData = array_merge($taskData, $this->_helper->getTaskParams());
+        $taskData['task_name'] = $taskName;
+        $taskData['params'] = $params;
         $this->_adapter->addTask($taskName, $taskData, $priority);
         return $this;
     }
