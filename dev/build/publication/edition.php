@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build]' . PHP_EOL);
+define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build] [--additional]' . PHP_EOL);
 try {
-    $options = getopt('', array('dir:', 'edition:', 'build'));
+    $options = getopt('', array('dir:', 'edition:', 'build', 'additional:'));
     if (!isset($options['dir']) || !isset($options['edition'])) {
         throw new Exception(USAGE);
     }
@@ -30,6 +30,9 @@ try {
     $isBuild = isset($options['build']);
     if (!$isBuild) {
         $lists[] = 'dev_build.txt';
+    } else {
+        $additionalConfig = isset($options['additional']) ? array($options['additional']) : array();
+        $lists = array_merge($lists, $additionalConfig);
     }
     switch ($options['edition']) {
         case 'ce':
