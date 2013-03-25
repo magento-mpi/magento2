@@ -4106,6 +4106,29 @@ tr.dynamic-grid input.input-text {
     background-color: #fbfaf6;
 }
 
+.eq-ie8 .invitation_information .data-table tbody tr td,
+.eq-ie8 .invitation_information .data-table tbody tr th,
+.eq-ie8 .invitee_information .data-table tbody tr td,
+.eq-ie8 .invitee_information .data-table tbody tr th,
+.eq-ie8 .inviter_information .data-table tbody tr td,
+.eq-ie8 .inviter_information .data-table tbody tr th,
+.eq-ie8 .customer-information .data-table tbody tr td,
+.eq-ie8 .customer-information .data-table tbody tr th,
+.eq-ie8 .order-information .data-table tbody tr td,
+.eq-ie8 .order-information .data-table tbody tr th,
+.eq-ie8 .order-account-information .data-table tbody tr td,
+.eq-ie8 .order-account-information .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-rma-"] .data-table tbody tr td,
+.eq-ie8 [class^=" adminhtml-rma-"] .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-sales-transactions-"] .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-sales-transactions-"] .data-table tbody tr td,
+.eq-ie8 [class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr td,
+.eq-ie8 [class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr td {
+    border-bottom: 1px solid #ededed;
+}
+
 /*
     Content alignments in tables
 -------------------------------------- */
