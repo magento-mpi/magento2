@@ -12,7 +12,7 @@
 # 'Manage Statuses' page
 order_statuses:
     mca: sales_order_status/
-    click_xpath: //div[@class='submenu']//a[contains(@href, 'sales_order_status')]
+    click_xpath: //*[@id='nav']//a[contains(@href, 'sales_order_status')]
     title: Order Statuses / Sales / Magento Admin
     uimap:
         form:

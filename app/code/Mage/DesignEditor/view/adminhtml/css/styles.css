@@ -1491,8 +1491,26 @@
 #vde_toolbar_buttons .actions-split {
     margin: 0 20px 0 0;
 }
+
 #vde_toolbar_buttons .actions-split > [class^='action-'] {
     line-height: 20px;
+}
+
+.store-launcher-theme-preview .action-theme-assign {
+    color: #fff;
+    background: #f47b20;
+    text-shadow: none;
+}
+
+.store-launcher-theme-preview .action-theme-assign:hover,
+.store-launcher-theme-preview .action-theme-assign:focus {
+    background: #e2701a;
+    color: #fff;
+    text-shadow: 0 -1px 2px #955326;
+}
+
+.store-launcher-theme-preview .action-theme-assign:active {
+    box-shadow: 0 1px 5px #955326 inset;
 }
 
 #vde_toolbar .item-msg {
