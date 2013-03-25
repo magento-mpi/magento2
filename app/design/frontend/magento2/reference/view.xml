@@ -144,8 +144,12 @@
         <var name="mini_cart_product_thumbnail:width">78</var>
         <var name="mini_cart_product_thumbnail:height"/>
 
+        <var name="shopping_cart_product_thumbnail:type">thumbnail</var>
+        <var name="shopping_cart_product_thumbnail:width">80</var>
+        <var name="shopping_cart_product_thumbnail:height"/>
+
         <var name="new_products_images_only_widget:type">small_image</var>
-        <var name="new_products_images_only_widget:width">76</var>
+        <var name="new_products_images_only_widget:width">78</var>
         <var name="new_products_images_only_widget:height"/>
 
     </vars>

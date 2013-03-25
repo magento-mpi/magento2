@@ -6,6 +6,7 @@
             parent: null,
             autoclose: true,
             btnArrow: '.arrow',
+            menu: '[data-target="dropdown"]',
             activeClass: 'active'
         };
 
@@ -56,7 +57,7 @@
         return this.each(function() {
             var elem = $(this),
                 parent = elem.parent(),
-                menu = $('[data-target="dropdown"]', parent) || $('.dropdown-menu', parent);
+                menu = $(options.menu, parent) || $('.dropdown-menu', parent);
 
             elem.on('click.toggleDropdown', function() {
                 if(options.autoclose === true) {

@@ -1156,19 +1156,20 @@ select {
  *
  *    Shopping Cart
 ----------------------------------------------------------------------------- */
-.cart.table.wrapper {
-    margin-right:300px;
-}
+
 .cart.items.data {
     width:100%;
-    .col.qty { width:40px; padding-top:10px;}
+    th.col.item > span { display: none; }
+    td.col.qty { width:40px; padding-top:10px;}
+    th.col.qty { text-transform: uppercase; }
     input.qty {width:40px; text-align: center}
     td.col.price,
     td.col.subtotal {text-align: right;}
     .product.photo { float:left; }
-    .product.details { margin-left:180px; }
+    .product.details { display: inline-block; }
     .item.actions {
         text-align: right;
+        div.actions {padding-bottom:30px;}
     }
     td { padding:16px 10px 10px; vertical-align: top; }
     td:first-child { padding-left:20px; }
@@ -1187,6 +1188,76 @@ select {
             height:0px;
             overflow: hidden;
             margin:0 0 10px;
+        }
+    }
+}
+
+.cart.table.wrapper {
+    float:left;
+    width:665px;
+}
+.cart.summary {
+    background: @primary1;
+    float:right;
+    width:290px;
+    padding:20px;
+    .summary.title {
+        font-size: 20px;
+        font-weight: 200;
+        display: block;
+        border-bottom:3px solid @primary2;
+        padding-bottom:15px;
+    }
+    .block {
+        border-bottom:1px solid @primary2;
+        > .title {
+            cursor:pointer;
+            padding:10px 5px;
+            margin:0;
+            line-height: 16px;
+            strong {
+                font-size: 12px;
+                font-weight: 600;
+                &:after {
+                    content: "\e02d";
+                    font-family:"MUI-icons";
+                    float:right;
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 16px;
+                }
+            }
+            &.active strong:after {
+                content: "\e03a";
+            }
+
+        }
+        > .content {
+            display: none;
+        }
+        &.active {
+            > .content {
+                display: block;
+            }
+        }
+    }
+}
+
+.block.giftcard {
+    > .content {
+        position: relative;
+        z-index: 1;
+    }
+}
+.form.giftcard.add {
+    display: table;
+    .label {display: none;}
+    .fieldset,
+    .actions {
+        display: table-cell;
+        .secondary {
+            position: absolute;
+            left:0;
         }
     }
 }
@@ -1311,6 +1382,13 @@ select {
                 }
                 .amount.incl.tax {
                     display: block;
+                    font-size: 14px;
+                    &:after {
+                        content:')';
+                    }
+                    .price:after {
+                        content:' (';
+                    }
                 }
             }
             .disclaimer {

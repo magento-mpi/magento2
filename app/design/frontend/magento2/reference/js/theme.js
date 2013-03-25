@@ -246,6 +246,14 @@
         checkWrap();
         //$('.navigation .level-top > .submenu').hide();
         $('.navigation .level-top').hoverIntent(config).find('> .submenu').hide();
+
+        if ($('.checkout-cart-index').length > 0) {
+            $('.cart.summary > .block > .title').dropdown({autoclose:false, menu:'.title + .content'});
+            if ($('#co-shipping-method-form .fieldset.rates').length > 0 && $('#co-shipping-method-form .fieldset.rates :checked').length === 0 ) {
+                $('.block.shipping > .title').addClass('active');
+                $('.block.shipping').addClass('active');
+            }
+        }
     });
 
 
