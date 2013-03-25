@@ -146,6 +146,8 @@
         _checkTranslateEditing: function(event, data) {
             if (this.isBeingEdited) {
                 alert($.mage.__(data.alert_message));
+                // Stop the toggle of the switcher.
+                parent.jQuery('[data-switcher="vde"]').prop('checked', false);
             }
             else {
                 // Inline translation text is not being edited.  Continue on.
