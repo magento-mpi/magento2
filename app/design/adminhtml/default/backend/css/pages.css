@@ -1937,6 +1937,10 @@
     float: right;
 }
 
+[class^=" adminhtml-sales-order-"] .fieldset-wrapper address {
+    overflow: auto;
+}
+
 /*
     Orders comments
 -------------------------------------- */
@@ -2043,14 +2047,17 @@
     width: 10%;
 }
 
-[class^=" adminhtml-sales-"] .col-select,
 [class^=" adminhtml-sales-"] .col-actions,
-[class^=" adminhtml-rma-"] .col-select,
 [class^=" adminhtml-rma-"] .col-actions,
 [class^=" adminhtml-rma-"] .col-default,
-.adminhtml-giftwrapping-index .col-select,
 .adminhtml-giftwrapping-index .col-actions {
     width: 50px;
+}
+
+[class^=" adminhtml-sales-"] .col-select,
+[class^=" adminhtml-rma-"] .col-select,
+.adminhtml-giftwrapping-index .col-select {
+    width: 60px;
 }
 
 [class^=" adminhtml-sales-"] .col-qty,
@@ -2060,6 +2067,7 @@
 [class^=" adminhtml-rma-"] .col-condition {
     width: 70px;
 }
+
 [class^=" adminhtml-sales-"] .col-refund,
 [class^=" adminhtml-sales-transactions-"] .col-closed,
 .adminhtml-sales-order-view .col-closed {
@@ -2099,8 +2107,8 @@
 [class^=" adminhtml-rma-"] .col-status,
 [class^=" adminhtml-rma-"] .col-reason,
 [class^=" adminhtml-rma-"] .col-resolution,
-.adminhtml-sales-order-view .col-memo,
-[class^=" adminhtml-sales-transactions-"] .col-transaction-type {
+[class^=" adminhtml-sales-transactions-"] .col-transaction-type,
+.adminhtml-sales-order-view .col-memo {
     width: 100px;
 }
 
@@ -2132,6 +2140,22 @@
 [class^=" adminhtml-sales-transactions-"] .log-details .data-table tbody tr th,
 [class^=" adminhtml-sales-transactions-"] .col-key {
     width: 22%;
+}
+
+.adminhtml-sales-order-index .col-1-layout table.data {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+[class^=" adminhtml-sales-"] .col-from-store {
+    width: 15%;
+}
+
+[class^=" adminhtml-sales-"] .col-2-left-layout .hor-scroll {
+    margin-bottom: -4px;
+    overflow: auto;
+    padding-bottom: 4px;
+    width: 100%;
 }
 
 [class^=" adminhtml-sales-order-"] .order-totals .actions,
@@ -2188,13 +2212,6 @@
 
 [class^=" adminhtml-sales-order-"] .item-options dd {
     margin: 0 0 0 10px;
-}
-
-[class^=" adminhtml-sales-"] .hor-scroll {
-    margin-bottom: -4px;
-    overflow: auto;
-    padding-bottom: 4px;
-    width: 100%;
 }
 
 .adminhtml-rma-item-attribute-edit .col-position input {

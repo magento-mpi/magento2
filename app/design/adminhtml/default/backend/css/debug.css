@@ -418,7 +418,11 @@ th.required:before {
     clear: both;
 }
 
-.adminhtml-sales-order-index .page-actions {
+.adminhtml-sales-order-index .page-actions,
+.adminhtml-rma-index .page-actions,
+.adminhtml-giftwrapping-index .page-actions,
+.adminhtml-rma-item-attribute-index .page-actions,
+.adminhtml-checkout-agreement-index .page-actions {
     position: absolute;
     z-index: 2;
     margin-top: 8px;
@@ -426,7 +430,22 @@ th.required:before {
     padding: 0;
 }
 
-.adminhtml-sales-order-index .page-actions .add {
+.adminhtml-sales-order-index .page-actions.fixed,
+.adminhtml-rma-index .page-actions.fixed,
+.adminhtml-giftwrapping-index .page-actions.fixed,
+.adminhtml-rma-item-attribute-index .page-actions.fixed,
+.adminhtml-checkout-agreement-index .page-actions.fixed {
+    left: 0;
+    margin: 0;
+    padding: 0 21px;
+    position: fixed;
+}
+
+.adminhtml-sales-order-index .page-actions .add,
+.adminhtml-rma-index .page-actions .add,
+.adminhtml-giftwrapping-index .page-actions .add,
+.adminhtml-rma-item-attribute-index .page-actions .add,
+.adminhtml-checkout-agreement-index .add {
     width: 36px;
     height: 36px;
     border-radius: 18px;
@@ -439,14 +458,22 @@ th.required:before {
     text-align: center;
 }
 
-.adminhtml-sales-order-index .page-actions .add > span {
+.adminhtml-sales-order-index .page-actions .add > span,
+.adminhtml-rma-index .page-actions .add > span,
+.adminhtml-rma-item-attribute-index .page-actions .add > span,
+.adminhtml-giftwrapping-index .page-actions .add > span,
+.adminhtml-checkout-agreement-index .page-actions .add > span {
     text-indent: -999em;
     display: block;
     width: 36px;
     height: 36px;
 }
 
-.adminhtml-sales-order-index .page-actions .add > span:before {
+.adminhtml-sales-order-index .page-actions .add > span:before,
+.adminhtml-rma-index .page-actions .add > span:before,
+.adminhtml-giftwrapping-index .page-actions .add > span:before,
+.adminhtml-rma-item-attribute-index .page-actions .add > span:before,
+.adminhtml-checkout-agreement-index .page-actions .add > span:before {
     text-indent: 0;
     content: '+';
     font-weight: normal;
@@ -462,14 +489,36 @@ th.required:before {
     left: 0;
 }
 
-.adminhtml-sales-order-index .grid-actions {
+.eq-ie8 .adminhtml-sales-order-index .page-actions .add > span:before,
+.eq-ie8 .adminhtml-rma-index .page-actions .add > span:before,
+.eq-ie8 .adminhtml-giftwrapping-index .page-actions .add > span:before,
+.eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add > span:before,
+.eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add > span:before {
+    top: 5px;
+}
+
+.adminhtml-sales-order-index .grid-actions,
+.adminhtml-rma-index .grid-actions,
+.adminhtml-giftwrapping-index .grid-actions,
+.adminhtml-rma-item-attribute-index .grid-actions,
+.adminhtml-checkout-agreement-index .grid-actions {
     border-radius: 5px 5px 0 0;
     margin-top: 20px;
     padding-left: 100px;
     padding: 10px 16px 10px 80px;
 }
 
-.adminhtml-sales-order-index .col-1-layout {
+.adminhtml-sales-order-index .col-1-layout,
+.adminhtml-sales-shipment-index .col-1-layout,
+.adminhtml-rma-index .col-1-layout,
+.adminhtml-sales-invoice-index .col-1-layout,
+.adminhtml-rma-item-attribute-index .col-1-layout,
+.adminhtml-sales-transactions-index .col-1-layout,
+.adminhtml-sales-creditmemo-index .col-1-layout,
+.adminhtml-sales-recurring-profile-index .col-1-layout,
+.adminhtml-giftwrapping-index .col-1-layout,
+.adminhtml-sales-billing-agreement-index .col-1-layout,
+.adminhtml-checkout-agreement-index .col-1-layout {
     padding: 0;
     background: transparent;
     border: 0;
