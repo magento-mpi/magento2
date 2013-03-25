@@ -72,8 +72,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
     public function selectCategory($categoryPath, $fieldsetName = 'select_category')
     {
         $this->waitForControlVisible('fieldset', $fieldsetName);
-        $nodes = explode('/', $categoryPath);
-        foreach ($nodes as $categoryNode) {
+        foreach (explode('/', $categoryPath) as $categoryNode) {
             if (isset($trueCategory)) {
                 $trueSubCat = array();
                 foreach ($trueCategory as $data) {
@@ -101,8 +100,10 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
             $this->pleaseWait();
             $openedPageName = $this->getControlAttribute('pageelement', 'category_name_header', 'text');
             $openedPageName = preg_replace('/ \(ID\: [0-9]+\)/', '', $openedPageName);
-            if (end($nodes) != $openedPageName) {
-                $this->fail("Opened category with name '$openedPageName' but must be '" . end($nodes) . "'");
+            $nodes = explode('/', $categoryPath);
+            $expectedName = end($nodes);
+            if ($expectedName != $openedPageName) {
+                $this->fail("Opened category with name '$openedPageName' but must be '$expectedName'");
             }
         }
     }
