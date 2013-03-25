@@ -101,7 +101,8 @@
             }, this));
             var superSelector = this.options.superSelector;
             $('.link-wishlist').on('click', function () {
-                $(this).attr('href', $(this).attr('href') + '?' + $(superSelector).serialize());
+                var url = $(this).attr('href');
+                $(this).attr('href', url + (url.indexOf('?') == -1 ? '?' : '&') + $(superSelector).serialize());
             });
         },
 
