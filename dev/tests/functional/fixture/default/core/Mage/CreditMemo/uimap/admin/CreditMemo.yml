@@ -115,8 +115,8 @@ create_credit_memo:
                             price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset']
+            back: //div[@class='page-actions']//button[span='Back']
+            reset: //div[@class='page-actions']//button[span='Reset']
         messages: *creditMemoMessages
 
 create_credit_memo_for_invoice:
@@ -171,7 +171,7 @@ view_credit_memo:
                             price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            send_email: //p[@class='form-buttons']//button[span='Send Email']
-            print: //p[@class='form-buttons']//button[span='Print']
+            back: //div[@class='page-actions']//button[span='Back']
+            send_email: //div[@class='page-actions']//button[span='Send Email']
+            print: //div[@class='page-actions']//button[span='Print']
         messages: *creditMemoMessages
