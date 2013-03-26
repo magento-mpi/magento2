@@ -11,37 +11,42 @@
 <?php
 /* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form */
 ?>
+
 <?php $treeNodes = $this->getNodesJson(); ?>
+
 <div class="cms-hierarchy">
-    <?php echo $this->getStoreSwitcherHtml() ?>
-    <table cellspacing="0" width="100%">
-        <col width="50%" />
-        <col width="50%" />
-        <tr>
-            <td class="col-left">
-                <?php echo $this->getParentBlock()->getChildHtml('hierarchy_manage') ?>
-                <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
-                <span class="cms-scope">
-                    <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
-                    <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use Parent Node\'s Hierarchy') ?></label>
-                </span>
-                <?php endif; ?>
-                <div id="tree-container" class="cms-tree tree x-tree"></div>
-            </td>
-            <td class="col-right">
-                <div class="buttons-set">
-                    <?php echo $this->getTreeButtonsHtml();?>
-                    <?php echo $this->getPagePropertiesButtons();?>
-                </div>
-                <div id="node_prop_container" class="entry-edit">
-                    <?php echo $this->getFormHtml() ?>
-                </div>
-            </td>
-        </tr>
-    </table>
+
+    <fieldset class="fieldset fieldset-switcher">
+        <?php echo $this->getStoreSwitcherHtml() ?>
+    </fieldset>
+
+    <?php echo $this->getParentBlock()->getChildHtml('hierarchy_manage') ?>
+
+    <div class="cms-hierarchy-tree">
+        <?php if ($this->getData('current_scope') != Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
+        <div class="cms-scope">
+            <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
+            <label for="use_default_scope"><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Use Parent Node\'s Hierarchy') ?></label>
+        </div>
+        <?php endif; ?>
+
+        <div id="tree-container" class="cms-tree tree x-tree"></div>
+    </div>
+
+    <div class="cms-hierarchy-node">
+        <div class="buttons-set">
+            <?php echo $this->getTreeButtonsHtml();?>
+            <?php echo $this->getPagePropertiesButtons();?>
+        </div>
+
+        <div id="node_prop_container" class="entry-edit form-inline">
+            <fieldset class="fieldset">
+                <?php echo $this->getFormHtml() ?>
+            </fieldset>
+        </div>
+    </div>
 
     <script type="text/javascript">
-    //<![CDATA[
     /**
      * Fix ext compatibility with prototype 1.6
      */
@@ -60,6 +65,7 @@
     hierarchyNodes = {
         nodes: <?php echo $treeNodes ?>,
         removedNodes: $A(),
+
         initialize: function(){
             jQuery.mage.load('validation');
             this.increment = 0;
@@ -267,7 +273,7 @@
             this._changeNodePropShow(hasPageId);
 
             // change main fieldset title
-            $('node_properties_fieldset').previous().down('.icon-head').innerHTML = hasPageId
+            $('node_properties_fieldset').down('.legend span').innerHTML = hasPageId
                 ? '<?php echo $this->getPageFieldsetLegend()?>'
                 : '<?php echo $this->getNodeFieldsetLegend()?>';
 
@@ -285,13 +291,13 @@
             if ((isStoreViewLevel || isNodePreviewAvailable) && isNodeSaved) {
                 var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
                 if (nodeUrlInfo != false) {
-                    $('node_preview').up(1).show();
+                    $('node_preview').up('.field').show();
                     $('node_preview').writeAttribute('target', '_blank');
                     $('node_preview').writeAttribute('href', nodeUrlInfo.url);
                     $('node_preview').innerHTML = nodeUrlInfo.path;
                 }
             } else {
-                $('node_preview').up(1).hide();
+                $('node_preview').up('.field').hide();
             }
 
             if (!hasPageId) {
@@ -351,7 +357,7 @@
             if ($('add_cms_pages').hasClassName('disabled')) {
                 return false;
             }
-            var rows = $$('#cms_page_grid .grid table tbody tr');
+            var rows = $$('#cms_page_grid_table tbody tr');
             rows.each(function(tr){
                 var checkbox = tr.down('.checkbox');
                 if (!checkbox || !checkbox.checked) {
@@ -453,17 +459,17 @@
             var pageElements = ['node_identifier_text','node_label_text'];
             pageElements.each(function(id){
                 if (!hasPageId) {
-                    $(id).up('tr').hide();
+                    $(id).up('.field').hide();
                 } else {
-                    $(id).up('tr').show();
+                    $(id).up('.field').show();
                 }
                 $(id).innerHTML = '';
             });
             nodeElements.each(function(id){
                 if (hasPageId) {
-                    $(id).up('tr').hide();
+                    $(id).up('.field').hide();
                 } else {
-                    $(id).up('tr').show();
+                    $(id).up('.field').show();
                 }
                 $(id).value = '';
             });
@@ -493,7 +499,7 @@
             }
             <?php endif; ?>
 
-            $('node_preview').up(1).hide();
+            $('node_preview').up('.field').hide();
             $('delete_node_button').hide();
             $('node_prop_container').show();
             $('cancel_node_button').show();
@@ -624,7 +630,7 @@
                     identifiers.set(child.attributes.identifier, true);
                 });
 
-                var rows = $$('#cms_page_grid .grid table tbody tr');
+                var rows = $$('#cms_page_grid_table tbody tr');
                 rows.each(function(tr){
                     if (fullReset) {
                         tr.removeClassName('invalid');
@@ -654,12 +660,10 @@
 
         hideFieldSet: function(id) {
             $(id).hide();
-            $(id).previous(0).hide();
         },
 
         showFieldSet: function(id) {
             $(id).show();
-            $(id).previous(0).show();
         },
 
         resetFieldSet: function(id) {
@@ -878,12 +882,12 @@
 
             var pagerVisibility = $('pager_visibility');
             if (isRootParent) {
-                if (pagerVisibility.down().selected) {
+                if (pagerVisibility.down('option').selected) {
                     pagerVisibility.down(2).selected=true;
                 }
-                pagerVisibility.down().hide();
+                pagerVisibility.down('option').hide();
             } else {
-                pagerVisibility.down().show();
+                pagerVisibility.down('option').show();
             }
         },
 
@@ -917,25 +921,27 @@
 
     };
     Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
-    //]]>
-
     </script>
-    <br />
+
     <div id="cms_page_grid_container">
         <div class="entry-edit">
-            <div class="entry-edit-head">
-                <div class="f-right"><?php echo $this->getPageGridButtonsHtml() ?></div>
-                <h4 class="fieldset-legend head-cms-page-grid icon-head"><?php echo $this->__('CMS Pages')?></h4>
+            <div class="fieldset-wrapper">
+                <div class="fieldset-wrapper-title">
+                    <strong class="title"><span><?php echo $this->__('CMS Pages')?></span></strong>
+                    <div class="actions">
+                        <?php echo $this->getPageGridButtonsHtml() ?>
+                    </div>
+                </div>
+                <div class="fieldset-wrapper-content">
+                    <fieldset class="fieldset">
+                        <?php echo $this->getParentBlock()->getChildHtml('cms_page_grid')?>
+                    </fieldset>
+                </div>
             </div>
-            <fieldset>
-                <?php echo $this->getParentBlock()->getChildHtml('cms_page_grid')?>
-            </fieldset>
         </div>
     </div>
 
     <script type="text/javascript">
-    //<![CDATA[
-    <?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
-    //]]>
+        <?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
     </script>
 </div>

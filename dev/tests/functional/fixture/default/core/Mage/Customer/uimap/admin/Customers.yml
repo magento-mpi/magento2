@@ -12,7 +12,7 @@
 # 'Manage Customers' page
 manage_customers:
     mca: customer/
-    click_xpath: //*[@class='navigation']//a[normalize-space(span)='Manage Customers']
+    click_xpath: //*[@id='nav']//a[contains(@href, 'customer/')]
     title: Manage Customers / Customers / Magento Admin
     uimap:
         form: &searchCustomerGrid

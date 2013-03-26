@@ -199,18 +199,15 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             if (!$theme->getId()) {
                 Mage::throwException($this->__('Theme with id "%d" is not found.', $themeId));
             }
-            $serviceModel->uploadJsFile('js_files_uploader', $theme);
+            $filesJs = $serviceModel->uploadJsFile('js_files_uploader', $theme);
 
-            $this->loadLayout();
+            $filesData = array(
+                'id'        => $filesJs->getUploadedJsFile()->getId(),
+                'name'      => $filesJs->getUploadedJsFile()->getFileName(),
+                'temporary' => $filesJs->getUploadedJsFile()->getIsTemporary() ? $filesJs->getId() : ''
+            );
 
-            /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
-            $filesJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
-            $customJsFiles = $theme->setCustomization($filesJs)
-                ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
-
-            $jsItemsBlock = $this->getLayout()->getBlock('theme_js_file_list');
-            $jsItemsBlock->setJsFiles($customJsFiles);
-            $result = array('content' => $jsItemsBlock->toHtml());
+            $result = array('error' => false, 'file' => $filesData);
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {

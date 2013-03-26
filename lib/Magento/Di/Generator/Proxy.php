@@ -25,6 +25,27 @@ class Magento_Di_Generator_Proxy extends Magento_Di_Generator_EntityAbstract
     }
 
     /**
+     * Retrieve class properties
+     *
+     * @return array
+     */
+    protected function _getClassProperties()
+    {
+        $properties = parent::_getClassProperties();
+        $properties[] = array(
+            'name'       => '_subject',
+            'visibility' => 'protected',
+            'docblock'   => array(
+                'shortDescription' => 'Proxied instance',
+                'tags'             => array(
+                    array('name' => 'var', 'description' => $this->_getSourceClassName())
+                )
+            ),
+        );
+        return $properties;
+    }
+
+    /**
      * @return array
      */
     protected function _getClassMethods()
@@ -32,11 +53,34 @@ class Magento_Di_Generator_Proxy extends Magento_Di_Generator_EntityAbstract
         $construct = $this->_getDefaultConstructorDefinition();
 
         // create proxy methods for all non-static and non-final public methods (excluding constructor)
-        $methods         = array($construct);
+        $methods = array($construct);
+        $methods[] = array(
+            'name'     => '__sleep',
+            'body'     => 'return array(\'_subject\');',
+            'docblock' => array(
+                'shortDescription' => '@return array',
+            ),
+        );
+        $methods[] = array(
+            'name'     => '__wakeup',
+            'body'     => '$this->_objectManager = Mage::getObjectManager();',
+            'docblock' => array(
+                'shortDescription' => 'Retrieve ObjectManager from global scope',
+            ),
+        );
+        $methods[] = array(
+            'name'     => '__clone',
+            'body'     => '$this->_subject = clone $this->_objectManager->get(self::CLASS_NAME);',
+            'docblock' => array(
+                'shortDescription' => 'Clone proxied instance',
+            ),
+        );
         $reflectionClass = new ReflectionClass($this->_getSourceClassName());
         $publicMethods   = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
         foreach ($publicMethods as $method) {
-            if (!($method->isConstructor() || $method->isFinal() || $method->isStatic())) {
+            if (!($method->isConstructor() || $method->isFinal() || $method->isStatic() || $method->isDestructor())
+                && !in_array($method->getName(), array('__sleep', '__wakeup', '__clone'))
+            ) {
                 $methods[] = $this->_getMethodInfo($method);
             }
         }
@@ -128,7 +172,9 @@ class Magento_Di_Generator_Proxy extends Magento_Di_Generator_EntityAbstract
         } else {
             $methodCall = sprintf('%s(%s)', $name, implode(', ', $parameters));
         }
-
-        return 'return $this->_objectManager->get(self::CLASS_NAME)->' . $methodCall . ';';
+        return "if (!\$this->_subject) {\n" .
+            "    \$this->_subject = \$this->_objectManager->get(self::CLASS_NAME);\n" .
+            "}\n".
+            'return $this->_subject->' . $methodCall . ';';
     }
 }

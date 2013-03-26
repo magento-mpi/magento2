@@ -256,6 +256,8 @@ store_launcher:
                         pageelements:
                             category_name: /*[text()='%categoryName%']
 #=============================================Required for productHelper()->selectProductCategories()==================
+        pageelements:
+            active_hub_menu: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, 'launcher/hub/')]
         messages: &newTaxRuleMessages
             success_saved_shipping: //div[normalize-space(@class)='message-validation success' and contains(.,'Configuration has been successfully saved.')]
             enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"

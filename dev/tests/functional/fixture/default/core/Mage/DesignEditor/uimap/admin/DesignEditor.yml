@@ -35,7 +35,7 @@ design_editor_selector:
             confirmation_for_assign: "You are about to change this theme for your live store, are you sure want to do this?\n\nNote: only virtual theme can be assigned, if you are assigning physical theme then virtual copy will be created automatically and assigned instead."
         buttons:
             assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
-            edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit Theme')]
+            edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit')]
             delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
             preview_demo_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Theme Demo')]
             preview_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Preview Theme')]

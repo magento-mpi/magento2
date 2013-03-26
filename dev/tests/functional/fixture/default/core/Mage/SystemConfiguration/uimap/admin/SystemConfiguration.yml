@@ -2959,6 +2959,16 @@ system_configuration:
                                         o_payment_action_use_default: //input[@name='groups[ogone][fields][payment_action][inherit]']
                                         o_payment_template_use_default: //input[@name='groups[ogone][fields][template][inherit]']
                                         o_layout_of_payment_methods_use_default: //input[@name='groups[ogone][fields][pmlist][inherit]']
+                            -
+                                paybox_direct:
+                                    xpath: //fieldset[@id='payment_paybox_direct']
+                                    links:
+                                        paybox_direct_link: //parent::div//a[@id='payment_paybox_direct-head']
+                            -
+                                payone_de:
+                                    xpath: //fieldset[@id='payment_payone_gate']
+                                    links:
+                                        payone_de_link: //parent::div//a[@id='payment_payone_gate-head']
                 -
                     sales_payment_services:
                         xpath: //a[contains(@href, 'edit/section/payment_services/')]

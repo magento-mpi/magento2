@@ -79,6 +79,22 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexControllerTest
 
     public function testLaunchAction()
     {
+        $pageMock = $this->getMockBuilder('Mage_Launcher_Model_Page')
+            ->setMethods(array('loadByPageCode', 'isComplete'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $pageMock->expects($this->once())
+            ->method('loadByPageCode')
+            ->will($this->returnSelf());
+        $pageMock->expects($this->once())
+            ->method('isComplete')
+            ->will($this->returnValue(true));
+
+        $this->_objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('Mage_Launcher_Model_Page')
+            ->will($this->returnValue($pageMock));
+
         $this->_configWriterMock->expects($this->at(0))
             ->method('save')
             ->with($this->equalTo('design/head/demonotice'), $this->equalTo(0));
@@ -92,6 +108,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexControllerTest
         $this->_responseMock->expects($this->once())
             ->method('setBody')
             ->with('{"success":true}');
+
 
         $this->_controller->launchAction();
     }
