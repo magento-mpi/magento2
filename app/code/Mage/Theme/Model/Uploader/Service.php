@@ -10,6 +10,9 @@
 
 /**
  * Theme file uploader service
+ *
+ * @method Mage_Theme_Model_Uploader_Service setUploadedJsFile(Mage_Core_Model_Theme_File $file)
+ * @method Mage_Core_Model_Theme_File getUploadedJsFile()
  */
 class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
 {
@@ -125,7 +128,7 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
      * @param string $file - Key in the $_FILES array
      * @param Mage_Core_Model_Theme $theme
      * @param bool $saveAsTmp
-     * @return Mage_Core_Model_Theme_File
+     * @return Mage_Theme_Model_Uploader_Service
      * @throws Mage_Core_Exception
      */
     public function uploadJsFile($file, $theme, $saveAsTmp = true)
@@ -147,7 +150,9 @@ class Mage_Theme_Model_Uploader_Service extends Mage_Core_Model_Abstract
         $this->setFilePath($file['tmp_name']);
         $file['content'] = $this->getFileContent();
 
-        return $this->_filesJs->saveJsFile($theme, $file, $saveAsTmp);
+        $themeFile = $this->_filesJs->saveJsFile($theme, $file, $saveAsTmp);
+        $this->setUploadedJsFile($themeFile);
+        return $this;
     }
 
     /**
