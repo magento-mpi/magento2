@@ -14,7 +14,7 @@
 $titleId = ($this->getTitleId()) ? ' id="' . $this->getTitleId() . '"' : '';
 $titlePrefix = ($this->getTitlePrefix()) ? '<span class="page-title-prefix">' . $this->getTitlePrefix() . '</span> ' : '';
 $titleSuffix = ($this->getTitleSuffix()) ? ' <span class="page-title-suffix">' . $this->getTitleSuffix() . '</span>' : '';
-$title = $titlePrefix . $this->getPageTitle() . $titleSuffix;
+$title = $titlePrefix . $this->escapeHtml($this->getPageTitle()) . $titleSuffix;
 ?>
 <div class="page-title">
     <div class="page-title-inner">
