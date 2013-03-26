@@ -404,10 +404,6 @@
     padding-bottom: 8px;
 }
 
-.themes-customizations .action-theme-preview {
-    display: none;
-}
-
 .themes-customizations .action-theme-assign {
     background: #dbd6ce;
     color: #322e2a;
@@ -721,6 +717,11 @@
     display: inline-block;
 }
 
+.vde-tab-controls > .item.disabled {
+    opacity: 0.4;
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=40);
+}
+
 .vde-tools-footer .vde-tab-controls > .item > a {
     display: inline-block;
     width: 52px;
@@ -730,6 +731,10 @@
     -moz-transition: background-color .3s ease;
     -webkit-transition: background-color .3s ease;
     transition: background-color .3s ease;
+}
+
+.vde-tools-footer .vde-tab-controls > .item.disabled > a {
+    cursor: not-allowed;
 }
 
 .vde-tab-controls > .item > a span {
@@ -754,8 +759,7 @@
     background-position: -58px 0;
 }
 
-.vde-tab-controls > .item-block,
-.vde-tab-controls > .item-settings {
+.vde-tab-controls > .item.hidden {
     display: none;
 }
 
@@ -1297,7 +1301,8 @@
 /*
     VDE
 -------------------------------------- */
-
+/* TODO #vde_toolbar is not used at all */
+/* TODO .vde_breadcrumbs is not used */
 #vde_toolbar {
     position: fixed;
     margin-top: -54pt;
@@ -1308,7 +1313,6 @@
     text-align: left;
     box-shadow: 0 0 4pt 1pt #cbcbcb;
 }
-
 .vde_breadcrumbs, #vde_toolbar_row {
     padding: 0 0 0 1em;
     height: 26pt;
@@ -1327,6 +1331,12 @@
     border-bottom: 1pt solid #dddcd8;
     position: relative;
     z-index: 991;
+}
+
+#vde_toolbar_row .vde_toolbar_row_inner {
+    min-width: 1000px;
+    max-width: 1300px;
+    margin: 0 auto;
 }
 
 #vde_toolbar_row .vde_toolbar_cell {

@@ -77,10 +77,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $this->_configureToolsBlocks($editableTheme, $mode);                //bottom panel
             $this->_configureEditorBlock($editableTheme, $mode);                //editor container
 
+            $redirectOnAssign = $theme->isPhysical();
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
-            $storeViewBlock->setData('openVdeOnAssign', false)
-                ->setData('theme_id', $theme->getId());
+            $storeViewBlock->setData(array(
+                'redirectOnAssign' => $redirectOnAssign,
+                'openNewOnAssign'  => false,
+                'theme_id'         => $theme->getId()
+            ));
 
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
@@ -447,6 +451,19 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _configureToolsBlocks($theme, $mode)
     {
+        /** @var $toolsBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools */
+        $toolsBlock = $this->getLayout()->getBlock('design_editor_tools');
+        if ($toolsBlock) {
+            $toolsBlock->setMode($mode);
+        }
+
+        /** @var $customTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */
+        $customTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_custom');
+        if ($customTabBlock) {
+            $theme->setCustomization($this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css'));
+            $customTabBlock->setTheme($theme);
+        }
+
         /** @var $customTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */
         $customTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_custom');
         if ($customTabBlock) {
@@ -598,7 +615,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             }
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
-            $storeViewBlock->setData('openVdeOnAssign', true);
+            $storeViewBlock->setData('redirectOnAssign', true);
             $this->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot load list of themes.'));

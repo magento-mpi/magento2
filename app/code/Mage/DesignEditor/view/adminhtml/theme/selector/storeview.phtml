@@ -48,7 +48,7 @@
         </div>
         <footer class="popup-footer">
             <div class="actions">
-                <?php echo $this->getAssignSaveButtonHtml(); ?>
+                <?php echo $this->getAssignNextButtonHtml(); ?>
                 <span class="action-close" title="<?php echo $this->__('Close Popup') ?>"><?php echo $this->__('Close') ?></span>
             </div>
         </footer>
@@ -59,7 +59,7 @@
 <script type="text/javascript">
     (function ($) {
         $( document ).ready(function( ) {
-            $( 'body' ).storeSelector(<?php echo $this->getOptionsJson(); ?>);
+            $( 'body' ).themeAssign(<?php echo $this->getOptionsJson(); ?>);
         });
     })(jQuery);
 </script>

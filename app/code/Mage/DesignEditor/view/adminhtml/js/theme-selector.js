@@ -14,7 +14,7 @@
     $.widget('vde.themeControl', {
         options: {
             themeData: null,
-            saveEventName: 'quickEditSave',
+            saveEventName: 'quickEditSave',     //@TODO is it used at all?
             isActive: false
         },
 

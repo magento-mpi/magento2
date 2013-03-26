@@ -91,6 +91,8 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     protected function _addAssignButtonHtml($themeBlock)
     {
         $themeId = $themeBlock->getTheme()->getId();
+        $message = 'You are about to apply this theme for your live store, are you really want to do this?';
+
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
@@ -101,7 +103,8 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                         'event' => 'assign',
                         'target' => 'body',
                         'eventData' => array(
-                            'theme_id' => $themeId
+                            'theme_id'        => $themeId,
+                            'confirm_message' =>  $this->__($message)
                         )
                     ),
                 ),

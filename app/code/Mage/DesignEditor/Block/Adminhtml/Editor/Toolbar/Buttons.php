@@ -89,7 +89,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     {
         return $this->getUrl('*/*/launch', array(
             'theme_id' => $this->getVirtualThemeId(),
-            'mode' => Mage_DesignEditor_Model_State::MODE_DESIGN
+            'mode'     => Mage_DesignEditor_Model_State::MODE_DESIGN
         ));
     }
 
@@ -100,6 +100,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      */
     public function getAssignButtonHtml()
     {
+        $message = "You are about to change this theme for your live store, are you sure want to do this?\n\n" .
+            'Note: copy of the current theme will be created automatically and assigned to your store, ' .
+            'so you can change your copy later as you wish';
+
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
@@ -110,7 +114,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
                         'event'     => 'assign',
                         'target'    => 'body',
                         'eventData' => array(
-                            'theme_id' => $this->getThemeId()
+                            'theme_id'        => $this->getThemeId(),
+                            'confirm_message' =>  $this->__($message)
                         )
                     ),
                 ),
@@ -194,5 +199,15 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
         );
 
         return $button;
+    }
+
+    /**
+     * Get admin panel home page URL
+     *
+     * @return string
+     */
+    public function getHomeLink()
+    {
+        return Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
     }
 }

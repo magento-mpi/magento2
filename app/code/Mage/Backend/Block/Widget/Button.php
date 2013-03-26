@@ -61,12 +61,21 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
         if (!$title) {
             $title = $this->getLabel();
         }
+        $classes = array();
+        $classes[] = 'action-';
+        $classes[] = 'scalable';
+        if ($this->getClass()) {
+            $classes[] = $this->getClass();
+        }
+        if ($disabled) {
+            $classes[] = $disabled;
+        }
         $attributes = array(
             'id'        => $this->getId(),
             'name'      => $this->getElementName(),
             'title'     => $title,
             'type'      => $this->getType(),
-            'class'     => 'action- scalable ' . $this->getClass() . ' ' . $disabled,
+            'class'     => join(' ', $classes),
             'onclick'   => $this->getOnClick(),
             'style'     => $this->getStyle(),
             'value'     => $this->getValue(),
