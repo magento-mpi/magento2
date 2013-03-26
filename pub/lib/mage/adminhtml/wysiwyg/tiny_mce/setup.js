@@ -201,7 +201,6 @@ tinyMceWysiwygSetup.prototype =
     },
 
     turnOn: function(mode) {
-        tinyMCE.triggerSave()
         this.closePopups();
         this.setup(mode);
         tinyMCE.execCommand('mceAddControl', false, this.id);

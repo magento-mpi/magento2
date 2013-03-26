@@ -16,7 +16,6 @@ var catalogWysiwygEditor = {
     overlayShowEffectOptions : null,
     overlayHideEffectOptions : null,
     open : function(editorUrl, elementId) {
-        tinyMCE.triggerSave();
         if (editorUrl && elementId) {
             new Ajax.Request(editorUrl, {
                 parameters: {
@@ -62,7 +61,7 @@ var catalogWysiwygEditor = {
         });
 
         content.evalScripts.bind(content).defer();
-
+        tinyMCE.editors[elementId].save();
         $(elementId+'_editor').value = $(elementId).value;
     },
     okDialogWindow : function(dialogWindow) {
@@ -76,6 +75,7 @@ var catalogWysiwygEditor = {
                     $(dialogWindow.options.firedElementId).value = $(dialogWindow.options.firedElementId+'_editor').value;
                 }
             }
+            tinyMCE.editors[dialogWindow.options.firedElementId].load();
         }
         this.closeDialogWindow(dialogWindow);
     },
@@ -84,8 +84,6 @@ var catalogWysiwygEditor = {
         if (typeof varienGlobalEvents != undefined && editorFormValidationHandler) {
             varienGlobalEvents.removeEventHandler('formSubmit', editorFormValidationHandler);
         }
-
-        tinyMCE.editors[dialogWindow.options.firedElementId].load();
 
         //IE fix - blocked form fields after closing
         $(dialogWindow.options.firedElementId).focus();

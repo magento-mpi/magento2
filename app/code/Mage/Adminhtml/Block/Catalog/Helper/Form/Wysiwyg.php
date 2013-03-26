@@ -55,7 +55,7 @@ jQuery('#{$this->getHtmlId()}')
                     theme_advanced_statusbar_location: null
                 }
             }
-        ).turnOn("exact")
+        ).turnOn()
     );
 </script>
 HTML;
