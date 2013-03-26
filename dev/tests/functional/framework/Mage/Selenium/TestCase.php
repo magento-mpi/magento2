@@ -3712,6 +3712,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->clickControl('button', 'close', false);
             }
         }
+        if ($this->_pageAfterAdminLogin == 'store_launcher' &&
+            $this->controlIsVisible('pageelement', 'welcome_popup')) {
+                $this->waitForControlVisible('pageelement', 'welcome_popup_displayed');
+                $this->clickButton('back_to_storelauncher', false);
+                $this->waitForElementInvisible($this->_getControlXpath('pageelement', 'welcome_popup'));
+        }
         $this->validatePage($this->_pageAfterAdminLogin);
         return $this;
     }
