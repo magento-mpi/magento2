@@ -199,4 +199,15 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
 
         $this->_isScriptInserted = true;
     }
+
+    /**
+     * Add data-translate-mode attribute
+     *
+     * @param string $trAttr
+     * @return string
+     */
+    protected function addTranslateAttribute($trAttr)
+    {
+        return $trAttr . ' ' . $this->_getHtmlAttribute(self::TRANSLATE_MODE, self::MODE_TEXT) . ' ';
+    }
 }
