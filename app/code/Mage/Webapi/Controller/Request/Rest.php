@@ -240,7 +240,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function setResourceVersion($resourceVersion)
     {
-        $versionPrefix = Mage_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX;
+        $versionPrefix = Mage_Core_Service_ConfigAbstract::VERSION_NUMBER_PREFIX;
         if (preg_match("/^{$versionPrefix}?(\d+)$/i", $resourceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {

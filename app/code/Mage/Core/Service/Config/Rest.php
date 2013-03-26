@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
+class Mage_Core_Service_Config_Rest extends Mage_Core_Service_ConfigAbstract
 {
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
@@ -15,13 +15,13 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
     /**
      * Construct config with REST reader & route factory.
      *
-     * @param Mage_Webapi_Model_Config_Reader_Rest $reader
+     * @param Mage_Core_Service_Config_Reader_Rest $reader
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_App $application
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Reader_Rest $reader,
+        Mage_Core_Service_Config_Reader_Rest $reader,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_App $application,
         Magento_Controller_Router_Route_Factory $routeFactory

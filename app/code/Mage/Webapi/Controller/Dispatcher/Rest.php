@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_DispatcherInterface
 {
-    /** @var Mage_Webapi_Model_Config_Rest */
+    /** @var Mage_Core_Service_Config_Rest */
     protected $_apiConfig;
 
     /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation */
@@ -40,7 +40,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Rest $apiConfig
+     * @param Mage_Core_Service_Config_Rest $apiConfig
      * @param Mage_Webapi_Controller_Request_Rest $request
      * @param Mage_Webapi_Controller_Response_Rest $response
      * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
@@ -50,7 +50,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Rest $apiConfig,
+        Mage_Core_Service_Config_Rest $apiConfig,
         Mage_Webapi_Controller_Request_Rest $request,
         Mage_Webapi_Controller_Response_Rest $response,
         Mage_Webapi_Controller_Action_Factory $controllerFactory,

@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Config_Reader_Soap_ClassReflector
-    extends Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
+class Mage_Core_Service_Config_Reader_Soap_ClassReflector
+    extends Mage_Core_Service_Config_Reader_ClassReflectorAbstract
 {
     /**
      * Set types data into reader after reflecting all files.

@@ -12,7 +12,7 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Webapi_Model_ConfigAbstract
+abstract class Mage_Core_Service_ConfigAbstract
 {
     /**#@+
      * Cache parameters.
@@ -27,7 +27,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     const VERSION_NUMBER_PREFIX = 'V';
     /**#@-*/
 
-    /** @var Mage_Webapi_Model_Config_ReaderAbstract */
+    /** @var Mage_Core_Service_Config_ReaderAbstract */
     protected $_reader;
 
     /** @var Mage_Webapi_Helper_Config */
@@ -46,12 +46,12 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     /**
      * Initialize dependencies. Initialize data.
      *
-     * @param Mage_Webapi_Model_Config_ReaderAbstract $reader
+     * @param Mage_Core_Service_Config_ReaderAbstract $reader
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_App $application
      */
     public function __construct(
-        Mage_Webapi_Model_Config_ReaderAbstract $reader,
+        Mage_Core_Service_Config_ReaderAbstract $reader,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_App $application
     ) {

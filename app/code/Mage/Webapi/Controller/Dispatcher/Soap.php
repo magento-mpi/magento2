@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_DispatcherInterface
 {
-    /** @var Mage_Webapi_Model_Config_Soap */
+    /** @var Mage_Core_Service_Config_Soap */
     protected $_apiConfig;
 
     /** @var Mage_Webapi_Model_Soap_Server */
@@ -36,7 +36,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
+     * @param Mage_Core_Service_Config_Soap $apiConfig
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
@@ -46,7 +46,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Soap $apiConfig,
+        Mage_Core_Service_Config_Soap $apiConfig,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,

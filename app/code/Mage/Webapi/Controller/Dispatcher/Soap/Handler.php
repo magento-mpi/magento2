@@ -14,7 +14,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     const HEADER_SECURITY = 'Security';
     const RESULT_NODE_NAME = 'result';
 
-    /** @var Mage_Webapi_Model_Config_Soap */
+    /** @var Mage_Core_Service_Config_Soap */
     protected $_apiConfig;
 
     /**
@@ -56,7 +56,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
+     * @param Mage_Core_Service_Config_Soap $apiConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
      * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
@@ -65,7 +65,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Soap $apiConfig,
+        Mage_Core_Service_Config_Soap $apiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication,
         Mage_Webapi_Controller_Action_Factory $controllerFactory,

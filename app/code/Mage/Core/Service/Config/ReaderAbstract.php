@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Webapi_Model_Config_ReaderAbstract
+abstract class Mage_Core_Service_Config_ReaderAbstract
 {
     /**
      * Cache ID for resource config.
@@ -25,7 +25,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected $_directoryScanner;
 
     /**
-     * @var Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
+     * @var Mage_Core_Service_Config_Reader_ClassReflectorAbstract
      */
     protected $_classReflector;
 
@@ -52,13 +52,13 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     /**
      * Construct config reader.
      *
-     * @param Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector
+     * @param Mage_Core_Service_Config_Reader_ClassReflectorAbstract $classReflector
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Webapi_Helper_Config $configHelper
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector,
+        Mage_Core_Service_Config_Reader_ClassReflectorAbstract $classReflector,
         Mage_Core_Model_Config $appConfig,
         Mage_Core_Model_CacheInterface $cache,
         Mage_Webapi_Helper_Config $configHelper
@@ -184,7 +184,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected function _loadDataFromCache()
     {
         $isLoaded = false;
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedData = $this->_cache->load($this->getCacheId());
             if ($cachedData !== false) {
                 $this->_data = unserialize($cachedData);
@@ -199,11 +199,11 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
      */
     protected function _saveDataToCache()
     {
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $this->_cache->save(
                 serialize($this->_data),
                 $this->getCacheId(),
-                array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG)
+                array(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_TAG)
             );
         }
     }

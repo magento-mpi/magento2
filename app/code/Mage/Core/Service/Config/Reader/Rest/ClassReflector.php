@@ -9,22 +9,22 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Config_Reader_Rest_ClassReflector extends Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
+class Mage_Core_Service_Config_Reader_Rest_ClassReflector extends Mage_Core_Service_Config_Reader_ClassReflectorAbstract
 {
-    /** @var Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator */
+    /** @var Mage_Core_Service_Config_Reader_Rest_RouteGenerator */
     protected $_routeGenerator;
 
     /**
      * Construct reflector with route generator.
      *
      * @param Mage_Webapi_Helper_Config $helper
-     * @param Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
-     * @param Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator $routeGenerator
+     * @param Mage_Core_Service_Config_Reader_TypeProcessor $typeProcessor
+     * @param Mage_Core_Service_Config_Reader_Rest_RouteGenerator $routeGenerator
      */
     public function __construct(
         Mage_Webapi_Helper_Config $helper,
-        Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor,
-        Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator $routeGenerator
+        Mage_Core_Service_Config_Reader_TypeProcessor $typeProcessor,
+        Mage_Core_Service_Config_Reader_Rest_RouteGenerator $routeGenerator
     ) {
         parent::__construct($helper, $typeProcessor);
         $this->_routeGenerator = $routeGenerator;

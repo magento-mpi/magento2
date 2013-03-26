@@ -9,7 +9,7 @@ use Zend\Code\Reflection\ClassReflection;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Config_Reader_TypeProcessor
+class Mage_Core_Service_Config_Reader_TypeProcessor
 {
     /** @var Mage_Webapi_Helper_Config */
     protected $_helper;

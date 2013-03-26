@@ -11,7 +11,7 @@ use Zend\Server\Reflection,
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
+abstract class Mage_Core_Service_Config_Reader_ClassReflectorAbstract
 {
     const METHOD_TYPE_ANNOTATION = 'Type';
     const METHOD_TYPE_CALL = 'call';
@@ -19,18 +19,18 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
     /** @var Mage_Webapi_Helper_Config */
     protected $_helper;
 
-    /** @var Mage_Webapi_Model_Config_Reader_TypeProcessor */
+    /** @var Mage_Core_Service_Config_Reader_TypeProcessor */
     protected $_typeProcessor;
 
     /**
      * Construct reflector.
      *
      * @param Mage_Webapi_Helper_Config $helper
-     * @param Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
+     * @param Mage_Core_Service_Config_Reader_TypeProcessor $typeProcessor
      */
     public function __construct(
         Mage_Webapi_Helper_Config $helper,
-        Mage_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
+        Mage_Core_Service_Config_Reader_TypeProcessor $typeProcessor
     ) {
         $this->_helper = $helper;
         $this->_typeProcessor = $typeProcessor;

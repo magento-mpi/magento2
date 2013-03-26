@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Config_Soap extends Mage_Webapi_Model_ConfigAbstract
+class Mage_Core_Service_Config_Soap extends Mage_Core_Service_ConfigAbstract
 {
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Reader_Soap $reader
+     * @param Mage_Core_Service_Config_Reader_Soap $reader
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_App $application
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Reader_Soap $reader,
+        Mage_Core_Service_Config_Reader_Soap $reader,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_App $application
     ) {

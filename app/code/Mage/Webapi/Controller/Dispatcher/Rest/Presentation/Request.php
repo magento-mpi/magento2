@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
 {
-    /** @var Mage_Webapi_Model_Config_Rest */
+    /** @var Mage_Core_Service_Config_Rest */
     protected $_apiConfig;
 
     /** @var Mage_Webapi_Helper_Data */
@@ -24,13 +24,13 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Rest $apiConfig
+     * @param Mage_Core_Service_Config_Rest $apiConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Helper_Config $configHelper
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Rest $apiConfig,
+        Mage_Core_Service_Config_Rest $apiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Helper_Config $configHelper,
         Mage_Webapi_Controller_Request_Factory $requestFactory

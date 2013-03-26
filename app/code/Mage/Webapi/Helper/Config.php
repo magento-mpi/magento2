@@ -179,7 +179,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      */
     public function getResourceNameParts($className)
     {
-        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Core_Service_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
@@ -310,7 +310,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
     public  function isSubresource(ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
-        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Core_Service_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             return count(explode('_', trim($matches[3], '_'))) > 1;
         }
         throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));

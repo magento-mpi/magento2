@@ -1,6 +1,6 @@
 <?php
 /**
- * File with unit tests for API configuration class: Mage_Webapi_Model_Config_Rest.
+ * File with unit tests for API configuration class: Mage_Core_Service_Config_Rest.
  *
  * {license_notice}
  *
@@ -21,14 +21,14 @@ require_once __DIR__ . '/../_files/resource_with_invalid_name.php';
 
 
 /**
- * Test of API configuration class: Mage_Webapi_Model_Config.
+ * Test of API configuration class: Mage_Core_Service_Config.
  */
-class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Service_Config_RestTest extends PHPUnit_Framework_TestCase
 {
     const WEBAPI_AREA_FRONT_NAME = 'webapi';
 
     /**
-     * @var Mage_Webapi_Model_Config_Rest
+     * @var Mage_Core_Service_Config_Rest
      */
     protected $_apiConfig;
 
@@ -134,7 +134,7 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
      * Create resource config initialized with classes found in the specified directory.
      *
      * @param string $pathToResources
-     * @return Mage_Webapi_Model_Config_Rest
+     * @return Mage_Core_Service_Config_Rest
      */
     protected function _createResourceConfig($pathToResources)
     {
@@ -150,19 +150,19 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         $appMock->expects($this->any())->method('getConfig')->will($this->returnValue($configMock));
         $this->_appClone = clone $appMock;
         $objectManager->configure(array(
-            'Mage_Webapi_Model_Config_Reader_Rest' => array(
+            'Mage_Core_Service_Config_Reader_Rest' => array(
                 'parameters' => array(
                     'cache' => $cache
                 )
             )
         ));
-        /** @var Mage_Webapi_Model_Config_Reader_Rest $reader */
-        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Rest');
+        /** @var Mage_Core_Service_Config_Reader_Rest $reader */
+        $reader = $objectManager->get('Mage_Core_Service_Config_Reader_Rest');
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */
         $apiConfig = $objectManager->create(
-            'Mage_Webapi_Model_Config_Rest',
+            'Mage_Core_Service_Config_Rest',
             array('reader' => $reader, 'application' => $this->_appClone)
         );
         return $apiConfig;

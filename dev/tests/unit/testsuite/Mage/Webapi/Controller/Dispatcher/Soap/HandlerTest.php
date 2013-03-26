@@ -39,7 +39,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Core_Service_Config_Soap')
             ->setMethods(
                 array(
                     'getResourceNameByOperation',

@@ -24,7 +24,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     /** @var Mage_Webapi_Controller_Action_Factory */
     protected $_controllerFactory;
 
-    /** @var Mage_Webapi_Model_Config_Rest */
+    /** @var Mage_Core_Service_Config_Rest */
     protected $_apiConfigMock;
 
     /** @var Mage_Webapi_Model_Authorization */
@@ -36,7 +36,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         /** Init dependencies for SUT. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Rest')->disableOriginalConstructor()
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Core_Service_Config_Rest')->disableOriginalConstructor()
             ->getMock();
         $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')->disableOriginalConstructor()
             ->getMock();
