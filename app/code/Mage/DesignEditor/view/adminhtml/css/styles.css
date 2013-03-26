@@ -944,14 +944,10 @@
     position: relative;
     margin: 0 0 13px;
     padding-right: 20px;
-    white-space: nowrap;
 }
 
 .files-list-header > .title {
     margin: 0;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .custom-file .action-add,
