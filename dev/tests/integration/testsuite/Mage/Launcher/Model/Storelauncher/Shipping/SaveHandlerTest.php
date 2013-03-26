@@ -13,7 +13,6 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends Mage_Ba
 {
     /** @var array $_carriers Array of predefined carrierrs */
     protected $_activeCarriers = array(
-        'flatrate',
         'dhl2',
         'fedex2',
         'ups2',

@@ -61,9 +61,11 @@
     <target name="unit_tests_saas" depends="_saas_edition" description="Unit tests for Go">
         <antcall target="_unit_tests_all"/>
     </target>
-    <target name="unit_tests_ee" description="Unit tests for EE">
+
+    <target name="unit_tests_ee" depends="_enterprise_edition" description="Unit tests for EE">
         <antcall target="_unit_tests_all"/>
     </target>
+
     <target name="unit_tests_ce" depends="_community_edition" description="Unit tests for CE">
         <antcall target="_unit_tests_all"/>
     </target>
