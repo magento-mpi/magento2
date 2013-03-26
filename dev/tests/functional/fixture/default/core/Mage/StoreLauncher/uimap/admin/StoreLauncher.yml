@@ -22,6 +22,16 @@ store_launcher:
                         pageelements:
                             page_title: //div[@class='page-title']//h1[@class='title']
                 -
+                    welcome_screen:
+                        xpath: //div[@class='welcome-screen']
+                        buttons:
+                            exit_tour: //button[@id='action-toggle-welcome-screen-mode']
+                            close_popup: //button[@id='action-close-welcome-screen-wellcome-popup']
+                            back_to_storelauncher: //button[@id='welcome-screen-action-back-to-storelauncher']
+                        pageelements:
+                            welcome_popup: //div[@id='welcome-screen-welcome-popup']
+                            welcome_popup_displayed: //div[@id='welcome-screen-welcome-popup' and @style='top: 50%;']
+                -
                     common_tile:
                         xpath:
                         buttons:
