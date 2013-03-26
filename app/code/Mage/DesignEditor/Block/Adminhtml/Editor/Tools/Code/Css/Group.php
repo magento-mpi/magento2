@@ -24,7 +24,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group extends Mage
     {
         return $this->getUrl('*/system_design_theme/downloadCss', array(
             'theme_id' => $themeId,
-            'file'     => $this->_helperFactory->get('Mage_Theme_Helper_Data')->urlEncode($fileId)
+            'file'     => $this->_helperFactory->get('Mage_DesignEditor_Helper_Data')->urlEncode($fileId)
         ));
     }
 

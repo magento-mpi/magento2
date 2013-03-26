@@ -82,7 +82,9 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
 
         $newStageMock = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false);
 
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection', 'getId'), array(), '', false);
+        $themeMock = $this->getMock(
+            'Mage_Core_Model_Theme', array('getCollection', 'getId'), array(), '', false, false
+        );
 
         $copVtS = $this->getMock('Mage_Core_Model_Theme_Copy_VirtualToStaging', array('copy'), array(), '', false);
         $copVtS->expects($this->once())

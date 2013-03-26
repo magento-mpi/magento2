@@ -11,7 +11,7 @@
 /**
  * Model to create 'staging' copy of 'virtual' theme
  */
-class Mage_Core_Model_Theme_Copy_VirtualToStaging extends Mage_Core_Model_Theme_Copy_Abstract
+class Mage_Core_Model_Theme_Copy_VirtualToStaging implements Mage_Core_Model_Theme_Copy_Interface
 {
     /**
      * Theme model factory
@@ -22,18 +22,10 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging extends Mage_Core_Model_Theme_
 
     /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
-     * @param Mage_Core_Model_Layout_Link $layoutLink
-     * @param Mage_Core_Model_Layout_Update $layoutUpdate
-     * @param array $data
      */
-    public function __construct(
-        Mage_Core_Model_Theme_Factory $themeFactory,
-        Mage_Core_Model_Layout_Link $layoutLink,
-        Mage_Core_Model_Layout_Update $layoutUpdate,
-        array $data = array()
-    ) {
+    public function __construct(Mage_Core_Model_Theme_Factory $themeFactory)
+    {
         $this->_themeFactory = $themeFactory;
-        parent::__construct($themeFactory, $layoutLink, $layoutUpdate, $data);
     }
 
     /**
@@ -49,7 +41,6 @@ class Mage_Core_Model_Theme_Copy_VirtualToStaging extends Mage_Core_Model_Theme_
             throw new Mage_Core_Exception(sprintf('Invalid theme of type "%s"', $theme->getType()));
         }
         $stagingTheme = $this->_copyPrimaryData($theme);
-        $this->_copyLayoutUpdates($theme, $stagingTheme);
         return $stagingTheme;
     }
 

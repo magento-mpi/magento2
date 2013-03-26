@@ -45,8 +45,9 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
             case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL:
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
-            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
+            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_STATIC_URL:
             case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LIB_URL:
+            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
                 $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
             default:
@@ -71,8 +72,9 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
             case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL:
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
-            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_MEDIA_URL:
+            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_STATIC_URL:
             case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LIB_URL:
+            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_MEDIA_URL:
                 $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
             default:

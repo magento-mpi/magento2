@@ -70,7 +70,9 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
         }
 
         $ignoreDevelopmentMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
-        if ($this->_appState->isDeveloperMode() && false == $ignoreDevelopmentMode) {
+        if (($this->_appState->getMode() == Mage_Core_Model_App_State::MODE_DEVELOPER)
+            && false == $ignoreDevelopmentMode
+        ) {
             return false;
         }
 

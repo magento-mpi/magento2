@@ -106,6 +106,9 @@
             <Mage_Core_Model_Theme_Image>
                 <shared>0</shared>
             </Mage_Core_Model_Theme_Image>
+            <Mage_Core_Model_Page_Asset_Collection>
+                <shared>0</shared>
+            </Mage_Core_Model_Page_Asset_Collection>
         </di>
     </global>
     <frontend>
@@ -146,6 +149,16 @@
                 </core>
             </updates>
         </layout>
+        <events>
+            <controller_action_layout_render_before>
+                <observers>
+                    <theme>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>applyThemeCustomization</method>
+                    </theme>
+                </observers>
+            </controller_action_layout_render_before>
+        </events>
     </frontend>
     <adminhtml>
         <translate>

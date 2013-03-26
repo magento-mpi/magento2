@@ -16,7 +16,6 @@
  * @method string getContent()
  * @method string getOrder()
  * @method bool getIsTemporary()
- * @method Mage_Core_Model_Resource_Theme_File_Collection getCollection()
  * @method setThemeId(int $id)
  * @method setFileName(string $filename)
  * @method setFileType(string $type)
@@ -38,11 +37,6 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
      * Js file type
      */
     const TYPE_JS = 'js';
-
-    /**
-     * Path prefix to customized static files
-     */
-    const PATH_PREFIX_CUSTOMIZED = '_Customized';
 
     /**
      * @var Varien_Io_File
@@ -169,16 +163,6 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return path to customization directory
-     *
-     * @return string
-     */
-    public function getRelativePath()
-    {
-        return self::PATH_PREFIX_CUSTOMIZED . '/' . $this->getFilePath();
-    }
-
-    /**
      * Get file name of customization file
      *
      * @return string
@@ -197,9 +181,23 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
     {
         $path = null;
         if ($this->getId()) {
-            $path = $this->getTheme()->getCustomizationPath(). DIRECTORY_SEPARATOR . $this->getRelativePath();
+            $path = $this->getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR . $this->getFilePath();
             $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
         }
         return $path;
+    }
+
+    /**
+     * @return Mage_Core_Model_Page_Asset_AssetInterface
+     */
+    public function getAsset()
+    {
+        if ($this->hasContent()) {
+            return $this->_objectManager->create(
+                'Mage_Core_Model_Page_Asset_PublicFile',
+                array('file' => $this->getFullPath(), 'contentType' => $this->getFileType())
+            );
+        }
+        return null;
     }
 }

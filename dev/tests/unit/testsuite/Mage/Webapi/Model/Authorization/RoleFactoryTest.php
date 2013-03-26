@@ -44,7 +44,7 @@ class Mage_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framework
 
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Mage_Webapi_Model_Authorization_Role', $arguments, false)
+            ->with('Mage_Webapi_Model_Authorization_Role', $arguments)
             ->will($this->returnValue($this->_expectedObject));
         $this->assertEquals($this->_expectedObject, $this->_model->createRole($arguments));
     }
