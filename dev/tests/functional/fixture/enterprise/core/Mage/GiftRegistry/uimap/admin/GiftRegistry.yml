@@ -15,7 +15,7 @@
 manage_gift_registry:
     mca: giftregistry/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'giftregistry')]
-    title: Manage Gift Registry Types / Customers / Magento Admin
+    title: Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: &giftRegistryForm
             fieldsets:
@@ -45,7 +45,7 @@ manage_gift_registry:
 # 'New Gift Registry' page
 new_gift_registry:
     mca: giftregistry/new/
-    title: New Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
+    title: New Gift Registry Type / Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: &giftRegistryForm
             tabs:
@@ -109,7 +109,7 @@ new_gift_registry:
 # 'Edit Gift Registry' page
 edit_gift_registry:
     mca: giftregistry/edit/id/%id%/
-    title: Edit '%elementLabel%' Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
+    title: Edit '%elementLabel%' Gift Registry Type / Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: *giftRegistryForm
         buttons:

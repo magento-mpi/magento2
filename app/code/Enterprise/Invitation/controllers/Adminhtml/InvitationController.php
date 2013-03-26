@@ -24,7 +24,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     public function indexAction()
     {
-        $this->_title($this->__('Customers'))->_title($this->__('Invitations'));
+        $this->_title($this->__('Invitations'));
         $this->loadLayout()->_setActiveMenu('Enterprise_Invitation::customer_enterprise_invitation');
         $this->renderLayout();
     }
@@ -36,7 +36,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     protected function _initInvitation()
     {
-        $this->_title($this->__('Customers'))->_title($this->__('Invitations'));
+        $this->_title($this->__('Invitations'));
 
         $invitation = Mage::getModel('Enterprise_Invitation_Model_Invitation')->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
