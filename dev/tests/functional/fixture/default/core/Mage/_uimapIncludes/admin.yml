@@ -37,7 +37,7 @@ admin_header:
                             log_out: //a[@class='account-signout']
                 -
                     notification_global:
-                        xpath: //div[@class='notification-global']
+                        xpath: //div[@class='message message-system']
                         links:
                             invalided_cache: //a[text()='Cache Management']
                             invalided_index: //a[text()='Index Management']

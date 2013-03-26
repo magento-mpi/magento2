@@ -11,7 +11,9 @@
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile */
 ?>
 
-<article class="tile-store-settings tile-design <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>">
+<article class="tile-store-settings tile-design <?php echo $this->getTileStateStyle(); ?>"
+         id="tile-<?php echo $this->getTileCode()?>"
+         tabindex="0">
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Store Design') ?></h2>
     <div class="tile-teaser">
         <p>

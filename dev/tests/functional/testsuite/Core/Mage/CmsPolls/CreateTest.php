@@ -106,6 +106,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      */
     public function withoutAnswer()
     {
+        $this->fail("MAGETWO-8485");
         //Data
         $pollData = $this->loadDataSet('CmsPoll', 'poll_open', array('assigned_answers_set' => '%noValue%'));
         //Steps
@@ -123,6 +124,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      */
     public function identicalAnswer()
     {
+        $this->fail("MAGETWO-8485");
         //Data
         $pollData = $this->loadDataSet('CmsPoll', 'poll_open', array('answer_title' => 'duplicate'));
         //Steps
@@ -135,7 +137,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Closed poll is not displayed</p>
      *
      * @test
-     * @depends createNew
      * @TestlinkId TL-MAGE-3216
      */
     public function closedIsNotDisplayed()
@@ -166,7 +167,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Vote a poll</p>
      *
      * @test
-     * @depends createNew
      * @TestlinkId TL-MAGE-3219
      */
     public function votePoll()
