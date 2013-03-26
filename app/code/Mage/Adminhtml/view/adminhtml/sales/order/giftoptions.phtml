@@ -9,12 +9,8 @@
  */
 ?>
 <?php if ($this->getChildHtml()): ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Gift Options') ?></h4>
-    </div>
-    <fieldset>
-        <?php echo $this->getChildHtml() ?>
-    </fieldset>
+<div class="fieldset-wrapper order-gift-options">
+    <div class="fieldset-wrapper-title"><span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Gift Options') ?></span></div>
+	<?php echo $this->getChildHtml() ?>
 </div>
 <?php endif ?>

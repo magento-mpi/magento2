@@ -57,7 +57,7 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
         $newsData = $this->loadDataSet('Newsletter', 'generic_newsletter_data');
         $this->newsletterHelper()->createNewsletterTemplate($newsData);
         $this->validatePage('newsletter_templates');
-        //$this->assertMessagePresent('success', 'success_save_newsletter');
+        $this->assertMessagePresent('success', 'success_saved_newsletter');
         $searchData = $this->newsletterHelper()->convertToFilter($newsData);
         $this->assertNotNull($this->search($searchData, 'newsletter_templates_grid'),
             'Template( Name: ' . $newsData['newsletter_template_name'] . ' ) is not presented in grid');
@@ -72,12 +72,13 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
      *
      * @return array
      *
-     * @test
+     * @ test
      * @depends createNewsletterResourceDifferentRoles
      * @TestlinkId TL-MAGE-6067
      */
     public function editNewsletterResourceDifferentRoles($newsData)
     {
+        $this->markTestIncomplete('MAGETWO-8369: There is no ability to edit existing Newsletter Template');
         //Preconditions
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
@@ -140,9 +141,9 @@ class Core_Mage_Acl_NewsletterResourceDifferentRolesTest extends Mage_Selenium_T
             array('newsletter_queue_data' => '12.12.12'));
         $this->newsletterHelper()->putNewsToQueue($newNewsletterData, $newData);
         $this->validatePage('newsletter_queue');
-        //$this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
+        $this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
         $this->assertNotNull($this->search(array('filter_queue_subject' => $newData['newsletter_template_subject']),
-                'newsletter_templates_grid'),
+                'newsletter_queue'),
             'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid');
     }
 

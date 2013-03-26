@@ -563,4 +563,20 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         }
         return $applicationConfig['design_theme'];
     }
+
+
+    /**
+     * Get path to theme files. Such as theme css and js files.
+     *
+     * @param string $fileName name of the file
+     *
+     * @return string Full path to the needed file
+     */
+    public function getPathToTestFiles($fileName)
+    {
+        $frameworkConfig = $this->getConfigFramework();
+
+        return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path'] . DIRECTORY_SEPARATOR
+            . 'testThemeFiles' . DIRECTORY_SEPARATOR . $fileName;
+    }
 }

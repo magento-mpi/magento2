@@ -60,19 +60,24 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     {
         $this->addColumn('increment_id', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memo #'),
-            'width' => '120px',
             'index' => 'increment_id',
+            'header_css_class'  => 'col-memo',
+            'column_css_class'  => 'col-memo'
         ));
 
         $this->addColumn('billing_name', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill to Name'),
             'index' => 'billing_name',
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('created_at', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Created At'),
             'index' => 'created_at',
             'type' => 'datetime',
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('state', array(
@@ -80,6 +85,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
             'index'     => 'state',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->getStates(),
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         $this->addColumn('base_grand_total', array(
@@ -87,6 +94,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
             'index'     => 'base_grand_total',
             'type'      => 'currency',
             'currency'  => 'base_currency_code',
+            'header_css_class'  => 'col-refunded',
+            'column_css_class'  => 'col-refunded'
         ));
 
         return parent::_prepareColumns();

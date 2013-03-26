@@ -72,7 +72,6 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
         $this->configure($configuration);
     }
 
-
     /**
      * Resolve constructor arguments
      *
@@ -138,6 +137,9 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     }
 
     /**
+     * Resolve Class name
+     *
+     * @param string $className
      * @return string
      * @throws LogicException
      */

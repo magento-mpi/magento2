@@ -12,6 +12,7 @@ app/code/Mage/Core/Model/Config/Element.php
 app/code/Mage/DesignEditor/view
 app/code/Mage/Webapi/view
 app/code/Mage/User/view
+dev/tests/integration/testsuite/Magento/Di/_files
 dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/TemplateFilesTest.php
 dev/tests/integration/testsuite/Mage/Backend/Block/System/Config/FormStub.php

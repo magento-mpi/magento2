@@ -91,8 +91,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart
         $deleteAllConfirmString = Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to delete all items from shopping cart?');
         $this->addChild('empty_customer_cart_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_Sales_Helper_Data')->__('Clear Shopping Cart'),
-            'onclick' => 'order.clearShoppingCart(\'' . $deleteAllConfirmString . '\')',
-            'style' => 'float: right;'
+            'onclick' => 'order.clearShoppingCart(\'' . $deleteAllConfirmString . '\')'
         ));
 
         return parent::_prepareLayout();
