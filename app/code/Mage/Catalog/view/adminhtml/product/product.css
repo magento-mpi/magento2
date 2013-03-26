@@ -723,3 +723,28 @@
 .eq-ie8 #product_options_container_top .fieldset-alt {
     margin-bottom: 0;
 }
+
+/*
+    Tier Price Table
+-------------------------------------- */
+.tiers_table .col-qty {
+    text-align: left;
+    width: 150px;
+}
+
+.tiers_table .col-qty > input {
+    width: 40%;
+    margin-right: 5px;
+}
+
+.tiers_table .col-qty > .nobr {
+    width: 50%;
+    float: right;
+    margin-top: 6px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.tiers_table .col-price {
+    width: 15%;
+}

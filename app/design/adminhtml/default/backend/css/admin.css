@@ -1069,6 +1069,10 @@ fieldset.field [class^='fields-group-'] .field .control {
     vertical-align: middle;
 }
 
+.nobr {
+    white-space: nowrap;
+}
+
 /*
     Form Validation
 -------------------------------------- */
