@@ -577,6 +577,6 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         $frameworkConfig = $this->getConfigFramework();
 
         return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path'] . DIRECTORY_SEPARATOR
-            . 'testThemeFiles' . DIRECTORY_SEPARATOR . $fileName;
+            . '_testFiles' . DIRECTORY_SEPARATOR . $fileName;
     }
 }
