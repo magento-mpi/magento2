@@ -214,6 +214,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
     {
         $class = $this->getData('header_css_class');
         $class .= false === $this->getSortable() ? ' no-link' : '';
+        $class .= ' col-' . $this->getId();
         return $class;
     }
 
