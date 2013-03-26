@@ -55,6 +55,7 @@ class Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
             );
         }
         $methodPath = $this->_helper->getAnnotationValue($methodReflection, self::ANNOTATION_HTTP_PATH);
+        $methodPath = is_null($methodPath) ? '' : $methodPath;
         if (!is_string($methodPath)) {
             throw new LogicException(sprintf(
                     'Method "%s" of "%s" class must have "@%s" annotation defined.',

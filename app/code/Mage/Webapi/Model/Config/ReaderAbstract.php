@@ -17,7 +17,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     /**
      * Pattern for API action controllers class name.
      */
-    const RESOURCE_CLASS_PATTERN = '/^(.*)_(.*)_Controller_Webapi(_.*)+$/';
+    const RESOURCE_CLASS_PATTERN = '/^(.*)_(.*)_Service(_.*)+$/';
 
     /**
      * @var Zend\Code\Scanner\DirectoryScanner
@@ -40,6 +40,11 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected $_cache;
 
     /**
+     * @var Mage_Webapi_Helper_Config
+     */
+    protected $_configHelper;
+
+    /**
      * @var array
      */
     protected $_data = array();
@@ -50,15 +55,18 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
      * @param Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Webapi_Helper_Config $configHelper
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector,
         Mage_Core_Model_Config $appConfig,
-        Mage_Core_Model_CacheInterface $cache
+        Mage_Core_Model_CacheInterface $cache,
+        Mage_Webapi_Helper_Config $configHelper
     ) {
         $this->_classReflector = $classReflector;
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
+        $this->_configHelper = $configHelper;
     }
 
     /**
@@ -82,7 +90,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
                 if ($module->is('active')) {
                     /** Invalid type is specified to retrieve path to module directory. */
                     $moduleDir = $this->_applicationConfig->getModuleDir('invalid_type', $moduleName);
-                    $directory = $moduleDir . DS . 'Controller' . DS . 'Webapi';
+                    $directory = $moduleDir . DS . 'Service';
                     if (is_dir($directory)) {
                         $this->_directoryScanner->addDirectory($directory);
                     }
@@ -122,11 +130,25 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
                         'There can be only one class in the "%s" controller file .',
                         $filename
                     ));
+                } elseif (empty($classes)) {
+                    /** No classes defined in current file. */
+                    continue;
                 }
                 /** @var \Zend\Code\Scanner\ClassScanner $class */
                 $class = current($classes);
                 $className = $class->getName();
                 if (preg_match(self::RESOURCE_CLASS_PATTERN, $className)) {
+                    $serverReflection = new Zend\Server\Reflection;
+                    $serviceAnnotation = $this->_configHelper->getAnnotationValue(
+                        $serverReflection->reflectClass($className),
+                        'Service'
+                    );
+                    if (!is_string($serviceAnnotation)) {
+                        /**
+                         * Services exposed via Web API must have @Service annotation defined on class level.
+                         */
+                        continue;
+                    }
                     $classData = $this->_classReflector->reflectClassMethods($className);
                     $this->_addData($classData);
                 }

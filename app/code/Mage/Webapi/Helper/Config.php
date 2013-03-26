@@ -107,8 +107,8 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      *
      * Example:
      * <pre>
-     *  Mage_Customer_Model_Webapi_CustomerData => CustomerData
-     *  Mage_Catalog_Model_Webapi_ProductData => CatalogProductData
+     *  Mage_Customer_Service_CustomerData => CustomerData
+     *  Mage_Catalog_Service_ProductData => CatalogProductData
      * </pre>
      *
      * @param string $class
@@ -117,7 +117,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      */
     public function translateTypeName($class)
     {
-        if (preg_match('/(.*)_(.*)_Model_Webapi_\2?(.*)/', $class, $matches)) {
+        if (preg_match('/(.*)_(.*)_Service_\2?(.*)/', $class, $matches)) {
             $moduleNamespace = $matches[1] == 'Mage' ? '' : $matches[1];
             $moduleName = $matches[2];
             $typeNameParts = explode('_', $matches[3]);
@@ -169,9 +169,9 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * Identify the list of resource name parts including subresources using class name.
      *
      * Examples of input/output pairs: <br/>
-     * - 'Mage_Customer_Controller_Webapi_Customer_Address' => array('Customer', 'Address') <br/>
-     * - 'Vendor_Customer_Controller_Webapi_Customer_Address' => array('VendorCustomer', 'Address') <br/>
-     * - 'Mage_Catalog_Controller_Webapi_Product' => array('Catalog', 'Product')
+     * - 'Mage_Customer_Service_Customer_Address' => array('Customer', 'Address') <br/>
+     * - 'Vendor_Customer_Service_Customer_Address' => array('VendorCustomer', 'Address') <br/>
+     * - 'Mage_Catalog_Service_Product' => array('Catalog', 'Product')
      *
      * @param string $className
      * @return array

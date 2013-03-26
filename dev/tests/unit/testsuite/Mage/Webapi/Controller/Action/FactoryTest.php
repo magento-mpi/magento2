@@ -46,7 +46,7 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
         $this->_objectManagerMock->expects($this->once())->method('create')->will(
             $this->returnValue($actionController)
         );
-        $this->_factory->createActionController('Mage_Webapi_Controller_ActionAbstract', $request);
+        $this->_factory->createServiceInstance('Mage_Webapi_Controller_ActionAbstract', $request);
     }
 
     /**
@@ -64,6 +64,6 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
             'InvalidArgumentException',
             'The specified class is not a valid API action controller.'
         );
-        $this->_factory->createActionController('ClassName', $request);
+        $this->_factory->createServiceInstance('ClassName', $request);
     }
 }

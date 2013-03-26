@@ -11,7 +11,7 @@
 /**
  * @Service product
  * @Version 1.0
- * @Path /api/rest/1.0/products
+ * @Path /products
  */
 class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
 {
@@ -20,17 +20,16 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
      *
      * @Type call
      * @Method GET
-     * @Path /{id}
+     * @Path /:id
      * @Bindings [REST]
      * @Consumes /resources/product/item/input.xsd
      * @Produces /resources/product/item/output.xsd
-     *
-     * @param Mage_Core_Service_Parameter_Input $input
-     * @return array
+     * @param int $id
+     * @return Mage_Catalog_Service_Parameter_ProductData
      */
-    public function item(Mage_Core_Service_Parameter_Input $input)
+    public function item($id)
     {
-        $data = $this->_getData($input->getId(), $this->getMethodId('item'), $input->getFieldsetId());
+        $data = $this->_getData($id, $this->getMethodId('item'));
 
         return $data;
     }
@@ -40,17 +39,16 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
      *
      * @Type call
      * @Method GET
-     * @todo Not sure how to define @Path that might be given 1..Inf number of parameters
+     * @todo Not sure how to define Path that might be given 1..Inf number of parameters
      * @Bindings [REST]
      * @Consumes input.xsd
      * @Produces output.xsd
      *
-     * @param Mage_Core_Service_Parameter_Input $input
-     * @return array
+     * @return Mage_Catalog_Service_Parameter_ProductData[]
      */
-    public function items(Mage_Core_Service_Parameter_Input $input)
+    public function items()
     {
-        $data = $this->_getCollectionData($input->getProductIds(), $this->getMethodId('items'));
+        $data = $this->_getCollectionData(array(), $this->getMethodId('items'));
 
         return $data;
     }
@@ -65,8 +63,10 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
      */
     protected function _getObject($id, $fieldsetId = '')
     {
+        /** @var $productHelper Mage_Catalog_Helper_Product */
         /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->_objectManager->create('Mage_Catalog_Model_Product');
+        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
+        return $productHelper->getProduct($id, Mage::app()->getCurrentStore());
 
         // TODO: try as `sku` first (can be voided if we won't be supporting numeric SKUs)
         $productId = $product->getIdBySku($id);
@@ -107,12 +107,14 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
      * @param string $fieldsetId
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected function _getObjectCollection(array $productIds, $fieldsetId = '')
+    protected function _getObjectCollection(array $productIds = array(), $fieldsetId = '')
     {
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
         // @todo what about setFieldset() for collection?
         // $collection->setFieldset($this->_getFieldset($fieldsetId));
-        $collection->addIdFilter($productIds);
+        if (!empty($productIds)) {
+            $collection->addIdFilter($productIds);
+        }
         $fields = $this->_getFieldset($fieldsetId);
 
         if (!empty($fields)) {

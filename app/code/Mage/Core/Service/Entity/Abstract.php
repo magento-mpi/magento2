@@ -38,7 +38,7 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
      * @param string $fieldsetId
      * @return Varien_Data_Collection_Db
      */
-    abstract protected function _getObjectCollection(array $objectIds, $fieldsetId = '');
+    abstract protected function _getObjectCollection(array $objectIds = array(), $fieldsetId = '');
 
     /**
      * Extract data out of the project object retrieved by ID.
@@ -98,7 +98,7 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
      * @param string $fieldsetId
      * @return array
      */
-    protected function _getCollectionData(array $objectIds, $methodId, $fieldsetId = '')
+    protected function _getCollectionData(array $objectIds = array(), $methodId, $fieldsetId = '')
     {
         $collection = $this->_getObjectCollection($objectIds, $fieldsetId);
         $dataCollection = array();

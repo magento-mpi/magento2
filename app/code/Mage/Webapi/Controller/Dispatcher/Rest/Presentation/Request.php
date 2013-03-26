@@ -50,23 +50,25 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
      */
     public function fetchRequestData($controllerInstance, $action)
     {
-        $methodReflection = Mage_Webapi_Helper_Data::createMethodReflection($controllerInstance, $action);
-        $bodyParamName = $this->_configHelper->getOperationBodyParamName($methodReflection);
-        $requestParams = array_merge(
-            $this->_request->getParams(),
-            array($bodyParamName => $this->_getRequestBody($this->_request->getHttpMethod()))
-        );
-        /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
-        $idArgumentName = $this->_configHelper->getOperationIdParamName($methodReflection);
-        $parentIdParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
-        $idParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
-        if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {
-            $requestParams[$idArgumentName] = $requestParams[$parentIdParamName];
-            unset($requestParams[$parentIdParamName]);
-        } elseif (isset($requestParams[$idParamName]) && ($idArgumentName != $idParamName)) {
-            $requestParams[$idArgumentName] = $requestParams[$idParamName];
-            unset($requestParams[$idParamName]);
-        }
+        // TDOO: Consider reimplementation of code below according to new requirements
+        $requestParams = $this->_request->getParams();
+//        $methodReflection = Mage_Webapi_Helper_Data::createMethodReflection($controllerInstance, $action);
+//        $bodyParamName = $this->_configHelper->getOperationBodyParamName($methodReflection);
+//        $requestParams = array_merge(
+//            $this->_request->getParams(),
+//            array($bodyParamName => $this->_getRequestBody($this->_request->getHttpMethod()))
+//        );
+//        /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
+//        $idArgumentName = $this->_configHelper->getOperationIdParamName($methodReflection);
+//        $parentIdParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
+//        $idParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
+//        if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {
+//            $requestParams[$idArgumentName] = $requestParams[$parentIdParamName];
+//            unset($requestParams[$parentIdParamName]);
+//        } elseif (isset($requestParams[$idParamName]) && ($idArgumentName != $idParamName)) {
+//            $requestParams[$idArgumentName] = $requestParams[$idParamName];
+//            unset($requestParams[$idParamName]);
+//        }
 
         return $this->_apiHelper->prepareMethodParams($controllerInstance, $action, $requestParams, $this->_apiConfig);
     }

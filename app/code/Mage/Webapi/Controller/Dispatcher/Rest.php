@@ -86,13 +86,10 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
 
             // TODO: Method name should be taken form config
             $method = $this->_apiConfig->getMethodNameByOperation($operation);
-            $controllerClassName = $this->_apiConfig->getControllerClassByOperationName($operation);
+            $serviceClassName = $this->_apiConfig->getControllerClassByOperationName($operation);
 
             // TODO: Service should be created on this step as an alternative to controllers
-            $controllerInstance = $this->_controllerFactory->createActionController(
-                $controllerClassName,
-                $this->_request
-            );
+            $serviceInstance = $this->_controllerFactory->createServiceInstance($serviceClassName, $this->_request);
 
             $this->_apiConfig->checkDeprecationPolicy($route->getResourceName(), $method);
             // TODO: Refactor after versioning removal
@@ -100,8 +97,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
 
             $this->_authorization->checkResourceAcl($route->getResourceName(), $method);
 
-            $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
-            $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
+            $inputData = $this->_restPresentation->fetchRequestData($serviceInstance, $action);
+            $outputData = call_user_func_array(array($serviceInstance, $action), $inputData);
             $this->_restPresentation->prepareResponse($this->_request->getHttpMethod(), $outputData);
         } catch (Exception $e) {
             $this->_response->setException($e);

@@ -112,7 +112,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                     );
                 }
                 $controllerClass = $this->_apiConfig->getControllerClassByOperationName($operation);
-                $controllerInstance = $this->_controllerFactory->createActionController(
+                $controllerInstance = $this->_controllerFactory->createServiceInstance(
                     $controllerClass,
                     $this->_request
                 );

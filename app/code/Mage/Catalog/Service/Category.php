@@ -29,6 +29,16 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
     }
 
     /**
+     * Returns unique service identifier.
+     *
+     * @return string
+     */
+    protected function _getServiceId()
+    {
+        return self::SERVICE_ID;
+    }
+
+    /**
      * Returns model which operated by current service.
      *
      * @param Mage_Core_Service_Args $args
