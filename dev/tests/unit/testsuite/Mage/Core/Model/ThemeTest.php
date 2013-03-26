@@ -344,15 +344,17 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function getCustomViewConfigDataProvider()
     {
         return array(
-            'no custom path, theme is not loaded' => array(null, null, $this->isEmpty()),
-            'no custom path, theme is loaded' => array(null, 'theme_id',
-                $this->equalTo('media' . DIRECTORY_SEPARATOR . 'theme_customization' . DIRECTORY_SEPARATOR . 'theme_id'
-                . DIRECTORY_SEPARATOR . 'view.xml')
+            'no custom path, theme is not loaded' => array(
+                null, null, $this->isEmpty()
             ),
-            'with custom path, theme is not loaded' => array('custom/path', null,
-                $this->equalTo('custom/path' . DIRECTORY_SEPARATOR . 'view.xml')),
-            'with custom path, theme is loaded' => array('custom/path', 'theme_id',
-                $this->equalTo('custom/path' . DIRECTORY_SEPARATOR . 'view.xml')
+            'no custom path, theme is loaded' => array(
+                null, 'theme_id', $this->equalTo('media/theme_customization/theme_id/view.xml')
+            ),
+            'with custom path, theme is not loaded' => array(
+                'custom/path', null, $this->equalTo('custom/path/view.xml')
+            ),
+            'with custom path, theme is loaded' => array(
+                'custom/path', 'theme_id', $this->equalTo('custom/path/view.xml')
             ),
         );
     }
