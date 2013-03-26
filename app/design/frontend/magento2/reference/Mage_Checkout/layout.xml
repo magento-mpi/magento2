@@ -90,8 +90,8 @@ Default layout, loads most of the pages
                                 <block type="Mage_Checkout_Block_Multishipping_Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>
                             </container>
                         </block>
+                        <container name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" label="Empty Shopping Cart Content Before"/>
                     </container>
-                    <container name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" label="Empty Shopping Cart Content Before"/>
                 </block>
             </container>
             <block type="Mage_Checkout_Block_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>
@@ -308,8 +308,12 @@ One page checkout main layout
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="content">
+            <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlId="checkout-progress-wrapper">
+                <block type="Mage_Checkout_Block_Onepage_Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
+            </container>
+        </reference>
+        <reference name="content">
             <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="onepage.phtml">
-                <block type="Mage_Checkout_Block_Onepage_Progress" as="checkoutProgress" name="checkout.progress" template="onepage/progress.phtml"/>
                 <block type="Mage_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
                     <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTag="div"/>
                 </block>

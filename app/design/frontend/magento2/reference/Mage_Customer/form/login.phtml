@@ -29,7 +29,7 @@
 <div class="block customer login">
     <div class="title"><strong><?php echo $this->__('Registered Customers') ?></strong></div>
     <div class="content">
-        <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
+        <form class="form login" action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
             <fieldset class="fieldset login" data-hasrequired="<?php echo $this->__('* Required Fields') ?>">
                 <p class="field note"><?php echo $this->__('If you have an account with us, log in using your email address.') ?></p>
                 <div class="field email required">
@@ -45,10 +45,10 @@
                     </div>
                 </div>
                 <?php echo $this->getChildHtml('form.additional.info'); ?>
-            <div class="actions">
-                <div class="primary"><button type="submit" class="action login" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button></div>
-                <div class="secondary"><a href="<?php echo $this->getForgotPasswordUrl() ?>"><?php echo $this->__('Forgot Your Password?') ?></a></div>
-            </div>
+                <div class="actions">
+                    <div class="primary"><button type="submit" class="action login" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button></div>
+                    <div class="secondary"><a class="action remind" href="<?php echo $this->getForgotPasswordUrl() ?>"><span><?php echo $this->__('Forgot Your Password?') ?></span></a></div>
+                </div>
             </fieldset>
         </form>
     </div>
