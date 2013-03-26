@@ -1216,13 +1216,13 @@ label.mage-error {
     display: table-row;
     border: 0;
     padding: 0;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     width: 100%;
 }
 
 .fieldset-alt > .field {
     display: table-cell;
-    vertical-align: bottom;
+    vertical-align: top;
     padding-right: 4%;
 }
 
@@ -1264,7 +1264,8 @@ label.mage-error {
 }
 
 .fieldset-alt .field-option-req .control {
-    padding-bottom: 5px;
+    position: relative;
+    top: 32px;
 }
 
 .fieldset-alt .field-option-position,
