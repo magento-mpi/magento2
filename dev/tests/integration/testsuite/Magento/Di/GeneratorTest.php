@@ -28,6 +28,11 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
      */
     protected $_generator;
 
+    /**
+     * @var Magento_Di_Generator_Io
+     */
+    protected $_ioObject;
+
     protected function setUp()
     {
         $this->_includePath = get_include_path();
@@ -38,12 +43,14 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         Magento_Autoload_IncludePath::addIncludePath($generationDirectory);
 
-        $ioObject = new Magento_Di_Generator_Io(
+        $this->_ioObject = new Magento_Di_Generator_Io(
             new Varien_Io_File(),
             new Magento_Autoload_IncludePath(),
             $generationDirectory
         );
-        $this->_generator = Mage::getObjectManager()->create('Magento_Di_Generator', array('ioObject' => $ioObject));
+        $this->_generator = Mage::getObjectManager()->create(
+            'Magento_Di_Generator', array('ioObject' => $this->_ioObject)
+        );
     }
 
     protected function tearDown()
@@ -55,6 +62,11 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         set_include_path($this->_includePath);
         unset($this->_generator);
+    }
+
+    protected function _clearDocBlock($classBody)
+    {
+        return preg_replace('/(\/\*[\w\W]*)class/', 'class', $classBody);
     }
 
     public function testGenerateClassFactoryWithoutNamespace()
@@ -69,6 +81,14 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         $factory = Mage::getObjectManager()->create($factoryClassName);
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
+
+        $content = $this->_clearDocBlock(file_get_contents($this->_ioObject->getResultFileName(
+            self::CLASS_NAME_WITHOUT_NAMESPACE . 'Factory')
+        ));
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedFactoryWithoutNamespace.php')
+        );
+        $this->assertEquals($expectedContent, $content);
     }
 
     public function testGenerateClassFactoryWithNamespace()
@@ -84,6 +104,14 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $object);
+
+        $content = $this->_clearDocBlock(
+            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Factory'))
+        );
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedFactoryWithNamespace.php')
+        );
+        $this->assertEquals($expectedContent, $content);
     }
 
     public function testGenerateClassProxyWithoutNamespace()
@@ -96,8 +124,13 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $proxy = Mage::getObjectManager()->create($factoryClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $proxy);
-
-        $this->_verifyProxyMethods(self::CLASS_NAME_WITHOUT_NAMESPACE, $proxy);
+        $content = $this->_clearDocBlock(
+            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITHOUT_NAMESPACE . 'Proxy'))
+        );
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedProxyWithoutNamespace.php')
+        );
+        $this->assertEquals($expectedContent, $content);
     }
 
     public function testGenerateClassProxyWithNamespace()
@@ -111,33 +144,12 @@ class Magento_Di_GeneratorTest extends PHPUnit_Framework_TestCase
         $proxy = Mage::getObjectManager()->create($factoryClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $proxy);
 
-        $this->_verifyProxyMethods(self::CLASS_NAME_WITH_NAMESPACE, $proxy);
-    }
-
-    /**
-     * @param string $class
-     * @param object $proxy
-     */
-    protected function _verifyProxyMethods($class, $proxy)
-    {
-        $expectedMethods = array();
-        $reflectionObject = new ReflectionClass(new $class());
-        $publicMethods = $reflectionObject->getMethods(ReflectionMethod::IS_PUBLIC);
-        foreach ($publicMethods as $method) {
-            if (!($method->isConstructor() || $method->isFinal() || $method->isStatic())) {
-                $expectedMethods[$method->getName()] = $method->getParameters();
-            }
-        }
-
-        $actualMethods = array();
-        $reflectionObject = new ReflectionClass($proxy);
-        $publicMethods = $reflectionObject->getMethods(ReflectionMethod::IS_PUBLIC);
-        foreach ($publicMethods as $method) {
-            if (!($method->isConstructor() || $method->isFinal() || $method->isStatic())) {
-                $actualMethods[$method->getName()] = $method->getParameters();
-            }
-        }
-
-        $this->assertEquals($expectedMethods, $actualMethods);
+        $content = $this->_clearDocBlock(
+            file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Proxy'))
+        );
+        $expectedContent = $this->_clearDocBlock(
+            file_get_contents(__DIR__ . '/_files/generatedProxyWithNamespace.php')
+        );
+        $this->assertEquals($expectedContent, $content);
     }
 }

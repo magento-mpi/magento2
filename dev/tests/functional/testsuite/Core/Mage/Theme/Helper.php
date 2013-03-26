@@ -39,6 +39,17 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * Delete theme
+     */
+    public function deleteTheme($themeData)
+    {
+        $this->navigate('theme_list');
+        $this->openTheme($themeData);
+        $this->clickButtonAndConfirm('delete_theme', 'confirmation_for_delete');
+        $this->assertMessagePresent('success', 'success_deleted_theme');
+    }
+
+    /**
      * <p>Create new virtual theme</p>
      *
      * $themeData can be:
@@ -71,7 +82,6 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         }
 
         $this->clickButton('save_theme');
-        $this->assertMessagePresent('success', 'success_saved_theme');
 
         return $themeData;
     }
@@ -91,5 +101,64 @@ class Core_Mage_Theme_Helper extends Mage_Selenium_AbstractHelper
         $element = $this->getElement($locator);
         $id = $this->defineIdFromUrl($element->attribute('title'));
         return $id;
+    }
+
+    /**
+     * <p>Create theme and open it for edit</p>
+     *
+     * $themeData can be:
+     * - string dataSet in Theme
+     * - array('theme', 'requirements')
+     * - array('theme')
+     * - array()
+     * @param string|array $themeData
+     * @return array
+     */
+    public function createAndOpenTheme($themeData = 'default_new_theme')
+    {
+        $this->navigate('theme_list');
+        $this->elementIsPresent('theme_grid');
+
+        $this->clickButton('add_new_theme');
+
+        if (is_string($themeData)) {
+            $themeData = $this->loadDataSet('Theme', $themeData);
+        }
+
+        if (isset($themeData['theme'])) {
+            $this->fillFieldset($themeData['theme'], 'theme');
+        } else {
+            $this->fillFieldset($themeData, 'theme');
+        }
+
+        if (isset($themeData['requirements'])) {
+            $this->fillFieldset($themeData['requirements'], 'requirements');
+        }
+
+        $this->clickButton('save_and_continue_edit');
+
+        return $themeData;
+    }
+
+    /**
+     * Open theme.
+     *
+     * @param array $themeData
+     */
+    public function openTheme(array $themeData)
+    {
+        $searchData = $this->_prepareDataForSearch($themeData['theme']);
+        $themeLocator = $this->search($searchData, 'theme_list_grid');
+        $this->assertNotNull($themeLocator, 'Theme is not found');
+        $themeRowElement = $this->getElement($themeLocator);
+        $themeUrl = $themeRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Name');
+        $cellElement = $this->getChildElement($themeRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineIdFromUrl($themeUrl));
+        //Open product
+        $this->url($themeUrl);
+        $this->validatePage('edit_theme');
     }
 }

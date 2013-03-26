@@ -13,10 +13,10 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_CurrencySymbol::system_currency" title="Manage Currency">
-                        <resource id="Mage_CurrencySymbol::currency_rates" title="Rates" sortOrder="50" />
-                        <resource id="Mage_CurrencySymbol::symbols" title="Symbols" sortOrder="100" />
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_CurrencySymbol::system_currency" title="Currency" module="Mage_CurrencySymbol" sortOrder="30">
+                        <resource id="Mage_CurrencySymbol::currency_rates" title="Currency Rates" module="Mage_CurrencySymbol" sortOrder="10" />
+                        <resource id="Mage_CurrencySymbol::symbols" title="Currency Symbols" module="Mage_CurrencySymbol" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

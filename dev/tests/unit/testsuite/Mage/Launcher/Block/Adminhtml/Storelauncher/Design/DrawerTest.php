@@ -73,10 +73,10 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             )
         );
 
-        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('getAllThemes'), array(), '', false);
+        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('getPhysicalThemes'), array(), '', false);
 
         $themeService->expects($this->any())
-            ->method('getAllThemes')
+            ->method('getPhysicalThemes')
             ->will($this->returnValue($this->_getThemes()));
 
         $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);

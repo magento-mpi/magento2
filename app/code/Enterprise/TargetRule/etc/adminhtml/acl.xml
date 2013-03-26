@@ -13,8 +13,10 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Catalog::catalog">
-                    <resource id="Enterprise_TargetRule::targetrule" title="Rule-Based Product Relations" />
+                <resource id="Mage_Adminhtml::marketing">
+                    <resource id="Mage_CatalogRule::promo">
+                        <resource id="Enterprise_TargetRule::targetrule" title="Related Products Rules" sortOrder="20" module="Enterprise_TargetRule" />
+                    </resource>
                 </resource>
             </resource>
         </resources>

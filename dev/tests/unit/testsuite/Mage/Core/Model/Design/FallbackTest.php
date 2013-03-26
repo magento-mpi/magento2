@@ -24,7 +24,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFile($theme, $file, $targetFile, $expectedFileName)
     {
-        $designDir = 'design_dir';
         $moduleDir = 'module_view_dir';
         $module = 'Mage_Core11';
 
@@ -42,11 +41,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             ->method('get')
             ->with('Mage_Core_Model_Config')
             ->will($this->returnValue($configModel));
-
-        $dirs->expects($this->any())
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::THEMES)
-            ->will($this->returnValue($designDir));
 
         $data = array(
             'area'       => 'area51',
@@ -66,94 +60,43 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     public function getFileDataProvider()
     {
         $file = 'test.txt';
-        $customizationPath = 'custom';
-        $themePath = 'theme_path';
-        $parentThemePath = 'parent_theme_path';
 
-        /** @var $parentTheme Mage_Core_Model_Theme */
-        $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
+        $themeFilesPath = '%%%';
+        $parentThemeFilesPath = '$$$';
+
+        /** @var $parentTheme Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemeFilesPath'), array(), '', false);
         $parentTheme->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($parentThemePath));
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($parentThemeFilesPath));
 
-        /** @var $themeSimple Mage_Core_Model_Theme */
-        $themeSimple = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+        /** @var $themeSimple Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $themeSimple = $this->getMock('Mage_Core_Model_Theme', array('getThemeFilesPath'), array(), '', false);
+        $themeSimple->expects($this->any())
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($themeFilesPath));
 
-        /** @var $themeCustomized Mage_Core_Model_Theme */
-        $themeCustomized = $this->getMock('Mage_Core_Model_Theme', array('getCustomizationPath'), array(), '', false);
-        $themeCustomized->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
-
-        /** @var $customizedPhysical Mage_Core_Model_Theme */
-        $customizedPhysical = $this->getMock('Mage_Core_Model_Theme',
-            array('getCustomizationPath', 'getThemePath'), array(), '', false);
-        $customizedPhysical->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
-        $customizedPhysical->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($themePath));
-
-        /** @var $themeInherited Mage_Core_Model_Theme */
-        $themeInherited = $this->getMock('Mage_Core_Model_Theme', array('getParentTheme'), array(), '', false);
+        /** @var $themeInherited Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $themeInherited = $this->getMock('Mage_Core_Model_Theme',
+            array('getParentTheme', 'getThemeFilesPath'), array(), '', false);
         $themeInherited->expects($this->any())
             ->method('getParentTheme')
             ->will($this->returnValue($parentTheme));
-
-        /** @var $themeComplicated Mage_Core_Model_Theme */
-        $themeComplicated = $this->getMock('Mage_Core_Model_Theme',
-            array('getCustomizationPath', 'getThemePath', 'getParentTheme'), array(), '', false);
-        $themeComplicated->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
-        $themeComplicated->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($themePath));
-        $themeComplicated->expects($this->any())
-            ->method('getParentTheme')
-            ->will($this->returnValue($parentTheme));
+        $themeInherited->expects($this->any())
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($themeFilesPath));
 
         return array(
-            array($themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeSimple, $file, null, 'module_view_dir/area51/test.txt'),
-            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeCustomized, $file, null, 'module_view_dir/area51/test.txt'),
-            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/test.txt',
-                'design_dir/area51/theme_path/test.txt'
-            ),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/theme_path/Mage_Core11/test.txt'
-            ),
-            array($customizedPhysical, $file, 'module_view_dir/area51/test.txt',
-                'module_view_dir/area51/test.txt'
-            ),
-            array($customizedPhysical, $file, null, 'module_view_dir/area51/test.txt'),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
-                'design_dir/area51/parent_theme_path/test.txt'
-            ),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
-            ),
-            array($themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeInherited, $file, null, 'module_view_dir/area51/test.txt'),
-            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
-                'design_dir/area51/theme_path/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/test.txt',
-                'design_dir/area51/parent_theme_path/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/theme_path/Mage_Core11/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
-            ),
-            array($themeComplicated, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeComplicated, $file, null, 'module_view_dir/area51/test.txt'),
+            0 => array($themeSimple, $file, '%%%/test.txt', '%%%/test.txt'),
+            1 => array($themeSimple, $file, '%%%/Mage_Core11/test.txt', '%%%/Mage_Core11/test.txt'),
+            2 => array($themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            3 => array($themeSimple, $file, null, 'module_view_dir/area51/test.txt'),
+            4 => array($themeInherited, $file, '%%%/test.txt', '%%%/test.txt'),
+            5 => array($themeInherited, $file, '$$$/test.txt', '$$$/test.txt'),
+            6 => array($themeInherited, $file, '%%%/Mage_Core11/test.txt', '%%%/Mage_Core11/test.txt'),
+            7 => array($themeInherited, $file, '$$$/Mage_Core11/test.txt', '$$$/Mage_Core11/test.txt'),
+            8 => array($themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            9 => array($themeInherited, $file, null, 'module_view_dir/area51/test.txt'),
         );
     }
 
@@ -167,16 +110,9 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocaleFile($theme, $file, $targetFile, $expectedFileName)
     {
-        $designDir = 'design_dir';
-
         $filesystem = $this->_getFileSystemMock($targetFile);
         $objectManager = $this->_getObjectManagerMock();
         $dirs = $this->_getDirsMock();
-
-        $dirs->expects($this->any())
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::THEMES)
-            ->will($this->returnValue($designDir));
 
         $data = array(
             'area'       => 'area51',
@@ -196,104 +132,71 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function getLocaleFileDataProvider()
     {
-        $customizationPath = 'custom';
-        $themePath = 'theme_path';
-        $parentThemePath = 'parent_theme_path';
-        $grandParentPath = 'grand_parent_theme_path';
         $file = 'test.txt';
 
+        $themeFilesPath = '%%%';
+        $parentThemeFilesPath = '$$$';
+        $parentThemeFP = '###';
+        $grandParentThemeFP = '@@@';
+
         // 0. Parent and grand parent themes
-        /** @var $parentTheme Mage_Core_Model_Theme */
-        $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
-        $parentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue($parentThemePath));
+        /** @var $parentTheme Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemeFilesPath'), array(), '', false);
+        $parentTheme->expects($this->any())
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($parentThemeFilesPath));
 
-        /** @var $grandParentTheme Mage_Core_Model_Theme */
-        $grandParentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
-        $grandParentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue($grandParentPath));
+        /** @var $grandParentTheme Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $grandParentTheme = $this->getMock('Mage_Core_Model_Theme', array(
+            'getThemePath', 'getThemeFilesPath'
+        ), array(), '', false);
+        $grandParentTheme->expects($this->any())
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($grandParentThemeFP));
 
-        /** @var $parentThemeInherited Mage_Core_Model_Theme */
+        /** @var $parentThemeInherited Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
         $parentThemeInherited = $this->getMock('Mage_Core_Model_Theme',
-            array('getThemePath', 'getParentTheme'), array(), '', false);
-        $parentThemeInherited->expects($this->any())->method('getThemePath')
-            ->will($this->returnValue($parentThemePath));
+            array('getParentTheme', 'getThemeFilesPath'), array(), '', false);
         $parentThemeInherited->expects($this->any())->method('getParentTheme')
             ->will($this->returnValue($grandParentTheme));
+        $parentThemeInherited->expects($this->any())->method('getThemeFilesPath')
+            ->will($this->returnValue($parentThemeFP));
 
         // 1.
-        /** @var $themeSimple Mage_Core_Model_Theme */
-        $themeSimple = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+        /** @var $themeSimple Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $themeSimple = $this->getMock('Mage_Core_Model_Theme', array('getThemeFilesPath'), array(), '', false);
+        $themeSimple->expects($this->any())->method('getThemeFilesPath')->will($this->returnValue($themeFilesPath));
 
         // 2.
-        /** @var $themeCustomized Mage_Core_Model_Theme */
-        $themeCustomized = $this->getMock('Mage_Core_Model_Theme', array('getCustomizationPath'), array(), '', false);
-        $themeCustomized->expects($this->any())->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
+        /** @var $themeInherited Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $themeInherited = $this->getMock('Mage_Core_Model_Theme', array(
+            'getParentTheme', 'getThemeFilesPath'
+        ), array(), '', false);
+        $themeInherited->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
+        $themeInherited->expects($this->any())->method('getThemeFilesPath')->will($this->returnValue($themeFilesPath));
 
         // 3.
-        /** @var $customizedPhysical Mage_Core_Model_Theme */
-        $customizedPhysical = $this->getMock('Mage_Core_Model_Theme',
-            array('getCustomizationPath', 'getThemePath'), array(), '', false);
-        $customizedPhysical->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
-        $customizedPhysical->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($themePath));
-
-        // 4.
-        /** @var $themeInherited Mage_Core_Model_Theme */
-        $themeInherited = $this->getMock('Mage_Core_Model_Theme', array('getParentTheme'), array(), '', false);
-        $themeInherited->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
-
-        // 5.
-        /** @var $themeComplicated Mage_Core_Model_Theme */
-        $themeComplicated = $this->getMock('Mage_Core_Model_Theme',
-            array('getCustomizationPath', 'getThemePath', 'getParentTheme'), array(), '', false);
-        $themeComplicated->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
-        $themeComplicated->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($themePath));
-        $themeComplicated->expects($this->any())
-            ->method('getParentTheme')
-            ->will($this->returnValue($parentTheme));
-
-        // 6.
-        /** @var $themeInheritedTwice Mage_Core_Model_Theme */
-        $themeInheritedTwice = $this->getMock('Mage_Core_Model_Theme', array('getParentTheme'), array(), '', false);
+        /** @var $themeInheritedTwice Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $themeInheritedTwice = $this->getMock('Mage_Core_Model_Theme', array(
+            'getParentTheme', 'getThemeFilesPath'
+        ), array(), '', false);
         $themeInheritedTwice->expects($this->any())
             ->method('getParentTheme')
             ->will($this->returnValue($parentThemeInherited));
+        $themeInheritedTwice->expects($this->any())
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($themeFilesPath));
 
         return array(
-            array($themeSimple, $file, null, ''),
-            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeCustomized, $file, null, 'custom/test.txt'),
-            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/theme_path/locale/en_EN/test.txt'
-            ),
-            array($customizedPhysical, $file, null, 'design_dir/area51/theme_path/locale/en_EN/test.txt'),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeInherited, $file, null, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'),
-            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeComplicated, $file, null, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeInheritedTwice, $file, null, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'),
+            0 => array($themeSimple, $file, null, '%%%/locale/en_EN/test.txt'),
+            1 => array($themeSimple, $file, '%%%/locale/en_EN/test.txt', '%%%/locale/en_EN/test.txt'),
+            2 => array($themeInherited, $file, '%%%/locale/en_EN/test.txt', '%%%/locale/en_EN/test.txt'),
+            3 => array($themeInherited, $file, '$$$/locale/en_EN/test.txt', '$$$/locale/en_EN/test.txt'),
+            4 => array($themeInherited, $file, null, '$$$/locale/en_EN/test.txt'),
+            5 => array($themeInheritedTwice, $file, '%%%/locale/en_EN/test.txt', '%%%/locale/en_EN/test.txt'),
+            6 => array($themeInheritedTwice, $file, '###/locale/en_EN/test.txt', '###/locale/en_EN/test.txt'),
+            7 => array($themeInheritedTwice, $file, '@@@/locale/en_EN/test.txt', '@@@/locale/en_EN/test.txt'),
+            8 => array($themeInheritedTwice, $file, null, '@@@/locale/en_EN/test.txt'),
         );
     }
 
@@ -307,7 +210,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetViewFile($theme, $file, $targetFile, $expectedFileName)
     {
-        $designDir = 'design_dir';
         $moduleDir = 'module_view_dir';
         $jsDir = 'js_dir';
         $module = 'Mage_Core11';
@@ -330,11 +232,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 
         $dirs->expects($this->at(0))
             ->method('getDir')
-            ->with(Mage_Core_Model_Dir::THEMES)
-            ->will($this->returnValue($designDir));
-
-        $dirs->expects($this->at(1))
-            ->method('getDir')
             ->with(Mage_Core_Model_Dir::PUB_LIB)
             ->will($this->returnValue($jsDir));
 
@@ -356,241 +253,141 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function getViewFileDataProvider()
     {
-        $customizationPath = 'custom';
-        $themePath = 'theme_path';
-        $parentThemePath = 'parent_theme_path';
-        $grandParentThemePath = 'grand_parent_theme_path';
         $file = 'test.txt';
+
+        $themeFilesPath = '%%%';
+        $parentThemeFilesPath = '$$$';
+        $parentThemeFP = '###';
+        $grandParentThemeFP = '@@@';
+
 
         // 0. Parent and grand parent themes
         /** @var $parentTheme Mage_Core_Model_Theme */
-        $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
+        $parentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemeFilesPath'), array(), '', false);
         $parentTheme->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($parentThemePath));
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($parentThemeFilesPath));
 
         /** @var $grandParentTheme Mage_Core_Model_Theme */
-        $grandParentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemePath'), array(), '', false);
+        $grandParentTheme = $this->getMock('Mage_Core_Model_Theme', array('getThemeFilesPath'), array(), '', false);
         $grandParentTheme->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($grandParentThemePath));
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($grandParentThemeFP));
 
         /** @var $parentThemeInherited Mage_Core_Model_Theme */
         $parentThemeInherited = $this->getMock('Mage_Core_Model_Theme',
-            array('getThemePath', 'getParentTheme'), array(), '', false);
+            array('getThemeFilesPath', 'getParentTheme'), array(), '', false);
         $parentThemeInherited->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($parentThemePath));
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($parentThemeFP));
         $parentThemeInherited->expects($this->any())
             ->method('getParentTheme')
             ->will($this->returnValue($grandParentTheme));
 
         // 1.
         /** @var $themeSimple Mage_Core_Model_Theme */
-        $themeSimple = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+        $themeSimple = $this->getMock('Mage_Core_Model_Theme', array('getThemeFilesPath'), array(), '', false);
+        $themeSimple->expects($this->any())->method('getThemeFilesPath')->will($this->returnValue($themeFilesPath));
 
         // 2.
-        /** @var $themeCustomized Mage_Core_Model_Theme */
-        $themeCustomized = $this->getMock('Mage_Core_Model_Theme', array('getCustomizationPath'), array(), '', false);
-        $themeCustomized->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
-
         // 3.
-        /** @var $customizedPhysical Mage_Core_Model_Theme */
-        $customizedPhysical = $this->getMock('Mage_Core_Model_Theme',
-            array('getCustomizationPath', 'getThemePath'), array(), '', false);
-        $customizedPhysical->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
-        $customizedPhysical->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($themePath));
 
         // 4.
         /** @var $themeInherited Mage_Core_Model_Theme */
-        $themeInherited = $this->getMock('Mage_Core_Model_Theme', array('getParentTheme'), array(), '', false);
+        $themeInherited = $this->getMock('Mage_Core_Model_Theme', array(
+            'getParentTheme', 'getThemeFilesPath'
+        ), array(), '', false);
         $themeInherited->expects($this->any())
             ->method('getParentTheme')
             ->will($this->returnValue($parentTheme));
+        $themeInherited->expects($this->any())->method('getThemeFilesPath')->will($this->returnValue($themeFilesPath));
 
         // 5.
-        /** @var $themeComplicated Mage_Core_Model_Theme */
-        $themeComplicated = $this->getMock('Mage_Core_Model_Theme',
-            array('getCustomizationPath', 'getThemePath', 'getParentTheme'), array(), '', false);
-        $themeComplicated->expects($this->any())
-            ->method('getCustomizationPath')
-            ->will($this->returnValue($customizationPath));
-        $themeComplicated->expects($this->any())
-            ->method('getThemePath')
-            ->will($this->returnValue($themePath));
-        $themeComplicated->expects($this->any())
-            ->method('getParentTheme')
-            ->will($this->returnValue($parentTheme));
 
         // 6.
         /** @var $themeInheritedTwice Mage_Core_Model_Theme */
-        $themeInheritedTwice = $this->getMock('Mage_Core_Model_Theme', array('getParentTheme'), array(), '', false);
+        $themeInheritedTwice = $this->getMock('Mage_Core_Model_Theme', array(
+            'getParentTheme', 'getThemeFilesPath'
+        ), array(), '', false);
         $themeInheritedTwice->expects($this->any())
             ->method('getParentTheme')
             ->will($this->returnValue($parentThemeInherited));
+        $themeInheritedTwice->expects($this->any())
+            ->method('getThemeFilesPath')
+            ->will($this->returnValue($themeFilesPath));
 
         return array(
-            array($themeSimple, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            0 => array($themeSimple, $file, '%%%/locale/en_EN/test.txt', '%%%/locale/en_EN/test.txt'),
+            1 => array($themeSimple, $file, '%%%/test.txt', '%%%/test.txt'),
+            2 => array($themeSimple, $file,
+                '%%%/locale/en_EN/Mage_Core11/test.txt',
+                '%%%/locale/en_EN/Mage_Core11/test.txt'
+            ),
+            3 => array($themeSimple, $file, '%%%/Mage_Core11/test.txt', '%%%/Mage_Core11/test.txt'),
+            4 => array($themeSimple, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeSimple, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeSimple, $file, null, 'js_dir/test.txt'),
-            array($themeCustomized, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeCustomized, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            5 => array($themeSimple, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            6 => array($themeSimple, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            7 => array($themeSimple, $file, null, 'js_dir/test.txt'),
+
+            8 => array($themeInherited, $file, '%%%/locale/en_EN/test.txt', '%%%/locale/en_EN/test.txt'),
+            9 => array($themeInherited, $file, '%%%/test.txt', '%%%/test.txt'),
+            10 => array($themeInherited, $file, '$$$/locale/en_EN/test.txt', '$$$/locale/en_EN/test.txt'),
+            11 => array($themeInherited, $file, '$$$/test.txt', '$$$/test.txt'),
+            12 => array($themeInherited, $file,
+                '%%%/locale/en_EN/Mage_Core11/test.txt',
+                '%%%/locale/en_EN/Mage_Core11/test.txt'
+            ),
+            13 => array($themeInherited, $file, '%%%/Mage_Core11/test.txt', '%%%/Mage_Core11/test.txt'),
+            14 => array($themeInherited, $file,
+                '$$$/locale/en_EN/Mage_Core11/test.txt',
+                '$$$/locale/en_EN/Mage_Core11/test.txt'
+            ),
+            15 => array($themeInherited, $file, '$$$/Mage_Core11/test.txt', '$$$/Mage_Core11/test.txt'),
+            16 => array($themeInherited, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($themeCustomized, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeCustomized, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeCustomized, $file, null, 'js_dir/test.txt'),
-            array($customizedPhysical, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/theme_path/locale/en_EN/test.txt'
+            17 => array($themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
+            18 => array($themeInherited, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            19 => array($themeInherited, $file, null, 'js_dir/test.txt'),
+
+            //////////////
+            20 => array($themeInheritedTwice, $file, '%%%/locale/en_EN/test.txt', '%%%/locale/en_EN/test.txt'),
+            21 => array($themeInheritedTwice, $file, '%%%/test.txt', '%%%/test.txt'),
+            22 => array($themeInheritedTwice, $file, '###/locale/en_EN/test.txt', '###/locale/en_EN/test.txt'),
+            23 => array($themeInheritedTwice, $file, '###/test.txt', '###/test.txt'),
+            24 => array($themeInheritedTwice, $file, '@@@/locale/en_EN/test.txt', '@@@/locale/en_EN/test.txt'),
+            25 => array($themeInheritedTwice, $file, '@@@/test.txt', '@@@/test.txt'),
+            26 => array($themeInheritedTwice, $file,
+                '%%%/locale/en_EN/Mage_Core11/test.txt',
+                '%%%/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/test.txt',
-                'design_dir/area51/theme_path/test.txt'
+            27 => array($themeInheritedTwice, $file, '%%%/Mage_Core11/test.txt', '%%%/Mage_Core11/test.txt'),
+            28 => array($themeInheritedTwice, $file,
+                '###/locale/en_EN/Mage_Core11/test.txt',
+                '###/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
-                'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt'
+            29 => array($themeInheritedTwice, $file, '###/Mage_Core11/test.txt', '###/Mage_Core11/test.txt'),
+            30 => array($themeInheritedTwice, $file,
+                '@@@/locale/en_EN/Mage_Core11/test.txt',
+                '@@@/locale/en_EN/Mage_Core11/test.txt'
             ),
-            array($customizedPhysical, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/theme_path/Mage_Core11/test.txt'
-            ),
-            array($customizedPhysical, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
+            31 => array($themeInheritedTwice, $file, '@@@/Mage_Core11/test.txt', '@@@/Mage_Core11/test.txt'),
+            32 => array($themeInheritedTwice, $file,
+                'module_view_dir/area51/locale/en_EN/test.txt',
                 'module_view_dir/area51/locale/en_EN/test.txt'
             ),
-            array($customizedPhysical, $file, 'module_view_dir/area51/test.txt',
+            33 => array($themeInheritedTwice, $file,
+                'module_view_dir/area51/test.txt',
                 'module_view_dir/area51/test.txt'
             ),
-            array($customizedPhysical, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($customizedPhysical, $file, null, 'js_dir/test.txt'),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/test.txt',
-                'design_dir/area51/parent_theme_path/test.txt'
-            ),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
-            ),
-            array($themeInherited, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
-            ),
-            array($themeInherited, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
-            ),
-            array($themeInherited, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeInherited, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeInherited, $file, null, 'js_dir/test.txt'),
-            array($themeComplicated, $file, 'custom/test.txt', 'custom/test.txt'),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/test.txt',
-                'design_dir/area51/theme_path/test.txt'),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/test.txt',
-                'design_dir/area51/parent_theme_path/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt',
-                'design_dir/area51/theme_path/locale/en_EN/Mage_Core11/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/theme_path/Mage_Core11/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
-            ),
-            array($themeComplicated, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
-            ),
-            array($themeComplicated, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
-            ),
-            array($themeComplicated, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeComplicated, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeComplicated, $file, null, 'js_dir/test.txt'),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/test.txt',
-                'design_dir/area51/parent_theme_path/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt',
-                'design_dir/area51/grand_parent_theme_path/locale/en_EN/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/test.txt',
-                'design_dir/area51/grand_parent_theme_path/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
-                'design_dir/area51/parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/parent_theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/parent_theme_path/Mage_Core11/test.txt'
-            ),
-            array($themeInheritedTwice, $file,
-                'design_dir/area51/grand_parent_theme_path/locale/en_EN/Mage_Core11/test.txt',
-                'design_dir/area51/grand_parent_theme_path/locale/en_EN/Mage_Core11/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt',
-                'design_dir/area51/grand_parent_theme_path/Mage_Core11/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'module_view_dir/area51/locale/en_EN/test.txt',
-                'module_view_dir/area51/locale/en_EN/test.txt'
-            ),
-            array($themeInheritedTwice, $file, 'module_view_dir/area51/test.txt', 'module_view_dir/area51/test.txt'),
-            array($themeInheritedTwice, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
-            array($themeInheritedTwice, $file, null, 'js_dir/test.txt'),
+            34 => array($themeInheritedTwice, $file, 'js_dir/test.txt', 'js_dir/test.txt'),
+            35 => array($themeInheritedTwice, $file, null, 'js_dir/test.txt')
+
         );
-    }
-
-    /**
-     * @param array $data
-     * @return Mage_Core_Model_Config_Options|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getOptionsMock(array $data)
-    {
-        /** @var $options Mage_Core_Model_Config_Options */
-        $options = $this->getMock('Mage_Core_Model_Config_Options',
-            array('getDesignDir', 'getJsDir'), array(), '', false);
-        if (isset($data['designDir'])) {
-            $options->expects($this->any())
-                ->method('getDesignDir')
-                ->will($this->returnValue($data['designDir']));
-        }
-        if (isset($data['jsDir'])) {
-            $options->expects($this->any())
-                ->method('getJsDir')
-                ->will($this->returnValue($data['jsDir']));
-        }
-
-        return $options;
-    }
-
-    /**
-     * @param array $data
-     * @param array $methods
-     * @return Mage_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getAppConfigMock(array $data, $methods = array('getOptions'))
-    {
-        $options = $this->_getOptionsMock($data);
-
-        /** @var $appConfig Mage_Core_Model_Config */
-        $appConfig = $this->getMock('Mage_Core_Model_Config', $methods, array(), '', false);
-        $appConfig->expects($this->any())
-            ->method('getOptions')
-            ->will($this->returnValue($options));
-
-        return $appConfig;
     }
 
     /**
@@ -624,7 +421,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Mage_Core_Model_Dir
+     * @return Mage_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDirsMock()
     {

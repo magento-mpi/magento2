@@ -23,6 +23,6 @@ return function (array $params)
     if (isset($params['tmt_reindex_mode'])) {
         $appParams[Mage_Install_Model_EntryPoint_Upgrade::REINDEX] = $params['tmt_reindex_mode'];
     }
-    $entryPoint = new Mage_Install_Model_EntryPoint_Upgrade($rootDir, $appParams);
+    $entryPoint = new Mage_Install_Model_EntryPoint_Upgrade(new Mage_Core_Model_Config_Primary($rootDir, $appParams));
     $entryPoint->processRequest();
 };

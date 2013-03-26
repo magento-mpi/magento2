@@ -105,6 +105,7 @@ jQuery(function ($) {
             'itemCount' => $this->getItemCount()
         )
     )?>);
+    head.js('<?php echo $this->getViewFileUrl('Mage_Adminhtml::validation-rules.js'); ?>');
     //adding data to templates
     <?php /** @var $_value Varien_Object */ ?>
     <?php foreach ($this->getOptionValues() as $_value): ?>

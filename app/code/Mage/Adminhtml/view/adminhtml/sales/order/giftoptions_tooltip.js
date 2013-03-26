@@ -55,6 +55,7 @@ GiftOptionsTooltip.prototype = {
         }
         this._tooltipWindow = $(windowId);
         this._tooltipWindowContent = $(contentId);
+        $(document.body).insert({ bottom: this._tooltipWindow });
         this.hideTooltip();
         return true;
     },

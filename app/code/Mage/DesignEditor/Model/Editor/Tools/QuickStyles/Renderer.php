@@ -56,7 +56,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer
             foreach ($data['components'] as $component) {
                 $this->_rendererCssRecursively($component, $content);
             }
-        } elseif (!empty($data['value'])) {
+        } elseif (!empty($data['value']) && $data['value'] != $data['default'] && !empty($data['attribute'])) {
             $content .= $this->_quickStyleFactory->get($data['attribute'])->toCss($data) . "\r\n";
         }
         return $this;

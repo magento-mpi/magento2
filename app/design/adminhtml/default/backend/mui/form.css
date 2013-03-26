@@ -127,6 +127,11 @@ span.required {
     margin: 0;
 }
 
+.ie .addon textarea,
+.ie .addon select {
+    display:inline-block;
+}
+
 .addon textarea:first-child,
 .addon select:first-child,
 .addon input:first-child,
@@ -313,7 +318,7 @@ span.required {
 
 .control .control-value {
     display: inline-block;
-    padding: 5px 0 0;
+    padding: 6px 0 0;
     vertical-align: top;
 }
 

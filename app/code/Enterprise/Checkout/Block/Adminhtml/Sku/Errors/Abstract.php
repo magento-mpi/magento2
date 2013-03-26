@@ -80,7 +80,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
         $buttonData = array(
             'label'   => $this->__('Remove All'),
             'onclick' => 'addBySku.removeAllFailed()',
-            'class'   => 'delete',
+            'class'   => 'action-delete',
         );
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData($buttonData)->toHtml();
     }

@@ -53,10 +53,15 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
         $this->_session = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
         $this->_themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
 
-        $this->_storageHelper = $this->getMock('Mage_Theme_Helper_Storage', array('_getRequest'), array(), '', false);
+        $this->_storageHelper = $this->getMock('Mage_Theme_Helper_Storage',
+            array('_getRequest', 'urlDecode'), array(), '', false
+        );
         $this->_storageHelper->expects($this->any())
             ->method('_getRequest')
             ->will($this->returnValue($this->_request));
+        $this->_storageHelper->expects($this->any())
+            ->method('urlDecode')
+            ->will($this->returnArgument(0));
 
         $filesystemProperty = new ReflectionProperty($this->_storageHelper, '_filesystem');
         $filesystemProperty->setAccessible(true);
@@ -144,7 +149,7 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
 
         $expectedStorageRoot = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
             $this->_customizationPath,
-            Mage_Core_Model_Theme_Files::PATH_PREFIX_CUSTOMIZED,
+            Mage_Core_Model_Theme_File::PATH_PREFIX_CUSTOMIZED,
             Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
         ));
         $this->assertEquals($expectedStorageRoot, $this->_storageHelper->getStorageRoot());

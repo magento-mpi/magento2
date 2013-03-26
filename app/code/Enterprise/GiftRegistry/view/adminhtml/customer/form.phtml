@@ -57,19 +57,6 @@
 
 <div class="box-right">
     <?php echo $this->getChildHtml('sharing_form'); ?>
-    <script type="text/javascript">
-        Validation.addAllThese([
-            ['validate-emails', '<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter valid email addresses, separated by comma.') ?>', function (v) {
-                v = v.strip();
-                var emails = v.split(/,+/g);
-                for (var i = 0, l = emails.length; i < l; i++) {
-                    if (!Validation.get('validate-email').test(emails[i])) {
-                        return false;
-                    }
-                }
-                return true;
-            }]
-        ]);</script>
 </div>
 
 <div class="clear"></div>

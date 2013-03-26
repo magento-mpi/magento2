@@ -11,9 +11,16 @@
 /**
  * @var $this Mage_Page_Block_Html_Title
  */
+$titleId = ($this->getTitleId()) ? ' id="' . $this->getTitleId() . '"' : '';
+$titlePrefix = ($this->getTitlePrefix()) ? '<span class="page-title-prefix">' . $this->getTitlePrefix() . '</span>' : '';
+$titleSuffix = ($this->getTitleSuffix()) ? '<span class="page-title-suffix">' . $this->getTitleSuffix() . '</span>' : '';
 ?>
 <div class="page-title">
-    <div id='order-header' class="page-title-inner">
-        <h1 class="title"><?php echo $this->getPageTitle(); ?></h1>
+    <div class="page-title-inner">
+        <h1 class="title"<?php echo $titleId?>>
+            <?php echo $titlePrefix; ?>
+            <?php echo $this->getPageTitle(); ?>
+            <?php echo $titleSuffix; ?>
+        </h1>
     </div>
 </div>

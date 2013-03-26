@@ -13,7 +13,7 @@
 manage_categories:
     mca: catalog_category/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_category/')]
-    title: New Category / Manage Categories / Categories / Catalog / Magento Admin
+    title: Categories / Manage Categories / Categories / Catalog / Magento Admin
     uimap: &categoryUimap
         form:
             fieldsets:

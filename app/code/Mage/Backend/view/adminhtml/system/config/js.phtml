@@ -194,7 +194,6 @@ perPageModel.prototype = {
             this.refreshPerPageSelect();
             this.bindListModeChange();
         }
-        this.addValidate();
     },
     bindListModeChange : function()
     {
@@ -223,26 +222,6 @@ perPageModel.prototype = {
                 this.gridValuesElement.up(1).hide();
             }
         }
-    },
-    addValidate : function()
-    {
-        Validation.add('validate-per-page-value-list', '<?php echo $this->__('Please enter a valid value, ex: 10,20,30')?>', function(v) {
-            var isValid = !Validation.get('IsEmpty').test(v);
-            var values  = v.split(',');
-            for (var i=0;i<values.length;i++) {
-                if (!/^[0-9]+$/.test(values[i])) {
-                    isValid = false;
-                }
-            }
-            return isValid;
-        });
-        Validation.add('validate-per-page-value', '<?php echo $this->__('Please enter a valid value from list')?>', function(v, elm) {
-            if (Validation.get('IsEmpty').test(v)) {
-                return false;
-            }
-            var values = $(elm.id + '_values').value.split(',');
-            return values.indexOf(v) != -1;
-        });
     }
 }
 
