@@ -587,7 +587,9 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             $this->loadDataSet('Product', 'general_configurable_attribute_with_price', null,
                 array(
                     'general_attribute_2' => $attributeData['attribute2']['admin_title'],
-                    'allOptions' => 'Yes'
+                    'var2_attr_value1' => $attributeData['attribute2']['option_1']['admin_option_name'],
+                    'var2_attr_value2' => $attributeData['attribute2']['option_2']['admin_option_name'],
+                    'var2_attr_value3' => $attributeData['attribute2']['option_3']['admin_option_name'],
                 )
             );
         unset($configurable['general_configurable_variations']);

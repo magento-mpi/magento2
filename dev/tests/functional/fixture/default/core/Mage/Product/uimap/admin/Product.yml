@@ -879,7 +879,6 @@ updating_products:
                                         attributes_change_is_product_available_for_purchase_with_google_checkout: //*[@id='enable_googlecheckout']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_category: //*[@id='category_ids']//following-sibling::*//*[@type="checkbox"]
                                     dropdowns:
-                                        attributes_status: //*[@id='status']
                                         attributes_enable_recurring_profile: //*[@id='is_recurring']
                                         attributes_visibility: //*[@id='visibility']
                                         attributes_custom_design: //*[@id='custom_design']
@@ -913,11 +912,11 @@ updating_products:
                                         attributes_manufacturer's_suggested_retail_price: //*[@id='msrp']
                 -
                     inventory:
-                        xpath: //a[@title='Inventory']
+                        xpath: //a[@title='Advanced Inventory']
                         fieldsets:
                             -
                                 inventory:
-                                    xpath: //div[contains(div/div/h4,'Inventory')]
+                                    xpath: //div[contains(div/div/h4,'Advanced Inventory')]
                                     checkboxes:
                                         inventory_change_manage_stock: //*[@id='inventory_manage_stock_checkbox']
                                         inventory_ucs_manage_stock: //*[@id='inventory_use_config_manage_stock']

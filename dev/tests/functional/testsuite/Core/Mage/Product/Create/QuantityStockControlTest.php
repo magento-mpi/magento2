@@ -146,12 +146,11 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $productData['inventory_manage_stock'] = 'Yes';
         $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
         $this->productHelper()->verifyProductInfo($productData);
-        $this->productHelper()->openProductTab('inventory');
-        $this->assertTrue($this->controlIsEditable('field', 'inventory_qty'),
-            'Quantity control is editable on Inventory Tab');
         $this->productHelper()->openProductTab('general');
-        $this->assertTrue($this->controlIsEditable('field', 'general_qty'),
+        $this->assertFalse($this->controlIsEditable('field', 'general_qty'),
             'Quantity control is editable on General Tab');
+        $this->assertTrue($this->controlIsEditable('dropdown', 'general_stock_availability'),
+            'Stock_availability control is not editable on General Tab');
     }
 
     /**
@@ -357,10 +356,12 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
+        $productData['general_sku'] = $this->productHelper()->getGeneratedSku($productData['general_sku']);
         $productData['inventory_manage_stock_default'] = 'No';
         $productData['inventory_manage_stock'] = 'Yes';
         $productData['inventory_qty'] = $productData['general_qty'];
         $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
-        $this->productHelper()->verifyProductInfo($productData);
+        $this->productHelper()->verifyProductInfo($productData,
+            array('product_attribute_set', 'product_online_status'));
     }
 }

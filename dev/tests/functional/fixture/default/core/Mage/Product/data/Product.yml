@@ -2193,7 +2193,6 @@ product_update_attributes_tab:
     attributes_change_set_product_as_new_to_date: Yes
     attributes_set_product_as_new_to_date: %currentDate%
     attributes_change_status: Yes
-    attributes_status: Disabled
     attributes_change_enable_recurring_profile: Yes
     attributes_enable_recurring_profile: Yes
     attributes_change_visibility: Yes

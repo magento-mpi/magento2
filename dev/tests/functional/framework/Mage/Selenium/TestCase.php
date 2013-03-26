@@ -2362,7 +2362,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->fail($this->locationToString() . "Problem with tab '$tabName':\nTab is not visible on the page");
         }
         $isTabOpened = $this->getChildElement($tabElement, '..')->attribute('aria-selected');
-        if ($isTabOpened == 'true') {
+        $isTabActive = strpos($tabElement->attribute('class'), 'active');
+        if ($isTabOpened == 'true' || $isTabActive !== false) {
             return;
         }
         $waitAjax = strpos($tabElement->attribute('class'), 'ajax');

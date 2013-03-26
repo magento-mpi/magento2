@@ -644,7 +644,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyProductInfo(array $productData, $skipElements = array('product_attribute_set'))
     {
-        if (isset($productData['product_online_status'])) {
+        if (isset($productData['product_online_status']) && !in_array('product_online_status', $skipElements)) {
             $this->selectOnlineStatus($productData['product_online_status'], 'verify');
             unset($productData['product_online_status']);
         }

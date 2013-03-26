@@ -92,7 +92,8 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
         $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search',
+                array('product_name' => $productData['general_sku']));
             $this->productHelper()->createProduct($productData);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
@@ -120,7 +121,8 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
         $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search',
+                array('product_name' => $productData['general_sku']));
             $this->productHelper()->createProduct($productData);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
@@ -138,7 +140,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
         //Steps
         $this->productHelper()->updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab,
         $dataForWebsitesTab);
-        $this->clickButton('save');
+        $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_updated_products_attributes_massaction');
     }
@@ -157,7 +159,8 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
         $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search',
+                array('product_name' => $productData['general_sku']));
             $this->productHelper()->createProduct($productData);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
