@@ -463,7 +463,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         //Data
         if ($attributeData == 'attribute_xss') {
-            $this->markTestIncomplete('Sync Ninja-Suggest');
+            $this->markTestIncomplete('MAGETWO-8679');
         }
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array(
@@ -803,6 +803,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function withEmptyAttributeLabelField($attributeData)
     {
+        $this->markTestIncomplete('MAGETWO-8681');
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array(
