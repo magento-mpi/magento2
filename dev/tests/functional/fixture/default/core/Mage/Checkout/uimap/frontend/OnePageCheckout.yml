@@ -144,7 +144,7 @@ onepage_checkout:
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[@id='centinel-authenticate-block']
                         pageelements:
-                            3d_secure_iframe: //iframe[@id='centinel-authenticate-iframe']
+                            3d_secure_iframe: //iframe[@data-container='iframe']
                 -
                     3d_secure_frame: &3DSecureCardValidation
                         xpath:
