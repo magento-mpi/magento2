@@ -31,8 +31,8 @@ $_showWebsite= $this->isMultiWebsites();
             <thead>
                 <tr>
                     <th <?php if (!$_showWebsite): ?>style="display: none;"<?php endif; ?>><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Website'); ?></th>
-                    <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Customer Group'); ?></th>
-                    <th><?php echo $this->getPriceColumnHeader(Mage::helper('Mage_Catalog_Helper_Data')->__('Price')); ?></th>
+                    <th class="required"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Customer Group'); ?></th>
+                    <th class="required"><?php echo $this->getPriceColumnHeader(Mage::helper('Mage_Catalog_Helper_Data')->__('Price')); ?></th>
                     <th class="col-delete"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action'); ?></th>
                 </tr>
             </thead>
