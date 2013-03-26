@@ -1081,6 +1081,18 @@ label.mage-error {
     text-align: left;
 }
 
+textarea.mage-error,
+select.mage-error,
+input.mage-error {
+    border-color: #fa7973 !important;
+    box-shadow: 0 0 8px rgba(250, 121, 115, 0.6) !important;
+}
+
+input.mage-error ~ .addafter {
+    border-color: #fa7973 !important;
+    box-shadow: 0 0 8px rgba(250, 121, 115, 0.6) !important;
+}
+
 /*
     Forms for Store Scope
 -------------------------------------- */
@@ -2040,7 +2052,7 @@ table tbody tr:nth-child(odd):hover th {
 /* Loading mask */
 .loading-old,
 .loading-mask {
-    background: rgba(255, 255, 255, .5);
+    background: rgba(255, 255, 255, .4);
     z-index: 999;
 }
 
@@ -2060,14 +2072,15 @@ table tbody tr:nth-child(odd):hover th {
     top: 0;
     right: 0;
     bottom: 0;
-    border: 1px solid #d85909;
-    width: 200px;
-    height: 150px;
-    color: #d85909;
+    width: 160px;
+    height: 160px;
+    color: #5e5b56;
     font-size: 14px;
     font-weight: bold;
     text-align: center;
-    background: #fff url(../mui/images/ajax-loader-big.gif) no-repeat 50% 40%;
+    background: #e5e2dd url(../mui/images/ajax-loader-big.gif) no-repeat 50% 30%;
+    border-radius: 5px;
+    opacity: .95;
 }
 
 .eq-ie8 .loading-old .loader {
@@ -2083,7 +2096,7 @@ table tbody tr:nth-child(odd):hover th {
 
 .loading-old p,
 .loading-mask p {
-    margin-top: 120px;
+    margin-top: 118px;
 }
 
 .eq-ie8 .loading-old,
@@ -3153,7 +3166,7 @@ table tbody tr:nth-child(odd):hover th {
 .side-col .tabs > li a {
     position: relative;
     display: block;
-    padding: 6px 18px 8px;
+    padding: 8px 18px;
     text-decoration: none;
     color: #676056;
     -webkit-transition: background 0.3s ease-in-out;
@@ -3206,15 +3219,15 @@ table tbody tr:nth-child(odd):hover th {
 .side-col .tabs span.loader {
     display: none;
     position: absolute;
-    right: 15px;
-    top: 9px;
+    right: 12px;
+    top: 7px;
     width: 16px;
     height: 16px;
+    font-size: 16px;
 }
 
 .side-col .tab-item-link.changed {
     font-style: italic;
-    color: #19a3d1;
 }
 
 .side-col .tab-item-link.error span.error,
