@@ -14,13 +14,13 @@
     $.widget("mage.translateInlineDialogVde", {
         options: {
             translateForm: {
-                id: "translate-inline-dialog-form-template",
+                selector: '[data-template="translate-inline-dialog-form-template"]',
                 data: {
-                    id: "translate-inline-dialog-form"
+                    selector: '[data-form="translate-inline-dialog-form"]'
                 }
             },
             dialog: {
-                id: "translate-dialog",
+                selector: "#translate-dialog",
                 autoOpen : false,
                 dialogClass: "translate-dialog",
                 draggable: false,
@@ -66,8 +66,8 @@
          * Creates the translation dialog widget. Fulfills jQuery WidgetFactory _create hook.
          */
         _create: function() {
-	          $.template(this.options.templateName, $("#" + this.options.translateForm.id));
-            this.translateDialog = $("#" + this.options.dialog.id)
+	          $.template(this.options.templateName, $(this.options.translateForm.selector));
+            this.translateDialog = $(this.options.dialog.selector)
                 .dialog($.extend(true, {
                     buttons : [
                         {
@@ -106,6 +106,9 @@
             this.translateDialog.dialog("open");
         },
 
+        /**
+         * Repositions the dialog to be in the location as designed.
+         */
         reposition: function() {
             this.positionDialog(this.translateDialog);
         },
@@ -185,7 +188,7 @@
                 });
             });
 
-            this.translateDialog.find("#" + this.options.translateForm.data.id).each(function(count, form) {
+            this.translateDialog.find(this.options.translateForm.data.selector).each(function(count, form) {
                 $(form).on('submit', function(e) {
                     e.preventDefault();
                     $.proxy(self._formSubmit, self)();
@@ -207,7 +210,7 @@
             $('[data-container="spinner"]').removeClass('hidden');
 
             var parameters = $.param({area: this.options.area}) +
-                "&" + $("#" + this.options.translateForm.data.id).serialize();
+                "&" + $(this.options.translateForm.data.selector).serialize();
             $.ajax({
                 url: this.options.ajaxUrl,
                 type: "POST",
@@ -253,7 +256,7 @@
      */
     $.widget("mage.translateInlineVde", {
         options: {
-            iconTemplateId: "translate-inline-icon",
+            iconTemplateSelector: '[data-template="translate-inline-icon"]',
             img: null,
             imgHover: null,
 
@@ -265,6 +268,14 @@
         },
 
         /**
+         * Elements to wrap instead of just inserting a child element. This is
+         * to work around some different behavior in Firefox vs. WebKit.
+         *
+         * @type {Array}
+         */
+        elementsToWrap : [ 'button' ],
+
+        /**
          * Determines if the template is already appended to the element.
          *
          * @type {boolean}
@@ -274,6 +285,13 @@
         iconTemplate: null,
         iconWrapperTemplate: null,
         elementWrapperTemplate: null,
+
+        /**
+         * Determines if the element is suppose to be wrapped or just attached.
+         *
+         * @type {boolean}, null is unset, false/true is set
+         */
+        isElementWrapped : null,
 
         /**
          * Creates the icon widget to indicate text that can be translated.
@@ -312,13 +330,47 @@
             this.options.translateMode = mode;
         },
 
-        _attachIcon: function() {
-            if (!this.isTemplateAttached) {
-                this.iconTemplate.appendTo(this.element);
-                this.isTemplateAttached = true;
+        /**
+         * Determines if the element should have an icon element wrapped around it or
+         * if an icon element should be added as a child element.
+         */
+        _shouldWrap: function() {
+            if (this.isElementWrapped !== null) {
+                return this.isElementWrapped;
             }
 
-            this.element.removeClass('invisible');
+            this.isElementWrapped = false;
+            for (var c = 0; c < this.elementsToWrap.length; c++) {
+                if (this.element.is(this.elementsToWrap[c])) {
+                    this.isElementWrapped = true;
+                    break;
+                }
+            }
+
+            return this.isElementWrapped;
+        },
+
+        /**
+         * Attaches an icon to the widget's element.
+         */
+       _attachIcon: function() {
+            if (this._shouldWrap()) {
+                if (!this.isTemplateAttached) {
+                    this.iconWrapperTemplate = this.iconTemplate.wrap('<div/>').parent();
+                    this.iconWrapperTemplate.addClass('translate-edit-icon-wrapper-text');
+
+                    this.elementWrapperTemplate = this.element.wrap('<div/>').parent();
+                    this.elementWrapperTemplate.addClass('translate-edit-icon-container');
+
+                    this.iconTemplate.appendTo(this.iconWrapperTemplate);
+                    this.iconWrapperTemplate.appendTo(this.elementWrapperTemplate);
+                }
+            } else {
+                this.iconTemplate.appendTo(this.element);
+                this.element.removeClass('invisible');
+            }
+
+            this.isTemplateAttached = true;
         },
 
         /**
@@ -395,7 +447,7 @@
         _initIconTemplate: function() {
             var self = this;
 
-            this.iconTemplate = $("#" + this.options.iconTemplateId).tmpl(this.options);
+            this.iconTemplate = $(this.options.iconTemplateSelector).tmpl(this.options);
 
             this.iconTemplate.on("click", $.proxy(this._invokeAction, this))
                              .on("mouseover", $.proxy(this._hoverIcon, this))
@@ -418,11 +470,23 @@
             this._detachIcon();
         },
 
+        /**
+         * Detaches an icon from the widget's element.
+         */
         _detachIcon: function() {
+            this._unhoverIcon();
+
             $(this.iconTemplate).detach();
 
+            if (this._shouldWrap()) {
+                this.iconWrapperTemplate.remove();
+                this.element.unwrap();
+                this.elementWrapperTemplate.remove();
+            } else {
+                this.element.addClass('invisible');
+            }
+
             this.isTemplateAttached = false;
-            this.element.addClass('invisible');
         }
     });
 

@@ -357,17 +357,30 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
                     '\[([^' . preg_quote($quoteHtml) . ']*)]') . '#i';
                 if (preg_match($transRegExp, $tagHtml, $matches)) {
                     $tagHtml = str_replace($matches[0], '', $tagHtml); //remove tra
-                    $trAttr  = $this->_getHtmlAttribute(self::DATA_TRANSLATE,
+                    $trAttr  = ' ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                         htmlspecialchars('[' . $matches[1] . ',' . join(',', $trArr) . ']'));
                 } else {
-                    $trAttr  = $this->_getHtmlAttribute(self::DATA_TRANSLATE,
+                    $trAttr  = ' ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                         htmlspecialchars('[' . join(',', $trArr) . ']'));
                 }
+                $trAttr = $this->addTranslateAttribute($trAttr);
+
                 $tagHtml = substr_replace($tagHtml, $trAttr, strlen($tagMatch[1][0]) + 1, 1);
                 $content = substr_replace($content, $tagHtml, $tagMatch[0][1], strlen($tagMatch[0][0]));
             }
             $nextTag = $tagMatch[0][1] + strlen($tagHtml);
         }
+    }
+
+    /**
+     * Add data-translate-mode attribute
+     *
+     * @param string $trAttr
+     * @return string
+     */
+    protected function addTranslateAttribute($trAttr)
+    {
+        return $trAttr;
     }
 
     /**
@@ -536,7 +549,8 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
                 'scope' => $matches[4][0],
             ));
 
-            $spanHtml = $this->_getDataTranslateSpan(htmlspecialchars('[' . $dataTranslateProperties . ']'), $matches[1][0]);
+            $spanHtml = $this->_getDataTranslateSpan(htmlspecialchars('[' . $dataTranslateProperties . ']'),
+                $matches[1][0]);
             $this->_content = substr_replace($this->_content, $spanHtml, $matches[0][1], strlen($matches[0][0]));
             $next = $matches[0][1] + strlen($spanHtml) - 1;
         }

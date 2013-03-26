@@ -16,8 +16,8 @@
 <script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/translate-inline-vde.js') ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('mage/translate-inline-vde.css') ?>"/>
 
-<script id="translate-inline-dialog-form-template" type="text/x-jQuery-tmpl">
-    <form id="${data.id}">
+<script data-template="translate-inline-dialog-form-template" type="text/x-jQuery-tmpl">
+    <form data-form="translate-inline-dialog-form">
         {{each(i, item) data.items}}
         <input id="perstore_${i}" name="translate[${i}][perstore]" type="hidden" value="0"/>
         <input name="translate[${i}][original]" type="hidden" value="${item.scope}::${escape(item.original)}"/>
@@ -26,13 +26,8 @@
     </form>
 </script>
 
-<script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+<script data-template="translate-inline-icon" type="text/x-jQuery-tmpl">
   <img src="${img}" height="16" width="16" class="translate-edit-icon">
-</script>
-
-<script id="translate-inline-icon-wrapper" type="text/x-jQuery-tmpl">
-  <div class="translate-edit-icon-container">
-  </div>
 </script>
 
 <div id="translate-dialog"></div>
