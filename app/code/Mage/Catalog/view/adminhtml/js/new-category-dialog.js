@@ -33,10 +33,12 @@
                 });
 
             /* @todo rewrite using jQuery validation */
-            jQuery.validator.addMethod('validate-parent-category', function() {
+            /* Validation doesn't work for this invisible <select> after recent changes for some reason */
+            $('#new_category_parent').css({border: 0, height: 0,padding: 0, width: 0}).show();
+            Validation.add('validate-parent-category', 'Choose existing category.', function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
-            }, 'Choose existing category.');
-            var form =  this.element.find('#new_category_form').mage('validation');
+            });
+            var newCategoryForm = new Validation(this.element.get(0));
 
             this.element.dialog({
                 title: 'Create Category',
@@ -57,7 +59,7 @@
                 close: function() {
                     $('#new_category_name, #new_category_parent').val('');
                     clearParentCategory();
-                    form.validation('clearError');
+                    newCategoryForm.reset();
                     $('#category_ids + .category-selector-container .category-selector-input').focus();
                 },
                 buttons: [{
@@ -65,7 +67,7 @@
                     'class': 'action-create primary',
                     id: 'mage-new-category-dialog-save-button',
                     click: function() {
-                        if (!form.valid()) {
+                        if (!newCategoryForm.validate()) {
                             return;
                         }
 
