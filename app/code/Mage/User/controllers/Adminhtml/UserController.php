@@ -23,9 +23,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
 
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Permissions'))
-             ->_title($this->__('Users'));
+        $this->_title($this->__('Users'));
         /** @var $model Mage_User_Model_Resource_User */
         $model = Mage::getObjectManager()->get('Mage_User_Model_Resource_User');
         if (!$model->canCreateUser()) {
@@ -44,9 +42,7 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
 
     public function editAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Permissions'))
-             ->_title($this->__('Users'));
+        $this->_title($this->__('Users'));
 
         $userId = $this->getRequest()->getParam('user_id');
         $model = Mage::getModel('Mage_User_Model_User');
