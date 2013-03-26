@@ -565,6 +565,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
             $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
             $this->clickButton('save_product_by_action', false);
+            $this->waitForAjax();
             $this->waitForElementVisible($waitConditions);
             if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set')) {
                 if (strtolower($saveNewAttributeInSet) == 'current') {
@@ -577,6 +578,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
                 $this->clickButton('confirm', false);
                 array_pop($waitConditions);
+                $this->waitForAjax();
                 $this->waitForElementVisible($waitConditions);
             }
             $this->addParameter('id', $this->defineIdFromUrl());
@@ -947,7 +949,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $selectedQty = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
         $this->clickControl(self::FIELD_TYPE_INPUT, 'general_categories', false);
-        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_list');
+        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'categories_list');
         $toSelect = '';
         foreach ($categoryData as $categoryPath) {
             foreach (explode('/', $categoryPath) as $categoryNode) {
@@ -961,8 +964,21 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                     $trueCategory = $this->defineCorrectCategory($categoryNode);
                 }
                 if (empty($trueCategory)) {
-                    list($path) = explode($categoryNode, $categoryPath);
-                    $this->fail("'$categoryNode' category with path = '$path' could not found.");
+                    if (!preg_match('|' . preg_quote($categoryNode) . '$|', $categoryPath)) {
+                        list($path) = explode($categoryNode, $categoryPath);
+                        $this->fail("'$categoryNode' category with path = '$path' could not found.");
+                    } else {
+                        $this->createNewCategory($categoryPath);
+                        $this->waitUntil(
+                            function ($testCase) use ($selectedQty) {
+                                /** @var Mage_Selenium_TestCase $testCase */
+                                if ($testCase->getControlCount('fieldset', 'chosen_category') == $selectedQty + 1) {
+                                    return true;
+                                }
+                            }, 10000
+                        );
+                        return;
+                    }
                 }
             }
             foreach ($trueCategory as $data) {
@@ -1023,8 +1039,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createNewCategory($categoryPath, $nameIsSet = false)
     {
-        $parentLocator = $this->_getControlXpath(self::FIELD_TYPE_INPUT, 'parent_category');
-
         $explodeCategoryPath = explode('/', $categoryPath);
         $categoryName = array_pop($explodeCategoryPath);
         $parentPath = implode('/', $explodeCategoryPath);
@@ -1040,26 +1054,27 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->assertSame($categoryName, $actualName, 'Category Name is not moved from categories field');
         }
         //Fill and verify parent category field
-        $this->getElement($parentLocator)->value($parentName);
-        $resultElement = $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'parent_category_search_result');
-        $searchResult = trim($resultElement->text());
-        if ($searchResult == 'No search results.') {
+        $this->getControlElement(self::FIELD_TYPE_INPUT, 'parent_category')->value($parentName);
+        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'parent_category');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'parent_categories_list');
+        $this->addParameter('categoryName', $parentName);
+        $this->addParameter('categoryPath', str_replace('/', ' / ', $parentPath));
+        if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'parent_no_category_found')
+            || !$this->controlIsVisible(self::FIELD_TYPE_LINK, 'parent_found_category')
+        ) {
             $this->fail('It is impossible to create category with path - ' . $parentPath);
         }
-        $this->addParameter('categoryPath', $parentPath);
-        $elements = $this->getControlElements(self::FIELD_TYPE_LINK, 'category');
-        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
-        foreach ($elements as $element) {
-            if ($element->enabled() && $element->displayed()) {
-                $element->click();
-            }
-        }
-        $actualParentName = $this->getControlAttribute(self::FIELD_TYPE_INPUT, 'parent_category', 'selectedValue');
-        $this->assertSame($actualParentName, $parentName, 'patent category Name is not equal to specified');
+        $element = $this->getControlElement(self::FIELD_TYPE_LINK, 'parent_found_category');
+        $this->moveto($element);
+        $element->click();
+        $this->waitForControlVisible(self::FIELD_TYPE_LINK, 'chosen_parent_category_delete');
         //Save
         $this->addParameter('categoryName', substr($categoryName, 0, 255));
-        $waitConditions = array($this->_getControlXpath(self::FIELD_TYPE_LINK, 'delete_category'),
-                                $this->_getMessageXpath('general_validation'));
+        $waitConditions = array(
+            $this->_getControlXpath(self::FIELD_TYPE_LINK, 'chosen_category_delete'),
+            $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'new_category_form')
+                . $this->_getMessageXpath('general_validation')
+        );
         $this->clickButton('new_category_save', false);
         $this->waitForElementVisible($waitConditions);
     }
@@ -1135,6 +1150,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->orderBlocks($attributeOrder, 'attributeTitle', 'move_product_variation_attribute',
             'attribute_blocks_name');
         $this->clickButton('generate_product_variations', false);
+        $this->pleaseWait();
         $this->waitForElementVisible($waitLocator);
     }
 

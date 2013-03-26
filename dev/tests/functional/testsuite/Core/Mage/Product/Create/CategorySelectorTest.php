@@ -18,7 +18,6 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
 {
     protected function assertPreConditions()
     {
-        $this->markTestIncomplete('MAGETWO-8078, MAGETWO-8265');
         $this->loginAdminUser();
     }
 
@@ -125,7 +124,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
     {
         //Data
         $product = $this->loadDataSet('Product', 'simple_product_visible',
-            array('general_categories' => $categories['default']));
+            array('general_categories' => $categories['additional']));
         $explodeCategory = explode('/', $product['general_categories']);
         $categoryName = end($explodeCategory);
         //Steps
@@ -133,9 +132,10 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($product, 'simple', false);
         $this->productHelper()->openProductTab('general');
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($categoryName);
-        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'category_search');
+        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'categories_list');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('link', 'selected_category'));
+        $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'no_category_found'));
     }
 
     /**
@@ -214,11 +214,11 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($nonexistentCategory);
-        $resultElement = $this->waitForControl(self::UIMAP_TYPE_FIELDSET, 'category_search');
+        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'categories_list');
         //Verifying
-        $this->assertCount(0, $this->getChildElements($resultElement, 'li', false),
-            "Category $nonexistentCategory was founded"
-        );
+        $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'no_category_found'),
+            "Category $nonexistentCategory was founded");
     }
 
     /**
@@ -237,7 +237,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
         $this->productHelper()->openProductTab('general');
-        $this->clickControl('link', 'delete_category', false);
+        $this->clickControl('link', 'chosen_category_delete', false);
         $this->productHelper()->saveProduct();
         //Verifying
         $this->assertMessagePresent(self::MESSAGE_TYPE_SUCCESS, 'success_saved_product');
@@ -282,8 +282,8 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
 
         $this->fillField('name', $this->generate('string', 256, ':alnum:'));
         $this->getControlElement('field', 'parent_category')->value($this->generate('string', 256, ':alnum:'));
-        $this->waitForControl(self::FIELD_TYPE_INPUT, 'parent_category');
-        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'parent_category_search_result');
+        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'parent_category');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'parent_categories_list');
         $this->clickButton('new_category_save', false);
         sleep(1); // giving time for messages to disappear with animation, waitForElementNotVisible would do the job
 

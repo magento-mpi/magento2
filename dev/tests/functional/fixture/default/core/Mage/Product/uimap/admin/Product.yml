@@ -153,7 +153,7 @@ new_product:
                                         general_price: //input[@id='price' and not(@disabled)]
                                         general_description: //textarea[@id='description']
                                         general_weight: //input[@id='weight' and not(@disabled)]
-                                        general_categories: //input[@id='category_ids-suggest']
+                                        general_categories: //input[@id='category_ids-suggest'][not(@class='mage-suggest-state-loading')]
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
@@ -162,7 +162,7 @@ new_product:
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                             -
-                                category_list:
+                                categories_list:
                                     xpath: //div[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']
                                     links:
                                         root_category: /div/ul/li/a[text()='%categoryName%']
@@ -171,30 +171,46 @@ new_product:
                                         found_category: //a[span/text()='%categoryName%'][.//span='%categoryPath%']
                                         any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
                                         category: //a[@data-suggest-option='%categoryId%']
-                                        #root_category_selected: /div/ul/li[contains(@class,'mage-suggest-selected')]/a[text()='%categoryName%']
-                                        #sub_category_selected: //li[a/@data-suggest-option='%categoryId%']/ul/li[contains(@class,'mage-suggest-selected')]/a[text()='%categoryName%']
                                     pageelements:
-                                        no_category_found: //span[text()='No records found']
+                                        no_category_found: //span[text()='No records found.']
                                         category_node: //li[a/@data-suggest-option='%categoryId%']
                             -
                                 chosen_category:
-                                    xpath: //li[@class='mage-suggest-choice button']
+                                    xpath: //div[@id='attribute-category_ids-container']//li[@class='mage-suggest-choice button']
                                     links:
-                                        delete_category: "[div='%categoryName%']/span[@class='mage-suggest-choice-close']"
+                                        chosen_category_delete: "[div='%categoryName%']/span[@class='mage-suggest-choice-close']"
                                     pageelements:
-                                        category_name: /div[text()='%categoryName%']
+                                        chosen_category_name: /div[text()='%categoryName%']
                             -
                                 new_category_form:
                                     xpath: //div[div/span='Create Category']
                                     fields:
                                         name: //input[@id='new_category_name']
-                                        parent_category: //input[@id='new_category_parent-suggest']
+                                        parent_category: //input[@id='new_category_parent-suggest'][not(@class='mage-suggest-state-loading')]
                                     buttons:
                                         new_category_close: ///a[span='close']
                                         new_category_save: //button[@id='mage-new-category-dialog-save-button']
                                         new_category_cancel: //button[@id='mage-new-category-dialog-close-button']
+                            -
+                                parent_categories_list:
+                                    xpath: //div[div/span='Create Category']//div[@class='mage-suggest-dropdown']
+                                    links:
+                                        parent_root_category: /div/ul/li/a[text()='%categoryName%']
+                                        parent_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a[text()='%categoryName%']
+                                        parent_expand_category: //li[contains(@class,'jstree-closed')][a/@data-suggest-option='%categoryId%']/ins
+                                        parent_found_category: //a[span/text()='%categoryName%'][.//span='%categoryPath%']
+                                        parent_any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
+                                        parent_category: //a[@data-suggest-option='%categoryId%']
                                     pageelements:
-                                        parent_category_search_result: //td[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-fieldset-element-cell-new-category-parent-value']/span[text()]
+                                        parent_no_category_found: //span[text()='No records found']
+                                        parent_category_node: //li[a/@data-suggest-option='%categoryId%']
+                            -
+                                chosen_parent_category:
+                                    xpath: //div[div/span='Create Category']//li[@class='mage-suggest-choice button']
+                                    links:
+                                        chosen_parent_category_delete: "[div='%categoryName%']/span[@class='mage-suggest-choice-close']"
+                                    pageelements:
+                                        chosen_parent_category_name: /div[text()='%categoryName%']
                             -
                                 product_variations:
                                     xpath: //div[@id='config_super_product-wrapper']
