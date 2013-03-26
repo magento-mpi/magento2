@@ -104,10 +104,11 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="real_order_id">
                         <arguments>
                             <header translate="true" module="Mage_Sales">Order #</header>
-                            <width>80px</width>
                             <type>text</type>
                             <index>increment_id</index>
                             <id>real_order_id</id>
+                            <header_css_class>col-order-number</header_css_class>
+                            <column_css_class>col-order-number</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
@@ -118,15 +119,18 @@
                             <display_deleted>1</display_deleted>
                             <index>store_id</index>
                             <id>store_id</id>
+                            <header_css_class>col-from-store</header_css_class>
+                            <column_css_class>col-from-store</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
                             <header translate="true" module="Mage_Sales">Purchased On</header>
-                            <width>100px</width>
                             <type>datetime</type>
                             <index>created_at</index>
                             <id>created_at</id>
+                            <header_css_class>col-period</header_css_class>
+                            <column_css_class>col-period</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="billing_name">
@@ -134,6 +138,8 @@
                             <id>billing_name</id>
                             <header translate="true" module="Mage_Sales">Bill to Name</header>
                             <index>billing_name</index>
+                            <header_css_class>col-bill-to-name</header_css_class>
+                            <column_css_class>col-bill-to-name</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="shipping_name">
@@ -141,6 +147,8 @@
                             <id>shipping_name</id>
                             <header translate="true" module="Mage_Sales">Ship to Name</header>
                             <index>shipping_name</index>
+                            <header_css_class>col-ship-to-name</header_css_class>
+                            <column_css_class>col-ship-to-name</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="base_grand_total">
@@ -150,6 +158,8 @@
                             <type>currency</type>
                             <currency>base_currency_code</currency>
                             <index>base_grand_total</index>
+                            <header_css_class>col-gtbase</header_css_class>
+                            <column_css_class>col-gtbase</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="grand_total">
@@ -160,24 +170,26 @@
                             <currency>order_currency_code</currency>
                             <rate>1</rate>
                             <index>grand_total</index>
+                            <header_css_class>col-gtpurchased</header_css_class>
+                            <column_css_class>col-gtpurchased</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
                             <id>status</id>
                             <header translate="true" module="Mage_Sales">Status</header>
-                            <width>70px</width>
                             <type>options</type>
                             <currency>order_currency_code</currency>
                             <index>status</index>
                             <options type="options">Mage_Sales_Model_Resource_Order_Grid_StatusesArray</options>
+                            <header_css_class>col-status</header_css_class>
+                            <column_css_class>col-status</column_css_class>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="action" acl="Mage_Sales::actions_view">
                         <arguments>
                             <id>action</id>
                             <header translate="true" module="Mage_Sales">Action</header>
-                            <width>50px</width>
                             <type>action</type>
                             <getter>getId</getter>
                             <filter>0</filter>
@@ -193,6 +205,8 @@
                                     <field>order_id</field>
                                 </view_action>
                             </actions>
+                            <header_css_class>col-actions</header_css_class>
+                            <column_css_class>col-actions</column_css_class>
                         </arguments>
                     </block>
                 </block>
@@ -712,6 +726,11 @@
     </adminhtml_sales_transactions_view>
 
     <adminhtml_sales_order_create_index>
+        <reference name="page-title">
+            <action method="setTitleId" translate="id"><id>order-header</id></action>
+            <!--action method="setTitlePrefix" translate="value"><value>Prefix</value></action-->
+            <!--action method="setTitleSuffix" translate="value"><value>suffix</value></action-->
+        </reference>
         <reference name="left">
             <action method="setIsCollapsed"><value>true</value></action>
         </reference>
@@ -722,6 +741,7 @@
             <action method="addJs"><file>varien/configurable.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::sales/order/giftoptions_tooltip.js</file></action>
             <block type="Mage_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml" />
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
         </reference>
         <reference name="js">
             <block type="Mage_Adminhtml_Block_Template" template="sales/order/create/js.phtml" name="create" />
@@ -777,6 +797,9 @@
                     </block>
                 </block>
             </block>
+        </reference>
+        <reference name="before_body_end">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Composite_Configure" template="catalog/product/composite/configure.phtml" />
         </reference>
     </adminhtml_sales_order_create_index>
 

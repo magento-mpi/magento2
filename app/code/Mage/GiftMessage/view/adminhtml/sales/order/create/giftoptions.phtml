@@ -14,10 +14,8 @@
     <?php $_childHtml = trim($this->getChildHtml('', false));?>
     <?php if ($_childHtml): ?>
         <tr class="border">
-            <td class="first">
-                <div>
-                    <strong><a class="action-link" href="#" id="gift_options_link_<?php echo $_item->getId() ?>"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Gift Options') ?></a></strong><br/>
-                </div>
+            <td colspan="8">
+                <a class="action-link" href="#" id="gift_options_link_<?php echo $_item->getId() ?>"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Gift Options') ?></a></strong>
                 <script type="text/javascript">
                     giftOptionsTooltip.addTargetLink('gift_options_link_<?php echo $_item->getId() ?>', <?php echo $_item->getId() ?>);
                 </script>
@@ -25,13 +23,6 @@
                     <?php echo $_childHtml ?>
                 </div>
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="last"></td>
         </tr>
     <?php endif ?>
 <?php endif ?>

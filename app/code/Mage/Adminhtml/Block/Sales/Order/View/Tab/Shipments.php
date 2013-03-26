@@ -55,23 +55,31 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Shipments
         $this->addColumn('increment_id', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Shipment #'),
             'index' => 'increment_id',
+            'header_css_class'  => 'col-memo',
+            'column_css_class'  => 'col-memo'
         ));
 
         $this->addColumn('shipping_name', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Ship to Name'),
             'index' => 'shipping_name',
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('created_at', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Date Shipped'),
             'index' => 'created_at',
             'type' => 'datetime',
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('total_qty', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Total Qty'),
             'index' => 'total_qty',
             'type'  => 'number',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         return parent::_prepareColumns();

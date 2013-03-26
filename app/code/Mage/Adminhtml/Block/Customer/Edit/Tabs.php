@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
                 ));
             }
 
-            if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Review::reviews_ratings')) {
+            if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Review::reviews_all')) {
                 $this->addTab('reviews', array(
                     'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Product Reviews'),
                     'class'     => 'ajax',
