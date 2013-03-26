@@ -158,7 +158,6 @@
                             <id>entity_id</id>
                             <filter>0</filter>
                             <sortable>1</sortable>
-                            <column_data_attr>associated-product-id</column_data_attr>
                             <renderer>Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id</renderer>
                         </arguments>
                     </block>
@@ -173,7 +172,6 @@
                             <sortable>1</sortable>
                             <header_css_class>col-name</header_css_class>
                             <column_css_class>col-name</column_css_class>
-                            <column_data_attr>associated-product-name</column_data_attr>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
@@ -184,7 +182,6 @@
                             <id>price</id>
                             <filter>0</filter>
                             <sortable>1</sortable>
-                            <column_data_attr>associated-product-price</column_data_attr>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku" name="admin.product.edit.tab.super.config.grid.sku">
@@ -196,7 +193,6 @@
                             <id>sku</id>
                             <filter>0</filter>
                             <sortable>1</sortable>
-                            <column_data_attr>associated-product-sku</column_data_attr>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="weight">
@@ -207,7 +203,6 @@
                             <id>weight</id>
                             <filter>0</filter>
                             <sortable>1</sortable>
-                            <column_data_attr>associated-product-weight</column_data_attr>
                         </arguments>
                     </block>
                 </block>

@@ -157,15 +157,15 @@ jQuery(function($) {
                     return;
                 }
                 var $gridRow = $(event.target).closest('tr'),
-                    associatedSelector = '[data-column="associated-product-';
+                    associatedSelector = '[data-column-id="%s"]';
 
-                if ($gridRow.find(associatedSelector + 'id"]').length) {
+                if ($gridRow.find(associatedSelector.replace('%s', 'entity_id')).length) {
                     var $matrixRow = $button.parents('tr'),
                         matrixClass = '.associated-matrix-product-';
 
-                    $.each('name,sku,qty,weight,id'.split(','), function () {
+                    $.each('name,sku,qty,weight,entity_id'.split(','), function () {
                         var target = $matrixRow.find(matrixClass + this),
-                            value = $.trim($gridRow.find(associatedSelector + this + '"]').text()),
+                            value = $.trim($gridRow.find(associatedSelector.replace('%s', this)).text()),
                             button = target.find('.action-choose');
 
                         target[target.is('input[type=checkbox]') ? 'val' : 'text'](value).append(button);
