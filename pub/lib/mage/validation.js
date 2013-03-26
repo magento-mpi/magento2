@@ -324,25 +324,25 @@
             function(value) {
                 return !/<(\/)?\w+/.test(value);
             },
-            'HTML tags are not allowed'
+            'HTML tags are not allowed.'
         ],
         "validate-select": [
             function(value) {
                 return ((value !== "none") && (value != null) && (value.length !== 0));
             },
-            'Please select an option'
+            'Please select an option.'
         ],
         "validate-no-empty": [
             function(value) {
                 return !$.mage.isEmpty(value);
             },
-            'Empty Value'
+            'Empty Value.'
         ],
         "validate-alphanum-with-spaces": [
             function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^[a-zA-Z0-9 ]+$/.test(v);
             },
-            'Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field'
+            'Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field.'
         ],
         "validate-data": [
             function(v) {
@@ -354,7 +354,7 @@
             function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v);
             },
-            'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field'
+            'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field.'
         ],
         "validate-phoneStrict": [
             function(v) {
@@ -372,7 +372,7 @@
             function(v) {
                 return $.mage.isEmptyNoTrim(v) || /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
             },
-            'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.'
+            'Please enter a valid fax number. For example (123) 456-7890 or 123-456-7890.'
         ],
         "validate-email": [
             function(v) {
@@ -436,7 +436,7 @@
                 return $.mage.isEmptyNoTrim(v) || /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v) || /^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v);
 
             },
-            'Please enter a valid URL. For example http://www.example.com or www.example.com'
+            'Please enter a valid URL. For example http://www.example.com or www.example.com.'
         ],
         "validate-xml-identifier": [
             function(v) {
@@ -514,7 +514,7 @@
                 v = $.mage.parseNumber(v);
                 return !isNaN(v) && v > 0;
             },
-            'Please enter a number greater than 0 in this field'
+            'Please enter a number greater than 0 in this field.'
         ],
         "validate-css-length": [
             function(v) {
@@ -524,7 +524,7 @@
                 v = $.mage.parseNumber(v);
                 return !isNaN(v) && v > 0;
             },
-            'Please enter a number greater than 0 in this field'
+            'Please input a valid CSS-length. For example 100px or 77pt or 20em or .5ex or 50%.'
         ],
         /** @description Additional methods */
         "validate-number": [
@@ -597,9 +597,8 @@
 
                 return result;
             },
-            'Please enter a valid number in this field.'
+            'The value is not within the specified range.'
         ],
-
         'validate-range': [
             function(v, elm) {
                 var minValue, maxValue;
@@ -730,7 +729,8 @@
                 return options.map(function(elm) {
                     return $(elm).val();
                 }).length > 0;
-            }
+            },
+            'Please select one of the above options.'
         ],
         "validate-state": [
             function(v) {
@@ -749,7 +749,7 @@
                  }
                  return result;
              },
-            'Please select a file'
+            'Please select a file.'
         ],
         "validate-ajax-error": [
             function(v, element) {
@@ -778,7 +778,7 @@
                 }
                 return hasWithValue ^ hasWithNoValue;
             },
-            'Field is not complete'
+            'Field is not complete.'
         ],
         "validate-required-datetime": [
             function(v, elm, param) {
@@ -790,7 +790,7 @@
                 }
                 return true;
             },
-            'This field is required'
+            'This is a required field.'
         ],
         "validate-one-required-by-name": [
             function (v,elm) {
@@ -813,7 +813,7 @@
                 return true;
             },
             function() {
-                return $.mage.__('Please enter a value less than or equal to %s').replace('%s', this.lteToVal);
+                return $.mage.__('Please enter a value less than or equal to %s.').replace('%s', this.lteToVal);
             }
         ],
         "greater-than-equals-to": [
@@ -825,7 +825,7 @@
                 return true;
             },
             function() {
-                return $.mage.__('Please enter a value greater than or equal to %s').replace('%s', this.gteToVal);
+                return $.mage.__('Please enter a value greater than or equal to %s.').replace('%s', this.gteToVal);
             }
         ],
         "validate-emails": [
@@ -841,12 +841,36 @@
                     }
                 }
                 return true;
-            }, "Please enter a valid email addresses, separated by commas or new line. For example johndoe@domain.com, johnsmith@domain.com."
+            }, "Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com."
+        ],
+        "validate-length": [
+            function (v, elm) {
+                var reMax = new RegExp(/^maximum-length-[0-9]+$/),
+                    reMin = new RegExp(/^minimum-length-[0-9]+$/),
+                    validator = this,
+                    result = true,
+                    length = 0;
+                $.each(elm.className.split(' '), function(index, name) {
+                    if (name.match(reMax) && result) {
+                        length = name.split('-')[2];
+                        validator.attrLength = length;
+                        result = (v.length <= length);
+                    }
+                    if (name.match(reMin) && result && $.mage.isEmpty(v)) {
+                        length = name.split('-')[2];
+                        result = v.length >= length;
+                    }
+                });
+                return result;
+            }, function() {
+                return $.mage.__("Maximum length of this field must be equal or less than %s symbols.")
+                    .replace('%s', this.attrLength);
+            }
         ],
         'required-entry': [
             function(value) {
                 return !$.mage.isEmpty(value);
-            }, $.validator.messages.required
+            }, $.mage.__('This is a required field.')
         ],
         'not-negative-amount': [
             function(v) {
@@ -910,6 +934,9 @@
         "validate-both-passwords": {
             'validate-cpassword': true
         }
+    });
+    $.validator.messages = $.extend($.validator.messages, {
+        required: $.mage.__('This is a required field.')
     });
 
     if ($.metadata) {

@@ -37,7 +37,6 @@
                         <id>qty</id>
                         <filter>0</filter>
                         <sortable>1</sortable>
-                        <column_css_class>associated-product-qty</column_css_class>
                     </arguments>
                 </block>
             </reference>

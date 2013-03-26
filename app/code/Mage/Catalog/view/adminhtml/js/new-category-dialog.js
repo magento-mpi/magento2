@@ -11,38 +11,40 @@
 /*global Validation*/
 (function($) {
     'use strict';
-    $.widget('mage.treeSuggestOneChoice', $.mage.treeSuggest, {
-        /**
-         * @override
-         * @todo refactor parent widget to make this possible without method overriding
-         */
-        _selectItem: function() {
-            $(this.elementWrapper).siblings('.category-selector-search-choice').trigger('removeOption');
-            this._superApply(arguments);
-            this._hideDropdown();
-        }
-    });
+
+    var clearParentCategory = function () {
+        $('#new_category_parent').find('option').each(function(){
+            $('#new_category_parent-suggest').treeSuggest('removeOption', null, this);
+        });
+    };
 
     $.widget('mage.newCategoryDialog', {
         _create: function () {
             var widget = this;
-            $('#new_category_parent').after($('<input>', {
+            $('#new_category_parent').before($('<input>', {
                 id: 'new_category_parent-suggest',
                 placeholder: 'start typing to search category'
             }));
-            $('#new_category_parent-suggest').treeSuggestOneChoice(this.options.suggestOptions);
+            $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions)
+                .on('suggestbeforeselect', function (event, ui) {
+                    clearParentCategory();
+                    $(event.target).treeSuggest('close');
+                    $('#new_category_name').focus();
+                });
 
             /* @todo rewrite using jQuery validation */
-            jQuery.validator.addMethod('validate-parent-category', function() {
+            /* Validation doesn't work for this invisible <select> after recent changes for some reason */
+            $('#new_category_parent').css({border: 0, height: 0,padding: 0, width: 0}).show();
+            Validation.add('validate-parent-category', 'Choose existing category.', function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
-            }, 'Choose existing category.');
-            var form =  this.element.find('#new_category_form').mage('validation');
+            });
+            var newCategoryForm = new Validation(this.element.get(0));
 
             this.element.dialog({
-                title: 'Create New Category',
+                title: 'Create Category',
                 autoOpen: false,
                 minWidth: 560,
-                dialogClass: 'mage-new-category-dialog',
+                dialogClass: 'mage-new-category-dialog form-inline',
                 modal: true,
                 multiselect: true,
                 resizable: false,
@@ -56,20 +58,16 @@
                 },
                 close: function() {
                     $('#new_category_name, #new_category_parent').val('');
-                    form.validation('clearError');
+                    clearParentCategory();
+                    newCategoryForm.reset();
                     $('#category_ids + .category-selector-container .category-selector-input').focus();
                 },
                 buttons: [{
-                    text: 'Cancel',
-                    id: 'mage-new-category-dialog-close-button',
-                    click: function() {
-                        $(this).dialog('close');
-                    }
-                }, {
-                    text: 'Save',
+                    text: 'Create Category',
+                    'class': 'action-create primary',
                     id: 'mage-new-category-dialog-save-button',
                     click: function() {
-                        if (!form.valid()) {
+                        if (!newCategoryForm.validate()) {
                             return;
                         }
 
@@ -93,7 +91,7 @@
                             .success(
                                 function (data) {
                                     if (!data.error) {
-                                        $('#category_ids-suggest').treeSuggest('selectItem', {
+                                        $('#category_ids-suggest').trigger('select', {
                                             id: data.category.entity_id,
                                             label: data.category.name
                                         });
@@ -105,6 +103,14 @@
                                     }
                                 }
                             );
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    'class': 'action-cancel',
+                    id: 'mage-new-category-dialog-close-button',
+                    click: function() {
+                        $(this).dialog('close');
                     }
                 }]
             });

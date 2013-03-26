@@ -72,7 +72,6 @@ jQuery(function($) {
     $('#configurable-attributes-container').variationsAttributes();
 
     collapsableArea
-        .collapse(hasVariations ? 'show' : 'hide')
         .on('show', function() {
             currentProductTemplateControl
                 .addClass('disabled')
@@ -92,27 +91,21 @@ jQuery(function($) {
             })
         })
         .on('hide', function() {
+            if ($('#configurable-attributes-container').variationsAttributes('getAttributes').length) {
+                return;
+            }
             currentProductTemplateControl
                 .removeClass('disabled')
-                .prop('disabled', false);
+                .removeProp('disabled');
 
             qtyField
-                .prop('disabled', false)
+                .removeProp('disabled')
                 .trigger('change');
 
-            if (qtyField.val() == '') {
-                stockAvailabilityField
-                    .val(0)
-                    .trigger('change');
-
-                stockAvailabilityField.prop('disabled', true);
-            }
-            variationsContainer.find('.entry-edit').remove();
-            $.each($('#configurable-attributes-container').variationsAttributes('getAttributes'), function() {
-                $('#attribute-' + this.code + '-container select').prop('disabled', false);
-            });
-            $('#product-variations-matrix').trigger('disable');
-        });
+            stockAvailabilityField
+                .prop('disabled', true);
+        })
+        .collapse(hasVariations ? 'show' : 'hide');
 
     var $gridDialog = $('#associated-products-container').dialog({
         title: 'Select Associated Product',
@@ -132,6 +125,7 @@ jQuery(function($) {
                 showLoader: true
             }).success(function(data) {
                 $('#product-variations-matrix').html(data);
+                $('#product_type_id').val('configurable').trigger('change');
             });
         })
         .on('disable', function() {
@@ -163,15 +157,15 @@ jQuery(function($) {
                     return;
                 }
                 var $gridRow = $(event.target).closest('tr'),
-                    associatedClass = '.associated-product-';
+                    associatedSelector = '[data-column-id="%s"]';
 
-                if ($gridRow.find(associatedClass + 'id').length) {
+                if ($gridRow.find(associatedSelector.replace('%s', 'entity_id')).length) {
                     var $matrixRow = $button.parents('tr'),
                         matrixClass = '.associated-matrix-product-';
 
-                    $.each('name,sku,qty,weight,id'.split(','), function () {
+                    $.each('name,sku,qty,weight,entity_id'.split(','), function () {
                         var target = $matrixRow.find(matrixClass + this),
-                            value = $.trim($gridRow.find(associatedClass + this).text()),
+                            value = $.trim($gridRow.find(associatedSelector.replace('%s', this)).text()),
                             button = target.find('.action-choose');
 
                         target[target.is('input[type=checkbox]') ? 'val' : 'text'](value).append(button);

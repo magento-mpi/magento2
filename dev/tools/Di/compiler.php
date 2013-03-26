@@ -61,18 +61,18 @@ try {
     $entities = $scanner->collectEntities($files);
 
     // 1.2 Generation
-    $generator = new Magento_Di_Generator();
+    $generator = new Magento_Code_Generator();
     foreach ($entities as $entityName) {
         switch ($generator->generateClass($entityName)) {
-            case Magento_Di_Generator::GENERATION_SUCCESS:
+            case Magento_Code_Generator::GENERATION_SUCCESS:
                 $log->add(Log::GENERATION_SUCCESS, $entityName);
                 break;
 
-            case Magento_Di_Generator::GENERATION_ERROR:
+            case Magento_Code_Generator::GENERATION_ERROR:
                 $log->add(Log::GENERATION_ERROR, $entityName);
                 break;
 
-            case Magento_Di_Generator::GENERATION_SKIP:
+            case Magento_Code_Generator::GENERATION_SKIP:
             default:
                 //no log
                 break;
