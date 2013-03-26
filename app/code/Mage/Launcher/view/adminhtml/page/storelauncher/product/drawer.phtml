@@ -41,11 +41,10 @@
     </div>
 </form>
 <script type="text/javascript">
-    (function ($) {
-        $(document).ready(function() {
-            'use strict';
-            $('#image-container').baseImage();
-            $('#media_gallery_content').productGallery({'template': '#media_gallery_content-template'});
-        });
-    })(jQuery);
+jQuery(function ($) {
+    'use strict';
+
+    $('#image-container').baseImage();
+    $('#media_gallery_content').productGallery({'template': '#media_gallery_content-template'});
+});
 </script>

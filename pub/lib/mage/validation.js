@@ -599,7 +599,6 @@
             },
             'The value is not within the specified range.'
         ],
-
         'validate-range': [
             function(v, elm) {
                 var minValue, maxValue;
@@ -868,6 +867,11 @@
                     .replace('%s', this.attrLength);
             }
         ],
+        'required-entry': [
+            function(value) {
+                return !$.mage.isEmpty(value);
+            }, $.mage.__('This is a required field.')
+        ],
         'not-negative-amount': [
             function(v) {
                 if(v.length)
@@ -921,9 +925,6 @@
         $.validator.addMethod.apply($.validator, rule);
     });
     $.validator.addClassRules({
-        "required-entry": {
-            required: true
-        },
         "required-option": {
             required: true
         },

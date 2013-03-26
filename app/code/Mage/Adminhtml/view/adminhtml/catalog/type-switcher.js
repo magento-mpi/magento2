@@ -90,7 +90,7 @@
          */
         _switchToType: function(typeCode) {
             var self = this;
-            $('#product-edit-form-tabs .fieldset>.field:not(.removed)').each(function(index, element) {
+            $('[data-apply-to]:not(.removed)').each(function(index, element) {
                 var attrContainer = $(element),
                     applyTo = attrContainer.data('applyTo') || [];
                 var $inputs = attrContainer.find('select, input, textarea');
