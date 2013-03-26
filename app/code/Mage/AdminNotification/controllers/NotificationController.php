@@ -1,22 +1,15 @@
 <?php
 /**
+ * Adminhtml AdminNotification controller
+ *
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Adminhtml AdminNotification controller
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Action
+class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backend_Controller_ActionAbstract
 {
     public function indexAction()
     {
@@ -25,7 +18,7 @@ class Mage_Adminhtml_NotificationController extends Mage_Adminhtml_Controller_Ac
         $this->loadLayout()
             ->_setActiveMenu('Mage_AdminNotification::system_adminnotification')
             ->_addBreadcrumb(Mage::helper('Mage_AdminNotification_Helper_Data')->__('Messages Inbox'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Messages Inbox'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Notification_Inbox'))
+            ->_addContent($this->getLayout()->createBlock('Mage_AdminNotification_Block_Adminhtml_Inbox'))
             ->renderLayout();
     }
 

@@ -716,4 +716,14 @@ return array(
     array('Varien_Convert_Validator_Interface'),
     array('Varien_File_Uploader_Image'),
     array('Varien_Profiler', 'Magento_Profiler'),
+    array('Mage_Adminhtml_Block_Notification_Window', 'Mage_AdminNotification_Block_Adminhtml_Window'),
+    array('Mage_Adminhtml_Block_Notification_Toolbar', 'Mage_AdminNotification_Block_Adminhtml_Toolbar'),
+    array('Mage_Adminhtml_Block_Notification_Survey', 'Mage_AdminNotification_Block_Adminhtml_Survey'), //fix usages
+    array('Mage_Adminhtml_Block_Notification_Security', 'Mage_AdminNotification_Block_Adminhtml_Security'), //fix usages
+    array('Mage_AdminNotification_Block_Adminhtml_Notification_Inbox', 'Mage_AdminNotification_Block_Adminhtml_Inbox'),
+    array('Mage_AdminNotification_Block_Adminhtml_Notification_Grid', 'Mage_Adminhtml_Block_Notification_Grid'),
+    array('Mage_Adminhtml_Block_Notification_Baseurl', 'Mage_AdminNotification_Block_Adminhtml_Baseurl'),
+    array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Severity', 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Severity'),
+    array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Notice', 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Notice'),
+    array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Actions', 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Actions'),
 );

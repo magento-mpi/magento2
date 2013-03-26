@@ -1,24 +1,36 @@
 <?php
 /**
+ * Adminhtml AdminNotification Severity Renderer
+ *
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Adminhtml AdminNotification Severity Renderer
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Block_Notification_Grid_Renderer_Severity
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Severity
+    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    /**
+     * @var Mage_AdminNotification_Model_Inbox
+     */
+    protected $_notice;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_AdminNotification_Model_Inbox $notice
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_AdminNotification_Model_Inbox $notice,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_notice = $notice;
+    }
+
     /**
      * Renders grid column
      *
@@ -27,24 +39,25 @@ class Mage_Adminhtml_Block_Notification_Grid_Renderer_Severity
      */
     public function render(Varien_Object $row)
     {
-        $notice = Mage::getSingleton('Mage_AdminNotification_Model_Inbox');
+        $class = '';
+        $value = '';
 
         switch ($row->getData($this->getColumn()->getIndex())) {
             case Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL:
                 $class = 'critical';
-                $value = $notice->getSeverities(Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL);
+                $value = $this->_notice->getSeverities(Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL);
                 break;
             case Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR:
                 $class = 'major';
-                $value = $notice->getSeverities(Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR);
+                $value = $this->_notice->getSeverities(Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR);
                 break;
             case Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR:
                 $class = 'minor';
-                $value = $notice->getSeverities(Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR);
+                $value = $this->_notice->getSeverities(Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR);
                 break;
             case Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE:
                 $class = 'notice';
-                $value = $notice->getSeverities(Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE);
+                $value = $this->_notice->getSeverities(Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE);
                 break;
         }
         return '<span class="grid-severity-' . $class . '"><span>' . $value . '</span></span>';

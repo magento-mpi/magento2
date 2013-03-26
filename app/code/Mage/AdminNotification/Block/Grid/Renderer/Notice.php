@@ -1,23 +1,16 @@
 <?php
 /**
+ * Adminhtml AdminNotification Severity Renderer
+ *
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Adminhtml AdminNotification Severity Renderer
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Block_Notification_Grid_Renderer_Notice
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Notice
+    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders grid column

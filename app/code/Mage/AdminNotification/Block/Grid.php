@@ -1,23 +1,35 @@
 <?php
 /**
+ * Adminhtml AdminNotification inbox grid
+ *
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Adminhtml AdminNotification inbox grid
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Block_Notification_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_AdminNotification_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * @var Mage_AdminNotification_Model_InboxFactory
+     */
+    protected $_inboxFactory;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_AdminNotification_Model_InboxFactory $inboxFactory
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_AdminNotification_Model_InboxFactory $inboxFactory,
+        array $data = array())
+    {
+        parent::__construct($context, $data);
+        $this->_inboxFactory = $inboxFactory;
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -33,7 +45,7 @@ class Mage_Adminhtml_Block_Notification_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_AdminNotification_Model_Inbox')
+        $collection = $this->_inboxFactory->create()
             ->getCollection()
             ->addRemoveFilter();
         $this->setCollection($collection);
@@ -45,31 +57,33 @@ class Mage_Adminhtml_Block_Notification_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _prepareColumns()
     {
+        /** @var $helper Mage_AdminNotification_Helper_Data */
+        $helper = $this->_helperFactory->get('Mage_AdminNotification_Helper_Data');
         $this->addColumn('severity', array(
-            'header'    => Mage::helper('Mage_AdminNotification_Helper_Data')->__('Severity'),
+            'header'    =>  $helper->__('Severity'),
             'width'     => '60px',
             'index'     => 'severity',
-            'renderer'  => 'Mage_Adminhtml_Block_Notification_Grid_Renderer_Severity',
+            'renderer'  => 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Severity',
         ));
 
         $this->addColumn('date_added', array(
-            'header'    => Mage::helper('Mage_AdminNotification_Helper_Data')->__('Date Added'),
+            'header'    => $helper->__('Date Added'),
             'index'     => 'date_added',
             'width'     => '150px',
             'type'      => 'datetime'
         ));
 
         $this->addColumn('title', array(
-            'header'    => Mage::helper('Mage_AdminNotification_Helper_Data')->__('Message'),
+            'header'    => $helper->__('Message'),
             'index'     => 'title',
-            'renderer'  => 'Mage_Adminhtml_Block_Notification_Grid_Renderer_Notice',
+            'renderer'  => 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Notice',
         ));
 
         $this->addColumn('actions', array(
-            'header'    => Mage::helper('Mage_AdminNotification_Helper_Data')->__('Actions'),
+            'header'    => $helper->__('Actions'),
             'width'     => '250px',
             'sortable'  => false,
-            'renderer'  => 'Mage_Adminhtml_Block_Notification_Grid_Renderer_Actions',
+            'renderer'  => 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Actions',
         ));
 
         return parent::_prepareColumns();
@@ -80,26 +94,27 @@ class Mage_Adminhtml_Block_Notification_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _prepareMassaction()
     {
+        /** @var $helper Mage_AdminNotification_Helper_Data */
+        $helper = $this->_helperFactory->get('Mage_AdminNotification_Helper_Data');
+
         $this->setMassactionIdField('notification_id');
         $this->getMassactionBlock()->setFormFieldName('notification');
 
         $this->getMassactionBlock()->addItem('mark_as_read', array(
-             'label'    => Mage::helper('Mage_AdminNotification_Helper_Data')->__('Mark as Read'),
+             'label'    => $helper->__('Mark as Read'),
              'url'      => $this->getUrl('*/*/massMarkAsRead', array('_current'=>true)),
         ));
 
         $this->getMassactionBlock()->addItem('remove', array(
-             'label'    => Mage::helper('Mage_AdminNotification_Helper_Data')->__('Remove'),
+             'label'    => $helper->__('Remove'),
              'url'      => $this->getUrl('*/*/massRemove'),
-             'confirm'  => Mage::helper('Mage_AdminNotification_Helper_Data')->__('Are you sure?')
+             'confirm'  => $helper->__('Are you sure?')
         ));
-
-//        $this->getColumn('massaction')->setWidth('30px');
-
         return $this;
     }
 
-    public function getRowClass(Varien_Object $row) {
+    public function getRowClass(Varien_Object $row)
+    {
         return $row->getIsRead() ? 'read' : 'unread';
     }
 

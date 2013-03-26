@@ -1,27 +1,21 @@
 <?php
 /**
+ * Adminhtml AdminNotification inbox grid
+ *
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Adminhtml AdminNotification inbox grid
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-class Mage_Adminhtml_Block_Notification_Inbox extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_AdminNotification_Block_Adminhtml_Inbox extends Mage_Backend_Block_Widget_Grid_Container
 {
     protected function _construct()
     {
-        $this->_controller = 'notification';
-        $this->_headerText = Mage::helper('Mage_AdminNotification_Helper_Data')->__('Messages Inbox');
+        $this->_controller = 'adminhtml';
+        $this->_blockGroup = 'Mage_AdminNotification';
+        $this->_headerText = $this->_helperFactory->get('Mage_AdminNotification_Helper_Data')->__('Messages Inbox');
         parent::_construct();
     }
 

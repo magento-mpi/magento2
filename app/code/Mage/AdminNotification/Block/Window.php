@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Notification_Toolbar
+class Mage_AdminNotification_Block_Adminhtml_Window extends Mage_AdminNotification_Block_Adminhtml_Toolbar
 {
     /**
      * XML path of Severity icons url
@@ -28,6 +28,25 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
      * @var bool
      */
     protected $_available = null;
+
+    /**
+     * @var Mage_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Backend_Model_Auth_Session $authSession
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Backend_Model_Auth_Session $authSession,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_authSession = $authSession;
+    }
 
     /**
      * Initialize block window
@@ -79,7 +98,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
             return $this->_available;
         }
 
-        if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isFirstPageAfterLogin()) {
+        if (!$this->_authSession->isFirstPageAfterLogin()) {
             $this->_available = false;
             return false;
         }
@@ -124,11 +143,12 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
     public function getSeverityIconsUrl()
     {
         if (is_null($this->_severityIconsUrl)) {
-            $this->_severityIconsUrl =
-                (Mage::app()->getFrontController()->getRequest()->isSecure() ? 'https://' : 'http://')
-                . sprintf(Mage::getStoreConfig(self::XML_SEVERITY_ICONS_URL_PATH), Mage::getVersion(),
-                    $this->getNoticeSeverity())
-            ;
+            $this->_severityIconsUrl = ($this->getRequest()->isSecure() ? 'https://' : 'http://')
+                . sprintf(
+                    $this->_storeConfig->getConfig(self::XML_SEVERITY_ICONS_URL_PATH),
+                    Mage::getVersion(),
+                    $this->getNoticeSeverity()
+                );
         }
         return $this->_severityIconsUrl;
     }

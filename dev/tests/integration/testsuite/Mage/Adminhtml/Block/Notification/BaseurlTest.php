@@ -9,8 +9,8 @@ class Mage_Adminhtml_Block_Notification_BaseurlTest extends Mage_Backend_Area_Te
 {
     public function testGetConfigUrl()
     {
-        /** @var $block Mage_Adminhtml_Block_Notification_Baseurl */
-        $block = Mage::app()->getLayout()->createBlock('Mage_Adminhtml_Block_Notification_Baseurl');
+        /** @var $block Mage_AdminNotification_Block_Adminhtml_Baseurl */
+        $block = Mage::app()->getLayout()->createBlock('Mage_AdminNotification_Block_Adminhtml_Baseurl');
         $this->assertStringStartsWith('http://localhost/', $block->getConfigUrl());
     }
 }
