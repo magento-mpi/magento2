@@ -3,13 +3,31 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Mage_Adminhtml_Block_Cache_Notifications extends Mage_Adminhtml_Block_Template
+class Mage_AdminNotification_Block_Cache_Notifications extends Mage_Backend_Block_Template
 {
+    /**
+     * @var Mage_Core_Model_Authorization
+     */
+    protected $_authorization;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_Authorization $authorization
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_Authorization $authorization,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_authorization = $authorization;
+    }
+
     /**
      * Get array of cache types which require data refresh
      *
@@ -17,7 +35,7 @@ class Mage_Adminhtml_Block_Cache_Notifications extends Mage_Adminhtml_Block_Temp
      */
     public function getCacheTypesForRefresh()
     {
-        $invalidatedTypes = Mage::app()->getCacheInstance()->getInvalidatedTypes();
+        $invalidatedTypes = $this->_cache->getInvalidatedTypes();
         $res = array();
         foreach ($invalidatedTypes as $type) {
             $res[] = $type->getCacheType();
@@ -42,7 +60,7 @@ class Mage_Adminhtml_Block_Cache_Notifications extends Mage_Adminhtml_Block_Temp
      */
     protected function _toHtml()
     {
-        if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::cache')) {
+        if ($this->_authorization->isAllowed('Mage_Adminhtml::cache')) {
             return parent::_toHtml();
         }
         return '';
