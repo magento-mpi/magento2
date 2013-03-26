@@ -202,9 +202,9 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             $filesJs = $serviceModel->uploadJsFile('js_files_uploader', $theme);
 
             $filesData = array(
-                'id'        => $filesJs->getId(),
-                'name'      => $filesJs->getFileName(),
-                'temporary' => $filesJs->getIsTemporary() ? $filesJs->getId() : ''
+                'id'        => $filesJs->getUploadedJsFile()->getId(),
+                'name'      => $filesJs->getUploadedJsFile()->getFileName(),
+                'temporary' => $filesJs->getUploadedJsFile()->getIsTemporary() ? $filesJs->getId() : ''
             );
 
             $result = array('error' => false, 'file' => $filesData);
