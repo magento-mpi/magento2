@@ -109,9 +109,10 @@
                     this.element.find(this.options.checkout.registerCustomerPasswordSelector).show();
                 } else {
                     alert($.mage.__('Please choose to register or to checkout as a guest'));
+                    return false;
                 }
             }
-            return false;
+        this.element.trigger('login');
         },
 
         /**
