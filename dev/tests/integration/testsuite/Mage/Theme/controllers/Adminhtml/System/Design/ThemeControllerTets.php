@@ -25,6 +25,9 @@ class Mage_Theme_Adminhtml_System_Design_ThemeControllerTest extends Mage_Backen
         $this->_dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
     }
 
+    /**
+     * Test upload JS file
+     */
     public function testUploadJsAction()
     {
         $_FILES = array(
@@ -46,6 +49,11 @@ class Mage_Theme_Adminhtml_System_Design_ThemeControllerTest extends Mage_Backen
         $this->assertContains('simple-js-file.js', $output);
     }
 
+    /**
+     * Prepare file for uploading
+     *
+     * @return string
+     */
     protected function _prepareFileForUploading()
     {
         /**
