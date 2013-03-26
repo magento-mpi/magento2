@@ -272,7 +272,7 @@ store_launcher:
             success_saved_shipping: //div[normalize-space(@class)='message-validation success' and contains(.,'Configuration has been successfully saved.')]
             enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
-            empty_required_field:  //label[@class='mage-error' and contains(.,'This field is required.')]
+            empty_required_field:  //label[@class='mage-error' and contains(.,'This is a required field.')]
             confirmation_for_delete_class: Do you really want to delete this tax class?
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
 

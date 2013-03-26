@@ -32,7 +32,7 @@
             return false;
         }
         return true;
-    }, 'This field is required unless all the fields are empty.');
+    }, 'This is a required field unless all the fields are empty.');
     $.validator.addMethod('validate-googleoptimizer-attributes', function(v,element) {
         return googleOptimizerCheckAttributesCount(element);
     }, 'Not more than 8 attributes allowed.');
