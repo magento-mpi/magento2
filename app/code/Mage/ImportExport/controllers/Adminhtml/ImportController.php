@@ -35,7 +35,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
      */
     protected function _initAction()
     {
-        $this->_title($this->__('Import/Export'))
+        $this->_title($this->__('Import'))
             ->loadLayout()
             ->_setActiveMenu('Mage_ImportExport::system_convert_import');
 
@@ -58,7 +58,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
     public function indexAction()
     {
         $this->_getSession()->addNotice(Mage::helper('Mage_ImportExport_Helper_Data')->getMaxUploadSizeMessage());
-        $this->_initAction()->_title($this->__('Import'))->_addBreadcrumb($this->__('Import'), $this->__('Import'));
+        $this->_initAction();
         $this->renderLayout();
     }
 

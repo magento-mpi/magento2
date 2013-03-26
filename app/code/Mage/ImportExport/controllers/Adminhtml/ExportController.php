@@ -35,7 +35,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     protected function _initAction()
     {
-        $this->_title($this->__('Import/Export'))
+        $this->_title($this->__('Export'))
             ->loadLayout()
             ->_setActiveMenu('Mage_ImportExport::system_convert_export');
 
@@ -90,7 +90,6 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     public function indexAction()
     {
         $this->_initAction()
-            ->_title($this->__('Export'))
             ->_addBreadcrumb($this->__('Export'), $this->__('Export'));
 
         $this->renderLayout();
