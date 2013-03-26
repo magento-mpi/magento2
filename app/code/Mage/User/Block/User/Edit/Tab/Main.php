@@ -18,7 +18,12 @@
 
 class Mage_User_Block_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
 {
-
+    /**
+     * Prepare form fields
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @return Mage_Backend_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         /** @var $model Mage_User_Model_User */
@@ -86,13 +91,12 @@ class Mage_User_Block_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
         $this->_addPasswordFields($fieldset, $passwordLabel, $confirmationLabel, $isNewObject);
 
         $fieldset->addField('interface_locale', 'select', array(
-                'name'   => 'interface_locale',
-                'label'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface Locale'),
-                'title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Interface Locale'),
-                'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
-                'class'  => 'select',
-            )
-        );
+            'name'   => 'interface_locale',
+            'label'  => Mage::helper('Mage_Backend_Helper_Data')->__('Interface Locale'),
+            'title'  => Mage::helper('Mage_Backend_Helper_Data')->__('Interface Locale'),
+            'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
+            'class'  => 'select',
+        ));
 
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(

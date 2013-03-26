@@ -36,7 +36,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
         $password = (string)$this->getRequest()->getParam('password');
         $passwordConfirmation = (string)$this->getRequest()->getParam('password_confirmation');
-        $interfaceLocale = $this->getRequest()->getParam('interface_locale', false);
+        $interfaceLocale = (string)$this->getRequest()->getParam('interface_locale', false);
 
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
@@ -45,8 +45,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
             ->setUsername($this->getRequest()->getParam('username', false))
             ->setFirstname($this->getRequest()->getParam('firstname', false))
             ->setLastname($this->getRequest()->getParam('lastname', false))
-            ->setEmail(strtolower($this->getRequest()->getParam('email', false)))
-            ->setInterfaceLocale($interfaceLocale);
+            ->setEmail(strtolower($this->getRequest()->getParam('email', false)));
 
         if ($password !== '') {
             $user->setPassword($password);
@@ -55,8 +54,12 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
             $user->setPasswordConfirmation($passwordConfirmation);
         }
 
-        Mage::helper('Mage_Backend_Helper_Data')
-            ->switchBackendInterfaceLocale($interfaceLocale);
+        if ($this->_objectManager->get('Mage_Backend_Model_Locale_Validator')->isValid($interfaceLocale)) {
+
+            $user->setInterfaceLocale($interfaceLocale);
+            $this->_objectManager->get('Mage_Backend_Model_Locale_Manager')
+                ->switchBackendInterfaceLocale($interfaceLocale);
+        }
 
         try {
             $user->save();

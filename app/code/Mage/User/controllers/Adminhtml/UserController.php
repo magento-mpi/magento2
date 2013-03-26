@@ -100,9 +100,11 @@ class Mage_User_Adminhtml_UserController extends Mage_Backend_Controller_ActionA
             $model->setRoleId($uRoles[0]);
         }
 
-        $currentUser = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
-        if ($userId == $currentUser->getId()) {
-            Mage::helper('Mage_Backend_Helper_Data')
+        $currentUser = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->getUser();
+        if ($userId == $currentUser->getId()
+            && $this->_objectManager->get('Mage_Backend_Model_Locale_Validator')->isValid($data['interface_locale'])) {
+
+            $this->_objectManager->get('Mage_Backend_Model_Locale_Manager')
                 ->switchBackendInterfaceLocale($data['interface_locale']);
         }
 

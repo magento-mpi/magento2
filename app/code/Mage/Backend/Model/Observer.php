@@ -19,6 +19,38 @@
 class Mage_Backend_Model_Observer
 {
     /**
+     * @var Mage_Backend_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Mage_Backend_Model_Locale_Manager
+     */
+    protected $_localeManager;
+
+    /**
+     * @var Mage_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Constructor
+     *
+     * @param Mage_Backend_Model_Session $session
+     * @param Mage_Backend_Model_Locale_Manager $localeManager
+     * @param Mage_Core_Controller_Request_Http $request
+     */
+    public function __construct(
+        Mage_Backend_Model_Session $session,
+        Mage_Backend_Model_Locale_Manager $localeManager,
+        Mage_Core_Controller_Request_Http $request
+    ) {
+        $this->_session = $session;
+        $this->_localeManager = $localeManager;
+        $this->_request = $request;
+    }
+
+    /**
      * Bind backend locale
      *
      * @param Varien_Event_Observer $observer
@@ -26,16 +58,17 @@ class Mage_Backend_Model_Observer
      */
     public function bindLocale($observer)
     {
-        if ($locale = $observer->getEvent()->getLocale()) {
+        $localeModel = $observer->getEvent()->getLocale();
+        if ($localeModel) {
 
-            $forceLocale = Mage::app()->getRequest()->getParam('locale', null);
-            $sessionLocale = Mage::getSingleton('Mage_Backend_Model_Session')->getSessionLocale();
-            $userLocale = Mage::helper('Mage_Backend_Helper_Data')->getUserInterfaceLocale();
+            $forceLocale = $this->_request->getParam('locale', null);
+            $sessionLocale = $this->_session->getSessionLocale();
+            $userLocale = $this->_localeManager->getUserInterfaceLocale();
 
             $localeCodes = array_filter(array($forceLocale, $sessionLocale, $userLocale));
 
             if (count($localeCodes)) {
-                $locale->setLocaleCode(reset($localeCodes));
+                $localeModel->setLocaleCode(reset($localeCodes));
             }
         }
 

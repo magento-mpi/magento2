@@ -257,12 +257,12 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected function _processLocaleSettings()
     {
         $forceLocale = $this->getRequest()->getParam('locale', null);
-        if ($forceLocale) {
-            Mage::getSingleton('Mage_Backend_Model_Session')->setSessionLocale($forceLocale);
+        if ($this->_objectManager->get('Mage_Backend_Model_Locale_Validator')->isValid($forceLocale)) {
+            $this->_getSession()->setSessionLocale($forceLocale);
         }
 
-        if (is_null(Mage::getSingleton('Mage_Backend_Model_Session')->getLocale())) {
-            Mage::getSingleton('Mage_Backend_Model_Session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
+        if (is_null($this->_getSession()->getLocale())) {
+            $this->_getSession()->setLocale(Mage::app()->getLocale()->getLocaleCode());
         }
 
         return $this;

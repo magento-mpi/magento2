@@ -99,33 +99,55 @@ class Mage_Backend_Model_ObserverTest extends Mage_Backend_Area_TestCase
     }
 
     /**
-     * Test for getUserInterfaceLocale method
+     * Test for bindLocale method
+     * check default locale is applied
      *
      * @covers Mage_Backend_Model_Observer::bindLocale
      */
-    public function testBindLocale()
+    public function testBindLocaleDefault()
     {
-        //preconditions
-        $observer = new Varien_Event_Observer();
-        $event = new Varien_Event();
-        $observer->setEvent($event);
-        $observer->getEvent()->setLocale(Mage::getSingleton('Mage_Core_Model_Locale'));
-
-        //check default locale is set
+        $observer = $this->_createObserverBindLocale();
         $this->_checkSetLocale($observer, Mage_Core_Model_Locale::DEFAULT_LOCALE);
+    }
 
-        //check user Interface Locale is applied
+    /**
+     * Test for bindLocale method:
+     * check user interface locale (from db) is applied
+     *
+     * @covers Mage_Backend_Model_Observer::bindLocale
+     */
+    public function testBindLocaleBaseInterfaceLocale()
+    {
+        $observer = $this->_createObserverBindLocale();
         $user = new Varien_Object();
         $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         $session->setUser($user);
         Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->setInterfaceLocale('fr_FR');
         $this->_checkSetLocale($observer, 'fr_FR');
+    }
 
-        //check session locale (previously set through get param) is applied
+    /**
+     * Test for bindLocale method:
+     * check session locale (previously set through get param) is applied
+     *
+     * @covers Mage_Backend_Model_Observer::bindLocale
+     */
+    public function testBindLocaleSessionLocale()
+    {
+        $observer = $this->_createObserverBindLocale();
         Mage::getSingleton('Mage_Backend_Model_Session')->setSessionLocale('es_ES');
         $this->_checkSetLocale($observer, 'es_ES');
+    }
 
-        //check current arrived (through get param) locale is applied
+    /**
+     * Test for bindLocale method:
+     * check current arrived (through get param) locale is applied
+     *
+     * @covers Mage_Backend_Model_Observer::bindLocale
+     */
+    public function testBindLocaleRequestLocale()
+    {
+        $observer = $this->_createObserverBindLocale();
         $request = Mage::app()->getRequest();
         $request->setPost(array('locale' => 'de_DE'));
         $this->_checkSetLocale($observer, 'de_DE');
@@ -143,5 +165,21 @@ class Mage_Backend_Model_ObserverTest extends Mage_Backend_Area_TestCase
         $this->_model->bindLocale($observer);
         $localeCode = $observer->getEvent()->getLocale()->getLocaleCode();
         $this->assertEquals($localeCode, $localeCodeToCheck);
+    }
+
+    /**
+     * Create empty observer for bindLocale tests
+     *
+     * @return Varien_Event_Observer
+     */
+    protected function _createObserverBindLocale()
+    {
+        $observer = new Varien_Event_Observer();
+        $event = new Varien_Event();
+        $observer->setEvent($event);
+        $observer->getEvent()
+            ->setLocale(Mage::getSingleton('Mage_Core_Model_Locale'));
+
+        return $observer;
     }
 }
