@@ -64,7 +64,7 @@ new_customer_address_attribute:
                         fieldsets:
                             -
                                 attribute_properties:
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     dropdowns:
                                         input_type: //select[@id='frontend_input']
                                         default_yesno_value: "//select[@id='default_value_yesno']"
@@ -90,7 +90,7 @@ new_customer_address_attribute:
                                     required: [attribute_code, lines_count]
                             -
                                 frontend_properties:
-                                    xpath: //div[@id='front_fieldset']
+                                    xpath: //fieldset[@id='front_fieldset']
                                     dropdowns:
                                         show_on_frontend: //select[@id='is_visible']
                                     fields:
@@ -104,7 +104,7 @@ new_customer_address_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
+                                    xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
@@ -127,10 +127,10 @@ new_customer_address_attribute:
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_attribute: //button[span='Save Attribute']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id="back"]
+            reset: //button[@id="reset"]
+            save_attribute: //button[@id="save"]
+            save_and_continue_edit: //button[@id="save_and_edit_button"]
         messages: *addressAttributeMessages
 
 # Manage Customer Address  Attributes page
@@ -148,7 +148,7 @@ edit_customer_address_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
+                                    xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
                                     fields:
                                         admin_title: //input[@name='frontend_label[%storeViewNumber%]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input

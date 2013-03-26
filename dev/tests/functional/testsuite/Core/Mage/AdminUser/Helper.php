@@ -117,7 +117,8 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
             }
             if (!empty($roleWebsites)) {
                 foreach ($roleWebsites as $website) {
-                    $this->productHelper()->selectWebsite($website);
+                    $this->addParameter('websiteName', $website);
+                    $this->fillCheckbox('websites', 'yes');
                 }
             }
         }

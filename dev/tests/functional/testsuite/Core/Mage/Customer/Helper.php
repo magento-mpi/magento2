@@ -119,6 +119,10 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         if (array_key_exists('send_from', $userData) && !$this->controlIsPresent('dropdown', 'send_from')) {
             unset($userData['send_from']);
         }
+        if (array_key_exists('associate_to_website', $userData) &&
+            !$this->controlIsPresent('dropdown', 'associate_to_website')) {
+            unset($userData['associate_to_website']);
+        }
         //Fill in 'Account Information' tab
         $this->fillForm($userData, 'account_information');
         //Add address

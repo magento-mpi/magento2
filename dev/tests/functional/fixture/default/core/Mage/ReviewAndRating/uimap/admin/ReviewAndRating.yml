@@ -37,7 +37,7 @@ manage_ratings:
         messages: &ratingMessages
             success_saved_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been saved.')]
             success_deleted_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been deleted.')]
-            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This is a required field.')]
             existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
             confirmation_for_delete: Are you sure you want to do this?
 
@@ -132,7 +132,7 @@ manage_all_reviews:
             success_deleted_review_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'record(s) have been deleted.')]
             confirmation_for_delete_all: Are you sure?
             confirmation_for_delete: Are you sure you want to do this?
-            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This is a required field.')]
             empty_validate_rating: "//div[@id='advice-validate-rating-validate_rating' and not(contains(@style,'display: none;'))]"
             not_available_rating: //*[@id='rating_detail'][normalize-space(text())="Rating isn't Available"]
 

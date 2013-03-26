@@ -68,6 +68,44 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
      */
     public function testGetAddress($expectedData, $regions)
     {
+        $tileBlock = $this->_getBusinessInfoTileBlockForGetAddressTest($regions);
+
+        $result = $tileBlock->getAddress();
+        $this->assertEquals($expectedData, $result);
+    }
+
+    /**
+     * @dataProvider testIsBusinessAddressConfiguredDataProvider
+     * @param boolean $expectedData
+     * @param array $regions Array of Regions for Current Country
+     */
+    public function testIsBusinessAddressConfigured($expectedData, $regions)
+    {
+        $tileBlock = $this->_getBusinessInfoTileBlockForGetAddressTest($regions);
+        $this->assertEquals($expectedData, $tileBlock->isBusinessAddressConfigured());
+
+    }
+
+    /**
+     * @dataProvider testIsBusinessAddressNotConfiguredDataProvider
+     * @param boolean $inputData
+     * @param array $regions Array of Regions for Current Country
+     */
+    public function testIsBusinessAddressNotConfigured($inputData, $regions)
+    {
+        $this->_data = $inputData;
+        $tileBlock = $this->_getBusinessInfoTileBlockForGetAddressTest($regions);
+        $this->assertFalse($tileBlock->isBusinessAddressConfigured());
+    }
+
+    /**
+     * Build Mock object
+     *
+     * @param array $regions Array of Regions for Current Country
+     * @return Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile
+     */
+    protected function _getBusinessInfoTileBlockForGetAddressTest($regions)
+    {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
         $countryModel = $this->getMock('Mage_Directory_Model_Country',
@@ -126,8 +164,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             $arguments
         );
 
-        $result = $tileBlock->getAddress();
-        $this->assertEquals($expectedData, $result);
+        return $tileBlock;
     }
 
     /**
@@ -227,6 +264,70 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
                     'address-postcode' => '03344',
                     'address-region-name' => 5,
                     'address-country-name' => 'United States',
+                ),
+                array()
+            )
+        );
+    }
+
+    /**
+     * Data provider for testIsBusinessAddressConfigured method
+     *
+     * @return array
+     */
+    public function testIsBusinessAddressConfiguredDataProvider()
+    {
+        return array(
+            array(
+                true,
+                array(
+                    'Alaska',
+                    'California',
+                    'Florida',
+                )
+            ),
+            array(
+                true,
+                array()
+            )
+        );
+    }
+
+    /**
+     * Data provider for testIsBusinessAddressNotConfigured method
+     *
+     * @return array
+     */
+    public function testIsBusinessAddressNotConfiguredDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'name' => 'Magento',
+                    'street_line2' => '5 A',
+                    'city' => 'Kiev',
+                    'postcode' => '03344',
+                    'region_id' => 5,
+                    'country_id' => 'US',
+                    'email' => 'test@example.com',
+                    'name' => 'Store Name',
+                ),
+                array(
+                    'Alaska',
+                    'California',
+                    'Florida',
+                )
+            ),
+            array(
+                array(
+                    'name' => 'Magento',
+                    'street_line1' => 'Zoologichna',
+                    'street_line2' => '5 A',
+                    'postcode' => '03344',
+                    'region_id' => 5,
+                    'country_id' => 'US',
+                    'email' => 'test@example.com',
+                    'name' => 'Store Name',
                 ),
                 array()
             )

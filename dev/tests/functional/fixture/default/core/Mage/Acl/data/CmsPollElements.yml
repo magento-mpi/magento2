@@ -12,7 +12,7 @@ manage_cms_poll_elements:
     button:
         add_new_poll: ~
         reset_filter: ~
-        search:
+        search: ~
     field:
         filter_id: ~
         filter_question: ~

@@ -389,7 +389,7 @@ AdminRma.prototype = {
         var row = new Element('tr', {id: 'id_' + newRmaItemId, 'class': className ? 'even' : 'odd'});
 
         fieldsProduct.each(function(el,i) {
-            var column = new Element('td');
+            var column = new Element('td',{class:'col-'+ el});
             var data = '';
             if (orderItem[el]) {
                 data = orderItem[el];
@@ -415,7 +415,7 @@ AdminRma.prototype = {
             }
             row.insert(column);
         });
-        var column = new Element('td');
+        var column = new Element('td',{class:'col-actions'});
         var deleteLink = new Element('a', {href:'#'});
         Event.observe(deleteLink, 'click', this.deleteRow.bind(this));
         deleteLink.insert($$('label[for="rma_properties_delete_link"]').first().innerHTML);

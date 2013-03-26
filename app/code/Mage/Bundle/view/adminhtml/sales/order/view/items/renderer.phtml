@@ -33,7 +33,7 @@
     <?php if ($_item->getParentItem()): ?>
         <?php if ($_prevOptionId != $attributes['option_id']): ?>
         <tr>
-            <td><div class="option-label"><?php echo $attributes['option_label'] ?></div></td>
+            <td class="col-product"><div class="option-label"><?php echo $attributes['option_label'] ?></div></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -49,33 +49,35 @@
     <?php endif; ?>
     <tr<?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?>>
         <?php if (!$_item->getParentItem()): ?>
-        <td>
-            <h5 class="title">
-                <span id="order_item_<?php echo $_item->getId() ?>_title"><?php echo $this->escapeHtml($_item->getName()) ?></span>
-            </h5>
+        <td class="col-product">
+            <div class="product-title" id="order_item_<?php echo $_item->getId() ?>_title">
+                <?php echo $this->escapeHtml($_item->getName()) ?>
+            </div>
             <div>
                 <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong>
                 <?php echo implode('<br />', Mage::helper('Mage_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
             </div>
         </td>
         <?php else: ?>
-        <td><div class="option-value"><?php echo $this->getValueHtml($_item)?></div></td>
+        <td class="col-product">
+            <div class="option-value"><?php echo $this->getValueHtml($_item)?></div>
+        </td>
         <?php endif; ?>
-        <td class="a-center">
+        <td class="col-status">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $_item->getStatus() ?>
             <?php else: ?>
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right">
+        <td class="col-price-original">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $this->displayPriceAttribute('original_price') ?>
             <?php else: ?>
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right">
+        <td class="col-price">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                     <span class="price-excl-tax">
@@ -175,7 +177,7 @@
                     &nbsp;
             <?php endif; ?>
         </td>
-        <td>
+        <td class="col-ordered-qty">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <table cellspacing="0" class="qty-table">
                     <tr>
@@ -224,7 +226,7 @@
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right">
+        <td class="col-subtotal">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                     <span class="price-excl-tax">
@@ -323,29 +325,28 @@
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right">
+        <td class="col-tax-amount">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $this->displayPriceAttribute('tax_amount') ?>
             <?php else: ?>
                 &nbsp;
             <?php endif; ?>
         </td>
-
-        <td class="a-right">
+        <td class="col-tax-percent">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $this->displayTaxPercent($_item) ?>
             <?php else: ?>
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right">
+        <td class="col-discont">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $this->displayPriceAttribute('discount_amount') ?>
             <?php else: ?>
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right last">
+        <td class="col-total last">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $this->displayPrices(
                     max(0, $_item->getBaseRowTotal() - $_item->getBaseDiscountAmount() + $_item->getBaseTaxAmount() + $_item->getBaseWeeeTaxAppliedRowAmnt()),
@@ -359,7 +360,7 @@
 <?php endforeach; ?>
 <?php if($_showlastRow): ?>
     <tr<?php if (!$this->canDisplayGiftmessage()) echo ' class="border"' ?>>
-        <td>
+        <td class="col-product">
             <?php if ($this->getOrderOptions()): ?>
                 <dl class="item-options">
                 <?php foreach ($this->getOrderOptions() as $option): ?>

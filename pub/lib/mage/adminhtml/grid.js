@@ -157,7 +157,7 @@ varienGrid.prototype = {
                 onComplete: this.initGridAjax.bind(this),
                 onSuccess: function(transport) {
                     try {
-                        var responseText = transport.responseText.replace(/>\s+</g, '><');
+                        var responseText = transport.responseText;
 
                         if (transport.responseText.isJSON()) {
                             var response = transport.responseText.evalJSON()
@@ -266,10 +266,10 @@ varienGrid.prototype = {
         }
     },
     bindSortable: function(){
-        if (jQuery('#' + this.containerId).find('.ui-icon-grip-dotted-vertical').length) {
+        if (jQuery('#' + this.containerId).find('.draggable-handle').length) {
             jQuery('#' + this.containerId).find('tbody').sortable({
                 axis: 'y',
-                handle: '.ui-icon-grip-dotted-vertical',
+                handle: '.draggable-handle',
                 helper: function(event, ui) {
                     ui.children().each(function() {
                         jQuery(this).width(jQuery(this).width());

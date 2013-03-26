@@ -24,16 +24,20 @@ admin_header:
                 -
                     global_header:
                         xpath: //div[contains(a/@class,'logo')]
-                        links:
-                            account_avatar: //a[@class='account-avatar']
-                            log_out: //a[@class='account-signout']
                         pageelements:
                             admin_logo: //a[@class='logo']
                         fields:
                             global_record_search: //*[@id='search-global']
                 -
+                    user_account:
+                        xpath: //div[contains(@class, 'account')]
+                        links:
+                            account_avatar: //a[@class='account-avatar']
+                            account_settings: //a[@data-ui-id='header-user-account-settings']
+                            log_out: //a[@class='account-signout']
+                -
                     notification_global:
-                        xpath: //div[@class='notification-global']
+                        xpath: //div[@class='message message-system']
                         links:
                             invalided_cache: //a[text()='Cache Management']
                             invalided_index: //a[text()='Index Management']
@@ -47,7 +51,7 @@ admin_header:
                             qtyElementsInTable: //div[@class='pager']//span[contains(@id,'total-count')]
                             qty_elements_in_specific_table: "%tableHeadXpath%//div[@class='pager']//span[contains(@id,'total-count')]"
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
-                            loadingHolder: "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]"
+                            loadingHolder: "//*[contains(text(),'Please wait')]"
                             dropdown_option: "%dropdownXpath%//option"
                             dropdown_option_text: "%dropdownXpath%//option[normalize-space(text())='%optionText%']"
                             dropdown_option_index: "%dropdownXpath%//option[%index%]"
@@ -81,7 +85,7 @@ admin_header:
                             website_view_hint: "/../../td[@class='scope-label'][contains(.,'[WEBSITE]')]"
                             access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
                             navigation_menu_items: //ul[@id='nav']/li
-                            navigation_children_menu_items: //*[@id='nav']/li/ul/li
+                            navigation_children_menu_items: //*[@id='nav']/li//ul/li
                             general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
                             active_menu_element: //*[@id='nav']/li[contains(@class, 'active')]
         messages:

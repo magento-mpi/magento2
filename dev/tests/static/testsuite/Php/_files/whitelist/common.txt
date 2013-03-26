@@ -3,7 +3,7 @@
 #
 app/bootstrap.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
-app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight/Renderer.php
+app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php
 app/code/Mage/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
 app/code/Mage/Adminhtml/Block/Customer/Edit/Tab/Account.php
@@ -52,10 +52,10 @@ app/code/Mage/Core/Model/Layout/Update.php
 app/code/Mage/Core/Model/Layout/Argument
 app/code/Mage/Core/Model/ObjectManager
 app/code/Mage/Core/Model/Resource/Setup/Migration.php
-app/code/Mage/Core/Model/Resource/Theme/Collection.php
+app/code/Mage/Core/Model/Resource/Theme
 app/code/Mage/Core/Model/Resource/Theme.php
 app/code/Mage/Core/Model/ShellAbstract.php
-app/code/Mage/Core/Model/Theme/Validator.php
+app/code/Mage/Core/Model/Theme
 app/code/Mage/Core/Model/Theme.php
 app/code/Mage/Core/Model/Translate.php
 app/code/Mage/Core/Model/Translate/Expr.php

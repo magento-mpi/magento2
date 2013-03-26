@@ -10,39 +10,34 @@
 ?>
 <?php /** @var $this Mage_Adminhtml_Block_Sales_Order_View_Tab_Info */ ?>
 <?php $_order = $this->getOrder() ?>
-<div>
-    <div id="order-messages">
+<div id="order-messages">
         <?php echo $this->getChildHtml('order_messages') ?>
     </div>
     <?php echo $this->getChildHtml('order_info') ?>
     <input type="hidden" name="order_id" value="<?php echo $_order->getId() ?>"/>
-    <?php if ($_order->getIsVirtual()): ?>
-    <div class="box-right">
-    <?php else: ?>
-    <div class="box-left">
-    <?php endif; ?>
-        <!--Payment Method-->
-        <div class="entry-edit">
-            <div class="entry-edit-head">
-                <h4 class="icon-head head-payment-method"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></h4>
+<?php if (!$_order->getIsVirtual()): ?>
+<div class="clearfix">
+<?php endif; ?>
+    <div class="order-payment-method<?php if ($_order->getIsVirtual()): ?> order-payment-method-virtual<?php endif; ?>">
+        <?php /* Payment Method */ ?>
+        <div class="fieldset-wrapper">
+            <div class="fieldset-wrapper-title">
+                <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
             </div>
-            <fieldset>
-                <?php echo $this->getPaymentHtml() ?>
-                <div><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
-            </fieldset>
+            <div><?php echo $this->getPaymentHtml() ?></div>
+            <div class="order-payment-currency"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order was placed using %s', $_order->getOrderCurrencyCode()) ?></div>
         </div>
     </div>
     <?php if (!$_order->getIsVirtual()): ?>
-    <div class="box-right">
+    <div class="order-shipping-method">
         <!--Shipping Method-->
-        <div class="entry-edit">
-            <div class="entry-edit-head">
-                <h4 class="icon-head head-shipping-method"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping &amp; Handling Information') ?></h4>
+        <div class="fieldset-wrapper">
+            <div class="fieldset-wrapper-title">
+                <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Shipping &amp; Handling Information') ?></span>
             </div>
-            <fieldset>
+            <div class="shipping-description-wrapper">
                 <?php  if ($_order->getTracksCollection()->count()) : ?>
-                <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track Order') ?>"><?php echo $this->__('Track Order') ?></a>
-                <br/>
+                <p><a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track Order') ?>"><?php echo $this->__('Track Order') ?></a></p>
                 <?php endif; ?>
                 <?php if ($_order->getShippingDescription()): ?>
                     <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
@@ -61,36 +56,38 @@
                 <?php else: ?>
                     <?php echo $this->helper('Mage_Sales_Helper_Data')->__('No shipping information available'); ?>
                 <?php endif; ?>
-            </fieldset>
+            </div>
         </div>
     </div>
     <?php endif; ?>
-    <div class="clear"></div>
+<?php if (!$_order->getIsVirtual()): ?>
+</div>
+<?php endif; ?>
     <?php echo $this->getGiftOptionsHtml() ?>
-    <div class="clear"></div>
-    <div class="entry-edit">
-        <div class="entry-edit-head">
-            <h4 class="icon-head head-products"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Items Ordered') ?></h4>
+    <div class="fieldset-wrapper">
+        <div class="fieldset-wrapper-title">
+            <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Items Ordered') ?></span>
         </div>
+        <?php echo $this->getItemsHtml() ?>
     </div>
-    <?php echo $this->getItemsHtml() ?>
-    <div class="clear"></div>
-
-    <div class="box-left">
-        <div class="entry-edit">
-            <div class="entry-edit-head">
-                <h4><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Comments History') ?></h4>
+<div class="clearfix">
+    <div class="order-comments-history">
+        <div class="fieldset-wrapper">
+            <div class="fieldset-wrapper-title">
+                <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Comments History') ?></span>
             </div>
             <fieldset><?php echo $this->getChildHtml('order_history') ?></fieldset>
         </div>
     </div>
-    <div class="box-right entry-edit">
-        <div class="entry-edit-head"><h4><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order Totals') ?></h4></div>
-        <div class="order-totals"><?php echo $this->getChildHtml('order_totals') ?></div>
+    <div class="order-totals">
+        <div class="fieldset-wrapper">
+            <div class="fieldset-wrapper-title">
+                <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order Totals') ?></span>
+            </div>
+            <?php echo $this->getChildHtml('order_totals') ?>
+        </div>
     </div>
-    <div class="clear"></div>
 </div>
-
 <?php echo $this->getChildHtml('popup_window');?>
 <script type="text/javascript">
 //<![CDATA[

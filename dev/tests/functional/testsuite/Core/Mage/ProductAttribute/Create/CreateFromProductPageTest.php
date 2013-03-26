@@ -47,16 +47,9 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', $attributeType);
         //Steps
-        if ($attributeType== 'product_attribute_fpt') {
-            $this->markTestIncomplete('MAGETWO-7180');
-        }
         $this->productHelper()->selectTypeProduct('simple');
         $this->productAttributeHelper()->createAttributeOnProductTab($attrData);
         //Verifying
-        $code = ($attributeType != 'product_attribute_fpt')
-            ? $attrData['attribute_code']
-            : $attrData['attribute_code'] . '_table';
-        $this->addParameter('elementId', $code);
         $this->assertTrue($this->controlIsPresent('pageelement', 'element_by_id'));
     }
 

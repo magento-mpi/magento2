@@ -71,45 +71,39 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectCategory($categoryPath, $fieldsetName = 'select_category')
     {
-        $nodes = explode('/', $categoryPath);
-        $rootCat = array_shift($nodes);
-
-        $correctRoot = $this->defineCorrectCategory($rootCat, null, $fieldsetName);
-        if (empty($correctRoot)) {
-            $this->fail("'$rootCat' root category could not be selected.");
-        }
-
-        foreach ($nodes as $value) {
-            $correctSubCat = array();
-            foreach ($correctRoot as $v) {
-                $correctSubCat = array_merge($correctSubCat, $this->defineCorrectCategory($value, $v, $fieldsetName));
+        $this->waitForControlVisible('fieldset', $fieldsetName);
+        foreach (explode('/', $categoryPath) as $categoryNode) {
+            if (isset($trueCategory)) {
+                $trueSubCat = array();
+                foreach ($trueCategory as $data) {
+                    $trueSubCat = array_merge($trueSubCat, $this->defineCorrectCategory($categoryNode, $data));
+                }
+                $trueCategory = $trueSubCat;
+            } else {
+                $trueCategory = $this->defineCorrectCategory($categoryNode);
             }
-            $correctRoot = $correctSubCat;
-            if (empty($correctRoot)) {
-                list($path) = explode($value, $categoryPath);
-                $this->fail("'$value' category with path = '$path' could not be selected.");
+            if (empty($trueCategory)) {
+                list($path) = explode($categoryNode, $categoryPath);
+                $this->fail("'$categoryNode' category with path = '$path' could not found.");
             }
         }
-
-        if ($nodes) {
-            $pageName = end($nodes);
-        } else {
-            $pageName = $rootCat;
-        }
+        list($categoryId) = $trueCategory;
         $isCategoriesPage = $this->isCategoriesPage();
-        list($categoryId) = $correctRoot;
         if (strpos($categoryId, "'") !== false) {
             $categoryId = "concat('" . str_replace('\'', "',\"'\",'", $categoryId) . "')";
         }
-        $element = $this->getElement("//*[@id='$categoryId']/span");
+        $this->addParameter('elementId', $categoryId);
+        $element = $this->getChildElement($this->getControlElement('pageelement', 'element_by_id'), 'span');
         $this->focusOnElement($element);
         $element->click();
         if ($isCategoriesPage) {
             $this->pleaseWait();
             $openedPageName = $this->getControlAttribute('pageelement', 'category_name_header', 'text');
             $openedPageName = preg_replace('/ \(ID\: [0-9]+\)/', '', $openedPageName);
-            if ($pageName != $openedPageName) {
-                $this->fail("Opened category with name '$openedPageName' but must be '$pageName'");
+            $nodes = explode('/', $categoryPath);
+            $expectedName = end($nodes);
+            if ($expectedName != $openedPageName) {
+                $this->fail("Opened category with name '$openedPageName' but must be '$expectedName'");
             }
         }
     }
@@ -163,7 +157,8 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
                                $this->_getControlXpath('pageelement', 'created_category_name_header'),
                                $this->_getMessageXpath('general_validation'));
         $this->clickButton('save_category', false);
-        $this->waitForElement($waitCondition);
+        $this->waitForElementVisible($waitCondition);
+        $this->pleaseWait();
         $this->checkCategoriesPage();
     }
 

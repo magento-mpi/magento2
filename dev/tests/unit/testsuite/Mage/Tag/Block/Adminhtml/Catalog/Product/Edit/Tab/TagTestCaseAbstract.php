@@ -100,7 +100,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract exte
      */
     public function isAllowedCallback($data)
     {
-        return $data == 'Mage_Tag::tag';
+        return $data == 'Mage_Tag::tag_all';
     }
 
     protected function _testIsHidden()

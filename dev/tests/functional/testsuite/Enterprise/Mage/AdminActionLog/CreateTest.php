@@ -192,13 +192,11 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
     public function editUserActionLog ($userData)
     {
         $this->navigate('api_users');
-        $userSearch = array('filter_api_users_name' => $userData['api_user_api_key']);
-        $this->searchAndOpen($userSearch, false);
+        $userSearch = array('filter_api_users_api_key' => $userData['api_user_api_key']);
+        $this->addParameter('apiKey', $userData['api_user_api_key']);
+        $this->searchAndOpen($userSearch, 'api_users_grid');
         $this->waitForPageToLoad();
         $this->refresh();
-        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
-        $this->addParameter('apiKey', $userData['api_user_api_key']);
-        $this->validatePage();
         $userId = $this->defineParameterFromUrl('user_id');
         //Open Admin Action Log Page
         $this->navigate('admin_action_log_report');
@@ -223,13 +221,11 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
     public function deleteUserActionLog ($userData)
     {
         $this->navigate('api_users');
-        $userSearch = array('filter_api_users_name' => $userData['api_user_api_key']);
-        $this->searchAndOpen($userSearch, false);
-        $this->waitForPageToLoad();
-
-        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $userSearch = array('filter_api_users_api_key' => $userData['api_user_api_key']);
         $this->addParameter('apiKey', $userData['api_user_api_key']);
-        $this->validatePage('edit_api_user');
+        $this->searchAndOpen($userSearch, 'api_users_grid');
+        $this->waitForPageToLoad();
+        $this->addParameter('id', $this->defineParameterFromUrl('user_id'));
         $userId = $this->defineParameterFromUrl('user_id');
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
         //Open Admin Action Log Page

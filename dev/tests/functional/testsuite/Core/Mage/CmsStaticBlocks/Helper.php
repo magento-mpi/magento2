@@ -55,6 +55,7 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->fillForm($blockData);
         $this->_content($content);
+        $this->pleaseWait();
         $this->saveForm('save_block');
     }
 

@@ -87,6 +87,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-8569');
         //Data
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
         $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);

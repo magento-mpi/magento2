@@ -82,6 +82,7 @@ class Core_Mage_CheckoutOnePage_Guest_ShippingMethodsTest extends Mage_Selenium_
      */
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $simpleSku)
     {
+        $this->markTestIncomplete('MAGETWO-8569');
         //Data
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
         $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);

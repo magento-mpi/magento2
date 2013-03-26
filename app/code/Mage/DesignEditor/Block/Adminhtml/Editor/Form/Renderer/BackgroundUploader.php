@@ -22,16 +22,26 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader
     protected $_template = 'Mage_DesignEditor::editor/form/renderer/background-uploader.phtml';
 
     /**
+     * Return theme identification number
+     *
+     * @return int|null
+     */
+    protected function getThemeId()
+    {
+        /** @var $helper Mage_DesignEditor_Helper_Data */
+        $helper = $this->_helperFactory->get('Mage_DesignEditor_Helper_Data');
+        return $helper->getEditableThemeId();
+    }
+
+    /**
      * Get URL of image upload action
      *
      * @return string
      */
     public function getImageUploadUrl()
     {
-        //@TODO get rid of Registry usages
-
         return $this->getUrl('*/system_design_editor_tools/uploadQuickStyleImage',
-            array('theme_id' => Mage::registry('theme')->getId())
+            array('theme_id' => $this->getThemeId())
         );
     }
 
@@ -42,10 +52,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader
      */
     public function getImageRemoveUrl()
     {
-        //@TODO get rid of Registry usages
-
         return $this->getUrl('*/system_design_editor_tools/removeQuickStyleImage',
-            array('theme_id' => Mage::registry('theme')->getId())
+            array('theme_id' => $this->getThemeId())
         );
     }
 }
