@@ -26,13 +26,13 @@
 .tooltip .help {
     display: inline-block;
     position: relative;
-    margin-left: 15px;
+    margin-left: 8px;
 }
 
 .tooltip .help a {
     display: block;
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     text-decoration: none;
     text-indent: -999em;
     cursor: help;
@@ -40,18 +40,21 @@
 
 .tooltip .help a:before {
     position: absolute;
+    height: 15px;
+    width: 15px;
+    z-index: 1;
     top: 0;
     left: 0;
     text-indent: 0;
-    font: 11px/11px bold Arial, Verdana, sans-serif;
-    text-align: center;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e049';
+    font-size: 15px;
     color: #aaa;
-    height: 12px;
-    width: 12px;
-    background: #fff;
-    border: 1px #aaa solid;
-    border-radius: 7px;
-    content: "?";
+    overflow: hidden;
 }
 
 .tooltip-content {

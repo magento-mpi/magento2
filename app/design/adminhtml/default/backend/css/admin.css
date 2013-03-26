@@ -2848,18 +2848,36 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Sidebar title and store view switcher*/
 /* TODO: temporary styles */
-.side-col h3,
-.side-col > .store-switcher {
+.side-col h3 {
     padding: 0 17px;
     margin-top: 16px;
 }
 
-.side-col > .store-switcher {
-    padding-top: 6px;
+.field-store-switcher {
+    padding: 0 0 20px;
+    margin: 0;
+}
+.field-store-switcher,
+.field-store-switcher > .label + .control {
+    display: inline-block;
 }
 
-.side-col > .store-switcher > a {
-    white-space: nowrap;
+.field-store-switcher > .label {
+    margin: 0;
+}
+
+.side-col > .field-store-switcher {
+    padding: 19px 18px 0;
+}
+
+.side-col > .field-store-switcher > .label {
+    margin: 0 0 6px;
+    display:block;
+}
+
+.toolbar .field-store-switcher {
+    padding: 0;
+    margin-right: 20px;
 }
 
 /*
@@ -3219,7 +3237,7 @@ table tbody tr:nth-child(odd):hover th {
     Content actions panel (with buttons, switchers...)
 -------------------------------------- */
 .page-actions {
-    padding: 14px 0 18px;
+    padding: 0 0 20px;
     text-align: right;
 }
 
@@ -3232,6 +3250,10 @@ table tbody tr:nth-child(odd):hover th {
     display: inline-block;
     vertical-align: top;
     margin: 6px 10px 0 0;
+}
+
+.main-col .page-actions {
+    padding: 20px 0;
 }
 
 /* TODO: refactor trees */
@@ -4303,21 +4325,30 @@ tr.dynamic-grid input.input-text {
     margin: 0 0 5px;
 }
 
-.tree-store-scope .field-w_1_label .label,
-.tree-store-scope .field-sg_1_label .label {
+.tree-store-scope [class^="field field-website_"] .label,
+.tree-store-scope [class^="field field-group_"] .label,
+.tree-store-scope [class^="field field-w_"] .label,
+.tree-store-scope [class^="field field-sg_"] .label {
     text-align: left;
     font-family: 'CallunaSans', Arial, sans-serif;
     font-size: 18px;
+    padding-right: 0;
+    width: auto;
 }
 
-.tree-store-scope .field-sg_1_label .label {
-    margin-left: 20px;
+.tree-store-scope [class^="field field-group_"] .label,
+.tree-store-scope [class^="field field-sg_"] .label {
+    padding-left: 20px;
 }
 
 .tree-store-scope .field input[type="checkbox"] {
     margin-right: 3px;
     position: relative;
     top: 2px;
+}
+
+.tree-store-scope .tooltip .help {
+    margin-top: 11px;
 }
 
 /*
