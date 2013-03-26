@@ -56,6 +56,11 @@
         </item>
         <item>
             <!-- Must be refactored to be modular -->
+            <word>Enterprise_Rma</word>
+            <path>app/code/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.2-1.11.0.3.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
             <path>app/code/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
         </item>
         <item>
