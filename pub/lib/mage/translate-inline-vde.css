@@ -82,6 +82,7 @@
     padding: 0px;
     margin: 0;
     border: 0;
+    padding-bottom: 2px;
 
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -105,10 +106,10 @@
     padding-bottom: 5px;
     padding-left: 6px;
     padding-right: 6px;
+    border-radius: 5px;
 }
 
 .translate-dialog .ui-dialog-buttonpane button.translate-dialog-cancel .ui-button-text {
-    background-color: rgba(223, 243, 250, 1.0);
     text-decoration: underline;
 }
 
@@ -117,12 +118,33 @@
     background-color: #618499;
 }
 
+.translate-dialog .ui-dialog-buttonpane button.translate-dialog-cancel {
+    padding-top: 2px;
+    background-color: rgba(223, 243, 250, 1.0);
+    text-decoration: underline;
+}
+
+.translate-dialog .ui-dialog-buttonpane button.translate-dialog-cancel:hover {
+    cursor: pointer;
+    background-color: #618499;
+}
+
 .translate-dialog .ui-dialog-buttonpane button.translate-dialog-save .ui-button-text {
-    background-color: #fe7834;
     color: white;
 }
 
 .translate-dialog .ui-dialog-buttonpane button.translate-dialog-save .ui-button-text:hover {
+    cursor: pointer;
+    background-color: #d75f07;
+}
+
+.translate-dialog .ui-dialog-buttonpane button.translate-dialog-save {
+    padding-top: 2px;
+    cursor: pointer;
+    background-color: #fe7834;
+}
+
+.translate-dialog .ui-dialog-buttonpane button.translate-dialog-save:hover {
     cursor: pointer;
     background-color: #d75f07;
 }
