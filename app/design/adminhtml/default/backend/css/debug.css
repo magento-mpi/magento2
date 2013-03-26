@@ -611,14 +611,6 @@ th.required:after {
 }
 
 /*
-    Catalog Manage Products
--------------------------------------- */
-.adminhtml-catalog-product-index .page-actions {
-    float: right;
-    padding: 0;
-}
-
-/*
     URL Rewrite
 -------------------------------------- */
 .field-url-rewrite-option-select {

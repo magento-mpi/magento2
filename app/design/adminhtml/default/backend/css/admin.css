@@ -3458,6 +3458,14 @@ table tbody tr:nth-child(odd):hover th {
     margin: 6px 10px 0 0;
 }
 
+.page-actions .store-switcher {
+    float: left;
+}
+
+.adminhtml-catalog-product-index .page-actions {
+    padding-top: 0;
+}
+
 /* TODO: refactor trees */
 .x-tree ul {
     margin: 0;
