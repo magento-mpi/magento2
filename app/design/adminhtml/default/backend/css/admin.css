@@ -3086,7 +3086,6 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .config-nav .item-nav {
-    position: relative;
     display: block;
     padding: 8px 18px;
     text-decoration: none;
@@ -3101,6 +3100,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .config-nav .item-nav.active {
+    position: relative;
     border-left: 3px solid #d87e34;
     padding-left: 15px;
     background: #dedcd8;
