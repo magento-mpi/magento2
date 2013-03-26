@@ -135,10 +135,11 @@
                 /* change translateMode */
                 this.options.translateMode = mode;
 
-            $('[data-container="body"]').addClass('trnslate-inline-' + mode + '-area');
+            this.element.closest('[data-container="body"]').addClass('trnslate-inline-' + mode + '-area');
+            var that = this;
             $.each(this.options.translateModes, function(){
                 if (this != mode) {
-                    $('[data-container="body"]').removeClass('trnslate-inline-' + this + '-area');
+                    that.element.closest('[data-container="body"]').removeClass('trnslate-inline-' + this + '-area');
                 }
             });
         },
