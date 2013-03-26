@@ -94,6 +94,7 @@ class Mage_AdminNotification_Block_Window extends Mage_AdminNotification_Block_T
      */
     public function canShow()
     {
+        return true;
         if (!is_null($this->_available)) {
             return $this->_available;
         }
@@ -114,6 +115,16 @@ class Mage_AdminNotification_Block_Window extends Mage_AdminNotification_Block_T
         return $this->_available;
     }
 
+    /**
+     * Check whether block should be shown
+     *
+     * @return bool
+     */
+    public function isShow()
+    {
+        return parent::isShow() && $this->getCriticalCount();
+    }
+
 
     /**
      * Return swf object url
@@ -132,7 +143,7 @@ class Mage_AdminNotification_Block_Window extends Mage_AdminNotification_Block_T
      */
     public function getLastNotice()
     {
-        return $this->_getHelper()->getLatestNotice();
+        return $this->_getHelper()->getLatestCriticalNotice();
     }
 
     /**

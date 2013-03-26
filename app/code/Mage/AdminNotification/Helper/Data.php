@@ -42,6 +42,13 @@ class Mage_AdminNotification_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_latestNotice;
 
     /**
+     * Last Critical Notice object
+     *
+     * @var Mage_AdminNotification_Model_Inbox
+     */
+    protected $_latestCritical;
+
+    /**
      * count of unread notes by type
      *
      * @var array
@@ -59,6 +66,19 @@ class Mage_AdminNotification_Helper_Data extends Mage_Core_Helper_Abstract
             $this->_latestNotice = Mage::getModel('Mage_AdminNotification_Model_Inbox')->loadLatestNotice();
         }
         return $this->_latestNotice;
+    }
+
+    /**
+     * Retrieve latest critical notice
+     *
+     * @return Mage_AdminNotification_Model_Inbox
+     */
+    public function getLatestCriticalNotice()
+    {
+        if (is_null($this->_latestCritical)) {
+            $this->_latestCritical = Mage::getModel('Mage_AdminNotification_Model_Inbox')->loadLatestCriticalNotice();
+        }
+        return $this->_latestCritical;
     }
 
     /**

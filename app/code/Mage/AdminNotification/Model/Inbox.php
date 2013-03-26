@@ -81,6 +81,18 @@ class Mage_AdminNotification_Model_Inbox extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve Latest Notice
+     *
+     * @return Mage_AdminNotification_Model_Inbox
+     */
+    public function loadLatestCriticalNotice()
+    {
+        $this->setData(array());
+        $this->getResource()->loadLatestNotice($this, self::SEVERITY_CRITICAL);
+        return $this;
+    }
+
+    /**
      * Retrieve notice statuses
      *
      * @return array
