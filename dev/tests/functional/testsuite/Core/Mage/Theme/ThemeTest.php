@@ -207,23 +207,19 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      */
     public function downloadThemeCss($fileName, $linkName, $themeData)
     {
+        //Data
+        $fileUrl = $this->getConfigHelper()->getPathToTestFiles($fileName);
+        $expectedContent = file_get_contents($fileUrl);
         //Steps:
         $this->navigate('theme_list');
         $this->themeHelper()->openTheme($themeData);
         $this->openTab('css_editor');
-        $this->clickControl('link', $linkName, false);
-        //Verify:
-        $appConfig = $this->getApplicationConfig();
-        if (!array_key_exists('downloadDir', $appConfig)) {
-            $this->fail('downloadDir is not set in application config');
+
+        $selectedFileUrl = $this->getControlAttribute('link', $linkName, 'href');
+        $downloadedFileContent = $this->getFile($selectedFileUrl);
+        if ($downloadedFileContent !== $expectedContent) {
+            $this->fail('File was not downloaded.');
         }
-        $downloadDir  = $appConfig['downloadDir'];
-        $filePath = $downloadDir . DIRECTORY_SEPARATOR . $fileName;
-        while (!file_exists($filePath)) {
-            sleep(1);
-        }
-        $this->assertTrue(file_exists($filePath), 'File was not downloaded');
-        $this->assertTrue(unlink($filePath), 'File was not deleted');
     }
 
     public function allThemeCss()
