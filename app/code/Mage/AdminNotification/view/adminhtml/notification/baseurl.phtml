@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 /**
- * @see Mage_AdminNotification_Block_Adminhtml_Baseurl
+ * @see Mage_AdminNotification_Block_Baseurl
  */
 ?>
 <?php $_url = $this->getConfigUrl()?>
@@ -16,7 +16,7 @@
 <div class="message message-system">
     <div class="message-inner">
         <div class="message-content">
-            <?php echo $this->helper('Mage_Adminhtml_Helper_Data')->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento <a href="%s">configuration</a>.', $_url)?>
+            <?php echo $this->helper('Mage_AdminNotification_Helper_Data')->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento <a href="%s">configuration</a>.', $_url)?>
         </div>
     </div>
 </div>

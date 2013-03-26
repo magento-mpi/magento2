@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_AdminNotification_Block_Adminhtml_Window extends Mage_AdminNotification_Block_Adminhtml_Toolbar
+class Mage_AdminNotification_Block_Window extends Mage_AdminNotification_Block_Toolbar
 {
     /**
      * XML path of Severity icons url

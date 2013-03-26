@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_AdminNotification_Block_Adminhtml_Security extends Mage_Backend_Block_Template
+class Mage_AdminNotification_Block_Security extends Mage_Backend_Block_Template
 {
     /**
      * @var Mage_Core_Model_Config

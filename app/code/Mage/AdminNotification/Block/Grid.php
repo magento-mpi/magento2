@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_AdminNotification_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid_Extended
+class Mage_AdminNotification_Block_Grid extends Mage_Backend_Block_Widget_Grid_Extended
 {
     /**
      * @var Mage_AdminNotification_Model_InboxFactory
@@ -63,7 +63,7 @@ class Mage_AdminNotification_Block_Adminhtml_Grid extends Mage_Backend_Block_Wid
             'header'    =>  $helper->__('Severity'),
             'width'     => '60px',
             'index'     => 'severity',
-            'renderer'  => 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Severity',
+            'renderer'  => 'Mage_AdminNotification_Block_Grid_Renderer_Severity',
         ));
 
         $this->addColumn('date_added', array(
@@ -76,14 +76,14 @@ class Mage_AdminNotification_Block_Adminhtml_Grid extends Mage_Backend_Block_Wid
         $this->addColumn('title', array(
             'header'    => $helper->__('Message'),
             'index'     => 'title',
-            'renderer'  => 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Notice',
+            'renderer'  => 'Mage_AdminNotification_Block_Grid_Renderer_Notice',
         ));
 
         $this->addColumn('actions', array(
             'header'    => $helper->__('Actions'),
             'width'     => '250px',
             'sortable'  => false,
-            'renderer'  => 'Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Actions',
+            'renderer'  => 'Mage_AdminNotification_Block_Grid_Renderer_Actions',
         ));
 
         return parent::_prepareColumns();

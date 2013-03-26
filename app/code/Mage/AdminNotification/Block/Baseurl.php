@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_AdminNotification_Block_Adminhtml_Baseurl extends Mage_Backend_Block_Template
+class Mage_AdminNotification_Block_Baseurl extends Mage_Backend_Block_Template
 {
     /**
      * @var Mage_Core_Model_Config

@@ -17,15 +17,15 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
 
         $this->loadLayout()
             ->_setActiveMenu('Mage_AdminNotification::system_adminnotification')
-            ->_addBreadcrumb(Mage::helper('Mage_AdminNotification_Helper_Data')->__('Messages Inbox'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Messages Inbox'))
-            ->_addContent($this->getLayout()->createBlock('Mage_AdminNotification_Block_Adminhtml_Inbox'))
+            ->_addBreadcrumb(Mage::helper('Mage_AdminNotification_Helper_Data')->__('Messages Inbox'), Mage::helper('Mage_AdminNotification_Helper_Data')->__('Messages Inbox'))
+            ->_addContent($this->getLayout()->createBlock('Mage_AdminNotification_Block_Inbox'))
             ->renderLayout();
     }
 
     public function markAsReadAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+            $session = Mage::getSingleton('Mage_Backend_Model_Session');
             $model = Mage::getModel('Mage_AdminNotification_Model_Inbox')
                 ->load($id);
 
@@ -53,7 +53,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
 
     public function massMarkAsReadAction()
     {
-        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Session');
         $ids = $this->getRequest()->getParam('notification');
         if (!is_array($ids)) {
             $session->addError(Mage::helper('Mage_AdminNotification_Helper_Data')->__('Please select messages.'));
@@ -82,7 +82,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
     public function removeAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+            $session = Mage::getSingleton('Mage_Backend_Model_Session');
             $model = Mage::getModel('Mage_AdminNotification_Model_Inbox')
                 ->load($id);
 
@@ -109,7 +109,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
 
     public function massRemoveAction()
     {
-        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+        $session = Mage::getSingleton('Mage_Backend_Model_Session');
         $ids = $this->getRequest()->getParam('notification');
         if (!is_array($ids)) {
             $session->addError(Mage::helper('Mage_AdminNotification_Helper_Data')->__('Please select messages.'));

@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_AdminNotification_Block_Adminhtml_Survey extends Mage_Backend_Block_Template
+class Mage_AdminNotification_Block_Survey extends Mage_Backend_Block_Template
 {
     /**
      * @var Mage_Backend_Model_Auth_Session

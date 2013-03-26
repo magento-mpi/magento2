@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_AdminNotification_Block_Adminhtml_Toolbar extends Mage_Backend_Block_Template
+class Mage_AdminNotification_Block_Toolbar extends Mage_Backend_Block_Template
 {
     /**
      * Retrieve helper

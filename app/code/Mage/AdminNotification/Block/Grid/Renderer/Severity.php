@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_AdminNotification_Block_Adminhtml_Grid_Renderer_Severity
+class Mage_AdminNotification_Block_Grid_Renderer_Severity
     extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**

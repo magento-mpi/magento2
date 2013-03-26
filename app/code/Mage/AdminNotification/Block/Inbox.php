@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_AdminNotification_Block_Adminhtml_Inbox extends Mage_Backend_Block_Widget_Grid_Container
+class Mage_AdminNotification_Block_Inbox extends Mage_Backend_Block_Widget_Grid_Container
 {
     protected function _construct()
     {
@@ -22,7 +22,11 @@ class Mage_AdminNotification_Block_Adminhtml_Inbox extends Mage_Backend_Block_Wi
     protected function _prepareLayout()
     {
         $this->_removeButton('add');
-
-        return parent::_prepareLayout();
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock('Mage_AdminNotification_Block_Grid', 'notification.grid')
+                ->setSaveParametersInSession(true)
+        );
+        return $this;
     }
 }
