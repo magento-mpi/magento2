@@ -462,7 +462,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function selectAttributeWithSpecialData($attributeTitle, $attributeData)
     {
         //Data
-        if ($attributeData == 'attribute_xss') {
+        if ($attributeTitle == 'attribute_xss') {
             $this->markTestIncomplete('MAGETWO-8679');
         }
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
