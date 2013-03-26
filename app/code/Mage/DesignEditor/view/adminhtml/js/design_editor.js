@@ -83,7 +83,12 @@
         _onSwitchMode: function(event, data) {
             data.next_action = this.options.continueSwitchModeEvent;
             data.alert_message = "To switch to the Navigation mode, please save or revert your current text edits."
-            $('[data-frame="editor"]').trigger('toolbarButtonClick', data);
+            $('[data-frame="editor"]').trigger('modeChange', data);
+
+            if (data.is_being_edited) {
+                // Stop the toggle of the switcher.
+                $('[data-switcher="vde"]').prop('checked', false);
+            }
         },
 
         /**

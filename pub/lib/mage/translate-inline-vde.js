@@ -81,8 +81,8 @@
 
             // Unbind previously bound events that may be present from previous loads of vde container.
             parent.jQuery('[data-frame="editor"]')
-                .off('toolbarButtonClick')
-                .on('toolbarButtonClick', $.proxy(this._checkTranslateEditing, this));
+                .off('modeChange')
+                .on('modeChange', $.proxy(this._checkTranslateEditing, this));
         },
 
         /**
@@ -146,8 +146,7 @@
         _checkTranslateEditing: function(event, data) {
             if (this.isBeingEdited) {
                 alert($.mage.__(data.alert_message));
-                // Stop the toggle of the switcher.
-                parent.jQuery('[data-switcher="vde"]').prop('checked', false);
+                data.is_being_edited = true;
             }
             else {
                 // Inline translation text is not being edited.  Continue on.
