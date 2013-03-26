@@ -2012,7 +2012,6 @@
     ToolTip
 -------------------------------------- */
 .tip {
-    position: relative;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -2021,11 +2020,9 @@
     filter: alpha(opacity=80);
     border: 1px solid #31302b;
     letter-spacing: .25px;
-    margin: 0;
+    margin: -80px 0 0 -164px;
     padding: 12px;
     position: absolute;
-    margin-top: -80px;
-    margin-left: -164px;
     max-width: 260px;
     color: #fff;
 }
@@ -2037,13 +2034,11 @@
 }
 
 .tip p {
-    letter-spacing: .25px;
     padding: 0;
     margin: 0;
 }
 
 .tip:after {
-    position: absolute;
     display: block;
     content: "";
     border-color: #31302b transparent transparent transparent;
