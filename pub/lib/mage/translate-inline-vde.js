@@ -11,32 +11,35 @@
     /**
      * Widget for a dialog to edit translations.
      */
-    $.widget("mage.translateInlineDialogVde", {
+    $.widget("mage.translateInlineDialogVde", $.mage.translateInline, {
         options: {
             translateForm: {
-                selector: '[data-template="translate-inline-dialog-form-template"]',
+                template: '#translate-inline-dialog-form-template',
                 data: {
-                    selector: '[data-form="translate-inline-dialog-form"]'
+                    id: 'translate-inline-dialog-form'
                 }
             },
-            dialog: {
-                selector: "#translate-dialog",
-                autoOpen : false,
-                dialogClass: "translate-dialog",
-                draggable: false,
-                modal: false,
-                resizable: false,
-                height: "auto",
-                minHeight: 0,
-                buttons: [{
-                    text: $.mage.__('Cancel'),
-                    "class" : "translate-dialog-cancel"
-                },
-                {
-                    text: $.mage.__('Save'),
-                    "class" : "translate-dialog-save"
-                }]
+            dialogClass: "translate-dialog",
+            draggable: false,
+            modal: false,
+            resizable: false,
+            height: "auto",
+            minHeight: 0,
+            buttons: [{
+                text: $.mage.__('Cancel'),
+                "class" : "translate-dialog-cancel",
+                click: function() {
+                   $(this).translateInlineDialogVde('close');
+                }
             },
+            {
+                text: $.mage.__('Save'),
+                "class" : "translate-dialog-save",
+                click: function(e) {
+                    $(this).translateInlineDialogVde('submit');
+                }
+            }],
+
             positionDialog: function(element, dialog) { },
             templateName: "translateInlineDialogVdeTemplate",
             dataAttrName: "translate",
@@ -67,60 +70,29 @@
          * Creates the translation dialog widget. Fulfills jQuery WidgetFactory _create hook.
          */
         _create: function() {
-	          $.template(this.options.templateName, $(this.options.translateForm.selector));
-            this.translateDialog = $(this.options.dialog.selector)
-                .dialog($.extend(true, {
-                    buttons : [
-                        {
-                            click: $.proxy(this.close, this)
-                        },
-                        {
-                            click: $.proxy(this._formSubmit, this)
-                        }
-                    ]
-                }, this.options.dialog));
-
+            this._super();
             // Unbind previously bound events that may be present from previous loads of vde container.
             parent.jQuery('[data-frame="editor"]')
                 .off('modeChange')
                 .on('modeChange', $.proxy(this._checkTranslateEditing, this));
         },
 
-        /**
-         * Opens the dialog.
-         *
-         * @param {Element} element the element to open the dialog near,
-         *     must also contain data-translate attribute
-         * @param function callback invoked with the new translation data after
-         *     form submssion. parameters are index and the translated string
-         * @param function callback invoked to position the dialog
-         */
-        open: function(translateData, callback, positionDialog) {
+        open: function(e, widget, callback) {
             this.callback = callback;
-
-            this._fillDialogContent(translateData);
-            this.positionDialog = positionDialog;
-            positionDialog(this.translateDialog);
-
-            $(window).on('resize.translateInlineVdeDialog', $.proxy(this.reposition, this));
-
-            this.translateDialog.dialog("open");
+            this.element.html(this._prepareContent($(widget.element).data('translate')));
+            this.triggerElement = widget.element;
+            $(window).on('resize.translateInlineDialogVde', $.proxy(this._positionNearTarget, this));
+            this._positionNearTarget();
+            this._superApply(arguments);
         },
 
-        /**
-         * Repositions the dialog to be in the location as designed.
-         */
-        reposition: function() {
-            this.positionDialog(this.translateDialog);
+        _positionNearTarget: function() {
+            this.option('position', { of : this.triggerElement, my: "left top", at: "left-3 top-9" });
+            this.option('width', $(this.triggerElement).width());
         },
 
-        /**
-         * Closes the dialog. This is if the dialog is closed manually. If the form
-         * submit is executed, then the dialog will close via the _formSubmitComplete
-         * function.
-         */
         close: function() {
-            this.translateDialog.dialog("close");
+            this._super();
             this._onCancel();
             this.isBeingEdited = false;
             $(window).off('resize.translateInlineVdeDialog');
@@ -130,6 +102,7 @@
          * Shows translate mode applicable css styles.
          */
         toggleStyle: function(mode) {
+        // TODO: need to remove eventually
             this._toggleOutline(mode);
 
             this.options.textTranslations.translateInlineVde('toggleIcon', mode);
@@ -141,110 +114,78 @@
          * Determine if user has modified inline translation text, but has not saved it.
          */
         _checkTranslateEditing: function(event, data) {
-            if (this.isBeingEdited) {
+             if (this.isBeingEdited) {
                 alert($.mage.__(data.alert_message));
                 data.is_being_edited = true;
             }
             else {
                 // Inline translation text is not being edited.  Continue on.
                 parent.jQuery('[data-frame="editor"]').trigger(data.next_action, data);
-            }
+             }
         },
 
-        /**
-         * Fills the main dialog content. Replaces the dialog content with a
-         * form with translation data.
-         *
-         * @param {Element} element the element to get the translation data from
-         */
-        _fillDialogContent: function(translateData) {
-            this.translateDialog
-                .html($.tmpl(this.options.templateName, {
-                    data: $.extend({items: translateData},
-                        this.options.translateForm.data),
-                    escape: $.mage.escapeHTML
-                }));
-
-            var self = this;
-            this.translateDialog.find("textarea[data-translate-input-index]").each(function(count, input) {
-                /* discard changes if pressing esc */
-                $(input).keydown(function(e) {
-                    if (e.keyCode == $.ui.keyCode.ESCAPE) {
-                        e.preventDefault();
-                        $.proxy(self.close, self)();
-                    } else if (e.keyCode == $.ui.keyCode.ENTER) {
-                        e.preventDefault();
-                        $.proxy(self._formSubmit, self)();
-                    } else {
-                        /* keep track of the fact that translate text has been changed */
-                        self.isBeingEdited = true;
+        _prepareContent: function() {
+            var content = this._superApply(arguments);
+            this._on(content.find('textarea[data-translate-input-index]'), {
+                keydown: function(e) {
+                    var keyCode = $.ui.keyCode;
+                    switch (e.keyCode) {
+                        case keyCode.ESCAPE:
+                            e.preventDefault();
+                            this.close();
+                            break;
+                        case keyCode.ENTER:
+                            e.preventDefault();
+                            this._formSubmit();
+                            break;
+                        default:
+                            /* keep track of the fact that translate text has been changed */
+                            this.isBeingEdited = true;
                     }
-                });
+                }
             });
-
-            this.translateDialog.find(this.options.translateForm.data.selector).each(function(count, form) {
-                $(form).on('submit', function(e) {
+            this._on(content.find('#' + this.options.translateForm.data.id), {
+                submit: function(e) {
                     e.preventDefault();
-                    $.proxy(self._formSubmit, self)();
+                    this._formSubmit();
                     return true;
-                });
+                }
             });
+            return content;
         },
 
         /**
          * Submits the form.
          */
         _formSubmit: function() {
-            if (this.isSubmitting) {
-                return;
-            }
-            this.isSubmitting = true;
+            this._superApply(arguments);
             this.isBeingEdited = false;
-
-            $('[data-container="spinner"]').removeClass('hidden');
-
-            var parameters = $.param({area: this.options.area}) +
-                "&" + $(this.options.translateForm.data.selector).serialize();
-            $.ajax({
-                url: this.options.ajaxUrl,
-                type: "POST",
-                data: parameters,
-                context: this.translateDialog,
-                showLoader: true
-            }).complete($.proxy(this._formSubmitComplete, this));
         },
 
         /**
          * Callback for when the AJAX call in _formSubmit is completed.
          */
         _formSubmitComplete: function() {
+         // TODO: need to replace with merged version
             $('[data-container="spinner"]').addClass('hidden');
 
             var self = this;
-            this.translateDialog.find("textarea").each(function(count, elem) {
-                var id = elem.id;
-                if (id.indexOf("custom_") === 0) {
-                    var index = id.substring(7),
-                        value = $(elem).val();
-
-                    if (value === null) {
-                        value = '';
-                    }
-
-                    self.callback(index, value);
-                }
+            this.element.find('[data-translate-input-index]').each($.proxy(function(count, elem) {
+                var index = $(elem).data('translate-input-index'),
+                    value = $(elem).val() || '';
+                self.callback(index, value);
                 self = null;
-            });
+            }, this));
 
-            this.translateDialog.dialog("close");
             $(window).off('resize.translateInlineVdeDialog');
-
             this._onSubmitComplete();
 
+            this._superApply(arguments);
             this.isSubmitting = false;
         },
 
         _toggleOutline: function(mode) {
+        // TODO: need to remove eventually
             if (mode == null)
                 mode = this.options.translateMode;
             else
@@ -261,6 +202,7 @@
         },
 
         _onCancel: function() {
+        // TODO: need to remove eventually
             this._toggleOutline();
             this.options.textTranslations.translateInlineVde('show');
             this.options.imageTranslations.translateInlineImageVde('show');
@@ -268,6 +210,7 @@
         },
 
         _onSubmitComplete: function() {
+        // TODO: need to remove eventually
             this._toggleOutline();
             this.options.textTranslations.translateInlineVde('show');
             this.options.imageTranslations.translateInlineImageVde('show');
@@ -481,9 +424,9 @@
         /**
          * Invokes the action (e.g. activate the inline dialog)
          */
-        _invokeAction: function() {
+        _invokeAction: function(e) {
             this._detachIcon();
-            this.options.onClick(this);
+            this.options.onClick(e, this);
         },
 
         /**
