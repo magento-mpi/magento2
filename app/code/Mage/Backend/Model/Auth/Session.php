@@ -37,9 +37,7 @@ class Mage_Backend_Model_Auth_Session
     protected $_aclBuilder;
 
     /**
-     * Class constructor
-     *
-     * @param array $data
+     * @param Mage_Core_Model_Acl_Builder $aclBuilder
      */
     public function __construct(Mage_Core_Model_Acl_Builder $aclBuilder)
     {
