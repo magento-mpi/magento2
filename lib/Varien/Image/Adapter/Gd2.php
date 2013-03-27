@@ -497,7 +497,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
     /**
      * Reassign image dimensions
      */
-    private function refreshImageDimensions()
+    public function refreshImageDimensions()
     {
         $this->_imageSrcWidth = imagesx($this->_imageHandler);
         $this->_imageSrcHeight = imagesy($this->_imageHandler);
@@ -590,13 +590,13 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
     protected function _createImageFromTtfText($text, $font)
     {
         $boundingBox = imagettfbbox($this->_fontSize, 0, $font, $text);
-        $width = $boundingBox[4] - $boundingBox[0];
-        $height = abs($boundingBox[5] - $boundingBox[1]);
+        $width = abs($boundingBox[4]) + abs($boundingBox[0]);
+        $height = abs($boundingBox[5]) + abs($boundingBox[1]);
 
         $this->_createEmptyImage($width, $height);
 
         $black = imagecolorallocate($this->_imageHandler, 0, 0, 0);
-        $result = imagettftext($this->_imageHandler, $this->_fontSize, 0, 0, $height - $boundingBox[1],
+        $result = imagettftext($this->_imageHandler, $this->_fontSize, 0, 0, $height - abs($boundingBox[1]),
             $black, $font, $text);
         if ($result === false) {
             throw new Exception('Unable to create TTF text');

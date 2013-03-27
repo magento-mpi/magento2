@@ -353,7 +353,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Reassign image dimensions
      */
-    private function refreshImageDimensions()
+    public function refreshImageDimensions()
     {
         $this->_imageSrcWidth  = $this->_imageHandler->getImageWidth();
         $this->_imageSrcHeight = $this->_imageHandler->getImageHeight();
@@ -385,7 +385,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     }
 
     /**
-     * Returns rgb array of the specified pixel
+     * Returns rgba array of the specified pixel
      *
      * @param int $x
      * @param int $y
@@ -395,7 +395,14 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     {
         $pixel = $this->_imageHandler->getImagePixelColor($x, $y);
 
-        return explode(',', $pixel->getColorAsString());
+        $color = $pixel->getColor();
+        $rgbaColor = array(
+            'red' => $color['r'],
+            'green' => $color['g'],
+            'blue' => $color['b'],
+            'alpha' => (1 - $color['a']) * 127,
+        );
+        return $rgbaColor;
     }
 
     /**
@@ -422,29 +429,30 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     public function createPngFromString($text, $font = '')
     {
         $image = $this->_getImagickObject();
-        if (!empty($font)) {
-            $image->setFont($font);
-        }
-
         $draw = $this->_getImagickDrawObject();
         $color = $this->_getImagickPixelObject('#000000');
-        $background = $this->_getImagickPixelObject('none'); // Transparent
+        $background = $this->_getImagickPixelObject('#ffffff00'); // Transparent
 
-        // Font properties
+        if (!empty($font)) {
+            if (method_exists($image, 'setFont')) {
+                $image->setFont($font);
+            } elseif (method_exists($draw, 'setFont')) {
+                $draw->setFont($font);
+            }
+        }
+
         $draw->setFontSize($this->_fontSize);
         $draw->setFillColor($color);
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
 
-        // Get font metrics
         $metrics = $image->queryFontMetrics($draw, $text);
 
-        // Create text
         $draw->annotation(0, $metrics['ascender'], $text);
 
-        // Create image
-        $height = $metrics['textHeight'] + abs($metrics['descender']);
+        $height = abs($metrics['ascender']) + abs($metrics['descender']);
         $image->newImage($metrics['textWidth'], $height, $background);
+        $this->_fileType = IMAGETYPE_PNG;
         $image->setImageFormat('png');
         $image->drawImage($draw);
         $this->_imageHandler = $image;

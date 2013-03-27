@@ -96,6 +96,20 @@ abstract class Varien_Image_Adapter_Abstract
     abstract public function createPngFromString($text, $font = '');
 
     /**
+     * Reassign image dimensions
+     */
+    abstract public function refreshImageDimensions();
+
+    /**
+     * Returns rgba array of the specified pixel
+     *
+     * @param int $x
+     * @param int $y
+     * @return array
+     */
+    abstract public function getColorAt($x, $y);
+
+    /**
      * Initialize default values
      *
      * @param array $data
