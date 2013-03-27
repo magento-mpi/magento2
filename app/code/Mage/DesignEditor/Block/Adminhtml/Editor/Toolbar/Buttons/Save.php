@@ -78,7 +78,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Whether button is disabled
      *
-     * @return bool
+     * @return mixed
      */
     public function getDisabled()
     {

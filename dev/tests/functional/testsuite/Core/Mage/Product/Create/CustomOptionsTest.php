@@ -68,16 +68,15 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $productData['custom_options_data'][] =
             $this->loadDataSet('Product', 'custom_options_empty', array($emptyCustomField => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        if ($emptyCustomField == 'custom_options_general_title') {
-//            $this->addFieldIdToMessage('field', $emptyCustomField);
-//            $this->assertMessagePresent('validation', 'empty_required_field');
-//        } else {
-//            $this->assertMessagePresent('validation', 'select_type_of_option');
-//        }
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        if ($emptyCustomField == 'custom_options_general_title') {
+            $this->addFieldIdToMessage('field', $emptyCustomField);
+            $this->assertMessagePresent('validation', 'empty_required_field');
+        } else {
+            $this->assertMessagePresent('validation', 'select_type_of_option');
+        }
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyFieldInCustomOptionDataProvider()
@@ -105,12 +104,11 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
         $productData['custom_options_data'][] =
             $this->loadDataSet('Product', $optionDataName, array('custom_options_title' => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('field', 'custom_options_title');
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('field', 'custom_options_title');
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyOptionRowTitleInCustomOptionDataProvider()

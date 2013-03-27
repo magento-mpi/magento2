@@ -332,7 +332,7 @@ class Core_Mage_ImportExport_Product_ImportTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         if (!$this->controlIsPresent('message', 'no_records_found')) {
             $this->clickControl('link', 'selectall', false);
-            $this->fillDropdown('product_massaction', 'Delete');
+            $this->fillDropdown('mass_action_select_action', 'Delete');
             $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
         }
     }
