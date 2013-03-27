@@ -10,7 +10,7 @@
 
 /**
  * List of system config options, that are disabled for an end-user. These options are not present at the system
- * configuration page, and there is no ability to changed them.
+ * configuration page, and there is no ability to change them.
  */
 return array(
     'web/url/use_store',

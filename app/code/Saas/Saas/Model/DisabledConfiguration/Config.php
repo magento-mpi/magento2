@@ -62,12 +62,9 @@ class Saas_Saas_Model_DisabledConfiguration_Config
     protected function _getStructure(array $plainList)
     {
         $list = array();
-        foreach($plainList as $path) {
+        foreach ($plainList as $path) {
             $this->_validatePath($path);
             $chunks = explode('/', $path);
-            if (count($chunks) > 3) {
-                throw new LengthException("Xpath '$path' is defined incorrectly");
-            }
             switch (count($chunks)) {
                 case 1:
                     $this->_sections[$path] = $path;
@@ -121,16 +118,19 @@ class Saas_Saas_Model_DisabledConfiguration_Config
             );
         }
 
-        foreach ($section->getChildren() as $child) {
-            if (!$this->isGroupDisabled($child->getPath(), $configStructure)){
-                return false;
+        if ($section->hasChildren()) {
+            foreach ($section->getChildren() as $child) {
+                if (!$this->isGroupDisabled($child->getPath(), $configStructure)) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
-     * Get whether passed group is Disabled
+     * Get whether passed group is disabled
      *
      * @param $groupXpath
      * @param Mage_Backend_Model_Config_Structure $configStructure
@@ -145,7 +145,7 @@ class Saas_Saas_Model_DisabledConfiguration_Config
         if (count($chunks) !== 2) {
             throw new LengthException("'$groupXpath' is incorrect group path");
         }
-        if (isset($this->_groups[$groupXpath]) || isset($this->_sections[$chunks[0]])){
+        if (isset($this->_groups[$groupXpath]) || isset($this->_sections[$chunks[0]])) {
             return true;
         }
 
@@ -156,12 +156,15 @@ class Saas_Saas_Model_DisabledConfiguration_Config
             );
         }
 
-        foreach ($group->getChildren() as $child) {
-            if (!$this->isFieldDisabled($child->getPath())){
-                return false;
+        if ($group->hasChildren()) {
+            foreach ($group->getChildren() as $child) {
+                if (!$this->isFieldDisabled($child->getPath())) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -203,10 +206,17 @@ class Saas_Saas_Model_DisabledConfiguration_Config
     /**
      * Get configuration options mentioned in file
      *
+     * @param Magento_Filesystem $filesystem
      * @return mixed
+     * @throws LogicException
      */
-    public static function getDisabledConfiguration()
+    public static function getDisabledConfiguration($filesystem)
     {
-        return include __DIR__ . '/disabledConfiguration.php';
+        $filePath = __DIR__ . '/disabledConfiguration.php';
+
+        if (!$filesystem->has($filePath)) {
+            throw new LogicException('File with disabled configuration options was not found');
+        }
+        return include $filePath;
     }
 }
