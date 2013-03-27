@@ -146,6 +146,14 @@
                 data.is_being_edited = true;
             }
             else {
+                // Disable inline translation.
+                var url = parent.jQuery('[data-frame="editor"]').attr('src');
+                var dataDisable = {
+                    frameUrl: url.substring(0, url.indexOf('translation_mode')),
+                    mode: this.options.translateMode
+                };
+                parent.jQuery('[vde-translate]').trigger('disableInlineTranslation', dataDisable);
+
                 // Inline translation text is not being edited.  Continue on.
                 parent.jQuery('[data-frame="editor"]').trigger(data.next_action, data);
             }
