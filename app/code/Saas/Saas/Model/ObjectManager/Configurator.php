@@ -20,5 +20,11 @@ class Saas_Saas_Model_ObjectManager_Configurator extends Mage_Core_Model_ObjectM
                 'parameters' => array('config' => $this->_getParam('maintenance_mode', array()))
             ),
         ));
+        $objectManager->configure(array(
+            'Saas_Saas_Model_DisabledConfiguration_Config' => array(
+                'parameters'
+                    => array('plainList' => Saas_Saas_Model_DisabledConfiguration_Config::getDisabledConfiguration())
+            ),
+        ));
     }
 }
