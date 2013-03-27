@@ -41,7 +41,7 @@ manage_admin_users:
         messages: &adminUserMessages
             cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete your own account.')]
             confirmation_for_delete: Are you sure you want to do this?
-            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             exist_email: //li[normalize-space(@class)='error-msg' and contains(.,'Email already exists.')]
             exist_name_or_email: //span[(@data-ui-id)='messages-message-error' and contains(.,'A user with the same user name or email already exists.')]
             invalid_email: //label[(@for)='user_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]

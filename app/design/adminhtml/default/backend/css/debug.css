@@ -44,11 +44,8 @@ ul.messages > li {
 }
 
 ul.messages li li {
-    padding: 10px 26px 10px 32px;
-    border: 0;
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
-    border-radius: 0;
+    padding: 10px 26px 10px 35px;
+    border-radius: 5px;
     color: #676056;
     text-shadow: none;
     position: relative;
@@ -63,7 +60,7 @@ ul.messages li li:first-child {
 
 ul.messages li li:before {
     position: absolute;
-    left: 8px;
+    left: 11px;
     top: 50%;
     margin-top: -11px;
     background: none;
@@ -93,18 +90,14 @@ ul.messages li.error-msg li:before {
 }
 
 ul.messages li.success-msg li {
-    border-color: #185b00;
-    background: #e6ecc0;
+    border-color: #ceceb6;
+    background: #e4eecb;
     color: #185b00;
 }
 
 ul.messages li.success-msg li:before {
     content: '\e067';
     color: #185b00;
-}
-
-label.mage-error {
-    color: red;
 }
 
 /*
@@ -331,9 +324,10 @@ label.mage-error {
 }
 
 /* TODO: styles for required TH fields */
-th.required:before {
+th.required:after {
     color: red;
     content: "*";
+    margin-left: 5px;
 }
 
 /* TODO: set color for messages in Cache Storage Management */
@@ -611,14 +605,6 @@ th.required:before {
 .rule-param-wait {
     background: url(../mui/images/ajax-loader-small.gif) no-repeat left center;
     padding-left: 20px;
-}
-
-/*
-    Catalog Manage Products
--------------------------------------- */
-.adminhtml-catalog-product-index .page-actions {
-    float: right;
-    padding: 0;
 }
 
 /*

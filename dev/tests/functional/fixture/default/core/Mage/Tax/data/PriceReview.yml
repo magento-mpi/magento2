@@ -11,51 +11,51 @@
 #<-----------------------------Preconditions----------------------------------->
 simple_product_for_prices_validation_1:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation(%randomize%)
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation_%randomize%
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Prices Validation(%randomize%)
+    general_sku: simple_sku_price_validation_%randomize%
     general_price: 111.11
     general_tax_class: Taxable Goods
-    websites: Main Website
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
     general_categories: Default Category
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
+    autosettings_visibility: Catalog, Search
+    websites: Main Website
 
 simple_product_for_prices_validation_2:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation(%randomize%)
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation_%randomize%
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Prices Validation(%randomize%)
+    general_sku: simple_sku_price_validation_%randomize%
     general_price: 100
     general_tax_class: Taxable Goods
-    websites: Main Website
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
     general_categories: Default Category
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
+    autosettings_visibility: Catalog, Search
+    websites: Main Website
 
 simple_product_for_prices_validation_3:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation(%randomize%)
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation_%randomize%
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Prices Validation(%randomize%)
+    general_sku: simple_sku_price_validation_%randomize%
     general_price: 15.51
     general_tax_class: Taxable Goods
-    websites: Main Website
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
     general_categories: Default Category
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
+    autosettings_visibility: Catalog, Search
+    websites: Main Website
 
 customer_account_for_prices_validation:
     associate_to_website: Main Website
@@ -5966,57 +5966,57 @@ total_cat_in_ship_in_backend_total_after_refund_on_refund:
 ################################################################################
 simple_product_for_prices_validation_front_1:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation %randomize%
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation_%randomize%
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Prices Validation %randomize%
+    general_sku: simple_sku_price_validation_%randomize%
     general_price: 111.11
     general_tax_class: Taxable Goods
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
+    general_categories: Default Category
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
+    autosettings_visibility: Catalog, Search
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     websites: Main Website
-    general_categories: Default Category
 
 simple_product_for_prices_validation_front_2:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation %randomize%
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation_%randomize%
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Prices Validation %randomize%
+    general_sku: simple_sku_price_validation_%randomize%
     general_price: 100
     general_tax_class: Taxable Goods
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
+    general_categories: Default Category
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
+    autosettings_visibility: Catalog, Search
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 3
     websites: Main Website
-    general_categories: Default Category
 
 simple_product_for_prices_validation_front_3:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation %randomize%
-    general_description: Description for Simple Product
-    autosettings_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation_%randomize%
-    general_weight: 18.56
     product_online_status: Enabled
-    autosettings_visibility: Catalog, Search
-    general_qty: 120
-    general_stock_availability: In Stock
+    general_name: Simple Product For Prices Validation %randomize%
+    general_sku: simple_sku_price_validation_%randomize%
     general_price: 15.51
     general_tax_class: Taxable Goods
+    general_qty: 120
+    general_stock_availability: In Stock
+    general_weight: 18.56
+    general_categories: Default Category
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
+    autosettings_visibility: Catalog, Search
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 5
     websites: Main Website
-    general_categories: Default Category
 
 estimate_shipping:
     country: United States
@@ -7709,8 +7709,8 @@ total_cat_in_ship_in_front_prices_on_order_details:
 simple_product_for_price_rules_validation_front:
     product_attribute_set: Default
     general_name: Simple Product For Price Rule Validation(%randomize%)
-    general_description: Description for Simple Product For Price Rule Validation
-    autosettings_short_description: Short Description for Simple Product For Price Rule Validation
+    general_description: %noValue%
+    autosettings_short_description: %noValue%
     general_sku: simple_sku_price_rule_validation_%randomize%
     general_weight: 18.56
     product_online_status: Enabled

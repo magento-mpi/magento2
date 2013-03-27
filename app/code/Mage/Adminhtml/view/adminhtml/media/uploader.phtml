@@ -62,6 +62,7 @@
                     $('#' + data.fileId)
                         .delay(2000)
                         .hide('highlight');
+                    alert($.mage.__('File extension not known or unsupported type.'));
                 }
                 $('#' + data.fileId).remove();
             },

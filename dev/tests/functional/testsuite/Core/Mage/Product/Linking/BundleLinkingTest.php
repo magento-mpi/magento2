@@ -56,6 +56,9 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
     public function relatedInStock($linkingType, $testData)
     {
         //Data
+        if ($linkingType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-7277');
+        }
         $assignType = 'related';
         $assignProductType = 'bundle';
         list($linking, $forLinking) = $testData;
@@ -95,7 +98,9 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsInStock($linkingType, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-7169');
+        if ($linkingType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-7277');
+        }
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';
@@ -141,6 +146,9 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function upSellsInStock($linkingType, $testData)
     {
+        if ($linkingType == 'grouped') {
+            $this->markTestIncomplete('MAGETWO-7277');
+        }
         //Data
         $assignType = 'up_sells';
         $assignProductType = 'bundle';
@@ -230,7 +238,6 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsOutStock($linkingType, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-7169');
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';

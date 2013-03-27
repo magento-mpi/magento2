@@ -102,37 +102,4 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
             array('visibility', 'simple', 'autosettings_visibility')
         );
     }
-
-    /**
-     * Change selected default value for tax_class_id to '-- Please Select --'
-     * and verify impossibility to save product in this case
-     *
-     * @test
-     * @TestlinkId TL-MAGE-6082
-     */
-    public function resetDefaultValue()
-    {
-        //Data
-        $attribute = $this->loadDataSet('SystemAttributes', 'tax_class_id',
-            array('default_value' => '-- Please Select --'));
-        $productData = $this->loadDataSet('Product', 'simple_product_required',
-            array('general_tax_class' => '%noValue%'));
-        //Preconditions
-        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attribute['attribute_code']));
-        $this->productAttributeHelper()->processAttributeValue($attribute, false, true);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $isSelected = $this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue');
-        $this->assertTrue($isSelected,
-            'Option with value "' . $attribute['default_value'] . '" is not set as default for attribute');
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
-        //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('dropdown', 'general_tax_class');
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
-    }
 }

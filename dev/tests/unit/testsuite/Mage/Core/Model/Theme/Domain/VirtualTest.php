@@ -54,13 +54,14 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
             ->method('getId')
             ->will($this->returnValue($themeId));
 
+        $themeServiceMock = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
 
         $copVtS = $this->getMock('Mage_Core_Model_Theme_Copy_VirtualToStaging', array(), array(), '', false);
 
         $virtualTheme = $this->getMock(
             'Mage_Core_Model_Theme_Domain_Virtual',
             array('_createStagingTheme'),
-            array('theme' => $themeMock, 'copyModelVS' => $copVtS)
+            array('theme' => $themeMock, 'copyModelVS' => $copVtS, 'service' => $themeServiceMock)
         );
         $virtualTheme->expects($this->never())->method('_createStagingTheme');
 
@@ -90,10 +91,12 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
             ->with($themeMock)
             ->will($this->returnValue($newStageMock));
 
+        $themeServiceMock = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
+
         $virtualTheme = $this->getMock(
             'Mage_Core_Model_Theme_Domain_Virtual',
             array('_getStagingTheme'),
-            array('theme' => $themeMock, 'copyModelVS' => $copVtS)
+            array('theme' => $themeMock, 'copyModelVS' => $copVtS, 'service' => $themeServiceMock)
         );
         $virtualTheme->expects($this->once())
             ->method('_getStagingTheme')
@@ -101,5 +104,29 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
 
         $this->assertEquals($newStageMock, $virtualTheme->getStagingTheme());
         $this->assertEquals($newStageMock, $virtualTheme->getStagingTheme());
+    }
+
+    /**
+     * Test for is assigned method
+     *
+     * @covers Mage_Core_Model_Theme_Domain_Virtual::isAssigned
+     */
+    public function testIsAssigned()
+    {
+        $themeServiceMock = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection', 'getId'), array(), '', false);
+        $themeServiceMock->expects($this->atLeastOnce())->method('isThemeAssignedToStore')
+            ->with($themeMock)
+            ->will($this->returnValue($themeMock));
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $constructArguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme_Domain_Virtual',
+            array(
+                 'theme' => $themeMock,
+                 'service' => $themeServiceMock,
+            )
+        );
+        /** @var $model Mage_Core_Model_Theme_Domain_Virtual */
+        $model = $objectManagerHelper->getObject('Mage_Core_Model_Theme_Domain_Virtual', $constructArguments);
+        $this->assertEquals($themeMock, $model->isAssigned());
     }
 }
