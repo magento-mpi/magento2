@@ -927,8 +927,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (empty($tabsWithErrors)) {
             $validationMessages = $this->getElements($messageLocator, false);
             foreach ($validationMessages as $message) {
+                if (!$message->displayed()) {
+                    continue;
+                }
                 $fieldIdentifier = $message->attribute('for');
-                $fieldNameElement = $this->elementIsPresent("//label[@for='$fieldIdentifier']");
+                $fieldNameElement = $this->elementIsPresent("//label[@class='label'][@for='$fieldIdentifier']");
                 $fieldName = ($fieldNameElement) ? trim($fieldNameElement->text(), " *\t\n\r") : $fieldIdentifier;
                 $messages[] = '"' . $fieldName . '": ' . $message->text();
             }
