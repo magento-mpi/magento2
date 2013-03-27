@@ -49,7 +49,7 @@
                 multiselect: true,
                 resizable: false,
                 open: function() {
-                    var enteredName = $('#category_ids + .category-selector-container .category-selector-input').val();
+                    var enteredName = $('#category_ids-suggest').val();
                     $('#new_category_name').val(enteredName);
                     if (enteredName === '') {
                         $('#new_category_name').focus();
@@ -60,7 +60,7 @@
                     $('#new_category_name, #new_category_parent').val('');
                     clearParentCategory();
                     newCategoryForm.reset();
-                    $('#category_ids + .category-selector-container .category-selector-input').focus();
+                    $('#category_ids-suggest').focus();
                 },
                 buttons: [{
                     text: 'Create Category',
@@ -96,7 +96,7 @@
                                             label: data.category.name
                                         });
                                         $('#new_category_name, #new_category_parent').val('');
-                                        $('#category_ids + .category-selector-container .category-selector-input').val('');
+                                        $('#category_ids-suggest').val('');
                                         widget.element.dialog('close');
                                     } else {
                                         $('#new_category_messages').html(data.messages);
