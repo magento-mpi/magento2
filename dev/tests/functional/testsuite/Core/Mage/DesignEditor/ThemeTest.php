@@ -133,7 +133,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function previewCustomizedTheme()
     {
-        $this->markTestIncomplete('Preview button is absent'); //Waiting for fix from Voinkov
         //Data
         $themeData = $this->themeHelper()->createTheme();
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
@@ -149,9 +148,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->validatePage('preview_theme_in_navigation');
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'),
             'Theme is not opened in design mode');
-        $this->clickControl('link', 'quit');
-        $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
     }
 
@@ -173,13 +172,30 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Duplicate theme
+     * @test
+     */
+    public function duplicateTheme()
+    {
+        $this->markTestIncomplete('Functionality is not implemented');
+        //Steps
+        $themeData = $this->themeHelper()->createTheme();
+        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
+        $this->addParameter('id', $themeData['id']);
+        $this->navigate('design_editor_selector');
+        //Verify
+        $this->assertTrue($this->controlIsPresent('button', 'duplicate_theme'),
+            'Duplicate button is not exists');
+//        $this->clickButton('duplicate_theme');
+    }
+
+    /**
      * Check Mode switcher button
      *
      * @test
      */
     public function checkModeSwitcher()
     {
-        $this->markTestIncomplete('Preview button is absent'); //Waiting for fix from Voinkov
         //Data
         $themeData = $this->loadDataSet('Theme', 'all_fields');
         $this->themeHelper()->createTheme($themeData);
@@ -200,9 +216,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('pageelement', 'mode_switcher'));
         $this->designEditorHelper()->selectModeSwitcher('Disabled');
         $this->validatePage('preview_theme_in_navigation');
-        $this->clickControl('link', 'quit');
-        $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
         $this->assertTrue($this->controlIsPresent('pageelement', 'customized_themes_tab_content'));
         $this->assertTrue($this->controlIsVisible('pageelement', 'customized_themes_tab_content'));
@@ -233,12 +249,12 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->validatePage('preview_theme_in_design');
         $this->designEditorHelper()->selectModeSwitcher('Disabled');
         $this->validatePage('preview_theme_in_navigation');
-        $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign');
+        $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign_to_default_in_nm');
         //Verify
         $this->assertTrue($this->checkCurrentPage('assigned_theme_default_in_design'));
-        $this->clickControl('link', 'quit');
-        $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
     }
 
@@ -265,9 +281,12 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->addParameter('id', $themeData['id']);
         $this->validatePage('preview_theme_in_design');
         $this->clickButton('select');
-        $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign');
+        $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign_to_default_in_dm');
         //Verify
-        $this->clickControl('link', 'quit');
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
+        $this->validatePage('design_editor_selector');
         $this->addParameter('id', $themeData['id']);
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
         $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeData['id'], 'Default Store View');
@@ -293,11 +312,14 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
         $this->addParameter('id', $themeData['id']);
-        $this->clickButtonAndConfirm('assign_theme_button', 'confirmation_for_assign');
+        $this->clickButtonAndConfirm('assign_theme_button', 'confirmation_for_assign_to_default');
         $this->_windowId = $this->selectLastWindow();
         $this->validatePage('assigned_theme_default_in_design');
         //Verify
-        $this->clickControl('link', 'quit');
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
+        $this->validatePage('design_editor_selector');
         $this->addParameter('id', $themeData['id']);
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
         $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeData['id'], 'Default Store View');
@@ -326,7 +348,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'quick_styles_doc');
         //Verify
         $this->openTab('header');
-//        $this->assertTrue($this->controlIsPresent('pageelement', 'store_name'));
         $this->assertTrue($this->controlIsPresent('pageelement', 'background_image'));
         $this->assertTrue($this->controlIsPresent('pageelement', 'background_color'));
         $this->assertTrue($this->controlIsPresent('pageelement', 'menu_background'));
@@ -398,9 +419,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('pageelement', 'small_links'));
         $this->assertTrue($this->controlIsPresent('pageelement', 'small_links_hover'));
 
-        $this->clickControl('link', 'quit');
-        $this->_windowId = $this->selectLastWindow();
-        $this->addParameter('id', $themeData['id']);
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
     }
 
