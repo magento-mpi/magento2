@@ -21,20 +21,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created extends
     protected $_template = 'catalog/product/attribute/new/created.phtml';
 
     /**
-     * Add additional blocks to layout
-     *
-     * @return void
-     */
-    protected function _prepareLayout()
-    {
-        $this->setChild(
-            'attributes',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes')
-                ->setGroupAttributes($this->_getGroupAttributes())
-        );
-    }
-
-    /**
      * Retrieve list of product attributes
      *
      * @return array
@@ -70,12 +56,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created extends
      */
     public function getAttributesBlockJson()
     {
-        $result = array(
-            $this->getRequest()->getParam('product_tab') => $this->getChildHtml('attributes')
-        );
+        $result = array();
+        if ($this->getRequest()->getParam('product_tab') == '_variation') {
+            /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+            $attribute =
+                Mage::getModel('Mage_Eav_Model_Entity_Attribute')->load($this->getRequest()->getParam('attribute'));
+            $result = array(
+                'tab' => $this->getRequest()->getParam('product_tab'),
+                'attribute' => array(
+                    'id' => $attribute->getId(),
+                    'label' => $attribute->getFrontendLabel(),
+                    'code' => $attribute->getAttributeCode(),
+                    'options' => $attribute->getSourceModel() ? $attribute->getSource()->getAllOptions(false) : array()
+                )
+            );
+        }
         $newAttributeSetId = $this->getRequest()->getParam('new_attribute_set_id');
         if ($newAttributeSetId) {
-            $result['newAttributeSetId'] = $newAttributeSetId;
+            $result['set'] = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+                ->load($newAttributeSetId)
+                ->toArray();
         }
 
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);

@@ -14,10 +14,15 @@ var Product = {};
         _create: function () {
             this._on({'click':'_showPopup'});
         },
+        _prepareUrl: function() {
+            return this.options.url +
+                (/\?/.test(this.options.url) ? '&' : '?') +
+                'set=' + $('#attribute_set_id').val();
+        },
         _showPopup: function (event) {
             var wrapper = $('<div id="create_new_attribute"/>').appendTo('body').dialog({
                 title: 'New Attribute',
-                minWidth: 980,
+                minWidth: 1000,
                 minHeight: 700,
                 modal: true,
                 resizeStop: function(event, ui) {
@@ -27,19 +32,34 @@ var Product = {};
             });
             wrapper.mage('loader', {showOnInit: true});
             var iframe = $('<iframe id="create_new_attribute_container">').attr({
-                src:this.options.url + '?set=' + $('#attribute_set_id').val(),
+                src: this._prepareUrl(event),
                 frameborder: 0,
                 style: "position:absolute;top:58px;left:0px;right:0px;bottom:0px"
             });
             iframe.on('load', function () {
                 wrapper.mage('loader', 'hide');
-                this.style.height = wrapper.outerHeight() + 'px';
-                this.style.width = wrapper.outerWidth() + 'px'
+                $(this).css({
+                    height:  wrapper.outerHeight() + 'px',
+                    width: wrapper.outerWidth() + 'px'
+                });
             });
             wrapper.append(iframe);
             wrapper.on('dialogclose', function () {
                 this.remove();
             });
+        }
+    });
+
+    $.widget("mage.configurableAttribute", $.mage.productAttributes, {
+        _prepareUrl: function() {
+            var name = $('#configurable-attribute-selector').val();
+            return this.options.url +
+                (/\?/.test(this.options.url) ? '&' : '?') +
+                'set=' + window.encodeURIComponent($('#attribute_set_id').val()) +
+                '&attribute[attribute_code]=' +
+                window.encodeURIComponent(name) +
+                '&attribute[frontend_label]=' +
+                window.encodeURIComponent(name.replace(/[a-z0-9]+/g, '_').toLowerCase());
         }
     });
 })(jQuery);
