@@ -2,7 +2,7 @@
 /**
  * Magento object manager. Responsible for instantiating objects taking itno account:
  * - constructor arguments (using configured, and provided parameters)
- * - class shareability
+ * - class instances life style (singleton, transient)
  * - interface preferences
  *
  * Intentionally contains multiple concerns for optimum performance
@@ -72,7 +72,6 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
         $this->configure($configuration);
     }
 
-
     /**
      * Resolve constructor arguments
      *
@@ -138,6 +137,9 @@ class Magento_ObjectManager_ObjectManager implements Magento_ObjectManager
     }
 
     /**
+     * Resolve Class name
+     *
+     * @param string $className
      * @return string
      * @throws LogicException
      */

@@ -48,11 +48,7 @@ function generateCouponCodes(idPrefix, generateUrl, grid) {
     $(idPrefix + 'information_fieldset').removeClassName('ignore-validate');
     var validationResult = $(idPrefix + 'information_fieldset').select('input',
             'select', 'textarea').collect( function(elm) {
-        return Validation.validate(elm, {
-            useTitle :false,
-            onElementValidate : function() {
-            }
-        });
+        return jQuery.validator.validateElement(elm);
     }).all();
     $(idPrefix + 'information_fieldset').addClassName('ignore-validate');
 

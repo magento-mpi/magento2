@@ -50,6 +50,16 @@ class Mage_DesignEditor_Model_State
     /**#@-*/
 
     /**
+     * Session key of editable theme
+     */
+    const CURRENT_THEME_SESSION_KEY = 'vde_theme_id';
+
+    /**
+     * Session key of virtual theme
+     */
+    const VIRTUAL_THEME_SESSION_KEY = 'vde_virtual_theme_id';
+
+    /**
      * @var Mage_Backend_Model_Session
      */
     protected $_backendSession;
@@ -67,7 +77,7 @@ class Mage_DesignEditor_Model_State
     /**
      * Application Cache Manager
      *
-     * @var Mage_Core_Model_CacheInterface
+     * @var Mage_Core_Model_Cache
      */
     protected $_cacheManager;
 
@@ -84,7 +94,7 @@ class Mage_DesignEditor_Model_State
     /**
      * @var Mage_Core_Model_Design_Package
      */
-    protected $_designPackage;
+    protected $_design;
 
     /**
      * @var Mage_Core_Model_App
@@ -95,20 +105,20 @@ class Mage_DesignEditor_Model_State
      * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
-     * @param Mage_Core_Model_CacheInterface $cacheManager
+     * @param Mage_Core_Model_Cache $cacheManager
      * @param Mage_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_App $application
      */
     public function __construct(
         Mage_Backend_Model_Session $backendSession,
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
-        Mage_Core_Model_CacheInterface $cacheManager,
+        Mage_Core_Model_Cache $cacheManager,
         Mage_DesignEditor_Helper_Data $dataHelper,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_App $application
     ) {
         $this->_backendSession  = $backendSession;
@@ -117,7 +127,7 @@ class Mage_DesignEditor_Model_State
         $this->_cacheManager    = $cacheManager;
         $this->_dataHelper      = $dataHelper;
         $this->_objectManager   = $objectManager;
-        $this->_designPackage   = $designPackage;
+        $this->_design          = $design;
         $this->_application     = $application;
     }
 
@@ -162,7 +172,9 @@ class Mage_DesignEditor_Model_State
     {
         $this->_backendSession->unsetData(self::CURRENT_HANDLE_SESSION_KEY)
             ->unsetData(self::CURRENT_URL_SESSION_KEY)
-            ->unsetData(self::CURRENT_MODE_SESSION_KEY);
+            ->unsetData(self::CURRENT_MODE_SESSION_KEY)
+            ->unsetData(self::VIRTUAL_THEME_SESSION_KEY)
+            ->unsetData(self::CURRENT_THEME_SESSION_KEY);
 
         return $this;
     }
@@ -219,7 +231,7 @@ class Mage_DesignEditor_Model_State
      */
     protected function _setTheme()
     {
-        $themeId = $this->_backendSession->getData('theme_id');
+        $themeId = $this->_backendSession->getData(self::CURRENT_THEME_SESSION_KEY);
         if ($themeId !== null) {
             $this->_application->getStore()->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $themeId);
         }

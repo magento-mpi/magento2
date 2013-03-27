@@ -162,9 +162,11 @@ var formType = {
         $('fieldset_code').addClassName('required-entry');
 
         var isValid = true;
-        $('fieldset_properties_fieldset').select('input').each(function(el){
-            isValid = Validation.validate(el) && isValid;
-        });
+        if(validator) {
+            $('fieldset_properties_fieldset').select('input').each(function(el){
+                isValid = jQuery.validator.validateElement(el) && isValid;
+            });
+        }
 
         $('fieldset_label').removeClassName('required-entry');
         $('fieldset_code').removeClassName('required-entry');
@@ -172,9 +174,14 @@ var formType = {
         return isValid;
     },
     fieldsetReset: function(){
-        $('fieldset_properties_fieldset').select('input').each(function(el){
-            Validation.reset(el);
-        });
+        var inputs = $('#fieldset_properties_fieldset').find('input'),
+            form = inputs.length ? jQuery(inputs[0].form) : null;
+
+        if(form.length && form.data('validation')) {
+            $('fieldset_properties_fieldset').select('input').each(function(el){
+                form.validation('clearError', el);
+            });
+        }
     },
     newFieldset: function(){
         $('fieldset_prop_container').show();

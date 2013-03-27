@@ -12,37 +12,40 @@
 class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstract
 {
     /**
-     * @param Mage_Core_Model_Theme $theme
+     * @param string $themeFullPath
      * @param string $file
      * @dataProvider viewFilesFromThemesDataProvider
      */
-    public function testViewFilesFromThemes($theme, $file)
+    public function testViewFilesFromThemes($themeFullPath, $file)
     {
-        $params = array(
-            'area'       => $theme->getArea(),
-            'themeModel' => $theme
-        );
-        $viewFile = Mage::getDesign()->getViewFile($file, $params);
-        $this->assertFileExists($viewFile);
+        $themes = $this->_getDesignThemes();
+        $theme = $themes[$themeFullPath];
+        try {
+            $params = array('area' => $theme->getArea(), 'themeModel' => $theme);
+            $viewFile = Mage::getDesign()->getViewFile($file, $params);
+            $this->assertFileExists($viewFile);
 
-        $fileParts = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $file);
-        if (count($fileParts) > 1) {
-            $params['module'] = $fileParts[0];
-        }
-        if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
-            $errors = array();
-            $content = file_get_contents($viewFile);
-            preg_match_all(Mage_Core_Model_Design_Package::REGEX_CSS_RELATIVE_URLS, $content, $matches);
-            foreach ($matches[1] as $relativePath) {
-                $path = $this->_addCssDirectory($relativePath, $file);
-                $pathFile = Mage::getDesign()->getViewFile($path, $params);
-                if (!is_file($pathFile)) {
-                    $errors[] = $relativePath;
+            $fileParts = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $file);
+            if (count($fileParts) > 1) {
+                $params['module'] = $fileParts[0];
+            }
+            if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
+                $errors = array();
+                $content = file_get_contents($viewFile);
+                preg_match_all(Mage_Core_Model_Design_Package::REGEX_CSS_RELATIVE_URLS, $content, $matches);
+                foreach ($matches[1] as $relativePath) {
+                    $path = $this->_addCssDirectory($relativePath, $file);
+                    $pathFile = Mage::getDesign()->getViewFile($path, $params);
+                    if (!is_file($pathFile)) {
+                        $errors[] = $relativePath;
+                    }
+                }
+                if (!empty($errors)) {
+                    $this->fail('Can not find file(s): ' . implode(', ', $errors));
                 }
             }
-            if (!empty($errors)) {
-                $this->fail('Can not find file(s): ' . implode(', ', $errors));
-            }
+        } catch (Exception $e) {
+            $this->fail($e->getMessage());
         }
     }
 
@@ -86,19 +89,20 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
 
         // Find files, declared in views
         $files = array();
+        /** @var $theme Mage_Core_Model_Theme */
         foreach ($themes as $theme) {
             $this->_collectGetViewUrlInvokes($theme, $files);
         }
 
         // Populate data provider in correspondence of themes to view files
         $result = array();
+        /** @var $theme Mage_Core_Model_Theme */
         foreach ($themes as $theme) {
-            if (!isset($files[$theme->getArea()][$theme->getId()])) {
+            if (!isset($files[$theme->getFullPath()])) {
                 continue;
             }
-            foreach (array_unique($files[$theme->getArea()][$theme->getId()]) as $file) {
-                $result["{$theme->getArea()}//{$theme->getId()}/{$file}"] =
-                    array($theme, $file);
+            foreach (array_unique($files[$theme->getFullPath()]) as $file) {
+                $result["{$theme->getFullPath()}/{$file}"] = array($theme->getFullPath(), $file);
             }
         }
         return array_values($result);
@@ -125,7 +129,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
 
             // Scan file for references to other files
             foreach ($this->_findReferencesToViewFile($fileInfo) as $file) {
-                $files[$theme->getArea()][$theme->getId()][] = $file;
+                $files[$theme->getFullPath()][] = $file;
             }
         }
 
@@ -141,7 +145,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                 if ($this->_isFileForDisabledModule($viewFile)) {
                     continue;
                 }
-                $files[$theme->getArea()][$theme->getId()][] = $viewFile;
+                $files[$theme->getFullPath()][] = $viewFile;
             }
         }
     }

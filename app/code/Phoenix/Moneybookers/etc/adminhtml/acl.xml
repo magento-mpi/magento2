@@ -13,9 +13,11 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::config">
-                        <resource id="Phoenix_Moneybookers::moneybookers" module="Phoenix_Moneybookers" title="Moneybookers Settings" />
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_settings">
+                        <resource id="Mage_Adminhtml::config">
+                            <resource id="Phoenix_Moneybookers::moneybookers" module="Phoenix_Moneybookers" title="Moneybookers Settings" sortOrder="90" />
+                        </resource>
                     </resource>
                 </resource>
             </resource>

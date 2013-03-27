@@ -33,7 +33,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
      * @var Mage_Core_Model_Theme_Service
      */
     protected $_model;
-    
+
     protected function setUp()
     {
         /** @var $this->_themeMock Mage_Core_Model_Theme */
@@ -64,20 +64,24 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     
     /**
      * @dataProvider isCustomizationsExistDataProvider
-     * @param array $availableIsVirtual
+     * @param int $countVirtualThemes
      * @param bool $expectedResult
      */
-    public function testIsCustomizationsExist($availableIsVirtual, $expectedResult)
+    public function testIsCustomizationsExist($countVirtualThemes, $expectedResult)
     {
-        $themeCollectionMock = array();
-        foreach ($availableIsVirtual as $isVirtual) {
-            /** @var $themeItemMock Mage_Core_Model_Theme */
-            $themeItemMock = $this->getMock('Mage_Core_Model_Theme', array('isVirtual'), array(), '', false);
-            $themeItemMock->expects($this->any())
-                ->method('isVirtual')
-                ->will($this->returnValue($isVirtual));
-            $themeCollectionMock[] = $themeItemMock;
-        }
+        $themeCollectionMock = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_Collection')
+            ->disableOriginalConstructor()
+            ->setMethods(array('addTypeFilter', 'getSize'))
+            ->getMock();
+
+        $themeCollectionMock->expects($this->once())
+            ->method('addTypeFilter')
+            ->with(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+            ->will($this->returnValue($themeCollectionMock));
+
+        $themeCollectionMock->expects($this->once())
+            ->method('getSize')
+            ->will($this->returnValue($countVirtualThemes));
 
         $this->_themeMock->expects($this->once())
             ->method('getCollection')
@@ -92,8 +96,8 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     public function isCustomizationsExistDataProvider()
     {
         return array(
-            array(array(false, false, false), false),
-            array(array(false, true, false), true)
+            array(4, true),
+            array(0, false)
         );
     }
 

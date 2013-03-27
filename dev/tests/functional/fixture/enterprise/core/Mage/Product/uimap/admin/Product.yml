@@ -20,7 +20,6 @@ new_product:
                                 general_gift_card_data:
                                     dropdowns:
                                         general_card_type: //select[@id='giftcard_type']
-                                        general_enable_googlecheckout: //select[@id='enable_googlecheckout']
                                     fields:
                                         general_open_amount_min: //input[@id='open_amount_min']
                                         general_open_amount_max: //input[@id='open_amount_max']
@@ -29,8 +28,12 @@ new_product:
                             -
                                 general_amounts:
                                     xpath: //*[@id='giftcard_amounts_table']
+                                    pageelements:
+                                        general_gift_card_amount_line: //*[@id='giftcard_amounts_table']/tbody/tr
                                     fields:
-                                        general_amount: //input[@name='product[giftcard_amounts][%giftCardId%][price]']
+                                        general_gift_card_amount: //input[@name='product[giftcard_amounts][%giftCardId%][price]']
+                                    dropdowns:
+                                        general_gift_card_website: //select[@name='product[giftcard_amounts][%giftCardId%][website_id]']
                                     buttons:
                                         add_gift_card_amount: //button[span='Add Amount']
                                         delete_gift_card_amount: //button[span='Delete']

@@ -34,7 +34,7 @@ class Enterprise_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
     {
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'CMS/Widgets'));
+            array('resource_acl' => 'cms_widgets'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -67,9 +67,9 @@ class Enterprise_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
                 $this->_getControlXpath('pageelement', 'navigation_menu_items'))),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals('1', count($this->getElements(
+        $this->assertEquals('2', count($this->getElements(
                 $this->_getControlXpath('pageelement', 'navigation_children_menu_items'))),
-            'Count of Top Navigation Menu elements not equal 1, should be equal');
+            'Count of Top Navigation Menu elements not equal 2, should be equal');
         // Verify  that necessary elements are present on page
         $elements= $this->loadDataSet('CmsWidgetElements', 'manage_cms_widget_elements');
         $resultElementsArray = array();
@@ -97,6 +97,7 @@ class Enterprise_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
      */
     public function createNewWidgetOneWebsite($loginData)
     {
+        $this->markTestIncomplete('Need _widgetSettings method to be refactored');
         //Steps
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);

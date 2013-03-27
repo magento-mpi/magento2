@@ -36,10 +36,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
             $style = '';
             $prodAttributes = sprintf('list_type = "%s" item_id = %s', $listType, $row->getId());
         } else {
-            $style = 'style="color: #CCC;"';
+            $style = 'disabled';
             $prodAttributes = 'disabled="disabled"';
         }
-        return sprintf('<a href="javascript:void(0)" %s class="f-right" %s>%s</a>',
+        return sprintf('<a href="javascript:void(0)" %s class="action-configure %s">%s</a>',
             $style, $prodAttributes, Mage::helper('Mage_Sales_Helper_Data')->__('Configure')) . $rendered;
     }
 }

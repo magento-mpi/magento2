@@ -43,7 +43,7 @@ register_account:
             not_valid_length_first_name: //*[@data-ui-id="messages-message-error" and contains(.,'"First Name" length must be equal or less than 255 characters.')]
             not_valid_length_last_name: //*[@data-ui-id="messages-message-error" and contains(.,'"Last Name" length must be equal or less than 255 characters.')]
             not_valid_length_email: //*[@data-ui-id="messages-message-error" and contains(.,'"Email" exceeds the allowed length.')]
-            empty_required_field: %fieldXpath%/following-sibling::*[text()='This field is required.']
+            empty_required_field: %fieldXpath%/following-sibling::*[text()='This is a required field.']
             invalid_mail: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid email address.')]
             passwords_not_match: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter the same value again.')]
             short_passwords: //div[normalize-space(@class)='mage-error' and contains(.,'Please enter 6 or more characters. Leading or trailing spaces will be ignored.')]

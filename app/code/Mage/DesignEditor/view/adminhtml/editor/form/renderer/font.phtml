@@ -15,10 +15,9 @@ $element = $this->getElement();
 ?>
 
 <fieldset class="<?php echo join(' ', $this->getClasses()) ?>" id="<?php echo $element->getHtmlId() ?>">
-    <?php /** @var $child Varien_Data_Form_Element_Abstract */ ?>
-    <?php $element->getChildrenHtml() ?>
-    <?php foreach ($element->getSortedElements() as $child): ?>
-        <?php echo $child->toHtml(); ?>
-    <?php endforeach; ?>
+    <legend class="legend">
+        <span><?php echo $element->getLegend(); ?></span>
+    </legend>
+    <?php echo $element->getChildrenHtml(); ?>
 </fieldset>
 

@@ -54,6 +54,46 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     }
 
     /**
+     * Add type filter in relations
+     *
+     * @param int $typeParent
+     * @param int $typeChild
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function addTypeRelationFilter($typeParent, $typeChild)
+    {
+        $this->getSelect()->join(
+            array('parent' => $this->getMainTable()),
+            'main_table.parent_id = parent.theme_id',
+            array('parent_type' => 'parent.type')
+        )->where('parent.type = ?', $typeParent)->where('main_table.type = ?', $typeChild);
+        return $this;
+    }
+
+    /**
+     * Add type filter
+     *
+     * @param string|array $type
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function addTypeFilter($type)
+    {
+        $this->addFieldToFilter('main_table.type', array('in' => $type));
+        return $this;
+    }
+
+    /**
+     * Filter visible themes in backend (physical and virtual only)
+     *
+     * @return Mage_Core_Model_Resource_Theme_Collection
+     */
+    public function filterVisibleThemes()
+    {
+        $this->addTypeFilter(array(Mage_Core_Model_Theme::TYPE_PHYSICAL, Mage_Core_Model_Theme::TYPE_VIRTUAL));
+        return $this;
+    }
+
+    /**
      * Return array for select field
      *
      * @return array
@@ -71,44 +111,6 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     public function toOptionHash()
     {
         return $this->_toOptionHash('theme_id', 'theme_title');
-    }
-
-    /**
-     * Check whether all themes have non virtual parent theme
-     *
-     * @return Mage_Core_Model_Resource_Theme_Collection
-     */
-    public function checkParentInThemes()
-    {
-        /** @var $theme Mage_Core_Model_Theme */
-        foreach ($this as $theme) {
-            if ($theme->getParentId()) {
-                $newParentId = $this->_getParentThemeRecursively($theme->getParentId());
-                if ($newParentId != $theme->getParentId()) {
-                    $theme->setParentId($newParentId);
-                    $theme->save();
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Get parent non virtual theme recursively
-     *
-     * @param int $parentId
-     * @return int|null
-     */
-    protected function _getParentThemeRecursively($parentId)
-    {
-        /** @var $parentTheme Mage_Core_Model_Theme */
-        $parentTheme = $this->getItemById($parentId);
-        if (!$parentTheme->getId() || ($parentTheme->isVirtual() && !$parentTheme->getParentId())) {
-            $parentId = null;
-        } else if ($parentTheme->isVirtual()) {
-            $parentId = $this->_getParentThemeRecursively($parentTheme->getParentId());
-        }
-        return $parentId;
     }
 
     /**

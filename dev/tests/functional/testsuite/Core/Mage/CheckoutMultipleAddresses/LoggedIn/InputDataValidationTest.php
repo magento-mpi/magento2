@@ -82,7 +82,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         if ($emptyField == 'country') {
             $message = '"' . $fieldName . '": Please select an option';
         } else {
-            $message = '"' . $fieldName . '": This field is required.';
+            $message = '"' . $fieldName . '": This is a required field.';
         }
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         $this->frontend();
@@ -116,7 +116,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         if ($emptyField == 'country') {
             $message = '"' . $fieldName . '": Please select an option';
         } else {
-            $message = '"' . $fieldName . '": This field is required.';
+            $message = '"' . $fieldName . '": This is a required field.';
         }
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         $this->frontend();

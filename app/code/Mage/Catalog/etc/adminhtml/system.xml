@@ -31,7 +31,7 @@
                 </field>
                 <field id="meta_keyword" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Mask for Meta Keywords</label>
-                    <comment>Use {{name}} and {{sku}} as Product Name and Product SKU placeholders</comment>
+                    <comment>Use {{name}} as Product Name or {{sku}} as Product SKU placeholders</comment>
                 </field>
                 <field id="meta_description" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Mask for Meta Description</label>

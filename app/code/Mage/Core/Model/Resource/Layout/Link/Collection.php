@@ -48,7 +48,7 @@ class Mage_Core_Model_Resource_Layout_Link_Collection extends Mage_Core_Model_Re
      * Filter by temporary flag
      *
      * @param bool $isTemporary
-     * @return Mage_Core_Model_Resource_Layout_Update_Collection
+     * @return Mage_Core_Model_Resource_Layout_Link_Collection
      */
     public function addTemporaryFilter($isTemporary)
     {
@@ -60,7 +60,7 @@ class Mage_Core_Model_Resource_Layout_Link_Collection extends Mage_Core_Model_Re
      * Get links for layouts that are older then specified number of days
      *
      * @param $days
-     * @return Mage_Core_Model_Resource_Layout_Update_Collection
+     * @return Mage_Core_Model_Resource_Layout_Link_Collection
      */
     public function addUpdatedDaysBeforeFilter($days)
     {

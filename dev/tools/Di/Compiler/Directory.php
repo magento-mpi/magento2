@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Di\Compiler;
 use Zend\Code\Scanner\FileScanner,
-    Magento\Tools\Di\Definition\Reader,
     Magento\Tools\Di\Compiler\Log\Log;
 
 class Directory
@@ -70,8 +69,8 @@ class Directory
                         require_once $item->getRealPath();
                     }
                     try {
-                        $signatureReader = new Reader();
-                        $this->_definitions[$className] = $signatureReader->read($className);
+                        $signatureReader = new \Magento_Code_Reader_ClassReader();
+                        $this->_definitions[$className] = $signatureReader->getConstructor($className);
                     } catch (\ReflectionException $e) {
                         $this->_log->add(Log::COMPILATION_ERROR, $className, $e->getMessage());
                     }

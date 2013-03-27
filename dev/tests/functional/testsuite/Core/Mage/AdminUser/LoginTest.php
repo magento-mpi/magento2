@@ -61,7 +61,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
+        $this->assertTrue($this->checkCurrentPage('store_launcher'), $this->getParsedMessages());
         $this->logoutAdminUser();
 
         return $loginData;
@@ -278,6 +278,6 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getParsedMessages());
+        $this->assertTrue($this->checkCurrentPage('store_launcher'), $this->getParsedMessages());
     }
 }

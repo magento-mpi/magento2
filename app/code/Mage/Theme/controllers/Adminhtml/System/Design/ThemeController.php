@@ -46,12 +46,13 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
      */
     public function editAction()
     {
-        $themeId = (int) $this->getRequest()->getParam('id');
+        $themeId = (int)$this->getRequest()->getParam('id');
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         try {
-            if ($themeId && !$theme->load($themeId)->getId()) {
-                Mage::throwException($this->__('Theme was not found.'));
+            $theme->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL);
+            if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
+                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
             }
             /** @var $cssFileModel Mage_Core_Model_Theme_Customization_Files_Css */
             $cssFileModel = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
@@ -234,13 +235,13 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
 
             /** @var $filesCss Mage_Core_Model_Theme_Customization_Files_Css */
             $filesCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
-            /** @var $customCssFile Mage_Core_Model_Theme_Files */
+            /** @var $customCssFile Mage_Core_Model_Theme_File */
             $customCssFile = $theme->setCustomization($filesCss)
                 ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
 
             if ($customCssFile->getContent()) {
                 $this->_prepareDownloadResponse(
-                    $filesCss->getFileNameByName(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS),
+                    basename($filesCss->getFilePathByType(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS)),
                     array(
                         'type'  => 'filename',
                         'value' => $customCssFile->getFullPath()
