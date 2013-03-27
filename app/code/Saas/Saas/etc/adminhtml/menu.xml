@@ -11,7 +11,6 @@
     <menu>
         <!-- Sales -->
         <remove id="Mage_Sales::sales_recurring_profile" />
-        <remove id="Mage_Sales::sales_transactions" />
 
         <!-- Customers -->
         <remove id="Mage_Customer::customer_online" />
