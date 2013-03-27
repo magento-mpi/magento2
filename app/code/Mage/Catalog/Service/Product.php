@@ -15,6 +15,15 @@
  */
 class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
 {
+    /** @var Mage_Catalog_Helper_Product */
+    protected $_productHelper;
+
+    public function __construct(Magento_ObjectManager $objectManager, Mage_Catalog_Helper_Product $productHelper)
+    {
+        parent::__construct($objectManager);
+        $this->_productHelper = $productHelper;
+    }
+
     /**
      * Returns info about one particular product.
      *
@@ -29,7 +38,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
      */
     public function item($id)
     {
-        $data = $this->_getData($id, $this->getMethodId('item'));
+        $data = $this->_getData($id);
 
         return $data;
     }
@@ -44,11 +53,13 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
      * @Consumes input.xsd
      * @Produces output.xsd
      *
-     * @return Mage_Catalog_Service_Parameter_ProductData[]
+     * @return array
      */
     public function items()
     {
-        $data = $this->_getCollectionData(array(), $this->getMethodId('items'));
+        // @todo
+        return array();
+        $data = $this->_getCollectionData(array());
 
         return $data;
     }
@@ -56,33 +67,21 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
     /**
      * Returns model which operated by current service.
      *
-     * @param mixed  $id         Product ID or SKU
+     * @param mixed  $productIdOrSku         Product ID or SKU
      * @param string $fieldsetId
      * @throws Mage_Core_Service_Entity_Exception
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getObject($id, $fieldsetId = '')
+    protected function _getObject($productIdOrSku, $fieldsetId = '')
     {
-        /** @var $productHelper Mage_Catalog_Helper_Product */
-        /** @var $product Mage_Catalog_Model_Product */
-        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
-        return $productHelper->getProduct($id, Mage::app()->getCurrentStore());
+        $product = $this->_productHelper->getProduct($productIdOrSku, null);
 
-        // TODO: try as `sku` first (can be voided if we won't be supporting numeric SKUs)
-        $productId = $product->getIdBySku($id);
-
-        if (false === $productId) {
-            if (is_numeric($id)) {
-                $productId = $id;
-            }
-        }
-
-        if (empty($productId)) {
+        if (!$product->getId()) {
             throw new Mage_Core_Service_Entity_Exception;
         }
 
         // $product->setFieldset($this->_getFieldset($fieldsetId));
-        $product->load($productId);
+        $product->load($product->getId());
 
         if ($product->getId()) {
             $isVisible = $product->isVisibleInCatalog() && $product->isVisibleInSiteVisibility();
@@ -125,23 +124,36 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
     }
 
     /**
-     * {@inheritdoc}
+     * This a placeholder method until we move everything to mapper.
+     * @todo remove
      *
-     * @param array         $data
-     * @param Varien_Object $object
-     * @param string        $methodId
+     * @param mixed $objectId
+     * @param string $fieldsetId
      * @return array
      */
-    protected function _applySchema(array $data, Varien_Object $object, $methodId)
+    protected function _getData($objectId, $fieldsetId = '')
     {
-        /**
-         * This is a placeholder method until we develop a tool that do this automatically.
-         */
+        $data = array();
+        $object = $this->_getObject($objectId, $fieldsetId);
 
-        if (!$methodId === $this->getMethodId('item')) {
-            return array();
+        if ($object->getId()) {
+            $data = $this->_getObjectData($object);
+            $data = $this->_applySchema($data, $object);
         }
 
+        return $data;
+    }
+
+    /**
+     * Placeholder method which does mapper's job for now.
+     * @todo remove
+     *
+     * @param array $data
+     * @param Varien_Object $object
+     * @return array
+     */
+    protected function _applySchema(array $data, Varien_Object $object)
+    {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $object;
 
@@ -341,13 +353,27 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                         'positionBehavior' => '',
                     )
                 );
-            } else {
+            } else if (empty($data[$field])) {
                 $method = 'get' . ucwords($field);
                 $data[$field] = $product->$method();
             }
         }
 
         return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return Mage_Catalog_Service_Product_Mapper
+     */
+    protected function _getMapper()
+    {
+        if (empty($this->_mapper)) {
+            $this->_mapper = $this->_objectManager->create('Mage_Catalog_Service_Product_Mapper');
+        }
+
+        return $this->_mapper;
     }
 
     /**

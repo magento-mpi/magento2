@@ -17,6 +17,9 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
+    /** @var Mage_Core_Service_Mapper_Abstract */
+    protected $_mapper;
+
     public function __construct(Magento_ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
@@ -25,11 +28,11 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     /**
      * Returns model which operated by current service.
      *
-     * @param mixed  $objectId
+     * @param mixed  $objectProductIdOrSku
      * @param string $fieldsetId
      * @return Varien_Object
      */
-    abstract protected function _getObject($objectId, $fieldsetId = '');
+    abstract protected function _getObject($objectProductIdOrSku, $fieldsetId = '');
 
     /**
      * Get collection of objects of the current service.
@@ -41,21 +44,27 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     abstract protected function _getObjectCollection(array $objectIds = array(), $fieldsetId = '');
 
     /**
+     * Returns mapper for current service.
+     *
+     * @return Mage_Core_Service_Mapper_Abstract
+     */
+    abstract protected function _getMapper();
+
+    /**
      * Extract data out of the project object retrieved by ID.
      *
      * @param mixed  $objectId
-     * @param string $methodId
      * @param string $fieldsetId
      * @return array
      */
-    protected function _getData($objectId, $methodId, $fieldsetId = '')
+    protected function _getData($objectId, $fieldsetId = '')
     {
         $data = array();
         $object = $this->_getObject($objectId, $fieldsetId);
 
         if ($object->getId()) {
             $data = $this->_getObjectData($object);
-            $data = $this->_applySchema($data, $object, $methodId);
+            $data = $this->_getMapper()->apply($data, $object);
         }
 
         return $data;
@@ -94,11 +103,10 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
      * Get data from several objects at once.
      *
      * @param array  $objectIds
-     * @param string $methodId
      * @param string $fieldsetId
      * @return array
      */
-    protected function _getCollectionData(array $objectIds = array(), $methodId, $fieldsetId = '')
+    protected function _getCollectionData(array $objectIds = array(), $fieldsetId = '')
     {
         $collection = $this->_getObjectCollection($objectIds, $fieldsetId);
         $dataCollection = array();
@@ -106,7 +114,7 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
         foreach ($collection as $item) {
             /** @var $item Varien_Object */
             $dataCollection[] = $this->_getObjectData($item);
-            $dataCollection = $this->_applySchema($dataCollection, $item, $methodId);
+//            $dataCollection = $this->_applySchema($dataCollection, $item);
         }
 
         return $dataCollection;
@@ -129,19 +137,6 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
         );
 
         return $mainData;
-    }
-
-    /**
-     * Makes passed data to be compatible with schema.
-     *
-     * @param array         $data
-     * @param Varien_Object $object
-     * @param string        $methodId
-     * @return array
-     */
-    protected function _applySchema(array $data, Varien_Object $object, $methodId)
-    {
-        // @todo
     }
 
     /**
