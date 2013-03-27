@@ -19,13 +19,33 @@
 class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
+     * Set tile states in initial state before tests
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        //Products tile
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
+        $this->storeLauncherHelper()->setTileState('product', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
+        //Shipping tile
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/shipping_disable');
+        $this->storeLauncherHelper()->setTileState('shipping', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
+        //StoreInfo tile
+        $this->systemConfigurationHelper()->configure('ShippingSettings/store_information_empty');
+        $this->systemConfigurationHelper()->configure('General/general_default_emails');
+        //Tax tile
+        $this->storeLauncherHelper()->setTileState('tax', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
+    }
+
+    /**
      * <p>Preconditions:</p>
      * <p>1. Login to Backend</p>
      * <p>2. Navigate to Store Launcher page</p>
      */
     protected function assertPreConditions()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
     }
 

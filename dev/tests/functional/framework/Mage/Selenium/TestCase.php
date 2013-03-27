@@ -4336,6 +4336,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function runMassAction($action, $select = null)
     {
+        if ($this->controlIsVisible('message', 'no_records_found')) {
+            return;
+        }
         if ($select) {
             $this->clickControl(self::FIELD_TYPE_LINK, 'mass_action_select_' . strtolower($select));
         }
