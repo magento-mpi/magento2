@@ -1,5 +1,7 @@
 <?php
 /**
+ * Critical notfication window
+ *
  * {license_notice}
  *
  * @category    Mage
@@ -7,8 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Mage_AdminNotification_Block_Window extends Mage_AdminNotification_Block_Toolbar
+class Mage_AdminNotification_Block_Window extends Mage_Backend_Block_Template
 {
     /**
      * XML path of Severity icons url
@@ -23,154 +24,85 @@ class Mage_AdminNotification_Block_Window extends Mage_AdminNotification_Block_T
     protected $_severityIconsUrl;
 
     /**
-     * Is available flag
+     * Authentication
      *
-     * @var bool
-     */
-    protected $_available = null;
-
-    /**
      * @var Mage_Backend_Model_Auth_Session
      */
     protected $_authSession;
 
     /**
+     * Critical messages collection
+     *
+     * @var Mage_AdminNotification_Model_Resource_Inbox_Collection
+     */
+    protected $_criticalCollection;
+
+    /**
+     * @var Mage_Adminnotification_Model_Inbox
+     */
+    protected $_latestItem;
+
+    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Backend_Model_Auth_Session $authSession
+     * @param Mage_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Backend_Model_Auth_Session $authSession,
+        Mage_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_authSession = $authSession;
+        $this->_criticalCollection = $criticalCollection;
     }
 
     /**
-     * Initialize block window
+     * Render block
      *
+     * @return string
      */
-    protected function _construct()
+    protected function _toHtml()
     {
-        parent::_construct();
-
-        $this->setHeaderText($this->escapeHtml($this->__('Incoming Message')));
-        $this->setCloseText($this->escapeHtml($this->__('close')));
-        $this->setReadDetailsText($this->escapeHtml($this->__('Read details')));
-        $this->setNoticeText($this->escapeHtml($this->__('NOTICE')));
-        $this->setMinorText($this->escapeHtml($this->__('MINOR')));
-        $this->setMajorText($this->escapeHtml($this->__('MAJOR')));
-        $this->setCriticalText($this->escapeHtml($this->__('CRITICAL')));
-
-
-        $this->setNoticeMessageText($this->escapeHtml($this->getLastNotice()->getTitle()));
-        $this->setNoticeMessageUrl($this->escapeUrl($this->getLastNotice()->getUrl()));
-
-        switch ($this->getLastNotice()->getSeverity()) {
-            default:
-            case Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE:
-                $severity = 'SEVERITY_NOTICE';
-                break;
-            case Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR:
-                $severity = 'SEVERITY_MINOR';
-                break;
-            case Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR:
-                $severity = 'SEVERITY_MAJOR';
-                break;
-            case Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL:
-                $severity = 'SEVERITY_CRITICAL';
-                break;
+        if ($this->canShow()) {
+            $this->setHeaderText($this->escapeHtml($this->__('Incoming Message')));
+            $this->setCloseText($this->escapeHtml($this->__('close')));
+            $this->setReadDetailsText($this->escapeHtml($this->__('Read details')));
+            $this->setNoticeMessageText($this->escapeHtml($this->_getLatestItem()->getTitle()));
+            $this->setNoticeMessageUrl($this->escapeUrl($this->_getLatestItem()->getUrl()));
+            $this->setSeverityText('critical');
+            return parent::_toHtml();
         }
-
-        $this->setNoticeSeverity($severity);
+        return '';
     }
 
     /**
-     * Can we show notification window
+     * Retrieve latest critical item
+     *
+     * @return bool|Mage_Adminnotification_Model_Inbox
+     */
+    protected function _getLatestItem()
+    {
+        if ($this->_latestItem == null) {
+            $items = array_values($this->_criticalCollection->getItems());
+            if (count($items)) {
+                $this->_latestItem = $items[0];
+            } else {
+                $this->_latestItem = false;
+            }
+        }
+        return $this->_latestItem;
+    }
+
+    /**
+     * Check whether block should be displayed
      *
      * @return bool
      */
     public function canShow()
     {
-        return true;
-        if (!is_null($this->_available)) {
-            return $this->_available;
-        }
-
-        if (!$this->_authSession->isFirstPageAfterLogin()) {
-            $this->_available = false;
-            return false;
-        }
-
-        if (!$this->isOutputEnabled('Mage_AdminNotification')) {
-            $this->_available = false;
-            return false;
-        }
-
-        if (is_null($this->_available)) {
-            $this->_available = $this->isShow();
-        }
-        return $this->_available;
-    }
-
-    /**
-     * Check whether block should be shown
-     *
-     * @return bool
-     */
-    public function isShow()
-    {
-        return parent::isShow() && $this->getCriticalCount();
-    }
-
-
-    /**
-     * Return swf object url
-     *
-     * @return string
-     */
-    public function getObjectUrl()
-    {
-        return $this->_getHelper()->getPopupObjectUrl();
-    }
-
-    /**
-     * Retrieve Last Notice object
-     *
-     * @return Mage_AdminNotification_Model_Inbox
-     */
-    public function getLastNotice()
-    {
-        return $this->_getHelper()->getLatestCriticalNotice();
-    }
-
-    /**
-     * Retrieve severity icons url
-     *
-     * @return string
-     */
-    public function getSeverityIconsUrl()
-    {
-        if (is_null($this->_severityIconsUrl)) {
-            $this->_severityIconsUrl = ($this->getRequest()->isSecure() ? 'https://' : 'http://')
-                . sprintf(
-                    $this->_storeConfig->getConfig(self::XML_SEVERITY_ICONS_URL_PATH),
-                    Mage::getVersion(),
-                    $this->getNoticeSeverity()
-                );
-        }
-        return $this->_severityIconsUrl;
-    }
-
-    /**
-     * Retrieve severity text
-     *
-     * @return string
-     */
-    public function getSeverityText()
-    {
-        return strtolower(str_replace('SEVERITY_', '', $this->getNoticeSeverity()));
+        return $this->_authSession->isFirstPageAfterLogin() && $this->_getLatestItem();
     }
 }

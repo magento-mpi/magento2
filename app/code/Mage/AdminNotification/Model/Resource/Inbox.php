@@ -33,7 +33,7 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
      * @param Mage_AdminNotification_Model_Inbox $object
      * @return Mage_AdminNotification_Model_Resource_Inbox
      */
-    public function loadLatestNotice(Mage_AdminNotification_Model_Inbox $object, $severity = null)
+    public function loadLatestNotice(Mage_AdminNotification_Model_Inbox $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -42,9 +42,6 @@ class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resour
             ->where('is_read != 1')
             ->where('is_remove != 1')
             ->limit(1);
-        if ($severity) {
-            $select->where('severity = ?', $severity);
-        }
         $data = $adapter->fetchRow($select);
 
         if ($data) {

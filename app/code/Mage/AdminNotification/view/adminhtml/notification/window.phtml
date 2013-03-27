@@ -13,7 +13,6 @@
  * @see Mage_AdminNotification_Block_Window
  */
 ?>
-<?php if ($this->canShow()): ?>
 <div class="fade">
     <div class="popup popup-<?php echo preg_replace('#[^a-z0-9]+#', '-', strtolower($this->getSeverityText())) ?>">
         <div class="popup-inner">
@@ -30,4 +29,3 @@
         </div>
     </div>
 </div>
-<?php endif; ?>

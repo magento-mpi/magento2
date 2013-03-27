@@ -69,19 +69,6 @@ class Mage_AdminNotification_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve latest critical notice
-     *
-     * @return Mage_AdminNotification_Model_Inbox
-     */
-    public function getLatestCriticalNotice()
-    {
-        if (is_null($this->_latestCritical)) {
-            $this->_latestCritical = Mage::getModel('Mage_AdminNotification_Model_Inbox')->loadLatestCriticalNotice();
-        }
-        return $this->_latestCritical;
-    }
-
-    /**
      * Retrieve count of unread notes by type
      *
      * @param int $severity
