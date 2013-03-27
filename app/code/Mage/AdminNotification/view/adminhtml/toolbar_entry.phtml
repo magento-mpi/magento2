@@ -1,0 +1,95 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_AdminNotification_Block_ToolbarEntry */ ?>
+<?php $notificationCount = $this->getUnreadNotificationCount(); ?>
+<div class="notifications" data-notification-count="<?php echo $this->escapeHtml($notificationCount); ?>">
+    <?php if ($notificationCount > 0) : ?>
+        <a href="<?php echo $this->getUrl('adminhtml/notification/index'); ?>" class="notifications-icon" title="<?php echo $this->__('Notifications'); ?>" data-toggle="dropdown">
+            <span class="value"><?php echo $this->escapeHtml($notificationCount); ?></span>
+        </a>
+        <ul class="dropdown-menu" data-mark-as-read-url="<?php echo $this->getUrl('adminhtml/notification/ajaxMarkAsRead'); ?>">
+            <?php foreach ($this->getLatestUnreadNotifications() as $notification) : ?>
+            <?php /** @var $notification Mage_AdminNotification_Model_Inbox*/ ?>
+            <li class="notification-entry" data-notification-id="<?php echo $this->escapeHtml($notification->getId()); ?>">
+                <strong><?php echo $this->escapeHtml($notification->getTitle()); ?></strong>
+                <time><?php echo $this->escapeHtml($this->formatDate($notification->getDateAdded(), Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, true)); ?></time>
+                <button class="action-close"><?php echo $this->__('Close'); ?></button>
+            </li>
+            <?php endforeach; ?>
+            <li class="last">
+                <a href="<?php echo $this->getUrl('adminhtml/notification/index'); ?>" class="action-more"><?php echo $this->__('See All (%d unread)', $notificationCount); ?></a>
+            </li>
+        </ul>
+    <?php else : ?>
+        <a href="<?php echo $this->getUrl('adminhtml/notification/index'); ?>" class="notifications-icon" title="<?php echo $this->__('Notifications'); ?>">
+            <span class="value"></span>
+        </a>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+(function($) {
+    'use strict';
+    $(document).ready(function() {
+        // Mark notification as read via AJAX call
+        var markNotificationAsRead = function(notificationId) {
+            var requestUrl = $('.notifications .dropdown-menu').attr('data-mark-as-read-url');
+            $.ajax({
+                url: requestUrl,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: notificationId
+                },
+                showLoader: false
+            });
+        };
+
+        // Remove notification from the list
+        var removeNotificationFromList = function(notificationEntry) {
+            notificationEntry.remove();
+            var notificationCount = $('.notifications').attr('data-notification-count');
+            notificationCount--;
+            $('.notifications').attr('data-notification-count', notificationCount);
+
+            if (notificationCount == 0) {
+                // Change appearance of the bubble and its behavior when the last notification is removed
+                $('.notifications .dropdown-menu').remove();
+                var notificationIcon = $('.notifications .notifications-icon');
+                notificationIcon.removeAttr('data-toggle');
+                notificationIcon.off('click.toggleDropdown');
+                $('.notifications .notifications-icon .value').text('');
+            } else {
+                $('.notifications .notifications-icon .value').text(notificationCount);
+                // Modify caption of the 'See All' link
+                var actionElement = $('.notifications .dropdown-menu .last .action-more');
+                actionElement.text(actionElement.text().replace(/\d+/, notificationCount));
+            }
+        };
+
+        // Show notification description when corresponding item is clicked
+        $('.notifications .dropdown-menu .notification-entry').on('click.showNotification', function(event) {
+            var notificationId = $(this).attr('data-notification-id');
+            markNotificationAsRead(notificationId);
+            // @todo show pop-up window with description
+            event.stopPropagation();
+        });
+
+        // Remove corresponding notification from the list and mark it as read
+        $('.notifications .dropdown-menu .notification-entry .action-close').on('click.removeNotification', function(event) {
+            var notificationEntry = $(this).closest('.notification-entry')
+            var notificationId = notificationEntry.attr('data-notification-id');
+            markNotificationAsRead(notificationId);
+            removeNotificationFromList(notificationEntry);
+            event.stopPropagation();
+        });
+    });
+})(window.jQuery);
+</script>

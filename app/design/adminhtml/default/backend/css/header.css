@@ -259,6 +259,7 @@
 .header-panel .notifications-icon {
     position: relative;
     display: inline-block;
+    min-width: 13px;
     height: 13px;
     line-height: 1em;
     padding: 0 4px 0 3px;

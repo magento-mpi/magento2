@@ -22,5 +22,8 @@
                 <block type="Mage_AdminNotification_Block_Window" name="notification_window" as="notification_window" acl="Mage_AdminNotification::show_toolbar" template="notification/window.phtml" />
             </container>
         </reference>
+        <reference name="header">
+            <block type="Mage_AdminNotification_Block_ToolbarEntry" template="toolbar_entry.phtml" />
+        </reference>
     </default>
 </layout>

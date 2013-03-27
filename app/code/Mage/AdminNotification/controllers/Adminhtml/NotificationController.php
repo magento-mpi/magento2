@@ -51,6 +51,32 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
         $this->_redirect('*/*/');
     }
 
+    /**
+     * Mark notification as read (AJAX action)
+     */
+    public function ajaxMarkAsReadAction()
+    {
+        if (!$this->getRequest()->getPost()) {
+            return;
+        }
+        $notificationId = (int)$this->getRequest()->getPost('id');
+        $responseData = array();
+        try {
+            $notification = $this->_objectManager->create('Mage_AdminNotification_Model_Inbox')->load($notificationId);
+            if (!$notification->getId()) {
+                throw new Mage_Core_Exception('Wrong notification ID specified.');
+            }
+            $notification->setIsRead(1);
+            $notification->save();
+            $responseData['success'] = true;
+        } catch (Exception $e) {
+            $responseData['success'] = false;
+        }
+        $this->getResponse()->setBody(
+            $this->_objectManager->create('Mage_Launcher_Helper_Data')->jsonEncode($responseData)
+        );
+    }
+
     public function massMarkAsReadAction()
     {
         $session = Mage::getSingleton('Mage_Backend_Model_Session');
