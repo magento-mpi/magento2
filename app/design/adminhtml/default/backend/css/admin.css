@@ -3403,6 +3403,10 @@ table tbody tr:nth-child(odd):hover th {
     border-width: 0 1px 1px;
 }
 
+.eq-ie8 .grid table tr td.empty-text {
+    border-width: 0 1px 1px;
+}
+
 .grid table td.empty-text:hover {
     background: #e6e3de;
 }

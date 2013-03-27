@@ -2848,6 +2848,13 @@ table.items-to-invoice tbody tr:hover td {
 }
 
 /*
+    URL rewrite
+-------------------------------------- */
+.adminhtml-urlrewrite-edit .field-url-rewrite-option-select .label {
+    width: auto;
+}
+
+/*
     Shopping Cart Price Rule
 -------------------------------------- */
 .fieldset .field-coupon_code,
