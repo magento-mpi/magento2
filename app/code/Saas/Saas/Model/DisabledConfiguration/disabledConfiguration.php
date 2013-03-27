@@ -15,8 +15,6 @@
 return array(
     'web/url/use_store',
     'web/seo',
-    'web/unsecure',
-    'web/secure',
     'web/default/front',
     'web/default/no_route',
     'web/cookie/cookie_lifetime',
