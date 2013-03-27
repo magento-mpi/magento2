@@ -19,8 +19,6 @@
 
         <!-- Marketing -->
         <remove id="Enterprise_Enterprise::private_sales" />
-        <remove id="Mage_Newsletter::newsletter_queue" />
-        <remove id="Mage_Newsletter::newsletter_template" />
 
         <!-- Reports -->
         <remove id="Enterprise_CustomerSegment::report_customers_segment" />

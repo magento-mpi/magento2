@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Newsletter>
+            <version>2.0.0.0</version>
+            <active>false</active>
+            <depends>
+                <Mage_Newsletter/>
+                <Mage_Core/>
+            </depends>
+        </Saas_Newsletter>
+    </modules>
+    <global>
+        <events>
+            <adminhtml_controller_action_predispatch_start>
+                <observers>
+                    <limit_newsletter_functionality>
+                        <class>Saas_Newsletter_Model_Observer</class>
+                        <method>limitNewsletterFunctionality</method>
+                    </limit_newsletter_functionality>
+                </observers>
+            </adminhtml_controller_action_predispatch_start>
+        </events>
+    </global>
+</config>
