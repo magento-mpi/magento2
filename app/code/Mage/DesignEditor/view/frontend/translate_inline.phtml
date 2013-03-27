@@ -9,16 +9,18 @@
 ?>
 
 <?php /** @var $this Mage_Core_Block_Template */ ?>
-<script type="text/javascript" src="<?php echo $this->getViewFileUrl('prototype/window.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/translate.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/loader.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/bootstrap.js') ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('prototype/windows/themes/default.css') ?>"/>
-<link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('Mage_Core::prototype/magento.css') ?>"/>
 <script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/edit-trigger.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/translate-inline.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/translate-inline-vde.js') ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getViewFileUrl('mage/translate-inline-vde.css') ?>"/>
 
-<script data-template="translate-inline-dialog-form-template" type="text/x-jQuery-tmpl">
-    <form data-form="translate-inline-dialog-form">
-        {{each(i, item) data.items}}
+<script id="translate-inline-dialog-form-template" type="text/x-jQuery-tmpl">
+    <form id="${id}" data-form="translate-inline-dialog-form">
+        {{each(i, item) items}}
         <input id="perstore_${i}" name="translate[${i}][perstore]" type="hidden" value="0"/>
         <input name="translate[${i}][original]" type="hidden" value="${item.scope}::${escape(item.original)}"/>
         <textarea id="custom_${i}" name="translate[${i}][custom]" data-translate-input-index="${i}">${escape(item.translated)}</textarea>
@@ -30,9 +32,9 @@
   <img src="${img}" height="16" width="16" class="translate-edit-icon">
 </script>
 
-<div id="translate-dialog"></div>
+<div id="translate-dialog" data-role="translate-dialog"></div>
 
-<div data-container="spinner" class="translate-dialog-form-submit-loader hidden">
+<div id="loading_mask_loader" data-container="loading_mask_loader" class="hidden">
     <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif', array('area' => 'adminhtml')) ?>"/>
 </div>
 
@@ -51,7 +53,7 @@
             /** @todo temporary fix to add data- attribute to body. */
             $body.attr("data-container", "body");
 
-            $body.translateInlineDialogVde({
+            $('#translate-dialog').translateInlineDialogVde({
                 ajaxUrl: '<?php echo $this->getAjaxUrl() ?>',
                 area: '<?php echo $this->getArea() ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
@@ -59,25 +61,20 @@
                 imageTranslations: $imageTranslations,
                 scriptTranslations: $scriptTranslations
             });
+            var dialogVde = $('#translate-dialog');
 
             $textTranslations.translateInlineVde({
                 img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
-                onClick: function(widget) {
-                    var translateData = $(widget.element).data(widget.options.dataAttrName);
+                onClick: function(e, widget) {
                     $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
                     $textTranslations.translateInlineVde('hide');
-                    $body.translateInlineDialogVde(
+                    dialogVde.translateInlineDialogVde(
                         'open',
-                        translateData,
-                        $.proxy(widget.replaceText, widget),
-                        function(translateDialog) {
-                            translateDialog.dialog("option", {
-                                position: { of : widget.element, my: "left top", at: "left-3 top-9" },
-                                width: $(widget.element).width()
-                            });
-                        }
+                        e,
+                        widget,
+                        $.proxy(widget.replaceText, widget)
                     );
                 }
             });
@@ -86,20 +83,14 @@
                 img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
-                onClick: function(widget) {
-                    var translateData = $(widget.element).data(widget.options.dataAttrName);
+                onClick: function(e, widget) {
                     $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
                     $imageTranslations.translateInlineImageVde('hide');
-                    $body.translateInlineDialogVde(
+                    dialogVde.translateInlineDialogVde(
                         'open',
-                        translateData,
-                        $.proxy(widget.replaceText, widget),
-                        function(translateDialog) {
-                            translateDialog.dialog("option", {
-                                position: { of : widget.element, my: "left top", at: "left-3 top-9" },
-                                width: $(widget.element).width()
-                            });
-                        }
+                        e,
+                        widget,
+                        $.proxy(widget.replaceText, widget)
                     );
                 }
             });
@@ -108,20 +99,14 @@
                 img: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon.png') ?>',
                 imgHover: '<?php echo $this->getViewFileUrl('Mage_Core::translate_edit_icon_hover.png') ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
-                onClick: function(widget) {
-                    var translateData = $(widget.element).data(widget.options.dataAttrName);
+                onClick: function(e, widget) {
                     $body.removeClass('trnslate-inline-' + widget.options.translateMode + '-area');
                     $scriptTranslations.translateInlineScriptVde('hide');
-                    $body.translateInlineDialogVde(
+                    dialogVde.translateInlineDialogVde(
                         'open',
-                        translateData,
-                        $.proxy(widget.replaceText, widget),
-                        function(translateDialog) {
-                            translateDialog.dialog("option", {
-                                position: { of : widget.element, my: "left top", at: "left-3 top-9" },
-                                width: $(widget.element).width()
-                            });
-                        }
+                        e,
+                        widget,
+                        $.proxy(widget.replaceText, widget)
                     );
                 }
             });
@@ -129,7 +114,7 @@
             parent.jQuery('[data-translate-container]').translateInlineToggle({
                 frameUrl: '<?php echo $this->getFrameUrl() ?>',
                 refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
-                frameBody: $body
+                dialogWidgetElement: dialogVde
             });
         });
     })(jQuery);

@@ -149,7 +149,7 @@
                  */
             }
             else {
-                this.options.frameBody.translateInlineDialogVde('toggleStyle', mode);
+                this.options.dialogWidgetElement.translateInlineDialogVde('toggleStyle', mode);
             }
          },
 
